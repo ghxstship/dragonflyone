@@ -2,9 +2,16 @@
 
 import {
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EnterprisePageHeader,
+  Grid,
   H3,
+  MainContent,
+  Skeleton,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -15,8 +22,7 @@ import {
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, TrendingUp, TrendingDown, DollarSign, BarChart3, PieChart } from 'lucide-react';
+import { TrendingUp, TrendingDown, DollarSign, BarChart3, PieChart } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 
 interface RevenueMetrics {
@@ -60,9 +66,18 @@ export default function RevenueAnalyticsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading revenue data...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Revenue Analytics" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Grid cols={3} gap={4}>
+              <Skeleton className="h-32" />
+              <Skeleton className="h-32" />
+              <Skeleton className="h-32" />
+            </Grid>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
@@ -76,162 +91,157 @@ export default function RevenueAnalyticsPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/analytics"
-            className="p-2 hover:bg-muted rounded-button transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </Link>
-          <div>
-            <H1 className="text-h2-md font-weight-bold text-foreground">Revenue Analytics</H1>
-            <Body className="text-body-sm text-muted-foreground mt-1">
-              Deep dive into revenue performance
-            </Body>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 bg-muted/30 rounded-button p-1">
+    <>
+      <EnterprisePageHeader
+        title="Revenue Analytics"
+        subtitle="Deep dive into revenue performance"
+        backHref="/analytics"
+      />
+      <Box className="px-6 py-3 border-b border-border flex justify-end">
+        <Stack direction="horizontal" gap={2} className="bg-muted/30 rounded-button p-1">
           {(['7d', '30d', '90d', '1y'] as const).map((range) => (
             <Button
               key={range}
+              variant={dateRange === range ? 'solid' : 'ghost'}
+              size="sm"
               onClick={() => setDateRange(range)}
-              className={`px-3 py-1.5 rounded-button text-body-sm transition-colors ${
-                dateRange === range
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
             >
               {range === '7d' ? '7 Days' : range === '30d' ? '30 Days' : range === '90d' ? '90 Days' : '1 Year'}
             </Button>
           ))}
-        </div>
-      </div>
+        </Stack>
+      </Box>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={3} gap={4}>
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-2">
+                  <Text size="sm" className="text-muted-foreground">Total Revenue</Text>
+                  <DollarSign className="h-5 w-5 text-primary" />
+                </Stack>
+                <Body className="text-h2-md font-weight-bold">
+                  {formatCurrency(metrics.total_revenue)}
+                </Body>
+                <Stack direction="horizontal" gap={1} className={`mt-2 items-center ${
+                  metrics.revenue_change_percent >= 0 ? 'text-success-600' : 'text-error-600'
+                }`}>
+                  {metrics.revenue_change_percent >= 0 ? (
+                    <TrendingUp className="h-4 w-4" />
+                  ) : (
+                    <TrendingDown className="h-4 w-4" />
+                  )}
+                  <Text size="sm">{Math.abs(metrics.revenue_change_percent).toFixed(1)}% vs previous period</Text>
+                </Stack>
+              </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <div className="flex items-center justify-between mb-2">
-            <Text className="text-body-sm text-muted-foreground">Total Revenue</Text>
-            <DollarSign className="h-5 w-5 text-primary" />
-          </div>
-          <Body className="text-h2-md font-weight-bold text-foreground">
-            {formatCurrency(metrics.total_revenue)}
-          </Body>
-          <div className={`flex items-center gap-1 mt-2 text-body-sm ${
-            metrics.revenue_change_percent >= 0 ? 'text-success-600' : 'text-error-600'
-          }`}>
-            {metrics.revenue_change_percent >= 0 ? (
-              <TrendingUp className="h-4 w-4" />
-            ) : (
-              <TrendingDown className="h-4 w-4" />
-            )}
-            <Text>{Math.abs(metrics.revenue_change_percent).toFixed(1)}% vs previous period</Text>
-          </div>
-        </div>
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-2">
+                  <Text size="sm" className="text-muted-foreground">Average Event Value</Text>
+                  <BarChart3 className="h-5 w-5 text-secondary" />
+                </Stack>
+                <Body className="text-h2-md font-weight-bold">
+                  {formatCurrency(metrics.average_event_value)}
+                </Body>
+              </Card>
 
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <div className="flex items-center justify-between mb-2">
-            <Text className="text-body-sm text-muted-foreground">Average Event Value</Text>
-            <BarChart3 className="h-5 w-5 text-secondary" />
-          </div>
-          <Body className="text-h2-md font-weight-bold text-foreground">
-            {formatCurrency(metrics.average_event_value)}
-          </Body>
-        </div>
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-2">
+                  <Text size="sm" className="text-muted-foreground">Revenue Sources</Text>
+                  <PieChart className="h-5 w-5 text-accent" />
+                </Stack>
+                <Body className="text-h2-md font-weight-bold">
+                  {metrics.revenue_by_source.length}
+                </Body>
+                <Body size="xs" className="text-muted-foreground mt-1">Active revenue streams</Body>
+              </Card>
+            </Grid>
 
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <div className="flex items-center justify-between mb-2">
-            <Text className="text-body-sm text-muted-foreground">Revenue Sources</Text>
-            <PieChart className="h-5 w-5 text-accent" />
-          </div>
-          <Body className="text-h2-md font-weight-bold text-foreground">
-            {metrics.revenue_by_source.length}
-          </Body>
-          <Body className="text-body-xs text-muted-foreground mt-1">Active revenue streams</Body>
-        </div>
-      </div>
+            <Grid cols={2} gap={6}>
+              <Card className="p-6">
+                <H3 className="mb-4">Revenue by Source</H3>
+                {metrics.revenue_by_source.length === 0 ? (
+                  <Body size="sm" className="text-muted-foreground text-center py-8">No data available</Body>
+                ) : (
+                  <Stack gap={3}>
+                    {metrics.revenue_by_source.map((source) => (
+                      <Box key={source.source}>
+                        <Stack direction="horizontal" className="justify-between mb-1">
+                          <Text size="sm" className="capitalize">{source.source}</Text>
+                          <Text size="sm" className="font-weight-medium">
+                            {formatCurrency(source.amount)}
+                          </Text>
+                        </Stack>
+                        <Box className="w-full bg-muted rounded-avatar h-2">
+                          <Box
+                            className="bg-primary h-2 rounded-avatar transition-all"
+                            style={{ width: `${source.percentage}%` }}
+                          />
+                        </Box>
+                      </Box>
+                    ))}
+                  </Stack>
+                )}
+              </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Revenue by Source</H3>
-          {metrics.revenue_by_source.length === 0 ? (
-            <Body className="text-body-sm text-muted-foreground text-center py-8">No data available</Body>
-          ) : (
-            <div className="space-y-3">
-              {metrics.revenue_by_source.map((source) => (
-                <div key={source.source}>
-                  <div className="flex items-center justify-between mb-1">
-                    <Text className="text-body-sm text-foreground capitalize">{source.source}</Text>
-                    <Text className="text-body-sm font-weight-medium text-foreground">
-                      {formatCurrency(source.amount)}
-                    </Text>
-                  </div>
-                  <div className="w-full bg-muted rounded-avatar h-2">
-                    <div
-                      className="bg-primary h-2 rounded-avatar transition-all"
-                      style={{ width: `${source.percentage}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+              <Card className="p-6">
+                <H3 className="mb-4">Revenue by Event Type</H3>
+                {metrics.revenue_by_event_type.length === 0 ? (
+                  <Body size="sm" className="text-muted-foreground text-center py-8">No data available</Body>
+                ) : (
+                  <Stack gap={3}>
+                    {metrics.revenue_by_event_type.map((type) => (
+                      <Card key={type.event_type} className="p-3 bg-muted/30">
+                        <Stack direction="horizontal" className="justify-between items-center">
+                          <Stack gap={0}>
+                            <Body size="sm" className="font-weight-medium capitalize">
+                              {type.event_type.replace('_', ' ')}
+                            </Body>
+                            <Body size="xs" className="text-muted-foreground">{type.count} events</Body>
+                          </Stack>
+                          <Body className="font-weight-semibold">
+                            {formatCurrency(type.amount)}
+                          </Body>
+                        </Stack>
+                      </Card>
+                    ))}
+                  </Stack>
+                )}
+              </Card>
+            </Grid>
 
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Revenue by Event Type</H3>
-          {metrics.revenue_by_event_type.length === 0 ? (
-            <Body className="text-body-sm text-muted-foreground text-center py-8">No data available</Body>
-          ) : (
-            <div className="space-y-3">
-              {metrics.revenue_by_event_type.map((type) => (
-                <div key={type.event_type} className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
-                  <div>
-                    <Body className="text-body-sm font-weight-medium text-foreground capitalize">
-                      {type.event_type.replace('_', ' ')}
-                    </Body>
-                    <Body className="text-body-xs text-muted-foreground">{type.count} events</Body>
-                  </div>
-                  <Body className="text-body-md font-weight-semibold text-foreground">
-                    {formatCurrency(type.amount)}
-                  </Body>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="bg-background border-2 border-border rounded-card p-6">
-        <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Monthly Trend</H3>
-        {metrics.monthly_trend.length === 0 ? (
-          <Body className="text-body-sm text-muted-foreground text-center py-8">No data available</Body>
-        ) : (
-          <div className="overflow-x-auto">
-            <Table className="w-full">
-              <TableHeader>
-                <TableRow className="border-b border-border">
-                  <TableHead className="text-left py-3 text-body-sm font-weight-medium text-muted-foreground">Month</TableHead>
-                  <TableHead className="text-right py-3 text-body-sm font-weight-medium text-muted-foreground">Revenue</TableHead>
-                  <TableHead className="text-right py-3 text-body-sm font-weight-medium text-muted-foreground">Bookings</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className="divide-y divide-border">
-                {metrics.monthly_trend.map((month) => (
-                  <TableRow key={month.month}>
-                    <TableCell className="py-3 text-body-sm text-foreground">{month.month}</TableCell>
-                    <TableCell className="py-3 text-body-sm text-foreground text-right font-weight-medium">
-                      {formatCurrency(month.revenue)}
-                    </TableCell>
-                    <TableCell className="py-3 text-body-sm text-foreground text-right">{month.booking_count}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        )}
-      </div>
-    </div>
+            <Card className="p-6">
+              <H3 className="mb-4">Monthly Trend</H3>
+              {metrics.monthly_trend.length === 0 ? (
+                <Body size="sm" className="text-muted-foreground text-center py-8">No data available</Body>
+              ) : (
+                <Box className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Month</TableHead>
+                        <TableHead className="text-right">Revenue</TableHead>
+                        <TableHead className="text-right">Bookings</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {metrics.monthly_trend.map((month) => (
+                        <TableRow key={month.month}>
+                          <TableCell>{month.month}</TableCell>
+                          <TableCell className="text-right font-weight-medium">
+                            {formatCurrency(month.revenue)}
+                          </TableCell>
+                          <TableCell className="text-right">{month.booking_count}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Box>
+              )}
+            </Card>
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

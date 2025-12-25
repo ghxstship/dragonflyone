@@ -1,18 +1,28 @@
 'use client';
 
 import {
+  Badge,
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H3,
   Input,
-  Link,
+  MainContent,
   Select,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
-import { Plus, Search, Calendar, Clock, AlertTriangle, CheckCircle, XCircle, Filter, ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Search, Calendar, Clock, AlertTriangle, CheckCircle, XCircle, Filter, ArrowRight } from 'lucide-react';
 import { useHolds, useReleaseHold, useConvertHold } from '@/hooks/useHolds';
 
 const STATUS_CONFIG = {
@@ -29,6 +39,7 @@ const PRIORITY_CONFIG = {
 };
 
 export default function HoldsPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('active');
 
@@ -78,22 +89,40 @@ export default function HoldsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded-card w-1/3" />
-          <div className="h-64 bg-muted rounded-card" />
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Space Holds" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={4}>
+              <Skeleton className="h-8 w-1/3" />
+              <Grid cols={4} gap={4}>
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+              </Grid>
+              <Skeleton className="h-64" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 text-destructive">
-          Failed to load holds. Please try again.
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Space Holds" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load holds"
+              description="Please try again."
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
@@ -105,203 +134,177 @@ export default function HoldsPage() {
   }).length;
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Space Holds</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Manage temporary space reservations
-          </Body>
-        </div>
-        <div className="flex items-center gap-2">
-          {expiringCount > 0 && (
-            <Link
-              href="/holds/expiring"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-warning/10 text-warning border-2 border-warning rounded-button font-weight-medium text-body-sm hover:bg-warning/20 transition-colors"
-            >
-              <AlertTriangle className="h-4 w-4" />
+    <>
+      <EnterprisePageHeader
+        title="Space Holds"
+        subtitle="Manage temporary space reservations"
+        primaryAction={{ label: 'New Hold', onClick: () => router.push('/holds/new') }}
+      />
+      <Box className="px-6 py-3 border-b border-border flex justify-end">
+        {expiringCount > 0 && (
+          <Link href="/holds/expiring">
+            <Button variant="outline" size="sm" className="text-warning border-warning">
+              <AlertTriangle className="h-4 w-4 mr-2" />
               {expiringCount} Expiring
-            </Link>
-          )}
-          <Link
-            href="/holds/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-          >
-            <Plus className="h-4 w-4" />
-            New Hold
+            </Button>
           </Link>
-        </div>
-      </div>
+        )}
+      </Box>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={4} gap={4}>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Calendar className="h-5 w-5 text-primary" />
+                  <Text size="sm" className="text-muted-foreground">Total Holds</Text>
+                </Stack>
+                <Body className="font-weight-bold">{holds.length}</Body>
+              </Card>
+              <Card className="p-4 border-success/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <CheckCircle className="h-5 w-5 text-success" />
+                  <Text size="sm" className="text-muted-foreground">Active</Text>
+                </Stack>
+                <Body className="font-weight-bold text-success">{activeCount}</Body>
+              </Card>
+              <Card className="p-4 border-warning/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Clock className="h-5 w-5 text-warning" />
+                  <Text size="sm" className="text-muted-foreground">Expiring Soon</Text>
+                </Stack>
+                <Body className="font-weight-bold text-warning">{expiringCount}</Body>
+              </Card>
+              <Card className="p-4 border-primary/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <ArrowRight className="h-5 w-5 text-primary" />
+                  <Text size="sm" className="text-muted-foreground">Converted</Text>
+                </Stack>
+                <Body className="font-weight-bold text-primary">
+                  {holds.filter((h) => h.status === 'converted').length}
+                </Body>
+              </Card>
+            </Grid>
 
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Calendar className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Total Holds</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{holds.length}</Body>
-        </div>
-        <div className="bg-background border-2 border-success/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <CheckCircle className="h-5 w-5 text-success" />
-            <Text className="text-body-sm text-muted-foreground">Active</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-success">{activeCount}</Body>
-        </div>
-        <div className="bg-background border-2 border-warning/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-5 w-5 text-warning" />
-            <Text className="text-body-sm text-muted-foreground">Expiring Soon</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-warning">{expiringCount}</Body>
-        </div>
-        <div className="bg-background border-2 border-primary/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <ArrowRight className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Converted</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-primary">
-            {holds.filter((h) => h.status === 'converted').length}
-          </Body>
-        </div>
-      </div>
+            <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
+              <Box className="relative flex-1 min-w-[200px] max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search by space or contact..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </Box>
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                  <option value="">All Status</option>
+                  {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Select>
+              </Stack>
+              <Link href="/availability">
+                <Button variant="outline" size="sm">Check Availability</Button>
+              </Link>
+            </Stack>
 
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search by space or contact..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <Select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All Status</option>
-            {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </Select>
-        </div>
-        <Link
-          href="/availability"
-          className="px-3 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
-        >
-          Check Availability
-        </Link>
-      </div>
+            {filteredHolds.length === 0 && (
+              <EmptyState
+                title="No holds found"
+                description={searchQuery ? 'Try adjusting your search' : 'Create a hold to reserve a space temporarily'}
+                icon={<Calendar className="h-12 w-12" />}
+                action={{ label: 'New Hold', onClick: () => router.push('/holds/new') }}
+              />
+            )}
 
-      {filteredHolds.length === 0 && (
-        <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
-          <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No holds found
-          </H3>
-          <Body className="text-body-sm text-muted-foreground mb-4">
-            {searchQuery ? 'Try adjusting your search' : 'Create a hold to reserve a space temporarily'}
-          </Body>
-          <Link
-            href="/holds/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
-          >
-            <Plus className="h-4 w-4" />
-            New Hold
-          </Link>
-        </div>
-      )}
+            {filteredHolds.length > 0 && (
+              <Stack gap={4}>
+                {filteredHolds.map((hold) => {
+                  const statusConfig = STATUS_CONFIG[hold.status];
+                  const priorityConfig = PRIORITY_CONFIG[hold.priority];
+                  const expiryInfo = getExpiryInfo(hold.expires_at);
+                  const contactName = hold.contact
+                    ? `${hold.contact.first_name} ${hold.contact.last_name}`
+                    : hold.lead
+                      ? `${hold.lead.first_name} ${hold.lead.last_name}`
+                      : 'No contact';
 
-      {filteredHolds.length > 0 && (
-        <div className="space-y-4">
-          {filteredHolds.map((hold) => {
-            const statusConfig = STATUS_CONFIG[hold.status];
-            const priorityConfig = PRIORITY_CONFIG[hold.priority];
-            const expiryInfo = getExpiryInfo(hold.expires_at);
-            const contactName = hold.contact
-              ? `${hold.contact.first_name} ${hold.contact.last_name}`
-              : hold.lead
-                ? `${hold.lead.first_name} ${hold.lead.last_name}`
-                : 'No contact';
-
-            return (
-              <div
-                key={hold.id}
-                className={`bg-background border-2 rounded-card p-6 ${
-                  expiryInfo.isExpired ? 'border-destructive' :
-                  expiryInfo.isExpiringSoon ? 'border-warning' : 'border-border'
-                }`}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <H3 className="text-body-lg font-weight-semibold text-foreground">
-                        {hold.space?.name || 'Unknown Space'}
-                      </H3>
-                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
-                        {statusConfig.label}
-                      </Text>
-                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${priorityConfig.color}`}>
-                        {priorityConfig.label}
-                      </Text>
-                      {hold.status === 'active' && (
-                        <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${
-                          expiryInfo.isExpired ? 'bg-destructive text-destructive-foreground' :
-                          expiryInfo.isExpiringSoon ? 'bg-warning/20 text-warning' : 'bg-muted text-muted-foreground'
-                        }`}>
-                          {expiryInfo.text}
-                        </Text>
-                      )}
-                    </div>
-                    <Body className="text-body-sm text-muted-foreground">
-                      {contactName} • {new Date(hold.hold_date).toLocaleDateString()}
-                      {hold.start_time && ` • ${hold.start_time}`}
-                      {hold.end_time && ` - ${hold.end_time}`}
-                    </Body>
-                    {hold.notes && (
-                      <Body className="text-body-xs text-muted-foreground mt-2">{hold.notes}</Body>
-                    )}
-                  </div>
-                  {hold.status === 'active' && (
-                    <div className="flex items-center gap-2">
-                      <Button
-                        onClick={() => handleConvert(hold.id)}
-                        disabled={convertMutation.isPending}
-                        className="inline-flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
-                      >
-                        <CheckCircle className="h-4 w-4" />
-                        Convert to Booking
-                      </Button>
-                      <Button
-                        onClick={() => handleRelease(hold.id)}
-                        disabled={releaseMutation.isPending}
-                        className="inline-flex items-center gap-2 px-3 py-2 border-2 border-destructive text-destructive rounded-button text-body-sm font-weight-medium hover:bg-destructive/10 transition-colors disabled:opacity-50"
-                      >
-                        <XCircle className="h-4 w-4" />
-                        Release
-                      </Button>
-                    </div>
-                  )}
-                  {hold.status === 'converted' && hold.converted_to_booking_id && (
-                    <Link
-                      href={`/bookings/${hold.converted_to_booking_id}`}
-                      className="inline-flex items-center gap-2 px-3 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
+                  return (
+                    <Card
+                      key={hold.id}
+                      className={`p-6 ${
+                        expiryInfo.isExpired ? 'border-destructive' :
+                        expiryInfo.isExpiringSoon ? 'border-warning' : ''
+                      }`}
                     >
-                      View Booking
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </div>
+                      <Stack direction="horizontal" className="justify-between items-start">
+                        <Box className="flex-1">
+                          <Stack direction="horizontal" gap={3} className="items-center mb-2">
+                            <H3>{hold.space?.name || 'Unknown Space'}</H3>
+                            <Badge className={statusConfig.color}>{statusConfig.label}</Badge>
+                            <Badge className={priorityConfig.color}>{priorityConfig.label}</Badge>
+                            {hold.status === 'active' && (
+                              <Badge className={
+                                expiryInfo.isExpired ? 'bg-destructive text-destructive-foreground' :
+                                expiryInfo.isExpiringSoon ? 'bg-warning/20 text-warning' : 'bg-muted text-muted-foreground'
+                              }>
+                                {expiryInfo.text}
+                              </Badge>
+                            )}
+                          </Stack>
+                          <Body size="sm" className="text-muted-foreground">
+                            {contactName} - {new Date(hold.hold_date).toLocaleDateString()}
+                            {hold.start_time && ` - ${hold.start_time}`}
+                            {hold.end_time && ` - ${hold.end_time}`}
+                          </Body>
+                          {hold.notes && (
+                            <Body size="xs" className="text-muted-foreground mt-2">{hold.notes}</Body>
+                          )}
+                        </Box>
+                        {hold.status === 'active' && (
+                          <Stack direction="horizontal" gap={2}>
+                            <Button
+                              onClick={() => handleConvert(hold.id)}
+                              disabled={convertMutation.isPending}
+                              size="sm"
+                            >
+                              <CheckCircle className="h-4 w-4 mr-2" />
+                              Convert to Booking
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              onClick={() => handleRelease(hold.id)}
+                              disabled={releaseMutation.isPending}
+                              size="sm"
+                            >
+                              <XCircle className="h-4 w-4 mr-2" />
+                              Release
+                            </Button>
+                          </Stack>
+                        )}
+                        {hold.status === 'converted' && hold.converted_to_booking_id && (
+                          <Link href={`/bookings/${hold.converted_to_booking_id}`}>
+                            <Button variant="outline" size="sm">
+                              View Booking
+                              <ArrowRight className="h-4 w-4 ml-2" />
+                            </Button>
+                          </Link>
+                        )}
+                      </Stack>
+                    </Card>
+                  );
+                })}
+              </Stack>
+            )}
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

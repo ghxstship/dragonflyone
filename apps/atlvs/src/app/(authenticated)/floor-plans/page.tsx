@@ -2,21 +2,31 @@
 
 import {
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H3,
   Input,
+  MainContent,
   Select,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Plus, Search, Layout, Eye, Edit, Trash2, MapPin } from 'lucide-react';
+import { Search, Layout, Eye, Edit, Trash2, MapPin } from 'lucide-react';
 import { useFloorPlans, useDeleteFloorPlan } from '@/hooks/useFloorPlans';
 
 export default function FloorPlansPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [spaceFilter, setSpaceFilter] = useState<string>('');
 
@@ -41,161 +51,135 @@ export default function FloorPlansPage() {
     }
   };
 
-  
   if (isLoading) {
     return (
-      <div className="p-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded-card w-1/3" />
-          <div className="grid grid-cols-3 gap-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-48 bg-muted rounded-card" />
-            ))}
-          </div>
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Floor Plans" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Grid cols={3} gap={4}>
+              <Skeleton className="h-48" />
+              <Skeleton className="h-48" />
+              <Skeleton className="h-48" />
+            </Grid>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 text-destructive">
-          Failed to load floor plans. Please try again.
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Floor Plans" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load floor plans"
+              description="Please try again."
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Floor Plans</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Manage venue layouts and space configurations
-          </Body>
-        </div>
-        <Link
-          href="/floor-plans/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          New Floor Plan
-        </Link>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Floor Plans"
+        subtitle="Manage venue layouts and space configurations"
+        primaryAction={{ label: 'New Floor Plan', onClick: () => router.push('/floor-plans/new') }}
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Stack direction="horizontal" gap={4} className="items-center">
+              <Box className="relative flex-1 max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search floor plans..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </Box>
+              {uniqueSpaces.length > 0 && (
+                <Select
+                  value={spaceFilter}
+                  onChange={(e) => setSpaceFilter(e.target.value)}
+                >
+                  <option value="">All Spaces</option>
+                  {uniqueSpaces.map((space) => (
+                    <option key={space?.id} value={space?.id}>{space?.name}</option>
+                  ))}
+                </Select>
+              )}
+            </Stack>
 
-      <div className="flex items-center gap-4">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search floor plans..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          />
-        </div>
-        {uniqueSpaces.length > 0 && (
-          <Select
-            value={spaceFilter}
-            onChange={(e) => setSpaceFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All Spaces</option>
-            {uniqueSpaces.map((space) => (
-              <option key={space?.id} value={space?.id}>
-                {space?.name}
-              </option>
-            ))}
-          </Select>
-        )}
-      </div>
-
-      {(!filteredPlans || filteredPlans.length === 0) && (
-        <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
-          <Layout className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No floor plans found
-          </H3>
-          <Body className="text-body-sm text-muted-foreground mb-4">
-            Create your first floor plan to start mapping out your venues.
-          </Body>
-          <Link
-            href="/floor-plans/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
-          >
-            <Plus className="h-4 w-4" />
-            Create Floor Plan
-          </Link>
-        </div>
-      )}
-
-      {filteredPlans && filteredPlans.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredPlans.map((plan) => (
-            <div
-              key={plan.id}
-              className="bg-background border-2 border-border rounded-card overflow-hidden hover:border-primary/50 transition-colors group"
-            >
-              <div className="aspect-video bg-muted relative">
-                {plan.thumbnail_url ? (
-                  <Image
-                    src={plan.thumbnail_url}
-                    alt={plan.name}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <Layout className="h-12 w-12 text-muted-foreground" />
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
-                  <Link
-                    href={`/floor-plans/${plan.id}`}
-                    className="p-2 bg-background rounded-button border-2 border-border hover:bg-muted"
-                  >
-                    <Eye className="h-4 w-4" />
-                  </Link>
-                  <Link
-                    href={`/floor-plans/${plan.id}/edit`}
-                    className="p-2 bg-background rounded-button border-2 border-border hover:bg-muted"
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Link>
-                                    <Button
-                    onClick={() => handleDelete(plan.id, plan.name)}
-                    disabled={deleteMutation.isPending}
-                    className="p-2 bg-background rounded-button border-2 border-destructive text-destructive hover:bg-destructive/10 disabled:opacity-50"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-              <div className="p-4">
-                <H3 className="font-weight-semibold text-foreground mb-1">{plan.name}</H3>
-                {plan.space && (
-                  <div className="flex items-center gap-1 text-body-sm text-muted-foreground mb-2">
-                    <MapPin className="h-3 w-3" />
-                    {plan.space.name}
-                  </div>
-                )}
-                <div className="flex items-center justify-between text-body-xs text-muted-foreground">
-                  <Text>
-                    {plan.dimensions?.width && plan.dimensions?.height
-                      ? `${plan.dimensions.width} x ${plan.dimensions.height} ${plan.dimensions.unit || 'ft'}`
-                      : 'No dimensions'}
-                  </Text>
-                  <Text>
-                    {plan.objects?.length || 0} objects
-                  </Text>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+            {(!filteredPlans || filteredPlans.length === 0) ? (
+              <EmptyState
+                title="No floor plans found"
+                description="Create your first floor plan to start mapping out your venues."
+                icon={<Layout className="h-12 w-12" />}
+                action={{ label: 'Create Floor Plan', onClick: () => router.push('/floor-plans/new') }}
+              />
+            ) : (
+              <Grid cols={3} gap={4}>
+                {filteredPlans.map((plan) => (
+                  <Card key={plan.id} className="overflow-hidden hover:border-primary/50 transition-colors group">
+                    <Box className="aspect-video bg-muted relative">
+                      {plan.thumbnail_url ? (
+                        <Image src={plan.thumbnail_url} alt={plan.name} fill className="object-cover" />
+                      ) : (
+                        <Box className="w-full h-full flex items-center justify-center">
+                          <Layout className="h-12 w-12 text-muted-foreground" />
+                        </Box>
+                      )}
+                      <Box className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
+                        <Link href={`/floor-plans/${plan.id}`}>
+                          <Button variant="outline" size="sm"><Eye className="h-4 w-4" /></Button>
+                        </Link>
+                        <Link href={`/floor-plans/${plan.id}/edit`}>
+                          <Button variant="outline" size="sm"><Edit className="h-4 w-4" /></Button>
+                        </Link>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDelete(plan.id, plan.name)}
+                          disabled={deleteMutation.isPending}
+                          className="text-destructive border-destructive"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </Box>
+                    </Box>
+                    <Box className="p-4">
+                      <H3 className="mb-1">{plan.name}</H3>
+                      {plan.space && (
+                        <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground mb-2">
+                          <MapPin className="h-3 w-3" />
+                          <Text size="sm">{plan.space.name}</Text>
+                        </Stack>
+                      )}
+                      <Stack direction="horizontal" className="justify-between text-muted-foreground">
+                        <Text size="xs">
+                          {plan.dimensions?.width && plan.dimensions?.height
+                            ? `${plan.dimensions.width} x ${plan.dimensions.height} ${plan.dimensions.unit || 'ft'}`
+                            : 'No dimensions'}
+                        </Text>
+                        <Text size="xs">{plan.objects?.length || 0} objects</Text>
+                      </Stack>
+                    </Box>
+                  </Card>
+                ))}
+              </Grid>
+            )}
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

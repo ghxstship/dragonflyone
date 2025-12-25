@@ -1,11 +1,20 @@
 'use client';
 
 import {
+  Badge,
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H2,
-  H3,
+  MainContent,
+  Modal,
+  Skeleton,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -15,15 +24,16 @@ import {
   Text,
 } from '@ghxstship/ui';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Edit2, Send, Eye, BarChart3, Copy, Calendar, User, Clock } from 'lucide-react';
+import { Edit2, Send, Eye, BarChart3, Copy, Calendar, User, Clock } from 'lucide-react';
 import { useProposal, useSendProposal, useDeleteProposal } from '@/hooks/useProposals';
 import { useState } from 'react';
 
 export default function ProposalDetailPage() {
   const params = useParams();
-  const proposalId = params.id as string;
+  const router = useRouter();
+  const proposalId = params?.id as string;
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const { data: proposal, isLoading, error } = useProposal(proposalId);
@@ -48,22 +58,14 @@ export default function ProposalDetailPage() {
     }).format(amount);
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'warning' | 'error' | 'info' => {
     switch (status) {
-      case 'accepted':
-        return 'bg-success-100 text-success-800 border-success-200';
+      case 'accepted': return 'success';
       case 'sent':
-        return 'bg-info-100 text-info-800 border-info-200';
-      case 'viewed':
-        return 'bg-violet-100 text-violet-800 border-violet-200';
-      case 'draft':
-        return 'bg-ink-100 text-ink-800 border-ink-200';
-      case 'declined':
-        return 'bg-error-100 text-error-800 border-error-200';
-      case 'expired':
-        return 'bg-warning-100 text-warning-800 border-warning-200';
-      default:
-        return 'bg-ink-100 text-ink-800 border-ink-200';
+      case 'viewed': return 'info';
+      case 'declined': return 'error';
+      case 'expired': return 'warning';
+      default: return 'info';
     }
   };
 
@@ -78,247 +80,205 @@ export default function ProposalDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading proposal...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Proposal Details" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Grid cols={3} gap={6}>
+              <Box className="col-span-2"><Skeleton className="h-64" /></Box>
+              <Skeleton className="h-64" />
+            </Grid>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error || !proposal) {
     return (
-      <div className="p-6">
-        <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <Body className="text-destructive">Proposal not found</Body>
-          <Link href="/proposals" className="text-primary hover:underline mt-2 inline-block">
-            Back to Proposals
-          </Link>
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Proposal Details" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Proposal not found"
+              description="The proposal you're looking for doesn't exist or has been removed."
+              action={{ label: 'Back to Proposals', onClick: () => router.push('/proposals') }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/proposals"
-            className="p-2 hover:bg-muted rounded-button transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </Link>
-          <div>
-            <div className="flex items-center gap-3">
-              <H1 className="text-h2-md font-weight-bold text-foreground">
-                {proposal.name || 'Untitled Proposal'}
-              </H1>
-              <Text className={`px-3 py-1 rounded-avatar text-body-xs font-weight-medium border capitalize ${getStatusColor(proposal.status)}`}>
-                {proposal.status}
-              </Text>
-            </div>
-            <Body className="text-body-sm text-muted-foreground mt-1">
-              {proposal.proposal_number}
-            </Body>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
+    <>
+      <EnterprisePageHeader
+        title={proposal.name || 'Untitled Proposal'}
+        subtitle={proposal.proposal_number}
+      />
+      <Box className="px-6 py-3 border-b border-border flex items-center justify-between">
+        <Badge variant={getStatusVariant(proposal.status)} className="capitalize">
+          {proposal.status}
+        </Badge>
+        <Stack direction="horizontal" gap={2}>
           {proposal.status === 'draft' && (
-            <Button
-              onClick={handleSend}
-              disabled={sendProposal.isPending}
-              className="flex items-center gap-2 px-4 py-2 bg-success text-white rounded-button hover:bg-success/90 transition-colors disabled:opacity-50"
-            >
-              <Send className="h-4 w-4" />
-              <Text className="text-body-sm font-weight-medium">
-                {sendProposal.isPending ? 'Sending...' : 'Send'}
-              </Text>
+            <Button onClick={handleSend} disabled={sendProposal.isPending}>
+              <Send className="h-4 w-4 mr-2" />
+              {sendProposal.isPending ? 'Sending...' : 'Send'}
             </Button>
           )}
-          <Link
-            href={`/proposals/${proposalId}/analytics`}
-            className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-          >
-            <BarChart3 className="h-4 w-4" />
-            <Text className="text-body-sm">Analytics</Text>
+          <Link href={`/proposals/${proposalId}/analytics`}>
+            <Button variant="outline">
+              <BarChart3 className="h-4 w-4 mr-2" />
+              Analytics
+            </Button>
           </Link>
-          <Link
-            href={`/p/${proposal.public_token}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-          >
-            <Eye className="h-4 w-4" />
-            <Text className="text-body-sm">Preview</Text>
+          <Link href={`/p/${proposal.public_token}`} target="_blank" rel="noopener noreferrer">
+            <Button variant="outline">
+              <Eye className="h-4 w-4 mr-2" />
+              Preview
+            </Button>
           </Link>
-          <Link
-            href={`/proposals/${proposalId}/edit`}
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
-          >
-            <Edit2 className="h-4 w-4" />
-            <Text className="text-body-sm font-weight-medium">Edit</Text>
+          <Link href={`/proposals/${proposalId}/edit`}>
+            <Button>
+              <Edit2 className="h-4 w-4 mr-2" />
+              Edit
+            </Button>
           </Link>
-        </div>
-      </div>
+        </Stack>
+      </Box>
+      <MainContent padding="lg">
+        <Container>
+          <Grid cols={3} gap={6}>
+            <Stack gap={6} className="col-span-2">
+              <Card className="p-6">
+                <H2 className="mb-4">Line Items</H2>
+                {lineItems.length === 0 ? (
+                  <Body size="sm" className="text-muted-foreground">No line items added yet</Body>
+                ) : (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Description</TableHead>
+                        <TableHead className="text-right">Qty</TableHead>
+                        <TableHead className="text-right">Price</TableHead>
+                        <TableHead className="text-right">Total</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {lineItems.map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell>
+                            <Body size="sm">{item.description}</Body>
+                            {item.category && (
+                              <Body size="xs" className="text-muted-foreground">{item.category}</Body>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-right">{item.quantity}</TableCell>
+                          <TableCell className="text-right">{formatCurrency(item.unit_price)}</TableCell>
+                          <TableCell className="text-right font-weight-medium">{formatCurrency(item.total)}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )}
+              </Card>
 
-      <div className="grid grid-cols-3 gap-6">
-        <div className="col-span-2 space-y-6">
-          
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Line Items</H2>
-            {lineItems.length === 0 ? (
-              <Body className="text-body-sm text-muted-foreground">No line items added yet</Body>
-            ) : (
-              <Table className="w-full">
-                <TableHeader>
-                  <TableRow className="border-b border-border">
-                    <TableHead className="py-2 text-left text-body-sm font-weight-medium text-muted-foreground">
-                      Description
-                    </TableHead>
-                    <TableHead className="py-2 text-right text-body-sm font-weight-medium text-muted-foreground">
-                      Qty
-                    </TableHead>
-                    <TableHead className="py-2 text-right text-body-sm font-weight-medium text-muted-foreground">
-                      Price
-                    </TableHead>
-                    <TableHead className="py-2 text-right text-body-sm font-weight-medium text-muted-foreground">
-                      Total
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {lineItems.map((item) => (
-                    <TableRow key={item.id} className="border-b border-border">
-                      <TableCell className="py-3">
-                        <Body className="text-body-sm text-foreground">{item.description}</Body>
-                        {item.category && (
-                          <Body className="text-body-xs text-muted-foreground">{item.category}</Body>
-                        )}
-                      </TableCell>
-                      <TableCell className="py-3 text-body-sm text-foreground text-right">{item.quantity}</TableCell>
-                      <TableCell className="py-3 text-body-sm text-foreground text-right">
-                        {formatCurrency(item.unit_price)}
-                      </TableCell>
-                      <TableCell className="py-3 text-body-sm font-weight-medium text-foreground text-right">
-                        {formatCurrency(item.total)}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
-          </div>
-
-          {proposal.terms && (
-            <div className="bg-background border-2 border-border rounded-card p-6">
-              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Terms & Conditions</H2>
-              <Body className="text-body-sm text-muted-foreground whitespace-pre-wrap">
-                {proposal.terms}
-              </Body>
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-6">
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Summary</H2>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <Text className="text-body-sm text-muted-foreground">Subtotal</Text>
-                <Text className="text-body-sm text-foreground">
-                  {formatCurrency(proposal.subtotal || 0)}
-                </Text>
-              </div>
-              <div className="flex items-center justify-between">
-                <Text className="text-body-sm text-muted-foreground">Tax</Text>
-                <Text className="text-body-sm text-foreground">
-                  {formatCurrency(proposal.tax_amount || 0)}
-                </Text>
-              </div>
-              <div className="pt-3 border-t border-border flex items-center justify-between">
-                <Text className="text-body-md font-weight-semibold text-foreground">Total</Text>
-                <Text className="text-h4-md font-weight-bold text-foreground">
-                  {formatCurrency(proposal.total || 0)}
-                </Text>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Details</H2>
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <User className="h-5 w-5 text-muted-foreground mt-0.5" />
-                <div>
-                  <Body className="text-body-xs text-muted-foreground">Client</Body>
-                  <Body className="text-body-md text-foreground">
-                    {proposal.contact ? `${proposal.contact.first_name} ${proposal.contact.last_name}` : 'Not specified'}
+              {proposal.terms && (
+                <Card className="p-6">
+                  <H2 className="mb-4">Terms & Conditions</H2>
+                  <Body size="sm" className="text-muted-foreground whitespace-pre-wrap">
+                    {proposal.terms}
                   </Body>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
-                <div>
-                  <Body className="text-body-xs text-muted-foreground">Valid Until</Body>
-                  <Body className="text-body-md text-foreground">
-                    {proposal.valid_until ? formatDate(proposal.valid_until) : 'No expiry'}
-                  </Body>
-                </div>
-              </div>
-              {proposal.sent_at && (
-                <div className="flex items-start gap-3">
-                  <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <Body className="text-body-xs text-muted-foreground">Sent</Body>
-                    <Body className="text-body-md text-foreground">
-                      {formatDate(proposal.sent_at)}
-                    </Body>
-                  </div>
-                </div>
+                </Card>
               )}
-            </div>
-          </div>
+            </Stack>
 
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Share Link</H2>
-            <div className="bg-muted p-3 rounded font-mono text-body-xs break-all">
-              {typeof window !== 'undefined' ? `${window.location.origin}/p/${proposal.public_token}` : ''}
-            </div>
-            <Button
-              onClick={() => navigator.clipboard.writeText(`${window.location.origin}/p/${proposal.public_token}`)}
-              className="mt-3 flex items-center gap-2 px-4 py-2 w-full justify-center border-2 border-border rounded-button hover:bg-muted transition-colors"
-            >
-              <Copy className="h-4 w-4" />
-              <Text className="text-body-sm">Copy Link</Text>
-            </Button>
-          </div>
-        </div>
-      </div>
+            <Stack gap={6}>
+              <Card className="p-6">
+                <H2 className="mb-4">Summary</H2>
+                <Stack gap={3}>
+                  <Stack direction="horizontal" className="justify-between">
+                    <Text size="sm" className="text-muted-foreground">Subtotal</Text>
+                    <Text size="sm">{formatCurrency(proposal.subtotal || 0)}</Text>
+                  </Stack>
+                  <Stack direction="horizontal" className="justify-between">
+                    <Text size="sm" className="text-muted-foreground">Tax</Text>
+                    <Text size="sm">{formatCurrency(proposal.tax_amount || 0)}</Text>
+                  </Stack>
+                  <Box className="pt-3 border-t border-border">
+                    <Stack direction="horizontal" className="justify-between">
+                      <Text className="font-weight-semibold">Total</Text>
+                      <Text className="font-weight-bold">{formatCurrency(proposal.total || 0)}</Text>
+                    </Stack>
+                  </Box>
+                </Stack>
+              </Card>
 
-      {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <H3 className="text-h4-md font-weight-semibold text-foreground mb-2">Delete Proposal</H3>
-            <Body className="text-body-sm text-muted-foreground mb-4">
+              <Card className="p-6">
+                <H2 className="mb-4">Details</H2>
+                <Stack gap={4}>
+                  <Stack direction="horizontal" gap={3} className="items-start">
+                    <User className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <Stack gap={0}>
+                      <Body size="xs" className="text-muted-foreground">Client</Body>
+                      <Body>
+                        {proposal.contact ? `${proposal.contact.first_name} ${proposal.contact.last_name}` : 'Not specified'}
+                      </Body>
+                    </Stack>
+                  </Stack>
+                  <Stack direction="horizontal" gap={3} className="items-start">
+                    <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <Stack gap={0}>
+                      <Body size="xs" className="text-muted-foreground">Valid Until</Body>
+                      <Body>{proposal.valid_until ? formatDate(proposal.valid_until) : 'No expiry'}</Body>
+                    </Stack>
+                  </Stack>
+                  {proposal.sent_at && (
+                    <Stack direction="horizontal" gap={3} className="items-start">
+                      <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <Stack gap={0}>
+                        <Body size="xs" className="text-muted-foreground">Sent</Body>
+                        <Body>{formatDate(proposal.sent_at)}</Body>
+                      </Stack>
+                    </Stack>
+                  )}
+                </Stack>
+              </Card>
+
+              <Card className="p-6">
+                <H2 className="mb-4">Share Link</H2>
+                <Box className="bg-muted p-3 rounded font-mono text-mono-xs break-all">
+                  {typeof window !== 'undefined' ? `${window.location.origin}/p/${proposal.public_token}` : ''}
+                </Box>
+                <Button
+                  variant="outline"
+                  onClick={() => navigator.clipboard.writeText(`${window.location.origin}/p/${proposal.public_token}`)}
+                  className="mt-3 w-full"
+                >
+                  <Copy className="h-4 w-4 mr-2" />
+                  Copy Link
+                </Button>
+              </Card>
+            </Stack>
+          </Grid>
+
+          <Modal open={showDeleteConfirm} onClose={() => setShowDeleteConfirm(false)} title="Delete Proposal">
+            <Body size="sm" className="text-muted-foreground mb-4">
               Are you sure you want to delete this proposal? This action cannot be undone.
             </Body>
-            <div className="flex items-center justify-end gap-3">
-              <Button
-                onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-              >
+            <Stack direction="horizontal" gap={3} className="justify-end">
+              <Button variant="outline" onClick={() => setShowDeleteConfirm(false)}>
                 Cancel
               </Button>
-              <Button
-                onClick={handleDelete}
-                disabled={deleteProposal.isPending}
-                className="px-4 py-2 bg-destructive text-white rounded-button hover:bg-destructive/90 transition-colors disabled:opacity-50"
-              >
+              <Button variant="destructive" onClick={handleDelete} disabled={deleteProposal.isPending}>
                 {deleteProposal.isPending ? 'Deleting...' : 'Delete'}
               </Button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+            </Stack>
+          </Modal>
+        </Container>
+      </MainContent>
+    </>
   );
 }

@@ -1,17 +1,27 @@
 'use client';
 
 import {
+  Badge,
   Body,
-  H1,
+  Box,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H3,
   Input,
+  MainContent,
   Select,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Plus, Search, FileText, Clock, CheckCircle, AlertTriangle, Filter } from 'lucide-react';
+import { Search, FileText, Clock, CheckCircle, AlertTriangle, Filter } from 'lucide-react';
 import { useContracts } from '@/hooks/useContracts';
 
 const STATUS_CONFIG = {
@@ -35,6 +45,7 @@ const TYPE_CONFIG = {
 };
 
 export default function ContractsPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('');
   const [typeFilter, setTypeFilter] = useState<string>('');
@@ -77,195 +88,181 @@ export default function ContractsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded-card w-1/3" />
-          <div className="h-64 bg-muted rounded-card" />
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Contracts" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={4}>
+              <Grid cols={5} gap={4}>
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+              </Grid>
+              <Skeleton className="h-64" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 text-destructive">
-          Failed to load contracts. Please try again.
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Contracts" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load contracts"
+              description="Please try again."
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Contracts</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Manage contracts and electronic signatures
-          </Body>
-        </div>
-        <div className="flex items-center gap-2">
-          <Link
-            href="/contracts/clauses"
-            className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
-          >
-            Clause Library
-          </Link>
-          <Link
-            href="/contracts/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-          >
-            <Plus className="h-4 w-4" />
-            New Contract
-          </Link>
-        </div>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Contracts"
+        subtitle="Manage contracts and electronic signatures"
+        primaryAction={{ label: 'New Contract', onClick: () => router.push('/contracts/new') }}
+        secondaryActions={[
+          { label: 'Clause Library', onClick: () => router.push('/contracts/clauses') }
+        ]}
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={5} gap={4}>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <FileText className="h-5 w-5 text-primary" />
+                  <Text size="sm" className="text-muted-foreground">Total</Text>
+                </Stack>
+                <Body className="font-weight-bold">{stats.total}</Body>
+              </Card>
+              <Card className="p-4 border-success/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <CheckCircle className="h-5 w-5 text-success" />
+                  <Text size="sm" className="text-muted-foreground">Active</Text>
+                </Stack>
+                <Body className="font-weight-bold text-success">{stats.active}</Body>
+              </Card>
+              <Card className="p-4 border-warning/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Clock className="h-5 w-5 text-warning" />
+                  <Text size="sm" className="text-muted-foreground">Pending</Text>
+                </Stack>
+                <Body className="font-weight-bold text-warning">{stats.pending}</Body>
+              </Card>
+              <Card className="p-4 border-destructive/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <AlertTriangle className="h-5 w-5 text-destructive" />
+                  <Text size="sm" className="text-muted-foreground">Expiring</Text>
+                </Stack>
+                <Body className="font-weight-bold text-destructive">{stats.expiring}</Body>
+              </Card>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <FileText className="h-5 w-5 text-primary" />
+                  <Text size="sm" className="text-muted-foreground">Total Value</Text>
+                </Stack>
+                <Body className="font-weight-bold">{formatCurrency(stats.totalValue)}</Body>
+              </Card>
+            </Grid>
 
-      <div className="grid grid-cols-5 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <FileText className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Total</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{stats.total}</Body>
-        </div>
-        <div className="bg-background border-2 border-success/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <CheckCircle className="h-5 w-5 text-success" />
-            <Text className="text-body-sm text-muted-foreground">Active</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-success">{stats.active}</Body>
-        </div>
-        <div className="bg-background border-2 border-warning/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-5 w-5 text-warning" />
-            <Text className="text-body-sm text-muted-foreground">Pending</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-warning">{stats.pending}</Body>
-        </div>
-        <div className="bg-background border-2 border-destructive/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <AlertTriangle className="h-5 w-5 text-destructive" />
-            <Text className="text-body-sm text-muted-foreground">Expiring</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-destructive">{stats.expiring}</Body>
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <FileText className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Total Value</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{formatCurrency(stats.totalValue)}</Body>
-        </div>
-      </div>
+            <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
+              <Box className="relative flex-1 min-w-[200px] max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search contracts..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </Box>
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                  <option value="">All Status</option>
+                  {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Select>
+                <Select
+                  value={typeFilter}
+                  onChange={(e) => setTypeFilter(e.target.value)}
+                >
+                  <option value="">All Types</option>
+                  {Object.entries(TYPE_CONFIG).map(([value, label]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Select>
+              </Stack>
+            </Stack>
 
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search contracts..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <Select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All Status</option>
-            {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </Select>
-          <Select
-            value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All Types</option>
-            {Object.entries(TYPE_CONFIG).map(([value, label]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </Select>
-        </div>
-      </div>
+            {filteredContracts.length === 0 ? (
+              <EmptyState
+                title="No contracts found"
+                description={searchQuery ? 'Try adjusting your search' : 'Create your first contract'}
+                icon={<FileText className="h-12 w-12" />}
+                action={{ label: 'New Contract', onClick: () => router.push('/contracts/new') }}
+              />
+            ) : (
+              <Stack gap={4}>
+                {filteredContracts.map((contract) => {
+                  const statusConfig = STATUS_CONFIG[contract.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.draft;
+                  const typeLabel = TYPE_CONFIG[contract.type as keyof typeof TYPE_CONFIG] || contract.type;
+                  const isExpiring = contract.end_date && contract.status === 'active' &&
+                    Math.ceil((new Date(contract.end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)) <= 30;
 
-      {filteredContracts.length === 0 && (
-        <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
-          <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No contracts found
-          </H3>
-          <Body className="text-body-sm text-muted-foreground mb-4">
-            {searchQuery ? 'Try adjusting your search' : 'Create your first contract'}
-          </Body>
-          <Link
-            href="/contracts/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
-          >
-            <Plus className="h-4 w-4" />
-            New Contract
-          </Link>
-        </div>
-      )}
-
-      {filteredContracts.length > 0 && (
-        <div className="space-y-4">
-          {filteredContracts.map((contract) => {
-            const statusConfig = STATUS_CONFIG[contract.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.draft;
-            const typeLabel = TYPE_CONFIG[contract.type as keyof typeof TYPE_CONFIG] || contract.type;
-            const isExpiring = contract.end_date && contract.status === 'active' &&
-              Math.ceil((new Date(contract.end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)) <= 30;
-
-            return (
-              <Link
-                key={contract.id}
-                href={`/contracts/${contract.id}`}
-                className="block bg-background border-2 border-border rounded-card p-6 hover:border-primary transition-colors"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <H3 className="text-body-lg font-weight-semibold text-foreground">
-                        {contract.title}
-                      </H3>
-                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
-                        {statusConfig.label}
-                      </Text>
-                      {isExpiring && (
-                        <Text className="px-2 py-1 bg-destructive/20 text-destructive rounded-badge text-body-xs font-weight-medium">
-                          Expiring Soon
-                        </Text>
-                      )}
-                    </div>
-                    <Body className="text-body-sm text-muted-foreground">
-                      {typeLabel} • {contract.vendor?.name || 'No vendor'}
-                    </Body>
-                    <Body className="text-body-xs text-muted-foreground mt-1">
-                      {contract.start_date && `Started ${new Date(contract.start_date).toLocaleDateString()}`}
-                      {contract.end_date && ` • Ends ${new Date(contract.end_date).toLocaleDateString()}`}
-                    </Body>
-                  </div>
-                  <div className="text-right">
-                    <Body className="text-h4-md font-weight-bold text-foreground">
-                      {formatCurrency(contract.value || 0)}
-                    </Body>
-                    {contract.auto_renew && (
-                      <Body className="text-body-xs text-success mt-1">Auto-renew enabled</Body>
-                    )}
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      )}
-    </div>
+                  return (
+                    <Link key={contract.id} href={`/contracts/${contract.id}`}>
+                      <Card className="p-6 hover:border-primary transition-colors">
+                        <Stack direction="horizontal" className="justify-between items-start">
+                          <Box className="flex-1">
+                            <Stack direction="horizontal" gap={3} className="items-center mb-2">
+                              <H3>{contract.title}</H3>
+                              <Badge className={statusConfig.color}>{statusConfig.label}</Badge>
+                              {isExpiring && (
+                                <Badge className="bg-destructive/20 text-destructive">Expiring Soon</Badge>
+                              )}
+                            </Stack>
+                            <Body size="sm" className="text-muted-foreground">
+                              {typeLabel} • {contract.vendor?.name || 'No vendor'}
+                            </Body>
+                            <Body size="xs" className="text-muted-foreground mt-1">
+                              {contract.start_date && `Started ${new Date(contract.start_date).toLocaleDateString()}`}
+                              {contract.end_date && ` • Ends ${new Date(contract.end_date).toLocaleDateString()}`}
+                            </Body>
+                          </Box>
+                          <Box className="text-right">
+                            <Body className="font-weight-bold">
+                              {formatCurrency(contract.value || 0)}
+                            </Body>
+                            {contract.auto_renew && (
+                              <Body size="xs" className="text-success mt-1">Auto-renew enabled</Body>
+                            )}
+                          </Box>
+                        </Stack>
+                      </Card>
+                    </Link>
+                  );
+                })}
+              </Stack>
+            )}
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

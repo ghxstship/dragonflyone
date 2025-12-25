@@ -16,10 +16,17 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import {
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EnterprisePageHeader,
+  Grid,
   H2,
+  MainContent,
   Select,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
@@ -114,147 +121,152 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Reports</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Analyze your business performance
-          </Body>
-        </div>
-        <div className="flex items-center gap-3">
-          <Select
-            value={dateRange}
-            onChange={(e) => setDateRange(e.target.value)}
-            className="px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-          >
-            <option value="7d">Last 7 Days</option>
-            <option value="30d">Last 30 Days</option>
-            <option value="90d">Last 90 Days</option>
-            <option value="365d">Last Year</option>
-            <option value="custom">Custom Range</option>
-          </Select>
-          <Button variant="outline" size="sm" icon={<Download className="h-4 w-4" />} iconPosition="left">
-            Export All
-          </Button>
-        </div>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Reports"
+        subtitle="Analyze your business performance"
+      />
+      <Box className="px-6 py-3 border-b border-border flex items-center justify-end gap-3">
+        <Select
+          value={dateRange}
+          onChange={(e) => setDateRange(e.target.value)}
+        >
+          <option value="7d">Last 7 Days</option>
+          <option value="30d">Last 30 Days</option>
+          <option value="90d">Last 90 Days</option>
+          <option value="365d">Last Year</option>
+          <option value="custom">Custom Range</option>
+        </Select>
+        <Button variant="outline" size="sm">
+          <Download className="h-4 w-4 mr-2" />
+          Export All
+        </Button>
+      </Box>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={4} gap={4}>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={3} className="items-center mb-2">
+                  <Box className="p-2 bg-success-100 rounded-card">
+                    <DollarSign className="h-5 w-5 text-success-600" />
+                  </Box>
+                  <Text size="sm" className="text-muted-foreground">Total Revenue</Text>
+                </Stack>
+                {isLoading ? (
+                  <Skeleton className="h-8" />
+                ) : (
+                  <>
+                    <Body className="font-weight-bold">
+                      {formatCurrency(summary?.total_revenue || 0)}
+                    </Body>
+                    <Body size="xs" className={(summary?.revenue_trend || 0) >= 0 ? 'text-success-600' : 'text-error-600'}>
+                      {formatTrend(summary?.revenue_trend || 0)} vs last period
+                    </Body>
+                  </>
+                )}
+              </Card>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={3} className="items-center mb-2">
+                  <Box className="p-2 bg-info-100 rounded-card">
+                    <Calendar className="h-5 w-5 text-info-600" />
+                  </Box>
+                  <Text size="sm" className="text-muted-foreground">Total Bookings</Text>
+                </Stack>
+                {isLoading ? (
+                  <Skeleton className="h-8" />
+                ) : (
+                  <>
+                    <Body className="font-weight-bold">
+                      {summary?.total_bookings || 0}
+                    </Body>
+                    <Body size="xs" className={(summary?.bookings_trend || 0) >= 0 ? 'text-success-600' : 'text-error-600'}>
+                      {formatTrend(summary?.bookings_trend || 0)} vs last period
+                    </Body>
+                  </>
+                )}
+              </Card>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={3} className="items-center mb-2">
+                  <Box className="p-2 bg-violet-100 rounded-card">
+                    <Users className="h-5 w-5 text-violet-600" />
+                  </Box>
+                  <Text size="sm" className="text-muted-foreground">New Contacts</Text>
+                </Stack>
+                {isLoading ? (
+                  <Skeleton className="h-8" />
+                ) : (
+                  <Body className="font-weight-bold">
+                    {summary?.total_contacts || 0}
+                  </Body>
+                )}
+              </Card>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={3} className="items-center mb-2">
+                  <Box className="p-2 bg-warning-100 rounded-card">
+                    <FileText className="h-5 w-5 text-warning-600" />
+                  </Box>
+                  <Text size="sm" className="text-muted-foreground">Proposals Sent</Text>
+                </Stack>
+                {isLoading ? (
+                  <Skeleton className="h-8" />
+                ) : (
+                  <Body className="font-weight-bold">
+                    {summary?.total_proposals || 0}
+                  </Body>
+                )}
+              </Card>
+            </Grid>
 
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-success-100 rounded-card">
-              <DollarSign className="h-5 w-5 text-success-600" />
-            </div>
-            <Text className="text-body-sm text-muted-foreground">Total Revenue</Text>
-          </div>
-          {isLoading ? (
-            <div className="h-8 bg-muted animate-pulse rounded" />
-          ) : (
-            <>
-              <Body className="text-h3-md font-weight-bold text-foreground">
-                {formatCurrency(summary?.total_revenue || 0)}
-              </Body>
-              <Body className={`text-body-xs ${(summary?.revenue_trend || 0) >= 0 ? 'text-success-600' : 'text-error-600'}`}>
-                {formatTrend(summary?.revenue_trend || 0)} vs last period
-              </Body>
-            </>
-          )}
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-info-100 rounded-card">
-              <Calendar className="h-5 w-5 text-info-600" />
-            </div>
-            <Text className="text-body-sm text-muted-foreground">Total Bookings</Text>
-          </div>
-          {isLoading ? (
-            <div className="h-8 bg-muted animate-pulse rounded" />
-          ) : (
-            <>
-              <Body className="text-h3-md font-weight-bold text-foreground">
-                {summary?.total_bookings || 0}
-              </Body>
-              <Body className={`text-body-xs ${(summary?.bookings_trend || 0) >= 0 ? 'text-success-600' : 'text-error-600'}`}>
-                {formatTrend(summary?.bookings_trend || 0)} vs last period
-              </Body>
-            </>
-          )}
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-violet-100 rounded-card">
-              <Users className="h-5 w-5 text-violet-600" />
-            </div>
-            <Text className="text-body-sm text-muted-foreground">New Contacts</Text>
-          </div>
-          {isLoading ? (
-            <div className="h-8 bg-muted animate-pulse rounded" />
-          ) : (
-            <Body className="text-h3-md font-weight-bold text-foreground">
-              {summary?.total_contacts || 0}
-            </Body>
-          )}
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-warning-100 rounded-card">
-              <FileText className="h-5 w-5 text-warning-600" />
-            </div>
-            <Text className="text-body-sm text-muted-foreground">Proposals Sent</Text>
-          </div>
-          {isLoading ? (
-            <div className="h-8 bg-muted animate-pulse rounded" />
-          ) : (
-            <Body className="text-h3-md font-weight-bold text-foreground">
-              {summary?.total_proposals || 0}
-            </Body>
-          )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-6">
-        {REPORT_CATEGORIES.map((category) => (
-          <div key={category.id} className="bg-background border-2 border-border rounded-card">
-            <div className="p-4 border-b border-border flex items-center gap-3">
-              <category.icon className="h-5 w-5 text-primary" />
-              <H2 className="text-h4-md font-weight-semibold text-foreground">{category.name}</H2>
-            </div>
-            <div className="divide-y divide-border">
-              {category.reports.map((report) => (
-                <Link
-                  key={report.id}
-                  href={report.path}
-                  className="flex items-center justify-between p-4 hover:bg-muted/30 transition-colors"
-                >
-                  <Text className="text-body-sm text-foreground">{report.name}</Text>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                </Link>
+            <Grid cols={2} gap={6}>
+              {REPORT_CATEGORIES.map((category) => (
+                <Card key={category.id}>
+                  <Box className="p-4 border-b border-border">
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <category.icon className="h-5 w-5 text-primary" />
+                      <H2>{category.name}</H2>
+                    </Stack>
+                  </Box>
+                  <Box className="divide-y divide-border">
+                    {category.reports.map((report) => (
+                      <Link
+                        key={report.id}
+                        href={report.path}
+                        className="flex items-center justify-between p-4 hover:bg-muted/30 transition-colors"
+                      >
+                        <Text size="sm">{report.name}</Text>
+                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                      </Link>
+                    ))}
+                  </Box>
+                </Card>
               ))}
-            </div>
-          </div>
-        ))}
-      </div>
+            </Grid>
 
-      <div className="bg-background border-2 border-border rounded-card p-6">
-        <div className="flex items-center justify-between mb-4">
-          <H2 className="text-h4-md font-weight-semibold text-foreground">Quick Actions</H2>
-        </div>
-        <div className="grid grid-cols-4 gap-4">
-          <Button variant="outline" size="md" icon={<BarChart3 className="h-5 w-5" />} iconPosition="left" className="flex-col h-auto py-4">
-            Custom Report
-          </Button>
-          <Button variant="outline" size="md" icon={<Download className="h-5 w-5" />} iconPosition="left" className="flex-col h-auto py-4">
-            Export Data
-          </Button>
-          <Button variant="outline" size="md" icon={<Filter className="h-5 w-5" />} iconPosition="left" className="flex-col h-auto py-4">
-            Saved Filters
-          </Button>
-          <Button variant="outline" size="md" icon={<Calendar className="h-5 w-5" />} iconPosition="left" className="flex-col h-auto py-4">
-            Schedule Report
-          </Button>
-        </div>
-      </div>
-    </div>
+            <Card className="p-6">
+              <H2 className="mb-4">Quick Actions</H2>
+              <Grid cols={4} gap={4}>
+                <Button variant="outline" className="flex-col h-auto py-4">
+                  <BarChart3 className="h-5 w-5 mb-2" />
+                  Custom Report
+                </Button>
+                <Button variant="outline" className="flex-col h-auto py-4">
+                  <Download className="h-5 w-5 mb-2" />
+                  Export Data
+                </Button>
+                <Button variant="outline" className="flex-col h-auto py-4">
+                  <Filter className="h-5 w-5 mb-2" />
+                  Saved Filters
+                </Button>
+                <Button variant="outline" className="flex-col h-auto py-4">
+                  <Calendar className="h-5 w-5 mb-2" />
+                  Schedule Report
+                </Button>
+              </Grid>
+            </Card>
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

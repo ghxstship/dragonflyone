@@ -1,18 +1,25 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, Building2, Upload, Globe, MapPin, Phone, Mail, Save, AlertCircle } from 'lucide-react';
+import { Building2, Upload, Globe, MapPin, Phone, Mail, Save } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
+  Alert,
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H2,
   Input,
   Label,
+  MainContent,
   Select,
-  Text,
+  Skeleton,
+  Stack,
 } from '@ghxstship/ui';
 
 interface OrganizationSettings {
@@ -142,321 +149,263 @@ export default function OrganizationSettingsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading organization settings...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Organization Settings" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container size="lg">
+            <Grid cols={3} gap={6}>
+              <Box className="col-span-2"><Skeleton className="h-96" /></Box>
+              <Skeleton className="h-96" />
+            </Grid>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
-          <AlertCircle className="h-5 w-5 text-destructive" />
-          <Text className="text-destructive">Failed to load organization settings</Text>
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Organization Settings" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container size="lg">
+            <EmptyState
+              title="Failed to load settings"
+              description="There was an error loading organization settings. Please try again."
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/settings"
-            className="p-2 hover:bg-muted rounded-button transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </Link>
-          <div>
-            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
-              <Building2 className="h-6 w-6" />
-              Organization Settings
-            </H1>
-            <Body className="text-body-sm text-muted-foreground mt-1">
-              Manage your organization profile and preferences
-            </Body>
-          </div>
-        </div>
-        <Button
-          onClick={handleSave}
-          disabled={!hasChanges || saveMutation.isPending}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
-        >
-          <Save className="h-4 w-4" />
-          <Text className="text-body-sm font-weight-medium">
-            {saveMutation.isPending ? 'Saving...' : 'Save Changes'}
-          </Text>
+    <>
+      <EnterprisePageHeader
+        title="Organization Settings"
+        subtitle="Manage your organization profile and preferences"
+      />
+      <Box className="px-6 py-3 border-b border-border flex items-center justify-end">
+        <Button onClick={handleSave} disabled={!hasChanges || saveMutation.isPending}>
+          <Save className="h-4 w-4 mr-2" />
+          {saveMutation.isPending ? 'Saving...' : 'Save Changes'}
         </Button>
-      </div>
+      </Box>
+      <MainContent padding="lg">
+        <Container size="lg">
+          <Stack gap={6}>
+            {saveMutation.isSuccess && (
+              <Alert variant="success">Settings saved successfully!</Alert>
+            )}
 
-      {saveMutation.isSuccess && (
-        <div className="bg-success/10 border-2 border-success rounded-card p-3 text-success text-body-sm">
-          Settings saved successfully!
-        </div>
-      )}
+            <Grid cols={3} gap={6}>
+              <Stack gap={6} className="col-span-2">
+                <Card className="p-6">
+                  <H2 className="mb-4">Basic Information</H2>
+                  <Stack gap={4}>
+                    <Grid cols={2} gap={4}>
+                      <Stack gap={2}>
+                        <Label>Organization Name *</Label>
+                        <Input
+                          type="text"
+                          value={formData.name}
+                          onChange={(e) => handleChange('name', e.target.value)}
+                        />
+                      </Stack>
+                      <Stack gap={2}>
+                        <Label>Legal Name</Label>
+                        <Input
+                          type="text"
+                          value={formData.legal_name || ''}
+                          onChange={(e) => handleChange('legal_name', e.target.value)}
+                        />
+                      </Stack>
+                    </Grid>
+                    <Grid cols={2} gap={4}>
+                      <Stack gap={2}>
+                        <Label>Industry</Label>
+                        <Input
+                          type="text"
+                          value={formData.industry || ''}
+                          onChange={(e) => handleChange('industry', e.target.value)}
+                        />
+                      </Stack>
+                      <Stack gap={2}>
+                        <Label>Tax ID / EIN</Label>
+                        <Input
+                          type="text"
+                          value={formData.tax_id || ''}
+                          onChange={(e) => handleChange('tax_id', e.target.value)}
+                        />
+                      </Stack>
+                    </Grid>
+                  </Stack>
+                </Card>
 
-      <div className="grid grid-cols-3 gap-6">
-        <div className="col-span-2 space-y-6">
-          {/* Basic Information */}
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Basic Information</H2>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                    Organization Name *
-                  </Label>
-                  <Input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => handleChange('name', e.target.value)}
-                    className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
-                <div>
-                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                    Legal Name
-                  </Label>
-                  <Input
-                    type="text"
-                    value={formData.legal_name || ''}
-                    onChange={(e) => handleChange('legal_name', e.target.value)}
-                    className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                    Industry
-                  </Label>
-                  <Input
-                    type="text"
-                    value={formData.industry || ''}
-                    onChange={(e) => handleChange('industry', e.target.value)}
-                    className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
-                <div>
-                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                    Tax ID / EIN
-                  </Label>
-                  <Input
-                    type="text"
-                    value={formData.tax_id || ''}
-                    onChange={(e) => handleChange('tax_id', e.target.value)}
-                    className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+                <Card className="p-6">
+                  <Stack direction="horizontal" gap={2} className="items-center mb-4">
+                    <Phone className="h-5 w-5" />
+                    <H2>Contact Information</H2>
+                  </Stack>
+                  <Stack gap={4}>
+                    <Grid cols={2} gap={4}>
+                      <Stack gap={2}>
+                        <Label><Mail className="h-4 w-4 inline mr-1" />Email</Label>
+                        <Input
+                          type="email"
+                          value={formData.email || ''}
+                          onChange={(e) => handleChange('email', e.target.value)}
+                        />
+                      </Stack>
+                      <Stack gap={2}>
+                        <Label>Phone</Label>
+                        <Input
+                          type="tel"
+                          value={formData.phone || ''}
+                          onChange={(e) => handleChange('phone', e.target.value)}
+                        />
+                      </Stack>
+                    </Grid>
+                    <Stack gap={2}>
+                      <Label><Globe className="h-4 w-4 inline mr-1" />Website</Label>
+                      <Input
+                        type="url"
+                        value={formData.website || ''}
+                        onChange={(e) => handleChange('website', e.target.value)}
+                      />
+                    </Stack>
+                  </Stack>
+                </Card>
 
-          {/* Contact Information */}
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
-              <Phone className="h-5 w-5" />
-              Contact Information
-            </H2>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                    <Mail className="h-4 w-4 inline mr-1" />
-                    Email
-                  </Label>
-                  <Input
-                    type="email"
-                    value={formData.email || ''}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                    className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
-                <div>
-                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                    Phone
-                  </Label>
-                  <Input
-                    type="tel"
-                    value={formData.phone || ''}
-                    onChange={(e) => handleChange('phone', e.target.value)}
-                    className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  <Globe className="h-4 w-4 inline mr-1" />
-                  Website
-                </Label>
-                <Input
-                  type="url"
-                  value={formData.website || ''}
-                  onChange={(e) => handleChange('website', e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                />
-              </div>
-            </div>
-          </div>
+                <Card className="p-6">
+                  <Stack direction="horizontal" gap={2} className="items-center mb-4">
+                    <MapPin className="h-5 w-5" />
+                    <H2>Address</H2>
+                  </Stack>
+                  <Stack gap={4}>
+                    <Stack gap={2}>
+                      <Label>Street Address</Label>
+                      <Input
+                        type="text"
+                        value={formData.address?.street || ''}
+                        onChange={(e) => handleAddressChange('street', e.target.value)}
+                      />
+                    </Stack>
+                    <Grid cols={3} gap={4}>
+                      <Stack gap={2}>
+                        <Label>City</Label>
+                        <Input
+                          type="text"
+                          value={formData.address?.city || ''}
+                          onChange={(e) => handleAddressChange('city', e.target.value)}
+                        />
+                      </Stack>
+                      <Stack gap={2}>
+                        <Label>State / Province</Label>
+                        <Input
+                          type="text"
+                          value={formData.address?.state || ''}
+                          onChange={(e) => handleAddressChange('state', e.target.value)}
+                        />
+                      </Stack>
+                      <Stack gap={2}>
+                        <Label>ZIP / Postal Code</Label>
+                        <Input
+                          type="text"
+                          value={formData.address?.zip || ''}
+                          onChange={(e) => handleAddressChange('zip', e.target.value)}
+                        />
+                      </Stack>
+                    </Grid>
+                    <Stack gap={2}>
+                      <Label>Country</Label>
+                      <Input
+                        type="text"
+                        value={formData.address?.country || ''}
+                        onChange={(e) => handleAddressChange('country', e.target.value)}
+                      />
+                    </Stack>
+                  </Stack>
+                </Card>
+              </Stack>
 
-          {/* Address */}
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
-              <MapPin className="h-5 w-5" />
-              Address
-            </H2>
-            <div className="space-y-4">
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Street Address
-                </Label>
-                <Input
-                  type="text"
-                  value={formData.address?.street || ''}
-                  onChange={(e) => handleAddressChange('street', e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                />
-              </div>
-              <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                    City
-                  </Label>
-                  <Input
-                    type="text"
-                    value={formData.address?.city || ''}
-                    onChange={(e) => handleAddressChange('city', e.target.value)}
-                    className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
-                <div>
-                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                    State / Province
-                  </Label>
-                  <Input
-                    type="text"
-                    value={formData.address?.state || ''}
-                    onChange={(e) => handleAddressChange('state', e.target.value)}
-                    className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
-                <div>
-                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                    ZIP / Postal Code
-                  </Label>
-                  <Input
-                    type="text"
-                    value={formData.address?.zip || ''}
-                    onChange={(e) => handleAddressChange('zip', e.target.value)}
-                    className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Country
-                </Label>
-                <Input
-                  type="text"
-                  value={formData.address?.country || ''}
-                  onChange={(e) => handleAddressChange('country', e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+              <Stack gap={6}>
+                <Card className="p-6">
+                  <H2 className="mb-4">Regional Settings</H2>
+                  <Stack gap={4}>
+                    <Stack gap={2}>
+                      <Label>Timezone</Label>
+                      <Select
+                        value={formData.timezone}
+                        onChange={(e) => handleChange('timezone', e.target.value)}
+                      >
+                        {TIMEZONES.map((tz) => (
+                          <option key={tz.id} value={tz.id}>{tz.label}</option>
+                        ))}
+                      </Select>
+                    </Stack>
+                    <Stack gap={2}>
+                      <Label>Currency</Label>
+                      <Select
+                        value={formData.currency}
+                        onChange={(e) => handleChange('currency', e.target.value)}
+                      >
+                        {CURRENCIES.map((c) => (
+                          <option key={c.id} value={c.id}>{c.label}</option>
+                        ))}
+                      </Select>
+                    </Stack>
+                    <Stack gap={2}>
+                      <Label>Date Format</Label>
+                      <Select
+                        value={formData.date_format}
+                        onChange={(e) => handleChange('date_format', e.target.value)}
+                      >
+                        {DATE_FORMATS.map((df) => (
+                          <option key={df.id} value={df.id}>{df.label}</option>
+                        ))}
+                      </Select>
+                    </Stack>
+                    <Stack gap={2}>
+                      <Label>Fiscal Year Start</Label>
+                      <Select
+                        value={formData.fiscal_year_start}
+                        onChange={(e) => handleChange('fiscal_year_start', e.target.value)}
+                      >
+                        {['January', 'February', 'March', 'April', 'May', 'June', 
+                          'July', 'August', 'September', 'October', 'November', 'December'].map((month) => (
+                          <option key={month} value={month}>{month}</option>
+                        ))}
+                      </Select>
+                    </Stack>
+                  </Stack>
+                </Card>
 
-        {/* Sidebar - Regional Settings */}
-        <div className="space-y-6">
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Regional Settings</H2>
-            <div className="space-y-4">
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Timezone
-                </Label>
-                <Select
-                  value={formData.timezone}
-                  onChange={(e) => handleChange('timezone', e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                >
-                  {TIMEZONES.map((tz) => (
-                    <option key={tz.id} value={tz.id}>{tz.label}</option>
-                  ))}
-                </Select>
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Currency
-                </Label>
-                <Select
-                  value={formData.currency}
-                  onChange={(e) => handleChange('currency', e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                >
-                  {CURRENCIES.map((c) => (
-                    <option key={c.id} value={c.id}>{c.label}</option>
-                  ))}
-                </Select>
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Date Format
-                </Label>
-                <Select
-                  value={formData.date_format}
-                  onChange={(e) => handleChange('date_format', e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                >
-                  {DATE_FORMATS.map((df) => (
-                    <option key={df.id} value={df.id}>{df.label}</option>
-                  ))}
-                </Select>
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Fiscal Year Start
-                </Label>
-                <Select
-                  value={formData.fiscal_year_start}
-                  onChange={(e) => handleChange('fiscal_year_start', e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                >
-                  {['January', 'February', 'March', 'April', 'May', 'June', 
-                    'July', 'August', 'September', 'October', 'November', 'December'].map((month) => (
-                    <option key={month} value={month}>{month}</option>
-                  ))}
-                </Select>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
-              <Upload className="h-5 w-5" />
-              Logo
-            </H2>
-            <div className="border-2 border-dashed border-border rounded-card p-8 text-center">
-              {formData.logo_url ? (
-                <div className="max-h-24 mx-auto mb-2 flex items-center justify-center">
-                  <Building2 className="h-12 w-12 text-primary" />
-                </div>
-              ) : (
-                <Building2 className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-              )}
-              <Body className="text-body-xs text-muted-foreground mb-2">
-                PNG, JPG up to 2MB
-              </Body>
-              <Button variant="outline" size="sm">
-                Upload Logo
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                <Card className="p-6">
+                  <Stack direction="horizontal" gap={2} className="items-center mb-4">
+                    <Upload className="h-5 w-5" />
+                    <H2>Logo</H2>
+                  </Stack>
+                  <Box className="border-2 border-dashed border-border rounded-card p-8 text-center">
+                    {formData.logo_url ? (
+                      <Box className="max-h-24 mx-auto mb-2 flex items-center justify-center">
+                        <Building2 className="h-12 w-12 text-primary" />
+                      </Box>
+                    ) : (
+                      <Building2 className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                    )}
+                    <Body size="xs" className="text-muted-foreground mb-2">
+                      PNG, JPG up to 2MB
+                    </Body>
+                    <Button variant="outline" size="sm">Upload Logo</Button>
+                  </Box>
+                </Card>
+              </Stack>
+            </Grid>
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

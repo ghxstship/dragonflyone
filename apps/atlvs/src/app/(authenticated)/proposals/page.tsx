@@ -1,17 +1,27 @@
 'use client';
 
 import {
+  Badge,
   Body,
-  H1,
+  Box,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H3,
   Input,
+  MainContent,
   Select,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Plus, Search, FileText, Eye, Send, Clock, CheckCircle, XCircle, Filter } from 'lucide-react';
+import { Search, FileText, Eye, Send, Clock, CheckCircle, XCircle, Filter } from 'lucide-react';
 import { useProposals } from '@/hooks/useProposals';
 
 const STATUS_CONFIG = {
@@ -24,6 +34,7 @@ const STATUS_CONFIG = {
 };
 
 export default function ProposalsPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('');
 
@@ -64,175 +75,161 @@ export default function ProposalsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded-card w-1/3" />
-          <div className="h-64 bg-muted rounded-card" />
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Proposals" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={4}>
+              <Grid cols={4} gap={4}>
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+              </Grid>
+              <Skeleton className="h-64" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 text-destructive">
-          Failed to load proposals. Please try again.
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Proposals" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load proposals"
+              description="Please try again."
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Proposals</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Create and manage client proposals
-          </Body>
-        </div>
-        <Link
-          href="/proposals/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          New Proposal
-        </Link>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Proposals"
+        subtitle="Create and manage client proposals"
+        primaryAction={{ label: 'New Proposal', onClick: () => router.push('/proposals/new') }}
+        secondaryActions={[
+          { label: 'Templates', onClick: () => router.push('/proposals/templates') }
+        ]}
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={4} gap={4}>
+              <Card className="p-4">
+                <Body size="xs" className="text-muted-foreground mb-1">Total Proposals</Body>
+                <Body className="font-weight-bold">{stats.total}</Body>
+              </Card>
+              <Card className="p-4 border-muted">
+                <Body size="xs" className="text-muted-foreground mb-1">Drafts</Body>
+                <Body className="font-weight-bold text-muted-foreground">{stats.draft}</Body>
+              </Card>
+              <Card className="p-4 border-primary/50">
+                <Body size="xs" className="text-muted-foreground mb-1">Sent/Pending</Body>
+                <Body className="font-weight-bold text-primary">{stats.sent}</Body>
+              </Card>
+              <Card className="p-4 border-success/50">
+                <Body size="xs" className="text-muted-foreground mb-1">Accepted</Body>
+                <Body className="font-weight-bold text-success">{stats.accepted}</Body>
+              </Card>
+            </Grid>
 
-      <div className="grid grid-cols-5 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <Body className="text-body-xs text-muted-foreground mb-1">Total Proposals</Body>
-          <Body className="text-h3-md font-weight-bold text-foreground">{stats.total}</Body>
-        </div>
-        <div className="bg-background border-2 border-muted rounded-card p-4">
-          <Body className="text-body-xs text-muted-foreground mb-1">Drafts</Body>
-          <Body className="text-h3-md font-weight-bold text-muted-foreground">{stats.draft}</Body>
-        </div>
-        <div className="bg-background border-2 border-primary/50 rounded-card p-4">
-          <Body className="text-body-xs text-muted-foreground mb-1">Sent/Pending</Body>
-          <Body className="text-h3-md font-weight-bold text-primary">{stats.sent}</Body>
-        </div>
-        <div className="bg-background border-2 border-success/50 rounded-card p-4">
-          <Body className="text-body-xs text-muted-foreground mb-1">Accepted</Body>
-          <Body className="text-h3-md font-weight-bold text-success">{stats.accepted}</Body>
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <Body className="text-body-xs text-muted-foreground mb-1">Total Value</Body>
-          <Body className="text-h3-md font-weight-bold text-foreground">{formatCurrency(stats.totalValue)}</Body>
-        </div>
-      </div>
+            <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
+              <Box className="relative flex-1 min-w-[200px] max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search proposals..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </Box>
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                  <option value="">All Status</option>
+                  {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Select>
+              </Stack>
+            </Stack>
 
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search proposals..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <Select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All Status</option>
-            {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </Select>
-        </div>
-        <Link
-          href="/proposals/templates"
-          className="px-3 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
-        >
-          Templates
-        </Link>
-      </div>
+            {filteredProposals.length === 0 ? (
+              <EmptyState
+                title="No proposals found"
+                description={searchQuery ? 'Try adjusting your search' : 'Create your first proposal'}
+                icon={<FileText className="h-12 w-12" />}
+                action={{ label: 'New Proposal', onClick: () => router.push('/proposals/new') }}
+              />
+            ) : (
+              <Stack gap={4}>
+                {filteredProposals.map((proposal) => {
+                  const statusConfig = STATUS_CONFIG[proposal.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.draft;
+                  const StatusIcon = statusConfig.icon;
+                  const isExpiringSoon = proposal.valid_until && 
+                    new Date(proposal.valid_until) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-      {filteredProposals.length === 0 && (
-        <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
-          <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No proposals found
-          </H3>
-          <Body className="text-body-sm text-muted-foreground mb-4">
-            {searchQuery ? 'Try adjusting your search' : 'Create your first proposal'}
-          </Body>
-          <Link
-            href="/proposals/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
-          >
-            <Plus className="h-4 w-4" />
-            New Proposal
-          </Link>
-        </div>
-      )}
-
-      {filteredProposals.length > 0 && (
-        <div className="space-y-4">
-          {filteredProposals.map((proposal) => {
-            const statusConfig = STATUS_CONFIG[proposal.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.draft;
-            const StatusIcon = statusConfig.icon;
-            const isExpiringSoon = proposal.valid_until && 
-              new Date(proposal.valid_until) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-
-            return (
-              <Link
-                key={proposal.id}
-                href={`/proposals/${proposal.id}`}
-                className="block bg-background border-2 border-border rounded-card p-6 hover:border-primary transition-colors"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <Text className="text-body-xs text-muted-foreground font-mono">
-                        {proposal.proposal_number}
-                      </Text>
-                      <Text className={`inline-flex items-center gap-1 px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
-                        <StatusIcon className="h-3 w-3" />
-                        {statusConfig.label}
-                      </Text>
-                      {isExpiringSoon && proposal.status !== 'accepted' && proposal.status !== 'declined' && (
-                        <Text className="px-2 py-1 bg-warning/20 text-warning rounded-badge text-body-xs font-weight-medium">
-                          Expires Soon
-                        </Text>
-                      )}
-                    </div>
-                    <H3 className="text-body-lg font-weight-semibold text-foreground mb-1">
-                      {proposal.name || 'Untitled Proposal'}
-                    </H3>
-                    <Body className="text-body-sm text-muted-foreground">
-                      {proposal.contact ? `${proposal.contact.first_name} ${proposal.contact.last_name}` : 'No client'} 
-                      {proposal.contact?.email && <Text className="ml-2 text-body-xs">({proposal.contact.email})</Text>}
-                    </Body>
-                  </div>
-                  <div className="text-right">
-                    <Body className="text-h4-md font-weight-bold text-foreground">
-                      {formatCurrency(proposal.total || 0)}
-                    </Body>
-                    <Body className="text-body-xs text-muted-foreground mt-1">
-                      {proposal.viewed_at ? (
-                        <>Viewed {new Date(proposal.viewed_at).toLocaleDateString()}</>
-                      ) : proposal.sent_at ? (
-                        <>Sent {new Date(proposal.sent_at).toLocaleDateString()}</>
-                      ) : (
-                        <>Created {new Date(proposal.created_at).toLocaleDateString()}</>
-                      )}
-                    </Body>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      )}
-    </div>
+                  return (
+                    <Link key={proposal.id} href={`/proposals/${proposal.id}`}>
+                      <Card className="p-6 hover:border-primary transition-colors">
+                        <Stack direction="horizontal" className="justify-between items-start">
+                          <Box className="flex-1">
+                            <Stack direction="horizontal" gap={3} className="items-center mb-2">
+                              <Text size="xs" className="text-muted-foreground font-mono">
+                                {proposal.proposal_number}
+                              </Text>
+                              <Badge className={statusConfig.color}>
+                                <StatusIcon className="h-3 w-3 mr-1" />
+                                {statusConfig.label}
+                              </Badge>
+                              {isExpiringSoon && proposal.status !== 'accepted' && proposal.status !== 'declined' && (
+                                <Badge className="bg-warning/20 text-warning">Expires Soon</Badge>
+                              )}
+                            </Stack>
+                            <H3 className="mb-1">{proposal.name || 'Untitled Proposal'}</H3>
+                            <Body size="sm" className="text-muted-foreground">
+                              {proposal.contact ? `${proposal.contact.first_name} ${proposal.contact.last_name}` : 'No client'} 
+                              {proposal.contact?.email && <Text size="xs" className="ml-2">({proposal.contact.email})</Text>}
+                            </Body>
+                          </Box>
+                          <Box className="text-right">
+                            <Body className="font-weight-bold">
+                              {formatCurrency(proposal.total || 0)}
+                            </Body>
+                            <Body size="xs" className="text-muted-foreground mt-1">
+                              {proposal.viewed_at ? (
+                                <>Viewed {new Date(proposal.viewed_at).toLocaleDateString()}</>
+                              ) : proposal.sent_at ? (
+                                <>Sent {new Date(proposal.sent_at).toLocaleDateString()}</>
+                              ) : (
+                                <>Created {new Date(proposal.created_at).toLocaleDateString()}</>
+                              )}
+                            </Body>
+                          </Box>
+                        </Stack>
+                      </Card>
+                    </Link>
+                  );
+                })}
+              </Stack>
+            )}
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

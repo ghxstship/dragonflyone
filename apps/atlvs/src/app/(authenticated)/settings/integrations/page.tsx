@@ -2,15 +2,22 @@
 
 import {
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EnterprisePageHeader,
+  Grid,
   H3,
+  MainContent,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Globe, Check, ExternalLink, Settings, Zap, CreditCard, PieChart, Calendar, Mail, Cloud, Hexagon, MessageSquare, Smartphone, type LucideIcon } from 'lucide-react';
+import { Check, ExternalLink, Settings, Zap, CreditCard, PieChart, Calendar, Mail, Cloud, Hexagon, MessageSquare, Smartphone, type LucideIcon } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -179,130 +186,126 @@ export default function IntegrationsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading integrations...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Integrations" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container size="lg">
+            <Grid cols={2} gap={4}>
+              <Skeleton className="h-40" />
+              <Skeleton className="h-40" />
+              <Skeleton className="h-40" />
+              <Skeleton className="h-40" />
+            </Grid>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center gap-4">
-        <Link
-          href="/settings"
-          className="p-2 hover:bg-muted rounded-button transition-colors"
-        >
-          <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-        </Link>
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
-            <Globe className="h-6 w-6" />
-            Integrations
-          </H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            {connectedCount} of {integrations.length} integrations connected
-          </Body>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-2 overflow-x-auto pb-2">
-        {CATEGORIES.map((category) => (
-          <Button
-            key={category.id}
-            onClick={() => setSelectedCategory(category.id)}
-            className={`px-4 py-2 rounded-button text-body-sm whitespace-nowrap transition-colors ${
-              selectedCategory === category.id
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted hover:bg-muted/80 text-foreground'
-            }`}
-          >
-            {category.name}
-          </Button>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filteredIntegrations.map((integration) => (
-          <div
-            key={integration.id}
-            className={`bg-background border-2 rounded-card p-4 ${
-              integration.is_connected ? 'border-primary' : 'border-border'
-            }`}
-          >
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex items-center gap-3">
-                {(() => {
-                  const IconComponent = ICON_MAP[integration.icon];
-                  return IconComponent ? <IconComponent className="h-6 w-6 text-muted-foreground" /> : null;
-                })()}
-                <div>
-                  <H3 className="text-body-md font-weight-semibold text-foreground flex items-center gap-2">
-                    {integration.name}
-                    {integration.is_connected && (
-                      <Check className="h-4 w-4 text-success" />
-                    )}
-                  </H3>
-                  <Body className="text-body-xs text-muted-foreground capitalize">
-                    {integration.category}
-                  </Body>
-                </div>
-              </div>
-              {integration.is_connected && integration.settings_url && (
-                <Link
-                  href={integration.settings_url}
-                  className="p-1.5 hover:bg-muted rounded-button transition-colors"
-                >
-                  <Settings className="h-4 w-4 text-muted-foreground" />
-                </Link>
-              )}
-            </div>
-            <Body className="text-body-sm text-muted-foreground mb-4">
-              {integration.description}
-            </Body>
-            {integration.is_connected ? (
-              <div className="flex items-center justify-between">
-                <Text className="text-body-xs text-success flex items-center gap-1">
-                  <Zap className="h-3 w-3" />
-                  Connected
-                </Text>
+    <>
+      <EnterprisePageHeader
+        title="Integrations"
+        subtitle={`${connectedCount} of ${integrations.length} integrations connected`}
+      />
+      <MainContent padding="lg">
+        <Container size="lg">
+          <Stack gap={6}>
+            <Stack direction="horizontal" gap={2} className="overflow-x-auto pb-2">
+              {CATEGORIES.map((category) => (
                 <Button
-                  onClick={() => {
-                    if (confirm('Disconnect this integration?')) {
-                      disconnectIntegration.mutate(integration.id);
-                    }
-                  }}
-                  className="text-body-xs text-destructive hover:underline"
+                  key={category.id}
+                  variant={selectedCategory === category.id ? 'solid' : 'outline'}
+                  onClick={() => setSelectedCategory(category.id)}
+                  size="sm"
                 >
-                  Disconnect
+                  {category.name}
                 </Button>
-              </div>
-            ) : (
-              <Button
-                onClick={() => connectIntegration.mutate(integration.id)}
-                disabled={connectIntegration.isPending}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors disabled:opacity-50"
-              >
-                <ExternalLink className="h-4 w-4" />
-                <Text className="text-body-sm">Connect</Text>
-              </Button>
-            )}
-          </div>
-        ))}
-      </div>
+              ))}
+            </Stack>
 
-      <div className="bg-muted/30 border-2 border-dashed border-border rounded-card p-6 text-center">
-        <Zap className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-        <H3 className="text-body-md font-weight-semibold text-foreground">Need a custom integration?</H3>
-        <Body className="text-body-sm text-muted-foreground mt-1 mb-4">
-          Use our API to build custom integrations
-        </Body>
-        <Link
-          href="/settings/api"
-          className="text-primary text-body-sm hover:underline"
-        >
-          View API Documentation
-        </Link>
-      </div>
-    </div>
+            <Grid cols={2} gap={4}>
+              {filteredIntegrations.map((integration) => (
+                <Card
+                  key={integration.id}
+                  className={`p-4 ${integration.is_connected ? 'border-primary' : ''}`}
+                >
+                  <Stack direction="horizontal" className="justify-between mb-3">
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      {(() => {
+                        const IconComponent = ICON_MAP[integration.icon];
+                        return IconComponent ? <IconComponent className="h-6 w-6 text-muted-foreground" /> : null;
+                      })()}
+                      <Stack gap={0}>
+                        <Stack direction="horizontal" gap={2} className="items-center">
+                          <H3>{integration.name}</H3>
+                          {integration.is_connected && (
+                            <Check className="h-4 w-4 text-success" />
+                          )}
+                        </Stack>
+                        <Body size="xs" className="text-muted-foreground capitalize">
+                          {integration.category}
+                        </Body>
+                      </Stack>
+                    </Stack>
+                    {integration.is_connected && integration.settings_url && (
+                      <Link href={integration.settings_url}>
+                        <Button variant="ghost" size="sm">
+                          <Settings className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                    )}
+                  </Stack>
+                  <Body size="sm" className="text-muted-foreground mb-4">
+                    {integration.description}
+                  </Body>
+                  {integration.is_connected ? (
+                    <Stack direction="horizontal" className="justify-between items-center">
+                      <Text size="xs" className="text-success flex items-center gap-1">
+                        <Zap className="h-3 w-3" />
+                        Connected
+                      </Text>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          if (confirm('Disconnect this integration?')) {
+                            disconnectIntegration.mutate(integration.id);
+                          }
+                        }}
+                        className="text-destructive"
+                      >
+                        Disconnect
+                      </Button>
+                    </Stack>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      onClick={() => connectIntegration.mutate(integration.id)}
+                      disabled={connectIntegration.isPending}
+                      className="w-full"
+                    >
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      Connect
+                    </Button>
+                  )}
+                </Card>
+              ))}
+            </Grid>
+
+            <Box className="bg-muted/30 border-2 border-dashed border-border rounded-card p-6 text-center">
+              <Zap className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+              <H3>Need a custom integration?</H3>
+              <Body size="sm" className="text-muted-foreground mt-1 mb-4">
+                Use our API to build custom integrations
+              </Body>
+              <Link href="/settings/api" className="text-primary hover:underline">
+                <Text size="sm">View API Documentation</Text>
+              </Link>
+            </Box>
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

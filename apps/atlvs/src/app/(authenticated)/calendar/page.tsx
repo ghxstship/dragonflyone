@@ -1,20 +1,31 @@
 'use client';
 
 import {
+  Badge,
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
+  MainContent,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight, Plus, Calendar as CalendarIcon, Grid3X3, Clock } from 'lucide-react';
 import { useCalendarEvents } from '@/hooks/useCalendar';
 
 type ViewMode = 'month' | 'week' | 'day' | 'agenda';
 
 export default function CalendarPage() {
+  const router = useRouter();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<ViewMode>('month');
 
@@ -90,206 +101,198 @@ export default function CalendarPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading calendar...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Calendar" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Skeleton className="h-96" />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <Body className="text-destructive">Failed to load calendar</Body>
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Calendar" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load calendar"
+              description="There was an error loading your calendar events."
+              action={{ label: 'Retry', onClick: () => router.refresh() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="p-6 border-b border-border">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <H1 className="text-h2-md font-weight-bold text-foreground">Calendar</H1>
-            <div className="flex items-center gap-2">
-              <Button
-                onClick={navigatePrev}
-                className="p-2 hover:bg-muted rounded-button transition-colors"
-              >
-                <ChevronLeft className="h-5 w-5 text-muted-foreground" />
-              </Button>
-              <Text className="text-body-md font-weight-medium text-foreground min-w-[180px] text-center">
-                {formatMonthYear()}
-              </Text>
-              <Button
-                onClick={navigateNext}
-                className="p-2 hover:bg-muted rounded-button transition-colors"
-              >
-                <ChevronRight className="h-5 w-5 text-muted-foreground" />
-              </Button>
-              <Button
-                onClick={goToToday}
-                className="ml-2 px-3 py-1 text-body-sm border-2 border-border rounded-button hover:bg-muted transition-colors"
-              >
-                Today
-              </Button>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center border-2 border-border rounded-button overflow-hidden">
+    <Box className="h-full flex flex-col">
+      <EnterprisePageHeader
+        title="Calendar"
+        subtitle={formatMonthYear()}
+        primaryAction={{ label: 'New Booking', onClick: () => router.push('/bookings/new') }}
+      />
+      <Box className="px-6 py-3 border-b border-border">
+        <Stack direction="horizontal" className="justify-between">
+          <Stack direction="horizontal" gap={2} className="items-center">
+            <Button variant="ghost" size="sm" onClick={navigatePrev}>
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            <Text className="font-weight-medium min-w-[180px] text-center">
+              {formatMonthYear()}
+            </Text>
+            <Button variant="ghost" size="sm" onClick={navigateNext}>
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+            <Button variant="outline" size="sm" onClick={goToToday} className="ml-2">
+              Today
+            </Button>
+          </Stack>
+          <Stack direction="horizontal" gap={3}>
+            <Stack direction="horizontal" className="border-2 border-border rounded-button overflow-hidden">
               {(['month', 'week', 'day', 'agenda'] as ViewMode[]).map((mode) => (
                 <Button
                   key={mode}
+                  variant={viewMode === mode ? 'solid' : 'ghost'}
+                  size="sm"
                   onClick={() => setViewMode(mode)}
-                  className={`px-3 py-1.5 text-body-sm capitalize ${
-                    viewMode === mode
-                      ? 'bg-primary text-primary-foreground'
-                      : 'hover:bg-muted'
-                  }`}
+                  className="rounded-none capitalize"
                 >
                   {mode}
                 </Button>
               ))}
-            </div>
-            <Link
-              href="/calendar/spaces"
-              className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-            >
-              <Grid3X3 className="h-4 w-4" />
-              <Text className="text-body-sm">Spaces</Text>
+            </Stack>
+            <Link href="/calendar/spaces">
+              <Button variant="outline" size="sm">
+                <Grid3X3 className="h-4 w-4 mr-2" />
+                Spaces
+              </Button>
             </Link>
-            <Link
-              href="/bookings/new"
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
-            >
-              <Plus className="h-4 w-4" />
-              <Text className="text-body-sm font-weight-medium">New Booking</Text>
-            </Link>
-          </div>
-        </div>
-      </div>
+          </Stack>
+        </Stack>
+      </Box>
 
-      <div className="flex-1 overflow-auto p-6">
+      <Box className="flex-1 overflow-auto p-6">
         {viewMode === 'month' && (
-          <div className="h-full">
-            <div className="grid grid-cols-7 border-l border-t border-border">
+          <Box className="h-full">
+            <Grid cols={7} className="border-l border-t border-border">
               {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                <div
+                <Box
                   key={day}
-                  className="p-2 text-center text-body-sm font-weight-medium text-muted-foreground border-r border-b border-border bg-muted/50"
+                  className="p-2 text-center font-weight-medium text-muted-foreground border-r border-b border-border bg-muted/50"
                 >
-                  {day}
-                </div>
+                  <Text size="sm">{day}</Text>
+                </Box>
               ))}
               {getDaysInMonth().map((day, index) => (
-                <div
+                <Box
                   key={index}
                   className={`min-h-[100px] p-2 border-r border-b border-border ${
                     day.isCurrentMonth ? 'bg-background' : 'bg-muted/30'
                   }`}
                 >
-                  <div className={`text-body-sm mb-1 ${
+                  <Box className={`mb-1 ${
                     isToday(day.date)
                       ? 'w-7 h-7 flex items-center justify-center bg-primary text-primary-foreground rounded-avatar font-weight-bold'
                       : day.isCurrentMonth
                         ? 'text-foreground'
                         : 'text-muted-foreground'
                   }`}>
-                    {day.date.getDate()}
-                  </div>
-                  <div className="space-y-1">
+                    <Text size="sm">{day.date.getDate()}</Text>
+                  </Box>
+                  <Stack gap={1}>
                     {day.events.slice(0, 3).map((event) => (
                       <Link
                         key={event.id}
                         href={event.type === 'booking' ? `/bookings/${event.id}` : '#'}
-                        className={`block px-2 py-0.5 text-body-xs truncate rounded ${
+                        className={`block px-2 py-0.5 truncate rounded ${
                           event.type === 'hold'
                             ? 'bg-success-100 text-success-600 border-2 border-success-200'
                             : 'bg-primary/10 text-primary border-2 border-primary/20'
                         }`}
                         style={event.color ? { backgroundColor: `${event.color}20`, color: event.color, borderColor: `${event.color}40` } : {}}
                       >
-                        {event.title}
+                        <Text size="xs">{event.title}</Text>
                       </Link>
                     ))}
                     {day.events.length > 3 && (
-                      <div className="text-body-xs text-muted-foreground px-2">
+                      <Text size="xs" className="text-muted-foreground px-2">
                         +{day.events.length - 3} more
-                      </div>
+                      </Text>
                     )}
-                  </div>
-                </div>
+                  </Stack>
+                </Box>
               ))}
-            </div>
-          </div>
+            </Grid>
+          </Box>
         )}
 
         {viewMode === 'agenda' && (
-          <div className="space-y-4">
+          <Stack gap={4}>
             {events.length === 0 ? (
-              <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
-                <CalendarIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <Body className="text-body-md text-muted-foreground">No events in this period</Body>
-              </div>
+              <EmptyState
+                title="No events in this period"
+                description="There are no events scheduled for this time period."
+                icon={<CalendarIcon className="h-12 w-12" />}
+              />
             ) : (
               events.map((event) => (
-                <div
-                  key={event.id}
-                  className="flex items-start gap-4 p-4 bg-background border-2 border-border rounded-card hover:shadow-md transition-shadow"
-                >
-                  <div className="flex-shrink-0 text-center">
-                    <div className="text-body-xs text-muted-foreground uppercase">
-                      {new Date(event.date).toLocaleDateString('en-US', { weekday: 'short' })}
-                    </div>
-                    <div className="text-h3-md font-weight-bold text-foreground">
-                      {new Date(event.date).getDate()}
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <Link
-                      href={event.type === 'booking' ? `/bookings/${event.id}` : '#'}
-                      className="text-body-md font-weight-medium text-foreground hover:text-primary"
+                <Card key={event.id} className="p-4 hover:shadow-md transition-shadow">
+                  <Stack direction="horizontal" gap={4} className="items-start">
+                    <Box className="flex-shrink-0 text-center">
+                      <Text size="xs" className="text-muted-foreground uppercase">
+                        {new Date(event.date).toLocaleDateString('en-US', { weekday: 'short' })}
+                      </Text>
+                      <Body className="font-weight-bold">
+                        {new Date(event.date).getDate()}
+                      </Body>
+                    </Box>
+                    <Box className="flex-1">
+                      <Link
+                        href={event.type === 'booking' ? `/bookings/${event.id}` : '#'}
+                        className="font-weight-medium hover:text-primary"
+                      >
+                        <Text>{event.title}</Text>
+                      </Link>
+                      <Stack direction="horizontal" gap={4} className="mt-1">
+                        {event.start_time && (
+                          <Text size="sm" className="text-muted-foreground flex items-center gap-1">
+                            <Clock className="h-4 w-4" />
+                            {event.start_time} - {event.end_time}
+                          </Text>
+                        )}
+                        {event.venue && (
+                          <Text size="sm" className="text-muted-foreground">
+                            {(event.venue as { name: string }).name}
+                          </Text>
+                        )}
+                      </Stack>
+                    </Box>
+                    <Badge
+                      variant={event.status === 'confirmed' ? 'success' : event.status === 'pending' ? 'warning' : 'error'}
+                      className="capitalize"
                     >
-                      {event.title}
-                    </Link>
-                    <div className="flex items-center gap-4 mt-1 text-body-sm text-muted-foreground">
-                      {event.start_time && (
-                        <Text className="flex items-center gap-1">
-                          <Clock className="h-4 w-4" />
-                          {event.start_time} - {event.end_time}
-                        </Text>
-                      )}
-                      {event.venue && (
-                        <Text>{(event.venue as { name: string }).name}</Text>
-                      )}
-                    </div>
-                  </div>
-                  <Text
-                    className={`px-2 py-1 text-body-xs rounded capitalize ${
-                      event.status === 'confirmed'
-                        ? 'bg-success-100 text-success-800'
-                        : event.status === 'pending'
-                          ? 'bg-warning-100 text-warning-800'
-                          : 'bg-ink-100 text-error-600'
-                    }`}
-                  >
-                    {event.status}
-                  </Text>
-                </div>
+                      {event.status}
+                    </Badge>
+                  </Stack>
+                </Card>
               ))
             )}
-          </div>
+          </Stack>
         )}
 
         {(viewMode === 'week' || viewMode === 'day') && (
-          <div className="text-center py-12 text-muted-foreground">
-            <CalendarIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <Body>{viewMode === 'week' ? 'Week' : 'Day'} view coming soon</Body>
-            <Body className="text-body-sm mt-1">Use Month or Agenda view for now</Body>
-          </div>
+          <EmptyState
+            title={`${viewMode === 'week' ? 'Week' : 'Day'} view coming soon`}
+            description="Use Month or Agenda view for now"
+            icon={<CalendarIcon className="h-12 w-12" />}
+          />
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

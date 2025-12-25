@@ -1,17 +1,25 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
+  Badge,
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H3,
   Input,
+  MainContent,
   Select,
-  Text,
   Skeleton,
-  EmptyState,
+  Stack,
+  Text,
   useNotifications,
 } from '@ghxstship/ui';
 import Link from 'next/link';
@@ -50,6 +58,7 @@ async function fetchPendingApprovals(): Promise<PendingApproval[]> {
 }
 
 export default function ApprovalsPage() {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { addNotification } = useNotifications();
   const [searchQuery, setSearchQuery] = useState('');
@@ -133,33 +142,36 @@ export default function ApprovalsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <Skeleton className="h-8 w-48" />
-            <Skeleton className="h-4 w-64 mt-2" />
-          </div>
-          <Skeleton className="h-10 w-32" />
-        </div>
-        <div className="grid grid-cols-3 gap-4">
-          <Skeleton className="h-24" />
-          <Skeleton className="h-24" />
-          <Skeleton className="h-24" />
-        </div>
-        <Skeleton className="h-64" />
-      </div>
+      <>
+        <EnterprisePageHeader title="Pending Approvals" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={4}>
+              <Grid cols={3} gap={4}>
+                {[1,2,3].map(i => <Skeleton key={i} className="h-24" />)}
+              </Grid>
+              <Skeleton className="h-64" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error && !apiApprovals) {
     return (
-      <div className="p-6">
-        <EmptyState
-          title="Error Loading Approvals"
-          description={error instanceof Error ? error.message : 'Failed to load pending approvals'}
-          action={{ label: 'Retry', onClick: () => window.location.reload() }}
-        />
-      </div>
+      <>
+        <EnterprisePageHeader title="Pending Approvals" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Error Loading Approvals"
+              description={error instanceof Error ? error.message : 'Failed to load pending approvals'}
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
@@ -168,155 +180,129 @@ export default function ApprovalsPage() {
   const urgentCount = approvals.filter((a) => a.urgency === 'high').length;
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Pending Approvals</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Review and approve vendor orders
-          </Body>
-        </div>
-        <Link
-          href="/vendor-orders"
-          className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
-        >
-          View All Orders
-        </Link>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Pending Approvals"
+        subtitle="Review and approve vendor orders"
+        secondaryAction={{ label: 'View All Orders', onClick: () => router.push('/vendor-orders') }}
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={3} gap={4}>
+              <Card className="p-4 border-warning/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Clock className="h-5 w-5 text-warning" />
+                  <Text size="sm" className="text-muted-foreground">Pending</Text>
+                </Stack>
+                <Body className="font-weight-bold text-warning">{totalPending}</Body>
+              </Card>
+              <Card className="p-4 border-destructive/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Clock className="h-5 w-5 text-destructive" />
+                  <Text size="sm" className="text-muted-foreground">Urgent</Text>
+                </Stack>
+                <Body className="font-weight-bold text-destructive">{urgentCount}</Body>
+              </Card>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <DollarSign className="h-5 w-5 text-primary" />
+                  <Text size="sm" className="text-muted-foreground">Total Value</Text>
+                </Stack>
+                <Body className="font-weight-bold">{formatCurrency(totalValue)}</Body>
+              </Card>
+            </Grid>
 
-      <div className="grid grid-cols-3 gap-4">
-        <div className="bg-background border-2 border-warning/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-5 w-5 text-warning" />
-            <Text className="text-body-sm text-muted-foreground">Pending</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-warning">{totalPending}</Body>
-        </div>
-        <div className="bg-background border-2 border-destructive/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-5 w-5 text-destructive" />
-            <Text className="text-body-sm text-muted-foreground">Urgent</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-destructive">{urgentCount}</Body>
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <DollarSign className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Total Value</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{formatCurrency(totalValue)}</Body>
-        </div>
-      </div>
+            <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
+              <Box className="relative flex-1 min-w-[200px] max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search orders..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </Box>
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select value={urgencyFilter} onChange={(e) => setUrgencyFilter(e.target.value)}>
+                  <option value="">All Urgency</option>
+                  {Object.entries(URGENCY_CONFIG).map(([value, { label }]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Select>
+              </Stack>
+            </Stack>
 
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search orders..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <Select
-            value={urgencyFilter}
-            onChange={(e) => setUrgencyFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All Urgency</option>
-            {Object.entries(URGENCY_CONFIG).map(([value, { label }]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </Select>
-        </div>
-      </div>
+            {filteredApprovals.length === 0 ? (
+              <EmptyState
+                title="No pending approvals"
+                description="All vendor orders have been processed"
+                icon={<CheckCircle className="h-12 w-12 text-success" />}
+              />
+            ) : (
+              <Stack gap={4}>
+                {filteredApprovals.map((approval) => {
+                  const urgencyConfig = URGENCY_CONFIG[approval.urgency];
+                  const isProcessing = approveMutation.isPending || rejectMutation.isPending;
 
-      {filteredApprovals.length === 0 && (
-        <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
-          <CheckCircle className="h-12 w-12 text-success mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No pending approvals
-          </H3>
-          <Body className="text-body-sm text-muted-foreground">
-            All vendor orders have been processed
-          </Body>
-        </div>
-      )}
-
-      {filteredApprovals.length > 0 && (
-        <div className="space-y-4">
-          {filteredApprovals.map((approval) => {
-            const urgencyConfig = URGENCY_CONFIG[approval.urgency];
-            const isProcessing = approveMutation.isPending || rejectMutation.isPending;
-
-            return (
-              <div
-                key={approval.id}
-                className="bg-background border-2 border-border rounded-card p-6"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <Link
-                        href={`/vendor-orders/${approval.order_id}`}
-                        className="text-body-xs text-primary font-mono hover:underline"
-                      >
-                        {approval.order_number}
-                      </Link>
-                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${urgencyConfig.color}`}>
-                        {urgencyConfig.label}
-                      </Text>
-                    </div>
-                    <H3 className="text-body-lg font-weight-semibold text-foreground mb-1">
-                      {approval.vendor_name}
-                    </H3>
-                    <Body className="text-body-sm text-muted-foreground">
-                      {approval.items_count} items
-                      {approval.event_name && ` for ${approval.event_name}`}
-                    </Body>
-                    <div className="flex items-center gap-4 mt-2 text-body-xs text-muted-foreground">
-                      <Text className="flex items-center gap-1">
-                        <User className="h-3 w-3" />
-                        {approval.requested_by}
-                      </Text>
-                      <Text className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {formatDate(approval.requested_at)}
-                      </Text>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <Body className="text-h4-md font-weight-bold text-foreground mb-4">
-                      {formatCurrency(approval.total_amount)}
-                    </Body>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        onClick={() => handleReject(approval.id)}
-                        disabled={isProcessing}
-                        className="inline-flex items-center gap-2 px-3 py-1.5 border-2 border-destructive text-destructive rounded-button text-body-sm font-weight-medium hover:bg-destructive/10 transition-colors disabled:opacity-50"
-                      >
-                        <XCircle className="h-4 w-4" />
-                        Reject
-                      </Button>
-                      <Button
-                        onClick={() => handleApprove(approval.id)}
-                        disabled={isProcessing}
-                        className="inline-flex items-center gap-2 px-3 py-1.5 bg-success text-success-foreground border-2 border-success rounded-button text-body-sm font-weight-medium hover:bg-success/90 transition-colors disabled:opacity-50"
-                      >
-                        <CheckCircle className="h-4 w-4" />
-                        Approve
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </div>
+                  return (
+                    <Card key={approval.id} className="p-6">
+                      <Stack direction="horizontal" className="justify-between items-start">
+                        <Box className="flex-1">
+                          <Stack direction="horizontal" gap={3} className="items-center mb-2">
+                            <Link href={`/vendor-orders/${approval.order_id}`} className="text-primary font-mono hover:underline">
+                              <Text size="xs">{approval.order_number}</Text>
+                            </Link>
+                            <Badge className={urgencyConfig.color}>{urgencyConfig.label}</Badge>
+                          </Stack>
+                          <H3 className="mb-1">{approval.vendor_name}</H3>
+                          <Body size="sm" className="text-muted-foreground">
+                            {approval.items_count} items{approval.event_name && ` for ${approval.event_name}`}
+                          </Body>
+                          <Stack direction="horizontal" gap={4} className="mt-2 text-muted-foreground">
+                            <Stack direction="horizontal" gap={1} className="items-center">
+                              <User className="h-3 w-3" />
+                              <Text size="xs">{approval.requested_by}</Text>
+                            </Stack>
+                            <Stack direction="horizontal" gap={1} className="items-center">
+                              <Clock className="h-3 w-3" />
+                              <Text size="xs">{formatDate(approval.requested_at)}</Text>
+                            </Stack>
+                          </Stack>
+                        </Box>
+                        <Box className="text-right">
+                          <Body className="font-weight-bold mb-4">{formatCurrency(approval.total_amount)}</Body>
+                          <Stack direction="horizontal" gap={2}>
+                            <Button
+                              variant="outline"
+                              onClick={() => handleReject(approval.id)}
+                              disabled={isProcessing}
+                              className="text-destructive border-destructive"
+                            >
+                              <XCircle className="h-4 w-4 mr-2" />
+                              Reject
+                            </Button>
+                            <Button
+                              onClick={() => handleApprove(approval.id)}
+                              disabled={isProcessing}
+                              className="bg-success text-success-foreground border-success"
+                            >
+                              <CheckCircle className="h-4 w-4 mr-2" />
+                              Approve
+                            </Button>
+                          </Stack>
+                        </Box>
+                      </Stack>
+                    </Card>
+                  );
+                })}
+              </Stack>
+            )}
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

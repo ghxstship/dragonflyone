@@ -1,20 +1,29 @@
 'use client';
 
 import {
+  Alert,
+  Badge,
   Body,
+  Box,
   Button,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
   Form,
-  H1,
+  Grid,
   H2,
-  H3,
   Input,
   Label,
+  MainContent,
+  Modal,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, Shield, Key, Smartphone, Monitor, Clock, AlertTriangle, Check, LogOut, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { Shield, Key, Smartphone, Monitor, Clock, AlertTriangle, Check, LogOut, Eye, EyeOff } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface SecuritySettings {
@@ -139,356 +148,316 @@ export default function SecuritySettingsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading security settings...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Security Settings" subtitle="Manage your account security" />
+        <MainContent padding="lg">
+          <Container size="md">
+            <Stack gap={6}>
+              <Grid cols={2} gap={6}>
+                <Skeleton className="h-48" />
+                <Skeleton className="h-48" />
+              </Grid>
+              <Skeleton className="h-64" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
-          <AlertCircle className="h-5 w-5 text-destructive" />
-          <Text className="text-destructive">Failed to load security settings</Text>
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Security Settings" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container size="md">
+            <EmptyState
+              title="Failed to load security settings"
+              description="There was an error loading your security settings. Please try again."
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center gap-4">
-        <Link
-          href="/settings"
-          className="p-2 hover:bg-muted rounded-button transition-colors"
-        >
-          <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-        </Link>
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
-            <Shield className="h-6 w-6" />
-            Security Settings
-          </H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Manage your account security and active sessions
-          </Body>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-6">
-        {/* Password Section */}
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <div className="flex items-center justify-between mb-4">
-            <H2 className="text-h4-md font-weight-semibold text-foreground flex items-center gap-2">
-              <Key className="h-5 w-5" />
-              Password
-            </H2>
-            <Button
-              onClick={() => setShowPasswordModal(true)}
-              className="px-3 py-1.5 text-body-sm text-primary hover:bg-primary/10 rounded-button transition-colors"
-            >
-              Change Password
-            </Button>
-          </div>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
-              <Text className="text-body-sm text-foreground">Last changed</Text>
-              <Text className="text-body-sm text-muted-foreground">
-                {formatDate(settings.password_last_changed)}
-              </Text>
-            </div>
-            {daysSincePasswordChange() > 90 && (
-              <div className="flex items-center gap-2 p-3 bg-warning/10 border-2 border-warning rounded-card">
-                <AlertTriangle className="h-4 w-4 text-warning" />
-                <Text className="text-body-sm text-warning">
-                  Your password is {daysSincePasswordChange()} days old. Consider updating it.
-                </Text>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* 2FA Section */}
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <div className="flex items-center justify-between mb-4">
-            <H2 className="text-h4-md font-weight-semibold text-foreground flex items-center gap-2">
-              <Smartphone className="h-5 w-5" />
-              Two-Factor Authentication
-            </H2>
-            <Button
-              onClick={() => setShow2FAModal(true)}
-              className={`px-3 py-1.5 text-body-sm rounded-button transition-colors ${
-                settings.two_factor_enabled
-                  ? 'text-destructive hover:bg-destructive/10'
-                  : 'text-primary hover:bg-primary/10'
-              }`}
-            >
-              {settings.two_factor_enabled ? 'Disable' : 'Enable'}
-            </Button>
-          </div>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
-              <Text className="text-body-sm text-foreground">Status</Text>
-              <Text className={`flex items-center gap-1 text-body-sm ${
-                settings.two_factor_enabled ? 'text-success' : 'text-muted-foreground'
-              }`}>
-                {settings.two_factor_enabled ? (
-                  <>
-                    <Check className="h-4 w-4" />
-                    Enabled
-                  </>
-                ) : (
-                  'Disabled'
-                )}
-              </Text>
-            </div>
-            {settings.two_factor_enabled && settings.two_factor_method && (
-              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
-                <Text className="text-body-sm text-foreground">Method</Text>
-                <Text className="text-body-sm text-muted-foreground capitalize">
-                  {settings.two_factor_method}
-                </Text>
-              </div>
-            )}
-            {!settings.two_factor_enabled && (
-              <div className="flex items-center gap-2 p-3 bg-warning/10 border-2 border-warning rounded-card">
-                <AlertTriangle className="h-4 w-4 text-warning" />
-                <Text className="text-body-sm text-warning">
-                  Enable 2FA for enhanced account security
-                </Text>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Active Sessions */}
-      <div className="bg-background border-2 border-border rounded-card p-6">
-        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
-          <Monitor className="h-5 w-5" />
-          Active Sessions
-        </H2>
-        <div className="space-y-3">
-          {settings.sessions.map((session) => (
-            <div
-              key={session.id}
-              className={`p-4 rounded-card border-2 ${
-                session.is_current ? 'border-primary bg-primary/5' : 'border-border'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <Monitor className="h-8 w-8 text-muted-foreground" />
-                  <div>
-                    <Body className="text-body-sm font-weight-medium text-foreground flex items-center gap-2">
-                      {session.device} • {session.browser}
-                      {session.is_current && (
-                        <Text className="text-body-xs bg-primary text-primary-foreground px-2 py-0.5 rounded">
-                          Current
+    <>
+      <EnterprisePageHeader
+        title="Security Settings"
+        subtitle="Manage your account security and active sessions"
+      />
+      <MainContent padding="lg">
+        <Container size="md">
+          <Stack gap={6}>
+            <Grid cols={2} gap={6}>
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-4">
+                  <H2 className="flex items-center gap-2">
+                    <Key className="h-5 w-5" />
+                    Password
+                  </H2>
+                  <Button variant="ghost" onClick={() => setShowPasswordModal(true)}>
+                    Change Password
+                  </Button>
+                </Stack>
+                <Stack gap={3}>
+                  <Box className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
+                    <Text size="sm">Last changed</Text>
+                    <Text size="sm" className="text-muted-foreground">
+                      {formatDate(settings.password_last_changed)}
+                    </Text>
+                  </Box>
+                  {daysSincePasswordChange() > 90 && (
+                    <Alert variant="warning">
+                      <Stack direction="horizontal" gap={2} className="items-center">
+                        <AlertTriangle className="h-4 w-4" />
+                        <Text size="sm">
+                          Your password is {daysSincePasswordChange()} days old. Consider updating it.
                         </Text>
+                      </Stack>
+                    </Alert>
+                  )}
+                </Stack>
+              </Card>
+
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-4">
+                  <H2 className="flex items-center gap-2">
+                    <Smartphone className="h-5 w-5" />
+                    Two-Factor Authentication
+                  </H2>
+                  <Button
+                    variant={settings.two_factor_enabled ? 'destructive' : 'ghost'}
+                    onClick={() => setShow2FAModal(true)}
+                  >
+                    {settings.two_factor_enabled ? 'Disable' : 'Enable'}
+                  </Button>
+                </Stack>
+                <Stack gap={3}>
+                  <Box className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
+                    <Text size="sm">Status</Text>
+                    <Stack direction="horizontal" gap={1} className="items-center">
+                      {settings.two_factor_enabled ? (
+                        <>
+                          <Check className="h-4 w-4 text-success" />
+                          <Badge variant="success">Enabled</Badge>
+                        </>
+                      ) : (
+                        <Badge variant="warning">Disabled</Badge>
                       )}
-                    </Body>
-                    <Body className="text-body-xs text-muted-foreground">
-                      {session.location} • Last active {formatDate(session.last_active)}
-                    </Body>
-                  </div>
-                </div>
-                {!session.is_current && (
-                  <Button
-                    onClick={() => revokeSession.mutate(session.id)}
-                    className="p-2 text-destructive hover:bg-destructive/10 rounded-button transition-colors"
-                  >
-                    <LogOut className="h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+                    </Stack>
+                  </Box>
+                  {settings.two_factor_enabled && settings.two_factor_method && (
+                    <Box className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
+                      <Text size="sm">Method</Text>
+                      <Text size="sm" className="text-muted-foreground capitalize">
+                        {settings.two_factor_method}
+                      </Text>
+                    </Box>
+                  )}
+                  {!settings.two_factor_enabled && (
+                    <Alert variant="warning">
+                      <Stack direction="horizontal" gap={2} className="items-center">
+                        <AlertTriangle className="h-4 w-4" />
+                        <Text size="sm">Enable 2FA for enhanced account security</Text>
+                      </Stack>
+                    </Alert>
+                  )}
+                </Stack>
+              </Card>
+            </Grid>
 
-      {/* Login History */}
-      <div className="bg-background border-2 border-border rounded-card p-6">
-        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
-          <Clock className="h-5 w-5" />
-          Recent Login Activity
-        </H2>
-        <div className="space-y-2">
-          {settings.login_history.map((login) => (
-            <div
-              key={login.id}
-              className="flex items-center justify-between p-3 bg-muted/30 rounded-card"
-            >
-              <div className="flex items-center gap-4">
-                <div className={`w-2 h-2 rounded-avatar ${
-                  login.status === 'success' ? 'bg-success' : 'bg-destructive'
-                }`} />
-                <div>
-                  <Body className="text-body-sm text-foreground">{login.device}</Body>
-                  <Body className="text-body-xs text-muted-foreground">{login.location}</Body>
-                </div>
-              </div>
-              <div className="text-right">
-                <Body className="text-body-sm text-muted-foreground">{formatDate(login.date)}</Body>
-                <Body className={`text-body-xs ${
-                  login.status === 'success' ? 'text-success' : 'text-destructive'
-                }`}>
-                  {login.status === 'success' ? 'Successful' : 'Failed'}
-                </Body>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            <Card className="p-6">
+              <H2 className="mb-4 flex items-center gap-2">
+                <Monitor className="h-5 w-5" />
+                Active Sessions
+              </H2>
+              <Stack gap={3}>
+                {settings.sessions.map((session) => (
+                  <Box
+                    key={session.id}
+                    className={`p-4 rounded-card border-2 ${
+                      session.is_current ? 'border-primary bg-primary/5' : 'border-border'
+                    }`}
+                  >
+                    <Stack direction="horizontal" className="justify-between items-center">
+                      <Stack direction="horizontal" gap={4} className="items-center">
+                        <Monitor className="h-8 w-8 text-muted-foreground" />
+                        <Stack gap={1}>
+                          <Stack direction="horizontal" gap={2} className="items-center">
+                            <Body size="sm" className="font-weight-medium">
+                              {session.device} - {session.browser}
+                            </Body>
+                            {session.is_current && <Badge variant="info">Current</Badge>}
+                          </Stack>
+                          <Body size="xs" className="text-muted-foreground">
+                            {session.location} - Last active {formatDate(session.last_active)}
+                          </Body>
+                        </Stack>
+                      </Stack>
+                      {!session.is_current && (
+                        <Button
+                          variant="ghost"
+                          onClick={() => revokeSession.mutate(session.id)}
+                        >
+                          <LogOut className="h-4 w-4 text-destructive" />
+                        </Button>
+                      )}
+                    </Stack>
+                  </Box>
+                ))}
+              </Stack>
+            </Card>
 
-      {/* Change Password Modal */}
-      {showPasswordModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
-              <Key className="h-5 w-5" />
-              Change Password
-            </H3>
-            <Form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (passwordForm.new_password !== passwordForm.confirm) {
-                  alert('Passwords do not match');
-                  return;
-                }
-                updatePassword.mutate({
-                  current: passwordForm.current,
-                  new_password: passwordForm.new_password,
-                });
-              }}
-              className="space-y-4"
+            <Card className="p-6">
+              <H2 className="mb-4 flex items-center gap-2">
+                <Clock className="h-5 w-5" />
+                Recent Login Activity
+              </H2>
+              <Stack gap={2}>
+                {settings.login_history.map((login) => (
+                  <Box
+                    key={login.id}
+                    className="flex items-center justify-between p-3 bg-muted/30 rounded-card"
+                  >
+                    <Stack direction="horizontal" gap={4} className="items-center">
+                      <Box className={`w-2 h-2 rounded-full ${
+                        login.status === 'success' ? 'bg-success' : 'bg-destructive'
+                      }`} />
+                      <Stack gap={0}>
+                        <Body size="sm">{login.device}</Body>
+                        <Body size="xs" className="text-muted-foreground">{login.location}</Body>
+                      </Stack>
+                    </Stack>
+                    <Stack gap={0} className="text-right">
+                      <Body size="sm" className="text-muted-foreground">{formatDate(login.date)}</Body>
+                      <Badge variant={login.status === 'success' ? 'success' : 'error'}>
+                        {login.status === 'success' ? 'Successful' : 'Failed'}
+                      </Badge>
+                    </Stack>
+                  </Box>
+                ))}
+              </Stack>
+            </Card>
+
+            <Modal open={showPasswordModal} onClose={() => setShowPasswordModal(false)} title="Change Password">
+              <Form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (passwordForm.new_password !== passwordForm.confirm) {
+                    alert('Passwords do not match');
+                    return;
+                  }
+                  updatePassword.mutate({
+                    current: passwordForm.current,
+                    new_password: passwordForm.new_password,
+                  });
+                }}
+              >
+                <Stack gap={4}>
+                  <Stack gap={2}>
+                    <Label>Current Password *</Label>
+                    <Box className="relative">
+                      <Input
+                        type={showPasswords.current ? 'text' : 'password'}
+                        value={passwordForm.current}
+                        onChange={(e) => setPasswordForm({ ...passwordForm, current: e.target.value })}
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setShowPasswords({ ...showPasswords, current: !showPasswords.current })}
+                        className="absolute right-2 top-1/2 -translate-y-1/2"
+                      >
+                        {showPasswords.current ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </Button>
+                    </Box>
+                  </Stack>
+                  <Stack gap={2}>
+                    <Label>New Password *</Label>
+                    <Box className="relative">
+                      <Input
+                        type={showPasswords.new_password ? 'text' : 'password'}
+                        value={passwordForm.new_password}
+                        onChange={(e) => setPasswordForm({ ...passwordForm, new_password: e.target.value })}
+                        required
+                        minLength={8}
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setShowPasswords({ ...showPasswords, new_password: !showPasswords.new_password })}
+                        className="absolute right-2 top-1/2 -translate-y-1/2"
+                      >
+                        {showPasswords.new_password ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </Button>
+                    </Box>
+                    <Body size="xs" className="text-muted-foreground">Minimum 8 characters</Body>
+                  </Stack>
+                  <Stack gap={2}>
+                    <Label>Confirm New Password *</Label>
+                    <Box className="relative">
+                      <Input
+                        type={showPasswords.confirm ? 'text' : 'password'}
+                        value={passwordForm.confirm}
+                        onChange={(e) => setPasswordForm({ ...passwordForm, confirm: e.target.value })}
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setShowPasswords({ ...showPasswords, confirm: !showPasswords.confirm })}
+                        className="absolute right-2 top-1/2 -translate-y-1/2"
+                      >
+                        {showPasswords.confirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </Button>
+                    </Box>
+                  </Stack>
+                  <Stack direction="horizontal" gap={3} className="justify-end pt-4">
+                    <Button type="button" variant="outline" onClick={() => setShowPasswordModal(false)}>
+                      Cancel
+                    </Button>
+                    <Button type="submit" disabled={updatePassword.isPending}>
+                      {updatePassword.isPending ? 'Updating...' : 'Update Password'}
+                    </Button>
+                  </Stack>
+                </Stack>
+              </Form>
+            </Modal>
+
+            <Modal
+              open={show2FAModal}
+              onClose={() => setShow2FAModal(false)}
+              title={`${settings.two_factor_enabled ? 'Disable' : 'Enable'} Two-Factor Authentication`}
             >
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Current Password *
-                </Label>
-                <div className="relative">
-                  <Input
-                    type={showPasswords.current ? 'text' : 'password'}
-                    value={passwordForm.current}
-                    onChange={(e) => setPasswordForm({ ...passwordForm, current: e.target.value })}
-                    required
-                    className="w-full px-4 py-2 pr-10 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                  <Button
-                    type="button"
-                    onClick={() => setShowPasswords({ ...showPasswords, current: !showPasswords.current })}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                  >
-                    {showPasswords.current ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  New Password *
-                </Label>
-                <div className="relative">
-                  <Input
-                    type={showPasswords.new_password ? 'text' : 'password'}
-                    value={passwordForm.new_password}
-                    onChange={(e) => setPasswordForm({ ...passwordForm, new_password: e.target.value })}
-                    required
-                    minLength={8}
-                    className="w-full px-4 py-2 pr-10 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                  <Button
-                    type="button"
-                    onClick={() => setShowPasswords({ ...showPasswords, new_password: !showPasswords.new_password })}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                  >
-                    {showPasswords.new_password ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </Button>
-                </div>
-                <Body className="text-body-xs text-muted-foreground mt-1">Minimum 8 characters</Body>
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Confirm New Password *
-                </Label>
-                <div className="relative">
-                  <Input
-                    type={showPasswords.confirm ? 'text' : 'password'}
-                    value={passwordForm.confirm}
-                    onChange={(e) => setPasswordForm({ ...passwordForm, confirm: e.target.value })}
-                    required
-                    className="w-full px-4 py-2 pr-10 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                  <Button
-                    type="button"
-                    onClick={() => setShowPasswords({ ...showPasswords, confirm: !showPasswords.confirm })}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                  >
-                    {showPasswords.confirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </div>
-              <div className="flex items-center justify-end gap-3 pt-4">
-                <Button
-                  type="button"
-                  onClick={() => setShowPasswordModal(false)}
-                  className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-                >
+              <Body size="sm" className="text-muted-foreground mb-6">
+                {settings.two_factor_enabled
+                  ? 'Disabling 2FA will make your account less secure. Are you sure you want to continue?'
+                  : 'Enable two-factor authentication to add an extra layer of security to your account.'}
+              </Body>
+              <Stack direction="horizontal" gap={3} className="justify-end">
+                <Button variant="outline" onClick={() => setShow2FAModal(false)}>
                   Cancel
                 </Button>
                 <Button
-                  type="submit"
-                  disabled={updatePassword.isPending}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
+                  variant={settings.two_factor_enabled ? 'destructive' : 'default'}
+                  onClick={() => toggle2FA.mutate(!settings.two_factor_enabled)}
+                  disabled={toggle2FA.isPending}
                 >
-                  {updatePassword.isPending ? 'Updating...' : 'Update Password'}
+                  {toggle2FA.isPending
+                    ? 'Processing...'
+                    : settings.two_factor_enabled
+                    ? 'Disable 2FA'
+                    : 'Enable 2FA'}
                 </Button>
-              </div>
-            </Form>
-          </div>
-        </div>
-      )}
-
-      {/* 2FA Modal */}
-      {show2FAModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
-              <Smartphone className="h-5 w-5" />
-              {settings.two_factor_enabled ? 'Disable' : 'Enable'} Two-Factor Authentication
-            </H3>
-            <Body className="text-body-sm text-muted-foreground mb-6">
-              {settings.two_factor_enabled
-                ? 'Disabling 2FA will make your account less secure. Are you sure you want to continue?'
-                : 'Enable two-factor authentication to add an extra layer of security to your account.'}
-            </Body>
-            <div className="flex items-center justify-end gap-3">
-              <Button
-                onClick={() => setShow2FAModal(false)}
-                className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={() => toggle2FA.mutate(!settings.two_factor_enabled)}
-                disabled={toggle2FA.isPending}
-                className={`px-4 py-2 rounded-button transition-colors disabled:opacity-50 ${
-                  settings.two_factor_enabled
-                    ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
-                    : 'bg-primary text-primary-foreground hover:bg-primary/90'
-                }`}
-              >
-                {toggle2FA.isPending
-                  ? 'Processing...'
-                  : settings.two_factor_enabled
-                  ? 'Disable 2FA'
-                  : 'Enable 2FA'}
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+              </Stack>
+            </Modal>
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

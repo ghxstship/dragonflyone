@@ -1,12 +1,21 @@
 'use client';
 
 import {
+  Badge,
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H3,
   Input,
+  MainContent,
   Select,
+  Skeleton,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -17,9 +26,10 @@ import {
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Plus, Search, Filter, Package, Clock, CheckCircle, XCircle, Send, Eye } from 'lucide-react';
+import { Search, Filter, Package, Clock, CheckCircle, XCircle, Send, Eye } from 'lucide-react';
 import { useVendorOrders } from '@/hooks/useVendorOrders';
 
 const STATUS_CONFIG = {
@@ -34,6 +44,7 @@ const STATUS_CONFIG = {
 };
 
 export default function VendorOrdersPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('');
 
@@ -70,216 +81,169 @@ export default function VendorOrdersPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded-card w-1/3" />
-          <div className="h-64 bg-muted rounded-card" />
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Vendor Orders" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={4}>
+              <Grid cols={4} gap={4}>
+                <Skeleton className="h-20" />
+                <Skeleton className="h-20" />
+                <Skeleton className="h-20" />
+                <Skeleton className="h-20" />
+              </Grid>
+              <Skeleton className="h-64" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 text-destructive">
-          Failed to load vendor orders. Please try again.
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Vendor Orders" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load vendor orders"
+              description="Please try again."
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Vendor Orders</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Create and manage orders to vendors with approval workflows
-          </Body>
-        </div>
-        <Link
-          href="/vendor-orders/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          New Order
-        </Link>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {Object.entries(STATUS_CONFIG).slice(0, 4).map(([status, config]) => {
-          const count = data?.orders?.filter((o) => o.status === status).length || 0;
-          const StatusIcon = config.icon;
-          return (
-            <Button
-              key={status}
-              onClick={() => setStatusFilter(statusFilter === status ? '' : status)}
-              className={`p-4 rounded-card border-2 transition-all ${
-                statusFilter === status
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border hover:border-primary/50'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-card ${config.color}`}>
-                  <StatusIcon className="h-4 w-4" />
-                </div>
-                <div className="text-left">
-                  <div className="text-h4-md font-weight-bold text-foreground">{count}</div>
-                  <div className="text-body-xs text-muted-foreground">{config.label}</div>
-                </div>
-              </div>
-            </Button>
-          );
-        })}
-      </div>
-
-      <div className="flex items-center gap-4">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search orders..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <Select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All Statuses</option>
-            {Object.entries(STATUS_CONFIG).map(([status, config]) => (
-              <option key={status} value={status}>
-                {config.label}
-              </option>
-            ))}
-          </Select>
-        </div>
-      </div>
-
-      {(!filteredOrders || filteredOrders.length === 0) && (
-        <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
-          <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No orders found
-          </H3>
-          <Body className="text-body-sm text-muted-foreground mb-4">
-            {statusFilter
-              ? `No orders with status "${STATUS_CONFIG[statusFilter as keyof typeof STATUS_CONFIG]?.label}"`
-              : 'Create your first vendor order to get started.'}
-          </Body>
-          <Link
-            href="/vendor-orders/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
-          >
-            <Plus className="h-4 w-4" />
-            Create Order
-          </Link>
-        </div>
-      )}
-
-      {filteredOrders && filteredOrders.length > 0 && (
-        <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-          <Table className="w-full">
-            <TableHeader className="bg-muted/50">
-              <TableRow>
-                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
-                  Order #
-                </TableHead>
-                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
-                  Vendor
-                </TableHead>
-                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
-                  Event
-                </TableHead>
-                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
-                  Status
-                </TableHead>
-                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
-                  Delivery
-                </TableHead>
-                <TableHead className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
-                  Total
-                </TableHead>
-                <TableHead className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
-                  Actions
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody className="divide-y divide-border">
-              {filteredOrders.map((order) => {
-                const statusConfig = STATUS_CONFIG[order.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.draft;
-                const StatusIcon = statusConfig.icon;
+    <>
+      <EnterprisePageHeader
+        title="Vendor Orders"
+        subtitle="Create and manage orders to vendors with approval workflows"
+        primaryAction={{ label: 'New Order', onClick: () => router.push('/vendor-orders/new') }}
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={4} gap={4}>
+              {Object.entries(STATUS_CONFIG).slice(0, 4).map(([status, config]) => {
+                const count = data?.orders?.filter((o) => o.status === status).length || 0;
+                const StatusIcon = config.icon;
                 return (
-                  <TableRow key={order.id} className="hover:bg-muted/30 transition-colors">
-                    <TableCell className="px-4 py-3">
-                      <Link
-                        href={`/vendor-orders/${order.id}`}
-                        className="font-weight-medium text-primary hover:underline"
-                      >
-                        {order.order_number}
-                      </Link>
-                      <div className="text-body-xs text-muted-foreground">
-                        {formatDate(order.created_at)}
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        {order.vendor?.logo_url ? (
-                          <Image
-                            src={order.vendor.logo_url}
-                            alt=""
-                            width={32}
-                            height={32}
-                            className="rounded-card object-cover"
-                          />
-                        ) : (
-                          <div className="w-8 h-8 rounded-card bg-muted flex items-center justify-center">
-                            <Package className="h-4 w-4 text-muted-foreground" />
-                          </div>
-                        )}
-                        <Text className="font-weight-medium text-foreground">
-                          {order.vendor?.name || 'Unknown Vendor'}
-                        </Text>
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
-                      {order.booking?.event_name || '-'}
-                    </TableCell>
-                    <TableCell className="px-4 py-3">
-                      <Text className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
-                        <StatusIcon className="h-3 w-3" />
-                        {statusConfig.label}
-                      </Text>
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
-                      {formatDate(order.delivery_date)}
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-right font-weight-medium text-foreground">
-                      {formatCurrency(order.total)}
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-right">
-                      <Link
-                        href={`/vendor-orders/${order.id}`}
-                        className="inline-flex items-center gap-1 px-3 py-1 text-body-xs border-2 border-border rounded-button hover:bg-muted transition-colors"
-                      >
-                        <Eye className="h-3 w-3" />
-                        View
-                      </Link>
-                    </TableCell>
-                  </TableRow>
+                  <Card
+                    key={status}
+                    className={`p-4 cursor-pointer transition-all ${statusFilter === status ? 'border-primary bg-primary/5' : 'hover:border-primary/50'}`}
+                    onClick={() => setStatusFilter(statusFilter === status ? '' : status)}
+                  >
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <Box className={`p-2 rounded-card ${config.color}`}>
+                        <StatusIcon className="h-4 w-4" />
+                      </Box>
+                      <Box>
+                        <Body className="font-weight-bold">{count}</Body>
+                        <Text size="xs" className="text-muted-foreground">{config.label}</Text>
+                      </Box>
+                    </Stack>
+                  </Card>
                 );
               })}
-            </TableBody>
-          </Table>
-        </div>
-      )}
-    </div>
+            </Grid>
+
+            <Stack direction="horizontal" gap={4} className="items-center">
+              <Box className="relative flex-1 max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search orders..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </Box>
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                  <option value="">All Statuses</option>
+                  {Object.entries(STATUS_CONFIG).map(([status, config]) => (
+                    <option key={status} value={status}>{config.label}</option>
+                  ))}
+                </Select>
+              </Stack>
+            </Stack>
+
+            {(!filteredOrders || filteredOrders.length === 0) ? (
+              <EmptyState
+                title="No orders found"
+                description={statusFilter ? `No orders with status "${STATUS_CONFIG[statusFilter as keyof typeof STATUS_CONFIG]?.label}"` : 'Create your first vendor order to get started.'}
+                icon={<Package className="h-12 w-12" />}
+                action={{ label: 'Create Order', onClick: () => router.push('/vendor-orders/new') }}
+              />
+            ) : (
+              <Card className="overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Order #</TableHead>
+                      <TableHead>Vendor</TableHead>
+                      <TableHead>Event</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Delivery</TableHead>
+                      <TableHead className="text-right">Total</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredOrders.map((order) => {
+                      const statusConfig = STATUS_CONFIG[order.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.draft;
+                      const StatusIcon = statusConfig.icon;
+                      return (
+                        <TableRow key={order.id}>
+                          <TableCell>
+                            <Link href={`/vendor-orders/${order.id}`} className="font-weight-medium text-primary hover:underline">
+                              {order.order_number}
+                            </Link>
+                            <Body size="xs" className="text-muted-foreground">{formatDate(order.created_at)}</Body>
+                          </TableCell>
+                          <TableCell>
+                            <Stack direction="horizontal" gap={2} className="items-center">
+                              {order.vendor?.logo_url ? (
+                                <Image src={order.vendor.logo_url} alt="" width={32} height={32} className="rounded-card object-cover" />
+                              ) : (
+                                <Box className="w-8 h-8 rounded-card bg-muted flex items-center justify-center">
+                                  <Package className="h-4 w-4 text-muted-foreground" />
+                                </Box>
+                              )}
+                              <Text className="font-weight-medium">{order.vendor?.name || 'Unknown Vendor'}</Text>
+                            </Stack>
+                          </TableCell>
+                          <TableCell className="text-muted-foreground">{order.booking?.event_name || '-'}</TableCell>
+                          <TableCell>
+                            <Badge className={statusConfig.color}>
+                              <StatusIcon className="h-3 w-3 mr-1" />
+                              {statusConfig.label}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-muted-foreground">{formatDate(order.delivery_date)}</TableCell>
+                          <TableCell className="text-right font-weight-medium">{formatCurrency(order.total)}</TableCell>
+                          <TableCell className="text-right">
+                            <Link href={`/vendor-orders/${order.id}`}>
+                              <Button variant="outline" size="sm">
+                                <Eye className="h-3 w-3 mr-1" /> View
+                              </Button>
+                            </Link>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </Card>
+            )}
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

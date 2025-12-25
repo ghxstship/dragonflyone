@@ -1,15 +1,24 @@
 'use client';
 
 import {
+  Badge,
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H2,
+  MainContent,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import Image from 'next/image';
-import { ArrowLeft, Building2, Mail, Phone, MapPin, Globe, Star, Edit, Trash2 } from 'lucide-react';
+import { Building2, Mail, Phone, MapPin, Globe, Star, Edit, Trash2 } from 'lucide-react';
 import { useVendorProfile, useDeleteVendor } from '@/hooks/useVendorProfiles';
 import { useVendorReviews, useVendorMetrics } from '@/hooks/useVendorPerformance';
 import { useRouter } from 'next/navigation';
@@ -35,264 +44,253 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
 
   if (isLoading) {
     return (
-      <div className="p-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded-card w-1/3" />
-          <div className="h-48 bg-muted rounded-card" />
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Vendor Details" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={6}>
+              <Skeleton className="h-8 w-1/3" />
+              <Grid cols={3} gap={6}>
+                <Box className="col-span-2"><Skeleton className="h-48" /></Box>
+                <Skeleton className="h-48" />
+              </Grid>
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error || !vendor) {
     return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 text-destructive">
-          Failed to load vendor details. The vendor may not exist.
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Vendor Details" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Vendor not found"
+              description="The vendor you're looking for doesn't exist or has been removed."
+              action={{ label: 'Back to Vendors', onClick: () => router.push('/vendors') }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
-  const statusColors = {
-    active: 'bg-success/20 text-success',
-    inactive: 'bg-muted text-muted-foreground',
-    pending: 'bg-warning/20 text-warning',
-    suspended: 'bg-destructive/20 text-destructive',
+  const getStatusVariant = (status: string): 'success' | 'warning' | 'error' | 'info' => {
+    switch (status) {
+      case 'active': return 'success';
+      case 'pending': return 'warning';
+      case 'suspended': return 'error';
+      default: return 'info';
+    }
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/vendors"
-            className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
+    <>
+      <EnterprisePageHeader
+        title={vendor.name}
+        subtitle={vendor.category?.name || 'Vendor'}
+      />
+      <Box className="px-6 py-3 border-b border-border flex items-center justify-between">
+        <Stack direction="horizontal" gap={3} className="items-center">
+          {vendor.logo_url ? (
+            <Image
+              src={vendor.logo_url}
+              alt={vendor.name}
+              width={48}
+              height={48}
+              className="w-12 h-12 rounded-card object-cover border-2 border-border"
+            />
+          ) : (
+            <Box className="w-12 h-12 rounded-card bg-muted flex items-center justify-center border-2 border-border">
+              <Building2 className="h-6 w-6 text-muted-foreground" />
+            </Box>
+          )}
+          <Badge variant={getStatusVariant(vendor.status)}>{vendor.status}</Badge>
+        </Stack>
+        <Stack direction="horizontal" gap={2}>
+          <Link href={`/vendors/${id}/edit`}>
+            <Button variant="outline">
+              <Edit className="h-4 w-4 mr-2" />
+              Edit
+            </Button>
           </Link>
-          <div className="flex items-center gap-4">
-            {vendor.logo_url ? (
-              <Image
-                src={vendor.logo_url}
-                alt={vendor.name}
-                width={64}
-                height={64}
-                className="w-16 h-16 rounded-card object-cover border-2 border-border"
-              />
-            ) : (
-              <div className="w-16 h-16 rounded-card bg-muted flex items-center justify-center border-2 border-border">
-                <Building2 className="h-8 w-8 text-muted-foreground" />
-              </div>
-            )}
-            <div>
-              <div className="flex items-center gap-3">
-                <H1 className="text-h2-md font-weight-bold text-foreground">{vendor.name}</H1>
-                <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusColors[vendor.status as keyof typeof statusColors] || statusColors.active}`}>
-                  {vendor.status}
-                </Text>
-              </div>
-              {vendor.category && (
-                <Body className="text-body-sm text-muted-foreground">{vendor.category.name}</Body>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Link
-            href={`/vendors/${id}/edit`}
-            className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
-          >
-            <Edit className="h-4 w-4" />
-            Edit
-          </Link>
-          <Button
-            onClick={handleDelete}
-            disabled={deleteMutation.isPending}
-            className="inline-flex items-center gap-2 px-4 py-2 border-2 border-destructive text-destructive rounded-button text-body-sm font-weight-medium hover:bg-destructive/10 transition-colors disabled:opacity-50"
-          >
-            <Trash2 className="h-4 w-4" />
+          <Button variant="destructive" onClick={handleDelete} disabled={deleteMutation.isPending}>
+            <Trash2 className="h-4 w-4 mr-2" />
             Delete
           </Button>
-        </div>
-      </div>
+        </Stack>
+      </Box>
+      <MainContent padding="lg">
+        <Container>
+          <Grid cols={3} gap={6}>
+            <Stack gap={6} className="col-span-2">
+              <Card className="p-6">
+                <H2 className="mb-4">About</H2>
+                {vendor.description ? (
+                  <Body size="sm">{vendor.description}</Body>
+                ) : (
+                  <Body size="sm" className="text-muted-foreground italic">No description provided</Body>
+                )}
+              </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">About</H2>
-            {vendor.description ? (
-              <Body className="text-body-sm text-foreground">{vendor.description}</Body>
-            ) : (
-              <Body className="text-body-sm text-muted-foreground italic">No description provided</Body>
-            )}
-          </div>
+              <Card className="p-6">
+                <H2 className="mb-4">Contact Information</H2>
+                <Grid cols={2} gap={4}>
+                  {typeof vendor.contact_info?.email === 'string' && vendor.contact_info.email && (
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <Box className="p-2 bg-muted rounded-card">
+                        <Mail className="h-4 w-4 text-muted-foreground" />
+                      </Box>
+                      <Stack gap={0}>
+                        <Body size="xs" className="text-muted-foreground">Email</Body>
+                        <Link href={`mailto:${vendor.contact_info.email}`} className="text-primary hover:underline">
+                          <Text size="sm">{vendor.contact_info.email}</Text>
+                        </Link>
+                      </Stack>
+                    </Stack>
+                  )}
+                  {typeof vendor.contact_info?.phone === 'string' && vendor.contact_info.phone && (
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <Box className="p-2 bg-muted rounded-card">
+                        <Phone className="h-4 w-4 text-muted-foreground" />
+                      </Box>
+                      <Stack gap={0}>
+                        <Body size="xs" className="text-muted-foreground">Phone</Body>
+                        <Link href={`tel:${vendor.contact_info.phone}`}>
+                          <Text size="sm">{vendor.contact_info.phone}</Text>
+                        </Link>
+                      </Stack>
+                    </Stack>
+                  )}
+                  {vendor.website && (
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <Box className="p-2 bg-muted rounded-card">
+                        <Globe className="h-4 w-4 text-muted-foreground" />
+                      </Box>
+                      <Stack gap={0}>
+                        <Body size="xs" className="text-muted-foreground">Website</Body>
+                        <Link href={vendor.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                          <Text size="sm">{vendor.website}</Text>
+                        </Link>
+                      </Stack>
+                    </Stack>
+                  )}
+                  {vendor.service_areas && vendor.service_areas.length > 0 && (
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <Box className="p-2 bg-muted rounded-card">
+                        <MapPin className="h-4 w-4 text-muted-foreground" />
+                      </Box>
+                      <Stack gap={0}>
+                        <Body size="xs" className="text-muted-foreground">Service Areas</Body>
+                        <Body size="sm">{vendor.service_areas.join(', ')}</Body>
+                      </Stack>
+                    </Stack>
+                  )}
+                </Grid>
+              </Card>
 
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Contact Information</H2>
-            <div className="grid grid-cols-2 gap-4">
-              {typeof vendor.contact_info?.email === 'string' && vendor.contact_info.email && (
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-muted rounded-card">
-                    <Mail className="h-4 w-4 text-muted-foreground" />
-                  </div>
-                  <div>
-                    <Body className="text-body-xs text-muted-foreground">Email</Body>
-                    <Link href={`mailto:${vendor.contact_info.email}`} className="text-body-sm text-primary hover:underline">
-                      {vendor.contact_info.email}
+              {reviewsData?.reviews && reviewsData.reviews.length > 0 && (
+                <Card className="p-6">
+                  <Stack direction="horizontal" className="justify-between mb-4">
+                    <H2>Reviews</H2>
+                    <Link href={`/vendors/${id}/reviews`} className="text-primary hover:underline">
+                      <Text size="sm">View all</Text>
                     </Link>
-                  </div>
-                </div>
+                  </Stack>
+                  <Stack gap={4}>
+                    {reviewsData.reviews.slice(0, 3).map((review) => (
+                      <Box key={review.id} className="border-b border-border pb-4 last:border-0 last:pb-0">
+                        <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                          <Stack direction="horizontal" gap={1}>
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <Star
+                                key={star}
+                                className={`h-4 w-4 ${star <= review.overall_rating ? 'text-warning fill-warning' : 'text-muted'}`}
+                              />
+                            ))}
+                          </Stack>
+                          <Text size="xs" className="text-muted-foreground">
+                            {new Date(review.created_at).toLocaleDateString()}
+                          </Text>
+                        </Stack>
+                        {review.review_text && <Body size="sm">{review.review_text}</Body>}
+                      </Box>
+                    ))}
+                  </Stack>
+                </Card>
               )}
-              {typeof vendor.contact_info?.phone === 'string' && vendor.contact_info.phone && (
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-muted rounded-card">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
-                  </div>
-                  <div>
-                    <Body className="text-body-xs text-muted-foreground">Phone</Body>
-                    <Link href={`tel:${vendor.contact_info.phone}`} className="text-body-sm text-foreground">
-                      {vendor.contact_info.phone}
-                    </Link>
-                  </div>
-                </div>
-              )}
-              {vendor.website && (
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-muted rounded-card">
-                    <Globe className="h-4 w-4 text-muted-foreground" />
-                  </div>
-                  <div>
-                    <Body className="text-body-xs text-muted-foreground">Website</Body>
-                    <Link href={vendor.website} target="_blank" rel="noopener noreferrer" className="text-body-sm text-primary hover:underline">
-                      {vendor.website}
-                    </Link>
-                  </div>
-                </div>
-              )}
-              {vendor.service_areas && vendor.service_areas.length > 0 && (
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-muted rounded-card">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
-                  </div>
-                  <div>
-                    <Body className="text-body-xs text-muted-foreground">Service Areas</Body>
-                    <Body className="text-body-sm text-foreground">{vendor.service_areas.join(', ')}</Body>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+            </Stack>
 
-          {reviewsData?.reviews && reviewsData.reviews.length > 0 && (
-            <div className="bg-background border-2 border-border rounded-card p-6">
-              <div className="flex items-center justify-between mb-4">
-                <H2 className="text-h4-md font-weight-semibold text-foreground">Reviews</H2>
-                <Link href={`/vendors/${id}/reviews`} className="text-body-sm text-primary hover:underline">
-                  View all
-                </Link>
-              </div>
-              <div className="space-y-4">
-                {reviewsData.reviews.slice(0, 3).map((review) => (
-                  <div key={review.id} className="border-b border-border pb-4 last:border-0 last:pb-0">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="flex items-center gap-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star
-                            key={star}
-                            className={`h-4 w-4 ${star <= review.overall_rating ? 'text-warning fill-warning' : 'text-muted'}`}
-                          />
-                        ))}
-                      </div>
-                      <Text className="text-body-xs text-muted-foreground">
-                        {new Date(review.created_at).toLocaleDateString()}
-                      </Text>
-                    </div>
-                    {review.review_text && (
-                      <Body className="text-body-sm text-foreground">{review.review_text}</Body>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-6">
-          {metricsData?.metrics && metricsData.metrics.length > 0 && (
-            <div className="bg-background border-2 border-border rounded-card p-6">
-              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Performance</H2>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Text className="text-body-sm text-muted-foreground">Quality Score</Text>
-                  <Text className="font-weight-medium">{metricsData.metrics[0]?.quality_score?.toFixed(1) || 'N/A'}</Text>
-                </div>
-                <div className="flex items-center justify-between">
-                  <Text className="text-body-sm text-muted-foreground">On-Time Rate</Text>
-                  <Text className="font-weight-medium">{metricsData.metrics[0]?.on_time_rate ? `${(metricsData.metrics[0].on_time_rate * 100).toFixed(0)}%` : 'N/A'}</Text>
-                </div>
-                <div className="flex items-center justify-between">
-                  <Text className="text-body-sm text-muted-foreground">Total Bookings</Text>
-                  <Text className="font-weight-medium">{metricsData.metrics[0]?.total_bookings || 0}</Text>
-                </div>
-                <div className="flex items-center justify-between">
-                  <Text className="text-body-sm text-muted-foreground">Issues</Text>
-                  <Text className="font-weight-medium">{metricsData.metrics[0]?.issue_count || 0}</Text>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Details</H2>
-            <div className="space-y-3">
-              {vendor.payment_terms && (
-                <div className="flex items-center justify-between">
-                  <Text className="text-body-sm text-muted-foreground">Payment Terms</Text>
-                  <Text className="text-body-sm font-weight-medium">{vendor.payment_terms}</Text>
-                </div>
+            <Stack gap={6}>
+              {metricsData?.metrics && metricsData.metrics.length > 0 && (
+                <Card className="p-6">
+                  <H2 className="mb-4">Performance</H2>
+                  <Stack gap={4}>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Text size="sm" className="text-muted-foreground">Quality Score</Text>
+                      <Text size="sm" className="font-weight-medium">{metricsData.metrics[0]?.quality_score?.toFixed(1) || 'N/A'}</Text>
+                    </Stack>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Text size="sm" className="text-muted-foreground">On-Time Rate</Text>
+                      <Text size="sm" className="font-weight-medium">{metricsData.metrics[0]?.on_time_rate ? `${(metricsData.metrics[0].on_time_rate * 100).toFixed(0)}%` : 'N/A'}</Text>
+                    </Stack>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Text size="sm" className="text-muted-foreground">Total Bookings</Text>
+                      <Text size="sm" className="font-weight-medium">{metricsData.metrics[0]?.total_bookings || 0}</Text>
+                    </Stack>
+                    <Stack direction="horizontal" className="justify-between">
+                      <Text size="sm" className="text-muted-foreground">Issues</Text>
+                      <Text size="sm" className="font-weight-medium">{metricsData.metrics[0]?.issue_count || 0}</Text>
+                    </Stack>
+                  </Stack>
+                </Card>
               )}
-              {vendor.tax_id && (
-                <div className="flex items-center justify-between">
-                  <Text className="text-body-sm text-muted-foreground">Tax ID</Text>
-                  <Text className="text-body-sm font-weight-medium">{vendor.tax_id}</Text>
-                </div>
-              )}
-              <div className="flex items-center justify-between">
-                <Text className="text-body-sm text-muted-foreground">Added</Text>
-                <Text className="text-body-sm font-weight-medium">
-                  {new Date(vendor.created_at).toLocaleDateString()}
-                </Text>
-              </div>
-            </div>
-          </div>
 
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Quick Actions</H2>
-            <div className="space-y-2">
-              <Link
-                href={`/vendor-orders/new?vendor=${id}`}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-              >
-                Create Order
-              </Link>
-              <Link
-                href={`/preferred-vendors/new?vendor=${id}`}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 border-2 border-border rounded-button font-weight-medium text-body-sm hover:bg-muted transition-colors"
-              >
-                Add to Preferred
-              </Link>
-              <Link
-                href={`/vendors/${id}/reviews/new`}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 border-2 border-border rounded-button font-weight-medium text-body-sm hover:bg-muted transition-colors"
-              >
-                Write Review
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+              <Card className="p-6">
+                <H2 className="mb-4">Details</H2>
+                <Stack gap={3}>
+                  {vendor.payment_terms && (
+                    <Stack direction="horizontal" className="justify-between">
+                      <Text size="sm" className="text-muted-foreground">Payment Terms</Text>
+                      <Text size="sm" className="font-weight-medium">{vendor.payment_terms}</Text>
+                    </Stack>
+                  )}
+                  {vendor.tax_id && (
+                    <Stack direction="horizontal" className="justify-between">
+                      <Text size="sm" className="text-muted-foreground">Tax ID</Text>
+                      <Text size="sm" className="font-weight-medium">{vendor.tax_id}</Text>
+                    </Stack>
+                  )}
+                  <Stack direction="horizontal" className="justify-between">
+                    <Text size="sm" className="text-muted-foreground">Added</Text>
+                    <Text size="sm" className="font-weight-medium">
+                      {new Date(vendor.created_at).toLocaleDateString()}
+                    </Text>
+                  </Stack>
+                </Stack>
+              </Card>
+
+              <Card className="p-6">
+                <H2 className="mb-4">Quick Actions</H2>
+                <Stack gap={2}>
+                  <Link href={`/vendor-orders/new?vendor=${id}`}>
+                    <Button className="w-full">Create Order</Button>
+                  </Link>
+                  <Link href={`/preferred-vendors/new?vendor=${id}`}>
+                    <Button variant="outline" className="w-full">Add to Preferred</Button>
+                  </Link>
+                  <Link href={`/vendors/${id}/reviews/new`}>
+                    <Button variant="outline" className="w-full">Write Review</Button>
+                  </Link>
+                </Stack>
+              </Card>
+            </Stack>
+          </Grid>
+        </Container>
+      </MainContent>
+    </>
   );
 }

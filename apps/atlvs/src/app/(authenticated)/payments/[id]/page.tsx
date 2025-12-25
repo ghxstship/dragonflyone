@@ -1,21 +1,31 @@
 'use client';
 
 import {
+  Badge,
   Body,
+  Box,
   Button,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
   Form,
-  H1,
+  Grid,
   H2,
   H3,
   Input,
   Label,
+  MainContent,
+  Modal,
   Select,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, CreditCard, Building2, RefreshCw, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { CreditCard, Building2, RefreshCw, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
@@ -49,8 +59,9 @@ interface PaymentDetail {
 
 export default function PaymentDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const queryClient = useQueryClient();
-  const paymentId = params.id as string;
+  const paymentId = params?.id as string;
   const [showRefundModal, setShowRefundModal] = useState(false);
   const [refundAmount, setRefundAmount] = useState('');
   const [refundReason, setRefundReason] = useState('requested_by_customer');
@@ -121,38 +132,48 @@ export default function PaymentDetailPage() {
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'warning' | 'error' | 'info' => {
     switch (status) {
-      case 'completed':
-        return 'bg-success-100 text-success-800';
+      case 'completed': return 'success';
       case 'failed':
-      case 'cancelled':
-        return 'bg-error-100 text-error-800';
+      case 'cancelled': return 'error';
       case 'pending':
-      case 'processing':
-        return 'bg-warning-100 text-warning-800';
-      case 'refunded':
-        return 'bg-info-100 text-info-800';
-      default:
-        return 'bg-ink-100 text-ink-800';
+      case 'processing': return 'warning';
+      case 'refunded': return 'info';
+      default: return 'info';
     }
   };
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading payment...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Payment Details" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Grid cols={3} gap={6}>
+              <Box className="col-span-2"><Skeleton className="h-64" /></Box>
+              <Skeleton className="h-64" />
+            </Grid>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error || !payment) {
     return (
-      <div className="p-6">
-        <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <Body className="text-destructive">Failed to load payment details</Body>
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Payment Details" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Payment not found"
+              description="The payment you're looking for doesn't exist or has been removed."
+              action={{ label: 'Back to Payments', onClick: () => router.push('/payments') }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
@@ -160,206 +181,173 @@ export default function PaymentDetailPage() {
   const canRefund = payment.status === 'completed' && totalRefunded < payment.amount;
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/payments"
-            className="p-2 hover:bg-muted rounded-button transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </Link>
-          <div>
-            <H1 className="text-h2-md font-weight-bold text-foreground">Payment Details</H1>
-            <Body className="text-body-sm text-muted-foreground mt-1">
-              {payment.reference_number || payment.id}
-            </Body>
-          </div>
-        </div>
+    <>
+      <EnterprisePageHeader
+        title="Payment Details"
+        subtitle={payment.reference_number || payment.id}
+      />
+      <Box className="px-6 py-3 border-b border-border flex items-center justify-end">
         {canRefund && (
           <Button
+            variant="destructive"
             onClick={() => {
               setRefundAmount((payment.amount - totalRefunded).toString());
               setShowRefundModal(true);
             }}
-            className="flex items-center gap-2 px-4 py-2 border-2 border-destructive text-destructive rounded-button hover:bg-destructive/10 transition-colors"
           >
-            <RefreshCw className="h-4 w-4" />
-            <Text className="text-body-sm font-weight-medium">Issue Refund</Text>
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Issue Refund
           </Button>
         )}
-      </div>
+      </Box>
+      <MainContent padding="lg">
+        <Container>
+          <Grid cols={3} gap={6}>
+            <Stack gap={6} className="col-span-2">
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-6">
+                  <Stack direction="horizontal" gap={3} className="items-center">
+                    {getStatusIcon(payment.status)}
+                    <Stack gap={0}>
+                      <H2>{formatCurrency(payment.amount)}</H2>
+                      <Body size="sm" className="text-muted-foreground">
+                        {formatDate(payment.payment_date)}
+                      </Body>
+                    </Stack>
+                  </Stack>
+                  <Badge variant={getStatusVariant(payment.status)}>
+                    {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
+                  </Badge>
+                </Stack>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                {getStatusIcon(payment.status)}
-                <div>
-                  <H2 className="text-h3-md font-weight-bold text-foreground">
-                    {formatCurrency(payment.amount)}
-                  </H2>
-                  <Body className="text-body-sm text-muted-foreground">
-                    {formatDate(payment.payment_date)}
+                <Grid cols={2} gap={4}>
+                  <Stack gap={1}>
+                    <Body size="xs" className="text-muted-foreground uppercase">Payment Method</Body>
+                    <Stack direction="horizontal" gap={2} className="items-center">
+                      {payment.payment_method === 'card' ? (
+                        <CreditCard className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <Building2 className="h-4 w-4 text-muted-foreground" />
+                      )}
+                      <Text className="capitalize">{payment.payment_method}</Text>
+                    </Stack>
+                  </Stack>
+                  <Stack gap={1}>
+                    <Body size="xs" className="text-muted-foreground uppercase">Reference</Body>
+                    <Body className="font-mono">{payment.reference_number || '-'}</Body>
+                  </Stack>
+                </Grid>
+
+                {payment.notes && (
+                  <Box className="mt-4 pt-4 border-t border-border">
+                    <Body size="xs" className="text-muted-foreground uppercase mb-1">Notes</Body>
+                    <Body>{payment.notes}</Body>
+                  </Box>
+                )}
+              </Card>
+
+              {payment.refunds.length > 0 && (
+                <Card className="p-6">
+                  <H3 className="mb-4">Refunds</H3>
+                  <Stack gap={3}>
+                    {payment.refunds.map((refund) => (
+                      <Box key={refund.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
+                        <Stack gap={0}>
+                          <Body className="font-weight-medium">{formatCurrency(refund.amount)}</Body>
+                          <Body size="xs" className="text-muted-foreground">{formatDate(refund.created_at)}</Body>
+                        </Stack>
+                        <Badge variant={getStatusVariant(refund.status)}>{refund.status}</Badge>
+                      </Box>
+                    ))}
+                  </Stack>
+                  <Box className="mt-4 pt-4 border-t border-border">
+                    <Stack direction="horizontal" className="justify-between">
+                      <Text size="sm" className="text-muted-foreground">Total Refunded</Text>
+                      <Text className="font-weight-semibold">{formatCurrency(totalRefunded)}</Text>
+                    </Stack>
+                  </Box>
+                </Card>
+              )}
+            </Stack>
+
+            <Stack gap={6}>
+              {payment.invoice && (
+                <Card className="p-6">
+                  <H3 className="mb-4">Linked Invoice</H3>
+                  <Link href={`/invoices/${payment.invoice.id}`}>
+                    <Box className="p-3 bg-muted/30 rounded-card hover:bg-muted/50 transition-colors">
+                      <Body className="font-weight-medium">#{payment.invoice.invoice_number}</Body>
+                      <Body size="sm" className="text-muted-foreground">
+                        {formatCurrency(payment.invoice.total_amount)}
+                      </Body>
+                    </Box>
+                  </Link>
+                </Card>
+              )}
+
+              {payment.contact && (
+                <Card className="p-6">
+                  <H3 className="mb-4">Customer</H3>
+                  <Body className="font-weight-medium">
+                    {payment.contact.first_name} {payment.contact.last_name}
                   </Body>
-                </div>
-              </div>
-              <Text className={`px-3 py-1 rounded-avatar text-body-sm font-weight-medium ${getStatusColor(payment.status)}`}>
-                {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
-              </Text>
-            </div>
+                  <Body size="sm" className="text-muted-foreground">{payment.contact.email}</Body>
+                </Card>
+              )}
+            </Stack>
+          </Grid>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Body className="text-body-xs text-muted-foreground uppercase tracking-label mb-1">Payment Method</Body>
-                <div className="flex items-center gap-2">
-                  {payment.payment_method === 'card' ? (
-                    <CreditCard className="h-4 w-4 text-muted-foreground" />
-                  ) : (
-                    <Building2 className="h-4 w-4 text-muted-foreground" />
-                  )}
-                  <Text className="text-body-md text-foreground capitalize">{payment.payment_method}</Text>
-                </div>
-              </div>
-              <div>
-                <Body className="text-body-xs text-muted-foreground uppercase tracking-label mb-1">Reference</Body>
-                <Body className="text-body-md text-foreground font-mono">{payment.reference_number || '-'}</Body>
-              </div>
-            </div>
-
-            {payment.notes && (
-              <div className="mt-4 pt-4 border-t border-border">
-                <Body className="text-body-xs text-muted-foreground uppercase tracking-label mb-1">Notes</Body>
-                <Body className="text-body-md text-foreground">{payment.notes}</Body>
-              </div>
-            )}
-          </div>
-
-          {payment.refunds.length > 0 && (
-            <div className="bg-background border-2 border-border rounded-card p-6">
-              <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Refunds</H3>
-              <div className="space-y-3">
-                {payment.refunds.map((refund) => (
-                  <div key={refund.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
-                    <div>
-                      <Body className="text-body-md font-weight-medium text-foreground">
-                        {formatCurrency(refund.amount)}
-                      </Body>
-                      <Body className="text-body-xs text-muted-foreground">
-                        {formatDate(refund.created_at)}
-                      </Body>
-                    </div>
-                    <Text className={`px-2 py-0.5 rounded-avatar text-body-xs font-weight-medium ${getStatusColor(refund.status)}`}>
-                      {refund.status}
-                    </Text>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 pt-4 border-t border-border flex justify-between">
-                <Text className="text-body-sm text-muted-foreground">Total Refunded</Text>
-                <Text className="text-body-md font-weight-semibold text-foreground">{formatCurrency(totalRefunded)}</Text>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-6">
-          {payment.invoice && (
-            <div className="bg-background border-2 border-border rounded-card p-6">
-              <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Linked Invoice</H3>
-              <Link
-                href={`/invoices/${payment.invoice.id}`}
-                className="block p-3 bg-muted/30 rounded-card hover:bg-muted/50 transition-colors"
-              >
-                <Body className="text-body-md font-weight-medium text-foreground">
-                  #{payment.invoice.invoice_number}
-                </Body>
-                <Body className="text-body-sm text-muted-foreground">
-                  {formatCurrency(payment.invoice.total_amount)}
-                </Body>
-              </Link>
-            </div>
-          )}
-
-          {payment.contact && (
-            <div className="bg-background border-2 border-border rounded-card p-6">
-              <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Customer</H3>
-              <Body className="text-body-md font-weight-medium text-foreground">
-                {payment.contact.first_name} {payment.contact.last_name}
-              </Body>
-              <Body className="text-body-sm text-muted-foreground">{payment.contact.email}</Body>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {showRefundModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">Issue Refund</H3>
+          <Modal open={showRefundModal} onClose={() => setShowRefundModal(false)} title="Issue Refund">
             <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 refundMutation.mutate();
               }}
-              className="space-y-4"
             >
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Refund Amount *
-                </Label>
-                <div className="relative">
-                  <Text className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</Text>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    max={payment.amount - totalRefunded}
-                    value={refundAmount}
-                    onChange={(e) => setRefundAmount(e.target.value)}
-                    required
-                    className="w-full pl-8 pr-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
-                <Body className="text-body-xs text-muted-foreground mt-1">
-                  Max: {formatCurrency(payment.amount - totalRefunded)}
-                </Body>
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Reason *
-                </Label>
-                <Select
-                  value={refundReason}
-                  onChange={(e) => setRefundReason(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                >
-                  <option value="requested_by_customer">Requested by customer</option>
-                  <option value="duplicate">Duplicate payment</option>
-                  <option value="fraudulent">Fraudulent</option>
-                  <option value="other">Other</option>
-                </Select>
-              </div>
-              <div className="flex items-center justify-end gap-3 pt-4">
-                <Button
-                  type="button"
-                  onClick={() => setShowRefundModal(false)}
-                  className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={refundMutation.isPending}
-                  className="px-4 py-2 bg-destructive text-destructive-foreground rounded-button hover:bg-destructive/90 transition-colors disabled:opacity-50"
-                >
-                  {refundMutation.isPending ? 'Processing...' : 'Issue Refund'}
-                </Button>
-              </div>
+              <Stack gap={4}>
+                <Stack gap={2}>
+                  <Label>Refund Amount *</Label>
+                  <Box className="relative">
+                    <Text className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</Text>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      max={payment.amount - totalRefunded}
+                      value={refundAmount}
+                      onChange={(e) => setRefundAmount(e.target.value)}
+                      required
+                      className="pl-8"
+                    />
+                  </Box>
+                  <Body size="xs" className="text-muted-foreground">
+                    Max: {formatCurrency(payment.amount - totalRefunded)}
+                  </Body>
+                </Stack>
+                <Stack gap={2}>
+                  <Label>Reason *</Label>
+                  <Select
+                    value={refundReason}
+                    onChange={(e) => setRefundReason(e.target.value)}
+                  >
+                    <option value="requested_by_customer">Requested by customer</option>
+                    <option value="duplicate">Duplicate payment</option>
+                    <option value="fraudulent">Fraudulent</option>
+                    <option value="other">Other</option>
+                  </Select>
+                </Stack>
+                <Stack direction="horizontal" gap={3} className="justify-end pt-4">
+                  <Button type="button" variant="outline" onClick={() => setShowRefundModal(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" variant="destructive" disabled={refundMutation.isPending}>
+                    {refundMutation.isPending ? 'Processing...' : 'Issue Refund'}
+                  </Button>
+                </Stack>
+              </Stack>
             </Form>
-          </div>
-        </div>
-      )}
-    </div>
+          </Modal>
+        </Container>
+      </MainContent>
+    </>
   );
 }

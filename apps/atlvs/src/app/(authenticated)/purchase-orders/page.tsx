@@ -1,17 +1,27 @@
 'use client';
 
 import {
+  Badge,
   Body,
-  H1,
+  Box,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H3,
   Input,
+  MainContent,
   Select,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Plus, Search, FileText, Clock, CheckCircle, Filter, DollarSign } from 'lucide-react';
+import { Search, FileText, Clock, CheckCircle, Filter, DollarSign } from 'lucide-react';
 import { usePurchaseOrders, PurchaseOrder } from '@/hooks/usePurchaseOrders';
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
@@ -25,6 +35,7 @@ const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
 };
 
 export default function PurchaseOrdersPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('');
 
@@ -50,27 +61,39 @@ export default function PurchaseOrdersPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded-card w-1/3" />
-          <div className="grid grid-cols-5 gap-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="h-24 bg-muted rounded-card" />
-            ))}
-          </div>
-          <div className="h-64 bg-muted rounded-card" />
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Purchase Orders" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={4}>
+              <Grid cols={4} gap={4}>
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+              </Grid>
+              <Skeleton className="h-64" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 text-destructive">
-          Failed to load purchase orders. Please try again.
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Purchase Orders" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load purchase orders"
+              description="Please try again."
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
@@ -83,157 +106,121 @@ export default function PurchaseOrdersPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Purchase Orders</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Manage vendor purchase orders and procurement
-          </Body>
-        </div>
-        <Link
-          href="/purchase-orders/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          New PO
-        </Link>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Purchase Orders"
+        subtitle="Manage vendor purchase orders and procurement"
+        primaryAction={{ label: 'New PO', onClick: () => router.push('/purchase-orders/new') }}
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={4} gap={4}>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <FileText className="h-5 w-5 text-primary" />
+                  <Text size="sm" className="text-muted-foreground">Total POs</Text>
+                </Stack>
+                <Body className="font-weight-bold">{stats.total}</Body>
+              </Card>
+              <Card className="p-4 border-warning/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Clock className="h-5 w-5 text-warning" />
+                  <Text size="sm" className="text-muted-foreground">Pending</Text>
+                </Stack>
+                <Body className="font-weight-bold text-warning">{stats.pending}</Body>
+              </Card>
+              <Card className="p-4 border-primary/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <CheckCircle className="h-5 w-5 text-primary" />
+                  <Text size="sm" className="text-muted-foreground">Active</Text>
+                </Stack>
+                <Body className="font-weight-bold text-primary">{stats.approved}</Body>
+              </Card>
+              <Card className="p-4 border-success/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <CheckCircle className="h-5 w-5 text-success" />
+                  <Text size="sm" className="text-muted-foreground">Fulfilled</Text>
+                </Stack>
+                <Body className="font-weight-bold text-success">{stats.fulfilled}</Body>
+              </Card>
+            </Grid>
 
-      <div className="grid grid-cols-5 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <FileText className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Total POs</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{stats.total}</Body>
-        </div>
-        <div className="bg-background border-2 border-warning/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-5 w-5 text-warning" />
-            <Text className="text-body-sm text-muted-foreground">Pending</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-warning">{stats.pending}</Body>
-        </div>
-        <div className="bg-background border-2 border-primary/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <CheckCircle className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Active</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-primary">{stats.approved}</Body>
-        </div>
-        <div className="bg-background border-2 border-success/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <CheckCircle className="h-5 w-5 text-success" />
-            <Text className="text-body-sm text-muted-foreground">Fulfilled</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-success">{stats.fulfilled}</Body>
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <DollarSign className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Total Value</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{formatCurrency(stats.totalValue)}</Body>
-        </div>
-      </div>
+            <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
+              <Box className="relative flex-1 min-w-[200px] max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search by PO number, vendor, or event..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </Box>
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                  <option value="">All Status</option>
+                  {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Select>
+              </Stack>
+            </Stack>
 
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search by PO number, vendor, or event..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <Select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All Status</option>
-            {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </Select>
-        </div>
-      </div>
+            {filteredPOs.length === 0 ? (
+              <EmptyState
+                title="No purchase orders found"
+                description={searchQuery ? 'Try adjusting your search' : 'Create your first purchase order'}
+                icon={<FileText className="h-12 w-12" />}
+                action={{ label: 'New PO', onClick: () => router.push('/purchase-orders/new') }}
+              />
+            ) : (
+              <Stack gap={4}>
+                {filteredPOs.map((po: PurchaseOrder) => {
+                  const statusConfig = STATUS_CONFIG[po.status] || { label: po.status, color: 'bg-muted text-muted-foreground' };
 
-      {filteredPOs.length === 0 && (
-        <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
-          <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No purchase orders found
-          </H3>
-          <Body className="text-body-sm text-muted-foreground mb-4">
-            {searchQuery ? 'Try adjusting your search' : 'Create your first purchase order'}
-          </Body>
-          <Link
-            href="/purchase-orders/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
-          >
-            <Plus className="h-4 w-4" />
-            New PO
-          </Link>
-        </div>
-      )}
-
-      {filteredPOs.length > 0 && (
-        <div className="space-y-4">
-          {filteredPOs.map((po: PurchaseOrder) => {
-            const statusConfig = STATUS_CONFIG[po.status] || { label: po.status, color: 'bg-muted text-muted-foreground' };
-
-            return (
-              <Link
-                key={po.id}
-                href={`/purchase-orders/${po.id}`}
-                className="block bg-background border-2 border-border rounded-card p-6 hover:border-primary transition-colors"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <Text className="text-body-xs text-muted-foreground font-mono">
-                        {po.po_number}
-                      </Text>
-                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
-                        {statusConfig.label}
-                      </Text>
-                      {po.priority && po.priority !== 'normal' && (
-                        <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${
-                          po.priority === 'urgent' ? 'bg-destructive/20 text-destructive' :
-                          po.priority === 'high' ? 'bg-warning/20 text-warning' : 'bg-muted text-muted-foreground'
-                        }`}>
-                          {po.priority}
-                        </Text>
-                      )}
-                    </div>
-                    <H3 className="text-body-lg font-weight-semibold text-foreground mb-1">
-                      {po.vendor?.name || 'Unknown Vendor'}
-                    </H3>
-                    <Body className="text-body-sm text-muted-foreground">
-                      {po.category}
-                      {po.description && ` • ${po.description}`}
-                    </Body>
-                  </div>
-                  <div className="text-right">
-                    <Body className="text-h4-md font-weight-bold text-foreground">
-                      {formatCurrency(po.total_amount || 0)}
-                    </Body>
-                    <Body className="text-body-xs text-muted-foreground mt-1">
-                      {new Date(po.created_at).toLocaleDateString()}
-                    </Body>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      )}
-    </div>
+                  return (
+                    <Link key={po.id} href={`/purchase-orders/${po.id}`}>
+                      <Card className="p-6 hover:border-primary transition-colors">
+                        <Stack direction="horizontal" className="justify-between items-start">
+                          <Box className="flex-1">
+                            <Stack direction="horizontal" gap={3} className="items-center mb-2">
+                              <Text size="xs" className="text-muted-foreground font-mono">{po.po_number}</Text>
+                              <Badge className={statusConfig.color}>{statusConfig.label}</Badge>
+                              {po.priority && po.priority !== 'normal' && (
+                                <Badge className={
+                                  po.priority === 'urgent' ? 'bg-destructive/20 text-destructive' :
+                                  po.priority === 'high' ? 'bg-warning/20 text-warning' : 'bg-muted text-muted-foreground'
+                                }>
+                                  {po.priority}
+                                </Badge>
+                              )}
+                            </Stack>
+                            <H3 className="mb-1">{po.vendor?.name || 'Unknown Vendor'}</H3>
+                            <Body size="sm" className="text-muted-foreground">
+                              {po.category}{po.description && ` • ${po.description}`}
+                            </Body>
+                          </Box>
+                          <Box className="text-right">
+                            <Body className="font-weight-bold">{formatCurrency(po.total_amount || 0)}</Body>
+                            <Body size="xs" className="text-muted-foreground mt-1">
+                              {new Date(po.created_at).toLocaleDateString()}
+                            </Body>
+                          </Box>
+                        </Stack>
+                      </Card>
+                    </Link>
+                  );
+                })}
+              </Stack>
+            )}
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

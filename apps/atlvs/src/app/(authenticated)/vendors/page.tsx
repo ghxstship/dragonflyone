@@ -1,18 +1,28 @@
 'use client';
 
 import {
+  Badge,
   Body,
-  H1,
+  Box,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H3,
   Input,
+  MainContent,
   Select,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Plus, Search, Filter, Building2, Phone, Mail, MapPin, ExternalLink } from 'lucide-react';
+import { Search, Filter, Building2, Phone, Mail, MapPin, ExternalLink } from 'lucide-react';
 import { useVendorProfiles, useVendorCategories } from '@/hooks/useVendorProfiles';
 
 const STATUS_CONFIG = {
@@ -23,6 +33,7 @@ const STATUS_CONFIG = {
 };
 
 export default function VendorsPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<string>('');
@@ -37,195 +48,163 @@ export default function VendorsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded-card w-1/3" />
-          <div className="grid grid-cols-3 gap-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-48 bg-muted rounded-card" />
-            ))}
-          </div>
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Vendor Directory" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={4}>
+              <Grid cols={3} gap={4}>
+                {[1, 2, 3].map((i) => <Skeleton key={i} className="h-48" />)}
+              </Grid>
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 text-destructive">
-          Failed to load vendors. Please try again.
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Vendor Directory" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load vendors"
+              description="Please try again."
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Vendor Directory</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Centralized database of vendors with categories and certifications
-          </Body>
-        </div>
-        <Link
-          href="/vendors/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          Add Vendor
-        </Link>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Vendor Directory"
+        subtitle="Centralized database of vendors with categories and certifications"
+        primaryAction={{ label: 'Add Vendor', onClick: () => router.push('/vendors/new') }}
+        secondaryAction={{ label: 'Categories', onClick: () => router.push('/vendors/categories') }}
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
+              <Box className="relative flex-1 min-w-[200px] max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search vendors..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </Box>
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                  <option value="">All Categories</option>
+                  {categoriesData?.categories?.map((cat) => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </Select>
+              </Stack>
+              <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                <option value="">All Statuses</option>
+                {Object.entries(STATUS_CONFIG).map(([status, config]) => (
+                  <option key={status} value={status}>{config.label}</option>
+                ))}
+              </Select>
+            </Stack>
 
-      <div className="flex items-center gap-4 flex-wrap">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search vendors..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          />
-        </div>
+            {(!data?.vendors || data.vendors.length === 0) ? (
+              <EmptyState
+                title="No vendors found"
+                description="Add vendors to your directory to start managing relationships."
+                icon={<Building2 className="h-12 w-12" />}
+                action={{ label: 'Add First Vendor', onClick: () => router.push('/vendors/new') }}
+              />
+            ) : (
+              <Grid cols={3} gap={4}>
+                {data.vendors.map((vendor) => {
+                  const statusConfig = STATUS_CONFIG[vendor.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.active;
+                  return (
+                    <Link key={vendor.id} href={`/vendors/${vendor.id}`}>
+                      <Card className="p-4 hover:border-primary/50 transition-colors h-full">
+                        <Stack direction="horizontal" gap={3} className="items-start mb-3">
+                          {vendor.logo_url ? (
+                            <Image
+                              src={vendor.logo_url}
+                              alt={vendor.name}
+                              width={48}
+                              height={48}
+                              className="rounded-card object-cover"
+                            />
+                          ) : (
+                            <Box className="w-12 h-12 rounded-card bg-muted flex items-center justify-center">
+                              <Building2 className="h-6 w-6 text-muted-foreground" />
+                            </Box>
+                          )}
+                          <Box className="flex-1 min-w-0">
+                            <Stack direction="horizontal" className="justify-between items-start gap-2">
+                              <H3 className="truncate">{vendor.name}</H3>
+                              <Badge className={`shrink-0 ${statusConfig.color}`}>{statusConfig.label}</Badge>
+                            </Stack>
+                            {vendor.category && (
+                              <Body size="xs" className="text-muted-foreground">{vendor.category.name}</Body>
+                            )}
+                          </Box>
+                        </Stack>
 
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <Select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All Categories</option>
-            {categoriesData?.categories?.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-          </Select>
-        </div>
+                        {vendor.description && (
+                          <Body size="sm" className="text-muted-foreground mb-3 line-clamp-2">{vendor.description}</Body>
+                        )}
 
-        <Select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-          <option value="">All Statuses</option>
-          {Object.entries(STATUS_CONFIG).map(([status, config]) => (
-            <option key={status} value={status}>
-              {config.label}
-            </option>
-          ))}
-        </Select>
-      </div>
+                        <Stack gap={1} className="text-muted-foreground">
+                          {typeof vendor.contact_info?.email === 'string' && vendor.contact_info.email && (
+                            <Stack direction="horizontal" gap={2} className="items-center">
+                              <Mail className="h-3 w-3" />
+                              <Text size="xs" className="truncate">{vendor.contact_info.email}</Text>
+                            </Stack>
+                          )}
+                          {typeof vendor.contact_info?.phone === 'string' && vendor.contact_info.phone && (
+                            <Stack direction="horizontal" gap={2} className="items-center">
+                              <Phone className="h-3 w-3" />
+                              <Text size="xs">{vendor.contact_info.phone}</Text>
+                            </Stack>
+                          )}
+                          {vendor.service_areas && vendor.service_areas.length > 0 && (
+                            <Stack direction="horizontal" gap={2} className="items-center">
+                              <MapPin className="h-3 w-3" />
+                              <Text size="xs" className="truncate">{vendor.service_areas.slice(0, 2).join(', ')}</Text>
+                            </Stack>
+                          )}
+                          {vendor.website && (
+                            <Stack direction="horizontal" gap={2} className="items-center">
+                              <ExternalLink className="h-3 w-3" />
+                              <Text size="xs" className="truncate">{vendor.website}</Text>
+                            </Stack>
+                          )}
+                        </Stack>
+                      </Card>
+                    </Link>
+                  );
+                })}
+              </Grid>
+            )}
 
-      {(!data?.vendors || data.vendors.length === 0) && (
-        <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
-          <Building2 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No vendors found
-          </H3>
-          <Body className="text-body-sm text-muted-foreground mb-4">
-            Add vendors to your directory to start managing relationships.
-          </Body>
-          <Link
-            href="/vendors/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
-          >
-            <Plus className="h-4 w-4" />
-            Add First Vendor
-          </Link>
-        </div>
-      )}
-
-      {data?.vendors && data.vendors.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.vendors.map((vendor) => {
-            const statusConfig = STATUS_CONFIG[vendor.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.active;
-            return (
-              <Link
-                key={vendor.id}
-                href={`/vendors/${vendor.id}`}
-                className="bg-background border-2 border-border rounded-card p-4 hover:border-primary/50 transition-colors"
-              >
-                <div className="flex items-start gap-3 mb-3">
-                  {vendor.logo_url ? (
-                    <Image
-                      src={vendor.logo_url}
-                      alt={vendor.name}
-                      width={48}
-                      height={48}
-                      className="rounded-card object-cover"
-                    />
-                  ) : (
-                    <div className="w-12 h-12 rounded-card bg-muted flex items-center justify-center">
-                      <Building2 className="h-6 w-6 text-muted-foreground" />
-                    </div>
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <H3 className="font-weight-semibold text-foreground truncate">
-                        {vendor.name}
-                      </H3>
-                      <Text className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium shrink-0 ${statusConfig.color}`}>
-                        {statusConfig.label}
-                      </Text>
-                    </div>
-                    {vendor.category && (
-                      <Body className="text-body-xs text-muted-foreground">
-                        {vendor.category.name}
-                      </Body>
-                    )}
-                  </div>
-                </div>
-
-                {vendor.description && (
-                  <Body className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
-                    {vendor.description}
-                  </Body>
-                )}
-
-                <div className="space-y-1 text-body-xs text-muted-foreground">
-                  {typeof vendor.contact_info?.email === 'string' && vendor.contact_info.email && (
-                    <div className="flex items-center gap-2">
-                      <Mail className="h-3 w-3" />
-                      <Text className="truncate">{vendor.contact_info.email}</Text>
-                    </div>
-                  )}
-                  {typeof vendor.contact_info?.phone === 'string' && vendor.contact_info.phone && (
-                    <div className="flex items-center gap-2">
-                      <Phone className="h-3 w-3" />
-                      <Text>{vendor.contact_info.phone}</Text>
-                    </div>
-                  )}
-                  {vendor.service_areas && vendor.service_areas.length > 0 && (
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-3 w-3" />
-                      <Text className="truncate">{vendor.service_areas.slice(0, 2).join(', ')}</Text>
-                    </div>
-                  )}
-                  {vendor.website && (
-                    <div className="flex items-center gap-2">
-                      <ExternalLink className="h-3 w-3" />
-                      <Text className="truncate">{vendor.website}</Text>
-                    </div>
-                  )}
-                </div>
-
-              </Link>
-            );
-          })}
-        </div>
-      )}
-
-      {data && data.total > (data.vendors?.length || 0) && (
-        <div className="flex items-center justify-center">
-          <Body className="text-body-sm text-muted-foreground">
-            Showing {data.vendors?.length || 0} of {data.total} vendors
-          </Body>
-        </div>
-      )}
-    </div>
+            {data && data.total > (data.vendors?.length || 0) && (
+              <Box className="text-center">
+                <Body size="sm" className="text-muted-foreground">
+                  Showing {data.vendors?.length || 0} of {data.total} vendors
+                </Body>
+              </Box>
+            )}
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

@@ -1,15 +1,24 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Plus, Search, Filter, Calendar, Users, MoreVertical } from 'lucide-react';
+import { Search, Calendar, Users, MoreVertical } from 'lucide-react';
 import { useBookings } from '@/hooks/useBookings';
 import {
+  Badge,
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
   Input,
+  MainContent,
   Select,
+  Skeleton,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -20,6 +29,7 @@ import {
 } from '@ghxstship/ui';
 
 export default function BookingsPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('');
 
@@ -67,179 +77,154 @@ export default function BookingsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading bookings...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Bookings" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={4}>
+              <Skeleton className="h-10 w-1/3" />
+              <Skeleton className="h-64" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <Body className="text-destructive">Failed to load bookings</Body>
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Bookings" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load bookings"
+              description="Please try again."
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Bookings</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Manage your venue bookings and reservations
-          </Body>
-        </div>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/bookings/templates"
-            className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-          >
-            <Filter className="h-4 w-4" />
-            <Text className="text-body-sm">Templates</Text>
-          </Link>
-          <Link
-            href="/bookings/new"
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
-          >
-            <Plus className="h-4 w-4" />
-            <Text className="text-body-sm font-weight-medium">New Booking</Text>
-          </Link>
-        </div>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Bookings"
+        subtitle="Manage your venue bookings and reservations"
+        primaryAction={{ label: 'New Booking', onClick: () => router.push('/bookings/new') }}
+        secondaryActions={[
+          { label: 'Templates', onClick: () => router.push('/bookings/templates') }
+        ]}
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Stack direction="horizontal" gap={4} className="items-center">
+              <Box className="relative flex-1 max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search bookings..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </Box>
+              <Select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="">All Statuses</option>
+                <option value="draft">Draft</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </Select>
+            </Stack>
 
-      <div className="flex items-center gap-4">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search bookings..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-          />
-        </div>
-        <Select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-        >
-          <option value="">All Statuses</option>
-          <option value="draft">Draft</option>
-          <option value="pending">Pending</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="completed">Completed</option>
-          <option value="cancelled">Cancelled</option>
-        </Select>
-      </div>
-
-      {filteredBookings.length === 0 ? (
-        <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
-          <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <Body className="text-body-md text-muted-foreground">
-            {searchQuery || statusFilter ? 'No bookings match your filters' : 'No bookings yet'}
-          </Body>
-          {!searchQuery && !statusFilter && (
-            <Link
-              href="/bookings/new"
-              className="inline-flex items-center gap-2 mt-4 text-primary hover:underline"
-            >
-              <Plus className="h-4 w-4" />
-              Create your first booking
-            </Link>
-          )}
-        </div>
-      ) : (
-        <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-          <Table className="w-full">
-            <TableHeader>
-              <TableRow className="border-b border-border bg-muted/30">
-                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
-                  Booking
-                </TableHead>
-                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
-                  Date
-                </TableHead>
-                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
-                  Client
-                </TableHead>
-                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
-                  Guests
-                </TableHead>
-                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
-                  Total
-                </TableHead>
-                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
-                  Status
-                </TableHead>
-                <TableHead className="px-4 py-3 text-right text-body-sm font-weight-medium text-muted-foreground">
-                  Actions
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredBookings.map((booking) => (
-                <TableRow key={booking.id} className="border-b border-border hover:bg-muted/30">
-                  <TableCell className="px-4 py-3">
-                    <Link
-                      href={`/bookings/${booking.id}`}
-                      className="block"
-                    >
-                      <Text className="text-body-sm font-weight-medium text-foreground hover:text-primary">
-                        {booking.event_name || 'Untitled'}
-                      </Text>
-                      <Body className="text-body-xs text-muted-foreground">
-                        {booking.booking_number}
-                      </Body>
-                    </Link>
-                  </TableCell>
-                  <TableCell className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <div>
-                        <Body className="text-body-sm text-foreground">
-                          {formatDate(booking.event_date)}
-                        </Body>
-                        {booking.start_time && (
-                          <Body className="text-body-xs text-muted-foreground">
-                            {booking.start_time} - {booking.end_time}
-                          </Body>
-                        )}
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell className="px-4 py-3 text-body-sm text-foreground">
-                    {booking.client?.name || 'N/A'}
-                  </TableCell>
-                  <TableCell className="px-4 py-3">
-                    <div className="flex items-center gap-1 text-body-sm text-muted-foreground">
-                      <Users className="h-4 w-4" />
-                      {booking.guest_count_expected || 0}
-                    </div>
-                  </TableCell>
-                  <TableCell className="px-4 py-3">
-                    <Text className="text-body-sm font-weight-medium text-foreground">
-                      {formatCurrency(booking.total || 0)}
-                    </Text>
-                  </TableCell>
-                  <TableCell className="px-4 py-3">
-                    <Text className={`inline-flex px-2 py-1 rounded text-body-xs capitalize ${getStatusColor(booking.status)}`}>
-                      {booking.status}
-                    </Text>
-                  </TableCell>
-                  <TableCell className="px-4 py-3 text-right">
-                    <Button variant="ghost" size="icon" className="p-2">
-                      <MoreVertical className="h-4 w-4 text-muted-foreground" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      )}
-    </div>
+            {filteredBookings.length === 0 ? (
+              <EmptyState
+                title={searchQuery || statusFilter ? 'No bookings match your filters' : 'No bookings yet'}
+                description={searchQuery || statusFilter ? 'Try adjusting your filters' : 'Create your first booking to get started'}
+                icon={<Calendar className="h-12 w-12" />}
+                action={!searchQuery && !statusFilter ? { label: 'New Booking', onClick: () => router.push('/bookings/new') } : undefined}
+              />
+            ) : (
+              <Card className="overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Booking</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Client</TableHead>
+                      <TableHead>Guests</TableHead>
+                      <TableHead>Total</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredBookings.map((booking) => (
+                      <TableRow key={booking.id}>
+                        <TableCell>
+                          <Link href={`/bookings/${booking.id}`}>
+                            <Stack gap={0}>
+                              <Text className="font-weight-medium hover:text-primary">
+                                {booking.event_name || 'Untitled'}
+                              </Text>
+                              <Body size="xs" className="text-muted-foreground">
+                                {booking.booking_number}
+                              </Body>
+                            </Stack>
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          <Stack direction="horizontal" gap={2} className="items-center">
+                            <Calendar className="h-4 w-4 text-muted-foreground" />
+                            <Stack gap={0}>
+                              <Body size="sm">{formatDate(booking.event_date)}</Body>
+                              {booking.start_time && (
+                                <Body size="xs" className="text-muted-foreground">
+                                  {booking.start_time} - {booking.end_time}
+                                </Body>
+                              )}
+                            </Stack>
+                          </Stack>
+                        </TableCell>
+                        <TableCell>{booking.client?.name || 'N/A'}</TableCell>
+                        <TableCell>
+                          <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground">
+                            <Users className="h-4 w-4" />
+                            <Text size="sm">{booking.guest_count_expected || 0}</Text>
+                          </Stack>
+                        </TableCell>
+                        <TableCell>
+                          <Text className="font-weight-medium">
+                            {formatCurrency(booking.total || 0)}
+                          </Text>
+                        </TableCell>
+                        <TableCell>
+                          <Badge className={`capitalize ${getStatusColor(booking.status)}`}>
+                            {booking.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Button variant="ghost" size="sm">
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Card>
+            )}
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

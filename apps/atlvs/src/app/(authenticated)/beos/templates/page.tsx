@@ -2,17 +2,26 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Plus, FileText, Edit2, Trash2, Copy, Check } from 'lucide-react';
+import { Plus, FileText, Edit2, Trash2, Copy, Check } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Body,
+  Box,
   Button,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
   Form,
-  H1,
+  Grid,
   H3,
   Input,
   Label,
+  MainContent,
+  Modal,
   Select,
+  Skeleton,
+  Stack,
   Text,
   Textarea,
 } from '@ghxstship/ui';
@@ -81,124 +90,100 @@ export default function BEOTemplatesPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading templates...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="BEO Templates" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Grid cols={3} gap={4}>
+              <Skeleton className="h-40" />
+              <Skeleton className="h-40" />
+              <Skeleton className="h-40" />
+            </Grid>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/beos"
-            className="p-2 hover:bg-muted rounded-button transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </Link>
-          <div>
-            <H1 className="text-h2-md font-weight-bold text-foreground">BEO Templates</H1>
-            <Body className="text-body-sm text-muted-foreground mt-1">
-              Reusable templates for faster BEO creation
-            </Body>
-          </div>
-        </div>
-        <Button
-          variant="solid"
-          size="sm"
-          onClick={() => setShowAddModal(true)}
-          icon={<Plus className="h-4 w-4" />}
-          iconPosition="left"
-        >
-          New Template
-        </Button>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="BEO Templates"
+        subtitle="Reusable templates for faster BEO creation"
+        primaryAction={{ label: 'New Template', onClick: () => setShowAddModal(true) }}
+      />
+      <MainContent padding="lg">
+        <Container>
+          {templates.length === 0 ? (
+            <EmptyState
+              title="No templates yet"
+              description="Create your first BEO template to speed up event planning."
+              icon={<FileText className="h-12 w-12" />}
+              action={{ label: 'Create Template', onClick: () => setShowAddModal(true) }}
+            />
+          ) : (
+            <Grid cols={3} gap={4}>
+              {templates.map((template) => (
+                <Card
+                  key={template.id}
+                  className={`overflow-hidden ${template.is_default ? 'border-primary' : ''}`}
+                >
+                  {template.is_default && (
+                    <Box className="bg-primary text-primary-foreground text-center py-1">
+                      <Text size="xs">
+                        <Check className="inline h-3 w-3 mr-1" />
+                        Default Template
+                      </Text>
+                    </Box>
+                  )}
+                  <Box className="p-4">
+                    <Stack direction="horizontal" className="justify-between mb-2">
+                      <Stack gap={0}>
+                        <H3>{template.name}</H3>
+                        <Text size="xs" className="text-muted-foreground capitalize">
+                          {template.event_type.replace('_', ' ')}
+                        </Text>
+                      </Stack>
+                      <Stack direction="horizontal" gap={1}>
+                        <Button variant="ghost" size="sm">
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <Edit2 className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            if (confirm('Delete this template?')) {
+                              deleteTemplate.mutate(template.id);
+                            }
+                          }}
+                        >
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                      </Stack>
+                    </Stack>
+                    {template.description && (
+                      <Body size="sm" className="text-muted-foreground mb-3 line-clamp-2">
+                        {template.description}
+                      </Body>
+                    )}
+                    <Stack direction="horizontal" className="justify-between pt-3 border-t border-border">
+                      <Text size="xs" className="text-muted-foreground">
+                        {template.sections.timeline?.length || 0} timeline items
+                      </Text>
+                      <Text size="xs" className="text-muted-foreground">
+                        Used {template.usage_count} times
+                      </Text>
+                    </Stack>
+                  </Box>
+                </Card>
+              ))}
+            </Grid>
+          )}
 
-      {templates.length === 0 ? (
-        <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
-          <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <Body className="text-body-md text-muted-foreground">No templates yet</Body>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowAddModal(true)}
-            icon={<Plus className="h-4 w-4" />}
-            iconPosition="left"
-            className="mt-4"
-          >
-            Create your first template
-          </Button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {templates.map((template) => (
-            <div
-              key={template.id}
-              className={`bg-background border-2 rounded-card overflow-hidden ${
-                template.is_default ? 'border-primary' : 'border-border'
-              }`}
-            >
-              {template.is_default && (
-                <div className="bg-primary text-primary-foreground text-body-xs text-center py-1">
-                  <Check className="inline h-3 w-3 mr-1" />
-                  Default Template
-                </div>
-              )}
-              <div className="p-4">
-                <div className="flex items-start justify-between mb-2">
-                  <div>
-                    <H3 className="text-body-md font-weight-semibold text-foreground">
-                      {template.name}
-                    </H3>
-                    <Text className="text-body-xs text-muted-foreground capitalize">
-                      {template.event_type.replace('_', ' ')}
-                    </Text>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" className="p-1.5">
-                      <Copy className="h-4 w-4 text-muted-foreground" />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="p-1.5">
-                      <Edit2 className="h-4 w-4 text-muted-foreground" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="p-1.5 hover:bg-destructive/10"
-                      onClick={() => {
-                        if (confirm('Delete this template?')) {
-                          deleteTemplate.mutate(template.id);
-                        }
-                      }}
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
-                  </div>
-                </div>
-                {template.description && (
-                  <Body className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
-                    {template.description}
-                  </Body>
-                )}
-                <div className="flex items-center justify-between pt-3 border-t border-border">
-                  <Text className="text-body-xs text-muted-foreground">
-                    {template.sections.timeline?.length || 0} timeline items
-                  </Text>
-                  <Text className="text-body-xs text-muted-foreground">
-                    Used {template.usage_count} times
-                  </Text>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {showAddModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">New BEO Template</H3>
+          <Modal open={showAddModal} onClose={() => setShowAddModal(false)} title="New BEO Template">
             <Form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -217,78 +202,53 @@ export default function BEOTemplatesPage() {
                   usage_count: 0,
                 });
               }}
-              className="space-y-4"
             >
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Template Name *
-                </Label>
-                <Input
-                  type="text"
-                  name="name"
-                  required
-                  placeholder="e.g., Wedding Reception BEO"
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                />
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Event Type *
-                </Label>
-                <Select
-                  name="event_type"
-                  required
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                >
-                  <option value="wedding">Wedding</option>
-                  <option value="corporate">Corporate Event</option>
-                  <option value="social">Social Event</option>
-                  <option value="conference">Conference</option>
-                  <option value="gala">Gala</option>
-                  <option value="custom">Custom</option>
-                </Select>
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Description
-                </Label>
-                <Textarea
-                  name="description"
-                  rows={2}
-                  placeholder="Brief description of this template"
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary resize-none"
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <Input type="checkbox" name="is_default" id="is_default" className="w-4 h-4" />
-                <Label htmlFor="is_default" className="text-body-sm text-foreground">
-                  Set as default template
-                </Label>
-              </div>
-              <div className="flex items-center justify-end gap-3 pt-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  type="button"
-                  onClick={() => setShowAddModal(false)}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant="solid"
-                  size="sm"
-                  type="submit"
-                  disabled={createTemplate.isPending}
-                  isLoading={createTemplate.isPending}
-                  loadingText="Creating..."
-                >
-                  Create Template
-                </Button>
-              </div>
+              <Stack gap={4}>
+                <Stack gap={1}>
+                  <Label>Template Name *</Label>
+                  <Input
+                    type="text"
+                    name="name"
+                    required
+                    placeholder="e.g., Wedding Reception BEO"
+                  />
+                </Stack>
+                <Stack gap={1}>
+                  <Label>Event Type *</Label>
+                  <Select name="event_type" required>
+                    <option value="wedding">Wedding</option>
+                    <option value="corporate">Corporate Event</option>
+                    <option value="social">Social Event</option>
+                    <option value="conference">Conference</option>
+                    <option value="gala">Gala</option>
+                    <option value="custom">Custom</option>
+                  </Select>
+                </Stack>
+                <Stack gap={1}>
+                  <Label>Description</Label>
+                  <Textarea
+                    name="description"
+                    rows={2}
+                    placeholder="Brief description of this template"
+                  />
+                </Stack>
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Input type="checkbox" name="is_default" id="is_default" className="w-4 h-4" />
+                  <Label htmlFor="is_default">Set as default template</Label>
+                </Stack>
+                <Stack direction="horizontal" gap={3} className="justify-end pt-4">
+                  <Button variant="outline" type="button" onClick={() => setShowAddModal(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" disabled={createTemplate.isPending}>
+                    {createTemplate.isPending ? 'Creating...' : 'Create Template'}
+                  </Button>
+                </Stack>
+              </Stack>
             </Form>
-          </div>
-        </div>
-      )}
-    </div>
+          </Modal>
+        </Container>
+      </MainContent>
+    </>
   );
 }

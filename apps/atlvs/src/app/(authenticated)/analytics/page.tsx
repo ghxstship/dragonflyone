@@ -2,10 +2,18 @@
 
 import {
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H2,
+  MainContent,
   Select,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
@@ -88,171 +96,186 @@ export default function AnalyticsDashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading analytics...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Analytics Dashboard" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Grid cols={4} gap={4}>
+              <Skeleton className="h-32" />
+              <Skeleton className="h-32" />
+              <Skeleton className="h-32" />
+              <Skeleton className="h-32" />
+            </Grid>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <Body className="text-destructive">Failed to load analytics</Body>
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Analytics Dashboard" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load analytics"
+              description="There was an error loading your analytics data."
+              action={{ label: 'Retry', onClick: () => refetch() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Analytics Dashboard</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Track performance metrics and trends
-          </Body>
-        </div>
-        <div className="flex items-center gap-3">
-          <Select
-            value={dateRange}
-            onChange={(e) => setDateRange(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="7d">Last 7 days</option>
-            <option value="30d">Last 30 days</option>
-            <option value="90d">Last 90 days</option>
-            <option value="365d">Last year</option>
-          </Select>
-          <Button
-            onClick={() => refetch()}
-            className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button font-weight-medium text-body-sm hover:bg-muted transition-colors"
-          >
-            <RefreshCw className="h-4 w-4" />
-            Refresh
-          </Button>
-        </div>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Analytics Dashboard"
+        subtitle="Track performance metrics and trends"
+      />
+      <Box className="px-6 py-3 border-b border-border flex items-center justify-end gap-3">
+        <Select
+          value={dateRange}
+          onChange={(e) => setDateRange(e.target.value)}
+        >
+          <option value="7d">Last 7 days</option>
+          <option value="30d">Last 30 days</option>
+          <option value="90d">Last 90 days</option>
+          <option value="365d">Last year</option>
+        </Select>
+        <Button variant="outline" size="sm" onClick={() => refetch()}>
+          <RefreshCw className="h-4 w-4 mr-2" />
+          Refresh
+        </Button>
+      </Box>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={4} gap={4}>
+              {metricCards.map((metric, index) => (
+                <Card key={index} className="p-4">
+                  <Stack direction="horizontal" className="justify-between mb-2">
+                    <Text size="sm" className="text-muted-foreground">{metric.title}</Text>
+                    {metric.icon}
+                  </Stack>
+                  <Body className="font-weight-bold">{metric.value}</Body>
+                  <Stack direction="horizontal" gap={1} className="mt-1 items-center">
+                    {metric.change >= 0 ? (
+                      <TrendingUp className="h-4 w-4 text-success" />
+                    ) : (
+                      <TrendingDown className="h-4 w-4 text-destructive" />
+                    )}
+                    <Text size="xs" className={metric.change >= 0 ? 'text-success' : 'text-destructive'}>
+                      {formatChange(metric.change)}
+                    </Text>
+                    <Text size="xs" className="text-muted-foreground">{metric.changeLabel}</Text>
+                  </Stack>
+                </Card>
+              ))}
+            </Grid>
 
-      <div className="grid grid-cols-4 gap-4">
-        {metricCards.map((metric, index) => (
-          <div key={index} className="bg-background border-2 border-border rounded-card p-4">
-            <div className="flex items-center justify-between mb-2">
-              <Text className="text-body-sm text-muted-foreground">{metric.title}</Text>
-              {metric.icon}
-            </div>
-            <Body className="text-h3-md font-weight-bold text-foreground">{metric.value}</Body>
-            <div className="flex items-center gap-1 mt-1">
-              {metric.change >= 0 ? (
-                <TrendingUp className="h-4 w-4 text-success" />
+            <Grid cols={2} gap={6}>
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-4">
+                  <H2>Revenue Trend</H2>
+                  <BarChart3 className="h-5 w-5 text-muted-foreground" />
+                </Stack>
+                {revenueByMonth.length === 0 ? (
+                  <Box className="h-48 flex items-center justify-center text-muted-foreground">
+                    No revenue data available
+                  </Box>
+                ) : (
+                  <Stack gap={3}>
+                    {revenueByMonth.slice(0, 6).map((item: { month: string; revenue: number }, index: number) => {
+                      const maxRevenue = Math.max(...revenueByMonth.map((r: { revenue: number }) => r.revenue));
+                      const percentage = maxRevenue > 0 ? (item.revenue / maxRevenue) * 100 : 0;
+                      return (
+                        <Box key={index}>
+                          <Stack direction="horizontal" className="justify-between mb-1">
+                            <Text size="sm" className="text-muted-foreground">{item.month}</Text>
+                            <Text size="sm" className="font-weight-medium">{formatCurrency(item.revenue)}</Text>
+                          </Stack>
+                          <Box className="h-2 bg-muted rounded-badge overflow-hidden">
+                            <Box
+                              className="h-full bg-primary rounded-badge transition-all"
+                              style={{ width: `${percentage}%` }}
+                            />
+                          </Box>
+                        </Box>
+                      );
+                    })}
+                  </Stack>
+                )}
+              </Card>
+
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-4">
+                  <H2>Events by Type</H2>
+                  <PieChart className="h-5 w-5 text-muted-foreground" />
+                </Stack>
+                {eventsByType.length === 0 ? (
+                  <Box className="h-48 flex items-center justify-center text-muted-foreground">
+                    No event data available
+                  </Box>
+                ) : (
+                  <Stack gap={3}>
+                    {eventsByType.slice(0, 6).map((item: { type: string; count: number }, index: number) => {
+                      const colors = ['bg-primary', 'bg-secondary', 'bg-accent', 'bg-success', 'bg-warning', 'bg-destructive'];
+                      return (
+                        <Stack key={index} direction="horizontal" gap={3} className="items-center">
+                          <Box className={`w-3 h-3 rounded-avatar ${colors[index % colors.length]}`} />
+                          <Text size="sm" className="flex-1">{item.type}</Text>
+                          <Text size="sm" className="font-weight-medium">{item.count}</Text>
+                        </Stack>
+                      );
+                    })}
+                  </Stack>
+                )}
+              </Card>
+            </Grid>
+
+            <Card className="p-6">
+              <Stack direction="horizontal" className="justify-between mb-4">
+                <H2>Top Clients</H2>
+                <Link href="/analytics/clients" className="text-primary hover:underline flex items-center gap-1">
+                  <Text size="sm">View all</Text>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Stack>
+              {topClients.length === 0 ? (
+                <Box className="py-8 text-center text-muted-foreground">
+                  No client data available
+                </Box>
               ) : (
-                <TrendingDown className="h-4 w-4 text-destructive" />
+                <Box className="divide-y divide-border">
+                  {topClients.slice(0, 5).map((client: { id: string; name: string; total_revenue: number; event_count: number }, index: number) => (
+                    <Stack key={client.id} direction="horizontal" className="py-3 justify-between items-center">
+                      <Stack direction="horizontal" gap={3} className="items-center">
+                        <Text className="w-6 h-6 rounded-avatar bg-primary/10 text-primary font-weight-bold flex items-center justify-center" size="xs">
+                          {index + 1}
+                        </Text>
+                        <Text size="sm" className="font-weight-medium">{client.name}</Text>
+                      </Stack>
+                      <Stack direction="horizontal" gap={6}>
+                        <Stack gap={0} className="text-right">
+                          <Body size="sm" className="font-weight-bold">{formatCurrency(client.total_revenue)}</Body>
+                          <Body size="xs" className="text-muted-foreground">Revenue</Body>
+                        </Stack>
+                        <Stack gap={0} className="text-right">
+                          <Body size="sm" className="font-weight-bold">{client.event_count}</Body>
+                          <Body size="xs" className="text-muted-foreground">Events</Body>
+                        </Stack>
+                      </Stack>
+                    </Stack>
+                  ))}
+                </Box>
               )}
-              <Text className={`text-body-xs ${metric.change >= 0 ? 'text-success' : 'text-destructive'}`}>
-                {formatChange(metric.change)}
-              </Text>
-              <Text className="text-body-xs text-muted-foreground">{metric.changeLabel}</Text>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-2 gap-6">
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <div className="flex items-center justify-between mb-4">
-            <H2 className="text-h4-md font-weight-semibold text-foreground">Revenue Trend</H2>
-            <BarChart3 className="h-5 w-5 text-muted-foreground" />
-          </div>
-          {revenueByMonth.length === 0 ? (
-            <div className="h-48 flex items-center justify-center text-muted-foreground">
-              No revenue data available
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {revenueByMonth.slice(0, 6).map((item: { month: string; revenue: number }, index: number) => {
-                const maxRevenue = Math.max(...revenueByMonth.map((r: { revenue: number }) => r.revenue));
-                const percentage = maxRevenue > 0 ? (item.revenue / maxRevenue) * 100 : 0;
-                return (
-                  <div key={index}>
-                    <div className="flex items-center justify-between text-body-sm mb-1">
-                      <Text className="text-muted-foreground">{item.month}</Text>
-                      <Text className="font-weight-medium text-foreground">{formatCurrency(item.revenue)}</Text>
-                    </div>
-                    <div className="h-2 bg-muted rounded-badge overflow-hidden">
-                      <div
-                        className="h-full bg-primary rounded-badge transition-all"
-                        style={{ width: `${percentage}%` }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <div className="flex items-center justify-between mb-4">
-            <H2 className="text-h4-md font-weight-semibold text-foreground">Events by Type</H2>
-            <PieChart className="h-5 w-5 text-muted-foreground" />
-          </div>
-          {eventsByType.length === 0 ? (
-            <div className="h-48 flex items-center justify-center text-muted-foreground">
-              No event data available
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {eventsByType.slice(0, 6).map((item: { type: string; count: number }, index: number) => {
-                const colors = ['bg-primary', 'bg-secondary', 'bg-accent', 'bg-success', 'bg-warning', 'bg-destructive'];
-                return (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-avatar ${colors[index % colors.length]}`} />
-                    <Text className="flex-1 text-body-sm text-foreground">{item.type}</Text>
-                    <Text className="text-body-sm font-weight-medium text-foreground">{item.count}</Text>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="bg-background border-2 border-border rounded-card p-6">
-        <div className="flex items-center justify-between mb-4">
-          <H2 className="text-h4-md font-weight-semibold text-foreground">Top Clients</H2>
-          <Link href="/analytics/clients" className="text-body-sm text-primary hover:underline flex items-center gap-1">
-            View all <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        {topClients.length === 0 ? (
-          <div className="py-8 text-center text-muted-foreground">
-            No client data available
-          </div>
-        ) : (
-          <div className="divide-y divide-border">
-            {topClients.slice(0, 5).map((client: { id: string; name: string; total_revenue: number; event_count: number }, index: number) => (
-              <div key={client.id} className="py-3 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Text className="w-6 h-6 rounded-avatar bg-primary/10 text-primary text-body-xs font-weight-bold flex items-center justify-center">
-                    {index + 1}
-                  </Text>
-                  <Text className="text-body-sm font-weight-medium text-foreground">{client.name}</Text>
-                </div>
-                <div className="flex items-center gap-6">
-                  <div className="text-right">
-                    <Body className="text-body-sm font-weight-bold text-foreground">{formatCurrency(client.total_revenue)}</Body>
-                    <Body className="text-body-xs text-muted-foreground">Revenue</Body>
-                  </div>
-                  <div className="text-right">
-                    <Body className="text-body-sm font-weight-bold text-foreground">{client.event_count}</Body>
-                    <Body className="text-body-xs text-muted-foreground">Events</Body>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+            </Card>
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

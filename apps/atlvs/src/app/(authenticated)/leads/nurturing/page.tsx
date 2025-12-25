@@ -1,18 +1,28 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, Plus, Mail, Users, BarChart3, Play, Pause, Edit2, Trash2, CheckCircle, AlertCircle } from 'lucide-react';
+import { Plus, Mail, Play, Pause, Edit2, Trash2 } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
+  Badge,
   Body,
+  Box,
   Button,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
   Form,
-  H1,
+  Grid,
   H3,
   Input,
   Label,
+  MainContent,
+  Modal,
   Select,
+  Skeleton,
+  Stack,
+  StatCard,
   Text,
   Textarea,
 } from '@ghxstship/ui';
@@ -170,16 +180,12 @@ export default function LeadNurturingPage() {
     },
   });
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'warning' | 'info' | 'error' => {
     switch (status) {
-      case 'active':
-        return 'bg-success/20 text-success';
-      case 'paused':
-        return 'bg-warning/20 text-warning';
-      case 'completed':
-        return 'bg-primary/20 text-primary';
-      default:
-        return 'bg-muted text-muted-foreground';
+      case 'active': return 'success';
+      case 'paused': return 'warning';
+      case 'completed': return 'info';
+      default: return 'info';
     }
   };
 
@@ -191,324 +197,261 @@ export default function LeadNurturingPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading campaigns...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Lead Nurturing" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={6}>
+              <Grid cols={4} gap={4}>
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+              </Grid>
+              <Skeleton className="h-64" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <Body className="text-destructive">Failed to load nurture campaigns</Body>
-          <Button
-            onClick={() => queryClient.invalidateQueries({ queryKey: ['nurture-campaigns'] })}
-            className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-button"
-          >
-            Retry
-          </Button>
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Lead Nurturing" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load nurture campaigns"
+              description="There was an error loading your campaigns. Please try again."
+              action={{ label: 'Retry', onClick: () => queryClient.invalidateQueries({ queryKey: ['nurture-campaigns'] }) }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/leads"
-            className="p-2 hover:bg-muted rounded-button transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </Link>
-          <div>
-            <H1 className="text-h2-md font-weight-bold text-foreground">Lead Nurturing</H1>
-            <Body className="text-body-sm text-muted-foreground mt-1">
-              Automated campaigns to nurture leads through the sales funnel
-            </Body>
-          </div>
-        </div>
-        <Button
-          onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          <Text className="text-body-sm font-weight-medium">New Campaign</Text>
+    <>
+      <EnterprisePageHeader
+        title="Lead Nurturing"
+        subtitle="Automated campaigns to nurture leads through the sales funnel"
+      />
+      <Box className="px-6 py-3 border-b border-border flex items-center justify-end">
+        <Button onClick={() => setShowCreateModal(true)}>
+          <Plus className="h-4 w-4 mr-2" />
+          New Campaign
         </Button>
-      </div>
+      </Box>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={4} gap={4}>
+              <StatCard
+                value={String(campaigns.filter((c) => c.status === 'active').length)}
+                label="Active Campaigns"
+              />
+              <StatCard
+                value={String(totalEnrolled)}
+                label="Total Enrolled"
+              />
+              <StatCard
+                value={String(totalCompleted)}
+                label="Completed"
+              />
+              <StatCard
+                value={`${avgConversionRate}%`}
+                label="Avg Conversion"
+              />
+            </Grid>
 
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Mail className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Active Campaigns</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">
-            {campaigns.filter((c) => c.status === 'active').length}
-          </Body>
-        </div>
-        <div className="bg-background border-2 border-success/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Users className="h-5 w-5 text-success" />
-            <Text className="text-body-sm text-muted-foreground">Total Enrolled</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-success">{totalEnrolled}</Body>
-        </div>
-        <div className="bg-background border-2 border-secondary/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <CheckCircle className="h-5 w-5 text-secondary" />
-            <Text className="text-body-sm text-muted-foreground">Completed</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-secondary">{totalCompleted}</Body>
-        </div>
-        <div className="bg-background border-2 border-warning/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <BarChart3 className="h-5 w-5 text-warning" />
-            <Text className="text-body-sm text-muted-foreground">Avg Conversion</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-warning">{avgConversionRate}%</Body>
-        </div>
-      </div>
+            <Box>
+              <Select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="paused">Paused</option>
+                <option value="draft">Draft</option>
+                <option value="completed">Completed</option>
+              </Select>
+            </Box>
 
-      <div className="flex items-center gap-4">
-        <Select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:border-primary"
-        >
-          <option value="">All Statuses</option>
-          <option value="active">Active</option>
-          <option value="paused">Paused</option>
-          <option value="draft">Draft</option>
-          <option value="completed">Completed</option>
-        </Select>
-      </div>
-
-      {filteredCampaigns.length === 0 ? (
-        <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
-          <Mail className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No nurture campaigns
-          </H3>
-          <Body className="text-body-sm text-muted-foreground mb-4">
-            Create automated campaigns to nurture your leads
-          </Body>
-          <Button
-            onClick={() => setShowCreateModal(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button"
-          >
-            <Plus className="h-4 w-4" />
-            Create First Campaign
-          </Button>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {filteredCampaigns.map((campaign) => (
-            <div
-              key={campaign.id}
-              className="bg-background border-2 border-border rounded-card overflow-hidden"
-            >
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <div className="flex items-center gap-3 mb-2">
-                      <H3 className="text-body-lg font-weight-semibold text-foreground">
-                        {campaign.name}
-                      </H3>
-                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${getStatusColor(campaign.status)}`}>
-                        {campaign.status.charAt(0).toUpperCase() + campaign.status.slice(1)}
-                      </Text>
-                    </div>
-                    {campaign.description && (
-                      <Body className="text-body-sm text-muted-foreground">{campaign.description}</Body>
-                    )}
-                    <div className="flex items-center gap-4 mt-2 text-body-xs text-muted-foreground">
-                      <Text>Trigger: {campaign.trigger_type.replace('_', ' ')}</Text>
-                      {campaign.target_segment && (
-                        <Text>Segment: {campaign.target_segment}</Text>
-                      )}
-                      <Text>{campaign.steps.length} steps</Text>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {campaign.status === 'active' ? (
-                      <Button
-                        onClick={() => toggleCampaign.mutate({ id: campaign.id, status: 'paused' })}
-                        className="p-2 hover:bg-warning/10 rounded-button transition-colors"
-                        title="Pause Campaign"
-                      >
-                        <Pause className="h-4 w-4 text-warning" />
-                      </Button>
-                    ) : campaign.status === 'paused' || campaign.status === 'draft' ? (
-                      <Button
-                        onClick={() => toggleCampaign.mutate({ id: campaign.id, status: 'active' })}
-                        className="p-2 hover:bg-success/10 rounded-button transition-colors"
-                        title="Activate Campaign"
-                      >
-                        <Play className="h-4 w-4 text-success" />
-                      </Button>
-                    ) : null}
-                    <Button variant="ghost" size="icon" className="p-2">
-                      <Edit2 className="h-4 w-4 text-muted-foreground" />
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        if (confirm('Delete this campaign?')) {
-                          deleteCampaign.mutate(campaign.id);
-                        }
-                      }}
-                      className="p-2 hover:bg-destructive/10 rounded-button transition-colors"
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-4 gap-4 mb-4">
-                  <div className="text-center">
-                    <Body className="text-h4-md font-weight-bold text-foreground">{campaign.enrolled_count}</Body>
-                    <Body className="text-body-xs text-muted-foreground">Enrolled</Body>
-                  </div>
-                  <div className="text-center">
-                    <Body className="text-h4-md font-weight-bold text-foreground">{campaign.completed_count}</Body>
-                    <Body className="text-body-xs text-muted-foreground">Completed</Body>
-                  </div>
-                  <div className="text-center">
-                    <Body className="text-h4-md font-weight-bold text-foreground">{campaign.conversion_rate}%</Body>
-                    <Body className="text-body-xs text-muted-foreground">Conversion</Body>
-                  </div>
-                  <div className="text-center">
-                    <Body className="text-h4-md font-weight-bold text-foreground">
-                      {campaign.enrolled_count - campaign.completed_count}
-                    </Body>
-                    <Body className="text-body-xs text-muted-foreground">In Progress</Body>
-                  </div>
-                </div>
-
-                <div className="border-t border-border pt-4">
-                  <Body className="text-body-xs text-muted-foreground mb-2">Campaign Steps:</Body>
-                  <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                    {campaign.steps.map((step, index) => (
-                      <div key={step.id} className="flex items-center">
-                        <div className={`px-3 py-1.5 rounded text-body-xs whitespace-nowrap ${
-                          step.type === 'email' ? 'bg-primary/10 text-primary' :
-                          step.type === 'wait' ? 'bg-muted text-muted-foreground' :
-                          step.type === 'task' ? 'bg-secondary/10 text-secondary' :
-                          'bg-accent/10 text-accent'
-                        }`}>
-                          {step.type === 'wait' ? `Wait ${step.delay_days}d` : step.name}
-                        </div>
-                        {index < campaign.steps.length - 1 && (
-                          <div className="w-4 h-0.5 bg-border mx-1" />
+            {filteredCampaigns.length === 0 ? (
+              <EmptyState
+                title="No nurture campaigns"
+                description="Create automated campaigns to nurture your leads"
+                icon={<Mail className="h-12 w-12" />}
+                action={{ label: 'Create First Campaign', onClick: () => setShowCreateModal(true) }}
+              />
+            ) : (
+              <Stack gap={4}>
+                {filteredCampaigns.map((campaign) => (
+                  <Card key={campaign.id} className="p-6">
+                    <Stack direction="horizontal" className="justify-between mb-4">
+                      <Stack gap={2}>
+                        <Stack direction="horizontal" gap={3} className="items-center">
+                          <H3>{campaign.name}</H3>
+                          <Badge variant={getStatusVariant(campaign.status)}>
+                            {campaign.status.charAt(0).toUpperCase() + campaign.status.slice(1)}
+                          </Badge>
+                        </Stack>
+                        {campaign.description && (
+                          <Body size="sm" className="text-muted-foreground">{campaign.description}</Body>
                         )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+                        <Stack direction="horizontal" gap={4}>
+                          <Text size="xs" className="text-muted-foreground">Trigger: {campaign.trigger_type.replace('_', ' ')}</Text>
+                          {campaign.target_segment && (
+                            <Text size="xs" className="text-muted-foreground">Segment: {campaign.target_segment}</Text>
+                          )}
+                          <Text size="xs" className="text-muted-foreground">{campaign.steps.length} steps</Text>
+                        </Stack>
+                      </Stack>
+                      <Stack direction="horizontal" gap={2}>
+                        {campaign.status === 'active' ? (
+                          <Button
+                            variant="ghost"
+                            onClick={() => toggleCampaign.mutate({ id: campaign.id, status: 'paused' })}
+                          >
+                            <Pause className="h-4 w-4 text-warning" />
+                          </Button>
+                        ) : campaign.status === 'paused' || campaign.status === 'draft' ? (
+                          <Button
+                            variant="ghost"
+                            onClick={() => toggleCampaign.mutate({ id: campaign.id, status: 'active' })}
+                          >
+                            <Play className="h-4 w-4 text-success" />
+                          </Button>
+                        ) : null}
+                        <Button variant="ghost">
+                          <Edit2 className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          onClick={() => {
+                            if (confirm('Delete this campaign?')) {
+                              deleteCampaign.mutate(campaign.id);
+                            }
+                          }}
+                        >
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                      </Stack>
+                    </Stack>
 
-      {showCreateModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4">
-            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">
-              Create Nurture Campaign
-            </H3>
-            <Form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                createCampaign.mutate({
-                  name: formData.get('name') as string,
-                  description: formData.get('description') as string || undefined,
-                  trigger_type: formData.get('trigger_type') as NurtureCampaign['trigger_type'],
-                  target_segment: formData.get('target_segment') as string || undefined,
-                  status: 'draft',
-                  steps: [],
-                  enrolled_count: 0,
-                  completed_count: 0,
-                  conversion_rate: 0,
-                });
-              }}
-              className="space-y-4"
-            >
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Campaign Name *
-                </Label>
-                <Input
-                  type="text"
-                  name="name"
-                  required
-                  placeholder="e.g., New Lead Welcome Series"
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                />
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Description
-                </Label>
-                <Textarea
-                  name="description"
-                  rows={2}
-                  placeholder="Brief description of this campaign"
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary resize-none"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                    Trigger Type *
-                  </Label>
-                  <Select
-                    name="trigger_type"
-                    required
-                    className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  >
-                    <option value="manual">Manual Enrollment</option>
-                    <option value="action_based">Action Based</option>
-                    <option value="time_delay">Time Delay</option>
-                    <option value="score_based">Score Based</option>
-                  </Select>
-                </div>
-                <div>
-                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                    Target Segment
-                  </Label>
-                  <Input
-                    type="text"
-                    name="target_segment"
-                    placeholder="e.g., New Leads"
-                    className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
-              </div>
-              <div className="flex items-center justify-end gap-3 pt-4">
-                <Button
-                  type="button"
-                  onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={createCampaign.isPending}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
-                >
-                  {createCampaign.isPending ? 'Creating...' : 'Create Campaign'}
-                </Button>
-              </div>
-            </Form>
-          </div>
-        </div>
-      )}
-    </div>
+                    <Grid cols={4} gap={4} className="mb-4">
+                      <Box className="text-center">
+                        <Body className="text-h4-md font-weight-bold">{campaign.enrolled_count}</Body>
+                        <Body size="xs" className="text-muted-foreground">Enrolled</Body>
+                      </Box>
+                      <Box className="text-center">
+                        <Body className="text-h4-md font-weight-bold">{campaign.completed_count}</Body>
+                        <Body size="xs" className="text-muted-foreground">Completed</Body>
+                      </Box>
+                      <Box className="text-center">
+                        <Body className="text-h4-md font-weight-bold">{campaign.conversion_rate}%</Body>
+                        <Body size="xs" className="text-muted-foreground">Conversion</Body>
+                      </Box>
+                      <Box className="text-center">
+                        <Body className="text-h4-md font-weight-bold">
+                          {campaign.enrolled_count - campaign.completed_count}
+                        </Body>
+                        <Body size="xs" className="text-muted-foreground">In Progress</Body>
+                      </Box>
+                    </Grid>
+
+                    <Box className="border-t border-border pt-4">
+                      <Body size="xs" className="text-muted-foreground mb-2">Campaign Steps:</Body>
+                      <Stack direction="horizontal" gap={2} className="overflow-x-auto pb-2">
+                        {campaign.steps.map((step, index) => (
+                          <Stack key={step.id} direction="horizontal" className="items-center">
+                            <Badge variant={step.type === 'email' ? 'info' : step.type === 'task' ? 'success' : 'warning'}>
+                              {step.type === 'wait' ? `Wait ${step.delay_days}d` : step.name}
+                            </Badge>
+                            {index < campaign.steps.length - 1 && (
+                              <Box className="w-4 h-0.5 bg-border mx-1" />
+                            )}
+                          </Stack>
+                        ))}
+                      </Stack>
+                    </Box>
+                  </Card>
+                ))}
+              </Stack>
+            )}
+
+            <Modal open={showCreateModal} onClose={() => setShowCreateModal(false)} title="Create Nurture Campaign">
+              <Form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  createCampaign.mutate({
+                    name: formData.get('name') as string,
+                    description: formData.get('description') as string || undefined,
+                    trigger_type: formData.get('trigger_type') as NurtureCampaign['trigger_type'],
+                    target_segment: formData.get('target_segment') as string || undefined,
+                    status: 'draft',
+                    steps: [],
+                    enrolled_count: 0,
+                    completed_count: 0,
+                    conversion_rate: 0,
+                  });
+                }}
+              >
+                <Stack gap={4}>
+                  <Stack gap={2}>
+                    <Label>Campaign Name *</Label>
+                    <Input
+                      type="text"
+                      name="name"
+                      required
+                      placeholder="e.g., New Lead Welcome Series"
+                    />
+                  </Stack>
+                  <Stack gap={2}>
+                    <Label>Description</Label>
+                    <Textarea
+                      name="description"
+                      rows={2}
+                      placeholder="Brief description of this campaign"
+                    />
+                  </Stack>
+                  <Grid cols={2} gap={4}>
+                    <Stack gap={2}>
+                      <Label>Trigger Type *</Label>
+                      <Select name="trigger_type" required>
+                        <option value="manual">Manual Enrollment</option>
+                        <option value="action_based">Action Based</option>
+                        <option value="time_delay">Time Delay</option>
+                        <option value="score_based">Score Based</option>
+                      </Select>
+                    </Stack>
+                    <Stack gap={2}>
+                      <Label>Target Segment</Label>
+                      <Input
+                        type="text"
+                        name="target_segment"
+                        placeholder="e.g., New Leads"
+                      />
+                    </Stack>
+                  </Grid>
+                  <Stack direction="horizontal" gap={3} className="justify-end pt-4">
+                    <Button type="button" variant="outline" onClick={() => setShowCreateModal(false)}>
+                      Cancel
+                    </Button>
+                    <Button type="submit" disabled={createCampaign.isPending}>
+                      {createCampaign.isPending ? 'Creating...' : 'Create Campaign'}
+                    </Button>
+                  </Stack>
+                </Stack>
+              </Form>
+            </Modal>
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

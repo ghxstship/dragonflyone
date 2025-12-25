@@ -1,17 +1,27 @@
 'use client';
 
 import {
+  Badge,
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H3,
   Input,
   Label,
-  Link,
+  MainContent,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Calendar, Search, CheckCircle, XCircle, Clock, Plus } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 
@@ -24,6 +34,7 @@ interface SpaceAvailability {
 }
 
 export default function AvailabilityPage() {
+  const router = useRouter();
   const [dateRange, setDateRange] = useState({
     start_date: new Date().toISOString().split('T')[0],
     end_date: new Date().toISOString().split('T')[0],
@@ -55,197 +66,177 @@ export default function AvailabilityPage() {
   const heldCount = spaces.filter((s) => s.holds && s.holds.length > 0).length;
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Availability Checker</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Check space availability for specific dates
-          </Body>
-        </div>
-        <Link
-          href="/holds/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          Create Hold
-        </Link>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Availability Checker"
+        subtitle="Check space availability for specific dates"
+        primaryAction={{ label: 'Create Hold', onClick: () => router.push('/holds/new') }}
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Card className="p-6">
+              <Stack direction="horizontal" gap={4} className="flex-wrap items-end">
+                <Box>
+                  <Label className="block mb-2">Start Date</Label>
+                  <Input
+                    type="date"
+                    value={dateRange.start_date}
+                    onChange={(e) => setDateRange({ ...dateRange, start_date: e.target.value })}
+                  />
+                </Box>
+                <Box>
+                  <Label className="block mb-2">End Date</Label>
+                  <Input
+                    type="date"
+                    value={dateRange.end_date}
+                    onChange={(e) => setDateRange({ ...dateRange, end_date: e.target.value })}
+                  />
+                </Box>
+                <Button onClick={() => refetch()} disabled={isLoading}>
+                  <Search className="h-4 w-4 mr-2" />
+                  Check Availability
+                </Button>
+              </Stack>
+            </Card>
 
-      <div className="bg-background border-2 border-border rounded-card p-6">
-        <div className="flex flex-wrap items-end gap-4">
-          <div>
-            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
-              Start Date
-            </Label>
-            <Input
-              type="date"
-              value={dateRange.start_date}
-              onChange={(e) => setDateRange({ ...dateRange, start_date: e.target.value })}
-              className="px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-            />
-          </div>
-          <div>
-            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
-              End Date
-            </Label>
-            <Input
-              type="date"
-              value={dateRange.end_date}
-              onChange={(e) => setDateRange({ ...dateRange, end_date: e.target.value })}
-              className="px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-            />
-          </div>
-          <Button
-            onClick={() => refetch()}
-            disabled={isLoading}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
-          >
-            <Search className="h-4 w-4" />
-            Check Availability
-          </Button>
-        </div>
-      </div>
+            <Grid cols={4} gap={4}>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Calendar className="h-5 w-5 text-primary" />
+                  <Text size="sm" className="text-muted-foreground">Total Spaces</Text>
+                </Stack>
+                <Body className="font-weight-bold">{spaces.length}</Body>
+              </Card>
+              <Card className="p-4 border-success/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <CheckCircle className="h-5 w-5 text-success" />
+                  <Text size="sm" className="text-muted-foreground">Available</Text>
+                </Stack>
+                <Body className="font-weight-bold text-success">{availableCount}</Body>
+              </Card>
+              <Card className="p-4 border-destructive/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <XCircle className="h-5 w-5 text-destructive" />
+                  <Text size="sm" className="text-muted-foreground">Booked</Text>
+                </Stack>
+                <Body className="font-weight-bold text-destructive">{unavailableCount}</Body>
+              </Card>
+              <Card className="p-4 border-warning/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Clock className="h-5 w-5 text-warning" />
+                  <Text size="sm" className="text-muted-foreground">On Hold</Text>
+                </Stack>
+                <Body className="font-weight-bold text-warning">{heldCount}</Body>
+              </Card>
+            </Grid>
 
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Calendar className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Total Spaces</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{spaces.length}</Body>
-        </div>
-        <div className="bg-background border-2 border-success/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <CheckCircle className="h-5 w-5 text-success" />
-            <Text className="text-body-sm text-muted-foreground">Available</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-success">{availableCount}</Body>
-        </div>
-        <div className="bg-background border-2 border-destructive/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <XCircle className="h-5 w-5 text-destructive" />
-            <Text className="text-body-sm text-muted-foreground">Booked</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-destructive">{unavailableCount}</Body>
-        </div>
-        <div className="bg-background border-2 border-warning/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-5 w-5 text-warning" />
-            <Text className="text-body-sm text-muted-foreground">On Hold</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-warning">{heldCount}</Body>
-        </div>
-      </div>
+            <Box className="relative max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Filter spaces..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </Box>
 
-      <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          type="text"
-          placeholder="Filter spaces..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-        />
-      </div>
+            {isLoading && (
+              <Stack gap={4}>
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+              </Stack>
+            )}
 
-      {isLoading && (
-        <div className="animate-pulse space-y-4">
-          <div className="h-24 bg-muted rounded-card" />
-          <div className="h-24 bg-muted rounded-card" />
-        </div>
-      )}
+            {error && (
+              <EmptyState
+                title="Failed to check availability"
+                description="Please try again."
+                action={{ label: 'Retry', onClick: () => refetch() }}
+              />
+            )}
 
-      {error && (
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 text-destructive">
-          Failed to check availability. Please try again.
-        </div>
-      )}
+            {!isLoading && !error && filteredSpaces.length === 0 && (
+              <EmptyState
+                title="No spaces found"
+                description="Select a date range and click Check Availability"
+                icon={<Calendar className="h-12 w-12" />}
+              />
+            )}
 
-      {!isLoading && filteredSpaces.length === 0 && (
-        <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
-          <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No spaces found
-          </H3>
-          <Body className="text-body-sm text-muted-foreground">
-            Select a date range and click Check Availability
-          </Body>
-        </div>
-      )}
-
-      {!isLoading && filteredSpaces.length > 0 && (
-        <div className="space-y-4">
-          {filteredSpaces.map((space) => (
-            <div
-              key={space.space_id}
-              className={`bg-background border-2 rounded-card p-6 ${
-                space.available ? 'border-success' : 
-                space.holds?.length ? 'border-warning' : 'border-destructive'
-              }`}
-            >
-              <div className="flex items-start justify-between">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <H3 className="text-body-lg font-weight-semibold text-foreground">
-                      {space.space_name}
-                    </H3>
-                    {space.available ? (
-                      <Text className="inline-flex items-center gap-1 px-2 py-1 bg-success/20 text-success rounded-badge text-body-xs font-weight-medium">
-                        <CheckCircle className="h-3 w-3" />
-                        Available
-                      </Text>
-                    ) : space.holds?.length ? (
-                      <Text className="inline-flex items-center gap-1 px-2 py-1 bg-warning/20 text-warning rounded-badge text-body-xs font-weight-medium">
-                        <Clock className="h-3 w-3" />
-                        On Hold
-                      </Text>
-                    ) : (
-                      <Text className="inline-flex items-center gap-1 px-2 py-1 bg-destructive/20 text-destructive rounded-badge text-body-xs font-weight-medium">
-                        <XCircle className="h-3 w-3" />
-                        Booked
-                      </Text>
-                    )}
-                  </div>
-
-                  {space.conflicts && space.conflicts.length > 0 && (
-                    <div className="mt-2">
-                      <Body className="text-body-xs text-muted-foreground mb-1">Conflicts:</Body>
-                      {space.conflicts.map((conflict, idx) => (
-                        <Body key={idx} className="text-body-sm text-destructive">
-                          {conflict.type}: {conflict.name} {conflict.time && `(${conflict.time})`}
-                        </Body>
-                      ))}
-                    </div>
-                  )}
-
-                  {space.holds && space.holds.length > 0 && (
-                    <div className="mt-2">
-                      <Body className="text-body-xs text-muted-foreground mb-1">Active holds:</Body>
-                      {space.holds.map((hold) => (
-                        <Body key={hold.id} className="text-body-sm text-warning">
-                          {hold.priority} hold {hold.contact_name && `by ${hold.contact_name}`} • 
-                          Expires {new Date(hold.expires_at).toLocaleString()}
-                        </Body>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {space.available && (
-                  <Link
-                    href={`/holds/new?space=${space.space_id}&date=${dateRange.start_date}`}
-                    className="inline-flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium hover:bg-primary/90 transition-colors"
+            {!isLoading && filteredSpaces.length > 0 && (
+              <Stack gap={4}>
+                {filteredSpaces.map((space) => (
+                  <Card
+                    key={space.space_id}
+                    className={`p-6 ${
+                      space.available ? 'border-success' : 
+                      space.holds?.length ? 'border-warning' : 'border-destructive'
+                    }`}
                   >
-                    <Plus className="h-4 w-4" />
-                    Create Hold
-                  </Link>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+                    <Stack direction="horizontal" className="justify-between items-start">
+                      <Box>
+                        <Stack direction="horizontal" gap={3} className="items-center mb-2">
+                          <H3>{space.space_name}</H3>
+                          {space.available ? (
+                            <Badge variant="success">
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                              Available
+                            </Badge>
+                          ) : space.holds?.length ? (
+                            <Badge variant="warning">
+                              <Clock className="h-3 w-3 mr-1" />
+                              On Hold
+                            </Badge>
+                          ) : (
+                            <Badge variant="error">
+                              <XCircle className="h-3 w-3 mr-1" />
+                              Booked
+                            </Badge>
+                          )}
+                        </Stack>
+
+                        {space.conflicts && space.conflicts.length > 0 && (
+                          <Box className="mt-2">
+                            <Body size="xs" className="text-muted-foreground mb-1">Conflicts:</Body>
+                            {space.conflicts.map((conflict, idx) => (
+                              <Body key={idx} size="sm" className="text-destructive">
+                                {conflict.type}: {conflict.name} {conflict.time && `(${conflict.time})`}
+                              </Body>
+                            ))}
+                          </Box>
+                        )}
+
+                        {space.holds && space.holds.length > 0 && (
+                          <Box className="mt-2">
+                            <Body size="xs" className="text-muted-foreground mb-1">Active holds:</Body>
+                            {space.holds.map((hold) => (
+                              <Body key={hold.id} size="sm" className="text-warning">
+                                {hold.priority} hold {hold.contact_name && `by ${hold.contact_name}`} - 
+                                Expires {new Date(hold.expires_at).toLocaleString()}
+                              </Body>
+                            ))}
+                          </Box>
+                        )}
+                      </Box>
+
+                      {space.available && (
+                        <Link href={`/holds/new?space=${space.space_id}&date=${dateRange.start_date}`}>
+                          <Button size="sm">
+                            <Plus className="h-4 w-4 mr-2" />
+                            Create Hold
+                          </Button>
+                        </Link>
+                      )}
+                    </Stack>
+                  </Card>
+                ))}
+              </Stack>
+            )}
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

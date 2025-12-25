@@ -1,20 +1,26 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H3,
   Input,
-  Text,
+  MainContent,
   Skeleton,
-  EmptyState,
+  Stack,
+  Text,
   useNotifications,
 } from '@ghxstship/ui';
-import Link from 'next/link';
-import { Plus, Search, Folder, FolderOpen, Edit2, Trash2, ChevronRight, ChevronDown, Users } from 'lucide-react';
+import { Search, Folder, FolderOpen, Edit2, Trash2, ChevronRight, ChevronDown, Users } from 'lucide-react';
 
 interface VendorCategory {
   id: string;
@@ -101,6 +107,7 @@ async function fetchVendorCategories(): Promise<VendorCategory[]> {
 }
 
 export default function VendorCategoriesPage() {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { addNotification } = useNotifications();
   const [searchQuery, setSearchQuery] = useState('');
@@ -155,35 +162,37 @@ export default function VendorCategoriesPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <Skeleton className="h-8 w-48" />
-            <Skeleton className="h-4 w-64 mt-2" />
-          </div>
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-10 w-28" />
-            <Skeleton className="h-10 w-32" />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <Skeleton className="h-24" />
-          <Skeleton className="h-24" />
-        </div>
-        <Skeleton className="h-64" />
-      </div>
+      <>
+        <EnterprisePageHeader title="Vendor Categories" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={4}>
+              <Grid cols={2} gap={4}>
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+              </Grid>
+              <Skeleton className="h-64" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error && !apiCategories) {
     return (
-      <div className="p-6">
-        <EmptyState
-          title="Error Loading Categories"
-          description={error instanceof Error ? error.message : 'Failed to load vendor categories'}
-          action={{ label: 'Retry', onClick: () => window.location.reload() }}
-        />
-      </div>
+      <>
+        <EnterprisePageHeader title="Vendor Categories" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Error Loading Categories"
+              description={error instanceof Error ? error.message : 'Failed to load vendor categories'}
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
@@ -192,158 +201,115 @@ export default function VendorCategoriesPage() {
     const hasChildren = category.children && category.children.length > 0;
 
     return (
-      <div key={category.id}>
-        <div 
-          className="flex items-center gap-3 p-3 border-b border-border hover:bg-muted/30 transition-colors"
+      <Box key={category.id}>
+        <Stack 
+          direction="horizontal" 
+          gap={3} 
+          className="p-3 border-b border-border hover:bg-muted/30 transition-colors items-center"
           style={{ paddingLeft: `${depth * 24 + 12}px` }}
         >
           {hasChildren ? (
-            <Button 
-              onClick={() => toggleExpanded(category.id)}
-              className="p-1 hover:bg-muted rounded-button transition-colors"
-            >
-              {isExpanded ? (
-                <ChevronDown className="h-4 w-4 text-muted-foreground" />
-              ) : (
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              )}
+            <Button variant="ghost" size="sm" onClick={() => toggleExpanded(category.id)}>
+              {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
             </Button>
           ) : (
-            <div className="w-6" />
+            <Box className="w-6" />
           )}
 
-          {isExpanded ? (
-            <FolderOpen className="h-5 w-5 text-primary" />
-          ) : (
-            <Folder className="h-5 w-5 text-muted-foreground" />
-          )}
+          {isExpanded ? <FolderOpen className="h-5 w-5 text-primary" /> : <Folder className="h-5 w-5 text-muted-foreground" />}
 
-          <div className="flex-1">
-            <Text className="text-body-sm font-weight-medium text-foreground">
-              {category.name}
-            </Text>
-            {category.description && (
-              <Text className="ml-2 text-body-xs text-muted-foreground">
-                {category.description}
-              </Text>
-            )}
-          </div>
+          <Box className="flex-1">
+            <Text size="sm" className="font-weight-medium">{category.name}</Text>
+            {category.description && <Text size="xs" className="text-muted-foreground ml-2">{category.description}</Text>}
+          </Box>
 
-          <Text className="inline-flex items-center gap-1 text-body-xs text-muted-foreground">
+          <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground">
             <Users className="h-3 w-3" />
-            {category.vendors_count}
-          </Text>
+            <Text size="xs">{category.vendors_count}</Text>
+          </Stack>
 
-          <div className="flex items-center gap-1">
+          <Stack direction="horizontal" gap={1}>
+            <Button variant="ghost" size="sm"><Edit2 className="h-4 w-4" /></Button>
             <Button 
-              className="p-1.5 hover:bg-muted rounded-button transition-colors"
-            >
-              <Edit2 className="h-4 w-4 text-muted-foreground" />
-            </Button>
-            <Button 
-              className="p-1.5 hover:bg-destructive/10 rounded-button transition-colors"
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteCategoryMutation.mutate(category.id);
-              }}
+              variant="ghost" 
+              size="sm" 
+              className="text-destructive"
+              onClick={(e) => { e.stopPropagation(); deleteCategoryMutation.mutate(category.id); }}
               disabled={deleteCategoryMutation.isPending}
             >
-              <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
+              <Trash2 className="h-4 w-4" />
             </Button>
-          </div>
-        </div>
+          </Stack>
+        </Stack>
 
         {hasChildren && isExpanded && (
-          <div>
-            {category.children?.map((child) => renderCategory(child, depth + 1))}
-          </div>
+          <Box>{category.children?.map((child) => renderCategory(child, depth + 1))}</Box>
         )}
-      </div>
+      </Box>
     );
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Vendor Categories</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Organize vendors by service type
-          </Body>
-        </div>
-        <div className="flex items-center gap-2">
-          <Link
-            href="/vendors"
-            className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
-          >
-            View Vendors
-          </Link>
-          <Button
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-          >
-            <Plus className="h-4 w-4" />
-            Add Category
-          </Button>
-        </div>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Vendor Categories"
+        subtitle="Organize vendors by service type"
+        primaryAction={{ label: 'Add Category', onClick: () => {} }}
+        secondaryAction={{ label: 'View Vendors', onClick: () => router.push('/vendors') }}
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={2} gap={4}>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Folder className="h-5 w-5 text-primary" />
+                  <Text size="sm" className="text-muted-foreground">Categories</Text>
+                </Stack>
+                <Body className="font-weight-bold">{totalCategories}</Body>
+              </Card>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Users className="h-5 w-5 text-primary" />
+                  <Text size="sm" className="text-muted-foreground">Total Vendors</Text>
+                </Stack>
+                <Body className="font-weight-bold">{totalVendors}</Body>
+              </Card>
+            </Grid>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Folder className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Categories</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{totalCategories}</Body>
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Users className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Total Vendors</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{totalVendors}</Body>
-        </div>
-      </div>
+            <Box className="relative max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search categories..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </Box>
 
-      <div className="flex items-center gap-4">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search categories..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          />
-        </div>
-      </div>
+            <Card className="overflow-hidden">
+              <Stack direction="horizontal" gap={3} className="border-b border-border bg-muted/30 p-3 items-center">
+                <Box className="w-6" />
+                <Box className="w-5" />
+                <Text size="xs" className="flex-1 font-weight-semibold text-muted-foreground uppercase">Category Name</Text>
+                <Text size="xs" className="font-weight-semibold text-muted-foreground uppercase w-16 text-right">Vendors</Text>
+                <Box className="w-16" />
+              </Stack>
 
-      <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-        <div className="border-b border-border bg-muted/30 p-3 flex items-center gap-3">
-          <div className="w-6" />
-          <div className="w-5" />
-          <Text className="flex-1 text-body-xs font-weight-semibold text-muted-foreground uppercase">
-            Category Name
-          </Text>
-          <Text className="text-body-xs font-weight-semibold text-muted-foreground uppercase w-16 text-right">
-            Vendors
-          </Text>
-          <div className="w-16" />
-        </div>
-
-        {filteredCategories.length === 0 && (
-          <div className="text-center py-12">
-            <Folder className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-              No categories found
-            </H3>
-            <Body className="text-body-sm text-muted-foreground">
-              {searchQuery ? 'Try adjusting your search' : 'Create your first category'}
-            </Body>
-          </div>
-        )}
-
-        {filteredCategories.map((category) => renderCategory(category))}
-      </div>
-    </div>
+              {filteredCategories.length === 0 ? (
+                <EmptyState
+                  title="No categories found"
+                  description={searchQuery ? 'Try adjusting your search' : 'Create your first category'}
+                  icon={<Folder className="h-12 w-12" />}
+                />
+              ) : (
+                filteredCategories.map((category) => renderCategory(category))
+              )}
+            </Card>
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

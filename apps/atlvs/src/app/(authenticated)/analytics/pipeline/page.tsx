@@ -2,15 +2,21 @@
 
 import {
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EnterprisePageHeader,
+  Grid,
   H3,
+  MainContent,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, TrendingUp, TrendingDown, Target, Clock, DollarSign, BarChart3 } from 'lucide-react';
+import { TrendingUp, TrendingDown, Target, Clock, DollarSign, BarChart3 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 
 interface PipelineMetrics {
@@ -80,9 +86,19 @@ export default function PipelineAnalyticsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading pipeline data...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Pipeline Analytics" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Grid cols={4} gap={4}>
+              <Skeleton className="h-32" />
+              <Skeleton className="h-32" />
+              <Skeleton className="h-32" />
+              <Skeleton className="h-32" />
+            </Grid>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
@@ -108,151 +124,130 @@ export default function PipelineAnalyticsPage() {
     : 0;
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/analytics"
-            className="p-2 hover:bg-muted rounded-button transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </Link>
-          <div>
-            <H1 className="text-h2-md font-weight-bold text-foreground">Pipeline Analytics</H1>
-            <Body className="text-body-sm text-muted-foreground mt-1">
-              Deal flow and conversion analysis
-            </Body>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 bg-muted/30 rounded-button p-1">
+    <>
+      <EnterprisePageHeader
+        title="Pipeline Analytics"
+        subtitle="Deal flow and conversion analysis"
+        backHref="/analytics"
+      />
+      <Box className="px-6 py-3 border-b border-border flex justify-end">
+        <Stack direction="horizontal" gap={2} className="bg-muted/30 rounded-button p-1">
           {(['30d', '90d', '1y'] as const).map((range) => (
             <Button
               key={range}
+              variant={dateRange === range ? 'solid' : 'ghost'}
+              size="sm"
               onClick={() => setDateRange(range)}
-              className={`px-3 py-1.5 rounded-button text-body-sm transition-colors ${
-                dateRange === range
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
             >
               {range === '30d' ? '30 Days' : range === '90d' ? '90 Days' : '1 Year'}
             </Button>
           ))}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <div className="flex items-center justify-between mb-2">
-            <Text className="text-body-sm text-muted-foreground">Total Pipeline Value</Text>
-            <DollarSign className="h-5 w-5 text-primary" />
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">
-            {formatCurrency(metrics.total_value)}
-          </Body>
-          <Body className="text-body-xs text-muted-foreground mt-1">
-            Weighted: {formatCurrency(metrics.weighted_value)}
-          </Body>
-        </div>
-
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <div className="flex items-center justify-between mb-2">
-            <Text className="text-body-sm text-muted-foreground">Win Rate</Text>
-            <Target className="h-5 w-5 text-success-600" />
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">
-            {metrics.win_rate.toFixed(1)}%
-          </Body>
-        </div>
-
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <div className="flex items-center justify-between mb-2">
-            <Text className="text-body-sm text-muted-foreground">Avg Days to Close</Text>
-            <Clock className="h-5 w-5 text-secondary" />
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">
-            {metrics.average_days_to_close.toFixed(0)}
-          </Body>
-        </div>
-
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <div className="flex items-center justify-between mb-2">
-            <Text className="text-body-sm text-muted-foreground">Deals Created</Text>
-            <BarChart3 className="h-5 w-5 text-accent" />
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">
-            {metrics.trends.deals_created_this_month}
-          </Body>
-          <div className={`flex items-center gap-1 mt-1 text-body-xs ${
-            dealsCreatedChange >= 0 ? 'text-success-600' : 'text-error-600'
-          }`}>
-            {dealsCreatedChange >= 0 ? (
-              <TrendingUp className="h-3 w-3" />
-            ) : (
-              <TrendingDown className="h-3 w-3" />
-            )}
-            <Text>{Math.abs(dealsCreatedChange).toFixed(1)}% vs last month</Text>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-background border-2 border-border rounded-card p-6">
-        <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Pipeline by Stage</H3>
-        {metrics.deals_by_stage.length === 0 ? (
-          <Body className="text-body-sm text-muted-foreground text-center py-8">No data available</Body>
-        ) : (
-          <div className="space-y-4">
-            {metrics.deals_by_stage.map((stage) => (
-              <div key={stage.stage_id}>
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <Text className="text-body-sm font-weight-medium text-foreground">
-                      {stage.stage_name}
-                    </Text>
-                    <Text className="text-body-xs text-muted-foreground">
-                      ({stage.count} deals)
-                    </Text>
-                  </div>
-                  <Text className="text-body-sm font-weight-medium text-foreground">
-                    {formatCurrency(stage.value)}
-                  </Text>
-                </div>
-                <div className="w-full bg-muted rounded-badge h-3">
-                  <div
-                    className="bg-primary h-3 rounded-badge transition-all"
-                    style={{ width: `${stage.probability}%` }}
-                  />
-                </div>
-                <Body className="text-body-xs text-muted-foreground mt-1">
-                  {stage.probability}% probability
+        </Stack>
+      </Box>
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={4} gap={4}>
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-2">
+                  <Text size="sm" className="text-muted-foreground">Total Pipeline Value</Text>
+                  <DollarSign className="h-5 w-5 text-primary" />
+                </Stack>
+                <Body className="font-weight-bold">{formatCurrency(metrics.total_value)}</Body>
+                <Body size="xs" className="text-muted-foreground mt-1">
+                  Weighted: {formatCurrency(metrics.weighted_value)}
                 </Body>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+              </Card>
 
-      <div className="bg-background border-2 border-border rounded-card p-6">
-        <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Stage Conversion Rates</H3>
-        {metrics.conversion_rates.length === 0 ? (
-          <Body className="text-body-sm text-muted-foreground text-center py-8">No data available</Body>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {metrics.conversion_rates.map((conv, i) => (
-              <div key={i} className="p-4 bg-muted/30 rounded-card">
-                <div className="flex items-center gap-2 mb-2">
-                  <Text className="text-body-sm text-foreground">{conv.from_stage}</Text>
-                  <Text className="text-muted-foreground">→</Text>
-                  <Text className="text-body-sm text-foreground">{conv.to_stage}</Text>
-                </div>
-                <Body className="text-h4-md font-weight-bold text-primary">
-                  {conv.rate.toFixed(1)}%
-                </Body>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-2">
+                  <Text size="sm" className="text-muted-foreground">Win Rate</Text>
+                  <Target className="h-5 w-5 text-success-600" />
+                </Stack>
+                <Body className="font-weight-bold">{metrics.win_rate.toFixed(1)}%</Body>
+              </Card>
+
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-2">
+                  <Text size="sm" className="text-muted-foreground">Avg Days to Close</Text>
+                  <Clock className="h-5 w-5 text-secondary" />
+                </Stack>
+                <Body className="font-weight-bold">{metrics.average_days_to_close.toFixed(0)}</Body>
+              </Card>
+
+              <Card className="p-6">
+                <Stack direction="horizontal" className="justify-between mb-2">
+                  <Text size="sm" className="text-muted-foreground">Deals Created</Text>
+                  <BarChart3 className="h-5 w-5 text-accent" />
+                </Stack>
+                <Body className="font-weight-bold">{metrics.trends.deals_created_this_month}</Body>
+                <Stack direction="horizontal" gap={1} className={`mt-1 items-center ${
+                  dealsCreatedChange >= 0 ? 'text-success-600' : 'text-error-600'
+                }`}>
+                  {dealsCreatedChange >= 0 ? (
+                    <TrendingUp className="h-3 w-3" />
+                  ) : (
+                    <TrendingDown className="h-3 w-3" />
+                  )}
+                  <Text size="xs">{Math.abs(dealsCreatedChange).toFixed(1)}% vs last month</Text>
+                </Stack>
+              </Card>
+            </Grid>
+
+            <Card className="p-6">
+              <H3 className="mb-4">Pipeline by Stage</H3>
+              {metrics.deals_by_stage.length === 0 ? (
+                <Body size="sm" className="text-muted-foreground text-center py-8">No data available</Body>
+              ) : (
+                <Stack gap={4}>
+                  {metrics.deals_by_stage.map((stage) => (
+                    <Box key={stage.stage_id}>
+                      <Stack direction="horizontal" className="justify-between mb-2">
+                        <Stack direction="horizontal" gap={2}>
+                          <Text size="sm" className="font-weight-medium">{stage.stage_name}</Text>
+                          <Text size="xs" className="text-muted-foreground">({stage.count} deals)</Text>
+                        </Stack>
+                        <Text size="sm" className="font-weight-medium">{formatCurrency(stage.value)}</Text>
+                      </Stack>
+                      <Box className="w-full bg-muted rounded-badge h-3">
+                        <Box
+                          className="bg-primary h-3 rounded-badge transition-all"
+                          style={{ width: `${stage.probability}%` }}
+                        />
+                      </Box>
+                      <Body size="xs" className="text-muted-foreground mt-1">
+                        {stage.probability}% probability
+                      </Body>
+                    </Box>
+                  ))}
+                </Stack>
+              )}
+            </Card>
+
+            <Card className="p-6">
+              <H3 className="mb-4">Stage Conversion Rates</H3>
+              {metrics.conversion_rates.length === 0 ? (
+                <Body size="sm" className="text-muted-foreground text-center py-8">No data available</Body>
+              ) : (
+                <Grid cols={3} gap={4}>
+                  {metrics.conversion_rates.map((conv, i) => (
+                    <Card key={i} className="p-4 bg-muted/30">
+                      <Stack direction="horizontal" gap={2} className="mb-2">
+                        <Text size="sm">{conv.from_stage}</Text>
+                        <Text className="text-muted-foreground">→</Text>
+                        <Text size="sm">{conv.to_stage}</Text>
+                      </Stack>
+                      <Body className="font-weight-bold text-primary">
+                        {conv.rate.toFixed(1)}%
+                      </Body>
+                    </Card>
+                  ))}
+                </Grid>
+              )}
+            </Card>
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

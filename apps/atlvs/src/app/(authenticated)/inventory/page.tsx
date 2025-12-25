@@ -1,12 +1,19 @@
 'use client';
 
 import {
+  Badge,
   Body,
-  H1,
-  H3,
+  Box,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   Input,
-  Link,
+  MainContent,
   Select,
+  Skeleton,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -17,7 +24,9 @@ import {
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
-import { Plus, Search, Package, AlertTriangle, CheckCircle, Archive, Filter, BarChart3 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Search, Package, AlertTriangle, CheckCircle, Archive, Filter, BarChart3 } from 'lucide-react';
 import { useInventory, InventoryItem } from '@/hooks/useInventory';
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
@@ -30,6 +39,7 @@ const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
 const CATEGORIES = ['All', 'Furniture', 'Linens', 'Decor', 'Lighting', 'Audio/Visual', 'Catering'];
 
 export default function InventoryPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState<string>('');
@@ -60,27 +70,39 @@ export default function InventoryPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded-card w-1/3" />
-          <div className="grid grid-cols-5 gap-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="h-24 bg-muted rounded-card" />
-            ))}
-          </div>
-          <div className="h-64 bg-muted rounded-card" />
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Inventory" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={4}>
+              <Grid cols={4} gap={4}>
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+              </Grid>
+              <Skeleton className="h-64" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 text-destructive">
-          Failed to load inventory. Please try again.
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Inventory" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Failed to load inventory"
+              description="Please try again."
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
@@ -93,180 +115,140 @@ export default function InventoryPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Inventory</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Track and manage rental inventory items
-          </Body>
-        </div>
-        <div className="flex items-center gap-2">
-          <Link
-            href="/inventory/transfers"
-            className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
-          >
-            Transfers
-          </Link>
-          <Link
-            href="/inventory/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-          >
-            <Plus className="h-4 w-4" />
-            Add Item
-          </Link>
-        </div>
-      </div>
+    <>
+      <EnterprisePageHeader
+        title="Inventory"
+        subtitle="Track and manage rental inventory items"
+        primaryAction={{ label: 'Add Item', onClick: () => router.push('/inventory/new') }}
+        secondaryActions={[
+          { label: 'Transfers', onClick: () => router.push('/inventory/transfers') }
+        ]}
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={6}>
+            <Grid cols={4} gap={4}>
+              <Card className="p-4">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Package className="h-5 w-5 text-primary" />
+                  <Text size="sm" className="text-muted-foreground">Total Items</Text>
+                </Stack>
+                <Body className="font-weight-bold">{stats.total}</Body>
+              </Card>
+              <Card className="p-4 border-success/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <CheckCircle className="h-5 w-5 text-success" />
+                  <Text size="sm" className="text-muted-foreground">In Stock</Text>
+                </Stack>
+                <Body className="font-weight-bold text-success">{stats.inStock}</Body>
+              </Card>
+              <Card className="p-4 border-warning/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <AlertTriangle className="h-5 w-5 text-warning" />
+                  <Text size="sm" className="text-muted-foreground">Low Stock</Text>
+                </Stack>
+                <Body className="font-weight-bold text-warning">{stats.lowStock}</Body>
+              </Card>
+              <Card className="p-4 border-destructive/50">
+                <Stack direction="horizontal" gap={2} className="items-center mb-2">
+                  <Archive className="h-5 w-5 text-destructive" />
+                  <Text size="sm" className="text-muted-foreground">Out of Stock</Text>
+                </Stack>
+                <Body className="font-weight-bold text-destructive">{stats.outOfStock}</Body>
+              </Card>
+            </Grid>
 
-      <div className="grid grid-cols-5 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Package className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Total Items</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{stats.total}</Body>
-        </div>
-        <div className="bg-background border-2 border-success/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <CheckCircle className="h-5 w-5 text-success" />
-            <Text className="text-body-sm text-muted-foreground">In Stock</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-success">{stats.inStock}</Body>
-        </div>
-        <div className="bg-background border-2 border-warning/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <AlertTriangle className="h-5 w-5 text-warning" />
-            <Text className="text-body-sm text-muted-foreground">Low Stock</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-warning">{stats.lowStock}</Body>
-        </div>
-        <div className="bg-background border-2 border-destructive/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Archive className="h-5 w-5 text-destructive" />
-            <Text className="text-body-sm text-muted-foreground">Out of Stock</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-destructive">{stats.outOfStock}</Body>
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <BarChart3 className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Total Value</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{formatCurrency(stats.totalValue)}</Body>
-        </div>
-      </div>
+            <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
+              <Box className="relative flex-1 min-w-[200px] max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search by name or SKU..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </Box>
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                >
+                  {CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </Select>
+                <Select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                  <option value="">All Status</option>
+                  {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Select>
+              </Stack>
+            </Stack>
 
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search by name or SKU..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <Select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            {CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </Select>
-          <Select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All Status</option>
-            {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </Select>
-        </div>
-      </div>
+            {filteredInventory.length === 0 ? (
+              <EmptyState
+                title="No inventory items found"
+                description={searchQuery ? 'Try adjusting your search' : 'Add your first inventory item'}
+                icon={<Package className="h-12 w-12" />}
+                action={{ label: 'Add Item', onClick: () => router.push('/inventory/new') }}
+              />
+            ) : (
+              <Card className="overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Product ID</TableHead>
+                      <TableHead>Location</TableHead>
+                      <TableHead className="text-right">Min Qty</TableHead>
+                      <TableHead className="text-right">Reorder Point</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredInventory.map((item: InventoryItem) => {
+                      const hasAlert = alerts.some(a => a.product_id === item.product_id);
+                      const alertType = alerts.find(a => a.product_id === item.product_id)?.alert_type;
+                      const statusConfig = alertType 
+                        ? STATUS_CONFIG[alertType === 'out_of_stock' ? 'out_of_stock' : 'low_stock'] 
+                        : STATUS_CONFIG['in_stock'];
 
-      {filteredInventory.length === 0 && (
-        <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
-          <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No inventory items found
-          </H3>
-          <Body className="text-body-sm text-muted-foreground mb-4">
-            {searchQuery ? 'Try adjusting your search' : 'Add your first inventory item'}
-          </Body>
-          <Link
-            href="/inventory/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
-          >
-            <Plus className="h-4 w-4" />
-            Add Item
-          </Link>
-        </div>
-      )}
-
-      {filteredInventory.length > 0 && (
-        <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-          <Table className="w-full">
-            <TableHeader>
-              <TableRow className="border-b border-border bg-muted/30">
-                <TableHead className="text-left p-4 text-body-sm font-weight-semibold text-foreground">Product ID</TableHead>
-                <TableHead className="text-left p-4 text-body-sm font-weight-semibold text-foreground">Location</TableHead>
-                <TableHead className="text-right p-4 text-body-sm font-weight-semibold text-foreground">Min Qty</TableHead>
-                <TableHead className="text-right p-4 text-body-sm font-weight-semibold text-foreground">Reorder Point</TableHead>
-                <TableHead className="text-left p-4 text-body-sm font-weight-semibold text-foreground">Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredInventory.map((item: InventoryItem) => {
-                const hasAlert = alerts.some(a => a.product_id === item.product_id);
-                const alertType = alerts.find(a => a.product_id === item.product_id)?.alert_type;
-                const statusConfig = alertType 
-                  ? STATUS_CONFIG[alertType === 'out_of_stock' ? 'out_of_stock' : 'low_stock'] 
-                  : STATUS_CONFIG['in_stock'];
-
-                return (
-                  <TableRow key={item.id} className="border-b border-border last:border-0 hover:bg-muted/20">
-                    <TableCell className="p-4">
-                      <Link
-                        href={`/inventory/${item.id}`}
-                        className="text-body-sm font-weight-medium text-foreground hover:text-primary transition-colors"
-                      >
-                        {item.product_id}
-                      </Link>
-                    </TableCell>
-                    <TableCell className="p-4">
-                      <Text className="text-body-sm text-muted-foreground">
-                        {item.location?.name || 'Unassigned'}
-                      </Text>
-                    </TableCell>
-                    <TableCell className="p-4 text-right">
-                      <Text className="text-body-sm font-weight-medium text-foreground">
-                        {item.min_quantity}
-                      </Text>
-                    </TableCell>
-                    <TableCell className="p-4 text-right">
-                      <Text className="text-body-sm text-muted-foreground">
-                        {item.reorder_point || '-'}
-                      </Text>
-                    </TableCell>
-                    <TableCell className="p-4">
-                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig?.color || 'bg-muted text-muted-foreground'}`}>
-                        {hasAlert ? (alertType === 'out_of_stock' ? 'Out of Stock' : 'Low Stock') : 'In Stock'}
-                      </Text>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
-      )}
-    </div>
+                      return (
+                        <TableRow key={item.id}>
+                          <TableCell>
+                            <Link href={`/inventory/${item.id}`} className="hover:text-primary">
+                              {item.product_id}
+                            </Link>
+                          </TableCell>
+                          <TableCell className="text-muted-foreground">
+                            {item.location?.name || 'Unassigned'}
+                          </TableCell>
+                          <TableCell className="text-right font-weight-medium">
+                            {item.min_quantity}
+                          </TableCell>
+                          <TableCell className="text-right text-muted-foreground">
+                            {item.reorder_point || '-'}
+                          </TableCell>
+                          <TableCell>
+                            <Badge className={statusConfig?.color || 'bg-muted text-muted-foreground'}>
+                              {hasAlert ? (alertType === 'out_of_stock' ? 'Out of Stock' : 'Low Stock') : 'In Stock'}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </Card>
+            )}
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }

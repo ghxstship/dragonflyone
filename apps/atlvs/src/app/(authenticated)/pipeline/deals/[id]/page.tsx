@@ -1,18 +1,27 @@
 'use client';
 
 import {
+  Badge,
   Body,
+  Box,
   Button,
-  H1,
+  Card,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  Grid,
   H2,
-  H3,
+  MainContent,
+  Modal,
+  Skeleton,
+  Stack,
   Text,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Edit2, Trash2, User, Mail, Phone, MoreVertical, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { Edit2, Trash2, User, Mail, Phone, MoreVertical, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { usePipelineDeal, useDeleteDeal, useMoveDeals } from '@/hooks/usePipeline';
 
 const STAGES = [
@@ -27,7 +36,7 @@ const STAGES = [
 export default function DealDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const dealId = params.id as string;
+  const dealId = params?.id as string;
 
   const { data, isLoading, error } = usePipelineDeal(dealId);
   const deleteDeal = useDeleteDeal();
@@ -71,266 +80,236 @@ export default function DealDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading deal...</div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Deal Details" subtitle="Loading..." />
+        <MainContent padding="lg">
+          <Container>
+            <Grid cols={3} gap={6}>
+              <Box className="col-span-2"><Skeleton className="h-64" /></Box>
+              <Skeleton className="h-64" />
+            </Grid>
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   if (error || !deal) {
     return (
-      <div className="p-6">
-        <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <Body className="text-destructive">Deal not found</Body>
-          <Link href="/pipeline" className="text-primary hover:underline mt-2 inline-block">
-            Back to Pipeline
-          </Link>
-        </div>
-      </div>
+      <>
+        <EnterprisePageHeader title="Deal Details" subtitle="Error" />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Deal not found"
+              description="The deal you're looking for doesn't exist or has been removed."
+              action={{ label: 'Back to Pipeline', onClick: () => router.push('/pipeline') }}
+            />
+          </Container>
+        </MainContent>
+      </>
     );
   }
 
   const stageInfo = getStageInfo(deal.stage);
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/pipeline"
-            className="p-2 hover:bg-muted rounded-button transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </Link>
-          <div>
-            <div className="flex items-center gap-3">
-              <H1 className="text-h2-md font-weight-bold text-foreground">{deal.name}</H1>
-              <Text className={`px-3 py-1 rounded-avatar text-body-xs font-weight-medium ${stageInfo.color}`}>
-                {stageInfo.name}
-              </Text>
-            </div>
-            <Body className="text-body-sm text-muted-foreground mt-1">
-              {deal.deal_number} • Created {formatDate(deal.created_at)}
-            </Body>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <Button
-              onClick={() => setShowStageMenu(!showStageMenu)}
-              className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-            >
+    <>
+      <EnterprisePageHeader
+        title={deal.name}
+        subtitle={`${deal.deal_number} • Created ${formatDate(deal.created_at)}`}
+      />
+      <Box className="px-6 py-3 border-b border-border flex items-center justify-between">
+        <Badge className={stageInfo.color}>{stageInfo.name}</Badge>
+        <Stack direction="horizontal" gap={2}>
+          <Box className="relative">
+            <Button variant="outline" onClick={() => setShowStageMenu(!showStageMenu)}>
               Move Stage
-              <MoreVertical className="h-4 w-4" />
+              <MoreVertical className="h-4 w-4 ml-2" />
             </Button>
             {showStageMenu && (
-              <div className="absolute right-0 mt-2 w-48 bg-background border-2 border-border rounded-card shadow-lg z-10">
+              <Box className="absolute right-0 mt-2 w-48 bg-background border-2 border-border rounded-card shadow-lg z-10">
                 {STAGES.map((stage) => (
                   <Button
                     key={stage.id}
+                    variant="ghost"
                     onClick={() => handleStageChange(stage.id)}
                     disabled={stage.id === deal.stage}
-                    className={`w-full text-left px-4 py-2 text-body-sm hover:bg-muted transition-colors ${
-                      stage.id === deal.stage ? 'opacity-50 cursor-not-allowed' : ''
-                    }`}
+                    className="w-full justify-start"
                   >
                     {stage.name}
                   </Button>
                 ))}
-              </div>
+              </Box>
             )}
-          </div>
-          <Link
-            href={`/pipeline/deals/${dealId}/edit`}
-            className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-          >
-            <Edit2 className="h-4 w-4" />
-            Edit
+          </Box>
+          <Link href={`/pipeline/deals/${dealId}/edit`}>
+            <Button variant="outline">
+              <Edit2 className="h-4 w-4 mr-2" />
+              Edit
+            </Button>
           </Link>
-          <Button
-            onClick={() => setShowDeleteConfirm(true)}
-            className="flex items-center gap-2 px-4 py-2 border-2 border-destructive text-destructive rounded-button hover:bg-destructive/10 transition-colors"
-          >
-            <Trash2 className="h-4 w-4" />
+          <Button variant="destructive" onClick={() => setShowDeleteConfirm(true)}>
+            <Trash2 className="h-4 w-4 mr-2" />
             Delete
           </Button>
-        </div>
-      </div>
+        </Stack>
+      </Box>
+      <MainContent padding="lg">
+        <Container>
+          <Grid cols={3} gap={6}>
+            <Stack gap={6} className="col-span-2">
+              <Card className="p-6">
+                <H2 className="mb-4">Deal Value</H2>
+                <Grid cols={3} gap={4}>
+                  <Stack gap={1}>
+                    <Body size="xs" className="text-muted-foreground">Value</Body>
+                    <Body className="font-weight-bold">{formatCurrency(deal.value || 0)}</Body>
+                  </Stack>
+                  <Stack gap={1}>
+                    <Body size="xs" className="text-muted-foreground">Probability</Body>
+                    <Body className="font-weight-bold">{deal.probability || 0}%</Body>
+                  </Stack>
+                  <Stack gap={1}>
+                    <Body size="xs" className="text-muted-foreground">Weighted Value</Body>
+                    <Body className="font-weight-bold text-primary">
+                      {formatCurrency((deal.value || 0) * (deal.probability || 0) / 100)}
+                    </Body>
+                  </Stack>
+                </Grid>
+              </Card>
 
-      <div className="grid grid-cols-3 gap-6">
-        <div className="col-span-2 space-y-6">
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Deal Value</H2>
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <Body className="text-body-xs text-muted-foreground mb-1">Value</Body>
-                <Body className="text-h3-md font-weight-bold text-foreground">
-                  {formatCurrency(deal.value || 0)}
-                </Body>
-              </div>
-              <div>
-                <Body className="text-body-xs text-muted-foreground mb-1">Probability</Body>
-                <Body className="text-h3-md font-weight-bold text-foreground">
-                  {deal.probability || 0}%
-                </Body>
-              </div>
-              <div>
-                <Body className="text-body-xs text-muted-foreground mb-1">Weighted Value</Body>
-                <Body className="text-h3-md font-weight-bold text-primary">
-                  {formatCurrency((deal.value || 0) * (deal.probability || 0) / 100)}
-                </Body>
-              </div>
-            </div>
-          </div>
+              <Card className="p-6">
+                <H2 className="mb-4">Contact Information</H2>
+                <Stack gap={3}>
+                  {deal.contact_name && (
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <User className="h-5 w-5 text-muted-foreground" />
+                      <Text>{deal.contact_name}</Text>
+                    </Stack>
+                  )}
+                  {deal.contact_email && (
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <Mail className="h-5 w-5 text-muted-foreground" />
+                      <Link href={`mailto:${deal.contact_email}`} className="text-primary hover:underline">
+                        <Text>{deal.contact_email}</Text>
+                      </Link>
+                    </Stack>
+                  )}
+                  {deal.contact_phone && (
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <Phone className="h-5 w-5 text-muted-foreground" />
+                      <Link href={`tel:${deal.contact_phone}`} className="text-primary hover:underline">
+                        <Text>{deal.contact_phone}</Text>
+                      </Link>
+                    </Stack>
+                  )}
+                  {!deal.contact_name && !deal.contact_email && !deal.contact_phone && (
+                    <Body size="sm" className="text-muted-foreground">No contact information</Body>
+                  )}
+                </Stack>
+              </Card>
 
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Contact Information</H2>
-            <div className="space-y-3">
-              {deal.contact_name && (
-                <div className="flex items-center gap-3">
-                  <User className="h-5 w-5 text-muted-foreground" />
-                  <Text className="text-body-md text-foreground">{deal.contact_name}</Text>
-                </div>
+              {deal.notes && (
+                <Card className="p-6">
+                  <H2 className="mb-4">Notes</H2>
+                  <Body className="whitespace-pre-wrap">{deal.notes}</Body>
+                </Card>
               )}
-              {deal.contact_email && (
-                <div className="flex items-center gap-3">
-                  <Mail className="h-5 w-5 text-muted-foreground" />
-                  <Link href={`mailto:${deal.contact_email}`} className="text-body-md text-primary hover:underline">
-                    {deal.contact_email}
-                  </Link>
-                </div>
-              )}
-              {deal.contact_phone && (
-                <div className="flex items-center gap-3">
-                  <Phone className="h-5 w-5 text-muted-foreground" />
-                  <Link href={`tel:${deal.contact_phone}`} className="text-body-md text-primary hover:underline">
-                    {deal.contact_phone}
-                  </Link>
-                </div>
-              )}
-              {!deal.contact_name && !deal.contact_email && !deal.contact_phone && (
-                <Body className="text-body-sm text-muted-foreground">No contact information</Body>
-              )}
-            </div>
-          </div>
 
-          {deal.notes && (
-            <div className="bg-background border-2 border-border rounded-card p-6">
-              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</H2>
-              <Body className="text-body-md text-foreground whitespace-pre-wrap">{deal.notes}</Body>
-            </div>
-          )}
+              <Card className="p-6">
+                <H2 className="mb-4">Activity History</H2>
+                {activities.length === 0 ? (
+                  <Body size="sm" className="text-muted-foreground">No activity yet</Body>
+                ) : (
+                  <Stack gap={4}>
+                    {activities.map((activity: { id: string; activity_type: string; description: string; created_at: string }) => (
+                      <Stack key={activity.id} direction="horizontal" gap={3} className="items-start">
+                        <Box className="p-2 bg-muted rounded-avatar">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                        </Box>
+                        <Stack gap={0}>
+                          <Body size="sm">{activity.description}</Body>
+                          <Body size="xs" className="text-muted-foreground">
+                            {formatDate(activity.created_at)}
+                          </Body>
+                        </Stack>
+                      </Stack>
+                    ))}
+                  </Stack>
+                )}
+              </Card>
+            </Stack>
 
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Activity History</H2>
-            {activities.length === 0 ? (
-              <Body className="text-body-sm text-muted-foreground">No activity yet</Body>
-            ) : (
-              <div className="space-y-4">
-                {activities.map((activity: { id: string; activity_type: string; description: string; created_at: string }) => (
-                  <div key={activity.id} className="flex items-start gap-3">
-                    <div className="p-2 bg-muted rounded-avatar">
-                      <Clock className="h-4 w-4 text-muted-foreground" />
-                    </div>
-                    <div>
-                      <Body className="text-body-sm text-foreground">{activity.description}</Body>
-                      <Body className="text-body-xs text-muted-foreground">
-                        {formatDate(activity.created_at)}
-                      </Body>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+            <Stack gap={6}>
+              <Card className="p-6">
+                <H2 className="mb-4">Details</H2>
+                <Stack gap={4}>
+                  {deal.expected_close_date && (
+                    <Stack direction="horizontal" className="justify-between">
+                      <Text size="sm" className="text-muted-foreground">Expected Close</Text>
+                      <Text size="sm" className="font-weight-medium">{formatDate(deal.expected_close_date)}</Text>
+                    </Stack>
+                  )}
+                  {deal.source && (
+                    <Stack direction="horizontal" className="justify-between">
+                      <Text size="sm" className="text-muted-foreground">Source</Text>
+                      <Text size="sm" className="font-weight-medium capitalize">{deal.source.replace('_', ' ')}</Text>
+                    </Stack>
+                  )}
+                  {deal.assignee && (
+                    <Stack direction="horizontal" className="justify-between">
+                      <Text size="sm" className="text-muted-foreground">Assigned To</Text>
+                      <Text size="sm" className="font-weight-medium">{deal.assignee.full_name}</Text>
+                    </Stack>
+                  )}
+                  <Stack direction="horizontal" className="justify-between">
+                    <Text size="sm" className="text-muted-foreground">Last Updated</Text>
+                    <Text size="sm" className="font-weight-medium">{formatDate(deal.updated_at)}</Text>
+                  </Stack>
+                </Stack>
+              </Card>
 
-        <div className="space-y-6">
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Details</H2>
-            <div className="space-y-4">
-              {deal.expected_close_date && (
-                <div className="flex items-center justify-between">
-                  <Text className="text-body-sm text-muted-foreground">Expected Close</Text>
-                  <Text className="text-body-sm font-weight-medium text-foreground">
-                    {formatDate(deal.expected_close_date)}
-                  </Text>
-                </div>
-              )}
-              {deal.source && (
-                <div className="flex items-center justify-between">
-                  <Text className="text-body-sm text-muted-foreground">Source</Text>
-                  <Text className="text-body-sm font-weight-medium text-foreground capitalize">
-                    {deal.source.replace('_', ' ')}
-                  </Text>
-                </div>
-              )}
-              {deal.assignee && (
-                <div className="flex items-center justify-between">
-                  <Text className="text-body-sm text-muted-foreground">Assigned To</Text>
-                  <Text className="text-body-sm font-weight-medium text-foreground">
-                    {deal.assignee.full_name}
-                  </Text>
-                </div>
-              )}
-              <div className="flex items-center justify-between">
-                <Text className="text-body-sm text-muted-foreground">Last Updated</Text>
-                <Text className="text-body-sm font-weight-medium text-foreground">
-                  {formatDate(deal.updated_at)}
-                </Text>
-              </div>
-            </div>
-          </div>
+              <Card className="p-6">
+                <H2 className="mb-4">Quick Actions</H2>
+                <Stack gap={2}>
+                  <Button
+                    onClick={() => handleStageChange('closed_won')}
+                    disabled={deal.stage === 'closed_won'}
+                    className="w-full bg-success hover:bg-success/90"
+                  >
+                    <CheckCircle className="h-4 w-4 mr-2" />
+                    Mark as Won
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={() => handleStageChange('closed_lost')}
+                    disabled={deal.stage === 'closed_lost'}
+                    className="w-full"
+                  >
+                    <XCircle className="h-4 w-4 mr-2" />
+                    Mark as Lost
+                  </Button>
+                </Stack>
+              </Card>
+            </Stack>
+          </Grid>
 
-          <div className="bg-background border-2 border-border rounded-card p-6">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Quick Actions</H2>
-            <div className="space-y-2">
-              <Button
-                onClick={() => handleStageChange('closed_won')}
-                disabled={deal.stage === 'closed_won'}
-                className="w-full flex items-center gap-2 px-4 py-2 bg-success text-white rounded-button hover:bg-success/90 transition-colors disabled:opacity-50"
-              >
-                <CheckCircle className="h-4 w-4" />
-                Mark as Won
-              </Button>
-              <Button
-                onClick={() => handleStageChange('closed_lost')}
-                disabled={deal.stage === 'closed_lost'}
-                className="w-full flex items-center gap-2 px-4 py-2 bg-destructive text-white rounded-button hover:bg-destructive/90 transition-colors disabled:opacity-50"
-              >
-                <XCircle className="h-4 w-4" />
-                Mark as Lost
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <H3 className="text-h4-md font-weight-semibold text-foreground mb-2">Delete Deal</H3>
-            <Body className="text-body-sm text-muted-foreground mb-4">
+          <Modal open={showDeleteConfirm} onClose={() => setShowDeleteConfirm(false)} title="Delete Deal">
+            <Body size="sm" className="text-muted-foreground mb-4">
               Are you sure you want to delete &quot;{deal.name}&quot;? This action cannot be undone.
             </Body>
-            <div className="flex items-center justify-end gap-3">
-              <Button
-                onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-              >
+            <Stack direction="horizontal" gap={3} className="justify-end">
+              <Button variant="outline" onClick={() => setShowDeleteConfirm(false)}>
                 Cancel
               </Button>
-              <Button
-                onClick={handleDelete}
-                disabled={deleteDeal.isPending}
-                className="px-4 py-2 bg-destructive text-white rounded-button hover:bg-destructive/90 transition-colors disabled:opacity-50"
-              >
+              <Button variant="destructive" onClick={handleDelete} disabled={deleteDeal.isPending}>
                 {deleteDeal.isPending ? 'Deleting...' : 'Delete'}
               </Button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+            </Stack>
+          </Modal>
+        </Container>
+      </MainContent>
+    </>
   );
 }
