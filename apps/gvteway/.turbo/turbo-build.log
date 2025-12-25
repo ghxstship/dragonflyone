@@ -16,7 +16,7 @@
    Generating static pages (0/165) ...
 Error in anti-scalping alerts API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/alerts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/2156.js:1:56328)
-    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/blocked/route.js:1:4858)
+    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:14:3024)
     at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:1:1050)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/lib/trace/tracer.js:140:36
@@ -30,7 +30,7 @@ Error in anti-scalping alerts API: n [Error]: Dynamic server usage: Route /api/a
 }
 Error in protection rules API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/2156.js:1:56328)
-    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/blocked/route.js:1:4858)
+    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:14:3024)
     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/rules/route.js:1:887)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/lib/trace/tracer.js:140:36
