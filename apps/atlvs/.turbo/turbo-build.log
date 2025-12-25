@@ -730,7 +730,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /insurance                                     2.58 kB         875 kB
 ├ ƒ /insurance/[id]                                1.97 kB         874 kB
 ├ ○ /integrations                                  1.62 kB         874 kB
-├ ƒ /integrations/[provider]                       2.7 kB          875 kB
+├ ƒ /integrations/[provider]                       2.75 kB         875 kB
 ├ ○ /inventory                                     2.37 kB         874 kB
 ├ ○ /inventory/availability                        2.05 kB         874 kB
 ├ ○ /inventory/new                                 2.17 kB         874 kB
@@ -881,7 +881,7 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /proposal/[token]                              2.27 kB         874 kB
 ├ ○ /proposals                                     2.33 kB         874 kB
 ├ ƒ /proposals/[id]                                2.4 kB          874 kB
-├ ƒ /proposals/[id]/analytics                      1.78 kB         874 kB
+├ ƒ /proposals/[id]/analytics                      1.91 kB         874 kB
 ├ ƒ /proposals/[id]/edit                           2.46 kB         874 kB
 ├ ○ /proposals/new                                 2.71 kB         875 kB
 ├ ○ /proposals/templates                           2.04 kB         874 kB
@@ -924,7 +924,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /settings/integrations                         2.18 kB         874 kB
 ├ ○ /settings/notifications                        1.87 kB         874 kB
 ├ ○ /settings/organization                         2.8 kB          875 kB
-├ ○ /settings/privacy                              3.3 kB          875 kB
+├ ○ /settings/privacy                              3.41 kB         875 kB
 ├ ○ /settings/roles                                3.02 kB         875 kB
 ├ ○ /settings/security                             3.18 kB         875 kB
 ├ ○ /settings/tax                                  3.27 kB         875 kB

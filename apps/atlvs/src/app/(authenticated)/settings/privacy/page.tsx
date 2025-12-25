@@ -12,9 +12,9 @@ import {
   CardBody,
   CardHeader,
   Container,
+  EmptyState,
   H2,
   H3,
-  Icon,
   Label,
   Spinner,
   Stack,
@@ -108,7 +108,7 @@ export default function PrivacySettingsPage() {
   const [showExportConfirm, setShowExportConfirm] = useState(false);
 
   // Fetch current consent records
-  const { data: consents, isLoading: loadingConsents } = useQuery({
+  const { data: consents, isLoading: loadingConsents, error: consentsError } = useQuery({
     queryKey: ["privacy-consents"],
     queryFn: async () => {
       const response = await fetch("/api/privacy/consent", {
@@ -123,7 +123,7 @@ export default function PrivacySettingsPage() {
   });
 
   // Fetch DSR history
-  const { data: dsrHistory, isLoading: loadingDSR } = useQuery({
+  const { data: dsrHistory, isLoading: loadingDSR, error: dsrError } = useQuery({
     queryKey: ["privacy-dsr-history"],
     queryFn: async () => {
       const response = await fetch("/api/privacy/dsr?my_requests=true", {
@@ -263,6 +263,12 @@ export default function PrivacySettingsPage() {
                 <div className="flex justify-center py-8">
                   <Spinner />
                 </div>
+              ) : consentsError ? (
+                <EmptyState
+                  title="Error Loading Consents"
+                  description="Failed to load your consent preferences. Please try again."
+                  action={{ label: 'Retry', onClick: () => window.location.reload() }}
+                />
               ) : (
                 <Stack gap={6}>
                   {/* Marketing Consents */}
@@ -496,6 +502,12 @@ export default function PrivacySettingsPage() {
                 <div className="flex justify-center py-8">
                   <Spinner />
                 </div>
+              ) : dsrError ? (
+                <EmptyState
+                  title="Error Loading Requests"
+                  description="Failed to load your request history. Please try again."
+                  action={{ label: 'Retry', onClick: () => window.location.reload() }}
+                />
               ) : dsrHistory && dsrHistory.length > 0 ? (
                 <div className="border-2 border-grey-200 rounded-card overflow-hidden">
                   <Table className="w-full">

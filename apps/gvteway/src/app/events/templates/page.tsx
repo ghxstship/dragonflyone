@@ -18,7 +18,7 @@ interface EventTemplate {
   type: string;
   description: string;
   usageCount: number;
-  lastUsed: string;
+  lastUsed?: string;
   createdBy: string;
   settings: { ticketTypes: number; sections: number; addOns: number };
 }

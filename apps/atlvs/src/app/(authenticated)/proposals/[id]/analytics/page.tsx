@@ -5,6 +5,7 @@ import {
   H1,
   H2,
   Text,
+  EmptyState,
 } from '@ghxstship/ui';
 
 import { useParams } from 'next/navigation';
@@ -36,11 +37,11 @@ interface ProposalAnalytics {
 
 export default function ProposalAnalyticsPage() {
   const params = useParams();
-  const proposalId = params.id as string;
+  const proposalId = params?.id as string;
 
   const { data: proposal, isLoading: proposalLoading } = useProposal(proposalId);
 
-  const { data: analytics, isLoading: analyticsLoading } = useQuery({
+  const { data: analytics, isLoading: analyticsLoading, error: analyticsError } = useQuery({
     queryKey: ['proposal-analytics', proposalId],
     queryFn: async () => {
       const response = await fetch(`/api/proposals/${proposalId}/analytics`);
@@ -82,6 +83,18 @@ export default function ProposalAnalyticsPage() {
     return (
       <div className="p-6 flex items-center justify-center min-h-[400px]">
         <div className="animate-pulse text-muted-foreground">Loading analytics...</div>
+      </div>
+    );
+  }
+
+  if (analyticsError && !analytics) {
+    return (
+      <div className="p-6">
+        <EmptyState
+          title="Error Loading Analytics"
+          description={analyticsError instanceof Error ? analyticsError.message : 'Failed to load proposal analytics'}
+          action={{ label: 'Retry', onClick: () => window.location.reload() }}
+        />
       </div>
     );
   }

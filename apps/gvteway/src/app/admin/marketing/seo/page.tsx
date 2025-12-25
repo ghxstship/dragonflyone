@@ -110,7 +110,25 @@ function SEOSettingsPageContent() {
 
   // Use API data or fall back to demo data
   const pages = apiPages || DEMO_PAGES;
-  const isLoading = settingsLoading || pagesLoading;
+
+  // Show loading skeleton while data is being fetched
+  if (settingsLoading || pagesLoading) {
+    return (
+      <Stack gap={10}>
+        <Stack gap={2}>
+          <Kicker colorScheme="on-dark">Marketing</Kicker>
+          <H2 size="lg" className="text-white">SEO Settings</H2>
+          <Body className="text-on-dark-muted">Loading SEO settings...</Body>
+        </Stack>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
+          <Card inverted className="p-6 h-24" />
+          <Card inverted className="p-6 h-24" />
+          <Card inverted className="p-6 h-24" />
+          <Card inverted className="p-6 h-24" />
+        </Grid>
+      </Stack>
+    );
+  }
 
   const avgScore = pages.reduce((sum, p) => sum + p.score, 0) / pages.length;
   const pagesWithIssues = pages.filter(p => p.issues.length > 0).length;

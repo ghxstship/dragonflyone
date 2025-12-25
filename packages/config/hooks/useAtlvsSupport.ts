@@ -303,13 +303,13 @@ export function useCreateFeedback() {
 export function useVoteFeedback() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, type }: { id: string; type: 'Feature' | 'Bug' }) => {
-      const response = await fetch(`${API_BASE}/feedback/${id}/vote`, { method: 'POST' });
+    mutationFn: async (params: { id: string; feedbackType: 'Feature' | 'Bug' }) => {
+      const response = await fetch(`${API_BASE}/feedback/${params.id}/vote`, { method: 'POST' });
       if (!response.ok) throw new Error('Failed to vote');
       return response.json();
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['feedback', variables.type] });
+      queryClient.invalidateQueries({ queryKey: ['feedback', variables.feedbackType] });
     },
   });
 }

@@ -93,11 +93,11 @@ async function fetchIntegration(provider: string): Promise<IntegrationConfig | n
 
 export default function IntegrationProviderPage() {
   const params = useParams();
-  const provider = params.provider as string;
+  const provider = params?.provider as string ?? '';
   const queryClient = useQueryClient();
   const { addNotification } = useNotifications();
 
-  const { data: apiIntegration, isLoading, error } = useQuery({
+  const { data: apiIntegration, isLoading, error: fetchError } = useQuery({
     queryKey: ['integration', provider],
     queryFn: () => fetchIntegration(provider),
   });
@@ -159,14 +159,14 @@ export default function IntegrationProviderPage() {
     );
   }
 
-  if (!integration) {
+  if (!integration || fetchError) {
     return (
       <div className="p-6">
         <div className="text-center py-12">
           <AlertTriangle className="h-12 w-12 text-warning mx-auto mb-4" />
           <H2 className="text-h3-md font-weight-bold text-foreground mb-2">Integration Not Found</H2>
           <Body className="text-body-sm text-muted-foreground mb-4">
-            The integration &ldquo;{provider}&rdquo; could not be found.
+            {fetchError ? `Error: ${fetchError instanceof Error ? fetchError.message : 'Failed to load integration'}` : `The integration "${provider}" could not be found.`}
           </Body>
           <Link
             href="/integrations"
