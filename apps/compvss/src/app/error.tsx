@@ -19,6 +19,7 @@ export default function Error({
       background="black"
       showDashboard={true}
       dashboardPath="/dashboard"
+      supportEmail="support@compvss.com"
     />
   );
 }

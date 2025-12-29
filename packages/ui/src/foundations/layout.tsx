@@ -145,7 +145,8 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
     );
 
     // Only apply background class if explicitly set (bordered sections inherit from parent)
-    const bgClass = background ? bgClasses[background] : (!border ? bgClasses.white : undefined);
+    // Dark-first design: no default background - inherit from parent
+    const bgClass = background ? bgClasses[background] : undefined;
 
     return (
       <section

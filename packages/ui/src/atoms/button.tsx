@@ -76,7 +76,7 @@ const LoadingSpinner = () => (
 );
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { variant = "solid", size = "md", icon, iconPosition = "right", fullWidth = false, inverted = false, isLoading = false, loadingText, className, children, disabled, ...props },
+  { variant = "solid", size = "md", icon, iconPosition = "right", fullWidth = false, inverted = true, isLoading = false, loadingText, className, children, disabled, ...props },
   ref,
 ) {
   // Base classes - Bold Contemporary Pop Art Adventure aesthetic
@@ -144,30 +144,30 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         return clsx(
           "border-2 border-current",
           inverted 
-            ? "bg-ink-950 text-white shadow-[5px_5px_0_#FF006E]" 
-            : "bg-white text-black shadow-[5px_5px_0_#FF006E]",
-          "hover:shadow-[7px_7px_0_#FF006E]",
-          "active:shadow-[2px_2px_0_#FF006E]",
+            ? "bg-ink-950 text-white shadow-[5px_5px_0_hsl(var(--brand-pink))]" 
+            : "bg-white text-black shadow-[5px_5px_0_hsl(var(--brand-pink))]",
+          "hover:shadow-[7px_7px_0_hsl(var(--brand-pink))]",
+          "active:shadow-[2px_2px_0_hsl(var(--brand-pink))]",
           inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
         );
       case "popCyan":
         return clsx(
           "border-2 border-current",
           inverted 
-            ? "bg-ink-950 text-white shadow-[5px_5px_0_#00BFFF]" 
-            : "bg-white text-black shadow-[5px_5px_0_#00BFFF]",
-          "hover:shadow-[7px_7px_0_#00BFFF]",
-          "active:shadow-[2px_2px_0_#00BFFF]",
+            ? "bg-ink-950 text-white shadow-[5px_5px_0_hsl(var(--brand-cyan))]" 
+            : "bg-white text-black shadow-[5px_5px_0_hsl(var(--brand-cyan))]",
+          "hover:shadow-[7px_7px_0_hsl(var(--brand-cyan))]",
+          "active:shadow-[2px_2px_0_hsl(var(--brand-cyan))]",
           inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
         );
       case "popYellow":
         return clsx(
           "border-2 border-current",
           inverted 
-            ? "bg-ink-950 text-white shadow-[5px_5px_0_#F59E0B]" 
-            : "bg-white text-black shadow-[5px_5px_0_#F59E0B]",
-          "hover:shadow-[7px_7px_0_#F59E0B]",
-          "active:shadow-[2px_2px_0_#F59E0B]",
+            ? "bg-ink-950 text-white shadow-[5px_5px_0_hsl(var(--brand-yellow))]" 
+            : "bg-white text-black shadow-[5px_5px_0_hsl(var(--brand-yellow))]",
+          "hover:shadow-[7px_7px_0_hsl(var(--brand-yellow))]",
+          "active:shadow-[2px_2px_0_hsl(var(--brand-yellow))]",
           inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
         );
       case "destructive":

@@ -7,8 +7,8 @@
  */
 
 import { useRouter } from "next/navigation";
-import { useCrew } from "../../../hooks/useCrew";
-import { useEquipment } from "../../../hooks/useEquipment";
+import { useCrew } from "@/hooks/useCrew";
+import { useEquipment } from "@/hooks/useEquipment";
 import { useActivityFeed } from "@ghxstship/config/hooks";
 import {
   Body,
@@ -17,7 +17,7 @@ import {
   StatCard,
   Grid,
   PageLayout,
-  PageHeader,
+  MarketingPageHeader,
   Section,
   SectionHeader,
   StatusBadge,
@@ -72,7 +72,7 @@ export default function CompvssDashboardPage() {
 
   return (
     <PageLayout
-      header={<PageHeader kicker="COMPVSS" title="Production Operations" description="Manage crew, equipment, and active productions" />}
+      header={<MarketingPageHeader kicker="COMPVSS" title="Production Operations" description="Manage crew, equipment, and active productions" />}
       loading={isLoading}
       error={hasError ? (crewError instanceof Error ? crewError : equipmentError instanceof Error ? equipmentError : new Error("Failed to load dashboard")) : null}
       onRetry={handleRetry}

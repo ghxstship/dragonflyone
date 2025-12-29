@@ -19,6 +19,7 @@ export default function Error({
       background="ink"
       showDashboard={true}
       dashboardPath="/dashboard"
+      supportEmail="support@atlvs.com"
     />
   );
 }

@@ -26,7 +26,7 @@ export function Tooltip({
   delay = 200,
   children,
   disabled = false,
-  inverted = false,
+  inverted = true,
   className = "",
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);

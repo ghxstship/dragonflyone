@@ -76,7 +76,7 @@ export function Calendar({
   maxDate,
   showWeekNumbers = false,
   weekStartsOnMonday = false,
-  inverted = false,
+  inverted = true,
   className = "",
 }: CalendarProps) {
   const [viewDate, setViewDate] = useState(selectedDate || new Date());

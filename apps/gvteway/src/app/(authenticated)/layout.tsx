@@ -1,6 +1,6 @@
 "use client";
 
-import { GvtewayAppLayout } from "../../components/app-layout";
+import { GvtewayAppLayout } from "@/components/app-layout";
 import { createAuthenticatedLayout } from "@ghxstship/config/layouts";
 
 /**

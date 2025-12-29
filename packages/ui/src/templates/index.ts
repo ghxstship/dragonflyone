@@ -11,9 +11,6 @@
 // Application wrapper layouts with navigation, sidebars, and content areas
 // =============================================================================
 
-export { AppShell } from "./app-shell.js";
-export type { AppShellProps } from "./app-shell.js";
-
 export { AuthenticatedShell } from "./authenticated-shell.js";
 export type { AuthenticatedShellProps } from "./authenticated-shell.js";
 

@@ -8,6 +8,7 @@
     · missingSuspenseWithCSRBailout
 
    Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Skipping validation of types
    Skipping linting
@@ -22,12 +23,12 @@
    Collecting build traces ...
 
 Route (app)                              Size     First Load JS
-┌ ƒ /                                    136 B           558 kB
-├ ○ /_not-found                          136 B           558 kB
-├ ○ /advancing                           1.98 kB         560 kB
-├ ƒ /advancing/[id]                      2.53 kB         560 kB
-├ ○ /advancing/catalog                   2.54 kB         560 kB
-├ ○ /advancing/new                       2.62 kB         560 kB
+┌ ƒ /                                    136 B           563 kB
+├ ○ /_not-found                          136 B           563 kB
+├ ○ /advancing                           1.98 kB         565 kB
+├ ƒ /advancing/[id]                      2.53 kB         565 kB
+├ ○ /advancing/catalog                   2.55 kB         565 kB
+├ ○ /advancing/new                       2.62 kB         565 kB
 ├ ƒ /api/advancing                       0 B                0 B
 ├ ƒ /api/advancing/[id]                  0 B                0 B
 ├ ƒ /api/advancing/[id]/fulfill          0 B                0 B
@@ -268,81 +269,81 @@ Route (app)                              Size     First Load JS
 ├ ƒ /api/weather                         0 B                0 B
 ├ ƒ /api/weather-contingency             0 B                0 B
 ├ ƒ /api/win-loss-tracking               0 B                0 B
-├ ○ /auth/forgot-password                1.07 kB         559 kB
-├ ○ /auth/magic-link                     1.14 kB         559 kB
-├ ○ /auth/reset-password                 1.17 kB         559 kB
-├ ○ /auth/signin                         693 B           558 kB
-├ ○ /auth/signup                         1.75 kB         559 kB
-├ ○ /auth/verify-email                   1.17 kB         559 kB
-├ ○ /availability                        2.87 kB         561 kB
-├ ○ /background-checks                   2.96 kB         561 kB
-├ ○ /beos                                1.15 kB         559 kB
-├ ƒ /beos/[id]                           2.99 kB         561 kB
-├ ƒ /beos/[id]/versions                  1.39 kB         559 kB
-├ ○ /beos/new                            1.42 kB         559 kB
-├ ○ /build-strike                        1.64 kB         559 kB
-├ ○ /certifications                      2.96 kB         561 kB
-├ ○ /credentials                         3.01 kB         561 kB
-├ ○ /crew                                3.03 kB         561 kB
-├ ƒ /crew/[id]                           2.1 kB          560 kB
-├ ○ /dashboard                           1.95 kB         560 kB
-├ ○ /deliveries                          3.19 kB         561 kB
-├ ○ /drawings                            2.37 kB         560 kB
-├ ○ /emergency                           1.92 kB         560 kB
-├ ○ /equipment                           2.62 kB         560 kB
-├ ○ /expenses                            3.04 kB         561 kB
-├ ○ /incidents                           2.38 kB         560 kB
-├ ○ /integrations                        1.18 kB         559 kB
-├ ○ /issues                              2.94 kB         561 kB
-├ ○ /maintenance                         2.4 kB          560 kB
-├ ○ /notifications                       1.67 kB         559 kB
-├ ƒ /p/[productionId]/advancing          1.72 kB         559 kB
-├ ƒ /p/[productionId]/crew               1.81 kB         559 kB
-├ ƒ /p/[productionId]/documents          1.72 kB         559 kB
-├ ƒ /p/[productionId]/overview           2.23 kB         560 kB
-├ ƒ /p/[productionId]/safety             1.79 kB         559 kB
-├ ƒ /p/[productionId]/schedule           1.61 kB         559 kB
-├ ƒ /p/[productionId]/settings           1.78 kB         559 kB
-├ ƒ /p/[productionId]/settlement         1.77 kB         559 kB
-├ ƒ /p/[productionId]/vendors            1.81 kB         559 kB
-├ ƒ /p/[productionId]/wrap               1.7 kB          559 kB
-├ ○ /permits                             1.82 kB         559 kB
-├ ○ /photo-documentation                 2.17 kB         560 kB
-├ ○ /profile                             1.78 kB         559 kB
-├ ○ /projects                            2.18 kB         560 kB
-├ ○ /projects/new                        1.53 kB         559 kB
-├ ○ /punch-list                          2.22 kB         560 kB
-├ ○ /qa-checkpoints                      2.05 kB         560 kB
-├ ○ /risk-register                       2.34 kB         560 kB
+├ ○ /auth/forgot-password                1.07 kB         564 kB
+├ ○ /auth/magic-link                     1.14 kB         564 kB
+├ ○ /auth/reset-password                 1.17 kB         564 kB
+├ ○ /auth/signin                         693 B           563 kB
+├ ○ /auth/signup                         1.75 kB         564 kB
+├ ○ /auth/verify-email                   1.17 kB         564 kB
+├ ○ /availability                        2.87 kB         565 kB
+├ ○ /background-checks                   2.96 kB         565 kB
+├ ○ /beos                                1.15 kB         564 kB
+├ ƒ /beos/[id]                           2.99 kB         566 kB
+├ ƒ /beos/[id]/versions                  1.39 kB         564 kB
+├ ○ /beos/new                            1.42 kB         564 kB
+├ ○ /build-strike                        1.64 kB         564 kB
+├ ○ /certifications                      2.96 kB         565 kB
+├ ○ /credentials                         3.01 kB         566 kB
+├ ○ /crew                                3.03 kB         566 kB
+├ ƒ /crew/[id]                           2.1 kB          565 kB
+├ ○ /dashboard                           1.95 kB         564 kB
+├ ○ /deliveries                          3.19 kB         566 kB
+├ ○ /drawings                            2.37 kB         565 kB
+├ ○ /emergency                           1.92 kB         564 kB
+├ ○ /equipment                           2.62 kB         565 kB
+├ ○ /expenses                            3.04 kB         566 kB
+├ ○ /incidents                           2.38 kB         565 kB
+├ ○ /integrations                        1.18 kB         564 kB
+├ ○ /issues                              2.94 kB         565 kB
+├ ○ /maintenance                         2.4 kB          565 kB
+├ ○ /notifications                       1.68 kB         564 kB
+├ ƒ /p/[productionId]/advancing          1.72 kB         564 kB
+├ ƒ /p/[productionId]/crew               1.81 kB         564 kB
+├ ƒ /p/[productionId]/documents          1.72 kB         564 kB
+├ ƒ /p/[productionId]/overview           2.23 kB         565 kB
+├ ƒ /p/[productionId]/safety             1.79 kB         564 kB
+├ ƒ /p/[productionId]/schedule           1.61 kB         564 kB
+├ ƒ /p/[productionId]/settings           1.78 kB         564 kB
+├ ƒ /p/[productionId]/settlement         1.78 kB         564 kB
+├ ƒ /p/[productionId]/vendors            1.81 kB         564 kB
+├ ƒ /p/[productionId]/wrap               1.7 kB          564 kB
+├ ○ /permits                             1.82 kB         564 kB
+├ ○ /photo-documentation                 2.17 kB         565 kB
+├ ○ /profile                             1.78 kB         564 kB
+├ ○ /projects                            2.18 kB         565 kB
+├ ○ /projects/new                        1.53 kB         564 kB
+├ ○ /punch-list                          2.22 kB         565 kB
+├ ○ /qa-checkpoints                      2.05 kB         565 kB
+├ ○ /risk-register                       2.34 kB         565 kB
 ├ ○ /robots.txt                          0 B                0 B
-├ ○ /run-of-show                         1.65 kB         559 kB
-├ ○ /schedule                            1.3 kB          559 kB
-├ ○ /search                              1.11 kB         559 kB
-├ ○ /set-times                           1.97 kB         560 kB
-├ ○ /settings                            1.26 kB         559 kB
-├ ○ /settlement                          2.5 kB          560 kB
-├ ○ /show-call                           1.47 kB         559 kB
-├ ○ /site-access                         2.03 kB         560 kB
-├ ○ /site-surveys                        1.66 kB         559 kB
+├ ○ /run-of-show                         1.65 kB         564 kB
+├ ○ /schedule                            1.3 kB          564 kB
+├ ○ /search                              1.12 kB         564 kB
+├ ○ /set-times                           1.98 kB         564 kB
+├ ○ /settings                            1.26 kB         564 kB
+├ ○ /settlement                          2.49 kB         565 kB
+├ ○ /show-call                           1.47 kB         564 kB
+├ ○ /site-access                         2.03 kB         565 kB
+├ ○ /site-surveys                        1.66 kB         564 kB
 ├ ○ /sitemap.xml                         0 B                0 B
-├ ○ /skills                              1.52 kB         559 kB
-├ ○ /sops                                2.45 kB         560 kB
-├ ƒ /sops/[id]                           2.53 kB         560 kB
-├ ○ /soundcheck                          2.37 kB         560 kB
-├ ○ /spec-sheets                         1.69 kB         559 kB
-├ ○ /stage-management                    1.06 kB         559 kB
-├ ○ /subcontractors                      1.72 kB         559 kB
-├ ○ /tech-rehearsal                      2.3 kB          560 kB
-├ ○ /templates                           1.97 kB         560 kB
-├ ○ /timekeeping                         1.65 kB         559 kB
-├ ○ /travel                              2.33 kB         560 kB
-├ ○ /troubleshooting                     1.47 kB         559 kB
-├ ○ /venues                              1.23 kB         559 kB
-├ ○ /vip-management                      1.83 kB         559 kB
-└ ○ /weather-contingency                 2.26 kB         560 kB
-+ First Load JS shared by all            558 kB
-  ├ chunks/commons-e64981896df0ba96.js   166 kB
-  ├ chunks/lib-a5a20636086bced0.js       389 kB
+├ ○ /skills                              1.52 kB         564 kB
+├ ○ /sops                                2.46 kB         565 kB
+├ ƒ /sops/[id]                           2.53 kB         565 kB
+├ ○ /soundcheck                          2.37 kB         565 kB
+├ ○ /spec-sheets                         1.69 kB         564 kB
+├ ○ /stage-management                    1.06 kB         564 kB
+├ ○ /subcontractors                      1.72 kB         564 kB
+├ ○ /tech-rehearsal                      2.3 kB          565 kB
+├ ○ /templates                           1.97 kB         564 kB
+├ ○ /timekeeping                         1.65 kB         564 kB
+├ ○ /travel                              2.33 kB         565 kB
+├ ○ /troubleshooting                     1.47 kB         564 kB
+├ ○ /venues                              1.23 kB         564 kB
+├ ○ /vip-management                      1.83 kB         564 kB
+└ ○ /weather-contingency                 2.26 kB         565 kB
++ First Load JS shared by all            563 kB
+  ├ chunks/commons-93df9ac4d7dadf0a.js   171 kB
+  ├ chunks/lib-a4337b9c9983b311.js       389 kB
   └ other shared chunks (total)          1.99 kB
 
 

@@ -577,7 +577,7 @@ export function DashboardBuilder({
   renderWidget,
   dataSources = [],
   editMode = true,
-  inverted = false,
+  inverted = true,
   loading = false,
   className,
 }: DashboardBuilderProps) {

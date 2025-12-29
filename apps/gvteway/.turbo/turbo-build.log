@@ -8,29 +8,16 @@
     · cpus
 
    Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Skipping validation of types
    Skipping linting
    Collecting page data ...
  ⚠ Using edge runtime on a page currently disables static generation for that page
-   Generating static pages (0/67) ...
-Error in protection rules API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
-    at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/1232.js:1:56330)
-    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/blocked/route.js:1:4844)
-    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/rules/route.js:1:883)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/trace/tracer.js:140:36
-    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
-    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
-    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
-    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
-  description: "Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
-  digest: 'DYNAMIC_SERVER_USAGE'
-}
+   Generating static pages (0/66) ...
 Error in anti-scalping alerts API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/alerts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/1232.js:1:56330)
-    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/blocked/route.js:1:4844)
+    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:14:3013)
     at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:1:1047)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/trace/tracer.js:140:36
@@ -42,25 +29,39 @@ Error in anti-scalping alerts API: n [Error]: Dynamic server usage: Route /api/a
   description: "Route /api/admin/anti-scalping/alerts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-   Generating static pages (16/67) 
-   Generating static pages (33/67) 
-   Generating static pages (50/67) 
- ✓ Generating static pages (67/67)
+Error in protection rules API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/1232.js:1:56330)
+    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:14:3013)
+    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/rules/route.js:1:883)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
+  description: "Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (16/66) 
+   Generating static pages (32/66) 
+   Generating static pages (49/66) 
+ ✓ Generating static pages (66/66)
    Finalizing page optimization ...
    Collecting build traces ...
 
 Route (app)                                   Size     First Load JS
-┌ ƒ /                                         3.81 kB         804 kB
+┌ ƒ /                                         3.76 kB         809 kB
 ├ ○ /_not-found                               138 B           638 kB
-├ ○ /account                                  1.66 kB         801 kB
-├ ○ /account/orders                           1.48 kB         801 kB
-├ ○ /account/profile                          1.56 kB         801 kB
-├ ○ /account/tickets                          2.29 kB         802 kB
-├ ○ /admin                                    2.07 kB         802 kB
-├ ○ /admin/events                             2.24 kB         802 kB
-├ ○ /admin/moderation                         2.07 kB         802 kB
-├ ○ /admin/pos                                1.79 kB         802 kB
-├ ○ /admin/ticketing                          2.2 kB          802 kB
+├ ○ /account                                  1.66 kB         807 kB
+├ ○ /account/orders                           1.48 kB         807 kB
+├ ○ /account/profile                          1.56 kB         807 kB
+├ ○ /account/tickets                          2.29 kB         808 kB
+├ ○ /admin                                    2.07 kB         808 kB
+├ ○ /admin/events                             2.24 kB         808 kB
+├ ○ /admin/moderation                         2.07 kB         808 kB
+├ ○ /admin/pos                                1.79 kB         808 kB
+├ ○ /admin/ticketing                          2.2 kB          808 kB
 ├ ƒ /api/ab-testing                           0 B                0 B
 ├ ƒ /api/abandoned-cart                       0 B                0 B
 ├ ƒ /api/accessibility                        0 B                0 B
@@ -229,6 +230,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/media-kit                            0 B                0 B
 ├ ƒ /api/member-benefits                      0 B                0 B
 ├ ƒ /api/member-directory                     0 B                0 B
+├ ƒ /api/membership/apply                     0 B                0 B
 ├ ƒ /api/memberships                          0 B                0 B
 ├ ƒ /api/memberships/subscribe                0 B                0 B
 ├ ƒ /api/memory-book                          0 B                0 B
@@ -384,71 +386,72 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/webhooks/stripe                      0 B                0 B
 ├ ƒ /api/will-call                            0 B                0 B
 ├ ƒ /api/wishlist                             0 B                0 B
-├ ○ /auth/forgot-password                     1.27 kB         801 kB
-├ ○ /auth/magic-link                          1.33 kB         801 kB
-├ ○ /auth/reset-password                      1.37 kB         801 kB
-├ ○ /auth/signin                              822 B           801 kB
-├ ○ /auth/signup                              1.88 kB         802 kB
-├ ○ /auth/verify-email                        1.35 kB         801 kB
-├ ○ /browse                                   1.51 kB         801 kB
-├ ○ /calendar                                 2.03 kB         802 kB
-├ ○ /cart                                     1.6 kB          801 kB
-├ ○ /chat                                     2.33 kB         802 kB
-├ ○ /checkout                                 3.08 kB         803 kB
-├ ○ /checkout/currency                        946 B           801 kB
-├ ƒ /collections/[id]                         1.14 kB         801 kB
-├ ○ /community                                1.09 kB         801 kB
-├ ○ /confirmation                             866 B           801 kB
-├ ○ /dashboard                                2.77 kB         803 kB
-├ ○ /discover                                 2.1 kB          802 kB
-├ ƒ /e/[eventId]                              1.45 kB         801 kB
-├ ƒ /e/[eventId]/chat                         1.16 kB         801 kB
-├ ƒ /e/[eventId]/engage                       965 B           801 kB
-├ ƒ /e/[eventId]/map                          1.04 kB         801 kB
-├ ƒ /e/[eventId]/photos                       1.05 kB         801 kB
-├ ƒ /e/[eventId]/services                     1.04 kB         801 kB
-├ ƒ /e/[eventId]/tickets                      1.51 kB         801 kB
-├ ○ /events                                   1.45 kB         801 kB
-├ ƒ /events/[id]                              1.74 kB         801 kB
-├ ○ /events/create                            895 B           801 kB
-├ ○ /friends                                  1.16 kB         801 kB
-├ ○ /gift-cards                               1.39 kB         801 kB
-├ ○ /groups                                   1.14 kB         801 kB
-├ ○ /help                                     904 B           801 kB
-├ ○ /login                                    1.06 kB         801 kB
-├ ○ /merch                                    1.32 kB         801 kB
-├ ƒ /merch/[artistId]                         1.07 kB         801 kB
-├ ○ /merch/bundles                            1.06 kB         801 kB
-├ ○ /messages                                 1.35 kB         801 kB
-├ ○ /notifications                            1.5 kB          801 kB
-├ ○ /orders                                   2.07 kB         802 kB
-├ ○ /profile                                  1.03 kB         801 kB
-├ ○ /reviews                                  1.33 kB         801 kB
-├ ○ /reviews/new                              947 B           801 kB
-├ ○ /rewards                                  2.08 kB         802 kB
+├ ƒ /apply                                    3.93 kB         810 kB
+├ ƒ /apply/confirmation                       1.33 kB         807 kB
+├ ○ /auth/forgot-password                     1.27 kB         807 kB
+├ ○ /auth/magic-link                          1.33 kB         807 kB
+├ ○ /auth/reset-password                      1.37 kB         807 kB
+├ ○ /auth/signin                              821 B           807 kB
+├ ○ /auth/signup                              1.88 kB         808 kB
+├ ○ /auth/verify-email                        1.35 kB         807 kB
+├ ○ /browse                                   1.51 kB         807 kB
+├ ○ /calendar                                 2.03 kB         808 kB
+├ ○ /cart                                     1.6 kB          807 kB
+├ ○ /chat                                     2.33 kB         808 kB
+├ ○ /checkout                                 3.08 kB         809 kB
+├ ○ /checkout/currency                        945 B           807 kB
+├ ƒ /collections/[id]                         1.14 kB         807 kB
+├ ○ /community                                1.09 kB         807 kB
+├ ○ /confirmation                             867 B           807 kB
+├ ○ /dashboard                                2.77 kB         809 kB
+├ ○ /discover                                 2.1 kB          808 kB
+├ ƒ /e/[eventId]                              1.45 kB         807 kB
+├ ƒ /e/[eventId]/chat                         1.16 kB         807 kB
+├ ƒ /e/[eventId]/engage                       967 B           807 kB
+├ ƒ /e/[eventId]/map                          1.04 kB         807 kB
+├ ƒ /e/[eventId]/photos                       1.05 kB         807 kB
+├ ƒ /e/[eventId]/services                     1.05 kB         807 kB
+├ ƒ /e/[eventId]/tickets                      1.51 kB         807 kB
+├ ○ /events                                   1.45 kB         807 kB
+├ ƒ /events/[id]                              1.74 kB         807 kB
+├ ○ /events/create                            896 B           807 kB
+├ ○ /friends                                  1.16 kB         807 kB
+├ ○ /gift-cards                               1.39 kB         807 kB
+├ ○ /groups                                   1.14 kB         807 kB
+├ ○ /help                                     907 B           807 kB
+├ ○ /merch                                    1.32 kB         807 kB
+├ ƒ /merch/[artistId]                         1.07 kB         807 kB
+├ ○ /merch/bundles                            1.06 kB         807 kB
+├ ○ /messages                                 1.35 kB         807 kB
+├ ○ /notifications                            1.5 kB          807 kB
+├ ○ /orders                                   2.07 kB         808 kB
+├ ○ /profile                                  1.03 kB         807 kB
+├ ○ /reviews                                  1.34 kB         807 kB
+├ ○ /reviews/new                              947 B           807 kB
+├ ○ /rewards                                  2.08 kB         808 kB
 ├ ○ /robots.txt                               0 B                0 B
-├ ○ /search                                   1.35 kB         801 kB
-├ ○ /settings                                 2.04 kB         802 kB
-├ ○ /settings/api-access                      2.54 kB         802 kB
-├ ○ /settings/api-keys                        2.91 kB         803 kB
-├ ○ /settings/connected-apps                  2.17 kB         802 kB
-├ ○ /settings/language                        1.78 kB         802 kB
-├ ○ /settings/notifications                   2.57 kB         802 kB
-├ ○ /settings/privacy                         3.41 kB         803 kB
-├ ○ /settings/sessions                        2.39 kB         802 kB
-├ ○ /settings/webhooks                        3.7 kB          803 kB
-├ ○ /shop/shoppable                           1 kB            801 kB
+├ ○ /search                                   1.35 kB         807 kB
+├ ○ /settings                                 2.04 kB         808 kB
+├ ○ /settings/api-access                      2.54 kB         808 kB
+├ ○ /settings/api-keys                        2.9 kB          809 kB
+├ ○ /settings/connected-apps                  2.17 kB         808 kB
+├ ○ /settings/language                        1.78 kB         808 kB
+├ ○ /settings/notifications                   2.57 kB         808 kB
+├ ○ /settings/privacy                         3.41 kB         809 kB
+├ ○ /settings/sessions                        2.39 kB         808 kB
+├ ○ /settings/webhooks                        3.7 kB          809 kB
+├ ○ /shop/shoppable                           1 kB            807 kB
 ├ ○ /sitemap.xml                              0 B                0 B
-├ ○ /support/chat                             922 B           801 kB
-├ ƒ /surveys/[id]                             1.28 kB         801 kB
-├ ○ /tickets                                  2.13 kB         802 kB
-├ ○ /venues                                   1.3 kB          801 kB
-├ ƒ /venues/[id]                              2.46 kB         802 kB
-├ ○ /wallet                                   2.96 kB         803 kB
-├ ○ /watch-parties                            1.16 kB         801 kB
-└ ○ /wishlist                                 1.34 kB         801 kB
+├ ○ /support/chat                             921 B           807 kB
+├ ƒ /surveys/[id]                             1.28 kB         807 kB
+├ ○ /tickets                                  2.13 kB         808 kB
+├ ○ /venues                                   1.3 kB          807 kB
+├ ƒ /venues/[id]                              2.46 kB         808 kB
+├ ○ /wallet                                   2.96 kB         809 kB
+├ ○ /watch-parties                            1.16 kB         807 kB
+└ ○ /wishlist                                 1.34 kB         807 kB
 + First Load JS shared by all                 638 kB
-  ├ chunks/lib-5124f412e34f03c3.js            636 kB
+  ├ chunks/lib-91e1ad28a5151328.js            636 kB
   └ other shared chunks (total)               2.03 kB
 
 

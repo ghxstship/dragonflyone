@@ -252,7 +252,7 @@ export function TimelineView<T>({
   onItemClick,
   renderItem,
   showConnector = true,
-  inverted = false,
+  inverted = true,
   className,
   loading = false,
   emptyMessage = "No items to display",

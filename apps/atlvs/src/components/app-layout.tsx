@@ -59,7 +59,7 @@ import { Plus, Search, FileText, Users } from "lucide-react";
 interface AppLayoutProps {
   children: ReactNode;
   /** Navigation variant */
-  variant?: "public" | "authenticated";
+  variant?: "public" | "authenticated" | "portal" | "consumer-auth";
   /** Context breadcrumbs for authenticated navigation */
   contextLevels?: ContextLevel[];
   /** Custom user menu for authenticated navigation */
@@ -72,6 +72,10 @@ interface AppLayoutProps {
   className?: string;
   /** If true, children are rendered directly without wrapper (for landing pages with custom sections) */
   rawContent?: boolean;
+  /** Whether user is authenticated (for consumer variant) */
+  isAuthenticated?: boolean;
+  /** User object (for consumer variant) */
+  user?: unknown;
 }
 
 /**
@@ -344,8 +348,38 @@ export function AtlvsAppLayout({
     workspaces: atlvsDemoWorkspaces,
   };
 
+  // For portal pages, use minimal branded layout without sidebar
+  if (variant === "portal") {
+    const isDark = background === "black";
+    return (
+      <PageLayout
+        background={background}
+        header={
+          <Container className="py-4">
+            <Link href="/" className="font-display text-h5-md uppercase text-white transition-colors hover:text-grey-200">
+              ATLVS
+            </Link>
+          </Container>
+        }
+      >
+        <FullBleedSection
+          background={isDark ? "ink" : "white"}
+          pattern="grid"
+          patternOpacity={isDark ? 0.03 : 0.04}
+          className={`min-h-screen ${className || ""}`}
+        >
+          <Container className="py-8 sm:py-12 md:py-16">
+            <PageTransition type="fade" duration={200}>
+              {children}
+            </PageTransition>
+          </Container>
+        </FullBleedSection>
+      </PageLayout>
+    );
+  }
+
   // For authenticated pages, use the new sidebar shell
-  if (variant === "authenticated") {
+  if (variant === "authenticated" || variant === "consumer-auth") {
     // Merge context breadcrumbs if provided via props
     const finalBreadcrumbs = contextBreadcrumbs.length > 0 
       ? contextBreadcrumbs 

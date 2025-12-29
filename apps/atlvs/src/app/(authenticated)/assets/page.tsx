@@ -24,7 +24,7 @@ import { createExportHandler, createImportHandler, getImportTemplates, useAuthCo
 import { useAssets, useDeleteAsset, type Asset as APIAsset } from "../../../hooks/useAssets";
 
 // Roles that can create/edit/delete assets
-import { DEMO_ASSETS } from '../../../lib/demo-data';
+import { DEMO_ASSETS } from '@/lib/demo-data';
 
 // Display type for UI
 interface Asset {

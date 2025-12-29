@@ -81,7 +81,7 @@ function SortableCard<T>({
   itemId,
   cardRender,
   onClick,
-  inverted = false,
+  inverted = true,
 }: SortableCardProps<T>) {
   const {
     attributes,
@@ -147,7 +147,7 @@ function KanbanColumnComponent<T>({
   onCardClick,
   onAddClick,
   showAddButton = true,
-  inverted = false,
+  inverted = true,
   emptyMessage = "No items",
   isCollapsed,
   onToggleCollapse,
@@ -282,7 +282,7 @@ export function KanbanBoard<T>({
   onCardClick,
   onAddClick,
   showAddButton = true,
-  inverted = false,
+  inverted = true,
   className,
   loading = false,
   emptyMessage = "No items",

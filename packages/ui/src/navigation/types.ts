@@ -3,6 +3,8 @@
  * Shared across ATLVS, COMPVSS, and GVTEWAY applications
  */
 
+import type { BreadcrumbItem } from "../types/breadcrumb.js";
+
 // =============================================================================
 // CONTEXT TYPES
 // =============================================================================
@@ -205,14 +207,7 @@ export interface ContextSwitcherProps {
   onExitEventContext: () => void;
 }
 
-export interface BreadcrumbItem {
-  /** Display label */
-  label: string;
-  /** Navigation href */
-  href?: string;
-  /** Whether this is the current page */
-  current?: boolean;
-}
+export type { BreadcrumbItem } from "../types/breadcrumb.js";
 
 export interface BreadcrumbProps {
   /** Breadcrumb items */

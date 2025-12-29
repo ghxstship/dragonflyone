@@ -8,11 +8,12 @@ import { Display, H1, Body, Label } from "../atoms/typography.js";
 import { Stack } from "./layout.js";
 
 // =============================================================================
-// PAGE HEADER - Standardized page header with kicker, title, description, actions
+// MARKETING PAGE HEADER - Simple page header for marketing/content pages
+// For app pages with tabs/breadcrumbs/actions, use AppPageHeader from organisms
 // Bold Contemporary Pop Art Adventure Design System
 // =============================================================================
 
-export interface PageHeaderProps extends Omit<HTMLAttributes<HTMLElement>, 'title'> {
+export interface MarketingPageHeaderProps extends Omit<HTMLAttributes<HTMLElement>, 'title'> {
   /** Small kicker text above title */
   kicker?: string;
   /** Main page title */
@@ -31,8 +32,8 @@ export interface PageHeaderProps extends Omit<HTMLAttributes<HTMLElement>, 'titl
   size?: "sm" | "md" | "lg";
 }
 
-export const PageHeader = forwardRef<HTMLElement, PageHeaderProps>(
-  function PageHeader(
+export const MarketingPageHeader = forwardRef<HTMLElement, MarketingPageHeaderProps>(
+  function MarketingPageHeader(
     {
       kicker,
       title,
@@ -305,11 +306,13 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
 
 export interface FullBleedSectionProps extends HTMLAttributes<HTMLElement> {
   /** Background color */
-  background?: "black" | "white" | "grey" | "ink" | "primary" | "accent";
+  background?: "black" | "white" | "grey" | "ink" | "primary" | "accent" | "gradient";
   /** Add pattern overlay */
-  pattern?: "grid" | "halftone" | "none";
+  pattern?: "grid" | "halftone" | "stripes" | "none";
   /** Pattern opacity */
   patternOpacity?: number;
+  /** Full viewport height */
+  fullHeight?: boolean;
 }
 
 export const FullBleedSection = forwardRef<HTMLElement, FullBleedSectionProps>(
@@ -318,6 +321,7 @@ export const FullBleedSection = forwardRef<HTMLElement, FullBleedSectionProps>(
       background = "black",
       pattern = "none",
       patternOpacity = 0.03,
+      fullHeight = false,
       className,
       children,
       ...props
@@ -331,9 +335,10 @@ export const FullBleedSection = forwardRef<HTMLElement, FullBleedSectionProps>(
       ink: "bg-ink-950 text-white",
       primary: "bg-primary text-white",
       accent: "bg-accent text-black",
+      gradient: "bg-gradient-to-br from-ink-950 via-ink-900 to-primary/20 text-white",
     };
 
-    const isDark = ["black", "ink", "primary"].includes(background);
+    const isDark = ["black", "ink", "primary", "gradient"].includes(background);
 
     const getPatternStyle = (): React.CSSProperties | undefined => {
       if (pattern === "none") return undefined;
@@ -352,13 +357,24 @@ export const FullBleedSection = forwardRef<HTMLElement, FullBleedSectionProps>(
         };
       }
 
+      if (pattern === "stripes") {
+        return {
+          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, ${isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)"} 10px, ${isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)"} 20px)`,
+        };
+      }
+
       return undefined;
     };
 
     return (
       <section
         ref={ref}
-        className={clsx("relative overflow-hidden", bgClasses[background], className)}
+        className={clsx(
+          "relative overflow-hidden",
+          bgClasses[background],
+          fullHeight && "min-h-screen",
+          className
+        )}
         {...props}
       >
         {pattern !== "none" && (

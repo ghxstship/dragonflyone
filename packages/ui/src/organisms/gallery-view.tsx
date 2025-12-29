@@ -352,7 +352,7 @@ export function GalleryView<T>({
   enableLightbox = true,
   showTitles = true,
   showMetadata = false,
-  inverted = false,
+  inverted = true,
   className,
   loading = false,
   emptyMessage = "No items to display",

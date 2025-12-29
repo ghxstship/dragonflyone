@@ -24,7 +24,7 @@ export type DropdownProps = HTMLAttributes<HTMLDivElement> & {
  * - ARIA attributes for screen readers
  */
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
-  function Dropdown({ trigger, align = "left", inverted = false, label, className, children }, ref) {
+  function Dropdown({ trigger, align = "left", inverted = true, label, className, children }, ref) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -163,7 +163,7 @@ export type DropdownItemProps = HTMLAttributes<HTMLButtonElement> & {
 };
 
 export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
-  function DropdownItem({ href, inverted = false, className, children, ...props }, ref) {
+  function DropdownItem({ href, inverted = true, className, children, ...props }, ref) {
     const baseClasses = clsx(
       "w-full px-4 py-3 text-left font-body text-sm",
       "transition-all duration-100 ease-[var(--ease-bounce)]",

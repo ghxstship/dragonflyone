@@ -212,7 +212,7 @@ function CategoriesSection() {
       <StaggerChildren staggerDelay={50} animation="slide-up">
         <Grid cols={6} gap={4} className="auto-rows-[140px] grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
           <Card inverted className="group relative col-span-2 row-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-            <Box className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80')" }} />
+            <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Search className="size-5 text-accent" />
@@ -221,7 +221,7 @@ function CategoriesSection() {
           </Card>
           
           <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-            <Box className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80')" }} />
+            <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Users className="size-5 text-accent" />
@@ -230,7 +230,7 @@ function CategoriesSection() {
           </Card>
           
           <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-            <Box className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&q=80')" }} />
+            <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Zap className="size-5 text-accent" />
@@ -239,7 +239,7 @@ function CategoriesSection() {
           </Card>
 
           <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-            <Box className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80')" }} />
+            <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Compass className="size-5 text-accent" />
@@ -248,7 +248,7 @@ function CategoriesSection() {
           </Card>
           
           <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-            <Box className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80')" }} />
+            <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Palette className="size-5 text-accent" />
@@ -257,7 +257,7 @@ function CategoriesSection() {
           </Card>
 
           <Card inverted className="group relative row-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-            <Box className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80')" }} />
+            <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Target className="size-5 text-accent" />
@@ -266,7 +266,7 @@ function CategoriesSection() {
           </Card>
           
           <Card inverted className="group relative col-span-2 row-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-            <Box className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80')" }} />
+            <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Handshake className="size-5 text-accent" />
@@ -275,7 +275,7 @@ function CategoriesSection() {
           </Card>
           
           <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-            <Box className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80')" }} />
+            <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Lightbulb className="size-5 text-accent" />
@@ -284,7 +284,7 @@ function CategoriesSection() {
           </Card>
           
           <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-            <Box className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80')" }} />
+            <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <TrendingUp className="size-5 text-accent" />
@@ -293,7 +293,7 @@ function CategoriesSection() {
           </Card>
 
           <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
-            <Box className="absolute inset-0 bg-cover bg-center brightness-[0.3] saturate-[0.3] transition-all duration-slow group-hover:brightness-[0.5] group-hover:saturate-100" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80')" }} />
+            <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Heart className="size-5 text-accent" />

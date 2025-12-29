@@ -756,6 +756,14 @@ const baseTailwindConfig = {
         'card-lg': '24rem', // 384px
         'sidebar': '16rem', // 256px
         'select': '18.75rem', // 300px
+        // Dropdown/mega-menu widths
+        'dropdown-sm': '37.5rem', // 600px
+        'dropdown-md': '45rem', // 720px
+        'dropdown-lg': '50rem', // 800px
+        // Search input minimum
+        'search': '12.5rem', // 200px
+        // Time column minimum
+        'time': '4.375rem', // 70px
       },
       // Semantic max-width tokens
       maxWidth: {

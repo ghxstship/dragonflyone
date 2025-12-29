@@ -131,7 +131,7 @@ export function GanttChart<T>({
   onTaskClick,
   onTaskUpdate: _onTaskUpdate,
   showToday = true,
-  inverted = false,
+  inverted = true,
   rowHeight = 40,
   renderTask,
   className,

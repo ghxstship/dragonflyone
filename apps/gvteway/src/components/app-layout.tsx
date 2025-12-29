@@ -53,7 +53,7 @@ import { Search, Ticket, Calendar, MapPin } from "lucide-react";
 interface AppLayoutProps {
   children: ReactNode;
   /** Navigation variant */
-  variant?: "consumer-public" | "consumer-auth" | "consumer-shell" | "event-shell" | "membership" | "creator-public" | "creator-auth";
+  variant?: "consumer-public" | "consumer-auth" | "consumer-shell" | "event-shell" | "membership" | "creator-public" | "creator-auth" | "portal" | "consumer";
   /** Context breadcrumbs for authenticated navigation */
   contextLevels?: ContextLevel[];
   /** Custom user menu for authenticated navigation */
@@ -66,6 +66,10 @@ interface AppLayoutProps {
   currentPath?: string;
   /** Event ID for event-context navigation */
   eventId?: string;
+  /** Whether user is authenticated (for consumer variant) */
+  isAuthenticated?: boolean;
+  /** User object (for consumer variant) */
+  user?: unknown;
 }
 
 /**
@@ -277,6 +281,83 @@ export function GvtewayAppLayout({
       current: e.id === currentEvent?.id,
     })),
   };
+
+  // Portal variant - minimal branded layout for external access
+  if (variant === "portal") {
+    return (
+      <PageLayout
+        background="black"
+        header={
+          <Container className="py-4">
+            <Display size="md">GVTEWAY</Display>
+          </Container>
+        }
+      >
+        <FullBleedSection
+          background="ink"
+          pattern="grid"
+          patternOpacity={0.03}
+          className={`min-h-screen ${className || ""}`}
+        >
+          <Container className="py-8 sm:py-12 md:py-16">
+            <PageTransition type="fade" duration={200}>
+              {children}
+            </PageTransition>
+          </Container>
+        </FullBleedSection>
+      </PageLayout>
+    );
+  }
+
+  // Consumer variant - public browsing with optional auth features
+  if (variant === "consumer") {
+    return (
+      <PageLayout
+        background="black"
+        header={<ConsumerNavigationPublic />}
+        footer={
+          showFooter ? (
+            <Footer
+              logo={<Display size="md">GVTEWAY</Display>}
+              copyright={`© ${new Date().getFullYear()} GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.`}
+            >
+              <FooterColumn title="Discover">
+                <FooterLink href="/events">Browse Events</FooterLink>
+                <FooterLink href="/venues">Find Venues</FooterLink>
+                <FooterLink href="/artists">Artists</FooterLink>
+              </FooterColumn>
+              <FooterColumn title="Shop">
+                <FooterLink href="/merch">Merchandise</FooterLink>
+                <FooterLink href="/gift-cards">Gift Cards</FooterLink>
+                <FooterLink href="/cart">Cart</FooterLink>
+              </FooterColumn>
+              <FooterColumn title="Support">
+                <FooterLink href="/help">Help Center</FooterLink>
+                <FooterLink href="/help#contact">Contact</FooterLink>
+              </FooterColumn>
+              <FooterColumn title="Legal">
+                <FooterLink href="/legal/privacy">Privacy</FooterLink>
+                <FooterLink href="/legal/terms">Terms</FooterLink>
+              </FooterColumn>
+            </Footer>
+          ) : undefined
+        }
+      >
+        <FullBleedSection
+          background="ink"
+          pattern="halftone"
+          patternOpacity={0.03}
+          className={`min-h-screen ${className || ""}`}
+        >
+          <Container className="py-8 sm:py-12 md:py-16">
+            <PageTransition type="fade" duration={200}>
+              {children}
+            </PageTransition>
+          </Container>
+        </FullBleedSection>
+      </PageLayout>
+    );
+  }
 
   // Shell variants use AuthenticatedShell with sidebar
   if (variant === "consumer-shell" || variant === "event-shell") {

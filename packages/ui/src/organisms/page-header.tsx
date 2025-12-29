@@ -25,11 +25,9 @@ import {
 // TYPES
 // =============================================================================
 
-export interface BreadcrumbItem {
-  label: string;
-  href?: string;
-  icon?: ReactNode;
-}
+// BreadcrumbItem imported from canonical types
+import type { BreadcrumbItem } from "../types/breadcrumb.js";
+export type { BreadcrumbItem } from "../types/breadcrumb.js";
 
 export interface TabItem {
   id: string;

@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef, ReactNode } from "react";
+import type { BreadcrumbItem } from "../types/breadcrumb.js";
 import clsx from "clsx";
 import { ArrowLeft, Save, Trash2 } from "lucide-react";
 import { Container, Stack } from "../foundations/layout.js";
@@ -27,10 +28,8 @@ export interface EditFormSection {
   content: ReactNode;
 }
 
-export interface EditBreadcrumbItem {
-  label: string;
-  href?: string;
-}
+// EditBreadcrumbItem is an alias for canonical BreadcrumbItem
+export type EditBreadcrumbItem = BreadcrumbItem;
 
 export interface EditPageProps {
   /** Page title */
@@ -38,7 +37,7 @@ export interface EditPageProps {
   /** Page subtitle/description */
   subtitle?: string;
   /** Breadcrumb navigation */
-  breadcrumbs?: EditBreadcrumbItem[];
+  breadcrumbs?: BreadcrumbItem[];
   /** Back button href */
   backHref: string;
   /** Back button label */
@@ -184,6 +183,7 @@ export const EditPage = forwardRef<HTMLDivElement, EditPageProps>(
           <MainContent padding="lg" inverted={inverted}>
             <Container>
               <Stack gap={6}>
+                <Body variant={inverted ? "inverted" : "default"} className="text-center">{loadingText}</Body>
                 <Skeleton className="h-10 w-48" />
                 <Card inverted={inverted} className="p-6">
                   <Stack gap={4}>

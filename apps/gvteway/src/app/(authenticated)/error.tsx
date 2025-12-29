@@ -15,7 +15,10 @@ export default function AuthenticatedError({
       reset={reset}
       appName="GVTEWAY"
       background="black"
-      showDashboard={false}
+      showDashboard={true}
+      dashboardPath="/dashboard"
+      homePath="/events"
+      supportEmail="support@gvteway.com"
     />
   );
 }

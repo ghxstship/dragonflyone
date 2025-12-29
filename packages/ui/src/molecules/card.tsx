@@ -22,7 +22,7 @@ export type CardProps = HTMLAttributes<HTMLDivElement> & {
  * - Pop variant for maximum impact
  */
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  function Card({ variant = "default", interactive, inverted = false, asButton, className, children, onClick, onKeyDown, ...props }, ref) {
+  function Card({ variant = "default", interactive, inverted = true, asButton, className, children, onClick, onKeyDown, ...props }, ref) {
     // Determine if card should be keyboard accessible
     const isClickable = !!onClick;
     const shouldBeAccessible = isClickable || asButton;
@@ -135,7 +135,7 @@ export type CardHeaderProps = HTMLAttributes<HTMLDivElement> & {
  * Features bold bottom border for panel separation
  */
 export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
-  function CardHeader({ inverted = false, className, children, ...props }, ref) {
+  function CardHeader({ inverted = true, className, children, ...props }, ref) {
     return (
       <div
         ref={ref}
@@ -160,7 +160,7 @@ export type CardTitleProps = HTMLAttributes<HTMLHeadingElement> & {
  * CardTitle - Bold uppercase heading
  */
 export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
-  function CardTitle({ inverted = false, className, children, ...props }, ref) {
+  function CardTitle({ inverted = true, className, children, ...props }, ref) {
     return (
       <h3
         ref={ref}
@@ -185,7 +185,7 @@ export type CardDescriptionProps = HTMLAttributes<HTMLParagraphElement> & {
  * CardDescription - Muted subtitle text
  */
 export const CardDescription = forwardRef<HTMLParagraphElement, CardDescriptionProps>(
-  function CardDescription({ inverted = false, className, children, ...props }, ref) {
+  function CardDescription({ inverted = true, className, children, ...props }, ref) {
     return (
       <p
         ref={ref}
@@ -207,7 +207,7 @@ export type CardBodyProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
-  function CardBody({ inverted = false, className, children, ...props }, ref) {
+  function CardBody({ inverted = true, className, children, ...props }, ref) {
     return (
       <div
         ref={ref}
@@ -229,7 +229,7 @@ export type CardFooterProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
-  function CardFooter({ inverted = false, className, children, ...props }, ref) {
+  function CardFooter({ inverted = true, className, children, ...props }, ref) {
     return (
       <div
         ref={ref}

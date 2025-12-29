@@ -18,6 +18,8 @@ export default function Error({
       appName="GVTEWAY"
       background="black"
       showDashboard={false}
+      homePath="/events"
+      supportEmail="support@gvteway.com"
     />
   );
 }

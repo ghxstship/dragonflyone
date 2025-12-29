@@ -28,7 +28,7 @@ export function EventCard({
   return (
     <Article
       variant="bordered"
-      className="group cursor-pointer transition-all hover:shadow-lg"
+      className="group cursor-pointer pop-card"
       onClick={() => router.push(`/events/${id}`)}
     >
       {image && (

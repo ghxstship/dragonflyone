@@ -26,10 +26,9 @@ export interface FormSection {
   content: ReactNode;
 }
 
-export interface BreadcrumbItem {
-  label: string;
-  href?: string;
-}
+// BreadcrumbItem imported from canonical types
+import type { BreadcrumbItem } from "../types/breadcrumb.js";
+export type { BreadcrumbItem } from "../types/breadcrumb.js";
 
 export interface CreatePageProps {
   /** Page title */

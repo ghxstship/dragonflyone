@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, ClipboardList, Pencil, Trash2, Download } from "lucide-react";
 // Layout provided by route group
-import { useCrew } from "../../../hooks/useCrew";
+import { useCrew } from "@/hooks/useCrew";
 import {
   ListPage,
   Badge,

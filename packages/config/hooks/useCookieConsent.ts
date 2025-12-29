@@ -186,20 +186,42 @@ export function useCookieConsent(options: UseCookieConsentOptions = {}) {
   const { data: serverState, isLoading: isLoadingServer } = useQuery({
     queryKey: ['cookie-consent', sessionId],
     queryFn: async () => {
-      const response = await fetch(`${apiEndpoint}?session_id=${sessionId}`);
-      if (!response.ok) throw new Error('Failed to fetch consent');
-      const result = await response.json();
-      return result.data as {
-        necessary: boolean;
-        functional: boolean;
-        analytics: boolean;
-        advertising: boolean;
-        consented: boolean;
-        consented_at?: string;
-      };
+      try {
+        const response = await fetch(`${apiEndpoint}?session_id=${sessionId}`);
+        if (!response.ok) {
+          // Return default state on error - don't throw
+          return {
+            necessary: true,
+            functional: false,
+            analytics: false,
+            advertising: false,
+            consented: false,
+            consented_at: undefined,
+          };
+        }
+        const result = await response.json();
+        return result.data as {
+          necessary: boolean;
+          functional: boolean;
+          analytics: boolean;
+          advertising: boolean;
+          consented: boolean;
+          consented_at?: string;
+        };
+      } catch {
+        // Return default state on network error
+        return {
+          necessary: true,
+          functional: false,
+          analytics: false,
+          advertising: false,
+          consented: false,
+          consented_at: undefined,
+        };
+      }
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
-    retry: 1,
+    retry: false, // Don't retry - use local storage as fallback
   });
 
   // Mutation for saving consent

@@ -59,7 +59,7 @@ import { Search, Users, Calendar, Wrench } from "lucide-react";
 interface AppLayoutProps {
   children: ReactNode;
   /** Navigation variant */
-  variant?: "public" | "authenticated";
+  variant?: "public" | "authenticated" | "portal";
   /** Context breadcrumbs for authenticated navigation */
   contextLevels?: ContextLevel[];
   /** Custom user menu for authenticated navigation */
@@ -320,6 +320,36 @@ export function CompvssAppLayout({
     teams: compvssDemoTeams,
     workspaces: compvssDemoWorkspaces,
   };
+
+  // For portal pages, use minimal branded layout without sidebar
+  if (variant === "portal") {
+    const isDark = background === "black";
+    return (
+      <PageLayout
+        background={background}
+        header={
+          <Container className="py-4">
+            <Link href="/" className={`font-display text-h5-md uppercase ${isDark ? "text-white hover:text-grey-200" : "text-black hover:text-grey-700"} transition-colors`}>
+              COMPVSS
+            </Link>
+          </Container>
+        }
+      >
+        <FullBleedSection
+          background={isDark ? "ink" : "white"}
+          pattern="grid"
+          patternOpacity={isDark ? 0.03 : 0.04}
+          className={`min-h-screen ${className || ""}`}
+        >
+          <Container className="py-8 sm:py-12 md:py-16">
+            <PageTransition type="fade" duration={200}>
+              {children}
+            </PageTransition>
+          </Container>
+        </FullBleedSection>
+      </PageLayout>
+    );
+  }
 
   // For authenticated pages, use the new sidebar shell
   if (variant === "authenticated") {

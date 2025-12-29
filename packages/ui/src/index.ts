@@ -113,8 +113,9 @@ export { ScrollableTableWrapper } from "./molecules/scrollable-table-wrapper.js"
 export type { ScrollableTableWrapperProps } from "./molecules/scrollable-table-wrapper.js";
 export { Pagination } from "./molecules/pagination.js";
 export type { PaginationProps } from "./molecules/pagination.js";
-export { Breadcrumb, BreadcrumbItem } from "./molecules/breadcrumb.js";
+export { Breadcrumb } from "./molecules/breadcrumb.js";
 export type { BreadcrumbProps, BreadcrumbItemProps } from "./molecules/breadcrumb.js";
+// BreadcrumbItem type exported from ./types/breadcrumb.js
 export { Tabs, TabsList, Tab, TabPanel } from "./molecules/tabs.js";
 export type { TabsProps, TabProps } from "./molecules/tabs.js";
 export { Dropdown, DropdownItem } from "./molecules/dropdown.js";
@@ -137,8 +138,7 @@ export { TicketCard } from "./molecules/ticket-card.js";
 export type { TicketCardProps } from "./molecules/ticket-card.js";
 export { CrewCard } from "./molecules/crew-card.js";
 export type { CrewCardProps } from "./molecules/crew-card.js";
-export { DataTable } from "./molecules/data-table.js";
-export type { DataTableProps, Column } from "./molecules/data-table.js";
+// DataTable removed - use DataGrid from organisms for full-featured tables
 export { SearchFilter } from "./molecules/search-filter.js";
 export type { SearchFilterProps, FilterGroup, FilterOption, FilterPreset } from "./molecules/search-filter.js";
 export { PriceDisplay, PriceRange, formatPrice } from "./molecules/price-display.js";
@@ -183,10 +183,7 @@ export { Modal, ModalHeader, ModalBody, ModalFooter } from "./organisms/modal.js
 export type { ModalProps } from "./organisms/modal.js";
 export { Navigation, NavLink } from "./organisms/navigation.js";
 export type { NavigationProps, NavLinkProps } from "./organisms/navigation.js";
-export { Sidebar, MobileSidebar } from "./organisms/sidebar.js";
-export type { SidebarProps, SidebarSection, SidebarItem, MobileSidebarProps } from "./organisms/sidebar.js";
-export { ResponsiveSidebar, BottomNavigation } from "./organisms/responsive-sidebar.js";
-export type { ResponsiveSidebarProps, BottomNavigationProps, NavSection, NavItem, NavSubsection, BottomNavItem } from "./organisms/responsive-sidebar.js";
+// Sidebar components consolidated to AppSidebar - see app-sidebar.js exports below
 export { Footer, FooterColumn, FooterLink } from "./organisms/footer.js";
 export type { FooterProps, FooterColumnProps } from "./organisms/footer.js";
 export { Hero } from "./organisms/hero.js";
@@ -249,8 +246,11 @@ export type { ActivityFeedProps, ActivityItem, ActivityType, ActivityUser } from
 export { NotificationCenter, NotificationBell } from "./organisms/notification-center.js";
 export type { NotificationCenterProps, NotificationBellProps, Notification, NotificationType, NotificationPriority } from "./organisms/notification-center.js";
 export type { ContextSwitcherProps, ProductionContext } from "./organisms/context-switcher.js";
-export { PageHeader as EnterprisePageHeader } from "./organisms/page-header.js";
-export type { PageHeaderProps as EnterprisePageHeaderProps, BreadcrumbItem as EnterpriseBreadcrumbItem, TabItem, ViewOption } from "./organisms/page-header.js";
+// AppPageHeader - Enterprise page header with breadcrumbs, tabs, views, actions
+// Use this for authenticated app pages. For marketing pages, use MarketingPageHeader from foundations.
+export { PageHeader as AppPageHeader } from "./organisms/page-header.js";
+export type { PageHeaderProps as AppPageHeaderProps, TabItem, ViewOption } from "./organisms/page-header.js";
+// BreadcrumbItem re-exported from page-header.js but canonical source is ./types/breadcrumb.js
 export { CommandPalette } from "./organisms/command-palette.js";
 export type { CommandPaletteProps, CommandItem, CommandCategory } from "./organisms/command-palette.js";
 export { MobileBottomNav } from "./organisms/mobile-bottom-nav.js";
@@ -280,10 +280,10 @@ export type { SavedFilterBuilderProps, FilterField as SavedFilterField, FilterCo
 export { PageLayout } from "./templates/page-layout.js";
 export type { PageLayoutProps } from "./templates/page-layout.js";
 // SectionLayout removed - use Section from foundations/layout instead
-export { AppShell } from "./templates/app-shell.js";
-export type { AppShellProps } from "./templates/app-shell.js";
+// AppShell removed - use AuthenticatedShell instead
 export { AuthenticatedShell } from "./templates/authenticated-shell.js";
-export type { AuthenticatedShellProps, BreadcrumbContextItem, ContextOptions } from "./templates/authenticated-shell.js";
+export type { AuthenticatedShellProps, ContextOptions } from "./templates/authenticated-shell.js";
+// BreadcrumbContextItem exported from ./types/breadcrumb.js
 export { ListPage } from "./templates/list-page.js";
 export type { ListPageProps, ListPageColumn, ListPageFilter, ListPageAction, ListPageBulkAction } from "./templates/list-page.js";
 export { ErrorPage, ErrorContent } from "./templates/error-page.js";
@@ -295,11 +295,11 @@ export type { DashboardPageProps } from "./templates/dashboard-page.js";
 export { DetailPage } from "./templates/detail-page.js";
 export type { DetailPageProps, DetailPageTab } from "./templates/detail-page.js";
 export { CreatePage } from "./templates/create-page.js";
-export type { CreatePageProps, FormSection, BreadcrumbItem as CreateBreadcrumbItem } from "./templates/create-page.js";
+export type { CreatePageProps, FormSection } from "./templates/create-page.js";
 export { EditPage } from "./templates/edit-page.js";
 export type { EditPageProps, EditFormSection, EditBreadcrumbItem } from "./templates/edit-page.js";
 export { WizardPage } from "./templates/wizard-page.js";
-export type { WizardPageProps, WizardStep, WizardBanner, BreadcrumbItem as WizardBreadcrumbItem } from "./templates/wizard-page.js";
+export type { WizardPageProps, WizardStep, WizardBanner } from "./templates/wizard-page.js";
 export { SettingsHubPage, SettingsPageLayout } from "./templates/settings-hub-page.js";
 export type { SettingsHubPageProps, SettingsPageLayoutProps, SettingsSection, SettingsCategory } from "./templates/settings-hub-page.js";
 export { AuthPage } from "./templates/auth-page.js";
@@ -330,13 +330,18 @@ export type {
 } from "./templates/content-layout.js";
 
 // =============================================================================
+// SHARED TYPES - Canonical types used across components
+// =============================================================================
+export type { BreadcrumbItem, BreadcrumbContextItem } from "./types/breadcrumb.js";
+
+// =============================================================================
 // FOUNDATIONS - Layout primitives
 // =============================================================================
 export { Container, Section, Grid, Stack } from "./foundations/layout.js";
 export type { SectionProps } from "./foundations/layout.js";
 export { Main, Header, Article, Aside, Nav, Figure, Box, GridOverlay } from "./foundations/semantic.js";
 export {
-  PageHeader,
+  MarketingPageHeader,
   PageContent,
   PageFooter,
   SplitLayout,
@@ -344,7 +349,7 @@ export {
   ContentRegion,
 } from "./foundations/page-regions.js";
 export type {
-  PageHeaderProps,
+  MarketingPageHeaderProps,
   PageContentProps,
   PageFooterProps,
   SplitLayoutProps,
@@ -369,3 +374,8 @@ export * from "./utils/screen-reader.js";
 // HOOKS - Custom React hooks
 // =============================================================================
 export * from "./hooks/index.js";
+
+// =============================================================================
+// MARKETING - Landing page section components (2026 Best Practices)
+// =============================================================================
+export * from "./marketing/index.js";

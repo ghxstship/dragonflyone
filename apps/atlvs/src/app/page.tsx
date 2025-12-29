@@ -128,7 +128,7 @@ function VerticalsSection() {
       </Stack>
       <Grid cols={4} gap={4} className="mt-8 md:mt-12 md:gap-6">
         {atlvsVerticals.map((vertical) => (
-          <Article key={vertical.id} className="group flex h-full flex-col border-2 border-ink-950 bg-white p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6">
+          <Article key={vertical.id} className="group flex h-full flex-col border-2 border-ink-950 bg-white p-4 pop-card-brand sm:p-6">
             <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
               {vertical.icon === "Tent" && <Tent className="h-6 w-6 text-ink-950" />}
               {vertical.icon === "Zap" && <Zap className="h-6 w-6 text-ink-950" />}
@@ -160,7 +160,7 @@ function ProblemSection() {
       </H1>
       <Grid cols={3} gap={4} className="mt-8 md:mt-12 md:gap-6">
         {atlvsProblemSection.problems.map((problem) => (
-          <Article key={problem.title} className="border-2 border-ink-800 bg-ink-900 p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6">
+          <Article key={problem.title} className="border-2 border-ink-800 bg-ink-900 p-4 pop-card-dark sm:p-6">
             <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-grey-600 bg-ink-800">
               {problem.icon === "chaos" && <BarChart3 className="h-6 w-6 text-grey-400" />}
               {problem.icon === "silos" && <Link2 className="h-6 w-6 text-grey-400" />}
@@ -185,7 +185,7 @@ function SolutionsSection() {
       <Stack gap={8} className="mt-8 sm:mt-12 sm:gap-16">
         {atlvsPillarsSolution.map((pillar, index) => (
           <Article key={pillar.id} className={`grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
-            <Card className={`border-2 aspect-video border-ink-950 bg-grey-100 shadow-brand-lg ${index % 2 === 1 ? "lg:order-2" : ""}`}>
+            <Card className={`border-2 aspect-video border-ink-950 bg-grey-100 shadow-lg ${index % 2 === 1 ? "lg:order-2" : ""}`}>
               <Box className="flex h-full items-center justify-center">
                 <Text className="font-mono text-mono-sm uppercase tracking-label text-grey-400">{pillar.title} Screenshot</Text>
               </Box>
@@ -251,7 +251,7 @@ function FeatureGridSection() {
         {atlvsFeatureGrid.map((feature) => {
           const IconComponent = iconMap[feature.icon];
           return (
-            <Article key={feature.title} className="border-2 border-ink-950 bg-white p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6">
+            <Article key={feature.title} className="border-2 border-ink-950 bg-white p-4 pop-card-brand sm:p-6">
               <Box className="mb-4 flex h-10 w-10 items-center justify-center border-2 border-ink-950 bg-grey-100">
                 {IconComponent && <IconComponent className="h-5 w-5 text-ink-950" />}
               </Box>
@@ -317,7 +317,7 @@ function SocialProofSection() {
   return (
     <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
       <H1 className="text-center text-ink-950">{atlvsSocialProof.headline}</H1>
-      <Article className="border-2 mx-auto mt-8 max-w-4xl border-ink-950 bg-white p-4 shadow-brand-lg sm:mt-12 sm:p-8 lg:p-12">
+      <Article className="border-2 mx-auto mt-8 max-w-4xl border-ink-950 bg-white p-4 shadow-lg sm:mt-12 sm:p-8 lg:p-12">
         <Body className="text-center text-body-md text-grey-700 italic sm:text-body-lg">&ldquo;{atlvsSocialProof.testimonial.quote}&rdquo;</Body>
         <Text className="mt-4 block text-center font-mono text-mono-xs uppercase tracking-label text-grey-500 sm:mt-6 sm:text-mono-sm">
           — {atlvsSocialProof.testimonial.author}, {atlvsSocialProof.testimonial.company}

@@ -80,12 +80,12 @@ export function CreatorNavigationPublic() {
             >
               <Button variant="ghost" size="sm" inverted className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300 hover:text-white">
                 Products
-                <ChevronDown className={clsx("h-4 w-4 transition-transform", activeMenu === "products" && "rotate-180")} />
+                <ChevronDown className={clsx("h-4 w-4 chevron-toggle", activeMenu === "products" && "open")} />
               </Button>
 
               {activeMenu === "products" && (
                 <div className="absolute left-0 top-full pt-2 z-50">
-                  <div className="border-2 border-ink-800 bg-ink-950 shadow-brand-xl min-w-[720px] p-6">
+                  <div className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-md p-6">
                     <div className="grid grid-cols-3 gap-6">
                       {productsNavigation.products.map((product) => {
                         const IconComponent = productIcons[product.icon as keyof typeof productIcons] || Briefcase;
@@ -93,7 +93,7 @@ export function CreatorNavigationPublic() {
                           <Link
                             key={product.href}
                             href={product.href}
-                            className="group p-4 border-2 border-transparent hover:border-ink-700 bg-ink-900/50 hover:bg-ink-900 transition-all"
+                            className="group p-4 border-2 border-transparent interactive-border-inverted bg-ink-900/50 hover:bg-ink-900"
                           >
                             <div className="flex items-center gap-3 mb-2">
                               <div className="p-2 border-2 border-ink-700 bg-ink-800">
@@ -113,7 +113,7 @@ export function CreatorNavigationPublic() {
                                 </ListItem>
                               ))}
                             </List>
-                            <div className="mt-3 font-mono text-mono-xs uppercase tracking-kicker text-brand-pink flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="mt-3 font-mono text-mono-xs uppercase tracking-kicker text-brand-pink flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-reveal">
                               View Features <ArrowRight className="h-3 w-3" />
                             </div>
                           </Link>
@@ -128,7 +128,7 @@ export function CreatorNavigationPublic() {
                           <Link
                             key={link.href}
                             href={link.href}
-                            className="font-mono text-mono-sm text-grey-400 hover:text-white transition-colors"
+                            className="font-mono text-mono-sm nav-link-inverted"
                           >
                             {link.label}
                           </Link>
@@ -148,12 +148,12 @@ export function CreatorNavigationPublic() {
             >
               <Button variant="ghost" size="sm" inverted className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300 hover:text-white">
                 Solutions
-                <ChevronDown className={clsx("h-4 w-4 transition-transform", activeMenu === "solutions" && "rotate-180")} />
+                <ChevronDown className={clsx("h-4 w-4 chevron-toggle", activeMenu === "solutions" && "open")} />
               </Button>
 
               {activeMenu === "solutions" && (
                 <div className="absolute left-0 top-full pt-2 z-50">
-                  <div className="border-2 border-ink-800 bg-ink-950 shadow-brand-xl min-w-[800px] p-6">
+                  <div className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-lg p-6">
                     <div className="font-mono text-mono-xs uppercase tracking-kicker text-grey-500 mb-4">Solutions by Role</div>
                     <div className="grid grid-cols-3 gap-x-8 gap-y-4">
                       {solutionsNavigation.groups.map((group) => (
@@ -164,7 +164,7 @@ export function CreatorNavigationPublic() {
                               <ListItem key={item.href}>
                                 <Link
                                   href={item.href}
-                                  className="font-mono text-mono-sm text-grey-400 hover:text-white transition-colors"
+                                  className="font-mono text-mono-sm nav-link-inverted"
                                 >
                                   {item.label}
                                 </Link>
@@ -182,7 +182,7 @@ export function CreatorNavigationPublic() {
                           <Link
                             key={vertical.href}
                             href={vertical.href}
-                            className="font-mono text-mono-sm text-grey-400 hover:text-white transition-colors"
+                            className="font-mono text-mono-sm nav-link-inverted"
                           >
                             {vertical.label}
                           </Link>
@@ -202,12 +202,12 @@ export function CreatorNavigationPublic() {
             >
               <Button variant="ghost" size="sm" inverted className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300 hover:text-white">
                 Resources
-                <ChevronDown className={clsx("h-4 w-4 transition-transform", activeMenu === "resources" && "rotate-180")} />
+                <ChevronDown className={clsx("h-4 w-4 chevron-toggle", activeMenu === "resources" && "open")} />
               </Button>
 
               {activeMenu === "resources" && (
                 <div className="absolute left-0 top-full pt-2 z-50">
-                  <div className="border-2 border-ink-800 bg-ink-950 shadow-brand-xl min-w-[640px] p-6">
+                  <div className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-sm p-6">
                     <div className="grid grid-cols-3 gap-8">
                       {resourcesNavigation.groups.map((group) => (
                         <div key={group.title}>
@@ -217,7 +217,7 @@ export function CreatorNavigationPublic() {
                               <ListItem key={item.href}>
                                 <Link
                                   href={item.href}
-                                  className="font-mono text-mono-sm text-grey-400 hover:text-white transition-colors"
+                                  className="font-mono text-mono-sm nav-link-inverted"
                                 >
                                   {item.label}
                                 </Link>
@@ -235,7 +235,7 @@ export function CreatorNavigationPublic() {
                           <Link
                             key={link.href}
                             href={link.href}
-                            className="font-mono text-mono-sm text-brand-pink hover:text-white transition-colors"
+                            className="font-mono text-mono-sm nav-link-brand"
                           >
                             {link.label}
                           </Link>
@@ -342,7 +342,7 @@ export function CreatorNavigationPublic() {
                   className="justify-between text-h4-md uppercase tracking-kicker"
                 >
                   Products
-                  <ChevronRight className={clsx("h-5 w-5 transition-transform", mobileSubmenu === "products" && "rotate-90")} />
+                  <ChevronRight className={clsx("h-5 w-5 chevron-toggle-90", mobileSubmenu === "products" && "open")} />
                 </Button>
                 {mobileSubmenu === "products" && (
                   <Stack gap={2} className="mt-4 pl-4">
@@ -371,7 +371,7 @@ export function CreatorNavigationPublic() {
                   className="justify-between text-h4-md uppercase tracking-kicker"
                 >
                   Solutions
-                  <ChevronRight className={clsx("h-5 w-5 transition-transform", mobileSubmenu === "solutions" && "rotate-90")} />
+                  <ChevronRight className={clsx("h-5 w-5 chevron-toggle-90", mobileSubmenu === "solutions" && "open")} />
                 </Button>
                 {mobileSubmenu === "solutions" && (
                   <Stack gap={4} className="mt-4 pl-4">
@@ -406,7 +406,7 @@ export function CreatorNavigationPublic() {
                   className="justify-between text-h4-md uppercase tracking-kicker"
                 >
                   Resources
-                  <ChevronRight className={clsx("h-5 w-5 transition-transform", mobileSubmenu === "resources" && "rotate-90")} />
+                  <ChevronRight className={clsx("h-5 w-5 chevron-toggle-90", mobileSubmenu === "resources" && "open")} />
                 </Button>
                 {mobileSubmenu === "resources" && (
                   <Stack gap={4} className="mt-4 pl-4">

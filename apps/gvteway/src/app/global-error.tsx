@@ -21,7 +21,7 @@ export default function GlobalError({
               appName="GVTEWAY"
               showDashboard={false}
               homePath="/events"
-              homeLabel="Browse Events"
+              supportEmail="support@gvteway.com"
             />
           </Container>
         </Section>

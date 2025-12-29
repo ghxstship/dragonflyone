@@ -33,7 +33,7 @@ export type ModalProps = HTMLAttributes<HTMLDivElement> & {
  * - Bold close button with hover lift
  */
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
-  function Modal({ open, onClose, title, size = "md", showClose = true, inverted = false, className, children, ...props }, ref) {
+  function Modal({ open, onClose, title, size = "md", showClose = true, inverted = true, className, children, ...props }, ref) {
     const modalRef = useRef<HTMLDivElement>(null);
     const previousActiveElement = useRef<HTMLElement | null>(null);
 
@@ -193,7 +193,7 @@ export type ModalHeaderProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
-  function ModalHeader({ inverted = false, className, children, ...props }, ref) {
+  function ModalHeader({ inverted = true, className, children, ...props }, ref) {
     return (
       <div ref={ref} className={clsx("mb-4", inverted ? "text-white" : "text-black", className)} {...props}>
         {children}
@@ -207,7 +207,7 @@ export type ModalBodyProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export const ModalBody = forwardRef<HTMLDivElement, ModalBodyProps>(
-  function ModalBody({ inverted = false, className, children, ...props }, ref) {
+  function ModalBody({ inverted = true, className, children, ...props }, ref) {
     return (
       <div ref={ref} className={clsx(inverted ? "text-grey-200" : "text-grey-800", className)} {...props}>
         {children}
@@ -221,7 +221,7 @@ export type ModalFooterProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
-  function ModalFooter({ inverted = false, className, children, ...props }, ref) {
+  function ModalFooter({ inverted = true, className, children, ...props }, ref) {
     return (
       <div ref={ref} className={clsx(
         "mt-6 pt-4 border-t-2 flex gap-3 justify-end",

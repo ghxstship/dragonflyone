@@ -314,7 +314,7 @@ export function MapView<T>({
   renderMarker: _renderMarker,
   renderPopup: _renderPopup,
   showList = true,
-  inverted = false,
+  inverted = true,
   className,
   loading = false,
   emptyMessage = "No locations to display",

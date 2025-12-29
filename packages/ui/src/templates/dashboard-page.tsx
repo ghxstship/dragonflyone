@@ -2,10 +2,10 @@
 
 import { forwardRef, ReactNode, useState, useEffect } from "react";
 import clsx from "clsx";
-import { Sidebar, MobileSidebar } from "../organisms/sidebar.js";
-import type { SidebarSection } from "../organisms/sidebar.js";
+import { AppSidebar, MobileAppSidebar } from "../organisms/app-sidebar.js";
+import type { SidebarNavSection } from "../organisms/app-sidebar.js";
 import { Container, Stack } from "../foundations/layout.js";
-import { PageHeader } from "../foundations/page-regions.js";
+import { MarketingPageHeader } from "../foundations/page-regions.js";
 import { Spinner } from "../atoms/spinner.js";
 import { Body, H2 } from "../atoms/typography.js";
 import { Button } from "../atoms/button.js";
@@ -20,7 +20,7 @@ import { AlertTriangle, WifiOff, ShieldX, Menu } from "lucide-react";
 export interface DashboardPageProps {
   children: ReactNode;
   /** Sidebar navigation sections */
-  navigation: SidebarSection[];
+  navigation: SidebarNavSection[];
   /** Current active path for highlighting */
   currentPath: string;
   /** Logo element for sidebar */
@@ -237,7 +237,7 @@ export const DashboardPage = forwardRef<HTMLDivElement, DashboardPageProps>(
 
         {/* Desktop Sidebar */}
         <div className="hidden md:block">
-          <Sidebar
+          <AppSidebar
             sections={navigation}
             currentPath={currentPath}
             collapsed={sidebarCollapsed}
@@ -249,7 +249,7 @@ export const DashboardPage = forwardRef<HTMLDivElement, DashboardPageProps>(
         </div>
 
         {/* Mobile Sidebar */}
-        <MobileSidebar
+        <MobileAppSidebar
           open={mobileMenuOpen}
           onClose={() => setMobileMenuOpen(false)}
           sections={navigation}
@@ -301,7 +301,7 @@ export const DashboardPage = forwardRef<HTMLDivElement, DashboardPageProps>(
           >
             <Container className="py-6 md:py-8">
               {header && !loading && !error && !offline && !restricted && (
-                <PageHeader
+                <MarketingPageHeader
                   kicker={header.kicker}
                   title={header.title}
                   description={header.description}

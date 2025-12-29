@@ -53,6 +53,11 @@
   --warning: 38 92% 50%;         /* #f59e0b - Amber */
   --error: 0 84% 60%;            /* #ef4444 - Red */
   --info: 217 91% 60%;           /* #3b82f6 - Blue */
+  
+  /* Brand Accent Colors - Fixed values for cross-app consistency */
+  --brand-pink: 333 100% 43%;    /* #FF006E - Brand Pink */
+  --brand-cyan: 195 100% 50%;    /* #00BFFF - Brand Cyan */
+  --brand-yellow: 38 92% 50%;    /* #F59E0B - Brand Yellow/Amber */
 
   /* ═══════════════════════════════════════════════════════════════════════════
      SEMANTIC SURFACE COLORS - Dark mode default (GHXSTSHIP aesthetic)
@@ -541,11 +546,115 @@ a {
 
 /* ═══════════════════════════════════════════════════════════════════════════
    INTERACTIVE STATE UTILITIES - Pop Art Style
+   Normalized hover/shadow patterns for consistent comic-panel aesthetic
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Hover lift effect for cards and buttons */
+/* -----------------------------------------------------------------------------
+   CARD HOVER EFFECTS - For Article, Card, and interactive panels
+   Usage: class="pop-card" or class="pop-card-brand"
+   ----------------------------------------------------------------------------- */
+
+/* Standard pop-art card hover - subtle shadow with lift */
+.pop-card {
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              box-shadow var(--duration-fast) var(--ease-bounce);
+}
+.pop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.pop-card:active {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Brand-colored pop-art card hover - uses app's primary color */
+.pop-card-brand {
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              box-shadow var(--duration-fast) var(--ease-bounce);
+}
+.pop-card-brand:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0 0 hsl(var(--primary));
+}
+.pop-card-brand:active {
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0 0 hsl(var(--primary));
+}
+
+/* Accent-colored pop-art card hover */
+.pop-card-accent {
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              box-shadow var(--duration-fast) var(--ease-bounce);
+}
+.pop-card-accent:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0 0 hsl(var(--accent));
+}
+.pop-card-accent:active {
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0 0 hsl(var(--accent));
+}
+
+/* Dark mode card hover - white/light shadows */
+.pop-card-dark {
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 rgba(255, 255, 255, 0.1);
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              box-shadow var(--duration-fast) var(--ease-bounce);
+}
+.pop-card-dark:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0 0 rgba(255, 255, 255, 0.25);
+}
+.pop-card-dark:active {
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0 0 rgba(255, 255, 255, 0.15);
+}
+
+/* -----------------------------------------------------------------------------
+   BUTTON/INTERACTIVE HOVER EFFECTS
+   Usage: class="pop-hover" or class="pop-hover-brand"
+   ----------------------------------------------------------------------------- */
+
+/* Standard hover lift effect for buttons and links */
+.pop-hover {
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              box-shadow var(--duration-fast) var(--ease-bounce);
+}
+.pop-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-hover);
+}
+.pop-hover:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--shadow-active);
+}
+
+/* Brand-colored hover effect */
+.pop-hover-brand {
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              box-shadow var(--duration-fast) var(--ease-bounce);
+}
+.pop-hover-brand:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 hsl(var(--primary));
+}
+.pop-hover-brand:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 0 hsl(var(--primary));
+}
+
+/* Legacy aliases for backwards compatibility */
 .hover-lift {
-  transition: transform var(--duration-fast) var(--ease-bounce), box-shadow var(--duration-fast) var(--ease-bounce);
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              box-shadow var(--duration-fast) var(--ease-bounce);
 }
 .hover-lift:hover {
   transform: translate(-2px, -2px);
@@ -558,19 +667,176 @@ a {
 
 /* Pop art button press effect */
 .press-effect {
-  transition: transform var(--duration-fast) var(--ease-bounce), box-shadow var(--duration-fast) var(--ease-bounce);
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              box-shadow var(--duration-fast) var(--ease-bounce);
 }
 .press-effect:active {
   transform: translate(2px, 2px);
   box-shadow: var(--shadow-active);
 }
 
-/* Focus ring utility */
+/* -----------------------------------------------------------------------------
+   IMAGE/MEDIA HOVER EFFECTS
+   Usage: class="pop-image-hover" on container with image inside
+   ----------------------------------------------------------------------------- */
+
+.pop-image-hover {
+  transition: filter var(--duration-slow) var(--ease-out);
+}
+.group:hover .pop-image-hover,
+.pop-image-hover:hover {
+  filter: brightness(1.1) saturate(1.1);
+}
+
+/* Dark overlay image reveal on hover */
+.pop-image-reveal {
+  filter: brightness(0.3) saturate(0.3);
+  transition: filter var(--duration-slow) var(--ease-out);
+}
+.group:hover .pop-image-reveal {
+  filter: brightness(0.5) saturate(1);
+}
+
+/* -----------------------------------------------------------------------------
+   FOCUS STATES - Accessibility compliant
+   ----------------------------------------------------------------------------- */
+
 .focus-ring {
   outline: none;
 }
 .focus-ring:focus-visible {
   box-shadow: var(--shadow-focus);
+}
+
+/* Brand-colored focus ring */
+.focus-ring-brand:focus-visible {
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.4);
+}
+
+/* -----------------------------------------------------------------------------
+   NAVIGATION LINK UTILITIES
+   Usage: class="nav-link" or class="nav-link-inverted"
+   ----------------------------------------------------------------------------- */
+
+/* Standard nav link - dark text on light background */
+.nav-link {
+  color: hsl(var(--muted-foreground));
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.nav-link:hover {
+  color: hsl(var(--foreground));
+}
+.nav-link[data-active="true"],
+.nav-link.active {
+  color: hsl(var(--foreground));
+}
+
+/* Inverted nav link - light text on dark background */
+.nav-link-inverted {
+  color: var(--grey-400);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.nav-link-inverted:hover {
+  color: white;
+}
+.nav-link-inverted[data-active="true"],
+.nav-link-inverted.active {
+  color: white;
+}
+
+/* Brand-colored nav link */
+.nav-link-brand {
+  color: hsl(var(--primary));
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.nav-link-brand:hover {
+  color: white;
+}
+
+/* -----------------------------------------------------------------------------
+   INTERACTIVE BORDER UTILITIES
+   Usage: class="interactive-border" on clickable cards/items
+   ----------------------------------------------------------------------------- */
+
+/* Standard interactive border - becomes prominent on hover */
+.interactive-border {
+  border-color: var(--grey-300);
+  transition: border-color var(--duration-fast) var(--ease-out),
+              background-color var(--duration-fast) var(--ease-out);
+}
+.interactive-border:hover {
+  border-color: hsl(var(--foreground));
+}
+
+/* Inverted interactive border */
+.interactive-border-inverted {
+  border-color: var(--ink-700);
+  transition: border-color var(--duration-fast) var(--ease-out),
+              background-color var(--duration-fast) var(--ease-out);
+}
+.interactive-border-inverted:hover {
+  border-color: var(--ink-500);
+}
+
+/* Primary interactive border - highlights with brand color */
+.interactive-border-primary {
+  border-color: hsl(var(--border));
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+.interactive-border-primary:hover {
+  border-color: hsl(var(--primary) / 0.5);
+}
+.interactive-border-primary[data-selected="true"],
+.interactive-border-primary.selected {
+  border-color: hsl(var(--primary));
+  background-color: hsl(var(--primary) / 0.1);
+}
+
+/* -----------------------------------------------------------------------------
+   TRANSITION UTILITIES
+   Normalized transition patterns for consistent animation behavior
+   ----------------------------------------------------------------------------- */
+
+/* Interactive transition - for buttons, links, clickable elements */
+.transition-interactive {
+  transition: color var(--duration-fast) var(--ease-out),
+              background-color var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-bounce),
+              box-shadow var(--duration-fast) var(--ease-bounce);
+}
+
+/* Reveal transition - for opacity/visibility changes */
+.transition-reveal {
+  transition: opacity var(--duration-normal) var(--ease-out),
+              visibility var(--duration-normal) var(--ease-out);
+}
+
+/* Transform transition - for rotation, scale, translate */
+.transition-transform-pop {
+  transition: transform var(--duration-fast) var(--ease-bounce);
+}
+
+/* -----------------------------------------------------------------------------
+   CHEVRON TOGGLE UTILITIES
+   Usage: class="chevron-toggle" with data-open="true/false"
+   ----------------------------------------------------------------------------- */
+
+.chevron-toggle {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+.chevron-toggle[data-open="true"],
+.chevron-toggle.open {
+  transform: rotate(180deg);
+}
+
+/* Chevron that rotates 90deg (for accordions/mobile menus) */
+.chevron-toggle-90 {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+.chevron-toggle-90[data-open="true"],
+.chevron-toggle-90.open {
+  transform: rotate(90deg);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

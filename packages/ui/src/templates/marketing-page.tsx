@@ -2,26 +2,29 @@
 
 import { forwardRef, ReactNode } from "react";
 import clsx from "clsx";
+import { Container } from "../foundations/layout.js";
 import { Stack } from "../foundations/layout.js";
 import { FullBleedSection } from "../foundations/page-regions.js";
 import { Spinner } from "../atoms/spinner.js";
 import { Body, H2 } from "../atoms/typography.js";
 import { Button } from "../atoms/button.js";
-import { AlertTriangle, WifiOff } from "lucide-react";
+import { AlertTriangle, WifiOff, ArrowRight } from "lucide-react";
 
 // =============================================================================
-// MARKETING PAGE TEMPLATE
+// MARKETING PAGE TEMPLATE - 2026 Landing Page Best Practices
 // Full-width marketing/landing page layout with sections
 // Bold Contemporary Pop Art Adventure Design System
 // =============================================================================
 
 export interface MarketingSection {
   id: string;
-  background?: "white" | "grey" | "ink" | "black" | "primary" | "accent";
-  pattern?: "none" | "grid" | "halftone";
+  background?: "white" | "grey" | "ink" | "black" | "primary" | "accent" | "gradient";
+  pattern?: "none" | "grid" | "halftone" | "stripes";
   patternOpacity?: number;
   className?: string;
   content: ReactNode;
+  /** Full height section (for hero) */
+  fullHeight?: boolean;
 }
 
 export interface MarketingPageProps {
@@ -47,6 +50,12 @@ export interface MarketingPageProps {
   skipToMainLabel?: string;
   /** Main content id for skip link */
   mainContentId?: string;
+  /** Sticky CTA bar at bottom */
+  stickyCta?: {
+    label: string;
+    onClick?: () => void;
+    href?: string;
+  };
   /** Custom className */
   className?: string;
 }
@@ -84,6 +93,7 @@ export const MarketingPage = forwardRef<HTMLDivElement, MarketingPageProps>(
       offline = false,
       skipToMainLabel = "Skip to main content",
       mainContentId = "main-content",
+      stickyCta,
       className,
     },
     ref
@@ -184,6 +194,7 @@ export const MarketingPage = forwardRef<HTMLDivElement, MarketingPageProps>(
               background={section.background || (inverted ? "ink" : "white")}
               pattern={section.pattern || "none"}
               patternOpacity={section.patternOpacity}
+              fullHeight={section.fullHeight}
               className={section.className}
             >
               {section.content}
@@ -193,6 +204,24 @@ export const MarketingPage = forwardRef<HTMLDivElement, MarketingPageProps>(
 
         {/* Footer */}
         {footer}
+
+        {/* Sticky CTA Bar */}
+        {stickyCta && (
+          <div className="fixed bottom-0 left-0 right-0 z-sticky bg-gradient-to-t from-black via-black/95 to-transparent py-4 px-4 md:hidden">
+            <Container size="sm">
+              <Button
+                variant="solid"
+                size="lg"
+                className="w-full shadow-primary"
+                onClick={stickyCta.onClick}
+                icon={<ArrowRight className="size-5" />}
+                iconPosition="right"
+              >
+                {stickyCta.label}
+              </Button>
+            </Container>
+          </div>
+        )}
       </div>
     );
   }

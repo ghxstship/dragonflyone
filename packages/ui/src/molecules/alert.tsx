@@ -20,7 +20,7 @@ export type AlertProps = HTMLAttributes<HTMLDivElement> & {
  * - Uppercase title
  */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
-  function Alert({ variant = "info", title, icon, onClose, inverted = false, className, children, ...props }, ref) {
+  function Alert({ variant = "info", title, icon, onClose, inverted = true, className, children, ...props }, ref) {
     // Get variant-specific styling
     const getVariantClasses = () => {
       const baseClasses = "border-2 rounded-[var(--radius-card)]";

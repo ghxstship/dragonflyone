@@ -3,7 +3,7 @@
 import { forwardRef, ReactNode, useState, useCallback } from "react";
 import clsx from "clsx";
 import { Container, Stack } from "../foundations/layout.js";
-import { PageHeader, SplitLayout } from "../foundations/page-regions.js";
+import { MarketingPageHeader, SplitLayout } from "../foundations/page-regions.js";
 import { Tabs, TabsList, Tab, TabPanel } from "../molecules/tabs.js";
 import { Button } from "../atoms/button.js";
 import { Link } from "../atoms/link.js";
@@ -487,7 +487,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
               {/* Page Header */}
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                 <div className="flex-1">
-                  <PageHeader
+                  <MarketingPageHeader
                     kicker={header.kicker}
                     title={header.title}
                     description={header.description}

@@ -21,6 +21,7 @@ export default function GlobalError({
               appName="ATLVS"
               showDashboard={true}
               dashboardPath="/dashboard"
+              supportEmail="support@atlvs.com"
             />
           </Container>
         </Section>

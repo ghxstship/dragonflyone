@@ -17,7 +17,7 @@ export type SwitchProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & 
  * - Accent shadow on checked state
  */
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
-  function Switch({ label, inverted = false, className, checked, ...props }, ref) {
+  function Switch({ label, inverted = true, className, checked, ...props }, ref) {
     return (
       <label className={clsx("inline-flex items-center gap-3 cursor-pointer group", className)}>
         <div className="relative">

@@ -18,7 +18,7 @@ export type TabsProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
-  function Tabs({ variant: _variant = "line", inverted: _inverted = false, className, children, ...props }, ref) {
+  function Tabs({ variant: _variant = "line", inverted: _inverted = true, className, children, ...props }, ref) {
     return (
       <div ref={ref} className={clsx("w-full", className)} {...props}>
         {children}
@@ -50,7 +50,7 @@ export type TabsListProps = HTMLAttributes<HTMLDivElement> & {
  * - Swipe right: Previous tab
  */
 export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
-  function TabsList({ variant = "line", inverted = false, className, children, onTabChange, enableSwipe = true, ...props }, ref) {
+  function TabsList({ variant = "line", inverted = true, className, children, onTabChange, enableSwipe = true, ...props }, ref) {
     const containerRef = useRef<HTMLDivElement>(null);
     
     // Touch gesture state
@@ -199,7 +199,7 @@ export type TabProps = ButtonHTMLAttributes<HTMLButtonElement> & {
  * Features bold indicators and bounce transitions
  */
 export const Tab = forwardRef<HTMLButtonElement, TabProps>(
-  function Tab({ active, variant = "line", inverted = false, className, children, ...props }, ref) {
+  function Tab({ active, variant = "line", inverted = true, className, children, ...props }, ref) {
     const getLineClasses = () => {
       if (inverted) {
         return active
@@ -274,7 +274,7 @@ export type TabPanelProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
-  function TabPanel({ active, inverted = false, className, children, ...props }, ref) {
+  function TabPanel({ active, inverted = true, className, children, ...props }, ref) {
     if (!active) return null;
 
     return (

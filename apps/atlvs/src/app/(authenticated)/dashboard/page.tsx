@@ -93,7 +93,7 @@ const eisenhowerConfig: Record<EisenhowerQuadrant, {
 import {
   DEMO_DISPLAY_PROJECTS,
   type DemoDisplayProject as DisplayProject,
-} from '../../../lib/demo-data';
+} from '@/lib/demo-data';
 
 const defaultKpis = [
   { label: "Active Projects", value: "12", trend: "+3", up: true },

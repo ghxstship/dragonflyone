@@ -10,8 +10,8 @@ import {
   type ListPageFilter,
   type ListPageAction,
 } from "@ghxstship/ui";
-import { useCrew } from "../../../hooks/useCrew";
-import { useEquipment } from "../../../hooks/useEquipment";
+import { useCrew } from "@/hooks/useCrew";
+import { useEquipment } from "@/hooks/useEquipment";
 import { useQuery } from "@tanstack/react-query";
 
 type SearchCategory = "all" | "crew" | "equipment" | "projects" | "beos";

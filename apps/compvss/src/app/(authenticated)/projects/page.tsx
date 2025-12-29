@@ -27,7 +27,7 @@ const ADMIN_ROLES = [
   PlatformRole.LEGEND_ADMIN,
   PlatformRole.LEGEND_DEVELOPER,
 ];
-import { useProjects, type Project } from '../../../hooks/useProjects';
+import { useProjects, type Project } from '@/hooks/useProjects';
 // Layout provided by route group
 
 export default function ProjectsPage() {

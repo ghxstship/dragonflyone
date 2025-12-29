@@ -24,10 +24,9 @@ export interface WizardStep extends Step {
   isValid?: boolean;
 }
 
-export interface BreadcrumbItem {
-  label: string;
-  href?: string;
-}
+// BreadcrumbItem imported from canonical types
+import type { BreadcrumbItem } from "../types/breadcrumb.js";
+export type { BreadcrumbItem } from "../types/breadcrumb.js";
 
 export interface WizardBanner {
   /** Banner icon */
