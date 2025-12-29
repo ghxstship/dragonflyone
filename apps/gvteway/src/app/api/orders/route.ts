@@ -24,7 +24,7 @@ const createOrderSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = getSupabaseClient();
       const { searchParams } = new URL(request.url);
@@ -56,12 +56,17 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = getSupabaseClient();
-      const payload = context.validated;
+      const payload = context.validated as { user_id: string; event_id: string; total_amount: number; status?: string; payment_intent_id?: string; metadata?: Record<string, unknown> };
       const { data, error } = await supabase.from('orders').insert({
-        ...payload,
+        user_id: payload.user_id,
+        event_id: payload.event_id,
+        total_amount: payload.total_amount,
+        status: payload.status || 'pending',
+        payment_intent_id: payload.payment_intent_id,
+        metadata: payload.metadata || {},
         created_by: context.user?.id,
       }).select().single();
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

@@ -25,7 +25,8 @@ export async function GET(request: NextRequest) {
     }
 
     const searchTerm = `%${query}%`;
-    const results: unknown[] = [];
+    interface SearchResult { id: string; type: string; title: string; subtitle?: string; metadata?: string; image?: string; tags?: string[] }
+    const results: SearchResult[] = [];
 
     // Search events
     if (!type || type === 'event') {

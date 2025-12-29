@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     const optimizations: Record<string, unknown> = {};
 
     interface PlatformSpec { maxLength: number; imageRatio?: string }
-    interface OptimizedContent { platform: string; original_length: number; max_length: number; needs_truncation: boolean; recommended_ratio?: string; truncated_content?: string; characters_over?: number; optimized_content?: string }
+    interface OptimizedContent { platform: string; original_length: number; max_length: number; needs_truncation: boolean; recommended_ratio?: string; truncated_content?: string; characters_over?: number; optimized_content?: string; hashtag_count?: number; recommendations?: (string | null)[] }
     for (const platform of target_platforms) {
       const specs = platformSpecs[platform as keyof typeof platformSpecs];
       if (!specs) continue;

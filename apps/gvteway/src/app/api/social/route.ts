@@ -38,10 +38,10 @@ const socialAccountSchema = z.object({
 
 // GET - List social posts or accounts
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
-    const user_id = context.user.id;
+    const user_id = context.user?.id;
 
     if (type === 'accounts') {
       // List connected social accounts
@@ -103,7 +103,7 @@ export const GET = apiRoute(
 
 // POST - Share content or connect account
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const { action } = body;
 
@@ -115,7 +115,7 @@ export const POST = apiRoute(
         .from('social_accounts')
         .insert({
           ...validated,
-          user_id: context.user.id,
+          user_id: context.user?.id,
           is_active: true
         })
         .select()
@@ -145,7 +145,7 @@ export const POST = apiRoute(
     const { data: accounts } = await supabase
       .from('social_accounts')
       .select('*')
-      .eq('user_id', context.user.id)
+      .eq('user_id', context.user?.id)
       .in('platform', validated.platforms)
       .eq('is_active', true);
 
@@ -162,7 +162,7 @@ export const POST = apiRoute(
       if (!account) continue;
 
       const shareData = {
-        user_id: context.user.id,
+        user_id: context.user?.id,
         content_type: validated.content_type,
         content_id: validated.content_id,
         platform,
@@ -259,7 +259,7 @@ interface SocialContent { message: string; media_urls?: string[]; hashtags?: str
 async function postToSocialMedia(platform: string, account: SocialAccount, content: SocialContent) {
   // This would integrate with actual social media APIs
   // For now, just log the action
-  logger.info(`Posting to ${platform}:`, content);
+  logger.info(`Posting to ${platform}:`, { message: content.message });
   
   // In production, implement:
   // - Facebook Graph API
@@ -274,7 +274,11 @@ async function postToSocialMedia(platform: string, account: SocialAccount, conte
   };
 }
 
-function aggregateAnalytics(shares: unknown[]) {
+interface ShareData { platform: string; impressions?: number; clicks?: number; shares?: number; likes?: number }
+interface PlatformStats { impressions: number; clicks: number; shares: number; likes: number }
+interface AnalyticsData { total_impressions: number; total_clicks: number; total_shares: number; total_likes: number; by_platform: Record<string, PlatformStats> }
+
+function aggregateAnalytics(shares: ShareData[]) {
   if (!shares || shares.length === 0) {
     return {
       total_impressions: 0,
@@ -285,8 +289,6 @@ function aggregateAnalytics(shares: unknown[]) {
     };
   }
 
-  interface PlatformStats { impressions: number; clicks: number; shares: number; likes: number }
-  interface AnalyticsData { total_impressions: number; total_clicks: number; total_shares: number; total_likes: number; by_platform: Record<string, PlatformStats> }
   const analytics: AnalyticsData = {
     total_impressions: 0,
     total_clicks: 0,
@@ -321,7 +323,7 @@ function aggregateAnalytics(shares: unknown[]) {
 
 // PUT - Update share or disconnect account
 export const PUT = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const { id, action, updates } = body;
 
@@ -334,7 +336,7 @@ export const PUT = apiRoute(
         .from('social_accounts')
         .update({ is_active: false })
         .eq('id', id)
-        .eq('user_id', context.user.id);
+        .eq('user_id', context.user?.id);
 
       if (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
@@ -348,7 +350,7 @@ export const PUT = apiRoute(
       .from('social_shares')
       .update(updates)
       .eq('id', id)
-      .eq('user_id', context.user.id)
+      .eq('user_id', context.user?.id)
       .select()
       .single();
 
@@ -366,7 +368,7 @@ export const PUT = apiRoute(
 
 // DELETE - Cancel scheduled share
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
@@ -378,7 +380,7 @@ export const DELETE = apiRoute(
       .from('social_shares')
       .update({ status: 'cancelled' })
       .eq('id', id)
-      .eq('user_id', context.user.id)
+      .eq('user_id', context.user?.id)
       .eq('status', 'scheduled');
 
     if (error) {

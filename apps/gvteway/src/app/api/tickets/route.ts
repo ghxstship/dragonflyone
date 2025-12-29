@@ -24,7 +24,7 @@ const createTicketSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = getSupabaseClient();
       const { searchParams } = new URL(request.url);
@@ -51,12 +51,16 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = getSupabaseClient();
-      const payload = context.validated;
+      const payload = context.validated as { order_id: string; event_id: string; ticket_type: string; price: number; status?: string };
       const { data, error } = await supabase.from('tickets').insert({
-        ...payload,
+        order_id: payload.order_id,
+        event_id: payload.event_id,
+        ticket_type: payload.ticket_type,
+        price: payload.price,
+        status: payload.status || 'valid',
         created_by: context.user?.id,
       }).select().single();
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

@@ -32,10 +32,10 @@ export async function GET(request: NextRequest) {
       .eq('user_id', user.id);
 
     interface InterestInfo { name?: string; category?: string }
-    const interestNames = userInterests?.map(ui => {
+    const interestNames = (userInterests?.map(ui => {
       const interest = ui.interest as InterestInfo | null;
       return interest?.name;
-    }).filter(Boolean) || [];
+    }).filter(Boolean) || []) as string[];
     const categories = [...new Set(userInterests?.map(ui => {
       const interest = ui.interest as InterestInfo | null;
       return interest?.category;

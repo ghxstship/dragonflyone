@@ -299,7 +299,7 @@ export async function POST(request: NextRequest) {
     const filters = SearchFiltersSchema.parse(body);
 
     const offset = (filters.page - 1) * filters.limit;
-    interface PostSearchResultSet { items: Record<string, unknown>[]; total: number }
+    interface PostSearchResultSet { items: Record<string, unknown>[]; total: number; page?: number; total_pages?: number }
     const results: Record<string, PostSearchResultSet> = {};
 
     if (filters.type === 'all' || filters.type === 'events') {

@@ -13,10 +13,14 @@ const subscribeSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const { tierId, paymentMethodId, promoCode } = subscribeSchema.parse(body);
-    const userId = context.user.id;
+    const userId = context.user?.id;
+    
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     const { data: tier, error: tierError } = await supabaseAdmin
       .from('membership_tiers')

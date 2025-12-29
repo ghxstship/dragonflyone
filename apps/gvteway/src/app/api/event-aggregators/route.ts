@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
           state: event.venue?.state,
           country: event.venue?.country,
         },
-        artists: event.artists?.map((a: Record<string, unknown>) => a.artist?.name),
+        artists: event.artists?.map((a: { artist?: { name?: string } }) => a.artist?.name),
         ticket_url: `${process.env.NEXT_PUBLIC_APP_URL}/events/${event_id}`,
         image_url: event.image_url,
       };

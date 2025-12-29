@@ -83,14 +83,16 @@ export async function POST(request: NextRequest) {
         .select('id, owner:platform_users(email, phone)')
         .in('id', ticket_ids);
 
-      const deliveries = tickets?.map((t: Record<string, unknown>) => ({
+      interface TicketWithOwner { id: string; owner?: { email?: string; phone?: string } }
+      const typedTickets = (tickets || []) as TicketWithOwner[];
+      const deliveries = typedTickets.map(t => ({
         ticket_id: t.id,
         delivery_method,
         recipient: delivery_method === 'email' ? t.owner?.email : t.owner?.phone,
         status: 'sent',
         sent_at: new Date().toISOString(),
         created_at: new Date().toISOString(),
-      })).filter((d: Record<string, unknown>) => d.recipient);
+      })).filter(d => d.recipient);
 
       if (deliveries?.length) {
         const { data, error } = await supabase

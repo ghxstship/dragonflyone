@@ -51,18 +51,18 @@ export async function GET(request: NextRequest) {
     let recommendations: unknown[] = [];
 
     if (!type || type === 'personalized') {
-      recommendations = await getPersonalizedRecommendations(userProfile);
+      recommendations = await getPersonalizedRecommendations(supabase, userProfile);
     }
 
     if (type === 'because_you_liked') {
       const eventId = searchParams.get('event_id');
       if (eventId) {
-        recommendations = await getBecauseYouLiked(eventId, userProfile);
+        recommendations = await getBecauseYouLiked(supabase, eventId, userProfile);
       }
     }
 
     if (type === 'trending_for_you') {
-      recommendations = await getTrendingForYou(userProfile);
+      recommendations = await getTrendingForYou(supabase, userProfile);
     }
 
     return NextResponse.json({
@@ -82,22 +82,23 @@ export async function GET(request: NextRequest) {
 }
 
 interface UserProfile { genres: string[]; venues: string[]; artists: string[] }
-interface HistoryEntry { event?: { genre?: string; venue_id?: string; artist_ids?: string[] } }
 interface FollowEntry { artist_id?: string; venue_id?: string }
 interface UserPreferences { favorite_genres?: string[] }
-function buildUserProfile(history: HistoryEntry[], preferences: UserPreferences, following: FollowEntry[]): UserProfile {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function buildUserProfile(history: any[], preferences: UserPreferences | null, following: FollowEntry[]): UserProfile {
   const genres: Record<string, number> = {};
   const venues: Record<string, number> = {};
   const artists: Record<string, number> = {};
 
   history?.forEach(h => {
-    if (h.event?.genre) {
-      genres[h.event.genre] = (genres[h.event.genre] || 0) + 1;
+    const event = Array.isArray(h.event) ? h.event[0] : h.event;
+    if (event?.genre) {
+      genres[event.genre] = (genres[event.genre] || 0) + 1;
     }
-    if (h.event?.venue_id) {
-      venues[h.event.venue_id] = (venues[h.event.venue_id] || 0) + 1;
+    if (event?.venue_id) {
+      venues[event.venue_id] = (venues[event.venue_id] || 0) + 1;
     }
-    h.event?.artist_ids?.forEach((aid: string) => {
+    event?.artist_ids?.forEach((aid: string) => {
       artists[aid] = (artists[aid] || 0) + 1;
     });
   });
@@ -120,7 +121,7 @@ function buildUserProfile(history: HistoryEntry[], preferences: UserPreferences,
   };
 }
 
-async function getPersonalizedRecommendations(profile: UserProfile) {
+async function getPersonalizedRecommendations(supabase: ReturnType<typeof getSupabaseClient>, profile: UserProfile) {
   const { data: events } = await supabase.from('events').select('*')
     .gte('date', new Date().toISOString())
     .eq('status', 'published')
@@ -148,7 +149,7 @@ async function getPersonalizedRecommendations(profile: UserProfile) {
   return scored?.slice(0, 20) || [];
 }
 
-async function getBecauseYouLiked(eventId: string, profile: { genres: string[]; venues: string[]; artists: string[] }) {
+async function getBecauseYouLiked(supabase: ReturnType<typeof getSupabaseClient>, eventId: string, profile: { genres: string[]; venues: string[]; artists: string[] }) {
   const { data: sourceEvent } = await supabase.from('events').select('*').eq('id', eventId).single();
   if (!sourceEvent) return [];
 
@@ -174,7 +175,7 @@ async function getBecauseYouLiked(eventId: string, profile: { genres: string[]; 
   })) || [];
 }
 
-async function getTrendingForYou(profile: UserProfile) {
+async function getTrendingForYou(supabase: ReturnType<typeof getSupabaseClient>, profile: UserProfile) {
   const { data: trending } = await supabase.from('events').select('*')
     .gte('date', new Date().toISOString())
     .eq('status', 'published')

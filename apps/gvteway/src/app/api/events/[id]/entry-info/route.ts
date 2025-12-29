@@ -15,9 +15,10 @@ function getSupabaseClient() {
 // Table does not exist in schema - return empty response
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const supabase = getSupabaseClient();
     const { data: event, error } = await supabase
       .from('events')
@@ -54,7 +55,7 @@ export async function GET(
       return NextResponse.json({ error: 'Event not found' }, { status: 404 });
     }
 
-    interface EntryVenueInfo { name?: string; address?: string; city?: string; state?: string; entry_gates?: { name: string; location: string; recommended_for: string }[]; prohibited_items?: string[] }
+    interface EntryVenueInfo { name?: string; address?: string; city?: string; state?: string; entry_gates?: { name: string; location: string; recommended_for: string }[]; prohibited_items?: string[]; allowed_items?: string[]; bag_policy?: string; parking_info?: unknown; transit_info?: unknown }
     const venue = event.venues as EntryVenueInfo | null;
     const entryInfo = event.entry_info || {};
 

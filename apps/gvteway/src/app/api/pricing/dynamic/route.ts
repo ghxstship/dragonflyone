@@ -99,7 +99,7 @@ export const GET = apiRoute(
 
 // POST - Create dynamic pricing rule
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const validated = pricingRuleSchema.parse(body);
 
@@ -114,7 +114,7 @@ export const POST = apiRoute(
       .from('dynamic_pricing_rules')
       .insert({
         ...validated,
-        created_by: context.user.id
+        created_by: context.user?.id
       })
       .select()
       .single();
@@ -137,10 +137,10 @@ export const POST = apiRoute(
 );
 
 // Helper function to calculate dynamic price
-interface TimeFactor { days_before_event: number; multiplier: number; price_multiplier?: number }
-interface DemandThreshold { percentage_sold: number; multiplier: number }
-interface InventoryThreshold { percentage_sold: number; multiplier: number }
-interface SurgePricing { enabled: boolean; threshold_purchases_per_hour: number; multiplier: number }
+interface TimeFactor { days_before_event: number; multiplier?: number; price_multiplier?: number }
+interface DemandThreshold { percentage_sold: number; multiplier?: number; price_multiplier?: number }
+interface InventoryThreshold { percentage_sold: number; multiplier?: number; price_multiplier?: number }
+interface SurgePricing { enabled: boolean; threshold_purchases_per_hour?: number; multiplier?: number; max_surge_multiplier?: number }
 interface PricingRules { 
   time_factors?: TimeFactor[]; 
   demand_thresholds?: DemandThreshold[]; 
@@ -185,7 +185,7 @@ async function calculateDynamicPrice(rule: PricingRule, eventId: string, ticketT
 
       for (const factor of sortedFactors) {
         if (daysUntilEvent <= factor.days_before_event) {
-          priceMultiplier *= factor.price_multiplier;
+          priceMultiplier *= factor.price_multiplier || factor.multiplier || 1;
           factors.time_based = {
             days_until_event: daysUntilEvent,
             multiplier: factor.price_multiplier
@@ -206,10 +206,11 @@ async function calculateDynamicPrice(rule: PricingRule, eventId: string, ticketT
 
       for (const threshold of sortedThresholds) {
         if (percentageSold >= threshold.percentage_sold) {
-          priceMultiplier *= threshold.price_multiplier;
+          const thresholdMultiplier = threshold.price_multiplier || threshold.multiplier || 1;
+          priceMultiplier *= thresholdMultiplier;
           factors.inventory_based = {
             percentage_sold: percentageSold.toFixed(1),
-            multiplier: threshold.price_multiplier
+            multiplier: thresholdMultiplier
           };
           break;
         }
@@ -253,7 +254,7 @@ async function calculateDynamicPrice(rule: PricingRule, eventId: string, ticketT
 
   // Calculate final price with constraints
   let finalPrice = rule.base_price * priceMultiplier;
-  finalPrice = Math.max(rule.min_price, Math.min(rule.max_price, finalPrice));
+  finalPrice = Math.max(rule.min_price || 0, Math.min(rule.max_price || finalPrice, finalPrice));
   
   // Round to 2 decimal places
   finalPrice = Math.round(finalPrice * 100) / 100;

@@ -105,11 +105,12 @@ export async function PATCH(request: NextRequest) {
   }
 }
 
-function generateCombinations(sizes: unknown[], colors: unknown[]): unknown[] {
+interface VariantData { value?: string }
+function generateCombinations(sizes: VariantData[], colors: VariantData[]): Record<string, string | undefined>[] {
   if (sizes.length === 0) return colors.map(c => ({ color: c.value }));
   if (colors.length === 0) return sizes.map(s => ({ size: s.value }));
   
-  const combinations: unknown[] = [];
+  const combinations: Record<string, string | undefined>[] = [];
   sizes.forEach(s => {
     colors.forEach(c => {
       combinations.push({ size: s.value, color: c.value });

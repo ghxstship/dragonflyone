@@ -31,19 +31,25 @@ export async function GET(request: NextRequest) {
       friend:platform_users(id, email, first_name, last_name, avatar_url)
     `).eq('user_id', user.id);
 
+    // Define types for query results
+    interface FriendData { friend?: { id?: string } }
+    interface OrderData { user_id?: string; event?: { id?: string } }
+
     // Get friends' upcoming events
-    const friendIds = friends?.map((f: Record<string, unknown>) => f.friend?.id).filter(Boolean) || [];
-    let friendsEvents: unknown[] = [];
+    const typedFriends = (friends || []) as FriendData[];
+    const friendIds = typedFriends.map(f => f.friend?.id).filter(Boolean) as string[];
+    let friendsEvents: { event?: unknown; friends_attending: number }[] = [];
 
     if (friendIds.length > 0) {
       const { data: orders } = await supabase.from('orders').select(`
         user_id, event:events(*)
       `).in('user_id', friendIds).gte('event.date', new Date().toISOString());
 
-      friendsEvents = orders?.map((o: Record<string, unknown>) => ({
+      const typedOrders = (orders || []) as OrderData[];
+      friendsEvents = typedOrders.map(o => ({
         event: o.event,
-        friends_attending: orders.filter((ord: Record<string, unknown>) => ord.event?.id === o.event?.id).length
-      })) || [];
+        friends_attending: typedOrders.filter(ord => ord.event?.id === o.event?.id).length
+      }));
     }
 
     return NextResponse.json({

@@ -59,11 +59,17 @@ export async function GET(request: NextRequest) {
 
     let filteredEvents = events || [];
 
+    // Define types for query results
+    interface TicketTypeData { price_min?: number; price_max?: number }
+    interface VenueData { name?: string; city?: string; state?: string }
+    interface EventData { category?: string; event_date?: string; ticket_types?: TicketTypeData[]; venue?: VenueData }
+
     if (minPrice || maxPrice) {
-      filteredEvents = filteredEvents.filter((event: Record<string, unknown>) => {
-        const prices = event.ticket_types || [];
-        const eventMinPrice = Math.min(...prices.map((t: Record<string, unknown>) => t.price_min || 0));
-        const eventMaxPrice = Math.max(...prices.map((t: Record<string, unknown>) => t.price_max || 0));
+      filteredEvents = filteredEvents.filter((event) => {
+        const typedEvent = event as EventData;
+        const prices = typedEvent.ticket_types || [];
+        const eventMinPrice = Math.min(...prices.map(t => t.price_min || 0));
+        const eventMaxPrice = Math.max(...prices.map(t => t.price_max || 0));
 
         if (minPrice && eventMinPrice < parseFloat(minPrice)) return false;
         if (maxPrice && eventMaxPrice > parseFloat(maxPrice)) return false;
@@ -71,12 +77,13 @@ export async function GET(request: NextRequest) {
       });
     }
 
+    const typedEvents = (events || []) as EventData[];
     const facets = {
-      categories: [...new Set(events?.map((e: Record<string, unknown>) => e.category))],
-      cities: [...new Set(events?.map((e: Record<string, unknown>) => e.venue?.city).filter(Boolean))],
+      categories: [...new Set(typedEvents.map(e => e.category))],
+      cities: [...new Set(typedEvents.map(e => e.venue?.city).filter(Boolean))],
       dateRange: {
-        earliest: events?.[0]?.event_date,
-        latest: events?.[events.length - 1]?.event_date,
+        earliest: (events?.[0] as EventData | undefined)?.event_date,
+        latest: (events?.[events.length - 1] as EventData | undefined)?.event_date,
       },
     };
 

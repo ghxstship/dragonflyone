@@ -128,7 +128,8 @@ export async function GET(request: NextRequest) {
         .eq('user_id', currentUser.id)
         .single();
 
-      let recommendedEvents: unknown[] = [];
+      interface EventData { id: string }
+      let recommendedEvents: EventData[] = [];
 
       const favoriteGenres = profile?.favorite_genres as string[] | null;
       const favoriteArtists = profile?.favorite_artists as string[] | null;

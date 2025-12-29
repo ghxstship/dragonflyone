@@ -51,12 +51,16 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = getSupabaseClient();
-      const payload = context.validated;
+      const payload = context.validated as { name: string; city: string; capacity?: number; address?: string; metadata?: Record<string, unknown> };
       const { data, error } = await supabase.from('venues').insert({
-        ...payload,
+        name: payload.name,
+        city: payload.city,
+        capacity: payload.capacity,
+        address: payload.address,
+        metadata: payload.metadata || {},
         created_by: context.user?.id,
       }).select().single();
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

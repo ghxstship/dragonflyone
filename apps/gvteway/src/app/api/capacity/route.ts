@@ -107,7 +107,7 @@ export const GET = apiRoute(
 // POST - Configure capacity or log entry/exit
 interface ZoneData { zone_name: string; capacity: number; current_occupancy: number }
 export const POST = apiRoute(
-  async (request: NextRequest) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const { action } = body;
 
@@ -211,7 +211,7 @@ export const POST = apiRoute(
       .from('capacity_configurations')
       .insert({
         ...validated,
-        created_by: context.user.id
+        created_by: context.user?.id
       })
       .select()
       .single();

@@ -25,8 +25,9 @@ const createSeatingSchema = z.object({
 
 // Table does not exist - return empty response
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
-    const { id: eventId } = context.params;
+  async (request: NextRequest, context) => {
+    const params = await context.params;
+    const eventId = params?.id;
 
     const { data: seating, error } = await supabaseAdmin
       .from('event_seating')
@@ -59,8 +60,9 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
-    const { id: eventId } = context.params;
+  async (request: NextRequest, context) => {
+    const params = await context.params;
+    const eventId = params?.id;
     const body = await request.json();
     const data = createSeatingSchema.parse(body);
 
@@ -81,7 +83,7 @@ export const POST = apiRoute(
         venue_id: data.venue_id,
         layout_name: data.layout_name,
         total_capacity: data.total_capacity,
-        created_by: context.user.id,
+        created_by: context.user?.id,
       })
       .select()
       .single();
@@ -138,8 +140,9 @@ export const POST = apiRoute(
 );
 
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
-    const { id: eventId } = context.params;
+  async (request: NextRequest, context) => {
+    const params = await context.params;
+    const eventId = params?.id;
 
     const { data: seating } = await supabaseAdmin
       .from('event_seating')

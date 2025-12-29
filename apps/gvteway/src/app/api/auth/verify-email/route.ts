@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  const supabase = getSupabaseClient();
   const { searchParams } = new URL(request.url);
   const token = searchParams.get('token');
   const type = searchParams.get('type') || 'signup';

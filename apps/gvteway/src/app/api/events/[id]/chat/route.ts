@@ -134,7 +134,8 @@ export async function GET(
       };
     }) || [];
 
-    const event = chatRoom.events as ChatEvent | null;
+    const eventData = chatRoom.events as ChatEvent[] | ChatEvent | null;
+    const event = Array.isArray(eventData) ? eventData[0] : eventData;
     return NextResponse.json({
       chat_room: {
         id: chatRoom.id,

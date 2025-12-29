@@ -61,7 +61,7 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>>; user?: { id: string } }) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const data = createGroupSchema.parse(body);
 

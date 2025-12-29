@@ -15,8 +15,9 @@ const joinWaitlistSchema = z.object({
 
 // Table does not exist - return empty response
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
-    const { id: eventId } = context.params;
+  async (request: NextRequest, context) => {
+    const params = await context.params;
+    const eventId = params?.id;
 
     const { data: waitlist, error } = await supabaseAdmin
       .from('event_waitlist')
@@ -52,8 +53,9 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
-    const { id: eventId } = context.params;
+  async (request: NextRequest, context) => {
+    const params = await context.params;
+    const eventId = params?.id;
     const body = await request.json();
     const data = joinWaitlistSchema.parse(body);
 
@@ -82,7 +84,7 @@ export const POST = apiRoute(
       .from('event_waitlist')
       .select('id')
       .eq('event_id', eventId)
-      .eq('user_id', context.user.id)
+      .eq('user_id', context.user?.id)
       .eq('ticket_type_id', data.ticket_type_id)
       .eq('status', 'pending')
       .single();
@@ -98,7 +100,7 @@ export const POST = apiRoute(
       .from('event_waitlist')
       .insert({
         event_id: eventId,
-        user_id: context.user.id,
+        user_id: context.user?.id,
         ticket_type_id: data.ticket_type_id,
         quantity: data.quantity,
         email: data.email,

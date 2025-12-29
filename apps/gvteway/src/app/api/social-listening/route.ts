@@ -150,7 +150,7 @@ function getTrendingTopics(mentions: MentionData[]): string[] {
   return Object.entries(topics).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([t]) => t);
 }
 
-function generateRecommendations(mentions: unknown[]): string[] {
+function generateRecommendations(mentions: MentionData[]): string[] {
   const recommendations: string[] = [];
   const sentiment = analyzeSentiment(mentions);
 

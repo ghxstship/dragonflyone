@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://gvteway.ghxstship.com';
 
   if (error) {
-    logger.error('OAuth error:', error, errorDescription);
+    logger.error('OAuth error:', { error, errorDescription });
     return NextResponse.redirect(`${baseUrl}/auth/signin?error=${encodeURIComponent(errorDescription || error)}`);
   }
 

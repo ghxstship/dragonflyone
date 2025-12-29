@@ -137,8 +137,9 @@ export async function POST(request: NextRequest) {
     if (action === 'calculate_checkout') {
       const { items, currency } = body.data;
 
+      interface CheckoutItem { price: number; quantity: number }
       let subtotal = 0;
-      const itemsWithPrices = items.map((item: Record<string, unknown>) => {
+      const itemsWithPrices = (items as CheckoutItem[]).map(item => {
         const localPrice = item.price * (exchangeRates[currency] || 1);
         subtotal += localPrice * item.quantity;
         return {

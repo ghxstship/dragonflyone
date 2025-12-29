@@ -160,7 +160,9 @@ export async function GET(request: NextRequest) {
       ]);
 
       // Aggregate by device type
-      const byType = (devices.data || []).reduce((acc: Record<string, unknown>, d) => {
+      interface DeviceTypeStats { count: number; online: number; offline: number }
+      interface DeviceData { device_type: string; status: string }
+      const byType = ((devices.data || []) as DeviceData[]).reduce((acc: Record<string, DeviceTypeStats>, d) => {
         if (!acc[d.device_type]) {
           acc[d.device_type] = { count: 0, online: 0, offline: 0 };
         }
@@ -286,7 +288,7 @@ export async function POST(request: NextRequest) {
         .eq('id', device_id);
 
       // Check for alert conditions
-      await checkAlertConditions(device_id, metrics);
+      await checkAlertConditions(supabase, device_id, metrics);
 
       return NextResponse.json({ reading: data });
     }
@@ -412,7 +414,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function checkAlertConditions(deviceId: string, metrics: Record<string, number>) {
+async function checkAlertConditions(supabase: ReturnType<typeof getSupabaseClient>, deviceId: string, metrics: Record<string, number>) {
   // Get device and its alert thresholds
   const { data: device } = await supabase
     .from('iot_devices')

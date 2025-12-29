@@ -35,7 +35,7 @@ const paymentSchema = z.object({
 
 // GET - List payment plans or get plan details
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const { searchParams } = new URL(request.url);
     const plan_id = searchParams.get('plan_id');
     const user_id = context.user?.id;
@@ -108,7 +108,7 @@ export const GET = apiRoute(
 
 // POST - Create payment plan or process payment
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const { action } = body;
 
@@ -132,7 +132,7 @@ export const POST = apiRoute(
       }
 
       // Verify ownership
-      if (installment.payment_plans.orders.user_id !== context.user.id) {
+      if (installment.payment_plans.orders.user_id !== context.user?.id) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
       }
 
@@ -180,7 +180,7 @@ export const POST = apiRoute(
       .from('orders')
       .select('*')
       .eq('id', validated.order_id)
-      .eq('user_id', context.user.id)
+      .eq('user_id', context.user?.id)
       .single();
 
     if (!order) {
@@ -228,7 +228,7 @@ export const POST = apiRoute(
         frequency: validated.frequency,
         auto_pay: validated.auto_pay,
         status: validated.down_payment > 0 ? 'active' : 'pending',
-        created_by: context.user.id
+        created_by: context.user?.id
       })
       .select()
       .single();
@@ -265,7 +265,7 @@ export const POST = apiRoute(
 
 // PUT - Update payment plan or retry failed payment
 export const PUT = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const { plan_id, action, updates } = body;
 
@@ -280,7 +280,7 @@ export const PUT = apiRoute(
       .eq('id', plan_id)
       .single();
 
-    if (!plan || plan.orders.user_id !== context.user.id) {
+    if (!plan || plan.orders.user_id !== context.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 

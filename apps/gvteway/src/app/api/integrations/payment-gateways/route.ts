@@ -165,14 +165,20 @@ export async function GET(request: NextRequest) {
         .select('gateway, amount, status, created_at')
         .gte('created_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString());
 
-      const byGateway = (transactions || []).reduce((acc: Record<string, unknown>, t) => {
-        if (!acc[t.gateway]) {
-          acc[t.gateway] = { total: 0, count: 0, successful: 0, failed: 0 };
+      // Define types for query results
+      interface TransactionData { gateway?: string; amount?: number; status?: string }
+      interface GatewayStats { total: number; count: number; successful: number; failed: number }
+
+      const typedTransactions = (transactions || []) as TransactionData[];
+      const byGateway = typedTransactions.reduce((acc: Record<string, GatewayStats>, t) => {
+        const gateway = t.gateway || 'unknown';
+        if (!acc[gateway]) {
+          acc[gateway] = { total: 0, count: 0, successful: 0, failed: 0 };
         }
-        acc[t.gateway].total += t.amount || 0;
-        acc[t.gateway].count++;
-        if (t.status === 'succeeded') acc[t.gateway].successful++;
-        if (t.status === 'failed') acc[t.gateway].failed++;
+        acc[gateway].total += t.amount || 0;
+        acc[gateway].count++;
+        if (t.status === 'succeeded') acc[gateway].successful++;
+        if (t.status === 'failed') acc[gateway].failed++;
         return acc;
       }, {});
 

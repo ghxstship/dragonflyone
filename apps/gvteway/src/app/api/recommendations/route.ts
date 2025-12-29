@@ -73,11 +73,12 @@ async function getPersonalizedRecommendations(userId: string, limit: number) {
   const genres = new Set<string>();
   const artists = new Set<string>();
 
-  interface HistoryItem { events?: { genre?: string; artist_ids?: string[] } }
-  history?.forEach((h: HistoryItem) => {
-    if (h.events?.genre) genres.add(h.events.genre);
-    if (h.events?.artist_ids) {
-      h.events.artist_ids.forEach((a: string) => artists.add(a));
+  interface HistoryItem { events?: { genre?: string; artist_ids?: string[] }[] }
+  const typedHistory = (history || []) as HistoryItem[];
+  typedHistory.forEach(h => {
+    if (h.events?.[0]?.genre) genres.add(h.events[0].genre);
+    if (h.events?.[0]?.artist_ids) {
+      h.events[0].artist_ids.forEach((a: string) => artists.add(a));
     }
   });
 
@@ -227,17 +228,18 @@ async function getFriendsAttending(userId: string, limit: number) {
     .gte('events.date', new Date().toISOString());
 
   // Group by event and count friends
-  interface FriendOrder { event_id: string; user_id: string; events?: Record<string, unknown> }
+  interface FriendOrder { event_id: string; user_id: string; events?: Record<string, unknown>[] }
   const eventMap = new Map<string, { event: Record<string, unknown>; friends: string[] }>();
 
-  friendOrders?.forEach((order: FriendOrder) => {
-    if (order.events) {
+  const typedFriendOrders = (friendOrders || []) as FriendOrder[];
+  typedFriendOrders.forEach(order => {
+    if (order.events?.[0]) {
       const existing = eventMap.get(order.event_id);
       if (existing) {
         existing.friends.push(order.user_id);
       } else {
         eventMap.set(order.event_id, {
-          event: order.events,
+          event: order.events[0],
           friends: [order.user_id],
         });
       }

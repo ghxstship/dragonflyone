@@ -21,10 +21,10 @@ const revenueSyncSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = getSupabaseClient();
-      const payload = context.validated;
+      const payload = context.validated as { order_id: string; force_sync?: boolean };
 
       const { data: order, error: orderError } = await supabase
         .from('orders')
@@ -104,7 +104,7 @@ export const POST = apiRoute(
         message: 'Revenue successfully synced to ATLVS'
       }, { status: 201 });
     } catch (error) {
-      return NextResponse.json({ error: error.message || 'Revenue sync failed' }, { status: 500 });
+      return NextResponse.json({ error: (error as Error).message || 'Revenue sync failed' }, { status: 500 });
     }
   },
   {

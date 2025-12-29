@@ -45,8 +45,12 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
+    // Define types for query results
+    interface QueueData { avg_service_time_seconds?: number; capacity?: number; current_count?: { count?: number }[] }
+    interface QueueEntryData { position?: number; queue?: { avg_service_time_seconds?: number } }
+
     // If user is authenticated, get their queue positions
-    let userQueues: unknown[] = [];
+    let userQueues: QueueEntryData[] = [];
     if (authHeader) {
       const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
       if (user) {
@@ -59,12 +63,13 @@ export async function GET(request: NextRequest) {
           .eq('user_id', user.id)
           .eq('status', 'waiting');
 
-        userQueues = entries || [];
+        userQueues = (entries || []) as QueueEntryData[];
       }
     }
 
     // Calculate estimated wait times
-    const queuesWithEstimates = queues.map(queue => {
+    const typedQueues = (queues || []) as QueueData[];
+    const queuesWithEstimates = typedQueues.map(queue => {
       const avgServiceTime = queue.avg_service_time_seconds || 60;
       const currentCount = queue.current_count?.[0]?.count || 0;
       const estimatedWaitMinutes = Math.ceil((currentCount * avgServiceTime) / 60);
@@ -73,7 +78,7 @@ export async function GET(request: NextRequest) {
         ...queue,
         current_count: currentCount,
         estimated_wait_minutes: estimatedWaitMinutes,
-        status: getQueueStatus(currentCount, queue.capacity),
+        status: getQueueStatus(currentCount, queue.capacity || 100),
       };
     });
 
@@ -82,7 +87,7 @@ export async function GET(request: NextRequest) {
       user_queues: userQueues.map(uq => ({
         ...uq,
         position: uq.position,
-        estimated_wait_minutes: Math.ceil((uq.position * (uq.queue?.avg_service_time_seconds || 60)) / 60),
+        estimated_wait_minutes: Math.ceil(((uq.position || 0) * (uq.queue?.avg_service_time_seconds || 60)) / 60),
       })),
     });
   } catch (error) {

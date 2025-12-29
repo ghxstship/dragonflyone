@@ -49,7 +49,8 @@ export async function GET(request: Request) {
 
     // Send reminder to each ticket holder
     for (const ticket of tickets || []) {
-      const event = ticket.events as { name: string; start_time: string; venue_name: string } | null;
+      const eventData = ticket.events as { name: string; start_time: string; venue_name: string }[] | { name: string; start_time: string; venue_name: string } | null;
+      const event = Array.isArray(eventData) ? eventData[0] : eventData;
       if (!event) continue;
 
       await supabase.from('notifications').insert({

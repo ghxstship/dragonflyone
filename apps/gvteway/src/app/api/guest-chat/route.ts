@@ -222,7 +222,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Generate auto-response based on category
-      const autoResponse = await generateAutoResponse(category, initial_message, event_id);
+      const autoResponse = await generateAutoResponse(supabase, category, initial_message, event_id);
       
       if (autoResponse) {
         await supabase.from('chat_messages').insert({
@@ -283,6 +283,7 @@ export async function POST(request: NextRequest) {
 
       // Generate auto-response
       const autoResponse = await generateAutoResponse(
+        supabase,
         validated.category,
         validated.message,
         validated.event_id
@@ -388,6 +389,7 @@ export async function POST(request: NextRequest) {
 
 // Helper function to generate auto-responses
 async function generateAutoResponse(
+  supabase: ReturnType<typeof getSupabaseClient>,
   category: string | undefined,
   message: string,
   eventId: string | undefined

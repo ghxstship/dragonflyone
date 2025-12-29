@@ -81,15 +81,23 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = getSupabaseClient();
-      const payload = context.validated;
+      const payload = context.validated as { title: string; description?: string; venue_id: string; start_date: string; end_date?: string; status?: string; capacity?: number; age_restriction?: number; genres?: string[] };
 
       const { data, error } = await supabase
         .from('events')
         .insert({
-          ...payload,
+          title: payload.title,
+          description: payload.description,
+          venue_id: payload.venue_id,
+          start_date: payload.start_date,
+          end_date: payload.end_date,
+          status: payload.status || 'draft',
+          capacity: payload.capacity,
+          age_restriction: payload.age_restriction,
+          genres: payload.genres || [],
           created_by: context.user?.id,
         })
         .select()

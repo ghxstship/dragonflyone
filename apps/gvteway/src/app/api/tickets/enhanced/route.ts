@@ -23,7 +23,7 @@ const generateTicketsSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = getSupabaseClient();
       const { searchParams } = new URL(request.url);
@@ -76,10 +76,10 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = getSupabaseClient();
-      const payload = context.validated;
+      const payload = context.validated as { event_id: string; ticket_type_id: string; quantity: number; batch_prefix?: string };
 
       const { data: ticketType, error: typeError } = await supabase
         .from('ticket_types')
@@ -91,7 +91,7 @@ export const POST = apiRoute(
         return NextResponse.json({ error: 'Ticket type not found' }, { status: 404 });
       }
 
-      if (ticketType.available_quantity < payload.quantity) {
+      if ((ticketType.available_quantity || 0) < payload.quantity) {
         return NextResponse.json({ error: 'Insufficient tickets available' }, { status: 400 });
       }
 
@@ -119,7 +119,7 @@ export const POST = apiRoute(
       await supabase
         .from('ticket_types')
         .update({ 
-          available_quantity: ticketType.available_quantity - payload.quantity 
+          available_quantity: (ticketType.available_quantity || 0) - payload.quantity 
         })
         .eq('id', payload.ticket_type_id);
 

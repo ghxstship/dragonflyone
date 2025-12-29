@@ -27,7 +27,9 @@ export async function GET(request: NextRequest) {
       fan_club_id, tier:fan_club_tiers(early_access_hours)
     `).eq('user_id', user.id).eq('status', 'active');
 
-    const earlyAccessHours = Math.max(...(memberships?.map((m: Record<string, unknown>) => m.tier?.early_access_hours || 0) || [0]), 0);
+    interface MembershipWithTier { tier?: { early_access_hours?: number } }
+    const typedMemberships = (memberships || []) as MembershipWithTier[];
+    const earlyAccessHours = Math.max(...typedMemberships.map(m => m.tier?.early_access_hours || 0), 0);
 
     // Get events with early access windows
     const now = new Date();

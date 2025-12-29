@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validated = BatchTicketSchema.parse(body);
 
-    const ticketRecords = [];
+    const ticketRecords: Record<string, unknown>[] = [];
     for (const ticket of validated.tickets) {
       for (let i = 0; i < ticket.quantity; i++) {
         ticketRecords.push({
@@ -40,13 +40,19 @@ export async function POST(request: NextRequest) {
           seat_number: ticket.seatNumber || null,
           status: 'available',
           qr_code: `TIX-${Date.now()}-${Math.random().toString(36).substring(7)}`,
+          name: `Ticket ${i + 1}`,
+          organization_id: null,
         });
       }
     }
 
+    if (ticketRecords.length === 0) {
+      return NextResponse.json({ success: true, count: 0, tickets: [] });
+    }
+
     const { data, error } = await supabase
       .from('tickets')
-      .insert(ticketRecords)
+      .insert(ticketRecords as never)
       .select();
 
     if (error) {

@@ -38,7 +38,7 @@ const streamSchema = z.object({
 
 // GET - List streams or get stream details
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const { searchParams } = new URL(request.url);
     const stream_id = searchParams.get('stream_id');
     const event_id = searchParams.get('event_id');
@@ -97,7 +97,7 @@ export const GET = apiRoute(
 
 // POST - Create stream or join as viewer
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const { action } = body;
 
@@ -181,7 +181,7 @@ export const POST = apiRoute(
       .insert({
         ...validated,
         stream_key: streamKey,
-        created_by: context.user.id
+        created_by: context.user?.id
       })
       .select()
       .single();
@@ -213,7 +213,7 @@ export const POST = apiRoute(
 // Helper function to check stream access
 interface StreamData { access_type: string; event_id?: string }
 interface UserData { id: string }
-async function checkStreamAccess(stream: StreamData, user: UserData | null): Promise<boolean> {
+async function checkStreamAccess(stream: StreamData, user: UserData | undefined | null): Promise<boolean> {
   if (stream.access_type === 'public') {
     return true;
   }

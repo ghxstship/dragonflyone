@@ -193,7 +193,7 @@ function generatePrintableHTML(ticket: PrintableTicket): string {
     <div class="watermark">${ticket.watermark}</div>
     <div class="header">
       <div class="event-name">${ticket.event.name}</div>
-      <div>${new Date(ticket.event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+      <div>${ticket.event.date ? new Date(ticket.event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : ''}</div>
       <div>${ticket.event.venue}</div>
     </div>
     <div class="details">

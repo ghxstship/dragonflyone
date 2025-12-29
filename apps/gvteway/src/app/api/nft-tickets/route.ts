@@ -39,7 +39,7 @@ const nftTicketSchema = z.object({
 
 // GET - List NFT tickets or get details
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const { searchParams } = new URL(request.url);
     const nft_id = searchParams.get('nft_id');
     const user_id = context.user?.id;
@@ -127,7 +127,7 @@ export const GET = apiRoute(
 
 // POST - Mint NFT tickets or transfer
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const { action } = body;
 
@@ -174,7 +174,7 @@ export const POST = apiRoute(
             royalty_percentage: validated.royalty_percentage,
             transferable: validated.transferable,
             max_resale_price: validated.max_resale_price,
-            minted_by: context.user.id,
+            minted_by: context.user?.id,
             status: 'pending_mint'
           })
           .select()
@@ -210,7 +210,7 @@ export const POST = apiRoute(
       }
 
       // Verify ownership
-      if (nft.tickets.user_id !== context.user.id) {
+      if (nft.tickets.user_id !== context.user?.id) {
         return NextResponse.json({ error: 'Not the owner' }, { status: 403 });
       }
 
@@ -233,7 +233,7 @@ export const POST = apiRoute(
           nft_id,
           from_address: nft.owner_address,
           to_address,
-          from_user_id: context.user.id,
+          from_user_id: context.user?.id,
           to_user_id,
           price,
           transaction_type: price ? 'sale' : 'transfer',
@@ -344,7 +344,7 @@ export const PUT = apiRoute(
 
 // DELETE - Burn NFT ticket
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const { searchParams } = new URL(request.url);
     const nft_id = searchParams.get('nft_id');
 
@@ -359,7 +359,7 @@ export const DELETE = apiRoute(
       .eq('id', nft_id)
       .single();
 
-    if (!nft || nft.tickets.user_id !== context.user.id) {
+    if (!nft || nft.tickets.user_id !== context.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
@@ -369,7 +369,7 @@ export const DELETE = apiRoute(
       .update({
         status: 'burned',
         burned_at: new Date().toISOString(),
-        burned_by: context.user.id
+        burned_by: context.user?.id
       })
       .eq('id', nft_id);
 

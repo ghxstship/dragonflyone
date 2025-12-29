@@ -40,13 +40,13 @@ export async function GET(request: NextRequest) {
     // Fetch user roles
     const { data: roles } = await supabase
       .from('user_roles')
-      .select('role_id')
+      .select('role')
       .eq('user_id', userId);
 
     // Fetch role names separately
     let roleNames: string[] = [];
     if (roles && roles.length > 0) {
-      const roleIds = roles.map(r => r.role_id).filter(Boolean);
+      const roleIds = roles.map((r: { role: string | null }) => r.role).filter((r): r is string => r !== null);
       if (roleIds.length > 0) {
         const { data: roleData } = await supabase
           .from('roles')

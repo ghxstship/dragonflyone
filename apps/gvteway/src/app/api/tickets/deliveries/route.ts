@@ -75,13 +75,14 @@ export async function GET(request: NextRequest) {
   }
 }
 
+interface DeliveryStep { title: string; description: string }
 function getDeliverySteps(method: string, status: string) {
-  const baseSteps = [
+  const baseSteps: DeliveryStep[] = [
     { title: 'Order Confirmed', description: 'Your order has been received' },
     { title: 'Processing', description: 'Preparing your tickets' },
   ];
 
-  let deliverySteps: unknown[] = [];
+  let deliverySteps: DeliveryStep[] = [];
 
   switch (method) {
     case 'email':

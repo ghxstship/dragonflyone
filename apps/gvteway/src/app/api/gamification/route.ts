@@ -166,7 +166,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check for new badges
-    const newBadges = await checkAndAwardBadges(user.id);
+    const newBadges = await checkAndAwardBadges(supabase, user.id);
 
     return NextResponse.json({
       points_earned: points,
@@ -218,7 +218,7 @@ function getStatField(activityType: string): string {
   return mapping[activityType] || 'total_activities';
 }
 
-async function checkAndAwardBadges(userId: string): Promise<string[]> {
+async function checkAndAwardBadges(supabase: ReturnType<typeof getSupabaseClient>, userId: string): Promise<string[]> {
   const newBadges: string[] = [];
 
   // Fetch current stats
@@ -236,7 +236,7 @@ async function checkAndAwardBadges(userId: string): Promise<string[]> {
     .select('badge_id')
     .eq('user_id', userId);
 
-  const earnedBadgeIds = new Set(existingBadges?.map(b => b.badge_id) || []);
+  const earnedBadgeIds = new Set(existingBadges?.map((b: { badge_id: string }) => b.badge_id) || []);
 
   // Check badge conditions
   const badgeConditions: Record<string, boolean> = {

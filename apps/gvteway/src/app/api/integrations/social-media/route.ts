@@ -85,8 +85,13 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
+      // Define types for query results
+      interface MetricData { impressions?: number; engagements?: number; clicks?: number; shares?: number; post?: { platform?: string } }
+      interface PlatformStats { impressions: number; engagements: number; clicks: number; shares: number; posts: number }
+
       // Aggregate by platform
-      const byPlatform = (data || []).reduce((acc: Record<string, unknown>, m) => {
+      const typedData = (data || []) as MetricData[];
+      const byPlatform = typedData.reduce((acc: Record<string, PlatformStats>, m) => {
         const p = m.post?.platform || 'unknown';
         if (!acc[p]) {
           acc[p] = { impressions: 0, engagements: 0, clicks: 0, shares: 0, posts: 0 };

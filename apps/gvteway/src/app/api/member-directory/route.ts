@@ -41,8 +41,14 @@ export async function GET(request: NextRequest) {
     const { data: members, error } = await query;
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
+    // Define types for query results
+    interface PrivacySettings { show_profile?: boolean; show_location?: boolean; show_interests?: boolean }
+    interface UserData { id?: string; display_name?: string; avatar_url?: string; bio?: string; location?: string; privacy?: PrivacySettings[] }
+    interface MemberData { id?: string; joined_at?: string; role?: string; user?: UserData }
+
     // Apply privacy filters
-    const filteredMembers = members?.map((m: Record<string, unknown>) => {
+    const typedMembers = (members || []) as MemberData[];
+    const filteredMembers = typedMembers.map(m => {
       const privacy = m.user?.privacy?.[0] || { show_profile: true, show_location: true, show_interests: true };
       
       return {
@@ -60,7 +66,7 @@ export async function GET(request: NextRequest) {
         return m.display_name?.toLowerCase().includes(search.toLowerCase());
       }
       return true;
-    }) || [];
+    });
 
     // Parse interests filter
     const interestList = interests ? interests.split(',').map(i => i.trim().toLowerCase()) : null;

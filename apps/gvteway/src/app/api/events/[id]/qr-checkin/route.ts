@@ -13,8 +13,9 @@ const checkinSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
-    const { id: eventId } = context.params;
+  async (request: NextRequest, context) => {
+    const params = await context.params;
+    const eventId = params?.id;
     const body = await request.json();
     const data = checkinSchema.parse(body);
 
@@ -73,7 +74,7 @@ export const POST = apiRoute(
       .insert({
         ticket_id: ticket.id,
         event_id: eventId,
-        checked_in_by: context.user.id,
+        checked_in_by: context.user?.id,
         check_in_type: data.check_in_type,
         notes: data.notes,
       })
@@ -115,8 +116,9 @@ export const POST = apiRoute(
 
 // Table does not exist - return empty response
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
-    const { id: eventId } = context.params;
+  async (request: NextRequest, context) => {
+    const params = await context.params;
+    const eventId = params?.id;
     const { searchParams } = new URL(request.url);
     const ticketCode = searchParams.get('ticket_code');
 

@@ -49,20 +49,37 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    // Get event names for friends at events
-    const friendsAtEvents = friendships?.filter((f: Record<string, unknown>) => f.friend?.current_event_id) || [];
-    const eventIds = friendsAtEvents.map((f: Record<string, unknown>) => f.friend.current_event_id);
+    // Define types for query results
+    interface FriendData {
+      id?: string;
+      first_name?: string;
+      last_name?: string;
+      avatar_url?: string;
+      status?: string;
+      current_event_id?: string;
+      last_seen?: string;
+      location_lat?: number;
+      location_lng?: number;
+      location_section?: string;
+    }
+    interface FriendshipResult { friend?: FriendData }
+    interface EventData { id: string; title?: string }
 
-    let events: unknown[] = [];
+    // Get event names for friends at events
+    const typedFriendships = (friendships || []) as FriendshipResult[];
+    const friendsAtEvents = typedFriendships.filter(f => f.friend?.current_event_id);
+    const eventIds = friendsAtEvents.map(f => f.friend?.current_event_id).filter(Boolean) as string[];
+
+    let events: EventData[] = [];
     if (eventIds.length > 0) {
       const { data: eventData } = await supabase
         .from('events')
         .select('id, title')
         .in('id', eventIds);
-      events = eventData || [];
+      events = (eventData || []) as EventData[];
     }
 
-    const friends = friendships?.map((f: Record<string, unknown>) => {
+    const friends = typedFriendships.map(f => {
       const friend = f.friend;
       const event = events.find(e => e.id === friend?.current_event_id);
       return {
@@ -80,7 +97,7 @@ export async function GET(request: NextRequest) {
           section: friend.location_section,
         } : null,
       };
-    }) || [];
+    });
 
     return NextResponse.json({ friends });
   } catch (error) {

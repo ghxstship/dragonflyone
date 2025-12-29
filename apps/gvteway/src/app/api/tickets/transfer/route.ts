@@ -31,12 +31,12 @@ const acceptTransferSchema = z.object({
 
 // GET - List transfers (sent/received)
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type'); // 'sent' or 'received'
     const status = searchParams.get('status');
 
-    const user_email = context.user.email;
+    const user_email = context.user?.email;
 
     let query = supabase
       .from('ticket_transfers')
@@ -72,7 +72,7 @@ export const GET = apiRoute(
       .order('created_at', { ascending: false });
 
     if (type === 'sent') {
-      query = query.eq('sender_id', context.user.id);
+      query = query.eq('sender_id', context.user?.id);
     } else if (type === 'received') {
       query = query.eq('recipient_email', user_email);
     }
@@ -97,7 +97,7 @@ export const GET = apiRoute(
 
 // POST - Initiate ticket transfer
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const validated = transferSchema.parse(body);
 
@@ -106,7 +106,7 @@ export const POST = apiRoute(
       .from('tickets')
       .select('*, events(*)')
       .eq('id', validated.ticket_id)
-      .eq('user_id', context.user.id)
+      .eq('user_id', context.user?.id)
       .single();
 
     if (ticketError || !ticket) {
@@ -152,7 +152,7 @@ export const POST = apiRoute(
       .from('ticket_transfers')
       .insert({
         ticket_id: validated.ticket_id,
-        sender_id: context.user.id,
+        sender_id: context.user?.id,
         recipient_email: validated.recipient_email,
         recipient_name: validated.recipient_name,
         message: validated.message,
@@ -191,7 +191,7 @@ export const POST = apiRoute(
 
 // PUT - Accept or decline transfer
 export const PUT = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const body = await request.json();
     const validated = acceptTransferSchema.parse(body);
 
@@ -207,7 +207,7 @@ export const PUT = apiRoute(
     }
 
     // Verify recipient
-    if (transfer.recipient_email !== context.user.email) {
+    if (transfer.recipient_email !== context.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
@@ -251,7 +251,7 @@ export const PUT = apiRoute(
       const { error: ticketError } = await supabase
         .from('tickets')
         .update({
-          user_id: context.user.id,
+          user_id: context.user?.id,
           status: 'active',
           transferred_at: new Date().toISOString()
         })
@@ -272,7 +272,7 @@ export const PUT = apiRoute(
         ticket_id: transfer.ticket_id,
         activity_type: 'transferred',
         from_user_id: transfer.sender_id,
-        to_user_id: context.user.id,
+        to_user_id: context.user?.id,
         metadata: { transfer_id: validated.transfer_id }
       });
 
@@ -309,7 +309,7 @@ export const PUT = apiRoute(
 
 // DELETE - Cancel transfer (sender only)
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const { searchParams } = new URL(request.url);
     const transfer_id = searchParams.get('transfer_id');
 
@@ -329,7 +329,7 @@ export const DELETE = apiRoute(
     }
 
     // Verify sender
-    if (transfer.sender_id !== context.user.id) {
+    if (transfer.sender_id !== context.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 

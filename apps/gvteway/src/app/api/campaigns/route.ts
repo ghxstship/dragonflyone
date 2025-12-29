@@ -148,7 +148,7 @@ export const GET = apiRoute(
 
 // POST - Create campaign or automation rule
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     const supabase = getServerSupabase();
     const body = await request.json();
     const { type } = body;
@@ -164,7 +164,7 @@ export const POST = apiRoute(
           trigger_conditions: validated.conditions || {},
           actions: validated.actions,
           is_active: validated.active,
-          created_by: context.user.id
+          created_by: context.user?.id
         })
         .select()
         .single();
@@ -189,7 +189,7 @@ export const POST = apiRoute(
       .from('marketing_campaigns')
       .insert({
         ...validated,
-        created_by: context.user.id,
+        created_by: context.user?.id,
         estimated_recipients: audience.count
       })
       .select()
@@ -282,7 +282,8 @@ async function buildAudienceQuery(supabase: ReturnType<typeof getServerSupabase>
 }
 
 // Helper function to process campaign
-async function processCampaign(supabase: ReturnType<typeof getServerSupabase>, campaignId: string, recipients: unknown[]) {
+interface RecipientData { id?: string; email?: string }
+async function processCampaign(supabase: ReturnType<typeof getServerSupabase>, campaignId: string, recipients: RecipientData[]) {
   // Update status
   await supabase
     .from('marketing_campaigns')
@@ -292,15 +293,19 @@ async function processCampaign(supabase: ReturnType<typeof getServerSupabase>, c
   // Queue messages for sending (integrate with email/SMS service)
   // This would typically use a job queue like Bull or AWS SQS
   
-  // For now, log the campaign sends
-  const sends = recipients.map(recipient => ({
-    campaign_id: campaignId,
-    recipient_id: recipient.id as string,
-    recipient_email: recipient.email as string,
-    status: 'queued' as const
-  }));
+  // For now, log the campaign sends - filter out recipients without required fields
+  const sends = recipients
+    .filter(recipient => recipient.id && recipient.email)
+    .map(recipient => ({
+      campaign_id: campaignId,
+      recipient_id: recipient.id!,
+      recipient_email: recipient.email!,
+      status: 'queued' as const
+    }));
 
-  await supabase.from('campaign_sends').insert(sends);
+  if (sends.length > 0) {
+    await supabase.from('campaign_sends').insert(sends);
+  }
 
   // Update metrics
   await supabase

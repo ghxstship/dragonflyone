@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-interface TicketData { id: string; seat_info?: string; event?: { name?: string; date?: string; venue?: string } }
+interface TicketData { id: string; seat_info?: string; qr_code?: string; event?: { name?: string; date?: string; venue?: string } }
 function generateWalletPassData(ticket: TicketData) {
   const event = ticket.event;
   return {

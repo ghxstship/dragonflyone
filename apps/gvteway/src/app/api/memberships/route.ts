@@ -25,7 +25,7 @@ const createMembershipSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = getSupabaseClient();
       const { searchParams } = new URL(request.url);
@@ -78,15 +78,20 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = getSupabaseClient();
-      const payload = context.validated;
+      const payload = context.validated as { user_id: string; tier: string; start_date: string; end_date: string; auto_renew?: boolean; payment_method_id?: string };
 
       const { data, error } = await supabase
         .from('memberships')
         .insert({
-          ...payload,
+          user_id: payload.user_id,
+          tier: payload.tier,
+          start_date: payload.start_date,
+          end_date: payload.end_date,
+          auto_renew: payload.auto_renew ?? true,
+          payment_method_id: payload.payment_method_id,
           status: 'active',
           created_by: context.user?.id,
         })

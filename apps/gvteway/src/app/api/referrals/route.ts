@@ -164,10 +164,11 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { action } = body;
 
+    const supabase = getSupabaseClient();
     if (action === 'create_code') {
-      return await createReferralCode(body);
+      return await createReferralCode(supabase, body);
     } else if (action === 'register_referral') {
-      return await registerReferral(body);
+      return await registerReferral(supabase, body);
     } else {
       return NextResponse.json(
         { error: 'Invalid action. Use "create_code" or "register_referral"' },
@@ -192,7 +193,7 @@ export async function POST(request: NextRequest) {
 
 // Helper: Create referral code
 interface ReferralCodeBody { user_id?: string; [key: string]: unknown }
-async function createReferralCode(body: ReferralCodeBody) {
+async function createReferralCode(supabase: ReturnType<typeof getSupabaseClient>, body: ReferralCodeBody) {
   const validated = referralCodeSchema.parse(body);
   const userId = body.user_id;
 
@@ -233,7 +234,7 @@ async function createReferralCode(body: ReferralCodeBody) {
 
 // Helper: Register referral
 interface RegisterReferralBody { referral_code: string; [key: string]: unknown }
-async function registerReferral(body: RegisterReferralBody) {
+async function registerReferral(supabase: ReturnType<typeof getSupabaseClient>, body: RegisterReferralBody) {
   const validated = createReferralSchema.parse(body);
 
   // Get referral code

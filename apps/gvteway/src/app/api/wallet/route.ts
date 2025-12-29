@@ -137,12 +137,13 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { action } = body;
 
+    const supabase = getSupabaseClient();
     if (action === 'load') {
-      return await handleLoadWallet(body);
+      return await handleLoadWallet(supabase, body);
     } else if (action === 'transfer') {
-      return await handleTransfer(body);
+      return await handleTransfer(supabase, body);
     } else if (action === 'withdraw') {
-      return await handleWithdraw(body);
+      return await handleWithdraw(supabase, body);
     } else {
       return NextResponse.json(
         { error: 'Invalid action' },
@@ -167,7 +168,7 @@ export async function POST(request: NextRequest) {
 
 // Helper: Load wallet
 interface LoadWalletBody { user_id: string; amount: number; payment_method_id: string; description?: string }
-async function handleLoadWallet(body: LoadWalletBody) {
+async function handleLoadWallet(supabase: ReturnType<typeof getSupabaseClient>, body: LoadWalletBody) {
   const schema = z.object({
     user_id: z.string().uuid(),
     amount: z.number().positive(),
@@ -229,7 +230,7 @@ async function handleLoadWallet(body: LoadWalletBody) {
 
 // Helper: Transfer between users
 interface TransferBody { from_user_id: string; to_user_id: string; amount: number; description?: string }
-async function handleTransfer(body: TransferBody) {
+async function handleTransfer(supabase: ReturnType<typeof getSupabaseClient>, body: TransferBody) {
   const schema = z.object({
     from_user_id: z.string().uuid(),
     to_user_id: z.string().uuid(),
@@ -291,7 +292,7 @@ async function handleTransfer(body: TransferBody) {
 
 // Helper: Withdraw to bank account
 interface WithdrawBody { user_id: string; amount: number; payment_method_id: string }
-async function handleWithdraw(body: WithdrawBody) {
+async function handleWithdraw(supabase: ReturnType<typeof getSupabaseClient>, body: WithdrawBody) {
   const schema = z.object({
     user_id: z.string().uuid(),
     amount: z.number().positive(),
