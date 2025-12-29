@@ -1,14 +1,50 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createLeadSchema = z.object({
+  contact_id: z.string().uuid(),
+  source: z.string().optional(),
+  budget_range: z.string().optional(),
+  timeline: z.string().optional(),
+  decision_maker: z.union([z.boolean(), z.string()]).optional(),
+  company_size: z.string().optional(),
+  industry: z.string().optional(),
+});
+
+const recalculateLeadSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('recalculate'),
+});
+
+const updateLeadSchema = z.object({
+  id: z.string().uuid(),
+  action: z.string().optional(),
+  status: z.string().optional(),
+  assigned_to: z.string().uuid().optional(),
+  notes: z.string().optional(),
+});
 
 // Lead scoring and qualification automation
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const minScore = searchParams.get('min_score');
@@ -36,21 +72,33 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { contact_id, source, budget_range, timeline, decision_maker, company_size, industry } = body;
+    const validatedData = createLeadSchema.parse(body);
 
     // Calculate lead score
-    const score = calculateLeadScore({ budget_range, timeline, decision_maker, company_size, industry });
+    const score = calculateLeadScore({ budget_range: validatedData.budget_range, timeline: validatedData.timeline, decision_maker: validatedData.decision_maker, company_size: validatedData.company_size, industry: validatedData.industry });
     const qualification = score >= 80 ? 'hot' : score >= 50 ? 'warm' : 'cold';
 
     const { data, error } = await supabase.from('leads').insert({
-      contact_id, source, budget_range, timeline, decision_maker, company_size, industry,
+      contact_id: validatedData.contact_id,
+      source: validatedData.source,
+      budget_range: validatedData.budget_range,
+      timeline: validatedData.timeline,
+      decision_maker: validatedData.decision_maker,
+      company_size: validatedData.company_size,
+      industry: validatedData.industry,
       score, qualification, status: 'new', created_by: user.id
     }).select().single();
 
@@ -64,13 +112,20 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const body = await request.json();
-    const { id, action, ...updateData } = body;
-
-    if (action === 'recalculate') {
+    
+    if (body.action === 'recalculate') {
+      const validatedData = recalculateLeadSchema.parse(body);
+      const { id } = validatedData;
       const { data: lead } = await supabase.from('leads').select('*').eq('id', id).single();
       if (lead) {
         const newScore = calculateLeadScore(lead);
@@ -81,6 +136,8 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ success: true });
     }
 
+    const validatedData = updateLeadSchema.parse(body);
+    const { id, ...updateData } = validatedData;
     const { error } = await supabase.from('leads').update(updateData).eq('id', id);
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 

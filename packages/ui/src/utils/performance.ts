@@ -35,14 +35,14 @@ export class PerformanceMonitor {
     }
   }
 
-  static reportWebVitals(metric: any) {
+  static reportWebVitals(metric: { name: string; value: number; id: string }) {
     if (process.env.NODE_ENV === 'development') {
       console.log('[Web Vitals]', metric);
     }
 
     // Send to analytics
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', metric.name, {
+    if (typeof window !== 'undefined' && 'gtag' in window) {
+      (window as unknown as { gtag: (event: string, name: string, params: Record<string, unknown>) => void }).gtag('event', metric.name, {
         value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
         event_label: metric.id,
         non_interaction: true,
@@ -51,7 +51,7 @@ export class PerformanceMonitor {
   }
 }
 
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -68,7 +68,7 @@ export function debounce<T extends (...args: any[]) => any>(
   };
 }
 
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {

@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { GvtewayLoadingLayout } from '@/components/app-layout';
+/**
+ * Discover Page
+ * Find your next unforgettable experience
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
 import {
-  EnterprisePageHeader,
-  MainContent,
-  Container,
-  SectionHeader,
-  H3,
+  Badge,
   Body,
-  Label,
   Button,
   Card,
   Grid,
-  Stack,
-  Badge,
-  ProjectCard,
+  DetailPage,
   Section,
-} from '@ghxstship/ui';
-import { Music, Tent, Drama, Trophy, Laugh, Moon, ArrowRight } from 'lucide-react';
-import { useDiscoverData } from '@/hooks/useDiscover';
+  SectionHeader,
+  ProjectCard,
+} from "@ghxstship/ui";
+import { Music, Tent, Drama, Trophy, Laugh, Moon, ArrowRight, Compass } from "lucide-react";
+import { useDiscoverData } from "@/hooks/useDiscover";
 
 interface DiscoverEvent {
   id: string;
@@ -38,17 +38,16 @@ interface DiscoverCollection {
 }
 
 const categories = [
-  { id: 'concert', name: 'Concerts', icon: Music },
-  { id: 'festival', name: 'Festivals', icon: Tent },
-  { id: 'theater', name: 'Theater', icon: Drama },
-  { id: 'sports', name: 'Sports', icon: Trophy },
-  { id: 'comedy', name: 'Comedy', icon: Laugh },
-  { id: 'nightlife', name: 'Nightlife', icon: Moon },
+  { id: "concert", name: "Concerts", icon: Music },
+  { id: "festival", name: "Festivals", icon: Tent },
+  { id: "theater", name: "Theater", icon: Drama },
+  { id: "sports", name: "Sports", icon: Trophy },
+  { id: "comedy", name: "Comedy", icon: Laugh },
+  { id: "nightlife", name: "Nightlife", icon: Moon },
 ];
 
 export default function DiscoverPage() {
   const router = useRouter();
-
   const {
     trendingEvents,
     recommendedEvents,
@@ -56,6 +55,7 @@ export default function DiscoverPage() {
     nearbyEvents,
     isLoading: loading,
     error: discoverError,
+    refetch,
   } = useDiscoverData();
 
   const handleCategoryClick = (categoryId: string) => {
@@ -66,232 +66,150 @@ export default function DiscoverPage() {
     router.push(`/events/${eventId}`);
   };
 
-  if (loading) {
-    return <GvtewayLoadingLayout text="Loading events..." />;
-  }
+  const tabs = [
+    {
+      id: "browse",
+      label: "Browse",
+      icon: <Compass className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Browse by Category" description="Explore events by type" />
+          <Grid cols={6} gap={4} className="grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 mb-8">
+            {categories.map((category) => (
+              <Card
+                key={category.id}
+                className="flex cursor-pointer flex-col items-center gap-4 p-6 text-center hover:border-primary transition-colors"
+                onClick={() => handleCategoryClick(category.id)}
+                onKeyDown={(e) => e.key === "Enter" && handleCategoryClick(category.id)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Browse ${category.name} events`}
+              >
+                <category.icon className="size-8" aria-hidden="true" />
+                <Body size="sm">{category.name}</Body>
+              </Card>
+            ))}
+          </Grid>
 
-  if (discoverError) {
-    return (
-      <>
-        <Stack gap={6} className="items-center justify-center py-20">
-          <Card inverted className="max-w-md p-8 text-center">
-            <Stack gap={4}>
-              <H3 className="text-white">Error Loading Events</H3>
-              <Body className="text-grey-400">
-                {discoverError instanceof Error ? discoverError.message : 'Failed to load discover data'}
-              </Body>
-              <Button variant="solid" inverted onClick={() => window.location.reload()}>
-                Retry
-              </Button>
-            </Stack>
+          {trendingEvents.length > 0 && (
+            <>
+              <div className="flex items-end justify-between mb-4">
+                <SectionHeader title="Trending Now" description="Most popular events this week" />
+                <Button variant="outline" onClick={() => router.push("/browse?sort=trending")} icon={<ArrowRight className="size-4" />} iconPosition="right">
+                  View All
+                </Button>
+              </div>
+              <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+                {trendingEvents.map((event: DiscoverEvent) => (
+                  <ProjectCard
+                    key={event.id}
+                    title={event.title}
+                    image={event.image || ""}
+                    metadata={`${event.date} • ${event.venue} • From $${event.price}`}
+                    onClick={() => handleEventClick(event.id)}
+                  />
+                ))}
+              </Grid>
+            </>
+          )}
+
+          {recommendedEvents.length > 0 && (
+            <>
+              <div className="flex items-end justify-between mb-4">
+                <SectionHeader title="Recommended For You" description="Based on your interests and history" />
+                <Button variant="outline" onClick={() => router.push("/browse?sort=recommended")} icon={<ArrowRight className="size-4" />} iconPosition="right">
+                  View All
+                </Button>
+              </div>
+              <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+                {recommendedEvents.map((event: DiscoverEvent) => (
+                  <ProjectCard
+                    key={event.id}
+                    title={event.title}
+                    image={event.image || ""}
+                    metadata={`${event.date} • ${event.venue} • From $${event.price}`}
+                    onClick={() => handleEventClick(event.id)}
+                  />
+                ))}
+              </Grid>
+            </>
+          )}
+
+          {nearbyEvents.length > 0 && (
+            <>
+              <div className="flex items-end justify-between mb-4">
+                <SectionHeader title="Near You" description="Events happening in your area" />
+                <Button variant="outline" onClick={() => router.push("/browse?nearby=true")} icon={<ArrowRight className="size-4" />} iconPosition="right">
+                  View All
+                </Button>
+              </div>
+              <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                {nearbyEvents.map((event: DiscoverEvent) => (
+                  <ProjectCard
+                    key={event.id}
+                    title={event.title}
+                    image={event.image || ""}
+                    metadata={`${event.date} • ${event.venue} • From $${event.price}`}
+                    onClick={() => handleEventClick(event.id)}
+                  />
+                ))}
+              </Grid>
+            </>
+          )}
+        </Section>
+      ),
+    },
+    {
+      id: "collections",
+      label: "Collections",
+      icon: <Music className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Curated Collections" description="Hand-picked event collections" />
+          {collections.length === 0 ? (
+            <div className="text-center py-12">
+              <Music className="size-12 text-grey-600 mx-auto mb-4" />
+              <Body className="text-grey-400">No collections available</Body>
+            </div>
+          ) : (
+            <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
+              {collections.map((collection: DiscoverCollection) => (
+                <Card key={collection.id} className="p-6" role="article" aria-label={`${collection.name} collection with ${collection.events.length} events`}>
+                  <Body className="font-weight-medium">{collection.name}</Body>
+                  <Body size="sm" className="mt-2 text-grey-400">{collection.description}</Body>
+                  <div className="flex items-center gap-3 mt-4">
+                    <Badge variant="outline">{collection.events.length} events</Badge>
+                    <Button variant="ghost" size="sm" onClick={() => router.push(`/collections/${collection.id}`)}>
+                      Explore
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </Grid>
+          )}
+
+          <Card className="p-10 text-center mt-8">
+            <SectionHeader title="Not Sure What To Do?" description="Take our quick quiz to get personalized event recommendations based on your preferences." />
+            <Button variant="solid" size="lg" onClick={() => router.push("/quiz")} icon={<ArrowRight className="size-4" />} iconPosition="right" className="mt-6">
+              Take The Quiz
+            </Button>
           </Card>
-        </Stack>
-      </>
-    );
-  }
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <>
-      <EnterprisePageHeader
-        title="Discover"
-        subtitle="Find your next unforgettable experience"
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={16}>
-            {/* Browse by Category */}
-            <Section border-2 className="py-12">
-                <SectionHeader
-                  kicker="Explore"
-                  title="Browse by Category"
-                  colorScheme="on-dark"
-                  gap="md"
-                />
-                <Grid cols={6} gap={4} className="mt-8 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
-                  {categories.map(category => (
-                    <Card
-                      key={category.id}
-                      inverted
-                      interactive
-                      className="flex cursor-pointer flex-col items-center gap-4 p-6 text-center"
-                      onClick={() => handleCategoryClick(category.id)}
-                      onKeyDown={(e) => e.key === 'Enter' && handleCategoryClick(category.id)}
-                      role="button"
-                      tabIndex={0}
-                      aria-label={`Browse ${category.name} events`}
-                    >
-                      <category.icon className="size-8 text-white" aria-hidden="true" />
-                      <Label size="xs" className="text-on-dark-muted">{category.name}</Label>
-                    </Card>
-                  ))}
-                </Grid>
-              </Section>
-
-              {/* Trending Now */}
-              {trendingEvents.length > 0 && (
-                <Section border-2 className="py-12">
-                  <Stack direction="horizontal" className="mb-8 items-end justify-between">
-                    <SectionHeader
-                      kicker="Hot Right Now"
-                      title="Trending Now"
-                      description="Most popular events this week"
-                      colorScheme="on-dark"
-                      gap="md"
-                    />
-                    <Button 
-                      variant="outlineInk" 
-                      icon={<ArrowRight />}
-                      onClick={() => router.push('/browse?sort=trending')}
-                    >
-                      View All
-                    </Button>
-                  </Stack>
-                  <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                    {trendingEvents.map((event: DiscoverEvent) => (
-                      <ProjectCard
-                        key={event.id}
-                        title={event.title}
-                        image={event.image || ''}
-                        metadata={`${event.date} • ${event.venue} • From $${event.price}`}
-                        onClick={() => handleEventClick(event.id)}
-                      />
-                    ))}
-                  </Grid>
-                </Section>
-              )}
-
-              {/* Recommended For You */}
-              {recommendedEvents.length > 0 && (
-                <Section border-2 className="py-12">
-                  <Stack direction="horizontal" className="mb-8 items-end justify-between">
-                    <SectionHeader
-                      kicker="Personalized"
-                      title="Recommended For You"
-                      description="Based on your interests and history"
-                      colorScheme="on-dark"
-                      gap="md"
-                    />
-                    <Button 
-                      variant="outlineInk" 
-                      icon={<ArrowRight />}
-                      onClick={() => router.push('/browse?sort=recommended')}
-                    >
-                      View All
-                    </Button>
-                  </Stack>
-                  <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                    {recommendedEvents.map((event: DiscoverEvent) => (
-                      <ProjectCard
-                        key={event.id}
-                        title={event.title}
-                        image={event.image || ''}
-                        metadata={`${event.date} • ${event.venue} • From $${event.price}`}
-                        onClick={() => handleEventClick(event.id)}
-                      />
-                    ))}
-                  </Grid>
-                </Section>
-              )}
-
-              {/* Curated Collections */}
-              {collections.length > 0 && (
-                <Section border-2 className="py-12">
-                  <SectionHeader
-                    kicker="Hand-Picked"
-                    title="Curated Collections"
-                    colorScheme="on-dark"
-                    gap="md"
-                  />
-                  <Grid cols={2} gap={6} className="mt-8 grid-cols-1 lg:grid-cols-2">
-                    {collections.map((collection: DiscoverCollection) => (
-                      <Card 
-                        key={collection.id}
-                        inverted
-                        interactive
-                        className="p-6"
-                        role="article"
-                        aria-label={`${collection.name} collection with ${collection.events.length} events`}
-                      >
-                        <H3 className="text-white">{collection.name}</H3>
-                        <Body size="sm" className="mt-2 text-on-dark-muted">{collection.description}</Body>
-                        <Stack direction="horizontal" gap={3} className="mt-4 items-center">
-                          <Badge variant="outline">{collection.events.length} events</Badge>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            inverted
-                            onClick={() => router.push(`/collections/${collection.id}`)}
-                          >
-                            Explore
-                          </Button>
-                        </Stack>
-                      </Card>
-                    ))}
-                  </Grid>
-                </Section>
-              )}
-
-              {/* Near You */}
-              {nearbyEvents.length > 0 && (
-                <Section border-2 className="py-12">
-                  <Stack direction="horizontal" className="mb-8 items-end justify-between">
-                    <SectionHeader
-                      kicker="Local"
-                      title="Near You"
-                      description="Events happening in your area"
-                      colorScheme="on-dark"
-                      gap="md"
-                    />
-                    <Button 
-                      variant="outlineInk" 
-                      icon={<ArrowRight />}
-                      onClick={() => router.push('/browse?nearby=true')}
-                    >
-                      View All
-                    </Button>
-                  </Stack>
-                  <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                    {nearbyEvents.map((event: DiscoverEvent) => (
-                      <ProjectCard
-                        key={event.id}
-                        title={event.title}
-                        image={event.image || ''}
-                        metadata={`${event.date} • ${event.venue} • From $${event.price}`}
-                        onClick={() => handleEventClick(event.id)}
-                      />
-                    ))}
-                  </Grid>
-                </Section>
-              )}
-
-              {/* Quiz CTA */}
-              <Section className="py-12">
-                <Card inverted variant="elevated" className="p-10 text-center">
-                  <SectionHeader
-                    kicker="Not Sure?"
-                    title="Not Sure What To Do?"
-                    description="Take our quick quiz to get personalized event recommendations based on your preferences."
-                    align="center"
-                    colorScheme="on-dark"
-                    gap="lg"
-                  />
-                  <Button 
-                    variant="solid" 
-                    size="lg"
-                    inverted
-                    icon={<ArrowRight />}
-                    onClick={() => router.push('/quiz')}
-                    className="mt-8"
-                  >
-                    Take The Quiz
-                  </Button>
-                </Card>
-              </Section>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <DetailPage
+      header={{
+        kicker: "Explore",
+        title: "Discover",
+        description: "Find your next unforgettable experience",
+      }}
+      loading={loading}
+      error={discoverError instanceof Error ? discoverError : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

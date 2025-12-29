@@ -1,14 +1,33 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const exportManifestSchema = z.object({
+  action: z.literal('export'),
+  project_id: z.string().uuid(),
+  event_id: z.string().uuid().optional(),
+  date: z.string().optional(),
+});
 
 // Crew manifest generation
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -22,8 +41,7 @@ export async function GET(request: NextRequest) {
     // Get crew assignments
     let query = supabase.from('crew_assignments').select(`
       *, crew_member:crew_members(
-        id, first_name, last_name, phone, email, role,
-        emergency_contact, emergency_phone, certifications
+        id, first_name, last_name, phone, email, role, certifications
       )
     `);
 
@@ -35,20 +53,18 @@ export async function GET(request: NextRequest) {
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Group by department
-    interface ManifestMember { name: string; role?: string; call_time?: string; phone?: string; email?: string; emergency_contact?: string; emergency_phone?: string }
-    interface CrewAssignment { department?: string; role?: string; call_time?: string; crew_member?: { first_name?: string; last_name?: string; role?: string; phone?: string; email?: string; emergency_contact?: string; emergency_phone?: string } }
+    interface ManifestMember { name: string; role: string | null; call_time: string | null; phone: string | null; email: string }
     const byDepartment: Record<string, ManifestMember[]> = {};
-    data?.forEach((assignment: CrewAssignment) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data?.forEach((assignment: any) => {
       const dept = assignment.department || 'General';
       if (!byDepartment[dept]) byDepartment[dept] = [];
       byDepartment[dept].push({
-        name: `${assignment.crew_member?.first_name} ${assignment.crew_member?.last_name}`,
+        name: `${assignment.crew_member?.first_name || ''} ${assignment.crew_member?.last_name || ''}`.trim(),
         role: assignment.role || assignment.crew_member?.role,
         call_time: assignment.call_time,
         phone: assignment.crew_member?.phone,
-        email: assignment.crew_member?.email,
-        emergency_contact: assignment.crew_member?.emergency_contact,
-        emergency_phone: assignment.crew_member?.emergency_phone
+        email: assignment.crew_member?.email || '',
       });
     });
 
@@ -74,14 +90,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action, project_id, event_id, date } = body;
+    const validatedData = exportManifestSchema.parse(body);
+    const { action, project_id, event_id, date } = validatedData;
 
     if (action === 'export') {
       // Generate manifest and store for download
@@ -90,8 +113,11 @@ export async function POST(request: NextRequest) {
       `).eq('project_id', project_id);
 
       const { data: manifest, error } = await supabase.from('generated_manifests').insert({
-        project_id, event_id, date, crew_count: assignments?.length || 0,
-        data: assignments, generated_by: user.id
+        event_id, 
+        manifest_type: 'crew',
+        title: `Crew Manifest - ${date || new Date().toISOString().split('T')[0]}`,
+        data: { project_id, date, crew_count: assignments?.length || 0, assignments },
+        generated_by: user.id
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

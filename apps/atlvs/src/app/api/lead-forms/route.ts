@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -49,8 +50,22 @@ const LeadFormSchema = z.object({
   active: z.boolean().default(true),
 });
 
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const organizationId = searchParams.get('organization_id');
     const activeOnly = searchParams.get('active') === 'true';
@@ -81,6 +96,15 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const body = await request.json();
     const validatedData = LeadFormSchema.parse(body);
 

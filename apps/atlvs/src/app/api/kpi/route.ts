@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { KPI_MASTER_LIST, getKPIByCode } from '@ghxstship/config/kpi-definitions';
 import type { KPIDefinition } from '@ghxstship/config/types/kpi-types';
@@ -9,8 +9,22 @@ import type { KPIDefinition } from '@ghxstship/config/types/kpi-types';
  * GET /api/kpi
  * Get all KPI definitions or filter by category/subcategory
  */
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const searchParams = request.nextUrl.searchParams;
     const code = searchParams.get('code');
     const category = searchParams.get('category');

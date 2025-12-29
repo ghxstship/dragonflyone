@@ -2,7 +2,13 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { z } from 'zod';
+
+const ATLVS_ADMIN_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 const exportSchema = z.object({
   export_type: z.string().min(1),
@@ -13,6 +19,14 @@ const exportSchema = z.object({
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ADMIN_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required for data export' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
     const exportId = searchParams.get('export_id');
@@ -61,9 +75,17 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ADMIN_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required for data export' }, { status: 403 });
+    }
+
     const body = await request.json();
     const validated = exportSchema.parse(body);
-    const requestedBy = body.requested_by;
+    const requestedBy = authResult.user?.id;
 
     // Create export record
     const { data: exportRecord, error } = await supabase

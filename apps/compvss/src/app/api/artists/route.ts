@@ -1,8 +1,36 @@
 export const dynamic = 'force-dynamic';
 
-import { logger, withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createArtistSchema = z.object({
+  name: z.string(),
+  genre: z.string().optional(),
+  type: z.string().optional(),
+  manager: z.string().optional(),
+  managerEmail: z.string().email().optional(),
+  managerPhone: z.string().optional(),
+  agent: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+const updateArtistSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string().optional(),
+  genre: z.string().optional(),
+  type: z.string().optional(),
+  manager: z.string().optional(),
+  managerEmail: z.string().email().optional(),
+  managerPhone: z.string().optional(),
+  agent: z.string().optional(),
+  technicalRider: z.boolean().optional(),
+  hospitalityRider: z.boolean().optional(),
+  inputList: z.boolean().optional(),
+  stagePlot: z.boolean().optional(),
+  notes: z.string().optional(),
+});
 
 const COMPVSS_ROLES = [
   PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_COLLABORATOR, PlatformRole.COMPVSS_VIEWER,
@@ -59,7 +87,8 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, genre, type, manager, managerEmail, managerPhone, agent, notes } = body;
+    const validatedData = createArtistSchema.parse(body);
+    const { name, genre, type, manager, managerEmail, managerPhone, agent, notes } = validatedData;
 
     const { data, error } = await supabase
       .from("artists")
@@ -100,7 +129,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, ...updates } = body;
+    const validatedData = updateArtistSchema.parse(body);
+    const { id, ...updates } = validatedData;
 
     const updateData: Record<string, unknown> = {};
     if (updates.name) updateData.name = updates.name;

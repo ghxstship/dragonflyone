@@ -1,15 +1,94 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import crypto from 'crypto';
+import { z } from 'zod';
+
+const createRuleSchema = z.object({
+  action: z.literal('create_rule'),
+  name: z.string().min(1),
+  event_type: z.string(),
+  channel_id: z.string().uuid(),
+  conditions: z.record(z.unknown()).optional(),
+  priority: z.number().optional(),
+  active: z.boolean().optional(),
+});
+
+const updateRuleSchema = z.object({
+  action: z.literal('update_rule'),
+  rule_id: z.string().uuid(),
+  name: z.string().optional(),
+  event_type: z.string().optional(),
+  channel_id: z.string().uuid().optional(),
+  conditions: z.record(z.unknown()).optional(),
+  priority: z.number().optional(),
+  active: z.boolean().optional(),
+});
+
+const deleteRuleSchema = z.object({
+  action: z.literal('delete_rule'),
+  rule_id: z.string().uuid(),
+});
+
+const createChannelSchema = z.object({
+  action: z.literal('create_channel'),
+  name: z.string().min(1),
+  type: z.string(),
+  webhook_url: z.string().url().optional(),
+  secret_key: z.string().optional(),
+  config: z.record(z.unknown()).optional(),
+});
+
+const updateChannelSchema = z.object({
+  action: z.literal('update_channel'),
+  channel_id: z.string().uuid(),
+  name: z.string().optional(),
+  type: z.string().optional(),
+  webhook_url: z.string().url().optional(),
+  secret_key: z.string().optional(),
+  config: z.record(z.unknown()).optional(),
+});
+
+const testChannelSchema = z.object({
+  action: z.literal('test_channel'),
+  channel_id: z.string().uuid(),
+});
+
+const rotateSecretSchema = z.object({
+  action: z.literal('rotate_secret'),
+  secret_id: z.string().uuid(),
+  new_value: z.string().min(1),
+});
+
+const notificationRoutingActionSchema = z.discriminatedUnion('action', [
+  createRuleSchema,
+  updateRuleSchema,
+  deleteRuleSchema,
+  createChannelSchema,
+  updateChannelSchema,
+  testChannelSchema,
+  rotateSecretSchema,
+]);
 
 // Admin UI for notification routing rules and secrets management
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -76,8 +155,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -87,10 +172,11 @@ export async function POST(request: NextRequest) {
     if (profile?.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = notificationRoutingActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create_rule') {
-      const { name, event_type, channel_id, conditions, priority, active } = body;
+      const { name, event_type, channel_id, conditions, priority, active } = validatedData;
 
       const { data, error } = await supabase.from('notification_routing_rules').insert({
         name, event_type, channel_id, conditions: conditions || {},

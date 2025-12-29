@@ -1,41 +1,32 @@
 'use client';
 
 import {
-  EnterprisePageHeader,
-  MainContent,
-  Container,
-  Card,
-  CardBody,
-  Stack,
-  Button,
   Badge,
-  Grid,
-  Body,
-  H3,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  Spinner,
-  EmptyState,
+  ListPage,
+  Text,
+  useNotifications,
+  type ListPageColumn,
+  type ListPageAction,
 } from '@ghxstship/ui';
-import {
-  Download,
-  Eye,
-  ShoppingBag,
-} from 'lucide-react';
-// Layout provided by route group
+import { Eye, Download } from 'lucide-react';
 import { useOrders } from '@/hooks/useOrders';
 import { useRouter } from 'next/navigation';
 
+interface DisplayOrder {
+  id: string;
+  date: string;
+  eventName: string;
+  ticketCount: number;
+  total: number;
+  status: string;
+}
+
 export default function AccountOrdersPage() {
   const router = useRouter();
-  const { data: ordersData, isLoading, error } = useOrders();
+  const { addNotification } = useNotifications();
+  const { data: ordersData, isLoading, error, refetch } = useOrders();
   
-  // Transform data to match expected format
-  const orders = (ordersData || []).map(order => ({
+  const orders: DisplayOrder[] = (ordersData || []).map(order => ({
     id: order.id,
     date: new Date(order.created_at).toLocaleDateString(),
     eventName: order.gvteway_events?.title || 'Event',
@@ -44,138 +35,88 @@ export default function AccountOrdersPage() {
     status: order.status === 'confirmed' ? 'completed' : order.status,
   }));
 
-  const totalSpent = orders.filter(o => o.status === 'completed').reduce((sum, o) => sum + o.total, 0);
+  const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
-  if (isLoading) {
-    return (
-      <>
-        <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
-        <MainContent padding="lg">
-          <Container>
-            <Stack className="flex items-center justify-center py-20">
-              <Spinner variant="grey" size="lg" text="Loading orders..." />
-            </Stack>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const handleDownloadReceipt = async (order: DisplayOrder) => {
+    try {
+      const { PDFGenerator } = await import('@ghxstship/config/pdf-generator');
+      const generator = new PDFGenerator({
+        title: 'Order Receipt',
+        subtitle: `Order #${order.id.slice(0, 8).toUpperCase()}`,
+        includeTimestamp: true,
+        includePageNumbers: false,
+      });
 
-  if (error) {
-    return (
-      <>
-        <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
-        <MainContent padding="lg">
-          <Container>
-            <EmptyState
-              icon={<ShoppingBag size={48} />}
-              title="Unable to load orders"
-              description="There was a problem loading your order history. Please try again."
-              inverted
-            />
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+      generator.addHeading('Order Details', 2);
+      generator.addKeyValuePairs([
+        { label: 'Order ID', value: order.id.slice(0, 8).toUpperCase() },
+        { label: 'Date', value: order.date },
+        { label: 'Event', value: order.eventName },
+        { label: 'Tickets', value: String(order.ticketCount) },
+        { label: 'Status', value: order.status.charAt(0).toUpperCase() + order.status.slice(1) },
+      ]);
 
-  if (orders.length === 0) {
-    return (
-      <>
-        <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
-        <MainContent padding="lg">
-          <Container>
-            <EmptyState
-              icon={<ShoppingBag size={48} />}
-              title="No orders yet"
-              description="You haven't made any purchases yet. Browse events to find your next experience!"
-              action={{ label: "Browse Events", onClick: () => router.push('/browse') }}
-              inverted
-            />
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+      generator.addSpacer(10);
+      generator.addHeading('Payment Summary', 2);
+      generator.addKeyValuePairs([
+        { label: 'Subtotal', value: formatCurrency(order.total) },
+        { label: 'Fees', value: formatCurrency(0) },
+        { label: 'Total Paid', value: formatCurrency(order.total) },
+      ]);
+
+      generator.addSpacer(20);
+      generator.addParagraph('Thank you for your purchase! If you have any questions about your order, please contact support@gvteway.com');
+
+      generator.download(`receipt-${order.id.slice(0, 8)}.pdf`);
+      addNotification({ type: 'success', title: 'Receipt Downloaded', message: 'Your receipt has been downloaded' });
+    } catch (err) {
+      addNotification({ type: 'error', title: 'Download Failed', message: err instanceof Error ? err.message : 'Failed to generate receipt' });
+    }
+  };
+
+  const columns: ListPageColumn<DisplayOrder>[] = [
+    { key: 'id', label: 'Order ID', accessor: 'id', sortable: true },
+    { key: 'date', label: 'Date', accessor: 'date', sortable: true },
+    { key: 'eventName', label: 'Event', accessor: 'eventName', sortable: true },
+    { key: 'ticketCount', label: 'Tickets', accessor: 'ticketCount' },
+    {
+      key: 'total', label: 'Total', accessor: 'total', sortable: true,
+      render: (_, order) => <Text className="text-right">{formatCurrency(order.total)}</Text>,
+    },
+    {
+      key: 'status', label: 'Status', accessor: 'status', sortable: true,
+      render: (_, order) => (
+        <Badge variant={order.status === 'completed' ? 'success' : order.status === 'pending' ? 'warning' : 'error'}>
+          {order.status}
+        </Badge>
+      ),
+    },
+  ];
+
+  const rowActions: ListPageAction<DisplayOrder>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (order) => router.push(`/account/orders/${order.id}`) },
+    { id: 'download', label: 'Download Receipt', icon: <Download className="h-4 w-4" />, onClick: (order) => handleDownloadReceipt(order) },
+  ];
 
   return (
-    <>
-      <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={8}>
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-          <Card variant="elevated" inverted>
-            <CardBody>
-              <Stack gap={2}>
-                <Body className="text-on-dark-muted">Total Orders</Body>
-                <H3 className="text-white">{orders.length}</H3>
-              </Stack>
-            </CardBody>
-          </Card>
-          <Card variant="elevated" inverted>
-            <CardBody>
-              <Stack gap={2}>
-                <Body className="text-on-dark-muted">Total Spent</Body>
-                <H3 className="text-white">${totalSpent.toLocaleString()}</H3>
-              </Stack>
-            </CardBody>
-          </Card>
-          <Card variant="elevated" inverted>
-            <CardBody>
-              <Stack gap={2}>
-                <Body className="text-on-dark-muted">Tickets Purchased</Body>
-                <H3 className="text-white">{orders.reduce((sum, o) => sum + o.ticketCount, 0)}</H3>
-              </Stack>
-            </CardBody>
-          </Card>
-        </Grid>
-
-        <Card variant="elevated" inverted>
-          <CardBody>
-            <Stack gap={4}>
-              <H3 className="text-white">All Orders</H3>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Order ID</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Event</TableHead>
-                    <TableHead>Tickets</TableHead>
-                    <TableHead className="text-right">Total</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {orders.map(order => (
-                    <TableRow key={order.id}>
-                      <TableCell className="font-weight-semibold">{order.id}</TableCell>
-                      <TableCell>{order.date}</TableCell>
-                      <TableCell>{order.eventName}</TableCell>
-                      <TableCell>{order.ticketCount}</TableCell>
-                      <TableCell className="text-right">${order.total}</TableCell>
-                      <TableCell>
-                        <Badge variant={order.status === 'completed' ? 'success' : order.status === 'pending' ? 'warning' : 'error'}>
-                          {order.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Stack direction="horizontal" gap={1}>
-                          <Button variant="ghost" size="sm"><Eye size={14} /></Button>
-                          <Button variant="ghost" size="sm"><Download size={14} /></Button>
-                        </Stack>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Stack>
-          </CardBody>
-        </Card>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <ListPage<DisplayOrder>
+      title="Order History"
+      subtitle="View your past orders and receipts"
+      data={orders}
+      columns={columns}
+      rowKey="id"
+      loading={isLoading}
+      error={error}
+      onRetry={refetch}
+      searchPlaceholder="Search orders..."
+      rowActions={rowActions}
+      onRowClick={(order) => router.push(`/account/orders/${order.id}`)}
+      emptyMessage="No orders yet"
+      emptyAction={{ label: 'Browse Events', onClick: () => router.push('/browse') }}
+      entityType="orders"
+      breadcrumbs={[{ label: 'Account', href: '/account' }, { label: 'Orders' }]}
+      showFavorite
+      showSettings
+    />
   );
 }

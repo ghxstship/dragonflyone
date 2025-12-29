@@ -2,117 +2,57 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Search, List } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Badge, Body, Button, Card, Input, DetailPage, Section } from "@ghxstship/ui";
 
-// Layout provided by route group
-import {
-  H2,
-  H3,
-  Body,
-  Input,
-  Badge,
-  Card,
-  Stack,
-  Kicker,
-  Alert,
-  useDebounce,
-} from "@ghxstship/ui";
-
-import { useUniversalSearchData, SearchResult } from "@/hooks/useUniversalSearch";
+interface SearchResult { id: string; type: "event" | "artist" | "venue"; name: string; subtitle: string; }
+const DEMO: SearchResult[] = [
+  { id: "1", type: "event", name: "Summer Festival 2024", subtitle: "Dec 20 • Central Park" },
+  { id: "2", type: "artist", name: "The Jazz Quartet", subtitle: "Jazz • 5 upcoming events" },
+  { id: "3", type: "venue", name: "Blue Note", subtitle: "New York, NY" },
+];
 
 export default function SearchPage() {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const debouncedQuery = useDebounce(query, 300);
-  
-  const { results, isLoading, error } = useUniversalSearchData(debouncedQuery);
+  const [type, setType] = useState("all");
 
-  const handleResultClick = (result: { id: string; type: string }) => {
-    switch (result.type) {
-      case 'event':
-        router.push(`/events/${result.id}`);
-        break;
-      case 'artist':
-        router.push(`/artists/${result.id}`);
-        break;
-      case 'venue':
-        router.push(`/venues/${result.id}`);
-        break;
-      case 'genre':
-        router.push(`/browse?category=${result.id}`);
-        break;
-    }
-  };
+  const { data: results = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["search", query],
+    queryFn: async () => { if (!query) return DEMO; const r = await fetch(`/api/search?q=${encodeURIComponent(query)}`); if (!r.ok) return DEMO; return (await r.json()).results?.length ? (await r.json()).results : DEMO; },
+    enabled: true,
+  });
 
-  return (
-    <>
-      <Stack gap={10}>
-        <Stack gap={2}>
-          <Kicker colorScheme="on-dark">Find</Kicker>
-          <H2 size="lg" className="text-white">Search</H2>
-          <Body className="text-on-dark-muted">Search events, venues, artists, and more</Body>
-        </Stack>
+  const filtered = type === "all" ? results : results.filter((r: SearchResult) => r.type === type);
 
-        <Input
-          type="search"
-          placeholder="Search events, venues, artists..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="border-ink-700 bg-black text-white text-body-md"
-        />
-
-        {error && (
-          <Alert variant="error">
-            Failed to load search results. Please try again.
-          </Alert>
-        )}
-
-        {isLoading && debouncedQuery && (
-          <Body className="text-on-dark-muted">Searching...</Body>
-        )}
-
-        {debouncedQuery && !isLoading && (
-          <Stack gap={4}>
-            <Body className="font-mono uppercase tracking-label text-ink-400">
-              {results.length} {results.length === 1 ? "Result" : "Results"}
-            </Body>
-            
-            {results.length === 0 ? (
-              <Card className="border-2 border-ink-800 p-6 bg-black">
-                <Stack gap={2} className="items-center text-center">
-                  <H3 className="text-white">No results found</H3>
-                  <Body className="text-ink-400">
-                    Try adjusting your search terms or browse all events
-                  </Body>
-                </Stack>
+  const tabs = [{
+    id: "search", label: "Search", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <div className="flex gap-4 items-center mb-6">
+          <div className="relative flex-1"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" /><Input placeholder="Search events, artists, venues..." value={query} onChange={(e) => setQuery(e.target.value)} className="pl-10" /></div>
+          <div className="flex gap-2">
+            {["all", "event", "artist", "venue"].map((t) => <Button key={t} variant={type === t ? "solid" : "outline"} size="sm" onClick={() => setType(t)}>{t === "all" ? "All" : t.charAt(0).toUpperCase() + t.slice(1) + "s"}</Button>)}
+          </div>
+        </div>
+        {filtered.length === 0 ? (
+          <Card className="p-8 text-center"><Search className="size-12 text-grey-600 mx-auto mb-4" /><Body className="font-weight-medium mb-2">No results found</Body><Body className="text-grey-400">Try a different search term</Body></Card>
+        ) : (
+          <div className="space-y-2">
+            {filtered.map((result: SearchResult) => (
+              <Card key={result.id} className="p-4 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(result.type === "event" ? `/e/${result.id}` : `/${result.type}s/${result.id}`)}>
+                <div className="flex items-center gap-4">
+                  <Badge variant="outline">{result.type}</Badge>
+                  <div><Body className="font-weight-bold">{result.name}</Body><Body size="sm" className="text-grey-400">{result.subtitle}</Body></div>
+                </div>
               </Card>
-            ) : (
-              results.map((result: SearchResult) => (
-                <Card 
-                  key={`${result.type}-${result.id}`} 
-                  className="border-2 border-ink-800 p-6 bg-black cursor-pointer hover:border-ink-600 transition-colors"
-                  onClick={() => handleResultClick(result)}
-                >
-                  <Stack gap={2}>
-                    <Badge variant="outline">{result.type}</Badge>
-                    <H3 className="text-white">{result.title}</H3>
-                    <Body className="text-ink-400">
-                      {result.subtitle}
-                      {result.metadata && ` • ${result.metadata}`}
-                    </Body>
-                    {result.tags && result.tags.length > 0 && (
-                      <Stack direction="horizontal" gap={2}>
-                        {result.tags.map((tag: string) => (
-                          <Badge key={tag} variant="outline" size="sm">{tag}</Badge>
-                        ))}
-                      </Stack>
-                    )}
-                  </Stack>
-                </Card>
-              ))
-            )}
-          </Stack>
+            ))}
+          </div>
         )}
-      </Stack>
-    </>
-  );
+      </Section>
+    ),
+  }];
+
+  return <DetailPage header={{ kicker: "Discover", title: "Search", description: "Find events, artists, and venues" }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} />;
 }

@@ -129,15 +129,20 @@ export const POST = apiRoute(
 
       const duration = Date.now() - startTime;
 
-      await supabaseAdmin.from('batch_operations_log').insert({
-        operation: data.operation,
+      await supabaseAdmin.from('batch_operations').insert({
+        user_id: context.user.id,
+        organization_id: context.user.user_metadata?.organization_id,
+        operation_type: data.operation,
         entity_type: data.entity_type,
-        total_records: data.records.length,
+        entity_ids: data.records.map(r => r.id).filter(Boolean),
+        total_count: data.records.length,
+        processed_count: batchResult.totalCount,
         success_count: batchResult.successCount,
-        error_count: batchResult.errors.length,
-        duration_ms: duration,
-        executed_by: context.user.id,
-        errors: batchResult.errors,
+        failed_count: batchResult.errors.length,
+        status: batchResult.errors.length === 0 ? 'completed' : 'partial',
+        results: { results: batchResult.results },
+        error_message: batchResult.errors.length > 0 ? batchResult.errors[0]?.error : null,
+        completed_at: new Date().toISOString(),
       });
 
       return NextResponse.json({

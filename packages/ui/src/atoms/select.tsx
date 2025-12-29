@@ -6,6 +6,10 @@ export type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
   error?: boolean;
   fullWidth?: boolean;
   inverted?: boolean;
+  /** ID for the error message element (for aria-describedby) */
+  errorId?: string;
+  /** ID for the hint/description element (for aria-describedby) */
+  hintId?: string;
 };
 
 // SVG chevron icons encoded as base64 for light and dark themes (bold 3px stroke)
@@ -22,10 +26,15 @@ const chevronDark = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iM
  * - Matches Input component styling
  */
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  function Select({ error, fullWidth, inverted = false, className, children, ...props }, ref) {
+  function Select({ error, fullWidth, inverted = false, errorId, hintId, className, children, ...props }, ref) {
+    // Build aria-describedby from available IDs
+    const describedByIds = [errorId, hintId].filter(Boolean).join(' ') || undefined;
+    
     return (
       <select
         ref={ref}
+        aria-invalid={error || undefined}
+        aria-describedby={describedByIds}
         className={clsx(
           // Base styles
           "font-body px-4 py-3 pr-10 h-11",
@@ -71,6 +80,66 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       >
         {children}
       </select>
+    );
+  }
+);
+
+/**
+ * SelectGroup - Wrapper for Select with label and error message
+ * Provides proper ARIA bindings between label, select, and error
+ */
+export type SelectGroupProps = SelectProps & {
+  /** Label text for the select */
+  label: string;
+  /** Optional hint text displayed below the select */
+  hint?: string;
+  /** Error message to display and announce to screen readers */
+  errorMessage?: string;
+  /** Whether the field is required */
+  required?: boolean;
+  /** Custom ID for the select (auto-generated if not provided) */
+  id?: string;
+};
+
+let selectGroupCounter = 0;
+
+export const SelectGroup = forwardRef<HTMLSelectElement, SelectGroupProps>(
+  function SelectGroup({ label, hint, errorMessage, error, required, id, className, children, ...props }, ref) {
+    const uniqueId = id || `select-${++selectGroupCounter}`;
+    const errorId = errorMessage ? `${uniqueId}-error` : undefined;
+    const hintId = hint ? `${uniqueId}-hint` : undefined;
+    
+    return (
+      <div className={clsx("flex flex-col gap-1.5", className)}>
+        <label 
+          htmlFor={uniqueId}
+          className="font-heading text-sm uppercase tracking-wider font-bold"
+        >
+          {label}
+          {required && <span className="text-error-500 ml-1" aria-hidden="true">*</span>}
+        </label>
+        <Select
+          ref={ref}
+          id={uniqueId}
+          error={error || !!errorMessage}
+          errorId={errorId}
+          hintId={hintId}
+          aria-required={required}
+          {...props}
+        >
+          {children}
+        </Select>
+        {hint && !errorMessage && (
+          <p id={hintId} className="text-sm text-grey-500">
+            {hint}
+          </p>
+        )}
+        {errorMessage && (
+          <p id={errorId} className="text-sm text-error-500" role="alert">
+            {errorMessage}
+          </p>
+        )}
+      </div>
     );
   }
 );

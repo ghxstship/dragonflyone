@@ -2,16 +2,40 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+import { logger, withAuth } from '@ghxstship/config';
+
+const submitInvoiceSchema = z.object({
+  action: z.literal('submit_invoice'),
+  po_id: z.string().uuid(),
+  invoice_number: z.string().min(1),
+  amount: z.number().positive(),
+  invoice_date: z.string(),
+  due_date: z.string(),
+  document_url: z.string().url().optional(),
+  line_items: z.array(z.object({
+    description: z.string(),
+    quantity: z.number(),
+    unit_price: z.number(),
+  })).optional(),
+});
+
+const acknowledgePOSchema = z.object({
+  action: z.literal('acknowledge_po'),
+  po_id: z.string().uuid(),
+  estimated_delivery_date: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+const actionSchema = z.discriminatedUnion('action', [submitInvoiceSchema, acknowledgePOSchema]);
 
 // Vendor invoice portal for self-service
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Use standardized withAuth middleware
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1', 10);
@@ -20,7 +44,7 @@ export async function GET(request: NextRequest) {
 
     // Get vendor linked to user
     const { data: vendor } = await supabase.from('vendors').select('id')
-      .eq('portal_user_id', user.id).single();
+      .eq('portal_user_id', authResult.user?.id).single();
 
     if (!vendor) return NextResponse.json({ error: 'Vendor not found' }, { status: 404 });
 
@@ -68,6 +92,7 @@ export async function GET(request: NextRequest) {
       pagination,
     });
   } catch (error) {
+    logger.error('Vendor portal GET error:', error);
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
   }
 }
@@ -75,22 +100,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Use standardized withAuth middleware
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
     const { data: vendor } = await supabase.from('vendors').select('id')
-      .eq('portal_user_id', user.id).single();
+      .eq('portal_user_id', authResult.user?.id).single();
 
     if (!vendor) return NextResponse.json({ error: 'Vendor not found' }, { status: 404 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = actionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'submit_invoice') {
-      const { po_id, invoice_number, amount, invoice_date, due_date, document_url, line_items } = body;
+      const { po_id, invoice_number, amount, invoice_date, due_date, document_url, line_items } = validatedData;
 
       const { data, error } = await supabase.from('vendor_invoices').insert({
         vendor_id: vendor.id, po_id, invoice_number, amount,
@@ -103,7 +127,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'acknowledge_po') {
-      const { po_id, estimated_delivery_date, notes } = body;
+      const { po_id, estimated_delivery_date, notes } = validatedData;
 
       await supabase.from('purchase_orders').update({
         vendor_acknowledged: true, acknowledged_at: new Date().toISOString(),
@@ -115,6 +139,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   } catch (error) {
+    logger.error('Vendor portal POST error:', error);
     return NextResponse.json({ error: 'Failed to process' }, { status: 500 });
   }
 }

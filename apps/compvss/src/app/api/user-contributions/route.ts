@@ -1,14 +1,55 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const submitSchema = z.object({
+  action: z.literal('submit'),
+  category: z.string().min(1),
+  title: z.string().min(1),
+  content: z.string().min(1),
+  tags: z.array(z.string()).optional(),
+});
+
+const voteSchema = z.object({
+  action: z.literal('vote'),
+  contribution_id: z.string().uuid(),
+  vote_type: z.enum(['up', 'down']),
+});
+
+const moderateSchema = z.object({
+  action: z.literal('moderate'),
+  contribution_id: z.string().uuid(),
+  status: z.string(),
+  feedback: z.string().optional(),
+});
+
+const publishSchema = z.object({
+  action: z.literal('publish'),
+  contribution_id: z.string().uuid(),
+  document_id: z.string().uuid().optional(),
+});
+
+const contributionActionSchema = z.union([submitSchema, voteSchema, moderateSchema, publishSchema]);
 
 // User contribution and crowdsourcing features
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || 'pending';
@@ -41,17 +82,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = contributionActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'submit') {
-      const { category, title, content, tags } = body;
+      const { category, title, content, tags } = validatedData as z.infer<typeof submitSchema>;
 
       const { data, error } = await supabase.from('user_contributions').insert({
         category, title, content, tags: tags || [],
@@ -63,7 +111,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'vote') {
-      const { contribution_id, vote_type } = body;
+      const { contribution_id, vote_type } = validatedData as z.infer<typeof voteSchema>;
 
       await supabase.from('contribution_votes').upsert({
         contribution_id, user_id: user.id, vote_type
@@ -73,7 +121,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'moderate') {
-      const { contribution_id, status, feedback } = body;
+      const { contribution_id, status, feedback } = validatedData as z.infer<typeof moderateSchema>;
 
       await supabase.from('user_contributions').update({
         status, moderator_feedback: feedback, moderated_by: user.id,
@@ -84,7 +132,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'publish') {
-      const { contribution_id, document_id } = body;
+      const { contribution_id, document_id } = validatedData as z.infer<typeof publishSchema>;
 
       // Link contribution to published document
       await supabase.from('user_contributions').update({

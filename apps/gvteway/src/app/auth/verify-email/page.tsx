@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   H2,
@@ -13,6 +13,8 @@ import {
   ScrollReveal,
   AuthPage,
   IconBox,
+  Alert,
+  useNotifications,
 } from "@ghxstship/ui";
 import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
 import NextLink from "next/link";
@@ -25,6 +27,55 @@ import NextLink from "next/link";
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
+  const [isResending, setIsResending] = useState(false);
+  const [resendSuccess, setResendSuccess] = useState(false);
+  const [resendError, setResendError] = useState("");
+  const { addNotification } = useNotifications();
+
+  const handleResendVerification = async () => {
+    if (!email) {
+      addNotification({
+        type: "error",
+        title: "Error",
+        message: "No email address provided",
+      });
+      return;
+    }
+
+    setIsResending(true);
+    setResendError("");
+    setResendSuccess(false);
+
+    try {
+      const response = await fetch("/api/auth/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to resend verification email");
+      }
+
+      setResendSuccess(true);
+      addNotification({
+        type: "success",
+        title: "Email Sent",
+        message: "Verification email has been resent",
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to resend verification email";
+      setResendError(message);
+      addNotification({
+        type: "error",
+        title: "Error",
+        message,
+      });
+    } finally {
+      setIsResending(false);
+    }
+  };
 
   return (
     <Card inverted className="border-2 border-white/20 bg-black p-6 shadow-md sm:p-8">
@@ -44,6 +95,9 @@ function VerifyEmailContent() {
           </Body>
         </Stack>
 
+        {resendError && <Alert variant="error">{resendError}</Alert>}
+        {resendSuccess && <Alert variant="success">Verification email has been resent!</Alert>}
+
         <Stack gap={3}>
           <Label size="xs" className="text-on-dark-disabled">
             Didn&apos;t receive the email?
@@ -53,11 +107,12 @@ function VerifyEmailContent() {
             variant="outlineInk"
             size="lg"
             fullWidth
-            onClick={() => alert("Verification email resent!")}
-            icon={<RefreshCw className="size-4" />}
+            onClick={handleResendVerification}
+            disabled={isResending}
+            icon={<RefreshCw className={`size-4 ${isResending ? "animate-spin" : ""}`} />}
             iconPosition="left"
           >
-            Resend Verification Email
+            {isResending ? "Sending..." : "Resend Verification Email"}
           </Button>
         </Stack>
 

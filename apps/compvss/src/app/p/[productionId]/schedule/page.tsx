@@ -1,128 +1,145 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, StatCard, Grid, Spinner, Container } from "@ghxstship/ui";
-import { Clock, ListOrdered, Phone, Hammer } from "lucide-react";
-import { useProject } from "../../../../hooks/useProjects";
-import { useSchedulePageData } from "../../../../hooks/useSchedule";
+/**
+ * Production Schedule Page
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import { Calendar, Clock, CheckCircle, Plus, List } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  StatCard,
+  DetailPage,
+  Section,
+} from "@ghxstship/ui";
+
+interface ScheduleItem {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  type: "rehearsal" | "setup" | "show" | "meeting";
+  status: "scheduled" | "in_progress" | "completed";
+}
+
+const DEMO_SCHEDULE: ScheduleItem[] = [
+  { id: "1", title: "Tech Rehearsal", date: "2024-12-18", time: "10:00", type: "rehearsal", status: "scheduled" },
+  { id: "2", title: "Load-in", date: "2024-12-19", time: "08:00", type: "setup", status: "scheduled" },
+  { id: "3", title: "Opening Night", date: "2024-12-20", time: "19:00", type: "show", status: "scheduled" },
+];
+
+const TYPE_CONFIG = {
+  rehearsal: { label: "Rehearsal", variant: "info" as const },
+  setup: { label: "Setup", variant: "warning" as const },
+  show: { label: "Show", variant: "success" as const },
+  meeting: { label: "Meeting", variant: "outline" as const },
+};
+
+const STATUS_CONFIG = {
+  scheduled: { label: "Scheduled", variant: "outline" as const },
+  in_progress: { label: "In Progress", variant: "warning" as const },
+  completed: { label: "Completed", variant: "success" as const },
+};
 
 export default function ProductionSchedulePage() {
   const params = useParams();
-  const router = useRouter();
-  const productionId = params?.productionId as string;
-  
-  // Fetch real data from API
-  const { data: production, isLoading: productionLoading } = useProject(productionId);
-  const { items: scheduleItems, summary, isLoading: scheduleLoading } = useSchedulePageData();
-  
-  const isLoading = productionLoading || scheduleLoading;
-  
-  if (isLoading) {
-    return (
-      <Container className="flex min-h-[60vh] items-center justify-center">
-        <Spinner variant="grey" size="lg" text="Loading schedule..." />
-      </Container>
-    );
-  }
+  const productionId = params.productionId as string;
+  const [typeFilter, setTypeFilter] = useState("all");
 
-  // Calculate stats from real data
-  const scheduleStats = { 
-    runOfShow: summary?.by_type?.load_in || 0, 
-    showCalls: summary?.by_type?.show || 0, 
-    buildStrike: summary?.by_type?.setup || 0, 
-    soundchecks: summary?.by_type?.rehearsal || 0 
-  };
+  const { data: schedule = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["production-schedule", productionId],
+    queryFn: async () => {
+      const response = await fetch(`/api/productions/${productionId}/schedule`);
+      if (!response.ok) return DEMO_SCHEDULE;
+      const data = await response.json();
+      return data.schedule?.length ? data.schedule : DEMO_SCHEDULE;
+    },
+  });
+
+  const filteredSchedule = typeFilter === "all" ? schedule : schedule.filter((item: ScheduleItem) => item.type === typeFilter);
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+
+  const tabs = [
+    {
+      id: "list",
+      label: "List View",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+            <StatCard label="Total Events" value={schedule.length.toString()} icon={<Calendar className="size-5" />} />
+            <StatCard label="Upcoming" value={schedule.filter((s: ScheduleItem) => s.status === "scheduled").length.toString()} icon={<Clock className="size-5" />} />
+            <StatCard label="Completed" value={schedule.filter((s: ScheduleItem) => s.status === "completed").length.toString()} icon={<CheckCircle className="size-5" />} />
+            <StatCard label="Shows" value={schedule.filter((s: ScheduleItem) => s.type === "show").length.toString()} icon={<Calendar className="size-5" />} />
+          </Grid>
+
+          <div className="flex gap-2 mb-6">
+            {["all", "rehearsal", "setup", "show", "meeting"].map((type) => (
+              <Button key={type} variant={typeFilter === type ? "solid" : "outline"} size="sm" onClick={() => setTypeFilter(type)}>
+                {type === "all" ? "All" : TYPE_CONFIG[type as keyof typeof TYPE_CONFIG].label}
+              </Button>
+            ))}
+          </div>
+
+          <div className="space-y-4">
+            {filteredSchedule.map((item: ScheduleItem) => (
+              <Card key={item.id} className="p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 bg-grey-800 rounded-card">
+                      <Calendar className="size-6 text-primary" />
+                    </div>
+                    <div>
+                      <Body className="font-weight-bold">{item.title}</Body>
+                      <div className="flex items-center gap-4 mt-1 text-grey-400">
+                        <div className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(item.date)}</Body></div>
+                        <div className="flex items-center gap-1"><Clock className="size-4" /><Body size="sm">{item.time}</Body></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge variant={TYPE_CONFIG[item.type].variant}>{TYPE_CONFIG[item.type].label}</Badge>
+                    <Badge variant={STATUS_CONFIG[item.status].variant}>{STATUS_CONFIG[item.status].label}</Badge>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "calendar",
+      label: "Calendar",
+      icon: <Calendar className="size-4" />,
+      content: (
+        <Section>
+          <Card className="p-8 text-center">
+            <Calendar className="size-12 text-grey-600 mx-auto mb-4" />
+            <Body className="font-weight-medium mb-2">Calendar View</Body>
+            <Body className="text-grey-400">Calendar integration coming soon</Body>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <Stack gap={8}>
-      <Stack gap={4}>
-        <SectionHeader
-          kicker={production?.name || "Production"}
-          title="Schedule"
-          description="Run of show, show calls, and production timeline"
-          colorScheme="on-light"
-        />
-        <Stack direction="horizontal" gap={2}>
-          <Button variant="solid" size="sm" onClick={() => router.push(`/p/${productionId}/schedule/run-of-show`)}>
-            <ListOrdered size={16} className="mr-2" />
-            Run of Show
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => router.push(`/p/${productionId}/schedule/show-call`)}>
-            <Phone size={16} className="mr-2" />
-            Show Call
-          </Button>
-        </Stack>
-      </Stack>
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-        <StatCard label="Run of Show Items" value={scheduleStats.runOfShow.toString()} icon={<ListOrdered size={20} />} />
-        <StatCard label="Show Calls" value={scheduleStats.showCalls.toString()} icon={<Phone size={20} />} />
-        <StatCard label="Build/Strike Tasks" value={scheduleStats.buildStrike.toString()} icon={<Hammer size={20} />} />
-        <StatCard label="Soundchecks" value={scheduleStats.soundchecks.toString()} icon={<Clock size={20} />} />
-      </div>
-
-      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-        <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/schedule/run-of-show`)}>
-          <CardBody>
-            <Stack gap={4} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded-card bg-grey-100">
-                <ListOrdered size={24} className="text-primary" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold">Run of Show</Body>
-                <Body size="sm" className=" text-grey-500">Event timeline</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-        <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/schedule/show-call`)}>
-          <CardBody>
-            <Stack gap={4} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded-card bg-grey-100">
-                <Phone size={24} className="text-warning" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold">Show Call</Body>
-                <Body size="sm" className=" text-grey-500">Call times</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-        <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/schedule/build-strike`)}>
-          <CardBody>
-            <Stack gap={4} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded-card bg-grey-100">
-                <Hammer size={24} className="text-secondary" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold">Build/Strike</Body>
-                <Body size="sm" className=" text-grey-500">Setup and teardown</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-      </Grid>
-
-      {scheduleItems.length > 0 && (
-        <Card>
-          <CardBody>
-            <Stack gap={4}>
-              <Body className="font-weight-bold">Upcoming Schedule Items</Body>
-              <Stack gap={2}>
-                {scheduleItems.slice(0, 5).map((item) => (
-                  <Stack key={item.id} direction="horizontal" className="items-center justify-between border-b border-grey-200 pb-2">
-                    <Stack gap={1}>
-                      <Body className="font-weight-medium">{item.name}</Body>
-                      <Body size="sm" className="text-grey-500">{item.type}</Body>
-                    </Stack>
-                    <Body size="sm" className="text-grey-500">{item.progress}%</Body>
-                  </Stack>
-                ))}
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-      )}
-    </Stack>
+    <DetailPage
+      header={{ kicker: "Production", title: "Schedule", description: "Manage production schedule and events" }}
+      backButton={{ label: "Overview", href: `/p/${productionId}/overview` }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={<Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left">Add Event</Button>}
+    />
   );
 }

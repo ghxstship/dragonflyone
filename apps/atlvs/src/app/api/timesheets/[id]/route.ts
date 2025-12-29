@@ -1,13 +1,10 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { createAdminClient } from '@/lib/supabase';
+import { apiRoute } from '@ghxstship/config/middleware';
+import { PlatformRole } from '@ghxstship/config/roles';
 
 const UpdateTimesheetSchema = z.object({
   clock_in: z.string().optional(),
@@ -21,12 +18,10 @@ const UpdateTimesheetSchema = z.object({
   status: z.enum(['draft', 'submitted', 'approved', 'rejected']).optional(),
 });
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await params;
+export const GET = apiRoute(
+  async (request: NextRequest, context) => {
+    const supabase = createAdminClient();
+    const { id } = await context.params!;
 
     const { data, error } = await supabase
       .from('timesheets')
@@ -47,17 +42,18 @@ export async function GET(
     }
 
     return NextResponse.json({ timesheet: data });
-  } catch (error: unknown) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  },
+  {
+    auth: true,
+    roles: [PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_SUPER_ADMIN],
+    audit: { action: 'timesheet:view', resource: 'timesheets' },
   }
-}
+);
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await params;
+export const PATCH = apiRoute(
+  async (request: NextRequest, context) => {
+    const supabase = createAdminClient();
+    const { id } = await context.params!;
     const body = await request.json();
 
     const validationResult = UpdateTimesheetSchema.safeParse(body);
@@ -68,7 +64,7 @@ export async function PATCH(
       );
     }
 
-    const updateData = {
+    const updateData: Record<string, unknown> = {
       ...validationResult.data,
       updated_at: new Date().toISOString(),
     };
@@ -78,9 +74,11 @@ export async function PATCH(
     }
     if (validationResult.data.status === 'approved') {
       updateData.approved_at = new Date().toISOString();
+      updateData.approved_by = context.user?.id;
     }
     if (validationResult.data.status === 'rejected') {
       updateData.rejected_at = new Date().toISOString();
+      updateData.rejected_by = context.user?.id;
     }
 
     const { data, error } = await supabase
@@ -98,17 +96,19 @@ export async function PATCH(
     }
 
     return NextResponse.json({ timesheet: data });
-  } catch (error: unknown) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  },
+  {
+    auth: true,
+    roles: [PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_SUPER_ADMIN],
+    validation: UpdateTimesheetSchema,
+    audit: { action: 'timesheet:update', resource: 'timesheets' },
   }
-}
+);
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await params;
+export const DELETE = apiRoute(
+  async (request: NextRequest, context) => {
+    const supabase = createAdminClient();
+    const { id } = await context.params!;
 
     const { error } = await supabase
       .from('timesheets')
@@ -120,7 +120,10 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true }, { status: 200 });
-  } catch (error: unknown) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  },
+  {
+    auth: true,
+    roles: [PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_SUPER_ADMIN],
+    audit: { action: 'timesheet:delete', resource: 'timesheets' },
   }
-}
+);

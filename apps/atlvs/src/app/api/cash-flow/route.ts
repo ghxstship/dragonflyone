@@ -1,13 +1,39 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createScenarioSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().optional(),
+  scenario_type: z.enum(['optimistic', 'pessimistic', 'base', 'custom']),
+  assumptions: z.record(z.unknown()).optional(),
+  adjustments: z.object({
+    revenue_growth: z.number().optional(),
+    cost_reduction: z.number().optional(),
+  }).optional(),
+  forecast_months: z.number().min(1).max(60).optional(),
+});
 
 // GET - Fetch cash flow data and forecasts
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -92,7 +118,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -103,14 +136,15 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createScenarioSchema.parse(body);
     const {
       name,
       description,
-      scenario_type, // 'optimistic', 'pessimistic', 'base', 'custom'
+      scenario_type,
       assumptions,
       adjustments,
       forecast_months,
-    } = body;
+    } = validatedData;
 
     const { data: scenario, error } = await supabase
       .from('cash_flow_scenarios')

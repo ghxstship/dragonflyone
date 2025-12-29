@@ -1,14 +1,36 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createContactSchema = z.object({
+  venue_id: z.string().uuid(),
+  category: z.string(),
+  name: z.string().min(1),
+  phone: z.string(),
+  address: z.string().optional(),
+  notes: z.string().optional(),
+  priority: z.number().int().optional(),
+});
 
 // Emergency services directory
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const venueId = searchParams.get('venue_id');
@@ -30,11 +52,18 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const body = await request.json();
-    const { venue_id, category, name, phone, address, notes, priority } = body;
+    const validatedData = createContactSchema.parse(body);
+    const { venue_id, category, name, phone, address, notes, priority } = validatedData;
 
     const { data, error } = await supabase.from('emergency_contacts').insert({
       venue_id, category, name, phone, address, notes, priority: priority || 1

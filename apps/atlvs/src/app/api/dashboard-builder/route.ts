@@ -1,14 +1,50 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const widgetSchema = z.object({
+  id: z.string(),
+  type: z.string(),
+  config: z.record(z.unknown()).optional(),
+});
+
+const createDashboardSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().optional(),
+  layout: z.array(z.record(z.unknown())).optional(),
+  widgets: z.array(widgetSchema).optional(),
+  is_shared: z.boolean().optional(),
+});
+
+const updateDashboardSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string().min(1).optional(),
+  description: z.string().optional(),
+  layout: z.array(z.record(z.unknown())).optional(),
+  widgets: z.array(widgetSchema).optional(),
+  is_shared: z.boolean().optional(),
+});
 
 // Drag-and-drop custom dashboard builder
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -39,14 +75,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { name, description, layout, widgets, is_shared } = body;
+    const validatedData = createDashboardSchema.parse(body);
+    const { name, description, layout, widgets, is_shared } = validatedData;
 
     const { data, error } = await supabase.from('custom_dashboards').insert({
       name, description, layout: layout || [], widgets: widgets || [],
@@ -63,11 +106,18 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const body = await request.json();
-    const { id, layout, widgets, ...updateData } = body;
+    const validatedData = updateDashboardSchema.parse(body);
+    const { id, layout, widgets, ...updateData } = validatedData;
 
     const { error } = await supabase.from('custom_dashboards').update({
       ...updateData, layout, widgets, updated_at: new Date().toISOString()
@@ -83,8 +133,14 @@ export async function PATCH(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

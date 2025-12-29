@@ -18,8 +18,8 @@ describe('auth-schemas', () => {
     it('should validate valid sign up data', () => {
       const validData = {
         email: 'test@example.com',
-        password: 'Password123',
-        confirmPassword: 'Password123',
+        password: 'Password123!',
+        confirmPassword: 'Password123!',
         firstName: 'John',
         lastName: 'Doe',
         agreeToTerms: true,
@@ -102,8 +102,8 @@ describe('auth-schemas', () => {
     it('should accept optional invite code', () => {
       const validData = {
         email: 'test@example.com',
-        password: 'Password123',
-        confirmPassword: 'Password123',
+        password: 'Password123!',
+        confirmPassword: 'Password123!',
         firstName: 'John',
         lastName: 'Doe',
         agreeToTerms: true,
@@ -161,24 +161,24 @@ describe('auth-schemas', () => {
   describe('resetPasswordSchema', () => {
     it('should validate valid reset data', () => {
       const validData = {
-        password: 'NewPassword123',
-        confirmPassword: 'NewPassword123',
+        password: 'NewPassword123!',
+        confirmPassword: 'NewPassword123!',
       };
       expect(() => resetPasswordSchema.parse(validData)).not.toThrow();
     });
 
     it('should reject mismatched passwords', () => {
       const invalidData = {
-        password: 'NewPassword123',
-        confirmPassword: 'DifferentPassword123',
+        password: 'NewPassword123!',
+        confirmPassword: 'DifferentPassword123!',
       };
       expect(() => resetPasswordSchema.parse(invalidData)).toThrow();
     });
 
     it('should accept optional token', () => {
       const validData = {
-        password: 'NewPassword123',
-        confirmPassword: 'NewPassword123',
+        password: 'NewPassword123!',
+        confirmPassword: 'NewPassword123!',
         token: 'reset-token-123',
       };
       expect(() => resetPasswordSchema.parse(validData)).not.toThrow();

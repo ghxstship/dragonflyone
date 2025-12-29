@@ -1,379 +1,57 @@
-'use client';
+"use client";
 
-import { useState, Suspense } from 'react';
-import { useRouter } from 'next/navigation';
-import { useTabState } from '@ghxstship/config/hooks';
-// Layout provided by route group
-import {
-  H2,
-  H3,
-  Body,
-  Label,
-  Button,
-  Card,
-  Field,
-  Input,
-  Textarea,
-  Grid,
-  Stack,
-  Badge,
-  Alert,
-  Spinner,
-  Kicker,
-} from '@ghxstship/ui';
-import { useGiftCardsData } from '@/hooks/useGiftCards';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Gift, CreditCard, List } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { Body, Button, Card, Input, Textarea, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
 
-const GIFT_CARD_AMOUNTS = [25, 50, 75, 100, 150, 200, 250, 500];
-
-const GIFT_CARD_DESIGNS = [
-  { id: 'classic', name: 'Classic Black', color: 'bg-ink-950' },
-  { id: 'concert', name: 'Concert Vibes', color: 'bg-violet-600' },
-  { id: 'festival', name: 'Festival Fun', color: 'bg-brand-pink' },
-  { id: 'sports', name: 'Game Day', color: 'bg-success-600' },
-  { id: 'theater', name: 'Theater Night', color: 'bg-error-800' },
-];
-
-function GiftCardsPageContent() {
-  const router = useRouter();
-  const [localError, setLocalError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-  // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
-    defaultTab: 'buy',
-    validTabs: ['buy', 'redeem', 'my-cards'],
-  });
-
-  // Purchase form state
-  const [selectedAmount, setSelectedAmount] = useState(50);
-  const [customAmount, setCustomAmount] = useState('');
-  const [selectedDesign, setSelectedDesign] = useState('classic');
-  const [recipientEmail, setRecipientEmail] = useState('');
-  const [recipientName, setRecipientName] = useState('');
-  const [message, setMessage] = useState('');
-  const [deliveryDate, setDeliveryDate] = useState('');
-
-  // Redeem form state
-  const [redeemCode, setRedeemCode] = useState('');
-
-  const {
-    myCards,
-    isLoading: loading,
-    error,
-    refetch,
-    purchaseGiftCard,
-    isPurchasing: purchasing,
-    redeemGiftCard,
-    isRedeeming: redeeming,
-  } = useGiftCardsData();
-
-  const handlePurchase = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLocalError(null);
-
-    const amount = customAmount ? parseFloat(customAmount) : selectedAmount;
-
-    if (amount < 10 || amount > 1000) {
-      setLocalError('Amount must be between $10 and $1,000');
-      return;
-    }
-
-    try {
-      const data = await purchaseGiftCard({
-        amount,
-        design: selectedDesign,
-        recipientEmail,
-        recipientName,
-        message,
-        deliveryDate: deliveryDate || undefined,
-      });
-      setSuccess('Gift card purchased successfully!');
-      setRecipientEmail('');
-      setRecipientName('');
-      setMessage('');
-      setCustomAmount('');
-      refetch();
-      // Navigate to the gift card details page after a short delay
-      if (data.gift_card?.id) {
-        setTimeout(() => {
-          router.push(`/gift-cards/${data.gift_card.id}`);
-        }, 1500);
-      }
-    } catch (err) {
-      setLocalError(err instanceof Error ? err.message : 'Failed to purchase gift card');
-    }
-  };
-
-  const handleRedeem = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLocalError(null);
-
-    try {
-      const data = await redeemGiftCard(redeemCode);
-      setSuccess(`Gift card redeemed! $${data.balance} added to your account.`);
-      setRedeemCode('');
-      refetch();
-    } catch (err) {
-      setLocalError(err instanceof Error ? err.message : 'Invalid gift card code');
-    }
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'active':
-        return <Badge className="bg-success-500 text-white">Active</Badge>;
-      case 'redeemed':
-        return <Badge className="bg-ink-500 text-white">Redeemed</Badge>;
-      case 'expired':
-        return <Badge className="bg-success-100 text-success-800">Expired</Badge>;
-      default:
-        return <Badge>{status}</Badge>;
-    }
-  };
-
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Perfect Gift</Kicker>
-              <H2 size="lg" className="text-white">Gift Cards</H2>
-              <Body className="text-on-dark-muted">Give the gift of experiences</Body>
-            </Stack>
-
-        {(error || localError) && (
-          <Alert variant="error" className="mb-spacing-6">
-            {error instanceof Error ? error.message : localError || String(error)}
-          </Alert>
-        )}
-
-        {success && (
-          <Alert variant="success" className="mb-spacing-6">
-            {success}
-          </Alert>
-        )}
-
-        <Stack direction="horizontal" gap={2}>
-          <Button
-            variant={isActive('buy') ? 'solid' : 'outlineInk'}
-            inverted={isActive('buy')}
-            onClick={() => setActiveTab('buy')}
-          >
-            Buy Gift Card
-          </Button>
-          <Button
-            variant={isActive('redeem') ? 'solid' : 'outlineInk'}
-            inverted={isActive('redeem')}
-            onClick={() => setActiveTab('redeem')}
-          >
-            Redeem Code
-          </Button>
-          <Button
-            variant={isActive('my-cards') ? 'solid' : 'outlineInk'}
-            inverted={isActive('my-cards')}
-            onClick={() => setActiveTab('my-cards')}
-          >
-            My Gift Cards
-          </Button>
-        </Stack>
-
-        {isActive('buy') && (
-          <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
-            <Stack gap={6}>
-              <Card inverted className="p-6">
-                <H3 className="mb-6 text-white">Select Amount</H3>
-                <Grid cols={4} gap={3} className="sm:grid-cols-2 lg:grid-cols-4">
-                  {GIFT_CARD_AMOUNTS.map(amount => (
-                    <Button
-                      key={amount}
-                      variant={selectedAmount === amount && !customAmount ? 'solid' : 'outlineInk'}
-                      inverted={selectedAmount === amount && !customAmount}
-                      onClick={() => { setSelectedAmount(amount); setCustomAmount(''); }}
-                    >
-                      ${amount}
-                    </Button>
-                  ))}
-                </Grid>
-                <Field label="Or enter custom amount" className="mt-4">
-                  <Input
-                    type="number"
-                    value={customAmount}
-                    onChange={(e) => setCustomAmount(e.target.value)}
-                    placeholder="$10 - $1,000"
-                    min={10}
-                    max={1000}
-                    inverted
-                  />
-                </Field>
-              </Card>
-
-              <Card inverted className="p-6">
-                <H3 className="mb-6 text-white">Choose Design</H3>
-                <Grid cols={3} gap={3} className="sm:grid-cols-2 lg:grid-cols-3">
-                  {GIFT_CARD_DESIGNS.map(design => (
-                    <Stack
-                      key={design.id}
-                      className={`h-20 cursor-pointer rounded-card border-2 ${
-                        selectedDesign === design.id ? 'ring-2 ring-white' : 'border-transparent'
-                      } ${design.color}`}
-                      onClick={() => setSelectedDesign(design.id)}
-                    />
-                  ))}
-                </Grid>
-              </Card>
-
-              <Card inverted className="p-6">
-                <H3 className="mb-6 text-white">Recipient Details</H3>
-                <Stack gap={4}>
-                    <Field label="Recipient Email" required>
-                      <Input
-                        type="email"
-                        value={recipientEmail}
-                        onChange={(e) => setRecipientEmail(e.target.value)}
-                        placeholder="friend@email.com"
-                        required
-                        inverted
-                      />
-                    </Field>
-
-                    <Field label="Recipient Name">
-                      <Input
-                        value={recipientName}
-                        onChange={(e) => setRecipientName(e.target.value)}
-                        placeholder="Their name"
-                        inverted
-                      />
-                    </Field>
-
-                    <Field label="Personal Message">
-                      <Textarea
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        placeholder="Add a personal message..."
-                        rows={3}
-                        inverted
-                      />
-                    </Field>
-
-                    <Field label="Delivery Date (Optional)">
-                      <Input
-                        type="date"
-                        value={deliveryDate}
-                        onChange={(e) => setDeliveryDate(e.target.value)}
-                        min={new Date().toISOString().split('T')[0]}
-                        inverted
-                      />
-                    </Field>
-
-                    <Button variant="solid" inverted disabled={purchasing} onClick={handlePurchase}>
-                      {purchasing ? 'Processing...' : `Purchase $${customAmount || selectedAmount} Gift Card`}
-                    </Button>
-                  </Stack>
-              </Card>
-            </Stack>
-
-            <Stack>
-              <Card className={`sticky top-6 p-8 text-white ${GIFT_CARD_DESIGNS.find(d => d.id === selectedDesign)?.color || 'bg-black'}`}>
-                <Stack gap={4}>
-                  <Body size="sm" className=" text-white/60">GHXSTSHIP GIFT CARD</Body>
-                  <H2 className="text-h2-md text-white">
-                    ${customAmount || selectedAmount}
-                  </H2>
-                  {recipientName && (
-                    <Body className="text-white">To: {recipientName}</Body>
-                  )}
-                  {message && (
-                    <Body size="sm" className=" italic text-white/80">&quot;{message}&quot;</Body>
-                  )}
-                  <Body className="mt-4 text-mono-xs text-white/60">
-                    Valid for tickets, merchandise, and experiences
-                  </Body>
-                </Stack>
-              </Card>
-            </Stack>
-          </Grid>
-        )}
-
-        {isActive('redeem') && (
-          <Card inverted variant="elevated" className="mx-auto max-w-md p-8">
-            <H3 className="mb-6 text-center text-white">Redeem Gift Card</H3>
-            <Stack gap={4}>
-                <Field label="Gift Card Code">
-                  <Input
-                    value={redeemCode}
-                    onChange={(e) => setRedeemCode(e.target.value.toUpperCase())}
-                    placeholder="XXXX-XXXX-XXXX-XXXX"
-                    className="text-center font-mono"
-                    required
-                    inverted
-                  />
-                </Field>
-                <Button variant="solid" inverted disabled={redeeming} onClick={handleRedeem}>
-                  {redeeming ? 'Redeeming...' : 'Redeem Gift Card'}
-                </Button>
-              </Stack>
-          </Card>
-        )}
-
-        {isActive('my-cards') && (
-          <Stack gap={4}>
-            {loading ? (
-              <Stack className="items-center py-spacing-12">
-                <Spinner variant="grey" size="lg" />
-              </Stack>
-            ) : myCards.length > 0 ? (
-              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-                {myCards.map(card => (
-                  <Card key={card.id} inverted className="p-6">
-                    <Stack gap={3}>
-                      <Stack direction="horizontal" className="items-start justify-between">
-                        <Body className="font-mono text-on-dark-muted">{card.code}</Body>
-                        {getStatusBadge(card.status)}
-                      </Stack>
-                      <Stack>
-                        <Label className="text-on-dark-disabled">Balance</Label>
-                        <H2 className="text-white">${card.current_balance.toFixed(2)}</H2>
-                        {card.current_balance !== card.initial_balance && (
-                          <Body size="sm" className="text-on-dark-muted">
-                            of ${card.initial_balance.toFixed(2)}
-                          </Body>
-                        )}
-                      </Stack>
-                      {card.recipient_name && (
-                        <Body size="sm" className="text-on-dark-muted">
-                          Sent to: {card.recipient_name}
-                        </Body>
-                      )}
-                      {card.expires_at && (
-                        <Body size="sm" className="font-mono text-on-dark-disabled">
-                          Expires: {new Date(card.expires_at).toLocaleDateString()}
-                        </Body>
-                      )}
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            ) : (
-              <Card inverted className="p-12 text-center">
-                <H3 className="mb-4 text-white">No Gift Cards</H3>
-                <Body className="mb-6 text-on-dark-muted">
-                  You haven&apos;t purchased or received any gift cards yet.
-                </Body>
-                <Button variant="solid" inverted onClick={() => setActiveTab('buy')}>
-                  Buy a Gift Card
-                </Button>
-              </Card>
-            )}
-          </Stack>
-        )}
-          </Stack>
-    </>
-  );
-}
+const AMOUNTS = [25, 50, 100, 250];
 
 export default function GiftCardsPage() {
-  return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
-      <GiftCardsPageContent />
-    </Suspense>
-  );
+  const router = useRouter();
+  const [amount, setAmount] = useState(50);
+  const [customAmount, setCustomAmount] = useState("");
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const purchaseGiftCard = useMutation({
+    mutationFn: async (data: { amount: number; recipientEmail: string; message: string }) => {
+      const r = await fetch("/api/gift-cards", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      if (!r.ok) throw new Error("Failed to purchase");
+      return r.json();
+    },
+    onSuccess: () => router.push("/confirmation"),
+  });
+
+  const formatCurrency = (a: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(a);
+  const selectedAmount = customAmount ? parseInt(customAmount) : amount;
+
+  const tabs = [{
+    id: "gift-cards", label: "Gift Cards", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
+          <Card className="p-6">
+            <SectionHeader title="Select Amount" />
+            <div className="flex gap-2 mt-4 flex-wrap">
+              {AMOUNTS.map((a) => <Button key={a} variant={amount === a && !customAmount ? "solid" : "outline"} onClick={() => { setAmount(a); setCustomAmount(""); }}>{formatCurrency(a)}</Button>)}
+            </div>
+            <div className="mt-4"><Body size="sm" className="mb-1">Custom Amount</Body><Input type="number" min="10" max="500" placeholder="Enter amount" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} /></div>
+            <div className="mt-6"><Body size="sm" className="mb-1">Recipient Email</Body><Input type="email" placeholder="friend@example.com" value={recipientEmail} onChange={(e) => setRecipientEmail(e.target.value)} /></div>
+            <div className="mt-4"><Body size="sm" className="mb-1">Personal Message (optional)</Body><Textarea rows={3} placeholder="Add a personal message..." value={message} onChange={(e) => setMessage(e.target.value)} /></div>
+          </Card>
+          <Card className="p-6 h-fit">
+            <div className="text-center mb-6"><Gift className="size-16 text-primary mx-auto mb-4" /><Body className="font-weight-bold">GVTEWAY Gift Card</Body><Body className="text-grey-400 mt-2">The perfect gift for any event lover</Body></div>
+            <div className="border-t border-grey-800 pt-6">
+              <div className="flex justify-between mb-4"><Body className="text-grey-400">Amount</Body><Body className="font-weight-bold">{formatCurrency(selectedAmount || 0)}</Body></div>
+              <Button variant="solid" className="w-full" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={() => purchaseGiftCard.mutate({ amount: selectedAmount, recipientEmail, message })} disabled={!selectedAmount || !recipientEmail || purchaseGiftCard.isPending}>{purchaseGiftCard.isPending ? "Processing..." : "Purchase Gift Card"}</Button>
+            </div>
+          </Card>
+        </Grid>
+      </Section>
+    ),
+  }];
+
+  return <DetailPage header={{ kicker: "Shop", title: "Gift Cards", description: "Give the gift of experiences" }} tabs={tabs} />;
 }

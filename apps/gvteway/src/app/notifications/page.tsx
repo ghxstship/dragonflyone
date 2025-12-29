@@ -1,158 +1,65 @@
 "use client";
 
 import { useState } from "react";
-import { GvtewayLoadingLayout } from "@/components/app-layout";
-import {
-  H2,
-  Body,
-  Button,
-  Badge,
-  Select,
-  EmptyState,
-  Stack,
-  Card,
-  Kicker,
-  Label,
-} from "@ghxstship/ui";
-import { Bell, CheckCircle, Mail, Ticket, Megaphone, Settings } from "lucide-react";
-import { useGvtewayNotificationsData, type GvtewayNotification } from "@/hooks/useNotifications";
+import { Bell, Check, CheckCheck, AlertTriangle, List } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Body, Button, Card, DetailPage, Section } from "@ghxstship/ui";
+
+interface Notification { id: string; type: "info" | "warning" | "success"; title: string; message: string; read: boolean; created_at: string; }
+const DEMO: Notification[] = [
+  { id: "1", type: "info", title: "Ticket confirmed", message: "Your tickets for Summer Festival are confirmed", read: false, created_at: "2024-12-15T10:30:00Z" },
+  { id: "2", type: "success", title: "Order shipped", message: "Your merch order is on its way", read: true, created_at: "2024-12-14T15:00:00Z" },
+];
+
+const TYPE_CONFIG = { info: { icon: <Bell className="size-5" />, bg: "bg-grey-800" }, warning: { icon: <AlertTriangle className="size-5" />, bg: "bg-warning/20" }, success: { icon: <Check className="size-5" />, bg: "bg-success/20" } };
 
 export default function NotificationsPage() {
-  const [filterType, setFilterType] = useState("all");
+  const queryClient = useQueryClient();
+  const [filter, setFilter] = useState<"all" | "unread">("all");
 
-  const {
-    notifications,
-    unreadCount,
-    isLoading: loading,
-    error,
-    refetch,
-    markAsRead,
-    markAllAsRead,
-  } = useGvtewayNotificationsData({ type: filterType });
+  const { data: notifications = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: async () => { const r = await fetch("/api/notifications"); if (!r.ok) return DEMO; return (await r.json()).notifications?.length ? (await r.json()).notifications : DEMO; },
+  });
 
-  const handleMarkRead = async (notificationId: string) => {
-    await markAsRead(notificationId);
-  };
+  const markAsRead = useMutation({ mutationFn: async (id: string) => { await fetch(`/api/notifications/${id}/read`, { method: "POST" }); }, onSuccess: () => queryClient.invalidateQueries({ queryKey: ["notifications"] }) });
+  const markAllAsRead = useMutation({ mutationFn: async () => { await fetch("/api/notifications/read-all", { method: "POST" }); }, onSuccess: () => queryClient.invalidateQueries({ queryKey: ["notifications"] }) });
 
-  const handleMarkAllRead = async () => {
-    await markAllAsRead();
-  };
+  const filtered = filter === "unread" ? notifications.filter((n: Notification) => !n.read) : notifications;
+  const unreadCount = notifications.filter((n: Notification) => !n.read).length;
+  const formatDate = (d: string) => { const h = Math.floor((Date.now() - new Date(d).getTime()) / 3600000); return h < 24 ? `${h}h ago` : `${Math.floor(h / 24)}d ago`; };
 
-  const filteredNotifications = notifications.filter((n: GvtewayNotification) =>
-    filterType === "all" || n.type?.toLowerCase() === filterType
-  );
+  const tabs = [{
+    id: "notifications", label: "Notifications", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <div className="flex gap-2 mb-6">
+          <Button variant={filter === "all" ? "solid" : "outline"} size="sm" onClick={() => setFilter("all")}>All</Button>
+          <Button variant={filter === "unread" ? "solid" : "outline"} size="sm" onClick={() => setFilter("unread")}>Unread ({unreadCount})</Button>
+        </div>
+        {filtered.length === 0 ? (
+          <Card className="p-8 text-center"><Bell className="size-12 text-grey-600 mx-auto mb-4" /><Body className="font-weight-medium mb-2">No notifications</Body><Body className="text-grey-400">You are all caught up!</Body></Card>
+        ) : (
+          <div className="space-y-2">
+            {filtered.map((n: Notification) => (
+              <Card key={n.id} className={`p-4 ${!n.read ? "border-primary" : ""}`}>
+                <div className="flex items-start gap-4">
+                  <div className={`p-2 rounded-lg ${TYPE_CONFIG[n.type].bg}`}>{TYPE_CONFIG[n.type].icon}</div>
+                  <div className="flex-1">
+                    <div className="flex items-start justify-between">
+                      <div><Body className={`font-weight-medium ${n.read ? "text-grey-400" : ""}`}>{n.title}</Body><Body size="sm" className="text-grey-400">{n.message}</Body></div>
+                      <Body size="sm" className="text-grey-500">{formatDate(n.created_at)}</Body>
+                    </div>
+                  </div>
+                  {!n.read && <Button variant="ghost" size="sm" onClick={() => markAsRead.mutate(n.id)}><Check className="size-4" /></Button>}
+                </div>
+              </Card>
+            ))}
+          </div>
+        )}
+      </Section>
+    ),
+  }];
 
-  const getNotificationIcon = (type: string) => {
-    switch (type) {
-      case 'event_update': return <Bell className="size-4 text-on-dark-muted" />;
-      case 'ticket': return <Ticket className="size-4 text-on-dark-muted" />;
-      case 'promotion': return <Megaphone className="size-4 text-on-dark-muted" />;
-      case 'system': return <Settings className="size-4 text-on-dark-muted" />;
-      default: return <Mail className="size-4 text-on-dark-muted" />;
-    }
-  };
-
-  if (loading) {
-    return <GvtewayLoadingLayout />;
-  }
-
-  if (error) {
-    return (
-      <>
-            <EmptyState
-              title="Error Loading Notifications"
-              description={error instanceof Error ? error.message : "An error occurred"}
-              action={{ label: "Retry", onClick: () => refetch() }}
-              inverted
-            />
-      </>
-    );
-  }
-
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Updates</Kicker>
-              <Stack direction="horizontal" gap={4} className="items-center">
-                <H2 size="lg" className="text-white">Notifications</H2>
-                {unreadCount > 0 && <Badge variant="solid">{unreadCount} Unread</Badge>}
-              </Stack>
-              <Body className="text-on-dark-muted">Stay updated on your events and orders</Body>
-            </Stack>
-
-            {/* Filters */}
-            <Card inverted className="p-4">
-              <Stack gap={4} direction="horizontal" className="items-center justify-between">
-                <Stack gap={2}>
-                  <Label size="xs" className="text-on-dark-muted">Filter by type</Label>
-                  <Select
-                    value={filterType}
-                    onChange={(e) => setFilterType(e.target.value)}
-                    inverted
-                  >
-                    <option value="all">All Types</option>
-                    <option value="event_update">Event Updates</option>
-                    <option value="ticket">Tickets</option>
-                    <option value="promotion">Promotions</option>
-                    <option value="system">System</option>
-                  </Select>
-                </Stack>
-                <Button 
-                  variant="outlineInk" 
-                  size="sm"
-                  onClick={handleMarkAllRead}
-                  icon={<CheckCircle className="size-4" />}
-                  iconPosition="left"
-                >
-                  Mark All Read
-                </Button>
-              </Stack>
-            </Card>
-
-            {/* Notifications List */}
-            {filteredNotifications.length === 0 ? (
-              <EmptyState
-                title="No Notifications"
-                description="You're all caught up!"
-                inverted
-              />
-            ) : (
-              <Stack gap={3}>
-                {filteredNotifications.map((notification) => (
-                  <Card
-                    key={notification.id}
-                    inverted
-                    interactive
-                    variant={notification.read ? "default" : "elevated"}
-                  >
-                    <Stack gap={4} direction="horizontal" className="items-start justify-between">
-                      <Stack gap={2} className="flex-1">
-                        <Stack gap={3} direction="horizontal" className="items-center">
-                          {getNotificationIcon(notification.type)}
-                          <Body className="font-display text-white">{notification.title}</Body>
-                          {!notification.read && <Badge variant="solid">New</Badge>}
-                        </Stack>
-                        <Body className="text-on-dark-muted">{notification.message}</Body>
-                        <Label size="xs" className="text-on-dark-disabled">
-                          {notification.type} • {new Date(notification.created_at).toLocaleDateString()}
-                        </Label>
-                      </Stack>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleMarkRead(notification.id)}
-                        disabled={notification.read}
-                      >
-                        {notification.read ? 'Read' : 'Mark Read'}
-                      </Button>
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            )}
-          </Stack>
-    </>
-  );
+  return <DetailPage header={{ kicker: "Inbox", title: "Notifications", description: "Stay updated" }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} actions={unreadCount > 0 ? <Button variant="outline" icon={<CheckCheck className="size-4" />} iconPosition="left" onClick={() => markAllAsRead.mutate()}>Mark All Read</Button> : undefined} />;
 }

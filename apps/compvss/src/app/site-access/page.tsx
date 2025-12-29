@@ -1,242 +1,161 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Input,
   Select,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
   Button,
-  Card,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Badge,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
-
+import { createExportHandler } from "@ghxstship/config";
 import {
   useAccessPoints,
   useVehiclePasses,
   type VehiclePass,
 } from "../../hooks/useSiteAccess";
+import { Eye, CheckCircle } from "lucide-react";
+
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case "Open": case "Active": return "solid";
+    case "Restricted": case "Pending": return "outline";
+    default: return "ghost";
+  }
+};
 
 export default function SiteAccessPage() {
-  const router = useRouter();
-  const { data: accessPoints = [], isLoading, error } = useAccessPoints();
-  const { data: vehiclePasses = [] } = useVehiclePasses();
-  
-  // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
-    defaultTab: 'access',
-    validTabs: ['access', 'vehicles', 'schedule'],
-  });
+  const { data: accessPoints = [], isLoading } = useAccessPoints();
+  const { data: vehiclePasses = [], refetch } = useVehiclePasses();
   const [showAddPassModal, setShowAddPassModal] = useState(false);
   const [selectedPass, setSelectedPass] = useState<VehiclePass | null>(null);
-
-  if (isLoading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Stack gap={4} className="items-center">
-              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
-              <Body>Loading site access data...</Body>
-            </Stack>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container>
-            <Card className="p-6 border-destructive bg-destructive/10">
-              <Stack gap={4} className="items-center text-center">
-                <Body className="text-destructive font-display">Failed to load site access data</Body>
-                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
-                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
-              </Stack>
-            </Card>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
 
   const openPoints = accessPoints.filter(p => p.status === "Open").length;
   const activeVehicles = accessPoints.reduce((sum, p) => sum + (p.currentVehicles || 0), 0);
   const activePasses = vehiclePasses.filter(p => p.status === "Active").length;
 
-  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
-    switch (status) {
-      case "Open": case "Active": return "success";
-      case "Restricted": case "Pending": return "warning";
-      case "Closed": case "Expired": return "error";
-      default: return "ghost";
-    }
-  };
+  const columns: ListPageColumn<VehiclePass>[] = [
+    {
+      key: 'vehicle',
+      label: 'Vehicle',
+      accessor: 'vehicleType',
+      sortable: true,
+      render: (_, p) => (
+        <Stack gap={1}>
+          <Badge variant="outline">{p.vehicleType}</Badge>
+          <Body size="sm" className="text-muted-foreground">{p.licensePlate}</Body>
+        </Stack>
+      ),
+    },
+    { key: 'company', label: 'Company', accessor: 'company', sortable: true },
+    { key: 'driver', label: 'Driver', accessor: 'driver' },
+    {
+      key: 'accessPoints',
+      label: 'Access',
+      accessor: (p) => p.accessPoints.join(', '),
+      render: (_, p) => (
+        <Stack direction="horizontal" gap={1}>
+          {p.accessPoints.slice(0, 2).map(ap => <Badge key={ap} variant="outline">{ap}</Badge>)}
+        </Stack>
+      ),
+    },
+    {
+      key: 'validUntil',
+      label: 'Valid Until',
+      accessor: 'validUntil',
+      sortable: true,
+      render: (_, p) => <Body size="sm">{new Date(p.validUntil).toLocaleTimeString()}</Body>,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, p) => <Badge variant={getStatusVariant(p.status)}>{p.status}</Badge>,
+    },
+  ];
+
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'Active', label: 'Active' },
+        { value: 'Pending', label: 'Pending' },
+        { value: 'Expired', label: 'Expired' },
+      ],
+    },
+    {
+      key: 'vehicleType',
+      label: 'Vehicle Type',
+      options: [
+        { value: 'Truck', label: 'Truck' },
+        { value: 'Van', label: 'Van' },
+        { value: 'Car', label: 'Car' },
+        { value: 'Bus', label: 'Bus' },
+      ],
+    },
+  ];
+
+  const rowActions: ListPageAction<VehiclePass>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (p) => setSelectedPass(p) },
+    { id: 'approve', label: 'Approve', icon: <CheckCircle className="h-4 w-4" />, onClick: () => {}, hidden: (p) => p.status !== 'Pending' },
+  ];
+
+  const stats = [
+    { label: 'Open Access Points', value: `${openPoints}/${accessPoints.length}` },
+    { label: 'Vehicles On Site', value: activeVehicles },
+    { label: 'Active Passes', value: activePasses },
+    { label: 'Pending Approval', value: vehiclePasses.filter(p => p.status === "Pending").length },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<VehiclePass>
         title="Site Access Management"
         subtitle="Gates, parking, loading docks, and vehicle passes"
-        primaryAction={{ label: 'Issue Vehicle Pass', onClick: () => setShowAddPassModal(true) }}
+        data={vehiclePasses}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        onRetry={refetch}
+        searchPlaceholder="Search passes..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(p) => setSelectedPass(p)}
+        createLabel="Issue Vehicle Pass"
+        onCreate={() => setShowAddPassModal(true)}
+        entityType="site-access"
+        onExport={createExportHandler({
+          filename: "vehicle-passes",
+          getData: () => vehiclePasses.map((p: VehiclePass) => ({
+            vehicleType: p.vehicleType,
+            licensePlate: p.licensePlate,
+            company: p.company,
+            driver: p.driver,
+            accessPoints: p.accessPoints.join(', '),
+            validUntil: p.validUntil,
+            status: p.status,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No vehicle passes found"
+        emptyAction={{ label: 'Issue Vehicle Pass', onClick: () => setShowAddPassModal(true) }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard value={`${openPoints}/${accessPoints.length}`} label="Open Access Points" />
-              <StatCard value={activeVehicles.toString()} label="Vehicles On Site" />
-              <StatCard value={activePasses.toString()} label="Active Passes" />
-              <StatCard value={vehiclePasses.filter(p => p.status === "Pending").length.toString()} label="Pending Approval" />
-            </Grid>
-
-            <Tabs>
-              <TabsList>
-                <Tab active={isActive('access')} onClick={() => setActiveTab('access')}>Access Points</Tab>
-                <Tab active={isActive('vehicles')} onClick={() => setActiveTab('vehicles')}>Vehicle Passes</Tab>
-                <Tab active={isActive('schedule')} onClick={() => setActiveTab('schedule')}>Delivery Schedule</Tab>
-              </TabsList>
-
-              <TabPanel active={isActive('access')}>
-                <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
-                  {accessPoints.map((point) => (
-                    <Card key={point.id} className="p-6">
-                      <Stack gap={4}>
-                        <Stack direction="horizontal" className="items-start justify-between">
-                          <Stack gap={1}>
-                            <H3>{point.name}</H3>
-                            <Badge variant="outline">{point.type}</Badge>
-                          </Stack>
-                          <Badge variant={getStatusVariant(point.status)}>{point.status}</Badge>
-                        </Stack>
-                        {point.currentVehicles !== undefined && (
-                          <Stack gap={2}>
-                            <Body size="sm" className="">Capacity: {point.currentVehicles}/{point.maxCapacity}</Body>
-                          </Stack>
-                        )}
-                        <Stack direction="horizontal" gap={2}>
-                          <Button variant="outline" size="sm">{point.status === "Open" ? "Close" : "Open"}</Button>
-                          <Button variant="ghost" size="sm">Details</Button>
-                        </Stack>
-                      </Stack>
-                    </Card>
-                  ))}
-                </Grid>
-              </TabPanel>
-
-              <TabPanel active={isActive('vehicles')}>
-                <Table variant="dark">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Vehicle</TableHead>
-                      <TableHead>Company</TableHead>
-                      <TableHead>Driver</TableHead>
-                      <TableHead>Access</TableHead>
-                      <TableHead>Valid Until</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {vehiclePasses.map((pass) => (
-                      <TableRow key={pass.id}>
-                        <TableCell>
-                          <Stack gap={1}>
-                            <Badge variant="outline">{pass.vehicleType}</Badge>
-                            <Body size="sm" className="">{pass.licensePlate}</Body>
-                          </Stack>
-                        </TableCell>
-                        <TableCell><Body>{pass.company}</Body></TableCell>
-                        <TableCell><Body size="sm" className="">{pass.driver}</Body></TableCell>
-                        <TableCell>
-                          <Stack direction="horizontal" gap={1}>
-                            {pass.accessPoints.slice(0, 2).map(ap => <Badge key={ap} variant="outline">{ap}</Badge>)}
-                          </Stack>
-                        </TableCell>
-                        <TableCell><Body size="sm" className="">{new Date(pass.validUntil).toLocaleTimeString()}</Body></TableCell>
-                        <TableCell><Badge variant={getStatusVariant(pass.status)}>{pass.status}</Badge></TableCell>
-                        <TableCell>
-                          <Stack direction="horizontal" gap={2}>
-                            <Button variant="ghost" size="sm" onClick={() => setSelectedPass(pass)}>View</Button>
-                            {pass.status === "Pending" && <Button variant="outline" size="sm">Approve</Button>}
-                          </Stack>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TabPanel>
-
-              <TabPanel active={isActive('schedule')}>
-                <Card className="p-6">
-                  <Stack gap={4}>
-                    <H3>Today&apos;s Deliveries</H3>
-                    <Stack gap={2}>
-                      {vehiclePasses.map((pass) => (
-                        <Card key={pass.id} className="p-4">
-                          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-                            <Stack gap={1}>
-                              <Body size="sm" className="">Time</Body>
-                              <Body>{new Date(pass.validFrom).toLocaleTimeString()}</Body>
-                            </Stack>
-                            <Stack gap={1}>
-                              <Body size="sm" className="">Company</Body>
-                              <Body>{pass.company}</Body>
-                            </Stack>
-                            <Stack gap={1}>
-                              <Body size="sm" className="">Vehicle</Body>
-                              <Body>{pass.vehicleType} - {pass.licensePlate}</Body>
-                            </Stack>
-                            <Stack gap={1}>
-                              <Body size="sm" className="">Destination</Body>
-                              <Body>{pass.accessPoints[1] || pass.accessPoints[0]}</Body>
-                            </Stack>
-                          </Grid>
-                        </Card>
-                      ))}
-                    </Stack>
-                  </Stack>
-                </Card>
-              </TabPanel>
-            </Tabs>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="solid" onClick={() => setShowAddPassModal(true)}>Issue Vehicle Pass</Button>
-              <Button variant="outline">Print Manifest</Button>
-              <Button variant="outline" onClick={() => router.push("/build-strike")}>Build & Strike</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={showAddPassModal} onClose={() => setShowAddPassModal(false)}>
         <ModalHeader><H3>Issue Vehicle Pass</H3></ModalHeader>

@@ -1,13 +1,55 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import crypto from 'crypto';
+import { z } from 'zod';
+
+const registerWebhookSchema = z.object({
+  action: z.literal('register_webhook'),
+  event_type: z.string(),
+  webhook_url: z.string().url(),
+});
+
+const bulkFetchSchema = z.object({
+  action: z.literal('bulk_fetch'),
+  module_name: z.string().optional(),
+  parameters: z.object({
+    endpoint: z.string(),
+    limit: z.number().optional(),
+    cursor: z.string().optional(),
+  }),
+});
+
+const executeScenarioSchema = z.object({
+  action: z.literal('execute_scenario'),
+  scenario_id: z.string(),
+  input_data: z.record(z.unknown()).optional(),
+});
+
+const makeModuleActionSchema = z.union([
+  registerWebhookSchema,
+  bulkFetchSchema,
+  executeScenarioSchema,
+]);
 
 // GET /api/make/modules - List available Make modules
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -206,7 +248,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -229,10 +278,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { action, module_name: _module_name, parameters } = body;
+    const validatedData = makeModuleActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'register_webhook') {
-      const { event_type, webhook_url } = body;
+      const { event_type, webhook_url } = validatedData as z.infer<typeof registerWebhookSchema>;
 
       const { data: webhook, error } = await supabase
         .from('make_webhooks')
@@ -251,7 +301,8 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ webhook }, { status: 201 });
     } else if (action === 'bulk_fetch') {
-      const { endpoint: _endpoint, limit, cursor } = parameters;
+      const { parameters } = validatedData as z.infer<typeof bulkFetchSchema>;
+      const { limit, cursor } = parameters;
 
       // Implement iterator-friendly bulk fetch
       const pageSize = Math.min(limit || 500, 10000);
@@ -272,7 +323,7 @@ export async function POST(request: NextRequest) {
         },
       });
     } else if (action === 'execute_scenario') {
-      const { scenario_id, input_data } = body;
+      const { scenario_id, input_data } = validatedData as z.infer<typeof executeScenarioSchema>;
 
       // Log scenario execution
       await supabase.from('make_scenario_logs').insert({

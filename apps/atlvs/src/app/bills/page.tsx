@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, DollarSign, CheckCircle, Trash2, Download } from 'lucide-react';
-import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -177,13 +176,13 @@ export default function BillsPage() {
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
     if (actionId === 'approve') {
       for (const id of selectedIds) {
-        await approveBill(id).catch(() => {});
+        await approveBill(id).catch((err) => addNotification({ type: 'error', title: 'Approval Failed', message: err instanceof Error ? err.message : 'Failed to approve bill' }));
       }
       refetch();
       addNotification({ type: 'success', title: 'Bills Approved', message: `${selectedIds.length} bills approved.` });
     } else if (actionId === 'delete') {
       for (const id of selectedIds) {
-        await deleteBill(id).catch(() => {});
+        await deleteBill(id).catch((err) => addNotification({ type: 'error', title: 'Delete Failed', message: err instanceof Error ? err.message : 'Failed to delete bill' }));
       }
       refetch();
       addNotification({ type: 'success', title: 'Bills Deleted', message: `${selectedIds.length} bills deleted.` });
@@ -219,7 +218,7 @@ export default function BillsPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Bill>
         title="Bill Management"
         subtitle="Track and manage vendor bills and payments"
@@ -304,6 +303,6 @@ export default function BillsPage() {
         onConfirm={handleApprove}
         onCancel={() => { setApproveConfirmOpen(false); setBillToApprove(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

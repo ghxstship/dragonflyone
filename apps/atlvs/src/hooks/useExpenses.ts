@@ -334,6 +334,25 @@ export function useUpdateExpenseCategory() {
   });
 }
 
+// Delete expense
+export function useDeleteExpense() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('expenses')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['expenses'] });
+    },
+  });
+}
+
 // Get expense statistics
 export function useExpenseStats(productionId?: string) {
   return useQuery({

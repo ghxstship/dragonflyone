@@ -61,7 +61,8 @@ export default function TicketsPage() {
       accessor: 'status', 
       sortable: true,
       render: (value) => {
-        const variant = value === 'sold' ? 'success' : value === 'reserved' ? 'warning' : value === 'cancelled' ? 'error' : 'info';
+        // Schema: status enum ['valid', 'used', 'cancelled', 'refunded']
+        const variant = value === 'valid' ? 'success' : value === 'used' ? 'info' : value === 'cancelled' ? 'error' : value === 'refunded' ? 'warning' : 'outline';
         return <Badge variant={variant}>{String(value).toUpperCase()}</Badge>;
       }
     },
@@ -77,11 +78,12 @@ export default function TicketsPage() {
     { 
       key: 'status', 
       label: 'Status', 
+      // Schema: status enum from API validation: ['valid', 'used', 'cancelled', 'refunded']
       options: [
-        { value: 'available', label: 'Available' },
-        { value: 'reserved', label: 'Reserved' },
-        { value: 'sold', label: 'Sold' },
+        { value: 'valid', label: 'Valid' },
+        { value: 'used', label: 'Used' },
         { value: 'cancelled', label: 'Cancelled' },
+        { value: 'refunded', label: 'Refunded' },
       ]
     },
   ];
@@ -98,11 +100,24 @@ export default function TicketsPage() {
   ];
 
   const handleCancel = async () => {
+    if (selectedTicket) {
+      try {
+        await fetch(`/api/tickets/${selectedTicket.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'cancelled' }),
+        });
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to cancel ticket';
+        alert(errorMessage);
+      }
+    }
     setCancelConfirmOpen(false);
     setSelectedTicket(null);
     refetch();
   };
 
+  // Schema: status enum ['available', 'reserved', 'sold', 'cancelled'] - 'sold' represents sold tickets
   const soldCount = tickets.filter(t => t.status === 'sold').length;
   const totalRevenue = tickets.filter(t => t.status === 'sold').reduce((sum, t) => sum + (t.price || 0), 0);
 

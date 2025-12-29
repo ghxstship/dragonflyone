@@ -1,188 +1,156 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useTabState } from '@ghxstship/config/hooks';
-// Layout provided by route group
+/**
+ * COMPVSS Production Advancing List Page
+ * Displays advancing requests with tabs for filtering
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
 import {
-  Container,
   Button,
   Card,
   Grid,
-  Stack,
   StatCard,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
-  EnterprisePageHeader,
-  MainContent,
-  Skeleton,
-  EmptyState,
-} from '@ghxstship/ui';
-import { AdvanceRequestsList } from '@/components/advancing/advance-requests-list';
-import { useQuery } from '@tanstack/react-query';
-import type { ProductionAdvance } from '@ghxstship/config/types/advancing';
+  DetailPage,
+} from "@ghxstship/ui";
+import { AdvanceRequestsList } from "@/components/advancing/advance-requests-list";
+import { useQuery } from "@tanstack/react-query";
+import type { ProductionAdvance } from "@ghxstship/config/types/advancing";
+import { useAuthContext, PlatformRole } from "@ghxstship/config";
+import { Plus, BookOpen, FolderKanban, Users, LayoutDashboard } from "lucide-react";
+
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 export default function AdvancingPage() {
   const router = useRouter();
-  
-  // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
-    defaultTab: 'my-requests',
-    validTabs: ['my-requests', 'to-fulfill', 'all'],
-  });
+  const { hasRole } = useAuthContext();
 
-  // Fetch all requests to calculate stats
-  const { data: requestsData, isLoading, error } = useQuery({
-    queryKey: ['advancing-requests-stats'],
+  const canCreateRequests = ADMIN_ROLES.some((role) => hasRole(role));
+
+  const { data: requestsData, isLoading, error, refetch } = useQuery({
+    queryKey: ["advancing-requests-stats"],
     queryFn: async () => {
-      const response = await fetch('/api/advancing/requests?limit=1000');
-      if (!response.ok) throw new Error('Failed to fetch requests');
+      const response = await fetch("/api/advancing/requests?limit=1000");
+      if (!response.ok) throw new Error("Failed to fetch requests");
       return response.json();
     },
   });
+
   const requests: ProductionAdvance[] = requestsData?.data || [];
-  
-  // Calculate real stats from API data
+
   const stats = {
-    pending: requests.filter((r) => r.status === 'submitted' || r.status === 'under_review').length,
-    approved: requests.filter((r) => r.status === 'approved' || r.status === 'in_progress').length,
-    fulfilled: requests.filter((r) => r.status === 'fulfilled').length,
+    pending: requests.filter((r) => r.status === "submitted" || r.status === "under_review").length,
+    approved: requests.filter((r) => r.status === "approved" || r.status === "in_progress").length,
+    fulfilled: requests.filter((r) => r.status === "fulfilled").length,
     total: requests.length,
   };
 
-  if (isLoading) {
-    return (
-      <>
-        <EnterprisePageHeader
-          title="Production Advancing"
-          subtitle="Submit and manage production advance requests"
-          showFavorite
-          showSettings
-        />
-        <MainContent padding="lg">
-          <Container>
-            <Stack gap={10}>
-              <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-                <Skeleton className="h-24" />
-                <Skeleton className="h-24" />
-                <Skeleton className="h-24" />
-                <Skeleton className="h-24" />
-              </Grid>
-              <Skeleton className="h-10 w-64" />
-              <Skeleton className="h-96" />
-            </Stack>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const headerActions = (
+    <div className="flex gap-3">
+      {canCreateRequests && (
+        <Button
+          variant="solid"
+          icon={<Plus className="size-4" />}
+          iconPosition="left"
+          onClick={() => router.push("/advancing/new")}
+        >
+          Create Request
+        </Button>
+      )}
+      <Button
+        variant="outline"
+        icon={<BookOpen className="size-4" />}
+        iconPosition="left"
+        onClick={() => router.push("/advancing/catalog")}
+      >
+        Browse Catalog
+      </Button>
+    </div>
+  );
 
-  if (error) {
-    return (
-      <>
-        <EnterprisePageHeader
-          title="Production Advancing"
-          subtitle="Submit and manage production advance requests"
-          showFavorite
-          showSettings
-        />
-        <MainContent padding="lg">
-          <Container>
-            <EmptyState
-              title="Error Loading Requests"
-              description={error instanceof Error ? error.message : 'Failed to load advancing requests'}
-              action={{ label: 'Retry', onClick: () => window.location.reload() }}
-            />
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const tabs = [
+    {
+      id: "my-requests",
+      label: "My Requests",
+      content: (
+        <>
+          <Grid cols={4} gap={4} className="grid-cols-2 lg:grid-cols-4 mb-6">
+            <StatCard value={stats.pending.toString()} label="Pending" />
+            <StatCard value={stats.approved.toString()} label="Approved" />
+            <StatCard value={stats.fulfilled.toString()} label="Fulfilled" />
+            <StatCard value={stats.total.toString()} label="Total" />
+          </Grid>
+          <Card className="p-4">
+            <AdvanceRequestsList />
+          </Card>
+          <Grid cols={3} gap={4} className="grid-cols-1 sm:grid-cols-3 mt-6">
+            <Button variant="outline" className="w-full" icon={<FolderKanban className="size-4" />} iconPosition="left" onClick={() => router.push("/projects")}>
+              Projects
+            </Button>
+            <Button variant="outline" className="w-full" icon={<Users className="size-4" />} iconPosition="left" onClick={() => router.push("/vendors")}>
+              Vendors
+            </Button>
+            <Button variant="outline" className="w-full" icon={<LayoutDashboard className="size-4" />} iconPosition="left" onClick={() => router.push("/dashboard")}>
+              Dashboard
+            </Button>
+          </Grid>
+        </>
+      ),
+    },
+    {
+      id: "to-fulfill",
+      label: "To Fulfill",
+      content: (
+        <>
+          <Grid cols={4} gap={4} className="grid-cols-2 lg:grid-cols-4 mb-6">
+            <StatCard value={stats.pending.toString()} label="Pending" />
+            <StatCard value={stats.approved.toString()} label="Approved" />
+            <StatCard value={stats.fulfilled.toString()} label="Fulfilled" />
+            <StatCard value={stats.total.toString()} label="Total" />
+          </Grid>
+          <Card className="p-4">
+            <AdvanceRequestsList status="approved" />
+          </Card>
+        </>
+      ),
+    },
+    {
+      id: "all",
+      label: "All Requests",
+      content: (
+        <>
+          <Grid cols={4} gap={4} className="grid-cols-2 lg:grid-cols-4 mb-6">
+            <StatCard value={stats.pending.toString()} label="Pending" />
+            <StatCard value={stats.approved.toString()} label="Approved" />
+            <StatCard value={stats.fulfilled.toString()} label="Fulfilled" />
+            <StatCard value={stats.total.toString()} label="Total" />
+          </Grid>
+          <Card className="p-4">
+            <AdvanceRequestsList />
+          </Card>
+        </>
+      ),
+    },
+  ];
 
   return (
-    <>
-      <EnterprisePageHeader
-        title="Production Advancing"
-        subtitle="Submit and manage production advance requests"
-
-
-        primaryAction={{ label: 'Create New Request', onClick: () => router.push('/advancing/new') }}
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            {/* Stats Grid */}
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard value={stats.pending.toString()} label="Pending Requests" />
-              <StatCard value={stats.approved.toString()} label="Approved" />
-              <StatCard value={stats.fulfilled.toString()} label="Fulfilled" />
-              <StatCard value={stats.total.toString()} label="Total Requests" />
-            </Grid>
-
-            {/* Action Buttons */}
-            <Stack direction="horizontal" gap={4}>
-              <Button variant="solid" onClick={() => router.push('/advancing/new')}>
-                Create New Request
-              </Button>
-              <Button variant="outline" onClick={() => router.push('/advancing/catalog')}>
-                Browse Catalog
-              </Button>
-            </Stack>
-
-            {/* Tabs */}
-            <Card className="p-6">
-              <Tabs>
-                <TabsList>
-                  <Tab active={isActive('my-requests')} onClick={() => setActiveTab('my-requests')}>
-                    My Requests
-                  </Tab>
-                  <Tab active={isActive('to-fulfill')} onClick={() => setActiveTab('to-fulfill')}>
-                    To Fulfill
-                  </Tab>
-                  <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>
-                    All Requests
-                  </Tab>
-                </TabsList>
-
-                <TabPanel active={isActive('my-requests')}>
-                  <Stack gap={4} className="mt-6">
-                    <AdvanceRequestsList />
-                  </Stack>
-                </TabPanel>
-
-                <TabPanel active={isActive('to-fulfill')}>
-                  <Stack gap={4} className="mt-6">
-                    <AdvanceRequestsList status="approved" />
-                  </Stack>
-                </TabPanel>
-
-                <TabPanel active={isActive('all')}>
-                  <Stack gap={4} className="mt-6">
-                    <AdvanceRequestsList />
-                  </Stack>
-                </TabPanel>
-              </Tabs>
-            </Card>
-
-            {/* Quick Links */}
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="outline" onClick={() => router.push('/projects')}>
-                Projects
-              </Button>
-              <Button variant="outline" onClick={() => router.push('/vendors')}>
-                Vendors
-              </Button>
-              <Button variant="outline" onClick={() => router.push('/dashboard')}>
-                Dashboard
-              </Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <DetailPage
+      header={{
+        kicker: "Operations",
+        title: "Production Advancing",
+        description: "Manage advancing requests for productions",
+      }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={headerActions}
+    />
   );
 }

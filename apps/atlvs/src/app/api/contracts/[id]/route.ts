@@ -1,16 +1,52 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const updateContractSchema = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+  contract_type: z.string().optional(),
+  status: z.enum(['draft', 'pending_review', 'active', 'expired', 'terminated']).optional(),
+  vendor_id: z.string().uuid().optional(),
+  client_id: z.string().uuid().optional(),
+  owner_id: z.string().uuid().optional(),
+  start_date: z.string().optional(),
+  end_date: z.string().optional(),
+  value: z.number().optional(),
+  terms: z.string().optional(),
+  auto_renew: z.boolean().optional(),
+  renewal_terms: z.string().optional(),
+  notice_period_days: z.number().optional(),
+  id: z.string().uuid().optional(),
+  created_at: z.string().optional(),
+  created_by: z.string().uuid().optional(),
+  organization_id: z.string().uuid().optional(),
+});
 
 // GET /api/contracts/[id] - Get contract by ID
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
 
     const { data, error } = await supabase
@@ -58,20 +94,30 @@ export async function PATCH(
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
     const body = await request.json();
+    const validatedData = updateContractSchema.parse(body);
 
     // Remove fields that shouldn't be updated directly
     // Destructure to exclude id, created_at, created_by, organization_id from updates
     const { 
-      id: _id, 
-      created_at: _createdAt, 
-      created_by: _createdBy, 
-      organization_id: _orgId, 
+      id: excludedId, 
+      created_at: excludedCreatedAt, 
+      created_by: excludedCreatedBy, 
+      organization_id: excludedOrgId, 
       ...updates 
-    } = body;
+    } = validatedData;
     // Log excluded fields for audit purposes
-    if (_id || _createdAt || _createdBy || _orgId) {
+    if (excludedId || excludedCreatedAt || excludedCreatedBy || excludedOrgId) {
       logger.debug('Excluded immutable fields from contract update');
     }
 
@@ -122,6 +168,15 @@ export async function DELETE(
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
 
     // Only allow deletion of draft contracts

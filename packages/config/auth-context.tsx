@@ -1,7 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { PlatformRole, EventRole } from './roles';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { logger } from './logger';
+import { PlatformRole, EventRole, Permission, hasPermission as checkRolePermission } from './roles';
 import { supabase } from './supabase-client';
 
 /**
@@ -23,8 +24,10 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  error: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  clearError: () => void;
   hasRole: (role: PlatformRole) => boolean;
   hasEventRole: (eventId: string, role: EventRole) => boolean;
   hasPermission: (permission: string, eventId?: string) => boolean;
@@ -36,6 +39,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Check for existing Supabase session
@@ -83,7 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
         }
       } catch (error) {
-        console.error('Failed to load user:', error);
+        logger.error('Failed to load user', error instanceof Error ? error : undefined);
       } finally {
         setIsLoading(false);
       }
@@ -102,10 +106,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = useCallback(async (email: string, password: string) => {
     setIsLoading(true);
+    setError(null);
     try {
-      // Use Supabase client for authentication (handles cookies automatically)
       const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -119,7 +123,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         throw new Error('No user returned from authentication');
       }
 
-      // Fetch user profile and roles from platform_users table
       const { data: platformUser } = await supabase
         .from('platform_users')
         .select('id')
@@ -130,7 +133,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const eventRolesByEvent: Record<string, EventRole[]> = {};
 
       if (platformUser) {
-        // Get user roles
         const { data: userRoles } = await supabase
           .from('user_roles')
           .select('role_code')
@@ -152,89 +154,74 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       setUser(authenticatedUser);
       localStorage.setItem('ghxstship_user', JSON.stringify(authenticatedUser));
-    } catch (error) {
-      console.error('Login failed:', error);
-      throw error;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Login failed';
+      setError(errorMessage);
+      throw err;
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       await supabase.auth.signOut();
-    } catch (error) {
-      console.error('Logout error:', error);
+    } catch (err) {
+      logger.error('Logout error', err instanceof Error ? err : undefined);
     } finally {
       setUser(null);
       localStorage.removeItem('ghxstship_user');
     }
-  };
+  }, []);
 
-  const hasRole = (role: PlatformRole): boolean => {
+  const hasRole = useCallback((role: PlatformRole): boolean => {
     if (!user) return false;
     return user.platformRoles.includes(role);
-  };
+  }, [user]);
 
-  const hasEventRole = (eventId: string, role: EventRole): boolean => {
+  const hasEventRole = useCallback((eventId: string, role: EventRole): boolean => {
     if (!user) return false;
     const eventRoles = user.eventRolesByEvent[eventId] || [];
     return eventRoles.includes(role);
-  };
+  }, [user]);
 
-  const hasPermission = (permission: string, _eventId?: string): boolean => {
+  const hasPermission = useCallback((permission: string): boolean => {
     if (!user) return false;
     
-    // Legend roles have all permissions
-    const hasLegendRole = user.platformRoles.some(r => r.startsWith('LEGEND_'));
-    if (hasLegendRole) return true;
-
-    // Check platform admin roles
-    const isAdmin = user.platformRoles.some(r => 
-      r.includes('ADMIN') || r.includes('SUPER_ADMIN')
+    // Use canonical permission checking from roles.ts
+    // This checks role hierarchy and inherited permissions
+    return user.platformRoles.some(role => 
+      checkRolePermission(role, permission as Permission)
     );
-    if (isAdmin) return true;
+  }, [user]);
 
-    // Check specific permission against user's roles
-    const permissionMap: Record<string, string[]> = {
-      'read:productions': ['ATLVS_VIEWER', 'ATLVS_EDITOR', 'ATLVS_ADMIN'],
-      'write:productions': ['ATLVS_EDITOR', 'ATLVS_ADMIN'],
-      'delete:productions': ['ATLVS_ADMIN'],
-      'read:crew': ['COMPVSS_VIEWER', 'COMPVSS_EDITOR', 'COMPVSS_ADMIN'],
-      'write:crew': ['COMPVSS_EDITOR', 'COMPVSS_ADMIN'],
-      'delete:crew': ['COMPVSS_ADMIN'],
-      'read:events': ['GVTEWAY_VIEWER', 'GVTEWAY_EDITOR', 'GVTEWAY_ADMIN'],
-      'write:events': ['GVTEWAY_EDITOR', 'GVTEWAY_ADMIN'],
-      'delete:events': ['GVTEWAY_ADMIN'],
-    };
-    
-    const allowedRoles = permissionMap[permission] || [];
-    return user.platformRoles.some(role => allowedRoles.includes(role));
-  };
-
-  const canAccessPlatform = (platform: 'atlvs' | 'compvss' | 'gvteway'): boolean => {
+  const canAccessPlatform = useCallback((platform: 'atlvs' | 'compvss' | 'gvteway'): boolean => {
     if (!user) return false;
 
-    // Legend roles can access everything
     const hasLegendRole = user.platformRoles.some(r => r.startsWith('LEGEND_'));
     if (hasLegendRole) return true;
 
-    // Check platform-specific roles
     const platformPrefix = platform.toUpperCase();
     return user.platformRoles.some(r => r.startsWith(platformPrefix));
-  };
+  }, [user]);
 
-  const value: AuthContextType = {
+  const clearError = useCallback(() => {
+    setError(null);
+  }, []);
+
+  const value = useMemo<AuthContextType>(() => ({
     user,
     isAuthenticated: !!user,
     isLoading,
+    error,
     login,
     logout,
+    clearError,
     hasRole,
     hasEventRole,
     hasPermission,
     canAccessPlatform,
-  };
+  }), [user, isLoading, error, login, logout, clearError, hasRole, hasEventRole, hasPermission, canAccessPlatform]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

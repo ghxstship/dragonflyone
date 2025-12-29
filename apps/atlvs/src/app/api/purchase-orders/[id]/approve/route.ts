@@ -1,12 +1,16 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
 
+const ATLVS_APPROVAL_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN,
+];
+
 const approvalSchema = z.object({
-  user_id: z.string().uuid().optional(),
   notes: z.string().optional(),
   conditions: z.array(z.string()).optional(),
 });
@@ -18,10 +22,19 @@ export async function POST(
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_APPROVAL_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Approval authority required' }, { status: 403 });
+    }
+
     const { id } = params;
     const body = await request.json();
     const validated = approvalSchema.parse(body);
-    const userId = validated.user_id || '00000000-0000-0000-0000-000000000000';
+    const userId = authResult.user?.id || '00000000-0000-0000-0000-000000000000';
 
     // Fetch current PO
     const { data: po, error: fetchError } = await supabase

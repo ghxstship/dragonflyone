@@ -1,6 +1,5 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase';

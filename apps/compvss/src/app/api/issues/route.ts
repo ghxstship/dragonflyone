@@ -1,11 +1,44 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createIssueSchema = z.object({
+  project_id: z.string().uuid().optional(),
+  title: z.string(),
+  description: z.string().optional(),
+  category: z.string(),
+  priority: z.string(),
+  department: z.string().optional(),
+  location: z.string().optional(),
+});
+
+const updateIssueSchema = z.object({
+  id: z.string().uuid(),
+  status: z.string().optional(),
+  assigned_to: z.string().uuid().optional(),
+  resolution: z.string().optional(),
+  escalation_level: z.number().optional(),
+});
+
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
     const status = searchParams.get('status');
@@ -77,7 +110,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -88,7 +128,8 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { project_id, title, description, category, priority, department, location } = body;
+    const validatedData = createIssueSchema.parse(body);
+    const { project_id, title, description, category, priority, department, location } = validatedData;
 
     if (!title || !category || !priority) {
       return NextResponse.json(
@@ -130,7 +171,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -141,7 +189,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, status, assigned_to, resolution, escalation_level } = body;
+    const validatedData = updateIssueSchema.parse(body);
+    const { id, status, assigned_to, resolution, escalation_level } = validatedData;
 
     if (!id) {
       return NextResponse.json({ error: 'Issue ID required' }, { status: 400 });

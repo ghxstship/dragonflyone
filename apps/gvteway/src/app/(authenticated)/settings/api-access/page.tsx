@@ -1,16 +1,34 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useRouter } from "next/navigation";
-// Layout provided by route group
-import {
-  H2, H3, Body, Label, Grid, Stack, StatCard, Input,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Alert,
-  Kicker, MainContent, Container, Checkbox,
-} from "@ghxstship/ui";
+/**
+ * GVTEWAY API Access Page
+ * Manage API keys for programmatic access to the platform
+ * Uses DetailPage template for consistent layout
+ */
 
-import { Key, Plus, Trash2, Copy, CheckCircle, Power, PowerOff } from "lucide-react";
+import { useState } from "react";
+import {
+  Body,
+  Button,
+  Card,
+  Grid,
+  StatCard,
+  Input,
+  Badge,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Modal,
+  Checkbox,
+  useNotifications,
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
+import { Key, Plus, Trash2, Copy, CheckCircle, Power, PowerOff, Code, FileText } from "lucide-react";
 import {
   useApiKeysData,
   type ApiKey,
@@ -18,14 +36,24 @@ import {
   ALL_API_SCOPES,
   getScopeLabel,
 } from "@/hooks/useApiKeys";
+import { useAuthContext, PlatformRole } from "@ghxstship/config";
 
-function ApiAccessPageContent() {
-  const router = useRouter();
+const ADMIN_ROLES = [
+  PlatformRole.GVTEWAY_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
+
+export default function ApiAccessPage() {
+  const { addNotification } = useNotifications();
+  const { hasRole } = useAuthContext();
+  const canManageApiKeys = ADMIN_ROLES.some((role) => hasRole(role));
+
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showKeyModal, setShowKeyModal] = useState(false);
   const [newKey, setNewKey] = useState("");
   const [copiedKey, setCopiedKey] = useState(false);
-
   const [keyName, setKeyName] = useState("");
   const [selectedScopes, setSelectedScopes] = useState<ApiScope[]>([]);
 
@@ -40,47 +68,44 @@ function ApiAccessPageContent() {
     deleteApiKey,
   } = useApiKeysData();
 
-  const activeCount = apiKeys.filter(k => k.is_active).length;
+  const activeCount = apiKeys.filter((k) => k.is_active).length;
 
   const toggleScope = (scope: ApiScope) => {
-    setSelectedScopes(prev =>
-      prev.includes(scope)
-        ? prev.filter(s => s !== scope)
-        : [...prev, scope]
+    setSelectedScopes((prev) =>
+      prev.includes(scope) ? prev.filter((s) => s !== scope) : [...prev, scope]
     );
   };
 
   const handleCreateKey = async () => {
     if (!keyName || selectedScopes.length === 0) return;
-
     try {
-      const result = await createApiKey({
-        name: keyName,
-        scopes: selectedScopes,
-      });
+      const result = await createApiKey({ name: keyName, scopes: selectedScopes });
       setNewKey(result.key);
       setShowCreateModal(false);
       setShowKeyModal(true);
       resetForm();
-    } catch {
-      // Error handled by hook
+      addNotification({ type: "success", title: "Created", message: "API key created successfully" });
+    } catch (err) {
+      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to create API key" });
     }
   };
 
   const handleToggleKey = async (key: ApiKey) => {
     try {
       await toggleApiKey({ id: key.id, is_active: !key.is_active });
-    } catch {
-      // Error handled by hook
+      addNotification({ type: "success", title: "Updated", message: `API key ${key.is_active ? "disabled" : "enabled"}` });
+    } catch (err) {
+      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to update API key" });
     }
   };
 
   const handleDeleteKey = async (id: string) => {
-    if (confirm('Are you sure you want to delete this API key? This action cannot be undone.')) {
+    if (confirm("Are you sure you want to delete this API key? This action cannot be undone.")) {
       try {
         await deleteApiKey(id);
-      } catch {
-        // Error handled by hook
+        addNotification({ type: "success", title: "Deleted", message: "API key deleted" });
+      } catch (err) {
+        addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to delete API key" });
       }
     }
   };
@@ -96,226 +121,193 @@ function ApiAccessPageContent() {
     setSelectedScopes([]);
   };
 
-  if (isLoading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container>
-            <div className="flex items-center justify-center min-h-[400px]">
-              <div className="text-center">
-                <Key className="w-12 h-12 mx-auto mb-4 text-on-dark-muted animate-pulse" />
-                <Body className="text-on-dark-muted">Loading API keys...</Body>
-              </div>
-            </div>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const headerActions = canManageApiKeys ? (
+    <Button variant="solid" onClick={() => setShowCreateModal(true)} icon={<Plus className="size-4" />} iconPosition="left">
+      Create API Key
+    </Button>
+  ) : null;
 
-  if (error) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container>
-            <Alert variant="error">
-              <Body>Failed to load API keys: {error instanceof Error ? error.message : 'Unknown error'}</Body>
-              <Button variant="outline" size="sm" onClick={() => refetch()} className="mt-2">
-                Retry
-              </Button>
-            </Alert>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const tabs = [
+    {
+      id: "keys",
+      label: "API Keys",
+      icon: <Key className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={3} gap={4} className="grid-cols-1 lg:grid-cols-3 mb-6">
+            <StatCard label="Total API Keys" value={apiKeys.length.toString()} />
+            <StatCard label="Active Keys" value={activeCount.toString()} />
+            <StatCard label="Available Scopes" value={ALL_API_SCOPES.length.toString()} />
+          </Grid>
+
+          <SectionHeader title="API Keys" description="Manage your API keys for programmatic access" />
+
+          {apiKeys.length === 0 ? (
+            <div className="text-center py-12">
+              <Key className="size-12 text-grey-600 mx-auto mb-4" />
+              <Body className="text-grey-400 mb-4">No API keys</Body>
+              {canManageApiKeys && (
+                <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create API Key</Button>
+              )}
+            </div>
+          ) : (
+            <Card className="overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Key</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Scopes</TableHead>
+                    <TableHead>Last Used</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {apiKeys.map((key) => (
+                    <TableRow key={key.id}>
+                      <TableCell>
+                        <Body className="font-weight-medium text-white">{key.name}</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body size="sm" className="font-mono text-white">{key.key_prefix}...</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={key.is_active ? "success" : "outline"}>
+                          {key.is_active ? "Active" : "Disabled"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Body size="sm" className="text-white">{key.scopes.length} scopes</Body>
+                      </TableCell>
+                      <TableCell>
+                        <Body size="sm" className="text-grey-400">
+                          {key.last_used_at ? new Date(key.last_used_at).toLocaleDateString() : "Never"}
+                        </Body>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          {canManageApiKeys && (
+                            <>
+                              <Button variant="ghost" size="sm" onClick={() => handleToggleKey(key)} icon={key.is_active ? <PowerOff className="size-4" /> : <Power className="size-4" />} />
+                              <Button variant="ghost" size="sm" onClick={() => handleDeleteKey(key.id)} icon={<Trash2 className="size-4" />} />
+                            </>
+                          )}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Card>
+          )}
+        </Section>
+      ),
+    },
+    {
+      id: "docs",
+      label: "Documentation",
+      icon: <FileText className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="API Documentation" description="How to use your API keys" />
+          <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
+            <Card className="p-6">
+              <div className="flex items-start gap-3 mb-4">
+                <Code className="size-6 text-primary flex-shrink-0" />
+                <Body className="font-weight-medium text-white">Authentication</Body>
+              </div>
+              <div className="space-y-3">
+                <Body size="sm" className="text-grey-400">
+                  Include your API key in the Authorization header:
+                </Body>
+                <Card className="p-3 bg-grey-800">
+                  <Body size="sm" className="font-mono text-white">Authorization: Bearer YOUR_API_KEY</Body>
+                </Card>
+              </div>
+            </Card>
+            <Card className="p-6">
+              <div className="flex items-start gap-3 mb-4">
+                <FileText className="size-6 text-primary flex-shrink-0" />
+                <Body className="font-weight-medium text-white">Base URL</Body>
+              </div>
+              <div className="space-y-3">
+                <Body size="sm" className="text-grey-400">
+                  All API requests should be made to:
+                </Body>
+                <Card className="p-3 bg-grey-800">
+                  <Body size="sm" className="font-mono text-white">https://api.gvteway.com/v1</Body>
+                </Card>
+              </div>
+            </Card>
+          </Grid>
+        </Section>
+      ),
+    },
+  ];
 
   return (
     <>
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Settings</Kicker>
-              <H2 size="lg" className="text-white">API Access</H2>
-              <Body className="text-on-dark-muted">Manage API keys for programmatic access to the GVTEWAY platform</Body>
-            </Stack>
+      <DetailPage
+        header={{
+          kicker: "Settings",
+          title: "API Access",
+          description: "Manage API keys for programmatic access to the GVTEWAY platform",
+        }}
+        loading={isLoading}
+        error={error instanceof Error ? error : null}
+        onRetry={refetch}
+        tabs={tabs}
+        actions={headerActions}
+        backButton={{ label: "Settings", href: "/settings" }}
+      />
 
-            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
-              <StatCard label="Total API Keys" value={apiKeys.length.toString()} inverted />
-              <StatCard label="Active Keys" value={activeCount.toString()} inverted />
-              <StatCard label="Available Scopes" value={ALL_API_SCOPES.length.toString()} inverted />
-            </Grid>
-
-            <Card inverted className="p-4">
-              <Stack gap={4}>
-                <Stack direction="horizontal" className="justify-between items-center">
-                  <H3 className="text-white">API Keys</H3>
-                  <Button variant="solid" inverted onClick={() => setShowCreateModal(true)} icon={<Plus className="size-4" />} iconPosition="left">
-                    Create API Key
-                  </Button>
-                </Stack>
-
-                {apiKeys.length === 0 ? (
-                  <Stack gap={4} className="py-8 text-center">
-                    <Key className="w-12 h-12 mx-auto text-on-dark-muted" />
-                    <H3 className="text-white">No API keys</H3>
-                    <Body className="text-on-dark-muted">Create your first API key to get started with the API</Body>
-                    <Button variant="solid" inverted onClick={() => setShowCreateModal(true)}>Create API Key</Button>
-                  </Stack>
-                ) : (
-                  <Table variant="dark">
-                    <TableHeader>
-                      <TableRow className="bg-ink-900">
-                        <TableHead className="text-on-dark-muted">Name</TableHead>
-                        <TableHead className="text-on-dark-muted">Key</TableHead>
-                        <TableHead className="text-on-dark-muted">Status</TableHead>
-                        <TableHead className="text-on-dark-muted">Scopes</TableHead>
-                        <TableHead className="text-on-dark-muted">Last Used</TableHead>
-                        <TableHead className="text-on-dark-muted">Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {apiKeys.map((key) => (
-                        <TableRow key={key.id} className="border-b border-ink-700">
-                          <TableCell>
-                            <Body className="font-display text-white">{key.name}</Body>
-                          </TableCell>
-                          <TableCell>
-                            <Label className="font-mono text-white">{key.key_prefix}...</Label>
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant={key.is_active ? 'solid' : 'ghost'}>
-                              {key.is_active ? 'Active' : 'Disabled'}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <Label className="text-white">{key.scopes.length} scopes</Label>
-                          </TableCell>
-                          <TableCell>
-                            <Label className="text-on-dark-muted">
-                              {key.last_used_at ? new Date(key.last_used_at).toLocaleDateString() : 'Never'}
-                            </Label>
-                          </TableCell>
-                          <TableCell>
-                            <Stack direction="horizontal" gap={2}>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => handleToggleKey(key)}
-                                icon={key.is_active ? <PowerOff className="size-4" /> : <Power className="size-4" />}
-                              />
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => handleDeleteKey(key.id)}
-                                icon={<Trash2 className="size-4" />}
-                              />
-                            </Stack>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                )}
-              </Stack>
+      <Modal open={showCreateModal} onClose={() => { setShowCreateModal(false); resetForm(); }} title="Create API Key">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Body size="sm" className="text-grey-400">Key Name</Body>
+            <Input placeholder="e.g., Production Server" value={keyName} onChange={(e) => setKeyName(e.target.value)} />
+          </div>
+          <div className="space-y-2">
+            <Body size="sm" className="text-grey-400">Permissions</Body>
+            <Card className="p-4 max-h-[250px] overflow-y-auto">
+              <Grid cols={2} gap={2} className="grid-cols-1 lg:grid-cols-2">
+                {ALL_API_SCOPES.map((scope) => (
+                  <div key={scope} className="flex items-center gap-2">
+                    <Checkbox checked={selectedScopes.includes(scope)} onChange={() => toggleScope(scope)} />
+                    <Body size="sm">{getScopeLabel(scope)}</Body>
+                  </div>
+                ))}
+              </Grid>
             </Card>
-
-            <Card inverted className="p-4">
-              <Stack gap={4}>
-                <H3 className="text-white">API Documentation</H3>
-                <Body className="text-on-dark-muted">
-                  Use your API key to authenticate requests to the GVTEWAY API. Include the key in the Authorization header:
-                </Body>
-                <Card className="p-3 bg-ink-900">
-                  <Label className="font-mono text-white">Authorization: Bearer YOUR_API_KEY</Label>
-                </Card>
-                <Body className="text-on-dark-muted">
-                  API Base URL: <Label className="font-mono text-white">https://api.gvteway.com/v1</Label>
-                </Body>
-              </Stack>
-            </Card>
-
-            <Button variant="outlineInk" onClick={() => router.push("/settings")}>Back to Settings</Button>
-          </Stack>
-        </Container>
-      </MainContent>
-
-      {/* Create API Key Modal */}
-      <Modal open={showCreateModal} onClose={() => { setShowCreateModal(false); resetForm(); }}>
-        <ModalHeader><H3>Create API Key</H3></ModalHeader>
-        <ModalBody>
-          <Stack gap={4}>
-            <Stack gap={2}>
-              <Label>Key Name</Label>
-              <Input
-                placeholder="e.g., Production Server"
-                value={keyName}
-                onChange={(e) => setKeyName(e.target.value)}
-              />
-            </Stack>
-            <Stack gap={2}>
-              <Label>Permissions</Label>
-              <Card className="p-4 max-h-[250px] overflow-y-auto">
-                <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
-                  {ALL_API_SCOPES.map((scope) => (
-                    <Stack key={scope} direction="horizontal" gap={2} className="items-center">
-                      <Checkbox
-                        checked={selectedScopes.includes(scope)}
-                        onChange={() => toggleScope(scope)}
-                      />
-                      <Label size="sm">{getScopeLabel(scope)}</Label>
-                    </Stack>
-                  ))}
-                </Grid>
-              </Card>
-              <Label size="xs" className="text-ink-500">{selectedScopes.length} permissions selected</Label>
-            </Stack>
-          </Stack>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => { setShowCreateModal(false); resetForm(); }}>Cancel</Button>
-          <Button
-            variant="solid"
-            onClick={handleCreateKey}
-            disabled={isCreating || !keyName || selectedScopes.length === 0}
-          >
-            {isCreating ? 'Creating...' : 'Create Key'}
-          </Button>
-        </ModalFooter>
+            <Body size="sm" className="text-grey-500">{selectedScopes.length} permissions selected</Body>
+          </div>
+          <div className="flex gap-4">
+            <Button variant="outline" onClick={() => { setShowCreateModal(false); resetForm(); }}>Cancel</Button>
+            <Button variant="solid" onClick={handleCreateKey} disabled={isCreating || !keyName || selectedScopes.length === 0}>
+              {isCreating ? "Creating..." : "Create Key"}
+            </Button>
+          </div>
+        </div>
       </Modal>
 
-      {/* Key Display Modal */}
-      <Modal open={showKeyModal} onClose={() => setShowKeyModal(false)}>
-        <ModalHeader><H3>API Key Created</H3></ModalHeader>
-        <ModalBody>
-          <Stack gap={4}>
-            <Alert variant="warning">
-              <Body size="sm">This key will only be shown once. Copy it now and store it securely.</Body>
-            </Alert>
-            <Stack gap={2}>
-              <Label>Your API Key</Label>
-              <Stack direction="horizontal" gap={2}>
-                <Input value={newKey} readOnly className="font-mono" />
-                <Button variant="outline" onClick={copyKey} icon={copiedKey ? <CheckCircle className="size-4" /> : <Copy className="size-4" />}>
-                  {copiedKey ? 'Copied' : 'Copy'}
-                </Button>
-              </Stack>
-            </Stack>
-          </Stack>
-        </ModalBody>
-        <ModalFooter>
+      <Modal open={showKeyModal} onClose={() => setShowKeyModal(false)} title="API Key Created">
+        <div className="space-y-4">
+          <Card className="p-4 bg-warning-900 border-warning-500">
+            <Body size="sm" className="text-warning-100">This key will only be shown once. Copy it now and store it securely.</Body>
+          </Card>
+          <div className="space-y-2">
+            <Body size="sm" className="text-grey-400">Your API Key</Body>
+            <div className="flex gap-2">
+              <Input value={newKey} readOnly className="font-mono" />
+              <Button variant="outline" onClick={copyKey} icon={copiedKey ? <CheckCircle className="size-4" /> : <Copy className="size-4" />}>
+                {copiedKey ? "Copied" : "Copy"}
+              </Button>
+            </div>
+          </div>
           <Button variant="solid" onClick={() => setShowKeyModal(false)}>Done</Button>
-        </ModalFooter>
+        </div>
       </Modal>
     </>
-  );
-}
-
-export default function ApiAccessPage() {
-  return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
-      <ApiAccessPageContent />
-    </Suspense>
   );
 }

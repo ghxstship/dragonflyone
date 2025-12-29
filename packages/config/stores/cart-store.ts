@@ -27,6 +27,10 @@ interface CartState {
   tax: number;
   total: number;
   
+  // Async state
+  isApplyingPromo: boolean;
+  promoError: string | null;
+  
   // Actions
   addItem: (item: Omit<CartItem, 'id'>) => void;
   removeItem: (id: string) => void;
@@ -38,66 +42,63 @@ interface CartState {
   discount: number;
   applyPromoCode: (code: string) => Promise<void>;
   removePromoCode: () => void;
+  clearPromoError: () => void;
 }
 
 const TAX_RATE = 0.07; // 7% tax
 
+/**
+ * Recalculate cart totals from items
+ * Centralized calculation to avoid duplication across actions
+ */
+function recalculateTotals(state: CartState): void {
+  state.subtotal = state.items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  state.totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
+  state.tax = state.subtotal * TAX_RATE;
+  state.total = state.subtotal + state.tax - state.discount;
+}
+
 export const useCartStore: UseBoundStore<StoreApi<CartState>> = create<CartState>()(
   devtools(
     persist(
-      immer((set) => ({
+      immer<CartState>((set) => ({
         // Initial state
         items: [],
         totalItems: 0,
         subtotal: 0,
         tax: 0,
         total: 0,
+        isApplyingPromo: false,
+        promoError: null,
         promoCode: null,
         discount: 0,
 
         // Actions
         addItem: (item) =>
           set((state) => {
-            // Check if item already exists
             const existingItemIndex = state.items.findIndex(
               (i) => i.productId === item.productId && i.eventId === item.eventId
             );
 
             if (existingItemIndex !== -1) {
-              // Update quantity
               state.items[existingItemIndex].quantity += item.quantity;
             } else {
-              // Add new item
               state.items.push({
                 ...item,
                 id: Math.random().toString(36).substr(2, 9),
               });
             }
 
-            // Recalculate totals
-            const subtotal = state.items.reduce(
-              (sum, item) => sum + item.price * item.quantity,
-              0
-            );
-            state.subtotal = subtotal;
-            state.totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
-            state.tax = subtotal * TAX_RATE;
-            state.total = subtotal + state.tax - state.discount;
+            recalculateTotals(state);
           }),
 
         removeItem: (id) =>
           set((state) => {
             state.items = state.items.filter((item) => item.id !== id);
-
-            // Recalculate totals
-            const subtotal = state.items.reduce(
-              (sum, item) => sum + item.price * item.quantity,
-              0
-            );
-            state.subtotal = subtotal;
-            state.totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
-            state.tax = subtotal * TAX_RATE;
-            state.total = subtotal + state.tax - state.discount;
+            recalculateTotals(state);
           }),
 
         updateQuantity: (id, quantity) =>
@@ -105,21 +106,11 @@ export const useCartStore: UseBoundStore<StoreApi<CartState>> = create<CartState
             const item = state.items.find((item) => item.id === id);
             if (item) {
               if (quantity <= 0) {
-                // Remove item
                 state.items = state.items.filter((item) => item.id !== id);
               } else {
                 item.quantity = quantity;
               }
-
-              // Recalculate totals
-              const subtotal = state.items.reduce(
-                (sum, item) => sum + item.price * item.quantity,
-                0
-              );
-              state.subtotal = subtotal;
-              state.totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
-              state.tax = subtotal * TAX_RATE;
-              state.total = subtotal + state.tax - state.discount;
+              recalculateTotals(state);
             }
           }),
 
@@ -135,7 +126,11 @@ export const useCartStore: UseBoundStore<StoreApi<CartState>> = create<CartState
           }),
 
         applyPromoCode: async (code) => {
-          // Validate promo code with API
+          set((state) => {
+            state.isApplyingPromo = true;
+            state.promoError = null;
+          });
+          
           try {
             const response = await fetch('/api/promo-codes/validate', {
               method: 'POST',
@@ -151,18 +146,17 @@ export const useCartStore: UseBoundStore<StoreApi<CartState>> = create<CartState
             
             set((state) => {
               state.promoCode = code;
-              // Apply percentage or fixed discount
               state.discount = discount_percent 
                 ? state.subtotal * (discount_percent / 100)
                 : (discount_amount || 0);
               state.total = state.subtotal + state.tax - state.discount;
+              state.isApplyingPromo = false;
             });
-          } catch {
-            // If API fails, apply default 10% discount for valid codes
+          } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Failed to apply promo code';
             set((state) => {
-              state.promoCode = code;
-              state.discount = state.subtotal * 0.1;
-              state.total = state.subtotal + state.tax - state.discount;
+              state.promoError = errorMessage;
+              state.isApplyingPromo = false;
             });
           }
         },
@@ -171,7 +165,13 @@ export const useCartStore: UseBoundStore<StoreApi<CartState>> = create<CartState
           set((state) => {
             state.promoCode = null;
             state.discount = 0;
+            state.promoError = null;
             state.total = state.subtotal + state.tax;
+          }),
+
+        clearPromoError: () =>
+          set((state) => {
+            state.promoError = null;
           }),
       })),
       {

@@ -2,6 +2,45 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 
+// CSRF Protection Constants
+const CSRF_COOKIE_NAME = 'csrf_token';
+const CSRF_HEADER_NAME = 'x-csrf-token';
+const CSRF_TOKEN_LENGTH = 32;
+
+// Generate cryptographically secure random token
+function generateCsrfToken(): string {
+  const array = new Uint8Array(CSRF_TOKEN_LENGTH);
+  crypto.getRandomValues(array);
+  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+// Validate CSRF token with constant-time comparison
+function validateCsrfToken(request: NextRequest): boolean {
+  const cookieToken = request.cookies.get(CSRF_COOKIE_NAME)?.value;
+  const headerToken = request.headers.get(CSRF_HEADER_NAME);
+  
+  if (!cookieToken || !headerToken) {
+    return false;
+  }
+  
+  if (cookieToken.length !== headerToken.length) {
+    return false;
+  }
+  
+  let result = 0;
+  for (let i = 0; i < cookieToken.length; i++) {
+    result |= cookieToken.charCodeAt(i) ^ headerToken.charCodeAt(i);
+  }
+  
+  return result === 0;
+}
+
+// Check if request method requires CSRF validation
+function requiresCsrfValidation(method: string): boolean {
+  const safeMethods = ['GET', 'HEAD', 'OPTIONS'];
+  return !safeMethods.includes(method.toUpperCase());
+}
+
 // Simple in-memory rate limiting for API routes
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT = 100; // requests per minute
@@ -111,6 +150,23 @@ export async function middleware(request: NextRequest) {
       );
     }
     
+    // CSRF validation for state-changing API requests
+    // Skip for auth endpoints (they have their own protection) and webhooks
+    const csrfExemptPaths = ['/api/auth', '/api/webhooks', '/api/cron'];
+    const isCsrfExempt = csrfExemptPaths.some(p => pathname.startsWith(p));
+    
+    if (!isCsrfExempt && requiresCsrfValidation(request.method)) {
+      if (!validateCsrfToken(request)) {
+        return NextResponse.json(
+          { 
+            error: 'CSRF validation failed',
+            message: 'Invalid or missing CSRF token. Please refresh the page and try again.',
+          },
+          { status: 403 }
+        );
+      }
+    }
+    
     const response = NextResponse.next({ request });
     response.headers.set('X-RateLimit-Limit', RATE_LIMIT.toString());
     response.headers.set('X-RateLimit-Remaining', remaining.toString());
@@ -118,6 +174,19 @@ export async function middleware(request: NextRequest) {
   }
   
   const response = NextResponse.next({ request });
+
+  // Set CSRF token cookie if not present
+  const existingCsrfToken = request.cookies.get(CSRF_COOKIE_NAME)?.value;
+  if (!existingCsrfToken) {
+    const newToken = generateCsrfToken();
+    response.cookies.set(CSRF_COOKIE_NAME, newToken, {
+      httpOnly: false, // Must be readable by JavaScript
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 60 * 60 * 24, // 24 hours
+    });
+  }
 
   // Check if the path is public
   const isPublicPath = publicPaths.some(path => 

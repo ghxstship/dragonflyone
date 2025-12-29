@@ -1,283 +1,42 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-// Layout provided by route group
-import {
-  H2,
-  H3,
-  Body,
-  Button,
-  Input,
-  PhoneInput,
-  Alert,
-  Stack,
-  Label,
-  Badge,
-  Card,
-  StatCard,
-  Grid,
-  Kicker,
-  signOut,
-} from "@ghxstship/ui";
-import { User, Bell, Shield, CreditCard, LogOut, Edit3 } from "lucide-react";
-import { useProfileData, type UserProfile } from "@/hooks/useProfile";
+import { User, Ticket, Heart, Settings, List } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+
+interface Profile { name: string; email: string; tickets: number; wishlist: number; }
+const DEMO: Profile = { name: "John Smith", email: "john@example.com", tickets: 5, wishlist: 12 };
 
 export default function ProfilePage() {
   const router = useRouter();
-  const [isEditing, setIsEditing] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [localProfile, setLocalProfile] = useState<UserProfile | null>(null);
+  const { data: profile = DEMO, isLoading, error, refetch } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => { const r = await fetch("/api/profile"); if (!r.ok) return DEMO; return (await r.json()).profile || DEMO; },
+  });
 
-  const {
-    profile: fetchedProfile,
-    platformRoles: userRoles,
-    saveProfile,
-  } = useProfileData();
+  const tabs = [{
+    id: "profile", label: "Profile", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <Card className="p-6 mb-6">
+          <div className="flex items-center gap-6">
+            <div className="size-20 bg-primary rounded-avatar flex items-center justify-center"><User className="size-10 text-white" /></div>
+            <div><Body className="font-weight-bold">{profile.name}</Body><Body className="text-grey-400">{profile.email}</Body></div>
+          </div>
+        </Card>
+        <Grid cols={2} gap={4} className="grid-cols-2 mb-6">
+          <StatCard label="Tickets" value={profile.tickets.toString()} icon={<Ticket className="size-5" />} />
+          <StatCard label="Wishlist" value={profile.wishlist.toString()} icon={<Heart className="size-5" />} />
+        </Grid>
+        <SectionHeader title="Quick Actions" />
+        <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
+          <Card className="p-4 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push("/account/profile")}><div className="flex items-center gap-3"><Settings className="size-5 text-primary" /><Body className="font-weight-medium">Account Settings</Body></div></Card>
+          <Card className="p-4 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push("/wishlist")}><div className="flex items-center gap-3"><Heart className="size-5 text-primary" /><Body className="font-weight-medium">My Wishlist</Body></div></Card>
+        </Grid>
+      </Section>
+    ),
+  }];
 
-  const profile = localProfile || fetchedProfile;
-
-  useEffect(() => {
-    if (fetchedProfile && !localProfile) {
-      setLocalProfile(fetchedProfile);
-    }
-  }, [fetchedProfile, localProfile]);
-
-  const setProfile = (newProfile: UserProfile) => {
-    setLocalProfile(newProfile);
-  };
-
-  const handleSave = async () => {
-    try {
-      await saveProfile(profile);
-      setSaved(true);
-      setIsEditing(false);
-      setTimeout(() => setSaved(false), 3000);
-    } catch {
-      // Error handled by hook
-    }
-  };
-
-  const handleSignOut = async () => {
-    await signOut();
-  };
-
-  return (
-    <>
-      <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={4} direction="horizontal" className="flex-col items-start justify-between md:flex-row md:items-center">
-              <Stack gap={2}>
-                <Kicker colorScheme="on-dark">Account Settings</Kicker>
-                <H2 size="lg" className="text-white">My Profile</H2>
-                <Body className="text-on-dark-muted">Manage your account information and preferences</Body>
-              </Stack>
-              <Stack direction="horizontal" gap={3}>
-                {!isEditing && (
-                  <Button 
-                    variant="solid" 
-                    inverted 
-                    onClick={() => setIsEditing(true)}
-                    icon={<Edit3 className="size-4" />}
-                    iconPosition="left"
-                  >
-                    Edit Profile
-                  </Button>
-                )}
-                <Button 
-                  variant="outlineInk" 
-                  onClick={handleSignOut}
-                  icon={<LogOut className="size-4" />}
-                  iconPosition="left"
-                >
-                  Sign Out
-                </Button>
-              </Stack>
-            </Stack>
-
-            {saved && <Alert variant="success">Profile updated successfully</Alert>}
-
-            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
-              {/* Personal Information Card */}
-              <Card inverted className="col-span-2 p-6">
-                <Stack gap={2} className="mb-6">
-                  <Stack direction="horizontal" gap={2} className="items-center">
-                    <User className="size-5 text-on-dark-muted" />
-                    <H3 className="text-white">Personal Information</H3>
-                  </Stack>
-                </Stack>
-                <Stack gap={6}>
-                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                    <Stack gap={2}>
-                      <Label size="xs" className="text-on-dark-muted">First Name</Label>
-                      {isEditing ? (
-                        <Input
-                          value={profile.firstName}
-                          onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
-                          inverted
-                        />
-                      ) : (
-                        <Body className="font-mono text-white">{profile.firstName}</Body>
-                      )}
-                    </Stack>
-                    <Stack gap={2}>
-                      <Label size="xs" className="text-on-dark-muted">Last Name</Label>
-                      {isEditing ? (
-                        <Input
-                          value={profile.lastName}
-                          onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
-                          inverted
-                        />
-                      ) : (
-                        <Body className="font-mono text-white">{profile.lastName}</Body>
-                      )}
-                    </Stack>
-                  </Grid>
-
-                  <Stack gap={2}>
-                    <Label size="xs" className="text-on-dark-muted">Email</Label>
-                    {isEditing ? (
-                      <Input
-                        type="email"
-                        value={profile.email}
-                        onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                        inverted
-                      />
-                    ) : (
-                      <Body className="font-mono text-white">{profile.email}</Body>
-                    )}
-                  </Stack>
-
-                  <Stack gap={2}>
-                    <Label size="xs" className="text-on-dark-muted">Phone</Label>
-                    {isEditing ? (
-                      <PhoneInput
-                        value={profile.phone}
-                        onChange={(value) => setProfile({ ...profile, phone: value })}
-                        inverted
-                        fullWidth
-                      />
-                    ) : (
-                      <Body className="font-mono text-white">{profile.phone}</Body>
-                    )}
-                  </Stack>
-
-                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                    <Stack gap={2}>
-                      <Label size="xs" className="text-on-dark-muted">City</Label>
-                      {isEditing ? (
-                        <Input
-                          value={profile.city}
-                          onChange={(e) => setProfile({ ...profile, city: e.target.value })}
-                          inverted
-                        />
-                      ) : (
-                        <Body className="font-mono text-white">{profile.city}</Body>
-                      )}
-                    </Stack>
-                    <Stack gap={2}>
-                      <Label size="xs" className="text-on-dark-muted">State</Label>
-                      {isEditing ? (
-                        <Input
-                          value={profile.state}
-                          onChange={(e) => setProfile({ ...profile, state: e.target.value })}
-                          inverted
-                        />
-                      ) : (
-                        <Body className="font-mono text-white">{profile.state}</Body>
-                      )}
-                    </Stack>
-                  </Grid>
-
-                  {isEditing && (
-                    <Stack gap={3} direction="horizontal">
-                      <Button variant="solid" inverted onClick={handleSave}>
-                        Save Changes
-                      </Button>
-                      <Button variant="outlineInk" onClick={() => setIsEditing(false)}>
-                        Cancel
-                      </Button>
-                    </Stack>
-                  )}
-                </Stack>
-              </Card>
-
-              {/* Sidebar Cards */}
-              <Stack gap={6}>
-                <Card inverted className="p-6">
-                  <Stack gap={2} className="mb-4">
-                    <Stack direction="horizontal" gap={2} className="items-center">
-                      <Shield className="size-5 text-on-dark-muted" />
-                      <H3 className="text-white">Roles & Access</H3>
-                    </Stack>
-                  </Stack>
-                  <Stack gap={4}>
-                    <Stack gap={2}>
-                      <Label size="xs" className="text-on-dark-disabled">Platform Roles</Label>
-                      <Stack direction="horizontal" gap={2} className="flex-wrap">
-                        {userRoles.length > 0 ? (
-                          userRoles.map(role => (
-                            <Badge key={role} variant="outline">{role}</Badge>
-                          ))
-                        ) : (
-                          <Badge variant="outline">{profile.role}</Badge>
-                        )}
-                      </Stack>
-                    </Stack>
-                    <Stack gap={1}>
-                      <Label size="xs" className="text-on-dark-disabled">Membership</Label>
-                      <Body className="font-display text-white">{profile.membershipTier}</Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-
-                <Card inverted className="p-6">
-                  <H3 className="mb-4 text-white">Quick Stats</H3>
-                  <Stack gap={4}>
-                    <StatCard label="Events Attended" value="23" inverted />
-                    <StatCard label="Active Tickets" value="4" inverted />
-                    <Stack gap={1}>
-                      <Label size="xs" className="text-on-dark-disabled">Member Since</Label>
-                      <Body className="text-white">Jan 2024</Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-
-                <Card inverted className="p-6">
-                  <H3 className="mb-4 text-white">Preferences</H3>
-                  <Stack gap={3}>
-                    <Button 
-                      variant="outlineInk" 
-                      fullWidth 
-                      onClick={() => router.push('/settings/notifications')}
-                      icon={<Bell className="size-4" />}
-                      iconPosition="left"
-                    >
-                      Notifications
-                    </Button>
-                    <Button 
-                      variant="outlineInk" 
-                      fullWidth 
-                      onClick={() => router.push('/settings/privacy')}
-                      icon={<Shield className="size-4" />}
-                      iconPosition="left"
-                    >
-                      Privacy
-                    </Button>
-                    <Button 
-                      variant="outlineInk" 
-                      fullWidth 
-                      onClick={() => router.push('/settings/payment-methods')}
-                      icon={<CreditCard className="size-4" />}
-                      iconPosition="left"
-                    >
-                      Payment Methods
-                    </Button>
-                  </Stack>
-                </Card>
-              </Stack>
-            </Grid>
-      </Stack>
-    </>
-  );
+  return <DetailPage header={{ kicker: "Account", title: profile.name, description: profile.email }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} actions={<Button variant="outline" icon={<Settings className="size-4" />} onClick={() => router.push("/account/profile")}>Settings</Button>} />;
 }

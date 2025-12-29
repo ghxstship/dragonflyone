@@ -867,3 +867,52 @@ export function getHighestRoleLevel(roles: PlatformRole[]): RoleLevel {
   
   return 'viewer';
 }
+
+/**
+ * Centralized ADMIN_ROLES array for ATLVS platform
+ * Use this instead of defining locally in each page
+ */
+export const ATLVS_ADMIN_ROLES: PlatformRole[] = [
+  PlatformRole.ATLVS_SUPER_ADMIN,
+  PlatformRole.ATLVS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
+
+/**
+ * Centralized ADMIN_ROLES array for COMPVSS platform
+ * Use this instead of defining locally in each page
+ */
+export const COMPVSS_ADMIN_ROLES: PlatformRole[] = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
+
+/**
+ * Centralized ADMIN_ROLES array for GVTEWAY platform
+ * Use this instead of defining locally in each page
+ */
+export const GVTEWAY_ADMIN_ROLES: PlatformRole[] = [
+  PlatformRole.GVTEWAY_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
+
+/**
+ * Helper to check if user has any admin role for a platform
+ */
+export function hasAdminAccess(
+  hasRole: (role: PlatformRole) => boolean,
+  platform: 'atlvs' | 'compvss' | 'gvteway'
+): boolean {
+  const adminRoles = platform === 'atlvs' 
+    ? ATLVS_ADMIN_ROLES 
+    : platform === 'compvss' 
+      ? COMPVSS_ADMIN_ROLES 
+      : GVTEWAY_ADMIN_ROLES;
+  return adminRoles.some(role => hasRole(role));
+}

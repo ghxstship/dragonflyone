@@ -1,14 +1,63 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const submitReferralSchema = z.object({
+  action: z.literal('submit_referral'),
+  position_id: z.string().uuid(),
+  candidate_name: z.string().min(1),
+  candidate_email: z.string().email(),
+  candidate_phone: z.string().optional(),
+  resume_url: z.string().url().optional(),
+  relationship: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+const updateStatusSchema = z.object({
+  action: z.literal('update_status'),
+  referral_id: z.string().uuid(),
+  status: z.enum(['submitted', 'reviewing', 'interviewed', 'hired', 'rejected']),
+});
+
+const payBonusSchema = z.object({
+  action: z.literal('pay_bonus'),
+  referral_id: z.string().uuid(),
+});
+
+const updateSettingsSchema = z.object({
+  action: z.literal('update_settings'),
+  bonus_amount: z.number().min(0).optional(),
+  waiting_period_days: z.number().min(0).optional(),
+  eligible_positions: z.array(z.string()).optional(),
+});
+
+const referralActionSchema = z.union([
+  submitReferralSchema,
+  updateStatusSchema,
+  payBonusSchema,
+  updateSettingsSchema,
+]);
 
 // Referral program management
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const employeeId = searchParams.get('employee_id');
@@ -47,17 +96,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = referralActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'submit_referral') {
-      const { position_id, candidate_name, candidate_email, candidate_phone, resume_url, relationship, notes } = body;
+      const { position_id, candidate_name, candidate_email, candidate_phone, resume_url, relationship, notes } = validatedData as z.infer<typeof submitReferralSchema>;
 
       // Create candidate
       const { data: candidate } = await supabase.from('candidates').insert({
@@ -78,7 +134,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'update_status') {
-      const { referral_id, status } = body;
+      const { referral_id, status } = validatedData as z.infer<typeof updateStatusSchema>;
 
       await supabase.from('employee_referrals').update({ status }).eq('id', referral_id);
 
@@ -94,7 +150,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'pay_bonus') {
-      const { referral_id } = body;
+      const { referral_id } = validatedData as z.infer<typeof payBonusSchema>;
 
       await supabase.from('employee_referrals').update({
         bonus_paid: true, bonus_paid_date: new Date().toISOString()
@@ -104,7 +160,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'update_settings') {
-      const { bonus_amount, waiting_period_days, eligible_positions } = body;
+      const { bonus_amount, waiting_period_days, eligible_positions } = validatedData as z.infer<typeof updateSettingsSchema>;
 
       await supabase.from('referral_program_settings').upsert({
         id: 1, bonus_amount, waiting_period_days, eligible_positions

@@ -1,8 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { log } from '@ghxstship/config';
+import { log, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const updateTemplateSchema = z.object({
+  name: z.string().optional(),
+  description: z.string().optional(),
+  category: z.string().optional(),
+  template_type: z.string().optional(),
+  is_global: z.boolean().optional(),
+  is_active: z.boolean().optional(),
+  tags: z.array(z.string()).optional(),
+});
 
 export const dynamic = 'force-dynamic';
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function GET(
   request: NextRequest,
@@ -57,17 +73,18 @@ export async function PATCH(
   
   try {
     const payload = await request.json();
+    const validatedData = updateTemplateSchema.parse(payload);
 
     const { data, error } = await supabase
       .from('advance_templates')
       .update({
-        name: payload.name,
-        description: payload.description,
-        category: payload.category,
-        template_type: payload.template_type,
-        is_global: payload.is_global,
-        is_active: payload.is_active,
-        tags: payload.tags,
+        name: validatedData.name,
+        description: validatedData.description,
+        category: validatedData.category,
+        template_type: validatedData.template_type,
+        is_global: validatedData.is_global,
+        is_active: validatedData.is_active,
+        tags: validatedData.tags,
       })
       .eq('id', id)
       .select()

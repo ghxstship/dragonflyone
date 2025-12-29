@@ -1,151 +1,55 @@
 "use client";
 
-import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  EmptyState,
-  Grid,
-  H2,
-  Kicker,
-  Select,
-  Stack,
-  useNotifications,
-} from '@ghxstship/ui';
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { GvtewayLoadingLayout } from "@/components/app-layout";
-import { useMerch } from "../../hooks/useMerch";
-import type { MerchItem } from "../../hooks/useMerch";
+import { ShoppingBag, Search, List } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Badge, Body, Button, Card, Input, Grid, DetailPage, Section } from "@ghxstship/ui";
 
-// Demo data for unauthenticated users
-const DEMO_MERCH: MerchItem[] = [
-  {
-    id: "demo-1",
-    name: "Festival Tour T-Shirt",
-    description: "Official tour merchandise",
-    price: 35,
-    category: "apparel",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Black", "White"],
-    stock: 150,
-    images: [],
-    status: "active",
-  },
-  {
-    id: "demo-2",
-    name: "Limited Edition Poster",
-    description: "Signed artist poster",
-    price: 25,
-    category: "art",
-    stock: 50,
-    images: [],
-    status: "active",
-  },
-  {
-    id: "demo-3",
-    name: "Festival Cap",
-    description: "Embroidered logo cap",
-    price: 28,
-    category: "accessories",
-    colors: ["Black", "Navy"],
-    stock: 75,
-    images: [],
-    status: "active",
-  },
+interface Product { id: string; name: string; artist: string; price: number; category: string; }
+const DEMO: Product[] = [
+  { id: "1", name: "Festival T-Shirt", artist: "Summer Fest", price: 35, category: "Apparel" },
+  { id: "2", name: "Tour Poster", artist: "Jazz Night", price: 25, category: "Posters" },
 ];
 
 export default function MerchPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
-  const [filterCategory, setFilterCategory] = useState("all");
-  const [sortBy, setSortBy] = useState("featured");
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("all");
 
-  const { data: merchItems, isLoading, error } = useMerch(
-    filterCategory !== "all" ? { category: filterCategory } : undefined
-  );
-
-  // Use demo data when there's an error (e.g., unauthenticated)
-  const effectiveMerch = error ? DEMO_MERCH : (merchItems || []);
-
-  const sortedMerch = [...effectiveMerch].sort((a, b) => {
-    if (sortBy === "price-low") return a.price - b.price;
-    if (sortBy === "price-high") return b.price - a.price;
-    return 0;
+  const { data: products = [], isLoading, error, refetch } = useQuery<Product[]>({
+    queryKey: ["merch"],
+    queryFn: async () => { const r = await fetch("/api/merch"); if (!r.ok) return DEMO; const data = await r.json(); return data.products?.length ? data.products : DEMO; },
   });
 
-  if (isLoading) {
-    return <GvtewayLoadingLayout text="Loading merchandise..." />;
-  }
+  const categories: string[] = ["all", ...Array.from(new Set(products.map((p) => p.category)))];
+  const filtered = products.filter((p: Product) => p.name.toLowerCase().includes(search.toLowerCase()) && (category === "all" || p.category === category));
+  const formatCurrency = (a: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(a);
 
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Shop</Kicker>
-              <H2 size="lg" className="text-white">Official Merchandise</H2>
-              <Body className="text-on-dark-muted">
-                Exclusive gear from your favorite events and festivals
-              </Body>
-            </Stack>
+  const tabs = [{
+    id: "merch", label: "Merch", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <div className="flex gap-4 items-center mb-6">
+          <div className="relative flex-1 max-w-md"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" /><Input placeholder="Search merch..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" /></div>
+          <div className="flex gap-2">{categories.map((cat) => <Button key={cat} variant={category === cat ? "solid" : "outline"} size="sm" onClick={() => setCategory(cat)}>{cat === "all" ? "All" : cat}</Button>)}</div>
+        </div>
+        <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4">
+          {filtered.map((product: Product) => (
+            <Card key={product.id} className="overflow-hidden cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/merch/${product.id}`)}>
+              <div className="h-40 bg-grey-800 flex items-center justify-center"><ShoppingBag className="size-8 text-grey-600" /></div>
+              <div className="p-4">
+                <Badge variant="outline" className="mb-2">{product.category}</Badge>
+                <Body className="font-weight-bold">{product.name}</Body>
+                <Body size="sm" className="text-grey-400">{product.artist}</Body>
+                <Body className="font-weight-bold mt-2">{formatCurrency(product.price)}</Body>
+              </div>
+            </Card>
+          ))}
+        </Grid>
+      </Section>
+    ),
+  }];
 
-            <Stack gap={4} direction="horizontal">
-              <Select
-                value={filterCategory}
-                onChange={(e) => setFilterCategory(e.target.value)}
-                inverted
-              >
-                <option value="all">All Categories</option>
-                <option value="apparel">Apparel</option>
-                <option value="accessories">Accessories</option>
-                <option value="art">Art</option>
-              </Select>
-              <Select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                inverted
-              >
-                <option value="featured">Featured</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-              </Select>
-            </Stack>
-
-            {sortedMerch.length === 0 ? (
-              <EmptyState
-                title="No Merchandise Found"
-                description="Check back soon for new items"
-                inverted
-              />
-            ) : (
-              <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                {sortedMerch.map((item) => (
-                  <Card key={item.id} inverted interactive className="p-6" onClick={() => router.push(`/merch/${item.id}`)} onKeyDown={(e) => e.key === 'Enter' && router.push(`/merch/${item.id}`)} role="button" tabIndex={0} aria-label={`${item.name}, $${item.price}, ${item.stock} in stock`}>
-                    <Stack gap={4}>
-                      <Stack className="aspect-square rounded-card bg-ink-900" />
-                      <Stack gap={2} direction="horizontal" className="items-start justify-between">
-                        <Body className="font-display text-white">{item.name}</Body>
-                        <Badge variant="outline">{item.category}</Badge>
-                      </Stack>
-                      <Body className="font-display text-white">${item.price}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{item.stock} in stock</Body>
-                      <Button 
-                        variant="solid" 
-                        inverted 
-                        fullWidth 
-                        onClick={() => { addNotification({ type: 'success', title: 'Added', message: `${item.name} added to cart` }); }}
-                      >
-                        Add to Cart
-                      </Button>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            )}
-          </Stack>
-    </>
-  );
+  return <DetailPage header={{ kicker: "Shop", title: "Merchandise", description: "Official event merch" }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} />;
 }

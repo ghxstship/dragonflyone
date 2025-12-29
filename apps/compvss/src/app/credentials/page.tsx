@@ -60,7 +60,7 @@ const columns: ListPageColumn<Credential>[] = [
     accessor: (row) => row.credential_type?.name || '—',
     sortable: true,
     render: (_, row) => row.credential_type ? (
-      <Badge style={{ backgroundColor: row.credential_type.color, color: '#fff' }}>
+      <Badge color={row.credential_type.color}>
         {row.credential_type.code}
       </Badge>
     ) : '—'

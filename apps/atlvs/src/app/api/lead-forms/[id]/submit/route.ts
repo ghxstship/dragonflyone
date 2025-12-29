@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -54,11 +55,25 @@ async function checkDuplicateSubmission(
   return (data?.length || 0) > 0;
 }
 
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
     const body = await request.json();
     const validatedData = SubmissionSchema.parse(body);
@@ -164,7 +179,7 @@ export async function POST(
       .single();
 
     if (leadError) {
-      console.error('Failed to create lead from submission:', leadError.message);
+      // Continue - submission saved successfully, lead creation is optional
     }
 
     if (lead) {
@@ -224,7 +239,6 @@ export async function POST(
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    console.error('Form submission error:', error);
     return NextResponse.json({ error: 'Failed to submit form' }, { status: 500 });
   }
 }

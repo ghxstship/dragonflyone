@@ -1,14 +1,49 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createChecklistSchema = z.object({
+  action: z.literal('create_checklist'),
+  project_id: z.string().uuid(),
+  items: z.array(z.object({ area: z.string(), task: z.string() })).optional(),
+});
+
+const completeItemSchema = z.object({
+  action: z.literal('complete_item'),
+  project_id: z.string().uuid(),
+  item_id: z.string().uuid(),
+  photos: z.array(z.string()).optional(),
+});
+
+const finalSignoffSchema = z.object({
+  action: z.literal('final_signoff'),
+  project_id: z.string().uuid(),
+  restoration_id: z.string().uuid(),
+  signature_url: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+const restorationActionSchema = z.union([createChecklistSchema, completeItemSchema, finalSignoffSchema]);
 
 // Site restoration checklist and final inspection
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -36,17 +71,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action, project_id } = body;
+    const validatedData = restorationActionSchema.parse(body);
+    const { action, project_id } = validatedData;
 
     if (action === 'create_checklist') {
-      const { items } = body;
+      const { items } = validatedData as z.infer<typeof createChecklistSchema>;
 
       const { data, error } = await supabase.from('site_restorations').insert({
         project_id, status: 'in_progress', created_by: user.id
@@ -64,7 +106,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'complete_item') {
-      const { item_id, photos } = body;
+      const { item_id, photos } = validatedData as z.infer<typeof completeItemSchema>;
 
       await supabase.from('restoration_items').update({
         status: 'completed', completed_by: user.id,
@@ -75,7 +117,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'final_signoff') {
-      const { restoration_id, signature_url, notes } = body;
+      const { restoration_id, signature_url, notes } = validatedData as z.infer<typeof finalSignoffSchema>;
 
       await supabase.from('site_restorations').update({
         status: 'completed', signed_off_by: user.id,

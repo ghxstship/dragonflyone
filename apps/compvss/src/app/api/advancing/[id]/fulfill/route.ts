@@ -22,12 +22,17 @@ const fulfillAdvanceSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
-      const { id } = context.params;
-      const payload = context.validated;
+      const params = await context.params;
+      const id = params?.id;
+      const payload = (context as { validated?: z.infer<typeof fulfillAdvanceSchema> }).validated;
       const userId = context.user?.id;
+
+      if (!payload) {
+        return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+      }
 
       // Check if advance exists and is approved
       const { data: advance, error: fetchError } = await supabase

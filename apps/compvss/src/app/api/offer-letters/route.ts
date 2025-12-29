@@ -1,14 +1,52 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const generateSchema = z.object({
+  action: z.literal('generate'),
+  application_id: z.string().uuid(),
+  template_id: z.string().uuid().optional(),
+  position_title: z.string(),
+  salary: z.number(),
+  start_date: z.string(),
+  benefits: z.array(z.string()).optional(),
+  terms: z.record(z.unknown()).optional(),
+});
+
+const sendSchema = z.object({
+  action: z.literal('send'),
+  offer_id: z.string().uuid(),
+  recipient_email: z.string().email(),
+});
+
+const signSchema = z.object({
+  action: z.literal('sign'),
+  signature_token: z.string(),
+  signature_data: z.string(),
+  ip_address: z.string().optional(),
+});
+
+const offerLetterActionSchema = z.union([generateSchema, sendSchema, signSchema]);
 
 // Offer letter generation and e-signature
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const applicationId = searchParams.get('application_id');
@@ -33,17 +71,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = offerLetterActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'generate') {
-      const { application_id, template_id, position_title, salary, start_date, benefits, terms } = body;
+      const { application_id, template_id, position_title, salary, start_date, benefits, terms } = validatedData as z.infer<typeof generateSchema>;
 
       const { data, error } = await supabase.from('offer_letters').insert({
         application_id, template_id, position_title, salary, start_date,
@@ -56,7 +101,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'send') {
-      const { offer_id, recipient_email } = body;
+      const { offer_id, recipient_email } = validatedData as z.infer<typeof sendSchema>;
 
       // Generate signature request token
       const signatureToken = crypto.randomUUID();
@@ -72,7 +117,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'sign') {
-      const { signature_token, signature_data, ip_address } = body;
+      const { signature_token, signature_data, ip_address } = validatedData as z.infer<typeof signSchema>;
 
       const { data: offer } = await supabase.from('offer_letters').select('id')
         .eq('signature_token', signature_token).eq('status', 'sent').single();

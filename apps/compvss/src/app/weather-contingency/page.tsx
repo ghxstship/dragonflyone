@@ -1,22 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Select,
   Button,
   Card,
-  Tabs,
-  TabsList,
-  Tab,
   Badge,
   Alert,
   Modal,
@@ -24,202 +18,178 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 import {
   useWeatherPlans,
   type WeatherPlan,
 } from '../../hooks/useWeatherContingency';
+import { Eye, AlertTriangle } from "lucide-react";
 
+const getRiskVariant = (risk: string): 'solid' | 'outline' | 'ghost' => {
+  switch (risk) {
+    case "Severe": case "High": return "solid";
+    case "Moderate": return "outline";
+    default: return "ghost";
+  }
+};
+
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case "Triggered": return "solid";
+    case "Active": return "outline";
+    default: return "ghost";
+  }
+};
+
+const getRiskColor = (risk: string): 'solid' | 'outline' | 'ghost' => {
+  switch (risk) {
+    case "Severe": case "High": return "solid";
+    case "Moderate": return "outline";
+    default: return "ghost";
+  }
+};
+
+const getRiskBg = (risk: string): string => {
+  switch (risk) {
+    case "Severe": return "bg-error/10";
+    case "High": return "bg-warning/10";
+    case "Moderate": return "bg-info/10";
+    default: return "bg-grey-100";
+  }
+};
 
 export default function WeatherContingencyPage() {
-  const router = useRouter();
-  const { data: weatherPlans = [], isLoading, error } = useWeatherPlans();
-  
-  // URL-synced tab state for deep-linking support
-  const { activeTab, setActiveTab, isActive } = useTabState({
-    defaultTab: 'active',
-    validTabs: ['active', 'triggered', 'all'],
-  });
+  const { data: weatherPlans = [], isLoading, refetch } = useWeatherPlans();
   const [selectedPlan, setSelectedPlan] = useState<WeatherPlan | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
-
-  if (isLoading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Stack gap={4} className="items-center">
-              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
-              <Body>Loading weather contingency data...</Body>
-            </Stack>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container>
-            <Card className="p-6 border-destructive bg-destructive/10">
-              <Stack gap={4} className="items-center text-center">
-                <Body className="text-destructive font-display">Failed to load weather data</Body>
-                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
-                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
-              </Stack>
-            </Card>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
 
   const activePlans = weatherPlans.filter(p => p.status === "Active").length;
   const triggeredPlans = weatherPlans.filter(p => p.status === "Triggered").length;
   const highRiskCount = weatherPlans.filter(p => p.riskLevel === "High" || p.riskLevel === "Severe").length;
 
-  const getRiskColor = (risk: string) => {
-    switch (risk) {
-      case "Low": return "success";
-      case "Moderate": return "warning";
-      case "High": return "warning";
-      case "Severe": return "error";
-      default: return "ghost";
-    }
-  };
+  const columns: ListPageColumn<WeatherPlan>[] = [
+    {
+      key: 'projectName',
+      label: 'Project',
+      accessor: 'projectName',
+      sortable: true,
+      render: (_, p) => (
+        <Stack gap={1}>
+          <Body className="font-display">{p.projectName}</Body>
+          <Stack direction="horizontal" gap={2}>
+            <Badge variant="outline">{p.venueType}</Badge>
+            <Body size="sm" className="text-muted-foreground">{p.venue}</Body>
+          </Stack>
+        </Stack>
+      ),
+    },
+    { key: 'eventDate', label: 'Event Date', accessor: 'eventDate', sortable: true },
+    { key: 'currentConditions', label: 'Conditions', accessor: 'currentConditions' },
+    {
+      key: 'riskLevel',
+      label: 'Risk',
+      accessor: 'riskLevel',
+      sortable: true,
+      render: (_, p) => <Badge variant={getRiskVariant(p.riskLevel)}>{p.riskLevel}</Badge>,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, p) => <Badge variant={getStatusVariant(p.status)}>{p.status}</Badge>,
+    },
+    { key: 'contingencyPlans', label: 'Actions', accessor: (p) => `${p.contingencyPlans.length} actions` },
+  ];
 
-  const getRiskBg = (risk: string) => {
-    switch (risk) {
-      case "Low": return "border-success-800 bg-success-900/10";
-      case "Moderate": return "border-warning-800 bg-warning-900/10";
-      case "High": return "border-warning-800 bg-warning-900/20";
-      case "Severe": return "border-error-800 bg-error-900/20";
-      default: return "border-ink-800 bg-ink-900/50";
-    }
-  };
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'Active', label: 'Active' },
+        { value: 'Triggered', label: 'Triggered' },
+        { value: 'Cleared', label: 'Cleared' },
+      ],
+    },
+    {
+      key: 'riskLevel',
+      label: 'Risk Level',
+      options: [
+        { value: 'Low', label: 'Low' },
+        { value: 'Moderate', label: 'Moderate' },
+        { value: 'High', label: 'High' },
+        { value: 'Severe', label: 'Severe' },
+      ],
+    },
+    {
+      key: 'venueType',
+      label: 'Venue Type',
+      options: [
+        { value: 'Outdoor', label: 'Outdoor' },
+        { value: 'Indoor', label: 'Indoor' },
+        { value: 'Hybrid', label: 'Hybrid' },
+      ],
+    },
+  ];
 
-  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
-    switch (status) {
-      case "Active": return "success";
-      case "Triggered": return "warning";
-      case "Cleared": return "ghost";
-      default: return "ghost";
-    }
-  };
+  const rowActions: ListPageAction<WeatherPlan>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (p) => setSelectedPlan(p) },
+    { id: 'trigger', label: 'Trigger', icon: <AlertTriangle className="h-4 w-4" />, onClick: () => {}, hidden: (p) => p.status === 'Triggered' },
+  ];
+
+  const stats = [
+    { label: 'Active Plans', value: activePlans },
+    { label: 'Triggered', value: triggeredPlans },
+    { label: 'High Risk', value: highRiskCount },
+    { label: 'Outdoor Events', value: weatherPlans.filter(p => p.venueType === "Outdoor").length },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      {triggeredPlans > 0 && (
+        <Alert variant="warning" className="mx-4 mt-4">
+          {triggeredPlans} contingency plan(s) currently triggered due to weather conditions
+        </Alert>
+      )}
+
+      <ListPage<WeatherPlan>
         title="Weather Contingency Planning"
         subtitle="Monitor conditions and manage weather-related contingency plans"
+        data={weatherPlans}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        onRetry={refetch}
+        searchPlaceholder="Search plans..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(p) => setSelectedPlan(p)}
+        createLabel="Create Plan"
+        onCreate={() => setShowCreateModal(true)}
+        entityType="weather-contingency"
+        onExport={createExportHandler({
+          filename: "weather-plans",
+          getData: () => weatherPlans.map((p: WeatherPlan) => ({
+            projectName: p.projectName,
+            venue: p.venue,
+            venueType: p.venueType,
+            eventDate: p.eventDate,
+            riskLevel: p.riskLevel,
+            status: p.status,
+            currentConditions: p.currentConditions,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No weather plans found"
+        emptyAction={{ label: 'Create Plan', onClick: () => setShowCreateModal(true) }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="Active Plans" value={activePlans.toString()} />
-              <StatCard label="Triggered" value={triggeredPlans.toString()} />
-              <StatCard label="High Risk" value={highRiskCount.toString()} />
-              <StatCard label="Outdoor Events" value={weatherPlans.filter(p => p.venueType === "Outdoor").length.toString()} />
-            </Grid>
-
-            {triggeredPlans > 0 && (
-              <Alert variant="warning">
-                {triggeredPlans} contingency plan(s) currently triggered due to weather conditions
-              </Alert>
-            )}
-
-            <Stack direction="horizontal" className="justify-between">
-              <Tabs>
-                <TabsList>
-                  <Tab active={isActive('active')} onClick={() => setActiveTab('active')}>Active</Tab>
-                  <Tab active={isActive('triggered')} onClick={() => setActiveTab('triggered')}>Triggered</Tab>
-                  <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
-                </TabsList>
-              </Tabs>
-              <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Plan</Button>
-            </Stack>
-
-            <Stack gap={4}>
-              {weatherPlans
-                .filter(p => activeTab === "all" || (activeTab === "triggered" ? p.status === "Triggered" : p.status === "Active"))
-                .map((plan) => (
-                  <Card key={plan.id}>
-                    <Stack gap={4}>
-                      <Stack direction="horizontal" className="justify-between items-center">
-                        <Stack gap={1}>
-                          <Body className="font-display">{plan.projectName}</Body>
-                          <Stack direction="horizontal" gap={2}>
-                            <Badge variant="outline">{plan.venueType}</Badge>
-                            <Body size="sm" className="">{plan.venue}</Body>
-                            <Body size="sm" className="">•</Body>
-                            <Body size="sm" className="">{plan.eventDate}</Body>
-                          </Stack>
-                        </Stack>
-                        <Stack direction="horizontal" gap={4} className="items-center">
-                          <Stack gap={1} className="text-right">
-                            <Body size="sm" className="">Risk Level</Body>
-                            <Badge variant={getRiskColor(plan.riskLevel)} className={getRiskBg(plan.riskLevel)}>{plan.riskLevel}</Badge>
-                          </Stack>
-                          <Stack gap={1} className="text-right">
-                            <Body size="sm" className="">Status</Body>
-                            <Badge variant={getStatusVariant(plan.status)}>{plan.status}</Badge>
-                          </Stack>
-                        </Stack>
-                      </Stack>
-
-                      <Card>
-                        <Stack direction="horizontal" className="justify-between items-center">
-                          <Stack gap={1}>
-                            <Body size="sm" className="">Current Conditions</Body>
-                            <Body>{plan.currentConditions}</Body>
-                          </Stack>
-                          <Button variant="ghost" size="sm">Refresh</Button>
-                        </Stack>
-                      </Card>
-
-                      <Stack gap={2}>
-                        <Body size="sm" className="">Contingency Actions ({plan.contingencyPlans.length})</Body>
-                        <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
-                          {plan.contingencyPlans.map((action) => (
-                            <Card key={action.id}>
-                              <Stack gap={2}>
-                                <Stack direction="horizontal" className="justify-between">
-                                  <Badge variant="outline">{action.trigger}</Badge>
-                                  <Badge variant={getStatusVariant(action.status)}>{action.status}</Badge>
-                                </Stack>
-                                <Body size="sm" className="">Threshold: {action.threshold}</Body>
-                                <Body>{action.action}</Body>
-                                <Body size="sm" className="">Responsible: {action.responsible}</Body>
-                              </Stack>
-                            </Card>
-                          ))}
-                        </Grid>
-                      </Stack>
-
-                      <Stack direction="horizontal" gap={2} className="justify-end">
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedPlan(plan)}>View Details</Button>
-                        <Button variant="outline" size="sm">Edit Plan</Button>
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-            </Stack>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="outline">Weather Forecast</Button>
-              <Button variant="outline" onClick={() => router.push("/emergency")}>Emergency Procedures</Button>
-              <Button variant="outline" onClick={() => router.push("/risk-register")}>Risk Register</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={!!selectedPlan} onClose={() => setSelectedPlan(null)}>
         <ModalHeader><H3>Weather Plan Details</H3></ModalHeader>

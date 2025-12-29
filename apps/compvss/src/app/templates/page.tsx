@@ -1,16 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 // Layout provided by route group
-import { FileText } from "lucide-react";
+import { FileText, Eye, Download } from "lucide-react";
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Input,
   Select,
   Button,
@@ -21,157 +19,118 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
-
+import { createExportHandler, getSubcategoryNames } from "@ghxstship/config";
 import {
   useTemplates,
   type Template,
 } from '../../hooks/useTemplates';
 
-import { getSubcategoryNames } from "@ghxstship/config";
-
 const categories = getSubcategoryNames('PROF');
 
 export default function TemplatesPage() {
-  const router = useRouter();
-  const { data: templates = [], isLoading, error } = useTemplates();
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const { data: templates = [], isLoading, error, refetch } = useTemplates();
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  if (isLoading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Stack gap={4} className="items-center">
-              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
-              <Body>Loading templates...</Body>
-            </Stack>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container>
-            <Card className="p-6 border-destructive bg-destructive/10">
-              <Stack gap={4} className="items-center text-center">
-                <Body className="text-destructive font-display">Failed to load templates</Body>
-                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
-                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
-              </Stack>
-            </Card>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
-
-  const filteredTemplates = templates.filter(t => {
-    const matchesCategory = selectedCategory === "All" || t.category === selectedCategory;
-    const matchesSearch = t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          t.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          t.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesCategory && matchesSearch;
-  });
 
   const totalDownloads = templates.reduce((sum, t) => sum + t.downloads, 0);
 
+  const columns: ListPageColumn<Template>[] = [
+    {
+      key: 'name',
+      label: 'Template',
+      accessor: 'name',
+      sortable: true,
+      render: (_, t) => (
+        <Stack gap={1}>
+          <Body className="font-display">{t.name}</Body>
+          <Stack direction="horizontal" gap={2}>
+            <Badge variant="outline">{t.category}</Badge>
+            <Badge variant="outline">{t.fileType}</Badge>
+          </Stack>
+        </Stack>
+      ),
+    },
+    { key: 'description', label: 'Description', accessor: 'description' },
+    {
+      key: 'version',
+      label: 'Version',
+      accessor: 'version',
+      render: (_, t) => <Body>v{t.version}</Body>,
+    },
+    { key: 'downloads', label: 'Downloads', accessor: 'downloads', sortable: true },
+    { key: 'size', label: 'Size', accessor: 'size' },
+    { key: 'lastUpdated', label: 'Updated', accessor: 'lastUpdated', sortable: true },
+  ];
+
+  const filters: ListPageFilter[] = [
+    {
+      key: 'category',
+      label: 'Category',
+      options: categories.map(cat => ({ value: cat, label: cat })),
+    },
+    {
+      key: 'fileType',
+      label: 'File Type',
+      options: [
+        { value: 'PDF', label: 'PDF' },
+        { value: 'DOCX', label: 'DOCX' },
+        { value: 'XLSX', label: 'XLSX' },
+      ],
+    },
+  ];
+
+  const rowActions: ListPageAction<Template>[] = [
+    { id: 'preview', label: 'Preview', icon: <Eye className="h-4 w-4" />, onClick: (t) => setSelectedTemplate(t) },
+    { id: 'download', label: 'Download', icon: <Download className="h-4 w-4" />, onClick: () => {} },
+  ];
+
+  const stats = [
+    { label: 'Templates', value: templates.length },
+    { label: 'Categories', value: categories.length },
+    { label: 'Total Downloads', value: totalDownloads.toLocaleString() },
+    { label: 'Last Updated', value: 'Today' },
+  ];
+
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<Template>
         title="Template Library"
         subtitle="Contracts, checklists, forms, riders, and standard operating procedures"
-
-
-        primaryAction={{ label: 'Upload Template', onClick: () => setShowUploadModal(true) }}
+        data={templates}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        error={error instanceof Error ? error : undefined}
+        onRetry={refetch}
+        searchPlaceholder="Search templates..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(t) => setSelectedTemplate(t)}
+        createLabel="Upload Template"
+        onCreate={() => setShowUploadModal(true)}
+        entityType="templates"
+        onExport={createExportHandler({
+          filename: "templates",
+          getData: () => templates.map((t: Template) => ({
+            name: t.name,
+            category: t.category,
+            fileType: t.fileType,
+            version: t.version,
+            downloads: t.downloads,
+            size: t.size,
+            lastUpdated: t.lastUpdated,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No templates found"
+        emptyAction={{ label: 'Upload Template', onClick: () => setShowUploadModal(true) }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="Templates" value={templates.length.toString()} />
-              <StatCard label="Categories" value={categories.length.toString()} />
-              <StatCard label="Total Downloads" value={totalDownloads.toLocaleString()} />
-              <StatCard label="Last Updated" value="Today" />
-            </Grid>
-
-            <Grid cols={6} gap={2} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-              {categories.map((cat) => {
-                const count = templates.filter(t => t.category === cat).length;
-                return (
-                  <Card key={cat} onClick={() => setSelectedCategory(selectedCategory === cat ? "All" : cat)}>
-                    <Stack gap={1} className="text-center">
-                      <Body>{cat}</Body>
-                      <Body size="sm" className="">{count}</Body>
-                    </Stack>
-                  </Card>
-                );
-              })}
-            </Grid>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Input type="search" placeholder="Search templates..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="col-span-2" />
-              <Button variant="solid" onClick={() => setShowUploadModal(true)}>Upload Template</Button>
-            </Grid>
-
-            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-              {filteredTemplates.map((template) => (
-                <Card key={template.id}>
-                  <Stack gap={3}>
-                    <Stack direction="horizontal" className="justify-between items-start">
-                      <Stack gap={1}>
-                        <Body className="font-display">{template.name}</Body>
-                        <Badge variant="outline">{template.category}</Badge>
-                      </Stack>
-                      <Badge variant="outline">{template.fileType}</Badge>
-                    </Stack>
-                    <Body size="sm" className="">{template.description}</Body>
-                    <Stack direction="horizontal" gap={2} className="flex-wrap">
-                      {template.tags.slice(0, 3).map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}
-                    </Stack>
-                    <Grid cols={3} gap={2} className="sm:grid-cols-2 lg:grid-cols-3">
-                      <Stack gap={0}>
-                        <Body size="sm" className="">Version</Body>
-                        <Body>v{template.version}</Body>
-                      </Stack>
-                      <Stack gap={0}>
-                        <Body size="sm" className="">Downloads</Body>
-                        <Body>{template.downloads}</Body>
-                      </Stack>
-                      <Stack gap={0}>
-                        <Body size="sm" className="">Size</Body>
-                        <Body>{template.size}</Body>
-                      </Stack>
-                    </Grid>
-                    <Stack direction="horizontal" gap={2}>
-                      <Button variant="outline" size="sm" onClick={() => setSelectedTemplate(template)}>Preview</Button>
-                      <Button variant="solid" size="sm">Download</Button>
-                    </Stack>
-                  </Stack>
-                </Card>
-              ))}
-            </Grid>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="outline">Request Template</Button>
-              <Button variant="outline">Version History</Button>
-              <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={!!selectedTemplate} onClose={() => setSelectedTemplate(null)}>
         <ModalHeader><H3>Template Details</H3></ModalHeader>

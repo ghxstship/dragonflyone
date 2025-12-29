@@ -13,8 +13,6 @@ import {
   Grid,
   Stack,
   Body,
-  EnterprisePageHeader,
-  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -22,7 +20,15 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from '@ghxstship/config';
+
+// Roles that can manage equipment (COMPVSS has no SUPER_ADMIN, only ADMIN)
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 import { useEquipment } from '@/hooks/useEquipment';
 
 interface Equipment {
@@ -32,7 +38,8 @@ interface Equipment {
   type?: string;
   category: string;
   status?: string;
-  state: 'available' | 'reserved' | 'deployed' | 'maintenance' | 'retired';
+  // Schema: status enum from API: ['available', 'checked_out', 'maintenance', 'repair', 'retired', 'lost']
+  state: 'available' | 'checked_out' | 'maintenance' | 'repair' | 'retired' | 'lost';
   location?: string;
   serial_number?: string;
   metadata: {
@@ -74,24 +81,29 @@ const filters: ListPageFilter[] = [
   { 
     key: 'status', 
     label: 'Status', 
+    // Schema: status enum from API: ['available', 'checked_out', 'maintenance', 'repair', 'retired', 'lost']
     options: [
       { value: 'available', label: 'Available' },
-      { value: 'reserved', label: 'Reserved' },
-      { value: 'deployed', label: 'Deployed' },
+      { value: 'checked_out', label: 'Checked Out' },
       { value: 'maintenance', label: 'Maintenance' },
+      { value: 'repair', label: 'Repair' },
       { value: 'retired', label: 'Retired' },
+      { value: 'lost', label: 'Lost' },
     ]
   },
   {
     key: 'category',
     label: 'Category',
+    // Schema: category enum from API: ['lighting', 'audio', 'video', 'staging', 'rigging', 'power', 'cables', 'cases', 'other']
     options: [
+      { value: 'lighting', label: 'Lighting' },
       { value: 'audio', label: 'Audio' },
       { value: 'video', label: 'Video' },
-      { value: 'lighting', label: 'Lighting' },
       { value: 'staging', label: 'Staging' },
       { value: 'rigging', label: 'Rigging' },
       { value: 'power', label: 'Power' },
+      { value: 'cables', label: 'Cables' },
+      { value: 'cases', label: 'Cases' },
       { value: 'other', label: 'Other' },
     ]
   },
@@ -102,26 +114,34 @@ const formFields: FormFieldConfig[] = [
   { name: 'tag', label: 'Asset Tag', type: 'text', required: true },
   { name: 'serial_number', label: 'Serial Number', type: 'text' },
   { name: 'category', label: 'Category', type: 'select', required: true, options: [
+    // Schema: category enum from API: ['lighting', 'audio', 'video', 'staging', 'rigging', 'power', 'cables', 'cases', 'other']
+    { value: 'lighting', label: 'Lighting' },
     { value: 'audio', label: 'Audio' },
     { value: 'video', label: 'Video' },
-    { value: 'lighting', label: 'Lighting' },
     { value: 'staging', label: 'Staging' },
     { value: 'rigging', label: 'Rigging' },
     { value: 'power', label: 'Power' },
+    { value: 'cables', label: 'Cables' },
+    { value: 'cases', label: 'Cases' },
     { value: 'other', label: 'Other' },
   ]},
-  { name: 'state', label: 'Status', type: 'select', options: [
+  { name: 'status', label: 'Status', type: 'select', options: [
+    // Schema: status enum from API: ['available', 'checked_out', 'maintenance', 'repair', 'retired', 'lost']
     { value: 'available', label: 'Available' },
-    { value: 'reserved', label: 'Reserved' },
-    { value: 'deployed', label: 'Deployed' },
+    { value: 'checked_out', label: 'Checked Out' },
     { value: 'maintenance', label: 'Maintenance' },
+    { value: 'repair', label: 'Repair' },
   ]},
   { name: 'location', label: 'Location', type: 'text' },
 ];
 
 export default function EquipmentPage() {
   const router = useRouter();
-  const { data: equipment, isLoading, refetch } = useEquipment({});
+  const { hasRole } = useAuthContext();
+  const { data: equipment, isLoading, error, refetch } = useEquipment({});
+
+  // RBAC: Check if user has admin access for manage operations
+  const canManageEquipment = ADMIN_ROLES.some(role => hasRole(role));
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
@@ -133,17 +153,23 @@ export default function EquipmentPage() {
 
   const rowActions: ListPageAction<Equipment>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedEquipment(row); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/equipment/${row.id}/edit`) },
-    { id: 'assign', label: 'Assign', icon: <ClipboardList className="size-4" />, onClick: (row) => router.push(`/equipment/${row.id}/assign`) },
-    { id: 'maintenance', label: 'Log Maintenance', icon: <Wrench className="size-4" />, onClick: (row) => router.push(`/equipment/${row.id}/maintenance`) },
-    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setEquipmentToDelete(row); setDeleteConfirmOpen(true); } },
+    ...(canManageEquipment ? [
+      { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row: Equipment) => router.push(`/equipment/${row.id}/edit`) },
+      { id: 'assign', label: 'Assign', icon: <ClipboardList className="size-4" />, onClick: (row: Equipment) => router.push(`/equipment/${row.id}/assign`) },
+      { id: 'maintenance', label: 'Log Maintenance', icon: <Wrench className="size-4" />, onClick: (row: Equipment) => router.push(`/equipment/${row.id}/maintenance`) },
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (row: Equipment) => { setEquipmentToDelete(row); setDeleteConfirmOpen(true); } },
+    ] : []),
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" /> },
-    { id: 'maintenance', label: 'Schedule Maintenance', icon: <Wrench className="size-4" /> },
+    ...(canManageEquipment ? [
+      { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" /> },
+      { id: 'maintenance', label: 'Schedule Maintenance', icon: <Wrench className="size-4" /> },
+    ] : []),
     { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
-    { id: 'retire', label: 'Retire', icon: <Trash2 className="size-4" />, variant: 'danger' },
+    ...(canManageEquipment ? [
+      { id: 'retire', label: 'Retire', icon: <Trash2 className="size-4" />, variant: 'danger' as const },
+    ] : []),
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -202,10 +228,11 @@ export default function EquipmentPage() {
 
   const importTemplates = getImportTemplates('equipment');
 
+  // Schema: status enum from API: ['available', 'checked_out', 'maintenance', 'repair', 'retired', 'lost']
   const stats = [
     { label: 'Total Items', value: equipmentList.length },
     { label: 'Available', value: equipmentList.filter(e => (e.status || e.state) === 'available').length },
-    { label: 'Deployed', value: equipmentList.filter(e => (e.status || e.state) === 'deployed').length },
+    { label: 'Checked Out', value: equipmentList.filter(e => (e.status || e.state) === 'checked_out').length },
     { label: 'Maintenance', value: equipmentList.filter(e => (e.status || e.state) === 'maintenance').length },
   ];
 
@@ -238,49 +265,44 @@ export default function EquipmentPage() {
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<Equipment>
         title="Equipment Inventory"
         subtitle="Track and manage production equipment"
-primaryAction={{ label: 'Add Equipment', onClick: () => setCreateModalOpen(true) }}
+        data={equipmentList}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        error={error}
+        onRetry={refetch}
+        searchPlaceholder="Search equipment..."
+        filters={filters}
+        rowActions={rowActions}
+        bulkActions={bulkActions}
+        onBulkAction={handleBulkAction}
+        onRowClick={(row) => { setSelectedEquipment(row); setDrawerOpen(true); }}
+        createLabel={canManageEquipment ? "Add Equipment" : undefined}
+        onCreate={canManageEquipment ? () => setCreateModalOpen(true) : undefined}
+        entityType="equipment"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['name', 'tag', 'category', 'type', 'status', 'location', 'serial_number']}
+        onExport={createExportHandler({
+          filename: "equipment",
+          getData: () => equipmentList.map(e => ({
+            id: e.id,
+            tag: e.tag,
+            type: e.type || e.category,
+            status: e.status || e.state,
+            location: e.location || '',
+            assigned_to: e.assigned_to || '',
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No equipment found"
+        emptyAction={canManageEquipment ? { label: 'Add Equipment', onClick: () => setCreateModalOpen(true) } : undefined}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <ListPage<Equipment>
-          title=""
-          data={equipmentList}
-          columns={columns}
-          rowKey="id"
-          loading={isLoading}
-          onRetry={refetch}
-          searchPlaceholder="Search equipment..."
-          filters={filters}
-          rowActions={rowActions}
-          bulkActions={bulkActions}
-          onBulkAction={handleBulkAction}
-          onRowClick={(row) => { setSelectedEquipment(row); setDrawerOpen(true); }}
-          createLabel="Add Equipment"
-          onCreate={() => setCreateModalOpen(true)}
-          entityType="equipment"
-          onImport={handleImport}
-          importTemplates={importTemplates}
-          importSampleFields={['name', 'tag', 'category', 'type', 'status', 'location', 'serial_number']}
-          onExport={createExportHandler({
-            filename: "equipment",
-            getData: () => equipmentList.map(e => ({
-              id: e.id,
-              tag: e.tag,
-              type: e.type || e.category,
-              status: e.status || e.state,
-              location: e.location || '',
-              assigned_to: e.assigned_to || '',
-            })),
-          })}
-          stats={stats}
-          emptyMessage="No equipment found"
-          emptyAction={{ label: 'Add Equipment', onClick: () => setCreateModalOpen(true) }}
-        />
-      </MainContent>
 
       <RecordFormModal
         open={createModalOpen}

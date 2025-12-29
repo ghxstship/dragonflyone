@@ -1,133 +1,173 @@
 "use client";
 
+/**
+ * Production Team Page
+ * Team members and roles
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid, Badge, StatCard, Spinner, EmptyState } from "@ghxstship/ui";
-import { Users, Plus, UserCheck, GraduationCap, RefreshCw } from "lucide-react";
-import { useProduction } from "../../../../hooks/useProductions";
-import { useContacts } from "../../../../hooks/useContacts";
-import { atlvsDemoProductions } from "../../../../data/atlvs";
+import { Users, Plus, Mail, Phone, Search, List, UserPlus } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  Input,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
 
 interface TeamMember {
   id: string;
   name: string;
   role: string;
   department: string;
-  status: string;
+  email: string;
+  phone: string;
+  avatar: string;
 }
 
-const demoTeam: TeamMember[] = [
-  { id: "1", name: "John Smith", role: "Production Manager", department: "Production", status: "confirmed" },
-  { id: "2", name: "Sarah Jones", role: "Stage Manager", department: "Stage", status: "confirmed" },
-  { id: "3", name: "Mike Wilson", role: "Audio Engineer", department: "Audio", status: "confirmed" },
-  { id: "4", name: "Emily Brown", role: "Lighting Designer", department: "Lighting", status: "pending" },
-  { id: "5", name: "Tom Davis", role: "Security Lead", department: "Security", status: "confirmed" },
+const DEMO_TEAM: TeamMember[] = [
+  { id: "1", name: "John Smith", role: "Production Manager", department: "Production", email: "john@example.com", phone: "+1 555-0101", avatar: "JS" },
+  { id: "2", name: "Sarah Williams", role: "Stage Manager", department: "Stage", email: "sarah@example.com", phone: "+1 555-0102", avatar: "SW" },
+  { id: "3", name: "Mike Johnson", role: "Technical Director", department: "Technical", email: "mike@example.com", phone: "+1 555-0103", avatar: "MJ" },
+  { id: "4", name: "Emily Davis", role: "Lighting Designer", department: "Technical", email: "emily@example.com", phone: "+1 555-0104", avatar: "ED" },
+  { id: "5", name: "Alex Chen", role: "Sound Engineer", department: "Technical", email: "alex@example.com", phone: "+1 555-0105", avatar: "AC" },
+  { id: "6", name: "Lisa Brown", role: "Production Coordinator", department: "Production", email: "lisa@example.com", phone: "+1 555-0106", avatar: "LB" },
 ];
+
+const DEPARTMENTS = ["All", "Production", "Stage", "Technical"];
 
 export default function ProductionTeamPage() {
   const params = useParams();
   const router = useRouter();
-  const productionId = params?.productionId as string;
+  const productionId = params.productionId as string;
+  const [search, setSearch] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("All");
 
-  // Fetch production from API
-  const { data: apiProduction, isLoading: productionLoading, error: productionError, refetch } = useProduction(productionId);
-  const demoProduction = atlvsDemoProductions.find((p) => p.id === productionId);
-  const productionName = apiProduction?.title || demoProduction?.name || "Production";
+  const { data: team = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["production-team", productionId],
+    queryFn: async () => {
+      const response = await fetch(`/api/productions/${productionId}/team`);
+      if (!response.ok) return DEMO_TEAM;
+      const data = await response.json();
+      return data.team?.length ? data.team : DEMO_TEAM;
+    },
+  });
 
-  // Fetch team contacts from API
-  const { data: apiContacts, isLoading: contactsLoading } = useContacts();
+  const filteredTeam = team.filter((member: TeamMember) => {
+    const matchesSearch = !search || member.name.toLowerCase().includes(search.toLowerCase()) || member.role.toLowerCase().includes(search.toLowerCase());
+    const matchesDepartment = selectedDepartment === "All" || member.department === selectedDepartment;
+    return matchesSearch && matchesDepartment;
+  });
 
-  if (productionLoading || contactsLoading) {
-    return (
-      <Stack className="flex min-h-[400px] items-center justify-center">
-        <Spinner size="lg" />
-        <Body className="text-on-dark-muted">Loading team...</Body>
-      </Stack>
-    );
-  }
+  const departmentCounts = DEPARTMENTS.reduce((acc, dept) => {
+    acc[dept] = dept === "All" ? team.length : team.filter((m: TeamMember) => m.department === dept).length;
+    return acc;
+  }, {} as Record<string, number>);
 
-  if (productionError && !demoProduction) {
-    return (
-      <EmptyState
-        icon={<RefreshCw size={48} />}
-        title="Failed to load production"
-        description={productionError.message}
-        action={{ label: "Retry", onClick: () => refetch() }}
-      />
-    );
-  }
+  const tabs = [
+    {
+      id: "team",
+      label: "Team",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+            {DEPARTMENTS.map((dept) => (
+              <StatCard key={dept} label={dept} value={departmentCounts[dept].toString()} icon={<Users className="size-5" />} />
+            ))}
+          </Grid>
 
-  // Use API contacts if available, otherwise demo data
-  const team: TeamMember[] = apiContacts && apiContacts.length > 0
-    ? apiContacts.map(c => ({
-        id: c.id,
-        name: `${c.first_name || ''} ${c.last_name || ''}`.trim() || 'Unknown',
-        role: c.title || 'Team Member',
-        department: c.company || 'General',
-        status: c.status || 'confirmed',
-      }))
-    : demoTeam;
+          <Card className="p-4 mb-6">
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex-1 min-w-[200px] relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Input placeholder="Search team..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+              </div>
+              <div className="flex gap-2">
+                {DEPARTMENTS.map((dept) => (
+                  <Button key={dept} variant={selectedDepartment === dept ? "solid" : "outline"} size="sm" onClick={() => setSelectedDepartment(dept)}>
+                    {dept}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </Card>
 
-  const teamStats = { 
-    total: team.length, 
-    confirmed: team.filter(m => m.status === 'confirmed').length, 
-    pending: team.filter(m => m.status === 'pending').length 
-  };
-
-  const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
-    confirmed: "success", pending: "warning", declined: "error",
-  };
+          <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
+            {filteredTeam.map((member: TeamMember) => (
+              <Card key={member.id} className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="size-12 bg-primary rounded-avatar flex items-center justify-center text-white font-weight-bold">
+                    {member.avatar}
+                  </div>
+                  <div className="flex-1">
+                    <Body className="font-weight-bold">{member.name}</Body>
+                    <Body size="sm" className="text-grey-400">{member.role}</Body>
+                    <Badge variant="outline" className="mt-2">{member.department}</Badge>
+                  </div>
+                </div>
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-center gap-2 text-grey-400">
+                    <Mail className="size-4" />
+                    <Body size="sm">{member.email}</Body>
+                  </div>
+                  <div className="flex items-center gap-2 text-grey-400">
+                    <Phone className="size-4" />
+                    <Body size="sm">{member.phone}</Body>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </Grid>
+        </Section>
+      ),
+    },
+    {
+      id: "invite",
+      label: "Invite",
+      icon: <UserPlus className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Invite Team Members" description="Add new members to this production" />
+          <Card className="p-6 mt-4 max-w-md">
+            <div className="space-y-4">
+              <div>
+                <Body size="sm" className="text-grey-400 mb-1">Email Address</Body>
+                <Input type="email" placeholder="colleague@example.com" />
+              </div>
+              <div>
+                <Body size="sm" className="text-grey-400 mb-1">Role</Body>
+                <Input placeholder="e.g., Stage Manager" />
+              </div>
+              <Button variant="solid" icon={<UserPlus className="size-4" />} iconPosition="left">Send Invitation</Button>
+            </div>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <Stack gap={8}>
-      <Stack gap={4}>
-        <SectionHeader
-          kicker={productionName}
-          title="Team"
-          description="Manage team assignments and availability"
-          colorScheme="on-dark"
-        />
-        <Stack direction="horizontal" gap={2}>
-          <Button variant="solid" size="sm">
-            <Plus size={16} className="mr-2" />
-            Add Team Member
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => router.push(`/p/${productionId}/team/assignments`)}>
-            <UserCheck size={16} className="mr-2" />
-            Assignments
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => router.push(`/p/${productionId}/team/training`)}>
-            <GraduationCap size={16} className="mr-2" />
-            Training
-          </Button>
-        </Stack>
-      </Stack>
-
-      <Grid cols={1} gap={4} className="sm:grid-cols-3">
-        <StatCard label="Total Team" value={teamStats.total.toString()} icon={<Users size={20} />} inverted />
-        <StatCard label="Confirmed" value={teamStats.confirmed.toString()} icon={<UserCheck size={20} />} trend="up" inverted />
-        <StatCard label="Pending" value={teamStats.pending.toString()} icon={<Users size={20} />} trend={teamStats.pending > 0 ? "down" : "up"} inverted />
-      </Grid>
-
-      <Card variant="elevated" inverted>
-        <CardBody>
-          <Stack gap={0}>
-            {team.map((member, index) => (
-              <Box key={member.id} className={`flex items-center justify-between border-ink-700 p-4 ${index < team.length - 1 ? "border-b" : ""}`}>
-                <Stack direction="horizontal" gap={3} className="items-center">
-                  <Box className="flex size-10 items-center justify-center rounded-avatar bg-ink-800">
-                    <Users size={20} className="text-primary" />
-                  </Box>
-                  <Stack gap={1}>
-                    <Body className="font-weight-medium text-white">{member.name}</Body>
-                    <Body size="sm" className=" text-on-dark-muted">{member.role} · {member.department}</Body>
-                  </Stack>
-                </Stack>
-                <Badge variant={statusColors[member.status]}>{member.status.toUpperCase()}</Badge>
-              </Box>
-            ))}
-          </Stack>
-        </CardBody>
-      </Card>
-    </Stack>
+    <DetailPage
+      header={{
+        kicker: "Production",
+        title: "Team",
+        description: "Manage production team members",
+      }}
+      backButton={{ label: "Overview", href: `/p/${productionId}/overview` }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={<Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left">Add Member</Button>}
+    />
   );
 }

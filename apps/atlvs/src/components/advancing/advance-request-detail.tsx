@@ -32,7 +32,18 @@ import {
   useAdvancingRequest,
   useApproveAdvance,
   useRejectAdvance,
+  useAuthContext,
+  PlatformRole,
 } from '@ghxstship/config';
+
+// Roles that can approve/reject advances
+const ADMIN_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN,
+  PlatformRole.ATLVS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 interface AdvanceRequestDetailProps {
   requestId: string;
@@ -40,10 +51,14 @@ interface AdvanceRequestDetailProps {
 }
 
 export function AdvanceRequestDetail({ requestId, onUpdate }: AdvanceRequestDetailProps) {
+  const { hasRole } = useAuthContext();
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [reviewerNotes, setReviewerNotes] = useState('');
   const [approvedCost, setApprovedCost] = useState('');
+
+  // RBAC: Check if user has admin access for approve/reject operations
+  const canManageAdvances = ADMIN_ROLES.some(role => hasRole(role));
 
   const { data: request, isLoading } = useAdvancingRequest(requestId);
   const { mutate: approveRequest, isPending: isApproving } = useApproveAdvance();
@@ -52,7 +67,8 @@ export function AdvanceRequestDetail({ requestId, onUpdate }: AdvanceRequestDeta
   if (isLoading) return <Spinner variant="grey" />;
   if (!request) return <Alert variant="error">Request not found</Alert>;
 
-  const canApprove = ['submitted', 'under_review'].includes(request.status);
+  // Status check combined with RBAC check
+  const canApprove = canManageAdvances && ['submitted', 'under_review'].includes(request.status);
 
   const formatCurrency = (amount: number | null) => {
     if (!amount) return '-';

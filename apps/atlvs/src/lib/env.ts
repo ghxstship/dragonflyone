@@ -1,8 +1,13 @@
 import { z } from "zod";
 
+const isProduction = process.env.NODE_ENV === 'production';
+
+// In production, critical variables are required. In development, they're optional.
 const serverSchema = z.object({
-  SUPABASE_URL: z.string().url().optional(),
-  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
+  // Database - required in production
+  SUPABASE_URL: isProduction ? z.string().url() : z.string().url().optional(),
+  SUPABASE_SERVICE_ROLE_KEY: isProduction ? z.string().min(1) : z.string().min(1).optional(),
+  // Admin access - optional (feature flag)
   ADMIN_API_TOKEN: z.string().min(1).optional(),
 });
 

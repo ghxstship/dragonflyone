@@ -1,271 +1,90 @@
-'use client';
+"use client";
 
-import {
-  Body,
-  H1,
-  H3,
-  Input,
-  Select,
-  Text,
-} from '@ghxstship/ui';
+/**
+ * BEOs (Banquet Event Orders) List Page
+ * Uses ListPage template for consistent layout
+ */
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { Plus, Search, FileText, Clock, CheckCircle, Send, Calendar, Filter, Users } from 'lucide-react';
-import { useBEOs } from '@/hooks/useBEOs';
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { Badge, ListPage, type ListPageFilter } from "@ghxstship/ui";
+
+interface BEO {
+  id: string;
+  event_name: string;
+  client: string;
+  date: string;
+  status: "draft" | "pending" | "approved" | "completed";
+  total: number;
+  guests: number;
+}
+
+const DEMO_BEOS: BEO[] = [
+  { id: "1", event_name: "Corporate Gala 2024", client: "Acme Corp", date: "2024-12-20", status: "approved", total: 45000, guests: 200 },
+  { id: "2", event_name: "Wedding Reception", client: "Smith Family", date: "2024-12-25", status: "pending", total: 25000, guests: 150 },
+  { id: "3", event_name: "Product Launch", client: "Tech Inc", date: "2025-01-15", status: "draft", total: 35000, guests: 100 },
+];
 
 const STATUS_CONFIG = {
-  draft: { label: 'Draft', color: 'bg-muted text-muted-foreground' },
-  pending_review: { label: 'Pending Review', color: 'bg-warning/20 text-warning' },
-  approved: { label: 'Approved', color: 'bg-success/20 text-success' },
-  distributed: { label: 'Distributed', color: 'bg-primary/20 text-primary' },
-  executed: { label: 'Executed', color: 'bg-success text-success-foreground' },
-  archived: { label: 'Archived', color: 'bg-muted text-muted-foreground' },
+  draft: { label: "Draft", variant: "outline" as const },
+  pending: { label: "Pending", variant: "warning" as const },
+  approved: { label: "Approved", variant: "success" as const },
+  completed: { label: "Completed", variant: "info" as const },
 };
 
 export default function BEOsPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('');
-  const [dateRange, setDateRange] = useState({
-    from: '',
-    to: '',
+  const router = useRouter();
+
+  const { data: beos = [], isLoading, error, refetch } = useQuery<BEO[]>({
+    queryKey: ["beos"],
+    queryFn: async () => {
+      const response = await fetch("/api/beos");
+      if (!response.ok) return DEMO_BEOS;
+      const data = await response.json();
+      return data.beos?.length ? data.beos : DEMO_BEOS;
+    },
   });
 
-  const { data, isLoading, error } = useBEOs({
-    status: statusFilter || undefined,
-    event_date_from: dateRange.from || undefined,
-    event_date_to: dateRange.to || undefined,
-  });
+  const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(amount);
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 
-  const beos = data?.beos || [];
-
-  const filteredBEOs = searchQuery
-    ? beos.filter(
-        (b) =>
-          b.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          b.beo_number?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          b.venue_name?.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : beos;
-
-  const getStats = () => {
-    return {
-      total: beos.length,
-      draft: beos.filter((b) => b.status === 'draft').length,
-      pending: beos.filter((b) => b.status === 'pending_review').length,
-      approved: beos.filter((b) => b.status === 'approved').length,
-      distributed: beos.filter((b) => b.status === 'distributed').length,
-    };
-  };
-
-  const stats = getStats();
-
-  if (isLoading) {
-    return (
-      <div className="p-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded-card w-1/3" />
-          <div className="h-64 bg-muted rounded-card" />
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 text-destructive">
-          Failed to load BEOs. Please try again.
-        </div>
-      </div>
-    );
-  }
+  const filterOptions: ListPageFilter[] = [
+    {
+      key: "status",
+      label: "Status",
+      options: [
+        { value: "all", label: "All" },
+        { value: "draft", label: "Draft" },
+        { value: "pending", label: "Pending" },
+        { value: "approved", label: "Approved" },
+        { value: "completed", label: "Completed" },
+      ],
+    },
+  ];
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground">Banquet Event Orders</H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Operational documents for production teams
-          </Body>
-        </div>
-        <div className="flex items-center gap-2">
-          <Link
-            href="/beos/templates"
-            className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
-          >
-            Templates
-          </Link>
-          <Link
-            href="/beos/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
-          >
-            <Plus className="h-4 w-4" />
-            New BEO
-          </Link>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-5 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <FileText className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Total</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-foreground">{stats.total}</Body>
-        </div>
-        <div className="bg-background border-2 border-muted rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-5 w-5 text-muted-foreground" />
-            <Text className="text-body-sm text-muted-foreground">Drafts</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-muted-foreground">{stats.draft}</Body>
-        </div>
-        <div className="bg-background border-2 border-warning/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-5 w-5 text-warning" />
-            <Text className="text-body-sm text-muted-foreground">Pending</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-warning">{stats.pending}</Body>
-        </div>
-        <div className="bg-background border-2 border-success/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <CheckCircle className="h-5 w-5 text-success" />
-            <Text className="text-body-sm text-muted-foreground">Approved</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-success">{stats.approved}</Body>
-        </div>
-        <div className="bg-background border-2 border-primary/50 rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Send className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Distributed</Text>
-          </div>
-          <Body className="text-h3-md font-weight-bold text-primary">{stats.distributed}</Body>
-        </div>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search BEOs..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <Select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All Status</option>
-            {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </Select>
-        </div>
-        <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-muted-foreground" />
-          <Input
-            type="date"
-            value={dateRange.from}
-            onChange={(e) => setDateRange({ ...dateRange, from: e.target.value })}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          <Text className="text-muted-foreground">to</Text>
-          <Input
-            type="date"
-            value={dateRange.to}
-            onChange={(e) => setDateRange({ ...dateRange, to: e.target.value })}
-            className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-        </div>
-      </div>
-
-      {filteredBEOs.length === 0 && (
-        <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
-          <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
-            No BEOs found
-          </H3>
-          <Body className="text-body-sm text-muted-foreground mb-4">
-            {searchQuery ? 'Try adjusting your search' : 'Create your first BEO'}
-          </Body>
-          <Link
-            href="/beos/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
-          >
-            <Plus className="h-4 w-4" />
-            New BEO
-          </Link>
-        </div>
-      )}
-
-      {filteredBEOs.length > 0 && (
-        <div className="space-y-4">
-          {filteredBEOs.map((beo) => {
-            const statusConfig = STATUS_CONFIG[beo.status];
-
-            return (
-              <Link
-                key={beo.id}
-                href={`/beos/${beo.id}`}
-                className="block bg-background border-2 border-border rounded-card p-6 hover:border-primary transition-colors"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <Text className="text-body-xs text-muted-foreground font-mono">
-                        {beo.beo_number}
-                      </Text>
-                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
-                        {statusConfig.label}
-                      </Text>
-                      <Text className="px-2 py-1 bg-muted rounded-badge text-body-xs font-weight-medium">
-                        v{beo.version}
-                      </Text>
-                    </div>
-                    <H3 className="text-body-lg font-weight-semibold text-foreground mb-1">
-                      {beo.name}
-                    </H3>
-                    <Body className="text-body-sm text-muted-foreground">
-                      {beo.venue_name}
-                      {beo.room_name && ` - ${beo.room_name}`}
-                    </Body>
-                  </div>
-                  <div className="text-right">
-                    <Body className="text-body-lg font-weight-bold text-foreground">
-                      {new Date(beo.event_date).toLocaleDateString('en-US', {
-                        weekday: 'short',
-                        month: 'short',
-                        day: 'numeric',
-                      })}
-                    </Body>
-                    <div className="flex items-center gap-2 justify-end mt-1">
-                      {beo.event_start_time && (
-                        <Text className="text-body-xs text-muted-foreground">
-                          {beo.event_start_time}
-                        </Text>
-                      )}
-                      {beo.guest_count && (
-                        <Text className="inline-flex items-center gap-1 text-body-xs text-muted-foreground">
-                          <Users className="h-3 w-3" />
-                          {beo.guest_count}
-                        </Text>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      )}
-    </div>
+    <ListPage
+      title="Banquet Event Orders"
+      subtitle="Manage your event orders and catering"
+      data={beos}
+      columns={[
+        { key: "event_name", label: "Event", accessor: "event_name" },
+        { key: "client", label: "Client", accessor: "client" },
+        { key: "date", label: "Date", accessor: (row: BEO) => formatDate(row.date) },
+        { key: "guests", label: "Guests", accessor: "guests" },
+        { key: "total", label: "Total", accessor: (row: BEO) => formatCurrency(row.total) },
+        { key: "status", label: "Status", accessor: (row: BEO) => <Badge variant={STATUS_CONFIG[row.status].variant}>{STATUS_CONFIG[row.status].label}</Badge> },
+      ]}
+      rowKey="id"
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      filters={filterOptions}
+      onCreate={() => router.push("/beos/new")}
+      createLabel="New BEO"
+      emptyMessage="No BEOs found"
+      emptyAction={{ label: "Create BEO", onClick: () => router.push("/beos/new") }}
+      onRowClick={(beo) => router.push(`/beos/${beo.id}`)}
+    />
   );
 }

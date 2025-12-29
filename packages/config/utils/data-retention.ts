@@ -5,7 +5,10 @@
  * Handles data lifecycle management, anonymization, and deletion.
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '../supabase-types';
+
+type TypedSupabaseClient = SupabaseClient<Database>;
 
 export interface RetentionPolicy {
   id: string;
@@ -133,7 +136,7 @@ function anonymizeValue(fieldName: string, originalValue: unknown): unknown {
  * Execute data retention for a specific policy
  */
 export async function executeRetentionPolicy(
-  supabase: any,
+  supabase: TypedSupabaseClient,
   policy: RetentionPolicy
 ): Promise<RetentionResult> {
   const result: RetentionResult = {
@@ -317,7 +320,7 @@ export async function executeRetentionPolicy(
  * Execute all active retention policies
  */
 export async function executeAllRetentionPolicies(
-  supabase: any
+  supabase: TypedSupabaseClient
 ): Promise<RetentionResult[]> {
   const results: RetentionResult[] = [];
 

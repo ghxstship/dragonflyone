@@ -13,8 +13,6 @@ import {
   Grid,
   Stack,
   Body,
-  EnterprisePageHeader,
-  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -22,7 +20,14 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
+
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 import {
   useCertifications,
@@ -101,6 +106,11 @@ const formFields: FormFieldConfig[] = [
 
 export default function CertificationsPage() {
   const router = useRouter();
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access
+  const canManageCerts = ADMIN_ROLES.some(role => hasRole(role));
+  
   const { data: apiCerts = [], isLoading: loading, refetch } = useCertifications();
   const addCertMutation = useAddCertification();
   const deleteCertMutation = useDeleteCertification();
@@ -126,9 +136,11 @@ export default function CertificationsPage() {
 
   const rowActions: ListPageAction<Certification>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedCert(row); setDrawerOpen(true); } },
-    { id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" />, onClick: (row) => router.push(`/certifications/${row.id}/renew`) },
-    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/certifications/${row.id}/edit`) },
-    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setCertToDelete(row); setDeleteConfirmOpen(true); } },
+    ...(canManageCerts ? [
+      { id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" />, onClick: (row: Certification) => router.push(`/certifications/${row.id}/renew`) },
+      { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row: Certification) => router.push(`/certifications/${row.id}/edit`) },
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (row: Certification) => { setCertToDelete(row); setDeleteConfirmOpen(true); } },
+    ] : []),
   ];
 
   const bulkActions: ListPageBulkAction[] = [
@@ -238,52 +250,45 @@ export default function CertificationsPage() {
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<Certification>
         title="Certifications & Licenses"
         subtitle="Track crew certifications, licenses, and renewal dates"
-primaryAction={{ label: 'Add Certification', onClick: () => setCreateModalOpen(true) }}
+        data={certifications}
+        columns={columns}
+        rowKey="id"
+        loading={loading}
+        onRetry={refetch}
+        searchPlaceholder="Search certifications..."
+        filters={filters}
+        rowActions={rowActions}
+        bulkActions={bulkActions}
+        onBulkAction={handleBulkAction}
+        onRowClick={(row) => { setSelectedCert(row); setDrawerOpen(true); }}
+        createLabel="Add Certification"
+        onCreate={canManageCerts ? () => setCreateModalOpen(true) : undefined}
+        entityType="certifications"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['crew_member_name', 'certification_type', 'issue_date', 'expiry_date', 'status']}
+        onExport={createExportHandler({
+          filename: "certifications",
+          getData: () => certifications.map(c => ({
+            id: c.id,
+            crew_member_name: c.crew_member_name,
+            certification_type: c.certification_type,
+            issue_date: c.issue_date,
+            expiry_date: c.expiry_date,
+            status: c.status,
+            issuing_authority: c.issuing_authority || '',
+            certificate_number: c.certificate_number || '',
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No certifications found"
+        emptyAction={canManageCerts ? { label: 'Add Certification', onClick: () => setCreateModalOpen(true) } : undefined}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <ListPage<Certification>
-          title="Certifications & Licenses"
-          subtitle="Track crew certifications, licenses, and renewal dates"
-          data={certifications}
-          columns={columns}
-          rowKey="id"
-          loading={loading}
-          onRetry={refetch}
-          searchPlaceholder="Search certifications..."
-          filters={filters}
-          rowActions={rowActions}
-          bulkActions={bulkActions}
-          onBulkAction={handleBulkAction}
-          onRowClick={(row) => { setSelectedCert(row); setDrawerOpen(true); }}
-          createLabel="Add Certification"
-          onCreate={() => setCreateModalOpen(true)}
-          entityType="certifications"
-          onImport={handleImport}
-          importTemplates={importTemplates}
-          importSampleFields={['crew_member_name', 'certification_type', 'issue_date', 'expiry_date', 'status']}
-          onExport={createExportHandler({
-            filename: "certifications",
-            getData: () => certifications.map(c => ({
-              id: c.id,
-              crew_member_name: c.crew_member_name,
-              certification_type: c.certification_type,
-              issue_date: c.issue_date,
-              expiry_date: c.expiry_date,
-              status: c.status,
-              issuing_authority: c.issuing_authority || '',
-              certificate_number: c.certificate_number || '',
-            })),
-          })}
-          stats={stats}
-          emptyMessage="No certifications found"
-          emptyAction={{ label: 'Add Certification', onClick: () => setCreateModalOpen(true) }}
-        />
-      </MainContent>
 
       <RecordFormModal
         open={createModalOpen}

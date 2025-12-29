@@ -3,12 +3,13 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
-import { apiRoute } from '@ghxstship/config/middleware';
+import { apiRoute, ApiRouteContext } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
 const benefitPlanSchema = z.object({
   name: z.string().min(1),
   type: z.enum(['health', 'dental', 'vision', 'life', 'disability', 'retirement', 'pto', 'other']),
+  organization_id: z.string().uuid(),
   provider: z.string().optional(),
   description: z.string().optional(),
   cost_employee_monthly: z.number().nonnegative(),
@@ -116,7 +117,7 @@ export const GET = apiRoute(
 
 // POST - Create benefit plan or enrollment
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: ApiRouteContext) => {
     const supabase = createAdminClient();
     const body = await request.json();
     const { type } = body;
@@ -139,7 +140,7 @@ export const POST = apiRoute(
         .from('benefit_enrollments')
         .insert({
           ...validated,
-          enrolled_by: context.user.id,
+          enrolled_by: context.user?.id,
           enrollment_date: new Date().toISOString()
         })
         .select()
@@ -161,8 +162,17 @@ export const POST = apiRoute(
     const { data: plan, error } = await supabase
       .from('benefit_plans')
       .insert({
-        ...validated,
-        created_by: context.user.id
+        name: validated.name,
+        type: validated.type,
+        organization_id: validated.organization_id,
+        provider: validated.provider,
+        description: validated.description,
+        cost_employee_monthly: validated.cost_employee_monthly,
+        cost_employer_monthly: validated.cost_employer_monthly,
+        coverage_details: validated.coverage_details,
+        eligibility_criteria: validated.eligibility_criteria,
+        active: validated.active,
+        created_by: context.user?.id
       })
       .select()
       .single();
@@ -186,6 +196,7 @@ export const POST = apiRoute(
 // PUT - Update benefit plan or enrollment
 export const PUT = apiRoute(
   async (request: NextRequest) => {
+    const supabase = createAdminClient();
     const body = await request.json();
     const { id, type, updates } = body;
 
@@ -221,6 +232,7 @@ export const PUT = apiRoute(
 // DELETE - Deactivate benefit plan or terminate enrollment
 export const DELETE = apiRoute(
   async (request: NextRequest) => {
+    const supabase = createAdminClient();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     const type = searchParams.get('type');

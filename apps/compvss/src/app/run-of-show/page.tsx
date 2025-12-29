@@ -4,115 +4,148 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
+  Badge,
   Body,
-  Button,
-  Card,
-  Grid,
   Stack,
-  Spinner,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from '@ghxstship/ui';
+import { createExportHandler, useAuthContext, PlatformRole } from '@ghxstship/config';
 import { useSchedule } from '@/hooks/useSchedule';
-
 import {
   useCues,
   useUpdateCueStatus,
   type CueItem,
 } from '../../hooks/useRunOfShow';
+import { Eye, Play, CheckCircle } from 'lucide-react';
+
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
+
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case 'complete': return 'solid';
+    case 'ready': return 'outline';
+    default: return 'ghost';
+  }
+};
 
 export default function RunOfShowPage() {
   const router = useRouter();
-  const { data: scheduleData, isLoading } = useSchedule();
-  const { data: cues = [] } = useCues();
+  const { hasRole } = useAuthContext();
+  const canManageCues = ADMIN_ROLES.some(role => hasRole(role));
+  
+  const { isLoading } = useSchedule();
+  const { data: cues = [], refetch } = useCues();
   const updateCueStatusMutation = useUpdateCueStatus();
   const [currentTime] = useState('19:58');
-
-  if (isLoading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Spinner variant="grey" size="lg" text="Loading run of show..." />
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
-
-  // Use live schedule data if available, show cues when schedule is loaded
-  const displayCues = scheduleData ? cues : cues;
 
   const updateCueStatus = (id: string, status: CueItem['status']) => {
     updateCueStatusMutation.mutate({ id, status });
   };
 
+  const columns: ListPageColumn<CueItem>[] = [
+    {
+      key: 'time',
+      label: 'Time',
+      accessor: 'time',
+      sortable: true,
+      render: (_, c) => <Body className="font-display font-mono">{c.time}</Body>,
+    },
+    {
+      key: 'cue',
+      label: 'Cue',
+      accessor: 'cue',
+      sortable: true,
+      render: (_, c) => (
+        <Stack gap={1}>
+          <Body className="font-display">{c.cue}</Body>
+          <Body size="sm" className="text-muted-foreground">{c.department}</Body>
+        </Stack>
+      ),
+    },
+    { key: 'notes', label: 'Notes', accessor: 'notes' },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, c) => <Badge variant={getStatusVariant(c.status)}>{c.status.toUpperCase()}</Badge>,
+    },
+  ];
+
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'pending', label: 'Pending' },
+        { value: 'ready', label: 'Ready' },
+        { value: 'complete', label: 'Complete' },
+      ],
+    },
+    {
+      key: 'department',
+      label: 'Department',
+      options: [
+        { value: 'Audio', label: 'Audio' },
+        { value: 'Lighting', label: 'Lighting' },
+        { value: 'Video', label: 'Video' },
+        { value: 'Stage', label: 'Stage' },
+      ],
+    },
+  ];
+
+  const rowActions: ListPageAction<CueItem>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (c) => router.push(`/run-of-show/cues/${c.id}`) },
+    { id: 'ready', label: 'Ready', icon: <Play className="h-4 w-4" />, onClick: (c) => updateCueStatus(c.id, 'ready'), hidden: (c) => !canManageCues || c.status !== 'pending' },
+    { id: 'go', label: 'GO', icon: <CheckCircle className="h-4 w-4" />, onClick: (c) => updateCueStatus(c.id, 'complete'), hidden: (c) => !canManageCues || c.status !== 'ready' },
+  ];
+
+  const stats = [
+    { label: 'Total Cues', value: cues.length },
+    { label: 'Pending', value: cues.filter(c => c.status === 'pending').length },
+    { label: 'Ready', value: cues.filter(c => c.status === 'ready').length },
+    { label: 'Complete', value: cues.filter(c => c.status === 'complete').length },
+  ];
+
   return (
-    <>
-      <EnterprisePageHeader
-        title="Run of Show"
-        subtitle={`Current Time: ${currentTime}`}
-
-
-        primaryAction={{ label: 'Add Cue', onClick: () => router.push('/run-of-show/cues/new') }}
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Stack gap={4}>
-              {displayCues.map(cue => (
-                <Card key={cue.id}>
-                  <Grid cols={6} gap={4} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                    <Stack gap={0}>
-                      <Body className="font-display">{cue.time}</Body>
-                    </Stack>
-                    <Stack gap={1} className="col-span-2">
-                      <Body className="font-display">{cue.cue}</Body>
-                      <Body size="sm" className="">{cue.department}</Body>
-                    </Stack>
-                    <Stack gap={0} className="col-span-2">
-                      <Body size="sm" className="">{cue.notes}</Body>
-                    </Stack>
-                    <Stack gap={2} direction="horizontal" className="justify-end">
-                      {cue.status === 'pending' && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => updateCueStatus(cue.id, 'ready')}
-                        >
-                          Ready
-                        </Button>
-                      )}
-                      {cue.status === 'ready' && (
-                        <Button
-                          variant="solid"
-                          size="sm"
-                          onClick={() => updateCueStatus(cue.id, 'complete')}
-                        >
-                          GO
-                        </Button>
-                      )}
-                      {cue.status === 'complete' && (
-                        <Body className="font-display">DONE</Body>
-                      )}
-                    </Stack>
-                  </Grid>
-                </Card>
-              ))}
-            </Stack>
-
-            <Stack gap={4} direction="horizontal">
-              <Button variant="solid" onClick={() => router.push('/run-of-show/cues/new')}>Add Cue</Button>
-              <Button variant="outline" onClick={() => router.push('/run-of-show/export')}>Export</Button>
-              <Button variant="outline" onClick={() => window.print()}>Print</Button>
-            </Stack>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <ListPage<CueItem>
+      title="Run of Show"
+      subtitle={`Current Time: ${currentTime}`}
+      data={cues}
+      columns={columns}
+      rowKey="id"
+      loading={isLoading}
+      onRetry={refetch}
+      searchPlaceholder="Search cues..."
+      filters={filters}
+      rowActions={rowActions}
+      onRowClick={(c) => router.push(`/run-of-show/cues/${c.id}`)}
+      createLabel={canManageCues ? "Add Cue" : undefined}
+      onCreate={canManageCues ? () => router.push('/run-of-show/cues/new') : undefined}
+      entityType="run-of-show"
+      onExport={createExportHandler({
+        filename: "run-of-show",
+        getData: () => cues.map((c: CueItem) => ({
+          time: c.time,
+          cue: c.cue,
+          department: c.department,
+          notes: c.notes,
+          status: c.status,
+        })),
+      })}
+      stats={stats}
+      emptyMessage="No cues found"
+      emptyAction={canManageCues ? { label: 'Add Cue', onClick: () => router.push('/run-of-show/cues/new') } : undefined}
+      showFavorite
+      showSettings
+    />
   );
 }

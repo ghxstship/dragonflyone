@@ -1,225 +1,167 @@
-import { AtlvsAppLayout } from "../../components/app-layout";
+"use client";
+
+/**
+ * Blog Page
+ * Company blog and articles
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FileText, Calendar, User, Search, List, TrendingUp } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import {
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H1,
-  H3,
-  Label,
-  Container,
-  Display,
-  Button,
-  FullBleedSection,
   Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  Input,
+  DetailPage,
+  Section,
+  SectionHeader,
 } from "@ghxstship/ui";
-import { Calendar, Clock, ArrowRight, User } from "lucide-react";
-import NextLink from "next/link";
 
-export const runtime = "edge";
+interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  author: string;
+  date: string;
+  category: string;
+  image: string;
+  readTime: string;
+}
 
-const blogData = {
-  hero: {
-    headline: "INSIGHTS & UPDATES",
-    description: "Industry insights, product updates, and best practices for production professionals.",
-  },
-  featured: {
-    title: "The Future of Production Management: AI and Automation",
-    excerpt: "How artificial intelligence is transforming the way productions are planned, executed, and delivered.",
-    author: "Sarah Chen",
-    date: "December 1, 2024",
-    readTime: "8 min read",
-    category: "Industry Trends",
-    slug: "future-of-production-management",
-  },
-  posts: [
-    {
-      title: "5 Budget Mistakes Every Production Makes (And How to Avoid Them)",
-      excerpt: "Learn from the most common financial pitfalls in production and how to keep your projects on track.",
-      author: "Marcus Johnson",
-      date: "November 28, 2024",
-      readTime: "5 min read",
-      category: "Best Practices",
-      slug: "budget-mistakes-to-avoid",
-    },
-    {
-      title: "Building a Crew Database That Actually Works",
-      excerpt: "Tips for organizing your crew contacts and making last-minute staffing a breeze.",
-      author: "Emily Rodriguez",
-      date: "November 20, 2024",
-      readTime: "6 min read",
-      category: "Guides",
-      slug: "building-crew-database",
-    },
-    {
-      title: "ATLVS 2.4: Mobile App Redesign",
-      excerpt: "Introducing our completely redesigned mobile experience with offline support.",
-      author: "ATLVS Team",
-      date: "November 15, 2024",
-      readTime: "3 min read",
-      category: "Product Updates",
-      slug: "atlvs-2-4-mobile-redesign",
-    },
-    {
-      title: "How III Points Festival Scaled with ATLVS",
-      excerpt: "A behind-the-scenes look at how one of Miami's biggest festivals manages operations.",
-      author: "David Park",
-      date: "November 10, 2024",
-      readTime: "7 min read",
-      category: "Case Studies",
-      slug: "iii-points-case-study",
-    },
-    {
-      title: "The Complete Guide to Production Insurance",
-      excerpt: "Everything you need to know about protecting your production from unexpected events.",
-      author: "Lisa Thompson",
-      date: "November 5, 2024",
-      readTime: "10 min read",
-      category: "Guides",
-      slug: "production-insurance-guide",
-    },
-    {
-      title: "Integrating ATLVS with QuickBooks: A Step-by-Step Guide",
-      excerpt: "Sync your financial data seamlessly between ATLVS and QuickBooks Online.",
-      author: "Tech Team",
-      date: "October 28, 2024",
-      readTime: "4 min read",
-      category: "Tutorials",
-      slug: "quickbooks-integration-guide",
-    },
-  ],
-  categories: ["All", "Industry Trends", "Best Practices", "Guides", "Product Updates", "Case Studies", "Tutorials"],
-};
+const DEMO_POSTS: BlogPost[] = [
+  { id: "1", title: "The Future of Live Event Production", excerpt: "Exploring emerging technologies and trends shaping the industry...", author: "Alex Chen", date: "2024-12-15", category: "Industry", image: "🎭", readTime: "5 min" },
+  { id: "2", title: "How to Streamline Your Production Workflow", excerpt: "Best practices for managing complex productions efficiently...", author: "Sarah Williams", date: "2024-12-10", category: "Tips", image: "⚡", readTime: "8 min" },
+  { id: "3", title: "Case Study: Summer Festival 2024", excerpt: "How we helped manage a 50,000 attendee festival...", author: "Michael Brown", date: "2024-12-05", category: "Case Study", image: "🎪", readTime: "10 min" },
+  { id: "4", title: "Introducing New Collaboration Features", excerpt: "Real-time collaboration tools for production teams...", author: "Emily Davis", date: "2024-11-28", category: "Product", image: "🚀", readTime: "4 min" },
+  { id: "5", title: "Sustainability in Event Production", excerpt: "Reducing environmental impact while delivering great experiences...", author: "Alex Chen", date: "2024-11-20", category: "Industry", image: "🌱", readTime: "7 min" },
+  { id: "6", title: "Managing Remote Production Teams", excerpt: "Tips for coordinating distributed teams effectively...", author: "Sarah Williams", date: "2024-11-15", category: "Tips", image: "🌐", readTime: "6 min" },
+];
+
+const CATEGORIES = ["All", "Industry", "Tips", "Case Study", "Product"];
 
 export default function BlogPage() {
-  return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center text-center">
-            <Label size="xs" className="text-on-dark-muted">
-              BLOG
-            </Label>
-            <Display size="lg" className="text-white">
-              {blogData.hero.headline}
-            </Display>
-            <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              {blogData.hero.description}
-            </Body>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+  const router = useRouter();
+  const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-      {/* Featured Post */}
-      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <NextLink href={`/blog/${blogData.featured.slug}`}>
-            <Card className="border-2 border-ink-950 bg-white p-8 shadow-brand-lg transition-all hover:-translate-y-1 hover:shadow-brand-xl">
-              <Grid cols={2} gap={8} className="items-center sm:grid-cols-1">
-                <Stack className="flex aspect-video items-center justify-center border-2 border-ink-950 bg-grey-100">
-                  <Label size="sm" className="text-grey-400">Featured Image</Label>
-                </Stack>
-                <Stack gap={4}>
-                  <Badge variant="outline" className="w-fit border-brand-pink text-brand-pink">
-                    {blogData.featured.category}
-                  </Badge>
-                  <H1 className="text-ink-950">{blogData.featured.title}</H1>
-                  <Body size="lg" className="text-grey-600">
-                    {blogData.featured.excerpt}
-                  </Body>
-                  <Stack direction="horizontal" gap={4} className="text-grey-500">
-                    <Stack direction="horizontal" gap={1} className="items-center">
-                      <User className="size-4" />
-                      <Label size="xs">{blogData.featured.author}</Label>
-                    </Stack>
-                    <Stack direction="horizontal" gap={1} className="items-center">
-                      <Calendar className="size-4" />
-                      <Label size="xs">{blogData.featured.date}</Label>
-                    </Stack>
-                    <Stack direction="horizontal" gap={1} className="items-center">
-                      <Clock className="size-4" />
-                      <Label size="xs">{blogData.featured.readTime}</Label>
-                    </Stack>
-                  </Stack>
-                </Stack>
-              </Grid>
+  const { data: posts = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["blog-posts"],
+    queryFn: async () => {
+      const response = await fetch("/api/blog");
+      if (!response.ok) return DEMO_POSTS;
+      const data = await response.json();
+      return data.posts?.length ? data.posts : DEMO_POSTS;
+    },
+  });
+
+  const filteredPosts = posts.filter((post: BlogPost) => {
+    const matchesSearch = !search || post.title.toLowerCase().includes(search.toLowerCase()) || post.excerpt.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+
+  const tabs = [
+    {
+      id: "articles",
+      label: "Articles",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Card className="p-4 mb-6">
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex-1 min-w-[200px] relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Input placeholder="Search articles..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                {CATEGORIES.map((cat) => (
+                  <Button key={cat} variant={selectedCategory === cat ? "solid" : "outline"} size="sm" onClick={() => setSelectedCategory(cat)}>
+                    {cat}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </Card>
+
+          {filteredPosts.length === 0 ? (
+            <Card className="p-8 text-center">
+              <FileText className="size-12 text-grey-600 mx-auto mb-4" />
+              <Body className="font-weight-medium mb-2">No Articles Found</Body>
+              <Body className="text-grey-400">{search ? "Try a different search term" : "Check back soon for new content"}</Body>
             </Card>
-          </NextLink>
-        </Container>
-      </FullBleedSection>
-
-      {/* Categories */}
-      <FullBleedSection background="white" className="py-8">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack direction="horizontal" gap={3} className="flex-wrap justify-center">
-            {blogData.categories.map((category) => (
-              <Badge
-                key={category}
-                variant="outline"
-                className={category === "All" ? "border-ink-950 bg-ink-950 text-white" : "border-ink-950 text-ink-950"}
-              >
-                {category}
-              </Badge>
-            ))}
-          </Stack>
-        </Container>
-      </FullBleedSection>
-
-      {/* Posts Grid */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={3} gap={6} className="sm:grid-cols-1">
-            {blogData.posts.map((post) => (
-              <NextLink key={post.slug} href={`/blog/${post.slug}`}>
-                <Card className="border-2 border-ink-950 bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
-                  <Stack className="flex aspect-video items-center justify-center border-b-2 border-ink-950 bg-grey-100">
-                    <Label size="xs" className="text-grey-400">Image</Label>
-                  </Stack>
-                  <Stack gap={3} className="p-6">
-                    <Badge variant="outline" className="w-fit border-grey-300 text-grey-500">
-                      {post.category}
-                    </Badge>
-                    <H3 size="sm" className="text-ink-950">{post.title}</H3>
-                    <Body size="xs" className="text-grey-600">
-                      {post.excerpt}
-                    </Body>
-                    <Stack direction="horizontal" gap={3} className="text-grey-400">
-                      <Label size="xs">{post.date}</Label>
-                      <Label size="xs">{post.readTime}</Label>
-                    </Stack>
-                  </Stack>
+          ) : (
+            <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
+              {filteredPosts.map((post: BlogPost) => (
+                <Card key={post.id} className="p-6 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/blog/${post.id}`)}>
+                  <div className="mb-4">{post.image}</div>
+                  <Badge variant="outline" className="mb-2">{post.category}</Badge>
+                  <Body className="font-weight-bold mb-2">{post.title}</Body>
+                  <Body className="text-grey-400 mb-4">{post.excerpt}</Body>
+                  <div className="flex items-center justify-between text-grey-500">
+                    <div className="flex items-center gap-2">
+                      <User className="size-4" />
+                      <Body size="sm">{post.author}</Body>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="size-4" />
+                        <Body size="sm">{formatDate(post.date)}</Body>
+                      </div>
+                      <Body size="sm">{post.readTime} read</Body>
+                    </div>
+                  </div>
                 </Card>
-              </NextLink>
+              ))}
+            </Grid>
+          )}
+        </Section>
+      ),
+    },
+    {
+      id: "popular",
+      label: "Popular",
+      icon: <TrendingUp className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Most Popular Articles" description="Our most-read content" />
+          <div className="space-y-4 mt-4">
+            {posts.slice(0, 5).map((post: BlogPost, index: number) => (
+              <Card key={post.id} className="p-4 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/blog/${post.id}`)}>
+                <div className="flex items-center gap-4">
+                  <div className="font-weight-bold text-grey-600">#{index + 1}</div>
+                  <div>{post.image}</div>
+                  <div className="flex-1">
+                    <Body className="font-weight-medium">{post.title}</Body>
+                    <Body size="sm" className="text-grey-400">{post.author} • {post.readTime} read</Body>
+                  </div>
+                  <Badge variant="outline">{post.category}</Badge>
+                </div>
+              </Card>
             ))}
-          </Grid>
+          </div>
+        </Section>
+      ),
+    },
+  ];
 
-          <Stack className="mt-12 items-center">
-            <Button variant="outline" size="lg" icon={<ArrowRight />}>
-              Load More Posts
-            </Button>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-
-      {/* Newsletter */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center">
-            <Display size="md" className="text-white">
-              STAY UPDATED
-            </Display>
-            <Body size="lg" className="text-on-dark-secondary">
-              Get the latest insights and updates delivered to your inbox.
-            </Body>
-            <NextLink href="/settings/notifications">
-              <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                Subscribe to Newsletter
-              </Button>
-            </NextLink>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+  return (
+    <DetailPage
+      header={{
+        kicker: "Resources",
+        title: "Blog",
+        description: "Insights, tips, and news from the ATLVS team",
+      }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

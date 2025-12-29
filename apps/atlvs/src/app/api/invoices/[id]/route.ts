@@ -1,9 +1,14 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
+
+const ATLVS_FINANCE_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 // GET /api/invoices/[id] - Get single invoice
 export async function GET(
@@ -12,6 +17,14 @@ export async function GET(
 ) {
   const supabase = createAdminClient();
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_FINANCE_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Finance access required' }, { status: 403 });
+    }
+
     const { id } = params;
 
     const { data: invoice, error } = await supabase
@@ -59,9 +72,17 @@ export async function PUT(
 ) {
   const supabase = createAdminClient();
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_FINANCE_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Finance access required' }, { status: 403 });
+    }
+
     const { id } = params;
     const body = await request.json();
-    const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
+    const userId = authResult.user?.id || '00000000-0000-0000-0000-000000000000';
 
     const { data: existingInvoice, error: fetchError } = await supabase
       .from('invoices')
@@ -136,10 +157,18 @@ export async function PATCH(
 ) {
   const supabase = createAdminClient();
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_FINANCE_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Finance access required' }, { status: 403 });
+    }
+
     const { id } = params;
     const body = await request.json();
     const { action } = body;
-    const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
+    const userId = authResult.user?.id || '00000000-0000-0000-0000-000000000000';
 
     const { data: invoice, error: fetchError } = await supabase
       .from('invoices')
@@ -350,6 +379,14 @@ export async function DELETE(
 ) {
   const supabase = createAdminClient();
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_FINANCE_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Finance access required' }, { status: 403 });
+    }
+
     const { id } = params;
 
     const { data: invoice, error: fetchError } = await supabase

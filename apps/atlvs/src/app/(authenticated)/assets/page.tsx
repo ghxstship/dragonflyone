@@ -20,8 +20,10 @@ import {
   type FormFieldConfig,
   type DetailSection,
   } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import { useAssets, useDeleteAsset, type Asset as APIAsset } from "../../../hooks/useAssets";
+
+// Roles that can create/edit/delete assets
 import { DEMO_ASSETS } from '../../../lib/demo-data';
 
 // Display type for UI
@@ -39,15 +41,23 @@ interface Asset {
   projects: number;
 }
 
-// Normalize API asset to display format
+// Schema: Normalize API asset to display format - API uses 'state' and 'tag', not 'status' and 'name'
 function normalizeAsset(a: APIAsset): Asset {
+  // Map API state enum to display labels
+  const stateToDisplay: Record<string, string> = {
+    'available': 'Available',
+    'reserved': 'Reserved',
+    'deployed': 'Deployed',
+    'maintenance': 'Maintenance',
+    'retired': 'Retired',
+  };
   return {
     id: a.id,
-    name: a.name,
+    name: a.name || a.tag || 'Unnamed', // API uses 'tag', fallback to name
     category: a.category,
     location: a.location || 'Unknown',
-    status: a.status === 'active' ? 'Available' : a.status === 'maintenance' ? 'Maintenance' : a.status,
-    value: a.value,
+    status: stateToDisplay[a.state || a.status] || a.state || a.status || 'Unknown',
+    value: a.value || a.purchase_price || 0, // API uses 'purchase_price'
     condition: 'Good',
     lastMaintenance: a.updated_at || '',
     nextMaintenance: '',
@@ -68,9 +78,16 @@ const columns: ListPageColumn<Asset>[] = [
   { key: 'nextMaintenance', label: 'Next Maint.', accessor: 'nextMaintenance', sortable: true },
 ];
 
+// Schema: Aligned with API createAssetSchema - uses 'state' not 'status'
 const filters: ListPageFilter[] = [
   { key: 'category', label: 'Category', options: [{ value: 'Audio', label: 'Audio' }, { value: 'Lighting', label: 'Lighting' }, { value: 'Video', label: 'Video' }, { value: 'Staging', label: 'Staging' }, { value: 'Rigging', label: 'Rigging' }] },
-  { key: 'status', label: 'Status', options: [{ value: 'Available', label: 'Available' }, { value: 'In Use', label: 'In Use' }, { value: 'Maintenance', label: 'Maintenance' }, { value: 'Reserved', label: 'Reserved' }] },
+  { key: 'state', label: 'Status', options: [
+    { value: 'available', label: 'Available' },
+    { value: 'reserved', label: 'Reserved' },
+    { value: 'deployed', label: 'Deployed' },
+    { value: 'maintenance', label: 'Maintenance' },
+    { value: 'retired', label: 'Retired' },
+  ]},
 ];
 
 const formFields: FormFieldConfig[] = [
@@ -84,6 +101,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function AssetsPage() {
   const router = useRouter();
+  const { hasRole } = useAuthContext();
   const { addNotification } = useNotifications();
   const { data: apiAssets, isLoading, error, refetch } = useAssets();
   const deleteMutation = useDeleteAsset();
@@ -100,17 +118,26 @@ export default function AssetsPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [assetToDelete, setAssetToDelete] = useState<Asset | null>(null);
 
+  // RBAC: Check if user has admin access for create/edit/delete operations
+  const canManageAssets = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
+
+  // Build row actions based on user permissions
   const rowActions: ListPageAction<Asset>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedAsset(r); setDrawerOpen(true); } },
     { id: 'checkout', label: 'Check Out', icon: <Upload className="size-4" />, onClick: (r) => router.push(`/assets/${r.id}/checkout`) },
     { id: 'maintenance', label: 'Schedule Maintenance', icon: <Wrench className="size-4" />, onClick: (r) => router.push(`/assets/${r.id}/maintenance`) },
-    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setAssetToDelete(r); setDeleteConfirmOpen(true); } },
+    ...(canManageAssets ? [
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (r: Asset) => { setAssetToDelete(r); setDeleteConfirmOpen(true); } },
+    ] : []),
   ];
 
+  // Build bulk actions based on user permissions
   const bulkActions: ListPageBulkAction[] = [
     { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
     { id: 'maintenance', label: 'Schedule Maintenance', icon: <Wrench className="size-4" /> },
-    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
+    ...(canManageAssets ? [
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const },
+    ] : []),
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -256,9 +283,9 @@ export default function AssetsPage() {
         }}
         onRowClick={(r) => { setSelectedAsset(r); setDrawerOpen(true); }}
         createLabel="Add Asset"
-        onCreate={() => setCreateModalOpen(true)}
+        onCreate={canManageAssets ? () => setCreateModalOpen(true) : undefined}
         entityType="assets"
-        onImport={handleImport}
+        onImport={canManageAssets ? handleImport : undefined}
         importTemplates={importTemplates}
         importSampleFields={['name', 'category', 'location', 'value', 'condition']}
         onExport={createExportHandler({
@@ -275,7 +302,7 @@ export default function AssetsPage() {
         exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No assets found"
-        emptyAction={{ label: 'Add Asset', onClick: () => setCreateModalOpen(true) }}
+        emptyAction={canManageAssets ? { label: 'Add Asset', onClick: () => setCreateModalOpen(true) } : undefined}
 showFavorite
         showSettings
       />

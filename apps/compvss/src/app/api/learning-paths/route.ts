@@ -1,14 +1,39 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const enrollSchema = z.object({
+  action: z.literal('enroll'),
+  path_id: z.string().uuid(),
+});
+
+const completeModuleSchema = z.object({
+  action: z.literal('complete_module'),
+  path_id: z.string().uuid(),
+  module_id: z.string().uuid(),
+});
+
+const learningActionSchema = z.union([enrollSchema, completeModuleSchema]);
 
 // Learning paths and progressive training
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const discipline = searchParams.get('discipline');
@@ -34,17 +59,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = learningActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'enroll') {
-      const { path_id } = body;
+      const { path_id } = validatedData as z.infer<typeof enrollSchema>;
 
       const { data, error } = await supabase.from('path_enrollments').insert({
         path_id, user_id: user.id, progress_percent: 0, started_at: new Date().toISOString()
@@ -55,7 +87,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'complete_module') {
-      const { path_id, module_id } = body;
+      const { path_id, module_id } = validatedData as z.infer<typeof completeModuleSchema>;
 
       await supabase.from('module_completions').insert({
         path_id, module_id, user_id: user.id, completed_at: new Date().toISOString()

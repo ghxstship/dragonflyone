@@ -1,201 +1,155 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Input,
   Select,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
   Button,
   Card,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Badge,
   Textarea,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
-
+import { createExportHandler } from "@ghxstship/config";
 import {
   useVIPGuests,
   useAccessZones,
   type VIPGuest,
 } from "../../hooks/useVIPManagement";
+import { Eye, CheckCircle } from "lucide-react";
+
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case "Checked In": return "solid";
+    case "Approved": case "Pending": return "outline";
+    default: return "ghost";
+  }
+};
 
 export default function VIPManagementPage() {
-  const router = useRouter();
-  const { data: vipGuests = [], isLoading, error } = useVIPGuests();
+  const { data: vipGuests = [], isLoading, refetch } = useVIPGuests();
   const { data: accessZones = [] } = useAccessZones();
-  
-  // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
-    defaultTab: 'guests',
-    validTabs: ['guests', 'zones'],
-  });
-  const [searchQuery, setSearchQuery] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedGuest, setSelectedGuest] = useState<VIPGuest | null>(null);
 
-  if (isLoading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Stack gap={4} className="items-center">
-              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
-              <Body>Loading VIP data...</Body>
-            </Stack>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const columns: ListPageColumn<VIPGuest>[] = [
+    {
+      key: 'name',
+      label: 'Guest',
+      accessor: 'name',
+      sortable: true,
+      render: (_, g) => (
+        <Stack gap={1}>
+          <Body className="font-display">{g.name}</Body>
+          <Body size="sm" className="text-muted-foreground">{g.email}</Body>
+        </Stack>
+      ),
+    },
+    {
+      key: 'passType',
+      label: 'Pass Type',
+      accessor: 'passType',
+      sortable: true,
+      render: (_, g) => <Badge variant="outline">{g.passType}</Badge>,
+    },
+    {
+      key: 'accessAreas',
+      label: 'Access',
+      accessor: (g) => g.accessAreas.join(', '),
+      render: (_, g) => (
+        <Stack direction="horizontal" gap={1}>
+          {g.accessAreas.slice(0, 2).map(a => <Badge key={a} variant="outline">{a}</Badge>)}
+        </Stack>
+      ),
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, g) => <Badge variant={getStatusVariant(g.status)}>{g.status}</Badge>,
+    },
+  ];
 
-  if (error) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container>
-            <Card className="p-6 border-destructive bg-destructive/10">
-              <Stack gap={4} className="items-center text-center">
-                <Body className="text-destructive font-display">Failed to load VIP data</Body>
-                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
-                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
-              </Stack>
-            </Card>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'Checked In', label: 'Checked In' },
+        { value: 'Approved', label: 'Approved' },
+        { value: 'Pending', label: 'Pending' },
+        { value: 'Denied', label: 'Denied' },
+      ],
+    },
+    {
+      key: 'passType',
+      label: 'Pass Type',
+      options: [
+        { value: 'VIP', label: 'VIP' },
+        { value: 'Backstage', label: 'Backstage' },
+        { value: 'All Access', label: 'All Access' },
+      ],
+    },
+  ];
 
-  const filteredGuests = vipGuests.filter((g) =>
-    g.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    g.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const rowActions: ListPageAction<VIPGuest>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (g) => setSelectedGuest(g) },
+    { id: 'checkin', label: 'Check In', icon: <CheckCircle className="h-4 w-4" />, onClick: () => {}, hidden: (g) => g.status === 'Checked In' },
+  ];
 
-  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
-    switch (status) {
-      case "Checked In": return "success";
-      case "Approved": return "info";
-      case "Pending": return "warning";
-      case "Denied": return "error";
-      default: return "text-ink-600";
-    }
-  };
+  const stats = [
+    { label: 'Checked In', value: vipGuests.filter(g => g.status === "Checked In").length },
+    { label: 'Pending', value: vipGuests.filter(g => g.status === "Pending").length },
+    { label: 'Total Guests', value: vipGuests.length },
+    { label: 'Zone Occupancy', value: `${accessZones.reduce((s, z) => s + z.currentOccupancy, 0)}/${accessZones.reduce((s, z) => s + z.maxCapacity, 0)}` },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<VIPGuest>
         title="VIP & Backstage Management"
         subtitle="Guest list management and access control"
-
-
-        primaryAction={{ label: 'Add Guest', onClick: () => setShowAddModal(true) }}
+        data={vipGuests}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        onRetry={refetch}
+        searchPlaceholder="Search guests..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(g) => setSelectedGuest(g)}
+        createLabel="Add Guest"
+        onCreate={() => setShowAddModal(true)}
+        entityType="vip-management"
+        onExport={createExportHandler({
+          filename: "vip-guests",
+          getData: () => vipGuests.map((g: VIPGuest) => ({
+            name: g.name,
+            email: g.email,
+            passType: g.passType,
+            accessAreas: g.accessAreas.join(', '),
+            status: g.status,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No VIP guests found"
+        emptyAction={{ label: 'Add Guest', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="Checked In" value={vipGuests.filter(g => g.status === "Checked In").length.toString()} />
-              <StatCard label="Pending" value={vipGuests.filter(g => g.status === "Pending").length.toString()} />
-              <StatCard label="Total Guests" value={vipGuests.length.toString()} />
-              <StatCard label="Zone Occupancy" value={`${accessZones.reduce((s,z) => s + z.currentOccupancy, 0)}/${accessZones.reduce((s,z) => s + z.maxCapacity, 0)}`} />
-            </Grid>
-
-            <Input type="search" placeholder="Search guests..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-
-            <Tabs>
-              <TabsList>
-                <Tab active={isActive('guests')} onClick={() => setActiveTab('guests')}>Guest List</Tab>
-                <Tab active={isActive('zones')} onClick={() => setActiveTab('zones')}>Access Zones</Tab>
-              </TabsList>
-
-              <TabPanel active={isActive('guests')}>
-                <Table variant="dark">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Guest</TableHead>
-                      <TableHead>Pass Type</TableHead>
-                      <TableHead>Access</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredGuests.map((guest) => (
-                      <TableRow key={guest.id}>
-                        <TableCell>
-                          <Stack gap={1}>
-                            <Body className="font-display">{guest.name}</Body>
-                            <Body size="sm" className="">{guest.email}</Body>
-                          </Stack>
-                        </TableCell>
-                        <TableCell><Badge variant="outline">{guest.passType}</Badge></TableCell>
-                        <TableCell>
-                          <Stack direction="horizontal" gap={1}>
-                            {guest.accessAreas.slice(0,2).map(a => <Badge key={a} variant="outline">{a}</Badge>)}
-                          </Stack>
-                        </TableCell>
-                        <TableCell><Badge variant={getStatusVariant(guest.status)}>{guest.status}</Badge></TableCell>
-                        <TableCell>
-                          <Button variant="ghost" size="sm" onClick={() => setSelectedGuest(guest)}>Details</Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TabPanel>
-
-              <TabPanel active={isActive('zones')}>
-                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
-                  {accessZones.map((zone) => (
-                    <Card key={zone.id}>
-                      <Stack gap={4}>
-                        <H3>{zone.name}</H3>
-                        <Stack gap={2}>
-                          <Body>{zone.currentOccupancy} / {zone.maxCapacity}</Body>
-                          <Card>
-                            <Body size="sm" className="">{Math.round((zone.currentOccupancy / zone.maxCapacity) * 100)}% capacity</Body>
-                          </Card>
-                        </Stack>
-                      </Stack>
-                    </Card>
-                  ))}
-                </Grid>
-              </TabPanel>
-            </Tabs>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Guest</Button>
-              <Button variant="outline">Print Credentials</Button>
-              <Button variant="outline" onClick={() => router.push("/stage-management")}>Stage Management</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={showAddModal} onClose={() => setShowAddModal(false)}>
         <ModalHeader><H3>Add VIP Guest</H3></ModalHeader>

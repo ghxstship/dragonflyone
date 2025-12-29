@@ -4,14 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
-  Input,
-  Select,
   Button,
   Card,
   Badge,
@@ -23,97 +20,105 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
+import { createExportHandler, getSubcategoryNames } from "@ghxstship/config";
 import {
   useSpecSheets,
   type SpecSheet,
 } from '../../hooks/useSpecSheets';
+import { Eye, Download } from "lucide-react";
 
-
-import { getSubcategoryNames } from "@ghxstship/config";
-
-const categories = ['All', ...getSubcategoryNames('TECH')];
+const categories = getSubcategoryNames('TECH');
 
 export default function SpecSheetsPage() {
   const router = useRouter();
-  const { data: specSheets = [] } = useSpecSheets();
+  const { data: specSheets = [], refetch } = useSpecSheets();
   const [selectedSpec, setSelectedSpec] = useState<SpecSheet | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("All");
 
-  const filteredSpecs = specSheets.filter(s => {
-    const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          s.manufacturer.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = categoryFilter === "All" || s.category === categoryFilter;
-    return matchesSearch && matchesCategory;
-  });
+  const columns: ListPageColumn<SpecSheet>[] = [
+    {
+      key: 'name',
+      label: 'Name',
+      accessor: 'name',
+      sortable: true,
+      render: (_, s) => (
+        <Stack gap={1}>
+          <Body className="font-display">{s.name}</Body>
+          <Body size="sm" className="text-muted-foreground">{s.manufacturer}</Body>
+        </Stack>
+      ),
+    },
+    {
+      key: 'category',
+      label: 'Category',
+      accessor: 'category',
+      sortable: true,
+      render: (_, s) => <Badge variant="outline">{s.category}</Badge>,
+    },
+    { key: 'model', label: 'Model', accessor: 'model' },
+    { key: 'version', label: 'Version', accessor: (s) => `v${s.version}` },
+    { key: 'fileSize', label: 'Size', accessor: 'fileSize' },
+    { key: 'downloads', label: 'Downloads', accessor: 'downloads', sortable: true },
+  ];
+
+  const filters: ListPageFilter[] = [
+    {
+      key: 'category',
+      label: 'Category',
+      options: categories.map(cat => ({ value: cat, label: cat })),
+    },
+  ];
+
+  const rowActions: ListPageAction<SpecSheet>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSpec(s) },
+    { id: 'download', label: 'Download', icon: <Download className="h-4 w-4" />, onClick: () => {} },
+  ];
+
+  const stats = [
+    { label: 'Total Specs', value: specSheets.length },
+    { label: 'Categories', value: categories.length },
+    { label: 'Manufacturers', value: new Set(specSheets.map(s => s.manufacturer)).size },
+    { label: 'Downloads', value: specSheets.reduce((sum, s) => sum + s.downloads, 0) },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<SpecSheet>
         title="Technical Specifications"
         subtitle="Equipment specification sheets and cut sheets library"
-
-
+        data={specSheets}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        onRetry={refetch}
+        searchPlaceholder="Search specs..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(s) => setSelectedSpec(s)}
+        createLabel="Upload Spec Sheet"
+        onCreate={() => router.push('/spec-sheets/upload')}
+        entityType="spec-sheets"
+        onExport={createExportHandler({
+          filename: "spec-sheets",
+          getData: () => specSheets.map((s: SpecSheet) => ({
+            name: s.name,
+            manufacturer: s.manufacturer,
+            model: s.model,
+            category: s.category,
+            version: s.version,
+            fileSize: s.fileSize,
+            downloads: s.downloads,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No spec sheets found"
+        emptyAction={{ label: 'Upload Spec Sheet', onClick: () => router.push('/spec-sheets/upload') }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard value={specSheets.length.toString()} label="Total Specs" />
-              <StatCard value={(categories.length - 1).toString()} label="Categories" />
-              <StatCard value={new Set(specSheets.map(s => s.manufacturer)).size.toString()} label="Manufacturers" />
-              <StatCard value={specSheets.reduce((sum, s) => sum + s.downloads, 0).toString()} label="Downloads" />
-            </Grid>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Input type="search" placeholder="Search specs..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="col-span-2" />
-              <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
-                {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-              </Select>
-            </Grid>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              {filteredSpecs.map((spec) => (
-                <Card key={spec.id} className="cursor-pointer p-4" onClick={() => setSelectedSpec(spec)}>
-                  <Stack gap={4}>
-                    <Stack direction="horizontal" className="items-start justify-between">
-                      <Stack gap={1}>
-                        <Body className="font-display">{spec.name}</Body>
-                        <Body size="sm" className="">{spec.manufacturer}</Body>
-                      </Stack>
-                      <Badge variant="outline">{spec.category}</Badge>
-                    </Stack>
-                    <Grid cols={3} gap={2} className="sm:grid-cols-2 lg:grid-cols-3">
-                      {spec.specs.slice(0, 3).map((s, idx) => (
-                        <Stack key={idx} gap={0}>
-                          <Body size="sm" className="">{s.label}</Body>
-                          <Body>{s.value}</Body>
-                        </Stack>
-                      ))}
-                    </Grid>
-                    <Stack direction="horizontal" className="justify-between">
-                      <Body size="sm" className="">v{spec.version} • {spec.fileSize}</Body>
-                      <Body size="sm" className="">{spec.downloads} downloads</Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-              ))}
-            </Grid>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="solid">Upload Spec Sheet</Button>
-              <Button variant="outline" onClick={() => router.push("/equipment")}>Equipment</Button>
-              <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={!!selectedSpec} onClose={() => setSelectedSpec(null)}>
         <ModalHeader><H3>{selectedSpec?.name}</H3></ModalHeader>

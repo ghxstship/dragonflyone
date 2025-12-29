@@ -11,6 +11,7 @@
     ".": "./index.ts",
     "./globals.css": "./globals.css",
     "./auth-helpers": "./auth-helpers.ts",
+    "./pdf-generator": "./pdf-generator.ts",
     "./rpc-client": "./rpc-client.ts",
     "./supabase-client": "./supabase-client.ts",
     "./supabase-types": "./supabase-types.ts",
@@ -38,7 +39,8 @@
     "./hooks/useRealtime": "./hooks/useRealtime.ts",
     "./hooks/useAdvancingCatalog": "./hooks/useAdvancingCatalog.ts",
     "./components": "./components/index.ts",
-    "./pricing-tiers": "./pricing-tiers.ts"
+    "./pricing-tiers": "./pricing-tiers.ts",
+    "./layouts": "./layouts/index.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
@@ -48,7 +50,7 @@
     "immer": "^10.1.1",
     "jspdf": "^3.0.4",
     "jspdf-autotable": "^5.0.2",
-    "next": "^14.2.34",
+    "next": "^14.2.35",
     "otplib": "^12.0.1",
     "react": "^18.2.0",
     "server-only": "^0.0.1",

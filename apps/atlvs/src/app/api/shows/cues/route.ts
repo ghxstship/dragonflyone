@@ -2,7 +2,17 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { withAuth, PlatformRole, logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createCueSchema = z.object({
+  event_id: z.string().uuid(),
+  cue_number: z.number(),
+  cue_type: z.enum(['lighting', 'sound', 'video', 'pyro', 'other']).optional(),
+  description: z.string().optional(),
+  trigger_time: z.string().optional(),
+  status: z.enum(['pending', 'ready', 'executed', 'skipped']).optional(),
+});
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -65,16 +75,17 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createCueSchema.parse(body);
 
     const { data, error } = await supabase
       .from('show_cues')
       .insert({
-        event_id: body.event_id,
-        cue_number: body.cue_number,
-        cue_type: body.cue_type || 'other',
-        description: body.description,
-        trigger_time: body.trigger_time,
-        status: body.status || 'pending',
+        event_id: validatedData.event_id,
+        cue_number: validatedData.cue_number,
+        cue_type: validatedData.cue_type || 'other',
+        description: validatedData.description,
+        trigger_time: validatedData.trigger_time,
+        status: validatedData.status || 'pending',
       })
       .select()
       .single();

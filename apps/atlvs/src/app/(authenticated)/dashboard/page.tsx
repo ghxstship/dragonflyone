@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { AtlvsLoadingLayout } from "../../../components/app-layout";
+import { useAuthContext, PlatformRole } from '@ghxstship/config';
 import { 
+  DetailPage,
   Badge, 
   ProgressBar, 
   StatusBadge, 
@@ -22,7 +23,6 @@ import {
   Grid,
   Section,
   SectionHeader,
-  EnterprisePageHeader,
 } from "@ghxstship/ui";
 import { useProjects } from "../../../hooks/useProjects";
 import { useActionItems } from "../../../hooks/useActionItems";
@@ -111,9 +111,24 @@ const fallbackActivity = [
   { id: '5', action: "Invoice sent", detail: "Wynwood Life Nov - $45,000 invoice dispatched", time: "2 days ago", user: "Finance Team" },
 ];
 
+// Roles that can view the executive dashboard (contains sensitive business data)
+const VIEW_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN,
+  PlatformRole.ATLVS_ADMIN,
+  PlatformRole.ATLVS_TEAM_MEMBER,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
+
 export default function DashboardPage() {
   const router = useRouter();
+  const { hasRole, user } = useAuthContext();
   const [timeRange, setTimeRange] = useState("month");
+  
+  // RBAC: Check if user can view dashboard
+  const canViewDashboard = VIEW_ROLES.some(role => hasRole(role));
+  
   const { data: projects, isLoading: projectsLoading, error: projectsError, refetch: refetchProjects } = useProjects({ status: 'active' });
   const { data: actionItems, isLoading: actionItemsLoading } = useActionItems({ limit: 3 });
   const { data: quickLinks, isLoading: quickLinksLoading } = useUserQuickLinkFavorites('demo-user');
@@ -152,63 +167,71 @@ export default function DashboardPage() {
     { label: "Client Satisfaction", value: `${kpisData.satisfaction}/10`, trend: "+0.3", up: true },
   ] : defaultKpis;
 
-  if (isLoading) {
-    return <AtlvsLoadingLayout text="Loading dashboard..." />;
-  }
-
-  if (projectsError) {
+  // RBAC: If user doesn't have permission, show unauthorized message
+  if (!canViewDashboard) {
     return (
-      <Stack gap={6} className="items-center justify-center py-20">
-        <Card inverted className="max-w-md p-8 text-center">
-          <Stack gap={4}>
-            <H3 className="text-white">Error Loading Dashboard</H3>
-            <Body className="text-grey-300">
-              {projectsError instanceof Error ? projectsError.message : 'Failed to load dashboard data'}
-            </Body>
-            <Button variant="solid" onClick={() => refetchProjects()}>
-              Retry
-            </Button>
-          </Stack>
-        </Card>
-      </Stack>
+      <DetailPage
+        header={{ title: "Executive Dashboard" }}
+        backButton={{ label: "Back to Projects", href: "/projects" }}
+      >
+        <Stack gap={6} className="items-center justify-center py-20">
+          <Card inverted className="max-w-md p-8 text-center">
+            <Stack gap={4}>
+              <H3 className="text-white">Access Denied</H3>
+              <Body className="text-grey-300">
+                You do not have permission to view the executive dashboard.
+                This requires ATLVS Team Member or higher role.
+              </Body>
+              <Body size="xs" className="text-grey-500">
+                Current user: {user?.email || 'Unknown'}
+              </Body>
+              <Button variant="solid" onClick={() => router.push('/projects')}>
+                Go to Projects
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </DetailPage>
     );
   }
 
   return (
-    <>
+    <DetailPage
+      header={{
+        kicker: "ATLVS",
+        title: "Executive Dashboard",
+        description: "Real-time status of all projects across GHXSTSHIP verticals",
+      }}
+      isLoading={isLoading}
+      error={projectsError instanceof Error ? projectsError : null}
+      onRetry={() => refetchProjects()}
+      actions={
+        <Stack direction="horizontal" gap={2}>
+          <Button
+            onClick={() => setTimeRange("week")}
+            variant={timeRange === "week" ? "solid" : "outlineWhite"}
+            size="sm"
+          >
+            Week
+          </Button>
+          <Button
+            onClick={() => setTimeRange("month")}
+            variant={timeRange === "month" ? "solid" : "outlineWhite"}
+            size="sm"
+          >
+            Month
+          </Button>
+          <Button
+            onClick={() => setTimeRange("quarter")}
+            variant={timeRange === "quarter" ? "solid" : "outlineWhite"}
+            size="sm"
+          >
+            Quarter
+          </Button>
+        </Stack>
+      }
+    >
       <Stack gap={8}>
-        <EnterprisePageHeader
-          title="Executive Dashboard"
-          subtitle="Real-time operations command center"
-          showFavorite
-          showSettings
-          rightContent={
-            <Stack direction="horizontal" gap={2}>
-              <Button
-                onClick={() => setTimeRange("week")}
-                variant={timeRange === "week" ? "solid" : "outlineWhite"}
-                size="sm"
-              >
-                Week
-              </Button>
-              <Button
-                onClick={() => setTimeRange("month")}
-                variant={timeRange === "month" ? "solid" : "outlineWhite"}
-                size="sm"
-              >
-                Month
-              </Button>
-              <Button
-                onClick={() => setTimeRange("quarter")}
-                variant={timeRange === "quarter" ? "solid" : "outlineWhite"}
-                size="sm"
-              >
-                Quarter
-              </Button>
-            </Stack>
-          }
-        />
-
         <Grid cols={4} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {kpis.map((kpi) => (
             <StatCard
@@ -479,6 +502,6 @@ export default function DashboardPage() {
           onClose={closeForm}
         />
       )}
-    </>
+    </DetailPage>
   );
 }

@@ -21,8 +21,15 @@ import {
   H3,
   Body,
 } from '@ghxstship/ui';
-import { useAdvanceTemplates, useCreateAdvanceFromTemplate } from '@ghxstship/config';
+import { useAdvanceTemplates, useCreateAdvanceFromTemplate, useAuthContext, PlatformRole } from '@ghxstship/config';
 import type { AdvanceTemplateListItem, TemplateFilters } from '@ghxstship/config';
+
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 interface TemplateBrowserProps {
   onSelectTemplate?: (advanceId: string) => void;
@@ -36,6 +43,10 @@ export function TemplateBrowser({ onSelectTemplate, projectId, organizationId }:
   const [selectedType, setSelectedType] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access
+  const canManageTemplates = ADMIN_ROLES.some(role => hasRole(role));
 
   const filters: TemplateFilters = {
     search: searchQuery || undefined,
@@ -54,7 +65,6 @@ export function TemplateBrowser({ onSelectTemplate, projectId, organizationId }:
 
   const handleUseTemplate = async (template: AdvanceTemplateListItem) => {
     if (!organizationId) {
-      console.error('Organization ID is required to create advance from template');
       return;
     }
 
@@ -64,8 +74,8 @@ export function TemplateBrowser({ onSelectTemplate, projectId, organizationId }:
         projectId,
       });
       onSelectTemplate?.(result.advanceId);
-    } catch (error) {
-      console.error('Failed to create advance from template:', error);
+    } catch {
+      // Error handled by React Query
     }
   };
 
@@ -175,14 +185,16 @@ export function TemplateBrowser({ onSelectTemplate, projectId, organizationId }:
                     <TableCell>{formatCurrency(template.estimated_cost)}</TableCell>
                     <TableCell>{template.usage_count}x</TableCell>
                     <TableCell>
-                      <Button
-                        size="sm"
-                        variant="solid"
-                        onClick={() => handleUseTemplate(template)}
-                        disabled={createFromTemplate.isPending}
-                      >
-                        {createFromTemplate.isPending ? 'Creating...' : 'Use'}
-                      </Button>
+                      {canManageTemplates && (
+                        <Button
+                          size="sm"
+                          variant="solid"
+                          onClick={() => handleUseTemplate(template)}
+                          disabled={createFromTemplate.isPending}
+                        >
+                          {createFromTemplate.isPending ? 'Creating...' : 'Use'}
+                        </Button>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}

@@ -2,7 +2,17 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { withAuth, PlatformRole, logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createSetTimeSchema = z.object({
+  event_id: z.string().uuid(),
+  artist_id: z.string().uuid().optional(),
+  stage: z.string(),
+  start_time: z.string(),
+  end_time: z.string(),
+  status: z.enum(['scheduled', 'confirmed', 'cancelled', 'completed']).optional(),
+});
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -65,16 +75,17 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createSetTimeSchema.parse(body);
 
     const { data, error } = await supabase
       .from('set_times')
       .insert({
-        event_id: body.event_id,
-        artist_id: body.artist_id,
-        stage: body.stage,
-        start_time: body.start_time,
-        end_time: body.end_time,
-        status: body.status || 'scheduled',
+        event_id: validatedData.event_id,
+        artist_id: validatedData.artist_id,
+        stage: validatedData.stage,
+        start_time: validatedData.start_time,
+        end_time: validatedData.end_time,
+        status: validatedData.status || 'scheduled',
       })
       .select()
       .single();

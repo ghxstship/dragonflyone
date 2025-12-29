@@ -1,14 +1,60 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createScheduleSchema = z.object({
+  action: z.literal('create_schedule'),
+  project_id: z.string().uuid(),
+  start_time: z.string(),
+  trucks: z.array(z.object({
+    truck_number: z.string(),
+    driver: z.string().optional(),
+    departure_time: z.string().optional(),
+    destination: z.string().optional(),
+  })).optional(),
+  tasks: z.array(z.object({
+    description: z.string(),
+    assigned_to: z.string().optional(),
+  })).optional(),
+});
+
+const assignTruckSchema = z.object({
+  action: z.literal('assign_truck'),
+  project_id: z.string().uuid().optional(),
+  schedule_id: z.string().uuid(),
+  truck_number: z.string(),
+  driver: z.string().optional(),
+  departure_time: z.string().optional(),
+  destination: z.string().optional(),
+});
+
+const loadOutActionSchema = z.union([createScheduleSchema, assignTruckSchema]);
+
+const patchLoadOutSchema = z.object({
+  id: z.string().uuid(),
+  type: z.enum(['truck', 'task']),
+  status: z.string(),
+});
 
 // Load-out coordination with truck assignments
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -31,17 +77,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action, project_id } = body;
+    const validatedData = loadOutActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create_schedule') {
-      const { start_time, trucks, tasks } = body;
+      const { project_id, start_time, trucks, tasks } = validatedData as z.infer<typeof createScheduleSchema>;
 
       const { data: schedule, error } = await supabase.from('load_out_schedules').insert({
         project_id, start_time, status: 'planned', created_by: user.id
@@ -74,7 +127,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'assign_truck') {
-      const { schedule_id, truck_number, driver, departure_time, destination } = body;
+      const { schedule_id, truck_number, driver, departure_time, destination } = validatedData as z.infer<typeof assignTruckSchema>;
       const { data, error } = await supabase.from('load_out_trucks').insert({
         schedule_id, truck_number, driver, departure_time, destination, status: 'pending'
       }).select().single();
@@ -92,11 +145,18 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const body = await request.json();
-    const { id, type, status } = body;
+    const validatedData = patchLoadOutSchema.parse(body);
+    const { id, type, status } = validatedData;
 
     if (type === 'truck') {
       await supabase.from('load_out_trucks').update({ status }).eq('id', id);

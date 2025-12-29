@@ -1,7 +1,7 @@
 "use client";
 
-import { ReactNode } from "react";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { createAuthenticatedLayout } from "@ghxstship/config/layouts";
 
 /**
  * Authenticated Route Group Layout
@@ -10,15 +10,16 @@ import { CompvssAppLayout } from "../../components/app-layout";
  * This layout applies to all pages under the (authenticated) route group,
  * ensuring consistent navigation, role-based filtering, favorites, 
  * recent pages, and all enhanced navigation features.
+ * 
+ * RBAC Enforcement:
+ * - Redirects unauthenticated users to /auth/signin
+ * - Verifies COMPVSS platform access before rendering
  */
-export default function AuthenticatedLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  return (
-    <CompvssAppLayout variant="authenticated">
-      {children}
-    </CompvssAppLayout>
-  );
-}
+export default createAuthenticatedLayout({
+  platform: "compvss",
+  loginPath: "/auth/signin",
+  unauthorizedPath: "/auth/unauthorized",
+  backgroundClass: "bg-ink-950",
+  LayoutComponent: CompvssAppLayout,
+  layoutVariant: "authenticated",
+});

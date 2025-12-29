@@ -1,574 +1,248 @@
 "use client";
 
+/**
+ * Privacy Settings Page
+ * Manage privacy and data settings
+ * Uses DetailPage template for consistent layout
+ */
+
 import { useState } from "react";
-import Link from "next/link";
+import { Shield, Eye, EyeOff, Download, Trash2, List, FileText } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-// Layout provided by route group
 import {
-  Alert,
+  Badge,
   Body,
   Button,
   Card,
-  CardBody,
-  CardHeader,
-  Container,
-  EmptyState,
-  H2,
-  H3,
-  Label,
-  Spinner,
-  Stack,
-  Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  Text,
-} from '@ghxstship/ui';
-import { 
-  Shield, 
-  Download, 
-  Trash2, 
-  Cookie, 
-  Mail, 
-  Bell, 
-  BarChart3,
-  Users,
-  Clock,
-  CheckCircle,
-  AlertTriangle,
-} from "lucide-react";
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  DetailPage,
+  Section,
+  SectionHeader,
+  useNotifications,
+} from "@ghxstship/ui";
 
-interface ConsentRecord {
-  consent_type: string;
-  is_granted: boolean;
-  granted_at: string | null;
-  revoked_at: string | null;
-  source: string;
+interface PrivacySettings {
+  profile_visibility: "public" | "team" | "private";
+  activity_tracking: boolean;
+  analytics_sharing: boolean;
+  marketing_emails: boolean;
+  data_retention_days: number;
 }
 
-interface DataSubjectRequest {
-  id: string;
-  request_type: string;
-  status: string;
-  created_at: string;
-  deadline_at: string;
-}
-
-const CONSENT_TYPES = [
-  {
-    key: "marketing_email",
-    label: "Marketing Emails",
-    description: "Receive promotional emails about events, offers, and updates",
-    icon: Mail,
-    category: "marketing",
-  },
-  {
-    key: "marketing_sms",
-    label: "Marketing SMS",
-    description: "Receive promotional text messages about events and offers",
-    icon: Bell,
-    category: "marketing",
-  },
-  {
-    key: "marketing_push",
-    label: "Push Notifications",
-    description: "Receive push notifications for marketing and promotions",
-    icon: Bell,
-    category: "marketing",
-  },
-  {
-    key: "analytics",
-    label: "Analytics",
-    description: "Allow us to collect usage data to improve our services",
-    icon: BarChart3,
-    category: "analytics",
-  },
-  {
-    key: "personalization",
-    label: "Personalization",
-    description: "Allow personalized recommendations based on your activity",
-    icon: Users,
-    category: "analytics",
-  },
-  {
-    key: "third_party_sharing",
-    label: "Third-Party Sharing",
-    description: "Allow sharing data with trusted partners for enhanced services",
-    icon: Users,
-    category: "sharing",
-  },
-];
+const DEMO_SETTINGS: PrivacySettings = {
+  profile_visibility: "team",
+  activity_tracking: true,
+  analytics_sharing: false,
+  marketing_emails: true,
+  data_retention_days: 365,
+};
 
 export default function PrivacySettingsPage() {
   const queryClient = useQueryClient();
+  const { addNotification } = useNotifications();
+
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showExportConfirm, setShowExportConfirm] = useState(false);
 
-  // Fetch current consent records
-  const { data: consents, isLoading: loadingConsents, error: consentsError } = useQuery({
-    queryKey: ["privacy-consents"],
+  const { data: settings = DEMO_SETTINGS, isLoading, error, refetch } = useQuery({
+    queryKey: ["privacy-settings"],
     queryFn: async () => {
-      const response = await fetch("/api/privacy/consent", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("auth_token") || ""}`,
-        },
-      });
-      if (!response.ok) throw new Error("Failed to fetch consents");
-      const result = await response.json();
-      return result.data as ConsentRecord[];
+      const response = await fetch("/api/settings/privacy");
+      if (!response.ok) return DEMO_SETTINGS;
+      return response.json() as Promise<PrivacySettings>;
     },
   });
 
-  // Fetch DSR history
-  const { data: dsrHistory, isLoading: loadingDSR, error: dsrError } = useQuery({
-    queryKey: ["privacy-dsr-history"],
-    queryFn: async () => {
-      const response = await fetch("/api/privacy/dsr?my_requests=true", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("auth_token") || ""}`,
-        },
+  const updateMutation = useMutation({
+    mutationFn: async (newSettings: Partial<PrivacySettings>) => {
+      const response = await fetch("/api/settings/privacy", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newSettings),
       });
-      if (!response.ok) throw new Error("Failed to fetch DSR history");
-      const result = await response.json();
-      return result.data as DataSubjectRequest[];
-    },
-  });
-
-  // Update consent mutation
-  const updateConsentMutation = useMutation({
-    mutationFn: async ({ consent_type, is_granted }: { consent_type: string; is_granted: boolean }) => {
-      const response = await fetch("/api/privacy/consent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("auth_token") || ""}`,
-        },
-        body: JSON.stringify({
-          consent_type,
-          is_granted,
-          source: "privacy_settings",
-          legal_basis: "consent",
-        }),
-      });
-      if (!response.ok) throw new Error("Failed to update consent");
+      if (!response.ok) throw new Error("Failed to update settings");
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["privacy-consents"] });
+      queryClient.invalidateQueries({ queryKey: ["privacy-settings"] });
+      addNotification({ type: "success", title: "Saved", message: "Privacy settings updated" });
+    },
+    onError: () => {
+      addNotification({ type: "error", title: "Error", message: "Failed to update settings" });
     },
   });
 
-  // Create DSR mutation
-  const createDSRMutation = useMutation({
-    mutationFn: async ({ request_type }: { request_type: string }) => {
-      const response = await fetch("/api/privacy/dsr", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("auth_token") || ""}`,
-        },
-        body: JSON.stringify({
-          request_type,
-          verification_method: "account_login",
-        }),
-      });
-      if (!response.ok) throw new Error("Failed to create request");
+  const exportMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch("/api/settings/privacy/export", { method: "POST" });
+      if (!response.ok) throw new Error("Failed to export data");
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["privacy-dsr-history"] });
-      setShowDeleteConfirm(false);
+      addNotification({ type: "success", title: "Export Started", message: "You will receive an email when your data is ready" });
       setShowExportConfirm(false);
     },
+    onError: () => {
+      addNotification({ type: "error", title: "Error", message: "Failed to start export" });
+    },
   });
 
-  const getConsentValue = (consentType: string): boolean => {
-    const consent = consents?.find((c) => c.consent_type === consentType);
-    return consent?.is_granted ?? false;
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch("/api/settings/privacy/delete-account", { method: "POST" });
+      if (!response.ok) throw new Error("Failed to delete account");
+      return response.json();
+    },
+    onSuccess: () => {
+      addNotification({ type: "success", title: "Account Scheduled for Deletion", message: "Your account will be deleted in 30 days" });
+      setShowDeleteConfirm(false);
+    },
+    onError: () => {
+      addNotification({ type: "error", title: "Error", message: "Failed to schedule deletion" });
+    },
+  });
+
+  const toggleSetting = (key: keyof PrivacySettings) => {
+    if (typeof settings[key] === "boolean") {
+      updateMutation.mutate({ [key]: !settings[key] });
+    }
   };
 
-  const handleConsentChange = (consentType: string, value: boolean) => {
-    updateConsentMutation.mutate({ consent_type: consentType, is_granted: value });
-  };
+  const tabs = [
+    {
+      id: "privacy",
+      label: "Privacy",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Card className="p-6 mb-6">
+            <SectionHeader title="Profile Visibility" description="Control who can see your profile" />
+            <div className="flex gap-2 mt-4">
+              {(["public", "team", "private"] as const).map((visibility) => (
+                <Button
+                  key={visibility}
+                  variant={settings.profile_visibility === visibility ? "solid" : "outline"}
+                  onClick={() => updateMutation.mutate({ profile_visibility: visibility })}
+                  disabled={updateMutation.isPending}
+                  className="capitalize"
+                >
+                  {visibility === "public" && <Eye className="size-4 mr-2" />}
+                  {visibility === "team" && <Shield className="size-4 mr-2" />}
+                  {visibility === "private" && <EyeOff className="size-4 mr-2" />}
+                  {visibility}
+                </Button>
+              ))}
+            </div>
+          </Card>
 
-  const handleDataExport = () => {
-    createDSRMutation.mutate({ request_type: "portability" });
-  };
+          <Card className="p-6 mb-6">
+            <SectionHeader title="Data & Tracking" description="Control how your data is used" />
+            <div className="space-y-4 mt-4">
+              {[
+                { key: "activity_tracking" as const, label: "Activity Tracking", description: "Track your activity for personalized recommendations" },
+                { key: "analytics_sharing" as const, label: "Analytics Sharing", description: "Share anonymous usage data to help improve the product" },
+                { key: "marketing_emails" as const, label: "Marketing Emails", description: "Receive product updates and promotional emails" },
+              ].map(({ key, label, description }) => (
+                <div key={key} className="flex items-center justify-between p-4 bg-grey-800 rounded-card">
+                  <div>
+                    <Body className="font-weight-medium">{label}</Body>
+                    <Body size="sm" className="text-grey-400">{description}</Body>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    onClick={() => toggleSetting(key)}
+                    disabled={updateMutation.isPending}
+                    className={`relative w-12 h-6 rounded-avatar transition-colors ${settings[key] ? "bg-primary" : "bg-grey-600"}`}
+                  >
+                    <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-avatar transition-transform ${settings[key] ? "translate-x-6" : "translate-x-0"}`} />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </Card>
 
-  const handleAccountDeletion = () => {
-    createDSRMutation.mutate({ request_type: "erasure" });
-  };
+          <Card className="p-6">
+            <SectionHeader title="Data Retention" description="How long your data is stored" />
+            <div className="flex items-center gap-4 mt-4">
+              <Badge variant="info" className="font-weight-medium px-4 py-2">{settings.data_retention_days} days</Badge>
+              <Body className="text-grey-400">Your data is automatically deleted after this period of inactivity</Body>
+            </div>
+          </Card>
+        </Section>
+      ),
+    },
+    {
+      id: "data",
+      label: "Your Data",
+      icon: <FileText className="size-4" />,
+      content: (
+        <Section>
+          <Card className="p-6 mb-6">
+            <SectionHeader title="Export Your Data" description="Download a copy of all your data" />
+            <div className="mt-4">
+              <Body className="text-grey-400 mb-4">Request a complete export of your data including projects, contacts, and activity history. You will receive an email with a download link when ready.</Body>
+              <Button variant="outline" onClick={() => setShowExportConfirm(true)} icon={<Download className="size-4" />} iconPosition="left">
+                Request Data Export
+              </Button>
+            </div>
+          </Card>
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
-
-  const getStatusBadge = (status: string) => {
-    const statusConfig: Record<string, { color: string; icon: typeof CheckCircle }> = {
-      pending: { color: "bg-warning-100 text-warning-800", icon: Clock },
-      verified: { color: "bg-info-100 text-info-800", icon: Clock },
-      in_progress: { color: "bg-info-100 text-info-800", icon: Clock },
-      completed: { color: "bg-success-100 text-success-800", icon: CheckCircle },
-      rejected: { color: "bg-error-100 text-error-800", icon: AlertTriangle },
-    };
-    const config = statusConfig[status] || statusConfig.pending;
-    const Icon = config.icon;
-    return (
-      <Text className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${config.color}`}>
-        <Icon className="size-3" />
-        {status.replace("_", " ").toUpperCase()}
-      </Text>
-    );
-  };
+          <Card className="p-6 border-error">
+            <SectionHeader title="Delete Account" description="Permanently delete your account and all data" />
+            <div className="mt-4">
+              <Body className="text-grey-400 mb-4">This action cannot be undone. All your data will be permanently deleted after a 30-day grace period.</Body>
+              <Button variant="outline" className="border-error text-error" onClick={() => setShowDeleteConfirm(true)} icon={<Trash2 className="size-4" />} iconPosition="left">
+                Delete Account
+              </Button>
+            </div>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
   return (
     <>
-      <Container className="py-8 max-w-container-3xl">
-        <Stack gap={8}>
-          {/* Header */}
-          <Stack gap={4}>
-            <div className="flex items-center gap-3">
-              <div className="flex size-12 items-center justify-center border-2 border-black bg-primary-100">
-                <Shield className="size-6 text-primary-600" />
-              </div>
-              <div>
-                <H2 className="text-ink-950">Privacy Settings</H2>
-                <Body className="text-grey-600">
-                  Manage your privacy preferences and data rights
-                </Body>
-              </div>
-            </div>
-          </Stack>
+      <DetailPage
+        header={{ kicker: "Settings", title: "Privacy & Data", description: "Manage your privacy settings and data" }}
+        backButton={{ label: "Settings", href: "/settings" }}
+        loading={isLoading}
+        error={error instanceof Error ? error : null}
+        onRetry={refetch}
+        tabs={tabs}
+      />
 
-          {/* Consent Management */}
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <Cookie className="size-5 text-grey-600" />
-                <H3 className="text-ink-950">Consent Preferences</H3>
-              </div>
-              <Body size="sm" className="text-grey-600 mt-1">
-                Control how we use your data. You can change these settings at any time.
-              </Body>
-            </CardHeader>
-            <CardBody>
-              {loadingConsents ? (
-                <div className="flex justify-center py-8">
-                  <Spinner />
-                </div>
-              ) : consentsError ? (
-                <EmptyState
-                  title="Error Loading Consents"
-                  description="Failed to load your consent preferences. Please try again."
-                  action={{ label: 'Retry', onClick: () => window.location.reload() }}
-                />
-              ) : (
-                <Stack gap={6}>
-                  {/* Marketing Consents */}
-                  <div>
-                    <Label size="sm" className="text-grey-500 mb-3 block">
-                      MARKETING COMMUNICATIONS
-                    </Label>
-                    <Stack gap={4}>
-                      {CONSENT_TYPES.filter((c) => c.category === "marketing").map((consent) => {
-                        const Icon = consent.icon;
-                        return (
-                          <div
-                            key={consent.key}
-                            className="flex items-start justify-between gap-4 pb-4 border-b border-grey-200 last:border-0 last:pb-0"
-                          >
-                            <div className="flex items-start gap-3">
-                              <div className="flex size-10 items-center justify-center border-2 border-grey-200 bg-grey-50 rounded-button">
-                                <Icon className="size-5 text-grey-600" />
-                              </div>
-                              <div>
-                                <Body className="font-weight-medium text-grey-900">{consent.label}</Body>
-                                <Body size="sm" className="text-grey-600">
-                                  {consent.description}
-                                </Body>
-                              </div>
-                            </div>
-                            <Switch
-                              checked={getConsentValue(consent.key)}
-                              onChange={(e) => handleConsentChange(consent.key, e.target.checked)}
-                              disabled={updateConsentMutation.isPending}
-                            />
-                          </div>
-                        );
-                      })}
-                    </Stack>
-                  </div>
+      <Modal open={showExportConfirm} onClose={() => setShowExportConfirm(false)}>
+        <ModalHeader><Body className="font-weight-bold font-weight-medium">Export Your Data</Body></ModalHeader>
+        <ModalBody>
+          <Body className="text-grey-400">We will prepare a complete export of your data. This may take a few hours. You will receive an email with a download link when ready.</Body>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="outline" onClick={() => setShowExportConfirm(false)}>Cancel</Button>
+          <Button variant="solid" onClick={() => exportMutation.mutate()} disabled={exportMutation.isPending}>
+            {exportMutation.isPending ? "Starting..." : "Start Export"}
+          </Button>
+        </ModalFooter>
+      </Modal>
 
-                  {/* Analytics Consents */}
-                  <div>
-                    <Label size="sm" className="text-grey-500 mb-3 block">
-                      ANALYTICS & PERSONALIZATION
-                    </Label>
-                    <Stack gap={4}>
-                      {CONSENT_TYPES.filter((c) => c.category === "analytics").map((consent) => {
-                        const Icon = consent.icon;
-                        return (
-                          <div
-                            key={consent.key}
-                            className="flex items-start justify-between gap-4 pb-4 border-b border-grey-200 last:border-0 last:pb-0"
-                          >
-                            <div className="flex items-start gap-3">
-                              <div className="flex size-10 items-center justify-center border-2 border-grey-200 bg-grey-50 rounded-button">
-                                <Icon className="size-5 text-grey-600" />
-                              </div>
-                              <div>
-                                <Body className="font-weight-medium text-grey-900">{consent.label}</Body>
-                                <Body size="sm" className="text-grey-600">
-                                  {consent.description}
-                                </Body>
-                              </div>
-                            </div>
-                            <Switch
-                              checked={getConsentValue(consent.key)}
-                              onChange={(e) => handleConsentChange(consent.key, e.target.checked)}
-                              disabled={updateConsentMutation.isPending}
-                            />
-                          </div>
-                        );
-                      })}
-                    </Stack>
-                  </div>
-
-                  {/* Data Sharing Consents */}
-                  <div>
-                    <Label size="sm" className="text-grey-500 mb-3 block">
-                      DATA SHARING
-                    </Label>
-                    <Stack gap={4}>
-                      {CONSENT_TYPES.filter((c) => c.category === "sharing").map((consent) => {
-                        const Icon = consent.icon;
-                        return (
-                          <div
-                            key={consent.key}
-                            className="flex items-start justify-between gap-4 pb-4 border-b border-grey-200 last:border-0 last:pb-0"
-                          >
-                            <div className="flex items-start gap-3">
-                              <div className="flex size-10 items-center justify-center border-2 border-grey-200 bg-grey-50 rounded-button">
-                                <Icon className="size-5 text-grey-600" />
-                              </div>
-                              <div>
-                                <Body className="font-weight-medium text-grey-900">{consent.label}</Body>
-                                <Body size="sm" className="text-grey-600">
-                                  {consent.description}
-                                </Body>
-                              </div>
-                            </div>
-                            <Switch
-                              checked={getConsentValue(consent.key)}
-                              onChange={(e) => handleConsentChange(consent.key, e.target.checked)}
-                              disabled={updateConsentMutation.isPending}
-                            />
-                          </div>
-                        );
-                      })}
-                    </Stack>
-                  </div>
-                </Stack>
-              )}
-            </CardBody>
+      <Modal open={showDeleteConfirm} onClose={() => setShowDeleteConfirm(false)}>
+        <ModalHeader><Body className="font-weight-bold font-weight-medium text-error">Delete Account</Body></ModalHeader>
+        <ModalBody>
+          <Body className="text-grey-400 mb-4">Are you sure you want to delete your account? This action cannot be undone.</Body>
+          <Card className="p-4 bg-error/10 border-error">
+            <Body size="sm" className="text-error">All your data will be permanently deleted after a 30-day grace period. You can cancel this request within that time.</Body>
           </Card>
-
-          {/* Data Rights */}
-          <Card>
-            <CardHeader>
-              <H3 className="text-ink-950">Your Data Rights</H3>
-              <Body size="sm" className="text-grey-600 mt-1">
-                Exercise your rights under GDPR, CCPA, and other privacy regulations.
-              </Body>
-            </CardHeader>
-            <CardBody>
-              <Stack gap={4}>
-                {/* Data Export */}
-                <div className="flex items-start justify-between gap-4 p-4 border-2 border-grey-200 rounded-card">
-                  <div className="flex items-start gap-3">
-                    <div className="flex size-10 items-center justify-center border-2 border-primary-200 bg-primary-50 rounded-button">
-                      <Download className="size-5 text-primary-600" />
-                    </div>
-                    <div>
-                      <Body className="font-weight-medium text-grey-900">Export Your Data</Body>
-                      <Body size="sm" className="text-grey-600">
-                        Download a copy of all your personal data in machine-readable format (JSON).
-                        This includes your profile, activity, and preferences.
-                      </Body>
-                    </div>
-                  </div>
-                  {!showExportConfirm ? (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setShowExportConfirm(true)}
-                    >
-                      Request Export
-                    </Button>
-                  ) : (
-                    <Stack gap={2} className="items-end">
-                      <Body size="sm" className="text-grey-600">
-                        This will create a data export request. You&apos;ll receive an email when ready.
-                      </Body>
-                      <Stack direction="horizontal" gap={2}>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setShowExportConfirm(false)}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          variant="solid"
-                          size="sm"
-                          onClick={handleDataExport}
-                          disabled={createDSRMutation.isPending}
-                        >
-                          {createDSRMutation.isPending ? "Requesting..." : "Confirm Export"}
-                        </Button>
-                      </Stack>
-                    </Stack>
-                  )}
-                </div>
-
-                {/* Account Deletion */}
-                <div className="flex items-start justify-between gap-4 p-4 border-2 border-error-200 rounded-card bg-error-50">
-                  <div className="flex items-start gap-3">
-                    <div className="flex size-10 items-center justify-center border-2 border-error-200 bg-error-100 rounded-button">
-                      <Trash2 className="size-5 text-error-600" />
-                    </div>
-                    <div>
-                      <Body className="font-weight-medium text-grey-900">Delete Your Account</Body>
-                      <Body size="sm" className="text-grey-600">
-                        Permanently delete your account and all associated data. This action cannot be undone.
-                        Some data may be retained for legal compliance.
-                      </Body>
-                    </div>
-                  </div>
-                  {!showDeleteConfirm ? (
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => setShowDeleteConfirm(true)}
-                    >
-                      Delete Account
-                    </Button>
-                  ) : (
-                    <Stack gap={2} className="items-end">
-                      <Alert variant="warning" className="text-body-sm">
-                        This will permanently delete your account within 30 days.
-                      </Alert>
-                      <Stack direction="horizontal" gap={2}>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setShowDeleteConfirm(false)}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          onClick={handleAccountDeletion}
-                          disabled={createDSRMutation.isPending}
-                        >
-                          {createDSRMutation.isPending ? "Requesting..." : "Confirm Deletion"}
-                        </Button>
-                      </Stack>
-                    </Stack>
-                  )}
-                </div>
-              </Stack>
-            </CardBody>
-          </Card>
-
-          {/* Request History */}
-          <Card>
-            <CardHeader>
-              <H3 className="text-ink-950">Request History</H3>
-              <Body size="sm" className="text-grey-600 mt-1">
-                Track the status of your data subject requests.
-              </Body>
-            </CardHeader>
-            <CardBody>
-              {loadingDSR ? (
-                <div className="flex justify-center py-8">
-                  <Spinner />
-                </div>
-              ) : dsrError ? (
-                <EmptyState
-                  title="Error Loading Requests"
-                  description="Failed to load your request history. Please try again."
-                  action={{ label: 'Retry', onClick: () => window.location.reload() }}
-                />
-              ) : dsrHistory && dsrHistory.length > 0 ? (
-                <div className="border-2 border-grey-200 rounded-card overflow-hidden">
-                  <Table className="w-full">
-                    <TableHeader className="bg-grey-50">
-                      <TableRow>
-                        <TableHead className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Request Type</TableHead>
-                        <TableHead className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Status</TableHead>
-                        <TableHead className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Submitted</TableHead>
-                        <TableHead className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Deadline</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody className="divide-y divide-grey-200">
-                      {dsrHistory.map((request) => (
-                        <TableRow key={request.id}>
-                          <TableCell className="p-3 text-body-sm text-grey-900 capitalize">
-                            {request.request_type.replace("_", " ")}
-                          </TableCell>
-                          <TableCell className="p-3">{getStatusBadge(request.status)}</TableCell>
-                          <TableCell className="p-3 text-body-sm text-grey-600">
-                            {formatDate(request.created_at)}
-                          </TableCell>
-                          <TableCell className="p-3 text-body-sm text-grey-600">
-                            {formatDate(request.deadline_at)}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <Clock className="size-12 text-grey-300 mx-auto mb-3" />
-                  <Body className="text-grey-600">No data requests yet</Body>
-                  <Body size="sm" className="text-grey-500">
-                    Your data export and deletion requests will appear here.
-                  </Body>
-                </div>
-              )}
-            </CardBody>
-          </Card>
-
-          {/* Legal Links */}
-          <div className="flex flex-wrap gap-4 justify-center text-body-sm">
-            <Link href="/legal/privacy" className="text-primary-600 hover:text-primary-800 underline">
-              Privacy Policy
-            </Link>
-            <Text className="text-grey-400">•</Text>
-            <Link href="/legal/cookies" className="text-primary-600 hover:text-primary-800 underline">
-              Cookie Policy
-            </Link>
-            <Text className="text-grey-400">•</Text>
-            <Link href="/legal/terms" className="text-primary-600 hover:text-primary-800 underline">
-              Terms of Service
-            </Link>
-            <Text className="text-grey-400">•</Text>
-            <Link href="mailto:privacy@ghxstship.com" className="text-primary-600 hover:text-primary-800 underline">
-              Contact Privacy Team
-            </Link>
-          </div>
-        </Stack>
-      </Container>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="outline" onClick={() => setShowDeleteConfirm(false)}>Cancel</Button>
+          <Button variant="solid" className="bg-error" onClick={() => deleteMutation.mutate()} disabled={deleteMutation.isPending}>
+            {deleteMutation.isPending ? "Processing..." : "Delete My Account"}
+          </Button>
+        </ModalFooter>
+      </Modal>
     </>
   );
 }

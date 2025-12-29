@@ -1,14 +1,59 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createProgramSchema = z.object({
+  action: z.literal('create_program'),
+  company_id: z.string().uuid(),
+  name: z.string().min(1),
+  program_type: z.string(),
+  description: z.string().optional(),
+  duration: z.string().optional(),
+  compensation: z.record(z.unknown()).optional(),
+  requirements: z.array(z.string()).optional(),
+  application_deadline: z.string().optional(),
+  start_date: z.string().optional(),
+});
+
+const addPositionSchema = z.object({
+  action: z.literal('add_position'),
+  program_id: z.string().uuid(),
+  title: z.string().min(1),
+  department: z.string().optional(),
+  description: z.string().optional(),
+  spots_available: z.number().int().optional(),
+  skills_required: z.array(z.string()).optional(),
+});
+
+const applySchema = z.object({
+  action: z.literal('apply'),
+  position_id: z.string().uuid(),
+  resume_url: z.string().url().optional(),
+  cover_letter: z.string().optional(),
+  availability: z.string().optional(),
+});
+
+const internshipActionSchema = z.union([createProgramSchema, addPositionSchema, applySchema]);
 
 // Internship and apprenticeship program management
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const programType = searchParams.get('type');
@@ -34,17 +79,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = internshipActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create_program') {
-      const { company_id, name, program_type, description, duration, compensation, requirements, application_deadline, start_date } = body;
+      const { company_id, name, program_type, description, duration, compensation, requirements, application_deadline, start_date } = validatedData as z.infer<typeof createProgramSchema>;
 
       const { data, error } = await supabase.from('internship_programs').insert({
         company_id, name, program_type, description, duration,
@@ -57,7 +109,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'add_position') {
-      const { program_id, title, department, description, spots_available, skills_required } = body;
+      const { program_id, title, department, description, spots_available, skills_required } = validatedData as z.infer<typeof addPositionSchema>;
 
       const { data, error } = await supabase.from('program_positions').insert({
         program_id, title, department, description,
@@ -69,7 +121,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'apply') {
-      const { position_id, resume_url, cover_letter, availability } = body;
+      const { position_id, resume_url, cover_letter, availability } = validatedData as z.infer<typeof applySchema>;
 
       const { data, error } = await supabase.from('program_applications').insert({
         position_id, applicant_id: user.id, resume_url, cover_letter,

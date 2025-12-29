@@ -1,16 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 // Layout provided by route group
-import { Ruler, Wrench, Building, Scale, FileText, Folder, PenTool } from "lucide-react";
+import { Ruler, Wrench, Building, Scale, FileText, Folder, PenTool, Eye, Download } from "lucide-react";
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Input,
   Select,
   Button,
@@ -21,8 +19,9 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
 
 import {
@@ -30,168 +29,141 @@ import {
   type Drawing,
 } from "../../hooks/useDrawings";
 
-import { getSubcategoryNames } from "@ghxstship/config";
+import { getSubcategoryNames, createExportHandler } from "@ghxstship/config";
 
-const categories = ['All', ...getSubcategoryNames('TECH'), 'Site'];
+const categories = getSubcategoryNames('TECH').concat(['Site']);
+
+const getTypeIcon = (type: string) => {
+  switch (type) {
+    case "Vectorworks": return <Ruler className="size-5" />;
+    case "AutoCAD": return <Wrench className="size-5" />;
+    case "SketchUp": return <Building className="size-5" />;
+    case "CAD": return <Scale className="size-5" />;
+    case "PDF": return <FileText className="size-5" />;
+    default: return <Folder className="size-5" />;
+  }
+};
 
 export default function DrawingsPage() {
-  const router = useRouter();
-  const { data: drawings = [], isLoading, error } = useDrawings();
+  const { data: drawings = [], isLoading, error, refetch } = useDrawings();
   const [selectedDrawing, setSelectedDrawing] = useState<Drawing | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [categoryFilter, setCategoryFilter] = useState("All");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-  const filteredDrawings = categoryFilter === "All" ? drawings : drawings.filter(d => d.category === categoryFilter);
   const totalMarkups = drawings.reduce((s, d) => s + d.markups, 0);
 
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case "Vectorworks": return <Ruler className="size-5" />;
-      case "AutoCAD": return <Wrench className="size-5" />;
-      case "SketchUp": return <Building className="size-5" />;
-      case "CAD": return <Scale className="size-5" />;
-      case "PDF": return <FileText className="size-5" />;
-      default: return <Folder className="size-5" />;
-    }
-  };
+  const columns: ListPageColumn<Drawing>[] = [
+    {
+      key: 'name',
+      label: 'Drawing Name',
+      accessor: 'name',
+      sortable: true,
+      render: (_, d) => (
+        <Stack direction="horizontal" gap={3}>
+          {getTypeIcon(d.type)}
+          <Body className="font-display">{d.name}</Body>
+        </Stack>
+      ),
+    },
+    {
+      key: 'category',
+      label: 'Category',
+      accessor: 'category',
+      sortable: true,
+      render: (_, d) => <Badge variant="outline">{d.category}</Badge>,
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      accessor: 'type',
+      sortable: true,
+      render: (_, d) => <Badge variant="outline">{d.type}</Badge>,
+    },
+    {
+      key: 'version',
+      label: 'Version',
+      accessor: 'version',
+      render: (_, d) => <Badge variant="solid">v{d.version}</Badge>,
+    },
+    { key: 'size', label: 'Size', accessor: 'size' },
+    {
+      key: 'markups',
+      label: 'Markups',
+      accessor: 'markups',
+      sortable: true,
+      render: (_, d) => d.markups > 0 ? <Badge variant="outline">{d.markups}</Badge> : <Body size="sm">—</Body>,
+    },
+    { key: 'uploadedBy', label: 'Uploaded By', accessor: 'uploadedBy' },
+    { key: 'uploadedAt', label: 'Date', accessor: 'uploadedAt', sortable: true },
+  ];
 
-  if (isLoading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Stack gap={4} className="items-center">
-              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
-              <Body>Loading drawings...</Body>
-            </Stack>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const filters: ListPageFilter[] = [
+    {
+      key: 'category',
+      label: 'Category',
+      options: categories.map(c => ({ value: c, label: c })),
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      options: [
+        { value: 'Vectorworks', label: 'Vectorworks' },
+        { value: 'AutoCAD', label: 'AutoCAD' },
+        { value: 'SketchUp', label: 'SketchUp' },
+        { value: 'CAD', label: 'CAD' },
+        { value: 'PDF', label: 'PDF' },
+      ],
+    },
+  ];
 
-  if (error) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container>
-            <Card className="p-6 border-destructive bg-destructive/10">
-              <Stack gap={4} className="items-center text-center">
-                <Body className="text-destructive font-display">Failed to load drawings</Body>
-                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
-                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
-              </Stack>
-            </Card>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const rowActions: ListPageAction<Drawing>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (d) => setSelectedDrawing(d) },
+    { id: 'download', label: 'Download', icon: <Download className="h-4 w-4" />, onClick: () => {} },
+  ];
+
+  const stats = [
+    { label: 'Total Drawings', value: drawings.length },
+    { label: 'Categories', value: categories.length },
+    { label: 'Active Markups', value: totalMarkups },
+    { label: 'Updated Today', value: drawings.filter(d => d.uploadedAt === new Date().toISOString().split('T')[0]).length },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<Drawing>
         title="Drawings & CAD Files"
         subtitle="Technical drawings with markup and version control"
-
-
-        primaryAction={{ label: 'Upload Drawing', onClick: () => setShowUploadModal(true) }}
+        data={drawings}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        error={error instanceof Error ? error : undefined}
+        onRetry={refetch}
+        searchPlaceholder="Search drawings..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(d) => setSelectedDrawing(d)}
+        createLabel="Upload Drawing"
+        onCreate={() => setShowUploadModal(true)}
+        entityType="drawings"
+        onExport={createExportHandler({
+          filename: "drawings",
+          getData: () => drawings.map((d: Drawing) => ({
+            name: d.name,
+            category: d.category,
+            type: d.type,
+            version: d.version,
+            size: d.size,
+            markups: d.markups,
+            uploadedBy: d.uploadedBy,
+            uploadedAt: d.uploadedAt,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No drawings found"
+        emptyAction={{ label: 'Upload Drawing', onClick: () => setShowUploadModal(true) }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard value={drawings.length.toString()} label="Total Drawings" />
-              <StatCard value={(categories.length - 1).toString()} label="Categories" />
-              <StatCard value={totalMarkups.toString()} label="Active Markups" />
-              <StatCard value={drawings.filter(d => d.uploadedAt === new Date().toISOString().split('T')[0]).length.toString()} label="Updated Today" />
-            </Grid>
-
-            {/* Filters and Actions */}
-            <Stack direction="horizontal" className="justify-between">
-              <Stack direction="horizontal" gap={4}>
-                <Input type="search" placeholder="Search drawings..." className="w-64" />
-                <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
-                  {categories.map(c => <option key={c} value={c}>{c}</option>)}
-                </Select>
-              </Stack>
-              <Stack direction="horizontal" gap={2}>
-                <Button variant={viewMode === "grid" ? "solid" : "outline"} size="sm" onClick={() => setViewMode("grid")}>Grid</Button>
-                <Button variant={viewMode === "list" ? "solid" : "outline"} size="sm" onClick={() => setViewMode("list")}>List</Button>
-                <Button variant="solid" onClick={() => setShowUploadModal(true)}>Upload Drawing</Button>
-              </Stack>
-            </Stack>
-
-            {/* Drawings Display */}
-            {viewMode === "grid" ? (
-              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-                {filteredDrawings.map((drawing) => (
-                  <Card key={drawing.id} className="overflow-hidden">
-                    <Card className="flex h-40 items-center justify-center">
-                      <Body className="text-h1-sm">{getTypeIcon(drawing.type)}</Body>
-                    </Card>
-                    <Stack className="p-4" gap={3}>
-                      <Stack direction="horizontal" className="justify-between">
-                        <Body className="text-body-md font-display">{drawing.name}</Body>
-                        <Badge variant="solid">v{drawing.version}</Badge>
-                      </Stack>
-                      <Stack direction="horizontal" gap={2}>
-                        <Badge variant="outline">{drawing.category}</Badge>
-                        <Badge variant="outline">{drawing.type}</Badge>
-                      </Stack>
-                      <Stack direction="horizontal" className="justify-between">
-                        <Body size="sm" className="">{drawing.size}</Body>
-                        {drawing.markups > 0 && <Badge variant="outline">{drawing.markups} markups</Badge>}
-                      </Stack>
-                      <Stack direction="horizontal" gap={2}>
-                        <Button variant="outline" size="sm" onClick={() => setSelectedDrawing(drawing)}>View</Button>
-                        <Button variant="ghost" size="sm">Download</Button>
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            ) : (
-              <Stack gap={3}>
-                {filteredDrawings.map((drawing) => (
-                  <Card key={drawing.id} className="p-4">
-                    <Grid cols={6} gap={4} className="items-center">
-                      <Stack direction="horizontal" gap={3}>
-                        <Body className="text-h5-md">{getTypeIcon(drawing.type)}</Body>
-                        <Stack gap={1}>
-                          <Body className="font-display">{drawing.name}</Body>
-                          <Badge variant="outline">{drawing.category}</Badge>
-                        </Stack>
-                      </Stack>
-                      <Badge variant="outline">{drawing.type}</Badge>
-                      <Badge variant="solid">v{drawing.version}</Badge>
-                      <Body size="sm" className="">{drawing.size}</Body>
-                      <Stack gap={0}>
-                        <Body size="sm" className="">{drawing.uploadedAt}</Body>
-                        <Body size="sm" className="">{drawing.uploadedBy}</Body>
-                      </Stack>
-                      <Stack direction="horizontal" gap={2}>
-                        <Button variant="outline" size="sm" onClick={() => setSelectedDrawing(drawing)}>View</Button>
-                        <Button variant="ghost" size="sm">Download</Button>
-                      </Stack>
-                    </Grid>
-                  </Card>
-                ))}
-              </Stack>
-            )}
-
-            {/* Quick Links */}
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="outline" onClick={() => router.push("/files")}>All Files</Button>
-              <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
-              <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       {/* View Drawing Modal */}
       <Modal open={!!selectedDrawing} onClose={() => setSelectedDrawing(null)}>

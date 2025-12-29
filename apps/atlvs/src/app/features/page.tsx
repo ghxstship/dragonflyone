@@ -1,251 +1,143 @@
-import { AtlvsAppLayout } from "../../components/app-layout";
+"use client";
+
+/**
+ * Features Page
+ * Product features overview
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
+import { Zap, Calendar, Users, FileText, BarChart3, Shield, Globe, Smartphone, List, Star } from "lucide-react";
 import {
-  Stack,
-  Grid,
-  Card,
   Body,
-  H3,
-  Label,
-  Container,
-  Display,
   Button,
-  FullBleedSection,
+  Card,
+  Grid,
+  Stack,
+  DetailPage,
+  Section,
+  SectionHeader,
 } from "@ghxstship/ui";
-import {
-  LayoutDashboard,
-  Users,
-  DollarSign,
-  Package,
-  Calendar,
-  FileText,
-  BarChart3,
-  Shield,
-  Zap,
-  Globe,
-  ArrowRight,
-} from "lucide-react";
-import NextLink from "next/link";
 
-export const runtime = "edge";
+interface Feature {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  highlights: string[];
+}
 
-const featuresData = {
-  hero: {
-    headline: "EVERYTHING YOU NEED TO RUN PRODUCTIONS",
-    description: "A complete platform for managing projects, crews, assets, finances, and more.",
-  },
-  categories: [
-    {
-      title: "PROJECT MANAGEMENT",
-      description: "Plan, execute, and deliver productions on time and on budget.",
-      icon: LayoutDashboard,
-      features: [
-        "Multi-project dashboards",
-        "Timeline & milestone tracking",
-        "Task management",
-        "Document collaboration",
-        "Real-time status updates",
-      ],
-    },
-    {
-      title: "CREW MANAGEMENT",
-      description: "Build and manage your production teams with ease.",
-      icon: Users,
-      features: [
-        "Crew database & profiles",
-        "Availability tracking",
-        "Role-based assignments",
-        "Certifications & compliance",
-        "Communication tools",
-      ],
-    },
-    {
-      title: "FINANCIAL TOOLS",
-      description: "Track budgets, expenses, and payments in one place.",
-      icon: DollarSign,
-      features: [
-        "Budget creation & tracking",
-        "Expense management",
-        "Invoice generation",
-        "Payment processing",
-        "Financial reporting",
-      ],
-    },
-    {
-      title: "ASSET TRACKING",
-      description: "Know where every piece of equipment is at all times.",
-      icon: Package,
-      features: [
-        "Inventory management",
-        "QR/barcode scanning",
-        "Maintenance scheduling",
-        "Rental tracking",
-        "Depreciation reports",
-      ],
-    },
-    {
-      title: "SCHEDULING",
-      description: "Coordinate complex schedules across multiple productions.",
-      icon: Calendar,
-      features: [
-        "Visual calendar views",
-        "Shift management",
-        "Conflict detection",
-        "Automated reminders",
-        "Calendar integrations",
-      ],
-    },
-    {
-      title: "DOCUMENTS & CONTRACTS",
-      description: "Manage all production paperwork digitally.",
-      icon: FileText,
-      features: [
-        "Contract templates",
-        "E-signatures",
-        "Version control",
-        "Secure storage",
-        "Compliance tracking",
-      ],
-    },
-    {
-      title: "ANALYTICS & REPORTING",
-      description: "Make data-driven decisions with powerful insights.",
-      icon: BarChart3,
-      features: [
-        "Custom dashboards",
-        "KPI tracking",
-        "Automated reports",
-        "Data exports",
-        "Trend analysis",
-      ],
-    },
-    {
-      title: "SECURITY & COMPLIANCE",
-      description: "Enterprise-grade security for your production data.",
-      icon: Shield,
-      features: [
-        "SOC 2 Type II certified",
-        "SSO & 2FA",
-        "Role-based permissions",
-        "Audit logs",
-        "Data encryption",
-      ],
-    },
-  ],
-  highlights: [
-    { icon: Zap, title: "FAST", description: "Built for speed with instant load times" },
-    { icon: Globe, title: "GLOBAL", description: "Multi-currency and timezone support" },
-    { icon: Shield, title: "SECURE", description: "Enterprise-grade security standards" },
-  ],
-};
+const FEATURES: Feature[] = [
+  { icon: <Calendar className="size-8" />, title: "Production Planning", description: "Plan and manage every aspect of your productions", highlights: ["Timeline management", "Task scheduling", "Milestone tracking", "Resource allocation"] },
+  { icon: <Users className="size-8" />, title: "Team Collaboration", description: "Work together seamlessly with your entire team", highlights: ["Real-time updates", "Comments & mentions", "File sharing", "Role-based access"] },
+  { icon: <FileText className="size-8" />, title: "Document Management", description: "Keep all your production documents organized", highlights: ["Version control", "Template library", "Digital signatures", "Secure storage"] },
+  { icon: <BarChart3 className="size-8" />, title: "Analytics & Reporting", description: "Get insights into your production performance", highlights: ["Custom dashboards", "Automated reports", "Budget tracking", "Performance metrics"] },
+  { icon: <Shield className="size-8" />, title: "Security & Compliance", description: "Enterprise-grade security for your data", highlights: ["SOC 2 certified", "Data encryption", "SSO support", "Audit logs"] },
+  { icon: <Globe className="size-8" />, title: "Integrations", description: "Connect with your favorite tools", highlights: ["100+ integrations", "API access", "Webhooks", "Custom workflows"] },
+];
+
+const HIGHLIGHTS = [
+  { icon: <Zap className="size-6" />, title: "Lightning Fast", description: "Optimized for speed and performance" },
+  { icon: <Smartphone className="size-6" />, title: "Mobile Ready", description: "Access from any device, anywhere" },
+  { icon: <Shield className="size-6" />, title: "Enterprise Security", description: "Bank-level security for your data" },
+];
 
 export default function FeaturesPage() {
-  return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center text-center">
-            <Label size="xs" className="text-on-dark-muted">
-              FEATURES
-            </Label>
-            <Display size="lg" className="text-white">
-              {featuresData.hero.headline}
-            </Display>
-            <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              {featuresData.hero.description}
-            </Body>
-            <Stack direction="horizontal" gap={4}>
-              <NextLink href="/auth/signup">
-                <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                  Start Free Trial
-                </Button>
-              </NextLink>
-              <NextLink href="/demo">
-                <Button variant="outlineWhite" size="lg">
-                  Watch Demo
-                </Button>
-              </NextLink>
-            </Stack>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+  const router = useRouter();
 
-      {/* Highlights */}
-      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={3} gap={8} className="sm:grid-cols-1">
-            {featuresData.highlights.map((item) => (
-              <Stack key={item.title} direction="horizontal" gap={4} className="items-center">
-                <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                  <item.icon className="size-6 text-ink-950" />
-                </Stack>
-                <Stack gap={1}>
-                  <H3 size="sm" className="text-ink-950">{item.title}</H3>
-                  <Label size="xs" className="text-grey-500">{item.description}</Label>
-                </Stack>
-              </Stack>
-            ))}
-          </Grid>
-        </Container>
-      </FullBleedSection>
-
-      {/* Feature Categories */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={2} gap={8} className="sm:grid-cols-1">
-            {featuresData.categories.map((category) => (
-              <Card key={category.title} className="border-2 border-ink-950 bg-white p-8 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
-                <Stack gap={6}>
-                  <Stack direction="horizontal" gap={4} className="items-start">
-                    <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                      <category.icon className="size-6 text-ink-950" />
-                    </Stack>
-                    <Stack gap={2} className="flex-1">
-                      <H3 className="text-ink-950">{category.title}</H3>
-                      <Body size="sm" className="text-grey-600">
-                        {category.description}
-                      </Body>
-                    </Stack>
-                  </Stack>
-                  <Grid cols={2} gap={2} className="sm:grid-cols-1">
-                    {category.features.map((feature) => (
-                      <Label key={feature} size="xs" className="text-grey-600">
-                        {feature}
-                      </Label>
-                    ))}
-                  </Grid>
-                </Stack>
+  const tabs = [
+    {
+      id: "all",
+      label: "All Features",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mb-8">
+            {HIGHLIGHTS.map((highlight, idx) => (
+              <Card key={idx} className="p-6 text-center">
+                <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">{highlight.icon}</div>
+                <Body className="font-weight-bold">{highlight.title}</Body>
+                <Body size="sm" className="text-grey-400">{highlight.description}</Body>
               </Card>
             ))}
           </Grid>
-        </Container>
-      </FullBleedSection>
 
-      {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center">
-            <Display size="md" className="text-white">
-              READY TO TRANSFORM YOUR PRODUCTIONS?
-            </Display>
-            <Body size="lg" className="text-on-dark-secondary">
-              Start your 14-day free trial today. No credit card required.
-            </Body>
-            <Stack direction="horizontal" gap={4}>
-              <NextLink href="/auth/signup">
-                <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                  Start Free Trial
-                </Button>
-              </NextLink>
-              <NextLink href="/pricing">
-                <Button variant="outlineWhite" size="lg">
-                  View Pricing
-                </Button>
-              </NextLink>
-            </Stack>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+          <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
+            {FEATURES.map((feature, idx) => (
+              <Card key={idx} className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-primary/20 rounded-card text-primary">{feature.icon}</div>
+                  <div className="flex-1">
+                    <Body className="font-weight-bold font-weight-medium mb-2">{feature.title}</Body>
+                    <Body className="text-grey-400 mb-4">{feature.description}</Body>
+                    <Stack gap={2}>
+                      {feature.highlights.map((highlight, hidx) => (
+                        <Stack key={hidx} direction="horizontal" gap={2} className="items-center">
+                          <div className="size-1.5 rounded-avatar bg-primary" />
+                          <Body size="sm">{highlight}</Body>
+                        </Stack>
+                      ))}
+                    </Stack>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </Grid>
+
+          <Card className="p-8 mt-8 text-center">
+            <Body className="font-weight-bold font-weight-bold mb-2">Ready to get started?</Body>
+            <Body className="text-grey-400 mb-4">See how ATLVS can transform your production workflow</Body>
+            <div className="flex gap-4 justify-center">
+              <Button variant="solid" onClick={() => router.push("/demo")}>Request a Demo</Button>
+              <Button variant="outline" onClick={() => router.push("/auth/signup")}>Start Free Trial</Button>
+            </div>
+          </Card>
+        </Section>
+      ),
+    },
+    {
+      id: "highlights",
+      label: "Key Benefits",
+      icon: <Star className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Why Choose ATLVS?" description="The benefits that set us apart" />
+          <div className="space-y-8 mt-6">
+            {FEATURES.slice(0, 3).map((feature, idx) => (
+              <Card key={idx} className="p-8">
+                <div className="flex items-start gap-6">
+                  <div className="p-4 bg-primary/20 rounded-card text-primary">{feature.icon}</div>
+                  <div className="flex-1">
+                    <Body className="font-weight-bold font-weight-bold mb-2">{feature.title}</Body>
+                    <Body className="text-grey-300 font-weight-medium mb-4">{feature.description}</Body>
+                    <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
+                      {feature.highlights.map((highlight, hidx) => (
+                        <Card key={hidx} className="p-4">
+                          <div className="flex items-center gap-2">
+                            <Zap className="size-4 text-primary" />
+                            <Body>{highlight}</Body>
+                          </div>
+                        </Card>
+                      ))}
+                    </Grid>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+  ];
+
+  return (
+    <DetailPage
+      header={{
+        kicker: "Platform",
+        title: "Features",
+        description: "Everything you need to manage productions at scale",
+      }}
+      tabs={tabs}
+      actions={<Button variant="solid" onClick={() => router.push("/demo")}>Get Started</Button>}
+    />
   );
 }

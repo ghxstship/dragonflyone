@@ -102,6 +102,18 @@ export default function OrdersPage() {
   ];
 
   const handleCancel = async () => {
+    if (selectedOrder) {
+      try {
+        await fetch(`/api/orders/${selectedOrder.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'cancelled' }),
+        });
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to cancel order';
+        alert(errorMessage);
+      }
+    }
     setCancelConfirmOpen(false);
     setSelectedOrder(null);
     refetch();

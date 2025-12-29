@@ -2,6 +2,18 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createAudioLineSchema = z.object({
+  project_id: z.string().uuid(),
+  channel: z.number().int(),
+  type: z.enum(['input', 'output']),
+  source: z.string().optional(),
+  destination: z.string().optional(),
+  signal_type: z.string().optional(),
+  phantom: z.boolean().optional(),
+  notes: z.string().optional(),
+});
 
 const COMPVSS_ROLES = [
   PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_COLLABORATOR, PlatformRole.COMPVSS_VIEWER,
@@ -49,7 +61,8 @@ export async function POST(request: NextRequest) {
     const user = authResult.user;
 
     const body = await request.json();
-    const { project_id, channel, type, source, destination, signal_type, phantom, notes } = body;
+    const validatedData = createAudioLineSchema.parse(body);
+    const { project_id, channel, type, source, destination, signal_type, phantom, notes } = validatedData;
 
     const { data, error } = await supabase.from('audio_lines').insert({
       project_id, channel, type, source, destination,

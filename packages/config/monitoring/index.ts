@@ -173,7 +173,7 @@ export async function sendAlert(
         body: JSON.stringify(alert),
       });
     } catch (error) {
-      console.error('Failed to send alert webhook:', error);
+      logger.error('Failed to send alert webhook', error instanceof Error ? error : undefined);
     }
   }
   
@@ -200,7 +200,7 @@ export async function sendAlert(
       // Would send to Slack webhook here
       logger.debug('Slack alert payload', { payload: slackPayload });
     } catch (error) {
-      console.error('Failed to send Slack alert:', error);
+      logger.error('Failed to send Slack alert', error instanceof Error ? error : undefined);
     }
   }
 }

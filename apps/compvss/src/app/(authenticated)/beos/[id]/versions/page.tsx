@@ -2,18 +2,19 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import { Eye, Clock, ArrowLeft, GitCompare, Loader2, AlertTriangle } from "lucide-react";
+import { Eye, Clock, GitCompare, AlertTriangle } from "lucide-react";
 import {
+  DetailPage,
   Badge,
   Body,
   Button,
   Card,
   CardBody,
-  EnterprisePageHeader,
   Grid,
   Stack,
+  Spinner,
+  EmptyState,
 } from '@ghxstship/ui';
-import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
 interface BEOVersion {
@@ -66,68 +67,45 @@ export default function BEOVersionsPage() {
 
   if (isLoading) {
     return (
-      <Stack gap={8}>
-        <EnterprisePageHeader 
-          title="Version History" 
-          subtitle="Compare BEO versions" 
-          showFavorite 
-          showSettings 
-        />
-        <Card inverted className="border-2 border-ink-800 p-12">
-          <Stack gap={4} className="items-center justify-center">
-            <Loader2 className="size-8 text-primary animate-spin" />
-            <Body className="text-grey-400">Loading version history...</Body>
-          </Stack>
-        </Card>
-      </Stack>
+      <DetailPage
+        header={{ title: "Version History", description: "Loading..." }}
+        backButton={{ label: "Back to BEO", href: `/beos/${beoId}` }}
+      >
+        <Stack gap={4} className="items-center justify-center py-16">
+          <Spinner size="lg" />
+          <Body>Loading version history...</Body>
+        </Stack>
+      </DetailPage>
     );
   }
 
   if (error) {
     return (
-      <Stack gap={8}>
-        <EnterprisePageHeader 
-          title="Version History" 
-          subtitle="Compare BEO versions" 
-          showFavorite 
-          showSettings 
+      <DetailPage
+        header={{ title: "Version History" }}
+        backButton={{ label: "Back to BEO", href: `/beos/${beoId}` }}
+      >
+        <EmptyState
+          icon={<AlertTriangle className="h-12 w-12" />}
+          title="Failed to Load Versions"
+          description="Could not load version history. Please try again."
+          action={{ label: "Retry", onClick: () => refetch() }}
         />
-        <Card inverted className="border-2 border-error/30 p-8">
-          <Stack gap={4} className="items-center justify-center">
-            <AlertTriangle className="size-8 text-error" />
-            <Body className="text-error">Failed to load version history</Body>
-            <Button onClick={() => refetch()} variant="outline">Retry</Button>
-          </Stack>
-        </Card>
-      </Stack>
+      </DetailPage>
     );
   }
 
-  return (
-    <Stack gap={8}>
-      <EnterprisePageHeader 
-        title="Version History" 
-        subtitle={`BEO ${beoId} - ${versions?.length || 0} versions`}
-        showFavorite 
-        showSettings 
-      />
-
-      <Stack direction="horizontal" gap={4} className="items-center">
-        <Link href={`/beos/${beoId}`}>
-          <Button variant="ghost" size="sm" icon={<ArrowLeft className="size-4" />}>
-            Back to BEO
-          </Button>
-        </Link>
-        {comparisonReady && (
-          <Button 
-            variant="solid" 
-            size="sm" 
-            icon={<GitCompare className="size-4" />}
-          >
-            Compare v{selectedVersions[0]} with v{selectedVersions[1]}
-          </Button>
-        )}
-      </Stack>
+  const versionContent = (
+    <Stack gap={6}>
+      {comparisonReady && (
+        <Button 
+          variant="solid" 
+          size="sm"
+        >
+          <GitCompare className="size-4 mr-2" />
+          Compare v{selectedVersions[0]} with v{selectedVersions[1]}
+        </Button>
+      )}
 
       {versions && versions.length > 0 ? (
         <Grid cols={1} gap={4}>
@@ -160,7 +138,8 @@ export default function BEOVersionsPage() {
                     </Stack>
                   </Stack>
                   <Stack direction="horizontal" gap={2}>
-                    <Button variant="ghost" size="sm" icon={<Eye className="size-4" />}>
+                    <Button variant="ghost" size="sm">
+                      <Eye className="size-4 mr-1" />
                       View
                     </Button>
                   </Stack>
@@ -170,13 +149,25 @@ export default function BEOVersionsPage() {
           ))}
         </Grid>
       ) : (
-        <Card inverted className="border-2 border-ink-800 p-8">
-          <Stack gap={4} className="items-center justify-center">
-            <Clock className="size-8 text-grey-500" />
-            <Body className="text-grey-400">No version history available</Body>
-          </Stack>
-        </Card>
+        <EmptyState
+          icon={<Clock className="h-12 w-12" />}
+          title="No Version History"
+          description="No version history available for this BEO."
+        />
       )}
     </Stack>
+  );
+
+  return (
+    <DetailPage
+      header={{
+        kicker: "BEO",
+        title: "Version History",
+        description: `${versions?.length || 0} versions`,
+      }}
+      backButton={{ label: "Back to BEO", href: `/beos/${beoId}` }}
+    >
+      {versionContent}
+    </DetailPage>
   );
 }

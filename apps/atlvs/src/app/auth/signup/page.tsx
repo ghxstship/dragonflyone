@@ -1,276 +1,138 @@
 "use client";
 
-import {
-  Alert,
-  AuthPage,
-  Body,
-  Button,
-  Card,
-  Checkbox,
-  Divider,
-  Field,
-  Form,
-  Grid,
-  H2,
-  IconBox,
-  Input,
-  Label,
-  PasswordInput,
-  ScrollReveal,
-  Stack,
-  useNotifications,
-} from '@ghxstship/ui';
+/**
+ * Sign Up Page
+ * User registration
+ * Uses AuthPage template for consistent layout
+ */
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import NextLink from "next/link";
-import { UserPlus, ArrowRight } from "lucide-react";
-import { CreatorNavigationPublic } from "@/components/navigation";
-
-// =============================================================================
-// SIGN UP PAGE - ATLVS Account Registration
-// Bold Contemporary Pop Art Adventure Design System - Light Theme
-// =============================================================================
+import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import {
+  Body,
+  Button,
+  Input,
+  Checkbox,
+  Label,
+  Form,
+  Link,
+  AuthPage,
+  useNotifications,
+} from "@ghxstship/ui";
+import { supabase } from "@/lib/supabase";
 
 export default function SignUpPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    agreeToTerms: false,
+
+  const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const signUpMutation = useMutation({
+    mutationFn: async ({ name, email, password }: { name: string; email: string; password: string }) => {
+      const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { full_name: name } } });
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      addNotification({ type: "success", title: "Account Created", message: "Please check your email to verify your account" });
+      router.push("/auth/verify-email");
+    },
+    onError: (error: Error) => {
+      addNotification({ type: "error", title: "Sign Up Failed", message: error.message });
+    },
   });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters");
-      return;
-    }
-
-    if (!formData.agreeToTerms) {
-      setError("You must agree to the terms and conditions");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          full_name: `${formData.firstName} ${formData.lastName}`.trim(),
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Registration failed");
-      }
-
-      router.push("/auth/verify-email?email=" + encodeURIComponent(formData.email));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Registration failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: "" }));
   };
 
-  const handleOAuthSignUp = async (provider: "google" | "apple") => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/auth/oauth/${provider}`, { method: "POST" });
-      const data = await response.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        addNotification({
-          type: "info",
-          title: "Coming Soon",
-          message: `${provider} sign-up will be available once OAuth is configured`,
-        });
-        setLoading(false);
-      }
-    } catch (err) {
-      setError("OAuth sign-up failed. Please try again.");
-      setLoading(false);
-    }
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email format";
+    if (!formData.password) newErrors.password = "Password is required";
+    else if (formData.password.length < 8) newErrors.password = "Password must be at least 8 characters";
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Passwords do not match";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validateForm()) signUpMutation.mutate({ name: formData.name, email: formData.email, password: formData.password });
   };
 
   return (
-    <AuthPage header={<CreatorNavigationPublic />}>
-          <ScrollReveal animation="slide-up" duration={600}>
-            {/* Auth Card - Pop Art Style */}
-            <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">
-              <Stack gap={6} className="sm:gap-8">
-                {/* Header */}
-                <Stack gap={3} className="text-center sm:gap-4">
-                  <IconBox size="lg" className="mx-auto">
-                    <UserPlus className="size-6 text-black sm:size-8" />
-                  </IconBox>
-                  <H2 className="text-black">CREATE ACCOUNT</H2>
-                  <Body size="sm" className="text-muted">
-                    Join ATLVS to manage your projects and resources.
-                  </Body>
-                </Stack>
+    <AuthPage
+      title="Create Account"
+      subtitle="Get started with your free account"
+      footer={{ text: "Already have an account?", linkText: "Sign in", linkHref: "/auth/signin" }}
+    >
+      <Form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Body size="sm" className="text-grey-400 mb-1">Full Name</Body>
+          <div className="relative">
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Input placeholder="John Smith" value={formData.name} onChange={(e) => handleChange("name", e.target.value)} className={`pl-10 ${errors.name ? "border-error" : ""}`} />
+          </div>
+          {errors.name && <Body size="sm" className="text-error mt-1">{errors.name}</Body>}
+        </div>
 
-                {/* Error Alert */}
-                {error && <Alert variant="error">{error}</Alert>}
+        <div>
+          <Body size="sm" className="text-grey-400 mb-1">Email</Body>
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Input type="email" placeholder="you@example.com" value={formData.email} onChange={(e) => handleChange("email", e.target.value)} className={`pl-10 ${errors.email ? "border-error" : ""}`} />
+          </div>
+          {errors.email && <Body size="sm" className="text-error mt-1">{errors.email}</Body>}
+        </div>
 
-                {/* Form */}
-                <Form onSubmit={handleSignUp}>
-                  <Stack gap={4} className="sm:gap-6">
-                    {/* Name Fields - Responsive Grid */}
-                    <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2">
-                      <Field label="First Name">
-                        <Input
-                          type="text"
-                          value={formData.firstName}
-                          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                          placeholder="John"
-                          required
-                        />
-                      </Field>
-                      <Field label="Last Name">
-                        <Input
-                          type="text"
-                          value={formData.lastName}
-                          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                          placeholder="Doe"
-                          required
-                        />
-                      </Field>
-                    </Grid>
+        <div>
+          <Body size="sm" className="text-grey-400 mb-1">Password</Body>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Input type={showPassword ? "text" : "password"} placeholder="Create a password" value={formData.password} onChange={(e) => handleChange("password", e.target.value)} className={`pl-10 pr-10 ${errors.password ? "border-error" : ""}`} />
+            <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-grey-400 hover:text-grey-300">
+              {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+            </Button>
+          </div>
+          {errors.password && <Body size="sm" className="text-error mt-1">{errors.password}</Body>}
+        </div>
 
-                    <Field label="Email Address">
-                      <Input
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="your@email.com"
-                        required
-                      />
-                    </Field>
+        <div>
+          <Body size="sm" className="text-grey-400 mb-1">Confirm Password</Body>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Input type="password" placeholder="Confirm your password" value={formData.confirmPassword} onChange={(e) => handleChange("confirmPassword", e.target.value)} className={`pl-10 ${errors.confirmPassword ? "border-error" : ""}`} />
+          </div>
+          {errors.confirmPassword && <Body size="sm" className="text-error mt-1">{errors.confirmPassword}</Body>}
+        </div>
 
-                    <Field label="Password" hint="Minimum 8 characters">
-                      <PasswordInput
-                        value={formData.password}
-                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        placeholder="Create a strong password"
-                        required
-                      />
-                    </Field>
+        <Label className="flex items-start gap-2 cursor-pointer">
+          <Checkbox className="mt-1" required />
+          <Body size="sm" className="text-grey-400">I agree to the <Link href="/legal/terms" className="text-primary hover:underline">Terms of Service</Link> and <Link href="/legal/privacy" className="text-primary hover:underline">Privacy Policy</Link></Body>
+        </Label>
 
-                    <Field label="Confirm Password">
-                      <PasswordInput
-                        value={formData.confirmPassword}
-                        onChange={(e) =>
-                          setFormData({ ...formData, confirmPassword: e.target.value })
-                        }
-                        placeholder="Re-enter your password"
-                        required
-                      />
-                    </Field>
+        <Button type="submit" variant="solid" className="w-full" disabled={signUpMutation.isPending}>
+          {signUpMutation.isPending ? "Creating account..." : "Create Account"}
+        </Button>
 
-                    {/* Terms Checkbox */}
-                    <Stack direction="horizontal" gap={3} className="items-start">
-                      <Checkbox
-                        id="terms"
-                        checked={formData.agreeToTerms}
-                        onChange={(e) =>
-                          setFormData({ ...formData, agreeToTerms: e.target.checked })
-                        }
-                      />
-                      <Body size="sm" className="text-muted">
-                        I agree to the{" "}
-                        <NextLink href="/legal/terms" className="font-weight-medium text-black underline">
-                          Terms of Service
-                        </NextLink>{" "}
-                        and{" "}
-                        <NextLink
-                          href="/legal/privacy"
-                          className="font-weight-medium text-black underline"
-                        >
-                          Privacy Policy
-                        </NextLink>
-                      </Body>
-                    </Stack>
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-grey-700" /></div>
+          <div className="relative flex justify-center"><Body size="sm" className="bg-grey-900 px-2 text-grey-500">Or continue with</Body></div>
+        </div>
 
-                    <Button
-                      type="submit"
-                      variant="solid"
-                      size="lg"
-                      fullWidth
-                      disabled={loading}
-                      icon={<ArrowRight className="size-4" />}
-                      iconPosition="right"
-                    >
-                      {loading ? "Creating Account..." : "Create Account"}
-                    </Button>
-                  </Stack>
-                </Form>
-
-                {/* Divider */}
-                <Stack direction="horizontal" className="items-center gap-4">
-                  <Divider className="flex-1" />
-                  <Label size="xs" className="text-muted whitespace-nowrap">
-                    Or sign up with
-                  </Label>
-                  <Divider className="flex-1" />
-                </Stack>
-
-                {/* OAuth Buttons */}
-                <Stack gap={3}>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    fullWidth
-                    onClick={() => handleOAuthSignUp("google")}
-                    disabled={loading}
-                  >
-                    Sign up with Google
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    fullWidth
-                    onClick={() => handleOAuthSignUp("apple")}
-                    disabled={loading}
-                  >
-                    Sign up with Apple
-                  </Button>
-                </Stack>
-
-                {/* Sign In Link */}
-                <Stack gap={3} className="border-t border-black/10 pt-6 text-center sm:gap-4">
-                  <Body size="sm" className="text-muted">
-                    Already have an account?
-                  </Body>
-                  <NextLink href="/auth/signin">
-                    <Button variant="ghost" size="sm">
-                      Sign In
-                    </Button>
-                  </NextLink>
-                </Stack>
-              </Stack>
-            </Card>
-          </ScrollReveal>
+        <div className="grid grid-cols-2 gap-4">
+          <Button variant="outline" type="button">Google</Button>
+          <Button variant="outline" type="button">Microsoft</Button>
+        </div>
+      </Form>
     </AuthPage>
   );
 }

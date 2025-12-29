@@ -1,145 +1,105 @@
 "use client";
 
+/**
+ * Forgot Password Page
+ * Password reset request
+ * Uses AuthPage template for consistent layout
+ */
+
 import { useState } from "react";
-import { Mail, ArrowRight, ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Mail, ArrowLeft } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
 import {
-  Alert,
-  AuthPage,
   Body,
   Button,
-  Card,
-  Field,
-  Form,
-  H2,
-  IconBox,
   Input,
-  ScrollReveal,
-  Stack,
-} from '@ghxstship/ui';
-import NextLink from "next/link";
-import { CreatorNavigationPublic } from "@/components/navigation";
-
-// =============================================================================
-// FORGOT PASSWORD PAGE - ATLVS Password Reset Request
-// Bold Contemporary Pop Art Adventure Design System - Light Theme
-// =============================================================================
+  Form,
+  AuthPage,
+  useNotifications,
+} from "@ghxstship/ui";
+import { supabase } from "@/lib/supabase";
 
 export default function ForgotPasswordPage() {
+  const router = useRouter();
+  const { addNotification } = useNotifications();
+
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-
-    try {
-      const response = await fetch("/api/auth/password/reset", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+  const resetMutation = useMutation({
+    mutationFn: async (email: string) => {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
       });
-
-      if (!response.ok) throw new Error("Failed to send reset email");
+      if (error) throw error;
+    },
+    onSuccess: () => {
       setSubmitted(true);
-    } catch (err) {
-      setError("Failed to send reset email. Please try again.");
-    } finally {
-      setLoading(false);
+      addNotification({ type: "success", title: "Email Sent", message: "Check your inbox for password reset instructions" });
+    },
+    onError: (err: Error) => {
+      addNotification({ type: "error", title: "Error", message: err.message });
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) {
+      setError("Email is required");
+      return;
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Invalid email format");
+      return;
+    }
+    setError("");
+    resetMutation.mutate(email);
   };
 
+  if (submitted) {
+    return (
+      <AuthPage title="Check Your Email" subtitle="We've sent password reset instructions to your email">
+        <div className="text-center space-y-6">
+          <div className="p-4 bg-success/20 rounded-avatar w-fit mx-auto">
+            <Mail className="size-8 text-success" />
+          </div>
+          <Body className="text-grey-400">
+            If an account exists for {email}, you will receive an email with instructions to reset your password.
+          </Body>
+          <Button variant="outline" onClick={() => router.push("/auth/signin")} icon={<ArrowLeft className="size-4" />} iconPosition="left">
+            Back to Sign In
+          </Button>
+        </div>
+      </AuthPage>
+    );
+  }
+
   return (
-    <AuthPage header={<CreatorNavigationPublic />}>
-          <ScrollReveal animation="slide-up" duration={600}>
-            {/* Auth Card - Pop Art Style */}
-            <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">
-              {submitted ? (
-                /* Success State */
-                <Stack gap={6} className="text-center sm:gap-8">
-                  <IconBox size="lg" variant="success" className="mx-auto">
-                    <Mail className="size-6 text-success sm:size-8" />
-                  </IconBox>
+    <AuthPage
+      title="Forgot Password"
+      subtitle="Enter your email and we'll send you reset instructions"
+      footer={{ text: "Remember your password?", linkText: "Sign in", linkHref: "/auth/signin" }}
+    >
+      <Form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Body size="sm" className="text-grey-400 mb-1">Email</Body>
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Input type="email" placeholder="you@example.com" value={email} onChange={(e) => { setEmail(e.target.value); setError(""); }} className={`pl-10 ${error ? "border-error" : ""}`} />
+          </div>
+          {error && <Body size="sm" className="text-error mt-1">{error}</Body>}
+        </div>
 
-                  <Stack gap={3} className="sm:gap-4">
-                    <H2 className="text-black">CHECK YOUR EMAIL</H2>
-                    <Body size="sm" className="text-muted">
-                      If an account exists with{" "}
-                      <strong className="text-black">{email}</strong>, you will receive a
-                      password reset link shortly.
-                    </Body>
-                  </Stack>
+        <Button type="submit" variant="solid" className="w-full" disabled={resetMutation.isPending}>
+          {resetMutation.isPending ? "Sending..." : "Send Reset Link"}
+        </Button>
 
-                  <NextLink href="/auth/signin" className="w-full">
-                    <Button variant="solid" size="lg" fullWidth>
-                      Back to Sign In
-                    </Button>
-                  </NextLink>
-                </Stack>
-              ) : (
-                /* Form State */
-                <Stack gap={6} className="sm:gap-8">
-                  {/* Header */}
-                  <Stack gap={3} className="text-center sm:gap-4">
-                    <IconBox size="lg" className="mx-auto">
-                      <Mail className="size-6 text-black sm:size-8" />
-                    </IconBox>
-                    <H2 className="text-black">RESET PASSWORD</H2>
-                    <Body size="sm" className="text-muted">
-                      Enter your email address and we&apos;ll send you a link to reset your
-                      password.
-                    </Body>
-                  </Stack>
-
-                  {/* Error Alert */}
-                  {error && <Alert variant="error">{error}</Alert>}
-
-                  {/* Form */}
-                  <Form onSubmit={handleSubmit}>
-                    <Stack gap={4} className="sm:gap-6">
-                      <Field label="Email Address">
-                        <Input
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="your@email.com"
-                          required
-                        />
-                      </Field>
-
-                      <Button
-                        type="submit"
-                        variant="solid"
-                        size="lg"
-                        fullWidth
-                        disabled={loading}
-                        icon={<ArrowRight className="size-4" />}
-                        iconPosition="right"
-                      >
-                        {loading ? "Sending..." : "Send Reset Link"}
-                      </Button>
-                    </Stack>
-                  </Form>
-
-                  {/* Back Link */}
-                  <Stack className="border-t border-black/10 pt-6 text-center">
-                    <NextLink href="/auth/signin">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        icon={<ArrowLeft className="size-4" />}
-                        iconPosition="left"
-                      >
-                        Back to Sign In
-                      </Button>
-                    </NextLink>
-                  </Stack>
-                </Stack>
-              )}
-            </Card>
-          </ScrollReveal>
+        <Button variant="ghost" className="w-full" onClick={() => router.push("/auth/signin")} icon={<ArrowLeft className="size-4" />} iconPosition="left">
+          Back to Sign In
+        </Button>
+      </Form>
     </AuthPage>
   );
 }

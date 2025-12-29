@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
+  // output: "standalone", // Disabled due to Next.js 14.2.35 race condition - re-enable after upgrading Next.js
   transpilePackages: ["@ghxstship/config"],
   
   // Security headers

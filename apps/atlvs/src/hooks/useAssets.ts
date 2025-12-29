@@ -3,15 +3,21 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
+// Schema: Aligned with API createAssetSchema - uses 'state' and 'tag' as primary fields
 export interface Asset {
   id: string;
-  name: string;
+  tag: string; // API primary identifier field
+  name?: string; // Alias for display
   category: string;
-  value: number;
-  purchase_date: string;
-  status: 'active' | 'maintenance' | 'retired' | 'sold';
+  state: 'available' | 'reserved' | 'deployed' | 'maintenance' | 'retired';
+  status?: string; // Legacy alias for state
+  purchase_price?: number; // API field name
+  value?: number; // Legacy alias for purchase_price
+  purchase_date?: string;
+  acquired_at?: string; // API field name
   location?: string;
   assigned_to?: string;
+  project_id?: string;
   depreciation_rate?: number;
   current_value?: number;
   metadata?: Record<string, unknown>;

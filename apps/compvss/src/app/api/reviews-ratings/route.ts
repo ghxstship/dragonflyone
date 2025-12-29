@@ -1,14 +1,44 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const submitReviewSchema = z.object({
+  action: z.literal('submit'),
+  entity_type: z.string(),
+  entity_id: z.string().uuid(),
+  rating: z.number().min(1).max(5),
+  title: z.string().optional(),
+  content: z.string().optional(),
+  project_id: z.string().uuid().optional(),
+});
+
+const respondReviewSchema = z.object({
+  action: z.literal('respond'),
+  review_id: z.string().uuid(),
+  content: z.string(),
+});
+
+const reviewActionSchema = z.union([submitReviewSchema, respondReviewSchema]);
 
 // Reviews and ratings with response capability
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const entityType = searchParams.get('entity_type');
@@ -50,17 +80,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = reviewActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'submit') {
-      const { entity_type, entity_id, rating, title, content, project_id } = body;
+      const { entity_type, entity_id, rating, title, content, project_id } = validatedData as z.infer<typeof submitReviewSchema>;
 
       const { data, error } = await supabase.from('reviews').insert({
         entity_type, entity_id, rating, title, content,
@@ -72,7 +109,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'respond') {
-      const { review_id, content } = body;
+      const { review_id, content } = validatedData as z.infer<typeof respondReviewSchema>;
 
       const { data, error } = await supabase.from('review_responses').insert({
         review_id, content, responder_id: user.id, responded_at: new Date().toISOString()

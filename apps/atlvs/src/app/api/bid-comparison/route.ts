@@ -1,14 +1,43 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createBidSchema = z.object({
+  rfp_id: z.string().uuid(),
+  vendor_id: z.string().uuid(),
+  price: z.number().positive(),
+  delivery_time: z.number().positive(),
+  quality_score: z.number().min(0).max(100).optional(),
+  experience_score: z.number().min(0).max(100).optional(),
+  terms: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+const selectBidSchema = z.object({
+  bid_id: z.string().uuid(),
+  action: z.literal('select'),
+});
 
 // Bid comparison tools with weighted scoring
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const rfpId = searchParams.get('rfp_id');
@@ -43,14 +72,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { rfp_id, vendor_id, price, delivery_time, quality_score, experience_score, terms, notes } = body;
+    const validatedData = createBidSchema.parse(body);
+    const { rfp_id, vendor_id, price, delivery_time, quality_score, experience_score, terms, notes } = validatedData;
 
     const { data, error } = await supabase.from('vendor_bids').insert({
       rfp_id, vendor_id, price, delivery_time, quality_score, experience_score,
@@ -67,14 +103,21 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { bid_id, action } = body;
+    const validatedData = selectBidSchema.parse(body);
+    const { bid_id, action } = validatedData;
 
     if (action === 'select') {
       await supabase.from('vendor_bids').update({ status: 'selected', selected_by: user.id }).eq('id', bid_id);

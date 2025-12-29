@@ -1,18 +1,52 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import Stripe from 'stripe';
+import { z } from 'zod';
+
+const runReconciliationSchema = z.object({
+  action: z.literal('run_reconciliation').optional(),
+  start_date: z.string().optional(),
+  end_date: z.string().optional(),
+});
+
+const syncTransactionsSchema = z.object({
+  action: z.literal('sync_transactions'),
+});
+
+const getPayoutScheduleSchema = z.object({
+  action: z.literal('get_payout_schedule'),
+});
+
+const stripeReconciliationActionSchema = z.union([
+  runReconciliationSchema,
+  syncTransactionsSchema,
+  getPayoutScheduleSchema,
+]);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-04-10',
 });
 
 // GET /api/integrations/stripe-reconciliation - Get reconciliation status and reports
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -185,7 +219,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -196,10 +237,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const action = body.action || 'run_reconciliation';
+    const validatedData = stripeReconciliationActionSchema.parse(body);
+    const action = validatedData.action || 'run_reconciliation';
 
     if (action === 'run_reconciliation') {
-      const { start_date, end_date } = body;
+      const { start_date, end_date } = validatedData as z.infer<typeof runReconciliationSchema>;
 
       // Get Stripe transactions
       const stripeParams: Stripe.BalanceTransactionListParams = {

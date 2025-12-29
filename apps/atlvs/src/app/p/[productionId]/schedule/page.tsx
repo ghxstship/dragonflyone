@@ -1,297 +1,163 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import {
-  SectionHeader,
-  Card,
-  CardBody,
-  Stack,
-  StatCard,
-  Button,
-  Badge,
-  Grid,
-  Body,
-  Box,
-  H3,
-  Spinner,
-  EmptyState,
-} from "@ghxstship/ui";
-import {
-  Calendar,
-  CheckSquare,
-  Clock,
-  AlertTriangle,
-  FileText,
-  Plus,
-  ListOrdered,
-  RefreshCw,
-} from "lucide-react";
-import { useProduction } from "../../../../hooks/useProductions";
-import { useTasks, useTaskStats } from "../../../../hooks/useTasks";
-import { atlvsDemoProductions } from "../../../../data/atlvs";
-
 /**
  * Production Schedule Page
- * Schedule management for a specific production
+ * Production timeline and tasks
+ * Uses DetailPage template for consistent layout
  */
+
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Calendar, Plus, Clock, CheckCircle, AlertCircle, List, LayoutGrid } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
+
+interface Task {
+  id: string;
+  title: string;
+  status: "pending" | "in_progress" | "completed";
+  due_date: string;
+  assignee: string;
+  priority: "low" | "medium" | "high";
+}
+
+const DEMO_TASKS: Task[] = [
+  { id: "1", title: "Venue walkthrough", status: "completed", due_date: "2024-12-10", assignee: "John Smith", priority: "high" },
+  { id: "2", title: "Stage design approval", status: "completed", due_date: "2024-12-12", assignee: "Sarah Williams", priority: "high" },
+  { id: "3", title: "Vendor contracts signed", status: "in_progress", due_date: "2024-12-15", assignee: "Mike Johnson", priority: "medium" },
+  { id: "4", title: "Equipment delivery", status: "pending", due_date: "2024-12-18", assignee: "Emily Davis", priority: "high" },
+  { id: "5", title: "Sound check", status: "pending", due_date: "2024-12-20", assignee: "John Smith", priority: "medium" },
+  { id: "6", title: "Dress rehearsal", status: "pending", due_date: "2024-12-21", assignee: "Sarah Williams", priority: "high" },
+];
+
+const STATUS_CONFIG = {
+  pending: { label: "Pending", variant: "warning" as const, icon: <Clock className="size-4" /> },
+  in_progress: { label: "In Progress", variant: "info" as const, icon: <AlertCircle className="size-4" /> },
+  completed: { label: "Completed", variant: "success" as const, icon: <CheckCircle className="size-4" /> },
+};
+
+const PRIORITY_CONFIG = {
+  low: { label: "Low", variant: "outline" as const },
+  medium: { label: "Medium", variant: "warning" as const },
+  high: { label: "High", variant: "error" as const },
+};
+
 export default function ProductionSchedulePage() {
   const params = useParams();
   const router = useRouter();
-  const productionId = params?.productionId as string;
+  const productionId = params.productionId as string;
+  const [statusFilter, setStatusFilter] = useState<string>("all");
 
-  // Fetch production from API
-  const { data: apiProduction, isLoading: productionLoading, error: productionError, refetch: refetchProduction } = useProduction(productionId);
-  const demoProduction = atlvsDemoProductions.find((p) => p.id === productionId);
-  const productionName = apiProduction?.title || demoProduction?.name || "Production";
+  const { data: tasks = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["production-tasks", productionId],
+    queryFn: async () => {
+      const response = await fetch(`/api/productions/${productionId}/tasks`);
+      if (!response.ok) return DEMO_TASKS;
+      const data = await response.json();
+      return data.tasks?.length ? data.tasks : DEMO_TASKS;
+    },
+  });
 
-  // Fetch tasks from API
-  const { data: apiTasks, isLoading: tasksLoading } = useTasks({ productionId });
-  const { data: taskStats } = useTaskStats(productionId);
+  const filteredTasks = statusFilter === "all" ? tasks : tasks.filter((t: Task) => t.status === statusFilter);
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
-  if (productionLoading || tasksLoading) {
-    return (
-      <Stack className="flex min-h-[400px] items-center justify-center">
-        <Spinner size="lg" />
-        <Body className="text-on-dark-muted">Loading schedule...</Body>
-      </Stack>
-    );
-  }
-
-  if (productionError && !demoProduction) {
-    return (
-      <EmptyState
-        icon={<RefreshCw size={48} />}
-        title="Failed to load production"
-        description={productionError.message}
-        action={{ label: "Retry", onClick: () => refetchProduction() }}
-      />
-    );
-  }
-
-  // Use API stats if available, otherwise fallback to demo values
-  const scheduleStats = {
-    totalTasks: taskStats?.total ?? 48,
-    completed: taskStats?.completed ?? 32,
-    inProgress: taskStats?.inProgress ?? 12,
-    overdue: taskStats?.blocked ?? 4,
-    upcoming: 8,
+  const stats = {
+    total: tasks.length,
+    completed: tasks.filter((t: Task) => t.status === "completed").length,
+    inProgress: tasks.filter((t: Task) => t.status === "in_progress").length,
+    pending: tasks.filter((t: Task) => t.status === "pending").length,
   };
 
-  // Use API tasks if available, otherwise fallback to demo
-  const upcomingTasks = apiTasks && apiTasks.length > 0 
-    ? apiTasks.slice(0, 5).map(t => ({
-        id: t.id,
-        title: t.title,
-        dueDate: t.due_date || "",
-        priority: t.priority,
-        status: t.status,
-      }))
-    : [
-        { id: "1", title: "Stage setup walkthrough", dueDate: "2025-06-14", priority: "high", status: "pending" },
-        { id: "2", title: "Audio equipment check", dueDate: "2025-06-14", priority: "critical", status: "in_progress" },
-        { id: "3", title: "Lighting rig inspection", dueDate: "2025-06-15", priority: "high", status: "pending" },
-        { id: "4", title: "Catering coordination", dueDate: "2025-06-15", priority: "medium", status: "pending" },
-        { id: "5", title: "Security briefing", dueDate: "2025-06-15", priority: "high", status: "pending" },
-      ];
+  const tabs = [
+    {
+      id: "list",
+      label: "List View",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+            <StatCard label="Total Tasks" value={stats.total.toString()} icon={<Calendar className="size-5" />} />
+            <StatCard label="Completed" value={stats.completed.toString()} icon={<CheckCircle className="size-5" />} />
+            <StatCard label="In Progress" value={stats.inProgress.toString()} icon={<AlertCircle className="size-5" />} />
+            <StatCard label="Pending" value={stats.pending.toString()} icon={<Clock className="size-5" />} />
+          </Grid>
 
-  const priorityColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
-    critical: "error",
-    high: "warning",
-    medium: "info",
-    low: "solid",
-  };
+          <div className="flex gap-2 mb-6">
+            {["all", "pending", "in_progress", "completed"].map((status) => (
+              <Button key={status} variant={statusFilter === status ? "solid" : "outline"} size="sm" onClick={() => setStatusFilter(status)}>
+                {status === "all" ? "All" : STATUS_CONFIG[status as keyof typeof STATUS_CONFIG].label}
+              </Button>
+            ))}
+          </div>
 
-  const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
-    completed: "success",
-    in_progress: "warning",
-    pending: "solid",
-    blocked: "error",
-  };
+          <div className="space-y-4">
+            {filteredTasks.map((task: Task) => {
+              const statusConfig = STATUS_CONFIG[task.status];
+              const priorityConfig = PRIORITY_CONFIG[task.priority];
+              return (
+                <Card key={task.id} className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className={`p-2 rounded-card ${task.status === "completed" ? "bg-success/20" : "bg-grey-800"}`}>
+                        {statusConfig.icon}
+                      </div>
+                      <div>
+                        <Body className="font-weight-medium">{task.title}</Body>
+                        <Body size="sm" className="text-grey-400">{task.assignee} • Due {formatDate(task.due_date)}</Body>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant={priorityConfig.variant}>{priorityConfig.label}</Badge>
+                      <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "calendar",
+      label: "Calendar",
+      icon: <LayoutGrid className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Calendar View" description="View tasks on a calendar" />
+          <Card className="p-8 text-center mt-4">
+            <Calendar className="size-12 text-grey-600 mx-auto mb-4" />
+            <Body className="font-weight-medium font-weight-medium mb-2">Calendar View</Body>
+            <Body className="text-grey-400">Calendar visualization coming soon</Body>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <Stack gap={8}>
-      {/* Header */}
-      <Stack gap={4}>
-        <SectionHeader
-          kicker={productionName}
-          title="Schedule"
-          description="Manage tasks, timelines, and contingencies for this production"
-          colorScheme="on-dark"
-        />
-        <Stack direction="horizontal" gap={2}>
-          <Button
-            variant="solid"
-            size="sm"
-            onClick={() => router.push(`/p/${productionId}/schedule/tasks/new`)}
-          >
-            <Plus size={16} className="mr-2" />
-            New Task
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => router.push(`/p/${productionId}/schedule/templates`)}
-          >
-            <FileText size={16} className="mr-2" />
-            Templates
-          </Button>
-        </Stack>
-      </Stack>
-
-      {/* Key Metrics */}
-      <Grid cols={1} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          label="Total Tasks"
-          value={scheduleStats.totalTasks.toString()}
-          icon={<CheckSquare size={20} />}
-          inverted
-        />
-        <StatCard
-          label="In Progress"
-          value={scheduleStats.inProgress.toString()}
-          icon={<Clock size={20} />}
-          trend="neutral"
-          trendValue={`${scheduleStats.completed} completed`}
-          inverted
-        />
-        <StatCard
-          label="Overdue"
-          value={scheduleStats.overdue.toString()}
-          icon={<AlertTriangle size={20} />}
-          trend={scheduleStats.overdue > 0 ? "down" : "up"}
-          trendValue="Needs attention"
-          inverted
-        />
-        <StatCard
-          label="Upcoming"
-          value={scheduleStats.upcoming.toString()}
-          icon={<Calendar size={20} />}
-          trend="neutral"
-          trendValue="Next 7 days"
-          inverted
-        />
-      </Grid>
-
-      {/* Quick Navigation */}
-      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-        <Card
-          variant="elevated"
-          inverted
-          className="cursor-pointer transition-all hover:border-primary"
-          onClick={() => router.push(`/p/${productionId}/schedule/tasks`)}
-        >
-          <CardBody>
-            <Stack gap={3} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                <CheckSquare size={24} className="text-primary" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Tasks</Body>
-                <Body size="sm" className=" text-on-dark-muted">{scheduleStats.totalTasks} total</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-        <Card
-          variant="elevated"
-          inverted
-          className="cursor-pointer transition-all hover:border-primary"
-          onClick={() => router.push(`/p/${productionId}/schedule/contingencies`)}
-        >
-          <CardBody>
-            <Stack gap={3} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                <AlertTriangle size={24} className="text-warning" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Contingencies</Body>
-                <Body size="sm" className=" text-on-dark-muted">Backup plans</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-        <Card
-          variant="elevated"
-          inverted
-          className="cursor-pointer transition-all hover:border-primary"
-          onClick={() => router.push(`/p/${productionId}/schedule/templates`)}
-        >
-          <CardBody>
-            <Stack gap={3} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                <FileText size={24} className="text-secondary" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Templates</Body>
-                <Body size="sm" className=" text-on-dark-muted">Reusable tasks</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-        <Card
-          variant="elevated"
-          inverted
-          className="cursor-pointer transition-all hover:border-primary"
-          onClick={() => router.push(`/p/${productionId}/shows/run-of-show`)}
-        >
-          <CardBody>
-            <Stack gap={3} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                <ListOrdered size={24} className="text-accent" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Run of Show</Body>
-                <Body size="sm" className=" text-on-dark-muted">Event timeline</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-      </Grid>
-
-      {/* Upcoming Tasks */}
-      <Card variant="elevated" inverted>
-        <CardBody>
-          <Stack gap={4}>
-            <Stack direction="horizontal" className="items-center justify-between">
-              <H3 className="text-white">Upcoming Tasks</H3>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => router.push(`/p/${productionId}/schedule/tasks`)}
-              >
-                View All
-              </Button>
-            </Stack>
-            <Stack gap={3}>
-              {upcomingTasks.map((task) => (
-                <div
-                  key={task.id}
-                  className="flex cursor-pointer items-center justify-between rounded border-2 border-ink-700 p-3 transition-all hover:border-ink-600 hover:bg-ink-800/50"
-                  onClick={() => router.push(`/p/${productionId}/schedule/tasks/${task.id}`)}
-                >
-                  <Stack gap={1}>
-                    <Body className="font-weight-medium text-white">{task.title}</Body>
-                    <Body size="sm" className=" text-on-dark-muted">
-                      Due: {new Date(task.dueDate).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </Body>
-                  </Stack>
-                  <Stack direction="horizontal" gap={2}>
-                    <Badge variant={priorityColors[task.priority] || "solid"}>
-                      {task.priority.toUpperCase()}
-                    </Badge>
-                    <Badge variant={statusColors[task.status] || "solid"}>
-                      {task.status.replace("_", " ").toUpperCase()}
-                    </Badge>
-                  </Stack>
-                </div>
-              ))}
-            </Stack>
-          </Stack>
-        </CardBody>
-      </Card>
-    </Stack>
+    <DetailPage
+      header={{
+        kicker: "Production",
+        title: "Schedule",
+        description: "Manage production timeline and tasks",
+      }}
+      backButton={{ label: "Overview", href: `/p/${productionId}/overview` }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={<Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left">Add Task</Button>}
+    />
   );
 }

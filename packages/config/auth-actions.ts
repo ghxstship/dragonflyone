@@ -8,6 +8,7 @@
  */
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { logger } from './logger';
 import type {
   SignUpInput,
   SignInInput,
@@ -210,7 +211,7 @@ export async function signUp(
       },
     };
   } catch (error) {
-    console.error('Sign up error:', error);
+    logger.error('Sign up error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('server_error') };
   }
 }
@@ -274,7 +275,7 @@ export async function signIn(
       },
     };
   } catch (error) {
-    console.error('Sign in error:', error);
+    logger.error('Sign in error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('server_error') };
   }
 }
@@ -293,7 +294,7 @@ export async function signOut(): Promise<{ success: boolean; error?: AuthError }
 
     return { success: true };
   } catch (error) {
-    console.error('Sign out error:', error);
+    logger.error('Sign out error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('server_error') };
   }
 }
@@ -314,12 +315,12 @@ export async function forgotPassword(
 
     // Always return success to prevent email enumeration
     if (error) {
-      console.error('Password reset error:', error);
+      logger.error('Password reset error', error instanceof Error ? error : undefined);
     }
 
     return { success: true };
   } catch (error) {
-    console.error('Forgot password error:', error);
+    logger.error('Forgot password error', error instanceof Error ? error : undefined);
     return { success: true }; // Still return success to prevent enumeration
   }
 }
@@ -346,7 +347,7 @@ export async function resetPassword(
 
     return { success: true };
   } catch (error) {
-    console.error('Reset password error:', error);
+    logger.error('Reset password error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('server_error') };
   }
 }
@@ -377,7 +378,7 @@ export async function sendMagicLink(
 
     return { success: true };
   } catch (error) {
-    console.error('Magic link error:', error);
+    logger.error('Magic link error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('server_error') };
   }
 }
@@ -409,7 +410,7 @@ export async function signInWithOAuth(
 
     return { success: true, url: data.url };
   } catch (error) {
-    console.error('OAuth error:', error);
+    logger.error('OAuth error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('oauth_error') };
   }
 }
@@ -454,7 +455,7 @@ export async function handleOAuthCallback(
         .single();
 
       if (createError) {
-        console.error('Failed to create platform user:', createError);
+        logger.error('Failed to create platform user', createError);
         return { success: false, error: createAuthError('server_error') };
       }
 
@@ -488,7 +489,7 @@ export async function handleOAuthCallback(
       },
     };
   } catch (error) {
-    console.error('OAuth callback error:', error);
+    logger.error('OAuth callback error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('oauth_error') };
   }
 }
@@ -517,7 +518,7 @@ export async function verifyEmail(
 
     return { success: true };
   } catch (error) {
-    console.error('Verify email error:', error);
+    logger.error('Verify email error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('server_error') };
   }
 }
@@ -548,7 +549,7 @@ export async function refreshSession(
       },
     };
   } catch (error) {
-    console.error('Refresh session error:', error);
+    logger.error('Refresh session error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('server_error') };
   }
 }
@@ -591,12 +592,12 @@ export async function updateProfile(
       .eq('id', userId);
 
     if (profileError) {
-      console.error('Profile update error:', profileError);
+      logger.error('Profile update error', profileError);
     }
 
     return { success: true };
   } catch (error) {
-    console.error('Update profile error:', error);
+    logger.error('Update profile error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('server_error') };
   }
 }
@@ -637,7 +638,7 @@ export async function updatePreferences(
 
     return { success: true };
   } catch (error) {
-    console.error('Update preferences error:', error);
+    logger.error('Update preferences error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('server_error') };
   }
 }
@@ -665,7 +666,7 @@ export async function completeOnboarding(
 
     return { success: true };
   } catch (error) {
-    console.error('Complete onboarding error:', error);
+    logger.error('Complete onboarding error', error instanceof Error ? error : undefined);
     return { success: false, error: createAuthError('server_error') };
   }
 }
@@ -715,7 +716,7 @@ export async function getSession(): Promise<{
       },
     };
   } catch (error) {
-    console.error('Get session error:', error);
+    logger.error('Get session error', error instanceof Error ? error : undefined);
     return { user: null, session: null };
   }
 }

@@ -1,17 +1,31 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
 
 // GET /api/bills/[id] - Get single bill
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = await params;
 
     const { data: bill, error } = await supabase
@@ -56,6 +70,15 @@ export async function PUT(
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = await params;
     const body = await request.json();
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
@@ -98,7 +121,7 @@ export async function PUT(
       activity_type: 'updated',
       user_id: userId,
       description: 'Bill updated',
-    }).catch(() => {});
+    }).catch((err) => logger.warn('Failed to log bill update activity', err));
 
     return NextResponse.json(updatedBill);
   } catch (error) {
@@ -114,6 +137,15 @@ export async function PATCH(
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = await params;
     const body = await request.json();
     const { action } = body;
@@ -202,14 +234,14 @@ export async function PATCH(
             entry_date: payment.payment_date,
             created_by: userId,
           },
-        ]).catch(() => {});
+        ]).catch((err) => logger.warn('Failed to create journal entries', err));
 
         await supabase.from('bill_activity_log').insert({
           bill_id: id,
           activity_type: 'payment_recorded',
           user_id: userId,
           description: `Payment of $${payment.amount} recorded via ${payment.payment_method}`,
-        }).catch(() => {});
+        }).catch((err) => logger.warn('Failed to log payment activity', err));
 
         return NextResponse.json({
           success: true,
@@ -250,7 +282,7 @@ export async function PATCH(
           activity_type: 'cancelled',
           user_id: userId,
           description: `Bill cancelled: ${body.reason || 'No reason provided'}`,
-        }).catch(() => {});
+        }).catch((err) => logger.warn('Failed to log cancellation activity', err));
 
         return NextResponse.json({ success: true, message: 'Bill cancelled' });
       }
@@ -292,14 +324,14 @@ export async function PATCH(
           entry_date: new Date().toISOString().split('T')[0],
           created_by: userId,
           vendor_id: bill.vendor_id,
-        }).catch(() => {});
+        }).catch((err) => logger.warn('Failed to create journal entry for approval', err));
 
         await supabase.from('bill_activity_log').insert({
           bill_id: id,
           activity_type: 'approved',
           user_id: userId,
           description: 'Bill approved for payment',
-        }).catch(() => {});
+        }).catch((err) => logger.warn('Failed to log approval activity', err));
 
         return NextResponse.json({ success: true, message: 'Bill approved' });
       }
@@ -326,6 +358,15 @@ export async function DELETE(
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = await params;
 
     const { data: bill, error: fetchError } = await supabase
@@ -345,8 +386,8 @@ export async function DELETE(
       );
     }
 
-    await supabase.from('bill_payments').delete().eq('bill_id', id).catch(() => {});
-    await supabase.from('bill_activity_log').delete().eq('bill_id', id).catch(() => {});
+    await supabase.from('bill_payments').delete().eq('bill_id', id).catch((err) => logger.warn('Failed to delete bill payments', err));
+    await supabase.from('bill_activity_log').delete().eq('bill_id', id).catch((err) => logger.warn('Failed to delete bill activity log', err));
     
     const { error: deleteError } = await supabase.from('bills').delete().eq('id', id);
 

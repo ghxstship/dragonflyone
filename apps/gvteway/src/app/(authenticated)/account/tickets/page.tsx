@@ -2,39 +2,42 @@
 
 import { useState } from 'react';
 import {
-  EnterprisePageHeader,
-  MainContent,
-  Container,
-  Card,
-  CardBody,
-  Stack,
-  Button,
   Badge,
-  Grid,
-  Body,
-  H3,
-  Spinner,
-  EmptyState,
+  Button,
+  Input,
+  ListPage,
+  Modal,
+  Stack,
+  Text,
+  useNotifications,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from '@ghxstship/ui';
-import {
-  Calendar,
-  MapPin,
-  Download,
-  Send,
-  QrCode,
-  Ticket,
-} from 'lucide-react';
-// Layout provided by route group
+import { Download, Send, QrCode } from 'lucide-react';
 import { useTickets } from '@/hooks/useTickets';
 import { useRouter } from 'next/navigation';
 
+interface DisplayTicket {
+  id: string;
+  eventName: string;
+  eventDate: string;
+  venue: string;
+  ticketType: string;
+  status: string;
+  seat: string | null;
+}
+
 export default function AccountTicketsPage() {
   const router = useRouter();
-  const { data: ticketsData, isLoading, error } = useTickets();
-  const [filter, setFilter] = useState<'all' | 'active' | 'past'>('all');
+  const { addNotification } = useNotifications();
+  const { data: ticketsData, isLoading, error, refetch } = useTickets();
+  const [transferModalOpen, setTransferModalOpen] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState<DisplayTicket | null>(null);
+  const [transferEmail, setTransferEmail] = useState('');
+  const [isTransferring, setIsTransferring] = useState(false);
 
-  // Transform tickets to expected format
-  const tickets = (ticketsData || []).map(ticket => ({
+  const tickets: DisplayTicket[] = (ticketsData || []).map(ticket => ({
     id: ticket.id,
     eventName: ticket.event?.title || ticket.event?.name || 'Event',
     eventDate: ticket.event?.event_date || ticket.event?.start_date 
@@ -43,135 +46,172 @@ export default function AccountTicketsPage() {
     venue: ticket.event?.venue || 'Venue TBD',
     ticketType: ticket.ticket_type?.name || 'General Admission',
     status: ticket.status === 'sold' ? 'active' : ticket.status,
-    section: null,
-    row: null,
-    seat: ticket.seat_number,
+    seat: ticket.seat_number || null,
   }));
 
-  const filteredTickets = tickets.filter(t => {
-    if (filter === 'active') return t.status === 'active' || t.status === 'reserved';
-    if (filter === 'past') return t.status === 'cancelled';
-    return true;
-  });
+  const handleDownloadTicket = async (ticket: DisplayTicket) => {
+    try {
+      const { PDFGenerator } = await import('@ghxstship/config/pdf-generator');
+      const generator = new PDFGenerator({
+        title: 'Event Ticket',
+        subtitle: ticket.eventName,
+        includeTimestamp: false,
+        includePageNumbers: false,
+      });
 
-  if (isLoading) {
-    return (
-      <>
-        <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
-        <MainContent padding="lg"><Container>
-          <Stack className="flex items-center justify-center py-20">
-            <Spinner variant="grey" size="lg" text="Loading tickets..." />
-          </Stack>
-        </Container></MainContent>
-      </>
-    );
-  }
+      generator.addHeading('Ticket Details', 2);
+      generator.addKeyValuePairs([
+        { label: 'Ticket ID', value: ticket.id.slice(0, 8).toUpperCase() },
+        { label: 'Event', value: ticket.eventName },
+        { label: 'Date', value: ticket.eventDate },
+        { label: 'Venue', value: ticket.venue },
+        { label: 'Ticket Type', value: ticket.ticketType },
+        { label: 'Seat', value: ticket.seat || 'General Admission' },
+      ]);
 
-  if (error) {
-    return (
-      <>
-        <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
-        <MainContent padding="lg"><Container>
-          <EmptyState
-            icon={<Ticket size={48} />}
-            title="Unable to load tickets"
-            description="There was a problem loading your tickets. Please try again."
-            inverted
-          />
-        </Container></MainContent>
-      </>
-    );
-  }
+      generator.addSpacer(15);
+      generator.addHeading('Entry Instructions', 2);
+      generator.addParagraph('Present this ticket at the venue entrance. A valid photo ID matching the ticket holder name may be required.');
+      generator.addSpacer(10);
+      generator.addParagraph('QR Code for entry will be displayed in the GVTEWAY app. Please have your phone ready at the entrance.');
 
-  if (tickets.length === 0) {
-    return (
-      <>
-        <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
-        <MainContent padding="lg"><Container>
-          <EmptyState
-            icon={<Ticket size={48} />}
-            title="No tickets yet"
-            description="You don't have any tickets yet. Browse events to find your next experience!"
-            action={{ label: "Browse Events", onClick: () => router.push('/browse') }}
-            inverted
-          />
-        </Container></MainContent>
-      </>
-    );
-  }
+      generator.download(`ticket-${ticket.id.slice(0, 8)}.pdf`);
+      addNotification({ type: 'success', title: 'Ticket Downloaded', message: 'Your ticket has been downloaded' });
+    } catch (err) {
+      addNotification({ type: 'error', title: 'Download Failed', message: err instanceof Error ? err.message : 'Failed to generate ticket' });
+    }
+  };
+
+  const handleOpenTransferModal = (ticket: DisplayTicket) => {
+    setSelectedTicket(ticket);
+    setTransferEmail('');
+    setTransferModalOpen(true);
+  };
+
+  const handleTransferTicket = async () => {
+    if (!selectedTicket || !transferEmail) return;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(transferEmail)) {
+      addNotification({ type: 'error', title: 'Invalid Email', message: 'Please enter a valid email address' });
+      return;
+    }
+
+    setIsTransferring(true);
+    try {
+      const response = await fetch('/api/tickets/transfer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ticket_id: selectedTicket.id,
+          recipient_email: transferEmail,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Transfer failed');
+      }
+
+      addNotification({ 
+        type: 'success', 
+        title: 'Transfer Initiated', 
+        message: `Transfer request sent to ${transferEmail}. They will receive an email to accept the ticket.` 
+      });
+      setTransferModalOpen(false);
+      refetch();
+    } catch (err) {
+      addNotification({ type: 'error', title: 'Transfer Failed', message: err instanceof Error ? err.message : 'Failed to transfer ticket' });
+    } finally {
+      setIsTransferring(false);
+    }
+  };
+
+  const columns: ListPageColumn<DisplayTicket>[] = [
+    { key: 'eventName', label: 'Event', accessor: 'eventName', sortable: true },
+    { key: 'eventDate', label: 'Date', accessor: 'eventDate', sortable: true },
+    { key: 'venue', label: 'Venue', accessor: 'venue' },
+    { key: 'ticketType', label: 'Ticket Type', accessor: 'ticketType' },
+    { key: 'seat', label: 'Seat', accessor: (t) => t.seat || '—' },
+    {
+      key: 'status', label: 'Status', accessor: 'status', sortable: true,
+      render: (_, ticket) => (
+        <Badge variant={ticket.status === 'active' ? 'success' : ticket.status === 'used' ? 'info' : 'warning'}>
+          {ticket.status}
+        </Badge>
+      ),
+    },
+  ];
+
+  const filters: ListPageFilter[] = [
+    { key: 'status', label: 'Status', options: [
+      { value: 'active', label: 'Upcoming' },
+      { value: 'used', label: 'Used' },
+      { value: 'cancelled', label: 'Cancelled' },
+    ]},
+  ];
+
+  const rowActions: ListPageAction<DisplayTicket>[] = [
+    { id: 'view', label: 'View QR', icon: <QrCode className="h-4 w-4" />, onClick: (ticket) => router.push(`/account/tickets/${ticket.id}`) },
+    { id: 'download', label: 'Download', icon: <Download className="h-4 w-4" />, onClick: (ticket) => handleDownloadTicket(ticket) },
+    { id: 'transfer', label: 'Transfer', icon: <Send className="h-4 w-4" />, onClick: (ticket) => handleOpenTransferModal(ticket) },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
-      <MainContent padding="lg"><Container>
-        <Stack gap={8}>
-          <Stack direction="horizontal" gap={2}>
-          <Button variant={filter === 'all' ? 'solid' : 'outline'} onClick={() => setFilter('all')}>All</Button>
-          <Button variant={filter === 'active' ? 'solid' : 'outline'} onClick={() => setFilter('active')}>Upcoming</Button>
-          <Button variant={filter === 'past' ? 'solid' : 'outline'} onClick={() => setFilter('past')}>Past</Button>
+      <ListPage<DisplayTicket>
+        title="My Tickets"
+        subtitle="View and manage your event tickets"
+        data={tickets}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        error={error}
+        onRetry={refetch}
+        searchPlaceholder="Search tickets..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(ticket) => router.push(`/account/tickets/${ticket.id}`)}
+        emptyMessage="No tickets yet"
+        emptyAction={{ label: 'Browse Events', onClick: () => router.push('/browse') }}
+        entityType="tickets"
+        breadcrumbs={[{ label: 'Account', href: '/account' }, { label: 'Tickets' }]}
+        showFavorite
+        showSettings
+      />
+
+      <Modal
+        open={transferModalOpen}
+        onClose={() => setTransferModalOpen(false)}
+        title="Transfer Ticket"
+      >
+        <Stack gap={4}>
+          <Text>
+            Transfer your ticket for <strong>{selectedTicket?.eventName}</strong> to another person.
+            They will receive an email to accept the transfer.
+          </Text>
+          <Stack gap={2}>
+            <Text className="font-weight-medium">Recipient Email</Text>
+            <Input
+              type="email"
+              value={transferEmail}
+              onChange={(e) => setTransferEmail(e.target.value)}
+              placeholder="Enter recipient's email address"
+            />
+          </Stack>
+          <Stack direction="horizontal" gap={2} className="justify-end">
+            <Button variant="outline" onClick={() => setTransferModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleTransferTicket} 
+              disabled={!transferEmail || isTransferring}
+            >
+              {isTransferring ? 'Transferring...' : 'Transfer Ticket'}
+            </Button>
+          </Stack>
         </Stack>
-
-        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
-          {filteredTickets.map(ticket => (
-            <Card key={ticket.id} variant="elevated" inverted>
-              <CardBody>
-                <Stack gap={4}>
-                  <Stack direction="horizontal" className="items-start justify-between">
-                    <Stack gap={1}>
-                      <H3 className="text-white">{ticket.eventName}</H3>
-                      <Stack direction="horizontal" gap={2} className="items-center">
-                        <Calendar size={14} className="text-on-dark-muted" />
-                        <Body size="sm" className="text-on-dark-muted">{ticket.eventDate}</Body>
-                      </Stack>
-                      <Stack direction="horizontal" gap={2} className="items-center">
-                        <MapPin size={14} className="text-on-dark-muted" />
-                        <Body size="sm" className="text-on-dark-muted">{ticket.venue}</Body>
-                      </Stack>
-                    </Stack>
-                    <Badge variant={ticket.status === 'active' ? 'success' : ticket.status === 'used' ? 'info' : 'warning'}>
-                      {ticket.status}
-                    </Badge>
-                  </Stack>
-
-                  <Stack direction="horizontal" className="justify-between border-t border-ink-700 pt-3">
-                    <Stack gap={0}>
-                      <Body size="sm" className="text-on-dark-muted">Ticket Type</Body>
-                      <Body className="font-weight-semibold text-white">{ticket.ticketType}</Body>
-                    </Stack>
-                    {ticket.section && (
-                      <Stack gap={0}>
-                        <Body size="sm" className="text-on-dark-muted">Section</Body>
-                        <Body className="text-white">{ticket.section}</Body>
-                      </Stack>
-                    )}
-                    {ticket.row && (
-                      <Stack gap={0}>
-                        <Body size="sm" className="text-on-dark-muted">Row</Body>
-                        <Body className="text-white">{ticket.row}</Body>
-                      </Stack>
-                    )}
-                    {ticket.seat && (
-                      <Stack gap={0}>
-                        <Body size="sm" className="text-on-dark-muted">Seat</Body>
-                        <Body className="text-white">{ticket.seat}</Body>
-                      </Stack>
-                    )}
-                  </Stack>
-
-                  {ticket.status === 'active' && (
-                    <Stack direction="horizontal" gap={2}>
-                      <Button variant="solid" size="sm"><QrCode size={14} className="mr-1" />View QR</Button>
-                      <Button variant="outline" size="sm"><Download size={14} className="mr-1" />Download</Button>
-                      <Button variant="outline" size="sm"><Send size={14} className="mr-1" />Transfer</Button>
-                    </Stack>
-                  )}
-                </Stack>
-              </CardBody>
-            </Card>
-          ))}
-          </Grid>
-        </Stack>
-      </Container></MainContent>
+      </Modal>
     </>
   );
 }

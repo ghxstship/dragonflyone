@@ -58,7 +58,7 @@ export class DataSyncManager {
         this.syncQueue = JSON.parse(stored);
       }
     } catch (error) {
-      console.error('Failed to load sync queue:', error);
+      logger.error('Failed to load sync queue', error instanceof Error ? error : undefined);
     }
   }
 
@@ -71,7 +71,7 @@ export class DataSyncManager {
     try {
       localStorage.setItem('ghxstship-sync-queue', JSON.stringify(this.syncQueue));
     } catch (error) {
-      console.error('Failed to save sync queue:', error);
+      logger.error('Failed to save sync queue', error instanceof Error ? error : undefined);
     }
   }
 
@@ -121,7 +121,7 @@ export class DataSyncManager {
           await this.executeOperation(item);
           logger.debug('Synced operation', { operation: item.operation, table: item.table });
         } catch (error) {
-          console.error('Sync failed:', item, error);
+          logger.error('Sync failed', error instanceof Error ? error : undefined, { item });
           
           if (item.retries < this.maxRetries) {
             failedItems.push({
@@ -129,7 +129,7 @@ export class DataSyncManager {
               retries: item.retries + 1,
             });
           } else {
-            console.error('Max retries reached, dropping:', item);
+            logger.error('Max retries reached, dropping sync item', undefined, { item });
           }
         }
       }
@@ -241,7 +241,7 @@ export function createOfflineAwareMutation<TData, TVariables>(
     },
     onError: (error: Error, variables: TVariables) => {
       // Queue on error
-      console.error('Mutation failed, queuing:', error);
+      logger.error('Mutation failed, queuing', error);
       syncManager.queueOperation(operation, table, variables);
     },
   };

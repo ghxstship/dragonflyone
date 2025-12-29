@@ -1,9 +1,12 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
+
+// Any authenticated user can delete their own data
+const ALLOWED_ROLES = Object.values(PlatformRole);
 
 const deleteSchema = z.object({
   confirmation: z.literal('DELETE MY DATA'),
@@ -13,20 +16,19 @@ const deleteSchema = z.object({
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // Use standardized withAuth middleware
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ALLOWED_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const { data: platformUser } = await supabase
       .from('platform_users')
       .select('id, organization_id, email')
-      .eq('auth_user_id', user.id)
+      .eq('auth_user_id', authResult.user?.id)
       .single();
 
     if (!platformUser) {
@@ -103,7 +105,9 @@ export async function POST(request: NextRequest) {
     });
 
     // Sign out the user from Supabase Auth
-    await supabase.auth.admin.signOut(user.id);
+    if (authResult.user?.id) {
+      await supabase.auth.admin.signOut(authResult.user.id);
+    }
 
     return NextResponse.json({
       message: 'Your data has been deleted and your account has been anonymized.',

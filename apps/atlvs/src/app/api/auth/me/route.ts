@@ -1,8 +1,16 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const updateProfileSchema = z.object({
+  full_name: z.string().optional(),
+  phone: z.string().optional(),
+  location: z.string().optional(),
+  bio: z.string().optional(),
+  avatar_url: z.string().optional(),
+});
 
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
@@ -101,14 +109,14 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const allowedFields = ['full_name', 'phone', 'location', 'bio', 'avatar_url'];
+    const validatedData = updateProfileSchema.parse(body);
     const updateData: Record<string, unknown> = {};
 
-    for (const field of allowedFields) {
-      if (body[field] !== undefined) {
-        updateData[field] = body[field];
-      }
-    }
+    if (validatedData.full_name !== undefined) updateData.full_name = validatedData.full_name;
+    if (validatedData.phone !== undefined) updateData.phone = validatedData.phone;
+    if (validatedData.location !== undefined) updateData.location = validatedData.location;
+    if (validatedData.bio !== undefined) updateData.bio = validatedData.bio;
+    if (validatedData.avatar_url !== undefined) updateData.avatar_url = validatedData.avatar_url;
 
     if (Object.keys(updateData).length === 0) {
       return NextResponse.json(

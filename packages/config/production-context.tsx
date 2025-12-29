@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from './supabase-client';
 
 /**
@@ -26,8 +26,10 @@ interface ProductionContextType {
   currentProduction: Production | null;
   productions: Production[];
   isLoading: boolean;
+  error: string | null;
   setCurrentProductionId: (id: string | null) => void;
   refreshProductions: () => Promise<void>;
+  clearError: () => void;
 }
 
 const ProductionContext = createContext<ProductionContextType | undefined>(undefined);
@@ -37,11 +39,13 @@ export function ProductionProvider({ children }: { children: React.ReactNode }) 
   const [currentProduction, setCurrentProduction] = useState<Production | null>(null);
   const [productions, setProductions] = useState<Production[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Load productions for the current user
   const refreshProductions = useCallback(async () => {
     try {
       setIsLoading(true);
+      setError(null);
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session?.user) {
@@ -50,23 +54,22 @@ export function ProductionProvider({ children }: { children: React.ReactNode }) 
         return;
       }
 
-      // Fetch productions the user has access to
-      const { data, error } = await supabase
+      const { data, error: fetchError } = await supabase
         .from('productions')
         .select('id, name, status, event_date, load_in_date, load_out_date, budget, sponsorship_target, venue_id, organization_id')
         .order('event_date', { ascending: false });
 
-      if (error) throw error;
+      if (fetchError) throw fetchError;
 
       setProductions(data || []);
 
-      // If we have a current production ID, fetch its details
       if (currentProductionId) {
         const production = data?.find(p => p.id === currentProductionId);
         setCurrentProduction(production || null);
       }
-    } catch (error) {
-      console.error('Failed to load productions:', error);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load productions';
+      setError(errorMessage);
       setProductions([]);
     } finally {
       setIsLoading(false);
@@ -109,17 +112,21 @@ export function ProductionProvider({ children }: { children: React.ReactNode }) 
     }
   }, []);
 
+  const clearError = useCallback(() => setError(null), []);
+
+  const value = useMemo<ProductionContextType>(() => ({
+    currentProductionId,
+    currentProduction,
+    productions,
+    isLoading,
+    error,
+    setCurrentProductionId,
+    refreshProductions,
+    clearError,
+  }), [currentProductionId, currentProduction, productions, isLoading, error, refreshProductions, clearError]);
+
   return (
-    <ProductionContext.Provider
-      value={{
-        currentProductionId,
-        currentProduction,
-        productions,
-        isLoading,
-        setCurrentProductionId,
-        refreshProductions,
-      }}
-    >
+    <ProductionContext.Provider value={value}>
       {children}
     </ProductionContext.Provider>
   );
@@ -141,7 +148,9 @@ export function useProductionContextSafe() {
     currentProduction: null,
     productions: [],
     isLoading: false,
+    error: null,
     setCurrentProductionId: () => {},
     refreshProductions: async () => {},
+    clearError: () => {},
   };
 }

@@ -1,12 +1,54 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createComplianceSchema = z.object({
+  project_id: z.string().uuid(),
+  union_local: z.string(),
+  agreement_type: z.string(),
+  work_date: z.string(),
+  call_time: z.string().optional(),
+  first_meal_break: z.string().optional(),
+  second_meal_break: z.string().optional(),
+  wrap_time: z.string().optional(),
+  minimum_call_hours: z.number().optional(),
+  overtime_after_hours: z.number().optional(),
+  double_time_after_hours: z.number().optional(),
+  meal_penalty_minutes: z.number().optional(),
+  turnaround_hours: z.number().optional(),
+  crew_assignments: z.array(z.record(z.unknown())).optional(),
+  special_provisions: z.array(z.string()).optional(),
+  notes: z.string().optional(),
+});
+
+const updateComplianceSchema = z.object({
+  compliance_id: z.string().uuid().optional(),
+  assignment_id: z.string().uuid().optional(),
+  action: z.string().optional(),
+  wrap_time: z.string().optional(),
+  meal_breaks: z.array(z.string()).optional(),
+});
 
 // GET - Fetch union compliance data
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
     const unionLocal = searchParams.get('union_local');
@@ -58,7 +100,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -69,10 +118,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createComplianceSchema.parse(body);
     const {
       project_id,
-      union_local, // 'IATSE Local 500', 'IBEW Local 349', etc.
-      agreement_type, // 'pink_contract', 'yellow_card', 'white_card', 'custom'
+      union_local,
+      agreement_type,
       work_date,
       call_time,
       first_meal_break,
@@ -86,7 +136,7 @@ export async function POST(request: NextRequest) {
       crew_assignments,
       special_provisions,
       notes,
-    } = body;
+    } = validatedData;
 
     // Create compliance record
     const { data: compliance, error: complianceError } = await supabase
@@ -144,7 +194,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -155,7 +212,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { compliance_id, assignment_id, action, ...updateData } = body;
+    const validatedData = updateComplianceSchema.parse(body);
+    const { compliance_id, assignment_id, action, ...updateData } = validatedData;
 
     if (assignment_id) {
       // Update crew assignment (log time, breaks, etc.)

@@ -1,27 +1,29 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { GvtewayLoadingLayout } from '@/components/app-layout';
+/**
+ * GVTEWAY Notification Settings Page
+ * Control how and when you receive notifications
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
 import {
-  H2,
-  H3,
   Body,
-  Label,
   Button,
   Card,
-  Stack,
   Switch,
   Select,
-  Kicker,
-  Alert,
-} from '@ghxstship/ui';
-import { Bell, Mail, Smartphone, MessageSquare} from 'lucide-react';
-import { useNotificationSettingsData, type NotificationPreferences } from '@/hooks/useNotificationSettings';
+  useNotifications,
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
+import { Bell, Mail, Smartphone, MessageSquare, Clock, Save, RotateCcw } from "lucide-react";
+import { useNotificationSettingsData, type NotificationPreferences } from "@/hooks/useNotificationSettings";
 
 export default function NotificationSettingsPage() {
+  const { addNotification } = useNotifications();
   const [localPreferences, setLocalPreferences] = useState<NotificationPreferences | null>(null);
-  const [localError, setLocalError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
 
   const {
     preferences: fetchedPreferences,
@@ -35,19 +37,16 @@ export default function NotificationSettingsPage() {
   const preferences = localPreferences || fetchedPreferences;
 
   const handleSave = async () => {
-    setLocalError(null);
-    setSuccess(null);
-
     try {
       await savePreferences(preferences);
-      setSuccess('Preferences saved successfully');
+      addNotification({ type: "success", title: "Saved", message: "Preferences saved successfully" });
     } catch (err) {
-      setLocalError(err instanceof Error ? err.message : 'Failed to save preferences');
+      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to save preferences" });
     }
   };
 
-  const updateCategory = (key: keyof NotificationPreferences['categories'], value: boolean) => {
-    setLocalPreferences(prev => ({
+  const updateCategory = (key: keyof NotificationPreferences["categories"], value: boolean) => {
+    setLocalPreferences((prev) => ({
       ...(prev || preferences),
       categories: {
         ...(prev || preferences).categories,
@@ -60,195 +59,135 @@ export default function NotificationSettingsPage() {
     setLocalPreferences(newPrefs);
   };
 
-  if (loading) {
-    return <GvtewayLoadingLayout text="Loading notification settings..." />;
-  }
+  const headerActions = (
+    <div className="flex gap-3">
+      <Button
+        variant="solid"
+        onClick={handleSave}
+        disabled={saving}
+        icon={<Save className="size-4" />}
+        iconPosition="left"
+      >
+        {saving ? "Saving..." : "Save Preferences"}
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() => { setLocalPreferences(null); refetch(); }}
+        icon={<RotateCcw className="size-4" />}
+        iconPosition="left"
+      >
+        Reset
+      </Button>
+    </div>
+  );
 
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Settings</Kicker>
-              <H2 size="lg" className="text-white">Notification Settings</H2>
-              <Body className="text-on-dark-muted">Control how and when you receive notifications</Body>
-            </Stack>
-
-            {(error || localError) && (
-              <Alert variant="error">{error instanceof Error ? error.message : localError || String(error)}</Alert>
-            )}
-
-            {success && (
-              <Alert variant="success">{success}</Alert>
-            )}
-
-            {/* Notification Channels */}
-            <Card inverted variant="elevated" className="p-6">
-              <Stack direction="horizontal" gap={2} className="mb-6 items-center">
-                <Bell className="size-5 text-on-dark-muted" />
-                <H3 className="text-white">Notification Channels</H3>
-              </Stack>
-              <Stack gap={4}>
-                <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
-                  <Stack gap={1}>
-                    <Stack direction="horizontal" gap={2} className="items-center">
-                      <Mail className="size-4 text-on-dark-muted" />
-                      <Body className="font-display text-white">Email Notifications</Body>
-                    </Stack>
-                    <Body size="sm" className="text-on-dark-muted">Receive notifications via email</Body>
-                  </Stack>
-                  <Switch
-                    checked={preferences.email_enabled}
-                    onChange={(e) => setPreferences({ ...preferences, email_enabled: e.target.checked })}
-                    inverted
-                  />
-                </Stack>
-
-                <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
-                  <Stack gap={1}>
-                    <Stack direction="horizontal" gap={2} className="items-center">
-                      <Smartphone className="size-4 text-on-dark-muted" />
-                      <Body className="font-display text-white">Push Notifications</Body>
-                    </Stack>
-                    <Body size="sm" className="text-on-dark-muted">Receive notifications on your device</Body>
-                  </Stack>
-                  <Switch
-                    checked={preferences.push_enabled}
-                    onChange={(e) => setPreferences({ ...preferences, push_enabled: e.target.checked })}
-                    inverted
-                  />
-                </Stack>
-
-                <Stack direction="horizontal" className="items-center justify-between py-3">
-                  <Stack gap={1}>
-                    <Stack direction="horizontal" gap={2} className="items-center">
-                      <MessageSquare className="size-4 text-on-dark-muted" />
-                      <Body className="font-display text-white">SMS Notifications</Body>
-                    </Stack>
-                    <Body size="sm" className="text-on-dark-muted">Receive text messages for important updates</Body>
-                  </Stack>
-                  <Switch
-                    checked={preferences.sms_enabled}
-                    onChange={(e) => setPreferences({ ...preferences, sms_enabled: e.target.checked })}
-                    inverted
-                  />
-                </Stack>
-              </Stack>
-            </Card>
-
-          <Card inverted variant="elevated" className="p-6">
-            <H3 className="mb-6 text-white">NOTIFICATION TYPES</H3>
-            <Stack gap={4}>
-              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
-                <Stack>
-                  <Body className="font-display text-white">Order Updates</Body>
-                  <Body size="sm" className="text-on-dark-muted">Confirmations, ticket delivery, and changes</Body>
-                </Stack>
+  const tabs = [
+    {
+      id: "channels",
+      label: "Channels",
+      icon: <Bell className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Notification Channels" description="Choose how you receive notifications" />
+          <Card className="p-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between py-3 border-b border-grey-700">
+                <div className="flex items-center gap-3">
+                  <Mail className="size-5 text-grey-400" />
+                  <div>
+                    <Body className="font-weight-medium text-white">Email Notifications</Body>
+                    <Body size="sm" className="text-grey-400">Receive notifications via email</Body>
+                  </div>
+                </div>
                 <Switch
-                  checked={preferences.categories.order_updates}
-                  onChange={(e) => updateCategory('order_updates', e.target.checked)}
+                  checked={preferences.email_enabled}
+                  onChange={(e) => setPreferences({ ...preferences, email_enabled: e.target.checked })}
                 />
-              </Stack>
+              </div>
 
-              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
-                <Stack>
-                  <Body className="font-display text-white">Event Reminders</Body>
-                  <Body size="sm" className="text-on-dark-muted">Reminders before your upcoming events</Body>
-                </Stack>
+              <div className="flex items-center justify-between py-3 border-b border-grey-700">
+                <div className="flex items-center gap-3">
+                  <Smartphone className="size-5 text-grey-400" />
+                  <div>
+                    <Body className="font-weight-medium text-white">Push Notifications</Body>
+                    <Body size="sm" className="text-grey-400">Receive notifications on your device</Body>
+                  </div>
+                </div>
                 <Switch
-                  checked={preferences.categories.event_reminders}
-                  onChange={(e) => updateCategory('event_reminders', e.target.checked)}
+                  checked={preferences.push_enabled}
+                  onChange={(e) => setPreferences({ ...preferences, push_enabled: e.target.checked })}
                 />
-              </Stack>
+              </div>
 
-              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
-                <Stack>
-                  <Body className="font-display text-white">Price Alerts</Body>
-                  <Body size="sm" className="text-on-dark-muted">When ticket prices drop to your target</Body>
-                </Stack>
+              <div className="flex items-center justify-between py-3">
+                <div className="flex items-center gap-3">
+                  <MessageSquare className="size-5 text-grey-400" />
+                  <div>
+                    <Body className="font-weight-medium text-white">SMS Notifications</Body>
+                    <Body size="sm" className="text-grey-400">Receive text messages for important updates</Body>
+                  </div>
+                </div>
                 <Switch
-                  checked={preferences.categories.price_alerts}
-                  onChange={(e) => updateCategory('price_alerts', e.target.checked)}
+                  checked={preferences.sms_enabled}
+                  onChange={(e) => setPreferences({ ...preferences, sms_enabled: e.target.checked })}
                 />
-              </Stack>
-
-              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
-                <Stack>
-                  <Body className="font-display text-white">Saved Search Alerts</Body>
-                  <Body size="sm" className="text-on-dark-muted">New events matching your saved searches</Body>
-                </Stack>
-                <Switch
-                  checked={preferences.categories.saved_search_alerts}
-                  onChange={(e) => updateCategory('saved_search_alerts', e.target.checked)}
-                />
-              </Stack>
-
-              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
-                <Stack>
-                  <Body className="font-display text-white">Artist Announcements</Body>
-                  <Body size="sm" className="text-on-dark-muted">New events from artists you follow</Body>
-                </Stack>
-                <Switch
-                  checked={preferences.categories.artist_announcements}
-                  onChange={(e) => updateCategory('artist_announcements', e.target.checked)}
-                />
-              </Stack>
-
-              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
-                <Stack>
-                  <Body className="font-display text-white">Venue Announcements</Body>
-                  <Body size="sm" className="text-on-dark-muted">New events at venues you follow</Body>
-                </Stack>
-                <Switch
-                  checked={preferences.categories.venue_announcements}
-                  onChange={(e) => updateCategory('venue_announcements', e.target.checked)}
-                />
-              </Stack>
-
-              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
-                <Stack>
-                  <Body className="font-display text-white">Promotions & Offers</Body>
-                  <Body size="sm" className="text-on-dark-muted">Discounts, deals, and special offers</Body>
-                </Stack>
-                <Switch
-                  checked={preferences.categories.promotions}
-                  onChange={(e) => updateCategory('promotions', e.target.checked)}
-                />
-              </Stack>
-
-              <Stack direction="horizontal" className="items-center justify-between border-b border-ink-800 py-3">
-                <Stack>
-                  <Body className="font-display text-white">Community Updates</Body>
-                  <Body size="sm" className="text-on-dark-muted">Activity from groups and forums</Body>
-                </Stack>
-                <Switch
-                  checked={preferences.categories.community_updates}
-                  onChange={(e) => updateCategory('community_updates', e.target.checked)}
-                />
-              </Stack>
-
-              <Stack direction="horizontal" className="items-center justify-between py-3">
-                <Stack>
-                  <Body className="font-display text-white">Account Security</Body>
-                  <Body size="sm" className="text-on-dark-muted">Login alerts and security notifications</Body>
-                </Stack>
-                <Switch
-                  checked={preferences.categories.account_security}
-                  onChange={(e) => updateCategory('account_security', e.target.checked)}
-                  disabled
-                />
-              </Stack>
-            </Stack>
+              </div>
+            </div>
           </Card>
-
-          <Card inverted variant="elevated" className="p-6">
-            <H3 className="mb-6 text-white">TIMING PREFERENCES</H3>
-            <Stack gap={4}>
-              <Stack direction="horizontal" className="items-center justify-between">
-                <Stack>
-                  <Body className="font-display text-white">Event Reminder Timing</Body>
-                  <Body size="sm" className="text-on-dark-muted">How far in advance to remind you</Body>
-                </Stack>
+        </Section>
+      ),
+    },
+    {
+      id: "types",
+      label: "Types",
+      icon: <MessageSquare className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Notification Types" description="Choose which notifications to receive" />
+          <Card className="p-6">
+            <div className="space-y-4">
+              {[
+                { key: "order_updates", label: "Order Updates", desc: "Confirmations, ticket delivery, and changes" },
+                { key: "event_reminders", label: "Event Reminders", desc: "Reminders before your upcoming events" },
+                { key: "price_alerts", label: "Price Alerts", desc: "When ticket prices drop to your target" },
+                { key: "saved_search_alerts", label: "Saved Search Alerts", desc: "New events matching your saved searches" },
+                { key: "artist_announcements", label: "Artist Announcements", desc: "New events from artists you follow" },
+                { key: "venue_announcements", label: "Venue Announcements", desc: "New events at venues you follow" },
+                { key: "promotions", label: "Promotions & Offers", desc: "Discounts, deals, and special offers" },
+                { key: "community_updates", label: "Community Updates", desc: "Activity from groups and forums" },
+                { key: "account_security", label: "Account Security", desc: "Login alerts and security notifications", disabled: true },
+              ].map((item, idx, arr) => (
+                <div key={item.key} className={`flex items-center justify-between py-3 ${idx < arr.length - 1 ? "border-b border-grey-700" : ""}`}>
+                  <div>
+                    <Body className="font-weight-medium text-white">{item.label}</Body>
+                    <Body size="sm" className="text-grey-400">{item.desc}</Body>
+                  </div>
+                  <Switch
+                    checked={preferences.categories[item.key as keyof NotificationPreferences["categories"]]}
+                    onChange={(e) => updateCategory(item.key as keyof NotificationPreferences["categories"], e.target.checked)}
+                    disabled={item.disabled}
+                  />
+                </div>
+              ))}
+            </div>
+          </Card>
+        </Section>
+      ),
+    },
+    {
+      id: "timing",
+      label: "Timing",
+      icon: <Clock className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Timing Preferences" description="Control when you receive notifications" />
+          <Card className="p-6 mb-6">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Body className="font-weight-medium text-white">Event Reminder Timing</Body>
+                  <Body size="sm" className="text-grey-400">How far in advance to remind you</Body>
+                </div>
                 <Select
                   value={preferences.reminder_timing}
                   onChange={(e) => setPreferences({ ...preferences, reminder_timing: e.target.value })}
@@ -260,13 +199,13 @@ export default function NotificationSettingsPage() {
                   <option value="48h">2 days before</option>
                   <option value="1w">1 week before</option>
                 </Select>
-              </Stack>
+              </div>
 
-              <Stack direction="horizontal" className="items-center justify-between">
-                <Stack>
-                  <Body className="font-display text-white">Digest Frequency</Body>
-                  <Body size="sm" className="text-on-dark-muted">How often to receive digest emails</Body>
-                </Stack>
+              <div className="flex items-center justify-between">
+                <div>
+                  <Body className="font-weight-medium text-white">Digest Frequency</Body>
+                  <Body size="sm" className="text-grey-400">How often to receive digest emails</Body>
+                </div>
                 <Select
                   value={preferences.digest_frequency}
                   onChange={(e) => setPreferences({ ...preferences, digest_frequency: e.target.value })}
@@ -277,34 +216,34 @@ export default function NotificationSettingsPage() {
                   <option value="weekly">Weekly</option>
                   <option value="never">Never</option>
                 </Select>
-              </Stack>
-            </Stack>
+              </div>
+            </div>
           </Card>
 
-          <Card inverted variant="elevated" className="p-6">
-            <H3 className="mb-6 text-white">QUIET HOURS</H3>
-            <Stack gap={4}>
-              <Stack direction="horizontal" className="items-center justify-between">
-                <Stack>
-                  <Body className="font-display text-white">Enable Quiet Hours</Body>
-                  <Body size="sm" className="text-on-dark-muted">Pause non-urgent notifications during set times</Body>
-                </Stack>
+          <SectionHeader title="Quiet Hours" description="Pause non-urgent notifications during set times" />
+          <Card className="p-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Body className="font-weight-medium text-white">Enable Quiet Hours</Body>
+                  <Body size="sm" className="text-grey-400">Pause notifications during set times</Body>
+                </div>
                 <Switch
                   checked={preferences.quiet_hours_enabled}
                   onChange={(e) => setPreferences({ ...preferences, quiet_hours_enabled: e.target.checked })}
                 />
-              </Stack>
+              </div>
 
               {preferences.quiet_hours_enabled && (
-                <Stack direction="horizontal" gap={4}>
-                  <Stack className="flex-1">
-                    <Label>Start Time</Label>
+                <div className="flex gap-4 pt-4 border-t border-grey-700">
+                  <div className="flex-1 space-y-2">
+                    <Body size="sm" className="text-grey-400">Start Time</Body>
                     <Select
                       value={preferences.quiet_hours_start}
                       onChange={(e) => setPreferences({ ...preferences, quiet_hours_start: e.target.value })}
                     >
                       {Array.from({ length: 24 }, (_, i) => {
-                        const hour = i.toString().padStart(2, '0');
+                        const hour = i.toString().padStart(2, "0");
                         return (
                           <option key={hour} value={`${hour}:00`}>
                             {hour}:00
@@ -312,15 +251,15 @@ export default function NotificationSettingsPage() {
                         );
                       })}
                     </Select>
-                  </Stack>
-                  <Stack className="flex-1">
-                    <Label>End Time</Label>
+                  </div>
+                  <div className="flex-1 space-y-2">
+                    <Body size="sm" className="text-grey-400">End Time</Body>
                     <Select
                       value={preferences.quiet_hours_end}
                       onChange={(e) => setPreferences({ ...preferences, quiet_hours_end: e.target.value })}
                     >
                       {Array.from({ length: 24 }, (_, i) => {
-                        const hour = i.toString().padStart(2, '0');
+                        const hour = i.toString().padStart(2, "0");
                         return (
                           <option key={hour} value={`${hour}:00`}>
                             {hour}:00
@@ -328,21 +267,32 @@ export default function NotificationSettingsPage() {
                         );
                       })}
                     </Select>
-                  </Stack>
-                </Stack>
+                  </div>
+                </div>
               )}
-            </Stack>
+            </div>
           </Card>
+        </Section>
+      ),
+    },
+  ];
 
-            <Stack direction="horizontal" gap={4}>
-              <Button variant="solid" inverted onClick={handleSave} disabled={saving}>
-                {saving ? 'Saving...' : 'Save Preferences'}
-              </Button>
-              <Button variant="outlineInk" onClick={() => { setLocalPreferences(null); refetch(); }}>
-                Reset
-              </Button>
-            </Stack>
-          </Stack>
-    </>
+  return (
+    <DetailPage
+      header={{
+        kicker: "Settings",
+        title: "Notification Settings",
+        description: "Control how and when you receive notifications",
+      }}
+      loading={loading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={headerActions}
+      backButton={{
+        label: "Settings",
+        href: "/settings",
+      }}
+    />
   );
 }

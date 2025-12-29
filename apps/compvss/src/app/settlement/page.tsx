@@ -2,46 +2,44 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Input,
   Select,
   Button,
   Card,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
   Badge,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 import {
   useSettlements,
   type Settlement,
 } from '../../hooks/useSettlement';
+import { Eye, CheckCircle, Send } from "lucide-react";
 
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case "Finalized": return "solid";
+    case "Approved": return "outline";
+    default: return "ghost";
+  }
+};
 
 export default function SettlementPage() {
   const router = useRouter();
-  const { data: settlements = [] } = useSettlements();
-  
-  // URL-synced tab state for deep-linking support
-  const { activeTab, setActiveTab, isActive } = useTabState({
-    defaultTab: 'pending',
-    validTabs: ['pending', 'finalized', 'all'],
-  });
+  const { data: settlements = [], refetch } = useSettlements();
   const [selectedSettlement, setSelectedSettlement] = useState<Settlement | null>(null);
   const [showAdjustmentModal, setShowAdjustmentModal] = useState(false);
 
@@ -49,123 +47,117 @@ export default function SettlementPage() {
   const totalProfit = settlements.reduce((sum, s) => sum + s.grossProfit, 0);
   const avgMargin = settlements.length > 0 ? (settlements.reduce((sum, s) => sum + s.marginPct, 0) / settlements.length).toFixed(1) : '0';
 
-  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'ghost' => {
-    switch (status) {
-      case "Finalized": return "success";
-      case "Approved": return "info";
-      case "Pending Review": return "warning";
-      case "Draft": return "ghost";
-      default: return "ghost";
-    }
-  };
+  const columns: ListPageColumn<Settlement>[] = [
+    {
+      key: 'projectName',
+      label: 'Project',
+      accessor: 'projectName',
+      sortable: true,
+      render: (_, s) => (
+        <Stack gap={1}>
+          <Body className="font-display">{s.projectName}</Body>
+          <Body size="sm" className="text-muted-foreground">Event: {s.eventDate}</Body>
+        </Stack>
+      ),
+    },
+    {
+      key: 'contractValue',
+      label: 'Contract',
+      accessor: 'contractValue',
+      sortable: true,
+      render: (_, s) => <Body className="font-mono">${s.contractValue.toLocaleString()}</Body>,
+    },
+    {
+      key: 'actualCosts',
+      label: 'Costs',
+      accessor: 'actualCosts',
+      sortable: true,
+      render: (_, s) => <Body className="font-mono">${s.actualCosts.toLocaleString()}</Body>,
+    },
+    {
+      key: 'grossProfit',
+      label: 'Profit',
+      accessor: 'grossProfit',
+      sortable: true,
+      render: (_, s) => <Body className="font-mono">${s.grossProfit.toLocaleString()}</Body>,
+    },
+    {
+      key: 'marginPct',
+      label: 'Margin',
+      accessor: 'marginPct',
+      sortable: true,
+      render: (_, s) => <Body>{s.marginPct}%</Body>,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+    },
+  ];
+
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'Draft', label: 'Draft' },
+        { value: 'Pending Review', label: 'Pending Review' },
+        { value: 'Approved', label: 'Approved' },
+        { value: 'Finalized', label: 'Finalized' },
+      ],
+    },
+  ];
+
+  const rowActions: ListPageAction<Settlement>[] = [
+    { id: 'view', label: 'Details', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSettlement(s) },
+    { id: 'submit', label: 'Submit', icon: <Send className="h-4 w-4" />, onClick: () => {}, hidden: (s) => s.status !== 'Draft' },
+    { id: 'finalize', label: 'Finalize', icon: <CheckCircle className="h-4 w-4" />, onClick: () => {}, hidden: (s) => s.status !== 'Approved' },
+  ];
+
+  const stats = [
+    { label: 'Pending Settlements', value: pendingCount },
+    { label: 'Total Profit (MTD)', value: `$${(totalProfit / 1000).toFixed(0)}K` },
+    { label: 'Avg Margin', value: `${avgMargin}%` },
+    { label: 'Finalized This Month', value: settlements.filter(s => s.status === "Finalized").length },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<Settlement>
         title="Post-Production Settlement"
         subtitle="Financial closeout and settlement for completed projects"
-
-
+        data={settlements}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        onRetry={refetch}
+        searchPlaceholder="Search settlements..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(s) => setSelectedSettlement(s)}
+        createLabel="Create Settlement"
+        onCreate={() => router.push('/settlement/new')}
+        entityType="settlements"
+        onExport={createExportHandler({
+          filename: "settlements",
+          getData: () => settlements.map((s: Settlement) => ({
+            projectName: s.projectName,
+            eventDate: s.eventDate,
+            contractValue: s.contractValue,
+            actualCosts: s.actualCosts,
+            grossProfit: s.grossProfit,
+            marginPct: s.marginPct,
+            status: s.status,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No settlements found"
+        emptyAction={{ label: 'Create Settlement', onClick: () => router.push('/settlement/new') }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard value={pendingCount.toString()} label="Pending Settlements" />
-              <StatCard value={`$${(totalProfit / 1000).toFixed(0)}K`} label="Total Profit (MTD)" />
-              <StatCard value={`${avgMargin}%`} label="Avg Margin" />
-              <StatCard value={settlements.filter(s => s.status === "Finalized").length.toString()} label="Finalized This Month" />
-            </Grid>
-
-            <Tabs>
-              <TabsList>
-                <Tab active={isActive('pending')} onClick={() => setActiveTab('pending')}>Pending ({pendingCount})</Tab>
-                <Tab active={isActive('finalized')} onClick={() => setActiveTab('finalized')}>Finalized</Tab>
-                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
-              </TabsList>
-
-              <TabPanel active={true}>
-                <Stack gap={4}>
-                  {settlements
-                    .filter(s => activeTab === "all" || (activeTab === "pending" ? (s.status === "Draft" || s.status === "Pending Review") : s.status === "Finalized"))
-                    .map((settlement) => (
-                      <Card key={settlement.id} className="p-6">
-                        <Stack gap={4}>
-                          <Stack direction="horizontal" className="items-start justify-between">
-                            <Stack gap={1}>
-                              <Body className="font-display">{settlement.projectName}</Body>
-                              <Body size="sm" className="">Event Date: {settlement.eventDate}</Body>
-                            </Stack>
-                            <Badge variant={getStatusVariant(settlement.status)}>{settlement.status}</Badge>
-                          </Stack>
-
-                          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-                            <Card className="p-3">
-                              <Stack gap={1}>
-                                <Body size="sm" className="">Contract Value</Body>
-                                <Body className="font-display">${settlement.contractValue.toLocaleString()}</Body>
-                              </Stack>
-                            </Card>
-                            <Card className="p-3">
-                              <Stack gap={1}>
-                                <Body size="sm" className="">Actual Costs</Body>
-                                <Body className="font-display">${settlement.actualCosts.toLocaleString()}</Body>
-                              </Stack>
-                            </Card>
-                            <Card className="p-3">
-                              <Stack gap={1}>
-                                <Body size="sm" className="">Gross Profit</Body>
-                                <Body className="font-display">${settlement.grossProfit.toLocaleString()}</Body>
-                              </Stack>
-                            </Card>
-                            <Card className="p-3">
-                              <Stack gap={1}>
-                                <Body size="sm" className="">Margin</Body>
-                                <Body className="font-display">{settlement.marginPct}%</Body>
-                              </Stack>
-                            </Card>
-                          </Grid>
-
-                          {settlement.adjustments.length > 0 && (
-                            <Stack gap={2}>
-                              <Body className="font-display">Adjustments ({settlement.adjustments.length})</Body>
-                              {settlement.adjustments.map((adj) => (
-                                <Card key={adj.id} className="p-2">
-                                  <Stack direction="horizontal" className="justify-between">
-                                    <Body size="sm" className="">{adj.description}</Body>
-                                    <Badge variant={adj.type === "Credit" ? "solid" : "outline"}>
-                                      {adj.type === "Credit" ? "+" : "-"}${adj.amount.toLocaleString()}
-                                    </Badge>
-                                  </Stack>
-                                </Card>
-                              ))}
-                            </Stack>
-                          )}
-
-                          <Stack direction="horizontal" gap={4} className="justify-end">
-                            <Button variant="ghost" size="sm" onClick={() => setSelectedSettlement(settlement)}>View Details</Button>
-                            {settlement.status === "Draft" && <Button variant="outline" size="sm">Submit for Review</Button>}
-                            {settlement.status === "Pending Review" && <Button variant="outline" size="sm">Approve</Button>}
-                            {settlement.status === "Approved" && <Button variant="solid" size="sm">Finalize</Button>}
-                          </Stack>
-                        </Stack>
-                      </Card>
-                    ))}
-                </Stack>
-              </TabPanel>
-            </Tabs>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="solid">Create Settlement</Button>
-              <Button variant="outline">Export Report</Button>
-              <Button variant="outline" onClick={() => router.push("/projects")}>Back to Projects</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={!!selectedSettlement} onClose={() => setSelectedSettlement(null)}>
         <ModalHeader><H3>Settlement Details</H3></ModalHeader>

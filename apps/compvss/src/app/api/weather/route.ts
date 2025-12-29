@@ -4,6 +4,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
+import { z } from 'zod';
+
+const createAlertSchema = z.object({
+  event_id: z.string().uuid(),
+  alert_type: z.string(),
+  threshold: z.record(z.unknown()).optional(),
+  action_plan: z.string().optional(),
+  recipients: z.array(z.string()).optional(),
+});
+
+const updateContingencySchema = z.object({
+  event_id: z.string().uuid(),
+  contingency_plan: z.record(z.unknown()).optional(),
+});
 
 // Module-level supabase client
 const supabase = getServerSupabase();
@@ -147,7 +161,8 @@ export const GET = apiRoute(
 export const POST = apiRoute(
   async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
-    const { event_id, alert_type, threshold, action_plan, recipients } = body;
+    const validatedData = createAlertSchema.parse(body);
+    const { event_id, alert_type, threshold, action_plan, recipients } = validatedData;
 
     if (!event_id || !alert_type) {
       return NextResponse.json({ 
@@ -189,7 +204,8 @@ export const POST = apiRoute(
 export const PUT = apiRoute(
   async (request: NextRequest) => {
     const body = await request.json();
-    const { event_id, contingency_plan } = body;
+    const validatedData = updateContingencySchema.parse(body);
+    const { event_id, contingency_plan } = validatedData;
 
     if (!event_id) {
       return NextResponse.json({ error: 'event_id is required' }, { status: 400 });

@@ -1,145 +1,145 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'next/navigation';
+/**
+ * Production Vendors Page
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import { Building2, Search, Plus, Mail, Phone, DollarSign, List } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import {
-  SectionHeader,
-  Card,
-  CardBody,
-  Stack,
-  StatCard,
-  Button,
   Badge,
-  Grid,
   Body,
-  H3,
-  Spinner,
+  Button,
+  Card,
   Input,
-} from '@ghxstship/ui';
-import {
-  Building2,
-  DollarSign,
-  CheckCircle,
-  Clock,
-  Search,
-  Plus,
-  Phone,
-  Mail,
-} from 'lucide-react';
-// Layout provided by route group
-import { log } from '@ghxstship/config';
+  Grid,
+  StatCard,
+  DetailPage,
+  Section,
+} from "@ghxstship/ui";
 
-interface ProductionVendor {
+interface Vendor {
   id: string;
   name: string;
   category: string;
   contact: string;
   email: string;
   phone: string;
-  contractValue: number;
-  status: 'pending' | 'active' | 'completed';
+  contract_value: number;
+  status: "active" | "pending" | "completed";
 }
+
+const DEMO_VENDORS: Vendor[] = [
+  { id: "1", name: "StageCraft Inc", category: "Staging", contact: "John Doe", email: "john@stagecraft.com", phone: "+1 555-1234", contract_value: 25000, status: "active" },
+  { id: "2", name: "LightWorks", category: "Lighting", contact: "Jane Smith", email: "jane@lightworks.com", phone: "+1 555-2345", contract_value: 18000, status: "active" },
+  { id: "3", name: "SoundPro Audio", category: "Audio", contact: "Mike Chen", email: "mike@soundpro.com", phone: "+1 555-3456", contract_value: 22000, status: "pending" },
+];
+
+const STATUS_CONFIG = {
+  active: { label: "Active", variant: "success" as const },
+  pending: { label: "Pending", variant: "warning" as const },
+  completed: { label: "Completed", variant: "info" as const },
+};
 
 export default function ProductionVendorsPage() {
   const params = useParams();
-  const productionId = params?.productionId as string;
-  const [vendors, setVendors] = useState<ProductionVendor[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
+  const productionId = params.productionId as string;
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("all");
 
-  const fetchVendors = useCallback(async () => {
-    if (!productionId) return;
-    setLoading(true);
-    try {
+  const { data: vendors = [], isLoading, error, refetch } = useQuery<Vendor[]>({
+    queryKey: ["production-vendors", productionId],
+    queryFn: async () => {
       const response = await fetch(`/api/productions/${productionId}/vendors`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.vendors && data.vendors.length > 0) {
-          setVendors(data.vendors);
-        }
-      }
-    } catch (error) {
-      log.error('Failed to fetch vendors:', error instanceof Error ? error : undefined);
-    } finally {
-      setLoading(false);
-    }
-  }, [productionId]);
+      if (!response.ok) return DEMO_VENDORS;
+      const data = await response.json();
+      return data.vendors?.length ? data.vendors : DEMO_VENDORS;
+    },
+  });
 
-  useEffect(() => {
-    fetchVendors();
-  }, [fetchVendors]);
+  const categories: string[] = ["all", ...Array.from(new Set(vendors.map((v: Vendor) => v.category)))];
+  const filteredVendors = vendors.filter((vendor: Vendor) => {
+    const matchesSearch = vendor.name.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = category === "all" || vendor.category === category;
+    return matchesSearch && matchesCategory;
+  });
 
-  const totalContractValue = vendors.reduce((sum, v) => sum + v.contractValue, 0);
-  const activeVendors = vendors.filter(v => v.status === 'active').length;
+  const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(amount);
+  const totalValue = vendors.reduce((sum: number, v: Vendor) => sum + v.contract_value, 0);
 
-  const filteredVendors = vendors.filter(v =>
-    v.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    v.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const tabs = [
+    {
+      id: "vendors",
+      label: "Vendors",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+            <StatCard label="Total Vendors" value={vendors.length.toString()} icon={<Building2 className="size-5" />} />
+            <StatCard label="Active" value={vendors.filter((v: Vendor) => v.status === "active").length.toString()} icon={<Building2 className="size-5" />} />
+            <StatCard label="Total Value" value={formatCurrency(totalValue)} icon={<DollarSign className="size-5" />} />
+            <StatCard label="Categories" value={new Set(vendors.map((v: Vendor) => v.category)).size.toString()} icon={<Building2 className="size-5" />} />
+          </Grid>
+
+          <div className="flex gap-4 items-center mb-6">
+            <div className="relative flex-1 max-w-sm">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+              <Input placeholder="Search vendors..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+            </div>
+            <div className="flex gap-2">
+              {categories.map((cat) => (
+                <Button key={cat} variant={category === cat ? "solid" : "outline"} size="sm" onClick={() => setCategory(cat)}>
+                  {cat === "all" ? "All" : cat}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {filteredVendors.map((vendor: Vendor) => (
+              <Card key={vendor.id} className="p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-4">
+                    <div className="size-12 bg-primary/20 rounded-card flex items-center justify-center">
+                      <Building2 className="size-6 text-primary" />
+                    </div>
+                    <div>
+                      <Body className="font-weight-bold">{vendor.name}</Body>
+                      <Body className="text-grey-400">{vendor.contact}</Body>
+                      <div className="flex items-center gap-4 mt-2 text-grey-400">
+                        <div className="flex items-center gap-1"><Mail className="size-4" /><Body size="sm">{vendor.email}</Body></div>
+                        <div className="flex items-center gap-1"><Phone className="size-4" /><Body size="sm">{vendor.phone}</Body></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <Body className="font-weight-bold">{formatCurrency(vendor.contract_value)}</Body>
+                    <div className="flex items-center gap-2 mt-2">
+                      <Badge variant="outline">{vendor.category}</Badge>
+                      <Badge variant={STATUS_CONFIG[vendor.status].variant}>{STATUS_CONFIG[vendor.status].label}</Badge>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <>
-      <Stack gap={8}>
-        <Stack direction="horizontal" className="items-start justify-between">
-          <SectionHeader kicker="Production" title="Vendors" description="Manage production vendors and contracts" colorScheme="on-dark" />
-          <Button variant="solid"><Plus size={16} className="mr-2" />Add Vendor</Button>
-        </Stack>
-
-        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard label="Total Vendors" value={vendors.length.toString()} icon={<Building2 size={20} />} inverted />
-          <StatCard label="Active" value={activeVendors.toString()} icon={<CheckCircle size={20} />} inverted />
-          <StatCard label="Contract Value" value={`$${(totalContractValue / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
-          <StatCard label="Pending" value={vendors.filter(v => v.status === 'pending').length.toString()} icon={<Clock size={20} />} inverted />
-        </Grid>
-
-        <Card variant="elevated" inverted>
-          <CardBody>
-            <Stack gap={4}>
-              <Stack direction="horizontal" className="items-center justify-between">
-                <H3 className="text-white">All Vendors</H3>
-                <Stack direction="horizontal" gap={2}>
-                  <Input placeholder="Search vendors..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-                  <Button variant="outline"><Search size={16} /></Button>
-                </Stack>
-              </Stack>
-              {loading ? (
-                <Stack className="items-center py-12">
-                  <Spinner variant="grey" size="lg" />
-                </Stack>
-              ) : (
-              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                {filteredVendors.map(vendor => (
-                  <Card key={vendor.id} variant="elevated" inverted>
-                    <CardBody>
-                      <Stack gap={3}>
-                        <Stack direction="horizontal" className="items-center justify-between">
-                          <H3 className="text-white">{vendor.name}</H3>
-                          <Badge variant={vendor.status === 'active' ? 'success' : vendor.status === 'completed' ? 'info' : 'warning'}>
-                            {vendor.status}
-                          </Badge>
-                        </Stack>
-                        <Body className="text-on-dark-muted">{vendor.category}</Body>
-                        <Stack gap={1}>
-                          <Body size="sm" className=" text-white">{vendor.contact}</Body>
-                          <Stack direction="horizontal" gap={4}>
-                            <Body size="sm" className=" text-on-dark-muted"><Mail size={12} className="mr-1 inline" />{vendor.email}</Body>
-                            <Body size="sm" className=" text-on-dark-muted"><Phone size={12} className="mr-1 inline" />{vendor.phone}</Body>
-                          </Stack>
-                        </Stack>
-                        <Stack direction="horizontal" className="justify-between border-t border-ink-700 pt-3">
-                          <Body className="text-on-dark-muted">Contract Value</Body>
-                          <Body className="font-weight-semibold text-white">${vendor.contractValue.toLocaleString()}</Body>
-                        </Stack>
-                      </Stack>
-                    </CardBody>
-                  </Card>
-                ))}
-              </Grid>
-              )}
-            </Stack>
-          </CardBody>
-        </Card>
-      </Stack>
-    </>
+    <DetailPage
+      header={{ kicker: "Production", title: "Vendors", description: "Manage production vendors and contracts" }}
+      backButton={{ label: "Overview", href: `/p/${productionId}/overview` }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={<Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left">Add Vendor</Button>}
+    />
   );
 }

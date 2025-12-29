@@ -1,13 +1,76 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createNdaSchema = z.object({
+  title: z.string().optional(),
+  nda_type: z.enum(['mutual', 'one_way_disclosing', 'one_way_receiving']),
+  party_id: z.string().uuid().optional(),
+  party_name: z.string(),
+  party_email: z.string().email(),
+  effective_date: z.string().optional(),
+  expiration_date: z.string().optional(),
+  duration_years: z.number().optional(),
+  confidential_info_description: z.string().optional(),
+  permitted_use: z.string().optional(),
+  exclusions: z.array(z.string()).optional(),
+  governing_law: z.string().optional(),
+  template_id: z.string().uuid().optional(),
+  custom_terms: z.string().optional(),
+});
+
+const sendForSignatureSchema = z.object({
+  nda_id: z.string().uuid(),
+  action: z.literal('send_for_signature'),
+});
+
+const recordSignatureSchema = z.object({
+  nda_id: z.string().uuid(),
+  action: z.literal('record_signature'),
+  signer_name: z.string(),
+  signer_email: z.string().email(),
+  signer_title: z.string().optional(),
+  signature_data: z.string(),
+});
+
+const terminateSchema = z.object({
+  nda_id: z.string().uuid(),
+  action: z.literal('terminate'),
+  termination_reason: z.string().optional(),
+});
+
+const updateNdaSchema = z.object({
+  nda_id: z.string().uuid(),
+  action: z.undefined().optional(),
+}).passthrough();
+
+const patchNdaSchema = z.union([
+  sendForSignatureSchema,
+  recordSignatureSchema,
+  terminateSchema,
+  updateNdaSchema,
+]);
 
 // GET - Fetch NDAs
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -69,7 +132,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -80,9 +150,10 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createNdaSchema.parse(body);
     const {
       title,
-      nda_type, // 'mutual', 'one_way_disclosing', 'one_way_receiving'
+      nda_type,
       party_id,
       party_name,
       party_email,
@@ -95,7 +166,7 @@ export async function POST(request: NextRequest) {
       governing_law,
       template_id,
       custom_terms,
-    } = body;
+    } = validatedData;
 
     // Calculate expiration if duration provided
     let expDate = expiration_date;
@@ -144,7 +215,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -155,7 +233,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { nda_id, action, ...updateData } = body;
+    const validatedData = patchNdaSchema.parse(body);
+    const { nda_id, action, ...updateData } = validatedData;
 
     if (action === 'send_for_signature') {
       // Update status and send email

@@ -1,14 +1,44 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createTemplateSchema = z.object({
+  action: z.literal('create'),
+  name: z.string().min(1),
+  category: z.enum(['contract', 'checklist', 'form', 'rider', 'other']),
+  description: z.string().optional(),
+  file_url: z.string().url(),
+  file_type: z.string().min(1),
+  tags: z.array(z.string()).optional(),
+});
+
+const useTemplateSchema = z.object({
+  action: z.literal('use'),
+  template_id: z.string().uuid(),
+  project_id: z.string().uuid(),
+});
+
+const templateActionSchema = z.union([createTemplateSchema, useTemplateSchema]);
 
 // Template library (contracts, checklists, forms, riders)
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
@@ -39,17 +69,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = templateActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create') {
-      const { name, category, description, file_url, file_type, tags } = body;
+      const { name, category, description, file_url, file_type, tags } = validatedData as z.infer<typeof createTemplateSchema>;
 
       const { data, error } = await supabase.from('document_templates').insert({
         name, category, description, file_url, file_type,
@@ -61,7 +98,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'use') {
-      const { template_id, project_id } = body;
+      const { template_id, project_id } = validatedData as z.infer<typeof useTemplateSchema>;
 
       // Log template usage
       await supabase.from('template_usage').insert({

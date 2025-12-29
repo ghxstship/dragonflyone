@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, BarChart3 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body, useNotifications,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
@@ -140,7 +139,7 @@ export default function BudgetsPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Budget>
         title="Budget Management"
         subtitle="Track and analyze financial performance across all budgets"
@@ -215,6 +214,6 @@ export default function BudgetsPage() {
           onAction={(id, r) => { if (id === 'edit') router.push(`/budgets/${r.id}/edit`); setDrawerOpen(false); }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

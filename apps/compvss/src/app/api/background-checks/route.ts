@@ -2,6 +2,30 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const initiateSchema = z.object({
+  action: z.literal('initiate'),
+  application_id: z.string().uuid().optional(),
+  user_id: z.string().uuid(),
+  check_types: z.array(z.string()).optional(),
+  consent_obtained: z.boolean(),
+});
+
+const updateResultSchema = z.object({
+  action: z.literal('update_result'),
+  check_id: z.string().uuid(),
+  status: z.string(),
+  result: z.string().optional(),
+  details: z.record(z.unknown()).optional(),
+});
+
+const consentSchema = z.object({
+  action: z.literal('consent'),
+  check_id: z.string().uuid(),
+});
+
+const backgroundCheckActionSchema = z.union([initiateSchema, updateResultSchema, consentSchema]);
 
 const COMPVSS_ADMIN_ROLES = [
   PlatformRole.COMPVSS_ADMIN,
@@ -49,20 +73,23 @@ export async function POST(request: NextRequest) {
     const user = authResult.user;
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = backgroundCheckActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'initiate') {
-      const { application_id, user_id, check_types, consent_obtained } = body;
+      const { application_id, user_id, check_types, consent_obtained } = validatedData as z.infer<typeof initiateSchema>;
 
       if (!consent_obtained) {
         return NextResponse.json({ error: 'Consent required' }, { status: 400 });
       }
 
       const { data, error } = await supabase.from('background_checks').insert({
-        application_id, user_id, check_types: check_types || ['criminal', 'employment'],
-        status: 'pending', consent_obtained: true, consent_date: new Date().toISOString(),
+        application_id,
+        user_id, check_types: check_types || ['criminal', 'employment'],
+        check_type: (check_types || ['criminal'])[0],
+        status: 'pending',
         initiated_by: user.id
-      }).select().single();
+      } as never).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
@@ -79,7 +106,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'update_result') {
-      const { check_id, status, result, details } = body;
+      const { check_id, status, result, details } = validatedData as z.infer<typeof updateResultSchema>;
 
       await supabase.from('background_checks').update({
         status, result, details, completed_at: new Date().toISOString()
@@ -89,12 +116,12 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'consent') {
-      const { check_id } = body;
+      const { check_id } = validatedData as z.infer<typeof consentSchema>;
 
       await supabase.from('background_checks').update({
-        consent_obtained: true, consent_date: new Date().toISOString(),
-        consented_by: user.id
-      }).eq('id', check_id);
+        status: 'consented',
+        updated_at: new Date().toISOString()
+      } as never).eq('id', check_id);
 
       return NextResponse.json({ success: true });
     }

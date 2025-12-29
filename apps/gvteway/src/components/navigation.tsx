@@ -66,10 +66,9 @@ export function ConsumerNavigationAuthenticated({
 
   // Member-focused navigation
   const navItems = [
-    { label: "Experiences", href: "/experiences" },
-    { label: "My Access", href: "/tickets" },
-    { label: "Community", href: "/community" },
-    { label: "Membership", href: "/membership" },
+    { label: "Events", href: "/events" },
+    { label: "My Tickets", href: "/tickets" },
+    { label: "Account", href: "/account" },
   ];
 
   return (
@@ -127,9 +126,9 @@ export function CreatorNavigationAuthenticated({
 
   const navItems = [
     { label: "Dashboard", href: "/dashboard" },
-    { label: "Events", href: "/events/manage" },
-    { label: "Venues", href: "/venues/manage" },
-    { label: "Analytics", href: "/analytics" },
+    { label: "Events", href: "/events" },
+    { label: "Venues", href: "/venues" },
+    { label: "Tickets", href: "/tickets" },
   ];
 
   return (

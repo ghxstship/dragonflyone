@@ -154,6 +154,10 @@ export function Countdown({
         config.container,
         className
       )}
+      role="timer"
+      aria-live="polite"
+      aria-atomic="true"
+      aria-label={`Countdown: ${timeLeft.days > 0 ? `${timeLeft.days} days, ` : ''}${timeLeft.hours} hours, ${timeLeft.minutes} minutes, ${timeLeft.seconds} seconds remaining`}
     >
       {timeLeft.days > 0 && (
         <>

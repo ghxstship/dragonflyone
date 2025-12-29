@@ -1,14 +1,51 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createCredentialSchema = z.object({
+  employee_id: z.string().uuid(),
+  credential_type: z.string().min(1),
+  credential_number: z.string().optional(),
+  issuing_authority: z.string().optional(),
+  issue_date: z.string(),
+  expiry_date: z.string(),
+  document_url: z.string().url().optional(),
+});
+
+const renewSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('renew'),
+  new_expiry_date: z.string(),
+  document_url: z.string().url().optional(),
+});
+
+const sendReminderSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('send_reminder'),
+});
+
+const updateCredentialSchema = z.discriminatedUnion('action', [renewSchema, sendReminderSchema]);
 
 // License and credential expiration alerts
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const daysAhead = parseInt(searchParams.get('days_ahead') || '90');
@@ -49,14 +86,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { employee_id, credential_type, credential_number, issuing_authority, issue_date, expiry_date, document_url } = body;
+    const validatedData = createCredentialSchema.parse(body);
+    const { employee_id, credential_type, credential_number, issuing_authority, issue_date, expiry_date, document_url } = validatedData;
 
     const { data, error } = await supabase.from('employee_credentials').insert({
       employee_id, credential_type, credential_number, issuing_authority,
@@ -73,13 +117,21 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const body = await request.json();
-    const { id, action, new_expiry_date, document_url } = body;
+    const validatedData = updateCredentialSchema.parse(body);
+    const { id, action } = validatedData;
 
     if (action === 'renew') {
+      const { new_expiry_date, document_url } = validatedData;
       await supabase.from('employee_credentials').update({
         expiry_date: new_expiry_date, document_url, status: 'active',
         renewed_at: new Date().toISOString()

@@ -1,16 +1,45 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const updateExpenseSchema = z.object({
+  user_id: z.string().uuid().optional(),
+  description: z.string().optional(),
+  amount: z.number().positive().optional(),
+  category: z.string().optional(),
+  project_id: z.string().uuid().optional(),
+  client_id: z.string().uuid().optional(),
+  receipt_url: z.string().url().optional(),
+  notes: z.string().optional(),
+  expense_date: z.string().optional(),
+  vendor: z.string().optional(),
+  payment_method: z.string().optional(),
+});
 
 // GET /api/expenses/[id] - Get single expense
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
 
     const { data: expense, error } = await supabase
@@ -68,9 +97,19 @@ export async function PUT(
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
     const body = await request.json();
-    const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
+    const validatedData = updateExpenseSchema.parse(body);
+    const userId = validatedData.user_id || '00000000-0000-0000-0000-000000000000';
 
     // Check if expense exists and is editable
     const { data: existingExpense, error: fetchError } = await supabase
@@ -146,6 +185,15 @@ export async function DELETE(
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
 
     // Check if expense exists and can be deleted

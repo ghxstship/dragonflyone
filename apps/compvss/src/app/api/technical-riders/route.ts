@@ -1,12 +1,57 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createRiderSchema = z.object({
+  project_id: z.string().uuid().optional(),
+  artist_id: z.string().uuid().optional(),
+  rider_type: z.string(),
+  title: z.string().optional(),
+  version: z.string().optional(),
+  effective_date: z.string().optional(),
+  items: z.array(z.object({
+    category: z.string(),
+    item_name: z.string(),
+    quantity: z.number().optional(),
+    specifications: z.string().optional(),
+    is_required: z.boolean().optional(),
+    is_provided: z.boolean().optional(),
+    substitute_allowed: z.boolean().optional(),
+    substitute_notes: z.string().optional(),
+  })).optional(),
+  stage_plot_url: z.string().optional(),
+  input_list_url: z.string().optional(),
+  patch_list_url: z.string().optional(),
+  notes: z.array(z.record(z.unknown())).optional(),
+});
+
+const updateRiderSchema = z.object({
+  rider_id: z.string().uuid().optional(),
+  item_id: z.string().uuid().optional(),
+  action: z.string().optional(),
+  status: z.string().optional(),
+});
 
 // GET - Fetch technical riders
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
     const artistId = searchParams.get('artist_id');
@@ -46,7 +91,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -57,10 +109,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createRiderSchema.parse(body);
     const {
       project_id,
       artist_id,
-      rider_type, // 'audio', 'lighting', 'video', 'backline', 'hospitality', 'stage'
+      rider_type,
       title,
       version,
       effective_date,
@@ -69,7 +122,7 @@ export async function POST(request: NextRequest) {
       input_list_url,
       patch_list_url,
       notes,
-    } = body;
+    } = validatedData;
 
     // Create rider
     const { data: rider, error: riderError } = await supabase
@@ -138,7 +191,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -149,7 +209,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { rider_id, item_id, action, ...updateData } = body;
+    const validatedData = updateRiderSchema.parse(body);
+    const { rider_id, item_id, action, ...updateData } = validatedData;
 
     if (item_id) {
       // Update item

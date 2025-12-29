@@ -85,6 +85,15 @@ export function useDiscoverData() {
 
   const isLoading = trendingQuery.isLoading || recommendedQuery.isLoading || collectionsQuery.isLoading || nearbyQuery.isLoading;
 
+  const refetch = async () => {
+    await Promise.all([
+      trendingQuery.refetch(),
+      recommendedQuery.refetch(),
+      collectionsQuery.refetch(),
+      nearbyQuery.refetch(),
+    ]);
+  };
+
   return {
     trendingEvents: trendingQuery.data || [],
     recommendedEvents: recommendedQuery.data || [],
@@ -92,5 +101,6 @@ export function useDiscoverData() {
     nearbyEvents: nearbyQuery.data || [],
     isLoading,
     error: trendingQuery.error || recommendedQuery.error || collectionsQuery.error || nearbyQuery.error,
+    refetch,
   };
 }

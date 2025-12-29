@@ -1,13 +1,55 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createGoalSchema = z.object({
+  action: z.literal('create_goal').optional().default('create_goal'),
+  name: z.string().min(1),
+  description: z.string().optional(),
+  target_budget: z.number().optional(),
+  target_date: z.string().optional(),
+  metrics: z.record(z.unknown()).optional(),
+});
+
+const alignProjectSchema = z.object({
+  action: z.literal('align_project'),
+  project_id: z.string().uuid(),
+  goal_ids: z.array(z.string().uuid()),
+});
+
+const updatePrioritySchema = z.object({
+  action: z.literal('update_priority'),
+  project_id: z.string().uuid(),
+  strategic_importance: z.number().min(1).max(5),
+  urgency: z.number().min(1).max(5),
+});
+
+const portfolioActionSchema = z.union([
+  createGoalSchema,
+  alignProjectSchema,
+  updatePrioritySchema,
+]);
 
 // GET /api/ai/portfolio-planning - Strategic portfolio planning
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -279,7 +321,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -290,10 +339,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const action = body.action || 'create_goal';
+    const validatedData = portfolioActionSchema.parse(body);
+    const action = validatedData.action || 'create_goal';
 
     if (action === 'create_goal') {
-      const { name, description, target_budget, target_date, metrics } = body;
+      const { name, description, target_budget, target_date, metrics } = validatedData as z.infer<typeof createGoalSchema>;
 
       const { data: goal, error } = await supabase
         .from('strategic_goals')
@@ -315,7 +365,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ goal }, { status: 201 });
     } else if (action === 'align_project') {
-      const { project_id, goal_ids } = body;
+      const { project_id, goal_ids } = validatedData as z.infer<typeof alignProjectSchema>;
 
       const { error } = await supabase
         .from('projects')
@@ -328,7 +378,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ success: true });
     } else if (action === 'update_priority') {
-      const { project_id, strategic_importance, urgency } = body;
+      const { project_id, strategic_importance, urgency } = validatedData as z.infer<typeof updatePrioritySchema>;
 
       const { error } = await supabase
         .from('projects')

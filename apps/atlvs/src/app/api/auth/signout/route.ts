@@ -1,8 +1,12 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const signOutSchema = z.object({
+  everywhere: z.boolean().optional(),
+});
 
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
@@ -13,6 +17,9 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.replace('Bearer ', '');
+
+    const body = await request.json().catch(() => ({}));
+    signOutSchema.parse(body);
     
     // Get user from token
     const { data: { user } } = await supabase.auth.getUser(token);

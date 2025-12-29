@@ -1,18 +1,16 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
+  DetailPage,
   Badge,
   Body,
   Button,
   Card,
   CardBody,
-  Container,
   EmptyState,
-  EnterprisePageHeader,
   H3,
   Label,
-  MainContent,
   Spinner,
   Stack,
   StatCard,
@@ -39,34 +37,42 @@ import { useEquipment } from "../../../../hooks/useEquipment";
  */
 export default function ProductionOverviewPage() {
   const params = useParams();
+  const router = useRouter();
   const productionId = params?.productionId as string;
   
-  // Fetch real production data
   const { data: production, isLoading, error } = useProject(productionId);
   const { data: crewData } = useCrew();
   const { data: equipmentData } = useEquipment();
   
   if (isLoading) {
     return (
-      <Container className="flex min-h-[60vh] items-center justify-center">
-        <Spinner variant="grey" size="lg" text="Loading production..." />
-      </Container>
+      <DetailPage
+        header={{ title: "Production", description: "Loading..." }}
+        backButton={{ label: "Back to Projects", onClick: () => router.push('/projects') }}
+      >
+        <Stack gap={4} className="items-center justify-center py-16">
+          <Spinner size="lg" />
+          <Body>Loading production...</Body>
+        </Stack>
+      </DetailPage>
     );
   }
 
   if (error || !production) {
     return (
-      <Container>
+      <DetailPage
+        header={{ title: "Production Not Found" }}
+        backButton={{ label: "Back to Projects", onClick: () => router.push('/projects') }}
+      >
         <EmptyState
           title="Production Not Found"
           description={error ? (error instanceof Error ? error.message : String(error)) : "The requested production could not be found."}
-          action={{ label: "Back to Projects", onClick: () => window.history.back() }}
+          action={{ label: "Back to Projects", onClick: () => router.push('/projects') }}
         />
-      </Container>
+      </DetailPage>
     );
   }
 
-  // Calculate real metrics from fetched data
   const crew = crewData || [];
   const equipment = equipmentData || [];
   
@@ -90,41 +96,32 @@ export default function ProductionOverviewPage() {
   const crewPercentage = metrics.crew.total > 0 ? Math.round((metrics.crew.confirmed / metrics.crew.total) * 100) : 0;
   const schedulePercentage = Math.round((metrics.schedule.completed / metrics.schedule.totalCues) * 100);
 
-  return (
-    <>
-      <EnterprisePageHeader
-        title={production.name}
-        subtitle={production.description || `${production.start_date || ''} - ${production.end_date || ''}`}
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={8}>
-            <Stack direction="horizontal" gap={2} className="flex-wrap">
-              <Badge variant={production.status === "active" ? "success" : "info"}>
-                {production.status.toUpperCase()}
-              </Badge>
-              {production.code && (
-                <Badge variant="outline">
-                  <MapPin size={12} className="mr-1" />
-                  {production.code}
-                </Badge>
-              )}
-              {production.start_date && (
-                <Badge variant="outline">
-                  <Calendar size={12} className="mr-1" />
-                  {new Date(production.start_date).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </Badge>
-              )}
-            </Stack>
+  const overviewContent = (
+    <Stack gap={8}>
+      <Stack direction="horizontal" gap={2} className="flex-wrap">
+        <Badge variant={production.status === "active" ? "success" : "info"}>
+          {production.status.toUpperCase()}
+        </Badge>
+        {production.code && (
+          <Badge variant="outline">
+            <MapPin size={12} className="mr-1" />
+            {production.code}
+          </Badge>
+        )}
+        {production.start_date && (
+          <Badge variant="outline">
+            <Calendar size={12} className="mr-1" />
+            {new Date(production.start_date).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </Badge>
+        )}
+      </Stack>
 
-            {/* Key Metrics */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Crew"
           value={`${metrics.crew.checkedIn}/${metrics.crew.total}`}
@@ -157,7 +154,6 @@ export default function ProductionOverviewPage() {
 
       {/* Quick Actions & Status */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Quick Actions */}
         <Card variant="elevated">
           <CardBody>
             <Stack gap={4}>
@@ -192,7 +188,6 @@ export default function ProductionOverviewPage() {
           </CardBody>
         </Card>
 
-        {/* Alerts & Notifications */}
         <Card variant="elevated">
           <CardBody>
             <Stack gap={4}>
@@ -292,10 +287,20 @@ export default function ProductionOverviewPage() {
             </Stack>
           </Stack>
         </CardBody>
-            </Card>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+      </Card>
+    </Stack>
+  );
+
+  return (
+    <DetailPage
+      header={{
+        kicker: "Production",
+        title: production.name,
+        description: production.description || `${production.start_date || ''} - ${production.end_date || ''}`,
+      }}
+      backButton={{ label: "Back to Projects", onClick: () => router.push('/projects') }}
+    >
+      {overviewContent}
+    </DetailPage>
   );
 }

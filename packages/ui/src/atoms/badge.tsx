@@ -8,6 +8,10 @@ export type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
   variant?: BadgeVariant;
   size?: "sm" | "md" | "lg";
   inverted?: boolean;
+  /** Custom background color (hex or CSS color) - use for dynamic colors from data */
+  color?: string;
+  /** Custom text color (hex or CSS color) - defaults to white when color is set */
+  textColor?: string;
 };
 
 /**
@@ -20,7 +24,7 @@ export type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
  * - Pop variant with accent shadow
  */
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
-  function Badge({ variant = "solid", size = "md", inverted = false, className, children, ...props }, ref) {
+  function Badge({ variant = "solid", size = "md", inverted = false, color, textColor, className, children, style, ...props }, ref) {
     const getVariantClasses = () => {
       // Semantic status variants with bold borders
       if (variant === "success") {
@@ -73,6 +77,14 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       lg: "px-4 py-1.5 text-sm",
     };
 
+    // Custom color styles override variant classes
+    const customColorStyle = color ? {
+      backgroundColor: color,
+      color: textColor || '#ffffff',
+      borderColor: color,
+      ...style,
+    } : style;
+
     return (
       <span
         ref={ref}
@@ -80,10 +92,14 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
           "inline-flex items-center",
           "font-code uppercase tracking-widest leading-none font-bold",
           "rounded-[var(--radius-badge)]",
-          getVariantClasses(),
+          // Only apply variant classes if no custom color
+          !color && getVariantClasses(),
+          // Always apply border-2 for consistent styling
+          color && "border-2",
           sizeClasses[size],
           className
         )}
+        style={customColorStyle}
         {...props}
       >
         {children}

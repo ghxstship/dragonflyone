@@ -14,8 +14,6 @@ import {
   Grid,
   Stack,
   Body,
-  EnterprisePageHeader,
-  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -145,69 +143,62 @@ export default function IncidentsPage() {
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<Incident>
         title="Safety Incidents"
         subtitle="Track and manage safety incidents across all events"
-primaryAction={{ label: 'Report Incident', onClick: () => setCreateModalOpen(true) }}
+        data={incidents}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        onRetry={() => refetch?.()}
+        searchPlaceholder="Search incidents..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedIncident(r); setDrawerOpen(true); }}
+        createLabel="Report Incident"
+        onCreate={() => setCreateModalOpen(true)}
+        entityType="incidents"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['type', 'reporter', 'severity', 'status', 'incident_date']}
+        onExport={createExportHandler({
+          filename: "incidents",
+          getData: () => incidents.map(i => ({
+            id: i.id,
+            type: i.type,
+            severity: i.severity,
+            status: i.status,
+            incident_date: i.incident_date || '',
+            reporter: i.reporter,
+            event_name: i.event_name || '',
+            description: i.description || '',
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No incidents found"
+        emptyAction={{ label: 'Report Incident', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/incidents/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'close') {
+            await fetch('/api/incidents/bulk-close', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'close', label: 'Close Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <ListPage<Incident>
-          title="Safety Incidents"
-          subtitle="Track and manage safety incidents across all events"
-          data={incidents}
-          columns={columns}
-          rowKey="id"
-          loading={isLoading}
-          onRetry={() => refetch?.()}
-          searchPlaceholder="Search incidents..."
-          filters={filters}
-          rowActions={rowActions}
-          onRowClick={(r) => { setSelectedIncident(r); setDrawerOpen(true); }}
-          createLabel="Report Incident"
-          onCreate={() => setCreateModalOpen(true)}
-          entityType="incidents"
-          onImport={handleImport}
-          importTemplates={importTemplates}
-          importSampleFields={['type', 'reporter', 'severity', 'status', 'incident_date']}
-          onExport={createExportHandler({
-            filename: "incidents",
-            getData: () => incidents.map(i => ({
-              id: i.id,
-              type: i.type,
-              severity: i.severity,
-              status: i.status,
-              incident_date: i.incident_date || '',
-              reporter: i.reporter,
-              event_name: i.event_name || '',
-              description: i.description || '',
-            })),
-          })}
-          stats={stats}
-          emptyMessage="No incidents found"
-          emptyAction={{ label: 'Report Incident', onClick: () => setCreateModalOpen(true) }}
-          onBulkAction={async (action, ids) => {
-            if (action === 'delete') {
-              await fetch('/api/incidents/bulk', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ids }),
-              });
-            } else if (action === 'close') {
-              await fetch('/api/incidents/bulk-close', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ids }),
-              });
-            }
-          }}
-          bulkActions={[
-            { id: 'close', label: 'Close Selected', variant: 'default' },
-            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
-          ]}
-        />
-      </MainContent>
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Report Incident" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedIncident} title={(i) => `Incident ${i.id}`} subtitle={(i) => i.type} sections={detailSections} onEdit={(i) => router.push(`/incidents/${i.id}/edit`)} onDelete={(i) => { setIncidentToDelete(i); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Incident" message={`Delete incident "${incidentToDelete?.id}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setIncidentToDelete(null); }} />

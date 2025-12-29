@@ -2,14 +2,14 @@ import { forwardRef } from "react";
 import clsx from "clsx";
 import type { HTMLAttributes, LiHTMLAttributes } from "react";
 
-export interface ListProps extends HTMLAttributes<HTMLUListElement | HTMLOListElement> {
+export interface ListProps extends HTMLAttributes<HTMLElement> {
   as?: "ul" | "ol";
   variant?: "default" | "none" | "disc" | "decimal" | "check";
   spacing?: "none" | "sm" | "md" | "lg";
   inverted?: boolean;
 }
 
-export const List = forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
+export const List = forwardRef<HTMLElement, ListProps>(
   function List({ as: Component = "ul", variant = "default", spacing = "sm", className, children, ...props }, ref) {
     const variantClasses = {
       default: Component === "ol" ? "list-decimal" : "list-disc",
@@ -28,6 +28,7 @@ export const List = forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
 
     return (
       <Component
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Polymorphic ref requires type assertion
         ref={ref as any}
         className={clsx(
           variantClasses[variant],

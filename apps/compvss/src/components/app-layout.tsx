@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useMemo, useState, useEffect, useCallback } from "react";
+import { ReactNode, useMemo, useCallback } from "react";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import {
   PageLayout,
@@ -37,7 +37,7 @@ import {
   compvssDemoWorkspaces,
   compvssBottomNavigation,
 } from "../data/compvss";
-import type { ContextLevel, SidebarNavSection, SidebarNavItem, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
+import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
 import {
   useCommandPalette,
   buildNavigationCommands,
@@ -45,67 +45,10 @@ import {
   useAuth,
   useFavorites,
   useKeyboardShortcuts,
+  useRecentPages,
 } from "@ghxstship/config/hooks";
 import { Search, Users, Calendar, Wrench } from "lucide-react";
 
-// =============================================================================
-// RECENT PAGES TRACKING
-// =============================================================================
-
-const RECENT_PAGES_KEY = "compvss-recent-pages";
-const MAX_RECENT_PAGES = 5;
-
-function useRecentPages(currentPath: string) {
-  const [recentPages, setRecentPages] = useState<SidebarNavItem[]>([]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem(RECENT_PAGES_KEY);
-      if (stored) {
-        try {
-          setRecentPages(JSON.parse(stored));
-        } catch {
-          // Ignore parse errors
-        }
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !currentPath || currentPath === "/") return;
-    if (currentPath.startsWith("/auth")) return;
-
-    const findPageLabel = (path: string): string | null => {
-      for (const section of compvssSidebarNavigation) {
-        for (const item of section.items) {
-          if (item.href === path) return item.label;
-        }
-        if (section.subsections) {
-          for (const sub of section.subsections) {
-            for (const item of sub.items) {
-              if (item.href === path) return item.label;
-            }
-          }
-        }
-      }
-      const segments = path.split("/").filter(Boolean);
-      const lastSegment = segments[segments.length - 1] || "Page";
-      return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1).replace(/-/g, " ");
-    };
-
-    const label = findPageLabel(currentPath);
-    if (!label) return;
-
-    setRecentPages((prev) => {
-      const filtered = prev.filter((p) => p.href !== currentPath);
-      const updated = [{ label, href: currentPath, icon: "Clock" }, ...filtered].slice(0, MAX_RECENT_PAGES);
-      localStorage.setItem(RECENT_PAGES_KEY, JSON.stringify(updated));
-      return updated;
-    });
-  }, [currentPath]);
-
-  return recentPages;
-}
 
 // =============================================================================
 // COMPVSS APP LAYOUT WRAPPERS
@@ -153,8 +96,8 @@ export function CompvssAppLayout({
     return user?.roles || [];
   }, [user]);
 
-  // Track recent pages
-  const recentPages = useRecentPages(pathname);
+  // Track recent pages using shared hook
+  const recentPages = useRecentPages("compvss", pathname, compvssSidebarNavigation);
 
   // Manage favorites
   const { favorites } = useFavorites({
@@ -544,7 +487,7 @@ export function CompvssEmptyLayout({
     <CompvssAppLayout variant={variant} background={background}>
       <Stack gap={6} className="flex min-h-[60vh] flex-col items-center justify-center text-center">
         <Display size="md" className={isDark ? "text-white" : "text-black"}>{title}</Display>
-        {description && <Label size="sm" className={isDark ? "text-on-dark-muted" : "text-muted"} style={{ maxWidth: "28rem" }}>{description}</Label>}
+        {description && <Label size="sm" className={`max-w-[28rem] ${isDark ? "text-on-dark-muted" : "text-muted"}`}>{description}</Label>}
         {action}
       </Stack>
     </CompvssAppLayout>

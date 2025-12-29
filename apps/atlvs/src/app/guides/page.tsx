@@ -1,236 +1,158 @@
-import { AtlvsAppLayout } from "../../components/app-layout";
+"use client";
+
+/**
+ * Guides Page
+ * Step-by-step tutorials and guides
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Book, Clock, Star, ArrowRight, Search, List, Bookmark } from "lucide-react";
 import {
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H1,
-  H3,
-  Label,
-  Container,
-  Display,
-  Button,
-  FullBleedSection,
   Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  Input,
+  DetailPage,
+  Section,
+  SectionHeader,
 } from "@ghxstship/ui";
-import { BookOpen, Clock, ArrowRight, Download, Users, DollarSign, Package, Calendar } from "lucide-react";
-import NextLink from "next/link";
 
-export const runtime = "edge";
+interface Guide {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  difficulty: "beginner" | "intermediate" | "advanced";
+  duration: string;
+  featured: boolean;
+}
 
-const guidesData = {
-  hero: {
-    headline: "GUIDES & TUTORIALS",
-    description: "Step-by-step guides to help you get the most out of ATLVS.",
-  },
-  featured: {
-    title: "The Complete Guide to Production Management",
-    description: "Everything you need to know about managing productions from start to finish.",
-    chapters: 12,
-    readTime: "45 min",
-    slug: "complete-production-management",
-  },
-  categories: [
-    {
-      icon: Users,
-      title: "GETTING STARTED",
-      description: "New to ATLVS? Start here.",
-      guides: [
-        { title: "Quick Start Guide", readTime: "5 min", slug: "quick-start" },
-        { title: "Setting Up Your First Project", readTime: "10 min", slug: "first-project" },
-        { title: "Inviting Your Team", readTime: "5 min", slug: "inviting-team" },
-      ],
-    },
-    {
-      icon: DollarSign,
-      title: "FINANCIAL MANAGEMENT",
-      description: "Master budgets and expenses.",
-      guides: [
-        { title: "Creating Production Budgets", readTime: "15 min", slug: "creating-budgets" },
-        { title: "Expense Tracking Best Practices", readTime: "10 min", slug: "expense-tracking" },
-        { title: "Invoice Management", readTime: "8 min", slug: "invoice-management" },
-      ],
-    },
-    {
-      icon: Package,
-      title: "ASSET MANAGEMENT",
-      description: "Track and manage equipment.",
-      guides: [
-        { title: "Setting Up Asset Tracking", readTime: "12 min", slug: "asset-tracking-setup" },
-        { title: "QR Code Scanning", readTime: "5 min", slug: "qr-scanning" },
-        { title: "Maintenance Scheduling", readTime: "8 min", slug: "maintenance-scheduling" },
-      ],
-    },
-    {
-      icon: Calendar,
-      title: "SCHEDULING",
-      description: "Coordinate crews and timelines.",
-      guides: [
-        { title: "Building Production Schedules", readTime: "15 min", slug: "building-schedules" },
-        { title: "Crew Availability Management", readTime: "10 min", slug: "crew-availability" },
-        { title: "Calendar Integrations", readTime: "8 min", slug: "calendar-integrations" },
-      ],
-    },
-  ],
-  popular: [
-    { title: "Migrating from Spreadsheets", readTime: "20 min", downloads: "2.4K", slug: "migrating-spreadsheets" },
-    { title: "Advanced Reporting", readTime: "15 min", downloads: "1.8K", slug: "advanced-reporting" },
-    { title: "API Integration Guide", readTime: "25 min", downloads: "1.2K", slug: "api-integration" },
-  ],
-};
+const DEMO_GUIDES: Guide[] = [
+  { id: "1", title: "Getting Started with ATLVS", description: "Learn the basics of production management", category: "Basics", difficulty: "beginner", duration: "15 min", featured: true },
+  { id: "2", title: "Creating Your First Production", description: "Step-by-step guide to setting up a production", category: "Basics", difficulty: "beginner", duration: "20 min", featured: true },
+  { id: "3", title: "Team Collaboration Best Practices", description: "How to work effectively with your team", category: "Collaboration", difficulty: "intermediate", duration: "25 min", featured: false },
+  { id: "4", title: "Advanced Workflow Automation", description: "Automate repetitive tasks and workflows", category: "Automation", difficulty: "advanced", duration: "30 min", featured: false },
+  { id: "5", title: "Budget Management Guide", description: "Track and manage production budgets", category: "Finance", difficulty: "intermediate", duration: "20 min", featured: false },
+  { id: "6", title: "Reporting and Analytics", description: "Generate insights from your data", category: "Analytics", difficulty: "intermediate", duration: "25 min", featured: true },
+];
+
+const CATEGORIES = ["All", "Basics", "Collaboration", "Automation", "Finance", "Analytics"];
+const DIFFICULTY_COLORS = { beginner: "success", intermediate: "warning", advanced: "error" } as const;
 
 export default function GuidesPage() {
-  return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center text-center">
-            <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
-              <BookOpen className="size-8 text-brand-pink" />
-            </Stack>
-            <Label size="xs" className="text-on-dark-muted">
-              LEARNING CENTER
-            </Label>
-            <Display size="lg" className="text-white">
-              {guidesData.hero.headline}
-            </Display>
-            <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              {guidesData.hero.description}
-            </Body>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+  const router = useRouter();
+  const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-      {/* Featured Guide */}
-      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <NextLink href={`/guides/${guidesData.featured.slug}`}>
-            <Card className="border-2 border-ink-950 bg-white p-8 shadow-brand-lg transition-all hover:-translate-y-1 hover:shadow-brand-xl">
-              <Stack direction="horizontal" className="flex-col items-center justify-between gap-8 sm:flex-row">
-                <Stack gap={4}>
-                  <Badge variant="outline" className="w-fit border-brand-pink text-brand-pink">
-                    COMPREHENSIVE GUIDE
-                  </Badge>
-                  <H1 className="text-ink-950">{guidesData.featured.title}</H1>
-                  <Body size="lg" className="text-grey-600">
-                    {guidesData.featured.description}
-                  </Body>
-                  <Stack direction="horizontal" gap={4} className="text-grey-500">
-                    <Stack direction="horizontal" gap={1} className="items-center">
-                      <BookOpen className="size-4" />
-                      <Label size="xs">{guidesData.featured.chapters} chapters</Label>
-                    </Stack>
-                    <Stack direction="horizontal" gap={1} className="items-center">
-                      <Clock className="size-4" />
-                      <Label size="xs">{guidesData.featured.readTime}</Label>
-                    </Stack>
-                  </Stack>
-                </Stack>
-                <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                  Start Reading
-                </Button>
-              </Stack>
+  const filteredGuides = DEMO_GUIDES.filter((guide) => {
+    const matchesSearch = !search || guide.title.toLowerCase().includes(search.toLowerCase()) || guide.description.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = selectedCategory === "All" || guide.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const featuredGuides = DEMO_GUIDES.filter((g) => g.featured);
+
+  const tabs = [
+    {
+      id: "all",
+      label: "All Guides",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Card className="p-4 mb-6">
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex-1 min-w-[200px] relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Input placeholder="Search guides..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                {CATEGORIES.map((cat) => (
+                  <Button key={cat} variant={selectedCategory === cat ? "solid" : "outline"} size="sm" onClick={() => setSelectedCategory(cat)}>
+                    {cat}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </Card>
+
+          {filteredGuides.length === 0 ? (
+            <Card className="p-8 text-center">
+              <Book className="size-12 text-grey-600 mx-auto mb-4" />
+              <Body className="font-weight-medium font-weight-medium mb-2">No Guides Found</Body>
+              <Body className="text-grey-400">Try a different search term or category</Body>
             </Card>
-          </NextLink>
-        </Container>
-      </FullBleedSection>
-
-      {/* Guide Categories */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={2} gap={8} className="sm:grid-cols-1">
-            {guidesData.categories.map((category) => (
-              <Card key={category.title} className="border-2 border-ink-950 bg-white p-8 shadow-md">
-                <Stack gap={6}>
-                  <Stack direction="horizontal" gap={4} className="items-start">
-                    <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                      <category.icon className="size-6 text-ink-950" />
-                    </Stack>
-                    <Stack gap={1}>
-                      <H3 className="text-ink-950">{category.title}</H3>
-                      <Label size="xs" className="text-grey-500">{category.description}</Label>
-                    </Stack>
-                  </Stack>
-                  <Stack gap={3}>
-                    {category.guides.map((guide) => (
-                      <NextLink key={guide.slug} href={`/guides/${guide.slug}`}>
-                        <Stack direction="horizontal" className="items-center justify-between border-b border-grey-200 pb-3 transition-colors hover:border-brand-pink">
-                          <Label size="sm" className="text-ink-950">{guide.title}</Label>
-                          <Label size="xs" className="text-grey-400">{guide.readTime}</Label>
-                        </Stack>
-                      </NextLink>
-                    ))}
-                  </Stack>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
-        </Container>
-      </FullBleedSection>
-
-      {/* Popular Downloads */}
-      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-12 text-center">
-            <H1 className="text-white">POPULAR DOWNLOADS</H1>
-            <Body size="lg" className="text-on-dark-secondary">
-              Our most downloaded guides and resources.
-            </Body>
-          </Stack>
-
-          <Grid cols={3} gap={6} className="sm:grid-cols-1">
-            {guidesData.popular.map((guide) => (
-              <Card key={guide.slug} inverted className="border-2 border-ink-800 bg-ink-900 p-6">
-                <Stack gap={4}>
-                  <H3 size="sm" className="text-white">{guide.title}</H3>
-                  <Stack direction="horizontal" gap={4} className="text-on-dark-muted">
-                    <Stack direction="horizontal" gap={1} className="items-center">
+          ) : (
+            <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
+              {filteredGuides.map((guide) => (
+                <Card key={guide.id} className="p-6 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/guides/${guide.id}`)}>
+                  <div className="flex items-start justify-between mb-4">
+                    <Badge variant="outline">{guide.category}</Badge>
+                    <Badge variant={DIFFICULTY_COLORS[guide.difficulty]}>{guide.difficulty}</Badge>
+                  </div>
+                  <Body className="font-weight-bold font-weight-medium mb-2">{guide.title}</Body>
+                  <Body className="text-grey-400 mb-4">{guide.description}</Body>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-grey-500">
                       <Clock className="size-4" />
-                      <Label size="xs">{guide.readTime}</Label>
-                    </Stack>
-                    <Stack direction="horizontal" gap={1} className="items-center">
-                      <Download className="size-4" />
-                      <Label size="xs">{guide.downloads} downloads</Label>
-                    </Stack>
-                  </Stack>
-                  <NextLink href={`/guides/${guide.slug}`}>
-                    <Button variant="outlineWhite" size="sm" className="w-full" icon={<Download />}>
-                      Download PDF
-                    </Button>
-                  </NextLink>
-                </Stack>
+                      <Body size="sm">{guide.duration}</Body>
+                    </div>
+                    <Button variant="ghost" size="sm" icon={<ArrowRight className="size-4" />} iconPosition="right">Read</Button>
+                  </div>
+                </Card>
+              ))}
+            </Grid>
+          )}
+        </Section>
+      ),
+    },
+    {
+      id: "featured",
+      label: "Featured",
+      icon: <Bookmark className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Featured Guides" description="Our most popular tutorials" />
+          <div className="space-y-6 mt-6">
+            {featuredGuides.map((guide) => (
+              <Card key={guide.id} className="p-8 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/guides/${guide.id}`)}>
+                <div className="flex items-start gap-6">
+                  <div className="p-4 bg-primary/20 rounded-card">
+                    <Star className="size-8 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge variant="outline">{guide.category}</Badge>
+                      <Badge variant={DIFFICULTY_COLORS[guide.difficulty]}>{guide.difficulty}</Badge>
+                      <div className="flex items-center gap-1 text-grey-500">
+                        <Clock className="size-4" />
+                        <Body size="sm">{guide.duration}</Body>
+                      </div>
+                    </div>
+                    <Body className="font-weight-bold font-weight-bold mb-2">{guide.title}</Body>
+                    <Body className="text-grey-400">{guide.description}</Body>
+                  </div>
+                  <Button variant="solid" icon={<ArrowRight className="size-4" />} iconPosition="right">Start</Button>
+                </div>
               </Card>
             ))}
-          </Grid>
-        </Container>
-      </FullBleedSection>
+          </div>
+        </Section>
+      ),
+    },
+  ];
 
-      {/* CTA */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center">
-            <Display size="md" className="text-ink-950">
-              NEED MORE HELP?
-            </Display>
-            <Body size="lg" className="text-grey-600">
-              Our support team is here to help you succeed.
-            </Body>
-            <Stack direction="horizontal" gap={4}>
-              <NextLink href="/help">
-                <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                  Visit Help Center
-                </Button>
-              </NextLink>
-              <NextLink href="/contact">
-                <Button variant="outline" size="lg">
-                  Contact Support
-                </Button>
-              </NextLink>
-            </Stack>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+  return (
+    <DetailPage
+      header={{
+        kicker: "Learn",
+        title: "Guides & Tutorials",
+        description: "Step-by-step guides to help you get the most out of ATLVS",
+      }}
+      tabs={tabs}
+    />
   );
 }

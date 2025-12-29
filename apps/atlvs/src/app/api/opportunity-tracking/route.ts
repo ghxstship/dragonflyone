@@ -1,14 +1,47 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createOpportunitySchema = z.object({
+  contact_id: z.string().uuid().optional(),
+  name: z.string().min(1),
+  value: z.number().min(0),
+  stage: z.enum(['lead', 'qualification', 'needs_analysis', 'proposal', 'negotiation', 'closed_won', 'closed_lost']).optional(),
+  probability: z.number().min(0).max(100).optional(),
+  expected_close_date: z.string().optional(),
+  source: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+const updateOpportunitySchema = z.object({
+  id: z.string().uuid(),
+  stage: z.enum(['lead', 'qualification', 'needs_analysis', 'proposal', 'negotiation', 'closed_won', 'closed_lost']).optional(),
+  probability: z.number().min(0).max(100).optional(),
+  value: z.number().min(0).optional(),
+  expected_close_date: z.string().optional(),
+  notes: z.string().optional(),
+});
 
 // Opportunity tracking with probability weighting
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const stage = searchParams.get('stage');
@@ -55,14 +88,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { contact_id, name, value, stage, probability, expected_close_date, source, notes } = body;
+    const validatedData = createOpportunitySchema.parse(body);
+    const { contact_id, name, value, stage, probability, expected_close_date, source, notes } = validatedData;
 
     const { data, error } = await supabase.from('opportunities').insert({
       contact_id, name, value, stage: stage || 'qualification',
@@ -80,11 +120,18 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const body = await request.json();
-    const { id, stage, probability, ...updateData } = body;
+    const validatedData = updateOpportunitySchema.parse(body);
+    const { id, stage, probability, ...updateData } = validatedData;
 
     // Auto-update probability based on stage if not manually set
     const newProbability = probability || (stage ? getStageProbability(stage) : undefined);

@@ -3,6 +3,8 @@
  * Implements offline support with data synchronization
  */
 
+import { logger } from '../logger';
+
 // Types for offline queue
 export interface OfflineQueueItem {
   id: string;
@@ -363,8 +365,7 @@ export async function registerServiceWorker(
     console.log('Service Worker registered:', registration.scope);
     return registration;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Service Worker registration failed:', error);
+    logger.error('Service Worker registration failed', error instanceof Error ? error : undefined);
     return null;
   }
 }
@@ -382,7 +383,7 @@ export async function unregisterServiceWorkers(): Promise<boolean> {
     await Promise.all(registrations.map((r) => r.unregister()));
     return true;
   } catch (error) {
-    console.error('Failed to unregister service workers:', error);
+    logger.error('Failed to unregister service workers', error instanceof Error ? error : undefined);
     return false;
   }
 }

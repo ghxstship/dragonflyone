@@ -1,9 +1,55 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { GeneratedBlueprint } from "../../../generator/types";
+import { z } from 'zod';
+
+const exportBlueprintSchema = z.object({
+  blueprint: z.object({
+    id: z.string(),
+    creativeSeed: z.string(),
+    generatedAt: z.string(),
+    concept: z.object({
+      name: z.string(),
+      tagline: z.string(),
+      narrative: z.string(),
+      targetTransformation: z.string(),
+      visualIdentity: z.object({
+        colorPalette: z.array(z.string()),
+      }).passthrough(),
+    }).passthrough(),
+    sensoryDesign: z.record(z.unknown()),
+    spatialTemporal: z.object({
+      zones: z.array(z.object({
+        name: z.string(),
+        code: z.string(),
+        type: z.string(),
+        description: z.string(),
+        capacity: z.number(),
+        accessLevel: z.number(),
+      })),
+    }).passthrough(),
+    guestJourney: z.record(z.unknown()),
+    documents: z.object({
+      credentialTypes: z.array(z.object({
+        name: z.string(),
+        code: z.string(),
+        accessLevel: z.number(),
+        color: z.string(),
+      })),
+      schedulePhases: z.array(z.object({
+        name: z.string(),
+        code: z.string(),
+        description: z.string(),
+        duration: z.string(),
+      })),
+    }).passthrough(),
+    executionTiers: z.record(z.unknown()),
+  }),
+  organizationId: z.string().uuid().optional(),
+});
 
 export const runtime = "edge";
 
@@ -12,9 +58,21 @@ export const runtime = "edge";
 // Creates a production record from a generated blueprint
 // =============================================================================
 
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function POST(request: NextRequest) {
   try {
-    const authHeader = request.headers.get("authorization");
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader?.startsWith("Bearer ")) {
       return NextResponse.json(
         { error: "Authentication required", redirectTo: "/auth/login" },
@@ -47,17 +105,9 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { blueprint, organizationId } = body as { 
-      blueprint: GeneratedBlueprint; 
-      organizationId?: string;
-    };
-
-    if (!blueprint) {
-      return NextResponse.json(
-        { error: "Blueprint is required" },
-        { status: 400 }
-      );
-    }
+    const validatedData = exportBlueprintSchema.parse(body);
+    const blueprint = validatedData.blueprint as unknown as GeneratedBlueprint;
+    const organizationId = validatedData.organizationId;
 
     // Get user's organization if not provided
     let orgId = organizationId;

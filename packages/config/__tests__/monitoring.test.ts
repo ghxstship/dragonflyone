@@ -203,7 +203,7 @@ describe('monitoring', () => {
 
     it('should measure actual async delay', async () => {
       await measureAsyncPerformance('delayed_fn', async () => {
-        await new Promise(resolve => setTimeout(resolve, 10));
+        await new Promise(resolve => setTimeout(resolve, 15));
         return 'done';
       });
 

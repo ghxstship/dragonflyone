@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { log } from '@ghxstship/config';
+import { log, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
 
 export const dynamic = 'force-dynamic';
+
+const favoriteSchema = z.object({
+  user_id: z.string().uuid(),
+});
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function POST(
   request: NextRequest,
@@ -16,7 +26,8 @@ export async function POST(
     
     try {
       const payload = await request.json();
-      userId = payload.user_id;
+      const validatedData = favoriteSchema.parse(payload);
+      userId = validatedData.user_id;
     } catch {
       // No body provided, check query params
       userId = request.nextUrl.searchParams.get('user_id') || undefined;

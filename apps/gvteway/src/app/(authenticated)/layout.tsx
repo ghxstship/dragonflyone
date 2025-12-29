@@ -1,7 +1,7 @@
 "use client";
 
-import { ReactNode } from "react";
 import { GvtewayAppLayout } from "../../components/app-layout";
+import { createAuthenticatedLayout } from "@ghxstship/config/layouts";
 
 /**
  * Authenticated Route Group Layout
@@ -10,15 +10,16 @@ import { GvtewayAppLayout } from "../../components/app-layout";
  * This layout applies to all pages under the (authenticated) route group,
  * ensuring consistent navigation, role-based filtering, favorites, 
  * recent pages, and all enhanced navigation features.
+ * 
+ * RBAC Enforcement:
+ * - Redirects unauthenticated users to /auth/signin
+ * - Verifies GVTEWAY platform access before rendering
  */
-export default function AuthenticatedLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  return (
-    <GvtewayAppLayout variant="consumer-auth">
-      {children}
-    </GvtewayAppLayout>
-  );
-}
+export default createAuthenticatedLayout({
+  platform: "gvteway",
+  loginPath: "/auth/signin",
+  unauthorizedPath: "/auth/unauthorized",
+  backgroundClass: "bg-white",
+  LayoutComponent: GvtewayAppLayout,
+  layoutVariant: "consumer-auth",
+});

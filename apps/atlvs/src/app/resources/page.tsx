@@ -1,326 +1,100 @@
-import { AtlvsAppLayout } from "../../components/app-layout";
+"use client";
+
+/**
+ * Resources Page
+ * Resource hub with guides, templates, and tools
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
+import { Book, FileText, Video, Download, ExternalLink, List, Star } from "lucide-react";
 import {
-  Stack,
-  Grid,
-  Card,
   Body,
-  H1,
-  H3,
-  Label,
-  Container,
-  Display,
   Button,
-  FullBleedSection,
-  Box,
+  Card,
+  Grid,
+  DetailPage,
+  Section,
+  SectionHeader,
 } from "@ghxstship/ui";
-import {
-  ArrowRight,
-  HelpCircle,
-  BookOpen,
-  Code,
-  FileText,
-  Trophy,
-  LayoutTemplate,
-  MessageSquare,
-  Activity,
-  Users,
-  GraduationCap,
-  Video,
-  Building2,
-  Briefcase,
-  Newspaper,
-  Handshake,
-  Mail,
-  Rocket,
-  Play,
-  Calendar,
-  Sparkles,
-  type LucideIcon,
-} from "lucide-react";
-import NextLink from "next/link";
-import { resourcesNavigation } from "../../data/public-navigation";
 
-export const runtime = "edge";
-
-const iconMap: Record<string, LucideIcon> = {
-  HelpCircle,
-  BookOpen,
-  Code,
-  FileText,
-  Trophy,
-  LayoutTemplate,
-  MessageSquare,
-  Activity,
-  Users,
-  GraduationCap,
-  Video,
-  Building2,
-  Briefcase,
-  Newspaper,
-  Handshake,
-  Mail,
-  Rocket,
-  Play,
-  Calendar,
-  Sparkles,
-};
-
-const featuredResources = [
-  {
-    title: "Getting Started Guide",
-    description: "Everything you need to know to get up and running with GHXSTSHIP in 30 minutes or less.",
-    href: "/guides/getting-started",
-    icon: "Rocket",
-    tag: "Guide",
-  },
-  {
-    title: "Watch Product Demo",
-    description: "See ATLVS, COMPVSS, and GVTEWAY in action with our guided product tour.",
-    href: "/demo",
-    icon: "Play",
-    tag: "Video",
-  },
-  {
-    title: "API Documentation",
-    description: "Complete reference for developers integrating with the GHXSTSHIP platform.",
-    href: "/docs/api",
-    icon: "Code",
-    tag: "Developer",
-  },
-  {
-    title: "What's New",
-    description: "Stay up to date with the latest features, improvements, and announcements.",
-    href: "/changelog",
-    icon: "Sparkles",
-    tag: "Updates",
-  },
+const RESOURCE_CATEGORIES = [
+  { id: "guides", title: "Guides", description: "Step-by-step tutorials", icon: <Book className="size-6" />, href: "/guides", count: 25 },
+  { id: "templates", title: "Templates", description: "Ready-to-use templates", icon: <FileText className="size-6" />, href: "/resources/templates", count: 15 },
+  { id: "videos", title: "Video Tutorials", description: "Watch and learn", icon: <Video className="size-6" />, href: "/help/tutorials", count: 20 },
+  { id: "docs", title: "Documentation", description: "Technical reference", icon: <FileText className="size-6" />, href: "/docs", count: 50 },
 ];
 
-const upcomingWebinars = [
-  {
-    title: "Mastering Multi-Event Budgeting",
-    date: "Coming Soon",
-    duration: "45 min",
-  },
-  {
-    title: "Crew Scheduling Best Practices",
-    date: "Coming Soon",
-    duration: "30 min",
-  },
-  {
-    title: "Fan Engagement Strategies That Work",
-    date: "Coming Soon",
-    duration: "45 min",
-  },
+const FEATURED_RESOURCES = [
+  { title: "Production Planning Template", type: "Template", format: "XLSX" },
+  { title: "Budget Tracking Spreadsheet", type: "Template", format: "XLSX" },
+  { title: "Crew Call Sheet Template", type: "Template", format: "PDF" },
+  { title: "Event Timeline Template", type: "Template", format: "PDF" },
 ];
 
 export default function ResourcesPage() {
-  return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center text-center">
-            <Label size="xs" className="text-on-dark-muted">
-              RESOURCES
-            </Label>
-            <Display size="lg" className="text-white">
-              LEARN. CONNECT. SUCCEED.
-            </Display>
-            <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              Everything you need to get the most out of GHXSTSHIP—guides, tutorials, documentation, and a community of production professionals.
-            </Body>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+  const router = useRouter();
 
-      {/* Featured Resources */}
-      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={12}>
-            <Stack gap={4} className="text-center">
-              <Label size="xs" className="text-grey-500 uppercase tracking-kicker">FEATURED</Label>
-              <H1 className="text-ink-950">START HERE</H1>
-            </Stack>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-              {featuredResources.map((resource) => {
-                const IconComponent = iconMap[resource.icon] || FileText;
-                return (
-                  <NextLink key={resource.href} href={resource.href}>
-                    <Card className="border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl h-full">
-                      <Stack gap={4}>
-                        <Stack direction="horizontal" gap={3} className="items-center justify-between">
-                          <Box className="flex h-10 w-10 items-center justify-center border-2 border-brand-pink bg-grey-100">
-                            <IconComponent className="h-5 w-5 text-brand-pink" />
-                          </Box>
-                          <Label size="xs" className="text-brand-pink">{resource.tag}</Label>
-                        </Stack>
-                        <H3 size="sm" className="text-ink-950">{resource.title}</H3>
-                        <Body size="xs" className="text-grey-600">{resource.description}</Body>
-                        <Stack direction="horizontal" gap={1} className="items-center text-brand-pink">
-                          <Label size="xs">Explore</Label>
-                          <ArrowRight className="h-3 w-3" />
-                        </Stack>
-                      </Stack>
-                    </Card>
-                  </NextLink>
-                );
-              })}
-            </Grid>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-
-      {/* Resource Categories */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={16}>
-            {resourcesNavigation.groups.map((group) => (
-              <Stack key={group.title} gap={8}>
-                <Stack gap={2}>
-                  <Label size="xs" className="text-grey-500 uppercase tracking-kicker">{group.title}</Label>
-                  <H1 className="text-ink-950">{group.title.toUpperCase()}</H1>
-                </Stack>
-
-                <Grid cols={3} gap={6} className="sm:grid-cols-1 lg:grid-cols-3">
-                  {group.items.map((item) => {
-                    const iconName = item.icon || "FileText";
-                    const IconComponent = iconMap[iconName] || FileText;
-                    return (
-                      <NextLink key={item.href} href={item.href}>
-                        <Card className="border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl h-full">
-                          <Stack gap={4}>
-                            <Box className="flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                              <IconComponent className="h-6 w-6 text-ink-950" />
-                            </Box>
-                            <H3 size="sm" className="text-ink-950">{item.label}</H3>
-                            {item.description && (
-                              <Body size="xs" className="text-grey-600">{item.description}</Body>
-                            )}
-                            <Stack direction="horizontal" gap={1} className="items-center text-brand-pink">
-                              <Label size="xs">Learn more</Label>
-                              <ArrowRight className="h-3 w-3" />
-                            </Stack>
-                          </Stack>
-                        </Card>
-                      </NextLink>
-                    );
-                  })}
-                </Grid>
-              </Stack>
+  const tabs = [
+    {
+      id: "resources",
+      label: "Resources",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={6} className="grid-cols-2 md:grid-cols-4 mb-8">
+            {RESOURCE_CATEGORIES.map((category) => (
+              <Card key={category.id} className="p-6 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(category.href)}>
+                <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mb-4">{category.icon}</div>
+                <Body className="font-weight-bold">{category.title}</Body>
+                <Body size="sm" className="text-grey-400">{category.description}</Body>
+                <Body size="sm" className="text-primary mt-2">{category.count} resources</Body>
+              </Card>
             ))}
-          </Stack>
-        </Container>
-      </FullBleedSection>
-
-      {/* Upcoming Webinars */}
-      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={2} gap={12} className="items-center">
-            <Stack gap={8}>
-              <Stack gap={2}>
-                <Label size="xs" className="text-brand-pink uppercase tracking-kicker">WEBINARS</Label>
-                <H1 className="text-white">LEARN FROM THE EXPERTS</H1>
-              </Stack>
-              <Body size="lg" className="text-grey-400">
-                Join live webinars hosted by production professionals and GHXSTSHIP experts. Get practical tips, see advanced features in action, and ask questions in real-time.
-              </Body>
-              <NextLink href="/webinars">
-                <Button variant="outlineWhite" size="md" icon={<ArrowRight />}>
-                  View All Webinars
-                </Button>
-              </NextLink>
-            </Stack>
-
-            <Stack gap={4}>
-              {upcomingWebinars.map((webinar, idx) => (
-                <Card key={idx} className="border-2 border-ink-700 bg-ink-900 p-4">
-                  <Stack direction="horizontal" gap={4} className="items-center justify-between">
-                    <Stack gap={1}>
-                      <Body size="sm" className="text-white">{webinar.title}</Body>
-                      <Stack direction="horizontal" gap={3}>
-                        <Label size="xs" className="text-grey-500">{webinar.date}</Label>
-                        <Label size="xs" className="text-grey-500">{webinar.duration}</Label>
-                      </Stack>
-                    </Stack>
-                    <Button variant="outline" size="sm" inverted>
-                      Notify Me
-                    </Button>
-                  </Stack>
-                </Card>
-              ))}
-            </Stack>
           </Grid>
-        </Container>
-      </FullBleedSection>
 
-      {/* Community Section */}
-      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Card className="border-2 border-ink-950 bg-white p-8 lg:p-12 shadow-brand-lg">
-            <Grid cols={2} gap={8} className="items-center">
-              <Stack gap={6}>
-                <Stack gap={2}>
-                  <Label size="xs" className="text-brand-pink uppercase tracking-kicker">COMMUNITY</Label>
-                  <H1 className="text-ink-950">JOIN THE CONVERSATION</H1>
-                </Stack>
-                <Body size="lg" className="text-grey-600">
-                  Connect with thousands of production professionals in the GHXSTSHIP community. Share best practices, get answers to your questions, and network with peers.
-                </Body>
-                <Stack direction="horizontal" gap={4}>
-                  <NextLink href="/community">
-                    <Button variant="pop" size="md" icon={<Users />}>
-                      Join Community
-                    </Button>
-                  </NextLink>
-                  <NextLink href="/training">
-                    <Button variant="outline" size="md" icon={<GraduationCap />}>
-                      Get Certified
-                    </Button>
-                  </NextLink>
-                </Stack>
-              </Stack>
-              <Box className="hidden lg:flex h-full items-center justify-center">
-                <Card className="border-2 aspect-video w-full border-ink-950 bg-grey-100">
-                  <Box className="flex h-full items-center justify-center">
-                    <Stack gap={4} className="text-center">
-                      <Users className="h-16 w-16 text-grey-400 mx-auto" />
-                      <Label size="xs" className="text-grey-400">Community Hub</Label>
-                    </Stack>
-                  </Box>
-                </Card>
-              </Box>
-            </Grid>
+          <SectionHeader title="Featured Resources" description="Popular downloads and templates" />
+          <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
+            {FEATURED_RESOURCES.map((resource, idx) => (
+              <Card key={idx} className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <FileText className="size-5 text-grey-400" />
+                    <div>
+                      <Body className="font-weight-medium">{resource.title}</Body>
+                      <Body size="sm" className="text-grey-400">{resource.type} • {resource.format}</Body>
+                    </div>
+                  </div>
+                  <Button variant="ghost" size="sm" icon={<Download className="size-4" />} />
+                </div>
+              </Card>
+            ))}
+          </Grid>
+        </Section>
+      ),
+    },
+    {
+      id: "webinars",
+      label: "Webinars",
+      icon: <Star className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Upcoming Webinars" description="Live training sessions" />
+          <Card className="p-8 text-center mt-4">
+            <Video className="size-12 text-grey-600 mx-auto mb-4" />
+            <Body className="font-weight-medium font-weight-medium mb-2">No Upcoming Webinars</Body>
+            <Body className="text-grey-400 mb-4">Check back soon for new sessions</Body>
+            <Button variant="outline">View Past Webinars</Button>
           </Card>
-        </Container>
-      </FullBleedSection>
+        </Section>
+      ),
+    },
+  ];
 
-      {/* Request Demo CTA */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center">
-            <Display size="md" className="text-ink-950">
-              PREFER A GUIDED TOUR?
-            </Display>
-            <Body size="lg" className="text-grey-600">
-              Our team is happy to walk you through the platform and answer any questions.
-            </Body>
-            <Stack direction="horizontal" gap={4}>
-              <NextLink href="/demo/request">
-                <Button variant="pop" size="lg" icon={<Calendar />}>
-                  Schedule Demo
-                </Button>
-              </NextLink>
-              <NextLink href="/contact">
-                <Button variant="outline" size="lg" icon={<MessageSquare />}>
-                  Contact Us
-                </Button>
-              </NextLink>
-            </Stack>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+  return (
+    <DetailPage
+      header={{ kicker: "Learn", title: "Resources", description: "Guides, templates, and tools to help you succeed" }}
+      tabs={tabs}
+    />
   );
 }

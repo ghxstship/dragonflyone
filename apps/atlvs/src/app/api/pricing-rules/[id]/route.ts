@@ -1,3 +1,4 @@
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -22,11 +23,25 @@ const updatePricingRuleSchema = z.object({
   valid_to: z.string().optional(),
 });
 
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
 
     const { data: rule, error } = await supabaseAdmin
@@ -40,8 +55,7 @@ export async function GET(
     }
 
     return NextResponse.json({ rule });
-  } catch (error) {
-    console.error('Error in GET /api/pricing/[id]:', error);
+  } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -51,6 +65,15 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
     const body = await request.json();
 
@@ -101,13 +124,11 @@ export async function PUT(
       .single();
 
     if (error) {
-      console.error('Error updating pricing rule:', error);
       return NextResponse.json({ error: 'Failed to update pricing rule' }, { status: 500 });
     }
 
     return NextResponse.json({ rule });
-  } catch (error) {
-    console.error('Error in PUT /api/pricing/[id]:', error);
+  } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -117,6 +138,15 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
 
     // Check if rule exists
@@ -136,13 +166,11 @@ export async function DELETE(
       .eq('id', id);
 
     if (error) {
-      console.error('Error deleting pricing rule:', error);
       return NextResponse.json({ error: 'Failed to delete pricing rule' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Error in DELETE /api/pricing/[id]:', error);
+  } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

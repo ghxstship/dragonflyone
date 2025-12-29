@@ -1,8 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { log } from '@ghxstship/config';
+import { log, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const updateTemplateItemSchema = z.object({
+  item_name: z.string().optional(),
+  description: z.string().optional(),
+  default_quantity: z.number().optional(),
+  unit: z.string().optional(),
+  estimated_unit_cost: z.number().optional(),
+  is_required: z.boolean().optional(),
+  notes: z.string().optional(),
+  display_order: z.number().optional(),
+});
 
 export const dynamic = 'force-dynamic';
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function PATCH(
   request: NextRequest,
@@ -13,18 +30,19 @@ export async function PATCH(
   
   try {
     const payload = await request.json();
+    const validatedData = updateTemplateItemSchema.parse(payload);
 
     const { data, error } = await supabase
       .from('advance_template_items')
       .update({
-        item_name: payload.item_name,
-        description: payload.description,
-        default_quantity: payload.default_quantity,
-        unit: payload.unit,
-        estimated_unit_cost: payload.estimated_unit_cost,
-        is_required: payload.is_required,
-        notes: payload.notes,
-        display_order: payload.display_order,
+        item_name: validatedData.item_name,
+        description: validatedData.description,
+        default_quantity: validatedData.default_quantity,
+        unit: validatedData.unit,
+        estimated_unit_cost: validatedData.estimated_unit_cost,
+        is_required: validatedData.is_required,
+        notes: validatedData.notes,
+        display_order: validatedData.display_order,
       })
       .eq('id', itemId)
       .eq('template_id', templateId)

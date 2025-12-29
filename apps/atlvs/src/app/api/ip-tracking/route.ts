@@ -1,13 +1,64 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createIPSchema = z.object({
+  name: z.string().min(1),
+  ip_type: z.enum(['trademark', 'copyright', 'patent', 'trade_secret', 'design']),
+  description: z.string().optional(),
+  registration_number: z.string().optional(),
+  filing_date: z.string().optional(),
+  registration_date: z.string().optional(),
+  expiration_date: z.string().optional(),
+  renewal_date: z.string().optional(),
+  jurisdiction: z.string().optional(),
+  classes: z.array(z.string()).optional(),
+  inventors: z.array(z.string()).optional(),
+  authors: z.array(z.string()).optional(),
+  owner_id: z.string().uuid().optional(),
+  status: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+const updateIPSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string().min(1).optional(),
+  ip_type: z.enum(['trademark', 'copyright', 'patent', 'trade_secret', 'design']).optional(),
+  description: z.string().optional(),
+  registration_number: z.string().optional(),
+  filing_date: z.string().optional(),
+  registration_date: z.string().optional(),
+  expiration_date: z.string().optional(),
+  renewal_date: z.string().optional(),
+  jurisdiction: z.string().optional(),
+  classes: z.array(z.string()).optional(),
+  inventors: z.array(z.string()).optional(),
+  authors: z.array(z.string()).optional(),
+  owner_id: z.string().uuid().optional(),
+  status: z.string().optional(),
+  notes: z.string().optional(),
+});
 
 // GET - Fetch intellectual property records
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -84,7 +135,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -95,9 +153,10 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createIPSchema.parse(body);
     const {
       name,
-      ip_type, // 'trademark', 'copyright', 'patent', 'trade_secret', 'design'
+      ip_type,
       description,
       registration_number,
       filing_date,
@@ -105,13 +164,13 @@ export async function POST(request: NextRequest) {
       expiration_date,
       renewal_date,
       jurisdiction,
-      classes, // For trademarks
-      inventors, // For patents
-      authors, // For copyrights
+      classes,
+      inventors,
+      authors,
       owner_id,
       status,
       notes,
-    } = body;
+    } = validatedData;
 
     const { data: ip, error } = await supabase
       .from('intellectual_property')
@@ -162,7 +221,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -173,7 +239,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, ...updateData } = body;
+    const validatedData = updateIPSchema.parse(body);
+    const { id, ...updateData } = validatedData;
 
     const { error } = await supabase
       .from('intellectual_property')

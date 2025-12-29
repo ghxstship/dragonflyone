@@ -27,9 +27,16 @@ import {
   ButtonGroup,
   Minus,
 } from '@ghxstship/ui';
-import { useCreateAdvance } from '@ghxstship/config';
+import { useCreateAdvance, useAuthContext, PlatformRole } from '@ghxstship/config';
 import { CatalogBrowser } from './catalog-browser';
 import type { ProductionCatalogItem, CreateAdvancePayload } from '@ghxstship/config/types/advancing';
+
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 interface AdvanceItem {
   catalog_item_id?: string;
@@ -58,6 +65,10 @@ export function AdvanceRequestForm({
   const [items, setItems] = useState<AdvanceItem[]>([]);
   const [showCatalog, setShowCatalog] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access
+  const canManageAdvances = ADMIN_ROLES.some(role => hasRole(role));
 
   const { mutate: createAdvance, isPending } = useCreateAdvance();
 
@@ -302,13 +313,15 @@ export function AdvanceRequestForm({
                 Cancel
               </Button>
             )}
-            <Button
-              variant="solid"
-              onClick={handleSubmit}
-              disabled={isPending || items.length === 0}
-            >
-              {isPending ? 'Submitting...' : 'Submit Request'}
-            </Button>
+            {canManageAdvances && (
+              <Button
+                variant="solid"
+                onClick={handleSubmit}
+                disabled={isPending || items.length === 0}
+              >
+                {isPending ? 'Submitting...' : 'Submit Request'}
+              </Button>
+            )}
           </ButtonGroup>
         </CardFooter>
       </Card>

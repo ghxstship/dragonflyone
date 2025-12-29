@@ -2,6 +2,19 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createCableRunSchema = z.object({
+  project_id: z.string().uuid(),
+  department: z.string().optional(),
+  run_number: z.string(),
+  cable_type: z.string().optional(),
+  length_m: z.number().optional(),
+  source: z.string().optional(),
+  destination: z.string().optional(),
+  signal_type: z.string().optional(),
+  notes: z.string().optional(),
+});
 
 const COMPVSS_ROLES = [
   PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_COLLABORATOR, PlatformRole.COMPVSS_VIEWER,
@@ -56,7 +69,8 @@ export async function POST(request: NextRequest) {
     const user = authResult.user;
 
     const body = await request.json();
-    const { project_id, department, run_number, cable_type, length_m, source, destination, signal_type, notes } = body;
+    const validatedData = createCableRunSchema.parse(body);
+    const { project_id, department, run_number, cable_type, length_m, source, destination, signal_type, notes } = validatedData;
 
     const { data, error } = await supabase.from('cable_runs').insert({
       project_id, department, run_number, cable_type, length_m,

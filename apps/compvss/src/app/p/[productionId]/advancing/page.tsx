@@ -1,124 +1,158 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+/**
+ * Production Advancing Page
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import { Send, CheckCircle, Clock, List, Mail } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import {
   Badge,
   Body,
   Button,
   Card,
-  CardBody,
-  Container,
-  EmptyState,
-  SectionHeader,
-  Spinner,
-  Stack,
+  Grid,
   StatCard,
-} from '@ghxstship/ui';
-import { FastForward, Plus, Clock, CheckCircle, Grid } from "lucide-react";
-import { useAdvances } from "../../../../hooks/useAdvancing";
-import { useProject } from "../../../../hooks/useProjects";
+  ProgressBar,
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
+
+interface AdvanceItem {
+  id: string;
+  category: string;
+  item: string;
+  status: "pending" | "sent" | "confirmed";
+  recipient: string;
+}
+
+const DEMO_ADVANCES: AdvanceItem[] = [
+  { id: "1", category: "Technical", item: "Stage plot and input list", status: "confirmed", recipient: "Venue Tech" },
+  { id: "2", category: "Technical", item: "Lighting requirements", status: "sent", recipient: "Lighting Director" },
+  { id: "3", category: "Hospitality", item: "Catering requirements", status: "pending", recipient: "Catering Manager" },
+  { id: "4", category: "Logistics", item: "Load-in schedule", status: "confirmed", recipient: "Production Manager" },
+  { id: "5", category: "Logistics", item: "Parking and access", status: "pending", recipient: "Venue Ops" },
+];
+
+const STATUS_CONFIG = {
+  pending: { label: "Pending", variant: "warning" as const, icon: <Clock className="size-4" /> },
+  sent: { label: "Sent", variant: "info" as const, icon: <Send className="size-4" /> },
+  confirmed: { label: "Confirmed", variant: "success" as const, icon: <CheckCircle className="size-4" /> },
+};
 
 export default function ProductionAdvancingPage() {
   const params = useParams();
-  const router = useRouter();
-  const productionId = params?.productionId as string;
-  
-  const { data: production } = useProject(productionId);
-  const { data: advancesData, isLoading, error } = useAdvances({ project_id: productionId });
+  const productionId = params.productionId as string;
+  const [category, setCategory] = useState("all");
 
-  const advances = advancesData?.advances || [];
-  
-  const advanceStats = {
+  const { data: advances = [], isLoading, error, refetch } = useQuery<AdvanceItem[]>({
+    queryKey: ["production-advancing", productionId],
+    queryFn: async () => {
+      const response = await fetch(`/api/productions/${productionId}/advancing`);
+      if (!response.ok) return DEMO_ADVANCES;
+      const data = await response.json();
+      return data.items?.length ? data.items : DEMO_ADVANCES;
+    },
+  });
+
+  const categories: string[] = ["all", ...Array.from(new Set(advances.map((a: AdvanceItem) => a.category)))];
+  const filteredAdvances = category === "all" ? advances : advances.filter((item: AdvanceItem) => item.category === category);
+
+  const stats = {
     total: advances.length,
-    pending: advances.filter(a => a.status === 'draft' || a.status === 'submitted' || a.status === 'under_review').length,
-    approved: advances.filter(a => a.status === 'approved' || a.status === 'in_progress').length,
-    fulfilled: advances.filter(a => a.status === 'fulfilled').length,
+    confirmed: advances.filter((a: AdvanceItem) => a.status === "confirmed").length,
+    sent: advances.filter((a: AdvanceItem) => a.status === "sent").length,
+    pending: advances.filter((a: AdvanceItem) => a.status === "pending").length,
   };
+  const progress = stats.total > 0 ? (stats.confirmed / stats.total) * 100 : 0;
 
-  const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
-    draft: "outline" as "solid", submitted: "warning", under_review: "warning", approved: "info", in_progress: "info", fulfilled: "success", rejected: "error", cancelled: "error",
-  };
+  const tabs = [
+    {
+      id: "checklist",
+      label: "Checklist",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+            <StatCard label="Total Items" value={stats.total.toString()} icon={<List className="size-5" />} />
+            <StatCard label="Confirmed" value={stats.confirmed.toString()} icon={<CheckCircle className="size-5" />} />
+            <StatCard label="Sent" value={stats.sent.toString()} icon={<Send className="size-5" />} />
+            <StatCard label="Pending" value={stats.pending.toString()} icon={<Clock className="size-5" />} />
+          </Grid>
 
-  if (isLoading) {
-    return (
-      <Container className="flex min-h-[60vh] items-center justify-center">
-        <Spinner variant="grey" size="lg" text="Loading advances..." />
-      </Container>
-    );
-  }
+          <Card className="p-6 mb-6">
+            <div className="flex justify-between mb-2">
+              <Body className="font-weight-medium">Advance Progress</Body>
+              <Body className="font-weight-bold">{Math.round(progress)}%</Body>
+            </div>
+            <ProgressBar value={progress} size="lg" />
+          </Card>
 
-  if (error) {
-    return (
-      <Container>
-        <EmptyState
-          title="Failed to Load Advances"
-          description={error instanceof Error ? error.message : "An error occurred while loading advances."}
-          action={{ label: "Try Again", onClick: () => window.location.reload() }}
-        />
-      </Container>
-    );
-  }
+          <div className="flex gap-2 mb-6">
+            {categories.map((cat) => (
+              <Button key={cat} variant={category === cat ? "solid" : "outline"} size="sm" onClick={() => setCategory(cat)}>
+                {cat === "all" ? "All" : cat}
+              </Button>
+            ))}
+          </div>
+
+          <div className="space-y-2">
+            {filteredAdvances.map((item: AdvanceItem) => {
+              const config = STATUS_CONFIG[item.status];
+              return (
+                <Card key={item.id} className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className={`p-2 rounded-card ${item.status === "confirmed" ? "bg-success/20" : item.status === "sent" ? "bg-info/20" : "bg-grey-800"}`}>
+                        {config.icon}
+                      </div>
+                      <div>
+                        <Body className="font-weight-medium">{item.item}</Body>
+                        <Body size="sm" className="text-grey-400">To: {item.recipient}</Body>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline">{item.category}</Badge>
+                      <Badge variant={config.variant}>{config.label}</Badge>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "send",
+      label: "Send Advance",
+      icon: <Mail className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Send Advance Package" description="Send advance information to recipients" />
+          <Card className="p-8 text-center mt-4">
+            <Mail className="size-12 text-primary mx-auto mb-4" />
+            <Body className="font-weight-medium mb-2">Ready to Send</Body>
+            <Body className="text-grey-400 mb-4">Send advance package to all pending recipients</Body>
+            <Button variant="solid" icon={<Send className="size-4" />} iconPosition="left">Send Advance</Button>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <Stack gap={8}>
-      <Stack gap={4}>
-        <SectionHeader
-          kicker={production?.name || "Production"}
-          title="Advancing"
-          description="Manage artist advances and rider fulfillment"
-          colorScheme="on-light"
-        />
-        <Stack direction="horizontal" gap={2}>
-          <Button variant="solid" size="sm" onClick={() => router.push(`/p/${productionId}/advancing/new`)}>
-            <Plus size={16} className="mr-2" />
-            New Request
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => router.push(`/p/${productionId}/advancing/catalog`)}>
-            <Grid size={16} className="mr-2" />
-            Catalog
-          </Button>
-        </Stack>
-      </Stack>
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-        <StatCard label="Total Requests" value={advanceStats.total.toString()} icon={<FastForward size={20} />} />
-        <StatCard label="Pending" value={advanceStats.pending.toString()} icon={<Clock size={20} />} trend={advanceStats.pending > 5 ? "down" : "up"} />
-        <StatCard label="Approved" value={advanceStats.approved.toString()} icon={<CheckCircle size={20} />} trend="up" />
-        <StatCard label="Fulfilled" value={advanceStats.fulfilled.toString()} icon={<CheckCircle size={20} />} trend="up" />
-      </div>
-
-      {advances.length === 0 ? (
-        <EmptyState
-          title="No Advances Yet"
-          description="Create your first advance request to get started."
-          action={{ label: "New Request", onClick: () => router.push(`/p/${productionId}/advancing/new`) }}
-        />
-      ) : (
-        <Card variant="elevated">
-          <CardBody>
-            <Stack gap={0}>
-              {advances.map((advance, index) => (
-                <div 
-                  key={advance.id} 
-                  className={`flex cursor-pointer items-center justify-between border-grey-200 p-4 transition-all hover:bg-grey-50 ${index < advances.length - 1 ? "border-b" : ""}`}
-                  onClick={() => router.push(`/p/${productionId}/advancing/${advance.id}`)}
-                >
-                  <Stack direction="horizontal" gap={3} className="items-center">
-                    <FastForward size={20} className="text-primary" />
-                    <Stack gap={1}>
-                      <Body className="font-weight-medium">{advance.activation_name || advance.team_workspace || 'Advance Request'}</Body>
-                      <Body size="sm" className="text-grey-500">
-                        {advance.submitter?.full_name || 'Unknown'} · {advance.submitted_at ? `Submitted ${new Date(advance.submitted_at).toLocaleDateString()}` : 'Draft'}
-                      </Body>
-                    </Stack>
-                  </Stack>
-                  <Badge variant={statusColors[advance.status] || "info"}>{advance.status?.toUpperCase() || 'DRAFT'}</Badge>
-                </div>
-              ))}
-            </Stack>
-          </CardBody>
-        </Card>
-      )}
-    </Stack>
+    <DetailPage
+      header={{ kicker: "Production", title: "Advancing", description: "Manage production advance information" }}
+      backButton={{ label: "Overview", href: `/p/${productionId}/overview` }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

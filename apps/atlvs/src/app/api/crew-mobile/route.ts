@@ -1,14 +1,57 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const offlineChangeSchema = z.object({
+  id: z.string(),
+  type: z.enum(['timesheet', 'clock_event']),
+  data: z.record(z.unknown()),
+});
+
+const syncOfflineChangesSchema = z.object({
+  action: z.literal('sync_offline_changes'),
+  changes: z.array(offlineChangeSchema).optional(),
+});
+
+const registerDeviceSchema = z.object({
+  action: z.literal('register_device'),
+  device_id: z.string(),
+  device_type: z.string(),
+  push_token: z.string().optional(),
+});
+
+const markOfflineDocumentSchema = z.object({
+  action: z.literal('mark_offline_document'),
+  document_id: z.string().uuid(),
+  available_offline: z.boolean(),
+});
+
+const crewMobileActionSchema = z.union([
+  syncOfflineChangesSchema,
+  registerDeviceSchema,
+  markOfflineDocumentSchema,
+]);
 
 // Crew mobile app with offline capability - sync endpoint
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -73,17 +116,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = crewMobileActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'sync_offline_changes') {
-      const { changes } = body;
+      const { changes } = validatedData as z.infer<typeof syncOfflineChangesSchema>;
       const results: unknown[] = [];
 
       for (const change of changes || []) {
@@ -112,7 +162,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'register_device') {
-      const { device_id, device_type, push_token } = body;
+      const { device_id, device_type, push_token } = validatedData as z.infer<typeof registerDeviceSchema>;
 
       await supabase.from('user_devices').upsert({
         user_id: user.id, device_id, device_type, push_token,
@@ -123,7 +173,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'mark_offline_document') {
-      const { document_id, available_offline } = body;
+      const { document_id, available_offline } = validatedData as z.infer<typeof markOfflineDocumentSchema>;
 
       await supabase.from('offline_documents').upsert({
         user_id: user.id, document_id, available_offline

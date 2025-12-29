@@ -14,12 +14,14 @@ export interface ChannelMember {
   role: string;
   department?: string;
   is_online: boolean;
+  initials?: string;
 }
 
 export interface Channel {
   id: string;
   name: string;
   type: 'department' | 'project' | 'broadcast' | 'private';
+  channel_type?: string | null;
   department?: string;
   description: string;
   members: ChannelMember[];
@@ -27,6 +29,8 @@ export interface Channel {
   created_at: string;
   unread_count: number;
   production_id?: string;
+  organization_id?: string | null;
+  frequency?: string;
 }
 
 export interface Message {
@@ -54,7 +58,7 @@ export function useChannels(productionId?: string) {
 
       const { data, error } = await query;
       if (error) throw error;
-      return (data || []) as Channel[];
+      return (data || []) as unknown as Channel[];
     },
   });
 }
@@ -71,7 +75,7 @@ export function useChannel(id: string) {
         .single();
 
       if (error) throw error;
-      return data as Channel;
+      return data as unknown as Channel;
     },
     enabled: !!id,
   });
@@ -89,7 +93,7 @@ export function useChannelMessages(channelId: string) {
         .order('timestamp', { ascending: true });
 
       if (error) throw error;
-      return (data || []) as Message[];
+      return (data || []) as unknown as Message[];
     },
     enabled: !!channelId,
   });

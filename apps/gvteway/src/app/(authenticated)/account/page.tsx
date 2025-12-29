@@ -1,159 +1,184 @@
-'use client';
+"use client";
 
+/**
+ * GVTEWAY Account Dashboard Page
+ * User account overview with tickets, orders, and preferences
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
 import {
   Badge,
   Body,
   Button,
   Card,
-  CardBody,
-  Container,
-  EnterprisePageHeader,
   Grid,
-  H3,
-  MainContent,
-  Spinner,
-  Stack,
   StatCard,
-} from '@ghxstship/ui';
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
 import {
   Ticket,
   Calendar,
   Heart,
   Settings,
   ChevronRight,
-} from 'lucide-react';
-// Layout provided by route group
-import Link from 'next/link';
-import { useOrders } from '@/hooks/useOrders';
+  User,
+  ShoppingBag,
+} from "lucide-react";
+import Link from "next/link";
+import { useOrders } from "@/hooks/useOrders";
 
 export default function AccountPage() {
-  const { data: ordersData, isLoading } = useOrders();
-  
-  // Transform orders to upcoming events format
+  const router = useRouter();
+  const { data: ordersData, isLoading, error, refetch } = useOrders();
+
   const upcomingEvents = (ordersData || [])
-    .filter(order => order.status === 'confirmed' && order.gvteway_events)
-    .map(order => ({
+    .filter((order) => order.status === "confirmed" && order.gvteway_events)
+    .map((order) => ({
       id: order.id,
-      name: order.gvteway_events?.title || 'Event',
-      date: order.gvteway_events?.event_date 
-        ? new Date(order.gvteway_events.event_date).toLocaleDateString() 
-        : 'TBD',
-      venue: 'Venue TBD',
+      name: order.gvteway_events?.title || "Event",
+      date: order.gvteway_events?.event_date
+        ? new Date(order.gvteway_events.event_date).toLocaleDateString()
+        : "TBD",
+      venue: "Venue TBD",
       ticketCount: order.ticket_count || 1,
     }))
     .slice(0, 3);
 
-  return (
-    <>
-      <EnterprisePageHeader
-        title="Dashboard"
-        subtitle="Manage your tickets, orders, and preferences"
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={8}>
-            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard label="Upcoming Events" value={upcomingEvents.length.toString()} icon={<Calendar size={20} />} inverted />
-          <StatCard label="Total Tickets" value={upcomingEvents.reduce((sum, e) => sum + e.ticketCount, 0).toString()} icon={<Ticket size={20} />} inverted />
-          <StatCard label="Saved Events" value="5" icon={<Heart size={20} />} inverted />
-          <StatCard label="Rewards Points" value="1,250" icon={<Settings size={20} />} inverted />
-        </Grid>
+  const tabs = [
+    {
+      id: "overview",
+      label: "Overview",
+      icon: <User className="size-4" />,
+      content: (
+        <>
+          <Grid cols={4} gap={4} className="grid-cols-2 lg:grid-cols-4 mb-6">
+            <StatCard label="Upcoming Events" value={upcomingEvents.length.toString()} />
+            <StatCard label="Total Tickets" value={upcomingEvents.reduce((sum, e) => sum + e.ticketCount, 0).toString()} />
+            <StatCard label="Saved Events" value="5" />
+            <StatCard label="Rewards Points" value="1,250" />
+          </Grid>
 
-        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
-          <Card variant="elevated" inverted>
-            <CardBody>
-              <Stack gap={4}>
-                <Stack direction="horizontal" className="items-center justify-between">
-                  <H3 className="text-white">Upcoming Events</H3>
-                  <Link href="/account/tickets">
-                    <Button variant="ghost" size="sm">View All<ChevronRight size={14} className="ml-1" /></Button>
-                  </Link>
-                </Stack>
-                <Stack gap={3}>
-                  {isLoading ? (
-                    <Stack className="flex items-center justify-center py-8">
-                      <Spinner variant="grey" size="sm" />
-                    </Stack>
-                  ) : upcomingEvents.length === 0 ? (
-                    <Body className="text-on-dark-muted py-4">No upcoming events. Browse events to find your next experience!</Body>
-                  ) : (
-                    upcomingEvents.map(event => (
-                      <Stack key={event.id} direction="horizontal" className="items-center justify-between rounded border-2 border-ink-700 p-4">
-                        <Stack gap={1}>
-                          <Body className="font-weight-semibold text-white">{event.name}</Body>
-                          <Body size="sm" className="text-on-dark-muted">{event.date} - {event.venue}</Body>
-                        </Stack>
-                        <Stack direction="horizontal" gap={2} className="items-center">
+          <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
+            <Section border>
+              <SectionHeader title="Upcoming Events" />
+              {upcomingEvents.length === 0 ? (
+                <Body className="text-grey-400 py-4">No upcoming events. Browse events to find your next experience!</Body>
+              ) : (
+                <div className="space-y-3">
+                  {upcomingEvents.map((event) => (
+                    <Card key={event.id} className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Body className="font-weight-medium text-white">{event.name}</Body>
+                          <Body size="sm" className="text-grey-400">{event.date} - {event.venue}</Body>
+                        </div>
+                        <div className="flex items-center gap-2">
                           <Badge variant="info">{event.ticketCount} tickets</Badge>
-                          <Button variant="outline" size="sm">View</Button>
-                        </Stack>
-                      </Stack>
-                    ))
-                  )}
-                </Stack>
-              </Stack>
-            </CardBody>
-          </Card>
+                          <Button variant="outline" size="sm" onClick={() => router.push(`/account/tickets`)}>View</Button>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              )}
+              <Link href="/account/tickets" className="block mt-4">
+                <Button variant="ghost" size="sm" icon={<ChevronRight className="size-4" />} iconPosition="right">
+                  View All Tickets
+                </Button>
+              </Link>
+            </Section>
 
-          <Stack gap={6}>
-            <Card variant="elevated" inverted>
-              <CardBody>
-                <Stack gap={4}>
-                  <H3 className="text-white">Quick Actions</H3>
-                  <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
-                    <Link href="/account/tickets">
-                      <Button variant="outline" className="w-full justify-start">
-                        <Ticket size={16} className="mr-2" />My Tickets
-                      </Button>
-                    </Link>
-                    <Link href="/account/orders">
-                      <Button variant="outline" className="w-full justify-start">
-                        <Calendar size={16} className="mr-2" />Order History
-                      </Button>
-                    </Link>
-                    <Link href="/account/profile">
-                      <Button variant="outline" className="w-full justify-start">
-                        <Settings size={16} className="mr-2" />Settings
-                      </Button>
-                    </Link>
-                    <Link href="/saved">
-                      <Button variant="outline" className="w-full justify-start">
-                        <Heart size={16} className="mr-2" />Saved Events
-                      </Button>
-                    </Link>
-                  </Grid>
-                </Stack>
-              </CardBody>
-            </Card>
+            <div className="space-y-6">
+              <Section border>
+                <SectionHeader title="Quick Actions" />
+                <Grid cols={2} gap={3} className="grid-cols-1 sm:grid-cols-2">
+                  <Button variant="outline" className="w-full justify-start" icon={<Ticket className="size-4" />} iconPosition="left" onClick={() => router.push("/account/tickets")}>
+                    My Tickets
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start" icon={<ShoppingBag className="size-4" />} iconPosition="left" onClick={() => router.push("/account/orders")}>
+                    Order History
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start" icon={<Settings className="size-4" />} iconPosition="left" onClick={() => router.push("/settings")}>
+                    Settings
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start" icon={<Heart className="size-4" />} iconPosition="left" onClick={() => router.push("/saved")}>
+                    Saved Events
+                  </Button>
+                </Grid>
+              </Section>
 
-            <Card variant="elevated" inverted>
-              <CardBody>
-                <Stack gap={4}>
-                  <H3 className="text-white">Recent Activity</H3>
-                  <Stack gap={2}>
-                    <Stack direction="horizontal" className="items-center justify-between">
-                      <Body className="text-white">Purchased 2 tickets</Body>
-                      <Body size="sm" className="text-on-dark-muted">2 days ago</Body>
-                    </Stack>
-                    <Stack direction="horizontal" className="items-center justify-between">
-                      <Body className="text-white">Saved New Years Eve Concert</Body>
-                      <Body size="sm" className="text-on-dark-muted">5 days ago</Body>
-                    </Stack>
-                    <Stack direction="horizontal" className="items-center justify-between">
-                      <Body className="text-white">Updated payment method</Body>
-                      <Body size="sm" className="text-on-dark-muted">1 week ago</Body>
-                    </Stack>
-                  </Stack>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Stack>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+              <Section border>
+                <SectionHeader title="Recent Activity" />
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Body className="text-white">Purchased 2 tickets</Body>
+                    <Body size="sm" className="text-grey-400">2 days ago</Body>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Body className="text-white">Saved New Years Eve Concert</Body>
+                    <Body size="sm" className="text-grey-400">5 days ago</Body>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Body className="text-white">Updated payment method</Body>
+                    <Body size="sm" className="text-grey-400">1 week ago</Body>
+                  </div>
+                </div>
+              </Section>
+            </div>
+          </Grid>
+        </>
+      ),
+    },
+    {
+      id: "tickets",
+      label: "My Tickets",
+      icon: <Ticket className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Your Tickets" description="View and manage your event tickets" />
+          <div className="text-center py-12">
+            <Ticket className="size-12 text-grey-600 mx-auto mb-4" />
+            <Body className="text-grey-400 mb-4">View all your tickets in one place</Body>
+            <Button variant="solid" onClick={() => router.push("/account/tickets")}>
+              View All Tickets
+            </Button>
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "orders",
+      label: "Orders",
+      icon: <Calendar className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Order History" description="View your past orders and purchases" />
+          <div className="text-center py-12">
+            <ShoppingBag className="size-12 text-grey-600 mx-auto mb-4" />
+            <Body className="text-grey-400 mb-4">View your complete order history</Body>
+            <Button variant="solid" onClick={() => router.push("/account/orders")}>
+              View All Orders
+            </Button>
+          </div>
+        </Section>
+      ),
+    },
+  ];
+
+  return (
+    <DetailPage
+      header={{
+        kicker: "Account",
+        title: "My Dashboard",
+        description: "Manage your tickets, orders, and preferences",
+      }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

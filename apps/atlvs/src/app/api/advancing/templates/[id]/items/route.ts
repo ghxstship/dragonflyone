@@ -1,8 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { log } from '@ghxstship/config';
+import { log, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createTemplateItemSchema = z.object({
+  catalog_item_id: z.string().uuid().optional(),
+  org_catalog_item_id: z.string().uuid().optional(),
+  item_name: z.string().min(1),
+  description: z.string().optional(),
+  category: z.string().optional(),
+  subcategory: z.string().optional(),
+  default_quantity: z.number().optional(),
+  unit: z.string().optional(),
+  estimated_unit_cost: z.number().optional(),
+  is_required: z.boolean().optional(),
+  notes: z.string().optional(),
+});
 
 export const dynamic = 'force-dynamic';
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function POST(
   request: NextRequest,
@@ -13,13 +33,7 @@ export async function POST(
   
   try {
     const payload = await request.json();
-
-    if (!payload.item_name) {
-      return NextResponse.json(
-        { error: 'item_name is required' },
-        { status: 400 }
-      );
-    }
+    const validatedData = createTemplateItemSchema.parse(payload);
 
     const { data: existingItems } = await supabase
       .from('advance_template_items')
@@ -36,17 +50,17 @@ export async function POST(
       .from('advance_template_items')
       .insert({
         template_id: templateId,
-        catalog_item_id: payload.catalog_item_id,
-        org_catalog_item_id: payload.org_catalog_item_id,
-        item_name: payload.item_name,
-        description: payload.description,
-        category: payload.category,
-        subcategory: payload.subcategory,
-        default_quantity: payload.default_quantity || 1,
-        unit: payload.unit || 'Per Unit',
-        estimated_unit_cost: payload.estimated_unit_cost,
-        is_required: payload.is_required ?? false,
-        notes: payload.notes,
+        catalog_item_id: validatedData.catalog_item_id,
+        org_catalog_item_id: validatedData.org_catalog_item_id,
+        item_name: validatedData.item_name,
+        description: validatedData.description,
+        category: validatedData.category,
+        subcategory: validatedData.subcategory,
+        default_quantity: validatedData.default_quantity || 1,
+        unit: validatedData.unit || 'Per Unit',
+        estimated_unit_cost: validatedData.estimated_unit_cost,
+        is_required: validatedData.is_required ?? false,
+        notes: validatedData.notes,
         display_order: nextOrder,
       })
       .select()

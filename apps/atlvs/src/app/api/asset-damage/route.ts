@@ -1,14 +1,55 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createDamageReportSchema = z.object({
+  asset_id: z.string().uuid(),
+  project_id: z.string().uuid().optional(),
+  damage_type: z.string(),
+  severity: z.enum(['minor', 'moderate', 'major', 'critical']),
+  description: z.string(),
+  photo_urls: z.array(z.string()).optional(),
+  estimated_repair_cost: z.number().optional(),
+});
+
+const startRepairSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('start_repair'),
+  repair_vendor: z.string().optional(),
+});
+
+const completeRepairSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('complete_repair'),
+  actual_cost: z.number().optional(),
+  repair_notes: z.string().optional(),
+});
+
+const patchDamageReportSchema = z.union([
+  startRepairSchema,
+  completeRepairSchema,
+]);
 
 // Damage reporting and repair tracking
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const assetId = searchParams.get('asset_id');
@@ -42,14 +83,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { asset_id, project_id, damage_type, severity, description, photo_urls, estimated_repair_cost } = body;
+    const validatedData = createDamageReportSchema.parse(body);
+    const { asset_id, project_id, damage_type, severity, description, photo_urls, estimated_repair_cost } = validatedData;
 
     const { data, error } = await supabase.from('asset_damage_reports').insert({
       asset_id, project_id, damage_type, severity, description,
@@ -71,20 +119,29 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { id, action, repair_vendor, actual_cost, repair_notes } = body;
+    const validatedData = patchDamageReportSchema.parse(body);
+    const { id, action } = validatedData;
 
     if (action === 'start_repair') {
+      const { repair_vendor } = validatedData as z.infer<typeof startRepairSchema>;
       await supabase.from('asset_damage_reports').update({
         status: 'in_repair', repair_vendor, repair_started_at: new Date().toISOString()
       }).eq('id', id);
     } else if (action === 'complete_repair') {
+      const { actual_cost, repair_notes } = validatedData as z.infer<typeof completeRepairSchema>;
       const { data: report } = await supabase.from('asset_damage_reports').select('asset_id').eq('id', id).single();
       
       await supabase.from('asset_damage_reports').update({

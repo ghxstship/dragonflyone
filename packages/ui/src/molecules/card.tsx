@@ -8,6 +8,8 @@ export type CardProps = HTMLAttributes<HTMLDivElement> & {
   variant?: CardVariant;
   interactive?: boolean;
   inverted?: boolean;
+  /** When true and onClick is provided, makes the card keyboard accessible */
+  asButton?: boolean;
 };
 
 /**
@@ -20,7 +22,19 @@ export type CardProps = HTMLAttributes<HTMLDivElement> & {
  * - Pop variant for maximum impact
  */
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  function Card({ variant = "default", interactive, inverted = false, className, children, ...props }, ref) {
+  function Card({ variant = "default", interactive, inverted = false, asButton, className, children, onClick, onKeyDown, ...props }, ref) {
+    // Determine if card should be keyboard accessible
+    const isClickable = !!onClick;
+    const shouldBeAccessible = isClickable || asButton;
+
+    // Handle keyboard activation (Enter/Space)
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (shouldBeAccessible && onClick && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        onClick(e as unknown as React.MouseEvent<HTMLDivElement>);
+      }
+      onKeyDown?.(e);
+    };
     const getVariantClasses = () => {
       if (inverted) {
         switch (variant) {
@@ -93,10 +107,15 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     return (
       <div
         ref={ref}
+        role={shouldBeAccessible ? "button" : undefined}
+        tabIndex={shouldBeAccessible ? 0 : undefined}
+        onClick={onClick}
+        onKeyDown={handleKeyDown}
         className={clsx(
           "p-6 rounded-[var(--radius-card)]",
           getVariantClasses(),
           interactiveClasses,
+          shouldBeAccessible && "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
           className
         )}
         {...props}

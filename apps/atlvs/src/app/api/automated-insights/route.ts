@@ -1,13 +1,54 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const generateSchema = z.object({
+  action: z.literal('generate').optional().default('generate'),
+});
+
+const acknowledgeSchema = z.object({
+  action: z.literal('acknowledge'),
+  insight_id: z.string().uuid(),
+});
+
+const acknowledgeAllSchema = z.object({
+  action: z.literal('acknowledge_all'),
+  category: z.string().optional(),
+  insight_type: z.string().optional(),
+});
+
+const getRecommendationsSchema = z.object({
+  action: z.literal('get_recommendations'),
+  insight_id: z.string().uuid(),
+});
+
+const insightActionSchema = z.union([
+  generateSchema,
+  acknowledgeSchema,
+  acknowledgeAllSchema,
+  getRecommendationsSchema,
+]);
 
 // GET /api/automated-insights - Get insights and recommendations
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -81,7 +122,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -92,7 +140,8 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const action = body.action || 'generate';
+    const validatedData = insightActionSchema.parse(body);
+    const action = validatedData.action || 'generate';
 
     if (action === 'generate') {
       const insights: unknown[] = [];
@@ -127,7 +176,7 @@ export async function POST(request: NextRequest) {
         insights,
       });
     } else if (action === 'acknowledge') {
-      const { insight_id } = body;
+      const { insight_id } = validatedData as z.infer<typeof acknowledgeSchema>;
 
       const { error } = await supabase
         .from('automated_insights')
@@ -144,7 +193,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ success: true });
     } else if (action === 'acknowledge_all') {
-      const { category, insight_type } = body;
+      const { category, insight_type } = validatedData as z.infer<typeof acknowledgeAllSchema>;
 
       let query = supabase
         .from('automated_insights')
@@ -171,7 +220,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ success: true });
     } else if (action === 'get_recommendations') {
-      const { insight_id } = body;
+      const { insight_id } = validatedData as z.infer<typeof getRecommendationsSchema>;
 
       const { data: insight } = await supabase
         .from('automated_insights')

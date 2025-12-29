@@ -15,8 +15,10 @@ import {
   type ListPageAction,
   type DetailSection,
 } from '@ghxstship/ui';
-import { useAdvancingRequests, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { useAdvancingRequests, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import type { ProductionAdvance, AdvanceStatus } from '@ghxstship/config/types/advancing';
+
+// Roles that can approve/delete advancing requests
 
 const formatCurrency = (amount: number | null) => {
   if (amount === null) return '—';
@@ -66,11 +68,15 @@ const filters: ListPageFilter[] = [
 
 export default function AdvancingPage() {
   const router = useRouter();
+  const { hasRole } = useAuthContext();
   const { data: requestsData, isLoading, error, refetch } = useAdvancingRequests({ limit: 100 });
   const requests = (requestsData?.data || []) as ProductionAdvance[];
   
   const [selectedRequest, setSelectedRequest] = useState<ProductionAdvance | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // RBAC: Check if user has admin access for approve/delete operations
+  const canManageAdvancing = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const totalValue = requests.reduce((sum, r) => sum + (r.estimated_cost || 0), 0);
   const pendingCount = requests.filter(r => r.status === 'submitted' || r.status === 'under_review').length;
@@ -140,7 +146,7 @@ export default function AdvancingPage() {
         rowActions={rowActions}
         onRowClick={(r) => router.push(`/advancing/requests/${r.id}`)}
         entityType="advancing"
-        onImport={handleImport}
+        onImport={canManageAdvancing ? handleImport : undefined}
         importTemplates={importTemplates}
         importSampleFields={['activation_name', 'estimated_cost', 'status']}
         onExport={createExportHandler({
@@ -174,10 +180,10 @@ export default function AdvancingPage() {
             refetch();
           }
         }}
-        bulkActions={[
+        bulkActions={canManageAdvancing ? [
           { id: 'approve', label: 'Approve Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
-        ]}
+        ] : []}
         showFavorite
         showSettings
       />

@@ -1,56 +1,51 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Input,
   Select,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
   Button,
-  Card,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
   Badge,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Textarea,
-  Alert,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 import {
   usePunchItems,
   type PunchItem,
 } from '../../hooks/usePunchList';
+import { Eye, CheckCircle } from "lucide-react";
 
+const getPriorityVariant = (priority: string): 'solid' | 'outline' | 'ghost' => {
+  switch (priority) {
+    case "Critical": return "solid";
+    case "High": return "outline";
+    default: return "ghost";
+  }
+};
+
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case "Verified": return "solid";
+    case "Resolved": return "outline";
+    default: return "ghost";
+  }
+};
 
 export default function PunchListPage() {
-  const router = useRouter();
-  const { data: punchItems = [] } = usePunchItems();
-  
-  // URL-synced tab state for deep-linking support
-  const { activeTab, setActiveTab, isActive } = useTabState({
-    defaultTab: 'open',
-    validTabs: ['open', 'resolved', 'all'],
-  });
-  const [selectedDepartment, setSelectedDepartment] = useState("All");
+  const { data: punchItems = [], refetch } = usePunchItems();
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<PunchItem | null>(null);
 
@@ -58,150 +53,126 @@ export default function PunchListPage() {
   const criticalCount = punchItems.filter(i => i.priority === "Critical" && i.status !== "Verified").length;
   const resolvedToday = punchItems.filter(i => i.resolvedDate === new Date().toISOString().split('T')[0]).length;
 
-  const filteredItems = selectedDepartment === "All" 
-    ? punchItems 
-    : punchItems.filter(i => i.department === selectedDepartment);
+  const columns: ListPageColumn<PunchItem>[] = [
+    {
+      key: 'title',
+      label: 'Item',
+      accessor: 'title',
+      sortable: true,
+      render: (_, item) => (
+        <Stack gap={1}>
+          <Body className="font-display">{item.title}</Body>
+          <Body size="sm" className="text-muted-foreground">{item.location}</Body>
+        </Stack>
+      ),
+    },
+    {
+      key: 'department',
+      label: 'Department',
+      accessor: 'department',
+      sortable: true,
+      render: (_, item) => <Badge variant="outline">{item.department}</Badge>,
+    },
+    {
+      key: 'priority',
+      label: 'Priority',
+      accessor: 'priority',
+      sortable: true,
+      render: (_, item) => <Badge variant={getPriorityVariant(item.priority)}>{item.priority}</Badge>,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, item) => <Badge variant={getStatusVariant(item.status)}>{item.status}</Badge>,
+    },
+    { key: 'assignedTo', label: 'Assigned To', accessor: (i) => i.assignedTo || 'Unassigned' },
+    { key: 'reportedBy', label: 'Reported By', accessor: 'reportedBy' },
+  ];
 
-  const getPriorityVariant = (priority: string): 'error' | 'warning' | 'success' | 'ghost' => {
-    switch (priority) {
-      case "Critical": return "error";
-      case "High": return "warning";
-      case "Medium": return "warning";
-      case "Low": return "success";
-      default: return "ghost";
-    }
-  };
+  const filters: ListPageFilter[] = [
+    {
+      key: 'department',
+      label: 'Department',
+      options: [
+        { value: 'Audio', label: 'Audio' },
+        { value: 'Lighting', label: 'Lighting' },
+        { value: 'Video', label: 'Video' },
+        { value: 'Staging', label: 'Staging' },
+        { value: 'Rigging', label: 'Rigging' },
+      ],
+    },
+    {
+      key: 'priority',
+      label: 'Priority',
+      options: [
+        { value: 'Critical', label: 'Critical' },
+        { value: 'High', label: 'High' },
+        { value: 'Medium', label: 'Medium' },
+        { value: 'Low', label: 'Low' },
+      ],
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'Open', label: 'Open' },
+        { value: 'In Progress', label: 'In Progress' },
+        { value: 'Resolved', label: 'Resolved' },
+        { value: 'Verified', label: 'Verified' },
+      ],
+    },
+  ];
 
-  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'ghost' => {
-    switch (status) {
-      case "Verified": return "success";
-      case "Resolved": return "info";
-      case "In Progress": return "warning";
-      case "Open": return "ghost";
-      default: return "ghost";
-    }
-  };
+  const rowActions: ListPageAction<PunchItem>[] = [
+    { id: 'view', label: 'Details', icon: <Eye className="h-4 w-4" />, onClick: (item) => setSelectedItem(item) },
+    { id: 'resolve', label: 'Resolve', icon: <CheckCircle className="h-4 w-4" />, onClick: () => {}, hidden: (item) => item.status !== 'In Progress' },
+  ];
+
+  const stats = [
+    { label: 'Open Items', value: openItems.length },
+    { label: 'Critical', value: criticalCount },
+    { label: 'Resolved Today', value: resolvedToday },
+    { label: 'Total Items', value: punchItems.length },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<PunchItem>
         title="Punch List"
         subtitle="Track and resolve outstanding items before show"
-
-
-        primaryAction={{ label: 'Add Item', onClick: () => setShowAddModal(true) }}
+        data={punchItems}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        onRetry={refetch}
+        searchPlaceholder="Search items..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(item) => setSelectedItem(item)}
+        createLabel="Add Item"
+        onCreate={() => setShowAddModal(true)}
+        entityType="punch-items"
+        onExport={createExportHandler({
+          filename: "punch-list",
+          getData: () => punchItems.map((item: PunchItem) => ({
+            title: item.title,
+            location: item.location,
+            department: item.department,
+            priority: item.priority,
+            status: item.status,
+            assignedTo: item.assignedTo || '',
+            reportedBy: item.reportedBy,
+            resolvedDate: item.resolvedDate || '',
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No punch list items found"
+        emptyAction={{ label: 'Add Item', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard value={openItems.length.toString()} label="Open Items" />
-              <StatCard value={criticalCount.toString()} label="Critical" />
-              <StatCard value={resolvedToday.toString()} label="Resolved Today" />
-              <StatCard value={punchItems.length.toString()} label="Total Items" />
-            </Grid>
-
-            {criticalCount > 0 && (
-              <Alert variant="error">{criticalCount} critical item(s) require immediate attention!</Alert>
-            )}
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Select value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.target.value)}>
-                <option value="All">All Departments</option>
-                <option value="Audio">Audio</option>
-                <option value="Lighting">Lighting</option>
-                <option value="Video">Video</option>
-                <option value="Staging">Staging</option>
-                <option value="Rigging">Rigging</option>
-              </Select>
-              <Input type="search" placeholder="Search items..." />
-              <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Item</Button>
-            </Grid>
-
-            <Tabs>
-              <TabsList>
-                <Tab active={isActive('open')} onClick={() => setActiveTab('open')}>Open ({openItems.length})</Tab>
-                <Tab active={isActive('resolved')} onClick={() => setActiveTab('resolved')}>Resolved</Tab>
-                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All Items</Tab>
-              </TabsList>
-
-              <TabPanel active={activeTab === "open" || activeTab === "all"}>
-                <Stack gap={3}>
-                  {filteredItems
-                    .filter(i => activeTab === "all" || i.status === "Open" || i.status === "In Progress")
-                    .sort((a, b) => {
-                      const priorityOrder = { Critical: 0, High: 1, Medium: 2, Low: 3 };
-                      return priorityOrder[a.priority] - priorityOrder[b.priority];
-                    })
-                    .map((item) => (
-                      <Card key={item.id} className="p-4">
-                        <Grid cols={6} gap={4} className="items-center">
-                          <Stack gap={1}>
-                            <Body className="font-display">{item.title}</Body>
-                            <Body size="sm" className="">{item.location}</Body>
-                          </Stack>
-                          <Badge variant="outline">{item.department}</Badge>
-                          <Badge variant={getPriorityVariant(item.priority)}>{item.priority}</Badge>
-                          <Badge variant={getStatusVariant(item.status)}>{item.status}</Badge>
-                          <Body size="sm" className="">{item.assignedTo || "Unassigned"}</Body>
-                          <Stack direction="horizontal" gap={2}>
-                            <Button variant="ghost" size="sm" onClick={() => setSelectedItem(item)}>Details</Button>
-                            {item.status === "Open" && <Button variant="outline" size="sm">Assign</Button>}
-                            {item.status === "In Progress" && <Button variant="outline" size="sm">Resolve</Button>}
-                          </Stack>
-                        </Grid>
-                      </Card>
-                    ))}
-                </Stack>
-              </TabPanel>
-
-              <TabPanel active={isActive('resolved')}>
-                <Table variant="dark">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Item</TableHead>
-                      <TableHead>Department</TableHead>
-                      <TableHead>Resolved By</TableHead>
-                      <TableHead>Resolved Date</TableHead>
-                      <TableHead>Verified</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredItems.filter(i => i.status === "Resolved" || i.status === "Verified").map((item) => (
-                      <TableRow key={item.id}>
-                        <TableCell>
-                          <Stack gap={1}>
-                            <Body>{item.title}</Body>
-                            <Body size="sm" className="">{item.location}</Body>
-                          </Stack>
-                        </TableCell>
-                        <TableCell><Badge variant="outline">{item.department}</Badge></TableCell>
-                        <TableCell><Body size="sm" className="">{item.assignedTo}</Body></TableCell>
-                        <TableCell><Body size="sm" className="">{item.resolvedDate}</Body></TableCell>
-                        <TableCell>
-                          {item.status === "Verified" 
-                            ? <Badge variant="solid">✓ {item.verifiedBy}</Badge>
-                            : <Button variant="outline" size="sm">Verify</Button>
-                          }
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TabPanel>
-            </Tabs>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="outline">Export List</Button>
-              <Button variant="outline" onClick={() => router.push("/qa-checkpoints")}>QA Checkpoints</Button>
-              <Button variant="outline" onClick={() => router.push("/build-strike")}>Build Status</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={showAddModal} onClose={() => setShowAddModal(false)}>
         <ModalHeader><H3>Add Punch Item</H3></ModalHeader>

@@ -1,14 +1,60 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createPlanSchema = z.object({
+  action: z.literal('create_plan'),
+  project_id: z.string().uuid(),
+  name: z.string().min(1),
+  venue_capacity_kg: z.number().min(0).optional(),
+  safety_factor: z.number().min(1).optional(),
+});
+
+const addPointSchema = z.object({
+  action: z.literal('add_point'),
+  project_id: z.string().uuid().optional(),
+  plan_id: z.string().uuid(),
+  point_id: z.string().min(1),
+  x: z.number(),
+  y: z.number(),
+  z: z.number().optional(),
+  load_kg: z.number().min(0),
+  hardware: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+const calculateSchema = z.object({
+  action: z.literal('calculate'),
+  project_id: z.string().uuid().optional(),
+  plan_id: z.string().uuid(),
+  type: z.enum(['point_load', 'bridle', 'distributed']),
+  input_values: z.object({
+    load_kg: z.number().min(0),
+    angle_deg: z.number().optional(),
+  }),
+});
+
+const riggingActionSchema = z.union([createPlanSchema, addPointSchema, calculateSchema]);
 
 // Rigging calculations and documentation
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -28,17 +74,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action, project_id } = body;
+    const validatedData = riggingActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create_plan') {
-      const { name, venue_capacity_kg, safety_factor } = body;
+      const { project_id, name, venue_capacity_kg, safety_factor } = validatedData as z.infer<typeof createPlanSchema>;
 
       const { data, error } = await supabase.from('rigging_plans').insert({
         project_id, name, venue_capacity_kg, safety_factor: safety_factor || 5,
@@ -50,7 +103,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'add_point') {
-      const { plan_id, point_id, x, y, z, load_kg, hardware, notes } = body;
+      const { plan_id, point_id, x, y, z, load_kg, hardware, notes } = validatedData as z.infer<typeof addPointSchema>;
 
       const { data, error } = await supabase.from('rigging_points').insert({
         plan_id, point_id, x, y, z, load_kg, hardware, notes
@@ -61,7 +114,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'calculate') {
-      const { plan_id, type, input_values } = body;
+      const { plan_id, type, input_values } = validatedData as z.infer<typeof calculateSchema>;
 
       // Perform calculation based on type
       interface RiggingResult { vertical_force?: number; horizontal_force?: number; wll_required?: number; leg_load?: number; wll_per_leg?: number }

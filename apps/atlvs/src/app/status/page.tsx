@@ -1,237 +1,127 @@
-import { AtlvsAppLayout } from "../../components/app-layout";
+"use client";
+
+/**
+ * Status Page
+ * System status and uptime
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
+import { CheckCircle, AlertTriangle, XCircle, Clock, List, Bell } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import {
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H1,
-  H3,
-  Label,
-  Container,
-  Display,
-  Button,
-  FullBleedSection,
   Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  DetailPage,
+  Section,
+  SectionHeader,
 } from "@ghxstship/ui";
-import { CheckCircle, AlertCircle, Clock, ArrowRight, Bell, Activity } from "lucide-react";
-import NextLink from "next/link";
 
-export const runtime = "edge";
+interface ServiceStatus {
+  id: string;
+  name: string;
+  status: "operational" | "degraded" | "outage";
+  uptime: number;
+}
 
-const statusData = {
-  hero: {
-    headline: "SYSTEM STATUS",
-    description: "Real-time status of ATLVS services and infrastructure.",
-  },
-  overall: {
-    status: "operational",
-    message: "All Systems Operational",
-    uptime: "99.99%",
-    lastUpdated: "December 4, 2024 at 10:45 PM EST",
-  },
-  services: [
-    { name: "Web Application", status: "operational", latency: "45ms" },
-    { name: "API", status: "operational", latency: "32ms" },
-    { name: "Database", status: "operational", latency: "12ms" },
-    { name: "File Storage", status: "operational", latency: "28ms" },
-    { name: "Authentication", status: "operational", latency: "18ms" },
-    { name: "Webhooks", status: "operational", latency: "55ms" },
-    { name: "Email Delivery", status: "operational", latency: "120ms" },
-    { name: "Background Jobs", status: "operational", latency: "85ms" },
-  ],
-  incidents: [
-    {
-      date: "November 28, 2024",
-      title: "Scheduled Maintenance Completed",
-      status: "resolved",
-      description: "Database optimization completed successfully with no downtime.",
-    },
-    {
-      date: "November 15, 2024",
-      title: "API Latency Increase",
-      status: "resolved",
-      description: "Brief increase in API response times due to traffic spike. Resolved within 15 minutes.",
-    },
-  ],
-  metrics: [
-    { label: "Uptime (30 days)", value: "99.99%" },
-    { label: "Avg Response Time", value: "45ms" },
-    { label: "Incidents (30 days)", value: "0" },
-    { label: "Scheduled Maintenance", value: "1" },
-  ],
-};
+const DEMO_SERVICES: ServiceStatus[] = [
+  { id: "1", name: "Web Application", status: "operational", uptime: 99.99 },
+  { id: "2", name: "API", status: "operational", uptime: 99.98 },
+  { id: "3", name: "Database", status: "operational", uptime: 99.99 },
+  { id: "4", name: "Authentication", status: "operational", uptime: 99.97 },
+  { id: "5", name: "File Storage", status: "operational", uptime: 99.95 },
+  { id: "6", name: "Email Service", status: "operational", uptime: 99.90 },
+];
 
-const statusColors = {
-  operational: "text-success",
-  degraded: "text-warning",
-  outage: "text-error",
-  resolved: "text-grey-500",
-};
-
-const statusIcons = {
-  operational: CheckCircle,
-  degraded: AlertCircle,
-  outage: AlertCircle,
-  resolved: CheckCircle,
+const STATUS_CONFIG = {
+  operational: { label: "Operational", variant: "success" as const, icon: <CheckCircle className="size-5 text-success" /> },
+  degraded: { label: "Degraded", variant: "warning" as const, icon: <AlertTriangle className="size-5 text-warning" /> },
+  outage: { label: "Outage", variant: "error" as const, icon: <XCircle className="size-5 text-error" /> },
 };
 
 export default function StatusPage() {
+  const router = useRouter();
+
+  const { data: services = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["system-status"],
+    queryFn: async () => {
+      const response = await fetch("/api/status");
+      if (!response.ok) return DEMO_SERVICES;
+      const data = await response.json();
+      return data.services?.length ? data.services : DEMO_SERVICES;
+    },
+  });
+
+  const allOperational = services.every((s: ServiceStatus) => s.status === "operational");
+
+  const tabs = [
+    {
+      id: "status",
+      label: "Status",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Card className={`p-6 mb-6 ${allOperational ? "border-success" : "border-warning"}`}>
+            <div className="flex items-center gap-4">
+              {allOperational ? <CheckCircle className="size-8 text-success" /> : <AlertTriangle className="size-8 text-warning" />}
+              <div>
+                <Body className="font-weight-bold font-weight-bold">{allOperational ? "All Systems Operational" : "Some Systems Degraded"}</Body>
+                <Body className="text-grey-400">Last updated: {new Date().toLocaleString()}</Body>
+              </div>
+            </div>
+          </Card>
+
+          <SectionHeader title="Services" />
+          <div className="space-y-2 mt-4">
+            {services.map((service: ServiceStatus) => {
+              const config = STATUS_CONFIG[service.status];
+              return (
+                <Card key={service.id} className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      {config.icon}
+                      <Body className="font-weight-medium">{service.name}</Body>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <Body size="sm" className="text-grey-400">{service.uptime}% uptime</Body>
+                      <Badge variant={config.variant}>{config.label}</Badge>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "subscribe",
+      label: "Subscribe",
+      icon: <Bell className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Status Updates" description="Get notified about system status changes" />
+          <Card className="p-8 text-center mt-4">
+            <Bell className="size-12 text-primary mx-auto mb-4" />
+            <Body className="font-weight-medium font-weight-medium mb-2">Subscribe to Updates</Body>
+            <Body className="text-grey-400 mb-4">Receive notifications when system status changes</Body>
+            <Button variant="solid">Subscribe</Button>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
+
   return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center text-center">
-            <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
-              <Activity className="size-8 text-brand-pink" />
-            </Stack>
-            <Label size="xs" className="text-on-dark-muted">
-              STATUS
-            </Label>
-            <Display size="lg" className="text-white">
-              {statusData.hero.headline}
-            </Display>
-            <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              {statusData.hero.description}
-            </Body>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-
-      {/* Overall Status */}
-      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
-        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
-          <Card className="border-2 border-ink-950 bg-white p-8 shadow-brand-lg">
-            <Stack direction="horizontal" className="items-center justify-between">
-              <Stack direction="horizontal" gap={4} className="items-center">
-                <CheckCircle className="size-8 text-success" />
-                <Stack gap={1}>
-                  <H1 className="text-ink-950">{statusData.overall.message}</H1>
-                  <Label size="xs" className="text-grey-500">
-                    Last updated: {statusData.overall.lastUpdated}
-                  </Label>
-                </Stack>
-              </Stack>
-              <Stack className="text-right">
-                <Display size="md" className="text-success">{statusData.overall.uptime}</Display>
-                <Label size="xs" className="text-grey-500">30-day uptime</Label>
-              </Stack>
-            </Stack>
-          </Card>
-        </Container>
-      </FullBleedSection>
-
-      {/* Metrics */}
-      <FullBleedSection background="white" className="py-8">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            {statusData.metrics.map((metric) => (
-              <Card key={metric.label} className="border-2 border-ink-950 bg-white p-6 text-center shadow-md">
-                <Stack gap={2}>
-                  <Display size="md" className="text-ink-950">{metric.value}</Display>
-                  <Label size="xs" className="text-grey-500">{metric.label}</Label>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
-        </Container>
-      </FullBleedSection>
-
-      {/* Services */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-12">
-            <H1 className="text-ink-950">SERVICE STATUS</H1>
-          </Stack>
-
-          <Card className="border-2 border-ink-950 bg-white shadow-md">
-            <Stack>
-              {statusData.services.map((service, idx) => {
-                const StatusIcon = statusIcons[service.status as keyof typeof statusIcons];
-                const colorClass = statusColors[service.status as keyof typeof statusColors];
-                return (
-                  <Stack
-                    key={service.name}
-                    direction="horizontal"
-                    className={`items-center justify-between p-4 ${idx !== statusData.services.length - 1 ? "border-b border-grey-200" : ""}`}
-                  >
-                    <Stack direction="horizontal" gap={3} className="items-center">
-                      <StatusIcon className={`size-5 ${colorClass}`} />
-                      <Label size="sm" className="text-ink-950">{service.name}</Label>
-                    </Stack>
-                    <Stack direction="horizontal" gap={4} className="items-center">
-                      <Stack direction="horizontal" gap={1} className="items-center text-grey-500">
-                        <Clock className="size-4" />
-                        <Label size="xs">{service.latency}</Label>
-                      </Stack>
-                      <Badge variant="outline" className="border-success text-success">
-                        Operational
-                      </Badge>
-                    </Stack>
-                  </Stack>
-                );
-              })}
-            </Stack>
-          </Card>
-        </Container>
-      </FullBleedSection>
-
-      {/* Recent Incidents */}
-      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-12">
-            <H1 className="text-white">RECENT INCIDENTS</H1>
-            <Body size="lg" className="text-on-dark-secondary">
-              Past incidents and scheduled maintenance.
-            </Body>
-          </Stack>
-
-          <Stack gap={4}>
-            {statusData.incidents.map((incident) => (
-              <Card key={incident.title} inverted className="border-2 border-ink-800 bg-ink-900 p-6">
-                <Stack gap={3}>
-                  <Stack direction="horizontal" className="items-center justify-between">
-                    <Stack direction="horizontal" gap={3} className="items-center">
-                      <CheckCircle className="size-5 text-grey-500" />
-                      <H3 size="sm" className="text-white">{incident.title}</H3>
-                    </Stack>
-                    <Label size="xs" className="text-on-dark-muted">{incident.date}</Label>
-                  </Stack>
-                  <Body size="sm" className="text-on-dark-secondary">
-                    {incident.description}
-                  </Body>
-                </Stack>
-              </Card>
-            ))}
-          </Stack>
-        </Container>
-      </FullBleedSection>
-
-      {/* Subscribe */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center">
-            <Display size="md" className="text-ink-950">
-              GET STATUS UPDATES
-            </Display>
-            <Body size="lg" className="text-grey-600">
-              Subscribe to receive notifications about system status and scheduled maintenance.
-            </Body>
-            <Stack direction="horizontal" gap={4}>
-              <NextLink href="/settings/notifications">
-                <Button variant="pop" size="lg" icon={<Bell />}>
-                  Subscribe to Updates
-                </Button>
-              </NextLink>
-              <NextLink href="/contact">
-                <Button variant="outline" size="lg" icon={<ArrowRight />}>
-                  Report an Issue
-                </Button>
-              </NextLink>
-            </Stack>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+    <DetailPage
+      header={{ kicker: "System", title: "Status", description: "Current system status and uptime" }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

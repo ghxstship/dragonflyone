@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * New Production Page
+ * Uses normalized WizardPage template from @ghxstship/ui
+ */
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
@@ -8,13 +13,8 @@ import {
   DollarSign, 
   Users, 
   Target,
-  ArrowRight,
-  ArrowLeft,
-  Check
 } from 'lucide-react';
-// Layout provided by route group
 import {
-  Container,
   Stack,
   Grid,
   Card,
@@ -22,16 +22,17 @@ import {
   H3,
   Body,
   Label,
-  Button,
   Input,
   Select,
   Textarea,
   Badge,
-  EnterprisePageHeader,
-  MainContent,
-  Stepper,
+  WizardPage,
   useNotifications,
+  type WizardStep,
 } from '@ghxstship/ui';
+import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+
+// Roles that can create productions
 
 interface ProductionFormData {
   title: string;
@@ -73,16 +74,9 @@ const PRODUCTION_FORMATS = [
   { value: 'other', label: 'Other' },
 ];
 
-const STEPS = [
-  { id: 'basics', label: 'Basic Info' },
-  { id: 'dates', label: 'Dates' },
-  { id: 'venue', label: 'Venue' },
-  { id: 'budget', label: 'Budget' },
-  { id: 'review', label: 'Review' },
-];
-
 export default function NewProductionPage() {
   const router = useRouter();
+  const { hasRole } = useAuthContext();
   const { addNotification } = useNotifications();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -116,17 +110,8 @@ export default function NewProductionPage() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleNext = () => {
-    if (currentStep < STEPS.length - 1) {
-      setCurrentStep(prev => prev + 1);
-    }
-  };
-
-  const handleBack = () => {
-    if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
-    }
-  };
+  // RBAC: Check if user has permission to create productions
+  const canCreateProduction = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
@@ -487,86 +472,44 @@ export default function NewProductionPage() {
     </Stack>
   );
 
-  const renderCurrentStep = () => {
-    switch (currentStep) {
-      case 0: return renderBasicsStep();
-      case 1: return renderDatesStep();
-      case 2: return renderVenueStep();
-      case 3: return renderBudgetStep();
-      case 4: return renderReviewStep();
-      default: return null;
-    }
-  };
+  // Build wizard steps with content
+  const wizardSteps: WizardStep[] = [
+    { id: 'basics', label: 'Basic Info', content: renderBasicsStep() },
+    { id: 'dates', label: 'Dates', content: renderDatesStep() },
+    { id: 'venue', label: 'Venue', content: renderVenueStep() },
+    { id: 'budget', label: 'Budget', content: renderBudgetStep() },
+    { id: 'review', label: 'Review', content: renderReviewStep() },
+  ];
 
   return (
-    <>
-      <EnterprisePageHeader
-        title="Create New Production"
-        subtitle="Set up a new production from scratch or from a blueprint"
-      />
-      <MainContent padding="lg">
-        <Container className="max-w-container-4xl">
-          <Stack gap={8}>
-            <Card className="border-2 border-primary">
-              <CardBody>
-                <Stack direction="horizontal" className="items-center justify-between">
-                  <Stack direction="horizontal" gap={3} className="items-center">
-                    <Sparkles className="text-primary" size={24} />
-                    <Stack gap={1}>
-                      <Label className="font-weight-semibold">Start from AI Blueprint</Label>
-                      <Body size="sm" className=" text-grey-600">
-                        Use the Experience Generator to create a production blueprint
-                      </Body>
-                    </Stack>
-                  </Stack>
-                  <Button variant="outline" onClick={() => router.push('/generator')}>
-                    Open Generator
-                  </Button>
-                </Stack>
-              </CardBody>
-            </Card>
-
-            <Stepper
-              steps={STEPS}
-              currentStep={currentStep}
-              onStepClick={setCurrentStep}
-            />
-
-            <Card>
-              <CardBody>
-                {renderCurrentStep()}
-              </CardBody>
-            </Card>
-
-            <Stack direction="horizontal" className="justify-between">
-              <Button
-                variant="outline"
-                onClick={handleBack}
-                disabled={currentStep === 0}
-              >
-                <ArrowLeft size={16} className="mr-2" />
-                Back
-              </Button>
-
-              {currentStep < STEPS.length - 1 ? (
-                <Button variant="solid" onClick={handleNext}>
-                  Next
-                  <ArrowRight size={16} className="ml-2" />
-                </Button>
-              ) : (
-                <Button
-                  variant="solid"
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Creating...' : 'Create Production'}
-                  <Check size={16} className="ml-2" />
-                </Button>
-              )}
-            </Stack>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <WizardPage
+      title="Create New Production"
+      subtitle="Set up a new production from scratch or from a blueprint"
+      breadcrumbs={[
+        { label: 'Productions', href: '/productions' },
+        { label: 'New Production' },
+      ]}
+      steps={wizardSteps}
+      currentStep={currentStep}
+      onStepChange={setCurrentStep}
+      onSubmit={handleSubmit}
+      submitLabel="Create Production"
+      isSubmitting={isSubmitting}
+      allowStepNavigation={true}
+      banner={{
+        icon: <Sparkles className="text-primary" size={24} />,
+        title: 'Start from AI Blueprint',
+        description: 'Use the Experience Generator to create a production blueprint',
+        action: {
+          label: 'Open Generator',
+          onClick: () => router.push('/generator'),
+        },
+      }}
+      accessDenied={!canCreateProduction ? {
+        title: 'Permission Required',
+        description: 'You do not have permission to create productions. This action requires ATLVS Team Member or higher role.',
+        action: { label: 'Back to Productions', onClick: () => router.push('/productions') },
+      } : undefined}
+    />
   );
 }

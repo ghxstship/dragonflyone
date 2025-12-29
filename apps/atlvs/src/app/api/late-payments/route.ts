@@ -1,14 +1,42 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const applyPenaltySchema = z.object({
+  invoice_id: z.string().uuid(),
+  action: z.literal('apply_penalty'),
+  penalty_amount: z.number().min(0),
+  notes: z.string().optional(),
+});
+
+const sendReminderSchema = z.object({
+  invoice_id: z.string().uuid(),
+  action: z.literal('send_reminder'),
+  notes: z.string().optional(),
+});
+
+const latePaymentActionSchema = z.union([applyPenaltySchema, sendReminderSchema]);
 
 // Late payment tracking and penalty calculation
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const daysOverdue = parseInt(searchParams.get('days_overdue') || '0');
@@ -57,16 +85,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { invoice_id, action, penalty_amount, notes } = body;
+    const validatedData = latePaymentActionSchema.parse(body);
+    const { invoice_id, action } = validatedData;
 
     if (action === 'apply_penalty') {
+      const { penalty_amount, notes } = validatedData as z.infer<typeof applyPenaltySchema>;
       const { data: invoice } = await supabase.from('invoices').select('*').eq('id', invoice_id).single();
       if (!invoice) return NextResponse.json({ error: 'Invoice not found' }, { status: 404 });
 

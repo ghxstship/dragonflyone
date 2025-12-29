@@ -1,4 +1,4 @@
-import { logger, withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/requests/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';

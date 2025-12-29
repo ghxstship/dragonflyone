@@ -1,14 +1,47 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const uploadSchema = z.object({
+  action: z.literal('upload'),
+  project_id: z.string().uuid(),
+  venue_id: z.string().uuid().optional(),
+  name: z.string().min(1),
+  file_url: z.string().url(),
+  file_type: z.string().optional(),
+  scale: z.number().optional(),
+});
+
+const annotateSchema = z.object({
+  action: z.literal('annotate'),
+  plan_id: z.string().uuid(),
+  x: z.number(),
+  y: z.number(),
+  label: z.string(),
+  type: z.string().optional(),
+});
+
+const groundPlanActionSchema = z.union([uploadSchema, annotateSchema]);
 
 // Ground plan uploads and reference
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -34,17 +67,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = groundPlanActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'upload') {
-      const { project_id, venue_id, name, file_url, file_type, scale } = body;
+      const { project_id, venue_id, name, file_url, file_type, scale } = validatedData as z.infer<typeof uploadSchema>;
 
       // Get latest version
       const { data: existing } = await supabase.from('ground_plans').select('version')
@@ -62,7 +102,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'annotate') {
-      const { plan_id, x, y, label, type } = body;
+      const { plan_id, x, y, label, type } = validatedData as z.infer<typeof annotateSchema>;
 
       const { data, error } = await supabase.from('plan_annotations').insert({
         plan_id, x, y, label, type, created_by: user.id

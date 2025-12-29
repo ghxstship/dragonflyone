@@ -1,262 +1,42 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
-// Layout provided by route group
-import {
-  H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
-  Kicker,
-} from "@ghxstship/ui";
+import { useState } from "react";
+import { Check, List } from "lucide-react";
+import { Body, Card, Grid, DetailPage, Section, SectionHeader, Link } from "@ghxstship/ui";
 
-import {
-  DEMO_CURRENCIES,
-  DEMO_LOCALIZED_PRICES,
-  type DemoCurrency as Currency,
-} from "@/lib/demo-data";
-
-const mockCurrencies = DEMO_CURRENCIES;
-const mockPrices = DEMO_LOCALIZED_PRICES;
-
-function CurrencyPageContent() {
-  const router = useRouter();
-  
-  // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
-    defaultTab: 'currencies',
-    validTabs: ['currencies', 'pricing', 'settings'],
-  });
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(null);
-  const [showAddModal, setShowAddModal] = useState(false);
-
-  const enabledCount = mockCurrencies.filter(c => c.enabled).length;
-
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Checkout</Kicker>
-              <H2 size="lg" className="text-white">International Currency</H2>
-              <Body className="text-on-dark-muted">Multi-currency support with localized pricing</Body>
-            </Stack>
-
-          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Currencies" value={mockCurrencies.length.toString()} inverted />
-            <StatCard label="Enabled" value={enabledCount.toString()} inverted />
-            <StatCard label="Base Currency" value="USD" inverted />
-            <StatCard label="Last Updated" value="Today" inverted />
-          </Grid>
-
-          <Tabs>
-            <TabsList>
-              <Tab active={isActive('currencies')} onClick={() => setActiveTab('currencies')}>Currencies</Tab>
-              <Tab active={isActive('pricing')} onClick={() => setActiveTab('pricing')}>Localized Pricing</Tab>
-              <Tab active={isActive('settings')} onClick={() => setActiveTab('settings')}>Settings</Tab>
-            </TabsList>
-
-            <TabPanel active={isActive('currencies')}>
-              <Stack gap={4}>
-                <Stack direction="horizontal" className="justify-end">
-                  <Button variant="solid" inverted onClick={() => setShowAddModal(true)}>Add Currency</Button>
-                </Stack>
-                <Card inverted className="overflow-hidden">
-                  <Table variant="dark">
-                    <TableHeader>
-                      <TableRow className="bg-ink-900">
-                        <TableHead className="text-on-dark-muted">Currency</TableHead>
-                        <TableHead className="text-on-dark-muted">Code</TableHead>
-                        <TableHead className="text-on-dark-muted">Symbol</TableHead>
-                        <TableHead className="text-on-dark-muted">Exchange Rate</TableHead>
-                        <TableHead className="text-on-dark-muted">Status</TableHead>
-                        <TableHead className="text-on-dark-muted">Last Updated</TableHead>
-                        <TableHead className="text-on-dark-muted">Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {mockCurrencies.map((currency) => (
-                        <TableRow key={currency.code} className="border-b border-ink-700">
-                          <TableCell><Label className="font-display text-white">{currency.name}</Label></TableCell>
-                          <TableCell><Badge variant="outline">{currency.code}</Badge></TableCell>
-                          <TableCell><Label className="font-mono text-white">{currency.symbol}</Label></TableCell>
-                          <TableCell><Label className="font-mono text-white">{currency.rate.toFixed(2)}</Label></TableCell>
-                          <TableCell><Label className={currency.enabled ? "text-success-400" : "text-on-dark-disabled"}>{currency.enabled ? "Enabled" : "Disabled"}</Label></TableCell>
-                          <TableCell><Label className="text-on-dark-disabled">{currency.lastUpdated}</Label></TableCell>
-                          <TableCell>
-                            <Stack direction="horizontal" gap={2}>
-                              <Button variant="outlineInk" size="sm" onClick={() => setSelectedCurrency(currency)}>Edit</Button>
-                              <Button variant="ghost" size="sm">{currency.enabled ? "Disable" : "Enable"}</Button>
-                            </Stack>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </Card>
-              </Stack>
-            </TabPanel>
-
-            <TabPanel active={isActive('pricing')}>
-              <Stack gap={4}>
-                {mockPrices.map((price, idx) => (
-                  <Card key={idx} inverted className="p-6">
-                    <Stack gap={4}>
-                      <Stack direction="horizontal" className="justify-between">
-                        <Body className="font-display text-white">{price.eventName}</Body>
-                        <Stack direction="horizontal" gap={2}>
-                          <Label className="text-on-dark-disabled">Base:</Label>
-                          <Label className="font-mono text-white">${price.basePrice}</Label>
-                          <Badge variant="outline">{price.baseCurrency}</Badge>
-                        </Stack>
-                      </Stack>
-                      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-                        {price.localizedPrices.map((lp, lpIdx) => {
-                          const curr = mockCurrencies.find(c => c.code === lp.currency);
-                          return (
-                            <Card key={lpIdx} inverted className="p-3 text-center">
-                              <Stack gap={1}>
-                                <Badge variant="outline">{lp.currency}</Badge>
-                                <Label className="font-mono text-white">{curr?.symbol}{lp.price}</Label>
-                              </Stack>
-                            </Card>
-                          );
-                        })}
-                        <Card inverted interactive className="cursor-pointer p-3 text-center">
-                          <Stack gap={1}>
-                            <Label className="text-h5-md text-white">+</Label>
-                            <Label className="text-on-dark-muted">Add Price</Label>
-                          </Stack>
-                        </Card>
-                      </Grid>
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            </TabPanel>
-
-            <TabPanel active={isActive('settings')}>
-              <Card inverted className="p-6">
-                <Stack gap={6}>
-                  <H3 className="text-white">Currency Settings</H3>
-                  <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
-                    <Stack gap={4}>
-                      <Stack gap={2}>
-                        <Label className="font-display text-white">Base Currency</Label>
-                        <Select inverted>
-                          <option value="USD">USD - US Dollar</option>
-                          <option value="EUR">EUR - Euro</option>
-                          <option value="GBP">GBP - British Pound</option>
-                        </Select>
-                      </Stack>
-                      <Stack gap={2}>
-                        <Label className="font-display text-white">Exchange Rate Source</Label>
-                        <Select inverted>
-                          <option value="auto">Automatic (Daily Update)</option>
-                          <option value="manual">Manual Entry</option>
-                          <option value="fixed">Fixed Rates</option>
-                        </Select>
-                      </Stack>
-                      <Stack gap={2}>
-                        <Label className="font-display text-white">Rounding</Label>
-                        <Select inverted>
-                          <option value="nearest">Nearest Whole Number</option>
-                          <option value="up">Round Up</option>
-                          <option value="down">Round Down</option>
-                          <option value="none">No Rounding</option>
-                        </Select>
-                      </Stack>
-                    </Stack>
-                    <Stack gap={4}>
-                      <Stack gap={2}>
-                        <Label className="font-display text-white">Display Options</Label>
-                        <Stack gap={1}>
-                          {["Show currency selector on checkout", "Auto-detect visitor currency", "Show prices in local currency on event pages", "Include currency conversion disclaimer"].map((opt, idx) => (
-                            <Stack key={idx} direction="horizontal" gap={2} className="items-center">
-                              <Input type="checkbox" defaultChecked={idx < 3} className="size-4" />
-                              <Label className="text-on-dark-muted">{opt}</Label>
-                            </Stack>
-                          ))}
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                  </Grid>
-                  <Button variant="solid" inverted>Save Settings</Button>
-                </Stack>
-              </Card>
-            </TabPanel>
-          </Tabs>
-
-          <Button variant="outlineInk" onClick={() => router.push("/checkout")}>Back to Checkout</Button>
-          </Stack>
-
-      <Modal open={!!selectedCurrency} onClose={() => setSelectedCurrency(null)}>
-        <ModalHeader><H3>Edit Currency</H3></ModalHeader>
-        <ModalBody>
-          {selectedCurrency && (
-            <Stack gap={4}>
-              <Stack direction="horizontal" gap={2} className="items-center">
-                <Badge variant="outline">{selectedCurrency.code}</Badge>
-                <Label className="font-display">{selectedCurrency.name}</Label>
-              </Stack>
-              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                <Stack gap={1}>
-                  <Label className="text-on-light-muted">Symbol</Label>
-                  <Input defaultValue={selectedCurrency.symbol} />
-                </Stack>
-                <Stack gap={1}>
-                  <Label className="text-on-light-muted">Exchange Rate (to USD)</Label>
-                  <Input type="number" step="0.01" defaultValue={selectedCurrency.rate} />
-                </Stack>
-              </Grid>
-              <Stack direction="horizontal" gap={2} className="items-center">
-                <Input type="checkbox" defaultChecked={selectedCurrency.enabled} className="size-4" />
-                <Label>Enabled for checkout</Label>
-              </Stack>
-            </Stack>
-          )}
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setSelectedCurrency(null)}>Cancel</Button>
-          <Button variant="solid" onClick={() => setSelectedCurrency(null)}>Save</Button>
-        </ModalFooter>
-      </Modal>
-
-      <Modal open={showAddModal} onClose={() => setShowAddModal(false)}>
-        <ModalHeader><H3>Add Currency</H3></ModalHeader>
-        <ModalBody>
-          <Stack gap={4}>
-            <Select>
-              <option value="">Select Currency...</option>
-              <option value="CHF">CHF - Swiss Franc</option>
-              <option value="SEK">SEK - Swedish Krona</option>
-              <option value="NOK">NOK - Norwegian Krone</option>
-              <option value="DKK">DKK - Danish Krone</option>
-              <option value="SGD">SGD - Singapore Dollar</option>
-              <option value="HKD">HKD - Hong Kong Dollar</option>
-            </Select>
-            <Input type="number" step="0.01" placeholder="Exchange Rate" />
-            <Stack direction="horizontal" gap={2} className="items-center">
-              <Input type="checkbox" defaultChecked className="size-4" />
-              <Label>Enable immediately</Label>
-            </Stack>
-          </Stack>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setShowAddModal(false)}>Cancel</Button>
-          <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Currency</Button>
-        </ModalFooter>
-      </Modal>
-    </>
-  );
-}
+const CURRENCIES = [
+  { code: "USD", name: "US Dollar", symbol: "$" },
+  { code: "EUR", name: "Euro", symbol: "€" },
+  { code: "GBP", name: "British Pound", symbol: "£" },
+  { code: "CAD", name: "Canadian Dollar", symbol: "C$" },
+  { code: "AUD", name: "Australian Dollar", symbol: "A$" },
+];
 
 export default function CurrencyPage() {
-  return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
-      <CurrencyPageContent />
-    </Suspense>
-  );
+  const [selected, setSelected] = useState("USD");
+
+  const tabs = [{
+    id: "currency", label: "Currency", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <SectionHeader title="Select Currency" description="Choose your preferred currency for checkout" />
+        <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
+          {CURRENCIES.map((currency) => (
+            <Card key={currency.code} className={`p-4 cursor-pointer transition-colors ${selected === currency.code ? "border-primary" : ""}`} onClick={() => setSelected(currency.code)}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="size-10 bg-grey-800 rounded-avatar flex items-center justify-center font-weight-bold">{currency.symbol}</div>
+                  <div><Body className="font-weight-bold">{currency.code}</Body><Body size="sm" className="text-grey-400">{currency.name}</Body></div>
+                </div>
+                {selected === currency.code && <Check className="size-5 text-primary" />}
+              </div>
+            </Card>
+          ))}
+        </Grid>
+        <Link href="/checkout" className="w-full mt-6 inline-flex items-center justify-center bg-primary text-white px-4 py-2 rounded-button font-weight-medium">Continue to Checkout</Link>
+      </Section>
+    ),
+  }];
+
+  return <DetailPage header={{ kicker: "Checkout", title: "Currency", description: "Select your currency" }} backButton={{ label: "Cart", href: "/cart" }} tabs={tabs} />;
 }

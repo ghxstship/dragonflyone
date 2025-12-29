@@ -1,14 +1,10 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { logger } from '@ghxstship/config';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { createAdminClient } from '@/lib/supabase';
+import { apiRoute } from '@ghxstship/config/middleware';
+import { PlatformRole } from '@ghxstship/config/roles';
 
 const paymentSchema = z.object({
   payment_method_id: z.string().optional(),
@@ -17,9 +13,10 @@ const paymentSchema = z.object({
   notes: z.string().optional(),
 });
 
-export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  try {
-    const { id: invoiceId } = await params;
+export const POST = apiRoute(
+  async (request: NextRequest, context) => {
+    const supabase = createAdminClient();
+    const { id: invoiceId } = await context.params!;
 
     const { data: invoice, error: fetchError } = await supabase
       .from('invoices')
@@ -44,17 +41,17 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
     const { amount, payment_type, notes } = validationResult.data;
     const newAmountPaid = (invoice.amount_paid || 0) + amount;
-    const remaining = invoice.total_amount - newAmountPaid;
+    const remaining = (invoice.total_amount || 0) - newAmountPaid;
 
     const { data: payment, error: paymentError } = await supabase
       .from('invoice_payments')
       .insert({
         invoice_id: invoiceId,
         amount,
-        payment_type,
+        payment_method: payment_type,
         notes,
         status: 'completed',
-        paid_at: new Date().toISOString(),
+        payment_date: new Date().toISOString(),
       })
       .select()
       .single();
@@ -84,8 +81,11 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       invoice_status: newStatus,
       amount_remaining: Math.max(0, remaining),
     }, { status: 201 });
-  } catch (error) {
-    logger.error('Error in POST /api/invoices/[id]/pay:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json({ error: 'Failed to process payment' }, { status: 500 });
+  },
+  {
+    auth: true,
+    roles: [PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_SUPER_ADMIN],
+    validation: paymentSchema,
+    audit: { action: 'invoice:pay', resource: 'invoices' },
   }
-}
+);

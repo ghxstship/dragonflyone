@@ -11,15 +11,20 @@ import {
   Grid,
   Stack,
   Body,
-  EnterprisePageHeader,
-  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from '@ghxstship/config';
+
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 import {
   useIssues,
@@ -64,6 +69,11 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function IssuesPage() {
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access
+  const canManageIssues = ADMIN_ROLES.some(role => hasRole(role));
+  
   const { data: issues = [], isLoading, refetch } = useIssues();
   const createIssueMutation = useCreateIssue();
   const updateStatusMutation = useUpdateIssueStatus();
@@ -77,8 +87,10 @@ export default function IssuesPage() {
 
   const rowActions: ListPageAction<Issue>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedIssue(r); setDrawerOpen(true); } },
-    { id: 'escalate', label: 'Escalate', icon: <ArrowUp className="size-4" />, onClick: (r) => handleEscalate(r.id) },
-    { id: 'resolve', label: 'Resolve', icon: <Check className="size-4" />, onClick: (r) => handleResolve(r.id) },
+    ...(canManageIssues ? [
+      { id: 'escalate', label: 'Escalate', icon: <ArrowUp className="size-4" />, onClick: (r: Issue) => handleEscalate(r.id) },
+      { id: 'resolve', label: 'Resolve', icon: <Check className="size-4" />, onClick: (r: Issue) => handleResolve(r.id) },
+    ] : []),
   ];
 
   const handleEscalate = async (issueId: string) => {
@@ -164,15 +176,7 @@ export default function IssuesPage() {
 
   return (
     <>
-      <EnterprisePageHeader
-        title="Live Issue Tracking"
-        subtitle="Real-time issue management and escalation"
-primaryAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) }}
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <ListPage<Issue>
+      <ListPage<Issue>
           title="Live Issue Tracking"
           subtitle="Real-time issue management and escalation"
           data={issues}
@@ -184,7 +188,7 @@ primaryAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) 
           rowActions={rowActions}
           onRowClick={(r) => { setSelectedIssue(r); setDrawerOpen(true); }}
           createLabel="Report Issue"
-          onCreate={() => setCreateModalOpen(true)}
+          onCreate={canManageIssues ? () => setCreateModalOpen(true) : undefined}
           entityType="issues"
           onImport={handleImport}
           importTemplates={importTemplates}
@@ -205,28 +209,29 @@ primaryAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) 
           })}
           stats={stats}
           emptyMessage="No issues found"
-          emptyAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) }}
-          onBulkAction={async (action, ids) => {
-            if (action === 'delete') {
-              await fetch('/api/issues/bulk', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ids }),
-              });
-            } else if (action === 'resolve') {
-              await fetch('/api/issues/bulk-resolve', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ids }),
-              });
-            }
-          }}
-          bulkActions={[
-            { id: 'resolve', label: 'Resolve Selected', variant: 'default' },
-            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
-          ]}
-        />
-      </MainContent>
+        emptyAction={canManageIssues ? { label: 'Report Issue', onClick: () => setCreateModalOpen(true) } : undefined}
+        onBulkAction={canManageIssues ? async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/issues/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'resolve') {
+            await fetch('/api/issues/bulk-resolve', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        } : undefined}
+        bulkActions={canManageIssues ? [
+          { id: 'resolve', label: 'Resolve Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ] : []}
+        showFavorite
+        showSettings
+      />
 
       <RecordFormModal
         open={createModalOpen}

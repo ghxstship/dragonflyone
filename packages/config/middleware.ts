@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createBrowserClient } from './supabase-client';
-import { PlatformRole, Permission } from './roles';
+import { logger } from './logger';
+import { createServerClient } from './supabase-client';
+import { PlatformRole, Permission, PLATFORM_ROLE_PERMISSIONS } from './roles';
 
 // Rate limiting store (in production, use Redis)
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
@@ -14,46 +15,13 @@ export interface AuthenticatedRequest extends NextRequest {
   };
 }
 
-// Platform role permissions mapping
-const PLATFORM_ROLE_PERMISSIONS: Record<PlatformRole, Permission[]> = {
-  // Legend roles have all permissions
-  [PlatformRole.LEGEND_SUPER_ADMIN]: ['events:create', 'events:edit', 'events:delete', 'events:view', 'tickets:manage', 'orders:view', 'orders:refund', 'projects:create', 'projects:edit', 'projects:view', 'tasks:assign', 'tasks:view', 'budgets:manage', 'budgets:view', 'advancing:submit', 'advancing:approve', 'users:manage'],
-  [PlatformRole.LEGEND_ADMIN]: ['events:create', 'events:edit', 'events:delete', 'events:view', 'tickets:manage', 'orders:view', 'orders:refund', 'projects:create', 'projects:edit', 'projects:view', 'tasks:assign', 'tasks:view', 'budgets:manage', 'budgets:view', 'advancing:submit', 'advancing:approve', 'users:manage'],
-  [PlatformRole.LEGEND_DEVELOPER]: ['events:create', 'events:edit', 'events:delete', 'events:view', 'tickets:manage', 'orders:view', 'orders:refund', 'projects:create', 'projects:edit', 'projects:view', 'tasks:assign', 'tasks:view', 'budgets:manage', 'budgets:view', 'advancing:submit', 'advancing:approve', 'users:manage'],
-  [PlatformRole.LEGEND_COLLABORATOR]: ['events:create', 'events:edit', 'events:view', 'projects:create', 'projects:edit', 'projects:view', 'tasks:assign', 'tasks:view', 'budgets:view'],
-  [PlatformRole.LEGEND_SUPPORT]: ['events:view', 'projects:view', 'tasks:view', 'budgets:view', 'orders:view'],
-  [PlatformRole.LEGEND_INCOGNITO]: ['events:create', 'events:edit', 'events:delete', 'events:view', 'tickets:manage', 'orders:view', 'orders:refund', 'projects:create', 'projects:edit', 'projects:view', 'tasks:assign', 'tasks:view', 'budgets:manage', 'budgets:view', 'advancing:submit', 'advancing:approve', 'users:manage'],
-  // ATLVS roles
-  [PlatformRole.ATLVS_SUPER_ADMIN]: ['projects:create', 'projects:edit', 'projects:view', 'tasks:assign', 'tasks:view', 'budgets:manage', 'budgets:view', 'users:manage'],
-  [PlatformRole.ATLVS_ADMIN]: ['projects:create', 'projects:edit', 'projects:view', 'tasks:assign', 'tasks:view', 'budgets:manage', 'budgets:view'],
-  [PlatformRole.ATLVS_TEAM_MEMBER]: ['projects:view', 'tasks:view', 'budgets:view'],
-  [PlatformRole.ATLVS_VIEWER]: ['projects:view', 'tasks:view'],
-  // COMPVSS roles
-  [PlatformRole.COMPVSS_ADMIN]: ['events:create', 'events:edit', 'events:view', 'projects:create', 'projects:edit', 'projects:view', 'tasks:assign', 'tasks:view', 'advancing:approve', 'budgets:view'],
-  [PlatformRole.COMPVSS_TEAM_MEMBER]: ['events:view', 'projects:view', 'tasks:view', 'advancing:submit'],
-  [PlatformRole.COMPVSS_COLLABORATOR]: ['events:view', 'projects:view', 'tasks:view'],
-  [PlatformRole.COMPVSS_VIEWER]: ['events:view', 'projects:view'],
-  // GVTEWAY roles
-  [PlatformRole.GVTEWAY_ADMIN]: ['events:create', 'events:edit', 'events:delete', 'events:view', 'tickets:manage', 'orders:view', 'orders:refund', 'users:manage'],
-  [PlatformRole.GVTEWAY_EXPERIENCE_CREATOR]: ['events:create', 'events:edit', 'events:view', 'tickets:manage', 'orders:view'],
-  [PlatformRole.GVTEWAY_VENUE_MANAGER]: ['events:view', 'venue:access:all'],
-  [PlatformRole.GVTEWAY_ARTIST_VERIFIED]: ['events:view', 'orders:view:own'],
-  [PlatformRole.GVTEWAY_ARTIST]: ['events:view', 'orders:view:own'],
-  [PlatformRole.GVTEWAY_MEMBER_EXTRA]: ['events:view', 'orders:view:own'],
-  [PlatformRole.GVTEWAY_MEMBER_PLUS]: ['events:view', 'orders:view:own'],
-  [PlatformRole.GVTEWAY_MEMBER]: ['events:view', 'orders:view:own'],
-  [PlatformRole.GVTEWAY_MEMBER_GUEST]: ['events:view'],
-  [PlatformRole.GVTEWAY_AFFILIATE]: ['events:view', 'orders:view:own', 'referral:create', 'commission:view'],
-  [PlatformRole.GVTEWAY_MODERATOR]: ['events:view', 'users:manage'],
-};
-
 /**
  * Authentication middleware - validates JWT and attaches user to request
  */
 export async function withAuth(_request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-  const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey);
   
   const {
     data: { user },
@@ -218,21 +186,19 @@ export async function withAudit(
 ) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-  const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey);
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (supabase as any).from('audit_logs').insert({
+    await supabase.from('audit_logs').insert({
       user_id: userData?.user?.id ?? null,
       action,
       resource_type: resource,
       resource_id: request.nextUrl.pathname.split('/').pop() ?? null,
       ip_address: request.headers.get('x-forwarded-for'),
       user_agent: request.headers.get('user-agent'),
-      created_at: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Audit log error:', error);
+    logger.error('Audit log error', error instanceof Error ? error : undefined);
   }
 }
 
@@ -298,10 +264,8 @@ export function withSecurityHeaders() {
 /**
  * Compose multiple middleware functions
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function compose(...middlewares: ((...args: unknown[]) => Promise<unknown>)[]) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return async (request: NextRequest, ...args: any[]) => {
+  return async (request: NextRequest, ...args: unknown[]) => {
     for (const middleware of middlewares) {
       const result = await middleware(request, ...args);
       if (result instanceof NextResponse) {
@@ -316,10 +280,25 @@ export function compose(...middlewares: ((...args: unknown[]) => Promise<unknown
 }
 
 /**
+ * Context provided to API route handlers by the apiRoute middleware
+ */
+export interface ApiRouteContext {
+  params?: Promise<Record<string, string>>;
+  user?: {
+    id: string;
+    email?: string;
+    platformRoles?: PlatformRole[];
+    eventRoles?: Record<string, string[]>;
+  };
+  validated?: unknown;
+  [key: string]: unknown;
+}
+
+/**
  * API route wrapper with common middleware
  */
 export function apiRoute(
-  handler: (request: NextRequest, context: Record<string, unknown>) => Promise<NextResponse>,
+  handler: (request: NextRequest, context: ApiRouteContext) => Promise<NextResponse>,
   options: {
     auth?: boolean;
     roles?: PlatformRole[];
@@ -329,7 +308,7 @@ export function apiRoute(
     audit?: { action: string; resource: string };
   } = {}
 ) {
-  return async (request: NextRequest, context: Record<string, unknown> = {}) => {
+  return async (request: NextRequest, context: ApiRouteContext = {}) => {
     try {
       // Rate limiting
       if (options.rateLimit) {
@@ -388,7 +367,7 @@ export function apiRoute(
       // Apply security headers
       return withSecurityHeaders()(response);
     } catch (error: unknown) {
-      console.error('API route error:', error);
+      logger.error('API route error', error instanceof Error ? error : undefined);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       return NextResponse.json(
         {

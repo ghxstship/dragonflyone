@@ -153,6 +153,7 @@ export function useCreateCalendarEvent() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['calendar-events'] });
+      queryClient.invalidateQueries({ queryKey: ['master-calendar'] });
     },
   });
 }
@@ -175,6 +176,7 @@ export function useUpdateCalendarEvent() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['calendar-events'] });
+      queryClient.invalidateQueries({ queryKey: ['master-calendar'] });
     },
   });
 }
@@ -211,6 +213,7 @@ export function useRescheduleEvent() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['calendar-events'] });
+      queryClient.invalidateQueries({ queryKey: ['master-calendar'] });
     },
   });
 }
@@ -232,6 +235,7 @@ export function useDeleteCalendarEvent() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['calendar-events'] });
+      queryClient.invalidateQueries({ queryKey: ['master-calendar'] });
     },
   });
 }

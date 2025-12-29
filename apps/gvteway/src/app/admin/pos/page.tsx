@@ -1,394 +1,92 @@
 "use client";
 
-import { useEffect, useMemo, useState, Suspense } from "react";
-import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
-// Layout provided by route group
-import {
-  H2, H3, Body, Label, Grid, Stack, StatCard, Input,
-  Button, Card, Tabs, TabsList, Tab, TabPanel,
-  Modal, ModalHeader, ModalBody, ModalFooter, Badge, EmptyState,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
-  Kicker,
-} from "@ghxstship/ui";
+import { useState } from "react";
+import { CreditCard, Search, ShoppingCart, Plus, Minus, List } from "lucide-react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { Body, Button, Card, Input, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
 
-import { usePOSData, type POSMenuItem } from "@/hooks/usePOS";
-
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  category: string;
-}
-
-function POSPageContent() {
-  const router = useRouter();
-  
-  // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
-    defaultTab: 'register',
-    validTabs: ['register', 'terminals', 'reports'],
-  });
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("");
-  const [selectedTerminalId, setSelectedTerminalId] = useState<string | null>(null);
-
-  const {
-    terminals,
-    menuItems,
-    transactions,
-    paymentMethods,
-    isLoading,
-    error,
-    refetchTerminals,
-    refetchMenuItems,
-    refetchTransactions,
-    refetchPaymentMethods,
-    processSale,
-    isProcessing,
-  } = usePOSData();
-
-  useEffect(() => {
-    if (!selectedTerminalId && terminals.length > 0) {
-      setSelectedTerminalId(terminals[0].id);
-    }
-  }, [terminals, selectedTerminalId]);
-
-  const metrics = useMemo(() => {
-    const totalSales = transactions.reduce((sum: number, t) => sum + (t.total || 0), 0);
-    const totalTransactions = transactions.length;
-    const avgTransaction = totalTransactions > 0 ? totalSales / totalTransactions : 0;
-    const terminalCount = terminals.length;
-    const paymentMethodUsage = transactions.reduce<Record<string, number>>((acc, t) => {
-      const method = t.payment_method || "other";
-      acc[method] = (acc[method] || 0) + (t.total || 0);
-      return acc;
-    }, {});
-    return { totalSales, totalTransactions, avgTransaction, terminalCount, paymentMethodUsage };
-  }, [transactions, terminals.length]);
-
-  const handleCompleteSale = async () => {
-    if (cart.length === 0 || !paymentMethod) return;
-    const normalizedMethod = paymentMethod === "Cash"
-      ? "cash"
-      : paymentMethod === "Apple Pay" || paymentMethod === "Gift Card"
-      ? "mobile"
-      : paymentMethod.toLowerCase().includes("bank") || paymentMethod.toLowerCase().includes("ach")
-      ? "cash"
-      : "card";
-    await processSale({
-      items: cart.map(item => ({ id: item.id, price: item.price, quantity: item.quantity })),
-      paymentMethod: normalizedMethod,
-      terminalId: selectedTerminalId || terminals[0]?.id || "unknown-terminal",
-    });
-    setCart([]);
-    setShowPaymentModal(false);
-  };
-
-  if (isLoading) {
-    return (
-      <>
-        <div className="flex min-h-[50vh] items-center justify-center">
-          <Body className="text-on-dark-muted">Loading POS data...</Body>
-        </div>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4">
-        <Body className="text-error-500">Failed to load POS data. Please retry.</Body>
-        <Button
-          variant="solid"
-          onClick={() => {
-            refetchTerminals();
-            refetchMenuItems();
-            refetchTransactions();
-            refetchPaymentMethods();
-          }}
-        >
-          Retry
-        </Button>
-      </div>
-    );
-  }
-
-  const totalSales = metrics.totalSales;
-  const totalTransactions = metrics.totalTransactions;
-  const onlineTerminals = terminals.filter(t => (t as { status?: string }).status?.toLowerCase() === "online").length;
-  const avgTransaction = metrics.avgTransaction;
-
-  const addToCart = (item: POSMenuItem) => {
-    const existing = cart.find(c => c.id === item.id);
-    if (existing) {
-      setCart(cart.map(c => c.id === item.id ? { ...c, quantity: c.quantity + 1 } : c));
-    } else {
-      setCart([...cart, { ...item, quantity: 1 }]);
-    }
-  };
-
-  const removeFromCart = (id: string) => {
-    setCart(cart.filter(c => c.id !== id));
-  };
-
-  const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const categories = ["All", ...new Set(menuItems.map(i => i.category))];
-  const filteredItems = selectedCategory === "All" ? menuItems : menuItems.filter(i => i.category === selectedCategory);
-
-  const paymentOptions = paymentMethods.length
-    ? paymentMethods.map(pm => ({
-        id: pm.id,
-        label: `${pm.brand || pm.type || "Card"} ••••${pm.last_four || pm.last4 || "0000"}`,
-        type: pm.type,
-      }))
-    : [
-        { id: "card", label: "Card", type: "card" },
-        { id: "cash", label: "Cash", type: "cash" },
-        { id: "mobile", label: "Mobile", type: "mobile" },
-      ];
-
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack direction="horizontal" className="items-center justify-between">
-              <Stack gap={2}>
-                <Kicker colorScheme="on-dark">Admin</Kicker>
-                <H2 size="lg" className="text-white">Point of Sale</H2>
-                <Body className="text-on-dark-muted">Box office, concessions, and merchandise sales</Body>
-              </Stack>
-              <Badge variant="solid">
-                Terminal: {terminals.find(t => t.id === selectedTerminalId)?.name || terminals[0]?.name || "Select a terminal"}
-              </Badge>
-            </Stack>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="Sales (Total)" value={`$${totalSales.toFixed(2)}`} inverted />
-              <StatCard label="Transactions" value={totalTransactions.toString()} inverted />
-              <StatCard label="Avg Transaction" value={totalTransactions > 0 ? `$${avgTransaction.toFixed(2)}` : "$0.00"} inverted />
-              <StatCard label="Terminals Online" value={`${onlineTerminals}/${terminals.length}`} inverted />
-            </Grid>
-
-          <Tabs>
-            <TabsList>
-              <Tab active={isActive('register')} onClick={() => setActiveTab('register')}>Register</Tab>
-              <Tab active={isActive('terminals')} onClick={() => setActiveTab('terminals')}>Terminals</Tab>
-              <Tab active={isActive('reports')} onClick={() => setActiveTab('reports')}>Reports</Tab>
-            </TabsList>
-
-            <TabPanel active={isActive('register')}>
-              <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
-                <Card inverted variant="elevated" className="col-span-2 p-4">
-                  <Stack gap={4}>
-                    <Stack direction="horizontal" gap={2} className="flex-wrap">
-                      {categories.map(cat => (
-                        <Button key={cat} variant={selectedCategory === cat ? "solid" : "outlineInk"} size="sm" inverted={selectedCategory === cat} onClick={() => setSelectedCategory(cat)}>
-                          {cat}
-                        </Button>
-                      ))}
-                    </Stack>
-                    {filteredItems.length === 0 ? (
-                      <EmptyState
-                        title="No menu items"
-                        description="Create menu items to start selling."
-                        action={{ label: "Retry fetch", onClick: () => refetchMenuItems() }}
-                      />
-                    ) : (
-                      <Grid cols={4} gap={3} className="grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        {filteredItems.map(item => (
-                          <Card key={item.id} inverted interactive onClick={() => addToCart(item)} onKeyDown={(e) => e.key === 'Enter' && addToCart(item)} role="button" tabIndex={0} aria-label={`Add ${item.name} to cart, $${item.price}`}>
-                            <Stack gap={1}>
-                              <Body className="font-display text-white">{item.name}</Body>
-                              <Label size="xs" className="text-on-dark-muted">${item.price}</Label>
-                              <Badge variant={item.available ? "solid" : "outline"}>{item.available ? "Available" : "Unavailable"}</Badge>
-                            </Stack>
-                          </Card>
-                        ))}
-                      </Grid>
-                    )}
-                  </Stack>
-                </Card>
-
-                <Card inverted variant="elevated" className="p-4">
-                  <Stack gap={4}>
-                    <H3 className="text-white">CURRENT ORDER</H3>
-                    {cart.length === 0 ? (
-                      <Body className="py-8 text-center text-on-dark-muted">No items in cart</Body>
-                    ) : (
-                      <Stack gap={2}>
-                        {cart.map(item => (
-                          <Card key={item.id} inverted>
-                            <Stack direction="horizontal" className="items-center justify-between">
-                              <Stack gap={0}>
-                                <Label className="font-display text-white">{item.name}</Label>
-                                <Label size="xs" className="text-on-dark-disabled">x{item.quantity}</Label>
-                              </Stack>
-                              <Stack direction="horizontal" gap={2} className="items-center">
-                                <Label className="text-white">${item.price * item.quantity}</Label>
-                                <Button variant="ghost" size="sm" onClick={() => removeFromCart(item.id)}>×</Button>
-                              </Stack>
-                            </Stack>
-                          </Card>
-                        ))}
-                      </Stack>
-                    )}
-                    <Card inverted className="border-t-2 border-ink-600 p-3">
-                      <Stack direction="horizontal" className="justify-between">
-                        <H3 className="text-white">TOTAL</H3>
-                        <H3 className="text-white">${cartTotal.toFixed(2)}</H3>
-                      </Stack>
-                    </Card>
-                    <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
-                      <Button variant="outlineInk" onClick={() => setCart([])}>Clear</Button>
-                      <Button variant="solid" inverted disabled={cart.length === 0} onClick={() => setShowPaymentModal(true)}>Pay</Button>
-                    </Grid>
-                  </Stack>
-                </Card>
-              </Grid>
-            </TabPanel>
-
-            <TabPanel active={isActive('terminals')}>
-              {terminals.length === 0 ? (
-                <EmptyState
-                  title="No terminals"
-                  description="Connect POS terminals to view status and transactions."
-                  action={{ label: "Retry fetch", onClick: () => refetchTerminals() }}
-                />
-              ) : (
-                <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-                  {terminals.map(terminal => {
-                    const terminalTx = transactions.filter(t => t.terminal_id === terminal.id);
-                    const terminalSales = terminalTx.reduce((sum, t) => sum + (t.total || 0), 0);
-                    return (
-                      <Card
-                        key={terminal.id}
-                        inverted
-                        interactive
-                        onClick={() => setSelectedTerminalId(terminal.id)}
-                        className={selectedTerminalId === terminal.id ? "border-2 border-primary-500" : ""}
-                      >
-                        <Stack gap={3}>
-                          <Stack direction="horizontal" className="items-start justify-between">
-                            <Stack gap={1}>
-                              <Body className="font-display text-white">{terminal.name || "Terminal"}</Body>
-                              <Label size="xs" className="text-on-dark-disabled">{terminal.venue_id || terminal.location || "Unassigned venue"}</Label>
-                            </Stack>
-                            <Badge variant={(terminal as { status?: string }).status?.toLowerCase() === "online" ? "solid" : "outline"}>
-                              {(terminal as { status?: string }).status || "Unknown"}
-                            </Badge>
-                          </Stack>
-                          <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
-                            <Stack gap={0}>
-                              <Label size="xs" className="text-on-dark-disabled">Sales</Label>
-                              <Label className="font-mono text-white">${terminalSales.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Label>
-                            </Stack>
-                            <Stack gap={0}>
-                              <Label size="xs" className="text-on-dark-disabled">Transactions</Label>
-                              <Label className="font-mono text-white">{terminalTx.length}</Label>
-                            </Stack>
-                          </Grid>
-                          <Label size="xs" className="text-on-dark-muted">ID: {terminal.id}</Label>
-                        </Stack>
-                      </Card>
-                    );
-                  })}
-                </Grid>
-              )}
-            </TabPanel>
-
-            <TabPanel active={isActive('reports')}>
-              <Card inverted className="overflow-hidden p-6">
-                <Stack gap={4}>
-                  <H3 className="text-white">Sales by Category</H3>
-                  {transactions.length === 0 ? (
-                    <EmptyState
-                      title="No transactions yet"
-                      description="Process a sale to see reports."
-                      action={{ label: "Refresh", onClick: () => refetchTransactions() }}
-                    />
-                  ) : (
-                    <Table variant="dark">
-                      <TableHeader>
-                        <TableRow className="bg-ink-900">
-                          <TableHead className="text-on-dark-muted">Payment Method</TableHead>
-                          <TableHead className="text-on-dark-muted">Amount</TableHead>
-                          <TableHead className="text-on-dark-muted">Transactions</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {Object.entries(metrics.paymentMethodUsage).map(([method, amount]) => {
-                          const count = transactions.filter(t => (t.payment_method || "other") === method).length;
-                          return (
-                            <TableRow key={method} className="border-b border-ink-700">
-                              <TableCell><Body className="text-white">{method}</Body></TableCell>
-                              <TableCell><Body className="font-mono text-white">${amount.toFixed(2)}</Body></TableCell>
-                              <TableCell><Body className="font-mono text-white">{count}</Body></TableCell>
-                            </TableRow>
-                          );
-                        })}
-                      </TableBody>
-                    </Table>
-                  )}
-                </Stack>
-              </Card>
-            </TabPanel>
-          </Tabs>
-
-          <Button variant="outlineInk" onClick={() => router.push("/admin")}>Back to Admin</Button>
-          </Stack>
-
-      <Modal open={showPaymentModal} onClose={() => setShowPaymentModal(false)}>
-        <ModalHeader><H3>PAYMENT</H3></ModalHeader>
-        <ModalBody>
-          <Stack gap={4}>
-            <Card variant="elevated" className="p-4">
-              <Stack direction="horizontal" className="justify-between">
-                <Body>Total Due</Body>
-                <H2>${cartTotal.toFixed(2)}</H2>
-              </Stack>
-            </Card>
-            <Stack gap={2}>
-              <Label>Payment Method</Label>
-              <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
-                {paymentOptions.map(method => (
-                  <Card
-                    key={method.id}
-                    interactive
-                    variant={paymentMethod === method.label ? "elevated" : "default"}
-                    onClick={() => setPaymentMethod(method.label)}
-                  >
-                    <Label className="text-center">{method.label}</Label>
-                  </Card>
-                ))}
-              </Grid>
-            </Stack>
-            {paymentMethod === "Cash" && (
-              <Stack gap={2}>
-                <Label>Amount Tendered</Label>
-                <Input type="number" placeholder="0.00" />
-              </Stack>
-            )}
-          </Stack>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={() => setShowPaymentModal(false)}>Cancel</Button>
-          <Button variant="solid" onClick={handleCompleteSale} disabled={isProcessing || cart.length === 0 || !paymentMethod}>
-            {isProcessing ? "Processing..." : "Complete Sale"}
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </>
-  );
-}
+interface Product { id: string; name: string; price: number; category: string; }
+const DEMO: Product[] = [
+  { id: "1", name: "GA Ticket", price: 75, category: "Tickets" },
+  { id: "2", name: "VIP Ticket", price: 150, category: "Tickets" },
+  { id: "3", name: "T-Shirt", price: 35, category: "Merch" },
+];
 
 export default function POSPage() {
-  return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
-      <POSPageContent />
-    </Suspense>
-  );
+  const [search, setSearch] = useState("");
+  const [cart, setCart] = useState<Record<string, number>>({});
+
+  const { data: products = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["pos-products"],
+    queryFn: async () => { const r = await fetch("/api/admin/pos/products"); if (!r.ok) return DEMO; return (await r.json()).products?.length ? (await r.json()).products : DEMO; },
+  });
+
+  const processPayment = useMutation({
+    mutationFn: async (data: { items: { productId: string; quantity: number }[]; total: number }) => {
+      const r = await fetch("/api/admin/pos/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      if (!r.ok) throw new Error("Payment failed");
+      return r.json();
+    },
+    onSuccess: () => setCart({}),
+  });
+
+  const filtered = products.filter((p: Product) => p.name.toLowerCase().includes(search.toLowerCase()));
+  const formatCurrency = (a: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(a);
+  const updateCart = (id: string, delta: number) => setCart((prev) => { const qty = Math.max(0, (prev[id] || 0) + delta); if (qty === 0) { const { [id]: _, ...rest } = prev; return rest; } return { ...prev, [id]: qty }; });
+  const total = Object.entries(cart).reduce((sum, [id, qty]) => sum + (products.find((p: Product) => p.id === id)?.price || 0) * qty, 0);
+  const cartItems = Object.entries(cart).filter(([, qty]) => qty > 0);
+
+  const handleCheckout = () => {
+    const items = cartItems.map(([productId, quantity]) => ({ productId, quantity }));
+    processPayment.mutate({ items, total });
+  };
+
+  const tabs = [{
+    id: "pos", label: "POS", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <Grid cols={3} gap={6} className="grid-cols-1 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <div className="relative mb-4"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" /><Input placeholder="Search products..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" /></div>
+            <Grid cols={3} gap={4} className="grid-cols-2 md:grid-cols-3">
+              {filtered.map((product: Product) => (
+                <Card key={product.id} className="p-4 cursor-pointer hover:border-primary transition-colors" onClick={() => updateCart(product.id, 1)}>
+                  <Body className="font-weight-bold">{product.name}</Body>
+                  <Body size="sm" className="text-grey-400">{product.category}</Body>
+                  <Body className="font-weight-bold mt-2">{formatCurrency(product.price)}</Body>
+                </Card>
+              ))}
+            </Grid>
+          </div>
+          <Card className="p-6 h-fit">
+            <SectionHeader title="Cart" />
+            {cartItems.length === 0 ? (
+              <div className="text-center py-8"><ShoppingCart className="size-8 text-grey-600 mx-auto mb-2" /><Body className="text-grey-400">Cart is empty</Body></div>
+            ) : (
+              <div className="space-y-3 mt-4">
+                {cartItems.map(([id, qty]) => {
+                  const product = products.find((p: Product) => p.id === id);
+                  if (!product) return null;
+                  return (
+                    <div key={id} className="flex items-center justify-between">
+                      <div><Body className="font-weight-medium">{product.name}</Body><Body size="sm" className="text-grey-400">{formatCurrency(product.price)} each</Body></div>
+                      <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="sm" onClick={() => updateCart(id, -1)}><Minus className="size-4" /></Button>
+                        <Body className="w-6 text-center">{qty}</Body>
+                        <Button variant="ghost" size="sm" onClick={() => updateCart(id, 1)}><Plus className="size-4" /></Button>
+                      </div>
+                    </div>
+                  );
+                })}
+                <div className="border-t border-grey-800 pt-3 flex justify-between"><Body className="font-weight-bold">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></div>
+              </div>
+            )}
+            <Button variant="solid" className="w-full mt-4" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={handleCheckout} disabled={cartItems.length === 0 || processPayment.isPending}>{processPayment.isPending ? "Processing..." : "Charge"}</Button>
+          </Card>
+        </Grid>
+      </Section>
+    ),
+  }];
+
+  return <DetailPage header={{ kicker: "Admin", title: "Point of Sale", description: "Process in-person sales" }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} />;
 }

@@ -1,14 +1,49 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createSkillSchema = z.object({
+  type: z.literal('skill'),
+  employee_id: z.string().uuid(),
+  skill_name: z.string().min(1),
+  proficiency_level: z.number().min(1).max(5),
+  years_experience: z.number().min(0).optional(),
+  notes: z.string().optional(),
+});
+
+const createCertificationSchema = z.object({
+  type: z.literal('certification'),
+  employee_id: z.string().uuid(),
+  cert_name: z.string().min(1),
+  issuing_org: z.string().min(1),
+  issue_date: z.string(),
+  expiry_date: z.string().optional(),
+  credential_id: z.string().optional(),
+  document_url: z.string().url().optional(),
+});
+
+const createSchema = z.discriminatedUnion('type', [createSkillSchema, createCertificationSchema]);
 
 // Skills inventory matrix and certification tracking
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const employeeId = searchParams.get('employee_id');
@@ -83,17 +118,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { type } = body;
+    const validatedData = createSchema.parse(body);
+    const { type } = validatedData;
 
     if (type === 'skill') {
-      const { employee_id, skill_name, proficiency_level, years_experience, notes } = body;
+      const { employee_id, skill_name, proficiency_level, years_experience, notes } = validatedData;
       const { data, error } = await supabase.from('employee_skills').upsert({
         employee_id, skill_name, proficiency_level, years_experience, notes,
         last_assessed: new Date().toISOString()
@@ -104,7 +146,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (type === 'certification') {
-      const { employee_id, cert_name, issuing_org, issue_date, expiry_date, credential_id, document_url } = body;
+      const { employee_id, cert_name, issuing_org, issue_date, expiry_date, credential_id, document_url } = validatedData;
       const { data, error } = await supabase.from('certifications').insert({
         employee_id, cert_name, issuing_org, issue_date, expiry_date, credential_id, document_url,
         status: 'active'

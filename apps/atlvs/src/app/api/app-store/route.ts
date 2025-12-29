@@ -1,16 +1,92 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const installAppSchema = z.object({
+  action: z.literal('install'),
+  app_id: z.string().uuid(),
+  workspace_id: z.string().uuid().optional(),
+});
+
+const uninstallAppSchema = z.object({
+  action: z.literal('uninstall'),
+  app_id: z.string().uuid(),
+  workspace_id: z.string().uuid().optional(),
+});
+
+const configureAppSchema = z.object({
+  action: z.literal('configure'),
+  installation_id: z.string().uuid(),
+  config: z.record(z.unknown()),
+});
+
+const reviewAppSchema = z.object({
+  action: z.literal('review'),
+  app_id: z.string().uuid(),
+  rating: z.number().min(1).max(5),
+  title: z.string().optional(),
+  content: z.string().optional(),
+});
+
+const submitAppSchema = z.object({
+  action: z.literal('submit_app'),
+  name: z.string().min(1),
+  description: z.string(),
+  category: z.string(),
+  icon_url: z.string().url().optional(),
+  screenshots: z.array(z.string().url()).optional(),
+  website: z.string().url().optional(),
+  support_email: z.string().email().optional(),
+  oauth_config: z.record(z.unknown()).optional(),
+  webhook_config: z.record(z.unknown()).optional(),
+  permissions: z.array(z.string()).optional(),
+});
+
+const updateAppSchema = z.object({
+  action: z.literal('update_app'),
+  app_id: z.string().uuid(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  icon_url: z.string().url().optional(),
+  screenshots: z.array(z.string().url()).optional(),
+  website: z.string().url().optional(),
+  support_email: z.string().email().optional(),
+  version: z.string().optional(),
+  changelog: z.string().optional(),
+});
+
+const appStoreActionSchema = z.discriminatedUnion('action', [
+  installAppSchema,
+  uninstallAppSchema,
+  configureAppSchema,
+  reviewAppSchema,
+  submitAppSchema,
+  updateAppSchema,
+]);
 
 /**
  * Third-Party App Store API
  * Marketplace for third-party integrations and extensions
  */
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -195,7 +271,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -204,10 +287,11 @@ export async function POST(request: NextRequest) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = appStoreActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'install') {
-      const { app_id, workspace_id } = body;
+      const { app_id, workspace_id } = validatedData;
 
       // Check if already installed
       const { data: existing } = await supabase
@@ -257,7 +341,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'uninstall') {
-      const { app_id, workspace_id } = body;
+      const { app_id, workspace_id } = validatedData;
 
       const { error } = await supabase
         .from('app_installations')
@@ -273,7 +357,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'configure') {
-      const { installation_id, config } = body;
+      const { installation_id, config } = validatedData;
 
       const { data, error } = await supabase
         .from('app_installations')
@@ -290,7 +374,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'review') {
-      const { app_id, rating, title, content } = body;
+      const { app_id, rating, title, content } = validatedData;
 
       // Check if user has installed the app
       const { data: installation } = await supabase
@@ -326,7 +410,7 @@ export async function POST(request: NextRequest) {
 
     if (action === 'submit_app') {
       // Developer submits a new app
-      const { name, description, category, icon_url, screenshots, website, support_email, oauth_config, webhook_config, permissions } = body;
+      const { name, description, category, icon_url, screenshots, website, support_email, oauth_config, webhook_config, permissions } = validatedData;
 
       // Get or create developer profile
       let { data: developer } = await supabase
@@ -385,7 +469,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'update_app') {
-      const { app_id, name, description, icon_url, screenshots, website, support_email, version, changelog } = body;
+      const { app_id, name, description, icon_url, screenshots, website, support_email, version, changelog } = validatedData;
 
       const { data: app, error } = await supabase
         .from('app_store_listings')

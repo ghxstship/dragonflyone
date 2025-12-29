@@ -1,12 +1,73 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createPermitSchema = z.object({
+  project_id: z.string().uuid(),
+  permit_type: z.string(),
+  issuing_authority: z.string().optional(),
+  jurisdiction: z.string().optional(),
+  application_date: z.string().optional(),
+  deadline: z.string().optional(),
+  event_date: z.string().optional(),
+  venue_address: z.string().optional(),
+  expected_attendance: z.number().int().optional(),
+  description: z.string().optional(),
+  requirements: z.array(z.string()).optional(),
+  fee_amount: z.number().optional(),
+  contact_name: z.string().optional(),
+  contact_phone: z.string().optional(),
+  contact_email: z.string().email().optional(),
+});
+
+const submitSchema = z.object({
+  permit_id: z.string().uuid(),
+  action: z.literal('submit'),
+});
+
+const approveSchema = z.object({
+  permit_id: z.string().uuid(),
+  action: z.literal('approve'),
+  permit_number: z.string().optional(),
+  approved_date: z.string().optional(),
+  expiration_date: z.string().optional(),
+  conditions: z.array(z.string()).optional(),
+});
+
+const rejectSchema = z.object({
+  permit_id: z.string().uuid(),
+  action: z.literal('reject'),
+  rejection_reason: z.string().optional(),
+  can_reapply: z.boolean().optional(),
+});
+
+const updatePermitSchema = z.object({
+  permit_id: z.string().uuid(),
+  action: z.string().optional(),
+}).passthrough();
+
+const permitPatchActionSchema = z.union([submitSchema, approveSchema, rejectSchema, updatePermitSchema]);
 
 // GET - Fetch permits
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
     const status = searchParams.get('status');
@@ -61,7 +122,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -72,9 +140,10 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createPermitSchema.parse(body);
     const {
       project_id,
-      permit_type, // 'fire', 'noise', 'street_closure', 'alcohol', 'food', 'assembly', 'pyro', 'other'
+      permit_type,
       issuing_authority,
       jurisdiction,
       application_date,
@@ -88,7 +157,7 @@ export async function POST(request: NextRequest) {
       contact_name,
       contact_phone,
       contact_email,
-    } = body;
+    } = validatedData;
 
     const { data: permit, error } = await supabase
       .from('permits')
@@ -131,7 +200,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -142,7 +218,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { permit_id, action, ...updateData } = body;
+    const validatedData = permitPatchActionSchema.parse(body);
+    const { permit_id, action, ...updateData } = validatedData;
 
     if (action === 'submit') {
       await supabase

@@ -114,7 +114,7 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
             <Label size="xs" className="text-ink-500">{data.soldPercentage}%</Label>
           </Stack>
           <Card className="h-2 bg-ink-200 overflow-hidden">
-            <Card className={`h-full ${data.soldPercentage > 80 ? "bg-error-500" : data.soldPercentage > 50 ? "bg-warning-500" : "bg-success-500"}`} style={{ '--progress-width': `${data.soldPercentage}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
+            <Card className={`h-full ${data.soldPercentage > 80 ? "bg-error-500" : data.soldPercentage > 50 ? "bg-warning-500" : "bg-success-500"}`} style={{ width: `${data.soldPercentage}%` }} />
           </Card>
           {data.soldPercentage > 75 && (
             <Label size="xs" className="text-error-600"><AlertTriangle className="h-3 w-3 inline mr-1" />Selling fast - only {100 - data.soldPercentage}% remaining!</Label>

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Upload } from "lucide-react";
-import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -105,7 +104,7 @@ export default function QuotesPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Quote>
         title="Quote Management"
         subtitle="Create and manage client quotes"
@@ -113,7 +112,7 @@ export default function QuotesPage() {
         columns={columns}
         rowKey="id"
         loading={loading}
-        error={error ? new Error(error) : undefined}
+        error={error instanceof Error ? error : error ? new Error(String(error)) : undefined}
         onRetry={() => refetch()}
         searchPlaceholder="Search quotes..."
         filters={filters}
@@ -127,7 +126,7 @@ export default function QuotesPage() {
         importSampleFields={['quote_number', 'client_name', 'total_amount', 'status', 'valid_until']}
         onExport={createExportHandler({
           filename: "quotes",
-          getData: () => quotes.map(q => ({
+          getData: () => quotes.map((q: Quote) => ({
             id: q.id,
             quote_number: q.quote_number,
             client_name: q.client_name,
@@ -176,6 +175,6 @@ export default function QuotesPage() {
           onAction={(id, q) => { if (id === 'edit') router.push(`/quotes/${q.id}`); setDrawerOpen(false); }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

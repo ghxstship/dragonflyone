@@ -11,15 +11,13 @@ import {
   Grid,
   Stack,
   Body,
-  EnterprisePageHeader,
-  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from '@ghxstship/config';
 
 import {
   useAvailability,
@@ -28,7 +26,13 @@ import {
   useBulkUpdateAvailability,
   type AvailabilitySlot,
 } from '../../hooks/useAvailability';
-import { useAuthContext } from '@ghxstship/config';
+
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 const getStatusVariant = getBadgeVariant;
 
@@ -57,7 +61,11 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function AvailabilityPage() {
-  const { user } = useAuthContext();
+  const { user, hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access
+  const canManageAvailability = ADMIN_ROLES.some(role => hasRole(role));
+  
   const { data: availability = [], isLoading, refetch } = useAvailability();
   const createMutation = useCreateAvailability();
   const deleteMutation = useDeleteAvailability();
@@ -89,7 +97,9 @@ export default function AvailabilityPage() {
 
   const rowActions: ListPageAction<AvailabilitySlot>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedSlot(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => { setSelectedSlot(r); setCreateModalOpen(true); } },
+    ...(canManageAvailability ? [
+      { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r: AvailabilitySlot) => { setSelectedSlot(r); setCreateModalOpen(true); } },
+    ] : []),
   ];
 
   // Import handler for CSV/JSON files
@@ -140,15 +150,7 @@ export default function AvailabilityPage() {
 
   return (
     <>
-      <EnterprisePageHeader
-        title="Availability"
-        subtitle="Crew availability and calendar integration"
-primaryAction={{ label: 'Set Availability', onClick: () => setCreateModalOpen(true) }}
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <ListPage<AvailabilitySlot>
+      <ListPage<AvailabilitySlot>
           title="Availability"
           subtitle="Crew availability and calendar integration"
           data={availability}
@@ -160,7 +162,7 @@ primaryAction={{ label: 'Set Availability', onClick: () => setCreateModalOpen(tr
           rowActions={rowActions}
           onRowClick={(r) => { setSelectedSlot(r); setDrawerOpen(true); }}
           createLabel="Set Availability"
-          onCreate={() => setCreateModalOpen(true)}
+          onCreate={canManageAvailability ? () => setCreateModalOpen(true) : undefined}
           entityType="availability"
           onImport={handleImport}
           importTemplates={importTemplates}
@@ -182,7 +184,7 @@ primaryAction={{ label: 'Set Availability', onClick: () => setCreateModalOpen(tr
           })}
           stats={stats}
           emptyMessage="No availability records"
-          onBulkAction={async (action, ids) => {
+          onBulkAction={canManageAvailability ? async (action, ids) => {
             if (action === 'delete') {
               for (const id of ids) {
                 await deleteMutation.mutateAsync(id);
@@ -192,13 +194,14 @@ primaryAction={{ label: 'Set Availability', onClick: () => setCreateModalOpen(tr
               await bulkUpdateMutation.mutateAsync({ ids, status: 'booked' });
               refetch();
             }
-          }}
-          bulkActions={[
-            { id: 'book', label: 'Book Selected', variant: 'default' },
-            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
-          ]}
-        />
-      </MainContent>
+          } : undefined}
+        bulkActions={canManageAvailability ? [
+          { id: 'book', label: 'Book Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ] : []}
+        showFavorite
+        showSettings
+      />
 
       <RecordFormModal
         open={createModalOpen}

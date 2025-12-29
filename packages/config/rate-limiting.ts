@@ -115,11 +115,11 @@ const memoryStore = new Map<string, RateLimitEntry>();
  */
 function cleanupExpiredEntries(): void {
   const now = Date.now();
-  for (const [key, entry] of memoryStore.entries()) {
+  Array.from(memoryStore.entries()).forEach(([key, entry]) => {
     if (entry.resetAt <= now) {
       memoryStore.delete(key);
     }
-  }
+  });
 }
 
 // Cleanup every minute

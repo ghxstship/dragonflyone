@@ -5,7 +5,11 @@
  * Implements security event monitoring, anomaly detection, and alerting.
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '../supabase-types';
+import { logger } from '../logger';
+
+type TypedSupabaseClient = SupabaseClient<Database>;
 
 export interface SecurityEvent {
   id: string;
@@ -138,7 +142,7 @@ export const defaultAnomalyRules: AnomalyRule[] = [
  * Check if an event matches an anomaly rule
  */
 export async function checkAnomalyRule(
-  supabase: any,
+  supabase: TypedSupabaseClient,
   rule: AnomalyRule,
   currentEvent: Partial<SecurityEvent>
 ): Promise<{ triggered: boolean; count: number }> {
@@ -169,7 +173,7 @@ export async function checkAnomalyRule(
   const { count, error } = await query;
 
   if (error) {
-    console.error('Anomaly check error:', error);
+    logger.error('Anomaly check error', error);
     return { triggered: false, count: 0 };
   }
 
@@ -184,7 +188,7 @@ export async function checkAnomalyRule(
  * Log a security event to the audit log
  */
 export async function logSecurityEvent(
-  supabase: any,
+  supabase: TypedSupabaseClient,
   event: Omit<SecurityEvent, 'id' | 'timestamp' | 'detected' | 'alertSent'>
 ): Promise<{ success: boolean; eventId?: string; error?: string }> {
   try {
@@ -219,7 +223,7 @@ export async function logSecurityEvent(
  * Run all anomaly detection rules against recent events
  */
 export async function runAnomalyDetection(
-  supabase: any,
+  supabase: TypedSupabaseClient,
   currentEvent?: Partial<SecurityEvent>
 ): Promise<{ alerts: Array<{ rule: AnomalyRule; count: number }> }> {
   const alerts: Array<{ rule: AnomalyRule; count: number }> = [];
@@ -252,7 +256,7 @@ export async function runAnomalyDetection(
  * Get security event summary for dashboard
  */
 export async function getSecurityEventSummary(
-  supabase: any,
+  supabase: TypedSupabaseClient,
   hoursBack: number = 24
 ): Promise<{
   totalEvents: number;
@@ -299,7 +303,7 @@ export async function getSecurityEventSummary(
     .order('created_at', { ascending: false })
     .limit(10);
 
-  const recentAlerts = (alerts || []).map((alert: any) => ({
+  const recentAlerts = (alerts || []).map((alert: { metadata: Record<string, unknown> | null; created_at: string }) => ({
     rule: alert.metadata?.rule_name || 'Unknown',
     count: alert.metadata?.event_count || 0,
     timestamp: alert.created_at,
@@ -318,7 +322,7 @@ export async function getSecurityEventSummary(
  * Based on failed login history and known bad actors
  */
 export async function checkSuspiciousIP(
-  supabase: any,
+  supabase: TypedSupabaseClient,
   ipAddress: string
 ): Promise<{ suspicious: boolean; reason?: string; failedAttempts: number }> {
   const timeStart = new Date();

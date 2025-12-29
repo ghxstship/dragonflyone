@@ -1,4 +1,4 @@
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/batch/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -26,6 +26,11 @@ const batchStatusUpdateSchema = z.object({
  * POST /api/advancing/batch
  * Batch operations for advance requests
  */
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function POST(request: NextRequest) {
   const supabaseAdmin = createAdminClient();
   try {

@@ -19,8 +19,10 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import { useProjects, useCreateProject, useDeleteProject } from '@/hooks/useProjects';
+
+// Roles that can create/edit/delete projects
 
 interface Project {
   id: string;
@@ -77,11 +79,12 @@ const filters: ListPageFilter[] = [
   {
     key: 'phase',
     label: 'Phase',
+    // Schema: create type project_phase as enum ('intake','preproduction','in_production','post');
     options: [
-      { value: 'pre_production', label: 'Pre-Production' },
-      { value: 'production', label: 'Production' },
-      { value: 'post_production', label: 'Post-Production' },
-      { value: 'wrap', label: 'Wrap' },
+      { value: 'intake', label: 'Intake' },
+      { value: 'preproduction', label: 'Pre-Production' },
+      { value: 'in_production', label: 'In Production' },
+      { value: 'post', label: 'Post-Production' },
     ]
   },
 ];
@@ -96,10 +99,11 @@ const formFields: FormFieldConfig[] = [
     { value: 'completed', label: 'Completed' },
   ]},
   { name: 'phase', label: 'Phase', type: 'select', options: [
-    { value: 'pre_production', label: 'Pre-Production' },
-    { value: 'production', label: 'Production' },
-    { value: 'post_production', label: 'Post-Production' },
-    { value: 'wrap', label: 'Wrap' },
+    // Schema: create type project_phase as enum ('intake','preproduction','in_production','post');
+    { value: 'intake', label: 'Intake' },
+    { value: 'preproduction', label: 'Pre-Production' },
+    { value: 'in_production', label: 'In Production' },
+    { value: 'post', label: 'Post-Production' },
   ]},
   { name: 'budget', label: 'Budget', type: 'number', placeholder: '0.00' },
   { name: 'start_date', label: 'Start Date', type: 'date' },
@@ -108,6 +112,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function ProjectsPage() {
   const router = useRouter();
+  const { hasRole } = useAuthContext();
   const { data: projects, isLoading, error, refetch } = useProjects();
   const createProjectMutation = useCreateProject();
   const deleteProjectMutation = useDeleteProject();
@@ -118,24 +123,35 @@ export default function ProjectsPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
 
+  // RBAC: Check if user has admin access for create/edit/delete operations
+  const canManageProjects = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
+
+  // Build row actions based on user permissions
   const rowActions: ListPageAction<Project>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedProject(row); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/projects/${row.id}/edit`) },
-    { id: 'duplicate', label: 'Duplicate', icon: <ClipboardList className="size-4" />, onClick: async (row) => {
-      await fetch('/api/projects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...row, id: undefined, name: `${row.name} (Copy)`, code: `${row.code}-COPY` }),
-      });
-      refetch();
-    }},
-    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setProjectToDelete(row); setDeleteConfirmOpen(true); } },
+    // Only show edit/duplicate/delete for users with admin roles
+    ...(canManageProjects ? [
+      { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row: Project) => router.push(`/projects/${row.id}/edit`) },
+      { id: 'duplicate', label: 'Duplicate', icon: <ClipboardList className="size-4" />, onClick: async (row: Project) => {
+        await fetch('/api/projects', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...row, id: undefined, name: `${row.name} (Copy)`, code: `${row.code}-COPY` }),
+        });
+        refetch();
+      }},
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (row: Project) => { setProjectToDelete(row); setDeleteConfirmOpen(true); } },
+    ] : []),
   ];
 
+  // Build bulk actions based on user permissions
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'archive', label: 'Archive', icon: <Archive className="size-4" /> },
     { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
-    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
+    // Only show archive/delete for users with admin roles
+    ...(canManageProjects ? [
+      { id: 'archive', label: 'Archive', icon: <Archive className="size-4" /> },
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const },
+    ] : []),
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
@@ -261,9 +277,9 @@ export default function ProjectsPage() {
         onBulkAction={handleBulkAction}
         onRowClick={(row) => { setSelectedProject(row); setDrawerOpen(true); }}
         createLabel="New Project"
-        onCreate={() => setCreateModalOpen(true)}
+        onCreate={canManageProjects ? () => setCreateModalOpen(true) : undefined}
         entityType="projects"
-        onImport={handleImport}
+        onImport={canManageProjects ? handleImport : undefined}
         importTemplates={importTemplates}
         importSampleFields={['name', 'code', 'status', 'budget', 'start_date', 'end_date']}
         onExport={createExportHandler({
@@ -279,7 +295,7 @@ export default function ProjectsPage() {
         })}
         stats={stats}
         emptyMessage="No projects yet"
-        emptyAction={{ label: 'Create Project', onClick: () => setCreateModalOpen(true) }}
+        emptyAction={canManageProjects ? { label: 'Create Project', onClick: () => setCreateModalOpen(true) } : undefined}
 showFavorite
         showSettings
       />

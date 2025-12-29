@@ -17,13 +17,16 @@ export type SwitchProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & 
  * - Accent shadow on checked state
  */
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
-  function Switch({ label, inverted = false, className, ...props }, ref) {
+  function Switch({ label, inverted = false, className, checked, ...props }, ref) {
     return (
       <label className={clsx("inline-flex items-center gap-3 cursor-pointer group", className)}>
         <div className="relative">
           <input
             ref={ref}
             type="checkbox"
+            role="switch"
+            aria-checked={checked}
+            checked={checked}
             className="sr-only peer"
             {...props}
           />

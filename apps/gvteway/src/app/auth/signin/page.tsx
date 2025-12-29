@@ -5,6 +5,12 @@ import { useNotifications, AuthPage, SignInForm, Button } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
 import NextLink from "next/link";
 import { useAuthData } from "@/hooks/useAuth";
+import { ReactNode } from "react";
+
+// Wrapper to fix Next.js Link type compatibility with SignInForm
+const LinkWrapper = ({ href, children, className }: { href: string; children: ReactNode; className?: string }) => (
+  <NextLink href={href} className={className}>{children}</NextLink>
+);
 
 // =============================================================================
 // SIGN IN PAGE - GVTEWAY Member Authentication
@@ -65,7 +71,7 @@ export default function SignInPage() {
         signUpHref="/apply"
         signUpText="Apply for Membership"
         signUpPrompt="Not a member yet?"
-        LinkComponent={NextLink}
+        LinkComponent={LinkWrapper}
       />
     </AuthPage>
   );

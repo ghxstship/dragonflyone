@@ -3,12 +3,15 @@ import { describe, it, expect } from 'vitest';
 /**
  * Zapier Integration QA Test Suite
  * Tests instant/delayed triggers, pagination, and rate limits
+ * 
+ * NOTE: These tests require a running server. Set TEST_API_URL environment variable
+ * or run the server locally before executing these tests.
  */
 
 const BASE_URL = process.env.TEST_API_URL || 'http://localhost:3000';
 const API_KEY = process.env.TEST_API_KEY || 'test_key';
 
-describe('Zapier Trigger QA Tests', () => {
+describe.skipIf(!process.env.TEST_API_URL && !process.env.CI)('Zapier Trigger QA Tests', () => {
   describe('Instant Triggers (Webhooks)', () => {
     it('should register webhook subscription successfully', async () => {
       const response = await fetch(`${BASE_URL}/api/zapier/webhooks`, {
@@ -156,7 +159,7 @@ describe('Zapier Trigger QA Tests', () => {
       });
 
       const data = await response.json();
-      const ids = data.map((item: any) => item.id);
+      const ids = data.map((item: { id: string }) => item.id);
       const uniqueIds = new Set(ids);
 
       expect(ids.length).toBe(uniqueIds.size); // All IDs unique
@@ -200,8 +203,8 @@ describe('Zapier Trigger QA Tests', () => {
         expect(page2.data.length).toBeGreaterThan(0);
 
         // Verify no overlap
-        const page1Ids = new Set(page1.data.map((d: any) => d.id));
-        const hasOverlap = page2.data.some((d: any) => page1Ids.has(d.id));
+        const page1Ids = new Set(page1.data.map((d: { id: string }) => d.id));
+        const hasOverlap = page2.data.some((d: { id: string }) => page1Ids.has(d.id));
         expect(hasOverlap).toBe(false);
       }
     });
@@ -217,7 +220,7 @@ describe('Zapier Trigger QA Tests', () => {
     });
 
     it('should return consistent results during pagination', async () => {
-      const allItems: any[] = [];
+      const allItems: Array<{ id: string }> = [];
       let cursor: string | undefined;
 
       do {
@@ -335,7 +338,7 @@ describe('Zapier Trigger QA Tests', () => {
   });
 });
 
-describe('Zapier Actions QA Tests', () => {
+describe.skipIf(!process.env.TEST_API_URL && !process.env.CI)('Zapier Actions QA Tests', () => {
   describe('Create Actions', () => {
     it('should create resource and return full object', async () => {
       const response = await fetch(`${BASE_URL}/api/zapier/actions/deals`, {

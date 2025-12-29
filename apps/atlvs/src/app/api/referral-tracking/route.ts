@@ -1,14 +1,52 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createReferralSchema = z.object({
+  action: z.literal('create'),
+  referrer_id: z.string().uuid(),
+  referred_name: z.string().min(1),
+  referred_email: z.string().email(),
+  referred_company: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+const convertReferralSchema = z.object({
+  action: z.literal('convert'),
+  referral_id: z.string().uuid(),
+  deal_id: z.string().uuid(),
+  reward_amount: z.number().positive(),
+});
+
+const payRewardSchema = z.object({
+  action: z.literal('pay_reward'),
+  referral_id: z.string().uuid(),
+  payment_method: z.string(),
+  payment_reference: z.string().optional(),
+});
+
+const referralActionSchema = z.discriminatedUnion('action', [createReferralSchema, convertReferralSchema, payRewardSchema]);
 
 // Referral tracking and rewards program
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const referrerId = searchParams.get('referrer_id');
@@ -46,17 +84,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = referralActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create') {
-      const { referrer_id, referred_name, referred_email, referred_company, notes } = body;
+      const { referrer_id, referred_name, referred_email, referred_company, notes } = validatedData;
 
       // Create referred contact
       const { data: contact } = await supabase.from('contacts').insert({
@@ -74,7 +119,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'convert') {
-      const { referral_id, deal_id, reward_amount } = body;
+      const { referral_id, deal_id, reward_amount } = validatedData;
 
       await supabase.from('referrals').update({
         status: 'converted', deal_id, reward_amount,
@@ -85,7 +130,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'pay_reward') {
-      const { referral_id, payment_method, payment_reference } = body;
+      const { referral_id, payment_method, payment_reference } = validatedData;
 
       await supabase.from('referrals').update({
         reward_status: 'paid', reward_paid_at: new Date().toISOString(),

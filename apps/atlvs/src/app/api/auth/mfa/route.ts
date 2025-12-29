@@ -3,6 +3,25 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
+import { z } from 'zod';
+
+const enrollSchema = z.object({
+  action: z.literal('enroll'),
+  friendlyName: z.string().optional(),
+});
+
+const verifySchema = z.object({
+  action: z.literal('verify'),
+  factorId: z.string().min(1),
+  code: z.string().min(6).max(6),
+});
+
+const unenrollSchema = z.object({
+  action: z.literal('unenroll'),
+  factorId: z.string().min(1),
+});
+
+const mfaActionSchema = z.discriminatedUnion('action', [enrollSchema, verifySchema, unenrollSchema]);
 
 export const runtime = 'nodejs';
 
@@ -10,51 +29,58 @@ export const runtime = 'nodejs';
  * GET /api/auth/mfa - Get MFA status for the current user
  */
 export async function GET() {
-  const cookieStore = await cookies();
-  const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
-  
-  const { data: { session } } = await supabase.auth.getSession();
-  
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  try {
+    const cookieStore = await cookies();
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+    
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    
+    const { data: factorsData, error: factorsError } = await supabase.auth.mfa.listFactors();
+    
+    if (factorsError) {
+      return NextResponse.json({ error: factorsError.message }, { status: 500 });
+    }
+    
+    const { data: aalData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    
+    const verifiedFactors = factorsData.totp.filter((f) => f.status === 'verified');
+    
+    return NextResponse.json({
+      enabled: verifiedFactors.length > 0,
+      factors: factorsData.totp,
+      currentLevel: aalData?.currentLevel || 'aal1',
+      nextLevel: aalData?.nextLevel || 'aal1',
+    });
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-  
-  const { data: factorsData, error: factorsError } = await supabase.auth.mfa.listFactors();
-  
-  if (factorsError) {
-    return NextResponse.json({ error: factorsError.message }, { status: 500 });
-  }
-  
-  const { data: aalData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-  
-  const verifiedFactors = factorsData.totp.filter((f) => f.status === 'verified');
-  
-  return NextResponse.json({
-    enabled: verifiedFactors.length > 0,
-    factors: factorsData.totp,
-    currentLevel: aalData?.currentLevel || 'aal1',
-    nextLevel: aalData?.nextLevel || 'aal1',
-  });
 }
 
 /**
  * POST /api/auth/mfa - Enroll in MFA
  */
 export async function POST(request: NextRequest) {
-  const cookieStore = await cookies();
-  const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
-  
-  const { data: { session } } = await supabase.auth.getSession();
-  
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  
-  const body = await request.json();
-  const { action, factorId, code, friendlyName } = body;
+  try {
+    const cookieStore = await cookies();
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+    
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    
+    const body = await request.json();
+    const validatedData = mfaActionSchema.parse(body);
+    const { action } = validatedData;
   
   switch (action) {
     case 'enroll': {
+      const { friendlyName } = validatedData;
       const { data, error } = await supabase.auth.mfa.enroll({
         factorType: 'totp',
         friendlyName: friendlyName || 'Authenticator App',
@@ -72,9 +98,7 @@ export async function POST(request: NextRequest) {
     }
     
     case 'verify': {
-      if (!factorId || !code) {
-        return NextResponse.json({ error: 'Missing factorId or code' }, { status: 400 });
-      }
+      const { factorId, code } = validatedData;
       
       const { data: challengeData, error: challengeError } = await supabase.auth.mfa.challenge({
         factorId,
@@ -98,9 +122,7 @@ export async function POST(request: NextRequest) {
     }
     
     case 'unenroll': {
-      if (!factorId) {
-        return NextResponse.json({ error: 'Missing factorId' }, { status: 400 });
-      }
+      const { factorId } = validatedData;
       
       const { error } = await supabase.auth.mfa.unenroll({
         factorId,
@@ -115,5 +137,11 @@ export async function POST(request: NextRequest) {
     
     default:
       return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
+  }
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: 'Validation error', details: error.errors }, { status: 400 });
+    }
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

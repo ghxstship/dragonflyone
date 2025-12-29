@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Mail, DollarSign, ClipboardList, Trash2, Download, Bell } from "lucide-react";
-import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -228,7 +227,7 @@ export default function InvoicesPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Invoice>
         title="Invoice Management"
         subtitle="Create, send, and track invoices for all client projects"
@@ -308,6 +307,6 @@ showFavorite
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setInvoiceToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -1,14 +1,56 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const sendCommunicationSchema = z.object({
+  action: z.literal('send'),
+  application_id: z.string().uuid(),
+  template_id: z.string().uuid().optional(),
+  channel: z.string().optional(),
+  subject: z.string().optional(),
+  content: z.string().optional(),
+  variables: z.record(z.string()).optional(),
+});
+
+const scheduleCommunicationSchema = z.object({
+  action: z.literal('schedule'),
+  application_id: z.string().uuid(),
+  template_id: z.string().uuid().optional(),
+  channel: z.string().optional(),
+  scheduled_at: z.string(),
+  variables: z.record(z.string()).optional(),
+});
+
+const createTemplateSchema = z.object({
+  action: z.literal('create_template'),
+  template_type: z.string(),
+  name: z.string(),
+  subject: z.string().optional(),
+  content: z.string().optional(),
+  variables: z.array(z.string()).optional(),
+});
+
+const communicationActionSchema = z.union([sendCommunicationSchema, scheduleCommunicationSchema, createTemplateSchema]);
 
 // Automated candidate communication
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const applicationId = searchParams.get('application_id');
@@ -34,17 +76,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = communicationActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'send') {
-      const { application_id, template_id, channel, subject, content, variables } = body;
+      const { application_id, template_id, channel, subject, content, variables } = validatedData as z.infer<typeof sendCommunicationSchema>;
 
       // Get template if provided
       let finalContent = content;
@@ -77,7 +126,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'schedule') {
-      const { application_id, template_id, channel, scheduled_at, variables } = body;
+      const { application_id, template_id, channel, scheduled_at, variables } = validatedData as z.infer<typeof scheduleCommunicationSchema>;
 
       const { data, error } = await supabase.from('candidate_communications').insert({
         application_id, template_id, channel: channel || 'email',
@@ -89,7 +138,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'create_template') {
-      const { template_type, name, subject, content, variables } = body;
+      const { template_type, name, subject, content, variables } = validatedData as z.infer<typeof createTemplateSchema>;
 
       const { data, error } = await supabase.from('communication_templates').insert({
         template_type, name, subject, content, variables: variables || [], created_by: user.id

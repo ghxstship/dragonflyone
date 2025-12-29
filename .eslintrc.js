@@ -300,7 +300,34 @@ module.exports = {
         "selector": "Literal[value=/(?<![a-z-])border(?![a-z-])/]",
         "message": "⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic."
       }
-    ]
+    ],
+    
+    // ════════════════════════════════════════════════════════════════════
+    // NORMALIZED PAGE LAYOUT ENFORCEMENT - ZERO TOLERANCE
+    // ════════════════════════════════════════════════════════════════════
+    // 
+    // All authenticated pages MUST use normalized layout templates:
+    // • ListPage - for data tables/lists
+    // • DetailPage - for entity detail views
+    // • CreatePage - for create/new forms
+    // • EditPage - for edit forms
+    // • DashboardPage - for dashboards with sidebar
+    // • SettingsHubPage - for settings hub pages
+    // • SettingsPageLayout - for settings sub-pages
+    // • AuthPage - for authentication pages
+    // 
+    // ZERO custom inline layouts allowed. All pages must import and use
+    // a template from @ghxstship/ui.
+    // ════════════════════════════════════════════════════════════════════
+    "no-restricted-imports": ["error", {
+      "patterns": [
+        {
+          "group": ["**/foundations/layout"],
+          "importNames": ["Container", "Stack"],
+          "message": "⚠️ In page.tsx files, prefer using normalized templates (ListPage, DetailPage, CreatePage, EditPage, DashboardPage, SettingsHubPage) from @ghxstship/ui instead of building custom layouts with Container/Stack. Templates ensure consistency and reduce code duplication."
+        }
+      ]
+    }]
   },
   ignorePatterns: [
     "node_modules/",
@@ -326,7 +353,67 @@ module.exports = {
       rules: {
         "no-restricted-syntax": "off",
         "react/forbid-elements": "off",
-        "react/forbid-component-props": "off"
+        "react/forbid-component-props": "off",
+        "no-restricted-imports": "off"
+      }
+    },
+    {
+      // ════════════════════════════════════════════════════════════════════
+      // PAGE.TSX FILES - ZERO TOLERANCE FOR CUSTOM LAYOUTS
+      // ════════════════════════════════════════════════════════════════════
+      // All page.tsx files MUST use normalized templates from @ghxstship/ui.
+      // Custom layouts with raw Container/Stack/MainContent are PROHIBITED.
+      // 
+      // REQUIRED TEMPLATES:
+      // • ListPage - for data tables/lists with filtering, pagination
+      // • DetailPage - for entity detail views with tabs, sidebar
+      // • CreatePage - for create/new forms with sections
+      // • EditPage - for edit forms
+      // • DashboardPage - for dashboards with sidebar navigation
+      // • SettingsHubPage - for settings hub with category cards
+      // • SettingsPageLayout - for settings sub-pages
+      // • AuthPage - for authentication pages (signin, signup, etc.)
+      // • GridLayout - for card grids with filtering
+      // • TableLayout - for data tables
+      // • WizardPage - for multi-step wizards
+      // • CenteredLayout - for centered content (errors, confirmations)
+      // • SingleColumnLayout - for article/documentation pages
+      // ════════════════════════════════════════════════════════════════════
+      files: [
+        "apps/*/src/app/(authenticated)/**/page.tsx",
+        "apps/*/src/app/(auth)/**/page.tsx",
+        "apps/*/src/app/auth/**/page.tsx",
+        "apps/*/src/app/admin/**/page.tsx"
+      ],
+      rules: {
+        "no-restricted-imports": ["error", {
+          "patterns": [
+            {
+              "group": ["@ghxstship/ui"],
+              "importNames": ["MainContent", "Container", "Stack", "Section", "Grid"],
+              "message": "❌ PROHIBITED in page.tsx: Custom layouts with MainContent/Container/Stack/Section/Grid are not allowed. Use normalized templates: ListPage, DetailPage, CreatePage, EditPage, DashboardPage, SettingsHubPage, SettingsPageLayout, AuthPage, GridLayout, TableLayout, WizardPage, CenteredLayout, SingleColumnLayout from @ghxstship/ui"
+            }
+          ]
+        }]
+      }
+    },
+    {
+      // Public/marketing pages are exempt from layout normalization
+      // These have unique designs that don't fit standard templates
+      files: [
+        "apps/*/src/app/page.tsx",
+        "apps/*/src/app/(public)/**/page.tsx",
+        "apps/*/src/app/blog/**/page.tsx",
+        "apps/*/src/app/case-studies/**/page.tsx",
+        "apps/*/src/app/about/**/page.tsx",
+        "apps/*/src/app/pricing/**/page.tsx",
+        "apps/*/src/app/features/**/page.tsx",
+        "apps/*/src/app/help/**/page.tsx",
+        "apps/*/src/app/proposal/**/page.tsx",
+        "apps/*/src/app/pay/**/page.tsx"
+      ],
+      rules: {
+        "no-restricted-imports": "off"
       }
     },
     {

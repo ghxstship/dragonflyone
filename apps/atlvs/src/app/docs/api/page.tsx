@@ -1,219 +1,152 @@
-import { AtlvsAppLayout } from "../../../components/app-layout";
+"use client";
+
+/**
+ * API Documentation Page
+ * API reference and developer docs
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Code, Key, Webhook, FileText, Copy, Check, List, Terminal } from "lucide-react";
 import {
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H1,
-  H3,
-  Label,
-  Container,
-  Display,
-  Button,
-  FullBleedSection,
   Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  DetailPage,
+  Section,
+  SectionHeader,
+  useNotifications,
 } from "@ghxstship/ui";
-import { Code, Key, Webhook, Database, ArrowRight, ExternalLink, BookOpen, Terminal } from "lucide-react";
-import NextLink from "next/link";
 
-export const runtime = "edge";
+interface Endpoint {
+  method: "GET" | "POST" | "PUT" | "DELETE";
+  path: string;
+  description: string;
+}
 
-const apiDocsData = {
-  hero: {
-    headline: "API DOCUMENTATION",
-    description: "Build powerful integrations with the ATLVS REST API. Access projects, crews, assets, and more.",
-  },
-  quickStart: [
-    { step: "1", title: "Get API Key", description: "Generate an API key from your account settings" },
-    { step: "2", title: "Authenticate", description: "Include your key in the Authorization header" },
-    { step: "3", title: "Make Requests", description: "Start calling endpoints to access your data" },
-  ],
-  endpoints: [
-    {
-      category: "Projects",
-      description: "Create, read, update, and delete productions",
-      methods: ["GET /projects", "POST /projects", "GET /projects/:id", "PATCH /projects/:id"],
-    },
-    {
-      category: "Crew",
-      description: "Manage crew members and assignments",
-      methods: ["GET /crew", "POST /crew", "GET /crew/:id", "PATCH /crew/:id"],
-    },
-    {
-      category: "Assets",
-      description: "Track equipment and inventory",
-      methods: ["GET /assets", "POST /assets", "GET /assets/:id", "PATCH /assets/:id"],
-    },
-    {
-      category: "Finance",
-      description: "Budgets, expenses, and invoices",
-      methods: ["GET /budgets", "GET /expenses", "POST /expenses", "GET /invoices"],
-    },
-  ],
-  resources: [
-    { icon: BookOpen, title: "API Reference", description: "Complete endpoint documentation", href: "#reference" },
-    { icon: Terminal, title: "SDKs", description: "Official libraries for Node.js, Python, and more", href: "#sdks" },
-    { icon: Webhook, title: "Webhooks", description: "Real-time event notifications", href: "#webhooks" },
-    { icon: Database, title: "Data Models", description: "Schema definitions and relationships", href: "#models" },
-  ],
-  codeExample: `curl -X GET "https://api.atlvs.io/v1/projects" \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -H "Content-Type: application/json"`,
-};
+const ENDPOINTS: Endpoint[] = [
+  { method: "GET", path: "/api/v1/projects", description: "List all projects" },
+  { method: "POST", path: "/api/v1/projects", description: "Create a new project" },
+  { method: "GET", path: "/api/v1/projects/:id", description: "Get project details" },
+  { method: "PUT", path: "/api/v1/projects/:id", description: "Update a project" },
+  { method: "DELETE", path: "/api/v1/projects/:id", description: "Delete a project" },
+  { method: "GET", path: "/api/v1/events", description: "List all events" },
+  { method: "POST", path: "/api/v1/events", description: "Create a new event" },
+  { method: "GET", path: "/api/v1/contacts", description: "List all contacts" },
+  { method: "POST", path: "/api/v1/contacts", description: "Create a new contact" },
+];
+
+const METHOD_COLORS = {
+  GET: "success",
+  POST: "info",
+  PUT: "warning",
+  DELETE: "error",
+} as const;
 
 export default function ApiDocsPage() {
-  return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center text-center">
-            <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
-              <Code className="size-8 text-brand-pink" />
-            </Stack>
-            <Label size="xs" className="text-on-dark-muted">
-              DEVELOPERS
-            </Label>
-            <Display size="lg" className="text-white">
-              {apiDocsData.hero.headline}
-            </Display>
-            <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              {apiDocsData.hero.description}
-            </Body>
-            <Stack direction="horizontal" gap={4}>
-              <NextLink href="#reference">
-                <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                  View Reference
-                </Button>
-              </NextLink>
-              <NextLink href="/settings/api">
-                <Button variant="outlineWhite" size="lg" icon={<Key />}>
-                  Get API Key
-                </Button>
-              </NextLink>
-            </Stack>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+  const router = useRouter();
+  const { addNotification } = useNotifications();
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
-      {/* Quick Start */}
-      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
-            {apiDocsData.quickStart.map((item) => (
-              <Stack key={item.step} direction="horizontal" gap={4} className="items-start">
-                <Stack className="flex size-10 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                  <Label size="sm" className="text-ink-950">{item.step}</Label>
-                </Stack>
-                <Stack gap={1}>
-                  <H3 size="sm" className="text-ink-950">{item.title}</H3>
-                  <Label size="xs" className="text-grey-500">{item.description}</Label>
-                </Stack>
-              </Stack>
-            ))}
+  const copyToClipboard = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedCode(id);
+    addNotification({ type: "success", title: "Copied", message: "Code copied to clipboard" });
+    setTimeout(() => setCopiedCode(null), 2000);
+  };
+
+  const exampleCode = `curl -X GET "https://api.atlvs.com/v1/projects" \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json"`;
+
+  const tabs = [
+    {
+      id: "overview",
+      label: "Overview",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mb-6">
+            <Card className="p-6 text-center">
+              <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Key className="size-6" /></div>
+              <Body className="font-weight-bold">Authentication</Body>
+              <Body size="sm" className="text-grey-400">API key based auth</Body>
+            </Card>
+            <Card className="p-6 text-center">
+              <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Code className="size-6" /></div>
+              <Body className="font-weight-bold">REST API</Body>
+              <Body size="sm" className="text-grey-400">JSON responses</Body>
+            </Card>
+            <Card className="p-6 text-center">
+              <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Webhook className="size-6" /></div>
+              <Body className="font-weight-bold">Webhooks</Body>
+              <Body size="sm" className="text-grey-400">Real-time events</Body>
+            </Card>
           </Grid>
-        </Container>
-      </FullBleedSection>
 
-      {/* Code Example */}
-      <FullBleedSection background="ink" className="py-8 sm:py-12 lg:py-16">
-        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
-          <Card inverted className="border-2 border-ink-800 bg-ink-900 p-6">
-            <Stack gap={4}>
-              <Stack direction="horizontal" className="items-center justify-between">
-                <Label size="xs" className="text-on-dark-muted">EXAMPLE REQUEST</Label>
-                <Badge variant="outline" className="border-ink-700 text-on-dark-muted">bash</Badge>
-              </Stack>
-              <Body size="sm" className="font-mono text-on-dark-secondary">
-                <pre className="overflow-x-auto whitespace-pre-wrap">{apiDocsData.codeExample}</pre>
-              </Body>
-            </Stack>
+          <Card className="p-6 mb-6">
+            <SectionHeader title="Quick Start" description="Get started with the ATLVS API" />
+            <div className="mt-4 bg-grey-900 rounded-card p-4 relative">
+              <Button variant="ghost" size="sm" className="absolute top-2 right-2" onClick={() => copyToClipboard(exampleCode, "example")}>
+                {copiedCode === "example" ? <Check className="size-4" /> : <Copy className="size-4" />}
+              </Button>
+              <pre className="font-weight-normal text-grey-300 overflow-x-auto"><code>{exampleCode}</code></pre>
+            </div>
           </Card>
-        </Container>
-      </FullBleedSection>
 
-      {/* Endpoints */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24" id="reference">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-16 text-center">
-            <H1 className="text-ink-950">API ENDPOINTS</H1>
-            <Body size="lg" className="mx-auto max-w-2xl text-grey-600">
-              RESTful endpoints for all ATLVS resources.
-            </Body>
-          </Stack>
-
-          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
-            {apiDocsData.endpoints.map((endpoint) => (
-              <Card key={endpoint.category} className="border-2 border-ink-950 bg-white p-6 shadow-md">
-                <Stack gap={4}>
-                  <Stack gap={2}>
-                    <H3 className="text-ink-950">{endpoint.category}</H3>
-                    <Body size="sm" className="text-grey-600">{endpoint.description}</Body>
-                  </Stack>
-                  <Stack gap={2}>
-                    {endpoint.methods.map((method) => (
-                      <Label key={method} size="xs" className="font-mono text-grey-500">
-                        {method}
-                      </Label>
-                    ))}
-                  </Stack>
-                </Stack>
+          <Card className="p-6">
+            <SectionHeader title="Base URL" />
+            <div className="mt-4 flex items-center gap-4">
+              <code className="bg-grey-800 px-4 py-2 rounded text-primary">https://api.atlvs.com/v1</code>
+              <Button variant="ghost" size="sm" onClick={() => copyToClipboard("https://api.atlvs.com/v1", "baseurl")}>
+                {copiedCode === "baseurl" ? <Check className="size-4" /> : <Copy className="size-4" />}
+              </Button>
+            </div>
+          </Card>
+        </Section>
+      ),
+    },
+    {
+      id: "endpoints",
+      label: "Endpoints",
+      icon: <Terminal className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="API Endpoints" description="Available REST API endpoints" />
+          <div className="space-y-2 mt-4">
+            {ENDPOINTS.map((endpoint, idx) => (
+              <Card key={idx} className="p-4 cursor-pointer hover:border-primary transition-colors">
+                <div className="flex items-center gap-4">
+                  <Badge variant={METHOD_COLORS[endpoint.method]} className="w-16 justify-center">{endpoint.method}</Badge>
+                  <code className="text-primary flex-1">{endpoint.path}</code>
+                  <Body size="sm" className="text-grey-400">{endpoint.description}</Body>
+                </div>
               </Card>
             ))}
-          </Grid>
-        </Container>
-      </FullBleedSection>
+          </div>
 
-      {/* Resources */}
-      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-16 text-center">
-            <H1 className="text-ink-950">DEVELOPER RESOURCES</H1>
-          </Stack>
+          <Card className="p-8 mt-8 text-center">
+            <Body className="font-weight-bold font-weight-bold mb-2">Need an API Key?</Body>
+            <Body className="text-grey-400 mb-4">Generate API keys in your account settings</Body>
+            <Button variant="solid" onClick={() => router.push("/settings/integrations")}>Get API Key</Button>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
-          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            {apiDocsData.resources.map((resource) => (
-              <NextLink key={resource.title} href={resource.href}>
-                <Card className="border-2 border-ink-950 bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
-                  <Stack gap={4}>
-                    <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                      <resource.icon className="size-6 text-ink-950" />
-                    </Stack>
-                    <H3 size="sm" className="text-ink-950">{resource.title}</H3>
-                    <Body size="xs" className="text-grey-600">{resource.description}</Body>
-                  </Stack>
-                </Card>
-              </NextLink>
-            ))}
-          </Grid>
-        </Container>
-      </FullBleedSection>
-
-      {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center">
-            <Display size="md" className="text-white">
-              NEED HELP?
-            </Display>
-            <Body size="lg" className="text-on-dark-secondary">
-              Our developer support team is here to help you build amazing integrations.
-            </Body>
-            <Stack direction="horizontal" gap={4}>
-              <NextLink href="/contact">
-                <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                  Contact Support
-                </Button>
-              </NextLink>
-              <NextLink href="/partners">
-                <Button variant="outlineWhite" size="lg" icon={<ExternalLink />}>
-                  Partner Program
-                </Button>
-              </NextLink>
-            </Stack>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+  return (
+    <DetailPage
+      header={{
+        kicker: "Developer",
+        title: "API Reference",
+        description: "Build integrations with the ATLVS API",
+      }}
+      backButton={{ label: "Documentation", href: "/docs" }}
+      tabs={tabs}
+    />
   );
 }

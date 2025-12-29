@@ -1,16 +1,53 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const logEventSchema = z.object({
+  action: z.literal('log_event'),
+  platform: z.string(),
+  event_type: z.string(),
+  status: z.enum(['success', 'error', 'pending']),
+  workspace_id: z.string().uuid().optional(),
+  response_time_ms: z.number().optional(),
+  error_code: z.string().optional(),
+  error_message: z.string().optional(),
+  metadata: z.record(z.unknown()).optional(),
+});
+
+const exportReportSchema = z.object({
+  action: z.literal('export_report'),
+  period: z.string().optional(),
+  format: z.enum(['csv', 'json']).optional(),
+});
+
+const analyticsActionSchema = z.discriminatedUnion('action', [
+  logEventSchema,
+  exportReportSchema,
+]);
 
 /**
  * Integration Usage Analytics Dashboard API
  * Tracks tasks fired, top integrations, error rates, and performance metrics
  */
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -133,17 +170,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = analyticsActionSchema.parse(body);
 
-    if (action === 'log_event') {
+    if (validatedData.action === 'log_event') {
       // Log an integration event
-      const { platform, event_type, status, workspace_id, response_time_ms, error_code, error_message, metadata } = body;
+      const { platform, event_type, status, workspace_id, response_time_ms, error_code, error_message, metadata } = validatedData;
 
       const { data, error } = await supabase.from('integration_events').insert({
         platform,
@@ -164,9 +208,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ event: data }, { status: 201 });
     }
 
-    if (action === 'export_report') {
+    if (validatedData.action === 'export_report') {
       // Generate exportable report
-      const { period, format } = body;
+      const { period, format } = validatedData;
       const periodDays = parseInt(period?.replace('d', '') || '30');
       const startDate = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000);
 

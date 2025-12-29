@@ -51,7 +51,6 @@ export const GET = apiRoute(
       const { data, error } = await query;
 
       if (error) {
-        console.error('Error fetching client retention:', error);
         return NextResponse.json({ error: error.message }, { status: 500 });
       }
 
@@ -90,7 +89,6 @@ export const POST = apiRoute(
         .single();
 
       if (error) {
-        console.error('Error creating client retention record:', error);
         return NextResponse.json({ error: error.message }, { status: 500 });
       }
 

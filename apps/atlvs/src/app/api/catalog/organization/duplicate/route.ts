@@ -1,29 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { log } from '@ghxstship/config';
+import { log, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const duplicateCatalogItemSchema = z.object({
+  source_item_id: z.string().uuid(),
+  organization_id: z.string().uuid(),
+  custom_item_id: z.string().optional(),
+  custom_name: z.string().optional(),
+  is_locked: z.boolean().optional(),
+  created_by: z.string().uuid().optional(),
+});
 
 export const dynamic = 'force-dynamic';
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   
   try {
-    const payload = await request.json();
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
-    if (!payload.source_item_id || !payload.organization_id) {
-      return NextResponse.json(
-        { error: 'source_item_id and organization_id are required' },
-        { status: 400 }
-      );
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
+    const payload = await request.json();
+    const validatedData = duplicateCatalogItemSchema.parse(payload);
+
     const { data, error } = await supabase.rpc('duplicate_catalog_item_to_org', {
-      p_source_item_id: payload.source_item_id,
-      p_organization_id: payload.organization_id,
-      p_custom_item_id: payload.custom_item_id || null,
-      p_custom_name: payload.custom_name || null,
-      p_is_locked: payload.is_locked || false,
-      p_created_by: payload.created_by || null,
+      p_source_item_id: validatedData.source_item_id,
+      p_organization_id: validatedData.organization_id,
+      p_custom_item_id: validatedData.custom_item_id,
+      p_custom_name: validatedData.custom_name,
+      p_is_locked: validatedData.is_locked || false,
+      p_created_by: validatedData.created_by,
     });
 
     if (error) {

@@ -1,16 +1,138 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const registerDroneSchema = z.object({
+  action: z.literal('register_drone'),
+  name: z.string().min(1),
+  drone_type: z.string(),
+  serial_number: z.string(),
+  registration_number: z.string().optional(),
+  max_flight_time: z.number().optional(),
+  camera_specs: z.record(z.unknown()).optional(),
+});
+
+const scheduleFlightSchema = z.object({
+  action: z.literal('schedule_flight'),
+  drone_id: z.string().uuid(),
+  pilot_id: z.string().uuid(),
+  project_id: z.string().uuid().optional(),
+  venue_id: z.string().uuid().optional(),
+  scheduled_at: z.string(),
+  purpose: z.string().optional(),
+  flight_plan: z.record(z.unknown()).optional(),
+  estimated_duration: z.number().optional(),
+});
+
+const startFlightSchema = z.object({
+  action: z.literal('start_flight'),
+  flight_id: z.string().uuid(),
+  takeoff_location: z.record(z.unknown()).optional(),
+});
+
+const endFlightSchema = z.object({
+  action: z.literal('end_flight'),
+  flight_id: z.string().uuid(),
+  landing_location: z.record(z.unknown()).optional(),
+  flight_notes: z.string().optional(),
+});
+
+const uploadCaptureSchema = z.object({
+  action: z.literal('upload_capture'),
+  flight_id: z.string().uuid(),
+  project_id: z.string().uuid().optional(),
+  venue_id: z.string().uuid().optional(),
+  type: z.enum(['photo', 'video', 'panorama', 'orthomosaic', 'thermal']),
+  file_url: z.string().url(),
+  thumbnail_url: z.string().url().optional(),
+  metadata: z.record(z.unknown()).optional(),
+  location: z.record(z.unknown()).optional(),
+  captured_at: z.string().optional(),
+});
+
+const processCaptureSchema = z.object({
+  action: z.literal('process_capture'),
+  capture_id: z.string().uuid(),
+  processing_type: z.string().optional(),
+});
+
+const createFlightZoneSchema = z.object({
+  action: z.literal('create_flight_zone'),
+  venue_id: z.string().uuid(),
+  name: z.string().min(1),
+  zone_type: z.enum(['authorized', 'restricted', 'no_fly']),
+  boundary: z.record(z.unknown()),
+  max_altitude: z.number().optional(),
+  restrictions: z.array(z.string()).optional(),
+  notes: z.string().optional(),
+});
+
+const registerPilotSchema = z.object({
+  action: z.literal('register_pilot'),
+  user_id: z.string().uuid(),
+  license_number: z.string(),
+  license_type: z.enum(['part_107', 'recreational', 'commercial']),
+  license_expiry: z.string().optional(),
+  certifications: z.array(z.string()).optional(),
+});
+
+const recordTelemetrySchema = z.object({
+  action: z.literal('record_telemetry'),
+  flight_id: z.string().uuid(),
+  telemetry: z.object({
+    latitude: z.number(),
+    longitude: z.number(),
+    altitude: z.number().optional(),
+    speed: z.number().optional(),
+    heading: z.number().optional(),
+    battery_level: z.number().optional(),
+  }),
+});
+
+const generateDocumentationSchema = z.object({
+  action: z.literal('generate_documentation'),
+  project_id: z.string().uuid().optional(),
+  venue_id: z.string().uuid().optional(),
+  captures: z.array(z.string()).optional(),
+  title: z.string().min(1),
+  description: z.string().optional(),
+});
+
+const droneActionSchema = z.union([
+  registerDroneSchema,
+  scheduleFlightSchema,
+  startFlightSchema,
+  endFlightSchema,
+  uploadCaptureSchema,
+  processCaptureSchema,
+  createFlightZoneSchema,
+  registerPilotSchema,
+  recordTelemetrySchema,
+  generateDocumentationSchema,
+]);
 
 /**
  * Drone Integration API for Production Documentation
  * Manages drone flights, captures, and documentation for venues and events
  */
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -174,16 +296,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = droneActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'register_drone') {
-      const { name, drone_type, serial_number, registration_number, max_flight_time, camera_specs } = body;
+      const { name, drone_type, serial_number, registration_number, max_flight_time, camera_specs } = validatedData as z.infer<typeof registerDroneSchema>;
 
       const { data, error } = await supabase
         .from('drones')
@@ -208,7 +338,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'schedule_flight') {
-      const { drone_id, pilot_id, project_id, venue_id, scheduled_at, purpose, flight_plan, estimated_duration } = body;
+      const { drone_id, pilot_id, project_id, venue_id, scheduled_at, purpose, flight_plan, estimated_duration } = validatedData as z.infer<typeof scheduleFlightSchema>;
 
       // Check drone availability
       const { data: conflicts } = await supabase
@@ -247,7 +377,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'start_flight') {
-      const { flight_id, takeoff_location } = body;
+      const { flight_id, takeoff_location } = validatedData as z.infer<typeof startFlightSchema>;
 
       const { data, error } = await supabase
         .from('drone_flights')
@@ -274,7 +404,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'end_flight') {
-      const { flight_id, landing_location, flight_notes } = body;
+      const { flight_id, landing_location, flight_notes } = validatedData as z.infer<typeof endFlightSchema>;
 
       const { data: flight } = await supabase
         .from('drone_flights')
@@ -313,7 +443,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'upload_capture') {
-      const { flight_id, project_id, venue_id, type, file_url, thumbnail_url, metadata, location, captured_at } = body;
+      const { flight_id, project_id, venue_id, type, file_url, thumbnail_url, metadata, location, captured_at } = validatedData as z.infer<typeof uploadCaptureSchema>;
 
       const { data, error } = await supabase
         .from('drone_captures')
@@ -340,7 +470,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'process_capture') {
-      const { capture_id, processing_type } = body;
+      const { capture_id, processing_type } = validatedData as z.infer<typeof processCaptureSchema>;
 
       // Update status to processing
       await supabase
@@ -369,7 +499,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'create_flight_zone') {
-      const { venue_id, name, zone_type, boundary, max_altitude, restrictions, notes } = body;
+      const { venue_id, name, zone_type, boundary, max_altitude, restrictions, notes } = validatedData as z.infer<typeof createFlightZoneSchema>;
 
       const { data, error } = await supabase
         .from('drone_flight_zones')
@@ -393,7 +523,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'register_pilot') {
-      const { user_id, license_number, license_type, license_expiry, certifications } = body;
+      const { user_id, license_number, license_type, license_expiry, certifications } = validatedData as z.infer<typeof registerPilotSchema>;
 
       const { data, error } = await supabase
         .from('drone_pilots')
@@ -416,7 +546,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'record_telemetry') {
-      const { flight_id, telemetry } = body;
+      const { flight_id, telemetry } = validatedData as z.infer<typeof recordTelemetrySchema>;
 
       // Append to flight path
       const { data, error } = await supabase
@@ -442,7 +572,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'generate_documentation') {
-      const { project_id, venue_id, captures, title, description } = body;
+      const { project_id, venue_id, captures, title, description } = validatedData as z.infer<typeof generateDocumentationSchema>;
 
       // Create documentation package
       const { data, error } = await supabase

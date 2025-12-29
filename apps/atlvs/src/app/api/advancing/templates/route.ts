@@ -1,6 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { log, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const templateItemSchema = z.object({
+  catalog_item_id: z.string().uuid().optional(),
+  org_catalog_item_id: z.string().uuid().optional(),
+  item_name: z.string(),
+  description: z.string().optional(),
+  category: z.string().optional(),
+  subcategory: z.string().optional(),
+  default_quantity: z.number().optional(),
+  unit: z.string().optional(),
+  estimated_unit_cost: z.number().optional(),
+  is_required: z.boolean().optional(),
+  notes: z.string().optional(),
+});
+
+const createTemplateSchema = z.object({
+  organization_id: z.string().uuid().optional(),
+  name: z.string().min(1),
+  description: z.string().optional(),
+  category: z.string().optional(),
+  template_type: z.string().optional(),
+  is_global: z.boolean().optional(),
+  tags: z.array(z.string()).optional(),
+  project_id: z.string().uuid().optional(),
+  team_id: z.string().uuid().optional(),
+  created_by: z.string().uuid().optional(),
+  items: z.array(templateItemSchema).optional(),
+});
 
 const ATLVS_ROLES = [
   PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
@@ -103,28 +132,22 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = await request.json();
-
-    if (!payload.name) {
-      return NextResponse.json(
-        { error: 'name is required' },
-        { status: 400 }
-      );
-    }
+    const validatedData = createTemplateSchema.parse(payload);
 
     const { data: template, error: templateError } = await supabase
       .from('advance_templates')
       .insert({
-        organization_id: payload.organization_id,
-        name: payload.name,
-        description: payload.description,
-        category: payload.category,
-        template_type: payload.template_type || 'reorder',
-        is_global: payload.is_global ?? false,
+        organization_id: validatedData.organization_id,
+        name: validatedData.name,
+        description: validatedData.description,
+        category: validatedData.category,
+        template_type: validatedData.template_type || 'reorder',
+        is_global: validatedData.is_global ?? false,
         is_active: true,
-        tags: payload.tags || [],
-        project_id: payload.project_id,
-        team_id: payload.team_id,
-        created_by: payload.created_by,
+        tags: validatedData.tags || [],
+        project_id: validatedData.project_id,
+        team_id: validatedData.team_id,
+        created_by: validatedData.created_by,
       })
       .select()
       .single();
@@ -135,8 +158,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Add items if provided
-    if (payload.items && payload.items.length > 0) {
-      const items = payload.items.map((item: Record<string, unknown>, index: number) => ({
+    if (validatedData.items && validatedData.items.length > 0) {
+      const items = validatedData.items.map((item, index: number) => ({
         template_id: template.id,
         catalog_item_id: item.catalog_item_id,
         org_catalog_item_id: item.org_catalog_item_id,

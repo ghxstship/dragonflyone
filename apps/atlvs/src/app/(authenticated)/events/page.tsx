@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2 } from 'lucide-react';
 // Layout provided by route group
 import { useEvents, useEventStats, useCreateEvent, useDeleteEvent } from '../../../hooks/useEvents';
+import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
   ListPage,
   Badge,
@@ -19,6 +20,8 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+
+// Roles that can create/edit/delete events
 
 interface Event {
   id: string;
@@ -155,6 +158,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function EventsPage() {
   const router = useRouter();
+  const { hasRole } = useAuthContext();
   const { data: eventsData, isLoading, error, refetch } = useEvents();
   const { data: stats } = useEventStats();
   const createMutation = useCreateEvent();
@@ -168,6 +172,9 @@ export default function EventsPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState<Event | null>(null);
 
+  // RBAC: Check if user has admin access for create/edit/delete operations
+  const canManageEvents = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
+
   const rowActions: ListPageAction<Event>[] = [
     {
       id: 'view',
@@ -178,22 +185,24 @@ export default function EventsPage() {
         setDrawerOpen(true);
       },
     },
-    {
-      id: 'edit',
-      label: 'Edit',
-      icon: <Pencil className="size-4" />,
-      onClick: (row) => router.push(`/events/${row.id}/edit`),
-    },
-    {
-      id: 'delete',
-      label: 'Delete',
-      icon: <Trash2 className="size-4" />,
-      variant: 'danger',
-      onClick: (row) => {
-        setEventToDelete(row);
-        setDeleteConfirmOpen(true);
+    ...(canManageEvents ? [
+      {
+        id: 'edit',
+        label: 'Edit',
+        icon: <Pencil className="size-4" />,
+        onClick: (row: Event) => router.push(`/events/${row.id}/edit`),
       },
-    },
+      {
+        id: 'delete',
+        label: 'Delete',
+        icon: <Trash2 className="size-4" />,
+        variant: 'danger' as const,
+        onClick: (row: Event) => {
+          setEventToDelete(row);
+          setDeleteConfirmOpen(true);
+        },
+      },
+    ] : []),
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -267,10 +276,10 @@ export default function EventsPage() {
           setDrawerOpen(true);
         }}
         createLabel="Create Event"
-        onCreate={() => setCreateModalOpen(true)}
+        onCreate={canManageEvents ? () => setCreateModalOpen(true) : undefined}
         stats={pageStats}
         emptyMessage="No events found"
-        emptyAction={{ label: 'Create Event', onClick: () => setCreateModalOpen(true) }}
+        emptyAction={canManageEvents ? { label: 'Create Event', onClick: () => setCreateModalOpen(true) } : undefined}
       />
 
       <RecordFormModal

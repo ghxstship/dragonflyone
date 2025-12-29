@@ -54,7 +54,7 @@ const columns: ListPageColumn<SOP>[] = [
     accessor: (row) => row.category?.name || '—',
     sortable: true,
     render: (_, row) => row.category ? (
-      <Badge style={{ backgroundColor: row.category.color || '#6b7280', color: '#fff' }}>
+      <Badge color={row.category.color || '#6b7280'}>
         {row.category.name}
       </Badge>
     ) : '—'

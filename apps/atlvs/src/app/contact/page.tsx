@@ -1,163 +1,211 @@
-import { AtlvsAppLayout } from "../../components/app-layout";
+"use client";
+
+/**
+ * Contact Page
+ * Contact form and company information
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Mail, Phone, MapPin, MessageSquare, Send, Clock, List, Building2 } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
 import {
-  Stack,
-  Grid,
-  Card,
   Body,
-  H1,
-  H3,
-  Label,
-  Container,
-  Display,
   Button,
+  Card,
+  Grid,
   Input,
+  Select,
   Textarea,
   Form,
-  FullBleedSection,
+  DetailPage,
+  Section,
+  SectionHeader,
+  useNotifications,
 } from "@ghxstship/ui";
-import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 
-export const runtime = "edge";
+const CONTACT_REASONS = ["General Inquiry", "Sales", "Support", "Partnership", "Press", "Other"];
 
-const contactData = {
-  hero: {
-    headline: "GET IN TOUCH",
-    description: "Have questions about ATLVS? Our team is here to help you find the right solution for your production needs.",
-  },
-  options: [
-    {
-      icon: MessageSquare,
-      title: "SALES",
-      description: "Talk to our sales team about enterprise solutions and custom pricing.",
-      cta: "sales@atlvs.io",
-    },
-    {
-      icon: Mail,
-      title: "SUPPORT",
-      description: "Get help with your existing ATLVS account or technical questions.",
-      cta: "support@atlvs.io",
-    },
-    {
-      icon: Phone,
-      title: "PHONE",
-      description: "Speak directly with our team during business hours (9am-6pm PT).",
-      cta: "+1 (888) 285-8700",
-    },
-    {
-      icon: MapPin,
-      title: "OFFICE",
-      description: "Visit us at our headquarters in Los Angeles.",
-      cta: "Los Angeles, CA",
-    },
-  ],
-};
+const OFFICES = [
+  { city: "New York", address: "123 Broadway, Suite 500", phone: "+1 (212) 555-0100" },
+  { city: "San Francisco", address: "456 Market St, Floor 10", phone: "+1 (415) 555-0200" },
+  { city: "London", address: "789 Oxford St, Unit 3", phone: "+44 20 7123 4567" },
+];
 
 export default function ContactPage() {
-  return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={6} className="text-center">
-            <Display size="lg" className="text-white">
-              {contactData.hero.headline}
-            </Display>
-            <Body size="lg" className="mx-auto max-w-2xl text-on-dark-secondary">
-              {contactData.hero.description}
-            </Body>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+  const router = useRouter();
+  const { addNotification } = useNotifications();
 
-      {/* Contact Options */}
-      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={4} gap={6} className="sm:grid-cols-2">
-            {contactData.options.map((option) => (
-              <Card key={option.title} className="border-2 border-ink-950 bg-white p-6 shadow-md">
-                <Stack gap={4}>
-                  <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                    <option.icon className="size-6 text-ink-950" />
-                  </Stack>
-                  <H3 size="sm" className="text-ink-950">
-                    {option.title}
-                  </H3>
-                  <Body size="sm" className="text-grey-600">
-                    {option.description}
-                  </Body>
-                  <Label size="sm" className="text-brand-pink">
-                    {option.cta}
-                  </Label>
-                </Stack>
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    reason: "General Inquiry",
+    message: "",
+  });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const submitMutation = useMutation({
+    mutationFn: async (data: typeof formData) => {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error("Failed to send message");
+      return response.json();
+    },
+    onSuccess: () => {
+      addNotification({ type: "success", title: "Message Sent", message: "We'll get back to you within 24 hours" });
+      setFormData({ name: "", email: "", company: "", reason: "General Inquiry", message: "" });
+    },
+    onError: () => {
+      addNotification({ type: "error", title: "Error", message: "Failed to send message. Please try again." });
+    },
+  });
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email format";
+    if (!formData.message.trim()) newErrors.message = "Message is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validateForm()) submitMutation.mutate(formData);
+  };
+
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: "" }));
+  };
+
+  const tabs = [
+    {
+      id: "contact",
+      label: "Contact Us",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2">
+            <Card className="p-6">
+              <SectionHeader title="Send us a message" description="Fill out the form and we'll get back to you" />
+              <Form onSubmit={handleSubmit} className="space-y-4 mt-4">
+                <div>
+                  <Body size="sm" className="text-grey-400 mb-1">Name *</Body>
+                  <Input placeholder="Your name" value={formData.name} onChange={(e) => handleChange("name", e.target.value)} className={errors.name ? "border-error" : ""} />
+                  {errors.name && <Body size="sm" className="text-error mt-1">{errors.name}</Body>}
+                </div>
+                <div>
+                  <Body size="sm" className="text-grey-400 mb-1">Email *</Body>
+                  <Input type="email" placeholder="you@company.com" value={formData.email} onChange={(e) => handleChange("email", e.target.value)} className={errors.email ? "border-error" : ""} />
+                  {errors.email && <Body size="sm" className="text-error mt-1">{errors.email}</Body>}
+                </div>
+                <div>
+                  <Body size="sm" className="text-grey-400 mb-1">Company</Body>
+                  <Input placeholder="Your company" value={formData.company} onChange={(e) => handleChange("company", e.target.value)} />
+                </div>
+                <div>
+                  <Body size="sm" className="text-grey-400 mb-1">Reason for Contact</Body>
+                  <Select value={formData.reason} onChange={(e) => handleChange("reason", e.target.value)}>
+                    {CONTACT_REASONS.map((reason) => <option key={reason} value={reason}>{reason}</option>)}
+                  </Select>
+                </div>
+                <div>
+                  <Body size="sm" className="text-grey-400 mb-1">Message *</Body>
+                  <Textarea placeholder="How can we help?" rows={5} value={formData.message} onChange={(e) => handleChange("message", e.target.value)} className={errors.message ? "border-error" : ""} />
+                  {errors.message && <Body size="sm" className="text-error mt-1">{errors.message}</Body>}
+                </div>
+                <Button type="submit" variant="solid" disabled={submitMutation.isPending} icon={<Send className="size-4" />} iconPosition="left" className="w-full">
+                  {submitMutation.isPending ? "Sending..." : "Send Message"}
+                </Button>
+              </Form>
+            </Card>
+
+            <div className="space-y-6">
+              <Card className="p-6">
+                <SectionHeader title="Get in touch" />
+                <div className="space-y-4 mt-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-primary/20 rounded-card"><Mail className="size-5 text-primary" /></div>
+                    <div>
+                      <Body size="sm" className="text-grey-400">Email</Body>
+                      <Body className="font-weight-medium">hello@atlvs.com</Body>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-primary/20 rounded-card"><Phone className="size-5 text-primary" /></div>
+                    <div>
+                      <Body size="sm" className="text-grey-400">Phone</Body>
+                      <Body className="font-weight-medium">+1 (800) 555-ATLVS</Body>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-primary/20 rounded-card"><Clock className="size-5 text-primary" /></div>
+                    <div>
+                      <Body size="sm" className="text-grey-400">Hours</Body>
+                      <Body className="font-weight-medium">Mon-Fri, 9am-6pm EST</Body>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-6">
+                <SectionHeader title="Quick Links" />
+                <div className="space-y-2 mt-4">
+                  <Button variant="ghost" className="w-full justify-start" onClick={() => router.push("/help")}>Help Center</Button>
+                  <Button variant="ghost" className="w-full justify-start" onClick={() => router.push("/demo")}>Request a Demo</Button>
+                  <Button variant="ghost" className="w-full justify-start" onClick={() => router.push("/careers")}>Careers</Button>
+                </div>
+              </Card>
+            </div>
+          </Grid>
+        </Section>
+      ),
+    },
+    {
+      id: "offices",
+      label: "Our Offices",
+      icon: <Building2 className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Global Offices" description="Visit us at one of our locations" />
+          <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3 mt-6">
+            {OFFICES.map((office, index) => (
+              <Card key={index} className="p-6">
+                <Body className="font-weight-bold font-weight-medium mb-4">{office.city}</Body>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <MapPin className="size-4 text-grey-400 mt-1" />
+                    <Body size="sm" className="text-grey-400">{office.address}</Body>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Phone className="size-4 text-grey-400" />
+                    <Body size="sm" className="text-grey-400">{office.phone}</Body>
+                  </div>
+                </div>
               </Card>
             ))}
           </Grid>
-        </Container>
-      </FullBleedSection>
+        </Section>
+      ),
+    },
+  ];
 
-      {/* Contact Form */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-3xl px-4 sm:px-6 lg:px-8">
-          <Card className="border-2 border-ink-950 bg-white p-8 shadow-lg lg:p-12">
-            <Stack gap={8}>
-              <Stack gap={4} className="text-center">
-                <H1 className="text-ink-950">SEND US A MESSAGE</H1>
-                <Body className="text-grey-600">
-                  Fill out the form below and we&apos;ll get back to you within 24 hours.
-                </Body>
-              </Stack>
-
-              <Form>
-                <Stack gap={6}>
-                  <Grid cols={2} gap={6} className="sm:grid-cols-1">
-                    <Stack gap={2}>
-                      <Label size="xs" className="text-ink-950">
-                        FIRST NAME
-                      </Label>
-                      <Input placeholder="John" className="border-2 border-ink-950" />
-                    </Stack>
-                    <Stack gap={2}>
-                      <Label size="xs" className="text-ink-950">
-                        LAST NAME
-                      </Label>
-                      <Input placeholder="Doe" className="border-2 border-ink-950" />
-                    </Stack>
-                  </Grid>
-
-                  <Stack gap={2}>
-                    <Label size="xs" className="text-ink-950">
-                      EMAIL
-                    </Label>
-                    <Input type="email" placeholder="john@company.com" className="border-2 border-ink-950" />
-                  </Stack>
-
-                  <Stack gap={2}>
-                    <Label size="xs" className="text-ink-950">
-                      COMPANY
-                    </Label>
-                    <Input placeholder="Your Company" className="border-2 border-ink-950" />
-                  </Stack>
-
-                  <Stack gap={2}>
-                    <Label size="xs" className="text-ink-950">
-                      MESSAGE
-                    </Label>
-                    <Textarea
-                      placeholder="Tell us about your production needs..."
-                      rows={5}
-                      className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 placeholder:text-grey-400 focus:outline-none focus:ring-2 focus:ring-brand-pink"
-                    />
-                  </Stack>
-
-                  <Button variant="pop" size="lg" fullWidth>
-                    Send Message
-                  </Button>
-                </Stack>
-              </Form>
-            </Stack>
-          </Card>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+  return (
+    <DetailPage
+      header={{
+        kicker: "Get in Touch",
+        title: "Contact Us",
+        description: "We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+      }}
+      tabs={tabs}
+    />
   );
 }

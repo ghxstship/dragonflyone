@@ -13,8 +13,6 @@ import {
   Grid,
   Stack,
   Body,
-  EnterprisePageHeader,
-  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -143,15 +141,7 @@ export default function MaintenancePage() {
 
   return (
     <>
-      <EnterprisePageHeader
-        title="Equipment Maintenance"
-        subtitle="Track and schedule equipment maintenance tasks"
-primaryAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <ListPage<MaintenanceItem>
+      <ListPage<MaintenanceItem>
           title="Equipment Maintenance"
           subtitle="Track and schedule equipment maintenance tasks"
           data={items}
@@ -202,12 +192,13 @@ primaryAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpe
               refetch?.();
             }
           }}
-          bulkActions={[
-            { id: 'complete', label: 'Complete Selected', variant: 'default' },
-            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
-          ]}
-        />
-      </MainContent>
+        bulkActions={[
+          { id: 'complete', label: 'Complete Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
+        showFavorite
+        showSettings
+      />
 
       <RecordFormModal
         open={createModalOpen}

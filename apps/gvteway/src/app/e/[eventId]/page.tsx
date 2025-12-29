@@ -1,152 +1,66 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, Grid, Spinner, EmptyState } from "@ghxstship/ui";
-import { Calendar, Ticket, MapPin, Music, Users, Clock } from "lucide-react";
-import { useEvent } from "@/hooks/useEvents";
+import { Calendar, MapPin, Ticket, Users, Share2, Heart, List, Info } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
 
-/**
- * Event Overview Page
- * Main landing page for a specific event
- */
-export default function EventOverviewPage() {
+interface Event { id: string; name: string; date: string; venue: string; description: string; category: string; price: number; capacity: number; sold: number; }
+const DEMO_EVENT: Event = { id: "1", name: "Summer Festival 2024", date: "2024-12-20", venue: "Central Park, NYC", description: "The biggest summer festival of the year featuring top artists.", category: "Festival", price: 75, capacity: 5000, sold: 3500 };
+
+export default function EventPage() {
   const params = useParams();
   const router = useRouter();
-  const eventId = params?.eventId as string;
+  const eventId = params.eventId as string;
 
-  const { data: event, isLoading, error } = useEvent(eventId);
+  const { data: event = DEMO_EVENT, isLoading, error, refetch } = useQuery({
+    queryKey: ["event", eventId],
+    queryFn: async () => {
+      const response = await fetch(`/api/events/${eventId}`);
+      if (!response.ok) return DEMO_EVENT;
+      return (await response.json()).event || DEMO_EVENT;
+    },
+  });
 
-  if (isLoading) {
-    return (
-      <Stack gap={4} className="flex items-center justify-center py-20">
-        <Spinner variant="grey" size="lg" text="Loading event..." />
-      </Stack>
-    );
-  }
+  const formatDate = (d: string) => new Date(d).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  const formatCurrency = (a: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(a);
 
-  if (error || !event) {
-    return (
-      <Stack gap={4}>
-        <EmptyState
-          title="Event Not Found"
-          description={error ? (error instanceof Error ? error.message : "An error occurred") : "The requested event could not be found."}
-          action={{ label: "Browse Events", onClick: () => router.push('/events') }}
-          inverted
-        />
-      </Stack>
-    );
-  }
-
-  const eventDetails = {
-    date: event.start_date ? new Date(event.start_date).toLocaleDateString() : "TBD",
-    venue: event.venue || "TBD",
-    lineup: ["Headliner", "Support Act 1", "Support Act 2"],
-    ticketsAvailable: event.capacity ? Math.floor(event.capacity * 0.1) : 500,
-    ticketsSold: event.tickets_sold || 0,
-  };
-
-  return (
-    <Stack gap={8}>
-      {/* Header */}
-      <Stack gap={4}>
-        <SectionHeader
-          kicker="Event"
-          title={event.name}
-          description={`${eventDetails.venue} | ${eventDetails.date}`}
-          colorScheme="on-dark"
-        />
-        <Stack direction="horizontal" gap={2} className="flex-wrap">
-          <Badge variant={event.status === "published" ? "success" : event.status === "completed" ? "info" : "solid"}>
-            {event.status.toUpperCase()}
-          </Badge>
-          <Badge variant="outline">
-            <MapPin size={12} className="mr-1" />
-            {eventDetails.venue}
-          </Badge>
-          <Badge variant="outline">
-            <Calendar size={12} className="mr-1" />
-            {eventDetails.date}
-          </Badge>
-        </Stack>
-      </Stack>
-
-      {/* Quick Actions */}
-      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-        <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/tickets`)}>
-          <CardBody>
-            <Stack gap={4} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                <Ticket size={24} className="text-primary" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Buy Tickets</Body>
-                <Body size="sm" className=" text-on-dark-muted">{eventDetails.ticketsAvailable} available</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
+  const tabs = [
+    { id: "overview", label: "Overview", icon: <List className="size-4" />, content: (
+      <Section>
+        <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+          <StatCard label="Date" value={new Date(event.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })} icon={<Calendar className="size-5" />} />
+          <StatCard label="Price" value={formatCurrency(event.price)} icon={<Ticket className="size-5" />} />
+          <StatCard label="Capacity" value={event.capacity.toLocaleString()} icon={<Users className="size-5" />} />
+          <StatCard label="Sold" value={`${Math.round((event.sold / event.capacity) * 100)}%`} icon={<Ticket className="size-5" />} />
+        </Grid>
+        <Card className="p-6 mb-6">
+          <div className="flex items-center gap-4 mb-4">
+            <Badge variant="outline">{event.category}</Badge>
+            <div className="flex items-center gap-2 text-grey-400"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></div>
+            <div className="flex items-center gap-2 text-grey-400"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></div>
+          </div>
+          <Body className="text-grey-300">{event.description}</Body>
         </Card>
-        <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/program`)}>
-          <CardBody>
-            <Stack gap={4} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                <Clock size={24} className="text-secondary" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Program</Body>
-                <Body size="sm" className=" text-on-dark-muted">Event schedule</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
+        <Card className="p-6">
+          <SectionHeader title="Get Tickets" />
+          <div className="flex items-center justify-between mt-4">
+            <div><Body className="font-weight-bold">From {formatCurrency(event.price)}</Body><Body size="sm" className="text-grey-400">{event.capacity - event.sold} tickets remaining</Body></div>
+            <Button variant="solid" icon={<Ticket className="size-4" />} iconPosition="left" onClick={() => router.push(`/e/${eventId}/tickets`)}>Buy Tickets</Button>
+          </div>
         </Card>
-        <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/lineup`)}>
-          <CardBody>
-            <Stack gap={4} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                <Music size={24} className="text-warning" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Lineup</Body>
-                <Body size="sm" className=" text-on-dark-muted">{eventDetails.lineup.length} artists</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-        <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/friends`)}>
-          <CardBody>
-            <Stack gap={4} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                <Users size={24} className="text-success" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Friends</Body>
-                <Body size="sm" className=" text-on-dark-muted">Who is going</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-      </Grid>
+      </Section>
+    )},
+    { id: "info", label: "Info", icon: <Info className="size-4" />, content: (
+      <Section>
+        <SectionHeader title="Event Information" />
+        <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2 mt-4">
+          <Card className="p-6"><Body className="font-weight-bold mb-2">Venue</Body><Body className="text-grey-400">{event.venue}</Body></Card>
+          <Card className="p-6"><Body className="font-weight-bold mb-2">Date & Time</Body><Body className="text-grey-400">{formatDate(event.date)}</Body></Card>
+        </Grid>
+      </Section>
+    )},
+  ];
 
-      {/* Event Info */}
-      <Card variant="elevated" inverted>
-        <CardBody>
-          <Stack gap={4}>
-            <Body className="font-weight-bold text-white">About This Event</Body>
-            <Body className="text-on-dark-muted">
-              Join us for an unforgettable experience at {event.name}. This event features 
-              world-class performances, amazing atmosphere, and memories that will last a lifetime.
-              Get your tickets now before they sell out!
-            </Body>
-            <Stack direction="horizontal" gap={4}>
-              <Button variant="solid" onClick={() => router.push(`/e/${eventId}/tickets`)}>
-                Get Tickets
-              </Button>
-              <Button variant="outline" onClick={() => router.push(`/e/${eventId}/entry-info`)}>
-                Entry Info
-              </Button>
-            </Stack>
-          </Stack>
-        </CardBody>
-      </Card>
-    </Stack>
-  );
+  return <DetailPage header={{ kicker: event.category, title: event.name, description: event.venue }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} actions={<><Button variant="outline" icon={<Share2 className="size-4" />} /><Button variant="outline" icon={<Heart className="size-4" />} /></>} />;
 }

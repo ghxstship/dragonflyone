@@ -1,14 +1,53 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const taskSchema = z.object({
+  task: z.string().min(1),
+  department: z.string().optional(),
+  assigned_to: z.string().uuid().optional(),
+});
+
+const createPlanSchema = z.object({
+  action: z.literal('create_plan'),
+  event_id: z.string().uuid(),
+  plan_type: z.enum(['strike', 'reset', 'load_out']).optional(),
+  tasks: z.array(taskSchema).optional(),
+});
+
+const initiateSchema = z.object({
+  action: z.literal('initiate'),
+  event_id: z.string().uuid().optional(),
+  plan_id: z.string().uuid(),
+});
+
+const completeTaskSchema = z.object({
+  action: z.literal('complete_task'),
+  event_id: z.string().uuid().optional(),
+  task_id: z.string().uuid(),
+});
+
+const postShowActionSchema = z.union([createPlanSchema, initiateSchema, completeTaskSchema]);
 
 // Post-show reset/strike initiation
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
@@ -36,17 +75,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action, event_id } = body;
+    const validatedData = postShowActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create_plan') {
-      const { plan_type, tasks } = body;
+      const { event_id, plan_type, tasks } = validatedData as z.infer<typeof createPlanSchema>;
 
       const { data, error } = await supabase.from('post_show_plans').insert({
         event_id, plan_type: plan_type || 'strike', status: 'pending', created_by: user.id
@@ -68,7 +114,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'initiate') {
-      const { plan_id } = body;
+      const { plan_id } = validatedData as z.infer<typeof initiateSchema>;
 
       await supabase.from('post_show_plans').update({
         status: 'in_progress', initiated_at: new Date().toISOString(), initiated_by: user.id
@@ -78,7 +124,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'complete_task') {
-      const { task_id } = body;
+      const { task_id } = validatedData as z.infer<typeof completeTaskSchema>;
 
       await supabase.from('post_show_tasks').update({
         status: 'completed', completed_at: new Date().toISOString(), completed_by: user.id

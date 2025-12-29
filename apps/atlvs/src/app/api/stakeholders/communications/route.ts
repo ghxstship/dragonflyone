@@ -1,12 +1,35 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createCommunicationSchema = z.object({
+  type: z.enum(['update', 'announcement', 'request', 'report']).optional(),
+  subject: z.string().min(1),
+  content: z.string().min(1),
+  recipients: z.array(z.string()).min(1),
+  project_id: z.string().uuid().optional(),
+});
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
     const stakeholderId = searchParams.get('stakeholder_id');
@@ -50,7 +73,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -61,14 +91,8 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { type, subject, content, recipients, project_id } = body;
-
-    if (!subject || !content || !recipients || recipients.length === 0) {
-      return NextResponse.json(
-        { error: 'Subject, content, and recipients are required' },
-        { status: 400 }
-      );
-    }
+    const validatedData = createCommunicationSchema.parse(body);
+    const { type, subject, content, recipients, project_id } = validatedData;
 
     // Resolve "all" to actual stakeholder IDs
     let resolvedRecipients = recipients;

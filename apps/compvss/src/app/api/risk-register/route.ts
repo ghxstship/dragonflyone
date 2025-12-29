@@ -1,14 +1,61 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createRiskSchema = z.object({
+  project_id: z.string().uuid(),
+  title: z.string().min(1),
+  description: z.string().optional(),
+  category: z.string().optional(),
+  probability: z.number().int().min(1).max(5),
+  impact: z.number().int().min(1).max(5),
+  owner_id: z.string().uuid().optional(),
+  mitigation_plan: z.string().optional(),
+});
+
+const addMitigationSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('add_mitigation'),
+  mitigation_action: z.string(),
+  due_date: z.string().optional(),
+  assigned_to: z.string().uuid().optional(),
+});
+
+const updateStatusSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('update_status'),
+  status: z.string(),
+  resolution_notes: z.string().optional(),
+});
+
+const reassessSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('reassess'),
+  probability: z.number().int().min(1).max(5),
+  impact: z.number().int().min(1).max(5),
+});
+
+const riskPatchActionSchema = z.union([addMitigationSchema, updateStatusSchema, reassessSchema]);
 
 // Risk register with mitigation plans and owner assignment
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -50,14 +97,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { project_id, title, description, category, probability, impact, owner_id, mitigation_plan } = body;
+    const validatedData = createRiskSchema.parse(body);
+    const { project_id, title, description, category, probability, impact, owner_id, mitigation_plan } = validatedData;
 
     const riskScore = probability * impact;
 
@@ -85,17 +139,24 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { id, action } = body;
+    const validatedData = riskPatchActionSchema.parse(body);
+    const { id, action } = validatedData;
 
     if (action === 'add_mitigation') {
-      const { mitigation_action, due_date, assigned_to } = body;
+      const { mitigation_action, due_date, assigned_to } = validatedData as z.infer<typeof addMitigationSchema>;
       await supabase.from('risk_mitigations').insert({
         risk_id: id, action: mitigation_action, due_date, assigned_to, status: 'planned'
       });
@@ -103,7 +164,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     if (action === 'update_status') {
-      const { status, resolution_notes } = body;
+      const { status, resolution_notes } = validatedData as z.infer<typeof updateStatusSchema>;
       await supabase.from('project_risks').update({
         status, resolution_notes, resolved_at: status === 'closed' ? new Date().toISOString() : null
       }).eq('id', id);
@@ -111,7 +172,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     if (action === 'reassess') {
-      const { probability, impact } = body;
+      const { probability, impact } = validatedData as z.infer<typeof reassessSchema>;
       await supabase.from('project_risks').update({
         probability, impact, risk_score: probability * impact,
         last_assessed: new Date().toISOString()

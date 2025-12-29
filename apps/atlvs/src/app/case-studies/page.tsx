@@ -1,236 +1,166 @@
-import { AtlvsAppLayout } from "../../components/app-layout";
+"use client";
+
+/**
+ * Case Studies Page
+ * Customer success stories
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FileText, Building2, Users, TrendingUp, Award, List, Star } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import {
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H1,
-  H3,
-  Label,
-  Container,
-  Display,
-  Button,
-  FullBleedSection,
   Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
 } from "@ghxstship/ui";
-import { ArrowRight, Quote, TrendingUp } from "lucide-react";
-import NextLink from "next/link";
 
-export const runtime = "edge";
+interface CaseStudy {
+  id: string;
+  title: string;
+  company: string;
+  industry: string;
+  summary: string;
+  results: { metric: string; value: string }[];
+  image: string;
+  featured: boolean;
+}
 
-const caseStudiesData = {
-  hero: {
-    headline: "CUSTOMER SUCCESS STORIES",
-    description: "See how production companies are transforming their operations with ATLVS.",
-  },
-  featured: {
-    company: "III POINTS FESTIVAL",
-    title: "How III Points Scaled to 30,000+ Attendees with ATLVS",
-    excerpt: "Miami's premier music and art festival streamlined operations and reduced planning time by 40%.",
-    stats: [
-      { value: "40%", label: "Faster Planning" },
-      { value: "30K+", label: "Attendees" },
-      { value: "200+", label: "Crew Managed" },
-    ],
-    quote: "ATLVS transformed how we manage our festival. What used to take weeks now takes days.",
-    quoteAuthor: "Festival Director",
-    slug: "iii-points-festival",
-  },
-  studies: [
-    {
-      company: "FORMULA 1 LAS VEGAS",
-      industry: "Motorsport Events",
-      title: "Managing the Complexity of F1 Race Week",
-      excerpt: "How the Las Vegas Grand Prix coordinated thousands of vendors and crew members.",
-      stats: { value: "5,000+", label: "Crew Coordinated" },
-      slug: "f1-las-vegas",
-    },
-    {
-      company: "CARNIVAL CRUISE LINE",
-      industry: "Entertainment",
-      title: "Onboard Production Management at Scale",
-      excerpt: "Streamlining entertainment production across a fleet of cruise ships.",
-      stats: { value: "50%", label: "Cost Reduction" },
-      slug: "carnival-cruise",
-    },
-    {
-      company: "FACTORY TOWN",
-      industry: "Music Festivals",
-      title: "From Spreadsheets to Seamless Operations",
-      excerpt: "A boutique festival's journey to professional production management.",
-      stats: { value: "3x", label: "Faster Setup" },
-      slug: "factory-town",
-    },
-    {
-      company: "SALVAGE CITY",
-      industry: "Live Events",
-      title: "Building a Sustainable Event Production Model",
-      excerpt: "How sustainability-focused events manage complex logistics with ATLVS.",
-      stats: { value: "60%", label: "Less Paper" },
-      slug: "salvage-city",
-    },
-    {
-      company: "OKEECHOBEE",
-      industry: "Music Festivals",
-      title: "Multi-Stage Festival Coordination",
-      excerpt: "Coordinating 6 stages and 150+ artists over 4 days.",
-      stats: { value: "150+", label: "Artists Managed" },
-      slug: "okeechobee",
-    },
-    {
-      company: "PATRON EXPERIENCES",
-      industry: "Brand Activations",
-      title: "Elevating Brand Experiences with Data",
-      excerpt: "Using ATLVS analytics to optimize brand activation ROI.",
-      stats: { value: "25%", label: "Higher ROI" },
-      slug: "patron-experiences",
-    },
-  ],
-  industries: ["All", "Music Festivals", "Motorsport Events", "Brand Activations", "Entertainment", "Live Events"],
-};
+const DEMO_CASE_STUDIES: CaseStudy[] = [
+  { id: "1", title: "How Festival Corp Managed 50K Attendees", company: "Festival Corp", industry: "Music Festivals", summary: "Learn how Festival Corp streamlined their production workflow and reduced costs by 40%.", results: [{ metric: "Cost Reduction", value: "40%" }, { metric: "Time Saved", value: "200hrs" }], image: "🎪", featured: true },
+  { id: "2", title: "Corporate Events at Scale", company: "TechGiant Inc", industry: "Corporate Events", summary: "TechGiant manages 100+ corporate events annually with ATLVS.", results: [{ metric: "Events/Year", value: "100+" }, { metric: "Team Efficiency", value: "+60%" }], image: "🏢", featured: true },
+  { id: "3", title: "Theater Production Excellence", company: "Broadway Stars", industry: "Theater", summary: "Broadway Stars transformed their production management process.", results: [{ metric: "Productions", value: "25" }, { metric: "On-Time Delivery", value: "99%" }], image: "🎭", featured: false },
+  { id: "4", title: "Sports Event Management", company: "Championship League", industry: "Sports", summary: "Managing major sporting events across multiple venues.", results: [{ metric: "Venues", value: "12" }, { metric: "Attendees", value: "500K+" }], image: "🏟️", featured: false },
+];
+
+const INDUSTRIES = ["All", "Music Festivals", "Corporate Events", "Theater", "Sports"];
 
 export default function CaseStudiesPage() {
-  return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center text-center">
-            <Label size="xs" className="text-on-dark-muted">
-              CASE STUDIES
-            </Label>
-            <Display size="lg" className="text-white">
-              {caseStudiesData.hero.headline}
-            </Display>
-            <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              {caseStudiesData.hero.description}
-            </Body>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+  const router = useRouter();
+  const [selectedIndustry, setSelectedIndustry] = useState("All");
 
-      {/* Featured Case Study */}
-      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Card className="border-2 border-ink-950 bg-white shadow-brand-lg">
-            <Grid cols={2} className="sm:grid-cols-1">
-              <Stack className="flex items-center justify-center border-r-2 border-ink-950 bg-grey-100 p-12 sm:border-r-0 sm:border-b-2">
-                <Display size="lg" className="text-ink-950">{caseStudiesData.featured.company}</Display>
-              </Stack>
-              <Stack gap={6} className="p-12">
-                <Badge variant="outline" className="w-fit border-brand-pink text-brand-pink">
-                  FEATURED
-                </Badge>
-                <H1 className="text-ink-950">{caseStudiesData.featured.title}</H1>
-                <Body size="lg" className="text-grey-600">
-                  {caseStudiesData.featured.excerpt}
-                </Body>
+  const { data: caseStudies = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["case-studies"],
+    queryFn: async () => {
+      const response = await fetch("/api/case-studies");
+      if (!response.ok) return DEMO_CASE_STUDIES;
+      const data = await response.json();
+      return data.caseStudies?.length ? data.caseStudies : DEMO_CASE_STUDIES;
+    },
+  });
 
-                <Grid cols={3} gap={4} className="sm:grid-cols-3">
-                  {caseStudiesData.featured.stats.map((stat) => (
-                    <Stack key={stat.label} className="text-center">
-                      <Display size="md" className="text-brand-pink">{stat.value}</Display>
-                      <Label size="xs" className="text-grey-500">{stat.label}</Label>
-                    </Stack>
-                  ))}
-                </Grid>
+  const filteredStudies = selectedIndustry === "All" ? caseStudies : caseStudies.filter((cs: CaseStudy) => cs.industry === selectedIndustry);
+  const featuredStudies = caseStudies.filter((cs: CaseStudy) => cs.featured);
 
-                <Card className="border-2 border-grey-200 bg-grey-100 p-6">
-                  <Stack gap={3}>
-                    <Quote className="size-6 text-grey-400" />
-                    <Body size="sm" className="text-grey-700">
-                      {caseStudiesData.featured.quote}
-                    </Body>
-                    <Label size="xs" className="text-grey-500">
-                      - {caseStudiesData.featured.quoteAuthor}
-                    </Label>
-                  </Stack>
-                </Card>
-
-                <NextLink href={`/case-studies/${caseStudiesData.featured.slug}`}>
-                  <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                    Read Full Story
-                  </Button>
-                </NextLink>
-              </Stack>
-            </Grid>
-          </Card>
-        </Container>
-      </FullBleedSection>
-
-      {/* Industry Filter */}
-      <FullBleedSection background="white" className="py-8">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack direction="horizontal" gap={3} className="flex-wrap justify-center">
-            {caseStudiesData.industries.map((industry) => (
-              <Badge
-                key={industry}
-                variant="outline"
-                className={industry === "All" ? "border-ink-950 bg-ink-950 text-white" : "border-ink-950 text-ink-950"}
-              >
-                {industry}
-              </Badge>
-            ))}
-          </Stack>
-        </Container>
-      </FullBleedSection>
-
-      {/* Case Studies Grid */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={3} gap={6} className="sm:grid-cols-1">
-            {caseStudiesData.studies.map((study) => (
-              <NextLink key={study.slug} href={`/case-studies/${study.slug}`}>
-                <Card className="border-2 border-ink-950 bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
-                  <Stack className="flex aspect-video items-center justify-center border-b-2 border-ink-950 bg-grey-100 p-6">
-                    <H3 className="text-center text-ink-950">{study.company}</H3>
-                  </Stack>
-                  <Stack gap={4} className="p-6">
-                    <Badge variant="outline" className="w-fit border-grey-300 text-grey-500">
-                      {study.industry}
-                    </Badge>
-                    <H3 size="sm" className="text-ink-950">{study.title}</H3>
-                    <Body size="xs" className="text-grey-600">
-                      {study.excerpt}
-                    </Body>
-                    <Stack direction="horizontal" gap={2} className="items-center text-brand-pink">
-                      <TrendingUp className="size-4" />
-                      <Label size="sm">{study.stats.value}</Label>
-                      <Label size="xs" className="text-grey-500">{study.stats.label}</Label>
-                    </Stack>
-                  </Stack>
-                </Card>
-              </NextLink>
-            ))}
+  const tabs = [
+    {
+      id: "all",
+      label: "All Case Studies",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mb-6">
+            <StatCard label="Case Studies" value={caseStudies.length.toString()} icon={<FileText className="size-5" />} />
+            <StatCard label="Industries" value={new Set(caseStudies.map((cs: CaseStudy) => cs.industry)).size.toString()} icon={<Building2 className="size-5" />} />
+            <StatCard label="Happy Customers" value="1,000+" icon={<Users className="size-5" />} />
           </Grid>
-        </Container>
-      </FullBleedSection>
 
-      {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center">
-            <Display size="md" className="text-white">
-              READY TO WRITE YOUR SUCCESS STORY?
-            </Display>
-            <Body size="lg" className="text-on-dark-secondary">
-              Join thousands of productions that have transformed their operations with ATLVS.
-            </Body>
-            <Stack direction="horizontal" gap={4}>
-              <NextLink href="/auth/signup">
-                <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                  Start Free Trial
-                </Button>
-              </NextLink>
-              <NextLink href="/demo">
-                <Button variant="outlineWhite" size="lg">
-                  Schedule Demo
-                </Button>
-              </NextLink>
-            </Stack>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+          <div className="flex gap-2 mb-6 flex-wrap">
+            {INDUSTRIES.map((ind) => (
+              <Button key={ind} variant={selectedIndustry === ind ? "solid" : "outline"} size="sm" onClick={() => setSelectedIndustry(ind)}>
+                {ind}
+              </Button>
+            ))}
+          </div>
+
+          {filteredStudies.length === 0 ? (
+            <Card className="p-8 text-center">
+              <FileText className="size-12 text-grey-600 mx-auto mb-4" />
+              <Body className="font-weight-medium font-weight-medium mb-2">No Case Studies Found</Body>
+              <Body className="text-grey-400">Check back soon for more success stories</Body>
+            </Card>
+          ) : (
+            <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
+              {filteredStudies.map((cs: CaseStudy) => (
+                <Card key={cs.id} className="p-6 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/case-studies/${cs.id}`)}>
+                  <div className="flex items-start gap-4">
+                    <div className="font-weight-bold">{cs.image}</div>
+                    <div className="flex-1">
+                      {cs.featured && <Badge variant="warning" className="mb-2">Featured</Badge>}
+                      <Body className="font-weight-bold font-weight-medium">{cs.title}</Body>
+                      <Body size="sm" className="text-grey-400 mb-2">{cs.company} • {cs.industry}</Body>
+                      <Body className="text-grey-300 mb-4">{cs.summary}</Body>
+                      <div className="flex gap-4">
+                        {cs.results.map((result, idx) => (
+                          <div key={idx} className="text-center">
+                            <Body className="font-weight-bold text-primary">{result.value}</Body>
+                            <Body size="sm" className="text-grey-500">{result.metric}</Body>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </Grid>
+          )}
+        </Section>
+      ),
+    },
+    {
+      id: "featured",
+      label: "Featured",
+      icon: <Star className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Featured Success Stories" description="Our most impactful customer transformations" />
+          <div className="space-y-6 mt-6">
+            {featuredStudies.map((cs: CaseStudy) => (
+              <Card key={cs.id} className="p-8 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/case-studies/${cs.id}`)}>
+                <div className="flex items-start gap-6">
+                  <div className="text-6xl">{cs.image}</div>
+                  <div className="flex-1">
+                    <Badge variant="warning" className="mb-2">Featured</Badge>
+                    <Body className="font-weight-bold font-weight-bold mb-2">{cs.title}</Body>
+                    <Body size="sm" className="text-grey-400 mb-2">{cs.company} • {cs.industry}</Body>
+                    <Body className="text-grey-300 mb-6">{cs.summary}</Body>
+                    <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4">
+                      {cs.results.map((result, idx) => (
+                        <Card key={idx} className="p-4 text-center">
+                          <Body className="font-weight-bold font-weight-bold text-primary">{result.value}</Body>
+                          <Body size="sm" className="text-grey-500">{result.metric}</Body>
+                        </Card>
+                      ))}
+                    </Grid>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+  ];
+
+  return (
+    <DetailPage
+      header={{
+        kicker: "Success Stories",
+        title: "Case Studies",
+        description: "See how leading organizations use ATLVS to transform their production workflows",
+      }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={<Button variant="solid" onClick={() => router.push("/demo")}>Request a Demo</Button>}
+    />
   );
 }

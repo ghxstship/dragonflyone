@@ -1,13 +1,93 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createPlanSchema = z.object({
+  title: z.string().min(1),
+  plan_type: z.enum(['bcp', 'drp', 'incident_response', 'crisis_management']),
+  description: z.string().optional(),
+  scope: z.string().optional(),
+  objectives: z.array(z.string()).optional(),
+  critical_functions: z.array(z.string()).optional(),
+  recovery_time_objective: z.number().optional(),
+  recovery_point_objective: z.number().optional(),
+  owner_id: z.string().uuid().optional(),
+  contacts: z.array(z.object({
+    name: z.string(),
+    role: z.string().optional(),
+    phone: z.string().optional(),
+    email: z.string().email().optional(),
+    is_primary: z.boolean().optional(),
+    notification_order: z.number().optional(),
+  })).optional(),
+  procedures: z.array(z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    responsible_party: z.string().optional(),
+    time_to_complete: z.string().optional(),
+  })).optional(),
+  resources_required: z.array(z.string()).optional(),
+  dependencies: z.array(z.string()).optional(),
+  communication_plan: z.string().optional(),
+  activation_criteria: z.array(z.string()).optional(),
+});
+
+const scheduleTestSchema = z.object({
+  plan_id: z.string().uuid(),
+  action: z.literal('schedule_test'),
+  test_type: z.enum(['tabletop', 'walkthrough', 'simulation', 'full_scale']),
+  scheduled_date: z.string(),
+  participants: z.array(z.string()).optional(),
+  objectives: z.array(z.string()).optional(),
+});
+
+const recordTestResultsSchema = z.object({
+  plan_id: z.string().uuid(),
+  action: z.literal('record_test_results'),
+  test_id: z.string().uuid(),
+  results: z.string().optional(),
+  issues_found: z.array(z.string()).optional(),
+  recommendations: z.array(z.string()).optional(),
+  passed: z.boolean(),
+});
+
+const activateSchema = z.object({
+  plan_id: z.string().uuid(),
+  action: z.literal('activate'),
+});
+
+const updatePlanSchema = z.object({
+  plan_id: z.string().uuid(),
+  action: z.undefined().optional(),
+}).passthrough();
+
+const patchActionSchema = z.union([
+  scheduleTestSchema,
+  recordTestResultsSchema,
+  activateSchema,
+  updatePlanSchema,
+]);
 
 // GET - Fetch business continuity and disaster recovery plans
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -75,7 +155,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -86,15 +173,16 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createPlanSchema.parse(body);
     const {
       title,
-      plan_type, // 'bcp', 'drp', 'incident_response', 'crisis_management'
+      plan_type,
       description,
       scope,
       objectives,
       critical_functions,
-      recovery_time_objective, // RTO in hours
-      recovery_point_objective, // RPO in hours
+      recovery_time_objective,
+      recovery_point_objective,
       owner_id,
       contacts,
       procedures,
@@ -102,7 +190,7 @@ export async function POST(request: NextRequest) {
       dependencies,
       communication_plan,
       activation_criteria,
-    } = body;
+    } = validatedData;
 
     const { data: plan, error: planError } = await supabase
       .from('continuity_plans')
@@ -172,7 +260,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -183,7 +278,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { plan_id, action, ...updateData } = body;
+    const validatedData = patchActionSchema.parse(body);
+    const { plan_id, action, ...updateData } = validatedData;
 
     if (action === 'schedule_test') {
       const { test_type, scheduled_date, participants, objectives } = updateData;

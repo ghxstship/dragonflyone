@@ -2,46 +2,44 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Input,
   Button,
   Card,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Badge,
   Alert,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 import {
   useQACheckpoints,
   type QACheckpoint,
 } from '../../hooks/useQACheckpoints';
+import { Eye, CheckCircle } from "lucide-react";
 
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case "Passed": return "solid";
+    case "In Progress": return "outline";
+    default: return "ghost";
+  }
+};
 
 export default function QACheckpointsPage() {
   const router = useRouter();
-  const { data: qaCheckpoints = [] } = useQACheckpoints();
-  
-  // URL-synced tab state for deep-linking support
-  const { activeTab, setActiveTab, isActive } = useTabState({
-    defaultTab: 'all',
-    validTabs: ['all', 'load-in', 'setup', 'tech-rehearsal', 'show-ready'],
-  });
+  const { data: qaCheckpoints = [], refetch } = useQACheckpoints();
   const [selectedCheckpoint, setSelectedCheckpoint] = useState<QACheckpoint | null>(null);
   const [showSignOffModal, setShowSignOffModal] = useState(false);
 
@@ -50,98 +48,108 @@ export default function QACheckpointsPage() {
   const failedCount = qaCheckpoints.filter(c => c.status === "Failed").length;
   const criticalPending = qaCheckpoints.filter(c => c.status !== "Passed" && c.items.some(i => i.critical && !i.checked)).length;
 
-  const getStatusVariant = (status: string): 'success' | 'warning' | 'ghost' | 'error' | 'info' => {
-    switch (status) {
-      case "Passed": return "success";
-      case "In Progress": return "warning";
-      case "Pending": return "ghost";
-      case "Failed": return "error";
-      case "Waived": return "info";
-      default: return "ghost";
-    }
-  };
+  const columns: ListPageColumn<QACheckpoint>[] = [
+    {
+      key: 'name',
+      label: 'Checkpoint',
+      accessor: 'name',
+      sortable: true,
+      render: (_, c) => (
+        <Stack gap={1}>
+          <Body className="font-display">{c.name}</Body>
+          <Stack direction="horizontal" gap={2}>
+            <Badge variant="outline">{c.department}</Badge>
+            <Badge variant="outline">{c.phase}</Badge>
+          </Stack>
+        </Stack>
+      ),
+    },
+    { key: 'assignee', label: 'Assignee', accessor: (c) => c.assignee || 'Unassigned' },
+    {
+      key: 'items',
+      label: 'Items',
+      accessor: (c) => `${c.items.filter(i => i.checked).length}/${c.items.length}`,
+      render: (_, c) => <Body>{c.items.filter(i => i.checked).length}/{c.items.length} complete</Body>,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, c) => <Badge variant={getStatusVariant(c.status)}>{c.status}</Badge>,
+    },
+  ];
 
-  const filteredCheckpoints = activeTab === "all" ? qaCheckpoints : qaCheckpoints.filter(c => c.phase.toLowerCase().replace(" ", "-") === activeTab);
+  const filters: ListPageFilter[] = [
+    {
+      key: 'phase',
+      label: 'Phase',
+      options: [
+        { value: 'Load-In', label: 'Load-In' },
+        { value: 'Setup', label: 'Setup' },
+        { value: 'Tech Rehearsal', label: 'Tech Rehearsal' },
+        { value: 'Show Ready', label: 'Show Ready' },
+      ],
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'Passed', label: 'Passed' },
+        { value: 'In Progress', label: 'In Progress' },
+        { value: 'Pending', label: 'Pending' },
+        { value: 'Failed', label: 'Failed' },
+      ],
+    },
+  ];
+
+  const rowActions: ListPageAction<QACheckpoint>[] = [
+    { id: 'view', label: 'Details', icon: <Eye className="h-4 w-4" />, onClick: (c) => setSelectedCheckpoint(c) },
+    { id: 'signoff', label: 'Sign Off', icon: <CheckCircle className="h-4 w-4" />, onClick: (c) => { setSelectedCheckpoint(c); setShowSignOffModal(true); }, hidden: (c) => c.status === 'Passed' },
+  ];
+
+  const stats = [
+    { label: 'Passed', value: passedCount },
+    { label: 'Pending', value: pendingCount },
+    { label: 'Failed', value: failedCount },
+    { label: 'Critical Pending', value: criticalPending },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<QACheckpoint>
         title="QA Checkpoints"
         subtitle="Quality assurance and sign-off tracking for production phases"
-
-
+        data={qaCheckpoints}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        onRetry={refetch}
+        searchPlaceholder="Search checkpoints..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(c) => setSelectedCheckpoint(c)}
+        createLabel="Add Checkpoint"
+        onCreate={() => router.push('/qa-checkpoints/new')}
+        entityType="qa-checkpoints"
+        onExport={createExportHandler({
+          filename: "qa-checkpoints",
+          getData: () => qaCheckpoints.map((c: QACheckpoint) => ({
+            name: c.name,
+            department: c.department,
+            phase: c.phase,
+            assignee: c.assignee || '',
+            items_completed: c.items.filter(i => i.checked).length,
+            items_total: c.items.length,
+            status: c.status,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No checkpoints found"
+        emptyAction={{ label: 'Add Checkpoint', onClick: () => router.push('/qa-checkpoints/new') }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard value={passedCount.toString()} label="Passed" />
-              <StatCard value={pendingCount.toString()} label="Pending" />
-              <StatCard value={failedCount.toString()} label="Failed" />
-              <StatCard value={criticalPending.toString()} label="Critical Pending" />
-            </Grid>
-
-            {criticalPending > 0 && (
-              <Alert variant="warning">{criticalPending} checkpoint(s) have critical items pending verification</Alert>
-            )}
-
-            <Tabs>
-              <TabsList>
-                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
-                <Tab active={isActive('load-in')} onClick={() => setActiveTab('load-in')}>Load-In</Tab>
-                <Tab active={isActive('setup')} onClick={() => setActiveTab('setup')}>Setup</Tab>
-                <Tab active={isActive('tech-rehearsal')} onClick={() => setActiveTab('tech-rehearsal')}>Tech Rehearsal</Tab>
-                <Tab active={isActive('show-ready')} onClick={() => setActiveTab('show-ready')}>Show Ready</Tab>
-              </TabsList>
-
-              <TabPanel active={true}>
-                <Stack gap={4}>
-                  {filteredCheckpoints.map((checkpoint) => (
-                    <Card key={checkpoint.id} className="p-6">
-                      <Grid cols={6} gap={4} className="items-center">
-                        <Stack gap={1}>
-                          <Body className="font-display">{checkpoint.name}</Body>
-                          <Stack direction="horizontal" gap={2}>
-                            <Badge variant="outline">{checkpoint.department}</Badge>
-                            <Badge variant="outline">{checkpoint.phase}</Badge>
-                          </Stack>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Assignee</Body>
-                          <Body>{checkpoint.assignee || "Unassigned"}</Body>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Items</Body>
-                          <Body>{checkpoint.items.filter(i => i.checked).length}/{checkpoint.items.length} complete</Body>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Status</Body>
-                          <Badge variant={getStatusVariant(checkpoint.status)}>{checkpoint.status}</Badge>
-                        </Stack>
-                        <Stack direction="horizontal" gap={2} className="justify-end">
-                          <Button variant="ghost" size="sm" onClick={() => setSelectedCheckpoint(checkpoint)}>Details</Button>
-                          {checkpoint.status !== "Passed" && (
-                            <Button variant="outline" size="sm" onClick={() => { setSelectedCheckpoint(checkpoint); setShowSignOffModal(true); }}>Sign Off</Button>
-                          )}
-                        </Stack>
-                      </Grid>
-                    </Card>
-                  ))}
-                </Stack>
-              </TabPanel>
-            </Tabs>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="solid">Add Checkpoint</Button>
-              <Button variant="outline">Export Report</Button>
-              <Button variant="outline" onClick={() => router.push("/build-strike")}>Build and Strike</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={!!selectedCheckpoint && !showSignOffModal} onClose={() => setSelectedCheckpoint(null)}>
         <ModalHeader><H3>Checkpoint Details</H3></ModalHeader>

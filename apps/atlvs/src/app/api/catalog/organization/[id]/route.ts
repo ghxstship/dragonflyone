@@ -1,8 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { log } from '@ghxstship/config';
+import { log, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const updateCatalogItemSchema = z.object({
+  item_name: z.string().optional(),
+  description: z.string().optional(),
+  base_price_low: z.number().optional(),
+  base_price_high: z.number().optional(),
+  standard_unit: z.string().optional(),
+  custom_fields: z.record(z.unknown()).optional(),
+  internal_notes: z.string().optional(),
+  preferred_vendors: z.array(z.string()).optional(),
+  is_preferred: z.boolean().optional(),
+  enabled: z.boolean().optional(),
+  updated_by: z.string().uuid().optional(),
+});
 
 export const dynamic = 'force-dynamic';
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function GET(
   request: NextRequest,
@@ -45,21 +65,22 @@ export async function PATCH(
   
   try {
     const payload = await request.json();
+    const validatedData = updateCatalogItemSchema.parse(payload);
 
     const { data, error } = await supabase
       .from('organization_catalog_items')
       .update({
-        item_name: payload.item_name,
-        description: payload.description,
-        base_price_low: payload.base_price_low,
-        base_price_high: payload.base_price_high,
-        standard_unit: payload.standard_unit,
-        custom_fields: payload.custom_fields,
-        internal_notes: payload.internal_notes,
-        preferred_vendors: payload.preferred_vendors,
-        is_preferred: payload.is_preferred,
-        enabled: payload.enabled,
-        updated_by: payload.updated_by,
+        item_name: validatedData.item_name,
+        description: validatedData.description,
+        base_price_low: validatedData.base_price_low,
+        base_price_high: validatedData.base_price_high,
+        standard_unit: validatedData.standard_unit,
+        custom_fields: validatedData.custom_fields,
+        internal_notes: validatedData.internal_notes,
+        preferred_vendors: validatedData.preferred_vendors,
+        is_preferred: validatedData.is_preferred,
+        enabled: validatedData.enabled,
+        updated_by: validatedData.updated_by,
       })
       .eq('id', id)
       .select()

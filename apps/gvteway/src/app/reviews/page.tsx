@@ -2,96 +2,56 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// Layout provided by route group
-import {
-  H2,
-  H3,
-  Body,
-  Button,
-  Badge,
-  Card,
-  Select,
-  Stack,
-  Kicker,
-  Label,
-} from "@ghxstship/ui";
-import { Star } from "lucide-react";
+import { Star, Search, Plus, List } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Body, Button, Card, Input, DetailPage, Section } from "@ghxstship/ui";
 
-const reviews = [
-  { id: "REV-001", event: "Ultra Music Festival 2024", user: "Sarah M.", rating: 5, date: "2024-10-15", comment: "Incredible experience! Production quality was amazing." },
-  { id: "REV-002", event: "Rolling Loud Miami", user: "Mike T.", rating: 4, date: "2024-10-10", comment: "Great lineup, but lines were too long." },
-  { id: "REV-003", event: "Art Basel After Dark", user: "Lisa K.", rating: 5, date: "2024-10-05", comment: "Perfect venue and atmosphere!" },
+interface Review { id: string; event: string; rating: number; text: string; date: string; }
+const DEMO: Review[] = [
+  { id: "1", event: "Summer Festival 2024", rating: 5, text: "Amazing experience!", date: "2024-12-15" },
+  { id: "2", event: "Jazz Night", rating: 4, text: "Great music and atmosphere", date: "2024-12-10" },
 ];
 
 export default function ReviewsPage() {
   const router = useRouter();
-  const [filterRating, setFilterRating] = useState("all");
+  const [search, setSearch] = useState("");
 
-  const filteredReviews = reviews.filter(r => 
-    filterRating === "all" || r.rating === parseInt(filterRating)
-  );
+  const { data: reviews = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["reviews"],
+    queryFn: async () => { const r = await fetch("/api/reviews"); if (!r.ok) return DEMO; return (await r.json()).reviews?.length ? (await r.json()).reviews : DEMO; },
+  });
 
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Community</Kicker>
-              <H2 size="lg" className="text-white">Event Reviews</H2>
-              <Body className="text-on-dark-muted">See what others are saying about events</Body>
-            </Stack>
+  const filtered = reviews.filter((r: Review) => r.event.toLowerCase().includes(search.toLowerCase()));
+  const formatDate = (d: string) => new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 
-            {/* Filter */}
-            <Card inverted className="p-4">
-              <Stack gap={2} direction="horizontal" className="items-center">
-                <Label size="xs" className="text-on-dark-muted">Filter by rating</Label>
-                <Select
-                  value={filterRating}
-                  onChange={(e) => setFilterRating(e.target.value)}
-                  inverted
-                >
-                  <option value="all">All Ratings</option>
-                  <option value="5">5 Stars</option>
-                  <option value="4">4 Stars</option>
-                  <option value="3">3 Stars</option>
-                </Select>
-              </Stack>
-            </Card>
+  const tabs = [{
+    id: "reviews", label: "Reviews", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <div className="flex gap-4 items-center mb-6">
+          <div className="relative flex-1 max-w-md"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" /><Input placeholder="Search reviews..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" /></div>
+        </div>
+        {filtered.length === 0 ? (
+          <Card className="p-8 text-center"><Star className="size-12 text-grey-600 mx-auto mb-4" /><Body className="font-weight-medium mb-2">No reviews yet</Body><Body className="text-grey-400 mb-4">Share your event experiences</Body><Button variant="solid" onClick={() => router.push("/reviews/new")}>Write a Review</Button></Card>
+        ) : (
+          <div className="space-y-4">
+            {filtered.map((review: Review) => (
+              <Card key={review.id} className="p-6">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <Body className="font-weight-bold">{review.event}</Body>
+                    <div className="flex items-center gap-1 mt-2">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`size-4 ${i < review.rating ? "text-warning fill-warning" : "text-grey-600"}`} />)}</div>
+                    <Body className="text-grey-300 mt-3">{review.text}</Body>
+                  </div>
+                  <Body size="sm" className="text-grey-500">{formatDate(review.date)}</Body>
+                </div>
+              </Card>
+            ))}
+          </div>
+        )}
+      </Section>
+    ),
+  }];
 
-            {/* Reviews List */}
-            <Stack gap={4}>
-              {filteredReviews.map((review) => (
-                <Card key={review.id} inverted interactive>
-                  <Stack gap={4}>
-                    <Stack gap={2} direction="horizontal" className="items-start justify-between">
-                      <Stack gap={1}>
-                        <H3 className="text-white">{review.event}</H3>
-                        <Label size="xs" className="text-on-dark-disabled">{review.user} • {review.date}</Label>
-                      </Stack>
-                      <Badge variant="solid">
-                        <Star className="mr-1 inline size-3 fill-current" />
-                        {review.rating}
-                      </Badge>
-                    </Stack>
-                    <Body className="text-on-dark-muted">{review.comment}</Body>
-                  </Stack>
-                </Card>
-              ))}
-            </Stack>
-
-            {/* Write Review CTA */}
-            <Card inverted variant="elevated" className="p-6">
-              <Stack gap={4} direction="horizontal" className="items-center justify-between">
-                <Stack gap={1}>
-                  <H3 className="text-white">Share Your Experience</H3>
-                  <Body className="text-on-dark-muted">Help others by reviewing events you&apos;ve attended</Body>
-                </Stack>
-                <Button variant="solid" inverted onClick={() => router.push('/reviews/new')}>
-                  Write a Review
-                </Button>
-              </Stack>
-            </Card>
-          </Stack>
-    </>
-  );
+  return <DetailPage header={{ kicker: "Feedback", title: "My Reviews", description: "Your event reviews" }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} actions={<Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left" onClick={() => router.push("/reviews/new")}>Write Review</Button>} />;
 }

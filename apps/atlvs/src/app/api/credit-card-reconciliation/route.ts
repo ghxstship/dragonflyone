@@ -2,7 +2,13 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { z } from 'zod';
+
+const ATLVS_FINANCE_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 const CreditCardAccountSchema = z.object({
   name: z.string(),
@@ -40,9 +46,12 @@ const TransactionSchema = z.object({
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_FINANCE_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Finance access required' }, { status: 403 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -160,16 +169,15 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_FINANCE_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Finance access required' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
+    const userId = authResult.user?.id;
     const body = await request.json();
     const action = body.action || 'create_transaction';
 
@@ -180,7 +188,7 @@ export async function POST(request: NextRequest) {
         .from('credit_card_accounts')
         .insert({
           ...validated,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -209,7 +217,7 @@ export async function POST(request: NextRequest) {
         description: t.description,
         status: 'pending',
         imported_at: new Date().toISOString(),
-        imported_by: user.id,
+        imported_by: userId,
       }));
 
       const { data: imported, error } = await supabase
@@ -240,7 +248,7 @@ export async function POST(request: NextRequest) {
           expense_category_id,
           project_id,
           reconciled_at: new Date().toISOString(),
-          reconciled_by: user.id,
+          reconciled_by: userId,
         })
         .in('id', transaction_ids)
         .select();
@@ -261,7 +269,7 @@ export async function POST(request: NextRequest) {
         .from('credit_card_transactions')
         .insert({
           ...validated,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -284,16 +292,15 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_FINANCE_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Finance access required' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
+    const userId = authResult.user?.id;
     const { searchParams } = new URL(request.url);
     const transactionId = searchParams.get('transaction_id');
     const cardId = searchParams.get('card_id');
@@ -306,7 +313,7 @@ export async function PATCH(request: NextRequest) {
         .update({
           ...body,
           updated_at: new Date().toISOString(),
-          updated_by: user.id,
+          updated_by: userId,
         })
         .eq('id', transactionId)
         .select()

@@ -1,225 +1,93 @@
-import { AtlvsAppLayout } from "../../components/app-layout";
+"use client";
+
+/**
+ * Products Page
+ * Product suite overview
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
+import { Zap, Users, Ticket, ArrowRight, List, Star } from "lucide-react";
 import {
-  Stack,
-  Grid,
-  Card,
   Body,
-  H1,
-  H3,
-  Label,
-  Container,
-  Display,
   Button,
-  FullBleedSection,
-  Box,
-  Text,
+  Card,
+  Grid,
+  Stack,
+  DetailPage,
+  Section,
+  SectionHeader,
 } from "@ghxstship/ui";
-import { Briefcase, Users, Ticket, ArrowRight, Check, Zap, Shield, Globe, RefreshCw } from "lucide-react";
-import NextLink from "next/link";
 
-export const runtime = "edge";
-
-const products = [
-  {
-    name: 'GVTEWAY',
-    tagline: 'OWN THE DOOR',
-    description: 'Full-service ticketing platform built for live entertainment. Own your fan data, lower your fees, escape platform lock-in.',
-    icon: Ticket,
-    color: 'brand-yellow',
-    replaces: ['Eventbrite', 'DICE', 'Ticketmaster', 'Universe', 'See Tickets'],
-    capabilities: ['Event publishing & discovery', 'Box office & will-call', 'Fan CRM & marketing', 'Membership & loyalty', 'Real-time analytics'],
-    href: '/products/gvteway',
-  },
-  {
-    name: 'COMPVSS',
-    tagline: 'WORK THE SITE',
-    description: 'Crew management for productions that actually scale. Punch lists, timekeeping, scheduling, and cross-org collaboration.',
-    icon: Users,
-    color: 'brand-cyan',
-    replaces: ['ConnectTeam', 'Deputy', 'When I Work', 'Sling', '7shifts'],
-    capabilities: ['Crew scheduling', 'Digital timekeeping', 'Punch lists & tasks', 'Site communications', 'Cross-org JOIN'],
-    href: '/products/compvss',
-  },
-  {
-    name: 'ATLVS',
-    tagline: 'RUN THE SHOW',
-    description: 'Business operations for live entertainment. CRM, finance, projects, vendors—everything an executive needs in one place.',
-    icon: Briefcase,
-    color: 'brand-pink',
-    replaces: ['Monday + QuickBooks + HubSpot', 'Salesforce', 'Airtable + spreadsheets'],
-    capabilities: ['CRM (deals, contacts, venues)', 'Project management', 'Financial management', 'Vendor management', 'Reporting & analytics'],
-    href: '/products/atlvs',
-  },
+const PRODUCTS = [
+  { id: "atlvs", name: "ATLVS", tagline: "Production Management", description: "Complete production management platform for live events", icon: <Zap className="size-8" />, href: "/products/atlvs", features: ["Production planning", "Team collaboration", "Document management", "Budget tracking"] },
+  { id: "compvss", name: "COMPVSS", tagline: "Crew Management", description: "Comprehensive crew and talent management solution", icon: <Users className="size-8" />, href: "/products/compvss", features: ["Crew scheduling", "Talent database", "Availability tracking", "Payroll integration"] },
+  { id: "gvteway", name: "GVTEWAY", tagline: "Ticketing & Access", description: "Modern ticketing and access control platform", icon: <Ticket className="size-8" />, href: "/products/gvteway", features: ["Ticket sales", "Access control", "Event discovery", "Analytics"] },
 ];
 
-const colorMap: Record<string, string> = {
-  'brand-yellow': 'text-brand-yellow border-brand-yellow',
-  'brand-cyan': 'text-brand-cyan border-brand-cyan',
-  'brand-pink': 'text-brand-pink border-brand-pink',
-};
-
 export default function ProductsPage() {
-  return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center text-center">
-            <Label size="xs" className="text-brand-pink">THE INDUSTRY STANDARD</Label>
-            <Display size="lg" className="text-white">THREE PRODUCTS. ONE INDUSTRY STANDARD.</Display>
-            <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              Modular by design. Use one, two, or all three. Built for every vertical, compatible with every stack.
-            </Body>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+  const router = useRouter();
 
-      {/* Products Grid */}
-      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={3} gap={8} className="sm:grid-cols-1 lg:grid-cols-3">
-            {products.map((product) => {
-              const IconComponent = product.icon;
-              const colors = colorMap[product.color] || colorMap['brand-pink'];
-              return (
-                <Card key={product.name} className="group border-2 border-ink-950 bg-white p-8 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
-                  <Stack gap={6}>
-                    {/* Icon and Name */}
-                    <Stack direction="horizontal" gap={4} className="items-center">
-                      <Box className={`p-3 border-2 ${colors}`}>
-                        <IconComponent className={`h-6 w-6 ${colors.split(" ")[0]}`} />
-                      </Box>
-                      <Stack gap={1}>
-                        <H3 className="text-ink-950">{product.name}</H3>
-                        <Label size="xs" className="text-grey-500">{product.tagline}</Label>
-                      </Stack>
+  const tabs = [
+    {
+      id: "products",
+      label: "Products",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
+            {PRODUCTS.map((product) => (
+              <Card key={product.id} className="p-6 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(product.href)}>
+                <div className="p-4 bg-primary/20 rounded-card text-primary w-fit mb-4">{product.icon}</div>
+                <Body className="font-weight-bold font-weight-bold">{product.name}</Body>
+                <Body size="sm" className="text-primary mb-2">{product.tagline}</Body>
+                <Body className="text-grey-400 mb-4">{product.description}</Body>
+                <Stack gap={2} className="mb-6">
+                  {product.features.map((feature, idx) => (
+                    <Stack key={idx} direction="horizontal" gap={2} className="items-center">
+                      <div className="size-1.5 rounded-avatar bg-primary" />
+                      <Body size="sm">{feature}</Body>
                     </Stack>
-
-                    {/* Description */}
-                    <Body size="md" className="text-grey-600">{product.description}</Body>
-
-                    {/* Replaces */}
-                    <Stack gap={2}>
-                      <Label size="xs" className="text-success">REPLACES</Label>
-                      <Text size="sm" className="text-grey-600">{product.replaces.join(', ')}</Text>
-                    </Stack>
-
-                    {/* Capabilities */}
-                    <Stack gap={3}>
-                      {product.capabilities.map((cap) => (
-                        <Stack key={cap} direction="horizontal" gap={3} className="items-start">
-                          <Check className={`h-4 w-4 mt-0.5 shrink-0 ${colors.split(" ")[0]}`} />
-                          <Text size="sm" className="text-grey-700">{cap}</Text>
-                        </Stack>
-                      ))}
-                    </Stack>
-
-                    {/* CTA */}
-                    <NextLink href={product.href}>
-                      <Button variant="outline" size="md" fullWidth icon={<ArrowRight />}>
-                        Explore {product.name}
-                      </Button>
-                    </NextLink>
-                  </Stack>
-                </Card>
-              );
-            })}
+                  ))}
+                </Stack>
+                <Button variant="outline" className="w-full" icon={<ArrowRight className="size-4" />} iconPosition="right">Learn More</Button>
+              </Card>
+            ))}
           </Grid>
-        </Container>
-      </FullBleedSection>
 
-      {/* BYO Message */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-8 sm:py-12">
-        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
-          <Card className="border-2 border-brand-pink bg-brand-pink/5 p-8 text-center">
-            <Stack gap={4} className="items-center">
-              <RefreshCw className="h-8 w-8 text-brand-pink" />
-              <H3 className="text-ink-950">BRING YOUR OWN</H3>
-              <Body className="text-grey-600 max-w-xl">
-                Already have tools you love? Keep them. Use GVTEWAY with your Salesforce. Use COMPVSS with your Eventbrite. Use ATLVS with your ConnectTeam. Mix and match.
-              </Body>
-              <NextLink href="/pricing">
-                <Button variant="pop" size="md" icon={<ArrowRight />}>See Tier Options</Button>
-              </NextLink>
-            </Stack>
+          <Card className="p-8 mt-8 text-center">
+            <Body className="font-weight-bold font-weight-bold mb-2">Need all three?</Body>
+            <Body className="text-grey-400 mb-4">Get the complete GHXSTSHIP suite for the best value</Body>
+            <div className="flex gap-4 justify-center">
+              <Button variant="solid" onClick={() => router.push("/products/compare")}>Compare Products</Button>
+              <Button variant="outline" onClick={() => router.push("/pricing")}>View Pricing</Button>
+            </div>
           </Card>
-        </Container>
-      </FullBleedSection>
+        </Section>
+      ),
+    },
+    {
+      id: "compare",
+      label: "Compare",
+      icon: <Star className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Compare Products" description="Find the right solution for your needs" />
+          <Button variant="solid" className="mt-4" onClick={() => router.push("/products/compare")}>View Full Comparison</Button>
+        </Section>
+      ),
+    },
+  ];
 
-      {/* Platform Benefits */}
-      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={16}>
-            <Stack gap={4} className="text-center">
-              <H1 className="text-ink-950">BETTER TOGETHER</H1>
-              <Body size="lg" className="text-grey-600 max-w-2xl mx-auto">
-                Each product is powerful alone. Together, they eliminate silos and streamline everything.
-              </Body>
-            </Stack>
-
-            <Grid cols={3} gap={8} className="sm:grid-cols-1">
-              <Card className="border-2 border-ink-950 bg-white p-6 text-center">
-                <Box className="mx-auto mb-4 flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                  <Zap className="h-6 w-6 text-ink-950" />
-                </Box>
-                <H3 size="sm" className="text-ink-950 mb-2">REAL-TIME SYNC</H3>
-                <Body size="sm" className="text-grey-600">
-                  Data flows seamlessly. Crew costs hit budgets. Ticket sales hit P&L. No exports.
-                </Body>
-              </Card>
-
-              <Card className="border-2 border-ink-950 bg-white p-6 text-center">
-                <Box className="mx-auto mb-4 flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                  <Shield className="h-6 w-6 text-ink-950" />
-                </Box>
-                <H3 size="sm" className="text-ink-950 mb-2">UNIFIED SECURITY</H3>
-                <Body size="sm" className="text-grey-600">
-                  Single sign-on, role-based access, enterprise-grade security across all products.
-                </Body>
-              </Card>
-
-              <Card className="border-2 border-ink-950 bg-white p-6 text-center">
-                <Box className="mx-auto mb-4 flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                  <Globe className="h-6 w-6 text-ink-950" />
-                </Box>
-                <H3 size="sm" className="text-ink-950 mb-2">LOWER FEES</H3>
-                <Body size="sm" className="text-grey-600">
-                  Bundle products, lower transaction fees. Enterprise gets the lowest rates.
-                </Body>
-              </Card>
-            </Grid>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-
-      {/* Compare CTA */}
-      <FullBleedSection background="ink" className="py-8 sm:py-12 lg:py-16">
-        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
-          <Stack direction="horizontal" className="items-center justify-between flex-wrap gap-6">
-            <Stack gap={2}>
-              <H3 className="text-white">Not sure which products you need?</H3>
-              <Body className="text-grey-400">Tell us what tools you already use—we&apos;ll show you the gaps.</Body>
-            </Stack>
-            <NextLink href="/products/compare">
-              <Button variant="outlineWhite" size="lg" icon={<ArrowRight />}>Compare Products</Button>
-            </NextLink>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-
-      {/* Final CTA */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center">
-            <Display size="md" className="text-ink-950">READY TO REPLACE THE CHAOS?</Display>
-            <Body size="lg" className="text-grey-600">Start with one product. Add more when you&apos;re ready. Your data will be waiting.</Body>
-            <Stack direction="horizontal" gap={4}>
-              <NextLink href="/auth/signup"><Button variant="pop" size="lg" icon={<ArrowRight />}>Start Free Trial</Button></NextLink>
-              <NextLink href="/demo"><Button variant="outline" size="lg">Watch Demo</Button></NextLink>
-            </Stack>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+  return (
+    <DetailPage
+      header={{
+        kicker: "Platform",
+        title: "Our Products",
+        description: "The complete suite for live event management",
+      }}
+      tabs={tabs}
+      actions={<Button variant="solid" onClick={() => router.push("/demo")}>Request Demo</Button>}
+    />
   );
 }

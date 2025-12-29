@@ -16,8 +16,10 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useMaintenance, type MaintenanceRecord } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useMaintenance, type MaintenanceRecord, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import { DEMO_MAINTENANCE_RECORDS } from '../../../../lib/demo-data';
+
+// Roles that can create/edit/delete maintenance records
 
 
 const getStatusVariant = getBadgeVariant;
@@ -53,9 +55,13 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function AssetMaintenancePage() {
+  const { hasRole } = useAuthContext();
   const [selectedRecord, setSelectedRecord] = useState<MaintenanceRecord | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
+
+  // RBAC: Check if user has admin access for create/edit/delete operations
+  const canManageMaintenance = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   // Real API integration with demo fallback
   const { records: apiRecords, isLoading, error, createRecordAsync, updateRecordAsync, deleteRecordsAsync, refetch } = useMaintenance();
@@ -78,8 +84,8 @@ export default function AssetMaintenancePage() {
       });
       refetch();
       setCreateModalOpen(false);
-    } catch (err) {
-      console.error('Failed to create maintenance record:', err);
+    } catch {
+      // Error handled by React Query
     }
   };
 
@@ -87,14 +93,16 @@ export default function AssetMaintenancePage() {
     try {
       await updateRecordAsync({ id: r.id, updates: { status: 'Completed' } });
       refetch();
-    } catch (err) {
-      console.error('Failed to mark complete:', err);
+    } catch {
+      // Error handled by React Query
     }
   };
 
   const rowActions: ListPageAction<MaintenanceRecord>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedRecord(r); setDrawerOpen(true); } },
-    { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: handleMarkComplete },
+    ...(canManageMaintenance ? [
+      { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: handleMarkComplete },
+    ] : []),
   ];
 
   const stats = [
@@ -171,10 +179,9 @@ export default function AssetMaintenancePage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedRecord(r); setDrawerOpen(true); }}
         createLabel="Schedule Maintenance"
-        onCreate={() => setCreateModalOpen(true)}
+        onCreate={canManageMaintenance ? () => setCreateModalOpen(true) : undefined}
         entityType="asset-maintenance"
-
-        onImport={handleImport}
+        onImport={canManageMaintenance ? handleImport : undefined}
 
         importTemplates={importTemplates}
 
@@ -195,7 +202,7 @@ export default function AssetMaintenancePage() {
         })}
         stats={stats}
         emptyMessage="No maintenance records found"
-        emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
+        emptyAction={canManageMaintenance ? { label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) } : undefined}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
             await deleteRecordsAsync(ids);
@@ -207,10 +214,10 @@ export default function AssetMaintenancePage() {
             refetch();
           }
         }}
-        bulkActions={[
+        bulkActions={canManageMaintenance ? [
           { id: 'complete', label: 'Complete Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
-        ]}
+        ] : []}
         showFavorite
         showSettings
       />

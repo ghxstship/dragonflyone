@@ -1,12 +1,78 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createSurveySchema = z.object({
+  project_id: z.string().uuid(),
+  venue_id: z.string().uuid(),
+  survey_date: z.string().optional(),
+  survey_type: z.enum(['initial', 'technical', 'safety', 'final']).optional(),
+  attendees: z.array(z.string()).optional(),
+  venue_contact: z.record(z.unknown()).optional(),
+  access_points: z.array(z.record(z.unknown())).optional(),
+  loading_docks: z.array(z.record(z.unknown())).optional(),
+  power_specs: z.record(z.unknown()).optional(),
+  rigging_points: z.array(z.record(z.unknown())).optional(),
+  stage_dimensions: z.record(z.unknown()).optional(),
+  audience_capacity: z.number().optional(),
+  backstage_areas: z.array(z.record(z.unknown())).optional(),
+  dressing_rooms: z.array(z.record(z.unknown())).optional(),
+  catering_facilities: z.record(z.unknown()).optional(),
+  parking_info: z.record(z.unknown()).optional(),
+  wifi_info: z.record(z.unknown()).optional(),
+  safety_notes: z.string().optional(),
+  general_notes: z.string().optional(),
+  photos: z.array(z.object({
+    url: z.string().url(),
+    caption: z.string().optional(),
+    category: z.string().optional(),
+    location: z.string().optional(),
+    taken_at: z.string().optional(),
+  })).optional(),
+  measurements: z.array(z.object({
+    area: z.string(),
+    measurement_type: z.string(),
+    value: z.number(),
+    unit: z.string(),
+    notes: z.string().optional(),
+  })).optional(),
+  issues: z.array(z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    severity: z.enum(['low', 'medium', 'high', 'critical']).optional(),
+    category: z.string().optional(),
+    photo_url: z.string().url().optional(),
+    resolution_required: z.boolean().optional(),
+  })).optional(),
+});
+
+const updateSurveySchema = z.object({
+  survey_id: z.string().uuid().optional(),
+  issue_id: z.string().uuid().optional(),
+  action: z.enum(['finalize']).optional(),
+  status: z.string().optional(),
+}).passthrough();
 
 // GET - Fetch site surveys
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
     const venueId = searchParams.get('venue_id');
@@ -45,7 +111,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -56,11 +129,12 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createSurveySchema.parse(body);
     const {
       project_id,
       venue_id,
       survey_date,
-      survey_type, // 'initial', 'technical', 'safety', 'final'
+      survey_type,
       attendees,
       venue_contact,
       access_points,
@@ -79,7 +153,7 @@ export async function POST(request: NextRequest) {
       photos,
       measurements,
       issues,
-    } = body;
+    } = validatedData;
 
     // Create survey
     const { data: survey, error: surveyError } = await supabase
@@ -171,7 +245,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -182,7 +263,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { survey_id, issue_id, action, ...updateData } = body;
+    const validatedData = updateSurveySchema.parse(body);
+    const { survey_id, issue_id, action, ...updateData } = validatedData;
 
     if (issue_id) {
       // Update issue

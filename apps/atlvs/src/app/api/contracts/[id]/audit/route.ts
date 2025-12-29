@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { logger, withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 

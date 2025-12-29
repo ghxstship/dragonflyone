@@ -1,8 +1,15 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import crypto from 'crypto';
+import { z } from 'zod';
+
+const triggerWebhookSchema = z.object({
+  trigger_type: z.string().min(1),
+  data: z.record(z.unknown()),
+});
 
 // Webhook delivery function
 async function deliverWebhook(
@@ -57,9 +64,23 @@ function generateSignature(payload: Record<string, unknown>, timestamp: number):
 }
 
 // POST /api/zapier/webhooks - Trigger webhooks for an event
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const authHeader = request.headers.get('authorization');
     // Allow internal service calls with service key
     const isServiceCall = authHeader === `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`;
@@ -69,11 +90,8 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { trigger_type, data } = body;
-
-    if (!trigger_type || !data) {
-      return NextResponse.json({ error: 'trigger_type and data required' }, { status: 400 });
-    }
+    const validatedData = triggerWebhookSchema.parse(body);
+    const { trigger_type, data } = validatedData;
 
     // Get active subscriptions for this trigger type
     const { data: subscriptions, error } = await supabase
@@ -136,7 +154,14 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

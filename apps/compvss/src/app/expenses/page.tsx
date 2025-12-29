@@ -21,7 +21,15 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
+
+// Roles that can approve/reject/delete expenses
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 import { useExpensesData, type Expense } from "@/hooks/useExpenses";
 
 const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
@@ -52,6 +60,11 @@ const formFields: FormFieldConfig[] = [
 export default function ExpensesPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access for approve/reject/delete operations
+  const canManageExpenses = ADMIN_ROLES.some(role => hasRole(role));
+  
   const {
     expenses,
     summary,
@@ -69,19 +82,25 @@ export default function ExpensesPage() {
 
   const rowActions: ListPageAction<Expense>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedExpense(r); setDrawerOpen(true); } },
-    { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: async (r) => {
-      await updateStatus({ id: r.id, status: 'approved' });
-      addNotification({ type: 'success', title: 'Success', message: 'Expense approved' });
-    }},
-    { id: 'reject', label: 'Reject', icon: <X className="size-4" />, variant: 'danger', onClick: async (r) => {
-      await updateStatus({ id: r.id, status: 'rejected' });
-      addNotification({ type: 'success', title: 'Success', message: 'Expense rejected' });
-    }},
-    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setExpenseToDelete(r); setDeleteConfirmOpen(true); } },
+    // Only show approve/reject/delete for users with admin roles
+    ...(canManageExpenses ? [
+      { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: async (r: Expense) => {
+        await updateStatus({ id: r.id, status: 'approved' });
+        addNotification({ type: 'success', title: 'Success', message: 'Expense approved' });
+      }},
+      { id: 'reject', label: 'Reject', icon: <X className="size-4" />, variant: 'danger' as const, onClick: async (r: Expense) => {
+        await updateStatus({ id: r.id, status: 'rejected' });
+        addNotification({ type: 'success', title: 'Success', message: 'Expense rejected' });
+      }},
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (r: Expense) => { setExpenseToDelete(r); setDeleteConfirmOpen(true); } },
+    ] : []),
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'approve', label: 'Bulk Approve', icon: <Check className="size-4" /> },
+    // Only show bulk approve for users with admin roles
+    ...(canManageExpenses ? [
+      { id: 'approve', label: 'Bulk Approve', icon: <Check className="size-4" /> },
+    ] : []),
     { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
   ];
 
@@ -162,10 +181,10 @@ export default function ExpensesPage() {
             ));
             await refetch();
           } else if (id === 'export') {
-            const selected = expenses.filter(e => ids.includes(e.id));
+            const selected = expenses.filter((exp: Expense) => ids.includes(exp.id));
             const csv = [
               ['ID', 'Number', 'Project', 'Crew Member', 'Category', 'Amount', 'Status', 'Date'].join(','),
-              ...selected.map(e => [e.id, e.expense_number, e.project_name, e.crew_member_name, e.category, e.amount, e.status, e.expense_date].join(','))
+              ...selected.map((exp: Expense) => [exp.id, exp.expense_number, exp.project_name, exp.crew_member_name, exp.category, exp.amount, exp.status, exp.expense_date].join(','))
             ].join('\n');
             const blob = new Blob([csv], { type: 'text/csv' });
             const url = URL.createObjectURL(blob);
@@ -185,20 +204,20 @@ export default function ExpensesPage() {
         importSampleFields={['expense_number', 'amount', 'category', 'description', 'expense_date', 'status']}
         onExport={createExportHandler({
           filename: "expenses",
-          getData: () => expenses.map(e => ({
-            id: e.id,
-            expense_number: e.expense_number,
-            project_name: e.project_name,
-            crew_member_name: e.crew_member_name,
-            category: e.category,
-            description: e.description,
-            amount: e.amount,
-            currency: e.currency,
-            expense_date: e.expense_date,
-            submitted_date: e.submitted_date,
-            status: e.status,
-            approved_by: e.approved_by || '',
-            approved_date: e.approved_date || '',
+          getData: () => expenses.map((exp: Expense) => ({
+            id: exp.id,
+            expense_number: exp.expense_number,
+            project_name: exp.project_name,
+            crew_member_name: exp.crew_member_name,
+            category: exp.category,
+            description: exp.description,
+            amount: exp.amount,
+            currency: exp.currency,
+            expense_date: exp.expense_date,
+            submitted_date: exp.submitted_date,
+            status: exp.status,
+            approved_by: exp.approved_by || '',
+            approved_date: exp.approved_date || '',
           })),
         })}
         stats={stats}

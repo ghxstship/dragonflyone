@@ -1,21 +1,20 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const verifyEmailSchema = z.object({
+  token: z.string().min(1),
+  type: z.enum(['signup', 'email']).optional(),
+});
 
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
     const body = await request.json();
-    const { token, type } = body;
-
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Verification token required' },
-        { status: 400 }
-      );
-    }
+    const validatedData = verifyEmailSchema.parse(body);
+    const { token, type } = validatedData;
 
     const { error } = await supabase.auth.verifyOtp({
       token_hash: token,

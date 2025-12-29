@@ -1,76 +1,94 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { useTabState } from '@ghxstship/config/hooks';
-// Layout provided by route group
+/**
+ * Advance Request Detail Page
+ * Shows detailed information about a specific advance request
+ * Uses normalized DetailPage template from @ghxstship/ui
+ */
+
+import { useRouter } from "next/navigation";
+import { ClipboardList, Package } from "lucide-react";
+import { useAuthContext, PlatformRole, useAdvancingRequest } from "@ghxstship/config";
 import {
-  Container,
-  Button,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
-  Stack,
-  EnterprisePageHeader,
-  MainContent,
-} from '@ghxstship/ui';
-import { useAdvancingRequest } from '@ghxstship/config';
-import { AdvanceRequestDetail } from '@/components/advancing/advance-request-detail';
-import { FulfillmentManager } from '@/components/advancing/fulfillment-manager';
+  Badge,
+  DetailPage,
+  type DetailPageTab,
+} from "@ghxstship/ui";
+import { AdvanceRequestDetail } from "@/components/advancing/advance-request-detail";
+import { FulfillmentManager } from "@/components/advancing/fulfillment-manager";
+
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
+
+const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
+  pending: "warning",
+  approved: "success",
+  in_progress: "info",
+  fulfilled: "success",
+  rejected: "error",
+  cancelled: "error",
+};
+
+const STATUS_LABELS: Record<string, string> = {
+  pending: "Pending",
+  approved: "Approved",
+  in_progress: "In Progress",
+  fulfilled: "Fulfilled",
+  rejected: "Rejected",
+  cancelled: "Cancelled",
+};
 
 export default function AdvanceRequestPage({ params }: { params: { id: string } }) {
   const router = useRouter();
-  const { data: request } = useAdvancingRequest(params.id);
-  
-  // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
-    defaultTab: 'details',
-    validTabs: ['details', 'fulfill'],
-  });
+  const { hasRole } = useAuthContext();
+  const { data: request, isLoading, error, refetch } = useAdvancingRequest(params.id);
 
-  const canFulfill = request && ['approved', 'in_progress'].includes(request.status);
+  const canFulfillRequest = ADMIN_ROLES.some((role) => hasRole(role));
+  const canFulfill = canFulfillRequest && request && ["approved", "in_progress"].includes(request.status);
+
+  // Define tabs for the detail page
+  const tabs: DetailPageTab[] = [
+    {
+      id: "details",
+      label: "Details",
+      icon: <ClipboardList className="size-4" />,
+      content: <AdvanceRequestDetail requestId={params.id} onUpdate={() => router.refresh()} />,
+    },
+  ];
+
+  // Add fulfillment tab if user has permission
+  if (canFulfill) {
+    tabs.push({
+      id: "fulfill",
+      label: "Fulfill Items",
+      icon: <Package className="size-4" />,
+      content: <FulfillmentManager requestId={params.id} onSuccess={() => router.refresh()} />,
+    });
+  }
 
   return (
-    <>
-      <EnterprisePageHeader
-        title="Advance Request"
-        subtitle={`Request ID: ${params.id}`}
-
-
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-            <Stack direction="horizontal" className="items-center justify-end">
-              <Button variant="outline" onClick={() => router.back()}>
-                Back
-              </Button>
-            </Stack>
-
-            {canFulfill ? (
-              <Tabs>
-                <TabsList>
-                  <Tab active={isActive('details')} onClick={() => setActiveTab('details')}>Details</Tab>
-                  <Tab active={isActive('fulfill')} onClick={() => setActiveTab('fulfill')}>Fulfill Items</Tab>
-                </TabsList>
-
-                <TabPanel active={isActive('details')}>
-                  <AdvanceRequestDetail requestId={params.id} onUpdate={() => router.refresh()} />
-                </TabPanel>
-
-                <TabPanel active={isActive('fulfill')}>
-                  <FulfillmentManager requestId={params.id} onSuccess={() => router.refresh()} />
-                </TabPanel>
-              </Tabs>
-            ) : (
-              <AdvanceRequestDetail requestId={params.id} onUpdate={() => router.refresh()} />
-            )}
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <DetailPage
+      header={{
+        kicker: "Advance Request",
+        title: request?.activation_name || `Request ${params.id}`,
+        description: request?.project?.name || undefined,
+        badge: request?.status ? (
+          <Badge variant={STATUS_COLORS[request.status] || "outline"}>
+            {STATUS_LABELS[request.status] || request.status}
+          </Badge>
+        ) : undefined,
+      }}
+      backButton={{ label: "Back to Advancing", href: "/advancing" }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      notFound={!isLoading && !error && !request}
+      notFoundMessage="The advance request you're looking for doesn't exist or has been removed."
+      tabs={tabs}
+    />
   );
 }

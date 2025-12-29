@@ -1,14 +1,61 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createPoolSchema = z.object({
+  action: z.literal('create_pool'),
+  name: z.string().min(1),
+  description: z.string().optional(),
+  criteria: z.record(z.unknown()).optional(),
+  tags: z.array(z.string()).optional(),
+});
+
+const addCandidateSchema = z.object({
+  action: z.literal('add_candidate'),
+  pool_id: z.string().uuid(),
+  candidate_id: z.string().uuid(),
+  skills: z.array(z.string()).optional(),
+  rating: z.number().optional(),
+  notes: z.string().optional(),
+  source: z.string().optional(),
+});
+
+const updateCandidateSchema = z.object({
+  action: z.literal('update_candidate'),
+  member_id: z.string().uuid(),
+  rating: z.number().optional(),
+  notes: z.string().optional(),
+  status: z.string().optional(),
+});
+
+const searchSchema = z.object({
+  action: z.literal('search'),
+  skills: z.array(z.string()).optional(),
+  min_rating: z.number().optional(),
+  availability: z.string().optional(),
+});
+
+const talentPoolActionSchema = z.union([createPoolSchema, addCandidateSchema, updateCandidateSchema, searchSchema]);
 
 // Talent pool development
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const poolId = searchParams.get('pool_id');
@@ -47,17 +94,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = talentPoolActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create_pool') {
-      const { name, description, criteria, tags } = body;
+      const { name, description, criteria, tags } = validatedData as z.infer<typeof createPoolSchema>;
 
       const { data, error } = await supabase.from('talent_pools').insert({
         name, description, criteria: criteria || {},
@@ -69,7 +123,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'add_candidate') {
-      const { pool_id, candidate_id, skills, rating, notes, source } = body;
+      const { pool_id, candidate_id, skills, rating, notes, source } = validatedData as z.infer<typeof addCandidateSchema>;
 
       const { data, error } = await supabase.from('talent_pool_members').insert({
         pool_id, candidate_id, skills: skills || [], rating, notes,
@@ -81,7 +135,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'update_candidate') {
-      const { member_id, rating, notes, status } = body;
+      const { member_id, rating, notes, status } = validatedData as z.infer<typeof updateCandidateSchema>;
 
       await supabase.from('talent_pool_members').update({
         rating, notes, status, updated_at: new Date().toISOString()
@@ -91,7 +145,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'search') {
-      const { skills, min_rating, availability } = body;
+      const { skills, min_rating, availability } = validatedData as z.infer<typeof searchSchema>;
 
       let query = supabase.from('talent_pool_members').select(`
         *, candidate:platform_users(id, first_name, last_name, email),

@@ -1,194 +1,116 @@
-import { AtlvsAppLayout } from "../../components/app-layout";
+"use client";
+
+/**
+ * About Page
+ * Company information and mission
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
+import { Building2, Users, Target, Award, Heart, Globe, List, Briefcase } from "lucide-react";
 import {
-  Stack,
-  Grid,
-  Card,
   Body,
-  H1,
-  H3,
-  Label,
-  Container,
-  Display,
   Button,
-  FullBleedSection,
+  Card,
+  Grid,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
 } from "@ghxstship/ui";
-import { Target, Heart, Zap, Users, ArrowRight, type LucideIcon } from "lucide-react";
-import NextLink from "next/link";
-import { atlvsAboutData } from "../../data/atlvs";
 
-export const runtime = "edge";
+const TEAM_MEMBERS = [
+  { name: "Alex Chen", role: "CEO & Founder", image: "👨‍💼" },
+  { name: "Sarah Williams", role: "CTO", image: "👩‍💻" },
+  { name: "Michael Brown", role: "Head of Product", image: "👨‍🎨" },
+  { name: "Emily Davis", role: "Head of Sales", image: "👩‍💼" },
+];
 
-// Icon mapping for values
-const iconMap: Record<string, LucideIcon> = {
-  Target,
-  Heart,
-  Zap,
-  Users,
-};
-
-// Map data with icon components
-const aboutData = {
-  ...atlvsAboutData,
-  values: atlvsAboutData.values.map((value) => ({
-    ...value,
-    icon: iconMap[value.icon] || Target,
-  })),
-};
+const VALUES = [
+  { icon: <Heart className="size-6" />, title: "Customer First", description: "We put our customers at the center of everything we do" },
+  { icon: <Target className="size-6" />, title: "Excellence", description: "We strive for excellence in every aspect of our work" },
+  { icon: <Users className="size-6" />, title: "Collaboration", description: "We believe in the power of teamwork and partnership" },
+  { icon: <Globe className="size-6" />, title: "Innovation", description: "We continuously push boundaries to create better solutions" },
+];
 
 export default function AboutPage() {
-  return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="max-w-3xl">
-            <Label size="xs" className="text-on-dark-muted">
-              ABOUT ATLVS
-            </Label>
-            <Display size="lg" className="text-white">
-              {aboutData.hero.headline}
-            </Display>
-            <Body size="lg" className="text-on-dark-secondary">
-              {aboutData.hero.description}
-            </Body>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+  const router = useRouter();
 
-      {/* Mission */}
-      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
-          <Card className="border-2 border-ink-950 bg-white p-12 shadow-brand-lg">
-            <Stack gap={6} className="text-center">
-              <H1 className="text-ink-950">{aboutData.mission.title}</H1>
-              <Body size="lg" className="text-grey-700">
-                {aboutData.mission.description}
-              </Body>
-            </Stack>
+  const tabs = [
+    {
+      id: "about",
+      label: "About Us",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Card className="p-8 mb-8">
+            <SectionHeader title="Our Mission" />
+            <Body className="font-weight-medium text-grey-300 mt-4 leading-relaxed">
+              ATLVS is the premier production management platform designed for live events, entertainment, and experiential marketing. 
+              We empower production teams to streamline their workflows, manage resources efficiently, and deliver exceptional experiences.
+            </Body>
           </Card>
-        </Container>
-      </FullBleedSection>
 
-      {/* Stats */}
-      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={4} gap={8} className="sm:grid-cols-2">
-            {aboutData.stats.map((stat) => (
-              <Stack key={stat.label} className="text-center">
-                <Display size="md" className="text-ink-950">
-                  {stat.value}
-                </Display>
-                <Label size="xs" className="text-grey-500">
-                  {stat.label}
-                </Label>
-              </Stack>
-            ))}
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-8">
+            <StatCard label="Founded" value="2020" icon={<Building2 className="size-5" />} />
+            <StatCard label="Team Members" value="50+" icon={<Users className="size-5" />} />
+            <StatCard label="Customers" value="1,000+" icon={<Briefcase className="size-5" />} />
+            <StatCard label="Events Managed" value="10K+" icon={<Award className="size-5" />} />
           </Grid>
-        </Container>
-      </FullBleedSection>
 
-      {/* Values */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-16 text-center">
-            <H1 className="text-ink-950">OUR VALUES</H1>
-          </Stack>
-
-          <Grid cols={4} gap={6} className="sm:grid-cols-2">
-            {aboutData.values.map((value) => (
-              <Card key={value.title} className="border-2 border-ink-950 bg-white p-6 shadow-md">
-                <Stack gap={4}>
-                  <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                    <value.icon className="size-6 text-ink-950" />
-                  </Stack>
-                  <H3 size="sm" className="text-ink-950">
-                    {value.title}
-                  </H3>
-                  <Body size="sm" className="text-grey-600">
-                    {value.description}
-                  </Body>
-                </Stack>
+          <SectionHeader title="Our Values" description="The principles that guide everything we do" />
+          <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
+            {VALUES.map((value, index) => (
+              <Card key={index} className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-primary/20 rounded-card text-primary">{value.icon}</div>
+                  <div>
+                    <Body className="font-weight-bold font-weight-medium">{value.title}</Body>
+                    <Body className="text-grey-400 mt-1">{value.description}</Body>
+                  </div>
+                </div>
               </Card>
             ))}
           </Grid>
-        </Container>
-      </FullBleedSection>
-
-      {/* Leadership */}
-      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-16 text-center">
-            <H1 className="text-white">{aboutData.team.title}</H1>
-          </Stack>
-
-          <Grid cols={4} gap={6} className="sm:grid-cols-2">
-            {aboutData.team.members.map((member) => (
-              <Card key={member.name} inverted className="border-2 border-ink-800 bg-ink-900 p-6">
-                <Stack gap={4}>
-                  <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
-                    <Users className="size-8 text-on-dark-muted" />
-                  </Stack>
-                  <Stack gap={1}>
-                    <H3 size="sm" className="text-white">
-                      {member.name}
-                    </H3>
-                    <Label size="xs" className="text-brand-pink">
-                      {member.role}
-                    </Label>
-                  </Stack>
-                  <Body size="xs" className="text-on-dark-muted">
-                    {member.background}
-                  </Body>
-                </Stack>
+        </Section>
+      ),
+    },
+    {
+      id: "team",
+      label: "Our Team",
+      icon: <Users className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Leadership Team" description="Meet the people behind ATLVS" />
+          <Grid cols={4} gap={6} className="grid-cols-2 md:grid-cols-4 mt-6">
+            {TEAM_MEMBERS.map((member, index) => (
+              <Card key={index} className="p-6 text-center">
+                <div className="text-6xl mb-4">{member.image}</div>
+                <Body className="font-weight-bold">{member.name}</Body>
+                <Body size="sm" className="text-grey-400">{member.role}</Body>
               </Card>
             ))}
           </Grid>
-        </Container>
-      </FullBleedSection>
 
-      {/* Investors */}
-      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center text-center">
-            <Label size="xs" className="text-grey-500">
-              BACKED BY
-            </Label>
-            <Stack direction="horizontal" gap={12} className="flex-wrap justify-center">
-              {aboutData.investors.map((investor) => (
-                <Label key={investor} size="sm" className="text-grey-400">
-                  {investor}
-                </Label>
-              ))}
-            </Stack>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+          <Card className="p-8 mt-8 text-center">
+            <Body className="font-weight-bold font-weight-bold mb-2">Join Our Team</Body>
+            <Body className="text-grey-400 mb-4">We&apos;re always looking for talented people to join us</Body>
+            <Button variant="solid" onClick={() => router.push("/careers")}>View Open Positions</Button>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
-      {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center">
-            <Display size="md" className="text-white">
-              JOIN THE TEAM
-            </Display>
-            <Body size="lg" className="text-on-dark-secondary">
-              We&apos;re always looking for talented people who are passionate about production.
-            </Body>
-            <Stack direction="horizontal" gap={4}>
-              <NextLink href="/careers">
-                <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                  View Open Roles
-                </Button>
-              </NextLink>
-              <NextLink href="/contact">
-                <Button variant="outlineWhite" size="lg">
-                  Get in Touch
-                </Button>
-              </NextLink>
-            </Stack>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+  return (
+    <DetailPage
+      header={{
+        kicker: "Company",
+        title: "About ATLVS",
+        description: "Learn about our mission, values, and the team behind the platform",
+      }}
+      tabs={tabs}
+      actions={<Button variant="outline" onClick={() => router.push("/contact")}>Contact Us</Button>}
+    />
   );
 }

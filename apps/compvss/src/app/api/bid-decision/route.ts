@@ -1,14 +1,47 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const evaluateBidSchema = z.object({
+  action: z.literal('evaluate'),
+  rfp_id: z.string().uuid(),
+  scores: z.array(z.object({
+    criterion: z.string().optional(),
+    score: z.number(),
+    weight: z.number().optional(),
+    notes: z.string().optional(),
+  })),
+  notes: z.string().optional(),
+});
+
+const approveBidSchema = z.object({
+  action: z.literal('approve'),
+  decision_id: z.string().uuid(),
+  approved: z.boolean(),
+  comment: z.string().optional(),
+});
+
+const bidActionSchema = z.union([evaluateBidSchema, approveBidSchema]);
 
 // Bid/no-bid decision workflow with scoring
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const rfpId = searchParams.get('rfp_id');
@@ -32,17 +65,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = bidActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'evaluate') {
-      const { rfp_id, scores, notes } = body;
+      const { rfp_id, scores, notes } = validatedData as z.infer<typeof evaluateBidSchema>;
 
       // Calculate weighted score
       interface ScoreEntry { score: number; weight?: number; criterion?: string; notes?: string }
@@ -65,7 +105,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'approve') {
-      const { decision_id, approved, comment } = body;
+      const { decision_id, approved, comment } = validatedData as z.infer<typeof approveBidSchema>;
 
       await supabase.from('bid_decision_approvals').insert({
         decision_id, user_id: user.id, approved, comment

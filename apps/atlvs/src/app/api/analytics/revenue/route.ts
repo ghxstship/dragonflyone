@@ -52,12 +52,20 @@ export const GET = apiRoute(
     const previousStartDate = new Date(startDate.getTime() - days * 24 * 60 * 60 * 1000);
 
     try {
-      // Fetch revenue data from ledger entries
+      // Fetch revenue data from ledger entries with proper schema columns
+      // Schema: ledger_entries has 'side' (debit/credit), 'entry_date', 'amount', 'account_id', 'memo'
       const { data: revenueEntries, error: revenueError } = await supabase
         .from('ledger_entries')
-        .select('amount, entry_type, category, created_at')
-        .eq('type', 'credit')
-        .gte('created_at', startDate.toISOString());
+        .select(`
+          amount,
+          side,
+          entry_date,
+          memo,
+          account_id,
+          ledger_accounts!inner(id, code, name, account_type)
+        `)
+        .eq('side', 'credit')
+        .gte('entry_date', startDate.toISOString().split('T')[0]);
 
       if (revenueError) {
         return NextResponse.json(DEMO_REVENUE_METRICS);
@@ -67,9 +75,9 @@ export const GET = apiRoute(
       const { data: previousRevenue } = await supabase
         .from('ledger_entries')
         .select('amount')
-        .eq('type', 'credit')
-        .gte('created_at', previousStartDate.toISOString())
-        .lt('created_at', startDate.toISOString());
+        .eq('side', 'credit')
+        .gte('entry_date', previousStartDate.toISOString().split('T')[0])
+        .lt('entry_date', startDate.toISOString().split('T')[0]);
 
       // Fetch bookings data
       const { data: bookings } = await supabase
@@ -83,9 +91,16 @@ export const GET = apiRoute(
 
       interface RevenueEntry {
         amount?: number;
-        entry_type?: string;
-        category?: string;
-        created_at?: string;
+        side?: string;
+        entry_date?: string;
+        memo?: string;
+        account_id?: string;
+        ledger_accounts?: {
+          id: string;
+          code: string;
+          name: string;
+          account_type: string;
+        };
       }
 
       interface BookingRecord {
@@ -113,10 +128,10 @@ export const GET = apiRoute(
         ? bookingsData.reduce((sum, b) => sum + (b.total_amount || 0), 0) / bookingsData.length
         : 0;
 
-      // Calculate revenue by source/category
+      // Calculate revenue by source/category using account_type from ledger_accounts
       const sourceMap: Record<string, number> = {};
       entries.forEach(e => {
-        const source = e.category || 'other';
+        const source = e.ledger_accounts?.account_type || e.ledger_accounts?.name || 'other';
         sourceMap[source] = (sourceMap[source] || 0) + (e.amount || 0);
       });
 
@@ -143,11 +158,11 @@ export const GET = apiRoute(
         count: data.count,
       })).sort((a, b) => b.amount - a.amount);
 
-      // Calculate monthly trend
+      // Calculate monthly trend using entry_date from schema
       const monthlyMap: Record<string, { revenue: number; booking_count: number }> = {};
       entries.forEach(e => {
-        if (e.created_at) {
-          const date = new Date(e.created_at);
+        if (e.entry_date) {
+          const date = new Date(e.entry_date);
           const monthKey = `${date.toLocaleString('en-US', { month: 'short' })} ${date.getFullYear()}`;
           if (!monthlyMap[monthKey]) {
             monthlyMap[monthKey] = { revenue: 0, booking_count: 0 };

@@ -1,14 +1,57 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const enableOfflineSchema = z.object({
+  action: z.literal('enable_offline'),
+  content_id: z.string().uuid(),
+  content_type: z.string(),
+});
+
+const disableOfflineSchema = z.object({
+  action: z.literal('disable_offline'),
+  content_id: z.string().uuid(),
+});
+
+const syncChangesSchema = z.object({
+  action: z.literal('sync_changes'),
+  changes: z.array(z.object({
+    queue_id: z.string().uuid().optional(),
+    table: z.string().optional(),
+    operation: z.enum(['insert', 'update']).optional(),
+    id: z.string().optional(),
+    data: z.record(z.unknown()).optional(),
+  })).optional(),
+});
+
+const updatePreferencesSchema = z.object({
+  action: z.literal('update_preferences'),
+  auto_sync: z.boolean().optional(),
+  sync_on_wifi_only: z.boolean().optional(),
+  max_offline_storage_mb: z.number().optional(),
+});
+
+const offlineActionSchema = z.union([enableOfflineSchema, disableOfflineSchema, syncChangesSchema, updatePreferencesSchema]);
 
 // Mobile-optimized access with offline capability
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -44,17 +87,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = offlineActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'enable_offline') {
-      const { content_id, content_type } = body;
+      const { content_id, content_type } = validatedData as z.infer<typeof enableOfflineSchema>;
 
       const { data, error } = await supabase.from('offline_content').upsert({
         user_id: user.id, content_id, content_type, enabled: true,
@@ -66,7 +116,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'disable_offline') {
-      const { content_id } = body;
+      const { content_id } = validatedData as z.infer<typeof disableOfflineSchema>;
 
       await supabase.from('offline_content').update({ enabled: false })
         .eq('user_id', user.id).eq('content_id', content_id);
@@ -75,7 +125,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'sync_changes') {
-      const { changes } = body;
+      const { changes } = validatedData as z.infer<typeof syncChangesSchema>;
       const results: unknown[] = [];
 
       for (const change of changes || []) {
@@ -104,7 +154,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'update_preferences') {
-      const { auto_sync, sync_on_wifi_only, max_offline_storage_mb } = body;
+      const { auto_sync, sync_on_wifi_only, max_offline_storage_mb } = validatedData as z.infer<typeof updatePreferencesSchema>;
 
       await supabase.from('offline_preferences').upsert({
         user_id: user.id, auto_sync, sync_on_wifi_only, max_offline_storage_mb

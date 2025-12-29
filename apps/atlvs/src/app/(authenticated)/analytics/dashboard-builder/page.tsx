@@ -1,19 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, LayoutGrid, BarChart3, PieChart, LineChart, Table, Loader2, AlertTriangle } from "lucide-react";
+import { Plus, LayoutGrid, BarChart3, PieChart, LineChart, Table, AlertTriangle } from "lucide-react";
 import {
+  DetailPage,
   Badge,
   Body,
+  Box,
   Button,
   Card,
-  EnterprisePageHeader,
   Grid,
   H3,
   Stack,
   Text,
+  Spinner,
+  EmptyState,
 } from '@ghxstship/ui';
-import { useDashboardBuilder, type DashboardConfig } from "@ghxstship/config";
+import { useDashboardBuilder, type DashboardConfig, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 
 interface Widget {
   id: string;
@@ -51,8 +54,11 @@ const generateWidgetsFromCount = (count: number): Widget[] => {
 };
 
 export default function DashboardBuilderPage() {
+  const { hasRole } = useAuthContext();
   const { dashboards, isLoading, error, refetch, createDashboard } = useDashboardBuilder();
   const [selectedDashboard, setSelectedDashboard] = useState<DashboardWithWidgets | null>(null);
+
+  const canManageDashboards = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const dashboardsWithWidgets: DashboardWithWidgets[] = dashboards.map((d: DashboardConfig) => ({
     ...d,
@@ -65,57 +71,53 @@ export default function DashboardBuilderPage() {
     }
   }, [dashboardsWithWidgets, selectedDashboard]);
 
+  const handleCreateDashboard = () => {
+    createDashboard({ name: `New Dashboard ${dashboards.length + 1}`, description: "Custom dashboard" });
+  };
+
   if (isLoading) {
     return (
-      <Stack gap={8}>
-        <EnterprisePageHeader title="Dashboard Builder" subtitle="Build and customize analytics dashboards" showFavorite showSettings />
-        <Card inverted className="border-2 border-ink-800 p-12">
-          <Stack gap={4} className="items-center justify-center">
-            <Loader2 className="size-8 text-primary animate-spin" />
-            <Body className="text-grey-400">Loading dashboards...</Body>
-          </Stack>
-        </Card>
-      </Stack>
+      <DetailPage
+        header={{ title: "Dashboard Builder", description: "Loading..." }}
+        backButton={{ label: "Back to Analytics", href: "/analytics" }}
+      >
+        <Stack gap={4} className="items-center justify-center py-16">
+          <Spinner size="lg" />
+          <Body>Loading dashboards...</Body>
+        </Stack>
+      </DetailPage>
     );
   }
 
   if (error) {
     return (
-      <Stack gap={8}>
-        <EnterprisePageHeader title="Dashboard Builder" subtitle="Build and customize analytics dashboards" showFavorite showSettings />
-        <Card inverted className="border-2 border-error/30 p-8">
-          <Stack gap={4} className="items-center justify-center">
-            <AlertTriangle className="size-8 text-error" />
-            <Body className="text-error">Failed to load dashboards</Body>
-            <Button onClick={() => refetch()} className="px-4 py-2 rounded-button bg-primary text-white">Retry</Button>
-          </Stack>
-        </Card>
-      </Stack>
+      <DetailPage
+        header={{ title: "Dashboard Builder" }}
+        backButton={{ label: "Back to Analytics", href: "/analytics" }}
+      >
+        <EmptyState
+          icon={<AlertTriangle className="h-12 w-12" />}
+          title="Failed to Load Dashboards"
+          description="Could not load dashboards. Please try again."
+          action={{ label: "Retry", onClick: () => refetch() }}
+        />
+      </DetailPage>
     );
   }
 
-  const handleCreateDashboard = () => {
-    createDashboard({ name: `New Dashboard ${dashboards.length + 1}`, description: "Custom dashboard" });
-  };
-
-  return (
-    <Stack gap={8}>
-      <EnterprisePageHeader
-        title="Dashboard Builder"
-        subtitle="Build and customize analytics dashboards"
-        showFavorite
-        showSettings
-      />
+  const builderContent = (
 
       <Grid cols={4} gap={6} className="sm:grid-cols-1 lg:grid-cols-4">
         <Card inverted className="border-2 border-ink-800 p-4 col-span-1">
           <Stack gap={4}>
-            <div className="flex items-center justify-between">
+            <Stack direction="horizontal" className="justify-between items-center">
               <H3 className="text-white">Dashboards</H3>
-              <Button variant="ghost" size="sm" onClick={handleCreateDashboard}>
-                <Plus className="size-4" />
-              </Button>
-            </div>
+              {canManageDashboards && (
+                <Button variant="ghost" size="sm" onClick={handleCreateDashboard}>
+                  <Plus className="size-4" />
+                </Button>
+              )}
+            </Stack>
             <Stack gap={2}>
               {dashboardsWithWidgets.map((dashboard: DashboardWithWidgets) => (
                 <Button
@@ -136,22 +138,24 @@ export default function DashboardBuilderPage() {
           </Stack>
         </Card>
 
-        <div className="col-span-3">
+        <Box className="col-span-3">
           {selectedDashboard ? (
             <Stack gap={4}>
               <Card inverted className="border-2 border-ink-800 p-4">
-                <div className="flex items-center justify-between">
-                  <div>
+                <Stack direction="horizontal" className="justify-between items-center">
+                  <Box>
                     <H3 className="text-white">{selectedDashboard.name}</H3>
                     <Body size="sm" className="text-grey-400">Last updated: {formatDate(selectedDashboard.lastModified)}</Body>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button variant="ghost" size="sm">Edit</Button>
-                    <Button variant="ghost" size="sm">
-                      <Plus className="size-4 mr-1" /> Add Widget
-                    </Button>
-                  </div>
-                </div>
+                  </Box>
+                  {canManageDashboards && (
+                    <Stack direction="horizontal" gap={2}>
+                      <Button variant="ghost" size="sm">Edit</Button>
+                      <Button variant="ghost" size="sm">
+                        <Plus className="size-4 mr-1" /> Add Widget
+                      </Button>
+                    </Stack>
+                  )}
+                </Stack>
               </Card>
 
               <Grid cols={3} gap={4} className="sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -162,38 +166,40 @@ export default function DashboardBuilderPage() {
                     className={`border-2 border-ink-800 p-4 ${widget.size === "large" ? "col-span-2" : ""}`}
                   >
                     <Stack gap={3}>
-                      <div className="flex items-center justify-between">
+                      <Stack direction="horizontal" className="justify-between items-center">
                         <Body size="sm" className="text-grey-400">{widget.title}</Body>
                         <Badge variant="outline" className="capitalize">{widget.type}</Badge>
-                      </div>
-                      <div className="h-32 bg-ink-900/50 rounded-card flex items-center justify-center">
+                      </Stack>
+                      <Box className="h-32 bg-ink-900/50 rounded-card flex items-center justify-center">
                         {widget.type === "chart" && <BarChart3 className="size-12 text-grey-600" />}
                         {widget.type === "line" && <LineChart className="size-12 text-grey-600" />}
                         {widget.type === "pie" && <PieChart className="size-12 text-grey-600" />}
                         {widget.type === "table" && <Table className="size-12 text-grey-600" />}
                         {widget.type === "metric" && <LayoutGrid className="size-12 text-grey-600" />}
-                      </div>
+                      </Box>
                     </Stack>
                   </Card>
                 ))}
               </Grid>
 
-              <Card inverted className="border-2 border-dashed border-ink-700 p-6">
-                <Stack gap={4} className="items-center">
-                  <Body className="text-grey-400">Add a new widget</Body>
-                  <div className="flex gap-3 flex-wrap justify-center">
-                    {widgetTypes.map((wt) => (
-                      <Button
-                        key={wt.type}
-                        className="p-3 rounded-card bg-ink-900/50 border-2 border-ink-700 hover:border-primary transition-colors flex flex-col items-center gap-2"
-                      >
-                        <Text className="text-grey-400">{wt.icon}</Text>
-                        <Body size="sm" className="text-grey-400">{wt.label}</Body>
-                      </Button>
-                    ))}
-                  </div>
-                </Stack>
-              </Card>
+              {canManageDashboards && (
+                <Card inverted className="border-2 border-dashed border-ink-700 p-6">
+                  <Stack gap={4} className="items-center">
+                    <Body className="text-grey-400">Add a new widget</Body>
+                    <Stack direction="horizontal" gap={3} className="flex-wrap justify-center">
+                      {widgetTypes.map((wt) => (
+                        <Button
+                          key={wt.type}
+                          className="p-3 rounded-card bg-ink-900/50 border-2 border-ink-700 hover:border-primary transition-colors flex flex-col items-center gap-2"
+                        >
+                          <Text className="text-grey-400">{wt.icon}</Text>
+                          <Body size="sm" className="text-grey-400">{wt.label}</Body>
+                        </Button>
+                      ))}
+                    </Stack>
+                  </Stack>
+                </Card>
+              )}
             </Stack>
           ) : (
             <Card inverted className="border-2 border-ink-800 p-8">
@@ -203,8 +209,28 @@ export default function DashboardBuilderPage() {
               </Stack>
             </Card>
           )}
-        </div>
+        </Box>
       </Grid>
-    </Stack>
+  );
+
+  return (
+    <DetailPage
+      header={{
+        kicker: "Analytics",
+        title: "Dashboard Builder",
+        description: "Build and customize analytics dashboards",
+      }}
+      backButton={{ label: "Back to Analytics", href: "/analytics" }}
+      actions={
+        canManageDashboards ? (
+          <Button variant="solid" size="sm" onClick={handleCreateDashboard}>
+            <Plus className="size-4 mr-2" />
+            New Dashboard
+          </Button>
+        ) : undefined
+      }
+    >
+      {builderContent}
+    </DetailPage>
   );
 }

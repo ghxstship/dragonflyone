@@ -408,6 +408,58 @@ export const atlvsSidebarNavigation = [
     ],
   },
   {
+    section: "Directory",
+    icon: "BookOpen",
+    items: [
+      { label: "People", href: "/people", icon: "Users", primary: true },
+      { label: "Organizations", href: "/organizations", icon: "Building2" },
+      { label: "Places", href: "/places", icon: "MapPin" },
+      { label: "Products", href: "/products", icon: "Package" },
+      { label: "Events", href: "/events", icon: "Calendar" },
+    ],
+    subsections: [
+      {
+        label: "People",
+        items: [
+          { label: "New Person", href: "/people/new", icon: "Plus" },
+          { label: "Contacts", href: "/people?type=contact", icon: "Contact" },
+          { label: "Employees", href: "/people?type=employee", icon: "Briefcase" },
+          { label: "Crew", href: "/people?type=crew", icon: "Users" },
+          { label: "Artists", href: "/people?type=artist", icon: "Music" },
+        ],
+      },
+      {
+        label: "Organizations",
+        items: [
+          { label: "New Organization", href: "/organizations/new", icon: "Plus" },
+          { label: "Vendors", href: "/organizations?type=vendor", icon: "Building" },
+          { label: "Clients", href: "/organizations?type=client", icon: "Users" },
+          { label: "Sponsors", href: "/organizations?type=sponsor", icon: "Heart" },
+          { label: "Partners", href: "/organizations?type=partner", icon: "Handshake" },
+        ],
+      },
+      {
+        label: "Places",
+        items: [
+          { label: "New Place", href: "/places/new", icon: "Plus" },
+          { label: "Venues", href: "/places?type=venue", icon: "Building2" },
+          { label: "Warehouses", href: "/places?type=warehouse", icon: "Warehouse" },
+          { label: "Stages", href: "/places?type=stage", icon: "Theater" },
+        ],
+      },
+      {
+        label: "Reference Data",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER],
+        items: [
+          { label: "Departments", href: "/departments", icon: "Layers" },
+          { label: "Teams", href: "/teams", icon: "Users2" },
+          { label: "Positions", href: "/positions", icon: "Briefcase" },
+          { label: "Categories", href: "/categories", icon: "Tag" },
+        ],
+      },
+    ],
+  },
+  {
     section: "Settings",
     icon: "Settings",
     allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER],

@@ -1,176 +1,115 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { GvtewayLoadingLayout } from '@/components/app-layout';
-import {
-  H2,
-  H3,
-  Body,
-  Button,
-  Card,
-  Badge,
-  EmptyState,
-  Stack,
-  Kicker,
-  Label,
-} from '@ghxstship/ui';
-import { Heart, Trash2, ShoppingCart, Calendar, MapPin, Share2 } from 'lucide-react';
-import { useWishlistData } from '@/hooks/useWishlist';
+import { useRouter } from "next/navigation";
+import { Heart, Trash2, Calendar, MapPin, List } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Body, Button, Card, Grid, DetailPage, Section, Link } from "@ghxstship/ui";
+
+interface WishlistItem {
+  id: string;
+  name: string;
+  date: string;
+  venue: string;
+  price: number;
+}
+
+const DEMO: WishlistItem[] = [
+  { id: "1", name: "Summer Festival 2024", date: "2024-12-20", venue: "Central Park", price: 75 },
+  { id: "2", name: "Jazz Night", date: "2024-12-22", venue: "Blue Note", price: 45 },
+];
 
 export default function WishlistPage() {
   const router = useRouter();
-  const userId = 'demo-user-123';
+  const queryClient = useQueryClient();
 
-  const {
-    wishlist,
-    isLoading: loading,
-    error,
-    refetch,
-    removeItem,
-  } = useWishlistData(userId);
+  const { data: items = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["wishlist"],
+    queryFn: async () => {
+      const r = await fetch("/api/wishlist");
+      if (!r.ok) return DEMO;
+      const data = await r.json();
+      return data.items?.length ? data.items : DEMO;
+    },
+  });
 
-  const handleRemoveItem = async (itemId: string) => {
-    await removeItem(itemId);
-  };
+  const removeItem = useMutation({
+    mutationFn: async (id: string) => {
+      await fetch(`/api/wishlist/${id}`, { method: "DELETE" });
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["wishlist"] }),
+  });
 
-  if (loading) {
-    return <GvtewayLoadingLayout />;
-  }
+  const formatDate = (d: string) =>
+    new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
-  if (error) {
-    return (
-      <>
-            <EmptyState
-              title="Error Loading Wishlist"
-              description={error instanceof Error ? error.message : String(error)}
-              action={{ label: "Retry", onClick: () => refetch() }}
-              inverted
-            />
-      </>
-    );
-  }
+  const formatCurrency = (a: number) =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    }).format(a);
+
+  const renderEmptyState = () => (
+    <Card className="p-8 text-center">
+      <Heart className="size-12 text-grey-600 mx-auto mb-4" />
+      <Body className="font-weight-medium text-h5-md mb-2">Your wishlist is empty</Body>
+      <Body className="text-grey-400 mb-4">Save events you are interested in</Body>
+      <Button variant="solid" onClick={() => router.push("/browse")}>
+        Browse Events
+      </Button>
+    </Card>
+  );
+
+  const renderWishlistItems = () => (
+    <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
+      {items.map((item: WishlistItem) => (
+        <Card key={item.id} className="p-4">
+          <div className="flex items-start justify-between">
+            <Link href={`/e/${item.id}`} className="block text-left">
+              <Body className="font-weight-bold">{item.name}</Body>
+              <div className="flex items-center gap-4 mt-2 text-grey-400">
+                <div className="flex items-center gap-1">
+                  <Calendar className="size-4" />
+                  <Body size="sm">{formatDate(item.date)}</Body>
+                </div>
+                <div className="flex items-center gap-1">
+                  <MapPin className="size-4" />
+                  <Body size="sm">{item.venue}</Body>
+                </div>
+              </div>
+              <Body className="font-weight-bold mt-2">From {formatCurrency(item.price)}</Body>
+            </Link>
+            <Button variant="ghost" size="sm" onClick={() => removeItem.mutate(item.id)}>
+              <Trash2 className="size-4 text-error" />
+            </Button>
+          </div>
+        </Card>
+      ))}
+    </Grid>
+  );
+
+  const tabs = [
+    {
+      id: "wishlist",
+      label: "Wishlist",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>{items.length === 0 ? renderEmptyState() : renderWishlistItems()}</Section>
+      ),
+    },
+  ];
 
   return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Saved Events</Kicker>
-              <Stack direction="horizontal" className="items-center justify-between">
-                <Stack gap={1}>
-                  <H2 size="lg" className="text-white">My Wishlist</H2>
-                  <Body className="text-on-dark-muted">{wishlist.length} events saved</Body>
-                </Stack>
-                <Button 
-                  variant="outlineInk" 
-                  onClick={() => navigator.share?.({ title: 'My Wishlist', url: window.location.href }) || alert('Share link copied!')}
-                  icon={<Share2 className="size-4" />}
-                  iconPosition="left"
-                >
-                  Share Wishlist
-                </Button>
-              </Stack>
-            </Stack>
-
-            {wishlist.length === 0 ? (
-              <Card inverted className="p-12 text-center">
-                <Heart className="mx-auto mb-4 size-16 text-on-dark-disabled" />
-                <H3 className="mb-2 text-white">No Events Saved</H3>
-                <Body className="mb-6 text-on-dark-muted">
-                  Start building your wishlist by saving events you love
-                </Body>
-                <Button variant="solid" inverted onClick={() => router.push('/events')}>
-                  Browse Events
-                </Button>
-              </Card>
-            ) : (
-              <Stack gap={4}>
-                {wishlist.map((event) => (
-                  <Card key={event.id} inverted interactive>
-                    <Stack direction="horizontal" gap={6}>
-                      <Card inverted className="size-32 shrink-0 bg-ink-700" />
-                      
-                      <Stack className="flex-1" gap={3}>
-                        <Stack direction="horizontal" className="items-start justify-between">
-                          <Stack gap={2}>
-                            <H3 className="text-white">{event.event_name}</H3>
-                            <Stack direction="horizontal" gap={4}>
-                              <Stack direction="horizontal" gap={1} className="items-center">
-                                <Calendar className="size-4 text-on-dark-muted" />
-                                <Label size="xs" className="text-on-dark-muted">
-                                  {new Date(event.date).toLocaleDateString('en-US', { 
-                                    month: 'short', 
-                                    day: 'numeric', 
-                                    year: 'numeric' 
-                                  })}
-                                </Label>
-                              </Stack>
-                              <Stack direction="horizontal" gap={1} className="items-center">
-                                <MapPin className="size-4 text-on-dark-muted" />
-                                <Label size="xs" className="text-on-dark-muted">{event.location}</Label>
-                              </Stack>
-                            </Stack>
-                          </Stack>
-                          <Button variant="ghost" size="sm" onClick={() => handleRemoveItem(event.id)}>
-                            <Trash2 className="size-4" />
-                          </Button>
-                        </Stack>
-
-                        <Stack direction="horizontal" className="items-center justify-between">
-                          <Stack direction="horizontal" gap={4} className="items-center">
-                            <Body className="font-display text-white">From ${event.price}</Body>
-                            {event.available ? (
-                              <Badge variant="solid">{event.tickets_left} Tickets Left</Badge>
-                            ) : (
-                              <Badge variant="outline">Sold Out</Badge>
-                            )}
-                          </Stack>
-                          
-                          {event.available ? (
-                            <Stack direction="horizontal" gap={2}>
-                              <Button variant="outlineInk" size="sm" onClick={() => router.push(`/events/${event.event_id}`)}>
-                                View Event
-                              </Button>
-                              <Button 
-                                variant="solid" 
-                                size="sm" 
-                                inverted
-                                onClick={() => router.push(`/checkout?event=${event.event_id}`)}
-                                icon={<ShoppingCart className="size-4" />}
-                                iconPosition="left"
-                              >
-                                Buy Tickets
-                              </Button>
-                            </Stack>
-                          ) : (
-                            <Button variant="outlineInk" size="sm" onClick={() => router.push(`/events/${event.event_id}/waitlist`)}>
-                              Join Waitlist
-                            </Button>
-                          )}
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            )}
-
-            {wishlist.length > 0 && (
-              <Card inverted variant="elevated" className="p-6">
-                <Stack direction="horizontal" className="items-center justify-between">
-                  <Stack gap={1}>
-                    <H3 className="text-white">Price Alerts Enabled</H3>
-                    <Body size="sm" className="text-on-dark-muted">
-                      We&apos;ll notify you when prices drop for events on your wishlist
-                    </Body>
-                  </Stack>
-                  <Button variant="outlineInk" onClick={() => router.push('/settings/notifications')}>
-                    Manage Alerts
-                  </Button>
-                </Stack>
-              </Card>
-            )}
-          </Stack>
-    </>
+    <DetailPage
+      header={{
+        kicker: "Saved",
+        title: "Wishlist",
+        description: `${items.length} saved events`,
+      }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

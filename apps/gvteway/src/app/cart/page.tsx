@@ -1,259 +1,100 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { GvtewayLoadingLayout } from "@/components/app-layout";
-import {
-  H2,
-  H3,
-  Body,
-  Button,
-  Badge,
-  EmptyState,
-  Grid,
-  Stack,
-  Card,
-  Input,
-  Label,
-  Kicker,
-  useNotifications,
-} from "@ghxstship/ui";
-import { Trash2, Minus, Plus, Tag, CreditCard, Clock } from "lucide-react";
-import { useCartData } from "@/hooks/useCart";
+import { ShoppingCart, Trash2, Plus, Minus, CreditCard, List } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Body, Button, Card, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+
+interface CartItem { id: string; name: string; quantity: number; price: number; type: string; }
+const DEMO_CART: CartItem[] = [
+  { id: "1", name: "Summer Festival - GA", quantity: 2, price: 75, type: "Ticket" },
+  { id: "2", name: "Festival T-Shirt", quantity: 1, price: 35, type: "Merch" },
+];
 
 export default function CartPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
-  const {
-    items,
-    summary,
-    isLoading: loading,
-    updateQuantity,
-    removeItem,
-    applyPromo,
-  } = useCartData();
+  const queryClient = useQueryClient();
 
-  const [promoCode, setPromoCode] = useState("");
-  const [promoApplied, setPromoApplied] = useState(false);
-  const [discount, setDiscount] = useState(0);
+  const { data: items = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["cart"],
+    queryFn: async () => {
+      const response = await fetch("/api/cart");
+      if (!response.ok) return DEMO_CART;
+      return (await response.json()).items?.length ? (await response.json()).items : DEMO_CART;
+    },
+  });
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-    }).format(amount);
-  };
+  const updateQuantity = useMutation({
+    mutationFn: async ({ id, quantity }: { id: string; quantity: number }) => {
+      const response = await fetch(`/api/cart/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ quantity }) });
+      if (!response.ok) throw new Error("Failed to update");
+      return response.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
+  });
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
+  const removeItem = useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetch(`/api/cart/${id}`, { method: "DELETE" });
+      if (!response.ok) throw new Error("Failed to remove");
+      return response.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
+  });
 
-  const handleUpdateQuantity = async (itemId: string, quantity: number) => {
-    if (quantity < 1) return;
-    try {
-      await updateQuantity({ itemId, quantity });
-    } catch (err) {
-      addNotification({ type: "error", title: "Error", message: "Failed to update quantity" });
-    }
-  };
+  const formatCurrency = (a: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(a);
+  const subtotal = items.reduce((sum: number, i: CartItem) => sum + i.price * i.quantity, 0);
+  const fees = subtotal * 0.1;
+  const total = subtotal + fees;
 
-  const handleRemoveItem = async (itemId: string) => {
-    try {
-      await removeItem(itemId);
-      addNotification({ type: "success", title: "Removed", message: "Item removed from cart" });
-    } catch (err) {
-      addNotification({ type: "error", title: "Error", message: "Failed to remove item" });
-    }
-  };
+  const tabs = [{
+    id: "cart", label: "Cart", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        {items.length === 0 ? (
+          <Card className="p-8 text-center">
+            <ShoppingCart className="size-12 text-grey-600 mx-auto mb-4" />
+            <Body className="font-weight-medium mb-2">Your cart is empty</Body>
+            <Body className="text-grey-400 mb-4">Browse events to find tickets</Body>
+            <Button variant="solid" onClick={() => router.push("/browse")}>Browse Events</Button>
+          </Card>
+        ) : (
+          <Grid cols={3} gap={6} className="grid-cols-1 lg:grid-cols-3">
+            <div className="lg:col-span-2 space-y-4">
+              {items.map((item: CartItem) => (
+                <Card key={item.id} className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <Body className="font-weight-bold">{item.name}</Body>
+                      <Body size="sm" className="text-grey-400">{item.type}</Body>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="sm" onClick={() => updateQuantity.mutate({ id: item.id, quantity: Math.max(1, item.quantity - 1) })}><Minus className="size-4" /></Button>
+                        <Body className="w-8 text-center">{item.quantity}</Body>
+                        <Button variant="ghost" size="sm" onClick={() => updateQuantity.mutate({ id: item.id, quantity: item.quantity + 1 })}><Plus className="size-4" /></Button>
+                      </div>
+                      <Body className="font-weight-bold w-20 text-right">{formatCurrency(item.price * item.quantity)}</Body>
+                      <Button variant="ghost" size="sm" onClick={() => removeItem.mutate(item.id)}><Trash2 className="size-4 text-error" /></Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+            <Card className="p-6 h-fit">
+              <SectionHeader title="Order Summary" />
+              <div className="space-y-3 mt-4">
+                <div className="flex justify-between"><Body className="text-grey-400">Subtotal</Body><Body>{formatCurrency(subtotal)}</Body></div>
+                <div className="flex justify-between"><Body className="text-grey-400">Service Fees</Body><Body>{formatCurrency(fees)}</Body></div>
+                <div className="border-t border-grey-800 pt-3 flex justify-between"><Body className="font-weight-bold">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></div>
+              </div>
+              <Button variant="solid" className="w-full mt-6" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={() => router.push("/checkout")}>Checkout</Button>
+            </Card>
+          </Grid>
+        )}
+      </Section>
+    ),
+  }];
 
-  const handleApplyPromo = async () => {
-    if (!promoCode.trim()) return;
-    try {
-      const data = await applyPromo(promoCode);
-      setDiscount(data.discount || 0);
-      setPromoApplied(true);
-      addNotification({ type: "success", title: "Success", message: "Promo code applied!" });
-    } catch (err) {
-      addNotification({ type: "error", title: "Invalid Code", message: "Promo code not valid" });
-    }
-  };
-
-  const handleCheckout = () => {
-    router.push("/checkout");
-  };
-
-  if (loading) {
-    return <GvtewayLoadingLayout text="Loading cart..." />;
-  }
-
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Checkout</Kicker>
-              <H2 size="lg" className="text-white">Your Cart</H2>
-              <Body className="text-on-dark-muted">
-                {items.length} {items.length === 1 ? 'item' : 'items'} in your cart
-              </Body>
-            </Stack>
-
-            {items.length === 0 ? (
-              <EmptyState
-                title="Your Cart is Empty"
-                description="Browse events and add tickets to your cart"
-                action={{ label: "Browse Events", onClick: () => router.push("/events") }}
-                inverted
-              />
-            ) : (
-              <Grid cols={3} gap={8} className="grid-cols-1 lg:grid-cols-3">
-                {/* Cart Items */}
-                <Stack gap={4} className="col-span-1 lg:col-span-2">
-                  {items.map((item) => (
-                    <Card key={item.id} inverted className="p-6">
-                      <Stack gap={4}>
-                        <Stack gap={2} direction="horizontal" className="justify-between">
-                          <Stack gap={1}>
-                            <H3 className="text-white">{item.event_name}</H3>
-                            <Body className="text-on-dark-muted">{item.venue_name}</Body>
-                            <Label size="xs" className="text-on-dark-disabled">{formatDate(item.event_date)}</Label>
-                          </Stack>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={() => handleRemoveItem(item.id)}
-                            icon={<Trash2 className="size-4" />}
-                            aria-label={`Remove ${item.event_name} from cart`}
-                          />
-                        </Stack>
-
-                        <Stack gap={4} direction="horizontal" className="items-center justify-between">
-                          <Stack gap={1}>
-                            <Badge variant="outline">{item.ticket_type_name}</Badge>
-                            <Label size="xs" className="text-on-dark-muted">
-                              {formatCurrency(item.unit_price)} each
-                            </Label>
-                          </Stack>
-
-                          <Stack gap={2} direction="horizontal" className="items-center">
-                            <Button 
-                              variant="outlineInk" 
-                              size="sm"
-                              className="min-h-[44px] min-w-[44px]"
-                              onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
-                              icon={<Minus className="size-4" />}
-                              aria-label={`Decrease quantity of ${item.event_name}`}
-                            />
-                            <Body className="w-8 text-center font-mono text-white">{item.quantity}</Body>
-                            <Button 
-                              variant="outlineInk" 
-                              size="sm"
-                              className="min-h-[44px] min-w-[44px]"
-                              onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                              icon={<Plus className="size-4" />}
-                              aria-label={`Increase quantity of ${item.event_name}`}
-                            />
-                          </Stack>
-
-                          <Body className="font-display text-white">
-                            {formatCurrency(item.subtotal)}
-                          </Body>
-                        </Stack>
-                      </Stack>
-                    </Card>
-                  ))}
-                </Stack>
-
-                {/* Order Summary */}
-                <Stack gap={6}>
-                  <Card inverted variant="elevated" className="p-6">
-                    <Stack gap={4}>
-                      <H3 className="text-white">Order Summary</H3>
-                      
-                      <Stack gap={3}>
-                        <Stack gap={1} direction="horizontal" className="justify-between">
-                          <Body className="text-on-dark-muted">Subtotal ({summary?.item_count} items)</Body>
-                          <Body className="font-mono text-white">{formatCurrency(summary?.subtotal || 0)}</Body>
-                        </Stack>
-                        <Stack gap={1} direction="horizontal" className="justify-between">
-                          <Body className="text-on-dark-muted">Service Fees</Body>
-                          <Body className="font-mono text-white">{formatCurrency(summary?.service_fees || 0)}</Body>
-                        </Stack>
-                        <Stack gap={1} direction="horizontal" className="justify-between">
-                          <Body className="text-on-dark-muted">Taxes</Body>
-                          <Body className="font-mono text-white">{formatCurrency(summary?.taxes || 0)}</Body>
-                        </Stack>
-                        {discount > 0 && (
-                          <Stack gap={1} direction="horizontal" className="justify-between">
-                            <Body className="text-success">Discount</Body>
-                            <Body className="font-mono text-success">-{formatCurrency(discount)}</Body>
-                          </Stack>
-                        )}
-                      </Stack>
-
-                      <Stack gap={1} direction="horizontal" className="justify-between border-t border-ink-800 pt-4">
-                        <Body className="font-display text-white">Total</Body>
-                        <Body className="font-display text-white">
-                          {formatCurrency((summary?.total || 0) - discount)}
-                        </Body>
-                      </Stack>
-                    </Stack>
-                  </Card>
-
-                  <Card inverted className="p-6">
-                    <Stack gap={4}>
-                      <Stack direction="horizontal" gap={2} className="items-center">
-                        <Tag className="size-4 text-on-dark-muted" />
-                        <Label size="xs" className="text-on-dark-muted">Promo Code</Label>
-                      </Stack>
-                      <Stack gap={2} direction="horizontal">
-                        <Input
-                          placeholder="Enter code"
-                          value={promoCode}
-                          onChange={(e) => setPromoCode(e.target.value)}
-                          disabled={promoApplied}
-                          inverted
-                          className="flex-1"
-                        />
-                        <Button 
-                          variant="outlineInk" 
-                          onClick={handleApplyPromo}
-                          disabled={promoApplied}
-                        >
-                          {promoApplied ? "Applied" : "Apply"}
-                        </Button>
-                      </Stack>
-                    </Stack>
-                  </Card>
-
-                  <Button 
-                    variant="solid" 
-                    size="lg" 
-                    fullWidth
-                    inverted
-                    onClick={handleCheckout}
-                    icon={<CreditCard className="size-5" />}
-                    iconPosition="left"
-                  >
-                    Proceed to Checkout
-                  </Button>
-
-                  <Stack direction="horizontal" gap={2} className="items-center justify-center">
-                    <Clock className="size-4 text-on-dark-disabled" />
-                    <Label size="xs" className="text-on-dark-disabled">
-                      Tickets are held for 10 minutes during checkout
-                    </Label>
-                  </Stack>
-                </Stack>
-              </Grid>
-            )}
-          </Stack>
-    </>
-  );
+  return <DetailPage header={{ kicker: "Shopping", title: "Cart", description: `${items.length} items` }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} />;
 }

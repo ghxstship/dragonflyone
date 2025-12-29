@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { logger, withAuth } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -20,20 +20,13 @@ const dsrSchema = z.object({
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
     const { data: platformUser } = await supabase
       .from('platform_users')
       .select('id, organization_id, platform_roles, email, full_name')
-      .eq('auth_user_id', user.id)
+      .eq('auth_user_id', authResult.user?.id)
       .single();
 
     if (!platformUser) {
@@ -85,20 +78,13 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
     const { data: platformUser } = await supabase
       .from('platform_users')
       .select('id, organization_id, email, full_name')
-      .eq('auth_user_id', user.id)
+      .eq('auth_user_id', authResult.user?.id)
       .single();
 
     if (!platformUser) {

@@ -46,7 +46,87 @@ jobs:
           fi
           echo "Supabase health check passed"
 
-      - name: Send Alert on Failure
+      - name: Send Slack Alert on Failure
         if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          echo "Health check failed - alert would be sent to ops channel"
+          if [ -n "$SLACK_WEBHOOK_URL" ]; then
+            curl -X POST -H 'Content-type: application/json' \
+              --data '{
+                "text": "🚨 *GHXSTSHIP Health Check Failed*",
+                "blocks": [
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "🚨 *Health Check Alert*\n\nOne or more services are experiencing issues.\n\n*Workflow:* `${{ github.workflow }}`\n*Run:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Details>\n*Time:* `'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'`"
+                    }
+                  },
+                  {
+                    "type": "actions",
+                    "elements": [
+                      {
+                        "type": "button",
+                        "text": {"type": "plain_text", "text": "View Run"},
+                        "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                      }
+                    ]
+                  }
+                ]
+              }' \
+              "$SLACK_WEBHOOK_URL"
+          else
+            echo "SLACK_WEBHOOK_URL not configured - skipping Slack notification"
+          fi
+      
+      - name: Create GitHub Issue on Failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `🚨 Health Check Failed - ${new Date().toISOString().split('T')[0]}`;
+            const body = `## Health Check Failure Alert
+            
+            **Workflow Run:** [View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            **Triggered:** ${new Date().toISOString()}
+            
+            ### Action Required
+            - Check the workflow logs for specific failure details
+            - Verify all services are running
+            - Check Supabase dashboard for database issues
+            - Review Vercel deployment status
+            
+            ### Services Checked
+            - ATLVS: https://atlvs.ghxstship.com/api/health
+            - COMPVSS: https://compvss.ghxstship.com/api/health
+            - GVTEWAY: https://gvteway.ghxstship.com/api/health
+            - Supabase Edge Functions
+            
+            ---
+            *This issue was automatically created by the health-check workflow.*`;
+            
+            const existingIssues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'health-check-failure',
+              per_page: 1
+            });
+            
+            if (existingIssues.data.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['health-check-failure', 'urgent', 'automated']
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssues.data[0].number,
+                body: `### Additional Failure Detected\n\n**Time:** ${new Date().toISOString()}\n**Run:** [View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})`
+              });
+            }

@@ -1,185 +1,166 @@
-'use client';
+"use client";
 
-import { GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
-import { 
-  H2, 
-  H3, 
-  Body, 
-  Button, 
-  Card, 
-  Grid, 
-  Badge, 
-  ProgressBar, 
-  Stack, 
-  Kicker,
-  Label,
-} from '@ghxstship/ui';
-import { Award, Gift, Star, TrendingUp, Ticket, Zap, Trophy } from 'lucide-react';
-import { useRewardsPageData } from '@/hooks/useRewards';
+/**
+ * Rewards Page
+ * Loyalty program with points and rewards
+ * Uses DetailPage template for consistent layout
+ */
+
+import {
+  Body,
+  Button,
+  Card,
+  Grid,
+  Badge,
+  ProgressBar,
+  DetailPage,
+  Section,
+  SectionHeader,
+  StatCard,
+} from "@ghxstship/ui";
+import { Award, Gift, Star, Ticket, Zap, Trophy } from "lucide-react";
+import { useRewardsPageData } from "@/hooks/useRewards";
+
+interface RewardItem {
+  id: string;
+  name: string;
+  points: number;
+  type: string;
+  available: boolean;
+}
 
 const tiers = [
-  { name: 'Bronze', minPoints: 0 },
-  { name: 'Silver', minPoints: 1000 },
-  { name: 'Gold', minPoints: 2500 },
-  { name: 'Platinum', minPoints: 5000 },
+  { name: "Bronze", minPoints: 0 },
+  { name: "Silver", minPoints: 1000 },
+  { name: "Gold", minPoints: 2500 },
+  { name: "Platinum", minPoints: 5000 },
 ];
 
 const earnActivities = [
-  { name: 'Purchase Ticket', points: 100, icon: Ticket },
-  { name: 'Refer a Friend', points: 500, icon: Gift },
-  { name: 'Write Review', points: 50, icon: Star },
-  { name: 'Social Share', points: 25, icon: TrendingUp },
+  { name: "Purchase Ticket", points: 100, icon: Ticket },
+  { name: "Refer a Friend", points: 500, icon: Gift },
+  { name: "Write Review", points: 50, icon: Star },
+  { name: "Social Share", points: 25, icon: Zap },
 ];
 
 export default function RewardsPage() {
-  const {
-    userRewards,
-    isLoading: loading,
-    error,
-    refetch,
-    redeemReward,
-  } = useRewardsPageData();
+  const { userRewards, isLoading: loading, error, refetch, redeemReward } = useRewardsPageData();
 
   const handleRedeem = async (rewardId: string) => {
     await redeemReward(rewardId);
   };
 
   const userPoints = userRewards?.points || 0;
-  const userTier = userRewards?.tier || 'Bronze';
+  const userTier = userRewards?.tier || "Bronze";
   const rewards = userRewards?.rewards || [];
 
-  if (loading) {
-    return <GvtewayLoadingLayout text="Loading rewards..." />;
-  }
+  const tabs = [
+    {
+      id: "overview",
+      label: "Overview",
+      icon: <Award className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={3} gap={4} className="grid-cols-1 lg:grid-cols-3 mb-6">
+            <StatCard label="Your Points" value={userPoints.toLocaleString()} icon={<Award className="size-5" />} />
+            <StatCard label="Current Tier" value={userTier} icon={<Trophy className="size-5" />} />
+            <StatCard label="Available Rewards" value={rewards.filter((r: RewardItem) => r.available).length.toString()} icon={<Gift className="size-5" />} />
+          </Grid>
 
-  if (error) {
-    return (
-      <GvtewayEmptyLayout
-        title="Error Loading Rewards"
-        description={error instanceof Error ? error.message : String(error)}
-        action={{ label: "Retry", onClick: () => refetch() }}
-      />
-    );
-  }
+          <SectionHeader title="Membership Tier" description="Your progress through reward tiers" />
+          <Card className="p-6 mb-6">
+            <div className="space-y-4">
+              {tiers.map((tier) => (
+                <div key={tier.name} className="space-y-2">
+                  <div className="flex justify-between">
+                    <Body className="font-weight-medium">{tier.name}</Body>
+                    <Body size="sm" className="text-grey-400">{tier.minPoints.toLocaleString()} pts</Body>
+                  </div>
+                  <div className="relative">
+                    <ProgressBar value={tier.name === userTier ? 100 : tier.minPoints < userPoints ? 100 : 0} size="lg" />
+                    {tier.name === userTier && (
+                      <div className="absolute right-0 top-1/2 -translate-x-2 -translate-y-1/2">
+                        <Zap className="size-6 fill-current text-primary" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <SectionHeader title="Earn Points" description="Ways to earn more points" />
+          <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
+            {earnActivities.map((activity, idx) => (
+              <Card key={idx} className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <activity.icon className="size-5 text-grey-400" />
+                    <Body className="font-weight-medium">{activity.name}</Body>
+                  </div>
+                  <Badge variant="success">+{activity.points} pts</Badge>
+                </div>
+              </Card>
+            ))}
+          </Grid>
+        </Section>
+      ),
+    },
+    {
+      id: "rewards",
+      label: "Rewards",
+      icon: <Gift className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Available Rewards" description="Redeem your points for exclusive perks" />
+          {rewards.length === 0 ? (
+            <div className="text-center py-12">
+              <Gift className="size-12 text-grey-600 mx-auto mb-4" />
+              <Body className="text-grey-400">No rewards available</Body>
+            </div>
+          ) : (
+            <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
+              {rewards.map((reward: RewardItem) => (
+                <Card key={reward.id} className={`p-6 ${!reward.available ? "opacity-50" : ""}`}>
+                  <div className="space-y-4">
+                    <div className="flex items-start justify-between">
+                      <Badge variant={reward.available ? "outline" : "outline"}>{reward.type}</Badge>
+                      <div className="text-right">
+                        <Body className="font-weight-medium">{reward.points}</Body>
+                        <Body size="sm" className="text-grey-400">points</Body>
+                      </div>
+                    </div>
+                    <Body className="font-weight-medium">{reward.name}</Body>
+                    <Button
+                      variant="solid"
+                      className="w-full"
+                      disabled={!reward.available || userPoints < reward.points}
+                      onClick={() => handleRedeem(reward.id)}
+                    >
+                      {userPoints < reward.points ? "Insufficient Points" : reward.available ? "Redeem" : "Locked"}
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </Grid>
+          )}
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Loyalty Program</Kicker>
-              <H2 size="lg" className="text-white">Rewards Program</H2>
-              <Body className="text-on-dark-muted">Earn points and unlock exclusive perks</Body>
-            </Stack>
-
-            {/* Points Balance Card */}
-            <Card inverted variant="elevated" className="p-8">
-              <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
-                <Stack gap={4}>
-                  <Label size="xs" className="text-on-dark-muted">Your Points</Label>
-                  <H2 size="lg" className="font-display text-white">{userPoints.toLocaleString()}</H2>
-                  <Badge variant="outline">{userTier} Member</Badge>
-                </Stack>
-                <Stack className="items-end justify-center">
-                  <Award className="size-24 text-on-dark-muted" />
-                </Stack>
-              </Grid>
-            </Card>
-
-            {/* Tier Progress */}
-            <Card inverted className="p-6">
-              <Stack gap={6}>
-                <Stack direction="horizontal" gap={2} className="items-center">
-                  <Trophy className="size-5 text-on-dark-muted" />
-                  <H3 className="text-white">Membership Tier</H3>
-                </Stack>
-                <Stack gap={4}>
-                  {tiers.map((tier) => (
-                    <Stack key={tier.name} gap={2}>
-                      <Stack gap={2} direction="horizontal" className="justify-between">
-                        <Body className="font-display text-white">{tier.name}</Body>
-                        <Label size="xs" className="text-on-dark-muted">{tier.minPoints.toLocaleString()} pts</Label>
-                      </Stack>
-                      <Stack className="relative">
-                        <ProgressBar 
-                          value={tier.name === userTier ? 100 : tier.minPoints < userPoints ? 100 : 0} 
-                          size="lg"
-                        />
-                        {tier.name === userTier && (
-                          <Stack className="absolute right-0 top-1/2 -translate-x-2 -translate-y-1/2">
-                            <Zap className="size-6 fill-current text-white" />
-                          </Stack>
-                        )}
-                      </Stack>
-                    </Stack>
-                  ))}
-                </Stack>
-              </Stack>
-            </Card>
-
-            {/* Available Rewards */}
-            <Stack gap={6}>
-              <Stack direction="horizontal" gap={2} className="items-center">
-                <Gift className="size-5 text-on-dark-muted" />
-                <H3 className="text-white">Available Rewards</H3>
-              </Stack>
-              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
-                {rewards.map((reward) => (
-                  <Card 
-                    key={reward.id} 
-                    inverted
-                    interactive={reward.available}
-                    className={`p-6 ${!reward.available ? 'opacity-50' : ''}`}
-                  >
-                    <Stack gap={4}>
-                      <Stack gap={4} direction="horizontal" className="items-start justify-between">
-                        <Badge variant={reward.available ? 'outline' : 'ghost'}>
-                          {reward.type}
-                        </Badge>
-                        <Stack className="text-right">
-                          <Body className="font-display text-white">{reward.points}</Body>
-                          <Label size="xs" className="text-on-dark-muted">points</Label>
-                        </Stack>
-                      </Stack>
-                      <H3 className="text-white">{reward.name}</H3>
-                      <Button 
-                        variant="solid"
-                        inverted
-                        fullWidth
-                        disabled={!reward.available || userPoints < reward.points}
-                        onClick={() => handleRedeem(reward.id)}
-                      >
-                        {userPoints < reward.points ? 'Insufficient Points' : reward.available ? 'Redeem' : 'Locked'}
-                      </Button>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </Stack>
-
-            {/* Earn Points */}
-            <Card inverted className="p-6">
-              <Stack gap={6}>
-                <Stack direction="horizontal" gap={2} className="items-center">
-                  <Star className="size-5 text-on-dark-muted" />
-                  <H3 className="text-white">Earn Points</H3>
-                </Stack>
-                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                  {earnActivities.map((activity, idx) => (
-                    <Card key={idx} inverted interactive>
-                      <Stack gap={3} direction="horizontal" className="items-center justify-between">
-                        <Stack gap={3} direction="horizontal" className="items-center">
-                          <activity.icon className="size-5 text-on-dark-muted" />
-                          <Body className="font-display text-white">{activity.name}</Body>
-                        </Stack>
-                        <Badge variant="solid">+{activity.points} pts</Badge>
-                      </Stack>
-                    </Card>
-                  ))}
-                </Grid>
-              </Stack>
-            </Card>
-          </Stack>
-    </>
+    <DetailPage
+      header={{
+        kicker: "Loyalty Program",
+        title: "Rewards Program",
+        description: "Earn points and unlock exclusive perks",
+        badge: <Badge variant="outline">{userTier} Member</Badge>,
+      }}
+      loading={loading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

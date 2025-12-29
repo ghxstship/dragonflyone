@@ -19,8 +19,10 @@ import {
   type DetailSection,
   type ListPageBulkAction,
 } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import { useDeals } from '../../../hooks/useDeals';
+
+// Roles that can create/edit/delete deals
 
 interface Deal {
   id: string;
@@ -44,8 +46,15 @@ const columns: ListPageColumn<Deal>[] = [
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={v === 'won' ? 'solid' : v === 'lost' ? 'ghost' : 'outline'}>{String(v)}</Badge> },
 ];
 
+// Schema: Aligned with API createDealSchema status enum
 const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [{ value: 'open', label: 'Open' }, { value: 'won', label: 'Won' }, { value: 'lost', label: 'Lost' }] },
+  { key: 'status', label: 'Status', options: [
+    { value: 'lead', label: 'Lead' },
+    { value: 'qualified', label: 'Qualified' },
+    { value: 'proposal', label: 'Proposal' },
+    { value: 'won', label: 'Won' },
+    { value: 'lost', label: 'Lost' },
+  ]},
   { key: 'stage', label: 'Stage', options: [{ value: 'prospecting', label: 'Prospecting' }, { value: 'qualification', label: 'Qualification' }, { value: 'proposal', label: 'Proposal' }, { value: 'negotiation', label: 'Negotiation' }] },
 ];
 
@@ -60,7 +69,8 @@ const formFields: FormFieldConfig[] = [
 
 export default function DealsPage() {
   const router = useRouter();
-  const { data: dealsData, isLoading, refetch } = useDeals();
+  const { hasRole } = useAuthContext();
+  const { data: dealsData, isLoading, error, refetch } = useDeals();
   const deals = (dealsData || []) as Deal[];
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -69,14 +79,22 @@ export default function DealsPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [dealToDelete, setDealToDelete] = useState<Deal | null>(null);
 
+  // RBAC: Check if user has admin access for create/edit/delete operations
+  const canManageDeals = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
+
+  // Schema: Calculate stats using API-compliant status values
   const totalValue = deals.reduce((sum, d) => sum + (d.value || 0), 0);
-  const openDeals = deals.filter(d => d.status === 'open').length;
+  // Active deals = lead + qualified + proposal (not won/lost)
+  const activeDeals = deals.filter(d => ['lead', 'qualified', 'proposal'].includes(d.status)).length;
   const wonDeals = deals.filter(d => d.status === 'won').length;
 
+  // Build row actions based on user permissions
   const rowActions: ListPageAction<Deal>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedDeal(r); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/deals/${r.id}/edit`) },
-    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setDealToDelete(r); setDeleteConfirmOpen(true); } },
+    ...(canManageDeals ? [
+      { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r: Deal) => router.push(`/deals/${r.id}/edit`) },
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (r: Deal) => { setDealToDelete(r); setDeleteConfirmOpen(true); } },
+    ] : []),
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
@@ -118,10 +136,13 @@ export default function DealsPage() {
     ? getImportTemplates('deals') 
     : [{ id: 'default', name: 'Deal Import', mapping: { title: 'title', status: 'status', value: 'value', client: 'client', stage: 'stage' } }];
 
+  // Build bulk actions based on user permissions
   const bulkActions: ListPageBulkAction[] = [
     { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
-    { id: 'archive', label: 'Archive', icon: <Archive className="size-4" /> },
-    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
+    ...(canManageDeals ? [
+      { id: 'archive', label: 'Archive', icon: <Archive className="size-4" /> },
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const },
+    ] : []),
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
@@ -140,9 +161,10 @@ export default function DealsPage() {
     }
   };
 
+  // Schema: Stats use API-compliant status values
   const stats = [
     { label: 'Total Deals', value: deals.length },
-    { label: 'Open', value: openDeals },
+    { label: 'Active', value: activeDeals },
     { label: 'Won', value: wonDeals },
     { label: 'Pipeline Value', value: formatCurrency(totalValue) },
   ];
@@ -170,6 +192,7 @@ export default function DealsPage() {
         columns={columns}
         rowKey="id"
         loading={isLoading}
+        error={error}
         onRetry={() => refetch?.()}
         searchPlaceholder="Search deals..."
         filters={filters}
@@ -178,9 +201,9 @@ export default function DealsPage() {
         onBulkAction={handleBulkAction}
         onRowClick={(r) => { setSelectedDeal(r); setDrawerOpen(true); }}
         createLabel="New Deal"
-        onCreate={() => setCreateModalOpen(true)}
+        onCreate={canManageDeals ? () => setCreateModalOpen(true) : undefined}
         entityType="deals"
-        onImport={handleImport}
+        onImport={canManageDeals ? handleImport : undefined}
         importTemplates={importTemplates}
         importSampleFields={['title', 'status', 'value', 'client', 'stage']}
         onExport={createExportHandler({

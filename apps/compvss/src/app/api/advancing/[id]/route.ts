@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { apiRoute } from '@ghxstship/config/middleware';
+import { apiRoute, ApiRouteContext } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -17,10 +17,10 @@ const updateAdvanceSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: ApiRouteContext) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
-      const { id } = context.params;
+      const { id } = await context.params ?? {};
 
       const { data, error } = await supabase
         .from('production_advances')
@@ -72,11 +72,11 @@ export const GET = apiRoute(
 );
 
 export const PATCH = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: ApiRouteContext) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
-      const { id } = context.params;
-      const payload = context.validated;
+      const { id } = await context.params ?? {};
+      const payload = context.validated as z.infer<typeof updateAdvanceSchema>;
       const userId = context.user?.id;
 
       // Check if advance exists and user has permission
@@ -92,7 +92,8 @@ export const PATCH = apiRoute(
 
       // Only allow submitter to update draft or admins to update any
       const isSubmitter = existingAdvance.submitter_id === userId;
-      const isAdmin = context.roles?.includes(PlatformRole.COMPVSS_ADMIN);
+      const roles = context.roles as PlatformRole[] | undefined;
+      const isAdmin = roles?.includes(PlatformRole.COMPVSS_ADMIN);
       
       if (!isAdmin && (!isSubmitter || existingAdvance.status !== 'draft')) {
         return NextResponse.json({ error: 'Not authorized to update this advance' }, { status: 403 });
@@ -141,10 +142,10 @@ export const PATCH = apiRoute(
 );
 
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: ApiRouteContext) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
-      const { id } = context.params;
+      const { id } = await context.params ?? {};
       const userId = context.user?.id;
 
       // Check if advance exists
@@ -164,7 +165,8 @@ export const DELETE = apiRoute(
       }
 
       const isSubmitter = existingAdvance.submitter_id === userId;
-      const isAdmin = context.roles?.includes(PlatformRole.COMPVSS_ADMIN);
+      const roles = context.roles as PlatformRole[] | undefined;
+      const isAdmin = roles?.includes(PlatformRole.COMPVSS_ADMIN);
       
       if (!isAdmin && !isSubmitter) {
         return NextResponse.json({ error: 'Not authorized to delete this advance' }, { status: 403 });

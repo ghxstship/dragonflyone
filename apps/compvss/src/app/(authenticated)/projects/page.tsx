@@ -18,13 +18,25 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, useAuthContext, PlatformRole } from '@ghxstship/config';
+
+// Roles that can manage projects (COMPVSS has no SUPER_ADMIN, only ADMIN)
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 import { useProjects, type Project } from '../../../hooks/useProjects';
 // Layout provided by route group
 
 export default function ProjectsPage() {
   const router = useRouter();
+  const { hasRole } = useAuthContext();
   const { data: projects = [], isLoading, error, refetch } = useProjects({});
+
+  // RBAC: Check if user has admin access for manage operations
+  const canManageProjects = ADMIN_ROLES.some(role => hasRole(role));
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -84,6 +96,7 @@ export default function ProjectsPage() {
     },
   ];
 
+  // Schema: Aligned with API createProjectSchema phase enum
   const filters: ListPageFilter[] = [
     { 
       key: 'status', 
@@ -98,20 +111,23 @@ export default function ProjectsPage() {
       key: 'phase', 
       label: 'Phase', 
       options: [
-        { value: 'pre-production', label: 'Pre-Production' },
-        { value: 'production', label: 'Production' },
-        { value: 'post-production', label: 'Post-Production' },
+        { value: 'intake', label: 'Intake' },
+        { value: 'preproduction', label: 'Pre-Production' },
+        { value: 'in_production', label: 'In Production' },
+        { value: 'post', label: 'Post-Production' },
       ]
     },
   ];
 
+  // Schema: Aligned with API createProjectSchema phase enum
   const formFields: FormFieldConfig[] = [
     { name: 'name', label: 'Project Name', type: 'text', required: true },
     { name: 'code', label: 'Project Code', type: 'text', required: true },
     { name: 'phase', label: 'Phase', type: 'select', required: true, options: [
-      { value: 'pre-production', label: 'Pre-Production' },
-      { value: 'production', label: 'Production' },
-      { value: 'post-production', label: 'Post-Production' },
+      { value: 'intake', label: 'Intake' },
+      { value: 'preproduction', label: 'Pre-Production' },
+      { value: 'in_production', label: 'In Production' },
+      { value: 'post', label: 'Post-Production' },
     ]},
     { name: 'budget', label: 'Budget ($)', type: 'number' },
     { name: 'start_date', label: 'Start Date', type: 'date' },
@@ -121,14 +137,18 @@ export default function ProjectsPage() {
 
   const rowActions: ListPageAction<Project>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedProject(row); setDrawerOpen(true); } },
-    { id: 'edit', label: 'Edit', icon: <Edit className="size-4" />, onClick: (row) => router.push(`/projects/${row.id}`) },
-    { id: 'assign', label: 'Assign Crew', icon: <Users className="size-4" />, onClick: (row) => router.push(`/crew/assign?projectId=${row.id}`) },
-    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setSelectedProject(row); setDeleteConfirmOpen(true); } },
+    ...(canManageProjects ? [
+      { id: 'edit', label: 'Edit', icon: <Edit className="size-4" />, onClick: (row: Project) => router.push(`/projects/${row.id}`) },
+      { id: 'assign', label: 'Assign Crew', icon: <Users className="size-4" />, onClick: (row: Project) => router.push(`/crew/assign?projectId=${row.id}`) },
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (row: Project) => { setSelectedProject(row); setDeleteConfirmOpen(true); } },
+    ] : []),
   ];
 
   const bulkActions: ListPageBulkAction[] = [
     { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
-    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
+    ...(canManageProjects ? [
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const },
+    ] : []),
   ];
 
   const handleCreate = async () => {
@@ -201,8 +221,8 @@ export default function ProjectsPage() {
           }
         }}
         onRowClick={(row) => { setSelectedProject(row); setDrawerOpen(true); }}
-        createLabel="New Project"
-        onCreate={() => setCreateModalOpen(true)}
+        createLabel={canManageProjects ? "New Project" : undefined}
+        onCreate={canManageProjects ? () => setCreateModalOpen(true) : undefined}
         entityType="projects"
         onExport={createExportHandler({
           filename: "projects",
@@ -219,7 +239,7 @@ export default function ProjectsPage() {
         })}
         stats={stats}
         emptyMessage="No projects found"
-        emptyAction={{ label: 'Create Project', onClick: () => setCreateModalOpen(true) }}
+        emptyAction={canManageProjects ? { label: 'Create Project', onClick: () => setCreateModalOpen(true) } : undefined}
       />
 
       <RecordFormModal

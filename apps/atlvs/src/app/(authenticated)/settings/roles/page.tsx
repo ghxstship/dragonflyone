@@ -1,435 +1,275 @@
-'use client';
+"use client";
 
+/**
+ * Roles Settings Page
+ * Manage roles and permissions
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { Shield, Plus, Edit, Trash2, Check, X, List, Settings } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
+  Badge,
   Body,
   Button,
-  H1,
-  H2,
-  H3,
-  H4,
+  Card,
+  Grid,
   Input,
-  Label,
-  Text,
-} from '@ghxstship/ui';
-
-import { useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, Shield, Plus, Check, X, Trash2, AlertCircle, Users } from 'lucide-react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
+  useNotifications,
+} from "@ghxstship/ui";
 
 interface Role {
   id: string;
   name: string;
   description: string;
   permissions: string[];
-  user_count: number;
+  member_count: number;
   is_system: boolean;
-  created_at: string;
 }
 
-const PERMISSION_CATEGORIES = [
-  {
-    name: 'Projects',
-    permissions: [
-      { id: 'projects.view', name: 'View Projects', description: 'View project details and lists' },
-      { id: 'projects.create', name: 'Create Projects', description: 'Create new projects' },
-      { id: 'projects.edit', name: 'Edit Projects', description: 'Modify project settings and details' },
-      { id: 'projects.delete', name: 'Delete Projects', description: 'Remove projects permanently' },
-    ],
-  },
-  {
-    name: 'Team',
-    permissions: [
-      { id: 'team.view', name: 'View Team', description: 'View team members' },
-      { id: 'team.invite', name: 'Invite Members', description: 'Send team invitations' },
-      { id: 'team.manage', name: 'Manage Team', description: 'Edit roles and remove members' },
-    ],
-  },
-  {
-    name: 'Finance',
-    permissions: [
-      { id: 'finance.view', name: 'View Finance', description: 'View budgets and reports' },
-      { id: 'finance.edit', name: 'Edit Finance', description: 'Modify budgets and expenses' },
-      { id: 'finance.approve', name: 'Approve Expenses', description: 'Approve financial transactions' },
-    ],
-  },
-  {
-    name: 'Settings',
-    permissions: [
-      { id: 'settings.view', name: 'View Settings', description: 'View organization settings' },
-      { id: 'settings.edit', name: 'Edit Settings', description: 'Modify organization settings' },
-      { id: 'settings.billing', name: 'Manage Billing', description: 'Access billing and subscription' },
-    ],
-  },
+const PERMISSIONS = [
+  { id: "projects.view", label: "View Projects", category: "Projects" },
+  { id: "projects.create", label: "Create Projects", category: "Projects" },
+  { id: "projects.edit", label: "Edit Projects", category: "Projects" },
+  { id: "projects.delete", label: "Delete Projects", category: "Projects" },
+  { id: "team.view", label: "View Team", category: "Team" },
+  { id: "team.manage", label: "Manage Team", category: "Team" },
+  { id: "billing.view", label: "View Billing", category: "Billing" },
+  { id: "billing.manage", label: "Manage Billing", category: "Billing" },
+  { id: "settings.view", label: "View Settings", category: "Settings" },
+  { id: "settings.manage", label: "Manage Settings", category: "Settings" },
 ];
 
 const DEMO_ROLES: Role[] = [
-  {
-    id: 'role-owner',
-    name: 'Owner',
-    description: 'Full access to all features and settings',
-    permissions: PERMISSION_CATEGORIES.flatMap((c) => c.permissions.map((p) => p.id)),
-    user_count: 1,
-    is_system: true,
-    created_at: '2024-01-01',
-  },
-  {
-    id: 'role-admin',
-    name: 'Admin',
-    description: 'Manage team and most settings',
-    permissions: ['projects.view', 'projects.create', 'projects.edit', 'team.view', 'team.invite', 'team.manage', 'finance.view', 'settings.view', 'settings.edit'],
-    user_count: 3,
-    is_system: true,
-    created_at: '2024-01-01',
-  },
-  {
-    id: 'role-manager',
-    name: 'Manager',
-    description: 'Manage projects and view reports',
-    permissions: ['projects.view', 'projects.create', 'projects.edit', 'team.view', 'finance.view'],
-    user_count: 8,
-    is_system: true,
-    created_at: '2024-01-01',
-  },
-  {
-    id: 'role-member',
-    name: 'Member',
-    description: 'View and edit assigned items',
-    permissions: ['projects.view', 'team.view'],
-    user_count: 24,
-    is_system: true,
-    created_at: '2024-01-01',
-  },
+  { id: "1", name: "Admin", description: "Full access to all features", permissions: PERMISSIONS.map((p) => p.id), member_count: 2, is_system: true },
+  { id: "2", name: "Manager", description: "Can manage projects and team", permissions: ["projects.view", "projects.create", "projects.edit", "team.view", "team.manage", "settings.view"], member_count: 3, is_system: true },
+  { id: "3", name: "Member", description: "Can create and edit content", permissions: ["projects.view", "projects.create", "projects.edit", "team.view"], member_count: 8, is_system: true },
+  { id: "4", name: "Viewer", description: "Read-only access", permissions: ["projects.view", "team.view"], member_count: 5, is_system: true },
 ];
 
-export default function RolePermissionsPage() {
+export default function RolesSettingsPage() {
   const queryClient = useQueryClient();
-  const [selectedRole, setSelectedRole] = useState<Role | null>(null);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [newRole, setNewRole] = useState({ name: '', description: '', permissions: [] as string[] });
+  const { hasRole } = useAuthContext();
+  const { addNotification } = useNotifications();
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['roles'],
+  const [showCreate, setShowCreate] = useState(false);
+  const [editingRole, setEditingRole] = useState<Role | null>(null);
+  const [newRoleName, setNewRoleName] = useState("");
+  const [newRoleDesc, setNewRoleDesc] = useState("");
+  const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
+
+  const canManageRoles = ATLVS_ADMIN_ROLES.some((role) => hasRole(role));
+
+  const { data: roles = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["roles"],
     queryFn: async () => {
-      const response = await fetch('/api/settings/roles');
-      if (!response.ok) {
-        return { roles: DEMO_ROLES };
-      }
-      return response.json();
+      const response = await fetch("/api/settings/roles");
+      if (!response.ok) return DEMO_ROLES;
+      const data = await response.json();
+      return data.roles?.length ? data.roles : DEMO_ROLES;
     },
   });
 
-  const roles: Role[] = data?.roles || DEMO_ROLES;
-
-  const createRole = useMutation({
-    mutationFn: async (role: { name: string; description: string; permissions: string[] }) => {
-      const response = await fetch('/api/settings/roles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(role),
+  const createMutation = useMutation({
+    mutationFn: async (data: { name: string; description: string; permissions: string[] }) => {
+      const response = await fetch("/api/settings/roles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-      if (!response.ok) throw new Error('Failed to create role');
+      if (!response.ok) throw new Error("Failed to create role");
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['roles'] });
-      setShowCreateModal(false);
-      setNewRole({ name: '', description: '', permissions: [] });
+      queryClient.invalidateQueries({ queryKey: ["roles"] });
+      addNotification({ type: "success", title: "Created", message: "Role created successfully" });
+      setShowCreate(false);
+      resetForm();
+    },
+    onError: () => {
+      addNotification({ type: "error", title: "Error", message: "Failed to create role" });
     },
   });
 
-  const updateRole = useMutation({
-    mutationFn: async ({ roleId, permissions }: { roleId: string; permissions: string[] }) => {
-      const response = await fetch(`/api/settings/roles/${roleId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ permissions }),
-      });
-      if (!response.ok) throw new Error('Failed to update role');
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['roles'] });
-    },
-  });
-
-  const deleteRole = useMutation({
+  const deleteMutation = useMutation({
     mutationFn: async (roleId: string) => {
-      const response = await fetch(`/api/settings/roles/${roleId}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) throw new Error('Failed to delete role');
+      const response = await fetch(`/api/settings/roles/${roleId}`, { method: "DELETE" });
+      if (!response.ok) throw new Error("Failed to delete role");
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['roles'] });
-      setSelectedRole(null);
+      queryClient.invalidateQueries({ queryKey: ["roles"] });
+      addNotification({ type: "success", title: "Deleted", message: "Role deleted" });
+    },
+    onError: () => {
+      addNotification({ type: "error", title: "Error", message: "Failed to delete role" });
     },
   });
 
-  const togglePermission = (permissionId: string) => {
-    if (!selectedRole || selectedRole.is_system) return;
-    
-    const newPermissions = selectedRole.permissions.includes(permissionId)
-      ? selectedRole.permissions.filter((p) => p !== permissionId)
-      : [...selectedRole.permissions, permissionId];
-    
-    setSelectedRole({ ...selectedRole, permissions: newPermissions });
-    updateRole.mutate({ roleId: selectedRole.id, permissions: newPermissions });
+  const resetForm = () => {
+    setNewRoleName("");
+    setNewRoleDesc("");
+    setSelectedPermissions([]);
+    setEditingRole(null);
   };
 
-  const toggleNewRolePermission = (permissionId: string) => {
-    setNewRole((prev) => ({
-      ...prev,
-      permissions: prev.permissions.includes(permissionId)
-        ? prev.permissions.filter((p) => p !== permissionId)
-        : [...prev.permissions, permissionId],
-    }));
+  const togglePermission = (permId: string) => {
+    setSelectedPermissions((prev) => prev.includes(permId) ? prev.filter((p) => p !== permId) : [...prev, permId]);
   };
 
-  if (isLoading) {
-    return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading roles...</div>
-      </div>
-    );
-  }
+  const stats = {
+    total: roles.length,
+    system: roles.filter((r: Role) => r.is_system).length,
+    custom: roles.filter((r: Role) => !r.is_system).length,
+  };
 
-  if (error) {
-    return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
-          <AlertCircle className="h-5 w-5 text-destructive" />
-          <Text className="text-destructive">Failed to load roles</Text>
-        </div>
-      </div>
-    );
-  }
+  const permissionsByCategory = PERMISSIONS.reduce((acc, perm) => {
+    if (!acc[perm.category]) acc[perm.category] = [];
+    acc[perm.category].push(perm);
+    return acc;
+  }, {} as Record<string, typeof PERMISSIONS>);
+
+  const tabs = [
+    {
+      id: "roles",
+      label: "Roles",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mb-6">
+            <StatCard label="Total Roles" value={stats.total.toString()} icon={<Shield className="size-5" />} />
+            <StatCard label="System Roles" value={stats.system.toString()} icon={<Shield className="size-5" />} />
+            <StatCard label="Custom Roles" value={stats.custom.toString()} icon={<Shield className="size-5" />} />
+          </Grid>
+
+          {canManageRoles && (
+            <div className="mb-6">
+              <Button variant="solid" onClick={() => setShowCreate(true)} icon={<Plus className="size-4" />} iconPosition="left">
+                Create Role
+              </Button>
+            </div>
+          )}
+
+          <div className="space-y-4">
+            {roles.map((role: Role) => (
+              <Card key={role.id} className="p-4">
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Body className="font-weight-medium">{role.name}</Body>
+                      {role.is_system && <Badge variant="outline" className="font-weight-normal">System</Badge>}
+                    </div>
+                    <Body size="sm" className="text-grey-400 mb-3">{role.description}</Body>
+                    <div className="flex flex-wrap gap-1">
+                      {role.permissions.slice(0, 5).map((perm) => (
+                        <Badge key={perm} variant="outline" className="font-weight-normal">{PERMISSIONS.find((p) => p.id === perm)?.label || perm}</Badge>
+                      ))}
+                      {role.permissions.length > 5 && <Badge variant="outline" className="font-weight-normal">+{role.permissions.length - 5} more</Badge>}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Badge variant="info">{role.member_count} members</Badge>
+                    {canManageRoles && !role.is_system && (
+                      <div className="flex items-center gap-1">
+                        <Button variant="ghost" size="sm" onClick={() => { setEditingRole(role); setNewRoleName(role.name); setNewRoleDesc(role.description); setSelectedPermissions(role.permissions); setShowCreate(true); }} icon={<Edit className="size-4" />} />
+                        <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(role.id)} disabled={deleteMutation.isPending} icon={<Trash2 className="size-4 text-error" />} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "permissions",
+      label: "Permissions",
+      icon: <Settings className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Available Permissions" description="All permissions that can be assigned to roles" />
+          <div className="space-y-6 mt-4">
+            {Object.entries(permissionsByCategory).map(([category, perms]) => (
+              <Card key={category} className="p-4">
+                <Body className="font-weight-medium mb-3">{category}</Body>
+                <div className="grid grid-cols-2 gap-2">
+                  {perms.map((perm) => (
+                    <div key={perm.id} className="flex items-center gap-2 p-2 bg-grey-800 rounded">
+                      <Check className="size-4 text-success" />
+                      <Body size="sm">{perm.label}</Body>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/settings"
-            className="p-2 hover:bg-muted rounded-button transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </Link>
-          <div>
-            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
-              <Shield className="h-6 w-6" />
-              Roles & Permissions
-            </H1>
-            <Body className="text-body-sm text-muted-foreground mt-1">
-              Manage roles and configure access permissions
-            </Body>
-          </div>
-        </div>
-        <Button
-          onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          <Text className="text-body-sm font-weight-medium">Create Role</Text>
-        </Button>
-      </div>
+    <>
+      <DetailPage
+        header={{ kicker: "Settings", title: "Roles & Permissions", description: "Manage roles and what they can access" }}
+        backButton={{ label: "Settings", href: "/settings" }}
+        loading={isLoading}
+        error={error instanceof Error ? error : null}
+        onRetry={refetch}
+        tabs={tabs}
+      />
 
-      <div className="grid grid-cols-3 gap-6">
-        {/* Roles List */}
-        <div className="space-y-3">
-          <H2 className="text-h4-md font-weight-semibold text-foreground">Roles ({roles.length})</H2>
-          {roles.map((role) => (
-            <Button
-              key={role.id}
-              onClick={() => setSelectedRole(role)}
-              className={`w-full text-left p-4 rounded-card border-2 transition-colors ${
-                selectedRole?.id === role.id
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border hover:border-primary/50'
-              }`}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <Text className="text-body-md font-weight-medium text-foreground">{role.name}</Text>
-                {role.is_system && (
-                  <Text className="text-body-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
-                    System
-                  </Text>
-                )}
-              </div>
-              <Body className="text-body-sm text-muted-foreground mb-2">{role.description}</Body>
-              <div className="flex items-center gap-1 text-body-xs text-muted-foreground">
-                <Users className="h-3 w-3" />
-                {role.user_count} users
-              </div>
-            </Button>
-          ))}
-        </div>
-
-        {/* Permissions Panel */}
-        <div className="col-span-2">
-          {selectedRole ? (
-            <div className="bg-background border-2 border-border rounded-card">
-              <div className="p-4 border-b border-border flex items-center justify-between">
-                <div>
-                  <H2 className="text-h4-md font-weight-semibold text-foreground">
-                    {selectedRole.name} Permissions
-                  </H2>
-                  <Body className="text-body-sm text-muted-foreground">{selectedRole.description}</Body>
-                </div>
-                {!selectedRole.is_system && (
-                  <Button
-                    onClick={() => {
-                      if (confirm('Delete this role? Users will need to be reassigned.')) {
-                        deleteRole.mutate(selectedRole.id);
-                      }
-                    }}
-                    className="p-2 text-destructive hover:bg-destructive/10 rounded-button transition-colors"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-              <div className="p-4 space-y-6">
-                {selectedRole.is_system && (
-                  <div className="bg-muted/30 border-2 border-dashed border-border rounded-card p-3 text-body-sm text-muted-foreground">
-                    System roles cannot be modified. Create a custom role to customize permissions.
-                  </div>
-                )}
-                {PERMISSION_CATEGORIES.map((category) => (
-                  <div key={category.name}>
-                    <H3 className="text-body-md font-weight-semibold text-foreground mb-3">
-                      {category.name}
-                    </H3>
-                    <div className="space-y-2">
-                      {category.permissions.map((permission) => {
-                        const isEnabled = selectedRole.permissions.includes(permission.id);
-                        return (
-                          <Button
-                            key={permission.id}
-                            onClick={() => togglePermission(permission.id)}
-                            disabled={selectedRole.is_system}
-                            className={`w-full flex items-center justify-between p-3 rounded-card border-2 transition-colors ${
-                              isEnabled
-                                ? 'border-primary bg-primary/5'
-                                : 'border-border hover:border-muted-foreground'
-                            } ${selectedRole.is_system ? 'cursor-not-allowed opacity-60' : ''}`}
-                          >
-                            <div className="text-left">
-                              <Body className="text-body-sm font-weight-medium text-foreground">
-                                {permission.name}
-                              </Body>
-                              <Body className="text-body-xs text-muted-foreground">
-                                {permission.description}
-                              </Body>
-                            </div>
-                            {isEnabled ? (
-                              <Check className="h-5 w-5 text-primary" />
-                            ) : (
-                              <X className="h-5 w-5 text-muted-foreground" />
-                            )}
-                          </Button>
-                        );
-                      })}
+      <Modal open={showCreate} onClose={() => { setShowCreate(false); resetForm(); }} size="lg">
+        <ModalHeader><Body className="font-weight-bold font-weight-medium">{editingRole ? "Edit Role" : "Create Role"}</Body></ModalHeader>
+        <ModalBody>
+          <div className="space-y-4">
+            <div>
+              <Body size="sm" className="text-grey-400 mb-1">Role Name</Body>
+              <Input placeholder="e.g., Project Lead" value={newRoleName} onChange={(e) => setNewRoleName(e.target.value)} />
+            </div>
+            <div>
+              <Body size="sm" className="text-grey-400 mb-1">Description</Body>
+              <Input placeholder="What can this role do?" value={newRoleDesc} onChange={(e) => setNewRoleDesc(e.target.value)} />
+            </div>
+            <div>
+              <Body size="sm" className="text-grey-400 mb-2">Permissions</Body>
+              <div className="space-y-4 max-h-64 overflow-y-auto">
+                {Object.entries(permissionsByCategory).map(([category, perms]) => (
+                  <div key={category}>
+                    <Body size="sm" className="font-weight-medium mb-2">{category}</Body>
+                    <div className="grid grid-cols-2 gap-2">
+                      {perms.map((perm) => (
+                        <Button key={perm.id} variant={selectedPermissions.includes(perm.id) ? "solid" : "outline"} size="sm" onClick={() => togglePermission(perm.id)} className="justify-start">
+                          {selectedPermissions.includes(perm.id) ? <Check className="size-3 mr-2" /> : <X className="size-3 mr-2 opacity-50" />}
+                          {perm.label}
+                        </Button>
+                      ))}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-          ) : (
-            <div className="bg-muted/30 border-2 border-dashed border-border rounded-card p-12 flex flex-col items-center justify-center text-center">
-              <Shield className="h-12 w-12 text-muted-foreground mb-4" />
-              <Body className="text-body-md text-muted-foreground">
-                Select a role to view and manage its permissions
-              </Body>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Create Role Modal */}
-      {showCreateModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-background border-2 border-border rounded-card p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
-              <Plus className="h-5 w-5" />
-              Create Custom Role
-            </H3>
-            <div className="space-y-4">
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Role Name *
-                </Label>
-                <Input
-                  type="text"
-                  value={newRole.name}
-                  onChange={(e) => setNewRole({ ...newRole, name: e.target.value })}
-                  placeholder="e.g., Project Coordinator"
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                />
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Description
-                </Label>
-                <Input
-                  type="text"
-                  value={newRole.description}
-                  onChange={(e) => setNewRole({ ...newRole, description: e.target.value })}
-                  placeholder="Brief description of this role"
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                />
-              </div>
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
-                  Permissions
-                </Label>
-                <div className="space-y-4 max-h-64 overflow-y-auto border-2 border-border rounded-card p-4">
-                  {PERMISSION_CATEGORIES.map((category) => (
-                    <div key={category.name}>
-                      <H4 className="text-body-sm font-weight-semibold text-foreground mb-2">
-                        {category.name}
-                      </H4>
-                      <div className="grid grid-cols-2 gap-2">
-                        {category.permissions.map((permission) => (
-                          <Label
-                            key={permission.id}
-                            className="flex items-center gap-2 p-2 hover:bg-muted/30 rounded cursor-pointer"
-                          >
-                            <Input
-                              type="checkbox"
-                              checked={newRole.permissions.includes(permission.id)}
-                              onChange={() => toggleNewRolePermission(permission.id)}
-                              className="rounded border-border"
-                            />
-                            <Text className="text-body-sm text-foreground">{permission.name}</Text>
-                          </Label>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="flex items-center justify-end gap-3 pt-4">
-                <Button
-                  type="button"
-                  onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={() => createRole.mutate(newRole)}
-                  disabled={!newRole.name || createRole.isPending}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
-                >
-                  {createRole.isPending ? 'Creating...' : 'Create Role'}
-                </Button>
-              </div>
-            </div>
           </div>
-        </div>
-      )}
-    </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="outline" onClick={() => { setShowCreate(false); resetForm(); }}>Cancel</Button>
+          <Button variant="solid" onClick={() => createMutation.mutate({ name: newRoleName, description: newRoleDesc, permissions: selectedPermissions })} disabled={!newRoleName || createMutation.isPending}>
+            {createMutation.isPending ? "Saving..." : editingRole ? "Save Changes" : "Create Role"}
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
   );
 }

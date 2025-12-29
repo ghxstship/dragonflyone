@@ -1,6 +1,40 @@
 // Shared hooks for all GHXSTSHIP apps
 export { useAuth } from './useAuth';
 export type { User, UseAuthReturn } from './useAuth';
+
+// Re-export auth context for convenience (also available from @ghxstship/config)
+export { 
+  AuthProvider, 
+  useAuth as useAuthContext,
+  RequireRole,
+  RequirePlatformAccess,
+} from '../auth-context';
+export type { User as AuthUser } from '../auth-context';
+
+// Re-export roles for convenience (also available from @ghxstship/config)
+export {
+  PlatformRole,
+  EventRole,
+  PLATFORM_ROLE_METADATA,
+  EVENT_ROLE_HIERARCHY,
+  EVENT_ROLE_PLATFORM_ACCESS,
+  EVENT_ROLE_PERMISSIONS,
+  PLATFORM_ROLE_PERMISSIONS,
+  ATLVS_ADMIN_ROLES,
+  COMPVSS_ADMIN_ROLES,
+  GVTEWAY_ADMIN_ROLES,
+  isLegendRole,
+  hasEventRolePlatformAccess,
+  getEventRolePermissions,
+  getAllInheritedRoles,
+  hasPermission,
+  hasEventPermission,
+  getAllPermissions,
+  userHasPermission,
+  getHighestRoleLevel,
+  hasAdminAccess,
+} from '../roles';
+export type { RoleLevel, RoleMetadata, Permission } from '../roles';
 export { useRealtime } from './useRealtime';
 export type { UseRealtimeOptions } from './useRealtime';
 export { 
@@ -216,3 +250,49 @@ export {
   useUpdateCueStatus,
 } from './useShows';
 export type { RunOfShow, ShowEntry, ShowCue, SetTime } from './useShows';
+
+// Recent pages tracking hook (shared across all apps)
+export { useRecentPages, clearRecentPages } from './useRecentPages';
+export type { RecentPageItem, RecentPagesNavSection } from './useRecentPages';
+
+// Master Calendar hook (unified calendar with real-time two-way sync)
+export {
+  useMasterCalendar,
+  useMasterCalendarQuery,
+  useMasterCalendarEventQuery,
+  useSyncStatusQuery,
+  useCreateMasterCalendarEvent,
+  useUpdateMasterCalendarEvent,
+  useDeleteMasterCalendarEvent,
+  useSyncMasterCalendar,
+  useMasterCalendarRealtime,
+} from './useMasterCalendar';
+export type {
+  CreateMasterCalendarEventInput,
+  UpdateMasterCalendarEventInput,
+} from './useMasterCalendar';
+
+// Calendar types and constants (from shared types file)
+export {
+  SOURCE_TYPE_LABELS,
+  SOURCE_TYPE_COLORS,
+  STATUS_LABELS,
+  STATUS_COLORS,
+} from '../types/calendar-types';
+export type {
+  CalendarSourceType,
+  CalendarEventStatus,
+  CalendarVisibility,
+  MasterCalendarEvent,
+  MasterCalendarFilters,
+} from '../types/calendar-types';
+
+// CRM Calendar hook
+export {
+  useCrmCalendar,
+  useCrmCalendarQuery,
+  useCreateCrmEvent,
+  useUpdateCrmEvent,
+  useDeleteCrmEvents,
+} from './useCrmCalendar';
+export type { CrmCalendarEvent } from './useCrmCalendar';

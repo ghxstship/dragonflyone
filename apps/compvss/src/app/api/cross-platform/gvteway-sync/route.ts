@@ -1,13 +1,64 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createLinkSchema = z.object({
+  action: z.literal('create_link').optional().default('create_link'),
+  compvss_project_id: z.string().uuid(),
+  gvteway_event_id: z.string().uuid(),
+});
+
+const syncScheduleSchema = z.object({
+  action: z.literal('sync_schedule'),
+  compvss_project_id: z.string().uuid(),
+  gvteway_event_id: z.string().uuid(),
+});
+
+const syncVenueSchema = z.object({
+  action: z.literal('sync_venue'),
+  compvss_project_id: z.string().uuid(),
+  gvteway_event_id: z.string().uuid(),
+});
+
+const syncCrewSchema = z.object({
+  action: z.literal('sync_crew_to_event'),
+  compvss_project_id: z.string().uuid(),
+  gvteway_event_id: z.string().uuid(),
+});
+
+const pullTicketDataSchema = z.object({
+  action: z.literal('pull_ticket_data'),
+  compvss_project_id: z.string().uuid(),
+  gvteway_event_id: z.string().uuid(),
+});
+
+const gvtewaySyncActionSchema = z.union([
+  createLinkSchema,
+  syncScheduleSchema,
+  syncVenueSchema,
+  syncCrewSchema,
+  pullTicketDataSchema,
+]);
 
 // GET /api/cross-platform/gvteway-sync - Get event sync status
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -92,7 +143,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -103,14 +161,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const action = body.action || 'create_link';
+    const validatedData = gvtewaySyncActionSchema.parse(body);
+    const action = validatedData.action || 'create_link';
 
     if (action === 'create_link') {
-      const { compvss_project_id, gvteway_event_id } = body;
-
-      if (!compvss_project_id || !gvteway_event_id) {
-        return NextResponse.json({ error: 'Both IDs required' }, { status: 400 });
-      }
+      const { compvss_project_id, gvteway_event_id } = validatedData as z.infer<typeof createLinkSchema>;
 
       const { data: link, error } = await supabase
         .from('cross_platform_links')
@@ -131,7 +186,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ link }, { status: 201 });
     } else if (action === 'sync_schedule') {
-      const { compvss_project_id, gvteway_event_id } = body;
+      const { compvss_project_id, gvteway_event_id } = validatedData as z.infer<typeof syncScheduleSchema>;
 
       // Get COMPVSS run of show
       const { data: runOfShow } = await supabase
@@ -173,7 +228,7 @@ export async function POST(request: NextRequest) {
         items_synced: runOfShow?.length || 0,
       });
     } else if (action === 'sync_venue') {
-      const { compvss_project_id, gvteway_event_id } = body;
+      const { compvss_project_id, gvteway_event_id } = validatedData as z.infer<typeof syncVenueSchema>;
 
       // Get COMPVSS venue info
       const { data: project } = await supabase
@@ -207,7 +262,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ success: true });
     } else if (action === 'sync_crew_to_event') {
-      const { compvss_project_id, gvteway_event_id } = body;
+      const { compvss_project_id, gvteway_event_id } = validatedData as z.infer<typeof syncCrewSchema>;
 
       // Get COMPVSS crew assignments
       const { data: crew } = await supabase
@@ -238,7 +293,7 @@ export async function POST(request: NextRequest) {
         staff_synced: crew?.length || 0,
       });
     } else if (action === 'pull_ticket_data') {
-      const { compvss_project_id, gvteway_event_id } = body;
+      const { compvss_project_id, gvteway_event_id } = validatedData as z.infer<typeof pullTicketDataSchema>;
 
       // Get ticket sales from GVTEWAY
       const { data: orders } = await supabase

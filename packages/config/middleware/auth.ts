@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { logger } from '../logger.js';
 
 export interface AuthMiddlewareConfig {
   requiredRoles?: string[];
@@ -96,7 +97,7 @@ export async function authenticateRequest(
       },
     };
   } catch (error) {
-    console.error('Auth middleware error:', error);
+    logger.error('Auth middleware error', { error: error instanceof Error ? error.message : String(error) });
     return { authenticated: false, user: null, error: 'Authentication failed' };
   }
 }

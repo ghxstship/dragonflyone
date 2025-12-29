@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -13,8 +14,22 @@ const UserRoleSchema = z.object({
   role_code: z.string().min(1),
 });
 
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     const { searchParams } = new URL(request.url);
     
@@ -59,23 +74,23 @@ export async function GET(request: NextRequest) {
       query = query.eq('platform_user_id', userId);
     }
 
-    const { data, error } = await query;
+    const { data: roleData, error: roleError } = await query;
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (roleError) {
+      return NextResponse.json({ error: roleError.message }, { status: 500 });
     }
 
-    const userRoles = data || [];
+    const fetchedRoles = roleData || [];
     const summary = {
-      total: userRoles.length,
-      by_role: userRoles.reduce((acc, ur) => {
+      total: fetchedRoles.length,
+      by_role: fetchedRoles.reduce((acc, ur) => {
         const code = ur.role_code;
         acc[code] = (acc[code] || 0) + 1;
         return acc;
       }, {} as Record<string, number>),
     };
 
-    return NextResponse.json({ user_roles: userRoles, summary });
+    return NextResponse.json({ user_roles: fetchedRoles, summary });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch roles' }, { status: 500 });
   }
@@ -83,6 +98,15 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     const body = await request.json();
     const validatedData = UserRoleSchema.parse(body);

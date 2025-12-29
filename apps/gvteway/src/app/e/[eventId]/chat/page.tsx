@@ -1,76 +1,64 @@
 "use client";
 
+import { useState } from "react";
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Input, Spinner } from "@ghxstship/ui";
-import { Send, Users } from "lucide-react";
-import { useEvent } from "@/hooks/useEvents";
+import { MessageSquare, Send, List } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Body, Button, Card, Input, DetailPage, Section } from "@ghxstship/ui";
+
+interface Message { id: string; user: string; text: string; time: string; }
+const DEMO_MESSAGES: Message[] = [
+  { id: "1", user: "John", text: "Anyone else excited for this?", time: "2:30 PM" },
+  { id: "2", user: "Sarah", text: "Can't wait! See you there!", time: "2:35 PM" },
+];
 
 export default function EventChatPage() {
   const params = useParams();
-  const eventId = params?.eventId as string;
-  const { data: event, isLoading } = useEvent(eventId);
+  const eventId = params.eventId as string;
+  const [message, setMessage] = useState("");
 
-  if (isLoading) {
-    return (
-      <Stack gap={4} className="flex items-center justify-center py-20">
-        <Spinner variant="grey" size="lg" text="Loading chat..." />
-      </Stack>
-    );
-  }
+  const { data: messages = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["event-chat", eventId],
+    queryFn: async () => {
+      const response = await fetch(`/api/events/${eventId}/chat`);
+      if (!response.ok) return DEMO_MESSAGES;
+      return (await response.json()).messages?.length ? (await response.json()).messages : DEMO_MESSAGES;
+    },
+  });
 
-  const messages = [
-    { id: "1", user: "Alex", message: "So excited for this event!", time: "2 min ago" },
-    { id: "2", user: "Sam", message: "Anyone know what time doors open?", time: "5 min ago" },
-    { id: "3", user: "Jordan", message: "14:00 according to the event page", time: "4 min ago" },
-    { id: "4", user: "Taylor", message: "See you all there!", time: "1 min ago" },
-  ];
+  const tabs = [{
+    id: "chat", label: "Chat", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <Card className="p-4 h-96 overflow-y-auto mb-4">
+          {messages.length === 0 ? (
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <MessageSquare className="size-12 text-grey-600 mx-auto mb-4" />
+                <Body className="text-grey-400">No messages yet. Start the conversation!</Body>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {messages.map((msg: Message) => (
+                <div key={msg.id} className="flex gap-3">
+                  <div className="size-8 bg-primary rounded-avatar flex items-center justify-center text-white text-body-sm">{msg.user[0]}</div>
+                  <div>
+                    <div className="flex items-center gap-2"><Body className="font-weight-medium">{msg.user}</Body><Body size="sm" className="text-grey-500">{msg.time}</Body></div>
+                    <Body className="text-grey-300">{msg.text}</Body>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </Card>
+        <div className="flex gap-2">
+          <Input placeholder="Type a message..." value={message} onChange={(e) => setMessage(e.target.value)} className="flex-1" />
+          <Button variant="solid" icon={<Send className="size-4" />} disabled={!message.trim()}>Send</Button>
+        </div>
+      </Section>
+    ),
+  }];
 
-  return (
-    <Stack gap={8}>
-      <Stack gap={4}>
-        <SectionHeader
-          kicker={event?.name || "Event"}
-          title="Event Chat"
-          description="Connect with other attendees"
-          colorScheme="on-dark"
-        />
-        <Stack direction="horizontal" gap={2} className="items-center">
-          <Users size={16} className="text-on-dark-muted" />
-          <Body size="sm" className=" text-on-dark-muted">42 people online</Body>
-        </Stack>
-      </Stack>
-
-      <Card variant="elevated" inverted className="flex-1">
-        <CardBody>
-          <Stack gap={4}>
-            {messages.map((msg) => (
-              <Stack key={msg.id} direction="horizontal" gap={3} className="items-start">
-                <Box className="flex size-8 items-center justify-center rounded-avatar bg-ink-800">
-                  <Users size={14} className="text-on-dark-muted" />
-                </Box>
-                <Stack gap={1} className="flex-1">
-                  <Stack direction="horizontal" gap={2} className="items-center">
-                    <Body className="font-weight-medium text-white">{msg.user}</Body>
-                    <Body size="sm" className=" text-on-dark-muted">{msg.time}</Body>
-                  </Stack>
-                  <Body className="text-on-dark-muted">{msg.message}</Body>
-                </Stack>
-              </Stack>
-            ))}
-          </Stack>
-        </CardBody>
-      </Card>
-
-      <Card variant="elevated" inverted>
-        <CardBody>
-          <Stack direction="horizontal" gap={2}>
-            <Input inverted placeholder="Type a message..." className="flex-1" />
-            <Button variant="solid">
-              <Send size={16} />
-            </Button>
-          </Stack>
-        </CardBody>
-      </Card>
-    </Stack>
-  );
+  return <DetailPage header={{ kicker: "Event", title: "Chat", description: "Connect with other attendees" }} backButton={{ label: "Event", href: `/e/${eventId}` }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} />;
 }

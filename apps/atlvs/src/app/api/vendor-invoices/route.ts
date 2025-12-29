@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
@@ -26,8 +26,57 @@ const createInvoiceSchema = z.object({
   notes: z.string().optional(),
 });
 
+interface VendorInvoice {
+  id: string;
+  organization_id: string;
+  vendor_profile_id: string;
+  purchase_order_id: string | null;
+  vendor_order_id: string | null;
+  invoice_number: string;
+  vendor_invoice_number: string | null;
+  invoice_date: string;
+  due_date: string;
+  payment_terms: string | null;
+  line_items: Array<{
+    description: string;
+    quantity: number;
+    unit_price: number;
+    total: number;
+    category?: string;
+  }>;
+  subtotal: number;
+  tax_amount: number;
+  discount_amount: number;
+  shipping_amount: number;
+  total: number;
+  amount_due: number;
+  notes: string | null;
+  status: string;
+  payment_status: string;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+  vendor?: { id: string; name: string; logo_url: string | null };
+  purchase_order?: { id: string; po_number: string } | null;
+  vendor_order?: { id: string; order_number: string } | null;
+}
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
@@ -43,9 +92,8 @@ export async function GET(request: NextRequest) {
     const dueBefore = searchParams.get('due_before');
     const dueAfter = searchParams.get('due_after');
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let query = (supabase
-      .from('vendor_invoices') as any)
+    let query = supabase
+      .from('vendor_invoices')
       .select(`
         *,
         vendor:vendor_profiles(id, name, logo_url),
@@ -81,7 +129,6 @@ export async function GET(request: NextRequest) {
     const { data: invoices, error } = await query;
 
     if (error) {
-      console.error('Error fetching vendor invoices:', error);
       return NextResponse.json({ error: 'Failed to fetch invoices' }, { status: 500 });
     }
 
@@ -96,7 +143,7 @@ export async function GET(request: NextRequest) {
       total_outstanding: 0,
     };
 
-    (invoices as any[])?.forEach((invoice) => {
+    (invoices as VendorInvoice[])?.forEach((invoice) => {
       if (invoice.payment_status !== 'paid') {
         const dueDate = new Date(invoice.due_date);
         const daysPastDue = Math.floor((today.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24));
@@ -118,14 +165,22 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json({ invoices, aging });
-  } catch (error) {
-    console.error('Error in GET /api/vendor-invoices:', error);
+  } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
@@ -145,31 +200,31 @@ export async function POST(request: NextRequest) {
 
     const input = validationResult.data;
 
-    // Get organization from user's membership
-    const { data: membership } = await (supabase
-      .from('organization_members') as any)
-      .select('organization_id')
-      .eq('user_id', user.id)
-      .single() as { data: { organization_id: string } | null };
+    // Get organization from platform_users table
+    const { data: platformUser } = await supabase
+      .from('platform_users')
+      .select('id, organization_id')
+      .eq('auth_user_id', user.id)
+      .single();
 
-    if (!membership) {
+    if (!platformUser?.organization_id) {
       return NextResponse.json({ error: 'No organization found' }, { status: 400 });
     }
 
     // Generate invoice number
-    const { data: invoiceCount } = await (supabase
-      .from('vendor_invoices') as any)
+    const { data: invoiceCount } = await supabase
+      .from('vendor_invoices')
       .select('id', { count: 'exact' })
-      .eq('organization_id', membership.organization_id);
+      .eq('organization_id', platformUser.organization_id);
 
     const year = new Date().getFullYear().toString().slice(-2);
     const nextNum = ((invoiceCount?.length || 0) + 1).toString().padStart(5, '0');
     const invoiceNumber = `VINV${year}${nextNum}`;
 
-    const { data: invoice, error } = await (supabase
-      .from('vendor_invoices') as any)
+    const { data: invoice, error } = await supabase
+      .from('vendor_invoices')
       .insert({
-        organization_id: membership.organization_id,
+        organization_id: platformUser.organization_id,
         vendor_profile_id: input.vendor_profile_id,
         purchase_order_id: input.purchase_order_id,
         vendor_order_id: input.vendor_order_id,
@@ -193,13 +248,11 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating vendor invoice:', error);
       return NextResponse.json({ error: 'Failed to create invoice' }, { status: 500 });
     }
 
     return NextResponse.json({ invoice }, { status: 201 });
-  } catch (error) {
-    console.error('Error in POST /api/vendor-invoices:', error);
+  } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -5,36 +5,80 @@ import {
   Users,
   DollarSign,
   FileText,
-  Shield,
   BarChart3,
   Settings,
   Plug,
   Calendar,
   MapPin,
-  Briefcase,
   Target,
-  TrendingUp,
-  Receipt,
-  Wallet,
-  Scale,
-  FileCheck,
-  Megaphone,
-  Lightbulb,
   Key,
   FileSearch,
   Database,
   PieChart,
-  UserPlus,
   Handshake,
   Package,
   Truck,
-  AlertTriangle,
-  Flag,
   Layers,
   Sparkles,
+  FileCheck,
 } from 'lucide-react';
 
-import type { NavigationConfig, NavSection } from '@ghxstship/ui/navigation';
+import type { LucideIcon } from 'lucide-react';
+
+// Navigation types - matching the UI package's navigation types
+type NavigationContextLevel = 'platform' | 'event';
+type PlatformRole = 
+  | 'super_admin'
+  | 'org_admin'
+  | 'finance_director'
+  | 'production_manager'
+  | 'sales_director'
+  | 'operations_director'
+  | 'marketing_director'
+  | 'hr_director'
+  | 'member';
+
+type EventRole =
+  | 'executive_producer'
+  | 'production_manager'
+  | 'finance_manager'
+  | 'operations_manager'
+  | 'marketing_manager'
+  | 'department_head'
+  | 'crew_lead'
+  | 'crew_member'
+  | 'vendor'
+  | 'stakeholder'
+  | 'viewer';
+
+interface NavItem {
+  id: string;
+  label: string;
+  href?: string;
+  icon?: LucideIcon;
+  children?: NavItem[];
+  platformRoles?: PlatformRole[];
+  eventRoles?: EventRole[];
+  contextLevel: NavigationContextLevel | 'both';
+  description?: string;
+  shortcut?: string;
+}
+
+interface NavSection {
+  id: string;
+  title: string;
+  items: NavItem[];
+  collapsible?: boolean;
+  defaultCollapsed?: boolean;
+}
+
+interface NavigationConfig {
+  app: 'atlvs' | 'compvss' | 'gvteway';
+  platformNav: NavSection[];
+  eventNav: NavSection[];
+  quickActions?: NavItem[];
+  footerNav?: NavItem[];
+}
 
 /**
  * ATLVS Navigation Configuration
@@ -111,7 +155,7 @@ const platformNav: NavSection[] = [
       {
         id: 'org-team',
         label: 'Team Members',
-        href: '/employees',
+        href: '/people?type=employee',
         icon: Users,
         contextLevel: 'platform',
         platformRoles: ['super_admin', 'org_admin', 'hr_director'],
@@ -140,36 +184,13 @@ const platformNav: NavSection[] = [
     collapsible: true,
     items: [
       {
-        id: 'billing',
-        label: 'Billing',
-        href: '/billing',
-        icon: Receipt,
+        id: 'finance-dashboard',
+        label: 'Finance Dashboard',
+        href: '/finance',
+        icon: DollarSign,
         contextLevel: 'platform',
         platformRoles: ['super_admin', 'org_admin', 'finance_director'],
-      },
-      {
-        id: 'revenue-recognition',
-        label: 'Revenue Recognition',
-        href: '/revenue-recognition',
-        icon: TrendingUp,
-        contextLevel: 'platform',
-        platformRoles: ['super_admin', 'finance_director'],
-      },
-      {
-        id: 'taxes',
-        label: 'Taxes',
-        href: '/taxes',
-        icon: FileCheck,
-        contextLevel: 'platform',
-        platformRoles: ['super_admin', 'finance_director'],
-      },
-      {
-        id: 'payroll',
-        label: 'Payroll',
-        href: '/payroll',
-        icon: Wallet,
-        contextLevel: 'platform',
-        platformRoles: ['super_admin', 'finance_director', 'hr_director'],
+        description: 'Unified finance management',
       },
     ],
   },
@@ -179,33 +200,34 @@ const platformNav: NavSection[] = [
     collapsible: true,
     items: [
       {
-        id: 'contacts',
-        label: 'Contacts',
-        href: '/contacts',
+        id: 'people',
+        label: 'People',
+        href: '/people',
         icon: Users,
         contextLevel: 'platform',
+        description: 'Unified people management (contacts, employees, crew, artists)',
       },
       {
-        id: 'leads',
-        label: 'Leads',
-        href: '/leads',
-        icon: UserPlus,
+        id: 'organizations',
+        label: 'Organizations',
+        href: '/organizations',
+        icon: Building2,
         contextLevel: 'platform',
-        platformRoles: ['super_admin', 'org_admin', 'sales_director'],
+        description: 'Unified organization management (vendors, clients, sponsors, partners)',
+      },
+      {
+        id: 'places',
+        label: 'Places',
+        href: '/places',
+        icon: MapPin,
+        contextLevel: 'platform',
+        description: 'Unified location management (venues, spaces, warehouses)',
       },
       {
         id: 'deals',
         label: 'Deals',
         href: '/deals',
         icon: Handshake,
-        contextLevel: 'platform',
-        platformRoles: ['super_admin', 'org_admin', 'sales_director'],
-      },
-      {
-        id: 'pipeline',
-        label: 'Pipeline',
-        href: '/pipeline',
-        icon: Target,
         contextLevel: 'platform',
         platformRoles: ['super_admin', 'org_admin', 'sales_director'],
       },
@@ -337,14 +359,6 @@ const platformNav: NavSection[] = [
         icon: Settings,
         contextLevel: 'platform',
       },
-      {
-        id: 'settings-audit',
-        label: 'Audit Log',
-        href: '/audit',
-        icon: FileSearch,
-        contextLevel: 'platform',
-        platformRoles: ['super_admin', 'org_admin'],
-      },
     ],
   },
 ];
@@ -361,7 +375,7 @@ const eventNav: NavSection[] = [
       {
         id: 'production-overview',
         label: 'Overview',
-        href: '/p/:productionId',
+        href: '/p/:productionId/overview',
         icon: LayoutDashboard,
         contextLevel: 'event',
         description: 'Production dashboard',
@@ -380,32 +394,7 @@ const eventNav: NavSection[] = [
         href: '/p/:productionId/schedule',
         icon: Calendar,
         contextLevel: 'event',
-        children: [
-          {
-            id: 'schedule-timeline',
-            label: 'Timeline',
-            href: '/p/:productionId/schedule',
-            contextLevel: 'event',
-          },
-          {
-            id: 'schedule-tasks',
-            label: 'Tasks',
-            href: '/p/:productionId/schedule/tasks',
-            contextLevel: 'event',
-          },
-          {
-            id: 'schedule-contingencies',
-            label: 'Contingencies',
-            href: '/p/:productionId/schedule/contingencies',
-            contextLevel: 'event',
-          },
-          {
-            id: 'schedule-templates',
-            label: 'Templates',
-            href: '/p/:productionId/schedule/templates',
-            contextLevel: 'event',
-          },
-        ],
+        description: 'Timeline, tasks, contingencies (tab-based)',
       },
       {
         id: 'shows',
@@ -413,54 +402,15 @@ const eventNav: NavSection[] = [
         href: '/p/:productionId/shows',
         icon: Sparkles,
         contextLevel: 'event',
-        children: [
-          {
-            id: 'shows-run-of-show',
-            label: 'Run of Show',
-            href: '/p/:productionId/shows/run-of-show',
-            contextLevel: 'event',
-          },
-          {
-            id: 'shows-cues',
-            label: 'Cues',
-            href: '/p/:productionId/shows/cues',
-            contextLevel: 'event',
-          },
-        ],
+        description: 'Run of show, cues, set times (tab-based)',
       },
       {
-        id: 'venues',
-        label: 'Venues',
-        href: '/p/:productionId/venues',
-        icon: MapPin,
-        contextLevel: 'event',
-        children: [
-          {
-            id: 'venues-locations',
-            label: 'Locations',
-            href: '/p/:productionId/venues',
-            contextLevel: 'event',
-          },
-          {
-            id: 'venues-zones',
-            label: 'Zones',
-            href: '/p/:productionId/venues/zones',
-            contextLevel: 'event',
-          },
-          {
-            id: 'venues-maps',
-            label: 'Maps',
-            href: '/p/:productionId/venues/maps',
-            contextLevel: 'event',
-          },
-        ],
-      },
-      {
-        id: 'alignment',
-        label: 'Alignment',
-        href: '/p/:productionId/alignment',
+        id: 'advancing',
+        label: 'Advancing',
+        href: '/p/:productionId/advancing',
         icon: Target,
         contextLevel: 'event',
+        description: 'Allocations, fulfillment, history (tab-based)',
       },
     ],
   },
@@ -475,27 +425,7 @@ const eventNav: NavSection[] = [
         href: '/p/:productionId/team',
         icon: Users,
         contextLevel: 'event',
-        children: [
-          {
-            id: 'team-assignments',
-            label: 'Assignments',
-            href: '/p/:productionId/team/assignments',
-            contextLevel: 'event',
-          },
-          {
-            id: 'team-training',
-            label: 'Training',
-            href: '/p/:productionId/team/training',
-            contextLevel: 'event',
-          },
-        ],
-      },
-      {
-        id: 'stakeholders',
-        label: 'Stakeholders',
-        href: '/p/:productionId/stakeholders',
-        icon: Briefcase,
-        contextLevel: 'event',
+        description: 'Assignments, training (tab-based)',
       },
       {
         id: 'vendors',
@@ -507,276 +437,32 @@ const eventNav: NavSection[] = [
     ],
   },
   {
-    id: 'finance',
-    title: 'Finance',
-    collapsible: true,
-    items: [
-      {
-        id: 'budget',
-        label: 'Budget',
-        href: '/p/:productionId/budgets',
-        icon: DollarSign,
-        contextLevel: 'event',
-        eventRoles: ['executive_producer', 'production_manager', 'finance_manager'],
-        children: [
-          {
-            id: 'budget-overview',
-            label: 'Overview',
-            href: '/p/:productionId/budgets',
-            contextLevel: 'event',
-          },
-          {
-            id: 'budget-scenarios',
-            label: 'Scenarios',
-            href: '/p/:productionId/scenarios',
-            contextLevel: 'event',
-          },
-        ],
-      },
-      {
-        id: 'expenses',
-        label: 'Expenses',
-        href: '/p/:productionId/expenses',
-        icon: Receipt,
-        contextLevel: 'event',
-        children: [
-          {
-            id: 'expenses-submissions',
-            label: 'Submissions',
-            href: '/p/:productionId/expenses',
-            contextLevel: 'event',
-          },
-          {
-            id: 'expenses-categories',
-            label: 'Categories',
-            href: '/p/:productionId/expenses/categories',
-            contextLevel: 'event',
-          },
-          {
-            id: 'expenses-reports',
-            label: 'Reports',
-            href: '/p/:productionId/expenses/reports',
-            contextLevel: 'event',
-          },
-        ],
-      },
-      {
-        id: 'sponsors',
-        label: 'Sponsors',
-        href: '/p/:productionId/sponsors',
-        icon: Handshake,
-        contextLevel: 'event',
-        eventRoles: ['executive_producer', 'production_manager', 'finance_manager', 'marketing_manager'],
-        children: [
-          {
-            id: 'sponsors-list',
-            label: 'All Sponsors',
-            href: '/p/:productionId/sponsors',
-            contextLevel: 'event',
-          },
-          {
-            id: 'sponsors-tiers',
-            label: 'Tiers',
-            href: '/p/:productionId/sponsors/tiers',
-            contextLevel: 'event',
-          },
-          {
-            id: 'sponsors-deliverables',
-            label: 'Deliverables',
-            href: '/p/:productionId/sponsors/deliverables',
-            contextLevel: 'event',
-          },
-        ],
-      },
-      {
-        id: 'investors',
-        label: 'Investors',
-        href: '/p/:productionId/investors',
-        icon: TrendingUp,
-        contextLevel: 'event',
-        eventRoles: ['executive_producer', 'finance_manager'],
-        children: [
-          {
-            id: 'investors-list',
-            label: 'All Investors',
-            href: '/p/:productionId/investors',
-            contextLevel: 'event',
-          },
-          {
-            id: 'investors-rounds',
-            label: 'Rounds',
-            href: '/p/:productionId/investors/rounds',
-            contextLevel: 'event',
-          },
-        ],
-      },
-      {
-        id: 'invoices',
-        label: 'Invoices',
-        href: '/p/:productionId/invoices',
-        icon: FileText,
-        contextLevel: 'event',
-        eventRoles: ['executive_producer', 'production_manager', 'finance_manager'],
-      },
-      {
-        id: 'contracts',
-        label: 'Contracts',
-        href: '/p/:productionId/contracts',
-        icon: FileCheck,
-        contextLevel: 'event',
-      },
-      {
-        id: 'procurement',
-        label: 'Procurement',
-        href: '/p/:productionId/procurement',
-        icon: Package,
-        contextLevel: 'event',
-        children: [
-          {
-            id: 'procurement-rfps',
-            label: 'RFPs',
-            href: '/p/:productionId/rfp',
-            contextLevel: 'event',
-          },
-          {
-            id: 'procurement-quotes',
-            label: 'Quotes',
-            href: '/p/:productionId/quotes',
-            contextLevel: 'event',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'compliance',
-    title: 'Compliance',
-    collapsible: true,
-    items: [
-      {
-        id: 'permits',
-        label: 'Permits',
-        href: '/p/:productionId/permits',
-        icon: FileCheck,
-        contextLevel: 'event',
-      },
-      {
-        id: 'insurance',
-        label: 'Insurance',
-        href: '/p/:productionId/insurance',
-        icon: Shield,
-        contextLevel: 'event',
-      },
-      {
-        id: 'legal',
-        label: 'Legal',
-        href: '/p/:productionId/legal',
-        icon: Scale,
-        contextLevel: 'event',
-        eventRoles: ['executive_producer', 'production_manager'],
-      },
-      {
-        id: 'governance',
-        label: 'Governance',
-        href: '/p/:productionId/governance',
-        icon: Flag,
-        contextLevel: 'event',
-        eventRoles: ['executive_producer'],
-      },
-      {
-        id: 'risks',
-        label: 'Risks',
-        href: '/p/:productionId/risks',
-        icon: AlertTriangle,
-        contextLevel: 'event',
-      },
-    ],
-  },
-  {
-    id: 'marketing',
-    title: 'Marketing',
-    collapsible: true,
-    items: [
-      {
-        id: 'marketing-campaigns',
-        label: 'Campaigns',
-        href: '/p/:productionId/marketing',
-        icon: Megaphone,
-        contextLevel: 'event',
-        eventRoles: ['executive_producer', 'marketing_manager'],
-      },
-      {
-        id: 'marketing-partnerships',
-        label: 'Partnerships',
-        href: '/p/:productionId/partnerships',
-        icon: Handshake,
-        contextLevel: 'event',
-      },
-      {
-        id: 'marketing-ip',
-        label: 'IP Tracking',
-        href: '/p/:productionId/ip-tracking',
-        icon: Lightbulb,
-        contextLevel: 'event',
-        eventRoles: ['executive_producer', 'marketing_manager'],
-      },
-    ],
-  },
-  {
-    id: 'metrics',
-    title: 'Metrics',
-    collapsible: true,
-    items: [
-      {
-        id: 'metrics-dashboard',
-        label: 'Dashboard',
-        href: '/p/:productionId/metrics',
-        icon: BarChart3,
-        contextLevel: 'event',
-      },
-      {
-        id: 'metrics-kpis',
-        label: 'KPIs',
-        href: '/p/:productionId/metrics/kpis',
-        icon: Target,
-        contextLevel: 'event',
-      },
-      {
-        id: 'metrics-reports',
-        label: 'Reports',
-        href: '/p/:productionId/metrics/reports',
-        icon: FileText,
-        contextLevel: 'event',
-      },
-      {
-        id: 'metrics-okrs',
-        label: 'OKRs',
-        href: '/p/:productionId/okrs',
-        icon: Flag,
-        contextLevel: 'event',
-        eventRoles: ['executive_producer', 'production_manager'],
-      },
-    ],
-  },
-  {
     id: 'documents',
     title: 'Documents',
     collapsible: true,
     items: [
       {
         id: 'documents-files',
-        label: 'Files',
+        label: 'Documents',
         href: '/p/:productionId/documents',
         icon: FileText,
         contextLevel: 'event',
+        description: 'Contracts, permits, insurance (tab-based)',
       },
+    ],
+  },
+  {
+    id: 'wrap',
+    title: 'Wrap',
+    collapsible: true,
+    items: [
       {
-        id: 'documents-generator',
-        label: 'Generator',
-        href: '/p/:productionId/generator',
-        icon: Sparkles,
+        id: 'wrap',
+        label: 'Wrap',
+        href: '/p/:productionId/wrap',
+        icon: FileCheck,
         contextLevel: 'event',
-        description: 'AI Experience Generator',
+        description: 'Post-production wrap-up',
       },
     ],
   },

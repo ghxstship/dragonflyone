@@ -11,8 +11,6 @@ import {
   Grid,
   Stack,
   Body,
-  EnterprisePageHeader,
-  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -110,15 +108,7 @@ export default function TravelPage() {
 
   return (
     <>
-      <EnterprisePageHeader
-        title="Travel Coordination"
-        subtitle="Manage crew flights, accommodations, and travel logistics"
-primaryAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new') }}
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <ListPage<TravelBooking>
+      <ListPage<TravelBooking>
           title="Travel Coordination"
           subtitle="Manage crew flights, accommodations, and travel logistics"
           data={bookings}
@@ -139,7 +129,7 @@ primaryAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new')
           importSampleFields={['booking_reference', 'crew_member_name', 'departure_date', 'origin', 'destination', 'cost']}
           onExport={createExportHandler({
             filename: "travel-bookings",
-            getData: () => bookings.map(b => ({
+            getData: () => bookings.map((b: TravelBooking) => ({
               id: b.id,
               booking_reference: b.booking_reference,
               crew_member_name: b.crew_member_name,
@@ -174,12 +164,13 @@ primaryAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new')
               refetch();
             }
           }}
-          bulkActions={[
-            { id: 'cancel', label: 'Cancel Selected', variant: 'default' },
-            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
-          ]}
-        />
-      </MainContent>
+        bulkActions={[
+          { id: 'cancel', label: 'Cancel Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
+        showFavorite
+        showSettings
+      />
       {selectedBooking && (
         <DetailDrawer
           open={drawerOpen}

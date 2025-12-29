@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -7,17 +7,19 @@ import { useInvoices, useCreateInvoice, invoiceKeys } from '../useInvoices';
 // Mock fetch
 global.fetch = vi.fn();
 
-const createWrapper = (): (({ children }: { children: ReactNode }) => JSX.Element) => {
-  const queryClient = new QueryClient({
+function createTestQueryClient() {
+  return new QueryClient({
     defaultOptions: {
       queries: { retry: false },
       mutations: { retry: false },
     },
   });
-  return function TestWrapper({ children }: { children: ReactNode }) {
-    return React.createElement(QueryClientProvider, { client: queryClient }, children);
-  };
-};
+}
+
+function TestWrapper({ children }: { children: React.ReactNode }) {
+  const queryClient = createTestQueryClient();
+  return React.createElement(QueryClientProvider, { client: queryClient }, children);
+}
 
 describe('useInvoices', () => {
   beforeEach(() => {
@@ -39,37 +41,37 @@ describe('useInvoices', () => {
   });
 
   describe('useInvoices hook', () => {
-    it('should return demo data on 401 response', async () => {
+    it('should handle 401 response as error', async () => {
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         status: 401,
         ok: false,
+        json: () => Promise.resolve({ error: 'Unauthorized' }),
       });
 
-      const { result } = renderHook(() => useInvoices(), { wrapper: createWrapper() });
+      const { result } = renderHook(() => useInvoices(), { wrapper: TestWrapper });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBe(true);
+        expect(result.current.isError).toBe(true);
       });
 
-      expect(result.current.data).toBeDefined();
-      expect(result.current.data?.length).toBeGreaterThan(0);
+      expect(result.current.error).toBeDefined();
     });
 
     it('should return loading state initially', () => {
       (global.fetch as ReturnType<typeof vi.fn>).mockImplementationOnce(() => new Promise(() => {}));
-      const { result } = renderHook(() => useInvoices(), { wrapper: createWrapper() });
+      const { result } = renderHook(() => useInvoices(), { wrapper: TestWrapper });
       expect(result.current.isLoading).toBe(true);
     });
   });
 
   describe('useCreateInvoice hook', () => {
     it('should have mutate function', () => {
-      const { result } = renderHook(() => useCreateInvoice(), { wrapper: createWrapper() });
+      const { result } = renderHook(() => useCreateInvoice(), { wrapper: TestWrapper });
       expect(typeof result.current.mutate).toBe('function');
     });
 
     it('should have mutateAsync function', () => {
-      const { result } = renderHook(() => useCreateInvoice(), { wrapper: createWrapper() });
+      const { result } = renderHook(() => useCreateInvoice(), { wrapper: TestWrapper });
       expect(typeof result.current.mutateAsync).toBe('function');
     });
   });

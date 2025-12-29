@@ -1,312 +1,161 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import {
-  SectionHeader,
-  Card,
-  CardBody,
-  Stack,
-  StatCard,
-  Button,
-  Badge,
-  Grid,
-  Box,
-  Body,
-  H3,
-  Spinner,
-  EmptyState,
-} from "@ghxstship/ui";
-import {
-  Calendar,
-  Users,
-  DollarSign,
-  CheckCircle,
-  Clock,
-  AlertTriangle,
-  MapPin,
-  TrendingUp,
-  FileText,
-  Package,
-  RefreshCw,
-} from "lucide-react";
-import { useProduction } from "../../../../hooks/useProductions";
-import { atlvsDemoProductions, type ProductionContext } from "../../../../data/atlvs";
+/**
+ * Production Overview Page
+ * Production dashboard and summary
+ * Uses DetailPage template for consistent layout
+ */
 
-interface DisplayProduction {
+import { useParams, useRouter } from "next/navigation";
+import { Calendar, Users, FileText, DollarSign, Clock, CheckCircle, AlertCircle, List, Activity } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  ProgressBar,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
+
+interface Production {
   id: string;
   name: string;
   status: string;
-  venue?: string;
-  startDate?: string;
-  endDate?: string;
+  start_date: string;
+  end_date: string;
+  budget: number;
+  spent: number;
+  team_count: number;
+  tasks_total: number;
+  tasks_completed: number;
 }
 
-function normalizeProduction(apiProd: { id: string; title: string; status: string; venue_name?: string; opening_date?: string; closing_date?: string } | null, demoProd: ProductionContext | undefined): DisplayProduction | null {
-  if (apiProd) {
-    return {
-      id: apiProd.id,
-      name: apiProd.title,
-      status: apiProd.status,
-      venue: apiProd.venue_name,
-      startDate: apiProd.opening_date,
-      endDate: apiProd.closing_date,
-    };
-  }
-  if (demoProd) {
-    return {
-      id: demoProd.id,
-      name: demoProd.name,
-      status: demoProd.status,
-      venue: demoProd.venue,
-      startDate: demoProd.startDate,
-      endDate: demoProd.endDate,
-    };
-  }
-  return null;
-}
-
-/**
- * Production Overview Page
- * Dashboard for a specific production showing key metrics and quick actions
- */
 export default function ProductionOverviewPage() {
   const params = useParams();
   const router = useRouter();
-  const productionId = params?.productionId as string;
-  
-  // Fetch production from API with React Query
-  const { data: apiProduction, isLoading, error, refetch } = useProduction(productionId);
-  
-  // Fallback to demo data if API returns nothing
-  const demoProduction = atlvsDemoProductions.find((p) => p.id === productionId);
-  const production = normalizeProduction(apiProduction || null, demoProduction);
-  
-  if (isLoading) {
-    return (
-      <Stack className="flex min-h-[400px] items-center justify-center">
-        <Spinner size="lg" />
-        <Body className="text-on-dark-muted">Loading production...</Body>
-      </Stack>
-    );
-  }
+  const productionId = params.productionId as string;
 
-  if (error && !demoProduction) {
-    return (
-      <EmptyState
-        icon={<RefreshCw size={48} />}
-        title="Failed to load production"
-        description={error.message}
-        action={{ label: "Retry", onClick: () => refetch() }}
-      />
-    );
-  }
-  
-  if (!production) {
-    return (
-      <EmptyState
-        icon={<AlertTriangle size={48} />}
-        title="Production Not Found"
-        description="The requested production could not be found."
-        action={{ label: "Back to Productions", onClick: () => router.push("/productions") }}
-      />
-    );
-  }
+  const { data: production, isLoading, error, refetch } = useQuery({
+    queryKey: ["production", productionId],
+    queryFn: async () => {
+      const response = await fetch(`/api/productions/${productionId}`);
+      if (!response.ok) throw new Error("Failed to fetch production");
+      return response.json() as Promise<Production>;
+    },
+  });
 
-  // Mock metrics for the production
-  const metrics = {
-    budget: { total: 250000, spent: 175000, remaining: 75000 },
-    tasks: { total: 48, completed: 32, inProgress: 12, overdue: 4 },
-    team: { total: 24, confirmed: 20, pending: 4 },
-    advances: { pending: 8, approved: 15, fulfilled: 12 },
-  };
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(amount);
 
-  const budgetPercentage = Math.round((metrics.budget.spent / metrics.budget.total) * 100);
-  const taskPercentage = Math.round((metrics.tasks.completed / metrics.tasks.total) * 100);
+  const taskProgress = production ? (production.tasks_completed / production.tasks_total) * 100 : 0;
+  const budgetProgress = production ? (production.spent / production.budget) * 100 : 0;
+
+  const tabs = [
+    {
+      id: "overview",
+      label: "Overview",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+            <StatCard label="Team Members" value={production?.team_count?.toString() || "0"} icon={<Users className="size-5" />} />
+            <StatCard label="Tasks" value={`${production?.tasks_completed || 0}/${production?.tasks_total || 0}`} icon={<CheckCircle className="size-5" />} />
+            <StatCard label="Budget" value={formatCurrency(production?.budget || 0)} icon={<DollarSign className="size-5" />} />
+            <StatCard label="Days Left" value={production ? Math.max(0, Math.ceil((new Date(production.end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24))).toString() : "0"} icon={<Clock className="size-5" />} />
+          </Grid>
+
+          <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
+            <Card className="p-6">
+              <SectionHeader title="Task Progress" />
+              <div className="mt-4">
+                <div className="flex justify-between mb-2">
+                  <Body size="sm" className="text-grey-400">{production?.tasks_completed || 0} of {production?.tasks_total || 0} tasks completed</Body>
+                  <Body size="sm" className="font-weight-medium">{Math.round(taskProgress)}%</Body>
+                </div>
+                <ProgressBar value={taskProgress} size="lg" />
+              </div>
+              <Button variant="outline" className="mt-4" onClick={() => router.push(`/p/${productionId}/schedule`)}>View Schedule</Button>
+            </Card>
+
+            <Card className="p-6">
+              <SectionHeader title="Budget Status" />
+              <div className="mt-4">
+                <div className="flex justify-between mb-2">
+                  <Body size="sm" className="text-grey-400">{formatCurrency(production?.spent || 0)} of {formatCurrency(production?.budget || 0)} spent</Body>
+                  <Body size="sm" className="font-weight-medium">{Math.round(budgetProgress)}%</Body>
+                </div>
+                <ProgressBar value={budgetProgress} size="lg" variant={budgetProgress > 90 ? "error" : budgetProgress > 75 ? "warning" : "default"} />
+              </div>
+              <Button variant="outline" className="mt-4" onClick={() => router.push(`/finance/budgets`)}>View Budget</Button>
+            </Card>
+          </Grid>
+
+          <Card className="p-6 mt-6">
+            <SectionHeader title="Quick Actions" />
+            <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mt-4">
+              <Button variant="outline" onClick={() => router.push(`/p/${productionId}/schedule`)} icon={<Calendar className="size-4" />} iconPosition="left">Schedule</Button>
+              <Button variant="outline" onClick={() => router.push(`/p/${productionId}/team`)} icon={<Users className="size-4" />} iconPosition="left">Team</Button>
+              <Button variant="outline" onClick={() => router.push(`/p/${productionId}/documents`)} icon={<FileText className="size-4" />} iconPosition="left">Documents</Button>
+              <Button variant="outline" onClick={() => router.push(`/p/${productionId}/vendors`)} icon={<DollarSign className="size-4" />} iconPosition="left">Vendors</Button>
+            </Grid>
+          </Card>
+        </Section>
+      ),
+    },
+    {
+      id: "activity",
+      label: "Activity",
+      icon: <Activity className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Recent Activity" description="Latest updates on this production" />
+          <div className="space-y-4 mt-4">
+            {[
+              { action: "Task completed", detail: "Stage setup finalized", time: "2 hours ago", icon: <CheckCircle className="size-4 text-success" /> },
+              { action: "Document uploaded", detail: "Vendor contract signed", time: "4 hours ago", icon: <FileText className="size-4 text-info" /> },
+              { action: "Team member added", detail: "John Smith joined as Stage Manager", time: "1 day ago", icon: <Users className="size-4 text-primary" /> },
+              { action: "Budget updated", detail: "Lighting budget increased", time: "2 days ago", icon: <DollarSign className="size-4 text-warning" /> },
+            ].map((activity, idx) => (
+              <Card key={idx} className="p-4">
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-grey-800 rounded-card">{activity.icon}</div>
+                  <div className="flex-1">
+                    <Body className="font-weight-medium">{activity.action}</Body>
+                    <Body size="sm" className="text-grey-400">{activity.detail}</Body>
+                  </div>
+                  <Body size="sm" className="text-grey-500">{activity.time}</Body>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <Stack gap={8}>
-      {/* Header */}
-      <Stack gap={4}>
-        <SectionHeader
-          kicker="Production"
-          title={production.name}
-          description={`${production.venue} | ${production.startDate} - ${production.endDate}`}
-          colorScheme="on-dark"
-        />
-        <Stack direction="horizontal" gap={2} className="flex-wrap">
-          <Badge variant={production.status === "active" ? "success" : "info"}>
-            {production.status.toUpperCase()}
-          </Badge>
-          <Badge variant="outline">
-            <MapPin size={12} className="mr-1" />
-            {production.venue}
-          </Badge>
-          <Badge variant="outline">
-            <Calendar size={12} className="mr-1" />
-            {new Date(production.startDate || "").toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </Badge>
-        </Stack>
-      </Stack>
-
-      {/* Key Metrics */}
-      <Grid cols={1} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          label="Budget"
-          value={`$${(metrics.budget.spent / 1000).toFixed(0)}K`}
-          icon={<DollarSign size={20} />}
-          trend={budgetPercentage > 80 ? "down" : "up"}
-          trendValue={`${100 - budgetPercentage}% remaining`}
-          inverted
-        />
-        <StatCard
-          label="Tasks"
-          value={`${metrics.tasks.completed}/${metrics.tasks.total}`}
-          icon={<CheckCircle size={20} />}
-          trend="up"
-          trendValue={`${taskPercentage}% complete`}
-          inverted
-        />
-        <StatCard
-          label="Team"
-          value={metrics.team.confirmed.toString()}
-          icon={<Users size={20} />}
-          trend={metrics.team.pending > 0 ? "neutral" : "up"}
-          trendValue={`${metrics.team.pending} pending`}
-          inverted
-        />
-        <StatCard
-          label="Advances"
-          value={metrics.advances.pending.toString()}
-          icon={<Package size={20} />}
-          trend={metrics.advances.pending > 5 ? "down" : "neutral"}
-          trendValue={`${metrics.advances.approved} approved`}
-          inverted
-        />
-      </Grid>
-
-      {/* Quick Actions & Alerts */}
-      <Grid cols={1} gap={6} className="lg:grid-cols-2">
-        {/* Quick Actions */}
-        <Card variant="elevated" inverted>
-          <CardBody>
-            <Stack gap={4}>
-              <H3 className="text-white">Quick Actions</H3>
-              <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
-                <Button variant="outline" size="sm" className="justify-start">
-                  <Calendar size={16} className="mr-2" />
-                  View Schedule
-                </Button>
-                <Button variant="outline" size="sm" className="justify-start">
-                  <Users size={16} className="mr-2" />
-                  Manage Team
-                </Button>
-                <Button variant="outline" size="sm" className="justify-start">
-                  <DollarSign size={16} className="mr-2" />
-                  Review Budget
-                </Button>
-                <Button variant="outline" size="sm" className="justify-start">
-                  <Package size={16} className="mr-2" />
-                  Process Advances
-                </Button>
-                <Button variant="outline" size="sm" className="justify-start">
-                  <FileText size={16} className="mr-2" />
-                  View Reports
-                </Button>
-                <Button variant="outline" size="sm" className="justify-start">
-                  <TrendingUp size={16} className="mr-2" />
-                  View Metrics
-                </Button>
-              </Grid>
-            </Stack>
-          </CardBody>
-        </Card>
-
-        {/* Alerts & Notifications */}
-        <Card variant="elevated" inverted>
-          <CardBody>
-            <Stack gap={4}>
-              <H3 className="text-white">Alerts</H3>
-              <Stack gap={3}>
-                {metrics.tasks.overdue > 0 && (
-                  <Box className="flex items-center gap-3 rounded border-2 border-error-500/30 bg-error-500/10 p-3">
-                    <AlertTriangle size={20} className="text-error-500" />
-                    <Box>
-                      <Body size="sm" className="font-weight-medium text-white">
-                        {metrics.tasks.overdue} Overdue Tasks
-                      </Body>
-                      <Body size="xs" className="text-on-dark-muted">
-                        Review and update task deadlines
-                      </Body>
-                    </Box>
-                  </Box>
-                )}
-                {metrics.advances.pending > 5 && (
-                  <Box className="flex items-center gap-3 rounded border-2 border-warning-500/30 bg-warning-500/10 p-3">
-                    <Clock size={20} className="text-warning-500" />
-                    <Box>
-                      <Body size="sm" className="font-weight-medium text-white">
-                        {metrics.advances.pending} Pending Advances
-                      </Body>
-                      <Body size="xs" className="text-on-dark-muted">
-                        Review advance requests from crew
-                      </Body>
-                    </Box>
-                  </Box>
-                )}
-                {metrics.team.pending > 0 && (
-                  <Box className="flex items-center gap-3 rounded border-2 border-primary-500/30 bg-primary-500/10 p-3">
-                    <Users size={20} className="text-primary-500" />
-                    <Box>
-                      <Body size="sm" className="font-weight-medium text-white">
-                        {metrics.team.pending} Pending Confirmations
-                      </Body>
-                      <Body size="xs" className="text-on-dark-muted">
-                        Follow up with unconfirmed team members
-                      </Body>
-                    </Box>
-                  </Box>
-                )}
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-      </Grid>
-
-      {/* Recent Activity */}
-      <Card variant="elevated" inverted>
-        <CardBody>
-          <Stack gap={4}>
-            <H3 className="text-white">Recent Activity</H3>
-            <Stack gap={2}>
-              {[
-                { action: "Task completed", detail: "Stage setup checklist", time: "2 hours ago", icon: CheckCircle },
-                { action: "Advance approved", detail: "Audio equipment rental", time: "4 hours ago", icon: Package },
-                { action: "Team member confirmed", detail: "John Smith - Stage Manager", time: "Yesterday", icon: Users },
-                { action: "Budget updated", detail: "Catering allocation increased", time: "Yesterday", icon: DollarSign },
-                { action: "Document uploaded", detail: "Venue floor plan v2", time: "2 days ago", icon: FileText },
-              ].map((activity, index) => (
-                <Box
-                  key={index}
-                  className="flex items-center gap-3 border-b border-ink-800 py-3 last:border-0"
-                >
-                  <Box className="flex size-8 items-center justify-center rounded bg-ink-800">
-                    <activity.icon size={16} className="text-ink-400" />
-                  </Box>
-                  <Box className="flex-1">
-                    <Body size="sm" className="font-weight-medium text-white">{activity.action}</Body>
-                    <Body size="xs" className="text-on-dark-muted">{activity.detail}</Body>
-                  </Box>
-                  <Body size="xs" className="text-ink-500">{activity.time}</Body>
-                </Box>
-              ))}
-            </Stack>
-          </Stack>
-        </CardBody>
-      </Card>
-    </Stack>
+    <DetailPage
+      header={{
+        kicker: "Production",
+        title: production?.name || "Loading...",
+        description: production ? `${formatDate(production.start_date)} - ${formatDate(production.end_date)}` : "",
+      }}
+      backButton={{ label: "Productions", href: "/projects" }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={
+        <div className="flex gap-2">
+          <Badge variant={production?.status === "active" ? "success" : "warning"}>{production?.status || "Loading"}</Badge>
+          <Button variant="outline" onClick={() => router.push(`/p/${productionId}/settings`)}>Settings</Button>
+        </div>
+      }
+    />
   );
 }

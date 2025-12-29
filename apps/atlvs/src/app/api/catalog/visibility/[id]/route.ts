@@ -1,8 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { log } from '@ghxstship/config';
+import { log, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const updateVisibilitySchema = z.object({
+  is_visible: z.boolean().optional(),
+  is_requestable: z.boolean().optional(),
+  requires_approval: z.boolean().optional(),
+  approval_role: z.string().optional(),
+  max_quantity_per_request: z.number().optional(),
+  max_value_per_request: z.number().optional(),
+  budget_period: z.string().optional(),
+  budget_limit: z.number().optional(),
+  notes: z.string().optional(),
+});
 
 export const dynamic = 'force-dynamic';
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function GET(
   request: NextRequest,
@@ -45,19 +63,20 @@ export async function PATCH(
   
   try {
     const payload = await request.json();
+    const validatedData = updateVisibilitySchema.parse(payload);
 
     const { data, error } = await supabase
       .from('catalog_visibility_settings')
       .update({
-        is_visible: payload.is_visible,
-        is_requestable: payload.is_requestable,
-        requires_approval: payload.requires_approval,
-        approval_role: payload.approval_role,
-        max_quantity_per_request: payload.max_quantity_per_request,
-        max_value_per_request: payload.max_value_per_request,
-        budget_period: payload.budget_period,
-        budget_limit: payload.budget_limit,
-        notes: payload.notes,
+        is_visible: validatedData.is_visible,
+        is_requestable: validatedData.is_requestable,
+        requires_approval: validatedData.requires_approval,
+        approval_role: validatedData.approval_role,
+        max_quantity_per_request: validatedData.max_quantity_per_request,
+        max_value_per_request: validatedData.max_value_per_request,
+        budget_period: validatedData.budget_period,
+        budget_limit: validatedData.budget_limit,
+        notes: validatedData.notes,
       })
       .eq('id', id)
       .select()

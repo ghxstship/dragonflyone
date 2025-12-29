@@ -1,313 +1,68 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import { GvtewayLoadingLayout } from '@/components/app-layout';
-import {
-  H2,
-  H3,
-  Body,
-  Button,
-  Card,
-  Textarea,
-  Grid,
-  Stack,
-  Alert,
-  Text,
-  Box,
-  Kicker,
-} from '@ghxstship/ui';
-import Image from 'next/image';
-import { useSurveyDetailData, type SurveyQuestion, type SurveyAnswer } from '@/hooks/useSurveyDetail';
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { CheckCircle, List } from "lucide-react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { Body, Button, Card, Textarea, DetailPage, Section } from "@ghxstship/ui";
+
+interface Question { id: string; text: string; type: "rating" | "text"; }
+interface Survey { id: string; title: string; description: string; questions: Question[]; }
+const DEMO: Survey = { id: "1", title: "Event Feedback", description: "Help us improve", questions: [{ id: "1", text: "How would you rate the event?", type: "rating" }, { id: "2", text: "Any suggestions?", type: "text" }] };
 
 export default function SurveyPage() {
-  const router = useRouter();
   const params = useParams();
+  const router = useRouter();
   const surveyId = params.id as string;
+  const [answers, setAnswers] = useState<Record<string, string | number>>({});
+  const [submitted, setSubmitted] = useState(false);
 
-  const [localError, setLocalError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [answers, setAnswers] = useState<Record<string, SurveyAnswer>>({});
-  const [currentStep, setCurrentStep] = useState(0);
+  const { data: survey = DEMO, isLoading, error, refetch } = useQuery({
+    queryKey: ["survey", surveyId],
+    queryFn: async () => { const r = await fetch(`/api/surveys/${surveyId}`); if (!r.ok) return DEMO; return (await r.json()).survey || DEMO; },
+  });
 
-  const {
-    survey,
-    isLoading: loading,
-    error,
-    submitSurvey,
-    isSubmitting: submitting,
-  } = useSurveyDetailData(surveyId);
+  const submitSurvey = useMutation({
+    mutationFn: async (data: Record<string, string | number>) => {
+      const r = await fetch(`/api/surveys/${surveyId}/submit`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ answers: data }) });
+      if (!r.ok) throw new Error("Failed to submit");
+      return r.json();
+    },
+    onSuccess: () => setSubmitted(true),
+  });
 
-  const handleSubmit = async () => {
-    if (!survey) return;
-
-    const unanswered = survey.questions.filter(
-      (q: SurveyQuestion) => q.required && !answers[q.id]
-    );
-
-    if (unanswered.length > 0) {
-      setLocalError('Please answer all required questions');
-      return;
-    }
-
-    setLocalError(null);
-
-    try {
-      await submitSurvey(answers);
-      setSuccess(true);
-    } catch (err) {
-      setLocalError(err instanceof Error ? err.message : 'Failed to submit survey');
-    }
-  };
-
-  const updateAnswer = (questionId: string, value: SurveyAnswer) => {
-    setAnswers(prev => ({ ...prev, [questionId]: value }));
-  };
-
-  const renderQuestion = (question: SurveyQuestion) => {
-    switch (question.type) {
-      case 'rating':
-        return (
-          <Stack direction="horizontal" gap={2}>
-            {[1, 2, 3, 4, 5].map(star => (
-              <Button
-                key={star}
-                type="button"
-                variant="ghost"
-                className={`text-h4-md p-2 ${
-                  star <= (answers[question.id] || 0) ? 'text-warning-500' : 'text-ink-600'
-                }`}
-                onClick={() => updateAnswer(question.id, star)}
-              >
-                ★
-              </Button>
-            ))}
-          </Stack>
-        );
-
-      case 'scale':
-        return (
-          <Stack gap={2}>
-            <Stack direction="horizontal" className="justify-between">
-              <Body size="sm" className=" text-ink-500">{question.min_label || '1'}</Body>
-              <Body size="sm" className=" text-ink-500">{question.max_label || '10'}</Body>
-            </Stack>
-            <Stack direction="horizontal" gap={1}>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
-                <Button
-                  key={num}
-                  type="button"
-                  variant={answers[question.id] === num ? 'solid' : 'outline'}
-                  size="sm"
-                  className="flex-1"
-                  onClick={() => updateAnswer(question.id, num)}
-                >
-                  {num}
-                </Button>
+  const tabs = [{
+    id: "survey", label: "Survey", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        {submitted ? (
+          <Card className="p-8 text-center">
+            <CheckCircle className="size-16 text-success mx-auto mb-4" />
+            <Body className="font-weight-bold mb-2">Thank You!</Body>
+            <Body className="text-grey-400 mb-4">Your feedback has been submitted</Body>
+            <Button variant="solid" onClick={() => router.push("/")}>Back to Home</Button>
+          </Card>
+        ) : (
+          <>
+            <Card className="p-6 mb-6"><Body className="text-grey-300">{survey.description}</Body></Card>
+            <div className="space-y-6">
+              {survey.questions.map((q: Question, idx: number) => (
+                <Card key={q.id} className="p-6">
+                  <Body className="font-weight-bold mb-4">{idx + 1}. {q.text}</Body>
+                  {q.type === "rating" ? (
+                    <div className="flex gap-2">{[1, 2, 3, 4, 5].map((n) => <Button key={n} variant={answers[q.id] === n ? "solid" : "outline"} onClick={() => setAnswers((prev) => ({ ...prev, [q.id]: n }))}>{n}</Button>)}</div>
+                  ) : (
+                    <Textarea rows={3} placeholder="Your answer..." value={(answers[q.id] as string) || ""} onChange={(e) => setAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))} />
+                  )}
+                </Card>
               ))}
-            </Stack>
-          </Stack>
-        );
-
-      case 'multiple_choice':
-        return (
-          <Stack gap={2}>
-            {question.options?.map(option => (
-              <Button
-                key={option}
-                type="button"
-                variant={answers[question.id] === option ? 'solid' : 'outline'}
-                className="w-full text-left justify-start"
-                onClick={() => updateAnswer(question.id, option)}
-              >
-                {option}
-              </Button>
-            ))}
-          </Stack>
-        );
-
-      case 'checkbox':
-        const selected = answers[question.id] || [];
-        return (
-          <Stack gap={2}>
-            {question.options?.map(option => (
-              <Button
-                key={option}
-                type="button"
-                variant={selected.includes(option) ? 'solid' : 'outline'}
-                className="w-full text-left justify-start"
-                onClick={() => {
-                  const newSelected = selected.includes(option)
-                    ? selected.filter((o: string) => o !== option)
-                    : [...selected, option];
-                  updateAnswer(question.id, newSelected);
-                }}
-              >
-                {option}
-              </Button>
-            ))}
-          </Stack>
-        );
-
-      case 'text':
-      default:
-        return (
-          <Textarea
-            value={answers[question.id] || ''}
-            onChange={(e) => updateAnswer(question.id, e.target.value)}
-            placeholder="Your answer..."
-            rows={4}
-          />
-        );
-    }
-  };
-
-  if (loading) {
-    return <GvtewayLoadingLayout text="Loading survey..." />;
-  }
-
-  if (!survey) {
-    return (
-      <>
-        <Card inverted className="p-12 text-center mt-12">
-          <H2 className="mb-4 text-white">SURVEY NOT FOUND</H2>
-          <Body className="text-on-dark-muted mb-6">
-            This survey may have expired or been removed.
-          </Body>
-          <Button variant="solid" inverted onClick={() => router.push('/my-events')}>
-            View My Events
-          </Button>
-        </Card>
-      </>
-    );
-  }
-
-  if (success) {
-    return (
-      <>
-        <Card inverted className="p-12 text-center mt-12">
-          <H2 className="mb-4 text-white">THANK YOU!</H2>
-          <Body className="text-on-dark-muted mb-6">
-            Your feedback has been submitted. We appreciate you taking the time to share your experience.
-          </Body>
-          <Button variant="solid" inverted onClick={() => router.push('/my-events')}>
-            Back to My Events
-          </Button>
-        </Card>
-      </>
-    );
-  }
-
-  const questionsPerPage = 3;
-  const totalPages = Math.ceil(survey.questions.length / questionsPerPage);
-  const currentQuestions = survey.questions.slice(
-    currentStep * questionsPerPage,
-    (currentStep + 1) * questionsPerPage
-  );
-
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Feedback</Kicker>
-              <H2 size="lg" className="text-white">{survey.title}</H2>
-              {survey.description && (
-                <Body className="text-on-dark-muted">{survey.description}</Body>
-              )}
-            </Stack>
-
-        {(localError || error) && (
-          <Alert variant="error" className="mb-6">
-            {localError || (error instanceof Error ? error.message : String(error))}
-          </Alert>
+            </div>
+            <Button variant="solid" className="w-full mt-6" onClick={() => submitSurvey.mutate(answers)} disabled={submitSurvey.isPending}>{submitSurvey.isPending ? "Submitting..." : "Submit Survey"}</Button>
+          </>
         )}
+      </Section>
+    ),
+  }];
 
-        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
-          <Stack className="col-span-2" gap={6}>
-            {currentQuestions.map((question, index) => (
-              <Card key={question.id} className="p-6">
-                <Stack gap={4}>
-                  <Stack direction="horizontal" gap={2} className="items-start">
-                    <Body className="text-ink-500">
-                      {currentStep * questionsPerPage + index + 1}.
-                    </Body>
-                    <Stack className="flex-1">
-                      <Body className="font-weight-medium">
-                        {question.question}
-                        {question.required && <Text className="text-error-500 ml-1">*</Text>}
-                      </Body>
-                    </Stack>
-                  </Stack>
-                  {renderQuestion(question)}
-                </Stack>
-              </Card>
-            ))}
-
-            <Stack direction="horizontal" className="justify-between">
-              <Button
-                variant="outline"
-                onClick={() => setCurrentStep(prev => prev - 1)}
-                disabled={currentStep === 0}
-              >
-                Previous
-              </Button>
-
-              <Body className="text-ink-500">
-                Page {currentStep + 1} of {totalPages}
-              </Body>
-
-              {currentStep < totalPages - 1 ? (
-                <Button
-                  variant="solid"
-                  onClick={() => setCurrentStep(prev => prev + 1)}
-                >
-                  Next
-                </Button>
-              ) : (
-                <Button
-                  variant="solid"
-                  onClick={handleSubmit}
-                  disabled={submitting}
-                >
-                  {submitting ? 'Submitting...' : 'Submit Survey'}
-                </Button>
-              )}
-            </Stack>
-          </Stack>
-
-          <Stack>
-            <Card className="p-6 sticky top-6">
-              <H3 className="mb-4">EVENT</H3>
-              {survey.event_image && (
-                <Box className="h-32 bg-ink-100 mb-4 overflow-hidden relative">
-                  <Image
-                    src={survey.event_image}
-                    alt={survey.event_title}
-                    fill
-                    className="object-cover"
-                  />
-                </Box>
-              )}
-              <Body className="font-weight-bold">{survey.event_title}</Body>
-              <Body className="text-ink-600">{survey.event_date}</Body>
-
-              <Stack className="mt-6 pt-4 border-t border-ink-200">
-                <H3 className="mb-2">PROGRESS</H3>
-                <Stack className="w-full bg-ink-200 h-2 rounded-avatar overflow-hidden">
-                  <Stack
-                    className="bg-black h-full transition-all"
-                    style={{ '--progress-width': `${(Object.keys(answers).length / survey.questions.length) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
-                  />
-                </Stack>
-                <Body size="sm" className=" text-ink-500 mt-2">
-                  {Object.keys(answers).length} of {survey.questions.length} answered
-                </Body>
-              </Stack>
-            </Card>
-          </Stack>
-        </Grid>
-          </Stack>
-    </>
-  );
+  return <DetailPage header={{ kicker: "Feedback", title: survey.title, description: survey.description }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} />;
 }

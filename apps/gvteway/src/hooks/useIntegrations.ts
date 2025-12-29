@@ -14,6 +14,7 @@ export interface RevenueSyncPayload {
 export interface SyncResult {
   success: boolean;
   message?: string;
+  ingestionId?: string;
   data?: Record<string, unknown>;
 }
 

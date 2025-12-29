@@ -1,14 +1,50 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const generatePdfSchema = z.object({
+  action: z.literal('generate'),
+  document_id: z.string().uuid(),
+  document_type: z.string(),
+  title: z.string().optional(),
+  content: z.string().optional(),
+  options: z.record(z.unknown()).optional(),
+});
+
+const batchGenerateSchema = z.object({
+  action: z.literal('batch_generate'),
+  document_ids: z.array(z.string().uuid()),
+  options: z.record(z.unknown()).optional(),
+});
+
+const generateReportSchema = z.object({
+  action: z.literal('generate_report'),
+  report_type: z.string(),
+  filters: z.record(z.unknown()).optional(),
+  title: z.string().optional(),
+});
+
+const pdfActionSchema = z.union([generatePdfSchema, batchGenerateSchema, generateReportSchema]);
 
 // Downloadable PDF generation
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const documentId = searchParams.get('document_id');
@@ -30,17 +66,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = pdfActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'generate') {
-      const { document_id, document_type, title, content, options } = body;
+      const { document_id, document_type, title, content, options } = validatedData as z.infer<typeof generatePdfSchema>;
 
       // Create PDF generation job
       const { data, error } = await supabase.from('generated_pdfs').insert({
@@ -62,7 +105,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'batch_generate') {
-      const { document_ids, options } = body;
+      const { document_ids, options } = validatedData as z.infer<typeof batchGenerateSchema>;
 
       const jobs = await Promise.all(document_ids.map(async (docId: string) => {
         const { data } = await supabase.from('generated_pdfs').insert({
@@ -75,7 +118,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'generate_report') {
-      const { report_type, filters, title } = body;
+      const { report_type, filters, title } = validatedData as z.infer<typeof generateReportSchema>;
 
       const { data, error } = await supabase.from('generated_pdfs').insert({
         document_type: 'report', title, status: 'processing',

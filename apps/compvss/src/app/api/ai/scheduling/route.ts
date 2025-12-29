@@ -1,7 +1,28 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { z } from 'zod';
+
+const applySchema = z.object({
+  action: z.literal('apply').optional(),
+  project_id: z.string().uuid(),
+  assignments: z.array(z.object({
+    shift_id: z.string().uuid(),
+    crew_id: z.string().uuid(),
+    score: z.number().optional(),
+    reasons: z.array(z.string()).optional(),
+  })),
+});
+
+const swapSchema = z.object({
+  action: z.literal('swap'),
+  assignment1_id: z.string().uuid(),
+  assignment2_id: z.string().uuid(),
+});
+
+const schedulingActionSchema = z.union([applySchema, swapSchema]);
 
 function getSupabaseClient(): SupabaseClient {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -42,11 +63,23 @@ interface Assignment {
 }
 
 // GET /api/ai/scheduling - AI-powered scheduling optimization
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const supabase = getSupabaseClient();
-    
-    const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -273,9 +306,16 @@ export async function GET(request: NextRequest) {
 // POST /api/ai/scheduling - Apply optimized schedule
 export async function POST(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const supabase = getSupabaseClient();
-    
-    const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -286,10 +326,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const action = body.action || 'apply';
+    const validatedData = schedulingActionSchema.parse(body);
+    const action = validatedData.action || 'apply';
 
     if (action === 'apply') {
-      const { assignments, project_id } = body;
+      const { assignments, project_id } = validatedData as z.infer<typeof applySchema>;
 
       // Create assignments
       const assignmentRecords = assignments.map((a: Assignment) => ({
@@ -336,7 +377,7 @@ export async function POST(request: NextRequest) {
         assignments: created,
       });
     } else if (action === 'swap') {
-      const { assignment1_id, assignment2_id } = body;
+      const { assignment1_id, assignment2_id } = validatedData as z.infer<typeof swapSchema>;
 
       // Get both assignments
       const { data: assignments } = await supabase

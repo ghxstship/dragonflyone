@@ -1,18 +1,20 @@
 "use client";
 
+/**
+ * COMPVSS Settings Page
+ * Uses normalized SettingsPageLayout template from @ghxstship/ui
+ */
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// Layout provided by route group
 import {
   useNotifications,
-  EnterprisePageHeader,
-  MainContent,
+  SettingsPageLayout,
   H2,
   Body,
   Button,
   Switch,
   Select,
-  Container,
   Stack,
   Grid,
   Card,
@@ -33,19 +35,19 @@ export default function SettingsPage() {
   });
 
   return (
-    <>
-      <EnterprisePageHeader
-        title="Settings"
-        subtitle="Configure your COMPVSS preferences"
-
-
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-          <Card className="p-spacing-6 border-2 border-ink-800 bg-transparent">
+    <SettingsPageLayout
+      title="Settings"
+      description="Configure your COMPVSS preferences"
+      maxWidth="lg"
+      headerActions={
+        <Stack gap={3} direction="horizontal">
+          <Button variant="outline" onClick={() => addNotification({ type: 'success', title: 'Saved', message: 'Settings saved successfully' })}>Save Settings</Button>
+          <Button variant="ghost" onClick={() => router.push('/dashboard')}>Reset to Defaults</Button>
+        </Stack>
+      }
+    >
+      <Stack gap={10}>
+        <Card className="p-spacing-6 border-2 border-ink-800 bg-transparent">
             <Stack gap={6}>
               <H2>Alert Preferences</H2>
               <Stack gap={4}>
@@ -145,13 +147,7 @@ export default function SettingsPage() {
             </Stack>
           </Card>
 
-            <Stack gap={3} direction="horizontal">
-              <Button variant="outlineWhite" onClick={() => addNotification({ type: 'success', title: 'Saved', message: 'Settings saved successfully' })}>Save Settings</Button>
-              <Button variant="ghost" onClick={() => router.push('/dashboard')}>Reset to Defaults</Button>
-            </Stack>
           </Stack>
-        </Container>
-      </MainContent>
-    </>
+        </SettingsPageLayout>
   );
 }

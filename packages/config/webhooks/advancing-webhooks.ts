@@ -1,5 +1,6 @@
 // packages/config/webhooks/advancing-webhooks.ts
 import type { ProductionAdvance, AdvanceStatus, ProductionAdvanceItem } from '../types/advancing';
+import { logger } from '../logger';
 
 /**
  * Webhook payload types for advancing events
@@ -171,7 +172,7 @@ export async function sendWebhook(
 
     return true;
   } catch (error) {
-    console.error(`Webhook delivery failed (attempt ${retryAttempt + 1}):`, error);
+    logger.error(`Webhook delivery failed (attempt ${retryAttempt + 1})`, error instanceof Error ? error : undefined);
 
     // Retry with exponential backoff
     if (retryAttempt < maxRetries) {

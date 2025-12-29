@@ -366,54 +366,32 @@ export const gvtewayAdminNavigation = [
 
 // =============================================================================
 // EVENT-LEVEL NAVIGATION (Event Context)
-// Visible when viewing a specific event - uses /events/[eventId]/ prefix
+// Visible when viewing a specific event - uses /e/[eventId]/ prefix
+// Consolidated from 37 routes to 6 core routes (2025-12-27)
 // =============================================================================
 export const gvtewayEventNavigation = [
   {
     section: "Event",
     icon: "Calendar",
     items: [
-      { label: "Overview", href: "/", icon: "Calendar", primary: true },
-      { label: "Program", href: "/program", icon: "ListOrdered" },
-      { label: "Lineup", href: "/lineup", icon: "Music" },
-    ],
-  },
-  {
-    section: "Tickets",
-    icon: "Ticket",
-    items: [
-      { label: "Buy Tickets", href: "/tickets", icon: "Ticket", primary: true },
-      { label: "Seating", href: "/seating", icon: "Grid" },
-      { label: "Waitlist", href: "/waitlist", icon: "Clock" },
+      { label: "Tickets", href: "/tickets", icon: "Ticket", primary: true, description: "Purchase tickets, seating, waitlist" },
+      { label: "Map", href: "/map", icon: "Map", description: "Venue map, floor plan, accessibility" },
     ],
   },
   {
     section: "Experience",
     icon: "Sparkles",
     items: [
-      { label: "Photo Booth", href: "/photo-booth", icon: "Camera" },
-      { label: "Social Wall", href: "/social-wall", icon: "MessageSquare" },
-      { label: "Chat", href: "/chat", icon: "MessageCircle" },
-      { label: "Friends", href: "/friends", icon: "Users" },
+      { label: "Engage", href: "/engage", icon: "Sparkles", primary: true, description: "Social wall, friends, activities" },
+      { label: "Services", href: "/services", icon: "Concierge", description: "Food, merch, VIP services" },
     ],
   },
   {
-    section: "Info",
-    icon: "Info",
+    section: "Community",
+    icon: "Users",
     items: [
-      { label: "Entry Info", href: "/entry-info", icon: "DoorOpen" },
-      { label: "Parking", href: "/parking", icon: "Car" },
-      { label: "Accessibility", href: "/accessibility", icon: "Accessibility" },
-      { label: "Languages", href: "/languages", icon: "Globe" },
-    ],
-  },
-  {
-    section: "Venue",
-    icon: "MapPin",
-    items: [
-      { label: "Floor Map", href: "/floor-config", icon: "Map" },
-      { label: "Landing Builder", href: "/landing-builder", icon: "Layout" },
-      { label: "RFID", href: "/rfid", icon: "Wifi" },
+      { label: "Photos", href: "/photos", icon: "Camera", primary: true, description: "Photo booth, galleries, sharing" },
+      { label: "Chat", href: "/chat", icon: "MessageCircle", description: "Event chat, groups, discussions" },
     ],
   },
 ];

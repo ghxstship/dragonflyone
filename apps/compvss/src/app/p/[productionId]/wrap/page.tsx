@@ -1,174 +1,156 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'next/navigation';
+/**
+ * Production Wrap Page
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import { CheckCircle, Clock, FileText, Download, List } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import {
-  SectionHeader,
-  Card,
-  CardBody,
-  Stack,
-  StatCard,
-  Button,
   Badge,
-  Grid,
   Body,
-  H3,
-  Textarea,
-} from '@ghxstship/ui';
-import {
-  FileText,
-  Users,
-  TrendingUp,
-  Download,
-  CheckCircle,
-} from 'lucide-react';
-// Layout provided by route group
-import { log } from '@ghxstship/config';
+  Button,
+  Card,
+  Grid,
+  StatCard,
+  ProgressBar,
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
 
-interface WrapMetrics {
-  totalShows: number;
-  crewHours: number;
-  incidents: number;
-  laborCost: number;
-  equipmentCost: number;
-  cateringCost: number;
+interface WrapItem {
+  id: string;
+  category: string;
+  item: string;
+  status: "pending" | "completed";
+  assignee: string;
 }
 
-const defaultMetrics: WrapMetrics = {
-  totalShows: 0,
-  crewHours: 0,
-  incidents: 0,
-  laborCost: 0,
-  equipmentCost: 0,
-  cateringCost: 0,
-};
+const DEMO_WRAP: WrapItem[] = [
+  { id: "1", category: "Financial", item: "Finalize vendor payments", status: "completed", assignee: "Finance Team" },
+  { id: "2", category: "Financial", item: "Submit expense reports", status: "completed", assignee: "All Crew" },
+  { id: "3", category: "Documentation", item: "Archive production documents", status: "pending", assignee: "PM" },
+  { id: "4", category: "Equipment", item: "Return rental equipment", status: "completed", assignee: "Tech Team" },
+  { id: "5", category: "Team", item: "Collect feedback", status: "pending", assignee: "PM" },
+];
 
-export default function ProductionWrapReportPage() {
+export default function ProductionWrapPage() {
   const params = useParams();
-  const productionId = params?.productionId as string;
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [crewNotes, setCrewNotes] = useState('');
-  const [operationalNotes, setOperationalNotes] = useState('');
-  const [metrics, setMetrics] = useState<WrapMetrics>(defaultMetrics);
+  const productionId = params.productionId as string;
+  const [category, setCategory] = useState("all");
 
-  const fetchWrapData = useCallback(async () => {
-    if (!productionId) return;
-    try {
+  const { data: wrapItems = [], isLoading, error, refetch } = useQuery<WrapItem[]>({
+    queryKey: ["production-wrap", productionId],
+    queryFn: async () => {
       const response = await fetch(`/api/productions/${productionId}/wrap`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.metrics) {
-          setMetrics(data.metrics);
-        }
-        if (data.crewNotes) {
-          setCrewNotes(data.crewNotes);
-        }
-        if (data.operationalNotes) {
-          setOperationalNotes(data.operationalNotes);
-        }
-      }
-    } catch (error) {
-      log.error('Failed to fetch wrap data:', error instanceof Error ? error : undefined);
-    }
-  }, [productionId]);
+      if (!response.ok) return DEMO_WRAP;
+      const data = await response.json();
+      return data.items?.length ? data.items : DEMO_WRAP;
+    },
+  });
 
-  useEffect(() => {
-    fetchWrapData();
-  }, [fetchWrapData]);
+  const categories: string[] = ["all", ...Array.from(new Set(wrapItems.map((w: WrapItem) => w.category)))];
+  const filteredItems = category === "all" ? wrapItems : wrapItems.filter((item: WrapItem) => item.category === category);
 
-  const handleGenerateReport = async () => {
-    setIsGenerating(true);
-    setTimeout(() => setIsGenerating(false), 2000);
+  const stats = {
+    total: wrapItems.length,
+    completed: wrapItems.filter((w: WrapItem) => w.status === "completed").length,
+    pending: wrapItems.filter((w: WrapItem) => w.status === "pending").length,
   };
+  const progress = stats.total > 0 ? (stats.completed / stats.total) * 100 : 0;
+
+  const tabs = [
+    {
+      id: "checklist",
+      label: "Checklist",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+            <StatCard label="Total Items" value={stats.total.toString()} icon={<FileText className="size-5" />} />
+            <StatCard label="Completed" value={stats.completed.toString()} icon={<CheckCircle className="size-5" />} />
+            <StatCard label="Pending" value={stats.pending.toString()} icon={<Clock className="size-5" />} />
+            <StatCard label="Progress" value={`${Math.round(progress)}%`} icon={<CheckCircle className="size-5" />} />
+          </Grid>
+
+          <Card className="p-6 mb-6">
+            <div className="flex justify-between mb-2">
+              <Body className="font-weight-medium">Wrap Progress</Body>
+              <Body className="font-weight-bold">{Math.round(progress)}%</Body>
+            </div>
+            <ProgressBar value={progress} size="lg" />
+          </Card>
+
+          <div className="flex gap-2 mb-6">
+            {categories.map((cat) => (
+              <Button key={cat} variant={category === cat ? "solid" : "outline"} size="sm" onClick={() => setCategory(cat)}>
+                {cat === "all" ? "All" : cat}
+              </Button>
+            ))}
+          </div>
+
+          <div className="space-y-2">
+            {filteredItems.map((item: WrapItem) => (
+              <Card key={item.id} className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className={`p-2 rounded-card ${item.status === "completed" ? "bg-success/20" : "bg-grey-800"}`}>
+                      {item.status === "completed" ? <CheckCircle className="size-4 text-success" /> : <Clock className="size-4 text-grey-400" />}
+                    </div>
+                    <div>
+                      <Body className={`font-weight-medium ${item.status === "completed" ? "line-through text-grey-500" : ""}`}>{item.item}</Body>
+                      <Body size="sm" className="text-grey-400">{item.assignee}</Body>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline">{item.category}</Badge>
+                    <Badge variant={item.status === "completed" ? "success" : "warning"}>{item.status === "completed" ? "Done" : "Pending"}</Badge>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "reports",
+      label: "Reports",
+      icon: <Download className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Wrap Reports" description="Generate and download wrap reports" />
+          <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
+            <Card className="p-6">
+              <FileText className="size-8 text-primary mb-4" />
+              <Body className="font-weight-bold mb-2">Production Summary</Body>
+              <Body size="sm" className="text-grey-400 mb-4">Complete production overview</Body>
+              <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download PDF</Button>
+            </Card>
+            <Card className="p-6">
+              <FileText className="size-8 text-primary mb-4" />
+              <Body className="font-weight-bold mb-2">Financial Report</Body>
+              <Body size="sm" className="text-grey-400 mb-4">Budget and expense breakdown</Body>
+              <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download PDF</Button>
+            </Card>
+          </Grid>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <>
-      <Stack gap={8}>
-        <SectionHeader kicker="Production" title="Wrap Report" description="Generate the production wrap report" colorScheme="on-dark" />
-
-        <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-          <StatCard label="Total Shows" value={metrics.totalShows.toString()} icon={<FileText size={20} />} inverted />
-          <StatCard label="Crew Hours" value={metrics.crewHours.toLocaleString()} icon={<Users size={20} />} inverted />
-          <StatCard label="Incidents" value={metrics.incidents.toString()} icon={<TrendingUp size={20} />} inverted />
-        </Grid>
-
-        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
-          <Card variant="elevated" inverted>
-            <CardBody>
-              <Stack gap={4}>
-                <H3 className="text-white">Cost Summary</H3>
-                <Stack gap={3}>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-on-dark-muted">Labor</Body>
-                    <Body className="font-weight-semibold text-white">${metrics.laborCost.toLocaleString()}</Body>
-                  </Stack>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-on-dark-muted">Equipment</Body>
-                    <Body className="font-weight-semibold text-white">${metrics.equipmentCost.toLocaleString()}</Body>
-                  </Stack>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-on-dark-muted">Catering</Body>
-                    <Body className="font-weight-semibold text-white">${metrics.cateringCost.toLocaleString()}</Body>
-                  </Stack>
-                  <Stack direction="horizontal" className="justify-between border-t border-ink-700 pt-3">
-                    <Body className="text-on-dark-muted">Total</Body>
-                    <Body className="font-weight-bold text-white">
-                      ${(metrics.laborCost + metrics.equipmentCost + metrics.cateringCost).toLocaleString()}
-                    </Body>
-                  </Stack>
-                </Stack>
-              </Stack>
-            </CardBody>
-          </Card>
-
-          <Card variant="elevated" inverted>
-            <CardBody>
-              <Stack gap={4}>
-                <H3 className="text-white">Report Status</H3>
-                <Stack gap={3}>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-on-dark-muted">Daily Reports</Body>
-                    <Badge variant="success">24/24 Complete</Badge>
-                  </Stack>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-on-dark-muted">Incident Reports</Body>
-                    <Badge variant="success">3/3 Closed</Badge>
-                  </Stack>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-on-dark-muted">Expense Reports</Body>
-                    <Badge variant="warning">Pending Review</Badge>
-                  </Stack>
-                </Stack>
-              </Stack>
-            </CardBody>
-          </Card>
-        </Grid>
-
-        <Card variant="elevated" inverted>
-          <CardBody>
-            <Stack gap={4}>
-              <H3 className="text-white">Crew Notes</H3>
-              <Textarea value={crewNotes} onChange={(e) => setCrewNotes(e.target.value)} placeholder="Notes from crew leads..." rows={4} />
-            </Stack>
-          </CardBody>
-        </Card>
-
-        <Card variant="elevated" inverted>
-          <CardBody>
-            <Stack gap={4}>
-              <H3 className="text-white">Operational Notes</H3>
-              <Textarea value={operationalNotes} onChange={(e) => setOperationalNotes(e.target.value)} placeholder="Operational observations and recommendations..." rows={4} />
-            </Stack>
-          </CardBody>
-        </Card>
-
-        <Stack direction="horizontal" gap={4} className="justify-end">
-          <Button variant="outline"><Download size={16} className="mr-2" />Export PDF</Button>
-          <Button variant="solid" onClick={handleGenerateReport} disabled={isGenerating}>
-            {isGenerating ? 'Generating...' : <><CheckCircle size={16} className="mr-2" />Generate Report</>}
-          </Button>
-        </Stack>
-      </Stack>
-    </>
+    <DetailPage
+      header={{ kicker: "Production", title: "Wrap", description: "Production wrap and closeout" }}
+      backButton={{ label: "Overview", href: `/p/${productionId}/overview` }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

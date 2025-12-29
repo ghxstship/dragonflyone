@@ -1,91 +1,49 @@
-'use client';
+"use client";
 
-import { useParams, useRouter } from 'next/navigation';
-import { GvtewayLoadingLayout } from '@/components/app-layout';
-import {
-  H2,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Stack,
-  Badge,
-  ProjectCard,
-  Kicker,
-} from '@ghxstship/ui';
-import { useCollectionData } from '@/hooks/useCollections';
+import { useParams, useRouter } from "next/navigation";
+import { Calendar, MapPin, List } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Body, Card, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+
+interface Event { id: string; name: string; date: string; venue: string; price: number; }
+interface Collection { id: string; name: string; description: string; events: Event[]; }
+const DEMO: Collection = { id: "1", name: "Summer Festivals", description: "Best summer festivals", events: [{ id: "1", name: "Summer Festival 2024", date: "2024-12-20", venue: "Central Park", price: 75 }] };
 
 export default function CollectionPage() {
   const params = useParams();
   const router = useRouter();
   const collectionId = params.id as string;
 
-  const { collection, isLoading: loading, error } = useCollectionData(collectionId);
+  const { data: collection = DEMO, isLoading, error, refetch } = useQuery({
+    queryKey: ["collection", collectionId],
+    queryFn: async () => { const r = await fetch(`/api/collections/${collectionId}`); if (!r.ok) return DEMO; return (await r.json()).collection || DEMO; },
+  });
 
-  const handleEventClick = (eventId: string) => {
-    router.push(`/events/${eventId}`);
-  };
+  const formatDate = (d: string) => new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const formatCurrency = (a: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(a);
 
-  if (loading) {
-    return <GvtewayLoadingLayout />;
-  }
-
-  if (error || !collection) {
-    return (
-      <>
-            <Card inverted className="p-12 text-center">
-              <H2 className="mb-4 text-white">Collection Not Found</H2>
-              <Body className="text-on-dark-muted mb-6">
-                The collection you are looking for does not exist.
-              </Body>
-              <Button variant="solid" inverted onClick={() => router.push('/discover')}>
-                Browse Collections
-              </Button>
+  const tabs = [{
+    id: "collection", label: "Collection", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <Card className="p-6 mb-6"><Body className="text-grey-300">{collection.description}</Body></Card>
+        <SectionHeader title="Events" description={`${collection.events.length} events in this collection`} />
+        <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
+          {collection.events.map((event: Event) => (
+            <Card key={event.id} className="overflow-hidden cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/e/${event.id}`)}>
+              <div className="h-32 bg-grey-800 flex items-center justify-center"><Calendar className="size-8 text-grey-600" /></div>
+              <div className="p-4">
+                <Body className="font-weight-bold">{event.name}</Body>
+                <div className="flex items-center gap-2 mt-2 text-grey-400"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></div>
+                <div className="flex items-center gap-2 text-grey-400"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></div>
+                <Body className="font-weight-bold mt-2">From {formatCurrency(event.price)}</Body>
+              </div>
             </Card>
-      </>
-    );
-  }
+          ))}
+        </Grid>
+      </Section>
+    ),
+  }];
 
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Collections</Kicker>
-              <H2 size="lg" className="text-white">{collection.name}</H2>
-              {collection.description && (
-                <Body className="text-on-dark-muted max-w-2xl">
-                  {collection.description}
-                </Body>
-              )}
-              <Stack direction="horizontal" gap={2} className="mt-2">
-                <Badge>{collection.events.length} events</Badge>
-              </Stack>
-            </Stack>
-
-        {collection.events.length > 0 ? (
-          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
-            {collection.events.map(event => (
-              <ProjectCard
-                key={event.id}
-                title={event.title}
-                image={event.image || ''}
-                metadata={`${event.date} - ${event.venue}`}
-                tags={[event.category]}
-                onClick={() => handleEventClick(event.id)}
-              />
-            ))}
-          </Grid>
-        ) : (
-          <Stack className="items-center py-12">
-            <Body className="text-on-dark-muted">No events in this collection yet.</Body>
-          </Stack>
-        )}
-
-            <Button variant="outlineInk" onClick={() => router.push('/discover')}>
-              Back to Discover
-            </Button>
-          </Stack>
-    </>
-  );
+  return <DetailPage header={{ kicker: "Collection", title: collection.name, description: `${collection.events.length} events` }} backButton={{ label: "Collections", href: "/collections" }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} />;
 }

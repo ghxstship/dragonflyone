@@ -3,6 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
+// Schema: Aligned with database events table and API transformations
 interface Event {
   id: string;
   name: string;
@@ -15,15 +16,19 @@ interface Event {
   date?: string; // Alias for start_date
   end_date?: string;
   category: string;
-  status: 'draft' | 'published' | 'cancelled' | 'completed';
+  // Schema: status enum matches database - draft, published, sold_out, cancelled, completed
+  status: 'draft' | 'published' | 'sold_out' | 'cancelled' | 'completed';
   capacity: number;
   image_url?: string;
   image?: string; // Alias for image_url
   price?: number;
+  min_price?: number;
   tickets_sold?: number;
   city?: string;
+  venue_city?: string;
   state?: string;
   venue_type?: string;
+  is_featured?: boolean;
   organizer_id: string;
   created_at: string;
   updated_at: string;

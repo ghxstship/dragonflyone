@@ -93,7 +93,14 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
 
     return (
       <div ref={ref} className={clsx("w-full", className)} {...props}>
-        <div className={clsx("relative overflow-hidden", sizeClasses[size], getTrackClasses())}>
+        <div 
+          className={clsx("relative overflow-hidden", sizeClasses[size], getTrackClasses())}
+          role="progressbar"
+          aria-valuenow={value}
+          aria-valuemin={0}
+          aria-valuemax={max}
+          aria-label={props['aria-label'] || `Progress: ${percentage.toFixed(0)}%`}
+        >
           <div
             className={clsx(
               "h-full rounded-full transition-all duration-200 ease-[var(--ease-bounce)]",
@@ -103,7 +110,7 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
           />
         </div>
         {showLabel && (
-          <span className={clsx("mt-1 block font-code text-xs font-bold", labelClasses[variant])}>
+          <span className={clsx("mt-1 block font-code text-xs font-bold", labelClasses[variant])} aria-hidden="true">
             {percentage.toFixed(0)}%
           </span>
         )}

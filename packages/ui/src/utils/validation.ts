@@ -21,8 +21,10 @@ export const validators = {
   },
 };
 
-export interface ValidationRule {
-  validator: (value: any) => boolean;
+// Validation rules need to accept any value type for generic form validation
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface ValidationRule<T = any> {
+  validator: (value: T) => boolean;
   message: string;
 }
 
@@ -31,7 +33,7 @@ export interface ValidationResult {
   errors: string[];
 }
 
-export function validateField(value: any, rules: ValidationRule[]): ValidationResult {
+export function validateField<T>(value: T, rules: ValidationRule<T>[]): ValidationResult {
   const errors: string[] = [];
   
   for (const rule of rules) {
@@ -46,6 +48,8 @@ export function validateField(value: any, rules: ValidationRule[]): ValidationRe
   };
 }
 
+// Form values are dynamic and can be any type
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function validateForm(values: Record<string, any>, rules: Record<string, ValidationRule[]>): Record<string, ValidationResult> {
   const results: Record<string, ValidationResult> = {};
   

@@ -1,7 +1,29 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const applyRecommendationSchema = z.object({
+  action: z.literal('apply_recommendation').optional().default('apply_recommendation'),
+  recommendation_type: z.string(),
+  entity_id: z.string().uuid(),
+  changes: z.record(z.unknown()),
+});
+
+const rebalanceWorkloadSchema = z.object({
+  action: z.literal('rebalance_workload'),
+  from_employee_id: z.string().uuid(),
+  to_employee_id: z.string().uuid(),
+  project_id: z.string().uuid(),
+  hours: z.number().min(1),
+});
+
+const optimizationActionSchema = z.union([
+  applyRecommendationSchema,
+  rebalanceWorkloadSchema,
+]);
 
 interface EmployeeData {
   id: string;
@@ -19,10 +41,22 @@ interface AssetData {
 }
 
 // GET /api/ai/resource-optimization - Advanced resource optimization
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -355,7 +389,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -366,10 +407,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const action = body.action || 'apply_recommendation';
+    const validatedData = optimizationActionSchema.parse(body);
+    const action = validatedData.action || 'apply_recommendation';
 
     if (action === 'apply_recommendation') {
-      const { recommendation_type, entity_id, changes } = body;
+      const { recommendation_type, entity_id, changes } = validatedData as z.infer<typeof applyRecommendationSchema>;
 
       // Log the optimization action
       const { data: log, error } = await supabase
@@ -390,7 +432,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ log });
     } else if (action === 'rebalance_workload') {
-      const { from_employee_id, to_employee_id, project_id, hours } = body;
+      const { from_employee_id, to_employee_id, project_id, hours } = validatedData as z.infer<typeof rebalanceWorkloadSchema>;
 
       // Update assignments
       await supabase

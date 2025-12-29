@@ -4,6 +4,12 @@ import { useRouter } from "next/navigation";
 import { useNotifications, AuthPage, SignInForm, Button } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
 import NextLink from "next/link";
+import type { ReactNode } from "react";
+
+// Wrapper to match expected LinkComponent type
+const Link = ({ href, children, className }: { href: string; children: ReactNode; className?: string }) => (
+  <NextLink href={href} className={className}>{children}</NextLink>
+);
 
 // =============================================================================
 // SIGN IN PAGE - COMPVSS Authentication
@@ -50,7 +56,7 @@ export default function SignInPage() {
         onSubmit={handleSubmit}
         onOAuthSignIn={handleOAuthSignIn}
         signUpHref="/auth/signup"
-        LinkComponent={NextLink}
+        LinkComponent={Link}
       />
     </AuthPage>
   );

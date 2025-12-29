@@ -1,287 +1,158 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  H2,
-  Body,
-  StatCard,
-  Select,
-  Button,
+  ListPage,
   Badge,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  Spinner,
-  EmptyState,
-  Container,
-  Grid,
   Stack,
-  Card,
-  useNotifications,
-  EnterprisePageHeader,
-  MainContent,
+  Body,
+  Text,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 import { useSiteSurveysData, type SiteSurvey } from "@/hooks/useSiteSurveys";
+import { Eye } from "lucide-react";
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
+
+const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
+  switch (status?.toLowerCase()) {
+    case "completed":
+    case "approved":
+      return "solid";
+    case "scheduled":
+    case "in_progress":
+      return "outline";
+    default:
+      return "ghost";
+  }
+};
 
 export default function SiteSurveysPage() {
   const router = useRouter();
-  const { addNotification: _addNotification } = useNotifications();
-  const {
-    surveys,
-    summary,
-    isLoading: loading,
-    error,
-    refetch,
-  } = useSiteSurveysData();
+  const { surveys, summary, isLoading: loading, error, refetch } = useSiteSurveysData();
 
-  const [filterStatus, setFilterStatus] = useState("all");
-  const [filterType, setFilterType] = useState("all");
+  const columns: ListPageColumn<SiteSurvey>[] = [
+    {
+      key: 'survey_number',
+      label: 'Survey #',
+      accessor: 'survey_number',
+      sortable: true,
+      render: (_, s) => <Text className="font-mono">{s.survey_number}</Text>,
+    },
+    {
+      key: 'venue_name',
+      label: 'Venue',
+      accessor: 'venue_name',
+      sortable: true,
+      render: (_, s) => (
+        <Stack gap={1}>
+          <Body>{s.venue_name}</Body>
+          <Body size="sm" className="text-muted-foreground">{s.venue_address}</Body>
+        </Stack>
+      ),
+    },
+    { key: 'project_name', label: 'Project', accessor: 'project_name', sortable: true },
+    {
+      key: 'survey_date',
+      label: 'Date',
+      accessor: 'survey_date',
+      sortable: true,
+      render: (_, s) => <Text className="font-mono">{formatDate(s.survey_date)}</Text>,
+    },
+    { key: 'surveyor_name', label: 'Surveyor', accessor: 'surveyor_name' },
+    { key: 'power_assessment', label: 'Power', accessor: (s) => s.power_assessment || '—' },
+    { key: 'rigging_assessment', label: 'Rigging', accessor: (s) => s.rigging_assessment || '—' },
+    { key: 'load_in_assessment', label: 'Load-In', accessor: (s) => s.load_in_assessment || '—' },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+    },
+  ];
 
-  // Filter surveys locally
-  const filteredSurveys = surveys.filter((s: SiteSurvey) => {
-    if (filterStatus !== 'all' && s.status !== filterStatus) return false;
-    if (filterType !== 'all' && s.survey_type !== filterType) return false;
-    return true;
-  });
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'scheduled', label: 'Scheduled' },
+        { value: 'in_progress', label: 'In Progress' },
+        { value: 'completed', label: 'Completed' },
+        { value: 'approved', label: 'Approved' },
+      ],
+    },
+    {
+      key: 'survey_type',
+      label: 'Type',
+      options: [
+        { value: 'initial', label: 'Initial Survey' },
+        { value: 'technical', label: 'Technical Advance' },
+        { value: 'follow_up', label: 'Follow-up' },
+        { value: 'final_walk', label: 'Final Walk' },
+      ],
+    },
+  ];
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
+  const rowActions: ListPageAction<SiteSurvey>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (s) => router.push(`/site-surveys/${s.id}`) },
+  ];
 
-  const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-    switch (status?.toLowerCase()) {
-      case "completed":
-      case "approved":
-        return "solid";
-      case "scheduled":
-      case "in_progress":
-        return "outline";
-      case "cancelled":
-      case "pending":
-        return "ghost";
-      default:
-        return "ghost";
-    }
-  };
-
-  const getAssessmentColor = (assessment?: string) => {
-    switch (assessment?.toLowerCase()) {
-      case "good":
-      case "adequate":
-        return "text-success-400";
-      case "fair":
-      case "limited":
-        return "text-warning-400";
-      case "poor":
-      case "inadequate":
-        return "text-error-400";
-      default:
-        return "text-ink-400";
-    }
-  };
-
-  if (loading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Spinner variant="grey" size="lg" text="Loading site surveys..." />
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container>
-            <EmptyState
-              title="Error Loading Site Surveys"
-              description={error instanceof Error ? error.message : String(error)}
-              action={{ label: "Retry", onClick: () => refetch() }}
-            />
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const stats = [
+    { label: 'Total Surveys', value: summary?.total_surveys || 0 },
+    { label: 'Pending', value: summary?.pending_surveys || 0 },
+    { label: 'Venues Surveyed', value: summary?.venues_surveyed || 0 },
+    { label: 'Photos Captured', value: summary?.photos_captured || 0 },
+  ];
 
   return (
-    <>
-      <EnterprisePageHeader
-        title="Site Surveys"
-        subtitle="Venue assessments, technical specifications, and site documentation"
-
-
-        primaryAction={{ label: 'Schedule Survey', onClick: () => router.push('/site-surveys/schedule') }}
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard
-                value={(summary?.total_surveys || 0).toString()}
-                label="Total Surveys"
-              />
-              <StatCard
-                value={(summary?.pending_surveys || 0).toString()}
-                label="Pending"
-              />
-              <StatCard
-                value={(summary?.venues_surveyed || 0).toString()}
-                label="Venues Surveyed"
-              />
-              <StatCard
-                value={(summary?.photos_captured || 0).toString()}
-                label="Photos Captured"
-              />
-            </Grid>
-
-            <Card>
-              <Stack gap={4}>
-                <H2>Survey Checklist Categories</H2>
-                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-                  <Card>
-                    <Stack gap={2}>
-                      <Body size="sm" className="">Power/Electrical</Body>
-                      <Body size="sm" className="">Main service, distro, generator access</Body>
-                    </Stack>
-                  </Card>
-                  <Card>
-                    <Stack gap={2}>
-                      <Body size="sm" className="">Rigging Points</Body>
-                      <Body size="sm" className="">Grid height, weight limits, motor positions</Body>
-                    </Stack>
-                  </Card>
-                  <Card>
-                    <Stack gap={2}>
-                      <Body size="sm" className="">Load-In Access</Body>
-                      <Body size="sm" className="">Dock, doors, floor load, staging areas</Body>
-                    </Stack>
-                  </Card>
-                  <Card>
-                    <Stack gap={2}>
-                      <Body size="sm" className="">FOH/BOH</Body>
-                      <Body size="sm" className="">Mix position, dressing rooms, green room</Body>
-                    </Stack>
-                  </Card>
-                </Grid>
-              </Stack>
-            </Card>
-
-            <Stack gap={4} direction="horizontal">
-              <Select
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-              >
-                <option value="all">All Statuses</option>
-                <option value="scheduled">Scheduled</option>
-                <option value="in_progress">In Progress</option>
-                <option value="completed">Completed</option>
-                <option value="approved">Approved</option>
-              </Select>
-              <Select
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
-              >
-                <option value="all">All Types</option>
-                <option value="initial">Initial Survey</option>
-                <option value="technical">Technical Advance</option>
-                <option value="follow_up">Follow-up</option>
-                <option value="final_walk">Final Walk</option>
-              </Select>
-            </Stack>
-
-            {surveys.length === 0 ? (
-              <EmptyState
-                title="No Site Surveys"
-                description="Schedule your first site survey"
-                action={{ label: "Schedule Survey", onClick: () => {} }}
-              />
-            ) : (
-              <Table variant="dark">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Survey #</TableHead>
-                    <TableHead>Venue</TableHead>
-                    <TableHead>Project</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Surveyor</TableHead>
-                    <TableHead>Power</TableHead>
-                    <TableHead>Rigging</TableHead>
-                    <TableHead>Load-In</TableHead>
-                    <TableHead>Status</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredSurveys.map((survey: SiteSurvey) => (
-                    <TableRow key={survey.id}>
-                      <TableCell>
-                        <Body className="font-mono">{survey.survey_number}</Body>
-                      </TableCell>
-                      <TableCell>
-                        <Stack gap={1}>
-                          <Body>{survey.venue_name}</Body>
-                          <Body size="sm" className="">{survey.venue_address}</Body>
-                        </Stack>
-                      </TableCell>
-                      <TableCell>
-                        <Body size="sm" className="">{survey.project_name}</Body>
-                      </TableCell>
-                      <TableCell>
-                        <Body className="font-mono">{formatDate(survey.survey_date)}</Body>
-                      </TableCell>
-                      <TableCell>
-                        <Body size="sm" className="">{survey.surveyor_name}</Body>
-                      </TableCell>
-                      <TableCell>
-                        <Body size="sm" className={getAssessmentColor(survey.power_assessment)}>{survey.power_assessment || "—"}</Body>
-                      </TableCell>
-                      <TableCell>
-                        <Body size="sm" className={getAssessmentColor(survey.rigging_assessment)}>{survey.rigging_assessment || "—"}</Body>
-                      </TableCell>
-                      <TableCell>
-                        <Body size="sm" className={getAssessmentColor(survey.load_in_assessment)}>{survey.load_in_assessment || "—"}</Body>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={getStatusVariant(survey.status)}>
-                          {survey.status}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
-
-            <Stack gap={3} direction="horizontal">
-              <Button variant="solid" onClick={() => router.push('/site-surveys/schedule')}>
-                Schedule Survey
-              </Button>
-              <Button variant="outline" onClick={() => router.push('/site-surveys/templates')}>
-                Survey Templates
-              </Button>
-              <Button variant="outline" onClick={() => router.push('/site-surveys/export')}>
-                Export Reports
-              </Button>
-            </Stack>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <ListPage<SiteSurvey>
+      title="Site Surveys"
+      subtitle="Venue assessments, technical specifications, and site documentation"
+      data={surveys}
+      columns={columns}
+      rowKey="id"
+      loading={loading}
+      error={error instanceof Error ? error : undefined}
+      onRetry={refetch}
+      searchPlaceholder="Search surveys..."
+      filters={filters}
+      rowActions={rowActions}
+      onRowClick={(s) => router.push(`/site-surveys/${s.id}`)}
+      createLabel="Schedule Survey"
+      onCreate={() => router.push('/site-surveys/schedule')}
+      entityType="site-surveys"
+      onExport={createExportHandler({
+        filename: "site-surveys",
+        getData: () => surveys.map((s: SiteSurvey) => ({
+          survey_number: s.survey_number,
+          venue_name: s.venue_name,
+          venue_address: s.venue_address,
+          project_name: s.project_name,
+          survey_date: s.survey_date,
+          surveyor_name: s.surveyor_name,
+          power_assessment: s.power_assessment || '',
+          rigging_assessment: s.rigging_assessment || '',
+          load_in_assessment: s.load_in_assessment || '',
+          status: s.status,
+        })),
+      })}
+      stats={stats}
+      emptyMessage="No site surveys found"
+      emptyAction={{ label: 'Schedule Survey', onClick: () => router.push('/site-surveys/schedule') }}
+      showFavorite
+      showSettings
+    />
   );
 }

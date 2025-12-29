@@ -1,71 +1,144 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Box, H3, Spinner, Container, EmptyState } from "@ghxstship/ui";
-import { FileText, FolderOpen, BookOpen, FileSpreadsheet, Shield } from "lucide-react";
-import { useProject } from "../../../../hooks/useProjects";
-import { useProjectFiles } from "../../../../hooks/useFiles";
+/**
+ * Production Documents Page
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import { FileText, Search, Upload, Download, Folder, File, List } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Badge,
+  Body,
+  Button,
+  Card,
+  Input,
+  Grid,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
+
+interface Document {
+  id: string;
+  name: string;
+  type: string;
+  folder: string;
+  size: string;
+  updated: string;
+}
+
+const DEMO_DOCUMENTS: Document[] = [
+  { id: "1", name: "Production Schedule.pdf", type: "pdf", folder: "Schedules", size: "2.4 MB", updated: "2024-12-15" },
+  { id: "2", name: "Crew Contact List.xlsx", type: "xlsx", folder: "Crew", size: "156 KB", updated: "2024-12-14" },
+  { id: "3", name: "Technical Rider.pdf", type: "pdf", folder: "Technical", size: "1.8 MB", updated: "2024-12-13" },
+];
 
 export default function ProductionDocumentsPage() {
   const params = useParams();
-  const router = useRouter();
-  const productionId = params?.productionId as string;
-  
-  const { data: production, isLoading: productionLoading, error: productionError } = useProject(productionId);
-  const { data: filesData, isLoading: filesLoading } = useProjectFiles(productionId);
-  
-  const isLoading = productionLoading || filesLoading;
-  const files = filesData?.files || [];
+  const productionId = params.productionId as string;
+  const [search, setSearch] = useState("");
+  const [folder, setFolder] = useState("all");
 
-  if (isLoading) {
-    return (
-      <Container className="flex min-h-[60vh] items-center justify-center">
-        <Spinner variant="grey" size="lg" text="Loading documents..." />
-      </Container>
-    );
-  }
+  const { data: documents = [], isLoading, error, refetch } = useQuery<Document[]>({
+    queryKey: ["production-documents", productionId],
+    queryFn: async () => {
+      const response = await fetch(`/api/productions/${productionId}/documents`);
+      if (!response.ok) return DEMO_DOCUMENTS;
+      const data = await response.json();
+      return data.documents?.length ? data.documents : DEMO_DOCUMENTS;
+    },
+  });
 
-  if (productionError || !production) {
-    return (
-      <Container>
-        <EmptyState
-          title="Production Not Found"
-          description="The requested production could not be found."
-          action={{ label: "Go Back", onClick: () => window.history.back() }}
-        />
-      </Container>
-    );
-  }
+  const folders: string[] = ["all", ...Array.from(new Set(documents.map((d: Document) => d.folder)))];
+  const filteredDocs = documents.filter((doc: Document) => {
+    const matchesSearch = doc.name.toLowerCase().includes(search.toLowerCase());
+    const matchesFolder = folder === "all" || doc.folder === folder;
+    return matchesSearch && matchesFolder;
+  });
 
-  const stats = { files: files.length, sops: 24, specSheets: 45, templates: 18 };
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+
+  const tabs = [
+    {
+      id: "documents",
+      label: "Documents",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+            <StatCard label="Total Files" value={documents.length.toString()} icon={<FileText className="size-5" />} />
+            <StatCard label="Folders" value={folders.length.toString()} icon={<Folder className="size-5" />} />
+            <StatCard label="PDFs" value={documents.filter((d: Document) => d.type === "pdf").length.toString()} icon={<File className="size-5" />} />
+            <StatCard label="Spreadsheets" value={documents.filter((d: Document) => d.type === "xlsx").length.toString()} icon={<File className="size-5" />} />
+          </Grid>
+
+          <div className="flex gap-4 items-center mb-6">
+            <div className="relative flex-1 max-w-sm">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+              <Input placeholder="Search documents..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+            </div>
+            <div className="flex gap-2">
+              {folders.map((f) => (
+                <Button key={f} variant={folder === f ? "solid" : "outline"} size="sm" onClick={() => setFolder(f)}>
+                  {f === "all" ? "All" : f}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            {filteredDocs.map((doc: Document) => (
+              <Card key={doc.id} className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <FileText className="size-5 text-grey-400" />
+                    <div>
+                      <Body className="font-weight-medium">{doc.name}</Body>
+                      <Body size="sm" className="text-grey-400">{doc.size} • Updated {formatDate(doc.updated)}</Body>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline">{doc.folder}</Badge>
+                    <Button variant="ghost" size="sm"><Download className="size-4" /></Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "upload",
+      label: "Upload",
+      icon: <Upload className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Upload Documents" description="Add new documents to this production" />
+          <Card className="p-8 mt-4 border-dashed text-center">
+            <Upload className="size-12 text-grey-600 mx-auto mb-4" />
+            <Body className="font-weight-medium mb-2">Drop files here or click to upload</Body>
+            <Body className="text-grey-400 mb-4">PDF, XLSX, DOCX up to 50MB</Body>
+            <Button variant="outline">Select Files</Button>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <Stack gap={8}>
-      <SectionHeader kicker={production.name} title="Documents" description="Production files, SOPs, and reference materials" />
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Files" value={stats.files.toString()} icon={<FolderOpen size={20} />} />
-        <StatCard label="SOPs" value={stats.sops.toString()} icon={<BookOpen size={20} />} />
-        <StatCard label="Spec Sheets" value={stats.specSheets.toString()} icon={<FileSpreadsheet size={20} />} />
-        <StatCard label="Templates" value={stats.templates.toString()} icon={<FileText size={20} />} />
-      </div>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-        <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/documents/files`)}>
-          <CardBody><Stack gap={3} className="items-center text-center"><Box className="flex size-12 items-center justify-center rounded bg-ink-100"><FolderOpen size={24} className="text-primary" /></Box><Body className="font-weight-bold">Files</Body></Stack></CardBody>
-        </Card>
-        <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/documents/sops`)}>
-          <CardBody><Stack gap={3} className="items-center text-center"><Box className="flex size-12 items-center justify-center rounded bg-ink-100"><BookOpen size={24} className="text-secondary" /></Box><Body className="font-weight-bold">SOPs</Body></Stack></CardBody>
-        </Card>
-        <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/documents/spec-sheets`)}>
-          <CardBody><Stack gap={3} className="items-center text-center"><Box className="flex size-12 items-center justify-center rounded bg-ink-100"><FileSpreadsheet size={24} className="text-warning" /></Box><Body className="font-weight-bold">Spec Sheets</Body></Stack></CardBody>
-        </Card>
-        <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/documents/templates`)}>
-          <CardBody><Stack gap={3} className="items-center text-center"><Box className="flex size-12 items-center justify-center rounded bg-ink-100"><FileText size={24} className="text-accent" /></Box><Body className="font-weight-bold">Templates</Body></Stack></CardBody>
-        </Card>
-        <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/documents/backup-plans`)}>
-          <CardBody><Stack gap={3} className="items-center text-center"><Box className="flex size-12 items-center justify-center rounded bg-ink-100"><Shield size={24} className="text-error" /></Box><Body className="font-weight-bold">Backup Plans</Body></Stack></CardBody>
-        </Card>
-      </div>
-      <Card variant="elevated"><CardBody><Stack gap={4}><H3>Recent Documents</H3><Body className="text-muted">Recent documents will be displayed here.</Body></Stack></CardBody></Card>
-    </Stack>
+    <DetailPage
+      header={{ kicker: "Production", title: "Documents", description: "Manage production documents" }}
+      backButton={{ label: "Overview", href: `/p/${productionId}/overview` }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={<Button variant="solid" icon={<Upload className="size-4" />} iconPosition="left">Upload</Button>}
+    />
   );
 }

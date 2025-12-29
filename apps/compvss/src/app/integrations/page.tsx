@@ -1,171 +1,127 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  Container,
-  H2,
-  H3,
-  Body,
-  Button,
-  Card,
+  ListPage,
   Badge,
-  Grid,
-  Stack,
-  StatCard,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  Spinner,
-  useNotifications,
-  EnterprisePageHeader,
-  MainContent,
+  Text,
+  type ListPageColumn,
+  type ListPageFilter,
 } from '@ghxstship/ui';
-
+import { createExportHandler } from '@ghxstship/config';
 import { useSyncJobs } from '../../hooks/useIntegrations';
 
+interface SyncJob {
+  id: string;
+  source_system: string;
+  target_system: string;
+  status: string;
+  created_at: string;
+  payload: { action: string };
+}
+
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case 'synced': return 'solid';
+    case 'pending': return 'outline';
+    default: return 'ghost';
+  }
+};
+
 export default function CompvssIntegrationsPage() {
-  const router = useRouter();
-  const { addNotification } = useNotifications();
   const { data: syncJobs = [], isLoading: loading, refetch: fetchSyncJobs } = useSyncJobs();
 
-  const getStatusBadge = (status: string) => {
-    const variants: Record<string, 'solid' | 'outline' | 'ghost'> = {
-      synced: 'solid',
-      pending: 'outline',
-      failed: 'ghost',
-    };
-    return <Badge variant={variants[status] || 'outline'}>{status.toUpperCase()}</Badge>;
-  };
+  const columns: ListPageColumn<SyncJob>[] = [
+    {
+      key: 'source_system',
+      label: 'Source',
+      accessor: 'source_system',
+      sortable: true,
+      render: (_, job) => <Text className="font-weight-semibold">{job.source_system.toUpperCase()}</Text>,
+    },
+    {
+      key: 'target_system',
+      label: 'Target',
+      accessor: 'target_system',
+      sortable: true,
+      render: (_, job) => <Text>{job.target_system.toUpperCase()}</Text>,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, job) => <Badge variant={getStatusVariant(job.status)}>{job.status.toUpperCase()}</Badge>,
+    },
+    {
+      key: 'created_at',
+      label: 'Created',
+      accessor: 'created_at',
+      sortable: true,
+      render: (_, job) => <Text size="sm">{new Date(job.created_at).toLocaleString()}</Text>,
+    },
+    {
+      key: 'action',
+      label: 'Action',
+      accessor: (job) => job.payload.action,
+      render: (_, job) => <Text className="font-mono">{job.payload.action}</Text>,
+    },
+  ];
+
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'synced', label: 'Synced' },
+        { value: 'pending', label: 'Pending' },
+        { value: 'failed', label: 'Failed' },
+      ],
+    },
+    {
+      key: 'source_system',
+      label: 'Source',
+      options: [
+        { value: 'atlvs', label: 'ATLVS' },
+        { value: 'compvss', label: 'COMPVSS' },
+        { value: 'gvteway', label: 'GVTEWAY' },
+      ],
+    },
+  ];
+
+  const stats = [
+    { label: 'Projects from ATLVS', value: 24 },
+    { label: 'Events to GVTEWAY', value: 18 },
+    { label: 'Asset Allocations', value: 142 },
+    { label: 'Total Sync Jobs', value: syncJobs.length },
+  ];
 
   return (
-    <>
-      <EnterprisePageHeader
-        title="Platform Integrations"
-        subtitle="Monitor cross-platform data synchronization and manage production workflows."
-
-
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
-              <StatCard value="24" label="Projects from ATLVS" />
-              <StatCard value="18" label="Events to GVTEWAY" />
-              <StatCard value="142" label="Asset Allocations" />
-            </Grid>
-
-            <Card>
-              <Stack gap={6}>
-                <Stack gap={4} direction="horizontal" className="justify-between items-center">
-                  <H2>Recent Sync Jobs</H2>
-                  <Button onClick={fetchSyncJobs} variant="outline">
-                    Refresh
-                  </Button>
-                </Stack>
-
-                {loading ? (
-                  <Stack className="items-center justify-center py-12">
-                    <Spinner variant="grey" size="lg" text="Loading sync jobs..." />
-                  </Stack>
-                ) : (
-                  <Table variant="dark">
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Source</TableHead>
-                        <TableHead>Target</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Created</TableHead>
-                        <TableHead>Action</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {syncJobs.map((job) => (
-                        <TableRow key={job.id}>
-                          <TableCell><Body>{job.source_system.toUpperCase()}</Body></TableCell>
-                          <TableCell><Body>{job.target_system.toUpperCase()}</Body></TableCell>
-                          <TableCell>{getStatusBadge(job.status)}</TableCell>
-                          <TableCell><Body size="sm" className="">{new Date(job.created_at).toLocaleString()}</Body></TableCell>
-                          <TableCell>
-                            <Body className="font-mono">{job.payload.action}</Body>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                )}
-              </Stack>
-            </Card>
-
-            <Card>
-              <Stack gap={6}>
-                <Stack gap={2}>
-                  <H2>Integration Workflows</H2>
-                  <Body>
-                    Trigger cross-platform workflows from COMPVSS production operations.
-                  </Body>
-                </Stack>
-
-                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                  <Card>
-                    <Stack gap={4}>
-                      <H3>Event Publishing</H3>
-                      <Body size="sm" className="">
-                        Publish production project details to GVTEWAY for ticket sales and guest experience.
-                      </Body>
-                      <Button variant="solid" onClick={() => { addNotification({ type: 'success', title: 'Publishing', message: 'Event data being synced to GVTEWAY' }); }}>
-                        Publish to GVTEWAY
-                      </Button>
-                    </Stack>
-                  </Card>
-
-                  <Card>
-                    <Stack gap={4}>
-                      <H3>Asset Request</H3>
-                      <Body size="sm" className="">
-                        Check availability and request asset allocation from ATLVS inventory.
-                      </Body>
-                      <Button variant="outline" onClick={() => router.push('/advancing/requests/new')}>
-                        Request from ATLVS
-                      </Button>
-                    </Stack>
-                  </Card>
-
-                  <Card>
-                    <Stack gap={4}>
-                      <H3>Expense Submission</H3>
-                      <Body size="sm" className="">
-                        Submit production expenses directly to ATLVS finance for approval and payment.
-                      </Body>
-                      <Button variant="outline" onClick={() => router.push('/expenses/new')}>
-                        Submit to Finance
-                      </Button>
-                    </Stack>
-                  </Card>
-
-                  <Card>
-                    <Stack gap={4}>
-                      <H3>Crew Sync</H3>
-                      <Body size="sm" className="">
-                        Synchronize crew assignments and time tracking with ATLVS payroll system.
-                      </Body>
-                      <Button variant="outline" onClick={() => { addNotification({ type: 'info', title: 'Syncing', message: 'Crew data sync initiated' }); }}>
-                        Sync Crew Data
-                      </Button>
-                    </Stack>
-                  </Card>
-                </Grid>
-              </Stack>
-            </Card>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <ListPage<SyncJob>
+      title="Platform Integrations"
+      subtitle="Monitor cross-platform data synchronization and manage production workflows"
+      data={syncJobs}
+      columns={columns}
+      rowKey="id"
+      loading={loading}
+      onRetry={fetchSyncJobs}
+      searchPlaceholder="Search sync jobs..."
+      filters={filters}
+      entityType="integrations"
+      onExport={createExportHandler({
+        filename: "sync-jobs",
+        getData: () => syncJobs.map((job: SyncJob) => ({
+          source: job.source_system,
+          target: job.target_system,
+          status: job.status,
+          created_at: job.created_at,
+          action: job.payload.action,
+        })),
+      })}
+      stats={stats}
+      emptyMessage="No sync jobs found"
+      showFavorite
+      showSettings
+    />
   );
 }

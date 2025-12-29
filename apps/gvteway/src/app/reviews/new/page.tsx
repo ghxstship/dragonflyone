@@ -1,300 +1,42 @@
-'use client';
+"use client";
 
-import { useState, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { GvtewayLoadingLayout } from '@/components/app-layout';
-import {
-  H2,
-  H3,
-  Body,
-  Label,
-  Button,
-  Card,
-  Field,
-  Input,
-  Textarea,
-  Grid,
-  Stack,
-  Alert,
-  Figure,
-  Form,
-  Kicker,
-} from '@ghxstship/ui';
-import Image from 'next/image';
-import { useNewReviewData } from '@/hooks/useNewReview';
-
-function NewReviewContent() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const eventId = searchParams.get('event');
-
-  const [localError, setLocalError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-
-  // Review form state
-  const [overallRating, setOverallRating] = useState(0);
-  const [venueRating, setVenueRating] = useState(0);
-  const [valueRating, setValueRating] = useState(0);
-  const [atmosphereRating, setAtmosphereRating] = useState(0);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [wouldRecommend, setWouldRecommend] = useState<boolean | null>(null);
-  const [highlights, setHighlights] = useState<string[]>([]);
-
-  const {
-    event,
-    isLoading: loading,
-    error,
-    submitReview,
-    isSubmitting: submitting,
-  } = useNewReviewData(eventId);
-
-  const highlightOptions = [
-    'Great Performance',
-    'Amazing Venue',
-    'Good Sound Quality',
-    'Easy Entry',
-    'Great Crowd',
-    'Good Food/Drinks',
-    'Clean Facilities',
-    'Friendly Staff',
-    'Good Parking',
-    'Worth the Price',
-  ];
-
-  const handleSubmit = async () => {
-    if (overallRating === 0) {
-      setLocalError('Please provide an overall rating');
-      return;
-    }
-
-    if (!eventId) return;
-
-    setLocalError(null);
-
-    try {
-      await submitReview({
-        event_id: eventId,
-        overall_rating: overallRating,
-        venue_rating: venueRating || undefined,
-        value_rating: valueRating || undefined,
-        atmosphere_rating: atmosphereRating || undefined,
-        title,
-        content,
-        would_recommend: wouldRecommend || undefined,
-        highlights,
-      });
-      setSuccess(true);
-      setTimeout(() => {
-        router.push(`/events/${eventId}`);
-      }, 2000);
-    } catch (err) {
-      setLocalError(err instanceof Error ? err.message : 'Failed to submit review');
-    }
-  };
-
-  const toggleHighlight = (highlight: string) => {
-    setHighlights(prev =>
-      prev.includes(highlight)
-        ? prev.filter(h => h !== highlight)
-        : [...prev, highlight]
-    );
-  };
-
-  const renderStars = (rating: number, setRating: (r: number) => void, label: string) => (
-    <Stack gap={2}>
-      <Label>{label}</Label>
-      <Stack direction="horizontal" gap={1}>
-        {[1, 2, 3, 4, 5].map(star => (
-          <Button
-            key={star}
-            type="button"
-            variant="ghost"
-            className={`text-h5-md p-1 ${star <= rating ? 'text-warning-500' : 'text-ink-600'}`}
-            onClick={() => setRating(star)}
-          >
-            ★
-          </Button>
-        ))}
-      </Stack>
-    </Stack>
-  );
-
-  if (loading) {
-    return <GvtewayLoadingLayout />;
-  }
-
-  if (!event) {
-    return (
-      <>
-            <Card inverted className="p-12 text-center mt-12">
-              <H2 className="mb-4 text-white">Event Not Found</H2>
-              <Body className="text-on-dark-muted mb-6">
-                Please select an event to review.
-              </Body>
-              <Button variant="solid" inverted onClick={() => router.push('/my-events')}>
-                View My Events
-              </Button>
-            </Card>
-      </>
-    );
-  }
-
-  if (success) {
-    return (
-      <>
-            <Card inverted className="p-12 text-center mt-12">
-              <H2 className="mb-4 text-white">Thank You!</H2>
-              <Body className="text-on-dark-muted mb-6">
-                Your review has been submitted successfully.
-              </Body>
-            </Card>
-      </>
-    );
-  }
-
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Reviews</Kicker>
-              <H2 size="lg" className="text-white">Write a Review</H2>
-              <Body className="text-on-dark-muted">Share your experience</Body>
-            </Stack>
-
-        {(error || localError) && (
-          <Alert variant="error" className="mb-6">
-            {error instanceof Error ? error.message : localError || String(error)}
-          </Alert>
-        )}
-
-        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
-          <Stack className="col-span-2">
-            <Form onSubmit={handleSubmit}>
-              <Stack gap={6}>
-                <Card className="p-6">
-                  <H3 className="mb-6">OVERALL RATING</H3>
-                  {renderStars(overallRating, setOverallRating, 'How would you rate this event overall?')}
-                </Card>
-
-                <Card className="p-6">
-                  <H3 className="mb-6">DETAILED RATINGS</H3>
-                  <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
-                    {renderStars(venueRating, setVenueRating, 'Venue')}
-                    {renderStars(valueRating, setValueRating, 'Value for Money')}
-                    {renderStars(atmosphereRating, setAtmosphereRating, 'Atmosphere')}
-                  </Grid>
-                </Card>
-
-                <Card className="p-6">
-                  <H3 className="mb-6">YOUR REVIEW</H3>
-                  <Stack gap={4}>
-                    <Field label="Review Title">
-                      <Input
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Summarize your experience..."
-                      />
-                    </Field>
-
-                    <Field label="Your Review">
-                      <Textarea
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="Share details of your experience..."
-                        rows={6}
-                      />
-                    </Field>
-                  </Stack>
-                </Card>
-
-                <Card className="p-6">
-                  <H3 className="mb-6">HIGHLIGHTS</H3>
-                  <Body className="text-ink-600 mb-4">
-                    What stood out about this event?
-                  </Body>
-                  <Stack direction="horizontal" gap={2} className="flex-wrap">
-                    {highlightOptions.map(highlight => (
-                      <Button
-                        key={highlight}
-                        type="button"
-                        variant={highlights.includes(highlight) ? 'solid' : 'outline'}
-                        size="sm"
-                        onClick={() => toggleHighlight(highlight)}
-                      >
-                        {highlight}
-                      </Button>
-                    ))}
-                  </Stack>
-                </Card>
-
-                <Card className="p-6">
-                  <H3 className="mb-6">WOULD YOU RECOMMEND?</H3>
-                  <Stack direction="horizontal" gap={4}>
-                    <Button
-                      type="button"
-                      variant={wouldRecommend === true ? 'solid' : 'outline'}
-                      onClick={() => setWouldRecommend(true)}
-                      className="flex-1"
-                    >
-                      Yes, I would recommend
-                    </Button>
-                    <Button
-                      type="button"
-                      variant={wouldRecommend === false ? 'solid' : 'outline'}
-                      onClick={() => setWouldRecommend(false)}
-                      className="flex-1"
-                    >
-                      No, I would not
-                    </Button>
-                  </Stack>
-                </Card>
-
-                <Stack direction="horizontal" gap={4}>
-                  <Button type="submit" variant="solid" disabled={submitting}>
-                    {submitting ? 'Submitting...' : 'Submit Review'}
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => router.back()}
-                  >
-                    Cancel
-                  </Button>
-                </Stack>
-              </Stack>
-            </Form>
-          </Stack>
-
-          <Stack>
-            <Card className="p-6 sticky top-6">
-              <H3 className="mb-4">REVIEWING</H3>
-              {event.image && (
-                <Figure className="relative h-40 bg-ink-100 mb-4 overflow-hidden">
-                  <Image
-                    src={event.image}
-                    alt={event.title}
-                    fill
-                    className="object-cover"
-                  />
-                </Figure>
-              )}
-              <Body className="font-weight-bold">{event.title}</Body>
-              <Body className="text-ink-600">{event.date}</Body>
-              <Body className="text-ink-500">{event.venue}</Body>
-            </Card>
-          </Stack>
-        </Grid>
-          </Stack>
-    </>
-  );
-}
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Star } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { Body, Button, Input, Textarea, CreatePage } from "@ghxstship/ui";
 
 export default function NewReviewPage() {
+  const router = useRouter();
+  const [event, setEvent] = useState("");
+  const [rating, setRating] = useState(0);
+  const [text, setText] = useState("");
+
+  const createReview = useMutation({
+    mutationFn: async (data: { event: string; rating: number; text: string }) => {
+      const r = await fetch("/api/reviews", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      if (!r.ok) throw new Error("Failed to create review");
+      return r.json();
+    },
+    onSuccess: () => router.push("/reviews"),
+  });
+
+  const sections = [
+    { id: "event", title: "Event", content: (<div><Body size="sm" className="mb-1">Event Name</Body><Input placeholder="Summer Festival 2024" value={event} onChange={(e) => setEvent(e.target.value)} required /></div>) },
+    { id: "rating", title: "Rating", content: (<div className="flex gap-2">{Array.from({ length: 5 }).map((_, i) => <Button key={i} variant="ghost" size="sm" onClick={() => setRating(i + 1)}><Star className={`size-8 ${i < rating ? "text-warning fill-warning" : "text-grey-600"}`} /></Button>)}</div>) },
+    { id: "review", title: "Review", content: (<div><Body size="sm" className="mb-1">Your Review</Body><Textarea rows={5} placeholder="Share your experience..." value={text} onChange={(e) => setText(e.target.value)} /></div>) },
+  ];
+
   return (
-    <Suspense fallback={<GvtewayLoadingLayout />}>
-      <NewReviewContent />
-    </Suspense>
+    <CreatePage
+      title="Write a Review"
+      subtitle="Share your experience"
+      backHref="/reviews"
+      backLabel="Reviews"
+      sections={sections}
+      onSubmit={(e) => { e.preventDefault(); if (event && rating) createReview.mutate({ event, rating, text }); }}
+      submitLabel="Submit Review"
+      isSubmitting={createReview.isPending}
+    />
   );
 }

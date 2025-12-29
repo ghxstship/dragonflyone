@@ -29,12 +29,9 @@ export interface PreferencesData {
   marketingEmails: boolean;
 }
 
-// Helper to get auth headers
+// Helper to get auth headers - uses cookie-based auth via credentials: include
 function getAuthHeaders(): HeadersInit {
-  const token = localStorage.getItem('ghxstship_access_token');
-  const headers: HeadersInit = { 'Content-Type': 'application/json' };
-  if (token) headers['Authorization'] = `Bearer ${token}`;
-  return headers;
+  return { 'Content-Type': 'application/json' };
 }
 
 // Mutation functions
@@ -42,6 +39,7 @@ async function saveProfile(data: ProfileData): Promise<void> {
   const response = await fetch('/api/onboarding/profile', {
     method: 'POST',
     headers: getAuthHeaders(),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
   if (!response.ok) {
@@ -53,6 +51,7 @@ async function saveOrganization(data: OrganizationData): Promise<void> {
   const response = await fetch('/api/onboarding/organization', {
     method: 'POST',
     headers: getAuthHeaders(),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
   if (!response.ok) {
@@ -64,6 +63,7 @@ async function saveRole(data: RoleData): Promise<void> {
   const response = await fetch('/api/onboarding/role', {
     method: 'POST',
     headers: getAuthHeaders(),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
   if (!response.ok) {
@@ -75,6 +75,7 @@ async function savePreferences(data: PreferencesData): Promise<void> {
   const response = await fetch('/api/onboarding/preferences', {
     method: 'POST',
     headers: getAuthHeaders(),
+    credentials: 'include',
     body: JSON.stringify(data),
   });
   if (!response.ok) {
@@ -86,6 +87,7 @@ async function completeOnboarding(): Promise<void> {
   const response = await fetch('/api/onboarding/complete', {
     method: 'POST',
     headers: getAuthHeaders(),
+    credentials: 'include',
   });
   if (!response.ok) {
     throw new Error('Failed to complete onboarding');

@@ -1,16 +1,78 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const clockSchema = z.object({
+  action: z.enum(['clock_in', 'clock_out']),
+  event_id: z.string().uuid(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
+  notes: z.string().optional(),
+});
+
+const syncTimeEntriesSchema = z.object({
+  action: z.literal('sync_time_entries'),
+  entries: z.array(z.record(z.unknown())).optional(),
+});
+
+const reportIncidentSchema = z.object({
+  action: z.literal('report_incident'),
+  event_id: z.string().uuid(),
+  type: z.string(),
+  description: z.string(),
+  severity: z.string().optional(),
+  photos: z.array(z.string()).optional(),
+});
+
+const updateAvailabilitySchema = z.object({
+  action: z.literal('update_availability'),
+  date: z.string(),
+  available: z.boolean(),
+  notes: z.string().optional(),
+});
+
+const registerPushTokenSchema = z.object({
+  action: z.literal('register_push_token'),
+  token: z.string(),
+  platform: z.string(),
+});
+
+const markNotificationsReadSchema = z.object({
+  action: z.literal('mark_notifications_read'),
+  notification_ids: z.array(z.string().uuid()).optional(),
+});
+
+const crewMobileActionSchema = z.union([
+  clockSchema,
+  syncTimeEntriesSchema,
+  reportIncidentSchema,
+  updateAvailabilitySchema,
+  registerPushTokenSchema,
+  markNotificationsReadSchema,
+]);
 
 /**
  * Dedicated crew mobile app API with offline capability
  * Supports background sync, push notifications, and offline data caching
  */
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -183,7 +245,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -194,11 +263,12 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = crewMobileActionSchema.parse(body);
+    const { action } = validatedData;
 
     // Clock in/out with geolocation
     if (action === 'clock_in' || action === 'clock_out') {
-      const { event_id, latitude, longitude, notes } = body;
+      const { event_id, latitude, longitude, notes } = validatedData as z.infer<typeof clockSchema>;
 
       const { data: profile } = await supabase
         .from('crew_members')
@@ -262,7 +332,7 @@ export async function POST(request: NextRequest) {
 
     // Sync offline time entries
     if (action === 'sync_time_entries') {
-      const { entries } = body;
+      const { entries } = validatedData as z.infer<typeof syncTimeEntriesSchema>;
       const results: unknown[] = [];
 
       const { data: profile } = await supabase
@@ -299,7 +369,7 @@ export async function POST(request: NextRequest) {
 
     // Report incident
     if (action === 'report_incident') {
-      const { event_id, type, description, severity, photos } = body;
+      const { event_id, type, description, severity, photos } = validatedData as z.infer<typeof reportIncidentSchema>;
 
       const { data: profile } = await supabase
         .from('crew_members')
@@ -331,7 +401,7 @@ export async function POST(request: NextRequest) {
 
     // Update availability
     if (action === 'update_availability') {
-      const { date, available, notes } = body;
+      const { date, available, notes } = validatedData as z.infer<typeof updateAvailabilitySchema>;
 
       const { data: profile } = await supabase
         .from('crew_members')
@@ -360,7 +430,7 @@ export async function POST(request: NextRequest) {
 
     // Register push notification token
     if (action === 'register_push_token') {
-      const { token, platform } = body;
+      const { token, platform } = validatedData as z.infer<typeof registerPushTokenSchema>;
 
       await supabase
         .from('push_tokens')
@@ -376,7 +446,7 @@ export async function POST(request: NextRequest) {
 
     // Mark notifications as read
     if (action === 'mark_notifications_read') {
-      const { notification_ids } = body;
+      const { notification_ids } = validatedData as z.infer<typeof markNotificationsReadSchema>;
 
       await supabase
         .from('notifications')

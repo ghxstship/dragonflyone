@@ -1,14 +1,26 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
 // Client retention and churn analysis
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const period = searchParams.get('period') || '12'; // months
@@ -24,10 +36,10 @@ export async function GET(request: NextRequest) {
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
-    const { data: recentProjects } = await supabase.from('projects').select('client_id')
+    const { data: recentProjects } = await supabase.from('projects').select('contact_id')
       .gte('created_at', sixMonthsAgo.toISOString());
 
-    const activeClientIds = new Set(recentProjects?.map(p => p.client_id) || []);
+    const activeClientIds = new Set(recentProjects?.map(p => p.contact_id) || []);
     const churnedClients = clients?.filter(c => !activeClientIds.has(c.id)) || [];
 
     // Calculate monthly churn
@@ -41,10 +53,10 @@ export async function GET(request: NextRequest) {
       const { data: monthClients } = await supabase.from('contacts').select('id')
         .eq('type', 'client').lte('created_at', monthStart.toISOString());
 
-      const { data: monthProjects } = await supabase.from('projects').select('client_id')
+      const { data: monthProjects } = await supabase.from('projects').select('contact_id')
         .gte('created_at', monthStart.toISOString()).lte('created_at', monthEnd.toISOString());
 
-      const monthActiveIds = new Set(monthProjects?.map(p => p.client_id) || []);
+      const monthActiveIds = new Set(monthProjects?.map(p => p.contact_id) || []);
       const monthChurned = monthClients?.filter(c => !monthActiveIds.has(c.id)).length || 0;
 
       monthlyChurn.unshift({
@@ -55,12 +67,14 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Churn reasons analysis
-    const { data: churnReasons } = await supabase.from('client_churn_records').select('reason, count')
-      .gte('churned_at', startDate.toISOString());
+    // Churn reasons analysis - use activity_logs as fallback since client_churn_records may not exist
+    const { data: churnReasons } = await supabase.from('activity_logs').select('action, metadata')
+      .eq('action', 'client_churned')
+      .gte('created_at', startDate.toISOString());
 
     const reasonCounts = churnReasons?.reduce((acc: Record<string, number>, r) => {
-      acc[r.reason] = (acc[r.reason] || 0) + 1;
+      const reason = (r.metadata as Record<string, string>)?.reason || 'unknown';
+      acc[reason] = (acc[reason] || 0) + 1;
       return acc;
     }, {} as Record<string, number>) || {};
 
@@ -85,16 +99,21 @@ export async function GET(request: NextRequest) {
 }
 
 async function getAtRiskClients() {
+  const supabase = createAdminClient();
   const threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
-  const { data: clients } = await supabase.from('contacts').select('id, name, company')
+  const { data: clients } = await supabase.from('contacts').select('id, first_name, last_name, company')
     .eq('type', 'client');
 
-  const { data: recentActivity } = await supabase.from('projects').select('client_id')
+  const { data: recentActivity } = await supabase.from('projects').select('contact_id')
     .gte('created_at', threeMonthsAgo.toISOString());
 
-  const activeIds = new Set(recentActivity?.map(p => p.client_id) || []);
+  const activeIds = new Set(recentActivity?.map(p => p.contact_id) || []);
   
-  return clients?.filter(c => !activeIds.has(c.id)).slice(0, 10) || [];
+  return clients?.filter(c => !activeIds.has(c.id)).map(c => ({
+    id: c.id,
+    name: `${c.first_name || ''} ${c.last_name || ''}`.trim() || 'Unknown',
+    company: c.company
+  })).slice(0, 10) || [];
 }

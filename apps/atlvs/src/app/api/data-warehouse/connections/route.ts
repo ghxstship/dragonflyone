@@ -1,9 +1,14 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
+
+const ATLVS_ADMIN_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 const connectionSchema = z.object({
   name: z.string().min(1).max(255),
@@ -25,6 +30,14 @@ const connectionSchema = z.object({
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ADMIN_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const connection_type = searchParams.get('connection_type');
     const is_active = searchParams.get('is_active');
@@ -75,14 +88,12 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ADMIN_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
     }
 
     const body = await request.json();
@@ -94,7 +105,7 @@ export async function POST(request: NextRequest) {
         ...validated,
         is_active: true,
         sync_status: 'pending',
-        created_by: user.id,
+        created_by: authResult.user?.id,
       })
       .select()
       .single();

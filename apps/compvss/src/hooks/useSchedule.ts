@@ -3,21 +3,23 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
+// Schema: Aligned with Supabase schedule_phases table schema
 interface SchedulePhase {
   id: string;
-  project_id?: string;
-  name: string;
-  start_time?: string;
-  end_time?: string;
-  crew_count?: number;
-  status: 'pending' | 'in-progress' | 'completed' | 'cancelled';
-  progress?: number;
-  created_at: string;
-  updated_at: string;
+  schedule_id: string;
+  phase_name: string;
+  description?: string | null;
+  start_date?: string | null;
+  end_date?: string | null;
+  phase_order?: number | null;
+  color?: string | null;
+  status: 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | null;
+  created_at: string | null;
+  updated_at: string | null;
 }
 
 interface ScheduleFilters {
-  project_id?: string;
+  schedule_id?: string;
   status?: string;
 }
 
@@ -29,10 +31,10 @@ export function useSchedule(filters?: ScheduleFilters) {
       let query = supabase
         .from('schedule_phases')
         .select('*')
-        .order('start_time', { ascending: true });
+        .order('phase_order', { ascending: true });
 
-      if (filters?.project_id) {
-        query = query.eq('project_id', filters.project_id);
+      if (filters?.schedule_id) {
+        query = query.eq('schedule_id', filters.schedule_id);
       }
       if (filters?.status) {
         query = query.eq('status', filters.status);
@@ -40,7 +42,7 @@ export function useSchedule(filters?: ScheduleFilters) {
 
       const { data, error } = await query;
       if (error) throw error;
-      return (data as unknown) as SchedulePhase[];
+      return data as SchedulePhase[];
     },
   });
 }
@@ -57,10 +59,22 @@ export function useSchedulePhase(id: string) {
         .single();
 
       if (error) throw error;
-      return (data as unknown) as SchedulePhase;
+      return data as SchedulePhase;
     },
     enabled: !!id,
   });
+}
+
+// Schema: Input type for creating schedule phases
+interface CreateSchedulePhaseInput {
+  schedule_id: string;
+  phase_name: string;
+  description?: string | null;
+  start_date?: string | null;
+  end_date?: string | null;
+  phase_order?: number | null;
+  color?: string | null;
+  status?: 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | null;
 }
 
 // Create schedule phase
@@ -68,7 +82,7 @@ export function useCreateSchedulePhase() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (phase: Omit<SchedulePhase, 'id' | 'created_at' | 'updated_at'>) => {
+    mutationFn: async (phase: CreateSchedulePhaseInput) => {
       const { data, error } = await supabase
         .from('schedule_phases')
         .insert(phase)
@@ -76,7 +90,7 @@ export function useCreateSchedulePhase() {
         .single();
 
       if (error) throw error;
-      return data;
+      return data as SchedulePhase;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['schedule'] });
@@ -84,12 +98,24 @@ export function useCreateSchedulePhase() {
   });
 }
 
+// Schema: Input type for updating schedule phases
+interface UpdateSchedulePhaseInput {
+  id: string;
+  phase_name?: string;
+  description?: string | null;
+  start_date?: string | null;
+  end_date?: string | null;
+  phase_order?: number | null;
+  color?: string | null;
+  status?: 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | null;
+}
+
 // Update schedule phase
 export function useUpdateSchedulePhase() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, ...updates }: Partial<SchedulePhase> & { id: string }) => {
+    mutationFn: async ({ id, ...updates }: UpdateSchedulePhaseInput) => {
       const { data, error } = await supabase
         .from('schedule_phases')
         .update(updates)
@@ -98,7 +124,7 @@ export function useUpdateSchedulePhase() {
         .single();
 
       if (error) throw error;
-      return data;
+      return data as SchedulePhase;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['schedule'] });

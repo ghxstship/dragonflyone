@@ -29,6 +29,6 @@ export async function sendEmail({ to, subject, html }: SendEmailParams) {
 
   if (!response.ok) {
     const message = await response.text();
-    log.error('Failed to send email', message instanceof Error ? message : undefined);
+    log.error('Failed to send email', new Error(message));
   }
 }

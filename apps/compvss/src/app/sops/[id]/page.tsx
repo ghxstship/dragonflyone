@@ -5,7 +5,14 @@ import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Pencil, Plus, Trash2, CheckCircle, AlertTriangle } from 'lucide-react';
 // Layout provided by route group
 import { useSOP, useCreateSOPStep, useUpdateSOPStep, useDeleteSOPStep, useAcknowledgeSOP, type SOPStep } from '../../../hooks/useSOPs';
-import { useAuth } from '@ghxstship/config';
+import { useAuth, useAuthContext, PlatformRole } from '@ghxstship/config';
+
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 import {
   Container,
   Section,
@@ -38,6 +45,10 @@ export default function SOPDetailPage() {
   const params = useParams();
   const sopId = params.id as string;
   const { user } = useAuth();
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access
+  const canManageSOPs = ADMIN_ROLES.some(role => hasRole(role));
   
   const { data: sop, isLoading, refetch } = useSOP(sopId);
   const createStepMutation = useCreateSOPStep();
@@ -166,13 +177,15 @@ export default function SOPDetailPage() {
                     Acknowledge
                   </Button>
                 )}
-                <Button
-                  onClick={() => router.push(`/sops/${sopId}/edit`)}
-                  className="flex items-center gap-2 border-2 border-grey-300 bg-white px-4 py-2"
-                >
-                  <Pencil className="size-4" />
-                  Edit
-                </Button>
+                {canManageSOPs && (
+                  <Button
+                    onClick={() => router.push(`/sops/${sopId}/edit`)}
+                    className="flex items-center gap-2 border-2 border-grey-300 bg-white px-4 py-2"
+                  >
+                    <Pencil className="size-4" />
+                    Edit
+                  </Button>
+                )}
               </Stack>
             </Stack>
 
@@ -183,13 +196,15 @@ export default function SOPDetailPage() {
                   <Stack gap={4}>
                     <Stack direction="horizontal" gap={4} className="items-center justify-between">
                       <H3>Procedure Steps</H3>
-                      <Button
-                        onClick={() => setStepModalOpen(true)}
-                        className="flex items-center gap-2 border-2 border-primary bg-primary px-4 py-2 text-white"
-                      >
-                        <Plus className="size-4" />
-                        Add Step
-                      </Button>
+                      {canManageSOPs && (
+                        <Button
+                          onClick={() => setStepModalOpen(true)}
+                          className="flex items-center gap-2 border-2 border-primary bg-primary px-4 py-2 text-white"
+                        >
+                          <Plus className="size-4" />
+                          Add Step
+                        </Button>
+                      )}
                     </Stack>
 
                     {sop.steps && sop.steps.length > 0 ? (
@@ -212,20 +227,22 @@ export default function SOPDetailPage() {
                                     )}
                                   </Stack>
                                 </Stack>
-                                <Stack direction="horizontal" gap={1}>
-                                  <Button
-                                    onClick={() => setEditingStep(step)}
-                                    className="border-2 border-grey-200 bg-white p-2"
-                                  >
-                                    <Pencil className="size-4" />
-                                  </Button>
-                                  <Button
-                                    onClick={() => setDeleteStepId(step.id)}
-                                    className="border-2 border-grey-200 bg-white p-2 text-error"
-                                  >
-                                    <Trash2 className="size-4" />
-                                  </Button>
-                                </Stack>
+                                {canManageSOPs && (
+                                  <Stack direction="horizontal" gap={1}>
+                                    <Button
+                                      onClick={() => setEditingStep(step)}
+                                      className="border-2 border-grey-200 bg-white p-2"
+                                    >
+                                      <Pencil className="size-4" />
+                                    </Button>
+                                    <Button
+                                      onClick={() => setDeleteStepId(step.id)}
+                                      className="border-2 border-grey-200 bg-white p-2 text-error"
+                                    >
+                                      <Trash2 className="size-4" />
+                                    </Button>
+                                  </Stack>
+                                )}
                               </Stack>
 
                               <Body className="text-grey-700">{step.description}</Body>

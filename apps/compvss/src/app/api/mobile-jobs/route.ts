@@ -1,14 +1,59 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const quickApplySchema = z.object({
+  action: z.literal('quick_apply'),
+  opportunity_id: z.string().uuid(),
+  use_saved_resume: z.boolean().optional(),
+  cover_note: z.string().optional(),
+});
+
+const saveJobSchema = z.object({
+  action: z.literal('save_job'),
+  opportunity_id: z.string().uuid(),
+});
+
+const unsaveJobSchema = z.object({
+  action: z.literal('unsave_job'),
+  opportunity_id: z.string().uuid(),
+});
+
+const getSavedJobsSchema = z.object({
+  action: z.literal('get_saved_jobs'),
+});
+
+const getApplicationsSchema = z.object({
+  action: z.literal('get_applications'),
+});
+
+const mobileJobsActionSchema = z.union([
+  quickApplySchema,
+  saveJobSchema,
+  unsaveJobSchema,
+  getSavedJobsSchema,
+  getApplicationsSchema,
+]);
 
 // Mobile job search and application
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const lat = searchParams.get('lat');
@@ -70,17 +115,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = mobileJobsActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'quick_apply') {
-      const { opportunity_id, use_saved_resume, cover_note } = body;
+      const { opportunity_id, use_saved_resume, cover_note } = validatedData as z.infer<typeof quickApplySchema>;
 
       // Get user's saved resume if using saved
       let resumeUrl = null;
@@ -101,7 +153,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'save_job') {
-      const { opportunity_id } = body;
+      const { opportunity_id } = validatedData as z.infer<typeof saveJobSchema>;
 
       await supabase.from('saved_jobs').upsert({
         user_id: user.id, opportunity_id, saved_at: new Date().toISOString()
@@ -111,7 +163,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'unsave_job') {
-      const { opportunity_id } = body;
+      const { opportunity_id } = validatedData as z.infer<typeof unsaveJobSchema>;
 
       await supabase.from('saved_jobs').delete()
         .eq('user_id', user.id).eq('opportunity_id', opportunity_id);

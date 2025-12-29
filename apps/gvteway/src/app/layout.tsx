@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import {
@@ -8,7 +8,7 @@ import {
   Share_Tech_Mono,
 } from "next/font/google";
 import "./globals.css";
-import { ErrorBoundary, NotificationProvider } from "@ghxstship/ui";
+import { ErrorBoundary, NotificationProvider, Link } from "@ghxstship/ui";
 import { Providers } from "./providers";
 import { ServiceWorkerRegistration } from "../components/service-worker-registration";
 import { CookieConsentWrapper } from "../components/cookie-consent-wrapper";
@@ -59,6 +59,16 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_GVTEWAY_URL || "https://gvteway.com"),
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#000000" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -69,6 +79,18 @@ export default function RootLayout({
       <body
         className={`${anton.variable} ${bebasNeue.variable} ${shareTech.variable} ${shareTechMono.variable} bg-black text-white`}
       >
+        <Link
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-button focus:border-2 focus:border-primary-foreground focus:shadow-md focus:outline-none"
+        >
+          Skip to main content
+        </Link>
+        <Link
+          href="#main-navigation"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-48 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-button focus:border-2 focus:border-primary-foreground focus:shadow-md focus:outline-none"
+        >
+          Skip to navigation
+        </Link>
         <ErrorBoundary>
           <Providers>
             <NotificationProvider>

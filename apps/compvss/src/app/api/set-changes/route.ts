@@ -1,14 +1,45 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createSetChangeSchema = z.object({
+  event_id: z.string().uuid(),
+  sequence: z.number(),
+  from_set: z.string().optional(),
+  to_set: z.string().optional(),
+  duration_minutes: z.number().optional(),
+  tasks: z.array(z.object({
+    task: z.string(),
+    assigned_to: z.string().uuid().optional(),
+  })).optional(),
+});
+
+const updateSetChangeSchema = z.object({
+  id: z.string().uuid(),
+  status: z.string().optional(),
+  actual_start: z.string().optional(),
+  actual_end: z.string().optional(),
+});
 
 // Set change coordination and timing
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
@@ -27,11 +58,18 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const body = await request.json();
-    const { event_id, sequence, from_set, to_set, duration_minutes, tasks } = body;
+    const validatedData = createSetChangeSchema.parse(body);
+    const { event_id, sequence, from_set, to_set, duration_minutes, tasks } = validatedData;
 
     const { data, error } = await supabase.from('set_changes').insert({
       event_id, sequence, from_set, to_set, duration_minutes, status: 'planned'
@@ -57,11 +95,18 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const body = await request.json();
-    const { id, status, actual_start, actual_end } = body;
+    const validatedData = updateSetChangeSchema.parse(body);
+    const { id, status, actual_start, actual_end } = validatedData;
 
     await supabase.from('set_changes').update({
       status, actual_start, actual_end,

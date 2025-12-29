@@ -1,149 +1,213 @@
 "use client";
 
+/**
+ * Production Settings Page
+ * Production configuration and settings
+ * Uses DetailPage template for consistent layout
+ */
+
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid, Spinner, EmptyState, ConfirmDialog, useNotifications } from "@ghxstship/ui";
-import { Settings, Users, Bell, Lock, Palette, Globe, Trash2, AlertCircle } from "lucide-react";
-import { useProduction } from "../../../../hooks/useProductions";
-import { atlvsDemoProductions } from "../../../../data/atlvs";
+import { Settings, Save, Trash2, Users, Bell, Lock, List, AlertTriangle } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  Body,
+  Button,
+  Card,
+  Grid,
+  Input,
+  Select,
+  Textarea,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  DetailPage,
+  Section,
+  SectionHeader,
+  useNotifications,
+} from "@ghxstship/ui";
+
+interface ProductionSettings {
+  name: string;
+  description: string;
+  status: string;
+  visibility: string;
+  notifications: boolean;
+}
 
 export default function ProductionSettingsPage() {
   const params = useParams();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { addNotification } = useNotifications();
-  const productionId = params?.productionId as string;
-  
-  const { data: apiProduction, isLoading, error, refetch } = useProduction(productionId);
-  const demoProduction = atlvsDemoProductions.find((p) => p.id === productionId);
-  const productionName = apiProduction?.title || demoProduction?.name || "Production";
+  const productionId = params.productionId as string;
 
-  const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
-  const [isArchiving, setIsArchiving] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [formData, setFormData] = useState<ProductionSettings>({
+    name: "",
+    description: "",
+    status: "active",
+    visibility: "team",
+    notifications: true,
+  });
 
-  const settingsSections = [
-    { id: "general", name: "General", description: "Basic production settings", icon: Settings, href: `/p/${productionId}/settings/general` },
-    { id: "team", name: "Team Access", description: "Manage team permissions", icon: Users, href: `/p/${productionId}/settings/team` },
-    { id: "notifications", name: "Notifications", description: "Alert preferences", icon: Bell, href: `/p/${productionId}/settings/notifications` },
-    { id: "privacy", name: "Privacy", description: "Visibility and sharing", icon: Lock, href: `/p/${productionId}/settings/privacy` },
-    { id: "branding", name: "Branding", description: "Colors and logos", icon: Palette, href: `/p/${productionId}/settings/branding` },
-    { id: "integrations", name: "Integrations", description: "Connected services", icon: Globe, href: `/p/${productionId}/settings/integrations` },
-  ];
+  const { data: settings, isLoading, error, refetch } = useQuery({
+    queryKey: ["production-settings", productionId],
+    queryFn: async () => {
+      const response = await fetch(`/api/productions/${productionId}/settings`);
+      if (!response.ok) throw new Error("Failed to fetch settings");
+      const data = await response.json();
+      setFormData(data);
+      return data;
+    },
+  });
 
-  const handleArchive = async () => {
-    setIsArchiving(true);
-    try {
-      const response = await fetch(`/api/productions/${productionId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 'archived' }),
+  const saveMutation = useMutation({
+    mutationFn: async (data: ProductionSettings) => {
+      const response = await fetch(`/api/productions/${productionId}/settings`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-      if (!response.ok) {
-        throw new Error('Failed to archive production');
-      }
-      addNotification({
-        type: 'success',
-        title: 'Production Archived',
-        message: `"${productionName}" has been archived.`,
-      });
-      router.push('/productions');
-    } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Archive Failed',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
-    } finally {
-      setIsArchiving(false);
-      setArchiveDialogOpen(false);
-    }
+      if (!response.ok) throw new Error("Failed to save settings");
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["production-settings", productionId] });
+      addNotification({ type: "success", title: "Saved", message: "Production settings updated" });
+    },
+    onError: () => {
+      addNotification({ type: "error", title: "Error", message: "Failed to save settings" });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`/api/productions/${productionId}`, { method: "DELETE" });
+      if (!response.ok) throw new Error("Failed to delete production");
+    },
+    onSuccess: () => {
+      addNotification({ type: "success", title: "Deleted", message: "Production has been deleted" });
+      router.push("/projects");
+    },
+    onError: () => {
+      addNotification({ type: "error", title: "Error", message: "Failed to delete production" });
+    },
+  });
+
+  const handleChange = (field: keyof ProductionSettings, value: string | boolean) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  if (isLoading) {
-    return (
-      <Stack className="flex min-h-[400px] items-center justify-center">
-        <Spinner size="lg" />
-        <Body className="text-on-dark-muted">Loading settings...</Body>
-      </Stack>
-    );
-  }
-
-  if (error && !demoProduction) {
-    return (
-      <EmptyState
-        icon={<AlertCircle size={48} />}
-        title="Failed to load production"
-        description={error.message}
-        action={{ label: "Retry", onClick: () => refetch() }}
-      />
-    );
-  }
+  const tabs = [
+    {
+      id: "general",
+      label: "General",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Card className="p-6">
+            <SectionHeader title="General Settings" description="Basic production information" />
+            <div className="space-y-4 mt-4">
+              <div>
+                <Body size="sm" className="text-grey-400 mb-1">Production Name</Body>
+                <Input value={formData.name} onChange={(e) => handleChange("name", e.target.value)} placeholder="Enter production name" />
+              </div>
+              <div>
+                <Body size="sm" className="text-grey-400 mb-1">Description</Body>
+                <Textarea value={formData.description} onChange={(e) => handleChange("description", e.target.value)} placeholder="Enter description" rows={3} />
+              </div>
+              <div>
+                <Body size="sm" className="text-grey-400 mb-1">Status</Body>
+                <Select value={formData.status} onChange={(e) => handleChange("status", e.target.value)}>
+                  <option value="planning">Planning</option>
+                  <option value="active">Active</option>
+                  <option value="completed">Completed</option>
+                  <option value="archived">Archived</option>
+                </Select>
+              </div>
+            </div>
+            <Button variant="solid" className="mt-6" onClick={() => saveMutation.mutate(formData)} disabled={saveMutation.isPending} icon={<Save className="size-4" />} iconPosition="left">
+              {saveMutation.isPending ? "Saving..." : "Save Changes"}
+            </Button>
+          </Card>
+        </Section>
+      ),
+    },
+    {
+      id: "access",
+      label: "Access",
+      icon: <Lock className="size-4" />,
+      content: (
+        <Section>
+          <Card className="p-6">
+            <SectionHeader title="Access Settings" description="Control who can access this production" />
+            <div className="space-y-4 mt-4">
+              <div>
+                <Body size="sm" className="text-grey-400 mb-1">Visibility</Body>
+                <Select value={formData.visibility} onChange={(e) => handleChange("visibility", e.target.value)}>
+                  <option value="private">Private - Only invited members</option>
+                  <option value="team">Team - All team members</option>
+                  <option value="organization">Organization - All organization members</option>
+                </Select>
+              </div>
+            </div>
+            <Button variant="outline" className="mt-6" onClick={() => router.push(`/p/${productionId}/team`)} icon={<Users className="size-4" />} iconPosition="left">
+              Manage Team
+            </Button>
+          </Card>
+        </Section>
+      ),
+    },
+    {
+      id: "danger",
+      label: "Danger Zone",
+      icon: <AlertTriangle className="size-4" />,
+      content: (
+        <Section>
+          <Card className="p-6 border-error">
+            <SectionHeader title="Danger Zone" description="Irreversible actions" />
+            <div className="mt-4 p-4 bg-error/10 rounded-card">
+              <Body className="font-weight-medium mb-2">Delete Production</Body>
+              <Body size="sm" className="text-grey-400 mb-4">Once you delete a production, there is no going back. Please be certain.</Body>
+              <Button variant="outline" className="border-error text-error" onClick={() => setShowDeleteModal(true)} icon={<Trash2 className="size-4" />} iconPosition="left">
+                Delete Production
+              </Button>
+            </div>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <Stack gap={8}>
-      <SectionHeader
-        kicker={productionName}
-        title="Settings"
-        description="Configure production preferences and access"
-        colorScheme="on-dark"
+    <>
+      <DetailPage
+        header={{
+          kicker: "Production",
+          title: "Settings",
+          description: "Configure production settings",
+        }}
+        backButton={{ label: "Overview", href: `/p/${productionId}/overview` }}
+        loading={isLoading}
+        error={error instanceof Error ? error : null}
+        onRetry={refetch}
+        tabs={tabs}
       />
 
-      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-        {settingsSections.map((section) => (
-          <Card 
-            key={section.id} 
-            variant="elevated" 
-            inverted 
-            className="cursor-pointer transition-all hover:border-primary"
-            onClick={() => router.push(section.href)}
-          >
-            <CardBody>
-              <Stack direction="horizontal" gap={4} className="items-center">
-                <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                  <section.icon size={24} className="text-primary" />
-                </Box>
-                <Stack gap={1}>
-                  <Body className="font-weight-bold text-white">{section.name}</Body>
-                  <Body size="sm" className=" text-on-dark-muted">{section.description}</Body>
-                </Stack>
-              </Stack>
-            </CardBody>
-          </Card>
-        ))}
-      </Grid>
-
-      <Card variant="elevated" inverted className="border-error/30">
-        <CardBody>
-          <Stack direction="horizontal" gap={4} className="items-center justify-between">
-            <Stack direction="horizontal" gap={4} className="items-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-error/20">
-                <Trash2 size={24} className="text-error" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Danger Zone</Body>
-                <Body size="sm" className=" text-on-dark-muted">Archive or delete this production</Body>
-              </Stack>
-            </Stack>
-            <Button 
-              variant="destructive" 
-              size="sm" 
-              onClick={() => setArchiveDialogOpen(true)}
-              disabled={isArchiving}
-            >
-              {isArchiving ? 'Archiving...' : 'Archive Production'}
-            </Button>
-          </Stack>
-        </CardBody>
-      </Card>
-
-      <ConfirmDialog
-        open={archiveDialogOpen}
-        title="Archive Production"
-        message={`Are you sure you want to archive "${productionName}"? This action can be undone later.`}
-        variant="danger"
-        confirmLabel="Archive"
-        onConfirm={handleArchive}
-        onCancel={() => setArchiveDialogOpen(false)}
-      />
-    </Stack>
+      <Modal open={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
+        <ModalHeader><Body className="font-weight-bold font-weight-medium">Delete Production</Body></ModalHeader>
+        <ModalBody>
+          <Body className="text-grey-400">Are you sure you want to delete this production? This action cannot be undone and all associated data will be permanently removed.</Body>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="outline" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+          <Button variant="solid" className="bg-error" onClick={() => deleteMutation.mutate()} disabled={deleteMutation.isPending}>
+            {deleteMutation.isPending ? "Deleting..." : "Delete Production"}
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
   );
 }

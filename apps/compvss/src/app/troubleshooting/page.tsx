@@ -1,17 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
-  Grid,
   Stack,
-  StatCard,
-  Input,
-  Select,
   Button,
   Card,
   Badge,
@@ -19,116 +14,99 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
+import { createExportHandler, getSubcategoryNames } from "@ghxstship/config";
 import {
   useTroubleshootingGuides,
   type TroubleshootingGuide,
 } from '../../hooks/useTroubleshooting';
+import { Eye, ThumbsUp } from "lucide-react";
 
-
-import { getSubcategoryNames } from "@ghxstship/config";
-
-const categories = ['All', ...getSubcategoryNames('TECH')];
+const categories = getSubcategoryNames('TECH');
 
 export default function TroubleshootingPage() {
-  const router = useRouter();
-  const { data: guides = [], isLoading, error } = useTroubleshootingGuides();
+  const { data: guides = [], isLoading, refetch } = useTroubleshootingGuides();
   const [selectedGuide, setSelectedGuide] = useState<TroubleshootingGuide | null>(null);
-  const [categoryFilter, setCategoryFilter] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
 
-  if (isLoading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Stack gap={4} className="items-center">
-              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
-              <Body>Loading troubleshooting guides...</Body>
-            </Stack>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const columns: ListPageColumn<TroubleshootingGuide>[] = [
+    {
+      key: 'title',
+      label: 'Guide',
+      accessor: 'title',
+      sortable: true,
+      render: (_, g) => (
+        <Stack gap={1}>
+          <Body className="font-display">{g.title}</Body>
+          <Body size="sm" className="text-muted-foreground">{g.symptom}</Body>
+        </Stack>
+      ),
+    },
+    {
+      key: 'category',
+      label: 'Category',
+      accessor: 'category',
+      sortable: true,
+      render: (_, g) => <Badge variant="outline">{g.category}</Badge>,
+    },
+    { key: 'steps', label: 'Steps', accessor: (g) => `${g.steps.length} steps` },
+    { key: 'views', label: 'Views', accessor: 'views', sortable: true },
+    { key: 'helpful', label: 'Helpful', accessor: (g) => `${g.helpful}%`, sortable: true },
+  ];
 
-  if (error) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container>
-            <Card className="p-6 border-destructive bg-destructive/10">
-              <Stack gap={4} className="items-center text-center">
-                <Body className="text-destructive font-display">Failed to load guides</Body>
-                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
-                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
-              </Stack>
-            </Card>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const filters: ListPageFilter[] = [
+    {
+      key: 'category',
+      label: 'Category',
+      options: categories.map(c => ({ value: c, label: c })),
+    },
+  ];
 
-  const filteredGuides = guides.filter(g => {
-    const matchesCategory = categoryFilter === "All" || g.category === categoryFilter;
-    const matchesSearch = g.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          g.symptom.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const rowActions: ListPageAction<TroubleshootingGuide>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (g) => setSelectedGuide(g) },
+    { id: 'helpful', label: 'Mark Helpful', icon: <ThumbsUp className="h-4 w-4" />, onClick: () => {} },
+  ];
+
+  const stats = [
+    { label: 'Total Guides', value: guides.length },
+    { label: 'Categories', value: categories.length },
+    { label: 'Total Views', value: guides.reduce((s, g) => s + g.views, 0) },
+    { label: 'Helpful Rate', value: '81%' },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<TroubleshootingGuide>
         title="Troubleshooting Guides"
         subtitle="Decision trees and step-by-step problem resolution"
-
-
+        data={guides}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        onRetry={refetch}
+        searchPlaceholder="Describe your issue..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(g) => setSelectedGuide(g)}
+        entityType="troubleshooting"
+        onExport={createExportHandler({
+          filename: "troubleshooting-guides",
+          getData: () => guides.map((g: TroubleshootingGuide) => ({
+            title: g.title,
+            category: g.category,
+            symptom: g.symptom,
+            steps: g.steps.length,
+            views: g.views,
+            helpful: g.helpful,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No troubleshooting guides found"
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="Total Guides" value={guides.length.toString()} />
-              <StatCard label="Categories" value={(categories.length - 1).toString()} />
-              <StatCard label="Total Views" value={guides.reduce((s, g) => s + g.views, 0).toString()} />
-              <StatCard label="Helpful Rate" value="81%" />
-            </Grid>
-
-            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-              <Input type="search" placeholder="Describe your issue..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-              <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
-                {categories.map(c => <option key={c} value={c}>{c}</option>)}
-              </Select>
-            </Grid>
-
-            <Stack gap={4}>
-              {filteredGuides.map((guide) => (
-                <Card key={guide.id} onClick={() => setSelectedGuide(guide)}>
-                  <Stack gap={3}>
-                    <Stack direction="horizontal" className="justify-between">
-                      <Body className="font-display">{guide.title}</Body>
-                      <Badge variant="outline">{guide.category}</Badge>
-                    </Stack>
-                    <Body>Symptom: {guide.symptom}</Body>
-                    <Stack direction="horizontal" className="justify-between">
-                      <Body size="sm" className="">{guide.steps.length} steps</Body>
-                      <Body size="sm" className="">{guide.views} views • {guide.helpful}% found helpful</Body>
-                    </Stack>
-                  </Stack>
-                </Card>
-              ))}
-            </Stack>
-
-            <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={!!selectedGuide} onClose={() => setSelectedGuide(null)}>
         <ModalHeader><H3>{selectedGuide?.title}</H3></ModalHeader>
@@ -143,9 +121,9 @@ export default function TroubleshootingPage() {
               <Stack gap={2}>
                 <Body size="sm" className="">Troubleshooting Steps</Body>
                 {selectedGuide.steps.map((step, idx) => (
-                  <Card key={idx}>
+                  <Card key={idx} className="p-3">
                     <Stack direction="horizontal" gap={3}>
-                      <Body>{idx + 1}</Body>
+                      <Badge variant="solid">{idx + 1}</Badge>
                       <Body>{step}</Body>
                     </Stack>
                   </Card>

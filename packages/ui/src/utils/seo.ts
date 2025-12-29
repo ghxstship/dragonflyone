@@ -55,14 +55,13 @@ export function generateMetadata({
   return metadata;
 }
 
-export function generateStructuredData(type: 'Organization' | 'Event' | 'Person', data: any) {
-  const baseStructure = {
+export function generateStructuredData<T extends Record<string, unknown>>(
+  type: 'Organization' | 'Event' | 'Person',
+  data: T
+): { '@context': string; '@type': typeof type } & T {
+  return {
     '@context': 'https://schema.org',
     '@type': type,
-  };
-
-  return {
-    ...baseStructure,
     ...data,
   };
 }

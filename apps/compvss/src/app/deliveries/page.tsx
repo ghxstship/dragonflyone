@@ -13,8 +13,6 @@ import {
   Grid,
   Stack,
   Body,
-  EnterprisePageHeader,
-  MainContent,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -22,7 +20,14 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
+
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 import {
   useDeliveries,
@@ -87,6 +92,11 @@ const formFields: FormFieldConfig[] = [
 
 export default function DeliveriesPage() {
   const router = useRouter();
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access
+  const canManageDeliveries = ADMIN_ROLES.some(role => hasRole(role));
+  
   const { data: deliveries = [], isLoading: loading, refetch } = useDeliveries();
   const createDeliveryMutation = useCreateDelivery();
   const deleteDeliveryMutation = useDeleteDelivery();
@@ -99,9 +109,13 @@ export default function DeliveriesPage() {
 
   const rowActions: ListPageAction<Delivery>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedDelivery(row); setDrawerOpen(true); } },
-    { id: 'receive', label: 'Receive', icon: <Package className="size-4" />, onClick: (row) => router.push(`/deliveries/${row.id}/receive`) },
+    ...(canManageDeliveries ? [
+      { id: 'receive', label: 'Receive', icon: <Package className="size-4" />, onClick: (row: Delivery) => router.push(`/deliveries/${row.id}/receive`) },
+    ] : []),
     { id: 'track', label: 'Track', icon: <Truck className="size-4" />, onClick: (row) => row.trackingNumber && window.open(`https://track.example.com/${row.trackingNumber}`) },
-    { id: 'delete', label: 'Cancel', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setDeliveryToDelete(row); setDeleteConfirmOpen(true); } },
+    ...(canManageDeliveries ? [
+      { id: 'delete', label: 'Cancel', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (row: Delivery) => { setDeliveryToDelete(row); setDeleteConfirmOpen(true); } },
+    ] : []),
   ];
 
   const bulkActions: ListPageBulkAction[] = [
@@ -228,52 +242,45 @@ export default function DeliveriesPage() {
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<Delivery>
         title="Delivery Tracking"
         subtitle="Track incoming deliveries, receiving, and signature capture"
-primaryAction={{ label: 'Add Delivery', onClick: () => setCreateModalOpen(true) }}
+        data={deliveries}
+        columns={columns}
+        rowKey="id"
+        loading={loading}
+        onRetry={refetch}
+        searchPlaceholder="Search deliveries..."
+        filters={filters}
+        rowActions={rowActions}
+        bulkActions={bulkActions}
+        onBulkAction={handleBulkAction}
+        onRowClick={(row) => { setSelectedDelivery(row); setDrawerOpen(true); }}
+        createLabel="Add Delivery"
+        onCreate={canManageDeliveries ? () => setCreateModalOpen(true) : undefined}
+        entityType="deliveries"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['vendor', 'description', 'scheduledDate', 'scheduledTime', 'status']}
+        onExport={createExportHandler({
+          filename: "deliveries",
+          getData: () => deliveries.map(d => ({
+            id: d.id,
+            vendor: d.vendor,
+            status: d.status,
+            scheduledDate: d.scheduledDate,
+            scheduledTime: d.scheduledTime,
+            accessPoint: d.accessPoint,
+            carrier: d.carrier || '',
+            trackingNumber: d.trackingNumber || '',
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No deliveries found"
+        emptyAction={canManageDeliveries ? { label: 'Add Delivery', onClick: () => setCreateModalOpen(true) } : undefined}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <ListPage<Delivery>
-          title="Delivery Tracking"
-          subtitle="Track incoming deliveries, receiving, and signature capture"
-          data={deliveries}
-          columns={columns}
-          rowKey="id"
-          loading={loading}
-          onRetry={refetch}
-          searchPlaceholder="Search deliveries..."
-          filters={filters}
-          rowActions={rowActions}
-          bulkActions={bulkActions}
-          onBulkAction={handleBulkAction}
-          onRowClick={(row) => { setSelectedDelivery(row); setDrawerOpen(true); }}
-          createLabel="Add Delivery"
-          onCreate={() => setCreateModalOpen(true)}
-          entityType="deliveries"
-          onImport={handleImport}
-          importTemplates={importTemplates}
-          importSampleFields={['vendor', 'description', 'scheduledDate', 'scheduledTime', 'status']}
-          onExport={createExportHandler({
-            filename: "deliveries",
-            getData: () => deliveries.map(d => ({
-              id: d.id,
-              vendor: d.vendor,
-              status: d.status,
-              scheduledDate: d.scheduledDate,
-              scheduledTime: d.scheduledTime,
-              accessPoint: d.accessPoint,
-              carrier: d.carrier || '',
-              trackingNumber: d.trackingNumber || '',
-            })),
-          })}
-          stats={stats}
-          emptyMessage="No deliveries found"
-          emptyAction={{ label: 'Add Delivery', onClick: () => setCreateModalOpen(true) }}
-        />
-      </MainContent>
 
       <RecordFormModal
         open={createModalOpen}

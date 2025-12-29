@@ -1,16 +1,59 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const submitActionSchema = z.object({
+  action: z.literal('submit'),
+  user_id: z.string().uuid().optional(),
+});
+
+const approveActionSchema = z.object({
+  action: z.literal('approve'),
+  user_id: z.string().uuid().optional(),
+});
+
+const processActionSchema = z.object({
+  action: z.literal('process'),
+  user_id: z.string().uuid().optional(),
+});
+
+const cancelActionSchema = z.object({
+  action: z.literal('cancel'),
+  user_id: z.string().uuid().optional(),
+  reason: z.string().optional(),
+});
+
+const payrollActionSchema = z.union([
+  submitActionSchema,
+  approveActionSchema,
+  processActionSchema,
+  cancelActionSchema,
+]);
 
 // GET /api/payroll/[id] - Get single payroll run with details
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
 
     const { data: payrollRun, error } = await supabase
@@ -58,10 +101,20 @@ export async function PATCH(
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
     const body = await request.json();
-    const { action } = body;
-    const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
+    const validatedData = payrollActionSchema.parse(body);
+    const { action } = validatedData;
+    const userId = validatedData.user_id || '00000000-0000-0000-0000-000000000000';
 
     const { data: payrollRun, error: fetchError } = await supabase
       .from('payroll_runs')
@@ -233,13 +286,14 @@ export async function PATCH(
           );
         }
 
+        const cancelData = validatedData as z.infer<typeof cancelActionSchema>;
         const { error } = await supabase
           .from('payroll_runs')
           .update({
             status: 'cancelled',
             cancelled_at: new Date().toISOString(),
             cancelled_by: userId,
-            cancellation_reason: body.reason,
+            cancellation_reason: cancelData.reason,
             updated_at: new Date().toISOString(),
           })
           .eq('id', id);
@@ -255,7 +309,7 @@ export async function PATCH(
           payroll_run_id: id,
           activity_type: 'cancelled',
           user_id: userId,
-          description: `Payroll run cancelled: ${body.reason || 'No reason provided'}`,
+          description: `Payroll run cancelled: ${cancelData.reason || 'No reason provided'}`,
         });
 
         return NextResponse.json({ success: true, message: 'Payroll run cancelled' });
@@ -277,6 +331,15 @@ export async function DELETE(
 ) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = params;
 
     const { data: payrollRun, error: fetchError } = await supabase

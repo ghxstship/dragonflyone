@@ -5,12 +5,15 @@ import { describe, it, expect } from 'vitest';
  * Automated tests for n8n node package via n8n CLI
  * 
  * Run with: npx n8n-node-dev test
+ * 
+ * NOTE: These tests require a running n8n instance. Set N8N_TEST_URL environment variable
+ * or run n8n locally before executing these tests.
  */
 
 const N8N_TEST_URL = process.env.N8N_TEST_URL || 'http://localhost:5678';
 const API_KEY = process.env.TEST_API_KEY || 'test_key';
 
-describe('n8n Node Regression Tests', () => {
+describe.skipIf(!process.env.N8N_TEST_URL && !process.env.CI)('n8n Node Regression Tests', () => {
   describe('Credential Types', () => {
     it('should validate API Key credential', async () => {
       const credential = {
@@ -360,7 +363,7 @@ describe('n8n Node Regression Tests', () => {
 });
 
 // Helper functions
-async function executeWorkflow(workflow: any): Promise<{ success: boolean; data?: any; error?: string }> {
+async function executeWorkflow(workflow: Record<string, unknown>): Promise<{ success: boolean; data?: unknown; error?: string }> {
   try {
     const response = await fetch(`${N8N_TEST_URL}/workflows/execute`, {
       method: 'POST',
@@ -385,7 +388,7 @@ async function executeWorkflow(workflow: any): Promise<{ success: boolean; data?
   }
 }
 
-async function registerWebhook(workflow: any): Promise<{ success: boolean; webhookId?: string }> {
+async function registerWebhook(workflow: Record<string, unknown>): Promise<{ success: boolean; webhookId?: string }> {
   try {
     const response = await fetch(`${N8N_TEST_URL}/webhooks/register`, {
       method: 'POST',

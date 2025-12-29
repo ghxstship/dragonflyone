@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Zap, Play } from 'lucide-react';
-import { AtlvsAppLayout } from '../../components/app-layout';
+import { Eye, Pencil, Trash2, Play } from 'lucide-react';
 import { useWorkflows, useCreateWorkflow, useDeleteWorkflow, useToggleWorkflow } from '../../hooks/useWorkflows';
 import {
   ListPage,
@@ -19,6 +18,14 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { useAuthContext, PlatformRole } from '@ghxstship/config';
+
+const ADMIN_ROLES = [
+  PlatformRole.ATLVS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 interface Workflow {
   id: string;
@@ -136,6 +143,11 @@ const formFields: FormFieldConfig[] = [
 
 export default function WorkflowsPage() {
   const router = useRouter();
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access
+  const canManageWorkflows = ADMIN_ROLES.some(role => hasRole(role));
+  
   const { data: workflows, isLoading, error, refetch } = useWorkflows();
   const createMutation = useCreateWorkflow();
   const deleteMutation = useDeleteWorkflow();
@@ -188,7 +200,7 @@ export default function WorkflowsPage() {
     await createMutation.mutateAsync({
       name: String(data.name),
       description: data.description ? String(data.description) : undefined,
-      trigger_type: data.trigger_type as Workflow['trigger_type'],
+      trigger_type: String(data.trigger_type) as 'manual' | 'schedule' | 'event' | 'webhook',
       enabled: Boolean(data.enabled ?? true),
       actions: [],
     });
@@ -232,49 +244,49 @@ export default function WorkflowsPage() {
     : [];
 
   return (
-    <AtlvsAppLayout>
-      <ListPage
+    <>
+      <ListPage<Workflow>
         title="Workflows"
-        description="Manage automation workflows and triggers"
-        icon={<Zap className="size-6" />}
+        subtitle="Manage automation workflows and triggers"
         data={workflows || []}
         columns={columns}
+        rowKey="id"
         filters={filters}
         rowActions={rowActions}
         stats={stats}
         loading={isLoading}
-        error={error?.message}
-        onRefresh={refetch}
-        onCreate={() => setCreateModalOpen(true)}
+        error={error instanceof Error ? error : error ? new Error(String(error)) : undefined}
+        onRetry={refetch}
+        onCreate={canManageWorkflows ? () => setCreateModalOpen(true) : undefined}
         createLabel="Create Workflow"
       />
 
       <RecordFormModal
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
+        mode="create"
         title="Create Workflow"
         fields={formFields}
         onSubmit={handleCreate}
-        loading={createMutation.isPending}
       />
 
       <DetailDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        title={selectedWorkflow?.name || 'Workflow Details'}
+        record={selectedWorkflow}
+        title={(w) => w?.name || 'Workflow Details'}
         sections={detailSections}
       />
 
       <ConfirmDialog
         open={deleteConfirmOpen}
-        onClose={() => setDeleteConfirmOpen(false)}
+        onCancel={() => setDeleteConfirmOpen(false)}
         title="Delete Workflow"
         message={`Are you sure you want to delete "${workflowToDelete?.name}"? This action cannot be undone.`}
         confirmLabel="Delete"
         onConfirm={handleDelete}
-        loading={deleteMutation.isPending}
         variant="danger"
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

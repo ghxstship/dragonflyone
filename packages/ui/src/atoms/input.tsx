@@ -6,6 +6,10 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   error?: boolean;
   fullWidth?: boolean;
   inverted?: boolean;
+  /** ID for the error message element (for aria-describedby) */
+  errorId?: string;
+  /** ID for the hint/description element (for aria-describedby) */
+  hintId?: string;
 };
 
 /**
@@ -18,10 +22,15 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
  * - Clear error state styling
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  function Input({ error, fullWidth, inverted = false, className, ...props }, ref) {
+  function Input({ error, fullWidth, inverted = false, errorId, hintId, className, ...props }, ref) {
+    // Build aria-describedby from available IDs
+    const describedByIds = [errorId, hintId].filter(Boolean).join(' ') || undefined;
+    
     return (
       <input
         ref={ref}
+        aria-invalid={error || undefined}
+        aria-describedby={describedByIds}
         className={clsx(
           // Base styles
           "font-body px-4 py-3 h-11",
@@ -63,6 +72,64 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         {...props}
       />
+    );
+  }
+);
+
+/**
+ * InputGroup - Wrapper for Input with label and error message
+ * Provides proper ARIA bindings between label, input, and error
+ */
+export type InputGroupProps = InputProps & {
+  /** Label text for the input */
+  label: string;
+  /** Optional hint text displayed below the input */
+  hint?: string;
+  /** Error message to display and announce to screen readers */
+  errorMessage?: string;
+  /** Whether the field is required */
+  required?: boolean;
+  /** Custom ID for the input (auto-generated if not provided) */
+  id?: string;
+};
+
+let inputGroupCounter = 0;
+
+export const InputGroup = forwardRef<HTMLInputElement, InputGroupProps>(
+  function InputGroup({ label, hint, errorMessage, error, required, id, className, ...props }, ref) {
+    const uniqueId = id || `input-${++inputGroupCounter}`;
+    const errorId = errorMessage ? `${uniqueId}-error` : undefined;
+    const hintId = hint ? `${uniqueId}-hint` : undefined;
+    
+    return (
+      <div className={clsx("flex flex-col gap-1.5", className)}>
+        <label 
+          htmlFor={uniqueId}
+          className="font-heading text-sm uppercase tracking-wider font-bold"
+        >
+          {label}
+          {required && <span className="text-error-500 ml-1" aria-hidden="true">*</span>}
+        </label>
+        <Input
+          ref={ref}
+          id={uniqueId}
+          error={error || !!errorMessage}
+          errorId={errorId}
+          hintId={hintId}
+          aria-required={required}
+          {...props}
+        />
+        {hint && !errorMessage && (
+          <p id={hintId} className="text-sm text-grey-500">
+            {hint}
+          </p>
+        )}
+        {errorMessage && (
+          <p id={errorId} className="text-sm text-error-500" role="alert">
+            {errorMessage}
+          </p>
+        )}
+      </div>
     );
   }
 );

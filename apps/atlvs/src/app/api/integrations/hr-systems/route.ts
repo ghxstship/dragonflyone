@@ -1,16 +1,60 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const connectSchema = z.object({
+  action: z.literal('connect'),
+  provider: z.string(),
+  api_key: z.string(),
+  subdomain: z.string().optional(),
+});
+
+const syncEmployeesSchema = z.object({
+  action: z.literal('sync_employees'),
+  provider: z.string(),
+});
+
+const syncTimeOffSchema = z.object({
+  action: z.literal('sync_time_off'),
+  provider: z.string(),
+});
+
+const approveTimeOffSchema = z.object({
+  action: z.literal('approve_time_off'),
+  request_id: z.string().uuid(),
+  approved_by: z.string().uuid(),
+});
+
+const hrSystemsActionSchema = z.discriminatedUnion('action', [
+  connectSchema,
+  syncEmployeesSchema,
+  syncTimeOffSchema,
+  approveTimeOffSchema,
+]);
 
 /**
  * HR Systems Integration API
  * Integrates with Workday, BambooHR, and other HR platforms
  */
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -108,16 +152,23 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = hrSystemsActionSchema.parse(body);
 
-    if (action === 'connect') {
-      const { provider, api_key, subdomain } = body;
+    if (validatedData.action === 'connect') {
+      const { provider, api_key, subdomain } = validatedData;
 
       const { data, error } = await supabase
         .from('hr_connections')
@@ -138,8 +189,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ connection: data }, { status: 201 });
     }
 
-    if (action === 'sync_employees') {
-      const { provider } = body;
+    if (validatedData.action === 'sync_employees') {
+      const { provider } = validatedData;
 
       // In production, would call provider API
       const syncResult = {
@@ -155,8 +206,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ sync_result: syncResult });
     }
 
-    if (action === 'sync_time_off') {
-      const { provider } = body;
+    if (validatedData.action === 'sync_time_off') {
+      const { provider } = validatedData;
 
       const syncResult = {
         provider,
@@ -167,8 +218,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ sync_result: syncResult });
     }
 
-    if (action === 'approve_time_off') {
-      const { request_id, approved_by } = body;
+    if (validatedData.action === 'approve_time_off') {
+      const { request_id, approved_by } = validatedData;
 
       const { data, error } = await supabase
         .from('hr_time_off_requests')

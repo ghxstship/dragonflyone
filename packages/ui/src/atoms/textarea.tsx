@@ -6,6 +6,10 @@ export type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   error?: boolean;
   fullWidth?: boolean;
   inverted?: boolean;
+  /** ID for the error message element (for aria-describedby) */
+  errorId?: string;
+  /** ID for the hint/description element (for aria-describedby) */
+  hintId?: string;
 };
 
 /**
@@ -18,10 +22,15 @@ export type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
  * - Matches Input component styling
  */
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  function Textarea({ error, fullWidth, inverted = false, className, ...props }, ref) {
+  function Textarea({ error, fullWidth, inverted = false, errorId, hintId, className, ...props }, ref) {
+    // Build aria-describedby from available IDs
+    const describedByIds = [errorId, hintId].filter(Boolean).join(' ') || undefined;
+    
     return (
       <textarea
         ref={ref}
+        aria-invalid={error || undefined}
+        aria-describedby={describedByIds}
         className={clsx(
           // Base styles
           "font-body px-4 py-3 min-h-[120px] resize-y",
@@ -63,6 +72,64 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
         {...props}
       />
+    );
+  }
+);
+
+/**
+ * TextareaGroup - Wrapper for Textarea with label and error message
+ * Provides proper ARIA bindings between label, textarea, and error
+ */
+export type TextareaGroupProps = TextareaProps & {
+  /** Label text for the textarea */
+  label: string;
+  /** Optional hint text displayed below the textarea */
+  hint?: string;
+  /** Error message to display and announce to screen readers */
+  errorMessage?: string;
+  /** Whether the field is required */
+  required?: boolean;
+  /** Custom ID for the textarea (auto-generated if not provided) */
+  id?: string;
+};
+
+let textareaGroupCounter = 0;
+
+export const TextareaGroup = forwardRef<HTMLTextAreaElement, TextareaGroupProps>(
+  function TextareaGroup({ label, hint, errorMessage, error, required, id, className, ...props }, ref) {
+    const uniqueId = id || `textarea-${++textareaGroupCounter}`;
+    const errorId = errorMessage ? `${uniqueId}-error` : undefined;
+    const hintId = hint ? `${uniqueId}-hint` : undefined;
+    
+    return (
+      <div className={clsx("flex flex-col gap-1.5", className)}>
+        <label 
+          htmlFor={uniqueId}
+          className="font-heading text-sm uppercase tracking-wider font-bold"
+        >
+          {label}
+          {required && <span className="text-error-500 ml-1" aria-hidden="true">*</span>}
+        </label>
+        <Textarea
+          ref={ref}
+          id={uniqueId}
+          error={error || !!errorMessage}
+          errorId={errorId}
+          hintId={hintId}
+          aria-required={required}
+          {...props}
+        />
+        {hint && !errorMessage && (
+          <p id={hintId} className="text-sm text-grey-500">
+            {hint}
+          </p>
+        )}
+        {errorMessage && (
+          <p id={errorId} className="text-sm text-error-500" role="alert">
+            {errorMessage}
+          </p>
+        )}
+      </div>
     );
   }
 );

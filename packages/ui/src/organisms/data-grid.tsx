@@ -589,19 +589,34 @@ export function DataGrid<T>({
         </div>
       )}
 
-      <div className="border-2 border-border-primary bg-surface-primary overflow-auto">
-        <table className={clsx("w-full border-collapse font-body", compact ? "text-body-sm" : "text-body-md")}>
+      <div className="border-2 border-border-primary bg-surface-primary overflow-auto" role="region" aria-label="Data table">
+        <table className={clsx("w-full border-collapse font-body", compact ? "text-body-sm" : "text-body-md")} role="grid" aria-rowcount={filteredData.length}>
           <thead>
-            <tr className="bg-black text-white">
+            <tr className="bg-black text-white" role="row">
               {selectable && (
-                <th className={clsx("w-12 text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")}>
-                  <input type="checkbox" checked={selectedKeys.length === filteredData.length && filteredData.length > 0} onChange={handleSelectAll} className="cursor-pointer" />
+                <th className={clsx("w-12 text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} scope="col">
+                  <input 
+                    type="checkbox" 
+                    checked={selectedKeys.length === filteredData.length && filteredData.length > 0} 
+                    onChange={handleSelectAll} 
+                    className="cursor-pointer"
+                    aria-label="Select all rows"
+                  />
                 </th>
               )}
               {visibleColumns.map((column) => (
                 <th
                   key={column.key}
-                  onClick={() => sortable && handleSort(column.key)}
+                  onClick={() => sortable && column.sortable && handleSort(column.key)}
+                  onKeyDown={(e) => {
+                    if ((e.key === "Enter" || e.key === " ") && sortable && column.sortable) {
+                      e.preventDefault();
+                      handleSort(column.key);
+                    }
+                  }}
+                  tabIndex={column.sortable ? 0 : undefined}
+                  scope="col"
+                  aria-sort={sortColumn === column.key ? (sortDirection === "asc" ? "ascending" : "descending") : undefined}
                   className={clsx(
                     "font-code text-mono-sm font-weight-normal tracking-widest uppercase select-none",
                     compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3",
@@ -615,7 +630,7 @@ export function DataGrid<T>({
                   <span className="flex items-center gap-gap-xs">
                     {column.label}
                     {column.sortable && (
-                      <span className="flex flex-col text-micro-xs leading-none">
+                      <span className="flex flex-col text-micro-xs leading-none" aria-hidden="true">
                         <ChevronUp className={clsx("size-2", sortColumn === column.key && sortDirection === "asc" ? "opacity-100" : "opacity-30")} />
                         <ChevronDown className={clsx("size-2", sortColumn === column.key && sortDirection === "desc" ? "opacity-100" : "opacity-30")} />
                       </span>
@@ -623,19 +638,23 @@ export function DataGrid<T>({
                   </span>
                 </th>
               ))}
-              {rowActions.length > 0 && <th className={clsx("w-spacing-14", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} />}
+              {rowActions.length > 0 && <th className={clsx("w-spacing-14", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} scope="col" aria-label="Actions" />}
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr>
+              <tr role="row">
                 <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-spacing-12 text-center">
-                  <div className="inline-block w-spacing-6 h-spacing-6 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
+                  <div 
+                    className="inline-block w-spacing-6 h-spacing-6 border-2 border-grey-300 border-t-black rounded-full animate-spin" 
+                    role="progressbar"
+                    aria-label="Loading data"
+                  />
                 </td>
               </tr>
             ) : groupedData.length === 0 ? (
-              <tr>
-                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-spacing-12 text-center font-code text-grey-500">
+              <tr role="row">
+                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-spacing-12 text-center font-code text-grey-500" role="cell">
                   {emptyMessage}
                 </td>
               </tr>
@@ -670,8 +689,14 @@ export function DataGrid<T>({
                           )}
                         >
                           {selectable && (
-                            <td className={clsx("text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} onClick={(e) => e.stopPropagation()}>
-                              <input type="checkbox" checked={isSelected} onChange={() => handleSelectRow(key)} className="cursor-pointer" />
+                            <td className={clsx("text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} role="gridcell" onClick={(e) => e.stopPropagation()}>
+                              <input 
+                                type="checkbox" 
+                                checked={isSelected} 
+                                onChange={() => handleSelectRow(key)} 
+                                className="cursor-pointer"
+                                aria-label={`Select row ${index + 1}`}
+                              />
                             </td>
                           )}
                           {visibleColumns.map((column) => {
@@ -742,14 +767,15 @@ export function DataGrid<T>({
       </div>
 
       {pagination && (
-        <div className="flex items-center justify-between flex-wrap gap-gap-md">
-          <span className="font-code text-mono-sm text-grey-600">
+        <nav className="flex items-center justify-between flex-wrap gap-gap-md" aria-label="Pagination">
+          <span className="font-code text-mono-sm text-grey-600" aria-live="polite">
             Showing {(pagination.page - 1) * pagination.pageSize + 1} - {Math.min(pagination.page * pagination.pageSize, pagination.total)} of {pagination.total}
           </span>
-          <div className="flex gap-gap-xs">
+          <div className="flex gap-gap-xs" role="group" aria-label="Pagination controls">
             <button
               onClick={() => onPageChange?.(pagination.page - 1)}
               disabled={pagination.page === 1}
+              aria-label="Go to previous page"
               className={clsx(
                 "px-spacing-4 py-spacing-2 border-2 border-border-primary bg-surface-primary text-text-primary",
                 pagination.page === 1 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-grey-100"
@@ -760,6 +786,7 @@ export function DataGrid<T>({
             <button
               onClick={() => onPageChange?.(pagination.page + 1)}
               disabled={pagination.page * pagination.pageSize >= pagination.total}
+              aria-label="Go to next page"
               className={clsx(
                 "px-spacing-4 py-spacing-2 border-2 border-border-primary bg-surface-primary text-text-primary",
                 pagination.page * pagination.pageSize >= pagination.total ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-grey-100"
@@ -768,7 +795,7 @@ export function DataGrid<T>({
               Next
             </button>
           </div>
-        </div>
+        </nav>
       )}
     </div>
   );
@@ -789,16 +816,27 @@ function RowActionsDropdown<T>({
 
   return (
     <div className="relative inline-block">
-      <button onClick={() => setOpen(!open)} className="p-spacing-1 bg-transparent border-none cursor-pointer text-body-md hover:text-grey-600">
-        <MoreVertical className="size-4" />
+      <button 
+        onClick={() => setOpen(!open)} 
+        className="p-spacing-1 bg-transparent border-none cursor-pointer text-body-md hover:text-grey-600"
+        aria-label="Row actions"
+        aria-expanded={open}
+        aria-haspopup="menu"
+      >
+        <MoreVertical className="size-4" aria-hidden="true" />
       </button>
       {open && (
-        <div className="absolute top-full right-0 min-w-container-xs bg-surface-elevated border-2 border-border-primary z-dropdown">
+        <div 
+          className="absolute top-full right-0 min-w-container-xs bg-surface-elevated border-2 border-border-primary z-dropdown"
+          role="menu"
+          aria-label="Row actions menu"
+        >
           {visibleActions.map((action) => {
             const disabled = typeof action.disabled === "function" ? action.disabled(row) : action.disabled;
             return (
               <button
                 key={action.id}
+                role="menuitem"
                 onClick={() => {
                   setOpen(false);
                   onAction?.(action.id, row);
@@ -809,7 +847,7 @@ function RowActionsDropdown<T>({
                   disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
                 )}
               >
-                {action.icon} {action.label}
+                <span aria-hidden="true">{action.icon}</span> {action.label}
               </button>
             );
           })}

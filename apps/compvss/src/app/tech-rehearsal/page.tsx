@@ -1,24 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Input,
   Select,
   Button,
-  Card,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
   Badge,
   Modal,
   ModalHeader,
@@ -26,224 +18,156 @@ import {
   ModalFooter,
   Textarea,
   Alert,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
-
+import { createExportHandler } from "@ghxstship/config";
 import {
   useTechRehearsalSessions,
   useRehearsalNotes,
   type TechRehearsalSession,
 } from "../../hooks/useStages";
+import { Eye, Play, FileText } from "lucide-react";
+
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case "Completed": return "solid";
+    case "In Progress": return "outline";
+    default: return "ghost";
+  }
+};
 
 export default function TechRehearsalPage() {
-  const router = useRouter();
-  const { data: sessions = [], isLoading, error } = useTechRehearsalSessions();
+  const { data: sessions = [], isLoading, refetch } = useTechRehearsalSessions();
   const { data: notes = [] } = useRehearsalNotes();
-  
-  // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
-    defaultTab: 'schedule',
-    validTabs: ['schedule', 'notes', 'issues'],
-  });
   const [selectedSession, setSelectedSession] = useState<TechRehearsalSession | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showNoteModal, setShowNoteModal] = useState(false);
-
-  if (isLoading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Stack gap={4} className="items-center">
-              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
-              <Body>Loading tech rehearsal data...</Body>
-            </Stack>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container>
-            <Card className="p-6 border-destructive bg-destructive/10">
-              <Stack gap={4} className="items-center text-center">
-                <Body className="text-destructive font-display">Failed to load rehearsal data</Body>
-                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
-                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
-              </Stack>
-            </Card>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
 
   const today = new Date().toISOString().split('T')[0];
   const todaySessions = sessions.filter(s => s.date === today);
   const inProgressSession = sessions.find(s => s.status === "In Progress");
   const unresolvedIssues = notes.filter(n => !n.resolved && n.type === "Issue").length;
 
-  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
-    switch (status) {
-      case "Completed": return "success";
-      case "In Progress": return "info";
-      case "Scheduled": return "ghost";
-      case "Cancelled": return "error";
-      default: return "ghost";
-    }
-  };
+  const columns: ListPageColumn<TechRehearsalSession>[] = [
+    {
+      key: 'name',
+      label: 'Session',
+      accessor: 'name',
+      sortable: true,
+      render: (_, s) => (
+        <Stack gap={1}>
+          <Body className="font-display">{s.name}</Body>
+          <Badge variant="outline">{s.type}</Badge>
+        </Stack>
+      ),
+    },
+    { key: 'date', label: 'Date', accessor: 'date', sortable: true },
+    {
+      key: 'time',
+      label: 'Time',
+      accessor: (s) => `${s.startTime} - ${s.endTime}`,
+    },
+    {
+      key: 'departments',
+      label: 'Departments',
+      accessor: (s) => s.departments.join(', '),
+      render: (_, s) => (
+        <Stack direction="horizontal" gap={1} className="flex-wrap">
+          {s.departments.slice(0, 2).map(d => <Badge key={d} variant="outline">{d}</Badge>)}
+          {s.departments.length > 2 && <Body size="sm">+{s.departments.length - 2}</Body>}
+        </Stack>
+      ),
+    },
+    { key: 'location', label: 'Location', accessor: 'location' },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+    },
+  ];
+
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'Scheduled', label: 'Scheduled' },
+        { value: 'In Progress', label: 'In Progress' },
+        { value: 'Completed', label: 'Completed' },
+        { value: 'Cancelled', label: 'Cancelled' },
+      ],
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      options: [
+        { value: 'Full Tech', label: 'Full Tech' },
+        { value: 'Cue-to-Cue', label: 'Cue-to-Cue' },
+        { value: 'Dress Rehearsal', label: 'Dress Rehearsal' },
+        { value: 'Sound Check', label: 'Sound Check' },
+      ],
+    },
+  ];
+
+  const rowActions: ListPageAction<TechRehearsalSession>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSession(s) },
+    { id: 'start', label: 'Start', icon: <Play className="h-4 w-4" />, onClick: () => {}, hidden: (s) => s.status !== 'Scheduled' },
+    { id: 'notes', label: 'Add Note', icon: <FileText className="h-4 w-4" />, onClick: (s) => { setSelectedSession(s); setShowNoteModal(true); }, hidden: (s) => s.status !== 'In Progress' },
+  ];
+
+  const stats = [
+    { label: 'Today Sessions', value: todaySessions.length },
+    { label: 'In Progress', value: inProgressSession ? 1 : 0 },
+    { label: 'Unresolved Issues', value: unresolvedIssues },
+    { label: 'Total Sessions', value: sessions.length },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      {inProgressSession && (
+        <Alert variant="info" className="mx-4 mt-4">
+          Currently in progress: {inProgressSession.name} ({inProgressSession.startTime} - {inProgressSession.endTime})
+        </Alert>
+      )}
+
+      <ListPage<TechRehearsalSession>
         title="Technical Rehearsals"
         subtitle="Schedule and manage tech rehearsals, sound checks, and run-throughs"
-
-
-        primaryAction={{ label: 'Schedule Rehearsal', onClick: () => setShowAddModal(true) }}
+        data={sessions}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        onRetry={refetch}
+        searchPlaceholder="Search sessions..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(s) => setSelectedSession(s)}
+        createLabel="Schedule Rehearsal"
+        onCreate={() => setShowAddModal(true)}
+        entityType="tech-rehearsal"
+        onExport={createExportHandler({
+          filename: "tech-rehearsals",
+          getData: () => sessions.map((s: TechRehearsalSession) => ({
+            name: s.name,
+            type: s.type,
+            date: s.date,
+            startTime: s.startTime,
+            endTime: s.endTime,
+            location: s.location,
+            departments: s.departments.join(', '),
+            status: s.status,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No rehearsals scheduled"
+        emptyAction={{ label: 'Schedule Rehearsal', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="Today Sessions" value={todaySessions.length.toString()} />
-              <StatCard label="In Progress" value={inProgressSession ? "1" : "0"} />
-              <StatCard label="Unresolved Issues" value={unresolvedIssues.toString()} />
-              <StatCard label="Total Sessions" value={sessions.length.toString()} />
-            </Grid>
-
-            {inProgressSession && (
-              <Alert variant="info">
-                Currently in progress: {inProgressSession.name} ({inProgressSession.startTime} - {inProgressSession.endTime})
-              </Alert>
-            )}
-
-            <Tabs>
-              <TabsList>
-                <Tab active={isActive('schedule')} onClick={() => setActiveTab('schedule')}>Schedule</Tab>
-                <Tab active={isActive('notes')} onClick={() => setActiveTab('notes')}>Rehearsal Notes</Tab>
-                <Tab active={isActive('issues')} onClick={() => setActiveTab('issues')}>Issues</Tab>
-              </TabsList>
-
-              <TabPanel active={isActive('schedule')}>
-                <Stack gap={4}>
-                  <Stack direction="horizontal" className="justify-between">
-                    <H3>Rehearsal Schedule</H3>
-                    <Button variant="outline" size="sm" onClick={() => setShowAddModal(true)}>Add Session</Button>
-                  </Stack>
-                  {sessions.map((session) => (
-                    <Card key={session.id}>
-                      <Grid cols={6} gap={4} className="items-center">
-                        <Stack gap={1}>
-                          <Body className="font-display">{session.name}</Body>
-                          <Badge variant="outline">{session.type}</Badge>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Date</Body>
-                          <Body>{session.date}</Body>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Time</Body>
-                          <Body>{session.startTime} - {session.endTime}</Body>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Departments</Body>
-                          <Stack direction="horizontal" gap={1} className="flex-wrap">
-                            {session.departments.slice(0, 2).map(d => <Badge key={d} variant="outline">{d}</Badge>)}
-                            {session.departments.length > 2 && <Body size="sm" className="">+{session.departments.length - 2}</Body>}
-                          </Stack>
-                        </Stack>
-                        <Badge variant={getStatusVariant(session.status)}>{session.status}</Badge>
-                        <Stack direction="horizontal" gap={2}>
-                          <Button variant="ghost" size="sm" onClick={() => setSelectedSession(session)}>Details</Button>
-                          {session.status === "In Progress" && (
-                            <Button variant="outline" size="sm" onClick={() => { setSelectedSession(session); setShowNoteModal(true); }}>Add Note</Button>
-                          )}
-                        </Stack>
-                      </Grid>
-                    </Card>
-                  ))}
-                </Stack>
-              </TabPanel>
-
-              <TabPanel active={isActive('notes')}>
-                <Table variant="dark">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Time</TableHead>
-                      <TableHead>Department</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Description</TableHead>
-                      <TableHead>Assigned</TableHead>
-                      <TableHead>Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {notes.map((note) => (
-                      <TableRow key={note.id}>
-                        <TableCell>{note.timestamp}</TableCell>
-                        <TableCell><Badge variant="outline">{note.department}</Badge></TableCell>
-                        <TableCell><Badge variant={note.type === "Issue" ? "solid" : "outline"}>{note.type}</Badge></TableCell>
-                        <TableCell><Body>{note.description}</Body></TableCell>
-                        <TableCell><Body>{note.assignedTo || "-"}</Body></TableCell>
-                        <TableCell>
-                          <Badge variant={note.resolved ? "solid" : "outline"}>
-                            {note.resolved ? "Resolved" : "Open"}
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TabPanel>
-
-              <TabPanel active={isActive('issues')}>
-                <Stack gap={4}>
-                  <H3>Open Issues ({unresolvedIssues})</H3>
-                  {notes.filter(n => !n.resolved && n.type === "Issue").map((note) => (
-                    <Card key={note.id}>
-                      <Grid cols={4} gap={4} className="items-center">
-                        <Stack gap={1}>
-                          <Badge variant="outline">{note.department}</Badge>
-                          <Badge variant="outline">{note.priority}</Badge>
-                        </Stack>
-                        <Stack gap={1} className="col-span-2">
-                          <Body>{note.description}</Body>
-                          <Body size="sm" className="">Logged at {note.timestamp}</Body>
-                        </Stack>
-                        <Stack gap={2}>
-                          <Body size="sm" className="">Assigned: {note.assignedTo || "Unassigned"}</Body>
-                          <Button variant="outline" size="sm">Mark Resolved</Button>
-                        </Stack>
-                      </Grid>
-                    </Card>
-                  ))}
-                </Stack>
-              </TabPanel>
-            </Tabs>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="solid" onClick={() => setShowAddModal(true)}>Schedule Rehearsal</Button>
-              <Button variant="outline">Export Notes</Button>
-              <Button variant="outline" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={showAddModal} onClose={() => setShowAddModal(false)}>
         <ModalHeader><H3>Schedule Rehearsal</H3></ModalHeader>

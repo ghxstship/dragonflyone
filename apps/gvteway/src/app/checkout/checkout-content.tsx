@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Container, Section, Display, H2, H3, Body, Button, Input, Card, Grid, Stack, Spinner, Alert } from '@ghxstship/ui';
 import { CreditCard, Lock, Check } from 'lucide-react';
-import { useCheckoutData } from '@/hooks/useCheckout';
+import { useCheckoutData, type CartItem } from '@/hooks/useCheckout';
 
 export default function CheckoutContent() {
   const searchParams = useSearchParams();
@@ -34,7 +34,7 @@ export default function CheckoutContent() {
     isProcessing: processing,
   } = useCheckoutData(eventId, ticketId, qty);
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const subtotal = cartItems.reduce((sum: number, item: CartItem) => sum + item.price * item.qty, 0);
   const fees = subtotal * 0.12;
   const total = subtotal + fees;
 
@@ -102,7 +102,7 @@ export default function CheckoutContent() {
                 <Card className="p-6">
                   <H2 className="mb-4">ORDER SUMMARY</H2>
                   {cartItems.length > 0 ? (
-                    cartItems.map(item => (
+                    cartItems.map((item: CartItem) => (
                       <Stack key={item.id} gap={4} direction="horizontal" className="justify-between items-start py-4 border-b border-ink-200">
                         <Stack gap={1} className="flex-1">
                           <H3>{item.event_title}</H3>

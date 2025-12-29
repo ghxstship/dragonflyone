@@ -1,13 +1,10 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { createAdminClient } from '@/lib/supabase';
+import { apiRoute } from '@ghxstship/config/middleware';
+import { PlatformRole } from '@ghxstship/config/roles';
 
 const UpdatePaymentSchema = z.object({
   amount: z.number().positive().optional(),
@@ -18,12 +15,10 @@ const UpdatePaymentSchema = z.object({
   notes: z.string().optional(),
 });
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await params;
+export const GET = apiRoute(
+  async (request: NextRequest, context) => {
+    const supabase = createAdminClient();
+    const { id } = await context.params!;
 
     const { data, error } = await supabase
       .from('finance_payments')
@@ -42,17 +37,18 @@ export async function GET(
     }
 
     return NextResponse.json({ payment: data });
-  } catch (error: unknown) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  },
+  {
+    auth: true,
+    roles: [PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_SUPER_ADMIN],
+    audit: { action: 'payment:view', resource: 'finance_payments' },
   }
-}
+);
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await params;
+export const PATCH = apiRoute(
+  async (request: NextRequest, context) => {
+    const supabase = createAdminClient();
+    const { id } = await context.params!;
     const body = await request.json();
 
     const validationResult = UpdatePaymentSchema.safeParse(body);
@@ -83,17 +79,19 @@ export async function PATCH(
     }
 
     return NextResponse.json({ payment: data });
-  } catch (error: unknown) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  },
+  {
+    auth: true,
+    roles: [PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_SUPER_ADMIN],
+    validation: UpdatePaymentSchema,
+    audit: { action: 'payment:update', resource: 'finance_payments' },
   }
-}
+);
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await params;
+export const DELETE = apiRoute(
+  async (request: NextRequest, context) => {
+    const supabase = createAdminClient();
+    const { id } = await context.params!;
 
     const { error } = await supabase
       .from('finance_payments')
@@ -105,7 +103,10 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true }, { status: 200 });
-  } catch (error: unknown) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  },
+  {
+    auth: true,
+    roles: [PlatformRole.ATLVS_SUPER_ADMIN],
+    audit: { action: 'payment:delete', resource: 'finance_payments' },
   }
-}
+);

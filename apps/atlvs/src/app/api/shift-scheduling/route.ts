@@ -1,14 +1,53 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createShiftSchema = z.object({
+  employee_id: z.string().uuid(),
+  shift_date: z.string(),
+  start_time: z.string(),
+  end_time: z.string(),
+  department: z.string().optional(),
+  role: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+const swapShiftSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('swap'),
+  target_shift_id: z.string().uuid(),
+});
+
+const updateShiftSchema = z.object({
+  id: z.string().uuid(),
+  action: z.undefined().optional(),
+}).passthrough();
+
+const patchShiftSchema = z.union([
+  swapShiftSchema,
+  updateShiftSchema,
+]);
 
 // Advanced shift scheduling with conflict detection
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const employeeId = searchParams.get('employee_id');
@@ -38,14 +77,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { employee_id, shift_date, start_time, end_time, department, role, notes } = body;
+    const validatedData = createShiftSchema.parse(body);
+    const { employee_id, shift_date, start_time, end_time, department, role, notes } = validatedData;
 
     // Check for conflicts
     const { data: existing } = await supabase.from('shifts').select('*')
@@ -75,14 +121,21 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const body = await request.json();
-    const { id, action, ...updateData } = body;
+    const validatedData = patchShiftSchema.parse(body);
+    const { id, action, ...updateData } = validatedData;
 
     if (action === 'swap') {
-      const { target_shift_id } = updateData;
+      const { target_shift_id } = validatedData as z.infer<typeof swapShiftSchema>;
       const { data: shift1 } = await supabase.from('shifts').select('employee_id').eq('id', id).single();
       const { data: shift2 } = await supabase.from('shifts').select('employee_id').eq('id', target_shift_id).single();
 

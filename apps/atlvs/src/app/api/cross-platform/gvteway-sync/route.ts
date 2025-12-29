@@ -1,13 +1,57 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createLinkSchema = z.object({
+  action: z.literal('create_link'),
+  atlvs_project_id: z.string().uuid(),
+  gvteway_event_id: z.string().uuid(),
+});
+
+const syncRevenueSchema = z.object({
+  action: z.literal('sync_revenue'),
+  gvteway_event_id: z.string().uuid(),
+  atlvs_project_id: z.string().uuid(),
+});
+
+const syncAllEventsSchema = z.object({
+  action: z.literal('sync_all_events'),
+});
+
+const generateReportSchema = z.object({
+  action: z.literal('generate_financial_report'),
+  atlvs_project_id: z.string().uuid(),
+  start_date: z.string().optional(),
+  end_date: z.string().optional(),
+});
+
+const gvtewaySyncActionSchema = z.discriminatedUnion('action', [
+  createLinkSchema,
+  syncRevenueSchema,
+  syncAllEventsSchema,
+  generateReportSchema,
+]);
 
 // GET /api/cross-platform/gvteway-sync - Get financial sync status
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -122,7 +166,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -133,14 +184,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const action = body.action || 'create_link';
+    const validatedData = gvtewaySyncActionSchema.parse(body);
+    const action = validatedData.action;
 
     if (action === 'create_link') {
-      const { atlvs_project_id, gvteway_event_id } = body;
-
-      if (!atlvs_project_id || !gvteway_event_id) {
-        return NextResponse.json({ error: 'Both IDs required' }, { status: 400 });
-      }
+      const { atlvs_project_id, gvteway_event_id } = validatedData;
 
       const { data: link, error } = await supabase
         .from('cross_platform_links')
@@ -161,7 +209,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ link }, { status: 201 });
     } else if (action === 'sync_revenue') {
-      const { gvteway_event_id, atlvs_project_id } = body;
+      const { gvteway_event_id, atlvs_project_id } = validatedData;
 
       // Get GVTEWAY revenue data
       const { data: orders } = await supabase
@@ -277,7 +325,7 @@ export async function POST(request: NextRequest) {
         results,
       });
     } else if (action === 'generate_financial_report') {
-      const { atlvs_project_id, start_date, end_date } = body;
+      const { atlvs_project_id, start_date, end_date } = validatedData;
 
       // Get all revenue sources for the project
       const { data: revenue } = await supabase

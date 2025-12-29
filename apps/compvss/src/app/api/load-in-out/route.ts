@@ -1,12 +1,70 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const loadTaskSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().optional(),
+  department: z.string().optional(),
+  assigned_to: z.string().uuid().optional(),
+  start_time: z.string().optional(),
+  duration_minutes: z.number().min(0).optional(),
+  dependencies: z.array(z.string()).optional(),
+});
+
+const truckAssignmentSchema = z.object({
+  truck_id: z.string().uuid(),
+  driver_id: z.string().uuid().optional(),
+  arrival_time: z.string().optional(),
+  departure_time: z.string().optional(),
+  dock_assignment: z.string().optional(),
+  contents: z.array(z.string()).optional(),
+});
+
+const createScheduleSchema = z.object({
+  project_id: z.string().uuid(),
+  event_id: z.string().uuid().optional(),
+  schedule_type: z.enum(['load_in', 'load_out']),
+  scheduled_date: z.string(),
+  start_time: z.string().optional(),
+  end_time: z.string().optional(),
+  venue_access_time: z.string().optional(),
+  tasks: z.array(loadTaskSchema).optional(),
+  truck_assignments: z.array(truckAssignmentSchema).optional(),
+  staging_areas: z.array(z.string()).optional(),
+  notes: z.string().optional(),
+});
+
+const updateScheduleSchema = z.object({
+  schedule_id: z.string().uuid(),
+  task_id: z.string().uuid().optional(),
+  status: z.enum(['scheduled', 'in_progress', 'completed', 'cancelled']).optional(),
+  scheduled_date: z.string().optional(),
+  start_time: z.string().optional(),
+  end_time: z.string().optional(),
+  notes: z.string().optional(),
+});
 
 // GET - Fetch load-in/load-out schedules
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
     const eventId = searchParams.get('event_id');
@@ -48,7 +106,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -59,6 +124,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createScheduleSchema.parse(body);
     const {
       project_id,
       event_id,
@@ -71,7 +137,7 @@ export async function POST(request: NextRequest) {
       truck_assignments,
       staging_areas,
       notes,
-    } = body;
+    } = validatedData;
 
     // Create schedule
     const { data: schedule, error: scheduleError } = await supabase
@@ -143,7 +209,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -154,7 +227,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { schedule_id, task_id, ...updateData } = body;
+    const validatedData = updateScheduleSchema.parse(body);
+    const { schedule_id, task_id, ...updateData } = validatedData;
 
     if (task_id) {
       // Update task

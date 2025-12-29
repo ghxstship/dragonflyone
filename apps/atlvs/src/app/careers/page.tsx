@@ -1,212 +1,169 @@
-import { AtlvsAppLayout } from "../../components/app-layout";
+"use client";
+
+/**
+ * Careers Page
+ * Job openings and company culture
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Briefcase, MapPin, Clock, DollarSign, Heart, Users, Zap, List, Building2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import {
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H1,
-  H3,
-  Label,
-  Container,
-  Display,
-  Button,
-  FullBleedSection,
   Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
 } from "@ghxstship/ui";
-import { MapPin, Clock, Briefcase, ArrowRight, Users, Zap, Heart, Coffee } from "lucide-react";
-import NextLink from "next/link";
 
-export const runtime = "edge";
+interface JobPosting {
+  id: string;
+  title: string;
+  department: string;
+  location: string;
+  type: "full-time" | "part-time" | "contract";
+  salary_range: string;
+  posted_at: string;
+}
 
-const careersData = {
-  hero: {
-    headline: "BUILD THE FUTURE OF PRODUCTION",
-    description: "Join a team of passionate builders creating tools that power the world's most ambitious productions.",
-  },
-  perks: [
-    { icon: Users, title: "REMOTE-FIRST", description: "Work from anywhere. We believe great work happens everywhere." },
-    { icon: Zap, title: "SHIP FAST", description: "Move quickly, break things thoughtfully, and learn constantly." },
-    { icon: Heart, title: "HEALTH & WELLNESS", description: "Comprehensive benefits including mental health support." },
-    { icon: Coffee, title: "UNLIMITED PTO", description: "Take the time you need. We trust you to manage your schedule." },
-  ],
-  departments: [
-    { name: "Engineering", count: 4 },
-    { name: "Product", count: 2 },
-    { name: "Design", count: 1 },
-    { name: "Sales", count: 3 },
-    { name: "Operations", count: 2 },
-  ],
-  openings: [
-    {
-      title: "Senior Full-Stack Engineer",
-      department: "Engineering",
-      location: "Remote",
-      type: "Full-time",
-      description: "Build and scale our core platform serving thousands of productions worldwide.",
-    },
-    {
-      title: "Product Designer",
-      department: "Design",
-      location: "Remote",
-      type: "Full-time",
-      description: "Shape the future of production management through thoughtful, user-centered design.",
-    },
-    {
-      title: "Enterprise Account Executive",
-      department: "Sales",
-      location: "Los Angeles, CA",
-      type: "Full-time",
-      description: "Drive growth by partnering with major production companies and festivals.",
-    },
-    {
-      title: "DevOps Engineer",
-      department: "Engineering",
-      location: "Remote",
-      type: "Full-time",
-      description: "Build and maintain infrastructure that powers mission-critical production operations.",
-    },
-    {
-      title: "Customer Success Manager",
-      department: "Operations",
-      location: "Miami, FL",
-      type: "Full-time",
-      description: "Ensure our customers achieve their production goals with ATLVS.",
-    },
-  ],
-};
+const DEMO_JOBS: JobPosting[] = [
+  { id: "1", title: "Senior Software Engineer", department: "Engineering", location: "Remote", type: "full-time", salary_range: "$150K - $200K", posted_at: "2024-12-10" },
+  { id: "2", title: "Product Designer", department: "Design", location: "New York, NY", type: "full-time", salary_range: "$120K - $160K", posted_at: "2024-12-08" },
+  { id: "3", title: "Customer Success Manager", department: "Customer Success", location: "Remote", type: "full-time", salary_range: "$80K - $110K", posted_at: "2024-12-05" },
+  { id: "4", title: "DevOps Engineer", department: "Engineering", location: "San Francisco, CA", type: "full-time", salary_range: "$140K - $180K", posted_at: "2024-12-01" },
+  { id: "5", title: "Marketing Manager", department: "Marketing", location: "Remote", type: "full-time", salary_range: "$90K - $130K", posted_at: "2024-11-28" },
+];
+
+const BENEFITS = [
+  { icon: <Heart className="size-6" />, title: "Health & Wellness", description: "Comprehensive health, dental, and vision coverage" },
+  { icon: <Clock className="size-6" />, title: "Flexible Hours", description: "Work when you're most productive" },
+  { icon: <MapPin className="size-6" />, title: "Remote First", description: "Work from anywhere in the world" },
+  { icon: <DollarSign className="size-6" />, title: "Competitive Pay", description: "Top-of-market compensation packages" },
+  { icon: <Zap className="size-6" />, title: "Learning Budget", description: "$2,000 annual learning and development budget" },
+  { icon: <Users className="size-6" />, title: "Team Events", description: "Regular team offsites and virtual events" },
+];
+
+const DEPARTMENTS = ["All", "Engineering", "Design", "Customer Success", "Marketing", "Sales"];
 
 export default function CareersPage() {
-  return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="max-w-3xl">
-            <Label size="xs" className="text-on-dark-muted">
-              CAREERS AT ATLVS
-            </Label>
-            <Display size="lg" className="text-white">
-              {careersData.hero.headline}
-            </Display>
-            <Body size="lg" className="text-on-dark-secondary">
-              {careersData.hero.description}
-            </Body>
-            <NextLink href="#openings">
-              <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                View Open Positions
+  const router = useRouter();
+  const [selectedDepartment, setSelectedDepartment] = useState("All");
+
+  const { data: jobs = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["job-postings"],
+    queryFn: async () => {
+      const response = await fetch("/api/careers");
+      if (!response.ok) return DEMO_JOBS;
+      const data = await response.json();
+      return data.jobs?.length ? data.jobs : DEMO_JOBS;
+    },
+  });
+
+  const filteredJobs = selectedDepartment === "All" ? jobs : jobs.filter((job: JobPosting) => job.department === selectedDepartment);
+
+  const formatDate = (dateStr: string) => {
+    const days = Math.floor((Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24));
+    if (days === 0) return "Today";
+    if (days === 1) return "Yesterday";
+    return `${days} days ago`;
+  };
+
+  const tabs = [
+    {
+      id: "openings",
+      label: "Open Positions",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mb-6">
+            <StatCard label="Open Positions" value={jobs.length.toString()} icon={<Briefcase className="size-5" />} />
+            <StatCard label="Departments Hiring" value={new Set(jobs.map((j: JobPosting) => j.department)).size.toString()} icon={<Building2 className="size-5" />} />
+            <StatCard label="Remote Positions" value={jobs.filter((j: JobPosting) => j.location === "Remote").length.toString()} icon={<MapPin className="size-5" />} />
+          </Grid>
+
+          <div className="flex gap-2 mb-6 flex-wrap">
+            {DEPARTMENTS.map((dept) => (
+              <Button key={dept} variant={selectedDepartment === dept ? "solid" : "outline"} size="sm" onClick={() => setSelectedDepartment(dept)}>
+                {dept}
               </Button>
-            </NextLink>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+            ))}
+          </div>
 
-      {/* Perks */}
-      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-16 text-center">
-            <H1 className="text-ink-950">WHY ATLVS</H1>
-            <Body size="lg" className="mx-auto max-w-2xl text-grey-600">
-              We&apos;re building something special and want you to be part of it.
-            </Body>
-          </Stack>
-
-          <Grid cols={4} gap={6} className="sm:grid-cols-2">
-            {careersData.perks.map((perk) => (
-              <Card key={perk.title} className="border-2 border-ink-950 bg-white p-6 shadow-md">
-                <Stack gap={4}>
-                  <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                    <perk.icon className="size-6 text-ink-950" />
-                  </Stack>
-                  <H3 size="sm" className="text-ink-950">
-                    {perk.title}
-                  </H3>
-                  <Body size="sm" className="text-grey-600">
-                    {perk.description}
-                  </Body>
-                </Stack>
+          {filteredJobs.length === 0 ? (
+            <Card className="p-8 text-center">
+              <Briefcase className="size-12 text-grey-600 mx-auto mb-4" />
+              <Body className="font-weight-medium font-weight-medium mb-2">No Open Positions</Body>
+              <Body className="text-grey-400">Check back soon for new opportunities</Body>
+            </Card>
+          ) : (
+            <div className="space-y-4">
+              {filteredJobs.map((job: JobPosting) => (
+                <Card key={job.id} className="p-6 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/careers/${job.id}`)}>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <Body className="font-weight-bold font-weight-medium">{job.title}</Body>
+                      <div className="flex items-center gap-4 mt-2 text-grey-400">
+                        <div className="flex items-center gap-1"><Building2 className="size-4" /><Body size="sm">{job.department}</Body></div>
+                        <div className="flex items-center gap-1"><MapPin className="size-4" /><Body size="sm">{job.location}</Body></div>
+                        <div className="flex items-center gap-1"><DollarSign className="size-4" /><Body size="sm">{job.salary_range}</Body></div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline">{job.type}</Badge>
+                      <Body size="sm" className="text-grey-500">{formatDate(job.posted_at)}</Body>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )}
+        </Section>
+      ),
+    },
+    {
+      id: "benefits",
+      label: "Benefits",
+      icon: <Heart className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Why Work at ATLVS?" description="We offer competitive benefits to help you do your best work" />
+          <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3 mt-6">
+            {BENEFITS.map((benefit, index) => (
+              <Card key={index} className="p-6">
+                <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mb-4">{benefit.icon}</div>
+                <Body className="font-weight-bold font-weight-medium mb-2">{benefit.title}</Body>
+                <Body className="text-grey-400">{benefit.description}</Body>
               </Card>
             ))}
           </Grid>
-        </Container>
-      </FullBleedSection>
 
-      {/* Open Positions */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24" id="openings">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-16 text-center">
-            <H1 className="text-ink-950">OPEN POSITIONS</H1>
-            <Body size="lg" className="mx-auto max-w-2xl text-grey-600">
-              Find your next role and help us transform production management.
-            </Body>
-          </Stack>
+          <Card className="p-8 mt-8 text-center">
+            <Body className="font-weight-bold font-weight-bold mb-2">Don&apos;t see a role that fits?</Body>
+            <Body className="text-grey-400 mb-4">We&apos;re always looking for talented people. Send us your resume!</Body>
+            <Button variant="outline" onClick={() => router.push("/contact")}>Get in Touch</Button>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
-          {/* Department filters */}
-          <Stack direction="horizontal" gap={3} className="mb-8 flex-wrap justify-center">
-            {careersData.departments.map((dept) => (
-              <Badge key={dept.name} variant="outline" className="border-ink-950 text-ink-950">
-                {dept.name} ({dept.count})
-              </Badge>
-            ))}
-          </Stack>
-
-          {/* Job listings */}
-          <Stack gap={4}>
-            {careersData.openings.map((job) => (
-              <Card key={job.title} className="border-2 border-ink-950 bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
-                <Stack direction="horizontal" className="flex-col items-start justify-between gap-6 sm:flex-row">
-                  <Stack gap={3} className="flex-1">
-                    <Stack direction="horizontal" gap={3} className="flex-wrap items-center">
-                      <H3 className="text-ink-950">{job.title}</H3>
-                      <Badge variant="outline">{job.department}</Badge>
-                    </Stack>
-                    <Body size="sm" className="text-grey-600">
-                      {job.description}
-                    </Body>
-                    <Stack direction="horizontal" gap={4} className="flex-wrap text-grey-500">
-                      <Stack direction="horizontal" gap={1} className="items-center">
-                        <MapPin className="size-4" />
-                        <Label size="xs">{job.location}</Label>
-                      </Stack>
-                      <Stack direction="horizontal" gap={1} className="items-center">
-                        <Clock className="size-4" />
-                        <Label size="xs">{job.type}</Label>
-                      </Stack>
-                      <Stack direction="horizontal" gap={1} className="items-center">
-                        <Briefcase className="size-4" />
-                        <Label size="xs">{job.department}</Label>
-                      </Stack>
-                    </Stack>
-                  </Stack>
-                  <NextLink href={`/careers/${job.title.toLowerCase().replace(/\s+/g, "-")}`} className="w-full sm:w-auto">
-                    <Button variant="outline" size="sm" icon={<ArrowRight />} fullWidth className="sm:w-auto">
-                      Apply
-                    </Button>
-                  </NextLink>
-                </Stack>
-              </Card>
-            ))}
-          </Stack>
-        </Container>
-      </FullBleedSection>
-
-      {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center">
-            <Display size="md" className="text-white">
-              DON&apos;T SEE YOUR ROLE?
-            </Display>
-            <Body size="lg" className="text-on-dark-secondary">
-              We&apos;re always looking for exceptional talent. Send us your resume and tell us how you can contribute.
-            </Body>
-            <NextLink href="/contact">
-              <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                Get in Touch
-              </Button>
-            </NextLink>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+  return (
+    <DetailPage
+      header={{
+        kicker: "Join Us",
+        title: "Careers at ATLVS",
+        description: "Help us build the future of production management",
+      }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

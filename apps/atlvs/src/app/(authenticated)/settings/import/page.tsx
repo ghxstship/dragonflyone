@@ -1,499 +1,193 @@
-'use client';
+"use client";
 
+/**
+ * Data Import Page
+ * Import data from various sources
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState, useCallback } from "react";
+import { Upload, FileText, Database, Users, Calendar, List, Settings, Check } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
 import {
+  Badge,
   Body,
   Button,
-  H1,
-  H2,
+  Card,
+  Grid,
   Input,
   Label,
-  Select,
-  Text,
-} from '@ghxstship/ui';
+  DetailPage,
+  Section,
+  SectionHeader,
+  useNotifications,
+} from "@ghxstship/ui";
 
-import { useState, useCallback } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, Upload, FileText, AlertCircle, Check, X, RefreshCw, MapPin, ArrowRight } from 'lucide-react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-
-interface ImportJob {
+interface ImportOption {
   id: string;
-  type: string;
-  filename: string;
-  status: 'validating' | 'mapping' | 'importing' | 'completed' | 'failed';
-  created_at: string;
-  completed_at?: string;
-  total_records: number;
-  processed_records: number;
-  success_count: number;
-  error_count: number;
-  errors?: Array<{ row: number; field: string; message: string }>;
+  label: string;
+  description: string;
+  icon: React.ReactNode;
+  formats: string[];
+  template: string;
 }
 
-interface FieldMapping {
-  source: string;
-  target: string;
-  sample: string;
-}
-
-const IMPORT_TYPES = [
-  { id: 'contacts', label: 'Contacts', fields: ['name', 'email', 'phone', 'company', 'title'] },
-  { id: 'projects', label: 'Projects', fields: ['name', 'start_date', 'end_date', 'budget', 'status'] },
-  { id: 'invoices', label: 'Invoices', fields: ['invoice_number', 'amount', 'date', 'due_date', 'client'] },
-  { id: 'bookings', label: 'Bookings', fields: ['event_name', 'date', 'venue', 'client', 'status'] },
+const IMPORT_OPTIONS: ImportOption[] = [
+  { id: "projects", label: "Projects", description: "Import projects from CSV or Excel", icon: <FileText className="size-5" />, formats: ["csv", "xlsx"], template: "/templates/projects-import.csv" },
+  { id: "contacts", label: "Contacts", description: "Import contacts and organizations", icon: <Users className="size-5" />, formats: ["csv", "xlsx", "vcf"], template: "/templates/contacts-import.csv" },
+  { id: "events", label: "Events", description: "Import events and schedules", icon: <Calendar className="size-5" />, formats: ["csv", "xlsx", "ics"], template: "/templates/events-import.csv" },
 ];
 
-const DEMO_IMPORTS: ImportJob[] = [
-  { id: 'imp-001', type: 'contacts', filename: 'contacts-export.csv', status: 'completed', created_at: '2025-01-10T14:00:00Z', completed_at: '2025-01-10T14:05:00Z', total_records: 150, processed_records: 150, success_count: 147, error_count: 3 },
-  { id: 'imp-002', type: 'projects', filename: 'projects-q4.xlsx', status: 'completed', created_at: '2025-01-05T10:00:00Z', completed_at: '2025-01-05T10:03:00Z', total_records: 25, processed_records: 25, success_count: 25, error_count: 0 },
-];
+export default function ImportSettingsPage() {
+  const { addNotification } = useNotifications();
 
-export default function DataImportPage() {
-  const queryClient = useQueryClient();
-  const [step, setStep] = useState<'select' | 'upload' | 'map' | 'confirm'>('select');
-  const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [fieldMappings, setFieldMappings] = useState<FieldMapping[]>([]);
+  const [selectedImport, setSelectedImport] = useState<string>("projects");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['import-jobs'],
-    queryFn: async () => {
-      const response = await fetch('/api/settings/import');
-      if (!response.ok) {
-        return { jobs: DEMO_IMPORTS };
-      }
-      return response.json();
-    },
-  });
-
-  const jobs: ImportJob[] = data?.jobs || DEMO_IMPORTS;
-
-  const validateFile = useMutation({
-    mutationFn: async (file: File) => {
+  const importMutation = useMutation({
+    mutationFn: async (data: { type: string; file: File }) => {
       const formData = new FormData();
-      formData.append('file', file);
-      formData.append('type', selectedType || '');
-      
-      const response = await fetch('/api/settings/import/validate', {
-        method: 'POST',
-        body: formData,
-      });
-      if (!response.ok) {
-        const detected = ['Name', 'Email Address', 'Phone Number', 'Company Name', 'Job Title'];
-        const targetType = IMPORT_TYPES.find((t) => t.id === selectedType);
-        const mappings = detected.map((source, i) => ({
-          source,
-          target: targetType?.fields[i] || '',
-          sample: `Sample ${source}`,
-        }));
-        return { fields: detected, mappings };
-      }
+      formData.append("type", data.type);
+      formData.append("file", data.file);
+      const response = await fetch("/api/settings/import", { method: "POST", body: formData });
+      if (!response.ok) throw new Error("Failed to import data");
       return response.json();
     },
     onSuccess: (data) => {
-      setFieldMappings(data.mappings || []);
-      setStep('map');
+      addNotification({ type: "success", title: "Import Complete", message: `Successfully imported ${data.count || 0} records` });
+      setSelectedFile(null);
     },
-  });
-
-  const runImport = useMutation({
-    mutationFn: async () => {
-      const formData = new FormData();
-      if (uploadedFile) {
-        formData.append('file', uploadedFile);
-      }
-      formData.append('type', selectedType || '');
-      formData.append('mappings', JSON.stringify(fieldMappings));
-      
-      const response = await fetch('/api/settings/import', {
-        method: 'POST',
-        body: formData,
-      });
-      if (!response.ok) throw new Error('Import failed');
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['import-jobs'] });
-      setStep('select');
-      setSelectedType(null);
-      setUploadedFile(null);
-      setFieldMappings([]);
+    onError: () => {
+      addNotification({ type: "error", title: "Import Failed", message: "Failed to import data. Please check your file format." });
     },
   });
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true);
-    } else if (e.type === 'dragleave') {
-      setDragActive(false);
-    }
+    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
+    else if (e.type === "dragleave") setDragActive(false);
   }, []);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      setUploadedFile(e.dataTransfer.files[0]);
-    }
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) setSelectedFile(e.dataTransfer.files[0]);
   }, []);
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setUploadedFile(e.target.files[0]);
-    }
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) setSelectedFile(e.target.files[0]);
   };
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
+  const currentOption = IMPORT_OPTIONS.find((o) => o.id === selectedImport);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return 'bg-success/10 text-success';
-      case 'importing':
-      case 'validating':
-      case 'mapping':
-        return 'bg-primary/10 text-primary';
-      case 'failed':
-        return 'bg-destructive/10 text-destructive';
-      default:
-        return 'bg-muted text-muted-foreground';
-    }
-  };
+  const tabs = [
+    {
+      id: "import",
+      label: "Import",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Select Data Type" description="Choose what type of data you want to import" />
+          <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4 mb-6">
+            {IMPORT_OPTIONS.map((option) => (
+              <Card
+                key={option.id}
+                className={`p-4 cursor-pointer transition-colors ${selectedImport === option.id ? "border-primary" : ""}`}
+                onClick={() => setSelectedImport(option.id)}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`p-2 rounded-card ${selectedImport === option.id ? "bg-primary text-white" : "bg-grey-800 text-grey-400"}`}>
+                    {option.icon}
+                  </div>
+                  <div className="flex-1">
+                    <Body className="font-weight-medium">{option.label}</Body>
+                    <Body size="sm" className="text-grey-400">{option.description}</Body>
+                    <div className="flex gap-1 mt-2">
+                      {option.formats.map((fmt) => (
+                        <Badge key={fmt} variant="outline" className="text-body-xs uppercase">{fmt}</Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </Grid>
 
-  if (isLoading) {
-    return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading import settings...</div>
-      </div>
-    );
-  }
+          <Card className="p-6 mb-6">
+            <SectionHeader title="Upload File" />
+            <div
+              className={`mt-4 border-2 border-dashed rounded-card p-8 text-center transition-colors ${dragActive ? "border-primary bg-primary/10" : "border-grey-700"}`}
+              onDragEnter={handleDrag}
+              onDragLeave={handleDrag}
+              onDragOver={handleDrag}
+              onDrop={handleDrop}
+            >
+              {selectedFile ? (
+                <div className="flex items-center justify-center gap-3">
+                  <Check className="size-6 text-success" />
+                  <div>
+                    <Body className="font-weight-medium">{selectedFile.name}</Body>
+                    <Body size="sm" className="text-grey-400">{(selectedFile.size / 1024).toFixed(1)} KB</Body>
+                  </div>
+                  <Button variant="ghost" size="sm" onClick={() => setSelectedFile(null)}>Remove</Button>
+                </div>
+              ) : (
+                <>
+                  <Upload className="size-12 text-grey-600 mx-auto mb-4" />
+                  <Body className="font-weight-medium mb-2">Drag and drop your file here</Body>
+                  <Body size="sm" className="text-grey-400 mb-4">or click to browse</Body>
+                  <Input type="file" accept={currentOption?.formats.map((f) => `.${f}`).join(",")} onChange={handleFileChange} className="hidden" id="file-upload" />
+                  <Label htmlFor="file-upload">
+                    <Button variant="outline" className="cursor-pointer">Browse Files</Button>
+                  </Label>
+                </>
+              )}
+            </div>
+            {currentOption && (
+              <div className="mt-4 flex items-center justify-between">
+                <Body size="sm" className="text-grey-400">Need a template? Download our sample file.</Body>
+                <Button variant="ghost" size="sm" onClick={() => window.open(currentOption.template, "_blank")}>Download Template</Button>
+              </div>
+            )}
+          </Card>
 
-  if (error) {
-    return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
-          <AlertCircle className="h-5 w-5 text-destructive" />
-          <Text className="text-destructive">Failed to load import settings</Text>
-        </div>
-      </div>
-    );
-  }
+          <Button
+            variant="solid"
+            onClick={() => selectedFile && importMutation.mutate({ type: selectedImport, file: selectedFile })}
+            disabled={!selectedFile || importMutation.isPending}
+            icon={<Upload className="size-4" />}
+            iconPosition="left"
+          >
+            {importMutation.isPending ? "Importing..." : "Start Import"}
+          </Button>
+        </Section>
+      ),
+    },
+    {
+      id: "history",
+      label: "Import History",
+      icon: <Settings className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Recent Imports" description="Your previous import operations" />
+          <Card className="p-8 text-center mt-4">
+            <Database className="size-12 text-grey-600 mx-auto mb-4" />
+            <Body className="font-weight-medium text-body-lg mb-2">No Recent Imports</Body>
+            <Body className="text-grey-400">Your import history will appear here</Body>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center gap-4">
-        <Link
-          href="/settings"
-          className="p-2 hover:bg-muted rounded-button transition-colors"
-        >
-          <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-        </Link>
-        <div>
-          <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
-            <Upload className="h-6 w-6" />
-            Data Import
-          </H1>
-          <Body className="text-body-sm text-muted-foreground mt-1">
-            Import data from CSV or Excel files
-          </Body>
-        </div>
-      </div>
-
-      {/* Progress Steps */}
-      <div className="flex items-center justify-between bg-muted/30 p-4 rounded-card">
-        {['select', 'upload', 'map', 'confirm'].map((s, i) => (
-          <div key={s} className="flex items-center">
-            <div className={`flex items-center gap-2 ${
-              step === s ? 'text-primary' : i < ['select', 'upload', 'map', 'confirm'].indexOf(step) ? 'text-success' : 'text-muted-foreground'
-            }`}>
-              <div className={`w-8 h-8 rounded-avatar flex items-center justify-center border-2 ${
-                step === s ? 'border-primary bg-primary text-primary-foreground' : 
-                i < ['select', 'upload', 'map', 'confirm'].indexOf(step) ? 'border-success bg-success text-success-foreground' : 'border-border'
-              }`}>
-                {i < ['select', 'upload', 'map', 'confirm'].indexOf(step) ? (
-                  <Check className="h-4 w-4" />
-                ) : (
-                  i + 1
-                )}
-              </div>
-              <Text className="text-body-sm font-weight-medium capitalize">{s}</Text>
-            </div>
-            {i < 3 && <ArrowRight className="h-4 w-4 mx-4 text-muted-foreground" />}
-          </div>
-        ))}
-      </div>
-
-      {/* Step: Select Type */}
-      {step === 'select' && (
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Select Data Type</H2>
-          <div className="grid grid-cols-2 gap-4">
-            {IMPORT_TYPES.map((type) => (
-              <Button
-                key={type.id}
-                onClick={() => {
-                  setSelectedType(type.id);
-                  setStep('upload');
-                }}
-                className="text-left p-4 rounded-card border-2 border-border hover:border-primary transition-colors"
-              >
-                <Body className="text-body-md font-weight-medium text-foreground">{type.label}</Body>
-                <Body className="text-body-xs text-muted-foreground mt-1">
-                  Fields: {type.fields.join(', ')}
-                </Body>
-              </Button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Step: Upload */}
-      {step === 'upload' && (
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">
-            Upload {IMPORT_TYPES.find((t) => t.id === selectedType)?.label} File
-          </H2>
-          <div
-            className={`border-2 border-dashed rounded-card p-12 text-center transition-colors ${
-              dragActive ? 'border-primary bg-primary/5' : 'border-border'
-            }`}
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-          >
-            {uploadedFile ? (
-              <div className="flex items-center justify-center gap-4">
-                <FileText className="h-8 w-8 text-primary" />
-                <div className="text-left">
-                  <Body className="text-body-md font-weight-medium text-foreground">{uploadedFile.name}</Body>
-                  <Body className="text-body-sm text-muted-foreground">
-                    {(uploadedFile.size / 1024).toFixed(1)} KB
-                  </Body>
-                </div>
-                <Button
-                  onClick={() => setUploadedFile(null)}
-                  className="p-2 hover:bg-muted rounded-button"
-                >
-                  <X className="h-4 w-4 text-muted-foreground" />
-                </Button>
-              </div>
-            ) : (
-              <>
-                <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <Body className="text-body-md text-foreground mb-2">
-                  Drag and drop your file here, or
-                </Body>
-                <Label className="px-4 py-2 bg-primary text-primary-foreground rounded-button cursor-pointer hover:bg-primary/90 transition-colors">
-                  Browse Files
-                  <Input
-                    type="file"
-                    accept=".csv,.xlsx,.xls"
-                    onChange={handleFileSelect}
-                    className="hidden"
-                  />
-                </Label>
-                <Body className="text-body-xs text-muted-foreground mt-4">
-                  Supported formats: CSV, XLSX, XLS (max 10MB)
-                </Body>
-              </>
-            )}
-          </div>
-          <div className="flex items-center justify-between mt-6">
-            <Button
-              onClick={() => {
-                setStep('select');
-                setSelectedType(null);
-                setUploadedFile(null);
-              }}
-              className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-            >
-              Back
-            </Button>
-            <Button
-              onClick={() => uploadedFile && validateFile.mutate(uploadedFile)}
-              disabled={!uploadedFile || validateFile.isPending}
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
-            >
-              {validateFile.isPending ? (
-                <>
-                  <RefreshCw className="h-4 w-4 animate-spin" />
-                  Validating...
-                </>
-              ) : (
-                <>
-                  Continue
-                  <ArrowRight className="h-4 w-4" />
-                </>
-              )}
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Step: Map Fields */}
-      {step === 'map' && (
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
-            <MapPin className="h-5 w-5" />
-            Map Fields
-          </H2>
-          <Body className="text-body-sm text-muted-foreground mb-6">
-            Match the columns in your file to the fields in the system
-          </Body>
-          <div className="space-y-4">
-            {fieldMappings.map((mapping, index) => (
-              <div key={index} className="grid grid-cols-3 gap-4 items-center p-3 bg-muted/30 rounded-card">
-                <div>
-                  <Body className="text-body-xs text-muted-foreground">Source Column</Body>
-                  <Body className="text-body-sm font-weight-medium text-foreground">{mapping.source}</Body>
-                  <Body className="text-body-xs text-muted-foreground truncate">e.g., {mapping.sample}</Body>
-                </div>
-                <div className="flex items-center justify-center">
-                  <ArrowRight className="h-4 w-4 text-muted-foreground" />
-                </div>
-                <div>
-                  <Body className="text-body-xs text-muted-foreground">Target Field</Body>
-                  <Select
-                    value={mapping.target}
-                    onChange={(e) => {
-                      const newMappings = [...fieldMappings];
-                      newMappings[index].target = e.target.value;
-                      setFieldMappings(newMappings);
-                    }}
-                    className="w-full px-3 py-1.5 border-2 border-border rounded-button focus:outline-none focus:border-primary text-body-sm"
-                  >
-                    <option value="">Skip this field</option>
-                    {IMPORT_TYPES.find((t) => t.id === selectedType)?.fields.map((field) => (
-                      <option key={field} value={field}>{field}</option>
-                    ))}
-                  </Select>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center justify-between mt-6">
-            <Button
-              onClick={() => setStep('upload')}
-              className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-            >
-              Back
-            </Button>
-            <Button
-              onClick={() => setStep('confirm')}
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
-            >
-              Continue
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Step: Confirm */}
-      {step === 'confirm' && (
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Confirm Import</H2>
-          <div className="space-y-4 mb-6">
-            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
-              <Text className="text-body-sm text-muted-foreground">File</Text>
-              <Text className="text-body-sm font-weight-medium text-foreground">{uploadedFile?.name}</Text>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
-              <Text className="text-body-sm text-muted-foreground">Type</Text>
-              <Text className="text-body-sm font-weight-medium text-foreground capitalize">{selectedType}</Text>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
-              <Text className="text-body-sm text-muted-foreground">Fields Mapped</Text>
-              <Text className="text-body-sm font-weight-medium text-foreground">
-                {fieldMappings.filter((m) => m.target).length} of {fieldMappings.length}
-              </Text>
-            </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <Button
-              onClick={() => setStep('map')}
-              className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-            >
-              Back
-            </Button>
-            <Button
-              onClick={() => runImport.mutate()}
-              disabled={runImport.isPending}
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
-            >
-              {runImport.isPending ? (
-                <>
-                  <RefreshCw className="h-4 w-4 animate-spin" />
-                  Importing...
-                </>
-              ) : (
-                <>
-                  <Upload className="h-4 w-4" />
-                  Start Import
-                </>
-              )}
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Import History */}
-      <div className="bg-background border-2 border-border rounded-card p-6">
-        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Import History</H2>
-        {jobs.length === 0 ? (
-          <div className="text-center py-8">
-            <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-            <Body className="text-body-sm text-muted-foreground">No imports yet</Body>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {jobs.map((job) => (
-              <div
-                key={job.id}
-                className="flex items-center justify-between p-4 bg-muted/30 rounded-card"
-              >
-                <div className="flex items-center gap-4">
-                  <FileText className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <Body className="text-body-sm font-weight-medium text-foreground">
-                      {job.filename}
-                    </Body>
-                    <Body className="text-body-xs text-muted-foreground">
-                      {formatDate(job.created_at)} • {job.type}
-                    </Body>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-right">
-                    <Body className="text-body-sm text-foreground">
-                      {job.success_count}/{job.total_records} records
-                    </Body>
-                    {job.error_count > 0 && (
-                      <Body className="text-body-xs text-destructive">{job.error_count} errors</Body>
-                    )}
-                  </div>
-                  <Text className={`px-2 py-0.5 text-body-xs rounded capitalize ${getStatusColor(job.status)}`}>
-                    {job.status}
-                  </Text>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+    <DetailPage
+      header={{ kicker: "Settings", title: "Import Data", description: "Import data from files or other sources" }}
+      backButton={{ label: "Settings", href: "/settings" }}
+      tabs={tabs}
+    />
   );
 }

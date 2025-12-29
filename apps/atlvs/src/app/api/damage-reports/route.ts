@@ -1,12 +1,47 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createDamageReportSchema = z.object({
+  assetId: z.string().uuid(),
+  description: z.string().min(1),
+  location: z.string().optional(),
+  severity: z.enum(['Minor', 'Moderate', 'Major', 'Critical']),
+  projectId: z.string().uuid().optional(),
+  reportedBy: z.string().uuid().optional(),
+  estimatedCost: z.number().optional(),
+  photos: z.array(z.string()).optional(),
+});
+
+const updateDamageReportSchema = z.object({
+  id: z.string().uuid(),
+  status: z.enum(['Reported', 'Under Review', 'In Repair', 'Resolved']).optional(),
+  repairVendor: z.string().optional(),
+  actualCost: z.number().optional(),
+  insuranceClaim: z.boolean().optional(),
+  notes: z.string().optional(),
+});
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const assetId = searchParams.get("assetId");
     const status = searchParams.get("status");
@@ -37,8 +72,18 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const body = await request.json();
-    const { assetId, description, location, severity, projectId, reportedBy, estimatedCost, photos } = body;
+    const validatedData = createDamageReportSchema.parse(body);
+    const { assetId, description, location, severity, projectId, reportedBy, estimatedCost, photos } = validatedData;
 
     const { data, error } = await supabase
       .from("damage_reports")
@@ -77,8 +122,18 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const body = await request.json();
-    const { id, status, repairVendor, actualCost, insuranceClaim, notes } = body;
+    const validatedData = updateDamageReportSchema.parse(body);
+    const { id, status, repairVendor, actualCost, insuranceClaim, notes } = validatedData;
 
     const updateData: Record<string, unknown> = {};
     if (status) {

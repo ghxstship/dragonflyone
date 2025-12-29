@@ -2,7 +2,22 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { withAuth, PlatformRole, logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const runOfShowEntrySchema = z.object({
+  time: z.string(),
+  duration: z.number().optional(),
+  item: z.string(),
+  notes: z.string().optional(),
+  responsible: z.string().optional(),
+});
+
+const createRunOfShowSchema = z.object({
+  event_id: z.string().uuid(),
+  entries: z.array(runOfShowEntrySchema).optional(),
+  status: z.enum(['draft', 'published', 'archived']).optional(),
+});
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -61,13 +76,14 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createRunOfShowSchema.parse(body);
 
     const { data, error } = await supabase
       .from('run_of_show')
       .insert({
-        event_id: body.event_id,
-        entries: body.entries || [],
-        status: body.status || 'draft',
+        event_id: validatedData.event_id,
+        entries: validatedData.entries || [],
+        status: validatedData.status || 'draft',
         version: 1,
       })
       .select()

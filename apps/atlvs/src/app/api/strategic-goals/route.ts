@@ -1,11 +1,46 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createGoalSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().optional(),
+  category: z.string().optional(),
+  target_date: z.string().optional(),
+  owner_id: z.string().uuid().optional(),
+});
+
+const updateGoalSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string().min(1).optional(),
+  description: z.string().optional(),
+  category: z.string().optional(),
+  target_date: z.string().optional(),
+  owner_id: z.string().uuid().optional(),
+  status: z.enum(['on_track', 'at_risk', 'off_track', 'completed']).optional(),
+  progress: z.number().min(0).max(100).optional(),
+});
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
     const status = searchParams.get('status');
@@ -61,12 +96,18 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const body = await request.json();
-    const { name, description, category, target_date, owner_id } = body;
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
-    if (!name) {
-      return NextResponse.json({ error: 'Name is required' }, { status: 400 });
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
+
+    const body = await request.json();
+    const validatedData = createGoalSchema.parse(body);
+    const { name, description, category, target_date, owner_id } = validatedData;
 
     const { data, error } = await supabase
       .from('strategic_goals')
@@ -98,12 +139,18 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const body = await request.json();
-    const { id, ...updates } = body;
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
-    if (!id) {
-      return NextResponse.json({ error: 'Goal ID required' }, { status: 400 });
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
+
+    const body = await request.json();
+    const validatedData = updateGoalSchema.parse(body);
+    const { id, ...updates } = validatedData;
 
     const { data, error } = await supabase
       .from('strategic_goals')

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { logger } from './logger';
 import type { Database } from './supabase-types';
 
 /**
@@ -189,7 +190,7 @@ export function AppContextProvider({
       const data = await fetchWithAuth(`teams?organization_id=eq.${orgId}&select=*&order=name`);
       setTeams(data || []);
     } catch (err) {
-      console.error('Failed to load teams:', err);
+      logger.error('Failed to load teams', err instanceof Error ? err : undefined);
     }
   }, [fetchWithAuth]);
 
@@ -203,7 +204,7 @@ export function AppContextProvider({
       const data = await fetchWithAuth(query);
       setWorkspaces(data || []);
     } catch (err) {
-      console.error('Failed to load workspaces:', err);
+      logger.error('Failed to load workspaces', err instanceof Error ? err : undefined);
     }
   }, [fetchWithAuth]);
 
@@ -217,7 +218,7 @@ export function AppContextProvider({
       const data = await fetchWithAuth(query);
       setProjects(data || []);
     } catch (err) {
-      console.error('Failed to load projects:', err);
+      logger.error('Failed to load projects', err instanceof Error ? err : undefined);
     }
   }, [fetchWithAuth]);
 
@@ -235,7 +236,7 @@ export function AppContextProvider({
       const data = await fetchWithAuth(query);
       setActivations(data || []);
     } catch (err) {
-      console.error('Failed to load activations:', err);
+      logger.error('Failed to load activations', err instanceof Error ? err : undefined);
     }
   }, [fetchWithAuth]);
 
@@ -307,7 +308,7 @@ export function AppContextProvider({
           setOrganization(data[0]);
         }
       } catch (err) {
-        console.error('Failed to select organization:', err);
+        logger.error('Failed to select organization', err instanceof Error ? err : undefined);
       }
     }
   }, [organizations, setOrganization, fetchWithAuth]);
@@ -323,7 +324,7 @@ export function AppContextProvider({
           setProject(data[0]);
         }
       } catch (err) {
-        console.error('Failed to select project:', err);
+        logger.error('Failed to select project', err instanceof Error ? err : undefined);
       }
     }
   }, [projects, setProject, fetchWithAuth]);
@@ -339,7 +340,7 @@ export function AppContextProvider({
           setActivation(data[0]);
         }
       } catch (err) {
-        console.error('Failed to select activation:', err);
+        logger.error('Failed to select activation', err instanceof Error ? err : undefined);
       }
     }
   }, [activations, setActivation, fetchWithAuth]);
@@ -492,7 +493,7 @@ export function AppContextProvider({
           await loadOrganizations();
         }
       } catch (err) {
-        console.error('Failed to load persisted context:', err);
+        logger.error('Failed to load persisted context', err instanceof Error ? err : undefined);
         await loadOrganizations();
       }
     };

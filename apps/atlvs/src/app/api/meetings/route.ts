@@ -1,13 +1,81 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const agendaItemSchema = z.object({
+  title: z.string(),
+  description: z.string().optional(),
+  duration_minutes: z.number().optional(),
+  presenter_id: z.string().uuid().optional(),
+});
+
+const createMeetingSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().optional(),
+  meeting_type: z.enum(['board', 'executive', 'team', 'client', 'vendor']),
+  scheduled_at: z.string(),
+  duration_minutes: z.number().optional(),
+  location: z.string().optional(),
+  virtual_link: z.string().optional(),
+  attendee_ids: z.array(z.string().uuid()).optional(),
+  agenda_items: z.array(agendaItemSchema).optional(),
+  recurring: z.boolean().optional(),
+  recurring_pattern: z.string().optional(),
+});
+
+const addMinutesSchema = z.object({
+  meeting_id: z.string().uuid(),
+  action: z.literal('add_minutes'),
+  content: z.string(),
+  action_items: z.array(z.string()).optional(),
+  decisions: z.array(z.string()).optional(),
+  next_steps: z.array(z.string()).optional(),
+});
+
+const approveMinutesSchema = z.object({
+  meeting_id: z.string().uuid(),
+  action: z.literal('approve_minutes'),
+  minutes_id: z.string().uuid(),
+});
+
+const respondSchema = z.object({
+  meeting_id: z.string().uuid(),
+  action: z.literal('respond'),
+  response: z.enum(['accepted', 'declined', 'tentative']),
+});
+
+const updateMeetingSchema = z.object({
+  meeting_id: z.string().uuid(),
+  action: z.undefined().optional(),
+}).passthrough();
+
+const patchMeetingSchema = z.union([
+  addMinutesSchema,
+  approveMinutesSchema,
+  respondSchema,
+  updateMeetingSchema,
+]);
 
 // GET - Fetch meetings
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -66,7 +134,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -77,10 +152,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createMeetingSchema.parse(body);
     const {
       title,
       description,
-      meeting_type, // 'board', 'executive', 'team', 'client', 'vendor'
+      meeting_type,
       scheduled_at,
       duration_minutes,
       location,
@@ -89,7 +165,7 @@ export async function POST(request: NextRequest) {
       agenda_items,
       recurring,
       recurring_pattern,
-    } = body;
+    } = validatedData;
 
     // Create meeting
     const { data: meeting, error: meetingError } = await supabase
@@ -157,7 +233,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -168,10 +251,11 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { meeting_id, action, ...updateData } = body;
+    const validatedData = patchMeetingSchema.parse(body);
+    const { meeting_id, action, ...updateData } = validatedData;
 
     if (action === 'add_minutes') {
-      const { content, action_items, decisions, next_steps } = updateData;
+      const { content, action_items, decisions, next_steps } = validatedData as z.infer<typeof addMinutesSchema>;
 
       const { data: minutes, error } = await supabase
         .from('meeting_minutes')
@@ -201,7 +285,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     if (action === 'approve_minutes') {
-      const { minutes_id } = updateData;
+      const { minutes_id } = validatedData as z.infer<typeof approveMinutesSchema>;
 
       await supabase
         .from('meeting_minutes')
@@ -216,7 +300,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     if (action === 'respond') {
-      const { response } = updateData; // 'accepted', 'declined', 'tentative'
+      const { response } = validatedData as z.infer<typeof respondSchema>;
 
       await supabase
         .from('meeting_attendees')

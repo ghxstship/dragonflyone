@@ -6,4 +6,5 @@ export default defineWorkspace([
   'apps/gvteway/vitest.config.ts',
   'packages/ui/vitest.config.ts',
   'packages/config/vitest.config.ts',
+  'packages/integrations/vitest.config.ts',
 ]);

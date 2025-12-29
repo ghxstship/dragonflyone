@@ -1,51 +1,64 @@
 "use client";
 
+/**
+ * Project Detail Page
+ * Shows detailed information about a specific project
+ * Uses normalized DetailPage template from @ghxstship/ui
+ */
+
 import { useRouter, notFound } from "next/navigation";
-// Layout provided by route group
 import {
-  ProgressBar,
-  Button,
-  Stack,
-  StatusBadge,
-  Spinner,
-  Container,
-  useNotifications,
-  H2,
-  H3,
-  Body,
-  Label,
-  Card,
-  Grid,
+  Pencil,
+  Users,
+  FileText,
+  DollarSign,
+  Target,
+  Download,
+} from "lucide-react";
+import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
+import {
   Badge,
+  Body,
+  Button,
+  Card,
+  DetailPage,
+  Grid,
+  StatCard,
   Section,
-  EnterprisePageHeader,
-  MainContent,
+  SectionHeader,
+  ProgressBar,
+  useNotifications,
+  type DetailPageTab,
 } from "@ghxstship/ui";
 import { useProjectDetailData } from "@/hooks/useProjectDetail";
 
+const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
+  "On Track": "success",
+  "At Risk": "warning",
+  "Off Track": "error",
+  active: "success",
+  completed: "info",
+  cancelled: "error",
+};
+
 export default function ProjectDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
+  const { hasRole } = useAuthContext();
   const { addNotification } = useNotifications();
   const {
     project,
-    isLoading: loading,
+    isLoading,
     error,
     isNotFound,
     generateReport,
+    refetch,
   } = useProjectDetailData(params.id);
 
-  // Handle 404
+  const canManageProject = ATLVS_ADMIN_ROLES.some((role) => hasRole(role));
+
   if (isNotFound) {
     notFound();
   }
-
-  const handleUpdateStatus = async () => {
-    router.push(`/projects/${params.id}/edit`);
-  };
-
-  const handleAddMilestone = async () => {
-    router.push(`/projects/${params.id}/milestones/new`);
-  };
 
   const handleGenerateReport = async () => {
     try {
@@ -61,50 +74,11 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
     }
   };
 
-  if (loading) {
-    return (
-      <>
-        <EnterprisePageHeader
-          title="Loading..."
-          subtitle="Fetching project details"
-  
-  
-        />
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Spinner variant="grey" size="lg" text="Loading project..." />
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
-
-  if (error || !project) {
-    return (
-      <>
-        <EnterprisePageHeader
-          title="Error"
-          subtitle={error || "Project not found"}
-  
-  
-        />
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
-            <H2>{error || "Project not found"}</H2>
-            <Button variant="outline" onClick={() => router.push("/projects")}>
-              Back to Projects
-            </Button>
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
-
-  const budget = project.budget || 0;
-  const actual = project.actual_cost || 0;
+  const budget = project?.budget || 0;
+  const actual = project?.actual_cost || 0;
   const variance = budget > 0 ? Math.round(((actual - budget) / budget) * 100) : 0;
-  const progress = project.progress || 0;
-  const health = project.health || (variance > 10 ? "At Risk" : "On Track");
+  const progress = project?.progress || 0;
+  const health = project?.health || (variance > 10 ? "At Risk" : "On Track");
 
   const milestones = [
     { id: 1, name: "Contract Signed", date: "2024-10-01", status: "Completed", progress: 100 },
@@ -122,144 +96,202 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
     { name: "David Kim", role: "Video Director", department: "Video" },
   ];
 
+  // Define tabs for the detail page
+  const tabs: DetailPageTab[] = [
+    {
+      id: "overview",
+      label: "Overview",
+      content: project ? (
+        <>
+          {/* Stats */}
+          <Grid cols={4} gap={4} className="grid-cols-2 lg:grid-cols-4 mb-6">
+            <StatCard label="Budget" value={`$${(budget / 1000).toFixed(0)}K`} />
+            <StatCard label="Actual" value={`$${(actual / 1000).toFixed(0)}K`} />
+            <StatCard 
+              label="Variance" 
+              value={`${variance > 0 ? "+" : ""}${variance}%`}
+            />
+            <StatCard label="Progress" value={`${progress}%`} />
+          </Grid>
+
+          {/* Project Details */}
+          <Section border className="mb-6">
+            <SectionHeader title="Project Details" />
+            <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
+              <Card inverted className="p-4">
+                <Body size="xs" className="text-grey-400 mb-1">Venue</Body>
+                <Body className="text-white">{project.venue || "Not specified"}</Body>
+              </Card>
+              <Card inverted className="p-4">
+                <Body size="xs" className="text-grey-400 mb-1">Expected Attendees</Body>
+                <Body className="text-white">{(project.expected_attendees || 0).toLocaleString()}</Body>
+              </Card>
+              <Card inverted className="p-4">
+                <Body size="xs" className="text-grey-400 mb-1">Start Date</Body>
+                <Body className="text-white">{project.start_date || "TBD"}</Body>
+              </Card>
+              <Card inverted className="p-4">
+                <Body size="xs" className="text-grey-400 mb-1">End Date</Body>
+                <Body className="text-white">{project.end_date || "TBD"}</Body>
+              </Card>
+            </Grid>
+          </Section>
+
+          {/* Description */}
+          {project.description && (
+            <Section border className="mb-6">
+              <SectionHeader title="Description" />
+              <Card inverted className="p-4">
+                <Body className="text-white whitespace-pre-wrap">{project.description}</Body>
+              </Card>
+            </Section>
+          )}
+
+          {/* Overall Progress */}
+          <Section border>
+            <SectionHeader title="Overall Progress" />
+            <Card inverted className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <Body className="text-white">Completion</Body>
+                <Body className="text-white font-weight-bold">{progress}%</Body>
+              </div>
+              <ProgressBar value={progress} variant="inverse" />
+            </Card>
+          </Section>
+        </>
+      ) : null,
+    },
+    {
+      id: "milestones",
+      label: "Milestones",
+      icon: <Target className="size-4" />,
+      content: (
+        <Section border>
+          <SectionHeader title="Project Milestones" />
+          <div className="space-y-4">
+            {milestones.map((milestone) => (
+              <Card key={milestone.id} inverted className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div>
+                    <Body className="text-white font-weight-medium">{milestone.name}</Body>
+                    <Body size="xs" className="text-grey-400">{milestone.date}</Body>
+                  </div>
+                  <Badge variant={milestone.status === "Completed" ? "success" : milestone.status === "In Progress" ? "warning" : "outline"}>
+                    {milestone.status}
+                  </Badge>
+                </div>
+                <ProgressBar value={milestone.progress} variant="inverse" />
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "team",
+      label: "Team",
+      icon: <Users className="size-4" />,
+      content: (
+        <Section border>
+          <SectionHeader title="Project Team" />
+          <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
+            {team.map((member) => (
+              <Card key={member.name} inverted className="p-4">
+                <Body className="text-white font-weight-medium">{member.name}</Body>
+                <Body size="sm" className="text-grey-300">{member.role}</Body>
+                <Body size="xs" className="text-grey-400 uppercase tracking-label">{member.department}</Body>
+              </Card>
+            ))}
+          </Grid>
+        </Section>
+      ),
+    },
+    {
+      id: "budget",
+      label: "Budget",
+      icon: <DollarSign className="size-4" />,
+      content: (
+        <Section border>
+          <SectionHeader title="Budget Overview" />
+          <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mb-6">
+            <Card inverted className="p-4">
+              <Body size="xs" className="text-grey-400 mb-1">Total Budget</Body>
+              <Body className="text-white text-h4-md font-weight-bold">${(budget / 1000).toFixed(0)}K</Body>
+            </Card>
+            <Card inverted className="p-4">
+              <Body size="xs" className="text-grey-400 mb-1">Spent</Body>
+              <Body className="text-white text-h4-md font-weight-bold">${(actual / 1000).toFixed(0)}K</Body>
+            </Card>
+            <Card inverted className="p-4">
+              <Body size="xs" className="text-grey-400 mb-1">Remaining</Body>
+              <Body className={`text-h4-md font-weight-bold ${budget - actual >= 0 ? "text-success" : "text-error"}`}>
+                ${((budget - actual) / 1000).toFixed(0)}K
+              </Body>
+            </Card>
+          </Grid>
+          <Card inverted className="p-6">
+            <Body className="text-grey-400">Detailed budget breakdown will be displayed here.</Body>
+          </Card>
+        </Section>
+      ),
+    },
+    {
+      id: "documents",
+      label: "Documents",
+      icon: <FileText className="size-4" />,
+      content: (
+        <Section border>
+          <SectionHeader title="Project Documents" />
+          <Card inverted className="p-6">
+            <Body className="text-grey-400">Documents will be displayed here.</Body>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
+
   return (
-    <>
-      <EnterprisePageHeader
-        title={project.name}
-        subtitle={project.client?.name || project.client_name || "No client"}
-
-
-        primaryAction={{ label: 'Update Status', onClick: handleUpdateStatus }}
-        secondaryActions={[
-          { id: 'milestone', label: 'Add Milestone', onClick: handleAddMilestone },
-          { id: 'report', label: 'Generate Report', onClick: handleGenerateReport },
-        ]}
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={6}>
-            <Stack direction="horizontal" className="items-center justify-between">
-              <Badge variant="outline">{project.id}</Badge>
-              <StatusBadge
-                status={
-                  health === "On Track"
-                    ? "success"
-                    : health === "At Risk"
-                      ? "warning"
-                      : "info"
-                }
-              >
-                {health}
-              </StatusBadge>
-            </Stack>
-
-        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-          <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-mono-xs uppercase tracking-label text-ink-500">Budget</Label>
-            <Body className="mt-3 font-display text-h4-md text-white">${(budget / 1000).toFixed(0)}K</Body>
-          </Card>
-          <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-mono-xs uppercase tracking-label text-ink-500">Actual</Label>
-            <Body className="mt-3 font-display text-h4-md text-white">${(actual / 1000).toFixed(0)}K</Body>
-          </Card>
-          <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-mono-xs uppercase tracking-label text-ink-500">Variance</Label>
-            <Body className={`mt-3 font-display text-h4-md ${variance > 0 ? "text-error-400" : "text-success-400"}`}>
-              {variance > 0 ? "+" : ""}
-              {variance}%
-            </Body>
-          </Card>
-          <Card className="border-2 border-ink-800 p-6">
-            <Label className="font-mono text-mono-xs uppercase tracking-label text-ink-500">Progress</Label>
-            <Body className="mt-3 font-display text-h4-md text-white">{progress}%</Body>
-          </Card>
-        </Grid>
-
-        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
-          <Stack gap={6} className="md:col-span-2">
-            <Section border>
-              <H2 className="mb-4 text-white">Project Overview</H2>
-              <Stack gap={4} className="text-ink-300">
-                <Body>{project.description}</Body>
-                <Grid gap={3} className="border-t-2 border-ink-800 pt-4">
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-ink-500">Venue:</Label>
-                    <Body className="text-white">{project.venue}</Body>
-                  </Stack>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-ink-500">Expected Attendees:</Label>
-                    <Body className="text-white">{(project.expected_attendees || 0).toLocaleString()}</Body>
-                  </Stack>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-ink-500">Start Date:</Label>
-                    <Body className="text-white">{project.start_date}</Body>
-                  </Stack>
-                  <Stack direction="horizontal" className="justify-between">
-                    <Label className="text-ink-500">End Date:</Label>
-                    <Body className="text-white">{project.end_date}</Body>
-                  </Stack>
-                </Grid>
-              </Stack>
-            </Section>
-
-            <Section border>
-              <H2 className="mb-4 text-white">Milestones</H2>
-              <Stack gap={4}>
-                {milestones.map((milestone) => (
-                  <Card key={milestone.id} className="border-2 border-ink-800 p-4">
-                    <Stack direction="horizontal" className="items-center justify-between">
-                      <Stack>
-                        <H3 className="text-white">{milestone.name}</H3>
-                        <Body className="mt-1 font-mono text-mono-xs text-ink-500">{milestone.date}</Body>
-                      </Stack>
-                      <Badge variant="outline">{milestone.status}</Badge>
-                    </Stack>
-                    <Stack className="mt-3">
-                      <ProgressBar value={milestone.progress} variant="inverse" />
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            </Section>
-          </Stack>
-
-          <Stack gap={6}>
-            <Section border>
-              <H2 className="mb-4 text-white">Team</H2>
-              <Stack gap={3}>
-                {team.map((member) => (
-                  <Card key={member.name} className="border-2 border-ink-800 p-4">
-                    <Body className="font-display text-body-md text-white">{member.name}</Body>
-                    <Body className="mt-1 text-ink-300">{member.role}</Body>
-                    <Label className="mt-1 font-mono text-mono-xs uppercase tracking-label text-ink-500">
-                      {member.department}
-                    </Label>
-                  </Card>
-                ))}
-              </Stack>
-            </Section>
-
-            <Section border>
-              <H2 className="mb-4 text-white">Actions</H2>
-              <Stack gap={3}>
-                <Button variant="outlineWhite" className="w-full" onClick={handleUpdateStatus}>
-                  Update Status
-                </Button>
-                <Button variant="outline" className="w-full" onClick={handleAddMilestone}>
-                  Add Milestone
-                </Button>
-                <Button variant="outline" className="w-full" onClick={handleGenerateReport}>
-                  Generate Report
-                </Button>
-              </Stack>
-            </Section>
-          </Stack>
-        </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <DetailPage
+      header={{
+        kicker: "Project",
+        title: project?.name || "Project Details",
+        description: project?.client?.name || project?.client_name || undefined,
+        badge: (
+          <Badge variant={STATUS_COLORS[health] || "outline"}>
+            {health}
+          </Badge>
+        ),
+      }}
+      backButton={{ label: "Back to Projects", href: "/projects" }}
+      loading={isLoading}
+      error={error ? (typeof error === 'string' ? new Error(error) : error) : null}
+      onRetry={refetch}
+      notFound={!isLoading && !error && !project && !isNotFound}
+      notFoundMessage="The project you're looking for doesn't exist or has been removed."
+      tabs={tabs}
+      actions={
+        <>
+          <Button
+            variant="outline"
+            inverted
+            onClick={handleGenerateReport}
+            icon={<Download className="size-4" />}
+            iconPosition="left"
+          >
+            Report
+          </Button>
+          {canManageProject && (
+            <Button
+              variant="solid"
+              onClick={() => router.push(`/projects/${params.id}/edit`)}
+              icon={<Pencil className="size-4" />}
+              iconPosition="left"
+            >
+              Edit
+            </Button>
+          )}
+        </>
+      }
+    />
   );
 }

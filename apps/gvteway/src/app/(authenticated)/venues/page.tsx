@@ -1,180 +1,137 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { GvtewayLoadingLayout } from '@/components/app-layout';
+/**
+ * GVTEWAY Venues Page
+ * Browse and discover venues
+ * Uses ListPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
+import { Eye, Calendar, MapPin, Users } from "lucide-react";
 import {
-  H2,
-  H3,
-  Body,
-  Button,
-  Input,
-  Select,
-  Card,
-  Grid,
   Badge,
-  Stack,
-  Kicker,
-  EmptyState,
-  Label,
-} from '@ghxstship/ui';
-import { useVenues } from '@/hooks/useVenues';
-import { MapPin, Users, Calendar, Building2, Search } from 'lucide-react';
+  Body,
+  ListPage,
+  type ListPageAction,
+  type ListPageColumn,
+  type ListPageFilter,
+} from "@ghxstship/ui";
+import { useVenues } from "@/hooks/useVenues";
+
+interface Venue {
+  id: string;
+  name: string;
+  address?: string;
+  capacity: number;
+  status?: string;
+}
 
 export default function VenuesPage() {
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterCapacity, setFilterCapacity] = useState('all');
-  const { data: venues, isLoading } = useVenues({ status: 'active' });
+  const { data: venues = [], isLoading, error, refetch } = useVenues({ status: "active" });
 
-  const displayVenues = venues || [];
-  
-  const filteredVenues = displayVenues.filter((venue) => {
-    const matchesSearch = venue.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (venue.address?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false);
-    const matchesCapacity = filterCapacity === 'all' ||
-      (filterCapacity === 'small' && venue.capacity < 1000) ||
-      (filterCapacity === 'medium' && venue.capacity >= 1000 && venue.capacity < 5000) ||
-      (filterCapacity === 'large' && venue.capacity >= 5000);
-    return matchesSearch && matchesCapacity;
-  });
+  const columns: ListPageColumn<Venue>[] = [
+    {
+      key: "name",
+      label: "Venue",
+      accessor: "name",
+      sortable: true,
+      render: (value, row) => (
+        <div>
+          <Body className="font-weight-medium text-white">{String(value)}</Body>
+          <div className="flex items-center gap-1 mt-1">
+            <MapPin className="size-3 text-grey-400" />
+            <Body size="sm" className="text-grey-400">{row.address || "Location TBD"}</Body>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: "capacity",
+      label: "Capacity",
+      accessor: "capacity",
+      sortable: true,
+      render: (value) => (
+        <div className="flex items-center gap-2">
+          <Users className="size-4 text-grey-400" />
+          <Body size="sm">{Number(value).toLocaleString()}</Body>
+        </div>
+      ),
+    },
+    {
+      key: "status",
+      label: "Status",
+      accessor: "status",
+      sortable: true,
+      render: (value) => {
+        const variant = value === "active" ? "success" : value === "inactive" ? "warning" : "outline";
+        return <Badge variant={variant}>{String(value || "active").toUpperCase()}</Badge>;
+      },
+    },
+  ];
 
-  if (isLoading) {
-    return <GvtewayLoadingLayout text="Loading venues..." />;
-  }
+  const filters: ListPageFilter[] = [
+    {
+      key: "capacity",
+      label: "Capacity",
+      options: [
+        { value: "small", label: "Small (<1,000)" },
+        { value: "medium", label: "Medium (1K-5K)" },
+        { value: "large", label: "Large (5K+)" },
+      ],
+    },
+    {
+      key: "status",
+      label: "Status",
+      options: [
+        { value: "active", label: "Active" },
+        { value: "inactive", label: "Inactive" },
+      ],
+    },
+  ];
+
+  const rowActions: ListPageAction<Venue>[] = [
+    {
+      id: "view",
+      label: "View Details",
+      icon: <Eye className="size-4" />,
+      onClick: (row) => router.push(`/venues/${row.id}`),
+    },
+    {
+      id: "calendar",
+      label: "View Calendar",
+      icon: <Calendar className="size-4" />,
+      onClick: (row) => router.push(`/venues/${row.id}/calendar`),
+    },
+  ];
+
+  const totalCapacity = venues.reduce((sum, v) => sum + (v.capacity || 0), 0);
+  const activeVenues = venues.filter((v) => v.status === "active").length;
+
+  const stats = [
+    { label: "Total Venues", value: venues.length },
+    { label: "Active Venues", value: activeVenues },
+    { label: "Total Capacity", value: totalCapacity.toLocaleString() },
+  ];
 
   return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={4}>
-              <Kicker colorScheme="on-dark">Explore Spaces</Kicker>
-              <H2 size="lg" className="text-white">Venues</H2>
-              <Body className="max-w-2xl text-on-dark-muted">
-                Discover world-class venues hosting unforgettable experiences.
-              </Body>
-            </Stack>
-
-            {/* Search & Filters */}
-            <Card inverted variant="elevated" className="p-6">
-              <Stack direction="horizontal" gap={4} className="flex-col md:flex-row">
-                <Stack gap={2} className="flex-1">
-                  <Label size="xs" className="text-on-dark-muted">
-                    <Search className="mr-2 inline size-4" />
-                    Search
-                  </Label>
-                  <Input
-                    type="search"
-                    placeholder="Search venues..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    inverted
-                  />
-                </Stack>
-                <Stack gap={2} className="md:w-48">
-                  <Label size="xs" className="text-on-dark-muted">
-                    <Users className="mr-2 inline size-4" />
-                    Capacity
-                  </Label>
-                  <Select
-                    value={filterCapacity}
-                    onChange={(e) => setFilterCapacity(e.target.value)}
-                    inverted
-                  >
-                    <option value="all">All Sizes</option>
-                    <option value="small">Small (&lt;1,000)</option>
-                    <option value="medium">Medium (1K-5K)</option>
-                    <option value="large">Large (5K+)</option>
-                  </Select>
-                </Stack>
-              </Stack>
-            </Card>
-
-            {/* Action Buttons */}
-            <Stack direction="horizontal" gap={4}>
-              <Button 
-                variant="solid" 
-                inverted 
-                icon={<Building2 className="size-4" />}
-                iconPosition="left"
-                onClick={() => router.push('/venues/new')}
-              >
-                Add Venue
-              </Button>
-              <Button 
-                variant="outlineInk" 
-                icon={<Calendar className="size-4" />}
-                iconPosition="left"
-                onClick={() => router.push('/venues/calendar')}
-              >
-                Calendar View
-              </Button>
-            </Stack>
-
-            {/* Venues List */}
-            {filteredVenues.length > 0 ? (
-              <Stack gap={4}>
-                {filteredVenues.map((venue) => (
-                  <Card 
-                    key={venue.id}
-                    inverted
-                    interactive
-                    onClick={() => router.push(`/venues/${venue.id}`)}
-                  >
-                    <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-                      <Stack gap={2}>
-                        <H3 className="text-white">{venue.name}</H3>
-                        <Stack direction="horizontal" gap={2} className="items-center">
-                          <Users className="size-4 text-on-dark-muted" />
-                          <Body size="sm" className="text-on-dark-muted">
-                            {venue.capacity.toLocaleString()} capacity
-                          </Body>
-                        </Stack>
-                        <Stack direction="horizontal" gap={2} className="items-center">
-                          <MapPin className="size-4 text-on-dark-muted" />
-                          <Body size="sm" className="text-on-dark-muted">{venue.address || 'Location TBD'}</Body>
-                        </Stack>
-                      </Stack>
-                      <Stack gap={2} className="col-span-2">
-                        <Label size="xs" className="text-on-dark-disabled">Status</Label>
-                        <Stack direction="horizontal" gap={2} className="flex-wrap">
-                          <Badge variant="outline">{venue.status?.toUpperCase() || 'ACTIVE'}</Badge>
-                        </Stack>
-                      </Stack>
-                      <Stack direction="horizontal" gap={3} className="items-center justify-end">
-                        <Badge variant={venue.status === 'active' ? 'solid' : 'outline'}>
-                          {(venue.status || 'active').toUpperCase()}
-                        </Badge>
-                        <Button 
-                          variant="outlineInk" 
-                          size="sm" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            router.push(`/venues/${venue.id}/calendar`);
-                          }}
-                        >
-                          View Calendar
-                        </Button>
-                      </Stack>
-                    </Grid>
-                  </Card>
-                ))}
-              </Stack>
-            ) : (
-              <EmptyState
-                title="No venues found"
-                description="Try adjusting your search or filters."
-                action={{
-                  label: "Clear Filters",
-                  onClick: () => {
-                    setSearchQuery('');
-                    setFilterCapacity('all');
-                  }
-                }}
-                inverted
-              />
-            )}
-          </Stack>
-    </>
+    <ListPage<Venue>
+      title="Venues"
+      subtitle="Discover world-class venues hosting unforgettable experiences"
+      data={venues}
+      columns={columns}
+      rowKey="id"
+      loading={isLoading}
+      error={error}
+      onRetry={refetch}
+      searchPlaceholder="Search venues..."
+      filters={filters}
+      rowActions={rowActions}
+      onRowClick={(row) => router.push(`/venues/${row.id}`)}
+      entityType="venues"
+      stats={stats}
+      emptyMessage="No venues found"
+      emptyAction={{ label: "Browse Events", onClick: () => router.push("/events") }}
+    />
   );
 }

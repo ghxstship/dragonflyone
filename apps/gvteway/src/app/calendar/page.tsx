@@ -1,23 +1,26 @@
-'use client';
+"use client";
 
-import { useState, useMemo, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import { GvtewayLoadingLayout } from '@/components/app-layout';
+/**
+ * Event Calendar Page
+ * Calendar view for browsing events
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState, useMemo, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, List } from "lucide-react";
 import {
-  H2,
-  H3,
   Body,
-  Label,
   Button,
   Card,
   Grid,
-  Stack,
   Badge,
-  Kicker,
-  MainContent,
-  Container,
-} from '@ghxstship/ui';
-import { useEvents } from '@/hooks/useEvents';
+  DetailPage,
+  Section,
+  SectionHeader,
+  Link,
+} from "@ghxstship/ui";
+import { useEvents } from "@/hooks/useEvents";
 
 interface CalendarEvent {
   id: string;
@@ -34,7 +37,6 @@ interface CalendarDay {
   date: Date;
   isCurrentMonth: boolean;
   isToday: boolean;
-  isLastDayOfMonth?: boolean;
   events: CalendarEvent[];
 }
 
@@ -42,25 +44,20 @@ export default function CalendarPage() {
   const router = useRouter();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [viewMode, setViewMode] = useState<'month' | 'week'>('month');
-  
-  const { data: events, isLoading } = useEvents({ status: 'published' });
+  const [viewMode, setViewMode] = useState<"month" | "week">("month");
 
-  const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
+  const { data: events, isLoading, error, refetch } = useEvents({ status: "published" });
 
-  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const calendarDays = useMemo(() => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
     const startDate = new Date(firstDay);
     startDate.setDate(startDate.getDate() - firstDay.getDay());
-    
+
     const days: CalendarDay[] = [];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -68,9 +65,9 @@ export default function CalendarPage() {
     for (let i = 0; i < 42; i++) {
       const date = new Date(startDate);
       date.setDate(startDate.getDate() + i);
-      
+
       const dayEvents = (events || []).filter((event: CalendarEvent) => {
-        const eventDate = new Date(event.date || event.start_date || '');
+        const eventDate = new Date(event.date || event.start_date || "");
         return eventDate.toDateString() === date.toDateString();
       });
 
@@ -78,7 +75,6 @@ export default function CalendarPage() {
         date,
         isCurrentMonth: date.getMonth() === month,
         isToday: date.toDateString() === today.toDateString(),
-        isLastDayOfMonth: date.getDate() === lastDay.getDate() && date.getMonth() === month,
         events: dayEvents,
       });
     }
@@ -89,221 +85,165 @@ export default function CalendarPage() {
   const selectedDayEvents = useMemo(() => {
     if (!selectedDate) return [];
     return (events || []).filter((event: CalendarEvent) => {
-      const eventDate = new Date(event.date || event.start_date || '');
+      const eventDate = new Date(event.date || event.start_date || "");
       return eventDate.toDateString() === selectedDate.toDateString();
     });
   }, [selectedDate, events]);
 
-  const handlePrevMonth = useCallback(() => {
-    setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
-  }, []);
+  const upcomingEvents = useMemo(() => {
+    return (events || [])
+      .filter((event: CalendarEvent) => {
+        const eventDate = new Date(event.date || event.start_date || "");
+        return eventDate.getMonth() === currentDate.getMonth() && eventDate.getFullYear() === currentDate.getFullYear() && eventDate >= new Date();
+      })
+      .slice(0, 5);
+  }, [events, currentDate]);
 
-  const handleNextMonth = useCallback(() => {
-    setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
-  }, []);
+  const handlePrevMonth = useCallback(() => setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1)), []);
+  const handleNextMonth = useCallback(() => setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1)), []);
+  const handleToday = useCallback(() => { setCurrentDate(new Date()); setSelectedDate(new Date()); }, []);
+  const handleDayClick = useCallback((day: CalendarDay) => setSelectedDate(day.date), []);
+  const handleEventClick = (eventId: string) => router.push(`/events/${eventId}`);
 
-  const handleToday = useCallback(() => {
-    setCurrentDate(new Date());
-    setSelectedDate(new Date());
-  }, []);
+  const headerActions = (
+    <div className="flex items-center gap-2">
+      <Button variant={viewMode === "month" ? "solid" : "outline"} onClick={() => setViewMode("month")}>Month</Button>
+      <Button variant={viewMode === "week" ? "solid" : "outline"} onClick={() => setViewMode("week")}>Week</Button>
+    </div>
+  );
 
-  const handleDayClick = useCallback((day: CalendarDay) => {
-    setSelectedDate(day.date);
-  }, []);
+  const tabs = [
+    {
+      id: "calendar",
+      label: "Calendar",
+      icon: <CalendarIcon className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={3} gap={8} className="grid-cols-1 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <Card className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <Button variant="ghost" onClick={handlePrevMonth} icon={<ChevronLeft className="size-4" />} />
+                  <Body className="font-weight-bold">{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</Body>
+                  <Button variant="ghost" onClick={handleNextMonth} icon={<ChevronRight className="size-4" />} />
+                </div>
 
-  const handleEventClick = (eventId: string) => {
-    router.push(`/events/${eventId}`);
-  };
+                <Button variant="outline" className="mb-4" onClick={handleToday}>Today</Button>
 
-  if (isLoading) {
-    return <GvtewayLoadingLayout text="Loading calendar..." />;
-  }
+                <div className="grid grid-cols-7 gap-1">
+                  {dayNames.map((day) => (
+                    <div key={day} className="p-2 text-center">
+                      <Body size="sm" className="text-grey-400">{day}</Body>
+                    </div>
+                  ))}
+
+                  {calendarDays.map((day, index) => (
+                    <Card
+                      key={index}
+                      className={`min-h-[80px] cursor-pointer p-2 transition-colors ${!day.isCurrentMonth ? "opacity-50" : ""} ${day.isToday ? "ring-2 ring-primary" : ""} ${selectedDate?.toDateString() === day.date.toDateString() ? "bg-primary text-white" : ""}`}
+                      onClick={() => handleDayClick(day)}
+                    >
+                      <Body className={selectedDate?.toDateString() === day.date.toDateString() ? "text-white" : ""}>{day.date.getDate()}</Body>
+                      {day.events.length > 0 && (
+                        <div className="mt-1 space-y-1">
+                          {day.events.slice(0, 2).map((event) => (
+                            <Badge key={event.id} variant={selectedDate?.toDateString() === day.date.toDateString() ? "outline" : "info"} size="sm" className="truncate block">
+                              {event.title || event.name}
+                            </Badge>
+                          ))}
+                          {day.events.length > 2 && <Body size="sm" className="text-grey-400">+{day.events.length - 2} more</Body>}
+                        </div>
+                      )}
+                    </Card>
+                  ))}
+                </div>
+              </Card>
+            </div>
+
+            <div className="space-y-6">
+              <Card className="p-6">
+                <SectionHeader title={selectedDate ? selectedDate.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }) : "Select a Date"} />
+                {selectedDate ? (
+                  selectedDayEvents.length > 0 ? (
+                    <div className="space-y-4 mt-4">
+                      {selectedDayEvents.map((event: CalendarEvent) => (
+                        <Card key={event.id} className="p-4 cursor-pointer hover:border-primary" onClick={() => handleEventClick(event.id)}>
+                          <Body className="font-weight-medium">{event.title || event.name}</Body>
+                          <Body size="sm" className="text-grey-400">{event.venue}</Body>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline">{event.category}</Badge>
+                            <Badge variant="success">From ${event.price}</Badge>
+                          </div>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <Body className="text-grey-400 mt-4">No events on this date.</Body>
+                  )
+                ) : (
+                  <Body className="text-grey-400 mt-4">Click on a date to see events.</Body>
+                )}
+              </Card>
+
+              <Card className="p-6">
+                <SectionHeader title="Upcoming This Month" />
+                <div className="space-y-3 mt-4">
+                  {upcomingEvents.map((event: CalendarEvent) => (
+                    <Link key={event.id} href={`/events/${event.id}`} className="flex items-center justify-between py-2 border-b border-grey-700">
+                      <div>
+                        <Body className="font-weight-medium">{event.title || event.name}</Body>
+                        <Body size="sm" className="text-grey-400">{new Date(event.date || event.start_date || "").toLocaleDateString()}</Body>
+                      </div>
+                      <Badge variant="outline">${event.price || 0}</Badge>
+                    </Link>
+                  ))}
+                </div>
+              </Card>
+            </div>
+          </Grid>
+        </Section>
+      ),
+    },
+    {
+      id: "list",
+      label: "List View",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="All Events" description="Browse all upcoming events" />
+          <div className="space-y-4 mt-4">
+            {(events || []).slice(0, 20).map((event: CalendarEvent) => (
+              <Card key={event.id} className="p-4 cursor-pointer hover:border-primary" onClick={() => handleEventClick(event.id)}>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Body className="font-weight-medium">{event.title || event.name}</Body>
+                    <Body size="sm" className="text-grey-400">{event.venue} • {new Date(event.date || event.start_date || "").toLocaleDateString()}</Body>
+                  </div>
+                  <div className="flex gap-2">
+                    <Badge variant="outline">{event.category}</Badge>
+                    <Badge variant="success">From ${event.price}</Badge>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <>
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Plan Your Events</Kicker>
-              <Stack direction="horizontal" className="items-center justify-between">
-                <H2 size="lg" className="text-white">Event Calendar</H2>
-                <Stack direction="horizontal" gap={2}>
-                  <Button
-                    variant={viewMode === 'month' ? 'solid' : 'outlineInk'}
-                    inverted={viewMode === 'month'}
-                    onClick={() => setViewMode('month')}
-                  >
-                    Month
-                  </Button>
-                  <Button
-                    variant={viewMode === 'week' ? 'solid' : 'outlineInk'}
-                    inverted={viewMode === 'week'}
-                    onClick={() => setViewMode('week')}
-                  >
-                    Week
-                  </Button>
-                </Stack>
-              </Stack>
-            </Stack>
-
-        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
-          <Stack className="col-span-2" gap={6}>
-            <Card inverted className="p-6">
-              <Stack direction="horizontal" className="mb-6 items-center justify-between">
-                <Button variant="ghost" onClick={handlePrevMonth}>
-                  Previous
-                </Button>
-                <H2 className="text-white">
-                  {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
-                </H2>
-                <Button variant="ghost" onClick={handleNextMonth}>
-                  Next
-                </Button>
-              </Stack>
-
-              <Button variant="outlineInk" className="mb-4" onClick={handleToday}>
-                Today
-              </Button>
-
-              <Stack className="grid grid-cols-7 gap-1">
-                {dayNames.map(day => (
-                  <Stack key={day} className="p-2 text-center">
-                    <Label className="text-on-dark-muted">{day}</Label>
-                  </Stack>
-                ))}
-
-                {calendarDays.map((day, index) => (
-                  <Card
-                    key={index}
-                    inverted
-                    interactive
-                    className={`min-h-[80px] cursor-pointer p-2 transition-colors ${
-                      !day.isCurrentMonth ? 'opacity-50' : ''
-                    } ${
-                      day.isToday ? 'ring-2 ring-white' : ''
-                    } ${
-                      selectedDate?.toDateString() === day.date.toDateString() 
-                        ? 'bg-white text-black' 
-                        : ''
-                    }`}
-                    onClick={() => handleDayClick(day)}
-                  >
-                    <Body className={`font-display ${
-                      selectedDate?.toDateString() === day.date.toDateString() 
-                        ? 'text-black' 
-                        : 'text-white'
-                    }`}>
-                      {day.date.getDate()}
-                    </Body>
-                    {day.events.length > 0 && (
-                      <Stack gap={1} className="mt-1">
-                        {day.events.slice(0, 2).map(event => (
-                          <Badge
-                            key={event.id}
-                            variant={selectedDate?.toDateString() === day.date.toDateString() ? 'outline' : 'solid'}
-                            className="truncate text-mono-xs"
-                          >
-                            {event.title}
-                          </Badge>
-                        ))}
-                        {day.events.length > 2 && (
-                          <Body size="sm" className={`${
-                            selectedDate?.toDateString() === day.date.toDateString()
-                              ? 'text-ink-600'
-                              : 'text-on-dark-disabled'
-                          }`}>
-                            +{day.events.length - 2} more
-                          </Body>
-                        )}
-                      </Stack>
-                    )}
-                  </Card>
-                ))}
-              </Stack>
-            </Card>
-          </Stack>
-
-          <Stack gap={6}>
-            <Card inverted className="p-6">
-              <H3 className="mb-4 text-white">
-                {selectedDate 
-                  ? selectedDate.toLocaleDateString('en-US', { 
-                      weekday: 'long', 
-                      month: 'long', 
-                      day: 'numeric' 
-                    })
-                  : 'Select a Date'
-                }
-              </H3>
-
-              {selectedDate ? (
-                selectedDayEvents.length > 0 ? (
-                  <Stack gap={4}>
-                    {selectedDayEvents.map(event => (
-                      <Card
-                        key={event.id}
-                        inverted
-                        interactive
-                        className="cursor-pointer p-4"
-                        onClick={() => handleEventClick(event.id)}
-                      >
-                        <H3 className="mb-1 text-white">{event.title}</H3>
-                        <Body size="sm" className="mb-2 text-on-dark-muted">
-                          {event.venue}
-                        </Body>
-                        <Stack direction="horizontal" gap={2}>
-                          <Badge variant="solid">{event.category}</Badge>
-                          <Badge variant="outline">From ${event.price}</Badge>
-                        </Stack>
-                      </Card>
-                    ))}
-                  </Stack>
-                ) : (
-                  <Body className="text-on-dark-muted">No events on this date.</Body>
-                )
-              ) : (
-                <Body className="text-on-dark-muted">
-                  Click on a date to see events.
-                </Body>
-              )}
-            </Card>
-
-            <Card inverted className="p-6">
-              <H3 className="mb-4 text-white">Upcoming This Month</H3>
-              <Stack gap={3}>
-                {(events || [])
-                  .filter((event: CalendarEvent) => {
-                    const eventDate = new Date(event.date || event.start_date || '');
-                    return eventDate.getMonth() === currentDate.getMonth() &&
-                           eventDate.getFullYear() === currentDate.getFullYear() &&
-                           eventDate >= new Date();
-                  })
-                  .slice(0, 5)
-                  .map((event: CalendarEvent) => (
-                    <Stack
-                      key={event.id}
-                      direction="horizontal"
-                      className="cursor-pointer items-center justify-between border-b border-ink-800 py-2"
-                      onClick={() => handleEventClick(event.id)}
-                    >
-                      <Stack>
-                        <Body className="font-display text-white">{event.title || event.name}</Body>
-                        <Body size="sm" className="text-on-dark-disabled">
-                          {new Date(event.date || event.start_date || '').toLocaleDateString()}
-                        </Body>
-                      </Stack>
-                      <Badge variant="outline">${event.price || 0}</Badge>
-                    </Stack>
-                  ))}
-              </Stack>
-            </Card>
-          </Stack>
-        </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <DetailPage
+      header={{
+        kicker: "Plan Your Events",
+        title: "Event Calendar",
+        description: "Browse and discover upcoming events",
+      }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={headerActions}
+    />
   );
 }

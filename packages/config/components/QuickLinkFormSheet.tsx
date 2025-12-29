@@ -1,12 +1,51 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import { RecordFormModal, FormFieldConfig, FormStep } from '@ghxstship/ui';
+import React, { useState, useCallback, type ComponentType } from 'react';
 
 // =============================================================================
 // QUICK LINK FORM SHEET
 // Opens workflow forms in a modal/drawer instead of navigating to pages
 // =============================================================================
+
+// Local type definitions to avoid circular dependency with @ghxstship/ui
+export interface FormFieldConfig {
+  name: string;
+  label: string;
+  type: 'text' | 'email' | 'number' | 'date' | 'datetime' | 'select' | 'textarea' | 'checkbox';
+  required?: boolean;
+  placeholder?: string;
+  hint?: string;
+  colSpan?: number;
+  options?: Array<{ value: string; label: string }>;
+  validation?: { min?: number; max?: number };
+}
+
+export interface FormStep {
+  id: string;
+  title: string;
+  description?: string;
+  fields: FormFieldConfig[];
+}
+
+export interface RecordFormModalProps {
+  open: boolean;
+  onClose: () => void;
+  mode: 'create' | 'edit';
+  title: string;
+  fields?: FormFieldConfig[];
+  steps?: FormStep[];
+  onSubmit: (data: Record<string, unknown>) => Promise<void>;
+  submitLabel?: string;
+  size?: 'sm' | 'md' | 'lg';
+  loading?: boolean;
+}
+
+// This will be injected by the consuming app
+let RecordFormModalComponent: ComponentType<RecordFormModalProps> | null = null;
+
+export function setRecordFormModal(component: ComponentType<RecordFormModalProps>) {
+  RecordFormModalComponent = component;
+}
 
 export interface QuickLinkFormConfig {
   id: string;
@@ -539,8 +578,14 @@ export function QuickLinkFormSheet({
     return null;
   }
 
+  // RecordFormModalComponent must be set by the consuming app via setRecordFormModal
+  if (!RecordFormModalComponent) {
+    console.warn('QuickLinkFormSheet: RecordFormModal component not set. Call setRecordFormModal() first.');
+    return null;
+  }
+
   return (
-    <RecordFormModal
+    <RecordFormModalComponent
       open={open}
       onClose={onClose}
       mode="create"

@@ -1,8 +1,77 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import type { GeneratedBlueprint } from "../../../generator/types";
+import { z } from 'zod';
+
+const generatePdfSchema = z.object({
+  blueprint: z.object({
+    id: z.string(),
+    creativeSeed: z.string(),
+    generatedAt: z.string(),
+    concept: z.object({
+      name: z.string(),
+      tagline: z.string(),
+      narrative: z.string(),
+      targetTransformation: z.string(),
+      visualIdentity: z.object({
+        colorPalette: z.array(z.string()),
+        typography: z.string(),
+        moodKeywords: z.array(z.string()),
+      }),
+    }),
+    sensoryDesign: z.record(z.object({
+      primary: z.string(),
+      secondary: z.array(z.string()),
+      accessibility: z.string(),
+    }).passthrough()),
+    spatialTemporal: z.object({
+      x: z.object({ level: z.number(), description: z.string(), rationale: z.string() }),
+      y: z.object({ level: z.number(), description: z.string(), rationale: z.string() }),
+      z: z.object({ level: z.number(), description: z.string(), rationale: z.string() }),
+      zones: z.array(z.object({
+        name: z.string(),
+        code: z.string(),
+        capacity: z.number(),
+      }).passthrough()),
+    }),
+    guestJourney: z.record(z.object({
+      name: z.string(),
+      emotionalState: z.string(),
+      touchpoints: z.array(z.string()),
+      technology: z.array(z.string()),
+    }).passthrough()),
+    documents: z.object({
+      onePageOverview: z.string(),
+      schedulePhases: z.array(z.object({
+        name: z.string(),
+        code: z.string(),
+        duration: z.string(),
+        description: z.string(),
+      })),
+      credentialTypes: z.array(z.object({
+        name: z.string(),
+        code: z.string(),
+        accessLevel: z.number(),
+        color: z.string(),
+      })),
+      complianceChecklist: z.array(z.object({
+        category: z.string(),
+        item: z.string(),
+        required: z.boolean(),
+      })),
+    }).passthrough(),
+    executionTiers: z.record(z.object({
+      name: z.string(),
+      budget: z.string(),
+      description: z.string(),
+      includes: z.array(z.string()),
+      excludes: z.array(z.string()),
+    })),
+  }),
+  isAuthenticated: z.boolean().optional(),
+});
 
 export const runtime = "edge";
 
@@ -245,17 +314,26 @@ function generatePDFContent(blueprint: GeneratedBlueprint, isAuthenticated: bool
   `;
 }
 
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { blueprint, isAuthenticated = false } = body;
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
-    if (!blueprint) {
-      return NextResponse.json(
-        { error: "Blueprint is required" },
-        { status: 400 }
-      );
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
+
+    const body = await request.json();
+    const validatedData = generatePdfSchema.parse(body);
+    const blueprint = validatedData.blueprint as unknown as GeneratedBlueprint;
+    const isAuthenticated = validatedData.isAuthenticated ?? false;
 
     // Generate HTML content
     const htmlContent = generatePDFContent(blueprint, isAuthenticated);

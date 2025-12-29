@@ -833,7 +833,7 @@ export function ListPage<T>({
   // Error state
   if (error) {
     return (
-      <div className={clsx("min-h-screen", bgClass, className)}>
+      <div className={clsx("min-h-screen", bgClass, className)} role="alert" aria-live="assertive">
         {header}
         <div className="px-spacing-8 py-spacing-16 text-center">
           <h2 className="font-heading text-h3-md mb-spacing-4">Error Loading Data</h2>
@@ -841,6 +841,7 @@ export function ListPage<T>({
           {onRetry && (
             <button
               onClick={onRetry}
+              aria-label="Retry loading data"
               className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none cursor-pointer", primaryBtnClass)}
             >
               Retry
@@ -854,14 +855,18 @@ export function ListPage<T>({
   // Loading state
   if (loading) {
     return (
-      <div className={clsx("min-h-screen", bgClass, className)}>
+      <div className={clsx("min-h-screen", bgClass, className)} role="status" aria-live="polite" aria-busy="true">
         {header}
         <div className="flex items-center justify-center min-h-screen-60">
           <div className="text-center">
-            <div className={clsx(
-              "w-spacing-12 h-spacing-12 border-3 rounded-full animate-spin mx-auto mb-spacing-4",
-              inverted ? "border-grey-700 border-t-white" : "border-grey-300 border-t-black"
-            )} />
+            <div 
+              className={clsx(
+                "w-spacing-12 h-spacing-12 border-3 rounded-full animate-spin mx-auto mb-spacing-4",
+                inverted ? "border-grey-700 border-t-white" : "border-grey-300 border-t-black"
+              )} 
+              role="progressbar"
+              aria-label="Loading content"
+            />
             <p className={clsx("font-code text-mono-md", mutedTextClass)}>Loading...</p>
           </div>
         </div>
@@ -870,30 +875,39 @@ export function ListPage<T>({
   }
 
   return (
-    <div className={clsx("min-h-screen", bgClass, className)}>
+    <div className={clsx("min-h-screen", bgClass, className)} role="main">
       {header}
       
       <div className="p-spacing-8 max-w-content mx-auto">
         {/* Page Header */}
-        <div className="mb-spacing-8">
+        <header className="mb-spacing-8" role="banner">
           <div className="flex items-center justify-between mb-spacing-2">
             <h1 className="font-display text-h1-sm tracking-tight">{title}</h1>
             <div className="flex gap-gap-sm">
               {onImport && (
-                <button onClick={() => setImportExportMode("import")} className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer", secondaryBtnClass)}>
-                  <Upload className="size-4 inline mr-1" />Import
+                <button 
+                  onClick={() => setImportExportMode("import")} 
+                  className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer", secondaryBtnClass)}
+                  aria-label={`Import ${title}`}
+                >
+                  <Upload className="size-4 inline mr-1" aria-hidden="true" />Import
                 </button>
               )}
               {onExport && (
                 <button 
                   onClick={() => setImportExportMode("export")} 
                   className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer", secondaryBtnClass)}
+                  aria-label={`Export ${title}`}
                 >
-                  <Download className="size-4 inline mr-1" />Export
+                  <Download className="size-4 inline mr-1" aria-hidden="true" />Export
                 </button>
               )}
               {onCreate && (
-                <button onClick={onCreate} className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none cursor-pointer", primaryBtnClass)}>
+                <button 
+                  onClick={onCreate} 
+                  className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none cursor-pointer", primaryBtnClass)}
+                  aria-label={`Create new ${title.toLowerCase()}`}
+                >
                   + {createLabel}
                 </button>
               )}
@@ -912,28 +926,31 @@ export function ListPage<T>({
           {subtitle && (
             <p className={clsx("font-body text-body-md", mutedTextClass)}>{subtitle}</p>
           )}
-        </div>
+        </header>
 
         {/* Stats */}
         {stats.length > 0 && (
-          <div className={clsx("grid gap-gap-md mb-spacing-8", stats.length <= 2 ? "grid-cols-2" : stats.length === 3 ? "grid-cols-3" : "grid-cols-4")}>
+          <section aria-label="Statistics" className={clsx("grid gap-gap-md mb-spacing-8", stats.length <= 2 ? "grid-cols-2" : stats.length === 3 ? "grid-cols-3" : "grid-cols-4")}>
             {stats.map((stat, idx) => (
-              <div key={idx} className={clsx("p-spacing-6 border", inverted ? "border-grey-800 bg-black" : "border-grey-200 bg-white")}>
-                <div className="font-display text-h2-sm">{stat.value}</div>
+              <div key={idx} className={clsx("p-spacing-6 border", inverted ? "border-grey-800 bg-black" : "border-grey-200 bg-white")} role="group" aria-label={stat.label}>
+                <div className="font-display text-h2-sm" aria-live="polite">{stat.value}</div>
                 <div className={clsx("font-code text-mono-sm uppercase tracking-widest", inverted ? "text-grey-500" : "text-grey-400")}>{stat.label}</div>
               </div>
             ))}
-          </div>
+          </section>
         )}
 
         {/* Search and Filters */}
-        <div className="flex gap-gap-sm mb-spacing-4 flex-wrap">
+        <nav aria-label="Search and filters" className="flex gap-gap-sm mb-spacing-4 flex-wrap">
           <div className="flex-1 min-w-card-sm relative">
+            <label htmlFor="list-search" className="sr-only">Search {title}</label>
             <input
-              type="text"
+              id="list-search"
+              type="search"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder={searchPlaceholder}
+              aria-label={`Search ${title}`}
               className={clsx(
                 "w-full py-spacing-3 px-spacing-4 pl-spacing-10 font-body text-body-md border outline-none",
                 inverted
@@ -941,26 +958,34 @@ export function ListPage<T>({
                   : "bg-white text-black border-grey-300 focus:border-grey-500"
               )}
             />
-            <span className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2", inverted ? "text-grey-500" : "text-grey-400")}><Search className="size-4" /></span>
+            <span className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2", inverted ? "text-grey-500" : "text-grey-400")} aria-hidden="true"><Search className="size-4" /></span>
           </div>
           {filters.map(filter => (
-            <select
-              key={filter.key}
-              value={String(activeFilters[filter.key] || "All")}
-              onChange={(e) => handleFilterChange(filter.key, e.target.value)}
-              className={clsx(
-                "px-spacing-4 py-spacing-3 font-body text-body-md border",
-                inverted ? "bg-black text-white border-grey-700" : "bg-white text-black border-grey-300"
-              )}
-            >
-              <option value="All">{filter.label}: All</option>
-              {filter.options.map(opt => (
-                <option key={opt.value} value={opt.value}>{opt.label}</option>
-              ))}
-            </select>
+            <div key={filter.key}>
+              <label htmlFor={`filter-${filter.key}`} className="sr-only">Filter by {filter.label}</label>
+              <select
+                id={`filter-${filter.key}`}
+                value={String(activeFilters[filter.key] || "All")}
+                onChange={(e) => handleFilterChange(filter.key, e.target.value)}
+                aria-label={`Filter by ${filter.label}`}
+                className={clsx(
+                  "px-spacing-4 py-spacing-3 font-body text-body-md border",
+                  inverted ? "bg-black text-white border-grey-700" : "bg-white text-black border-grey-300"
+                )}
+              >
+                <option value="All">{filter.label}: All</option>
+                {filter.options.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
+            </div>
           ))}
           {activeFilterCount > 0 && (
-            <button onClick={clearFilters} className={clsx("px-spacing-4 py-spacing-3 font-code text-mono-sm bg-transparent border-none cursor-pointer underline", mutedTextClass)}>
+            <button 
+              onClick={clearFilters} 
+              className={clsx("px-spacing-4 py-spacing-3 font-code text-mono-sm bg-transparent border-none cursor-pointer underline", mutedTextClass)}
+              aria-label={`Clear ${activeFilterCount} active filters`}
+            >
               Clear ({activeFilterCount})
             </button>
           )}
@@ -979,7 +1004,11 @@ export function ListPage<T>({
           
           {/* View Toggle - Auto-detected from columns */}
           {effectiveViews.length > 1 && (
-            <div className={clsx("flex items-center gap-1 ml-auto border rounded-lg p-1", inverted ? "border-grey-700 bg-grey-900" : "border-grey-200 bg-grey-50")}>
+            <div 
+              className={clsx("flex items-center gap-1 ml-auto border rounded-lg p-1", inverted ? "border-grey-700 bg-grey-900" : "border-grey-200 bg-grey-50")}
+              role="tablist"
+              aria-label="View options"
+            >
               {effectiveViews.map((view) => {
                 const isActive = currentActiveView === view.id;
                 const ViewIcon = {
@@ -998,6 +1027,9 @@ export function ListPage<T>({
                   <button
                     key={view.id}
                     type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-label={`${view.label} view`}
                     onClick={() => handleViewChange(view.id)}
                     title={view.label}
                     className={clsx(
@@ -1011,13 +1043,13 @@ export function ListPage<T>({
                           : "text-grey-400 hover:text-grey-900 hover:bg-grey-100"
                     )}
                   >
-                    <ViewIcon size={16} />
+                    <ViewIcon size={16} aria-hidden="true" />
                   </button>
                 );
               })}
             </div>
           )}
-        </div>
+        </nav>
 
         {/* Bulk Action Bar - Floating component for better UX */}
         <BulkActionBar
@@ -1051,7 +1083,12 @@ export function ListPage<T>({
         />
 
         {/* Results count */}
-        <div className={clsx("mb-spacing-4 font-code text-mono-sm", inverted ? "text-grey-500" : "text-grey-400")}>
+        <div 
+          className={clsx("mb-spacing-4 font-code text-mono-sm", inverted ? "text-grey-500" : "text-grey-400")}
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
           {filteredData.length} {filteredData.length === 1 ? "result" : "results"}
         </div>
 
@@ -1231,8 +1268,12 @@ export function ListPage<T>({
         
         {/* Empty state with action */}
         {filteredData.length === 0 && emptyAction && (
-          <div className="text-center mt-spacing-4">
-            <button onClick={emptyAction.onClick} className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none cursor-pointer", primaryBtnClass)}>
+          <div className="text-center mt-spacing-4" role="status" aria-live="polite">
+            <button 
+              onClick={emptyAction.onClick} 
+              className={clsx("px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none cursor-pointer", primaryBtnClass)}
+              aria-label={emptyAction.label}
+            >
               {emptyAction.label}
             </button>
           </div>

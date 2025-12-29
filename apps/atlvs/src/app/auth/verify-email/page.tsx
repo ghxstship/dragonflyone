@@ -1,144 +1,66 @@
 "use client";
 
+/**
+ * Verify Email Page
+ * Email verification confirmation
+ * Uses AuthPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
+import { Mail, RefreshCw } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
 import {
-  AuthPage,
   Body,
   Button,
-  Card,
+  AuthPage,
   H2,
-  IconBox,
-  Label,
-  ScrollReveal,
-  Spinner,
-  Stack,
   useNotifications,
-} from '@ghxstship/ui';
-
-import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
-import NextLink from "next/link";
-import { CreatorNavigationPublic } from "@/components/navigation";
-
-// =============================================================================
-// VERIFY EMAIL PAGE - ATLVS Email Verification
-// Bold Contemporary Pop Art Adventure Design System - Light Theme
-// =============================================================================
-
-function VerifyEmailContent() {
-  const searchParams = useSearchParams();
-  const email = searchParams.get("email") || "";
-  const [resending, setResending] = useState(false);
-  const { addNotification } = useNotifications();
-
-  const handleResend = async () => {
-    if (!email) {
-      addNotification({
-        type: "error",
-        title: "Error",
-        message: "No email address provided. Please try signing up again.",
-      });
-      return;
-    }
-
-    setResending(true);
-    try {
-      const response = await fetch("/api/auth/resend-verification", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to resend verification email");
-      }
-
-      addNotification({
-        type: "success",
-        title: "Email Sent",
-        message: "Verification email has been resent. Please check your inbox.",
-      });
-    } catch (error) {
-      addNotification({
-        type: "error",
-        title: "Error",
-        message: "Failed to resend verification email. Please try again.",
-      });
-    } finally {
-      setResending(false);
-    }
-  };
-
-  return (
-    <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">
-      <Stack gap={6} className="text-center sm:gap-8">
-        <IconBox size="lg" className="mx-auto">
-          <Mail className="size-6 text-black sm:size-8" />
-        </IconBox>
-
-        <Stack gap={3} className="sm:gap-4">
-          <H2 className="text-black">VERIFY YOUR EMAIL</H2>
-          <Body size="sm" className="text-muted">
-            We&apos;ve sent a verification email to{" "}
-            {email && <strong className="text-black">{email}</strong>}
-            {!email && "your email address"}. Please click the link in the email to verify
-            your account.
-          </Body>
-        </Stack>
-
-        <Stack gap={3}>
-          <Label size="xs" className="text-muted">
-            Didn&apos;t receive the email?
-          </Label>
-          <Button
-            variant="outline"
-            size="lg"
-            fullWidth
-            onClick={handleResend}
-            disabled={resending}
-            icon={<RefreshCw className={`size-4 ${resending ? "animate-spin" : ""}`} />}
-            iconPosition="left"
-          >
-            {resending ? "Sending..." : "Resend Verification Email"}
-          </Button>
-        </Stack>
-
-        <Stack className="border-t border-black/10 pt-6">
-          <NextLink href="/auth/signin">
-            <Button
-              variant="ghost"
-              size="sm"
-              icon={<ArrowLeft className="size-4" />}
-              iconPosition="left"
-            >
-              Back to Sign In
-            </Button>
-          </NextLink>
-        </Stack>
-      </Stack>
-    </Card>
-  );
-}
+} from "@ghxstship/ui";
+import { supabase } from "@/lib/supabase";
 
 export default function VerifyEmailPage() {
+  const router = useRouter();
+  const { addNotification } = useNotifications();
+
+  const resendMutation = useMutation({
+    mutationFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user?.email) throw new Error("No email found");
+      const { error } = await supabase.auth.resend({ type: "signup", email: user.email });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      addNotification({ type: "success", title: "Email Sent", message: "Verification email has been resent" });
+    },
+    onError: (err: Error) => {
+      addNotification({ type: "error", title: "Error", message: err.message });
+    },
+  });
+
   return (
-    <AuthPage header={<CreatorNavigationPublic />}>
-          <ScrollReveal animation="slide-up" duration={600}>
-            <Suspense
-              fallback={
-                <Card className="border-2 border-black/10 bg-white p-8">
-                  <Stack gap={6} className="items-center text-center">
-                    <Spinner variant="grey" size="lg" />
-                    <Body size="sm" className="text-muted">
-                      Loading...
-                    </Body>
-                  </Stack>
-                </Card>
-              }
-            >
-              <VerifyEmailContent />
-            </Suspense>
-          </ScrollReveal>
+    <AuthPage>
+      <div className="text-center space-y-6">
+        <H2>Verify Your Email</H2>
+        <Body className="text-grey-400">We&apos;ve sent a verification link to your email address</Body>
+        <div className="p-4 bg-primary/20 rounded-avatar w-fit mx-auto">
+          <Mail className="size-8 text-primary" />
+        </div>
+
+        <Body className="text-grey-400">
+          Please check your inbox and click the verification link to activate your account. 
+          If you don&apos;t see the email, check your spam folder.
+        </Body>
+
+        <div className="space-y-3">
+          <Button variant="outline" className="w-full" onClick={() => resendMutation.mutate()} disabled={resendMutation.isPending} icon={<RefreshCw className={`size-4 ${resendMutation.isPending ? "animate-spin" : ""}`} />} iconPosition="left">
+            {resendMutation.isPending ? "Sending..." : "Resend Verification Email"}
+          </Button>
+
+          <Button variant="ghost" className="w-full" onClick={() => router.push("/auth/signin")}>
+            Back to Sign In
+          </Button>
+        </div>
+      </div>
     </AuthPage>
   );
 }

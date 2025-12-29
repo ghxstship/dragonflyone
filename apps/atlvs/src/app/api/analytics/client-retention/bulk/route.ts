@@ -33,7 +33,6 @@ export const DELETE = apiRoute(
         .in('id', validation.data.ids);
 
       if (error) {
-        console.error('Error bulk deleting client retention records:', error);
         return NextResponse.json({ error: error.message }, { status: 500 });
       }
 

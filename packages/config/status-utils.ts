@@ -15,6 +15,32 @@ export type StatusVariant =
 
 export type BadgeVariant = "solid" | "outline" | "ghost";
 
+export type UIBadgeVariant = "solid" | "outline" | "ghost" | "success" | "warning" | "error" | "info" | "pop";
+
+/**
+ * Maps StatusVariant to UI Badge variant for use with Badge component
+ * Converts extended status types to Badge-compatible variants
+ */
+export function getStatusBadgeVariant(status: string): UIBadgeVariant {
+  const variant = getStatusVariant(status);
+  switch (variant) {
+    case 'success':
+    case 'error':
+    case 'warning':
+    case 'info':
+      return variant;
+    case 'active':
+      return 'success';
+    case 'inactive':
+    case 'neutral':
+      return 'outline';
+    case 'pending':
+      return 'warning';
+    default:
+      return 'outline';
+  }
+}
+
 /**
  * Maps status strings to StatusBadge variants
  * Common statuses: scheduled, tracking, closeout, intake, active, completed, etc.

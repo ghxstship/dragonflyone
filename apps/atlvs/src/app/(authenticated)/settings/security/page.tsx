@@ -1,5 +1,13 @@
 'use client';
 
+/**
+ * Security Settings Page
+ * Uses normalized SettingsPageLayout template from @ghxstship/ui
+ */
+
+import { useState } from 'react';
+import { Key, Smartphone, Monitor, Clock, AlertTriangle, Check, LogOut, Eye, EyeOff } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Alert,
   Badge,
@@ -7,24 +15,20 @@ import {
   Box,
   Button,
   Card,
-  Container,
   EmptyState,
-  EnterprisePageHeader,
   Form,
   Grid,
   H2,
   Input,
   Label,
-  MainContent,
   Modal,
+  SettingsPageLayout,
   Skeleton,
   Stack,
   Text,
 } from '@ghxstship/ui';
+import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 
-import { useState } from 'react';
-import { Shield, Key, Smartphone, Monitor, Clock, AlertTriangle, Check, LogOut, Eye, EyeOff } from 'lucide-react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface SecuritySettings {
   two_factor_enabled: boolean;
@@ -65,6 +69,11 @@ const DEMO_SECURITY: SecuritySettings = {
 
 export default function SecuritySettingsPage() {
   const queryClient = useQueryClient();
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access
+  const canManageSecurity = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
+  
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [show2FAModal, setShow2FAModal] = useState(false);
   const [passwordForm, setPasswordForm] = useState({ current: '', new_password: '', confirm: '' });
@@ -148,59 +157,57 @@ export default function SecuritySettingsPage() {
 
   if (isLoading) {
     return (
-      <>
-        <EnterprisePageHeader title="Security Settings" subtitle="Manage your account security" />
-        <MainContent padding="lg">
-          <Container size="md">
-            <Stack gap={6}>
-              <Grid cols={2} gap={6}>
-                <Skeleton className="h-48" />
-                <Skeleton className="h-48" />
-              </Grid>
-              <Skeleton className="h-64" />
-            </Stack>
-          </Container>
-        </MainContent>
-      </>
+      <SettingsPageLayout
+        title="Security Settings"
+        description="Manage your account security"
+        maxWidth="lg"
+      >
+        <Stack gap={6}>
+          <Grid cols={2} gap={6}>
+            <Skeleton className="h-48" />
+            <Skeleton className="h-48" />
+          </Grid>
+          <Skeleton className="h-64" />
+        </Stack>
+      </SettingsPageLayout>
     );
   }
 
   if (error) {
     return (
-      <>
-        <EnterprisePageHeader title="Security Settings" subtitle="Error" />
-        <MainContent padding="lg">
-          <Container size="md">
-            <EmptyState
-              title="Failed to load security settings"
-              description="There was an error loading your security settings. Please try again."
-              action={{ label: 'Retry', onClick: () => window.location.reload() }}
-            />
-          </Container>
-        </MainContent>
-      </>
+      <SettingsPageLayout
+        title="Security Settings"
+        description="Error"
+        maxWidth="lg"
+      >
+        <EmptyState
+          title="Failed to load security settings"
+          description="There was an error loading your security settings. Please try again."
+          action={{ label: 'Retry', onClick: () => window.location.reload() }}
+        />
+      </SettingsPageLayout>
     );
   }
 
   return (
-    <>
-      <EnterprisePageHeader
-        title="Security Settings"
-        subtitle="Manage your account security and active sessions"
-      />
-      <MainContent padding="lg">
-        <Container size="md">
-          <Stack gap={6}>
-            <Grid cols={2} gap={6}>
+    <SettingsPageLayout
+      title="Security Settings"
+      description="Manage your account security and active sessions"
+      maxWidth="lg"
+    >
+      <Stack gap={6}>
+        <Grid cols={2} gap={6}>
               <Card className="p-6">
                 <Stack direction="horizontal" className="justify-between mb-4">
                   <H2 className="flex items-center gap-2">
                     <Key className="h-5 w-5" />
                     Password
                   </H2>
-                  <Button variant="ghost" onClick={() => setShowPasswordModal(true)}>
-                    Change Password
-                  </Button>
+                  {canManageSecurity && (
+                    <Button variant="ghost" onClick={() => setShowPasswordModal(true)}>
+                      Change Password
+                    </Button>
+                  )}
                 </Stack>
                 <Stack gap={3}>
                   <Box className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
@@ -228,12 +235,14 @@ export default function SecuritySettingsPage() {
                     <Smartphone className="h-5 w-5" />
                     Two-Factor Authentication
                   </H2>
-                  <Button
-                    variant={settings.two_factor_enabled ? 'destructive' : 'ghost'}
-                    onClick={() => setShow2FAModal(true)}
-                  >
-                    {settings.two_factor_enabled ? 'Disable' : 'Enable'}
-                  </Button>
+                  {canManageSecurity && (
+                    <Button
+                      variant={settings.two_factor_enabled ? 'destructive' : 'ghost'}
+                      onClick={() => setShow2FAModal(true)}
+                    >
+                      {settings.two_factor_enabled ? 'Disable' : 'Enable'}
+                    </Button>
+                  )}
                 </Stack>
                 <Stack gap={3}>
                   <Box className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
@@ -323,7 +332,7 @@ export default function SecuritySettingsPage() {
                     className="flex items-center justify-between p-3 bg-muted/30 rounded-card"
                   >
                     <Stack direction="horizontal" gap={4} className="items-center">
-                      <Box className={`w-2 h-2 rounded-full ${
+                      <Box className={`w-2 h-2 rounded-avatar ${
                         login.status === 'success' ? 'bg-success' : 'bg-destructive'
                       }`} />
                       <Stack gap={0}>
@@ -443,7 +452,7 @@ export default function SecuritySettingsPage() {
                   Cancel
                 </Button>
                 <Button
-                  variant={settings.two_factor_enabled ? 'destructive' : 'default'}
+                  variant={settings.two_factor_enabled ? 'destructive' : 'solid'}
                   onClick={() => toggle2FA.mutate(!settings.two_factor_enabled)}
                   disabled={toggle2FA.isPending}
                 >
@@ -456,8 +465,6 @@ export default function SecuritySettingsPage() {
               </Stack>
             </Modal>
           </Stack>
-        </Container>
-      </MainContent>
-    </>
+        </SettingsPageLayout>
   );
 }

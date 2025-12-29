@@ -1,223 +1,139 @@
-'use client';
+"use client";
 
+/**
+ * Investor Portal Page
+ * Portal for investors to track investments
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
+import { TrendingUp, DollarSign, PieChart, FileText, BarChart3, List, Download } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import {
-  SectionHeader,
-  Card,
-  CardBody,
-  Stack,
-  StatCard,
-  Button,
   Badge,
-  Grid,
   Body,
-  H3,
-  Skeleton,
-} from '@ghxstship/ui';
-import {
-  TrendingUp,
-  DollarSign,
-  PieChart,
-  Calendar,
-  Download,
-  FileText,
-  BarChart3,
-  AlertCircle,
-} from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
-import { useInvestors, type Investor } from '@ghxstship/config';
-import { DEMO_INVESTMENTS, type DemoInvestment } from '../../../lib/demo-data';
+  Button,
+  Card,
+  Grid,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
+
+interface Investment {
+  id: string;
+  production: string;
+  amount: number;
+  returns: number;
+  status: "active" | "completed";
+  date: string;
+}
+
+const DEMO_INVESTMENTS: Investment[] = [
+  { id: "1", production: "Summer Festival 2024", amount: 500000, returns: 75000, status: "active", date: "2024-06-01" },
+  { id: "2", production: "Music Awards 2024", amount: 250000, returns: 45000, status: "completed", date: "2024-03-15" },
+  { id: "3", production: "Tech Conference", amount: 150000, returns: 22500, status: "completed", date: "2024-01-10" },
+];
+
+const STATUS_CONFIG = {
+  active: { label: "Active", variant: "success" as const },
+  completed: { label: "Completed", variant: "info" as const },
+};
 
 export default function InvestorPortalPage() {
-  const { investors: apiInvestors, isLoading, error, refetch } = useInvestors({ status: 'funded' });
+  const router = useRouter();
 
-  // Map API investors to display format or fall back to demo data
-  const investments: DemoInvestment[] = apiInvestors.length > 0
-    ? apiInvestors.map((inv: Investor) => ({
-        id: inv.id,
-        fund: inv.name,
-        amount: inv.investment_amount,
-        returns: 0, // Would come from distributions API
-        ownership: inv.ownership_percentage || 0,
-        status: (inv.status === 'funded' ? 'active' : 'pending') as 'active' | 'pending',
-        lastDistribution: inv.funding_date || 'N/A',
-      }))
-    : DEMO_INVESTMENTS;
+  const { data: investments = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["investor-investments"],
+    queryFn: async () => {
+      const response = await fetch("/api/portal/investor/investments");
+      if (!response.ok) return DEMO_INVESTMENTS;
+      const data = await response.json();
+      return data.investments?.length ? data.investments : DEMO_INVESTMENTS;
+    },
+  });
 
-  const totalInvested = investments.reduce((sum, i) => sum + i.amount, 0);
-  const totalReturns = investments.reduce((sum, i) => sum + i.returns, 0);
-  const projectedReturns = investments.filter(i => i.status === 'active').reduce((sum, i) => sum + (i.amount * 1.15), 0);
-  const avgROI = investments.filter(i => i.returns > 0).length > 0
-    ? investments.filter(i => i.returns > 0).reduce((sum, i, _, arr) => sum + (i.returns / i.amount * 100) / arr.length, 0)
-    : 0;
+  const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(amount);
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 
-  if (isLoading) {
-    return (
-      <AtlvsAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="Investor Portal" title="My Dashboard" description="Track investments and returns" colorScheme="on-dark" />
-          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-            {[1, 2, 3, 4].map((i) => (
-              <Card key={i} inverted className="p-6">
-                <Skeleton className="h-4 w-20 mb-2" />
-                <Skeleton className="h-8 w-24" />
-              </Card>
-            ))}
+  const totalInvested = investments.reduce((sum: number, i: Investment) => sum + i.amount, 0);
+  const totalReturns = investments.reduce((sum: number, i: Investment) => sum + i.returns, 0);
+  const avgROI = totalInvested > 0 ? (totalReturns / totalInvested) * 100 : 0;
+
+  const tabs = [
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+            <StatCard label="Total Invested" value={formatCurrency(totalInvested)} icon={<DollarSign className="size-5" />} />
+            <StatCard label="Total Returns" value={formatCurrency(totalReturns)} icon={<TrendingUp className="size-5" />} />
+            <StatCard label="Avg ROI" value={`${avgROI.toFixed(1)}%`} icon={<PieChart className="size-5" />} />
+            <StatCard label="Active" value={investments.filter((i: Investment) => i.status === "active").length.toString()} icon={<BarChart3 className="size-5" />} />
           </Grid>
-          <Card inverted className="p-6">
-            <Skeleton className="h-6 w-40 mb-4" />
-            <Stack gap={3}>
-              {[1, 2, 3].map((i) => (
-                <Skeleton key={i} className="h-24 w-full" />
-              ))}
-            </Stack>
-          </Card>
-        </Stack>
-      </AtlvsAppLayout>
-    );
-  }
 
-  if (error) {
-    return (
-      <AtlvsAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="Investor Portal" title="My Dashboard" description="Track investments and returns" colorScheme="on-dark" />
-          <Card inverted className="p-8 text-center">
-            <Stack gap={4} className="items-center">
-              <AlertCircle size={48} className="text-error" />
-              <H3 className="text-white">Failed to Load Investments</H3>
-              <Body className="text-grey-300">{error.message}</Body>
-              <Button variant="solid" onClick={() => refetch()}>
-                Try Again
-              </Button>
-            </Stack>
-          </Card>
-        </Stack>
-      </AtlvsAppLayout>
-    );
-  }
+          <SectionHeader title="Investments" />
+          <div className="space-y-4 mt-4">
+            {investments.map((investment: Investment) => {
+              const roi = (investment.returns / investment.amount) * 100;
+              return (
+                <Card key={investment.id} className="p-6">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Body className="font-weight-bold font-weight-medium">{investment.production}</Body>
+                      <Body size="sm" className="text-grey-400 mt-1">Invested {formatDate(investment.date)}</Body>
+                    </div>
+                    <div className="text-right">
+                      <Body className="font-weight-bold">{formatCurrency(investment.amount)}</Body>
+                      <div className="flex items-center gap-2 mt-2">
+                        <Body size="sm" className="text-success">+{formatCurrency(investment.returns)} ({roi.toFixed(1)}%)</Body>
+                        <Badge variant={STATUS_CONFIG[investment.status].variant}>{STATUS_CONFIG[investment.status].label}</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "reports",
+      label: "Reports",
+      icon: <Download className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Investment Reports" description="Download your investment reports" />
+          <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2 mt-6">
+            <Card className="p-6">
+              <FileText className="size-8 text-primary mb-4" />
+              <Body className="font-weight-bold mb-2">Portfolio Summary</Body>
+              <Body size="sm" className="text-grey-400 mb-4">Overview of all your investments and returns</Body>
+              <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download PDF</Button>
+            </Card>
+            <Card className="p-6">
+              <BarChart3 className="size-8 text-primary mb-4" />
+              <Body className="font-weight-bold mb-2">Performance Report</Body>
+              <Body size="sm" className="text-grey-400 mb-4">Detailed performance metrics and analysis</Body>
+              <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download PDF</Button>
+            </Card>
+          </Grid>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <AtlvsAppLayout>
-      <Stack gap={8}>
-        <SectionHeader kicker="Investor Portal" title="My Dashboard" description="Track investments and returns" colorScheme="on-dark" />
-
-        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard label="Total Invested" value={`$${(totalInvested / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
-          <StatCard label="Realized Returns" value={`$${(totalReturns / 1000).toFixed(0)}K`} icon={<TrendingUp size={20} />} trend="up" inverted />
-          <StatCard label="Projected Returns" value={`$${(projectedReturns / 1000).toFixed(0)}K`} icon={<PieChart size={20} />} inverted />
-          <StatCard label="Avg ROI" value={`${avgROI.toFixed(1)}%`} icon={<TrendingUp size={20} />} trend="up" inverted />
-        </Grid>
-
-        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
-          <Card variant="elevated" inverted>
-            <CardBody>
-              <Stack gap={4}>
-                <H3 className="text-white">My Investments</H3>
-                <Stack gap={3}>
-                  {investments.map(investment => (
-                    <Stack key={investment.id} className="rounded border-2 border-ink-700 p-4">
-                      <Stack direction="horizontal" className="items-start justify-between">
-                        <Stack gap={1}>
-                          <Body className="font-weight-semibold text-white">{investment.fund}</Body>
-                          <Body size="sm" className=" text-on-dark-muted">{investment.ownership}% ownership stake</Body>
-                        </Stack>
-                        <Badge variant={investment.status === 'active' ? 'success' : 'info'}>
-                          {investment.status}
-                        </Badge>
-                      </Stack>
-                      <Stack direction="horizontal" className="mt-3 justify-between border-t border-ink-700 pt-3">
-                        <Stack gap={0}>
-                          <Body size="sm" className=" text-on-dark-muted">Invested</Body>
-                          <Body className="font-weight-semibold text-white">${investment.amount.toLocaleString()}</Body>
-                        </Stack>
-                        <Stack gap={0}>
-                          <Body size="sm" className=" text-on-dark-muted">Returns</Body>
-                          <Body className="text-white">${investment.returns.toLocaleString()}</Body>
-                        </Stack>
-                        <Stack gap={0}>
-                          <Body size="sm" className=" text-on-dark-muted">Last Distribution</Body>
-                          <Body className={investment.returns > 0 ? 'font-weight-semibold text-success' : 'text-on-dark-muted'}>
-                            {investment.lastDistribution}
-                          </Body>
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                  ))}
-                </Stack>
-              </Stack>
-            </CardBody>
-          </Card>
-
-          <Stack gap={6}>
-            <Card variant="elevated" inverted>
-              <CardBody>
-                <Stack gap={4}>
-                  <H3 className="text-white">Upcoming Distributions</H3>
-                  <Stack gap={3}>
-                    <Stack direction="horizontal" className="items-center justify-between">
-                      <Stack gap={0}>
-                        <Body className="text-white">Summer Music Festival</Body>
-                        <Body size="sm" className=" text-on-dark-muted">Q4 Distribution</Body>
-                      </Stack>
-                      <Stack gap={0} className="text-right">
-                        <Body className="font-weight-semibold text-white">$75,000</Body>
-                        <Stack direction="horizontal" gap={1} className="items-center">
-                          <Calendar size={12} className="text-on-dark-muted" />
-                          <Body size="sm" className=" text-on-dark-muted">Dec 15, 2024</Body>
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                    <Stack direction="horizontal" className="items-center justify-between">
-                      <Stack gap={0}>
-                        <Body className="text-white">New Years Eve Concert</Body>
-                        <Body size="sm" className=" text-on-dark-muted">Final Settlement</Body>
-                      </Stack>
-                      <Stack gap={0} className="text-right">
-                        <Body className="font-weight-semibold text-white">$195,000</Body>
-                        <Stack direction="horizontal" gap={1} className="items-center">
-                          <Calendar size={12} className="text-on-dark-muted" />
-                          <Body size="sm" className=" text-on-dark-muted">Jan 31, 2025</Body>
-                        </Stack>
-                      </Stack>
-                    </Stack>
-                  </Stack>
-                </Stack>
-              </CardBody>
-            </Card>
-
-            <Card variant="elevated" inverted>
-              <CardBody>
-                <Stack gap={4}>
-                  <H3 className="text-white">Documents</H3>
-                  <Stack gap={2}>
-                    <Stack direction="horizontal" className="items-center justify-between">
-                      <Stack direction="horizontal" gap={2} className="items-center">
-                        <FileText size={16} />
-                        <Body className="text-white">K-1 Tax Documents</Body>
-                      </Stack>
-                      <Button variant="ghost" size="sm"><Download size={14} /></Button>
-                    </Stack>
-                    <Stack direction="horizontal" className="items-center justify-between">
-                      <Stack direction="horizontal" gap={2} className="items-center">
-                        <BarChart3 size={16} />
-                        <Body className="text-white">Quarterly Reports</Body>
-                      </Stack>
-                      <Button variant="ghost" size="sm"><Download size={14} /></Button>
-                    </Stack>
-                    <Stack direction="horizontal" className="items-center justify-between">
-                      <Stack direction="horizontal" gap={2} className="items-center">
-                        <FileText size={16} />
-                        <Body className="text-white">Investment Agreements</Body>
-                      </Stack>
-                      <Button variant="ghost" size="sm"><Download size={14} /></Button>
-                    </Stack>
-                  </Stack>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Stack>
-        </Grid>
-      </Stack>
-    </AtlvsAppLayout>
+    <DetailPage
+      header={{ kicker: "Portal", title: "Investor Dashboard", description: "Track your investments and returns" }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useMemo, useState, useEffect, useCallback } from "react";
+import { ReactNode, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   PageLayout,
@@ -22,7 +22,7 @@ import {
   Card,
   PageTransition,
 } from "@ghxstship/ui";
-import type { SidebarNavSection, SidebarNavItem } from "@ghxstship/ui";
+import type { SidebarNavSection } from "@ghxstship/ui";
 import {
   ConsumerNavigationPublic,
   ConsumerNavigationAuthenticated,
@@ -40,60 +40,10 @@ import {
   useAuth,
   useFavorites,
   useKeyboardShortcuts,
+  useRecentPages,
 } from "@ghxstship/config/hooks";
 import { Search, Ticket, Calendar, MapPin } from "lucide-react";
 
-// =============================================================================
-// RECENT PAGES TRACKING
-// =============================================================================
-
-const RECENT_PAGES_KEY = "gvteway-recent-pages";
-const MAX_RECENT_PAGES = 5;
-
-function useRecentPages(currentPath: string) {
-  const [recentPages, setRecentPages] = useState<SidebarNavItem[]>([]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem(RECENT_PAGES_KEY);
-      if (stored) {
-        try {
-          setRecentPages(JSON.parse(stored));
-        } catch {
-          // Ignore parse errors
-        }
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !currentPath || currentPath === "/") return;
-    if (currentPath.startsWith("/auth")) return;
-
-    const findPageLabel = (path: string): string | null => {
-      for (const section of gvtewaySidebarNavigation) {
-        for (const item of section.items) {
-          if (item.href === path) return item.label;
-        }
-      }
-      const segments = path.split("/").filter(Boolean);
-      const lastSegment = segments[segments.length - 1] || "Page";
-      return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1).replace(/-/g, " ");
-    };
-
-    const label = findPageLabel(currentPath);
-    if (!label) return;
-
-    setRecentPages((prev) => {
-      const filtered = prev.filter((p) => p.href !== currentPath);
-      const updated = [{ label, href: currentPath, icon: "Clock" }, ...filtered].slice(0, MAX_RECENT_PAGES);
-      localStorage.setItem(RECENT_PAGES_KEY, JSON.stringify(updated));
-      return updated;
-    });
-  }, [currentPath]);
-
-  return recentPages;
-}
 
 // =============================================================================
 // GVTEWAY APP LAYOUT WRAPPERS
@@ -144,8 +94,8 @@ export function GvtewayAppLayout({
     return user?.roles || [];
   }, [user]);
 
-  // Track recent pages
-  const recentPages = useRecentPages(currentPath);
+  // Track recent pages using shared hook
+  const recentPages = useRecentPages("gvteway", currentPath || "/", gvtewaySidebarNavigation);
 
   // Manage favorites
   const { favorites } = useFavorites({

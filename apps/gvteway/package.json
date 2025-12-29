@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "NODE_OPTIONS='--max-old-space-size=8192' next build",
     "start": "next start",
-    "lint": "next lint --max-warnings 9999"
+    "lint": "next lint --max-warnings 9999",
+    "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
     "@ghxstship/config": "workspace:*",
@@ -15,7 +16,7 @@
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.39.0",
     "lucide-react": "^0.554.0",
-    "next": "14.2.34",
+    "next": "14.2.35",
     "next-intl": "^4.5.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",

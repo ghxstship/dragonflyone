@@ -3,6 +3,8 @@
  * Handles localStorage/sessionStorage with error handling and type safety
  */
 
+import { logger } from './logger';
+
 export type StorageType = 'local' | 'session';
 
 /**
@@ -35,7 +37,7 @@ export function getStorageItem<T>(
     const item = storage.getItem(key);
     return item ? JSON.parse(item) : defaultValue || null;
   } catch (error) {
-    console.error(`Error reading from ${type}Storage:`, error);
+    logger.error(`Error reading from ${type}Storage`, error instanceof Error ? error : undefined);
     return defaultValue || null;
   }
 }
@@ -55,7 +57,7 @@ export function setStorageItem<T>(
     storage.setItem(key, JSON.stringify(value));
     return true;
   } catch (error) {
-    console.error(`Error writing to ${type}Storage:`, error);
+    logger.error(`Error writing to ${type}Storage`, error instanceof Error ? error : undefined);
     return false;
   }
 }
@@ -71,7 +73,7 @@ export function removeStorageItem(key: string, type: StorageType = 'local'): boo
     storage.removeItem(key);
     return true;
   } catch (error) {
-    console.error(`Error removing from ${type}Storage:`, error);
+    logger.error(`Error removing from ${type}Storage`, error instanceof Error ? error : undefined);
     return false;
   }
 }
@@ -87,7 +89,7 @@ export function clearStorage(type: StorageType = 'local'): boolean {
     storage.clear();
     return true;
   } catch (error) {
-    console.error(`Error clearing ${type}Storage:`, error);
+    logger.error(`Error clearing ${type}Storage`, error instanceof Error ? error : undefined);
     return false;
   }
 }
@@ -102,7 +104,7 @@ export function getStorageKeys(type: StorageType = 'local'): string[] {
     const storage = type === 'local' ? localStorage : sessionStorage;
     return Object.keys(storage);
   } catch (error) {
-    console.error(`Error reading keys from ${type}Storage:`, error);
+    logger.error(`Error reading keys from ${type}Storage`, error instanceof Error ? error : undefined);
     return [];
   }
 }

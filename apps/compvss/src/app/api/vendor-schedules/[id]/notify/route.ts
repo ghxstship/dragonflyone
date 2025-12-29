@@ -1,3 +1,4 @@
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -9,11 +10,25 @@ const notifySchema = z.object({
   send_sms: z.boolean().default(false),
 });
 
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const supabase = createAdminClient();
     const scheduleId = params.id;
 
@@ -74,8 +89,69 @@ export async function POST(
       })
       .eq('id', scheduleId);
 
-    // TODO: Integrate with email/SMS service to actually send notifications
-    // For now, we just record the notification
+    // Send notifications via email/SMS
+    const vendorProfile = schedule.vendor_profile as { id: string; name: string; email: string; phone: string } | null;
+    const notificationTitles: Record<string, string> = {
+      reminder: 'Schedule Reminder',
+      update: 'Schedule Update',
+      confirmation_request: 'Confirmation Required',
+      cancellation: 'Schedule Cancellation',
+    };
+
+    if (validatedData.send_email && vendorProfile?.email) {
+      await supabase.from('email_queue').insert({
+        organization_id: schedule.organization_id,
+        template: `vendor_schedule_${validatedData.notification_type}`,
+        to_email: vendorProfile.email,
+        subject: `${notificationTitles[validatedData.notification_type]}: ${schedule.scheduled_date}`,
+        metadata: {
+          schedule_id: scheduleId,
+          vendor_id: vendorProfile.id,
+          vendor_name: vendorProfile.name,
+          scheduled_date: schedule.scheduled_date,
+          notification_type: validatedData.notification_type,
+          custom_message: validatedData.message,
+          booking_id: schedule.booking_id,
+        },
+        status: 'pending',
+        created_at: new Date().toISOString(),
+      });
+    }
+
+    if (validatedData.send_sms && vendorProfile?.phone) {
+      const smsMessages: Record<string, string> = {
+        reminder: `Reminder: You have a scheduled service on ${schedule.scheduled_date}`,
+        update: `Your schedule for ${schedule.scheduled_date} has been updated`,
+        confirmation_request: `Please confirm your availability for ${schedule.scheduled_date}`,
+        cancellation: `Your schedule for ${schedule.scheduled_date} has been cancelled`,
+      };
+
+      await supabase.from('sms_queue').insert({
+        organization_id: schedule.organization_id,
+        template: `vendor_schedule_${validatedData.notification_type}`,
+        to_phone: vendorProfile.phone,
+        message: validatedData.message || smsMessages[validatedData.notification_type],
+        metadata: {
+          schedule_id: scheduleId,
+          vendor_id: vendorProfile.id,
+          notification_type: validatedData.notification_type,
+        },
+        status: 'pending',
+        created_at: new Date().toISOString(),
+      });
+    }
+
+    // Create in-app notification for vendor portal
+    await supabase.from('vendor_notifications').insert({
+      vendor_profile_id: vendorProfile?.id,
+      type: `schedule_${validatedData.notification_type}`,
+      title: notificationTitles[validatedData.notification_type],
+      message: validatedData.message || `Your schedule for ${schedule.scheduled_date} requires attention.`,
+      reference_type: 'vendor_schedule',
+      reference_id: scheduleId,
+      read: false,
+      created_at: new Date().toISOString(),
+    });
 
     return NextResponse.json({
       success: true,

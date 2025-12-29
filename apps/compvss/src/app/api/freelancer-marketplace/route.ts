@@ -1,12 +1,47 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createProfileSchema = z.object({
+  action: z.literal('create_profile'),
+  bio: z.string().optional(),
+  hourly_rate: z.number().optional(),
+  skills: z.array(z.object({
+    skill: z.string(),
+    level: z.enum(['beginner', 'intermediate', 'advanced', 'expert']).optional(),
+  })).optional(),
+  location: z.string().optional(),
+  portfolio_url: z.string().url().optional(),
+});
+
+const requestVerificationSchema = z.object({
+  action: z.literal('request_verification'),
+  freelancer_id: z.string().uuid(),
+  documents: z.array(z.string()).optional(),
+});
+
+const freelancerActionSchema = z.union([createProfileSchema, requestVerificationSchema]);
 
 // Freelancer marketplace with verified profiles
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const skills = searchParams.get('skills');
     const location = searchParams.get('location');
@@ -60,17 +95,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = freelancerActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create_profile') {
-      const { bio, hourly_rate, skills, location, portfolio_url } = body;
+      const { bio, hourly_rate, skills, location, portfolio_url } = validatedData as z.infer<typeof createProfileSchema>;
 
       const { data, error } = await supabase.from('freelancers').insert({
         user_id: user.id, bio, hourly_rate, location, portfolio_url,
@@ -90,7 +132,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'request_verification') {
-      const { freelancer_id, documents } = body;
+      const { freelancer_id, documents } = validatedData as z.infer<typeof requestVerificationSchema>;
 
       await supabase.from('verification_requests').insert({
         freelancer_id, documents: documents || [], status: 'pending',

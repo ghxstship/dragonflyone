@@ -1,5 +1,24 @@
 
+
 > gvteway@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway
 > next lint --max-warnings 9999
 
-✔ No ESLint warnings or errors
+
+[36m./src/app/page.tsx[39m
+[33m97[39m:[33m9[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+[33m215[39m:[33m181[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+[33m224[39m:[33m181[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+[33m233[39m:[33m181[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+[33m242[39m:[33m181[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+[33m251[39m:[33m181[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+[33m260[39m:[33m181[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+[33m269[39m:[33m181[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+[33m278[39m:[33m181[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+[33m287[39m:[33m181[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+[33m296[39m:[33m181[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+[33m480[39m:[33m9[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+
+[36m./src/components/social-proof.tsx[39m
+[33m117[39m:[33m150[39m  [33m[1mWarning[22m[39m: Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data).  [90m[1mreact/forbid-component-props[22m[39m
+
+[36minfo[39m  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

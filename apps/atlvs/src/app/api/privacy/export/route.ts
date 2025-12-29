@@ -1,26 +1,19 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { logger, withAuth } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
     const { data: platformUser } = await supabase
       .from('platform_users')
       .select('*')
-      .eq('auth_user_id', user.id)
+      .eq('auth_user_id', authResult.user?.id)
       .single();
 
     if (!platformUser) {

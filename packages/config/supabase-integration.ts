@@ -1,4 +1,5 @@
 import { getServerSupabase } from './supabase-client';
+import { logger } from './logger';
 
 export interface DealToProjectHandoff {
   dealId: string;
@@ -93,9 +94,9 @@ export async function handleDealToProjectHandoff(params: DealToProjectHandoff) {
             organization_id: deal.organization_id,
             project_id: newProject.id,
             compvss_project_id: newProject.id,
-            status: 'synced',
+            status: 'synced' as const,
             last_synced_at: new Date().toISOString(),
-          } as Record<string, unknown>);
+          });
 
         return { success: true, projectId: newProject.id, created: true };
       }
@@ -104,7 +105,7 @@ export async function handleDealToProjectHandoff(params: DealToProjectHandoff) {
 
     return { success: false, message: 'Deal not won or auto-create disabled' };
   } catch (error) {
-    console.error('Deal to project handoff error:', error);
+    logger.error('Deal to project handoff error', error instanceof Error ? error : undefined);
     throw error;
   }
 }
@@ -166,7 +167,7 @@ export async function syncProjectToEvent(params: ProjectToEventSync) {
 
     return { success: true, syncJobId: (syncJob as { id: string })?.id };
   } catch (error) {
-    console.error('Project to event sync error:', error);
+    logger.error('Project to event sync error', error instanceof Error ? error : undefined);
     throw error;
   }
 }
@@ -230,7 +231,7 @@ export async function ingestTicketRevenue(params: TicketRevenueSync) {
 
     return { success: true, ingestionId: (ingestion as { id: string })?.id };
   } catch (error) {
-    console.error('Ticket revenue ingestion error:', error);
+    logger.error('Ticket revenue ingestion error', error instanceof Error ? error : undefined);
     throw error;
   }
 }
@@ -268,7 +269,7 @@ export async function checkAssetAvailability(params: AssetAvailabilityCheck) {
 
     return { success: true, availability };
   } catch (error) {
-    console.error('Asset availability check error:', error);
+    logger.error('Asset availability check error', error instanceof Error ? error : undefined);
     throw error;
   }
 }
@@ -312,7 +313,7 @@ export async function orchestrateEventLifecycle(dealId: string, orgSlug: string)
       },
     };
   } catch (error) {
-    console.error('Event lifecycle orchestration error:', error);
+    logger.error('Event lifecycle orchestration error', error instanceof Error ? error : undefined);
     throw error;
   }
 }

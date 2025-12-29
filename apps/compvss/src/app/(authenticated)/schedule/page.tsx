@@ -2,22 +2,39 @@
 
 // Layout provided by route group
 import {
-  H3,
+  ListPage,
   Body,
-  StatCard,
   Badge,
-  Card,
-  ProgressBar,
-  Spinner,
-  EmptyState,
-  Container,
-  Grid,
   Stack,
-  EnterprisePageHeader,
-  MainContent,
+  ProgressBar,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
-import { getBadgeVariant } from "@ghxstship/config";
+import { createExportHandler } from "@ghxstship/config";
 import { useSchedulePageData, type ScheduleItem } from "@/hooks/useSchedule";
+import { Eye, Play, CheckCircle } from "lucide-react";
+
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case 'completed': return 'solid';
+    case 'in_progress': return 'outline';
+    default: return 'ghost';
+  }
+};
+
+const formatTime = (dateString: string) => {
+  return new Date(dateString).toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
+
+const getProgress = (item: ScheduleItem): number => {
+  if (item.status === 'completed') return 100;
+  if (item.status === 'in_progress') return 50;
+  return 0;
+};
 
 export default function SchedulePage() {
   const {
@@ -25,124 +42,107 @@ export default function SchedulePage() {
     summary,
     isLoading: loading,
     error,
+    refetch,
   } = useSchedulePageData();
 
-  const formatTime = (dateString: string) => {
-    return new Date(dateString).toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
+  const columns: ListPageColumn<ScheduleItem>[] = [
+    {
+      key: 'title',
+      label: 'Item',
+      accessor: 'title',
+      sortable: true,
+      render: (_, item) => (
+        <Stack gap={1}>
+          <Body className="font-display">{item.title}</Body>
+          <Body size="sm" className="text-muted-foreground font-mono">
+            {formatTime(item.start_time)} - {formatTime(item.end_time)}
+          </Body>
+        </Stack>
+      ),
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, item) => (
+        <Badge variant={getStatusVariant(item.status)}>
+          {item.status?.replace('_', ' ').toUpperCase()}
+        </Badge>
+      ),
+    },
+    {
+      key: 'assignments',
+      label: 'Crew',
+      accessor: (item) => `${item.assignments?.length || 0} assigned`,
+    },
+    {
+      key: 'progress',
+      label: 'Progress',
+      accessor: (item) => `${getProgress(item)}%`,
+      render: (_, item) => (
+        <Stack gap={1}>
+          <ProgressBar value={getProgress(item)} size="sm" />
+          <Body size="sm" className="font-mono">{getProgress(item)}%</Body>
+        </Stack>
+      ),
+    },
+  ];
 
-  const getStatusVariant = getBadgeVariant;
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'scheduled', label: 'Scheduled' },
+        { value: 'in_progress', label: 'In Progress' },
+        { value: 'completed', label: 'Completed' },
+      ],
+    },
+  ];
 
-  const getProgress = (item: ScheduleItem): number => {
-    if (item.status === 'completed') return 100;
-    if (item.status === 'in_progress') return 50;
-    return 0;
-  };
+  const rowActions: ListPageAction<ScheduleItem>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: () => {} },
+    { id: 'start', label: 'Start', icon: <Play className="h-4 w-4" />, onClick: () => {}, hidden: (item) => item.status !== 'scheduled' },
+    { id: 'complete', label: 'Complete', icon: <CheckCircle className="h-4 w-4" />, onClick: () => {}, hidden: (item) => item.status !== 'in_progress' },
+  ];
 
-  if (loading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Spinner variant="grey" size="lg" text="Loading schedule..." />
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container>
-            <EmptyState
-              title="Error Loading Schedule"
-              description={error instanceof Error ? error.message : String(error)}
-              action={{ label: "Retry", onClick: () => window.location.reload() }}
-            />
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const stats = [
+    { label: 'Total Items', value: summary?.total || 0 },
+    { label: 'In Progress', value: summary?.by_status?.in_progress || 0 },
+    { label: 'Scheduled', value: summary?.by_status?.scheduled || 0 },
+    { label: 'Completed', value: summary?.by_status?.completed || 0 },
+  ];
 
   return (
-    <>
-      <EnterprisePageHeader
-        title="Production Schedule"
-        subtitle="Manage production timeline and crew assignments"
-
-
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard
-                value={(summary?.total || 0).toString()}
-                label="Total Items"
-              />
-              <StatCard
-                value={(summary?.by_status?.in_progress || 0).toString()}
-                label="In Progress"
-              />
-              <StatCard
-                value={(summary?.by_status?.scheduled || 0).toString()}
-                label="Scheduled"
-              />
-              <StatCard
-                value={(summary?.by_status?.completed || 0).toString()}
-                label="Completed"
-              />
-            </Grid>
-
-            {schedule.length === 0 ? (
-              <EmptyState
-                title="No Schedule Items"
-                description="Create your first schedule item to get started"
-                action={{ label: "Add Item", onClick: () => {} }}
-              />
-            ) : (
-              <Stack gap={6}>
-                {schedule.map((item) => (
-                  <Card key={item.id}>
-                    <Stack gap={4}>
-                      <Stack gap={2} direction="horizontal" className="items-start justify-between">
-                        <Stack gap={2}>
-                          <H3>{item.title}</H3>
-                          <Body className="font-mono">
-                            {formatTime(item.start_time)} - {formatTime(item.end_time)}
-                          </Body>
-                        </Stack>
-                        <Stack gap={2} className="text-right">
-                          <Badge variant={getStatusVariant(item.status)}>
-                            {item.status?.replace('_', ' ').toUpperCase()}
-                          </Badge>
-                          <Body className="font-mono">
-                            {item.assignments?.length || 0} crew
-                          </Body>
-                        </Stack>
-                      </Stack>
-
-                      <ProgressBar value={getProgress(item)} size="lg" />
-                      <Body className="font-mono">
-                        {getProgress(item)}% complete
-                      </Body>
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            )}
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <ListPage<ScheduleItem>
+      title="Production Schedule"
+      subtitle="Manage production timeline and crew assignments"
+      data={schedule}
+      columns={columns}
+      rowKey="id"
+      loading={loading}
+      error={error}
+      onRetry={refetch}
+      searchPlaceholder="Search schedule..."
+      filters={filters}
+      rowActions={rowActions}
+      entityType="schedule"
+      onExport={createExportHandler({
+        filename: "schedule",
+        getData: () => schedule.map((item: ScheduleItem) => ({
+          title: item.title,
+          startTime: item.start_time,
+          endTime: item.end_time,
+          status: item.status,
+          assignments: item.assignments?.length || 0,
+        })),
+      })}
+      stats={stats}
+      emptyMessage="No schedule items found"
+      emptyAction={{ label: 'Add Item', onClick: () => {} }}
+      showFavorite
+      showSettings
+    />
   );
 }

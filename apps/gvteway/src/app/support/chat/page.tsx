@@ -1,312 +1,46 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { GvtewayLoadingLayout } from '@/components/app-layout';
-import {
-  H2,
-  H3,
-  Body,
-  Button,
-  Card,
-  Field,
-  Input,
-  Select,
-  Grid,
-  Stack,
-  Badge,
-  Box,
-  Modal,
-  Form,
-  Kicker,
-} from '@ghxstship/ui';
-import { useSupportChatData, type Conversation } from '@/hooks/useSupportChat';
-
-function SupportChatContent() {
-  const searchParams = useSearchParams();
-  const eventId = searchParams.get('event');
-  const orderId = searchParams.get('order');
-  
-  const [activeConversation, setActiveConversation] = useState<Conversation | null>(null);
-  const [newMessage, setNewMessage] = useState('');
-  const [showNewChat, setShowNewChat] = useState(false);
-  const [newSubject, setNewSubject] = useState('');
-  const [newCategory, setNewCategory] = useState('general');
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const {
-    conversations,
-    isLoading: loading,
-    refetch,
-    sendMessage,
-    isSending: sending,
-    createConversation,
-  } = useSupportChatData();
-
-  useEffect(() => {
-    if (conversations.length > 0 && !activeConversation) {
-      const open = conversations.find((c: Conversation) => c.status === 'open');
-      if (open) setActiveConversation(open);
-    }
-  }, [conversations, activeConversation]);
-
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [activeConversation?.messages]);
-
-  const handleSendMessage = async () => {
-    if (!newMessage.trim() || !activeConversation) return;
-
-    try {
-      await sendMessage({ conversationId: activeConversation.id, content: newMessage });
-      setNewMessage('');
-      refetch();
-    } catch {
-      // Error handled by hook
-    }
-  };
-
-  const handleStartNewChat = async () => {
-    if (!newSubject.trim()) return;
-
-    try {
-      const data = await createConversation({
-        subject: newSubject,
-        category: newCategory,
-        eventId: eventId || undefined,
-        orderId: orderId || undefined,
-      });
-      setShowNewChat(false);
-      setNewSubject('');
-      setNewCategory('general');
-      refetch();
-      setActiveConversation(data.conversation);
-    } catch {
-      // Error handled by hook
-    }
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'open':
-        return <Badge className="bg-success-500 text-white">Open</Badge>;
-      case 'waiting':
-        return <Badge className="bg-warning-500 text-white">Waiting</Badge>;
-      case 'resolved':
-        return <Badge className="bg-ink-500 text-white">Resolved</Badge>;
-      default:
-        return <Badge>{status}</Badge>;
-    }
-  };
-
-  if (loading) {
-    return <GvtewayLoadingLayout text="Loading..." />;
-  }
-
-  return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack direction="horizontal" className="items-center justify-between">
-              <Stack gap={2}>
-                <Kicker colorScheme="on-dark">Support</Kicker>
-                <H2 size="lg" className="text-white">Guest Services</H2>
-                <Body className="text-on-dark-muted">
-                  Chat with our support team
-                </Body>
-              </Stack>
-          <Button variant="solid" onClick={() => setShowNewChat(true)}>
-            New Conversation
-          </Button>
-        </Stack>
-
-        <Grid cols={3} gap={6} className="min-h-panel-lg">
-          <Card className="p-4 overflow-y-auto max-h-panel-lg">
-            <H3 className="mb-4">CONVERSATIONS</H3>
-            {conversations.length > 0 ? (
-              <Stack gap={2}>
-                {conversations.map((conv: Conversation) => (
-                  <Card
-                    key={conv.id}
-                    className={`p-3 cursor-pointer transition-colors ${
-                      activeConversation?.id === conv.id
-                        ? 'bg-black text-white'
-                        : 'hover:bg-ink-100'
-                    }`}
-                    onClick={() => setActiveConversation(conv)}
-                  >
-                    <Stack direction="horizontal" className="justify-between items-start mb-2">
-                      <Body className={`font-weight-medium ${
-                        activeConversation?.id === conv.id ? 'text-white' : ''
-                      }`}>
-                        {conv.subject}
-                      </Body>
-                      {getStatusBadge(conv.status)}
-                    </Stack>
-                    {conv.event_title && (
-                      <Body size="sm" className={
-                        activeConversation?.id === conv.id ? 'text-ink-600' : 'text-ink-500'
-                      }>
-                        {conv.event_title}
-                      </Body>
-                    )}
-                    <Body className={`text-mono-xs mt-1 ${
-                      activeConversation?.id === conv.id ? 'text-ink-600' : 'text-ink-600'
-                    }`}>
-                      {new Date(conv.created_at).toLocaleDateString()}
-                    </Body>
-                  </Card>
-                ))}
-              </Stack>
-            ) : (
-              <Body className="text-ink-500 text-center py-8">
-                No conversations yet
-              </Body>
-            )}
-          </Card>
-
-          <Card className="col-span-2 flex flex-col">
-            {activeConversation ? (
-              <>
-                <Stack className="p-4 border-b border-ink-200">
-                  <Stack direction="horizontal" className="justify-between items-center">
-                    <Stack>
-                      <H3>{activeConversation.subject}</H3>
-                      {activeConversation.event_title && (
-                        <Body size="sm" className=" text-ink-500">
-                          Re: {activeConversation.event_title}
-                        </Body>
-                      )}
-                    </Stack>
-                    {getStatusBadge(activeConversation.status)}
-                  </Stack>
-                </Stack>
-
-                <Stack className="flex-1 overflow-y-auto p-4 max-h-chat" gap={4}>
-                  {activeConversation.messages.map(message => (
-                    <Stack
-                      key={message.id}
-                      className={`max-w-[80%] ${
-                        message.sender === 'user' ? 'ml-auto' : ''
-                      }`}
-                    >
-                      {message.sender === 'system' ? (
-                        <Body className="text-center text-ink-500 py-2">
-                          {message.content}
-                        </Body>
-                      ) : (
-                        <Card
-                          className={`p-3 ${
-                            message.sender === 'user'
-                              ? 'bg-black text-white'
-                              : 'bg-ink-100'
-                          }`}
-                        >
-                          {message.sender === 'agent' && message.agent_name && (
-                            <Body className="text-mono-xs text-ink-500 mb-1">
-                              {message.agent_name}
-                            </Body>
-                          )}
-                          <Body className={message.sender === 'user' ? 'text-white' : ''}>
-                            {message.content}
-                          </Body>
-                          <Body className={`text-mono-xs mt-2 ${
-                            message.sender === 'user' ? 'text-ink-600' : 'text-ink-500'
-                          }`}>
-                            {new Date(message.timestamp).toLocaleTimeString()}
-                          </Body>
-                        </Card>
-                      )}
-                    </Stack>
-                  ))}
-                  <Box ref={messagesEndRef} />
-                </Stack>
-
-                {activeConversation.status !== 'resolved' && (
-                  <Stack className="p-4 border-t border-ink-200">
-                    <Form onSubmit={handleSendMessage}>
-                      <Stack direction="horizontal" gap={2}>
-                        <Input
-                          value={newMessage}
-                          onChange={(e) => setNewMessage(e.target.value)}
-                          placeholder="Type your message..."
-                          className="flex-1"
-                          disabled={sending}
-                        />
-                        <Button type="submit" variant="solid" disabled={sending || !newMessage.trim()}>
-                          {sending ? 'Sending...' : 'Send'}
-                        </Button>
-                      </Stack>
-                    </Form>
-                  </Stack>
-                )}
-              </>
-            ) : (
-              <Stack className="flex-1 items-center justify-center p-8">
-                <H3 className="mb-4">SELECT A CONVERSATION</H3>
-                <Body className="text-ink-600 text-center mb-6">
-                  Choose a conversation from the list or start a new one.
-                </Body>
-                <Button variant="solid" onClick={() => setShowNewChat(true)}>
-                  Start New Conversation
-                </Button>
-              </Stack>
-            )}
-          </Card>
-        </Grid>
-
-        <Modal open={showNewChat} onClose={() => setShowNewChat(false)} title="NEW CONVERSATION">
-          <Form onSubmit={handleStartNewChat}>
-            <Stack gap={4}>
-              <Field label="Subject" required>
-                <Input
-                  value={newSubject}
-                  onChange={(e) => setNewSubject(e.target.value)}
-                  placeholder="What do you need help with?"
-                  required
-                />
-              </Field>
-
-              <Field label="Category">
-                <Select
-                  value={newCategory}
-                  onChange={(e) => setNewCategory(e.target.value)}
-                >
-                  <option value="general">General Inquiry</option>
-                  <option value="tickets">Tickets & Orders</option>
-                  <option value="refunds">Refunds & Exchanges</option>
-                  <option value="accessibility">Accessibility</option>
-                  <option value="venue">Venue Information</option>
-                  <option value="technical">Technical Support</option>
-                </Select>
-              </Field>
-
-              <Stack direction="horizontal" gap={4}>
-                <Button type="submit" variant="solid" disabled={sending}>
-                  {sending ? 'Creating...' : 'Start Chat'}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setShowNewChat(false)}
-                >
-                  Cancel
-                </Button>
-              </Stack>
-            </Stack>
-          </Form>
-        </Modal>
-          </Stack>
-    </>
-  );
-}
+import { useState } from "react";
+import { Send, List } from "lucide-react";
+import { Body, Button, Card, Input, DetailPage, Section } from "@ghxstship/ui";
 
 export default function SupportChatPage() {
-  return (
-    <Suspense fallback={<GvtewayLoadingLayout text="Loading..." />}>
-      <SupportChatContent />
-    </Suspense>
-  );
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState<{ id: string; text: string; isUser: boolean }[]>([
+    { id: "1", text: "Hi! How can I help you today?", isUser: false },
+  ]);
+
+  const sendMessage = () => {
+    if (!message.trim()) return;
+    setMessages((prev) => [...prev, { id: Date.now().toString(), text: message, isUser: true }]);
+    setMessage("");
+    setTimeout(() => {
+      setMessages((prev) => [...prev, { id: (Date.now() + 1).toString(), text: "Thanks for your message! A support agent will respond shortly.", isUser: false }]);
+    }, 1000);
+  };
+
+  const tabs = [{
+    id: "chat", label: "Chat", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <Card className="p-4 h-96 overflow-y-auto mb-4">
+          <div className="space-y-4">
+            {messages.map((msg) => (
+              <div key={msg.id} className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}>
+                <div className={`max-w-xs p-3 rounded-lg ${msg.isUser ? "bg-primary text-white" : "bg-grey-800"}`}>
+                  <Body size="sm">{msg.text}</Body>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+        <div className="flex gap-2">
+          <Input placeholder="Type your message..." value={message} onChange={(e) => setMessage(e.target.value)} onKeyDown={(e) => e.key === "Enter" && sendMessage()} className="flex-1" />
+          <Button variant="solid" icon={<Send className="size-4" />} onClick={sendMessage} disabled={!message.trim()}>Send</Button>
+        </div>
+      </Section>
+    ),
+  }];
+
+  return <DetailPage header={{ kicker: "Support", title: "Live Chat", description: "Chat with our support team" }} backButton={{ label: "Help", href: "/help" }} tabs={tabs} />;
 }

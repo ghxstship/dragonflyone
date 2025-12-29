@@ -93,7 +93,10 @@ export function useCreateCrmEvent() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createEvent,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['crm-calendar'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['crm-calendar'] });
+      queryClient.invalidateQueries({ queryKey: ['master-calendar'] });
+    },
   });
 }
 
@@ -101,7 +104,10 @@ export function useUpdateCrmEvent() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: Partial<CrmCalendarEvent> }) => updateEvent(id, data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['crm-calendar'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['crm-calendar'] });
+      queryClient.invalidateQueries({ queryKey: ['master-calendar'] });
+    },
   });
 }
 
@@ -109,7 +115,10 @@ export function useDeleteCrmEvents() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteEvents,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['crm-calendar'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['crm-calendar'] });
+      queryClient.invalidateQueries({ queryKey: ['master-calendar'] });
+    },
   });
 }
 

@@ -1,185 +1,126 @@
-import { AtlvsAppLayout } from "../../components/app-layout";
+"use client";
+
+/**
+ * Press Page
+ * Press releases and media resources
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useRouter } from "next/navigation";
+import { Download, Mail, Calendar, List, Image as ImageIcon } from "lucide-react";
 import {
-  Stack,
-  Grid,
-  Card,
+  Badge,
   Body,
-  H1,
-  H3,
-  Label,
-  Container,
-  Display,
   Button,
-  FullBleedSection,
+  Card,
+  Grid,
+  DetailPage,
+  Section,
+  SectionHeader,
 } from "@ghxstship/ui";
-import { Download, ExternalLink, Calendar, ArrowRight } from "lucide-react";
-import NextLink from "next/link";
 
-export const runtime = "edge";
+interface PressRelease {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  category: string;
+}
 
-const pressData = {
-  hero: {
-    headline: "PRESS & MEDIA",
-    description: "News, announcements, and resources for journalists and media professionals.",
-  },
-  featuredNews: [
-    {
-      date: "December 2024",
-      title: "ATLVS Raises $12M Series A to Transform Production Management",
-      source: "TechCrunch",
-      excerpt: "The Miami-based startup is revolutionizing how live events and productions are managed with its comprehensive platform.",
-      link: "#",
-    },
-    {
-      date: "November 2024",
-      title: "How ATLVS is Powering the World's Biggest Festivals",
-      source: "Billboard",
-      excerpt: "From III Points to Formula 1, ATLVS has become the go-to platform for production professionals.",
-      link: "#",
-    },
-    {
-      date: "October 2024",
-      title: "The Future of Event Production is Here",
-      source: "Event Industry News",
-      excerpt: "ATLVS combines project management, finance, and crew coordination into one powerful platform.",
-      link: "#",
-    },
-  ],
-  pressReleases: [
-    { date: "Dec 1, 2024", title: "ATLVS Announces Integration with Major Ticketing Platforms" },
-    { date: "Nov 15, 2024", title: "ATLVS Expands to European Market" },
-    { date: "Oct 28, 2024", title: "ATLVS Launches Mobile App for On-Site Production Management" },
-    { date: "Sep 10, 2024", title: "ATLVS Partners with Live Nation for Enterprise Deployment" },
-  ],
-  mediaKit: {
-    title: "MEDIA KIT",
-    description: "Download logos, brand guidelines, and executive headshots for press use.",
-    items: ["Logo Pack (SVG, PNG)", "Brand Guidelines", "Executive Bios", "Product Screenshots"],
-  },
-  contact: {
-    name: "Press Inquiries",
-    email: "press@atlvs.io",
-  },
-};
+const PRESS_RELEASES: PressRelease[] = [
+  { id: "1", title: "ATLVS Raises $50M Series B to Expand Production Platform", date: "2024-12-01", excerpt: "Funding will accelerate product development and global expansion...", category: "Funding" },
+  { id: "2", title: "ATLVS Named Leader in Production Management Software", date: "2024-11-15", excerpt: "Industry analysts recognize ATLVS for innovation and customer satisfaction...", category: "Awards" },
+  { id: "3", title: "ATLVS Launches Real-time Collaboration Features", date: "2024-10-20", excerpt: "New features enable teams to work together seamlessly...", category: "Product" },
+  { id: "4", title: "ATLVS Partners with Major Festival Organizers", date: "2024-09-10", excerpt: "Strategic partnerships expand reach in live events industry...", category: "Partnership" },
+];
+
+const MEDIA_ASSETS = [
+  { name: "Logo Pack", description: "ATLVS logos in various formats", format: "ZIP" },
+  { name: "Brand Guidelines", description: "Official brand usage guidelines", format: "PDF" },
+  { name: "Product Screenshots", description: "High-resolution product images", format: "ZIP" },
+  { name: "Executive Photos", description: "Leadership team headshots", format: "ZIP" },
+];
 
 export default function PressPage() {
-  return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={8} className="max-w-3xl">
-            <Label size="xs" className="text-on-dark-muted">
-              NEWSROOM
-            </Label>
-            <Display size="lg" className="text-white">
-              {pressData.hero.headline}
-            </Display>
-            <Body size="lg" className="text-on-dark-secondary">
-              {pressData.hero.description}
-            </Body>
-          </Stack>
-        </Container>
-      </FullBleedSection>
+  const router = useRouter();
 
-      {/* Featured News */}
-      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-16">
-            <H1 className="text-ink-950">IN THE NEWS</H1>
-          </Stack>
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 
-          <Grid cols={3} gap={6} className="sm:grid-cols-1">
-            {pressData.featuredNews.map((item) => (
-              <Card key={item.title} className="border-2 border-ink-950 bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
-                <Stack gap={4}>
-                  <Stack direction="horizontal" gap={2} className="items-center">
-                    <Calendar className="size-4 text-grey-400" />
-                    <Label size="xs" className="text-grey-500">{item.date}</Label>
-                    <Label size="xs" className="text-brand-pink">{item.source}</Label>
-                  </Stack>
-                  <H3 size="sm" className="text-ink-950">
-                    {item.title}
-                  </H3>
-                  <Body size="sm" className="text-grey-600">
-                    {item.excerpt}
-                  </Body>
-                  <NextLink href={item.link} className="inline-flex items-center gap-1 text-brand-pink">
-                    <Label size="xs">Read More</Label>
-                    <ExternalLink className="size-3" />
-                  </NextLink>
-                </Stack>
+  const tabs = [
+    {
+      id: "releases",
+      label: "Press Releases",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <div className="space-y-4">
+            {PRESS_RELEASES.map((release) => (
+              <Card key={release.id} className="p-6 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/press/${release.id}`)}>
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge variant="outline">{release.category}</Badge>
+                      <div className="flex items-center gap-1 text-grey-500">
+                        <Calendar className="size-4" />
+                        <Body size="sm">{formatDate(release.date)}</Body>
+                      </div>
+                    </div>
+                    <Body className="font-weight-bold mb-2">{release.title}</Body>
+                    <Body className="text-grey-400">{release.excerpt}</Body>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "media",
+      label: "Media Kit",
+      icon: <ImageIcon className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Media Resources" description="Download official ATLVS brand assets" />
+          <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2 mt-6">
+            {MEDIA_ASSETS.map((asset, idx) => (
+              <Card key={idx} className="p-6">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <Body className="font-weight-bold">{asset.name}</Body>
+                    <Body size="sm" className="text-grey-400">{asset.description}</Body>
+                    <Badge variant="outline" className="mt-2">{asset.format}</Badge>
+                  </div>
+                  <Button variant="outline" size="sm" icon={<Download className="size-4" />} iconPosition="left">Download</Button>
+                </div>
               </Card>
             ))}
           </Grid>
-        </Container>
-      </FullBleedSection>
 
-      {/* Press Releases */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-          <Grid cols={2} gap={12} className="sm:grid-cols-1">
-            <Stack gap={8}>
-              <H1 className="text-ink-950">PRESS RELEASES</H1>
-              <Stack gap={4}>
-                {pressData.pressReleases.map((release) => (
-                  <Card key={release.title} className="border-2 border-ink-950 bg-white p-4 shadow-sm transition-all hover:shadow-md">
-                    <Stack direction="horizontal" className="items-center justify-between gap-4">
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-grey-500">{release.date}</Label>
-                        <Body size="sm" className="text-ink-950">{release.title}</Body>
-                      </Stack>
-                      <ArrowRight className="size-4 text-grey-400" />
-                    </Stack>
-                  </Card>
-                ))}
-              </Stack>
-            </Stack>
+          <Card className="p-6 mt-8">
+            <SectionHeader title="Press Contact" />
+            <div className="flex items-center gap-4 mt-4">
+              <div className="p-3 bg-primary/20 rounded-card"><Mail className="size-6 text-primary" /></div>
+              <div>
+                <Body className="font-weight-medium">Media Inquiries</Body>
+                <Body size="sm" className="text-grey-400">press@atlvs.com</Body>
+              </div>
+            </div>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
-            {/* Media Kit */}
-            <Card className="border-2 border-ink-950 bg-grey-100 p-8 shadow-lg">
-              <Stack gap={6}>
-                <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-white">
-                  <Download className="size-6 text-ink-950" />
-                </Stack>
-                <H3 className="text-ink-950">{pressData.mediaKit.title}</H3>
-                <Body size="sm" className="text-grey-600">
-                  {pressData.mediaKit.description}
-                </Body>
-                <Stack gap={2}>
-                  {pressData.mediaKit.items.map((item) => (
-                    <Label key={item} size="xs" className="text-grey-500">
-                      {item}
-                    </Label>
-                  ))}
-                </Stack>
-                <Button variant="pop" size="md" icon={<Download />}>
-                  Download Media Kit
-                </Button>
-              </Stack>
-            </Card>
-          </Grid>
-        </Container>
-      </FullBleedSection>
-
-      {/* Contact */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Stack gap={8} className="items-center">
-            <Display size="md" className="text-white">
-              PRESS INQUIRIES
-            </Display>
-            <Body size="lg" className="text-on-dark-secondary">
-              For media inquiries, interviews, or additional information, please contact our press team.
-            </Body>
-            <NextLink href={`mailto:${pressData.contact.email}`}>
-              <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                {pressData.contact.email}
-              </Button>
-            </NextLink>
-          </Stack>
-        </Container>
-      </FullBleedSection>
-    </AtlvsAppLayout>
+  return (
+    <DetailPage
+      header={{
+        kicker: "Company",
+        title: "Press & Media",
+        description: "News, press releases, and media resources",
+      }}
+      tabs={tabs}
+      actions={<Button variant="outline" onClick={() => router.push("/contact")}>Media Inquiries</Button>}
+    />
   );
 }

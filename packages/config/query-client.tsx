@@ -46,14 +46,12 @@ export function makeQueryClient() {
     defaultOptions: defaultQueryOptions,
     queryCache: new QueryCache({
       onError: (error, query) => {
-        console.error('Query error:', error);
-        console.error('Query key:', query.queryKey);
+        logger.error('Query error', error instanceof Error ? error : undefined, { queryKey: query.queryKey });
       },
     }),
     mutationCache: new MutationCache({
       onError: (error, _variables, _context, mutation) => {
-        console.error('Mutation error:', error);
-        console.error('Mutation key:', mutation.options.mutationKey);
+        logger.error('Mutation error', error instanceof Error ? error : undefined, { mutationKey: mutation.options.mutationKey });
       },
       onSuccess: (_data, _variables, _context, mutation) => {
         logger.debug('Mutation success', { mutationKey: mutation.options.mutationKey });

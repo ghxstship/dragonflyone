@@ -1,14 +1,49 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createPlanSchema = z.object({
+  action: z.literal('create_plan'),
+  event_id: z.string().uuid(),
+  capture_type: z.string(),
+  requirements: z.string().optional(),
+  positions: z.array(z.object({
+    position: z.string(),
+    time_slot: z.string().optional(),
+  })).optional(),
+});
+
+const uploadSchema = z.object({
+  action: z.literal('upload'),
+  event_id: z.string().uuid().optional(),
+  capture_id: z.string().uuid(),
+  media_url: z.string().url(),
+  media_type: z.string(),
+  timestamp: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+const captureActionSchema = z.union([createPlanSchema, uploadSchema]);
 
 // Performance capture coordination (photo/video)
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
@@ -27,17 +62,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action, event_id } = body;
+    const validatedData = captureActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create_plan') {
-      const { capture_type, requirements, positions } = body;
+      const { event_id, capture_type, requirements, positions } = validatedData as z.infer<typeof createPlanSchema>;
 
       const { data, error } = await supabase.from('performance_captures').insert({
         event_id, capture_type, requirements, status: 'planned', created_by: user.id
@@ -55,7 +97,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'upload') {
-      const { capture_id, media_url, media_type, timestamp, notes } = body;
+      const { capture_id, media_url, media_type, timestamp, notes } = validatedData as z.infer<typeof uploadSchema>;
 
       const { data, error } = await supabase.from('captured_media').insert({
         capture_id, media_url, media_type, timestamp, notes, uploaded_by: user.id

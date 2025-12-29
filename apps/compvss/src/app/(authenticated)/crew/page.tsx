@@ -21,7 +21,15 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
+
+// Roles that can manage crew (COMPVSS has no SUPER_ADMIN, only ADMIN)
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 interface CrewMember {
   id: string;
@@ -49,11 +57,12 @@ const columns: ListPageColumn<CrewMember>[] = [
     label: 'Status', 
     accessor: 'availability', 
     sortable: true,
-    render: (value) => (
-      <Badge variant={value === "Available" ? "solid" : "outline"}>
-        {String(value).toUpperCase()}
-      </Badge>
-    )
+    render: (value) => {
+      // Schema: availability enum 'available' | 'busy' | 'on-leave'
+      const variant = value === 'available' ? 'success' : value === 'busy' ? 'warning' : 'outline';
+      const label = value === 'available' ? 'Available' : value === 'busy' ? 'Busy' : 'On Leave';
+      return <Badge variant={variant}>{label.toUpperCase()}</Badge>;
+    }
   },
   { 
     key: 'rate', 
@@ -87,10 +96,11 @@ const filters: ListPageFilter[] = [
   {
     key: 'availability',
     label: 'Availability',
+    // Schema: availability enum from useCrew hook: 'available' | 'busy' | 'on-leave'
     options: [
-      { value: 'Available', label: 'Available' },
-      { value: 'Booked', label: 'Booked' },
-      { value: 'Unavailable', label: 'Unavailable' },
+      { value: 'available', label: 'Available' },
+      { value: 'busy', label: 'Busy' },
+      { value: 'on-leave', label: 'On Leave' },
     ]
   },
 ];
@@ -108,9 +118,10 @@ const formFields: FormFieldConfig[] = [
   ]},
   { name: 'rate', label: 'Day Rate ($)', type: 'number', required: true },
   { name: 'availability', label: 'Availability', type: 'select', options: [
-    { value: 'Available', label: 'Available' },
-    { value: 'Booked', label: 'Booked' },
-    { value: 'Unavailable', label: 'Unavailable' },
+    // Schema: availability enum from useCrew hook: 'available' | 'busy' | 'on-leave'
+    { value: 'available', label: 'Available' },
+    { value: 'busy', label: 'Busy' },
+    { value: 'on-leave', label: 'On Leave' },
   ]},
   { name: 'location', label: 'Location', type: 'text' },
   { name: 'phone', label: 'Phone', type: 'text' },
@@ -119,7 +130,11 @@ const formFields: FormFieldConfig[] = [
 
 export default function CrewPage() {
   const router = useRouter();
-  const { data: crewData, isLoading, refetch } = useCrew();
+  const { hasRole } = useAuthContext();
+  const { data: crewData, isLoading, error, refetch } = useCrew();
+
+  // RBAC: Check if user has admin access for manage operations
+  const canManageCrew = ADMIN_ROLES.some(role => hasRole(role));
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState<CrewMember | null>(null);
@@ -127,13 +142,14 @@ export default function CrewPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [memberToDelete, setMemberToDelete] = useState<CrewMember | null>(null);
 
-  // Map API data to local interface
+  // Map API data to local interface - preserve schema values for filtering
   const crewList: CrewMember[] = (crewData || []).map(c => ({
     id: c.id,
     name: c.full_name,
     role: c.role,
     department: c.department,
-    availability: c.availability === 'available' ? 'Available' : c.availability === 'busy' ? 'Booked' : 'Unavailable',
+    // Keep schema values: 'available' | 'busy' | 'on-leave'
+    availability: c.availability,
     rate: c.rate,
     rating: c.rating || 0,
     projectsCompleted: c.projects_completed || 0,
@@ -146,15 +162,21 @@ export default function CrewPage() {
 
   const rowActions: ListPageAction<CrewMember>[] = [
     { id: 'view', label: 'View Profile', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedMember(row); setDrawerOpen(true); } },
-    { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" />, onClick: (row) => router.push(`/crew/assign?member=${row.id}`) },
-    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row) => router.push(`/crew/${row.id}/edit`) },
-    { id: 'delete', label: 'Remove', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setMemberToDelete(row); setDeleteConfirmOpen(true); } },
+    ...(canManageCrew ? [
+      { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" />, onClick: (row: CrewMember) => router.push(`/crew/assign?member=${row.id}`) },
+      { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row: CrewMember) => router.push(`/crew/${row.id}/edit`) },
+      { id: 'delete', label: 'Remove', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (row: CrewMember) => { setMemberToDelete(row); setDeleteConfirmOpen(true); } },
+    ] : []),
   ];
 
   const bulkActions: ListPageBulkAction[] = [
-    { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" /> },
+    ...(canManageCrew ? [
+      { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" /> },
+    ] : []),
     { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
-    { id: 'remove', label: 'Remove', icon: <Trash2 className="size-4" />, variant: 'danger' },
+    ...(canManageCrew ? [
+      { id: 'remove', label: 'Remove', icon: <Trash2 className="size-4" />, variant: 'danger' as const },
+    ] : []),
   ];
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
@@ -174,24 +196,56 @@ export default function CrewPage() {
     }
   };
 
-  const handleCreate = async (_data: Record<string, unknown>) => {
-    // In production, this would call the API to create the crew member
-    // For now, just refetch to get any new data
-    await refetch();
-    setCreateModalOpen(false);
+  const handleCreate = async (data: Record<string, unknown>) => {
+    try {
+      const response = await fetch('/api/crew', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          // Map frontend field names to API schema
+          first_name: (data.name as string)?.split(' ')[0] || '',
+          last_name: (data.name as string)?.split(' ').slice(1).join(' ') || '',
+          skills: [],
+          certifications: [],
+          metadata: {},
+        }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create crew member');
+      }
+      await refetch();
+      setCreateModalOpen(false);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create crew member';
+      alert(errorMessage);
+    }
   };
 
   const handleDelete = async () => {
     if (memberToDelete) {
-      // In production, this would call the API to delete the crew member
-      await refetch();
+      try {
+        const response = await fetch(`/api/crew/${memberToDelete.id}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to delete crew member');
+        }
+        await refetch();
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to delete crew member';
+        alert(errorMessage);
+      }
       setDeleteConfirmOpen(false);
       setMemberToDelete(null);
     }
   };
 
-  const availableCount = crewList.filter((c) => c.availability === "Available").length;
-  const bookedCount = crewList.filter((c) => c.availability === "Booked").length;
+  // Schema: availability enum 'available' | 'busy' | 'on-leave'
+  const availableCount = crewList.filter((c) => c.availability === "available").length;
+  const bookedCount = crewList.filter((c) => c.availability === "busy").length;
   const avgRating = crewList.length > 0 
     ? (crewList.reduce((sum, c) => sum + (c.rating || 0), 0) / crewList.length).toFixed(1)
     : '0';
@@ -286,14 +340,16 @@ export default function CrewPage() {
         columns={columns}
         rowKey="id"
         loading={isLoading}
+        error={error}
+        onRetry={refetch}
         searchPlaceholder="Search by name, role, or specialty..."
         filters={filters}
         rowActions={rowActions}
         bulkActions={bulkActions}
         onBulkAction={handleBulkAction}
         onRowClick={(row) => { setSelectedMember(row); setDrawerOpen(true); }}
-        createLabel="Add Crew"
-        onCreate={() => setCreateModalOpen(true)}
+        createLabel={canManageCrew ? "Add Crew" : undefined}
+        onCreate={canManageCrew ? () => setCreateModalOpen(true) : undefined}
         entityType="crew"
         onImport={handleImport}
         importTemplates={importTemplates}
@@ -315,7 +371,7 @@ export default function CrewPage() {
         })}
         stats={stats}
         emptyMessage="No crew members found"
-        emptyAction={{ label: 'Add Crew Member', onClick: () => setCreateModalOpen(true) }}
+        emptyAction={canManageCrew ? { label: 'Add Crew Member', onClick: () => setCreateModalOpen(true) } : undefined}
 showFavorite
         showSettings
       />

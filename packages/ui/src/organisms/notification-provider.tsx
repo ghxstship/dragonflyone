@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo, ReactNode } from 'react';
 import { NotificationToast, Toast } from '../molecules/notification-toast.js';
 
 interface NotificationContextType {
@@ -38,8 +38,13 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   }, []);
 
+  const value = useMemo<NotificationContextType>(() => ({
+    addNotification,
+    removeNotification,
+  }), [addNotification, removeNotification]);
+
   return (
-    <NotificationContext.Provider value={{ addNotification, removeNotification }}>
+    <NotificationContext.Provider value={value}>
       {children}
       
       {/* Toast Container */}

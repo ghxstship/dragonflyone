@@ -1,14 +1,53 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createSchema = z.object({
+  action: z.literal('create'),
+  rfp_id: z.string().uuid(),
+  title: z.string().min(1),
+  content: z.string(),
+  collaborators: z.array(z.object({
+    user_id: z.string().uuid(),
+    role: z.string().optional(),
+  })).optional(),
+});
+
+const saveVersionSchema = z.object({
+  action: z.literal('save_version'),
+  proposal_id: z.string().uuid(),
+  content: z.string(),
+  comment: z.string().optional(),
+});
+
+const addCollaboratorSchema = z.object({
+  action: z.literal('add_collaborator'),
+  proposal_id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  role: z.string().optional(),
+});
+
+const proposalActionSchema = z.union([createSchema, saveVersionSchema, addCollaboratorSchema]);
 
 // Collaborative proposal creation with version control
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const proposalId = searchParams.get('proposal_id');
@@ -38,17 +77,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = proposalActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create') {
-      const { rfp_id, title, content, collaborators } = body;
+      const { rfp_id, title, content, collaborators } = validatedData as z.infer<typeof createSchema>;
 
       const { data, error } = await supabase.from('proposals').insert({
         rfp_id, title, content, status: 'draft', created_by: user.id
@@ -75,7 +121,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'save_version') {
-      const { proposal_id, content, comment } = body;
+      const { proposal_id, content, comment } = validatedData as z.infer<typeof saveVersionSchema>;
 
       // Get latest version number
       const { data: latest } = await supabase.from('proposal_versions').select('version_number')
@@ -96,7 +142,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'add_collaborator') {
-      const { proposal_id, user_id, role } = body;
+      const { proposal_id, user_id, role } = validatedData as z.infer<typeof addCollaboratorSchema>;
 
       await supabase.from('proposal_collaborators').insert({ proposal_id, user_id, role: role || 'editor' });
       return NextResponse.json({ success: true });

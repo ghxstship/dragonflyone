@@ -2,6 +2,19 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+import { withAuth, PlatformRole } from '@ghxstship/config';
+
+const ANALYTICS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
+const createAlertSchema = z.object({
+  metric: z.string().min(1),
+  threshold: z.number(),
+  notification_channels: z.array(z.string()).optional(),
+});
 
 interface EmployeeData {
   first_name: string;
@@ -11,6 +24,15 @@ interface EmployeeData {
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ANALYTICS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Analytics access required' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
 
@@ -123,6 +145,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
   } catch (error) {
+    logger.error('Anomaly detection GET error:', error);
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
@@ -130,8 +153,18 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ANALYTICS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Analytics access required' }, { status: 403 });
+    }
+
     const body = await request.json();
-    const { metric, threshold, notification_channels } = body;
+    const validatedData = createAlertSchema.parse(body);
+    const { metric, threshold, notification_channels } = validatedData;
 
     const { data: alert, error } = await supabase
       .from('anomaly_alerts')
@@ -149,6 +182,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ alert }, { status: 201 });
   } catch (error) {
+    logger.error('Anomaly detection POST error:', error);
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

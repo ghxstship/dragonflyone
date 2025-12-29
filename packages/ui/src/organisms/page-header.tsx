@@ -184,12 +184,16 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
       >
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
-          <div className={clsx(
-            "flex items-center gap-1 px-6 py-2 text-sm border-b",
-            inverted ? "border-ink-800/50" : "border-ink-100"
-          )}>
+          <nav 
+            aria-label="Breadcrumb"
+            className={clsx(
+              "flex items-center gap-1 px-6 py-2 text-sm border-b",
+              inverted ? "border-ink-800/50" : "border-ink-100"
+            )}
+          >
+            <ol className="flex items-center gap-1">
             {breadcrumbs.map((crumb, index) => (
-              <div key={index} className="flex items-center gap-1">
+              <li key={index} className="flex items-center gap-1">
                 {index > 0 && (
                   <ChevronRight 
                     size={14} 
@@ -214,13 +218,14 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                     {crumb.label}
                   </a>
                 ) : (
-                  <span className={inverted ? "text-ink-300" : "text-ink-700"}>
+                  <span className={inverted ? "text-ink-300" : "text-ink-700"} aria-current={index === breadcrumbs.length - 1 ? "page" : undefined}>
                     {crumb.label}
                   </span>
                 )}
-              </div>
+              </li>
             ))}
-          </div>
+            </ol>
+          </nav>
         )}
 
         {/* Main Header Row */}
@@ -326,6 +331,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                       type="button"
                       onClick={() => { setShowSearch(false); onSearchChange?.(""); }}
                       className={inverted ? "text-ink-500 hover:text-ink-300" : "text-ink-400 hover:text-ink-600"}
+                      aria-label="Clear search"
                     >
                       <X size={16} />
                     </button>
@@ -353,6 +359,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
               <button
                 type="button"
                 onClick={onFilterClick}
+                aria-label={filterCount > 0 ? `Filter (${filterCount} active)` : "Filter"}
                 className={clsx(
                   "flex items-center gap-1.5 px-3 py-2 rounded border-2 text-sm font-medium transition-colors",
                   filterCount > 0
@@ -364,7 +371,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                       : "border-ink-200 text-ink-500 hover:text-ink-700 hover:border-ink-300"
                 )}
               >
-                <Filter size={16} />
+                <Filter size={16} aria-hidden="true" />
                 <span>Filter</span>
                 {filterCount > 0 && (
                   <span className={clsx(
@@ -502,16 +509,24 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
 
         {/* Tabs Row */}
         {tabs && tabs.length > 0 && (
-          <div className={clsx(
-            "flex items-center gap-1 px-6 overflow-x-auto",
-            inverted ? "border-t border-ink-800/50" : "border-t border-ink-100"
-          )}>
+          <div 
+            role="tablist"
+            aria-label="Page sections"
+            className={clsx(
+              "flex items-center gap-1 px-6 overflow-x-auto",
+              inverted ? "border-t border-ink-800/50" : "border-t border-ink-100"
+            )}
+          >
             {tabs.map((tab) => {
               const isActive = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={`tabpanel-${tab.id}`}
+                  id={`tab-${tab.id}`}
                   onClick={() => onTabChange?.(tab.id)}
                   className={clsx(
                     "flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 -mb-[2px] transition-colors whitespace-nowrap",
@@ -524,7 +539,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                         : "border-transparent text-ink-500 hover:text-ink-700"
                   )}
                 >
-                  {tab.icon}
+                  {tab.icon && <span aria-hidden="true">{tab.icon}</span>}
                   {tab.label}
                   {tab.count !== undefined && (
                     <span className={clsx(

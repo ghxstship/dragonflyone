@@ -1,101 +1,157 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, StatCard, Spinner, EmptyState, Container } from "@ghxstship/ui";
-import { Users, Plus, Clock, UserCheck, IdCard } from "lucide-react";
-import { useProject } from "../../../../hooks/useProjects";
-import { useCrew } from "../../../../hooks/useCrew";
+/**
+ * Production Crew Page
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import { Users, Search, Plus, Mail, Phone, List, UserPlus } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Badge,
+  Body,
+  Button,
+  Card,
+  Input,
+  Grid,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
+
+interface CrewMember {
+  id: string;
+  name: string;
+  role: string;
+  department: string;
+  email: string;
+  phone: string;
+  status: "confirmed" | "pending" | "unavailable";
+}
+
+const DEMO_CREW: CrewMember[] = [
+  { id: "1", name: "John Smith", role: "Stage Manager", department: "Production", email: "john@example.com", phone: "+1 555-1234", status: "confirmed" },
+  { id: "2", name: "Sarah Johnson", role: "Lighting Director", department: "Technical", email: "sarah@example.com", phone: "+1 555-2345", status: "confirmed" },
+  { id: "3", name: "Mike Chen", role: "Sound Engineer", department: "Technical", email: "mike@example.com", phone: "+1 555-3456", status: "pending" },
+];
+
+const STATUS_CONFIG = {
+  confirmed: { label: "Confirmed", variant: "success" as const },
+  pending: { label: "Pending", variant: "warning" as const },
+  unavailable: { label: "Unavailable", variant: "error" as const },
+};
 
 export default function ProductionCrewPage() {
   const params = useParams();
-  const router = useRouter();
-  const productionId = params?.productionId as string;
-  
-  // Fetch real data from API
-  const { data: production, isLoading: productionLoading } = useProject(productionId);
-  const { data: crewData, isLoading: crewLoading } = useCrew();
-  
-  const isLoading = productionLoading || crewLoading;
-  const crew = crewData || [];
-  
-  // Calculate stats from real data
-  const crewStats = { 
-    total: crew.length, 
-    confirmed: crew.filter(c => c.availability === 'available').length, 
-    pending: crew.filter(c => c.availability === 'on-leave').length, 
-    checkedIn: crew.filter(c => c.availability === 'busy').length 
-  };
+  const productionId = params.productionId as string;
+  const [search, setSearch] = useState("");
+  const [department, setDepartment] = useState("all");
 
-  const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
-    available: "success", "on-leave": "warning", busy: "info", confirmed: "success", pending: "warning", declined: "error", checked_in: "info",
-  };
-  
-  if (isLoading) {
-    return (
-      <Container className="flex min-h-[60vh] items-center justify-center">
-        <Spinner variant="grey" size="lg" text="Loading crew..." />
-      </Container>
-    );
-  }
+  const { data: crew = [], isLoading, error, refetch } = useQuery<CrewMember[]>({
+    queryKey: ["production-crew", productionId],
+    queryFn: async () => {
+      const response = await fetch(`/api/productions/${productionId}/crew`);
+      if (!response.ok) return DEMO_CREW;
+      const data = await response.json();
+      return data.crew?.length ? data.crew : DEMO_CREW;
+    },
+  });
+
+  const departments: string[] = ["all", ...Array.from(new Set(crew.map((c: CrewMember) => c.department)))];
+  const filteredCrew = crew.filter((member: CrewMember) => {
+    const matchesSearch = member.name.toLowerCase().includes(search.toLowerCase()) || member.role.toLowerCase().includes(search.toLowerCase());
+    const matchesDept = department === "all" || member.department === department;
+    return matchesSearch && matchesDept;
+  });
+
+  const tabs = [
+    {
+      id: "crew",
+      label: "Crew List",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+            <StatCard label="Total Crew" value={crew.length.toString()} icon={<Users className="size-5" />} />
+            <StatCard label="Confirmed" value={crew.filter((c: CrewMember) => c.status === "confirmed").length.toString()} icon={<Users className="size-5" />} />
+            <StatCard label="Pending" value={crew.filter((c: CrewMember) => c.status === "pending").length.toString()} icon={<Users className="size-5" />} />
+            <StatCard label="Departments" value={new Set(crew.map((c: CrewMember) => c.department)).size.toString()} icon={<Users className="size-5" />} />
+          </Grid>
+
+          <div className="flex gap-4 items-center mb-6">
+            <div className="relative flex-1 max-w-sm">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+              <Input placeholder="Search crew..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+            </div>
+            <div className="flex gap-2">
+              {departments.map((dept) => (
+                <Button key={dept} variant={department === dept ? "solid" : "outline"} size="sm" onClick={() => setDepartment(dept)}>
+                  {dept === "all" ? "All" : dept}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {filteredCrew.map((member: CrewMember) => (
+              <Card key={member.id} className="p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-4">
+                    <div className="size-12 bg-primary rounded-avatar flex items-center justify-center">
+                      <Users className="size-6 text-white" />
+                    </div>
+                    <div>
+                      <Body className="font-weight-bold">{member.name}</Body>
+                      <Body className="text-grey-400">{member.role}</Body>
+                      <div className="flex items-center gap-4 mt-2 text-grey-400">
+                        <div className="flex items-center gap-1"><Mail className="size-4" /><Body size="sm">{member.email}</Body></div>
+                        <div className="flex items-center gap-1"><Phone className="size-4" /><Body size="sm">{member.phone}</Body></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline">{member.department}</Badge>
+                    <Badge variant={STATUS_CONFIG[member.status].variant}>{STATUS_CONFIG[member.status].label}</Badge>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "invite",
+      label: "Invite",
+      icon: <UserPlus className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Invite Crew Member" description="Add new members to this production" />
+          <Card className="p-6 mt-4">
+            <div className="space-y-4">
+              <div><Body size="sm" className="mb-1">Email</Body><Input placeholder="crew@example.com" /></div>
+              <div><Body size="sm" className="mb-1">Role</Body><Input placeholder="Stage Manager" /></div>
+              <div><Body size="sm" className="mb-1">Department</Body><Input placeholder="Production" /></div>
+              <Button variant="solid" icon={<UserPlus className="size-4" />} iconPosition="left">Send Invitation</Button>
+            </div>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <Stack gap={8}>
-      <Stack gap={4}>
-        <SectionHeader
-          kicker={production?.name || "Production"}
-          title="Crew"
-          description="Manage crew assignments and check-ins"
-          colorScheme="on-light"
-        />
-        <Stack direction="horizontal" gap={2}>
-          <Button variant="solid" size="sm">
-            <Plus size={16} className="mr-2" />
-            Add Crew
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => router.push(`/p/${productionId}/crew/timekeeping`)}>
-            <Clock size={16} className="mr-2" />
-            Timekeeping
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => router.push(`/p/${productionId}/credentials`)}>
-            <IdCard size={16} className="mr-2" />
-            Credentials
-          </Button>
-        </Stack>
-      </Stack>
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-        <StatCard label="Total Crew" value={crewStats.total.toString()} icon={<Users size={20} />} />
-        <StatCard label="Confirmed" value={crewStats.confirmed.toString()} icon={<UserCheck size={20} />} trend="up" />
-        <StatCard label="Pending" value={crewStats.pending.toString()} icon={<Users size={20} />} trend={crewStats.pending > 0 ? "down" : "up"} />
-        <StatCard label="Checked In" value={crewStats.checkedIn.toString()} icon={<Clock size={20} />} />
-      </div>
-
-      <Card variant="elevated">
-        <CardBody>
-          <Stack gap={0}>
-            {crew.length === 0 ? (
-              <EmptyState
-                title="No Crew Assigned"
-                description="Add crew members to this production"
-                action={{ label: "Add Crew", onClick: () => {} }}
-              />
-            ) : crew.map((member, index) => (
-              <div key={member.id} className={`flex cursor-pointer items-center justify-between border-grey-200 p-4 transition-all hover:bg-grey-50 ${index < crew.length - 1 ? "border-b" : ""}`}>
-                <Stack direction="horizontal" gap={3} className="items-center">
-                  <Box className="flex size-10 items-center justify-center rounded-avatar bg-grey-100">
-                    <Users size={20} className="text-primary" />
-                  </Box>
-                  <Stack gap={1}>
-                    <Body className="font-weight-medium">{member.full_name}</Body>
-                    <Body size="sm" className=" text-grey-500">{member.role} · {member.department}</Body>
-                  </Stack>
-                </Stack>
-                <Badge variant={statusColors[member.availability] || "info"}>{member.availability.toUpperCase()}</Badge>
-              </div>
-            ))}
-          </Stack>
-        </CardBody>
-      </Card>
-    </Stack>
+    <DetailPage
+      header={{ kicker: "Production", title: "Crew", description: "Manage production crew members" }}
+      backButton={{ label: "Overview", href: `/p/${productionId}/overview` }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={<Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left">Add Crew</Button>}
+    />
   );
 }

@@ -123,8 +123,8 @@ export * from './saved-filters';
 export { useSavedFilters, useSavedViews } from './hooks/useSavedFilters';
 export type { FilterPreset, ViewPreset } from './hooks/useSavedFilters';
 
-// PDF generation utilities
-export * from './pdf-generator';
+// PDF generation utilities - NOT exported from barrel to avoid bundling jspdf (~500KB)
+// Import directly when needed: import { PDFGenerator } from '@ghxstship/config/pdf-generator'
 
 // Organization catalog hooks
 export * from './hooks/useOrgCatalog';
@@ -358,3 +358,24 @@ export * from './hooks/useAtlvsSupport';
 
 // GVTEWAY Admin hooks (forums, embed, seo, widgets, moderation, merch, templates, friends, blueprints, check-in)
 export * from './hooks/useGvtewayAdmin';
+
+// Calendar utilities (headless helpers for calendar operations)
+export * from './calendar-utils';
+
+// Legend Master Data types
+export type * from './types/legend';
+
+// Legend Master Data hooks
+export * from './hooks/useLegend';
+
+// Saga Workflow types
+export type * from './types/saga';
+
+// Saga Workflow hooks
+export * from './hooks/useSaga';
+
+// Chronicle Activity types
+export type * from './types/chronicle';
+
+// Chronicle Activity hooks
+export * from './hooks/useChronicle';

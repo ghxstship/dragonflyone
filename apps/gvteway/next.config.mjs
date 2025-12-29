@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
+  // output: "standalone", // Disabled due to Next.js 14.2.35 race condition - re-enable after upgrading Next.js
   transpilePackages: ["@ghxstship/config"],
   
   // Security headers
@@ -59,19 +59,71 @@ const nextConfig = {
     ];
   },
   
+  // Performance optimizations
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+    // Reduce memory pressure during builds
+    workerThreads: false,
+    cpus: 1,
+  },
+  
+  // Image optimization
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60,
+  },
+  
+  // Compression
+  compress: true,
+  
+  // Production source maps
+  productionBrowserSourceMaps: false,
+  
+  // Increase static generation timeout for large page counts
+  staticPageGenerationTimeout: 180,
+  
   eslint: {
     ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Increase static generation timeout for large page counts
-  staticPageGenerationTimeout: 180,
-  // Experimental settings for better build performance
-  experimental: {
-    // Reduce memory pressure during builds
-    workerThreads: false,
-    cpus: 1,
+  
+  webpack: (config, { isServer }) => {
+    // Optimize bundle size
+    if (!isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            framework: {
+              name: 'framework',
+              chunks: 'all',
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+              priority: 40,
+              enforce: true,
+            },
+            lib: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'lib',
+              priority: 30,
+              minChunks: 1,
+              reuseExistingChunk: true,
+            },
+            commons: {
+              name: 'commons',
+              minChunks: 2,
+              priority: 20,
+            },
+          },
+        },
+      };
+    }
+    
+    return config;
   },
 };
 

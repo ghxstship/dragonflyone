@@ -1,160 +1,140 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
-import { Camera } from "lucide-react";
+import { Camera, Eye, CheckCircle } from "lucide-react";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Input,
   Select,
   Button,
   Card,
-  Tabs,
-  TabsList,
-  Tab,
   Badge,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Textarea,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 import { usePhotoSets, type PhotoSet } from '../../hooks/usePhotoDocumentation';
-
 
 const phases = ["Load-In", "Build", "Tech Rehearsal", "Show", "Strike", "Load-Out"];
 
 export default function PhotoDocumentationPage() {
-  const router = useRouter();
-  const { data: photoSets = [] } = usePhotoSets();
-  
-  // URL-synced tab state for deep-linking support
-  const { activeTab, setActiveTab, isActive } = useTabState({
-    defaultTab: 'all',
-    validTabs: ['all', 'pending'],
-  });
-  const [selectedPhase, setSelectedPhase] = useState("All");
+  const { data: photoSets = [], refetch } = usePhotoSets();
   const [selectedSet, setSelectedSet] = useState<PhotoSet | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
 
   const totalPhotos = photoSets.reduce((sum, s) => sum + s.photoCount, 0);
   const pendingApproval = photoSets.filter(s => !s.approved).length;
 
-  const filteredSets = selectedPhase === "All" ? photoSets : photoSets.filter(s => s.phase === selectedPhase);
+  const columns: ListPageColumn<PhotoSet>[] = [
+    {
+      key: 'projectName',
+      label: 'Project',
+      accessor: 'projectName',
+      sortable: true,
+      render: (_, s) => (
+        <Stack gap={1}>
+          <Body className="font-display">{s.projectName}</Body>
+          {s.description && <Body size="sm" className="text-muted-foreground">{s.description}</Body>}
+        </Stack>
+      ),
+    },
+    {
+      key: 'phase',
+      label: 'Phase',
+      accessor: 'phase',
+      sortable: true,
+      render: (_, s) => <Badge variant="outline">{s.phase}</Badge>,
+    },
+    { key: 'photoCount', label: 'Photos', accessor: 'photoCount', sortable: true },
+    { key: 'capturedBy', label: 'Captured By', accessor: 'capturedBy' },
+    {
+      key: 'capturedAt',
+      label: 'Date',
+      accessor: 'capturedAt',
+      sortable: true,
+      render: (_, s) => <Body size="sm">{new Date(s.capturedAt).toLocaleDateString()}</Body>,
+    },
+    {
+      key: 'approved',
+      label: 'Status',
+      accessor: (s) => s.approved ? 'Approved' : 'Pending',
+      render: (_, s) => <Badge variant={s.approved ? 'solid' : 'outline'}>{s.approved ? 'Approved' : 'Pending'}</Badge>,
+    },
+  ];
 
-  const getPhaseColor = (phase: string) => {
-    switch (phase) {
-      case "Load-In": return "bg-info-900/20 border-info-800";
-      case "Build": return "bg-warning-900/20 border-warning-800";
-      case "Tech Rehearsal": return "bg-violet-900/20 border-violet-800";
-      case "Show": return "bg-success-900/20 border-success-800";
-      case "Strike": return "bg-warning-900/20 border-warning-800";
-      case "Load-Out": return "bg-success-100 text-error-800";
-      default: return "bg-ink-900/50 border-ink-800";
-    }
-  };
+  const filters: ListPageFilter[] = [
+    {
+      key: 'phase',
+      label: 'Phase',
+      options: phases.map(p => ({ value: p, label: p })),
+    },
+    {
+      key: 'approved',
+      label: 'Status',
+      options: [
+        { value: 'true', label: 'Approved' },
+        { value: 'false', label: 'Pending' },
+      ],
+    },
+  ];
+
+  const rowActions: ListPageAction<PhotoSet>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSet(s) },
+    { id: 'approve', label: 'Approve', icon: <CheckCircle className="h-4 w-4" />, onClick: () => {}, hidden: (s) => s.approved },
+  ];
+
+  const stats = [
+    { label: 'Photo Sets', value: photoSets.length },
+    { label: 'Total Photos', value: totalPhotos },
+    { label: 'Pending Approval', value: pendingApproval },
+    { label: 'Projects Documented', value: new Set(photoSets.map(s => s.projectId)).size },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<PhotoSet>
         title="Photo Documentation"
         subtitle="Phase-by-phase photo and video documentation for all projects"
-
-
-        primaryAction={{ label: 'Upload Photos', onClick: () => setShowUploadModal(true) }}
+        data={photoSets}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        onRetry={refetch}
+        searchPlaceholder="Search photo sets..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(s) => setSelectedSet(s)}
+        createLabel="Upload Photos"
+        onCreate={() => setShowUploadModal(true)}
+        entityType="photo-documentation"
+        onExport={createExportHandler({
+          filename: "photo-sets",
+          getData: () => photoSets.map((s: PhotoSet) => ({
+            projectName: s.projectName,
+            phase: s.phase,
+            photoCount: s.photoCount,
+            capturedBy: s.capturedBy,
+            capturedAt: s.capturedAt,
+            approved: s.approved ? 'Yes' : 'No',
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No photo sets found"
+        emptyAction={{ label: 'Upload Photos', onClick: () => setShowUploadModal(true) }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard value={photoSets.length.toString()} label="Photo Sets" />
-              <StatCard value={totalPhotos.toString()} label="Total Photos" />
-              <StatCard value={pendingApproval.toString()} label="Pending Approval" />
-              <StatCard value={new Set(photoSets.map(s => s.projectId)).size.toString()} label="Projects Documented" />
-            </Grid>
-
-            <Card className="p-4">
-              <Stack gap={3}>
-                <Body className="font-display">Production Phases</Body>
-                <Grid cols={6} gap={2} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                  {phases.map((phase) => {
-                    const count = photoSets.filter(s => s.phase === phase).length;
-                    return (
-                      <Card key={phase} className={`cursor-pointer border-2 p-3 ${selectedPhase === phase ? "border-primary-500" : getPhaseColor(phase)}`} onClick={() => setSelectedPhase(selectedPhase === phase ? "All" : phase)}>
-                        <Stack gap={1} className="text-center">
-                          <Body size="sm" className="">{phase}</Body>
-                          <Body size="sm" className="">{count} sets</Body>
-                        </Stack>
-                      </Card>
-                    );
-                  })}
-                </Grid>
-              </Stack>
-            </Card>
-
-            <Stack direction="horizontal" className="justify-between">
-              <Tabs>
-                <TabsList>
-                  <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All Sets</Tab>
-                  <Tab active={isActive('pending')} onClick={() => setActiveTab('pending')}>Pending Approval</Tab>
-                </TabsList>
-              </Tabs>
-              <Button variant="solid" onClick={() => setShowUploadModal(true)}>Upload Photos</Button>
-            </Stack>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              {filteredSets
-                .filter(s => activeTab === "all" || !s.approved)
-                .map((set) => (
-                  <Card key={set.id} className="overflow-hidden">
-                    <Card className="flex h-32 items-center justify-center">
-                      <Stack gap={2} className="text-center">
-                        <Camera className="size-6" />
-                        <Body size="sm" className="">{set.photoCount} photos</Body>
-                      </Stack>
-                    </Card>
-                    <Stack className="p-4" gap={3}>
-                      <Stack direction="horizontal" className="items-start justify-between">
-                        <Badge variant="outline">{set.phase}</Badge>
-                        {!set.approved && <Badge variant="solid">Pending</Badge>}
-                      </Stack>
-                      <Stack gap={1}>
-                        <Body>{set.projectName}</Body>
-                        {set.description && <Body size="sm" className="">{set.description}</Body>}
-                      </Stack>
-                      <Stack direction="horizontal" gap={1} className="flex-wrap">
-                        {set.tags.slice(0, 3).map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}
-                      </Stack>
-                      <Stack gap={1}>
-                        <Body size="sm" className="">By {set.capturedBy}</Body>
-                        <Body size="sm" className="">{new Date(set.capturedAt).toLocaleDateString()}</Body>
-                      </Stack>
-                      <Button variant="outline" size="sm" onClick={() => setSelectedSet(set)}>View Set</Button>
-                    </Stack>
-                  </Card>
-                ))}
-            </Grid>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="outline">Export All</Button>
-              <Button variant="outline">Generate Report</Button>
-              <Button variant="outline" onClick={() => router.push("/build-strike")}>Back to Build/Strike</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={!!selectedSet} onClose={() => setSelectedSet(null)}>
         <ModalHeader><H3>Photo Set Details</H3></ModalHeader>

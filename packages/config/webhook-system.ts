@@ -5,6 +5,7 @@
 
 import { SupabaseClient } from '@supabase/supabase-js';
 import type { Database, Json } from './supabase-types';
+import { logger } from './logger';
 
 // Database types
 type WebhooksRow = Database['public']['Tables']['webhooks']['Row'];
@@ -366,7 +367,7 @@ export class WebhookManager {
         }
       }
     } catch (error) {
-      console.error('Webhook delivery error:', error);
+      logger.error('Webhook delivery error', error instanceof Error ? error : undefined);
     }
   }
 

@@ -265,18 +265,18 @@ export function setCachedResourcePermissions(
 export function invalidateResourcePermissionCache(userId: string, organizationId?: string): void {
   if (organizationId) {
     // Invalidate specific org
-    for (const key of permissionCache.keys()) {
+    Array.from(permissionCache.keys()).forEach(key => {
       if (key.startsWith(`${userId}:${organizationId}`)) {
         permissionCache.delete(key);
       }
-    }
+    });
   } else {
     // Invalidate all for user
-    for (const key of permissionCache.keys()) {
+    Array.from(permissionCache.keys()).forEach(key => {
       if (key.startsWith(`${userId}:`)) {
         permissionCache.delete(key);
       }
-    }
+    });
   }
 }
 

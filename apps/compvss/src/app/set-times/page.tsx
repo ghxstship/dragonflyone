@@ -1,244 +1,164 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Input,
   Button,
   Card,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
   Badge,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Alert,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 import {
   useSetTimes,
   type SetTime,
 } from '../../hooks/useSetTimes';
+import { Eye, Play, Square } from "lucide-react";
 
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case "Completed": return "solid";
+    case "On Stage": return "outline";
+    default: return "ghost";
+  }
+};
 
 export default function SetTimesPage() {
   const router = useRouter();
-  const { data: setTimes = [] } = useSetTimes();
-  
-  // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
-    defaultTab: 'timeline',
-    validTabs: ['timeline', 'by-stage', 'variance'],
-  });
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const { data: setTimes = [], refetch } = useSetTimes();
   const [selectedSet, setSelectedSet] = useState<SetTime | null>(null);
   const [showStartModal, setShowStartModal] = useState(false);
-
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   const onStage = setTimes.filter(s => s.status === "On Stage");
   const upcoming = setTimes.filter(s => s.status === "Upcoming");
   const completed = setTimes.filter(s => s.status === "Completed");
   const delayed = setTimes.filter(s => s.status === "Delayed").length;
 
-  const getStatusVariant = (status: string): 'success' | 'info' | 'ghost' | 'warning' | 'error' => {
-    switch (status) {
-      case "Completed": return "success";
-      case "On Stage": return "info";
-      case "Upcoming": return "ghost";
-      case "Delayed": return "warning";
-      case "Cancelled": return "error";
-      default: return "ghost";
-    }
-  };
+  const columns: ListPageColumn<SetTime>[] = [
+    {
+      key: 'artistName',
+      label: 'Artist',
+      accessor: 'artistName',
+      sortable: true,
+      render: (_, s) => (
+        <Stack gap={1}>
+          <Body className="font-display">{s.artistName}</Body>
+          <Badge variant="outline">{s.stage}</Badge>
+        </Stack>
+      ),
+    },
+    {
+      key: 'scheduledStart',
+      label: 'Scheduled',
+      accessor: 'scheduledStart',
+      sortable: true,
+      render: (_, s) => <Body>{s.scheduledStart} - {s.scheduledEnd}</Body>,
+    },
+    {
+      key: 'actualStart',
+      label: 'Actual',
+      accessor: (s) => s.actualStart || '--:--',
+      render: (_, s) => <Body>{s.actualStart || "--:--"} - {s.actualEnd || "--:--"}</Body>,
+    },
+    {
+      key: 'setLength',
+      label: 'Length',
+      accessor: 'setLength',
+      render: (_, s) => <Body>{s.setLength} min</Body>,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+    },
+  ];
 
-  const calculateVariance = (scheduled: string, actual?: string) => {
-    if (!actual) return null;
-    const [schedH, schedM] = scheduled.split(":").map(Number);
-    const [actH, actM] = actual.split(":").map(Number);
-    const diff = (actH * 60 + actM) - (schedH * 60 + schedM);
-    return diff;
-  };
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'Upcoming', label: 'Upcoming' },
+        { value: 'On Stage', label: 'On Stage' },
+        { value: 'Completed', label: 'Completed' },
+        { value: 'Delayed', label: 'Delayed' },
+      ],
+    },
+    {
+      key: 'stage',
+      label: 'Stage',
+      options: [
+        { value: 'Main Stage', label: 'Main Stage' },
+        { value: 'Side Stage', label: 'Side Stage' },
+      ],
+    },
+  ];
+
+  const rowActions: ListPageAction<SetTime>[] = [
+    { id: 'view', label: 'Details', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSet(s) },
+    { id: 'start', label: 'Start', icon: <Play className="h-4 w-4" />, onClick: (s) => { setSelectedSet(s); setShowStartModal(true); }, hidden: (s) => s.status !== 'Upcoming' },
+    { id: 'end', label: 'End', icon: <Square className="h-4 w-4" />, onClick: (s) => { setSelectedSet(s); setShowStartModal(true); }, hidden: (s) => s.status !== 'On Stage' },
+  ];
+
+  const stats = [
+    { label: 'On Stage Now', value: onStage.length },
+    { label: 'Upcoming', value: upcoming.length },
+    { label: 'Completed', value: completed.length },
+    { label: 'Delayed', value: delayed },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<SetTime>
         title="Set Time Tracking"
         subtitle="Track actual start/end times and monitor schedule variance"
-
-
+        data={setTimes}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        onRetry={refetch}
+        searchPlaceholder="Search sets..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(s) => setSelectedSet(s)}
+        createLabel="Add Set"
+        onCreate={() => router.push('/set-times/new')}
+        entityType="set-times"
+        onExport={createExportHandler({
+          filename: "set-times",
+          getData: () => setTimes.map((s: SetTime) => ({
+            artistName: s.artistName,
+            stage: s.stage,
+            scheduledStart: s.scheduledStart,
+            scheduledEnd: s.scheduledEnd,
+            actualStart: s.actualStart || '',
+            actualEnd: s.actualEnd || '',
+            setLength: s.setLength,
+            status: s.status,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No sets found"
+        emptyAction={{ label: 'Add Set', onClick: () => router.push('/set-times/new') }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-            <Stack direction="horizontal" className="items-start justify-between">
-              <Card className="p-4">
-                <Stack gap={1} className="text-center">
-                  <Body size="sm" className="">Current Time</Body>
-                  <Body className="text-h5-md">
-                    {currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
-                  </Body>
-                </Stack>
-              </Card>
-            </Stack>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard value={onStage.length.toString()} label="On Stage Now" />
-              <StatCard value={upcoming.length.toString()} label="Upcoming" />
-              <StatCard value={completed.length.toString()} label="Completed" />
-              <StatCard value={delayed.toString()} label="Delayed" />
-            </Grid>
-
-            {onStage.length > 0 && (
-              <Card className="p-6">
-                <Stack gap={4}>
-                  <Stack direction="horizontal" className="items-center justify-between">
-                    <Stack gap={1}>
-                      <Badge variant="solid">NOW ON STAGE</Badge>
-                      <Body className="text-h5-md font-display">{onStage[0].artistName}</Body>
-                      <Body size="sm" className="">{onStage[0].stage}</Body>
-                    </Stack>
-                    <Stack gap={2} className="text-right">
-                      <Body size="sm" className="">Started: {onStage[0].actualStart}</Body>
-                      <Body size="sm" className="">Scheduled End: {onStage[0].scheduledEnd}</Body>
-                      <Button variant="solid" onClick={() => { setSelectedSet(onStage[0]); setShowStartModal(true); }}>End Set</Button>
-                    </Stack>
-                  </Stack>
-                </Stack>
-              </Card>
-            )}
-
-            <Tabs>
-              <TabsList>
-                <Tab active={isActive('timeline')} onClick={() => setActiveTab('timeline')}>Timeline</Tab>
-                <Tab active={isActive('by-stage')} onClick={() => setActiveTab('by-stage')}>By Stage</Tab>
-                <Tab active={isActive('variance')} onClick={() => setActiveTab('variance')}>Variance Report</Tab>
-              </TabsList>
-
-              <TabPanel active={isActive('timeline')}>
-                <Stack gap={3}>
-                  {setTimes.sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
-                    <Card key={set.id} className="p-4">
-                      <Grid cols={6} gap={4} className="items-center">
-                        <Stack gap={1}>
-                          <Body className="font-display">{set.artistName}</Body>
-                          <Badge variant="outline">{set.stage}</Badge>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Scheduled</Body>
-                          <Body>{set.scheduledStart} - {set.scheduledEnd}</Body>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Actual</Body>
-                          <Body>
-                            {set.actualStart || "--:--"} - {set.actualEnd || "--:--"}
-                          </Body>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Set Length</Body>
-                          <Body>{set.setLength} min</Body>
-                        </Stack>
-                        <Badge variant={getStatusVariant(set.status)}>{set.status}</Badge>
-                        <Stack direction="horizontal" gap={2}>
-                          {set.status === "Upcoming" && (
-                            <Button variant="outline" size="sm" onClick={() => { setSelectedSet(set); setShowStartModal(true); }}>Start</Button>
-                          )}
-                          {set.status === "On Stage" && (
-                            <Button variant="outline" size="sm" onClick={() => { setSelectedSet(set); setShowStartModal(true); }}>End</Button>
-                          )}
-                          <Button variant="ghost" size="sm" onClick={() => setSelectedSet(set)}>Details</Button>
-                        </Stack>
-                      </Grid>
-                    </Card>
-                  ))}
-                </Stack>
-              </TabPanel>
-
-              <TabPanel active={isActive('by-stage')}>
-                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
-                  {["Main Stage", "Side Stage"].map((stage) => (
-                    <Card key={stage} className="p-4">
-                      <Stack gap={4}>
-                        <H3>{stage}</H3>
-                        <Stack gap={2}>
-                          {setTimes.filter(s => s.stage === stage).sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
-                            <Card key={set.id} className="p-3">
-                              <Stack direction="horizontal" className="items-center justify-between">
-                                <Stack gap={1}>
-                                  <Body>{set.artistName}</Body>
-                                  <Body size="sm" className="">{set.scheduledStart} - {set.scheduledEnd}</Body>
-                                </Stack>
-                                <Badge variant={getStatusVariant(set.status)}>{set.status}</Badge>
-                              </Stack>
-                            </Card>
-                          ))}
-                        </Stack>
-                      </Stack>
-                    </Card>
-                  ))}
-                </Grid>
-              </TabPanel>
-
-              <TabPanel active={isActive('variance')}>
-                <Card className="p-6">
-                  <Stack gap={4}>
-                    <H3>Schedule Variance Report</H3>
-                    <Stack gap={2}>
-                      {setTimes.filter(s => s.actualStart).map((set) => {
-                        const startVar = calculateVariance(set.scheduledStart, set.actualStart);
-                        const endVar = set.actualEnd ? calculateVariance(set.scheduledEnd, set.actualEnd) : null;
-                        return (
-                          <Card key={set.id} className="p-3">
-                            <Grid cols={4} gap={4} className="items-center">
-                              <Body>{set.artistName}</Body>
-                              <Stack gap={1}>
-                                <Body size="sm" className="">Start Variance</Body>
-                                <Body>
-                                  {startVar !== null ? (startVar > 0 ? `+${startVar}` : startVar) : "--"} min
-                                </Body>
-                              </Stack>
-                              <Stack gap={1}>
-                                <Body size="sm" className="">End Variance</Body>
-                                <Body>
-                                  {endVar !== null ? (endVar > 0 ? `+${endVar}` : endVar) : "--"} min
-                                </Body>
-                              </Stack>
-                              <Badge variant={getStatusVariant(set.status)}>{set.status}</Badge>
-                            </Grid>
-                          </Card>
-                        );
-                      })}
-                    </Stack>
-                  </Stack>
-                </Card>
-              </TabPanel>
-            </Tabs>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="solid">Add Set</Button>
-              <Button variant="outline">Export Report</Button>
-              <Button variant="outline" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={!!selectedSet && !showStartModal} onClose={() => setSelectedSet(null)}>
         <ModalHeader><H3>Set Details</H3></ModalHeader>
@@ -298,7 +218,7 @@ export default function SetTimesPage() {
               <Body>{selectedSet.artistName}</Body>
               <Stack gap={2}>
                 <Body className="font-display">{selectedSet.status === "On Stage" ? "Actual End Time" : "Actual Start Time"}</Body>
-                <Input type="time" defaultValue={currentTime.toTimeString().slice(0, 5)} />
+                <Input type="time" defaultValue={new Date().toTimeString().slice(0, 5)} />
               </Stack>
               {selectedSet.status === "Upcoming" && (
                 <Alert variant="info">Scheduled start: {selectedSet.scheduledStart}</Alert>

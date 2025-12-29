@@ -1,3 +1,4 @@
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -22,15 +23,28 @@ const createPricingRuleSchema = z.object({
   valid_to: z.string().optional(),
 });
 
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const ruleType = searchParams.get('rule_type');
     const isActive = searchParams.get('is_active');
     const spaceId = searchParams.get('space_id');
 
     // Get user from auth header
-    const authHeader = request.headers.get('authorization');
     const token = authHeader?.replace('Bearer ', '');
 
     let organizationId: string | null = null;
@@ -72,7 +86,6 @@ export async function GET(request: NextRequest) {
     const { data: rules, error } = await query;
 
     if (error) {
-      console.error('Error fetching pricing rules:', error);
       return NextResponse.json({ error: 'Failed to fetch pricing rules' }, { status: 500 });
     }
 
@@ -80,14 +93,22 @@ export async function GET(request: NextRequest) {
       rules: rules || [],
       total: rules?.length || 0,
     });
-  } catch (error) {
-    console.error('Error in GET /api/pricing:', error);
+  } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const body = await request.json();
 
     // Validate input
@@ -102,7 +123,6 @@ export async function POST(request: NextRequest) {
     const input = parseResult.data;
 
     // Get user from auth header
-    const authHeader = request.headers.get('authorization');
     const token = authHeader?.replace('Bearer ', '');
 
     let organizationId: string | null = null;
@@ -149,13 +169,11 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating pricing rule:', error);
       return NextResponse.json({ error: 'Failed to create pricing rule' }, { status: 500 });
     }
 
     return NextResponse.json({ rule }, { status: 201 });
-  } catch (error) {
-    console.error('Error in POST /api/pricing:', error);
+  } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

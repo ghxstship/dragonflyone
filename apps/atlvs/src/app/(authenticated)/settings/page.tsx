@@ -1,18 +1,11 @@
 'use client';
 
-import {
-  Body,
-  Box,
-  Card,
-  Container,
-  EnterprisePageHeader,
-  H2,
-  MainContent,
-  Stack,
-  Text,
-} from '@ghxstship/ui';
+/**
+ * Settings Hub Page
+ * Uses normalized SettingsHubPage template from @ghxstship/ui
+ */
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { 
   Building2, 
   Users, 
@@ -22,114 +15,108 @@ import {
   Palette,
   Mail,
   Globe,
-  ChevronRight
 } from 'lucide-react';
-
-const SETTINGS_SECTIONS = [
-  {
-    id: 'organization',
-    name: 'Organization',
-    icon: Building2,
-    description: 'Manage your organization details and branding',
-    path: '/settings/organization',
-  },
-  {
-    id: 'team',
-    name: 'Team Members',
-    icon: Users,
-    description: 'Invite and manage team members and roles',
-    path: '/settings/team',
-  },
-  {
-    id: 'billing',
-    name: 'Billing & Plans',
-    icon: CreditCard,
-    description: 'Manage subscription, invoices, and payment methods',
-    path: '/settings/billing',
-  },
-  {
-    id: 'notifications',
-    name: 'Notifications',
-    icon: Bell,
-    description: 'Configure email and in-app notification preferences',
-    path: '/settings/notifications',
-  },
-  {
-    id: 'security',
-    name: 'Security',
-    icon: Shield,
-    description: 'Two-factor authentication and security settings',
-    path: '/settings/security',
-  },
-  {
-    id: 'appearance',
-    name: 'Appearance',
-    icon: Palette,
-    description: 'Customize theme and display preferences',
-    path: '/settings/appearance',
-  },
-  {
-    id: 'email',
-    name: 'Email Templates',
-    icon: Mail,
-    description: 'Customize automated email templates',
-    path: '/settings/email-templates',
-  },
-  {
-    id: 'integrations',
-    name: 'Integrations',
-    icon: Globe,
-    description: 'Connect third-party services and APIs',
-    path: '/settings/integrations',
-  },
-];
+import { SettingsHubPage, type SettingsSection } from '@ghxstship/ui';
+import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 
 export default function SettingsPage() {
-  return (
-    <>
-      <EnterprisePageHeader
-        title="Settings"
-        subtitle="Manage your account and organization settings"
-      />
-      <MainContent padding="lg">
-        <Container size="md">
-          <Stack gap={4}>
-            {SETTINGS_SECTIONS.map((section) => (
-              <Link key={section.id} href={section.path}>
-                <Card className="p-4 hover:border-primary/30 transition-colors">
-                  <Stack direction="horizontal" gap={4} className="items-center">
-                    <Box className="p-3 bg-primary/10 rounded-card">
-                      <section.icon className="h-6 w-6 text-primary" />
-                    </Box>
-                    <Box className="flex-1">
-                      <H2>{section.name}</H2>
-                      <Body size="sm" className="text-muted-foreground">{section.description}</Body>
-                    </Box>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                  </Stack>
-                </Card>
-              </Link>
-            ))}
+  const router = useRouter();
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access for organization settings
+  const canManageSettings = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
-            <Box className="pt-6 border-t border-border">
-              <Stack direction="horizontal" className="justify-between">
-                <Stack gap={0}>
-                  <Body size="sm" className="text-muted-foreground">App Version</Body>
-                  <Body size="xs" className="text-muted-foreground">v2.1.0</Body>
-                </Stack>
-                <Stack direction="horizontal" gap={4}>
-                  <Link href="/help" className="text-primary hover:underline">
-                    <Text size="sm">Help Center</Text>
-                  </Link>
-                  <Link href="/changelog" className="text-primary hover:underline">
-                    <Text size="sm">Changelog</Text>
-                  </Link>
-                </Stack>
-              </Stack>
-            </Box>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+  // Build settings sections with RBAC filtering
+  const sections: SettingsSection[] = [
+    {
+      id: 'account',
+      title: 'Account Settings',
+      description: 'Manage your personal account and preferences',
+      categories: [
+        {
+          id: 'notifications',
+          title: 'Notifications',
+          description: 'Configure email and in-app notification preferences',
+          icon: <Bell className="h-6 w-6" />,
+          href: '/settings/notifications',
+        },
+        {
+          id: 'appearance',
+          title: 'Appearance',
+          description: 'Customize theme and display preferences',
+          icon: <Palette className="h-6 w-6" />,
+          href: '/settings/appearance',
+        },
+        {
+          id: 'security',
+          title: 'Security',
+          description: 'Two-factor authentication and security settings',
+          icon: <Shield className="h-6 w-6" />,
+          href: '/settings/security',
+          disabled: !canManageSettings,
+        },
+      ],
+    },
+    {
+      id: 'organization',
+      title: 'Organization Settings',
+      description: 'Manage your organization configuration',
+      categories: [
+        {
+          id: 'organization',
+          title: 'Organization',
+          description: 'Manage your organization details and branding',
+          icon: <Building2 className="h-6 w-6" />,
+          href: '/settings/organization',
+          disabled: !canManageSettings,
+        },
+        {
+          id: 'team',
+          title: 'Team Members',
+          description: 'Invite and manage team members and roles',
+          icon: <Users className="h-6 w-6" />,
+          href: '/settings/team',
+        },
+        {
+          id: 'billing',
+          title: 'Billing & Plans',
+          description: 'Manage subscription, invoices, and payment methods',
+          icon: <CreditCard className="h-6 w-6" />,
+          href: '/settings/billing',
+          disabled: !canManageSettings,
+        },
+      ],
+    },
+    {
+      id: 'advanced',
+      title: 'Advanced Settings',
+      description: 'Configure integrations and templates',
+      categories: [
+        {
+          id: 'email',
+          title: 'Email Templates',
+          description: 'Customize automated email templates',
+          icon: <Mail className="h-6 w-6" />,
+          href: '/settings/email-templates',
+        },
+        {
+          id: 'integrations',
+          title: 'Integrations',
+          description: 'Connect third-party services and APIs',
+          icon: <Globe className="h-6 w-6" />,
+          href: '/settings/integrations',
+          disabled: !canManageSettings,
+        },
+      ],
+    },
+  ];
+
+  return (
+    <SettingsHubPage
+      title="Settings"
+      subtitle="Manage your account and organization settings"
+      sections={sections}
+      onNavigate={(href) => router.push(href)}
+    />
   );
 }

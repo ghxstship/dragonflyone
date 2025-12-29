@@ -1,16 +1,94 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const runAssessmentSchema = z.object({
+  action: z.literal('run_assessment'),
+  project_id: z.string().uuid(),
+});
+
+const createRiskSchema = z.object({
+  action: z.literal('create_risk'),
+  project_id: z.string().uuid(),
+  title: z.string().min(1),
+  description: z.string().optional(),
+  category: z.enum(['safety', 'schedule', 'budget', 'crew', 'equipment', 'vendor', 'weather', 'regulatory']),
+  likelihood: z.number().min(1).max(5),
+  impact: z.number().min(1).max(5),
+  owner_id: z.string().uuid().optional(),
+});
+
+const updateRiskSchema = z.object({
+  action: z.literal('update_risk'),
+  risk_id: z.string().uuid(),
+  likelihood: z.number().min(1).max(5).optional(),
+  impact: z.number().min(1).max(5).optional(),
+  status: z.enum(['open', 'mitigated', 'closed', 'accepted']).optional(),
+  notes: z.string().optional(),
+});
+
+const addMitigationSchema = z.object({
+  action: z.literal('add_mitigation'),
+  risk_id: z.string().uuid(),
+  title: z.string().min(1),
+  description: z.string().optional(),
+  owner_id: z.string().uuid().optional(),
+  due_date: z.string().optional(),
+  cost_estimate: z.number().min(0).optional(),
+});
+
+const acknowledgeAlertSchema = z.object({
+  action: z.literal('acknowledge_alert'),
+  alert_id: z.string().uuid(),
+  acknowledged_by: z.string().uuid(),
+});
+
+const resolveAlertSchema = z.object({
+  action: z.literal('resolve_alert'),
+  alert_id: z.string().uuid(),
+  resolved_by: z.string().uuid(),
+  resolution: z.string().optional(),
+});
+
+const scheduleAssessmentSchema = z.object({
+  action: z.literal('schedule_assessment'),
+  project_id: z.string().uuid(),
+  frequency: z.enum(['daily', 'weekly', 'monthly']),
+  next_run: z.string(),
+});
+
+const riskActionSchema = z.union([
+  runAssessmentSchema,
+  createRiskSchema,
+  updateRiskSchema,
+  addMitigationSchema,
+  acknowledgeAlertSchema,
+  resolveAlertSchema,
+  scheduleAssessmentSchema,
+]);
 
 /**
  * Automated Risk Detection API
  * AI-powered risk assessment for production projects
  */
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -120,22 +198,30 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = riskActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'run_assessment') {
-      const { project_id } = body;
+      const { project_id } = validatedData as z.infer<typeof runAssessmentSchema>;
       const assessment = await runRiskAssessment(project_id);
       return NextResponse.json({ assessment });
     }
 
     if (action === 'create_risk') {
-      const { project_id, title, description, category, likelihood, impact, owner_id } = body;
+      const { project_id, title, description, category, likelihood, impact, owner_id } = validatedData as z.infer<typeof createRiskSchema>;
 
       const riskScore = calculateRiskScore(likelihood, impact);
 
@@ -169,7 +255,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'update_risk') {
-      const { risk_id, likelihood, impact, status, notes } = body;
+      const { risk_id, likelihood, impact, status, notes } = validatedData as z.infer<typeof updateRiskSchema>;
 
       const riskScore = likelihood && impact ? calculateRiskScore(likelihood, impact) : undefined;
 
@@ -195,7 +281,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'add_mitigation') {
-      const { risk_id, title, description, owner_id, due_date, cost_estimate } = body;
+      const { risk_id, title, description, owner_id, due_date, cost_estimate } = validatedData as z.infer<typeof addMitigationSchema>;
 
       const { data, error } = await supabase
         .from('risk_mitigations')
@@ -219,7 +305,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'acknowledge_alert') {
-      const { alert_id, acknowledged_by } = body;
+      const { alert_id, acknowledged_by } = validatedData as z.infer<typeof acknowledgeAlertSchema>;
 
       const { data, error } = await supabase
         .from('risk_alerts')
@@ -240,7 +326,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'resolve_alert') {
-      const { alert_id, resolved_by, resolution } = body;
+      const { alert_id, resolved_by, resolution } = validatedData as z.infer<typeof resolveAlertSchema>;
 
       const { data, error } = await supabase
         .from('risk_alerts')
@@ -262,7 +348,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'schedule_assessment') {
-      const { project_id, frequency, next_run } = body;
+      const { project_id, frequency, next_run } = validatedData as z.infer<typeof scheduleAssessmentSchema>;
 
       const { data, error } = await supabase
         .from('risk_assessment_schedules')

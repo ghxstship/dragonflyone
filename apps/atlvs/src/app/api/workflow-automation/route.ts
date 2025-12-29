@@ -1,19 +1,98 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
 
 interface TriggerInput { type: string; config?: Record<string, unknown> }
 interface ActionInput { type: string; config?: Record<string, unknown> }
+
+const triggerSchema = z.object({
+  type: z.string(),
+  config: z.record(z.unknown()).optional(),
+});
+
+const actionSchema = z.object({
+  type: z.string(),
+  config: z.record(z.unknown()).optional(),
+});
+
+const createWorkflowSchema = z.object({
+  action: z.literal('create'),
+  name: z.string().min(1),
+  description: z.string().optional(),
+  triggers: z.array(triggerSchema).optional(),
+  actions: z.array(actionSchema).optional(),
+});
+
+const updateWorkflowSchema = z.object({
+  action: z.literal('update'),
+  workflow_id: z.string().uuid(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  status: z.string().optional(),
+  triggers: z.array(triggerSchema).optional(),
+  actions: z.array(actionSchema).optional(),
+});
+
+const activateWorkflowSchema = z.object({
+  action: z.literal('activate'),
+  workflow_id: z.string().uuid(),
+});
+
+const deactivateWorkflowSchema = z.object({
+  action: z.literal('deactivate'),
+  workflow_id: z.string().uuid(),
+});
+
+const executeWorkflowSchema = z.object({
+  action: z.literal('execute'),
+  workflow_id: z.string().uuid(),
+  trigger_data: z.record(z.unknown()).optional(),
+});
+
+const deleteWorkflowSchema = z.object({
+  action: z.literal('delete'),
+  workflow_id: z.string().uuid(),
+});
+
+const duplicateWorkflowSchema = z.object({
+  action: z.literal('duplicate'),
+  workflow_id: z.string().uuid(),
+  new_name: z.string().optional(),
+});
+
+const workflowActionSchema = z.discriminatedUnion('action', [
+  createWorkflowSchema,
+  updateWorkflowSchema,
+  activateWorkflowSchema,
+  deactivateWorkflowSchema,
+  executeWorkflowSchema,
+  deleteWorkflowSchema,
+  duplicateWorkflowSchema,
+]);
 
 /**
  * Workflow Automation API
  * Create, manage, and execute automated workflows with triggers and actions
  */
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -149,17 +228,25 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = workflowActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'create') {
       // Create a new workflow
-      const { name, description, triggers, actions: workflowActions } = body;
+      const { name, description, triggers, actions: workflowActions } = validatedData;
 
       // Create workflow
       const { data: workflow, error: wfError } = await supabase

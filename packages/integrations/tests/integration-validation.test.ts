@@ -1,16 +1,42 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 
 /**
  * Integration Validation Test Suite
  * 
  * Tests for validating integration security, performance, and reliability
  * Run before GA release of any integration connector
+ * 
+ * NOTE: These tests require a running server. Set TEST_API_URL environment variable
+ * or run the server locally before executing these tests.
  */
 
 const BASE_URL = process.env.TEST_API_URL || 'http://localhost:3000';
 const API_KEY = process.env.TEST_API_KEY || 'test_key';
 
-describe('Integration Security Validation', () => {
+// Check if server is available
+async function isServerAvailable(): Promise<boolean> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    await fetch(`${BASE_URL}/api/health`, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+let serverAvailable = false;
+
+beforeAll(async () => {
+  serverAvailable = await isServerAvailable();
+  if (!serverAvailable) {
+    console.log(`⚠️  Server not available at ${BASE_URL}. Integration tests will be skipped.`);
+    console.log('   To run these tests, start the server or set TEST_API_URL environment variable.');
+  }
+});
+
+describe.skipIf(!process.env.TEST_API_URL && !process.env.CI)('Integration Security Validation', () => {
   describe('OAuth Scopes', () => {
     it('should reject requests without authentication', async () => {
       const response = await fetch(`${BASE_URL}/api/deals`);
@@ -92,7 +118,7 @@ describe('Integration Security Validation', () => {
       });
       const data = await response.json();
       
-      data.channels?.forEach((channel: any) => {
+      data.channels?.forEach((channel: { webhook_url?: string; secret_key?: string }) => {
         if (channel.webhook_url) {
           expect(channel.webhook_url).toContain('...');
         }
@@ -104,7 +130,7 @@ describe('Integration Security Validation', () => {
   });
 });
 
-describe('Integration Performance Validation', () => {
+describe.skipIf(!process.env.TEST_API_URL && !process.env.CI)('Integration Performance Validation', () => {
   describe('Load Testing (>=1000 events/hour)', () => {
     it('should handle burst of 100 webhook events', async () => {
       const events = Array.from({ length: 100 }, (_, i) => ({
@@ -201,7 +227,7 @@ describe('Integration Performance Validation', () => {
   });
 });
 
-describe('Integration Reliability Validation', () => {
+describe.skipIf(!process.env.TEST_API_URL && !process.env.CI)('Integration Reliability Validation', () => {
   describe('Webhook Retry Logic', () => {
     it('should retry failed webhook deliveries', async () => {
       // Create a webhook subscription to a failing endpoint
@@ -303,7 +329,7 @@ describe('Integration Reliability Validation', () => {
   });
 });
 
-describe('Connector Monitoring', () => {
+describe.skipIf(!process.env.TEST_API_URL && !process.env.CI)('Connector Monitoring', () => {
   describe('Health Checks', () => {
     it('should report connector health status', async () => {
       const response = await fetch(`${BASE_URL}/api/integrations/health`, {
@@ -325,7 +351,7 @@ describe('Connector Monitoring', () => {
       const data = await response.json();
 
       expect(data).toHaveProperty('metrics');
-      data.metrics?.forEach((metric: any) => {
+      data.metrics?.forEach((metric: { connector: string; success_rate: number; failure_rate: number; avg_response_time: number }) => {
         expect(metric).toHaveProperty('connector');
         expect(metric).toHaveProperty('success_rate');
         expect(metric).toHaveProperty('failure_rate');

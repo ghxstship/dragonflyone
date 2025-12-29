@@ -124,8 +124,9 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
       side,
       sidePosition = "right",
       sideWidth = "md",
-      collapsible: _collapsible = false,
+      collapsible = false,
       collapsed = false,
+      onCollapseToggle,
       showDivider = true,
       inverted = true,
       className,
@@ -135,14 +136,67 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
     const sidePanel = (
       <aside
         className={clsx(
-          "shrink-0 overflow-auto transition-all duration-200",
-          collapsed ? "w-0 opacity-0" : sideWidthClasses[sideWidth],
-          showDivider && (sidePosition === "left" ? "border-r-2" : "border-l-2"),
+          "shrink-0 overflow-auto transition-all duration-200 relative",
+          collapsed ? "w-0 opacity-0 overflow-hidden" : sideWidthClasses[sideWidth],
+          showDivider && !collapsed && (sidePosition === "left" ? "border-r-2" : "border-l-2"),
           inverted ? "border-ink-800 bg-ink-900" : "border-ink-200 bg-white"
         )}
+        aria-hidden={collapsed}
       >
         {!collapsed && side}
+        {collapsible && onCollapseToggle && (
+          <button
+            onClick={onCollapseToggle}
+            className={clsx(
+              "absolute top-2 p-1 rounded transition-colors",
+              sidePosition === "left" ? "right-2" : "left-2",
+              inverted ? "hover:bg-ink-800 text-ink-400" : "hover:bg-ink-100 text-ink-500"
+            )}
+            aria-label={collapsed ? "Expand panel" : "Collapse panel"}
+          >
+            <svg
+              className={clsx("size-4 transition-transform", collapsed && "rotate-180")}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={sidePosition === "left" ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
+              />
+            </svg>
+          </button>
+        )}
       </aside>
+    );
+
+    // Collapsed toggle button when panel is collapsed
+    const collapsedToggle = collapsible && collapsed && onCollapseToggle && (
+      <button
+        onClick={onCollapseToggle}
+        className={clsx(
+          "shrink-0 flex items-center justify-center w-6 transition-colors",
+          showDivider && (sidePosition === "left" ? "border-r-2" : "border-l-2"),
+          inverted ? "border-ink-800 bg-ink-900 hover:bg-ink-800" : "border-ink-200 bg-white hover:bg-ink-50"
+        )}
+        aria-label="Expand panel"
+      >
+        <svg
+          className="size-4 text-ink-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d={sidePosition === "left" ? "M9 5l7 7-7 7" : "M15 19l-7-7 7-7"}
+          />
+        </svg>
+      </button>
     );
 
     return (
@@ -150,11 +204,11 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
         ref={ref}
         className={clsx("flex h-full overflow-hidden", className)}
       >
-        {sidePosition === "left" && sidePanel}
+        {sidePosition === "left" && (collapsed ? collapsedToggle : sidePanel)}
         <div className={clsx("flex-1 overflow-auto", inverted ? "bg-ink-950" : "bg-ink-50")}>
           {main}
         </div>
-        {sidePosition === "right" && sidePanel}
+        {sidePosition === "right" && (collapsed ? collapsedToggle : sidePanel)}
       </div>
     );
   }
@@ -549,7 +603,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
 // EXPORTS
 // =============================================================================
 
-export default {
+const ContentLayoutComponents = {
   MainContent,
   SplitLayout,
   PanelLayout,
@@ -558,3 +612,5 @@ export default {
   KanbanLayout,
   KanbanCard,
 };
+
+export default ContentLayoutComponents;

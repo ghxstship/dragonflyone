@@ -3,15 +3,31 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
+// Schema: Aligned with API artistSchema - genres is an array
 export interface Artist {
   id: string;
   name: string;
-  genre?: string;
+  genres?: string[];  // Schema: array of genre strings from API
+  genre?: string;     // Legacy: computed first genre for display
   bio?: string;
+  short_bio?: string;
   followers?: number;
   upcoming_shows?: number;
   verified: boolean;
+  is_verified?: boolean;
   image_url?: string;
+  profile_image?: string;
+  origin_city?: string;
+  origin_country?: string;
+  social_links?: {
+    instagram?: string;
+    twitter?: string;
+    facebook?: string;
+    spotify?: string;
+    soundcloud?: string;
+    youtube?: string;
+    tiktok?: string;
+  };
   created_at: string;
   updated_at: string;
 }

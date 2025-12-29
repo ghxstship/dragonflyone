@@ -1,14 +1,43 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const generateSchema = z.object({
+  project_id: z.string().uuid(),
+  action: z.literal('generate'),
+  format: z.enum(['pdf', 'html', 'docx']).optional(),
+});
+
+const distributeSchema = z.object({
+  project_id: z.string().uuid(),
+  action: z.literal('distribute'),
+  recipients: z.array(z.object({
+    user_id: z.string().uuid().optional(),
+    email: z.string().email().optional(),
+  })),
+});
+
+const productionBookActionSchema = z.union([generateSchema, distributeSchema]);
 
 // Production book generation and distribution
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -42,16 +71,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { project_id, action, recipients, format } = body;
+    const validatedData = productionBookActionSchema.parse(body);
+    const { project_id, action } = validatedData;
 
     if (action === 'generate') {
+      const { format } = validatedData as z.infer<typeof generateSchema>;
       // Generate and store production book
       const { data, error } = await supabase.from('production_books').insert({
         project_id, generated_by: user.id, format: format || 'pdf',
@@ -65,6 +102,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'distribute') {
+      const { recipients } = validatedData as z.infer<typeof distributeSchema>;
       // Distribute to recipients
       const { data: book } = await supabase.from('production_books').select('*')
         .eq('project_id', project_id).order('generated_at', { ascending: false }).limit(1).single();
@@ -72,7 +110,7 @@ export async function POST(request: NextRequest) {
       if (!book) return NextResponse.json({ error: 'No production book found' }, { status: 404 });
 
       // Create distribution records
-      const distributions = recipients.map((r: Record<string, unknown>) => ({
+      const distributions = recipients.map((r) => ({
         book_id: book.id, recipient_id: r.user_id, recipient_email: r.email,
         sent_at: new Date().toISOString(), status: 'sent'
       }));

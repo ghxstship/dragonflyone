@@ -1,14 +1,46 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const saveVersionSchema = z.object({
+  action: z.literal('save_version'),
+  document_id: z.string().uuid(),
+  content: z.string(),
+  change_summary: z.string().optional(),
+});
+
+const subscribeSchema = z.object({
+  action: z.literal('subscribe'),
+  document_id: z.string().uuid(),
+});
+
+const rollbackSchema = z.object({
+  action: z.literal('rollback'),
+  document_id: z.string().uuid(),
+  version_number: z.number().int().positive(),
+});
+
+const versionControlActionSchema = z.union([saveVersionSchema, subscribeSchema, rollbackSchema]);
 
 // Version control and update notifications for knowledge base
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const documentId = searchParams.get('document_id');
@@ -41,17 +73,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = versionControlActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'save_version') {
-      const { document_id, content, change_summary } = body;
+      const { document_id, content, change_summary } = validatedData as z.infer<typeof saveVersionSchema>;
 
       // Get current version number
       const { data: latest } = await supabase.from('document_versions').select('version_number')
@@ -74,7 +113,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'subscribe') {
-      const { document_id } = body;
+      const { document_id } = validatedData as z.infer<typeof subscribeSchema>;
 
       await supabase.from('document_subscriptions').upsert({
         document_id, user_id: user.id, subscribed_at: new Date().toISOString()
@@ -84,7 +123,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'rollback') {
-      const { document_id, version_number } = body;
+      const { document_id, version_number } = validatedData as z.infer<typeof rollbackSchema>;
 
       const { data: version } = await supabase.from('document_versions').select('content')
         .eq('document_id', document_id).eq('version_number', version_number).single();

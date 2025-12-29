@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Download } from 'lucide-react';
-import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
   Badge,
@@ -20,8 +19,15 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, useAuthContext, PlatformRole } from '@ghxstship/config';
 import { useOrders, useCreateOrder, useDeleteOrder, type Order } from '@/hooks/useOrders';
+
+const ADMIN_ROLES = [
+  PlatformRole.ATLVS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
   pending: 'warning',
@@ -103,6 +109,11 @@ const formFields: FormFieldConfig[] = [
 export default function OrdersPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access
+  const canManageOrders = ADMIN_ROLES.some(role => hasRole(role));
+  
   const { data: orders, isLoading, error, refetch } = useOrders();
   const createMutation = useCreateOrder();
   const deleteMutation = useDeleteOrder();
@@ -198,7 +209,7 @@ export default function OrdersPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Order>
         title="Order Management"
         subtitle="Manage ticket orders and transactions"
@@ -213,7 +224,7 @@ export default function OrdersPage() {
         rowActions={rowActions}
         onRowClick={(row) => { setSelectedOrder(row); setDrawerOpen(true); }}
         createLabel="Create Order"
-        onCreate={() => setCreateModalOpen(true)}
+        onCreate={canManageOrders ? () => setCreateModalOpen(true) : undefined}
         onExport={createExportHandler({
           filename: 'orders',
           getData: () => orderList.map(o => ({
@@ -228,7 +239,7 @@ export default function OrdersPage() {
         })}
         stats={stats}
         emptyMessage="No orders yet"
-        emptyAction={{ label: 'Create First Order', onClick: () => setCreateModalOpen(true) }}
+        emptyAction={canManageOrders ? { label: 'Create First Order', onClick: () => setCreateModalOpen(true) } : undefined}
         bulkActions={bulkActions}
       />
       <RecordFormModal
@@ -259,6 +270,6 @@ export default function OrdersPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setOrderToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

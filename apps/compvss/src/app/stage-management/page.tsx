@@ -3,134 +3,110 @@
 import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
+  ListPage,
   Badge,
   Body,
-  Box,
-  Card,
-  CardBody,
-  Container,
-  EnterprisePageHeader,
-  Grid,
-  H3,
-  MainContent,
   Stack,
-  StatCard,
-  Text,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from '@ghxstship/ui';
-import { Layout, Wrench, FileText, Settings, Monitor, Speaker, Lightbulb } from 'lucide-react';
-import { useStages } from '../../hooks/useStages';
+import { createExportHandler } from '@ghxstship/config';
+import { Eye, Layout } from 'lucide-react';
+import { useStages, type Stage } from '../../hooks/useStages';
 
-/**
- * Stage Management Page
- * Manages stage configurations, layouts, and technical requirements
- */
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  return status === 'Active' ? 'solid' : 'outline';
+};
+
 export default function StageManagementPage() {
   const router = useRouter();
-  const { data: stages = [] } = useStages();
+  const { data: stages = [], refetch } = useStages();
 
-  const stats = {
-    stages: stages.length,
-    activeStages: stages.filter(s => s.status === 'Active').length,
-    equipment: 93,
-    techSpecs: 12,
-  };
+  const columns: ListPageColumn<Stage>[] = [
+    {
+      key: 'name',
+      label: 'Stage',
+      accessor: 'name',
+      sortable: true,
+      render: (_, s) => (
+        <Stack gap={1}>
+          <Body className="font-display">{s.name}</Body>
+          <Badge variant="outline">{s.type}</Badge>
+        </Stack>
+      ),
+    },
+    { key: 'dimensions', label: 'Dimensions', accessor: 'dimensions' },
+    { key: 'capacity', label: 'Capacity', accessor: (s) => s.capacity.toLocaleString(), sortable: true },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+    },
+  ];
+
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'Active', label: 'Active' },
+        { value: 'Inactive', label: 'Inactive' },
+      ],
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      options: [
+        { value: 'Main Stage', label: 'Main Stage' },
+        { value: 'Side Stage', label: 'Side Stage' },
+        { value: 'Outdoor', label: 'Outdoor' },
+      ],
+    },
+  ];
+
+  const rowActions: ListPageAction<Stage>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (s) => router.push(`/stage-management/${s.id}`) },
+    { id: 'layout', label: 'Layout', icon: <Layout className="h-4 w-4" />, onClick: (s) => router.push(`/stage-management/${s.id}/layout`) },
+  ];
+
+  const stats = [
+    { label: 'Total Stages', value: stages.length },
+    { label: 'Active Stages', value: stages.filter(s => s.status === 'Active').length },
+    { label: 'Equipment Items', value: 93 },
+    { label: 'Tech Specs', value: 12 },
+  ];
 
   return (
-    <>
-      <EnterprisePageHeader
-        title="Stage Management"
-        subtitle="Manage stage configurations, layouts, and technical requirements for productions."
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={8}>
-            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-              <StatCard label="Total Stages" value={stats.stages.toString()} icon={<Layout size={20} />} />
-              <StatCard label="Active Stages" value={stats.activeStages.toString()} icon={<Monitor size={20} />} trend="up" />
-              <StatCard label="Equipment Items" value={stats.equipment.toString()} icon={<Wrench size={20} />} />
-              <StatCard label="Tech Specs" value={stats.techSpecs.toString()} icon={<FileText size={20} />} />
-            </div>
-
-            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-              <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push('/stage-management/stages')}>
-                <CardBody>
-                  <Stack gap={3} className="items-center text-center">
-                    <Box className="flex size-12 items-center justify-center rounded bg-ink-100">
-                      <Layout size={24} className="text-primary" />
-                    </Box>
-                    <Body className="font-weight-bold">Stage Layouts</Body>
-                  </Stack>
-                </CardBody>
-              </Card>
-              <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push('/stage-management/equipment')}>
-                <CardBody>
-                  <Stack gap={3} className="items-center text-center">
-                    <Box className="flex size-12 items-center justify-center rounded bg-ink-100">
-                      <Wrench size={24} className="text-secondary" />
-                    </Box>
-                    <Body className="font-weight-bold">Equipment</Body>
-                  </Stack>
-                </CardBody>
-              </Card>
-              <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push('/stage-management/tech-specs')}>
-                <CardBody>
-                  <Stack gap={3} className="items-center text-center">
-                    <Box className="flex size-12 items-center justify-center rounded bg-ink-100">
-                      <FileText size={24} className="text-warning" />
-                    </Box>
-                    <Body className="font-weight-bold">Tech Specs</Body>
-                  </Stack>
-                </CardBody>
-              </Card>
-              <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push('/stage-management/settings')}>
-                <CardBody>
-                  <Stack gap={3} className="items-center text-center">
-                    <Box className="flex size-12 items-center justify-center rounded bg-ink-100">
-                      <Settings size={24} className="text-accent" />
-                    </Box>
-                    <Body className="font-weight-bold">Settings</Body>
-                  </Stack>
-                </CardBody>
-              </Card>
-            </Grid>
-
-            <Card variant="elevated">
-              <CardBody>
-                <Stack gap={4}>
-                  <H3>Stage Overview</H3>
-                  <div className="grid gap-4 md:grid-cols-2">
-                    {stages.map((stage) => (
-                      <Card key={stage.id} variant="outlined">
-                        <CardBody>
-                          <Stack gap={2}>
-                            <div className="flex items-center justify-between">
-                              <Body className="font-weight-bold">{stage.name}</Body>
-                              <Badge variant={stage.status === 'Active' ? 'success' : 'warning'}>{stage.status}</Badge>
-                            </div>
-                            <div className="flex gap-4 text-muted">
-                              <Text className="flex items-center gap-1">
-                                <Layout size={14} /> {stage.type}
-                              </Text>
-                              <Text className="flex items-center gap-1">
-                                <Speaker size={14} /> {stage.dimensions}
-                              </Text>
-                              <Text className="flex items-center gap-1">
-                                <Lightbulb size={14} /> {stage.capacity.toLocaleString()} cap
-                              </Text>
-                            </div>
-                          </Stack>
-                        </CardBody>
-                      </Card>
-                    ))}
-                  </div>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Stack>
-        </Container>
-      </MainContent>
-    </>
+    <ListPage<Stage>
+      title="Stage Management"
+      subtitle="Manage stage configurations, layouts, and technical requirements for productions."
+      data={stages}
+      columns={columns}
+      rowKey="id"
+      loading={false}
+      onRetry={refetch}
+      searchPlaceholder="Search stages..."
+      filters={filters}
+      rowActions={rowActions}
+      onRowClick={(s) => router.push(`/stage-management/${s.id}`)}
+      entityType="stage-management"
+      onExport={createExportHandler({
+        filename: "stages",
+        getData: () => stages.map((s: Stage) => ({
+          name: s.name,
+          type: s.type,
+          dimensions: s.dimensions,
+          capacity: s.capacity,
+          status: s.status,
+        })),
+      })}
+      stats={stats}
+      emptyMessage="No stages found"
+      showFavorite
+      showSettings
+    />
   );
 }

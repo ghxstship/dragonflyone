@@ -2,7 +2,13 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { withAuth, PlatformRole, logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const alignmentSchema = z.object({
+  project_id: z.string().uuid(),
+  goal_ids: z.array(z.string().uuid()).optional(),
+});
 
 const ATLVS_ADMIN_ROLES = [
   PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN,
@@ -21,11 +27,8 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { project_id, goal_ids } = body;
-
-    if (!project_id) {
-      return NextResponse.json({ error: 'Project ID required' }, { status: 400 });
-    }
+    const validatedData = alignmentSchema.parse(body);
+    const { project_id, goal_ids } = validatedData;
 
     // Delete existing alignments for this project
     await supabase

@@ -1,23 +1,28 @@
 'use client';
 
+/**
+ * Organization Settings Page
+ * Uses normalized SettingsPageLayout template from @ghxstship/ui
+ */
+
 import { useState, useEffect } from 'react';
 import { Building2, Upload, Globe, MapPin, Phone, Mail, Save } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+import { useRouter } from 'next/navigation';
 import {
   Alert,
   Body,
   Box,
   Button,
   Card,
-  Container,
   EmptyState,
-  EnterprisePageHeader,
   Grid,
   H2,
   Input,
   Label,
-  MainContent,
   Select,
+  SettingsPageLayout,
   Skeleton,
   Stack,
 } from '@ghxstship/ui';
@@ -70,39 +75,48 @@ const DATE_FORMATS = [
   { id: 'YYYY-MM-DD', label: 'YYYY-MM-DD' },
 ];
 
-const DEMO_ORG: OrganizationSettings = {
-  id: 'org-001',
-  name: 'ATLVS Productions',
-  legal_name: 'ATLVS Productions Inc.',
-  website: 'https://atlvs.com',
-  email: 'info@atlvs.com',
-  phone: '+1 (555) 123-4567',
+// Default empty organization settings structure (no demo data)
+const DEFAULT_ORG_SETTINGS: OrganizationSettings = {
+  id: '',
+  name: '',
+  legal_name: '',
+  website: '',
+  email: '',
+  phone: '',
   address: {
-    street: '123 Production Way',
-    city: 'Los Angeles',
-    state: 'CA',
-    zip: '90001',
-    country: 'United States',
+    street: '',
+    city: '',
+    state: '',
+    zip: '',
+    country: '',
   },
-  tax_id: '12-3456789',
-  industry: 'Entertainment & Events',
-  timezone: 'America/Los_Angeles',
+  tax_id: '',
+  industry: '',
+  timezone: 'America/New_York',
   currency: 'USD',
   date_format: 'MM/DD/YYYY',
   fiscal_year_start: 'January',
 };
 
+// Roles that can manage organization settings
+
 export default function OrganizationSettingsPage() {
+  const router = useRouter();
+  const { hasRole, user } = useAuthContext();
   const queryClient = useQueryClient();
-  const [formData, setFormData] = useState<OrganizationSettings>(DEMO_ORG);
+  const [formData, setFormData] = useState<OrganizationSettings>(DEFAULT_ORG_SETTINGS);
   const [hasChanges, setHasChanges] = useState(false);
+
+  // RBAC: Check if user can manage organization settings
+  const canManageOrg = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['organization-settings'],
     queryFn: async () => {
       const response = await fetch('/api/settings/organization');
       if (!response.ok) {
-        return DEMO_ORG;
+        // Return empty defaults instead of demo data on error
+        return DEFAULT_ORG_SETTINGS;
       }
       return response.json();
     },
@@ -149,52 +163,83 @@ export default function OrganizationSettingsPage() {
 
   if (isLoading) {
     return (
-      <>
-        <EnterprisePageHeader title="Organization Settings" subtitle="Loading..." />
-        <MainContent padding="lg">
-          <Container size="lg">
-            <Grid cols={3} gap={6}>
-              <Box className="col-span-2"><Skeleton className="h-96" /></Box>
-              <Skeleton className="h-96" />
-            </Grid>
-          </Container>
-        </MainContent>
-      </>
+      <SettingsPageLayout
+        title="Organization Settings"
+        description="Loading..."
+        maxWidth="xl"
+      >
+        <Grid cols={3} gap={6}>
+          <Box className="col-span-2"><Skeleton className="h-96" /></Box>
+          <Skeleton className="h-96" />
+        </Grid>
+      </SettingsPageLayout>
     );
   }
 
   if (error) {
     return (
-      <>
-        <EnterprisePageHeader title="Organization Settings" subtitle="Error" />
-        <MainContent padding="lg">
-          <Container size="lg">
-            <EmptyState
-              title="Failed to load settings"
-              description="There was an error loading organization settings. Please try again."
-              action={{ label: 'Retry', onClick: () => window.location.reload() }}
-            />
-          </Container>
-        </MainContent>
-      </>
+      <SettingsPageLayout
+        title="Organization Settings"
+        description="Error"
+        maxWidth="xl"
+      >
+        <EmptyState
+          title="Failed to load settings"
+          description="There was an error loading organization settings. Please try again."
+          action={{ label: 'Retry', onClick: () => window.location.reload() }}
+        />
+      </SettingsPageLayout>
+    );
+  }
+
+  // RBAC: If user doesn't have permission, show unauthorized message
+  if (!canManageOrg) {
+    return (
+      <SettingsPageLayout
+        title="Organization Settings"
+        description="Access Denied"
+        maxWidth="xl"
+      >
+        <Card className="p-8 text-center max-w-xl mx-auto">
+          <Stack gap={4} className="items-center">
+            <H2>Access Denied</H2>
+            <Body className="text-muted-foreground">
+              You do not have permission to manage organization settings.
+              This action requires ATLVS Admin or higher role.
+            </Body>
+            <Body className="text-muted-foreground text-body-sm">
+              Current user: {user?.email || 'Unknown'}
+            </Body>
+            <Button variant="outline" onClick={() => router.push('/settings')}>
+              Back to Settings
+            </Button>
+          </Stack>
+        </Card>
+      </SettingsPageLayout>
     );
   }
 
   return (
-    <>
-      <EnterprisePageHeader
-        title="Organization Settings"
-        subtitle="Manage your organization profile and preferences"
-      />
-      <Box className="px-6 py-3 border-b border-border flex items-center justify-end">
-        <Button onClick={handleSave} disabled={!hasChanges || saveMutation.isPending}>
-          <Save className="h-4 w-4 mr-2" />
-          {saveMutation.isPending ? 'Saving...' : 'Save Changes'}
+    <SettingsPageLayout
+      title="Organization Settings"
+      description="Manage your organization profile and preferences"
+      maxWidth="xl"
+      headerActions={
+        <Button
+          variant="solid"
+          size="sm"
+          onClick={handleSave}
+          disabled={!hasChanges || saveMutation.isPending}
+          isLoading={saveMutation.isPending}
+          loadingText="Saving..."
+          icon={<Save className="h-4 w-4" />}
+          iconPosition="left"
+        >
+          Save Changes
         </Button>
-      </Box>
-      <MainContent padding="lg">
-        <Container size="lg">
-          <Stack gap={6}>
+      }
+    >
+      <Stack gap={6}>
             {saveMutation.isSuccess && (
               <Alert variant="success">Settings saved successfully!</Alert>
             )}
@@ -404,8 +449,6 @@ export default function OrganizationSettingsPage() {
               </Stack>
             </Grid>
           </Stack>
-        </Container>
-      </MainContent>
-    </>
+        </SettingsPageLayout>
   );
 }

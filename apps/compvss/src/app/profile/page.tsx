@@ -1,280 +1,206 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-// Layout provided by route group
+/**
+ * Profile Page
+ * User profile management
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { User, Mail, Phone, MapPin, Camera, List, Shield } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  H2,
-  H3,
   Body,
   Button,
-  Input,
-  PhoneInput,
-  Alert,
-  Stack,
-  Label,
-  Badge,
   Card,
-  StatCard,
+  Input,
   Grid,
-  Kicker,
-  signOut,
+  DetailPage,
+  Section,
+  SectionHeader,
 } from "@ghxstship/ui";
-import { User, Bell, Shield, Briefcase, LogOut, Edit3 } from "lucide-react";
-import { log } from '@ghxstship/config';
+
+interface Profile {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+  role: string;
+  joined: string;
+  avatar: string;
+}
+
+const DEMO_PROFILE: Profile = {
+  id: "1",
+  name: "John Smith",
+  email: "john@example.com",
+  phone: "+1 555-123-4567",
+  location: "Los Angeles, CA",
+  role: "Production Manager",
+  joined: "2023-01-15",
+  avatar: "",
+};
 
 export default function ProfilePage() {
-  const router = useRouter();
+  const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [profile, setProfile] = useState({
-    firstName: "Crew",
-    lastName: "Lead",
-    email: "crew@ghxstship.com",
-    phone: "(555) 987-6543",
-    department: "Stage Management",
-    title: "Stage Manager",
-    role: "COMPVSS_CREW",
+  const [formData, setFormData] = useState<Partial<Profile>>({});
+
+  const { data: profile = DEMO_PROFILE, isLoading, error, refetch } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const response = await fetch("/api/profile");
+      if (!response.ok) return DEMO_PROFILE;
+      const data = await response.json();
+      return data.profile || DEMO_PROFILE;
+    },
   });
-  const [userRoles, setUserRoles] = useState<string[]>([]);
 
-  useEffect(() => {
-    fetch('/api/user/profile')
-      .then(res => res.json())
-      .then(data => {
-        if (data.user) {
-          setProfile({ ...profile, ...data.user });
-          setUserRoles(data.user.platformRoles || []);
-        }
-      })
-      .catch(err => log.error('Failed to load profile:', err instanceof Error ? err : undefined));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleSave = async () => {
-    try {
-      await fetch('/api/user/profile', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(profile),
+  const updateProfile = useMutation({
+    mutationFn: async (data: Partial<Profile>) => {
+      const response = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-      setSaved(true);
+      if (!response.ok) throw new Error("Failed to update profile");
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       setIsEditing(false);
-      setTimeout(() => setSaved(false), 3000);
-    } catch (error) {
-      log.error('Failed to save profile:', error instanceof Error ? error : undefined);
-    }
+    },
+  });
+
+  const handleEdit = () => {
+    setFormData(profile);
+    setIsEditing(true);
   };
 
-  const handleSignOut = async () => {
-    await signOut();
+  const handleSave = () => {
+    updateProfile.mutate(formData);
   };
+
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "long", year: "numeric" });
+
+  const tabs = [
+    {
+      id: "profile",
+      label: "Profile",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Card className="p-6">
+            <div className="flex items-start gap-6 mb-6">
+              <div className="size-24 bg-primary rounded-avatar flex items-center justify-center relative">
+                <User className="size-12 text-white" />
+                <Button variant="ghost" size="sm" className="absolute -bottom-1 -right-1 bg-grey-800 rounded-avatar p-2">
+                  <Camera className="size-4" />
+                </Button>
+              </div>
+              <div className="flex-1">
+                {isEditing ? (
+                  <div className="space-y-4">
+                    <div>
+                      <Body size="sm" className="mb-1">Name</Body>
+                      <Input value={formData.name || ""} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+                    </div>
+                    <div>
+                      <Body size="sm" className="mb-1">Role</Body>
+                      <Input value={formData.role || ""} onChange={(e) => setFormData({ ...formData, role: e.target.value })} />
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <Body className="font-weight-bold">{profile.name}</Body>
+                    <Body className="text-grey-400">{profile.role}</Body>
+                    <Body size="sm" className="text-grey-500 mt-2">Member since {formatDate(profile.joined)}</Body>
+                  </>
+                )}
+              </div>
+              {!isEditing && <Button variant="outline" onClick={handleEdit}>Edit Profile</Button>}
+            </div>
+
+            <div className="border-t border-grey-800 pt-6">
+              <SectionHeader title="Contact Information" />
+              <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
+                <div>
+                  <Body size="sm" className="text-grey-400 mb-1">Email</Body>
+                  {isEditing ? (
+                    <Input value={formData.email || ""} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+                  ) : (
+                    <div className="flex items-center gap-2"><Mail className="size-4 text-grey-400" /><Body>{profile.email}</Body></div>
+                  )}
+                </div>
+                <div>
+                  <Body size="sm" className="text-grey-400 mb-1">Phone</Body>
+                  {isEditing ? (
+                    <Input value={formData.phone || ""} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
+                  ) : (
+                    <div className="flex items-center gap-2"><Phone className="size-4 text-grey-400" /><Body>{profile.phone}</Body></div>
+                  )}
+                </div>
+                <div>
+                  <Body size="sm" className="text-grey-400 mb-1">Location</Body>
+                  {isEditing ? (
+                    <Input value={formData.location || ""} onChange={(e) => setFormData({ ...formData, location: e.target.value })} />
+                  ) : (
+                    <div className="flex items-center gap-2"><MapPin className="size-4 text-grey-400" /><Body>{profile.location}</Body></div>
+                  )}
+                </div>
+              </Grid>
+            </div>
+
+            {isEditing && (
+              <div className="flex gap-4 mt-6 pt-6 border-t border-grey-800">
+                <Button variant="solid" onClick={handleSave} disabled={updateProfile.isPending}>
+                  {updateProfile.isPending ? "Saving..." : "Save Changes"}
+                </Button>
+                <Button variant="outline" onClick={() => setIsEditing(false)}>Cancel</Button>
+              </div>
+            )}
+          </Card>
+        </Section>
+      ),
+    },
+    {
+      id: "security",
+      label: "Security",
+      icon: <Shield className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Security Settings" description="Manage your account security" />
+          <Card className="p-6 mt-4">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Body className="font-weight-medium">Password</Body>
+                  <Body size="sm" className="text-grey-400">Last changed 30 days ago</Body>
+                </div>
+                <Button variant="outline">Change Password</Button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <Body className="font-weight-medium">Two-Factor Authentication</Body>
+                  <Body size="sm" className="text-grey-400">Add an extra layer of security</Body>
+                </div>
+                <Button variant="outline">Enable</Button>
+              </div>
+            </div>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <>
-      <Stack gap={10}>
-        {/* Page Header */}
-        <Stack gap={4} direction="horizontal" className="flex-col items-start justify-between md:flex-row md:items-center">
-          <Stack gap={2}>
-            <Kicker>Account Settings</Kicker>
-            <H2 size="lg">My Profile</H2>
-            <Body className="text-muted">Manage your account information and preferences</Body>
-          </Stack>
-          <Stack direction="horizontal" gap={3}>
-            {!isEditing && (
-              <Button 
-                variant="solid" 
-                onClick={() => setIsEditing(true)}
-                icon={<Edit3 className="size-4" />}
-                iconPosition="left"
-              >
-                Edit Profile
-              </Button>
-            )}
-            <Button 
-              variant="outline" 
-              onClick={handleSignOut}
-              icon={<LogOut className="size-4" />}
-              iconPosition="left"
-            >
-              Sign Out
-            </Button>
-          </Stack>
-        </Stack>
-
-        {saved && <Alert variant="success">Profile updated successfully</Alert>}
-
-        <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
-          {/* Personal Information Card */}
-          <Card className="col-span-2 p-6">
-            <Stack gap={2} className="mb-6">
-              <Stack direction="horizontal" gap={2} className="items-center">
-                <User className="size-5 text-muted" />
-                <H3>Personal Information</H3>
-              </Stack>
-            </Stack>
-            <Stack gap={6}>
-              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                <Stack gap={2}>
-                  <Label size="xs" className="text-muted">First Name</Label>
-                  {isEditing ? (
-                    <Input
-                      value={profile.firstName}
-                      onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
-                    />
-                  ) : (
-                    <Body className="font-mono">{profile.firstName}</Body>
-                  )}
-                </Stack>
-                <Stack gap={2}>
-                  <Label size="xs" className="text-muted">Last Name</Label>
-                  {isEditing ? (
-                    <Input
-                      value={profile.lastName}
-                      onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
-                    />
-                  ) : (
-                    <Body className="font-mono">{profile.lastName}</Body>
-                  )}
-                </Stack>
-              </Grid>
-
-              <Stack gap={2}>
-                <Label size="xs" className="text-muted">Email</Label>
-                {isEditing ? (
-                  <Input
-                    type="email"
-                    value={profile.email}
-                    onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                  />
-                ) : (
-                  <Body className="font-mono">{profile.email}</Body>
-                )}
-              </Stack>
-
-              <Stack gap={2}>
-                <Label size="xs" className="text-muted">Phone</Label>
-                {isEditing ? (
-                  <PhoneInput
-                    value={profile.phone}
-                    onChange={(value) => setProfile({ ...profile, phone: value })}
-                    fullWidth
-                  />
-                ) : (
-                  <Body className="font-mono">{profile.phone}</Body>
-                )}
-              </Stack>
-
-              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                <Stack gap={2}>
-                  <Label size="xs" className="text-muted">Department</Label>
-                  {isEditing ? (
-                    <Input
-                      value={profile.department}
-                      onChange={(e) => setProfile({ ...profile, department: e.target.value })}
-                    />
-                  ) : (
-                    <Body className="font-mono">{profile.department}</Body>
-                  )}
-                </Stack>
-                <Stack gap={2}>
-                  <Label size="xs" className="text-muted">Title</Label>
-                  {isEditing ? (
-                    <Input
-                      value={profile.title}
-                      onChange={(e) => setProfile({ ...profile, title: e.target.value })}
-                    />
-                  ) : (
-                    <Body className="font-mono">{profile.title}</Body>
-                  )}
-                </Stack>
-              </Grid>
-
-              {isEditing && (
-                <Stack gap={3} direction="horizontal">
-                  <Button variant="solid" onClick={handleSave}>
-                    Save Changes
-                  </Button>
-                  <Button variant="outline" onClick={() => setIsEditing(false)}>
-                    Cancel
-                  </Button>
-                </Stack>
-              )}
-            </Stack>
-          </Card>
-
-          {/* Sidebar Cards */}
-          <Stack gap={6}>
-            <Card className="p-6">
-              <Stack gap={2} className="mb-4">
-                <Stack direction="horizontal" gap={2} className="items-center">
-                  <Shield className="size-5 text-muted" />
-                  <H3>Roles & Access</H3>
-                </Stack>
-              </Stack>
-              <Stack gap={4}>
-                <Stack gap={2}>
-                  <Label size="xs" className="text-muted">Platform Roles</Label>
-                  <Stack direction="horizontal" gap={2} className="flex-wrap">
-                    {userRoles.length > 0 ? (
-                      userRoles.map(role => (
-                        <Badge key={role} variant="outline">{role}</Badge>
-                      ))
-                    ) : (
-                      <Badge variant="outline">{profile.role}</Badge>
-                    )}
-                  </Stack>
-                </Stack>
-              </Stack>
-            </Card>
-
-            <Card className="p-6">
-              <H3 className="mb-4">Quick Stats</H3>
-              <Stack gap={4}>
-                <StatCard label="Active Productions" value="3" />
-                <StatCard label="Completed Shows" value="47" />
-                <Stack gap={1}>
-                  <Label size="xs" className="text-muted">Member Since</Label>
-                  <Body>Jan 2024</Body>
-                </Stack>
-              </Stack>
-            </Card>
-
-            <Card className="p-6">
-              <H3 className="mb-4">Preferences</H3>
-              <Stack gap={3}>
-                <Button 
-                  variant="outline" 
-                  fullWidth 
-                  onClick={() => router.push('/settings/notifications')}
-                  icon={<Bell className="size-4" />}
-                  iconPosition="left"
-                >
-                  Notifications
-                </Button>
-                <Button 
-                  variant="outline" 
-                  fullWidth 
-                  onClick={() => router.push('/settings/privacy')}
-                  icon={<Shield className="size-4" />}
-                  iconPosition="left"
-                >
-                  Privacy
-                </Button>
-                <Button 
-                  variant="outline" 
-                  fullWidth 
-                  onClick={() => router.push('/credentials')}
-                  icon={<Briefcase className="size-4" />}
-                  iconPosition="left"
-                >
-                  Credentials
-                </Button>
-              </Stack>
-            </Card>
-          </Stack>
-        </Grid>
-      </Stack>
-    </>
+    <DetailPage
+      header={{ kicker: "Account", title: "Profile", description: "Manage your personal information" }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

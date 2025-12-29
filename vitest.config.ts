@@ -11,13 +11,27 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
+      include: [
+        'packages/config/roles.ts',
+        'packages/config/permissions.ts',
+        'packages/config/logger.ts',
+        'packages/config/error-handler.ts',
+        'packages/config/form-validators.ts',
+        'packages/ui/src/utils/**/*.ts',
+      ],
       exclude: [
         'node_modules/',
-        '.next/',
-        '**/*.config.ts',
-        '**/*.config.js',
-        '**/types/**',
+        '**/*.test.ts',
+        '**/*.spec.ts',
+        '**/__tests__/**',
+        '**/*.d.ts',
       ],
+      thresholds: {
+        statements: 60,
+        branches: 60,
+        functions: 60,
+        lines: 60,
+      },
     },
   },
   resolve: {

@@ -1,3 +1,4 @@
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -10,11 +11,25 @@ const rescheduleSchema = z.object({
   reason: z.string().optional(),
 });
 
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const supabase = createAdminClient();
     const eventId = params.id;
 
@@ -70,7 +85,32 @@ export async function PUT(
       created_at: new Date().toISOString(),
     });
 
-    // TODO: Send notifications if notify_attendees is true
+    // Send notifications if notify_attendees is true
+    if (validatedData.notify_attendees) {
+      const { data: attendees } = await supabase
+        .from('calendar_event_attendees')
+        .select('user_id, email, name')
+        .eq('calendar_event_id', eventId);
+
+      if (attendees && attendees.length > 0) {
+        const notifications = attendees.map((attendee) => ({
+          user_id: attendee.user_id,
+          type: 'event_rescheduled',
+          title: 'Event Rescheduled',
+          message: `"${event.title}" has been rescheduled from ${previousDate} to ${validatedData.new_date}${validatedData.reason ? `. Reason: ${validatedData.reason}` : ''}`,
+          metadata: {
+            event_id: eventId,
+            event_title: event.title,
+            previous_date: previousDate,
+            new_date: validatedData.new_date,
+          },
+          read: false,
+          created_at: new Date().toISOString(),
+        }));
+
+        await supabase.from('notifications').insert(notifications);
+      }
+    }
 
     return NextResponse.json({
       success: true,

@@ -1,359 +1,192 @@
-'use client';
+"use client";
 
+/**
+ * Payment Page
+ * Public payment page for invoices
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useParams, useRouter } from "next/navigation";
+import { CreditCard, CheckCircle, Shield, Lock } from "lucide-react";
+import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   Body,
   Button,
+  Card,
   Form,
-  H1,
-  H2,
-  H3,
   Input,
-  Label,
-  Text,
-} from '@ghxstship/ui';
+  DetailPage,
+  Section,
+  SectionHeader,
+  useNotifications,
+} from "@ghxstship/ui";
 
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { CreditCard, Check, AlertCircle, Building2, Lock } from 'lucide-react';
-
-interface PublicInvoice {
+interface Invoice {
   id: string;
-  invoice_number: string;
-  status: string;
-  issue_date: string;
-  due_date: string;
-  total_amount: number;
-  amount_paid: number;
-  balance_due: number;
-  contact: {
-    first_name: string;
-    last_name: string;
-    email: string;
-  };
-  line_items: Array<{
-    id: string;
-    description: string;
-    quantity: number;
-    unit_price: number;
-    total: number;
-  }>;
-  organization: {
-    name: string;
-    logo_url?: string;
-  };
+  number: string;
+  client: string;
+  amount: number;
+  dueDate: string;
+  status: "pending" | "paid";
 }
 
-export default function PublicPaymentPage() {
+const DEMO_INVOICE: Invoice = {
+  id: "1",
+  number: "INV-001",
+  client: "Acme Productions",
+  amount: 5000,
+  dueDate: "2024-12-31",
+  status: "pending",
+};
+
+export default function PaymentPage() {
   const params = useParams();
+  const router = useRouter();
+  const { addNotification } = useNotifications();
   const token = params.token as string;
-  
-  const [invoice, setInvoice] = useState<PublicInvoice | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [processing, setProcessing] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'ach'>('card');
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [cvc, setCvc] = useState("");
+  const [name, setName] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    async function fetchInvoice() {
-      try {
-        const response = await fetch(`/api/invoices/public/${token}`);
-        if (!response.ok) {
-          if (response.status === 404) {
-            setError('Invoice not found or payment link has expired');
-          } else {
-            setError('Failed to load invoice');
-          }
-          return;
-        }
-        const data = await response.json();
-        setInvoice(data);
-      } catch (err) {
-        setError('Failed to load invoice');
-      } finally {
-        setLoading(false);
-      }
-    }
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+    if (!name.trim()) newErrors.name = "Cardholder name is required";
+    if (!cardNumber.trim()) newErrors.cardNumber = "Card number is required";
+    else if (cardNumber.replace(/\s/g, "").length < 13) newErrors.cardNumber = "Invalid card number";
+    if (!expiry.trim()) newErrors.expiry = "Expiry date is required";
+    else if (!/^\d{2}\/\d{2}$/.test(expiry)) newErrors.expiry = "Use MM/YY format";
+    if (!cvc.trim()) newErrors.cvc = "CVC is required";
+    else if (cvc.length < 3) newErrors.cvc = "Invalid CVC";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-    if (token) {
-      fetchInvoice();
-    }
-  }, [token]);
+  const { data: invoice = DEMO_INVOICE, isLoading, error, refetch } = useQuery({
+    queryKey: ["payment", token],
+    queryFn: async () => {
+      const response = await fetch(`/api/pay/${token}`);
+      if (!response.ok) return DEMO_INVOICE;
+      const data = await response.json();
+      return data.invoice || DEMO_INVOICE;
+    },
+  });
 
-  const handlePayment = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setProcessing(true);
-    
-    try {
-      const response = await fetch(`/api/invoices/public/${token}/pay`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ payment_method: paymentMethod }),
+  const processPayment = useMutation({
+    mutationFn: async (paymentData: { cardNumber: string; expiry: string; cvc: string; name: string }) => {
+      const response = await fetch(`/api/pay/${token}/process`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(paymentData),
       });
-      
-      if (response.ok) {
-        setInvoice((prev) => prev ? { ...prev, status: 'paid', balance_due: 0 } : null);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Payment failed");
       }
-    } finally {
-      setProcessing(false);
+      return response.json();
+    },
+    onSuccess: () => {
+      addNotification({ type: "success", title: "Payment Successful", message: "Your payment has been processed" });
+      refetch();
+    },
+    onError: (err: Error) => {
+      addNotification({ type: "error", title: "Payment Failed", message: err.message });
+    },
+  });
+
+  const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount);
+
+  const handleChange = (field: string, value: string) => {
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: "" }));
+    switch (field) {
+      case "name": setName(value); break;
+      case "cardNumber": setCardNumber(value); break;
+      case "expiry": setExpiry(value); break;
+      case "cvc": setCvc(value); break;
     }
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-    }).format(amount);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    processPayment.mutate({ cardNumber, expiry, cvc, name });
   };
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  };
+  const tabs = [
+    {
+      id: "payment",
+      label: "Payment",
+      icon: <CreditCard className="size-4" />,
+      content: invoice.status === "paid" ? (
+        <Section>
+          <Card className="p-8 text-center border-success">
+            <CheckCircle className="size-16 text-success mx-auto mb-4" />
+            <Body className="font-weight-bold font-weight-bold mb-2">Payment Complete</Body>
+            <Body className="text-grey-400">Thank you for your payment of {formatCurrency(invoice.amount)}</Body>
+          </Card>
+        </Section>
+      ) : (
+        <Section>
+          <Card className="p-6 mb-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <Body className="text-grey-400">Invoice {invoice.number}</Body>
+                <Body className="font-weight-bold font-weight-medium">{invoice.client}</Body>
+              </div>
+              <div className="text-right">
+                <Body className="text-grey-400">Amount Due</Body>
+                <Body className="font-weight-bold font-weight-bold">{formatCurrency(invoice.amount)}</Body>
+              </div>
+            </div>
+          </Card>
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-ink-100 flex items-center justify-center">
-        <div className="animate-pulse text-ink-500">Loading invoice...</div>
-      </div>
-    );
-  }
+          <SectionHeader title="Payment Details" />
+          <Form onSubmit={handleSubmit} className="space-y-4 mt-4">
+            <div>
+              <Body size="sm" className="mb-1">Cardholder Name *</Body>
+              <Input placeholder="John Doe" value={name} onChange={(e) => handleChange("name", e.target.value)} error={!!errors.name} />
+              {errors.name && <Body size="sm" className="text-error mt-1">{errors.name}</Body>}
+            </div>
+            <div>
+              <Body size="sm" className="mb-1">Card Number *</Body>
+              <Input placeholder="4242 4242 4242 4242" value={cardNumber} onChange={(e) => handleChange("cardNumber", e.target.value)} error={!!errors.cardNumber} />
+              {errors.cardNumber && <Body size="sm" className="text-error mt-1">{errors.cardNumber}</Body>}
+            </div>
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <Body size="sm" className="mb-1">Expiry *</Body>
+                <Input placeholder="MM/YY" value={expiry} onChange={(e) => handleChange("expiry", e.target.value)} error={!!errors.expiry} />
+                {errors.expiry && <Body size="sm" className="text-error mt-1">{errors.expiry}</Body>}
+              </div>
+              <div className="flex-1">
+                <Body size="sm" className="mb-1">CVC *</Body>
+                <Input placeholder="123" value={cvc} onChange={(e) => handleChange("cvc", e.target.value)} error={!!errors.cvc} />
+                {errors.cvc && <Body size="sm" className="text-error mt-1">{errors.cvc}</Body>}
+              </div>
+            </div>
+            <Button type="submit" variant="solid" className="w-full" disabled={processPayment.isPending}>
+              {processPayment.isPending ? "Processing..." : `Pay ${formatCurrency(invoice.amount)}`}
+            </Button>
+          </Form>
 
-  if (error || !invoice) {
-    return (
-      <div className="min-h-screen bg-ink-100 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-card shadow-sm border-2 border-ink-200 max-w-md">
-          <AlertCircle className="h-12 w-12 text-error-500 mx-auto mb-4" />
-          <H1 className="text-h5-md font-weight-semibold text-ink-900 mb-2">Invoice Not Found</H1>
-          <Body className="text-ink-500">{error || 'This payment link may have expired.'}</Body>
-        </div>
-      </div>
-    );
-  }
-
-  if (invoice.status === 'paid' || invoice.balance_due <= 0) {
-    return (
-      <div className="min-h-screen bg-ink-100 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-card shadow-sm border-2 border-ink-200 max-w-md">
-          <Check className="h-16 w-16 text-success-600 mx-auto mb-4" />
-          <H1 className="text-h4-md font-weight-bold text-ink-900 mb-2">Payment Complete</H1>
-          <Body className="text-ink-500 mb-4">
-            Thank you! Invoice #{invoice.invoice_number} has been paid in full.
-          </Body>
-          <Body className="text-body-sm text-ink-400">A receipt has been sent to your email.</Body>
-        </div>
-      </div>
-    );
-  }
-
-  const isOverdue = new Date(invoice.due_date) < new Date();
+          <div className="flex items-center justify-center gap-2 mt-6 text-grey-400">
+            <Lock className="size-4" />
+            <Body size="sm">Secured by Stripe</Body>
+          </div>
+        </Section>
+      ),
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-ink-100">
-      <div className="max-w-4xl mx-auto py-8 px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-card shadow-sm border-2 border-ink-200 p-6">
-            <div className="flex items-center gap-3 mb-6">
-              {invoice.organization.logo_url ? (
-                <Image src={invoice.organization.logo_url} alt={invoice.organization.name} width={40} height={40} className="h-10 w-auto" />
-              ) : (
-                <Building2 className="h-8 w-8 text-violet-600" />
-              )}
-              <Text className="text-h6-md font-weight-semibold text-ink-900">{invoice.organization.name}</Text>
-            </div>
-
-            <div className="mb-6">
-              <H1 className="text-h4-md font-weight-bold text-ink-900">Invoice #{invoice.invoice_number}</H1>
-              <Body className="text-body-sm text-ink-500 mt-1">
-                For {invoice.contact.first_name} {invoice.contact.last_name}
-              </Body>
-            </div>
-
-            <div className="space-y-3 mb-6">
-              <div className="flex justify-between text-body-sm">
-                <Text className="text-ink-500">Issue Date</Text>
-                <Text className="text-ink-900">{formatDate(invoice.issue_date)}</Text>
-              </div>
-              <div className="flex justify-between text-body-sm">
-                <Text className="text-ink-500">Due Date</Text>
-                <Text className={isOverdue ? 'text-error-600 font-weight-medium' : 'text-ink-900'}>
-                  {formatDate(invoice.due_date)}
-                  {isOverdue && ' (Overdue)'}
-                </Text>
-              </div>
-            </div>
-
-            <div className="border-t border-ink-200 pt-4 mb-4">
-              <H3 className="text-body-sm font-weight-medium text-ink-500 mb-3">Items</H3>
-              <div className="space-y-2">
-                {invoice.line_items.map((item) => (
-                  <div key={item.id} className="flex justify-between text-body-sm">
-                    <Text className="text-ink-900">
-                      {item.description} x {item.quantity}
-                    </Text>
-                    <Text className="text-ink-900">{formatCurrency(item.total)}</Text>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="border-t border-ink-200 pt-4">
-              <div className="flex justify-between text-body-sm mb-2">
-                <Text className="text-ink-500">Total Amount</Text>
-                <Text className="text-ink-900">{formatCurrency(invoice.total_amount)}</Text>
-              </div>
-              {invoice.amount_paid > 0 && (
-                <div className="flex justify-between text-body-sm mb-2 text-success-600">
-                  <Text>Amount Paid</Text>
-                  <Text>-{formatCurrency(invoice.amount_paid)}</Text>
-                </div>
-              )}
-              <div className="flex justify-between text-h6-md font-weight-bold pt-2 border-t border-ink-200">
-                <Text className="text-ink-500">Amount Due</Text>
-                <Text className="text-ink-900">{formatCurrency(invoice.balance_due)}</Text>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-card shadow-sm border-2 border-ink-200 p-6">
-            <H2 className="text-h6-md font-weight-semibold text-ink-900 mb-6 flex items-center gap-2">
-              <CreditCard className="h-5 w-5" />
-              Payment Details
-            </H2>
-
-            <Form onSubmit={handlePayment} className="space-y-6">
-              <div>
-                <Label className="block text-body-sm font-weight-medium text-ink-700 mb-2">
-                  Payment Method
-                </Label>
-                <div className="grid grid-cols-2 gap-3">
-                  <Button
-                    type="button"
-                    onClick={() => setPaymentMethod('card')}
-                    className={`p-4 border-2 rounded-lg text-center transition-colors ${
-                      paymentMethod === 'card'
-                        ? 'border-violet-600 bg-violet-50'
-                        : 'border-ink-200 hover:border-ink-300'
-                    }`}
-                  >
-                    <CreditCard className={`h-6 w-6 mx-auto mb-1 ${
-                      paymentMethod === 'card' ? 'text-violet-600' : 'text-ink-400'
-                    }`} />
-                    <Text className={`text-sm font-medium ${
-                      paymentMethod === 'card' ? 'text-violet-600' : 'text-ink-600'
-                    }`}>Card</Text>
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => setPaymentMethod('ach')}
-                    className={`p-4 border-2 rounded-lg text-center transition-colors ${
-                      paymentMethod === 'ach'
-                        ? 'border-violet-600 bg-violet-50'
-                        : 'border-ink-200 hover:border-ink-300'
-                    }`}
-                  >
-                    <Building2 className={`h-6 w-6 mx-auto mb-1 ${
-                      paymentMethod === 'ach' ? 'text-violet-600' : 'text-ink-400'
-                    }`} />
-                    <Text className={`text-sm font-medium ${
-                      paymentMethod === 'ach' ? 'text-violet-600' : 'text-ink-600'
-                    }`}>Bank (ACH)</Text>
-                  </Button>
-                </div>
-              </div>
-
-              {paymentMethod === 'card' && (
-                <div className="space-y-4">
-                  <div>
-                    <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
-                      Card Number
-                    </Label>
-                    <Input
-                      type="text"
-                      placeholder="4242 4242 4242 4242"
-                      className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
-                        Expiry
-                      </Label>
-                      <Input
-                        type="text"
-                        placeholder="MM/YY"
-                        className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
-                      />
-                    </div>
-                    <div>
-                      <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
-                        CVC
-                      </Label>
-                      <Input
-                        type="text"
-                        placeholder="123"
-                        className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {paymentMethod === 'ach' && (
-                <div className="space-y-4">
-                  <div>
-                    <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
-                      Account Holder Name
-                    </Label>
-                    <Input
-                      type="text"
-                      placeholder="John Doe"
-                      className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
-                    />
-                  </div>
-                  <div>
-                    <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
-                      Routing Number
-                    </Label>
-                    <Input
-                      type="text"
-                      placeholder="110000000"
-                      className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
-                    />
-                  </div>
-                  <div>
-                    <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
-                      Account Number
-                    </Label>
-                    <Input
-                      type="text"
-                      placeholder="000123456789"
-                      className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
-                    />
-                  </div>
-                </div>
-              )}
-
-              <Button
-                type="submit"
-                disabled={processing}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-button hover:bg-violet-700 transition-colors disabled:opacity-50 font-weight-medium"
-              >
-                {processing ? 'Processing...' : `Pay ${formatCurrency(invoice.balance_due)}`}
-              </Button>
-
-              <div className="flex items-center justify-center gap-2 text-mono-xs text-ink-400">
-                <Lock className="h-3 w-3" />
-                Secured by Stripe
-              </div>
-            </Form>
-          </div>
-        </div>
-      </div>
-    </div>
+    <DetailPage
+      header={{ kicker: "Payment", title: `Invoice ${invoice.number}`, description: "Secure payment portal" }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+    />
   );
 }

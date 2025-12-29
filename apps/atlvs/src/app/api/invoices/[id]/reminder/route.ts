@@ -2,7 +2,13 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { withAuth, PlatformRole, logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const sendReminderSchema = z.object({
+  message: z.string().optional(),
+  cc_emails: z.array(z.string().email()).optional(),
+});
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -25,6 +31,9 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     }
 
     const { id: invoiceId } = await params;
+
+    const body = await request.json().catch(() => ({}));
+    sendReminderSchema.parse(body);
 
     const { data: invoice, error: fetchError } = await supabase
       .from('invoices')

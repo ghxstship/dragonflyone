@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -7,17 +7,19 @@ import { useCateringServices, useCateringData, cateringKeys } from '../useCateri
 // Mock fetch
 global.fetch = vi.fn();
 
-const createWrapper = (): (({ children }: { children: ReactNode }) => JSX.Element) => {
-  const queryClient = new QueryClient({
+function createTestQueryClient() {
+  return new QueryClient({
     defaultOptions: {
       queries: { retry: false },
       mutations: { retry: false },
     },
   });
-  return function TestWrapper({ children }: { children: ReactNode }) {
-    return React.createElement(QueryClientProvider, { client: queryClient }, children);
-  };
-};
+}
+
+function TestWrapper({ children }: { children: React.ReactNode }) {
+  const queryClient = createTestQueryClient();
+  return React.createElement(QueryClientProvider, { client: queryClient }, children);
+}
 
 describe('useCatering', () => {
   beforeEach(() => {
@@ -39,30 +41,30 @@ describe('useCatering', () => {
   });
 
   describe('useCateringServices hook', () => {
-    it('should return demo data on 401 response', async () => {
+    it('should handle 401 response as error', async () => {
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         status: 401,
         ok: false,
+        json: () => Promise.resolve({ error: 'Unauthorized' }),
       });
 
-      const { result } = renderHook(() => useCateringServices(), { wrapper: createWrapper() });
+      const { result } = renderHook(() => useCateringServices(), { wrapper: TestWrapper });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBe(true);
+        expect(result.current.isError).toBe(true);
       });
 
-      expect(result.current.data).toBeDefined();
-      expect(result.current.data?.services).toBeDefined();
-      expect(result.current.data?.summary).toBeDefined();
+      expect(result.current.error).toBeDefined();
     });
 
     it('should apply projectId filter', async () => {
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-        status: 401,
-        ok: false,
+        status: 200,
+        ok: true,
+        json: () => Promise.resolve({ services: [], summary: {} }),
       });
 
-      const { result } = renderHook(() => useCateringServices({ projectId: 'proj-1' }), { wrapper: createWrapper() });
+      const { result } = renderHook(() => useCateringServices({ projectId: 'proj-1' }), { wrapper: TestWrapper });
 
       await waitFor(() => {
         expect(result.current.isSuccess).toBe(true);
@@ -71,11 +73,12 @@ describe('useCatering', () => {
 
     it('should apply mealType filter', async () => {
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-        status: 401,
-        ok: false,
+        status: 200,
+        ok: true,
+        json: () => Promise.resolve({ services: [], summary: {} }),
       });
 
-      const { result } = renderHook(() => useCateringServices({ mealType: 'lunch' }), { wrapper: createWrapper() });
+      const { result } = renderHook(() => useCateringServices({ mealType: 'lunch' }), { wrapper: TestWrapper });
 
       await waitFor(() => {
         expect(result.current.isSuccess).toBe(true);
@@ -84,7 +87,7 @@ describe('useCatering', () => {
 
     it('should return loading state initially', () => {
       (global.fetch as ReturnType<typeof vi.fn>).mockImplementationOnce(() => new Promise(() => {}));
-      const { result } = renderHook(() => useCateringServices(), { wrapper: createWrapper() });
+      const { result } = renderHook(() => useCateringServices(), { wrapper: TestWrapper });
       expect(result.current.isLoading).toBe(true);
     });
   });
@@ -96,7 +99,7 @@ describe('useCatering', () => {
         ok: false,
       });
 
-      const { result } = renderHook(() => useCateringData(), { wrapper: createWrapper() });
+      const { result } = renderHook(() => useCateringData(), { wrapper: TestWrapper });
 
       await waitFor(() => {
         expect(result.current.isLoading).toBe(false);

@@ -73,26 +73,32 @@ export const GET = apiRoute(
     const previousStartDate = new Date(startDate.getTime() - days * 24 * 60 * 60 * 1000);
 
     try {
-      // Fetch deals data
+      // Fetch deals data using schema-compliant columns
+      // Schema: deals has 'status' enum (lead, qualified, proposal, won, lost), NOT 'stage_id'
+      // Schema: deals has 'updated_at' but NOT 'closed_at' - derive closed status from status + updated_at
       const { data: deals, error: dealsError } = await supabase
         .from('deals')
-        .select('id, value, status, stage_id, created_at, closed_at')
+        .select('id, value, status, probability, created_at, updated_at')
         .gte('created_at', startDate.toISOString());
 
       if (dealsError) {
         return NextResponse.json(DEMO_PIPELINE_METRICS);
       }
 
-      // Fetch pipeline stages
-      const { data: stages } = await supabase
-        .from('pipeline_stages')
-        .select('id, name, probability, sort_order')
-        .order('sort_order', { ascending: true });
+      // Define pipeline stages based on deal_status enum from schema
+      // Schema: create type deal_status as enum ('lead','qualified','proposal','won','lost');
+      const PIPELINE_STAGES = [
+        { id: 'lead', name: 'Lead', probability: 10, sort_order: 1 },
+        { id: 'qualified', name: 'Qualified', probability: 25, sort_order: 2 },
+        { id: 'proposal', name: 'Proposal', probability: 50, sort_order: 3 },
+        { id: 'won', name: 'Won', probability: 100, sort_order: 4 },
+        { id: 'lost', name: 'Lost', probability: 0, sort_order: 5 },
+      ];
 
       // Fetch previous period deals
       const { data: previousDeals } = await supabase
         .from('deals')
-        .select('id, status, created_at, closed_at')
+        .select('id, status, created_at, updated_at')
         .gte('created_at', previousStartDate.toISOString())
         .lt('created_at', startDate.toISOString());
 
@@ -104,9 +110,9 @@ export const GET = apiRoute(
         id: string;
         value?: number;
         status?: string;
-        stage_id?: string;
+        probability?: number;
         created_at?: string;
-        closed_at?: string;
+        updated_at?: string;
       }
 
       const dealsData = deals as DealRecord[];
@@ -122,33 +128,26 @@ export const GET = apiRoute(
         ? (wonDeals.length / closedDeals.length) * 100 
         : 0;
 
-      // Calculate average days to close
-      const closedWithDates = wonDeals.filter(d => d.created_at && d.closed_at);
+      // Calculate average days to close using updated_at as proxy for closed date
+      const closedWithDates = wonDeals.filter(d => d.created_at && d.updated_at);
       const totalDaysToClose = closedWithDates.reduce((sum, d) => {
         const created = new Date(d.created_at!);
-        const closed = new Date(d.closed_at!);
+        const closed = new Date(d.updated_at!);
         return sum + Math.ceil((closed.getTime() - created.getTime()) / (1000 * 60 * 60 * 24));
       }, 0);
       const averageDaysToClose = closedWithDates.length > 0 
         ? totalDaysToClose / closedWithDates.length 
         : 0;
 
-      // Calculate deals by stage
-      interface StageRecord {
-        id: string;
-        name: string;
-        probability?: number;
-        sort_order?: number;
-      }
-      const stagesData = (stages || []) as StageRecord[];
-      const dealsByStage = stagesData.map(stage => {
-        const stageDeals = dealsData.filter(d => d.stage_id === stage.id);
+      // Calculate deals by stage using PIPELINE_STAGES and status field
+      const dealsByStage = PIPELINE_STAGES.filter(s => s.id !== 'lost').map(stage => {
+        const stageDeals = dealsData.filter(d => d.status === stage.id);
         return {
           stage_id: stage.id,
           stage_name: stage.name,
           count: stageDeals.length,
           value: stageDeals.reduce((sum, d) => sum + (d.value || 0), 0),
-          probability: stage.probability || 0,
+          probability: stage.probability,
         };
       });
 
@@ -157,11 +156,12 @@ export const GET = apiRoute(
         return sum + (stage.value * (stage.probability / 100));
       }, 0);
 
-      // Calculate conversion rates between stages
-      const conversionRates = stagesData.slice(0, -1).map((stage, i) => {
-        const nextStage = stagesData[i + 1];
-        const currentStageDeals = dealsData.filter(d => d.stage_id === stage.id).length;
-        const nextStageDeals = dealsData.filter(d => d.stage_id === nextStage.id).length;
+      // Calculate conversion rates between active stages (excluding won/lost)
+      const activeStages = PIPELINE_STAGES.filter(s => !['won', 'lost'].includes(s.id));
+      const conversionRates = activeStages.slice(0, -1).map((stage, i) => {
+        const nextStage = activeStages[i + 1];
+        const currentStageDeals = dealsData.filter(d => d.status === stage.id).length;
+        const nextStageDeals = dealsData.filter(d => d.status === nextStage.id).length;
         const rate = currentStageDeals > 0 ? (nextStageDeals / currentStageDeals) * 100 : 0;
         return {
           from_stage: stage.name,
@@ -185,14 +185,17 @@ export const GET = apiRoute(
         new Date(d.created_at) <= lastMonthEnd
       ).length;
 
+      // Use updated_at as proxy for closed date when status is won/lost
       const dealsClosedThisMonth = dealsData.filter(d => 
-        d.closed_at && new Date(d.closed_at) >= thisMonthStart
+        ['won', 'lost'].includes(d.status || '') &&
+        d.updated_at && new Date(d.updated_at) >= thisMonthStart
       ).length;
 
       const dealsClosedLastMonth = previousDealsData.filter(d => 
-        d.closed_at && 
-        new Date(d.closed_at) >= lastMonthStart && 
-        new Date(d.closed_at) <= lastMonthEnd
+        ['won', 'lost'].includes(d.status || '') &&
+        d.updated_at && 
+        new Date(d.updated_at) >= lastMonthStart && 
+        new Date(d.updated_at) <= lastMonthEnd
       ).length;
 
       const metrics: PipelineMetrics = {

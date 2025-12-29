@@ -1,203 +1,49 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-// Layout provided by route group
-import {
-  H2,
-  Body,
-  Button,
-  Card,
-  Field,
-  Input,
-  Textarea,
-  Select,
-  Grid,
-  Stack,
-  Alert,
-  Spinner,
-  Form,
-  Kicker,
-} from '@ghxstship/ui';
-import { useEventCreateData } from '@/hooks/useEventCreate';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { Body, Input, Textarea, CreatePage } from "@ghxstship/ui";
 
 export default function CreateEventPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    venue: '',
-    eventType: 'concert',
-    date: '',
-    time: '',
-    capacity: '',
-    ticketPrice: '',
-    vipPrice: '',
+  const [name, setName] = useState("");
+  const [date, setDate] = useState("");
+  const [venue, setVenue] = useState("");
+  const [description, setDescription] = useState("");
+
+  const createEvent = useMutation({
+    mutationFn: async (data: { name: string; date: string; venue: string; description: string }) => {
+      const response = await fetch("/api/events", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      if (!response.ok) throw new Error("Failed to create event");
+      return response.json();
+    },
+    onSuccess: (data) => router.push(`/e/${data.id}`),
   });
-  const [localError, setLocalError] = useState<string | null>(null);
 
-  const { createEvent, isCreating, error } = useEventCreateData();
-
-  const handleSubmit = async () => {
-    setLocalError(null);
-    
-    try {
-      await createEvent(formData);
-    } catch (err) {
-      setLocalError(err instanceof Error ? err.message : 'An unexpected error occurred');
-    }
-  };
-
-  const displayError = localError || (error instanceof Error ? error.message : null);
+  const sections = [
+    { id: "details", title: "Event Details", content: (
+      <div className="space-y-4">
+        <div><Body size="sm" className="mb-1">Event Name</Body><Input placeholder="Summer Festival 2024" value={name} onChange={(e) => setName(e.target.value)} required /></div>
+        <div className="grid grid-cols-2 gap-4">
+          <div><Body size="sm" className="mb-1">Date</Body><Input type="date" value={date} onChange={(e) => setDate(e.target.value)} required /></div>
+          <div><Body size="sm" className="mb-1">Venue</Body><Input placeholder="Central Park" value={venue} onChange={(e) => setVenue(e.target.value)} required /></div>
+        </div>
+        <div><Body size="sm" className="mb-1">Description</Body><Textarea rows={4} placeholder="Event description..." value={description} onChange={(e) => setDescription(e.target.value)} /></div>
+      </div>
+    )},
+  ];
 
   return (
-    <>
-          <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Events</Kicker>
-              <H2 size="lg" className="text-white">Create Event</H2>
-              <Body className="text-on-dark-muted">Set up your new event</Body>
-            </Stack>
-
-        {displayError && (
-          <Alert variant="error" className="mb-6">
-            {displayError}
-          </Alert>
-        )}
-
-        <Form onSubmit={handleSubmit}>
-          <Grid cols={2} className="mb-8">
-            <Card className="p-6 col-span-2">
-              <H2 className="mb-6">EVENT DETAILS</H2>
-              
-              <Stack gap={6}>
-                <Field label="Event Title" required>
-                  <Input
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    placeholder="Summer Music Festival 2024"
-                    required
-                  />
-                </Field>
-
-                <Field label="Description" required>
-                  <Textarea
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Describe your event..."
-                    rows={4}
-                    required
-                  />
-                </Field>
-
-                <Grid cols={2} className="sm:grid-cols-1 lg:grid-cols-2">
-                  <Field label="Event Type" required>
-                    <Select
-                      value={formData.eventType}
-                      onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
-                    >
-                      <option value="concert">Concert</option>
-                      <option value="festival">Festival</option>
-                      <option value="conference">Conference</option>
-                      <option value="theater">Theater</option>
-                      <option value="sports">Sports</option>
-                      <option value="nightlife">Nightlife</option>
-                    </Select>
-                  </Field>
-
-                  <Field label="Venue" required>
-                    <Input
-                      value={formData.venue}
-                      onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
-                      placeholder="The Arena"
-                      required
-                    />
-                  </Field>
-                </Grid>
-
-                <Grid cols={2} className="sm:grid-cols-1 lg:grid-cols-2">
-                  <Field label="Date" required>
-                    <Input
-                      type="date"
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                      required
-                    />
-                  </Field>
-
-                  <Field label="Time" required>
-                    <Input
-                      type="time"
-                      value={formData.time}
-                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                      required
-                    />
-                  </Field>
-                </Grid>
-              </Stack>
-            </Card>
-
-            <Card className="p-6 col-span-2">
-              <H2 className="mb-6">TICKETING</H2>
-              
-              <Stack gap={6}>
-                <Field label="Capacity" required>
-                  <Input
-                    type="number"
-                    value={formData.capacity}
-                    onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
-                    placeholder="5000"
-                    required
-                  />
-                </Field>
-
-                <Grid cols={2} className="sm:grid-cols-1 lg:grid-cols-2">
-                  <Field label="GA Ticket Price" required>
-                    <Input
-                      type="number"
-                      value={formData.ticketPrice}
-                      onChange={(e) => setFormData({ ...formData, ticketPrice: e.target.value })}
-                      placeholder="50"
-                      required
-                    />
-                  </Field>
-
-                  <Field label="VIP Ticket Price">
-                    <Input
-                      type="number"
-                      value={formData.vipPrice}
-                      onChange={(e) => setFormData({ ...formData, vipPrice: e.target.value })}
-                      placeholder="150"
-                    />
-                  </Field>
-                </Grid>
-              </Stack>
-            </Card>
-          </Grid>
-
-          <Stack direction="horizontal" gap={4}>
-            <Button type="submit" variant="solid" disabled={isCreating}>
-              {isCreating ? (
-                <>
-                  <Spinner size="sm" className="mr-2" />
-                  Creating...
-                </>
-              ) : (
-                'Create Event'
-              )}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-              disabled={isCreating}
-            >
-              Cancel
-            </Button>
-          </Stack>
-        </Form>
-          </Stack>
-    </>
+    <CreatePage
+      title="Create Event"
+      subtitle="Set up a new event"
+      backHref="/events"
+      backLabel="Events"
+      sections={sections}
+      onSubmit={(e) => { e.preventDefault(); if (name && date && venue) createEvent.mutate({ name, date, venue, description }); }}
+      submitLabel="Create Event"
+      isSubmitting={createEvent.isPending}
+    />
   );
 }

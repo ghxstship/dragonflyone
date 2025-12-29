@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useMemo, ReactNode } from "react";
 
 type Theme = "dark" | "light" | "system";
 
@@ -101,15 +101,23 @@ export function ThemeProvider({
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme]);
 
-  const setTheme = (newTheme: Theme) => {
+  const setTheme = useCallback((newTheme: Theme) => {
     setThemeState(newTheme);
     localStorage.setItem(storageKey, newTheme);
-  };
+  }, [storageKey]);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     const newTheme = resolvedTheme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-  };
+    setThemeState(newTheme);
+    localStorage.setItem(storageKey, newTheme);
+  }, [resolvedTheme, storageKey]);
+
+  const value = useMemo<ThemeContextValue>(() => ({
+    theme,
+    resolvedTheme,
+    setTheme,
+    toggleTheme,
+  }), [theme, resolvedTheme, setTheme, toggleTheme]);
 
   // Prevent flash of wrong theme
   if (!mounted) {
@@ -117,7 +125,7 @@ export function ThemeProvider({
   }
 
   return (
-    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );

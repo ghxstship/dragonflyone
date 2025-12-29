@@ -1,29 +1,80 @@
-'use client';
+"use client";
 
+/**
+ * BEO Detail Page
+ * Shows detailed information about a specific Banquet Event Order
+ * Uses normalized DetailPage template from @ghxstship/ui
+ */
+
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import {
+  Edit2,
+  CheckCircle,
+  Send,
+  FileText,
+  Clock,
+  Users,
+  MapPin,
+  Utensils,
+  ListChecks,
+} from "lucide-react";
+import {
+  Badge,
   Body,
   Button,
-  H1,
-  H2,
-  H3,
-  Icon,
-  List,
-  ListItem,
-  Text,
-} from '@ghxstship/ui';
+  Card,
+  DetailPage,
+  Grid,
+  StatCard,
+  Section,
+  SectionHeader,
+  Modal,
+  useNotifications,
+  type DetailPageTab,
+} from "@ghxstship/ui";
+import { useBEO, useApproveBEO, useDistributeBEO } from "@/hooks/useBEOs";
+import { useAuthContext, PlatformRole } from "@ghxstship/config";
 
-import { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { ArrowLeft, Edit2, CheckCircle, Send, FileText, Clock, Users, MapPin, Calendar, Utensils, AlertTriangle } from 'lucide-react';
-import { useBEO, useApproveBEO, useDistributeBEO } from '@/hooks/useBEOs';
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
+
+const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
+  draft: "outline",
+  pending_review: "warning",
+  approved: "success",
+  distributed: "info",
+};
+
+const STATUS_LABELS: Record<string, string> = {
+  draft: "Draft",
+  pending_review: "Pending Review",
+  approved: "Approved",
+  distributed: "Distributed",
+};
+
+const DEPARTMENTS = [
+  { id: "kitchen", label: "Kitchen", icon: Utensils },
+  { id: "bar", label: "Bar", icon: Utensils },
+  { id: "service", label: "Service", icon: Users },
+  { id: "av", label: "Audio/Visual", icon: FileText },
+  { id: "setup", label: "Setup Crew", icon: MapPin },
+];
 
 export default function BEODetailPage() {
   const params = useParams();
   const router = useRouter();
+  const { hasRole } = useAuthContext();
+  const { addNotification } = useNotifications();
   const beoId = params.id as string;
 
-  const { data, isLoading, error } = useBEO(beoId);
+  const canManageBEO = ADMIN_ROLES.some((role) => hasRole(role));
+
+  const { data, isLoading, error, refetch } = useBEO(beoId);
   const beo = data?.beo;
   const approveMutation = useApproveBEO();
   const distributeMutation = useDistributeBEO();
@@ -31,35 +82,36 @@ export default function BEODetailPage() {
   const [showDistributeModal, setShowDistributeModal] = useState(false);
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
 
-  const DEPARTMENTS = [
-    { id: 'kitchen', label: 'Kitchen', icon: Utensils },
-    { id: 'bar', label: 'Bar', icon: Utensils },
-    { id: 'service', label: 'Service', icon: Users },
-    { id: 'av', label: 'Audio/Visual', icon: FileText },
-    { id: 'setup', label: 'Setup Crew', icon: MapPin },
-  ];
-
   const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
   const formatTime = (timeStr: string) => {
-    return new Date(`2000-01-01T${timeStr}`).toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
+    return new Date(`2000-01-01T${timeStr}`).toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
     });
   };
 
   const handleApprove = async () => {
     try {
       await approveMutation.mutateAsync(beoId);
+      addNotification({
+        type: "success",
+        title: "BEO Approved",
+        message: "The BEO has been approved successfully.",
+      });
     } catch (err) {
-      console.error('Failed to approve BEO:', err);
+      addNotification({
+        type: "error",
+        title: "Approval Failed",
+        message: err instanceof Error ? err.message : "An error occurred",
+      });
     }
   };
 
@@ -72,267 +124,250 @@ export default function BEODetailPage() {
       });
       setShowDistributeModal(false);
       setSelectedDepartments([]);
+      addNotification({
+        type: "success",
+        title: "BEO Distributed",
+        message: `BEO sent to ${selectedDepartments.length} department(s).`,
+      });
     } catch (err) {
-      console.error('Failed to distribute BEO:', err);
+      addNotification({
+        type: "error",
+        title: "Distribution Failed",
+        message: err instanceof Error ? err.message : "An error occurred",
+      });
     }
   };
 
-  const getStatusConfig = (status: string) => {
-    switch (status) {
-      case 'draft':
-        return { label: 'Draft', color: 'bg-muted text-muted-foreground' };
-      case 'pending_review':
-        return { label: 'Pending Review', color: 'bg-warning/20 text-warning' };
-      case 'approved':
-        return { label: 'Approved', color: 'bg-success/20 text-success' };
-      case 'distributed':
-        return { label: 'Distributed', color: 'bg-primary/20 text-primary' };
-      default:
-        return { label: status, color: 'bg-muted text-muted-foreground' };
-    }
-  };
+  // Define tabs for the detail page
+  const tabs: DetailPageTab[] = [
+    {
+      id: "overview",
+      label: "Overview",
+      content: beo ? (
+        <>
+          {/* Stats */}
+          <Grid cols={4} gap={4} className="grid-cols-2 lg:grid-cols-4 mb-6">
+            <StatCard label="Event Date" value={formatDate(beo.event_date)} />
+            <StatCard
+              label="Event Time"
+              value={beo.event_start_time ? `${formatTime(beo.event_start_time)}${beo.event_end_time ? ` - ${formatTime(beo.event_end_time)}` : ""}` : "TBD"}
+            />
+            <StatCard label="Guest Count" value={`${beo.guest_count || 0} guests`} />
+            <StatCard label="Room Setup" value={beo.sections?.room_setup?.layout || "Standard"} />
+          </Grid>
 
-  if (isLoading) {
-    return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading BEO...</div>
-      </div>
-    );
-  }
-
-  if (error || !beo) {
-    return (
-      <div className="p-6">
-        <div className="text-center py-12">
-          <AlertTriangle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <H2 className="text-h3-md font-weight-bold text-foreground mb-2">BEO Not Found</H2>
-          <Body className="text-body-sm text-muted-foreground mb-4">
-            {error instanceof Error ? error.message : 'The requested BEO could not be found.'}
-          </Body>
-          <Link
-            href="/beos"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to BEOs
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const statusConfig = getStatusConfig(beo.status);
-
-  return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/beos"
-            className="p-2 hover:bg-muted rounded-button transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </Link>
-          <div>
-            <div className="flex items-center gap-3">
-              <H1 className="text-h2-md font-weight-bold text-foreground">{beo.beo_number}</H1>
-              <Text className={`px-3 py-1 rounded-badge text-body-sm font-weight-medium ${statusConfig.color}`}>
-                {statusConfig.label}
-              </Text>
-            </div>
-            <Body className="text-body-sm text-muted-foreground mt-1">
-              {beo.name}
-            </Body>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          {beo.status === 'draft' && (
-            <Button
-              onClick={() => router.push(`/beos/${beoId}/edit`)}
-              className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
-            >
-              <Edit2 className="h-4 w-4" />
-              Edit
-            </Button>
-          )}
-          {beo.status === 'pending_review' && (
-            <Button
-              onClick={handleApprove}
-              disabled={approveMutation.isPending}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-success text-success-foreground rounded-button border-2 border-success text-body-sm font-weight-medium hover:bg-success/90 transition-colors disabled:opacity-50"
-            >
-              <CheckCircle className="h-4 w-4" />
-              {approveMutation.isPending ? 'Approving...' : 'Approve'}
-            </Button>
-          )}
-          {beo.status === 'approved' && (
-            <Button
-              onClick={() => setShowDistributeModal(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary text-body-sm font-weight-medium hover:bg-primary/90 transition-colors"
-            >
-              <Send className="h-4 w-4" />
-              Distribute
-            </Button>
-          )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Calendar className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Event Date</Text>
-          </div>
-          <Body className="text-body-lg font-weight-medium text-foreground">
-            {formatDate(beo.event_date)}
-          </Body>
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Event Time</Text>
-          </div>
-          <Body className="text-body-lg font-weight-medium text-foreground">
-            {beo.event_start_time ? formatTime(beo.event_start_time) : 'TBD'}
-            {beo.event_end_time && ` - ${formatTime(beo.event_end_time)}`}
-          </Body>
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Users className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Guest Count</Text>
-          </div>
-          <Body className="text-body-lg font-weight-medium text-foreground">
-            {beo.guest_count || 0} guests
-          </Body>
-        </div>
-        <div className="bg-background border-2 border-border rounded-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <MapPin className="h-5 w-5 text-primary" />
-            <Text className="text-body-sm text-muted-foreground">Room Setup</Text>
-          </div>
-          <Body className="text-body-lg font-weight-medium text-foreground capitalize">
-            {beo.sections?.room_setup?.layout || 'Standard'}
-          </Body>
-        </div>
-      </div>
-
-      {beo.sections && Object.keys(beo.sections).length > 0 && (
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Event Details</H2>
-          <div className="space-y-6">
-            {Object.entries(beo.sections).map(([sectionKey, sectionData]) => (
-              <div key={sectionKey} className="border-b border-border pb-4 last:border-0 last:pb-0">
-                <H3 className="text-body-lg font-weight-medium text-foreground capitalize mb-2">
-                  {sectionKey.replace(/_/g, ' ')}
-                </H3>
-                <div className="text-body-sm text-muted-foreground">
-                  {typeof sectionData === 'string' ? (
-                    <Body>{sectionData}</Body>
-                  ) : Array.isArray(sectionData) ? (
-                    <List className="list-disc list-inside space-y-1">
-                      {sectionData.map((item, idx) => (
-                        <ListItem key={idx}>{typeof item === 'string' ? item : JSON.stringify(item)}</ListItem>
-                      ))}
-                    </List>
-                  ) : (
-                    <pre className="text-body-xs bg-muted p-2 rounded overflow-auto">
-                      {JSON.stringify(sectionData, null, 2)}
-                    </pre>
-                  )}
-                </div>
+          {/* Event Details */}
+          {beo.sections && Object.keys(beo.sections).length > 0 && (
+            <Section border className="mb-6">
+              <SectionHeader title="Event Details" />
+              <div className="space-y-4">
+                {Object.entries(beo.sections).map(([sectionKey, sectionData]) => (
+                  <Card key={sectionKey} inverted className="p-4">
+                    <Body className="text-white font-weight-medium capitalize mb-2">
+                      {sectionKey.replace(/_/g, " ")}
+                    </Body>
+                    <Body size="sm" className="text-grey-300">
+                      {typeof sectionData === "string"
+                        ? sectionData
+                        : Array.isArray(sectionData)
+                          ? sectionData.map((item) => (typeof item === "string" ? item : JSON.stringify(item))).join(", ")
+                          : JSON.stringify(sectionData, null, 2)}
+                    </Body>
+                  </Card>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            </Section>
+          )}
 
-      {beo.sections?.timeline && beo.sections.timeline.length > 0 && (
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Timeline</H2>
+          {/* Notes */}
+          {beo.notes && (
+            <Section border>
+              <SectionHeader title="Notes" />
+              <Card inverted className="p-4">
+                <Body className="text-white whitespace-pre-wrap">{beo.notes}</Body>
+              </Card>
+            </Section>
+          )}
+        </>
+      ) : null,
+    },
+    {
+      id: "timeline",
+      label: "Timeline",
+      icon: <Clock className="size-4" />,
+      content: beo?.sections?.timeline && beo.sections.timeline.length > 0 ? (
+        <Section border>
+          <SectionHeader title="Event Timeline" />
           <div className="space-y-3">
             {beo.sections.timeline.map((item: { time: string; activity: string; notes?: string }, idx: number) => (
-              <div key={idx} className="flex items-start gap-4 p-3 bg-muted/30 rounded-card">
-                <div className="flex-shrink-0 w-20 text-body-sm font-weight-medium text-primary">
-                  {item.time}
+              <Card key={idx} inverted className="p-4">
+                <div className="flex items-start gap-4">
+                  <Body className="text-primary font-weight-medium w-20 flex-shrink-0">{item.time}</Body>
+                  <div className="flex-1">
+                    <Body className="text-white font-weight-medium">{item.activity}</Body>
+                    {item.notes && (
+                      <Body size="xs" className="text-grey-400 mt-1">{item.notes}</Body>
+                    )}
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <Body className="text-body-sm font-weight-medium text-foreground">{item.activity}</Body>
-                  {item.notes && (
-                    <Body className="text-body-xs text-muted-foreground mt-1">{item.notes}</Body>
-                  )}
-                </div>
-              </div>
+              </Card>
             ))}
           </div>
-        </div>
-      )}
+        </Section>
+      ) : (
+        <Section border>
+          <SectionHeader title="Event Timeline" />
+          <Card inverted className="p-6">
+            <Body className="text-grey-400">No timeline items have been added yet.</Body>
+          </Card>
+        </Section>
+      ),
+    },
+    {
+      id: "distribution",
+      label: "Distribution",
+      icon: <Send className="size-4" />,
+      content: (
+        <Section border>
+          <SectionHeader title="Distribution History" />
+          <Card inverted className="p-6">
+            <Body className="text-grey-400">Distribution history will be displayed here.</Body>
+          </Card>
+        </Section>
+      ),
+    },
+    {
+      id: "checklist",
+      label: "Checklist",
+      icon: <ListChecks className="size-4" />,
+      content: (
+        <Section border>
+          <SectionHeader title="Event Checklist" />
+          <Card inverted className="p-6">
+            <Body className="text-grey-400">Event checklist items will be displayed here.</Body>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
 
-      {beo.notes && (
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</H2>
-          <Body className="text-body-sm text-muted-foreground whitespace-pre-wrap">{beo.notes}</Body>
-        </div>
-      )}
+  // Build actions based on BEO status
+  const buildActions = () => {
+    if (!canManageBEO || !beo) return undefined;
 
-      {showDistributeModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-background border-2 border-border rounded-card p-6 w-full max-w-md">
-            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">
-              Distribute BEO
-            </H2>
-            <Body className="text-body-sm text-muted-foreground mb-4">
-              Select departments to receive this BEO:
-            </Body>
-            <div className="space-y-2 mb-6">
-              {DEPARTMENTS.map((dept) => {
-                const Icon = dept.icon;
-                const isSelected = selectedDepartments.includes(dept.id);
-                return (
-                  <Button
-                    key={dept.id}
-                    type="button"
-                    onClick={() => {
-                      setSelectedDepartments((prev) =>
-                        isSelected
-                          ? prev.filter((d) => d !== dept.id)
-                          : [...prev, dept.id]
-                      );
-                    }}
-                    className={`w-full flex items-center gap-3 p-3 rounded-card border-2 transition-colors ${
-                      isSelected
-                        ? 'border-primary bg-primary/10'
-                        : 'border-border hover:border-muted-foreground'
-                    }`}
-                  >
-                    <Icon className={`h-5 w-5 ${isSelected ? 'text-primary' : 'text-muted-foreground'}`} />
-                    <Text className={`text-body-sm font-weight-medium ${isSelected ? 'text-primary' : 'text-foreground'}`}>
-                      {dept.label}
-                    </Text>
-                    {isSelected && <CheckCircle className="h-4 w-4 text-primary ml-auto" />}
-                  </Button>
-                );
-              })}
-            </div>
-            <div className="flex items-center justify-end gap-3">
+    const actions: React.ReactNode[] = [];
+
+    if (beo.status === "draft") {
+      actions.push(
+        <Button
+          key="edit"
+          variant="solid"
+          onClick={() => router.push(`/beos/${beoId}/edit`)}
+          icon={<Edit2 className="size-4" />}
+          iconPosition="left"
+        >
+          Edit
+        </Button>
+      );
+    }
+
+    if (beo.status === "pending_review") {
+      actions.push(
+        <Button
+          key="approve"
+          variant="solid"
+          onClick={handleApprove}
+          disabled={approveMutation.isPending}
+          icon={<CheckCircle className="size-4" />}
+          iconPosition="left"
+          className="bg-success hover:bg-success/90"
+        >
+          {approveMutation.isPending ? "Approving..." : "Approve"}
+        </Button>
+      );
+    }
+
+    if (beo.status === "approved") {
+      actions.push(
+        <Button
+          key="distribute"
+          variant="solid"
+          onClick={() => setShowDistributeModal(true)}
+          icon={<Send className="size-4" />}
+          iconPosition="left"
+        >
+          Distribute
+        </Button>
+      );
+    }
+
+    return actions.length > 0 ? <>{actions}</> : undefined;
+  };
+
+  return (
+    <>
+      <DetailPage
+        header={{
+          kicker: "Banquet Event Order",
+          title: beo?.beo_number || "BEO Details",
+          description: beo?.name || undefined,
+          badge: beo?.status ? (
+            <Badge variant={STATUS_COLORS[beo.status] || "outline"}>
+              {STATUS_LABELS[beo.status] || beo.status}
+            </Badge>
+          ) : undefined,
+        }}
+        backButton={{ label: "Back to BEOs", href: "/beos" }}
+        loading={isLoading}
+        error={error instanceof Error ? error : null}
+        onRetry={refetch}
+        notFound={!isLoading && !error && !beo}
+        notFoundMessage="The BEO you're looking for doesn't exist or has been removed."
+        tabs={tabs}
+        actions={buildActions()}
+      />
+
+      {/* Distribute Modal */}
+      <Modal
+        open={showDistributeModal}
+        onClose={() => setShowDistributeModal(false)}
+        title="Distribute BEO"
+      >
+        <Body className="mb-4">Select departments to receive this BEO:</Body>
+        <div className="space-y-2 mb-4">
+          {DEPARTMENTS.map((dept) => {
+            const Icon = dept.icon;
+            const isSelected = selectedDepartments.includes(dept.id);
+            return (
               <Button
-                onClick={() => setShowDistributeModal(false)}
-                className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
+                key={dept.id}
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  setSelectedDepartments((prev) =>
+                    isSelected ? prev.filter((d) => d !== dept.id) : [...prev, dept.id]
+                  );
+                }}
+                className={`w-full flex items-center gap-3 p-3 rounded-card border-2 transition-colors ${
+                  isSelected ? "border-primary bg-primary/10" : "border-border hover:border-muted-foreground"
+                }`}
               >
-                Cancel
+                <Icon className={`h-5 w-5 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
+                <Body size="sm" className={`font-weight-medium ${isSelected ? "text-primary" : "text-foreground"}`}>
+                  {dept.label}
+                </Body>
+                {isSelected && <CheckCircle className="h-4 w-4 text-primary ml-auto" />}
               </Button>
-              <Button
-                onClick={handleDistribute}
-                disabled={selectedDepartments.length === 0 || distributeMutation.isPending}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary text-body-sm font-weight-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
-              >
-                <Send className="h-4 w-4" />
-                {distributeMutation.isPending ? 'Sending...' : 'Send'}
-              </Button>
-            </div>
-          </div>
+            );
+          })}
         </div>
-      )}
-    </div>
+        <div className="flex justify-end gap-2">
+          <Button variant="outline" onClick={() => setShowDistributeModal(false)}>Cancel</Button>
+          <Button variant="solid" onClick={handleDistribute} disabled={distributeMutation.isPending}>
+            {distributeMutation.isPending ? "Sending..." : "Send"}
+          </Button>
+        </div>
+      </Modal>
+    </>
   );
 }

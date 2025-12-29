@@ -1,7 +1,40 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const logMaintenanceSchema = z.object({
+  action: z.literal('log_maintenance').optional().default('log_maintenance'),
+  asset_id: z.string().uuid(),
+  maintenance_type: z.string(),
+  cost: z.number().optional(),
+  issues_found: z.union([z.string(), z.array(z.string())]).optional(),
+  notes: z.string().optional(),
+  parts_replaced: z.array(z.string()).optional(),
+});
+
+const updateUsageSchema = z.object({
+  action: z.literal('update_usage'),
+  asset_id: z.string().uuid(),
+  usage_hours: z.number(),
+  metrics: z.record(z.number()).optional(),
+});
+
+const scheduleMaintenanceSchema = z.object({
+  action: z.literal('schedule_maintenance'),
+  asset_id: z.string().uuid(),
+  scheduled_date: z.string(),
+  maintenance_type: z.string(),
+  notes: z.string().optional(),
+});
+
+const maintenanceActionSchema = z.union([
+  logMaintenanceSchema,
+  updateUsageSchema,
+  scheduleMaintenanceSchema,
+]);
 
 // Types for asset maintenance
 interface Asset {
@@ -64,10 +97,22 @@ interface Anomaly {
 }
 
 // GET /api/ai/asset-maintenance - Predictive maintenance for assets
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -241,7 +286,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -252,10 +304,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const action = body.action || 'log_maintenance';
+    const validatedData = maintenanceActionSchema.parse(body);
+    const action = validatedData.action || 'log_maintenance';
 
     if (action === 'log_maintenance') {
-      const { asset_id, maintenance_type, cost, issues_found, notes, parts_replaced } = body;
+      const { asset_id, maintenance_type, cost, issues_found, notes, parts_replaced } = validatedData as z.infer<typeof logMaintenanceSchema>;
 
       const { data: maintenance, error } = await supabase
         .from('asset_maintenance')
@@ -287,7 +340,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ maintenance }, { status: 201 });
     } else if (action === 'update_usage') {
-      const { asset_id, usage_hours, metrics } = body;
+      const { asset_id, usage_hours, metrics } = validatedData as z.infer<typeof updateUsageSchema>;
 
       // Update asset usage
       await supabase
@@ -312,7 +365,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ success: true });
     } else if (action === 'schedule_maintenance') {
-      const { asset_id, scheduled_date, maintenance_type, notes } = body;
+      const { asset_id, scheduled_date, maintenance_type, notes } = validatedData as z.infer<typeof scheduleMaintenanceSchema>;
 
       const { data: scheduled, error } = await supabase
         .from('scheduled_maintenance')

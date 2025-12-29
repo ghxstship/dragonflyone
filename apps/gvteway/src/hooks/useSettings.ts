@@ -65,6 +65,7 @@ export function useSettingsData() {
     settings: settingsQuery.data || DEFAULT_SETTINGS,
     isLoading: settingsQuery.isLoading,
     error: settingsQuery.error,
+    refetch: settingsQuery.refetch,
     saveSettings: saveMutation.mutateAsync,
     isSaving: saveMutation.isPending,
   };

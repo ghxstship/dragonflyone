@@ -1,14 +1,44 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const assignSchema = z.object({
+  action: z.literal('assign'),
+  project_id: z.string().uuid(),
+  subcontractor_id: z.string().uuid(),
+  scope: z.string().optional(),
+  contract_value: z.number().optional(),
+});
+
+const rateSchema = z.object({
+  action: z.literal('rate'),
+  subcontractor_id: z.string().uuid(),
+  project_id: z.string().uuid(),
+  rating: z.number().min(1).max(5),
+  feedback: z.string().optional(),
+});
+
+const subcontractorActionSchema = z.union([assignSchema, rateSchema]);
 
 // Subcontractor management and performance tracking
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -44,17 +74,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = subcontractorActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'assign') {
-      const { project_id, subcontractor_id, scope, contract_value } = body;
+      const { project_id, subcontractor_id, scope, contract_value } = validatedData as z.infer<typeof assignSchema>;
       const { data, error } = await supabase.from('project_subcontractors').insert({
         project_id, subcontractor_id, scope, contract_value, status: 'active'
       }).select().single();
@@ -64,7 +101,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'rate') {
-      const { subcontractor_id, project_id, rating, feedback } = body;
+      const { subcontractor_id, project_id, rating, feedback } = validatedData as z.infer<typeof rateSchema>;
       await supabase.from('subcontractor_ratings').insert({
         subcontractor_id, project_id, rating, feedback, rated_by: user.id
       });

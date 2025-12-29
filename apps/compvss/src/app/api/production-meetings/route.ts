@@ -1,14 +1,59 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createMeetingSchema = z.object({
+  project_id: z.string().uuid(),
+  title: z.string(),
+  description: z.string().optional(),
+  scheduled_at: z.string(),
+  duration_minutes: z.number().optional(),
+  location: z.string().optional(),
+  meeting_type: z.string().optional(),
+  attendee_ids: z.array(z.string().uuid()).optional(),
+  agenda: z.array(z.string()).optional(),
+});
+
+const addMinutesSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('add_minutes'),
+  content: z.string(),
+  action_items: z.array(z.record(z.unknown())).optional(),
+  decisions: z.array(z.string()).optional(),
+});
+
+const respondMeetingSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('respond'),
+  response: z.enum(['accepted', 'declined', 'tentative']),
+});
+
+const cancelMeetingSchema = z.object({
+  id: z.string().uuid(),
+  action: z.literal('cancel'),
+});
+
+const meetingPatchSchema = z.union([addMinutesSchema, respondMeetingSchema, cancelMeetingSchema]);
 
 // Production meeting scheduling and automated minutes
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -35,14 +80,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { project_id, title, description, scheduled_at, duration_minutes, location, meeting_type, attendee_ids, agenda } = body;
+    const validatedData = createMeetingSchema.parse(body);
+    const { project_id, title, description, scheduled_at, duration_minutes, location, meeting_type, attendee_ids, agenda } = validatedData;
 
     const { data: meeting, error } = await supabase.from('production_meetings').insert({
       project_id, title, description, scheduled_at, duration_minutes,
@@ -78,17 +130,24 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { id, action } = body;
+    const validatedData = meetingPatchSchema.parse(body);
+    const { id, action } = validatedData;
 
     if (action === 'add_minutes') {
-      const { content, action_items, decisions } = body;
+      const { content, action_items, decisions } = validatedData as z.infer<typeof addMinutesSchema>;
 
       const { data, error } = await supabase.from('meeting_minutes').insert({
         meeting_id: id, content, action_items: action_items || [],
@@ -104,7 +163,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     if (action === 'respond') {
-      const { response } = body; // 'accepted', 'declined', 'tentative'
+      const { response } = validatedData as z.infer<typeof respondMeetingSchema>;
       await supabase.from('meeting_attendees').update({ status: response })
         .eq('meeting_id', id).eq('user_id', user.id);
       return NextResponse.json({ success: true });

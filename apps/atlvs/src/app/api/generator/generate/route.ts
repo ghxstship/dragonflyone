@@ -1,7 +1,13 @@
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import type { GeneratedBlueprint } from "../../../generator/types";
+import { z } from 'zod';
+
+const generateBlueprintSchema = z.object({
+  creativeSeed: z.string().min(1).max(50),
+  useAI: z.boolean().optional(),
+});
 
 export const runtime = "edge";
 export const maxDuration = 60; // Allow up to 60 seconds for AI generation
@@ -369,24 +375,25 @@ async function generateWithAI(creativeSeed: string): Promise<GeneratedBlueprint>
   }
 }
 
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function POST(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const body = await request.json();
-    const { creativeSeed, useAI = true } = body;
-
-    if (!creativeSeed || typeof creativeSeed !== "string") {
-      return NextResponse.json(
-        { error: "Creative seed is required" },
-        { status: 400 }
-      );
-    }
-
-    if (creativeSeed.length > 50) {
-      return NextResponse.json(
-        { error: "Creative seed must be 50 characters or less" },
-        { status: 400 }
-      );
-    }
+    const validatedData = generateBlueprintSchema.parse(body);
+    const { creativeSeed, useAI = true } = validatedData;
 
     // Use AI generation if API key is available and useAI is true
     const hasApiKey = !!process.env.OPENAI_API_KEY;

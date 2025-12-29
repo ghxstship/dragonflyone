@@ -1,92 +1,163 @@
 "use client";
 
+/**
+ * Production Documents Page
+ * Document management for production
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid } from "@ghxstship/ui";
-import { FileText, Plus, Upload, Folder, Download } from "lucide-react";
-import { atlvsDemoProductions } from "../../../../data/atlvs";
+import { FileText, Plus, Download, Trash2, Search, Folder, Upload, List, Grid as GridIcon } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  Input,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
+} from "@ghxstship/ui";
+
+interface Document {
+  id: string;
+  name: string;
+  type: string;
+  size: string;
+  uploaded_by: string;
+  uploaded_at: string;
+  folder: string;
+}
+
+const DEMO_DOCUMENTS: Document[] = [
+  { id: "1", name: "Production Schedule.pdf", type: "pdf", size: "2.4 MB", uploaded_by: "John Smith", uploaded_at: "2024-12-10", folder: "Schedules" },
+  { id: "2", name: "Vendor Contract - Lighting.pdf", type: "pdf", size: "1.2 MB", uploaded_by: "Sarah Williams", uploaded_at: "2024-12-08", folder: "Contracts" },
+  { id: "3", name: "Stage Design.dwg", type: "dwg", size: "5.8 MB", uploaded_by: "Mike Johnson", uploaded_at: "2024-12-05", folder: "Designs" },
+  { id: "4", name: "Budget Overview.xlsx", type: "xlsx", size: "450 KB", uploaded_by: "Emily Davis", uploaded_at: "2024-12-03", folder: "Finance" },
+  { id: "5", name: "Team Contact List.xlsx", type: "xlsx", size: "120 KB", uploaded_by: "Lisa Brown", uploaded_at: "2024-12-01", folder: "Team" },
+  { id: "6", name: "Venue Floor Plan.pdf", type: "pdf", size: "3.1 MB", uploaded_by: "Alex Chen", uploaded_at: "2024-11-28", folder: "Venue" },
+];
+
+const FOLDERS = ["All", "Schedules", "Contracts", "Designs", "Finance", "Team", "Venue"];
 
 export default function ProductionDocumentsPage() {
   const params = useParams();
   const router = useRouter();
-  const productionId = params?.productionId as string;
-  const production = atlvsDemoProductions.find((p) => p.id === productionId);
+  const productionId = params.productionId as string;
+  const [search, setSearch] = useState("");
+  const [selectedFolder, setSelectedFolder] = useState("All");
 
-  const folders = [
-    { id: "1", name: "Contracts", count: 12, updated: "2025-06-10" },
-    { id: "2", name: "Permits", count: 8, updated: "2025-06-08" },
-    { id: "3", name: "Technical Specs", count: 15, updated: "2025-06-12" },
-    { id: "4", name: "Marketing Assets", count: 24, updated: "2025-06-11" },
-    { id: "5", name: "Reports", count: 6, updated: "2025-06-09" },
-  ];
+  const { data: documents = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["production-documents", productionId],
+    queryFn: async () => {
+      const response = await fetch(`/api/productions/${productionId}/documents`);
+      if (!response.ok) return DEMO_DOCUMENTS;
+      const data = await response.json();
+      return data.documents?.length ? data.documents : DEMO_DOCUMENTS;
+    },
+  });
 
-  const recentFiles = [
-    { id: "1", name: "Stage Layout v3.pdf", folder: "Technical Specs", size: "2.4 MB", updated: "2025-06-12" },
-    { id: "2", name: "Vendor Contract - Audio.pdf", folder: "Contracts", size: "1.2 MB", updated: "2025-06-11" },
-    { id: "3", name: "Fire Safety Permit.pdf", folder: "Permits", size: "0.8 MB", updated: "2025-06-10" },
+  const filteredDocuments = documents.filter((doc: Document) => {
+    const matchesSearch = !search || doc.name.toLowerCase().includes(search.toLowerCase());
+    const matchesFolder = selectedFolder === "All" || doc.folder === selectedFolder;
+    return matchesSearch && matchesFolder;
+  });
+
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+
+  const getFileIcon = (type: string) => {
+    const colors: Record<string, string> = { pdf: "text-error", xlsx: "text-success", dwg: "text-info" };
+    return <FileText className={`size-5 ${colors[type] || "text-grey-400"}`} />;
+  };
+
+  const tabs = [
+    {
+      id: "documents",
+      label: "Documents",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
+            <StatCard label="Total Documents" value={documents.length.toString()} icon={<FileText className="size-5" />} />
+            <StatCard label="Folders" value={FOLDERS.length.toString()} icon={<Folder className="size-5" />} />
+            <StatCard label="This Week" value={documents.filter((d: Document) => new Date(d.uploaded_at) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length.toString()} icon={<Upload className="size-5" />} />
+            <StatCard label="Total Size" value="13.1 MB" icon={<FileText className="size-5" />} />
+          </Grid>
+
+          <Card className="p-4 mb-6">
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex-1 min-w-[200px] relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Input placeholder="Search documents..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                {FOLDERS.map((folder) => (
+                  <Button key={folder} variant={selectedFolder === folder ? "solid" : "outline"} size="sm" onClick={() => setSelectedFolder(folder)}>
+                    {folder}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </Card>
+
+          <div className="space-y-2">
+            {filteredDocuments.map((doc: Document) => (
+              <Card key={doc.id} className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 bg-grey-800 rounded-card">{getFileIcon(doc.type)}</div>
+                    <div>
+                      <Body className="font-weight-medium">{doc.name}</Body>
+                      <Body size="sm" className="text-grey-400">{doc.uploaded_by} • {formatDate(doc.uploaded_at)} • {doc.size}</Body>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline">{doc.folder}</Badge>
+                    <Button variant="ghost" size="sm" icon={<Download className="size-4" />} />
+                    <Button variant="ghost" size="sm" icon={<Trash2 className="size-4" />} />
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Section>
+      ),
+    },
+    {
+      id: "upload",
+      label: "Upload",
+      icon: <Upload className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Upload Documents" description="Add new documents to this production" />
+          <Card className="p-8 mt-4 text-center border-2 border-dashed">
+            <Upload className="size-12 text-grey-600 mx-auto mb-4" />
+            <Body className="font-weight-medium mb-2">Drag and drop files here</Body>
+            <Body size="sm" className="text-grey-400 mb-4">or click to browse</Body>
+            <Button variant="outline">Browse Files</Button>
+          </Card>
+        </Section>
+      ),
+    },
   ];
 
   return (
-    <Stack gap={8}>
-      <Stack gap={4}>
-        <SectionHeader
-          kicker={production?.name || "Production"}
-          title="Documents"
-          description="Files, contracts, and production documentation"
-          colorScheme="on-dark"
-        />
-        <Stack direction="horizontal" gap={2}>
-          <Button variant="solid" size="sm">
-            <Upload size={16} className="mr-2" />
-            Upload
-          </Button>
-          <Button variant="outline" size="sm">
-            <Plus size={16} className="mr-2" />
-            New Folder
-          </Button>
-        </Stack>
-      </Stack>
-
-      <Grid cols={1} gap={4} className="md:grid-cols-3 lg:grid-cols-5">
-        {folders.map((folder) => (
-          <Card key={folder.id} variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/documents/${folder.name.toLowerCase().replace(" ", "-")}`)}>
-            <CardBody>
-              <Stack gap={3} className="items-center text-center">
-                <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                  <Folder size={24} className="text-primary" />
-                </Box>
-                <Stack gap={1}>
-                  <Body className="font-weight-medium text-white">{folder.name}</Body>
-                  <Body size="sm" className=" text-on-dark-muted">{folder.count} files</Body>
-                </Stack>
-              </Stack>
-            </CardBody>
-          </Card>
-        ))}
-      </Grid>
-
-      <Card variant="elevated" inverted>
-        <CardBody>
-          <Stack gap={4}>
-            <Body className="font-weight-bold text-white">Recent Files</Body>
-            <Stack gap={0}>
-              {recentFiles.map((file, index) => (
-                <Box key={file.id} className={`flex cursor-pointer items-center justify-between border-ink-700 p-4 transition-all hover:bg-ink-800/50 ${index < recentFiles.length - 1 ? "border-b" : ""}`}>
-                  <Stack direction="horizontal" gap={3} className="items-center">
-                    <FileText size={20} className="text-primary" />
-                    <Stack gap={1}>
-                      <Body className="font-weight-medium text-white">{file.name}</Body>
-                      <Body size="sm" className=" text-on-dark-muted">{file.folder} · {file.size}</Body>
-                    </Stack>
-                  </Stack>
-                  <Button variant="ghost" size="sm">
-                    <Download size={16} />
-                  </Button>
-                </Box>
-              ))}
-            </Stack>
-          </Stack>
-        </CardBody>
-      </Card>
-    </Stack>
+    <DetailPage
+      header={{
+        kicker: "Production",
+        title: "Documents",
+        description: "Manage production documents and files",
+      }}
+      backButton={{ label: "Overview", href: `/p/${productionId}/overview` }}
+      loading={isLoading}
+      error={error instanceof Error ? error : null}
+      onRetry={refetch}
+      tabs={tabs}
+      actions={<Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left">Upload</Button>}
+    />
   );
 }

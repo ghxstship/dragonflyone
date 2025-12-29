@@ -1,9 +1,17 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { GeneratedBlueprint } from "../../../generator/types";
+import { z } from 'zod';
+
+const shareBlueprintSchema = z.object({
+  blueprint: z.object({
+    id: z.string(),
+    creativeSeed: z.string(),
+  }).passthrough(),
+});
 
 export const runtime = "edge";
 
@@ -17,17 +25,25 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { blueprint } = body as { blueprint: GeneratedBlueprint };
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
 
-    if (!blueprint) {
-      return NextResponse.json(
-        { error: "Blueprint is required" },
-        { status: 400 }
-      );
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
+
+    const body = await request.json();
+    const validatedData = shareBlueprintSchema.parse(body);
+    const blueprint = validatedData.blueprint as GeneratedBlueprint;
 
     // Generate a short share ID
     const shareId = crypto.randomUUID().split("-")[0];
@@ -71,6 +87,15 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const shareId = searchParams.get("id");
 

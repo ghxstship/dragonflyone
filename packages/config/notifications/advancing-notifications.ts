@@ -1,5 +1,6 @@
 // packages/config/notifications/advancing-notifications.ts
 import type { ProductionAdvance, AdvanceStatus } from '../types/advancing';
+import { logger } from '../logger';
 
 /**
  * Email notification templates for advancing workflows
@@ -249,7 +250,7 @@ export async function sendEmailNotification(notification: EmailNotification): Pr
 
     return response.ok;
   } catch (error) {
-    console.error('Failed to send email notification:', error);
+    logger.error('Failed to send email notification', error instanceof Error ? error : undefined);
     return false;
   }
 }

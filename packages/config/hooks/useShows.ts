@@ -121,7 +121,10 @@ export function useUpdateCueStatus() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, status }: { id: string; status: ShowCue['status'] }) => updateCueStatus(id, status),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['show-cues'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['show-cues'] });
+      queryClient.invalidateQueries({ queryKey: ['master-calendar'] });
+    },
   });
 }
 

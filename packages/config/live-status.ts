@@ -4,7 +4,7 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from './supabase-types';
+import type { Database, Json } from './supabase-types';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 
 export type StatusType =
@@ -36,7 +36,7 @@ export interface StatusUpdate {
   entity_id: string;
   status: StatusValue;
   message?: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Json;
   updated_by?: string;
   updated_at: string;
 }
@@ -101,16 +101,17 @@ export class LiveStatusManager {
           table: 'status_updates',
           filter: `entity_type=eq.${entityType},entity_id=eq.${entityId}`,
         },
-        (payload: { new: Record<string, unknown> }) => {
+        (payload) => {
+          const newRecord = payload.new as Database['public']['Tables']['status_updates']['Row'];
           const status: StatusUpdate = {
-            id: payload.new.id,
-            entity_type: payload.new.entity_type,
-            entity_id: payload.new.entity_id,
-            status: payload.new.status,
-            message: payload.new.message ?? undefined,
-            metadata: payload.new.metadata ?? undefined,
-            updated_by: payload.new.updated_by ?? undefined,
-            updated_at: payload.new.updated_at,
+            id: newRecord.id,
+            entity_type: newRecord.entity_type as StatusType,
+            entity_id: newRecord.entity_id,
+            status: newRecord.status as StatusValue,
+            message: newRecord.message ?? undefined,
+            metadata: newRecord.metadata ?? undefined,
+            updated_by: newRecord.updated_by ?? undefined,
+            updated_at: newRecord.updated_at,
           };
 
           // Notify all subscribers
@@ -156,14 +157,14 @@ export class LiveStatusManager {
     entityId: string,
     status: StatusValue,
     message?: string,
-    metadata?: Record<string, unknown>,
+    metadata?: Json,
     userId?: string
   ): Promise<{ success: boolean; error?: string }> {
     try {
       const { error } = await this.supabase.from('status_updates').insert({
-        entity_type: entityType,
+        entity_type: entityType as string,
         entity_id: entityId,
-        status,
+        status: status as string,
         message,
         metadata,
         updated_by: userId,
@@ -201,9 +202,9 @@ export class LiveStatusManager {
 
     return {
       id: data.id,
-      entity_type: data.entity_type,
+      entity_type: data.entity_type as StatusType,
       entity_id: data.entity_id,
-      status: data.status,
+      status: data.status as StatusValue,
       message: data.message ?? undefined,
       metadata: data.metadata ?? undefined,
       updated_by: data.updated_by ?? undefined,
@@ -250,18 +251,15 @@ export class LiveStatusManager {
       entityId: string;
       status: StatusValue;
       message?: string;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      metadata?: any;
+      metadata?: Json;
     }>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    userId?: any
+    userId?: string
   ): Promise<{ success: boolean; count?: number; error?: string }> {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const records: any[] = updates.map((update) => ({
-        entity_type: update.entityType,
+      const records = updates.map((update) => ({
+        entity_type: update.entityType as string,
         entity_id: update.entityId,
-        status: update.status,
+        status: update.status as string,
         message: update.message,
         metadata: update.metadata,
         updated_by: userId,

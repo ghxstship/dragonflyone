@@ -5,6 +5,7 @@
 
 import { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from './supabase-types';
+import { logger } from './logger';
 
 export type WidgetType =
   | 'kpi_card'
@@ -521,7 +522,7 @@ export class WidgetDataFetcher {
 
       return null;
     } catch (error) {
-      console.error('Error fetching widget data:', error);
+      logger.error('Error fetching widget data', error instanceof Error ? error : undefined);
       return null;
     }
   }

@@ -67,6 +67,8 @@
     "pdf-generator.ts",
     "catalog-categories.ts",
     "navigation-types.ts",
+    "calendar-utils.ts",
+    "types/**/*.ts",
     "providers/**/*.ts",
     "providers/**/*.tsx"
   ],
@@ -75,6 +77,8 @@
     "dist",
     "**/*.test.ts",
     "**/*.spec.ts",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "layouts/**/*",
+    "components/**/*"
   ]
 }

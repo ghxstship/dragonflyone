@@ -1,13 +1,68 @@
 export const dynamic = 'force-dynamic';
 
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { z } from 'zod';
+
+const createDocumentSchema = z.object({
+  title: z.string().min(1),
+  document_type: z.enum(['policy', 'bylaw', 'charter', 'procedure', 'handbook', 'nda']),
+  category: z.enum(['corporate', 'hr', 'finance', 'operations', 'legal', 'compliance']).optional(),
+  content: z.string(),
+  summary: z.string().optional(),
+  effective_date: z.string().optional(),
+  review_date: z.string().optional(),
+  requires_acknowledgment: z.boolean().optional(),
+  acknowledgment_roles: z.array(z.string()).optional(),
+});
+
+const approveSchema = z.object({
+  document_id: z.string().uuid(),
+  action: z.literal('approve'),
+});
+
+const acknowledgeSchema = z.object({
+  document_id: z.string().uuid(),
+  action: z.literal('acknowledge'),
+});
+
+const newVersionSchema = z.object({
+  document_id: z.string().uuid(),
+  action: z.literal('new_version'),
+  content: z.string(),
+  change_summary: z.string().optional(),
+});
+
+const updateDocumentSchema = z.object({
+  document_id: z.string().uuid(),
+  action: z.undefined().optional(),
+}).passthrough();
+
+const patchActionSchema = z.union([
+  approveSchema,
+  acknowledgeSchema,
+  newVersionSchema,
+  updateDocumentSchema,
+]);
 
 // GET - Fetch governance documents and policies
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -64,7 +119,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -75,17 +137,18 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const validatedData = createDocumentSchema.parse(body);
     const {
       title,
-      document_type, // 'policy', 'bylaw', 'charter', 'procedure', 'handbook', 'nda'
-      category, // 'corporate', 'hr', 'finance', 'operations', 'legal', 'compliance'
+      document_type,
+      category,
       content,
       summary,
       effective_date,
       review_date,
       requires_acknowledgment,
       acknowledgment_roles,
-    } = body;
+    } = validatedData;
 
     const { data: document, error } = await supabase
       .from('governance_documents')
@@ -133,7 +196,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    const authHeader = request.headers.get('authorization');
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     if (!authHeader) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -144,7 +214,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { document_id, action, ...updateData } = body;
+    const validatedData = patchActionSchema.parse(body);
+    const { document_id, action, ...updateData } = validatedData;
 
     if (action === 'approve') {
       await supabase

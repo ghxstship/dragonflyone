@@ -2,6 +2,18 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createAvailabilitySchema = z.object({
+  crew_member_id: z.string().uuid().optional(),
+  availability_type: z.string(),
+  start_date: z.string(),
+  end_date: z.string().optional(),
+  start_time: z.string().optional(),
+  end_time: z.string().optional(),
+  notes: z.string().optional(),
+  all_day: z.boolean().optional(),
+});
 
 const COMPVSS_ROLES = [
   PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_COLLABORATOR, PlatformRole.COMPVSS_VIEWER,
@@ -84,7 +96,8 @@ export async function POST(request: NextRequest) {
     const user = authResult.user;
 
     const body = await request.json();
-    const { crew_member_id, availability_type, start_date, end_date, start_time, end_time, notes, all_day } = body;
+    const validatedData = createAvailabilitySchema.parse(body);
+    const { crew_member_id, availability_type, start_date, end_date, start_time, end_time, notes, all_day } = validatedData;
 
     if (!start_date || !availability_type) {
       return NextResponse.json(

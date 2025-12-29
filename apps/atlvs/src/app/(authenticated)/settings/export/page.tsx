@@ -1,310 +1,161 @@
-'use client';
+"use client";
 
+/**
+ * Data Export Page
+ * Export your data in various formats
+ * Uses DetailPage template for consistent layout
+ */
+
+import { useState } from "react";
+import { Download, FileText, Database, Calendar, Users, Clock, List, Settings } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
 import {
+  Badge,
   Body,
   Button,
-  H1,
-  H2,
+  Card,
+  Grid,
   Input,
-  Label,
   Select,
-  Text,
-} from '@ghxstship/ui';
+  DetailPage,
+  Section,
+  SectionHeader,
+  useNotifications,
+} from "@ghxstship/ui";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, Download, FileText, Database, Calendar, Check, Clock, AlertCircle, RefreshCw } from 'lucide-react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-
-interface ExportJob {
+interface ExportOption {
   id: string;
-  type: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
-  created_at: string;
-  completed_at?: string;
-  download_url?: string;
-  file_size?: string;
-  records_count?: number;
+  label: string;
+  description: string;
+  icon: React.ReactNode;
+  formats: string[];
 }
 
-const EXPORT_TYPES = [
-  { id: 'projects', label: 'Projects', description: 'All projects with details, budgets, and timelines', icon: FileText },
-  { id: 'contacts', label: 'Contacts', description: 'Contact list with all associated data', icon: Database },
-  { id: 'invoices', label: 'Invoices', description: 'Invoice history and payment records', icon: FileText },
-  { id: 'bookings', label: 'Bookings', description: 'Booking records and schedules', icon: Calendar },
-  { id: 'finances', label: 'Financial Reports', description: 'Revenue, expenses, and financial summaries', icon: Database },
-  { id: 'all', label: 'Complete Export', description: 'Export all data (may take longer)', icon: Database },
+const EXPORT_OPTIONS: ExportOption[] = [
+  { id: "all", label: "All Data", description: "Complete export of all your data", icon: <Database className="size-5" />, formats: ["json", "csv", "xlsx"] },
+  { id: "projects", label: "Projects", description: "All projects and related data", icon: <FileText className="size-5" />, formats: ["json", "csv", "xlsx"] },
+  { id: "contacts", label: "Contacts", description: "All contacts and organizations", icon: <Users className="size-5" />, formats: ["json", "csv", "xlsx", "vcf"] },
+  { id: "events", label: "Events", description: "All events and schedules", icon: <Calendar className="size-5" />, formats: ["json", "csv", "xlsx", "ics"] },
+  { id: "activity", label: "Activity Log", description: "Your activity and audit history", icon: <Clock className="size-5" />, formats: ["json", "csv"] },
 ];
 
-const DEMO_EXPORTS: ExportJob[] = [
-  { id: 'exp-001', type: 'projects', status: 'completed', created_at: '2025-01-12T10:00:00Z', completed_at: '2025-01-12T10:02:00Z', download_url: '/exports/projects-2025-01-12.csv', file_size: '2.4 MB', records_count: 156 },
-  { id: 'exp-002', type: 'contacts', status: 'completed', created_at: '2025-01-10T15:30:00Z', completed_at: '2025-01-10T15:31:00Z', download_url: '/exports/contacts-2025-01-10.csv', file_size: '1.1 MB', records_count: 892 },
-  { id: 'exp-003', type: 'invoices', status: 'processing', created_at: '2025-01-13T09:00:00Z' },
-];
+export default function ExportSettingsPage() {
+  const { addNotification } = useNotifications();
 
-export default function DataExportPage() {
-  const queryClient = useQueryClient();
-  const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [dateRange, setDateRange] = useState({ start: '', end: '' });
-  const [exportFormat, setExportFormat] = useState('csv');
+  const [selectedExport, setSelectedExport] = useState<string>("all");
+  const [selectedFormat, setSelectedFormat] = useState<string>("json");
+  const [dateFrom, setDateFrom] = useState<string>("");
+  const [dateTo, setDateTo] = useState<string>("");
 
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['export-jobs'],
-    queryFn: async () => {
-      const response = await fetch('/api/settings/export');
-      if (!response.ok) {
-        return { jobs: DEMO_EXPORTS };
-      }
-      return response.json();
-    },
-    refetchInterval: 5000,
-  });
-
-  const jobs: ExportJob[] = data?.jobs || DEMO_EXPORTS;
-
-  const createExport = useMutation({
-    mutationFn: async (exportConfig: { type: string; format: string; date_range?: { start: string; end: string } }) => {
-      const response = await fetch('/api/settings/export', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(exportConfig),
+  const exportMutation = useMutation({
+    mutationFn: async (data: { type: string; format: string; dateFrom?: string; dateTo?: string }) => {
+      const response = await fetch("/api/settings/export", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-      if (!response.ok) throw new Error('Failed to create export');
+      if (!response.ok) throw new Error("Failed to start export");
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['export-jobs'] });
-      setSelectedType(null);
-      setDateRange({ start: '', end: '' });
+      addNotification({ type: "success", title: "Export Started", message: "You will receive an email when your export is ready" });
+    },
+    onError: () => {
+      addNotification({ type: "error", title: "Error", message: "Failed to start export" });
     },
   });
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
+  const currentOption = EXPORT_OPTIONS.find((o) => o.id === selectedExport);
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return <Check className="h-4 w-4 text-success" />;
-      case 'processing':
-        return <RefreshCw className="h-4 w-4 text-primary animate-spin" />;
-      case 'pending':
-        return <Clock className="h-4 w-4 text-muted-foreground" />;
-      case 'failed':
-        return <AlertCircle className="h-4 w-4 text-destructive" />;
-      default:
-        return null;
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return 'bg-success/10 text-success';
-      case 'processing':
-        return 'bg-primary/10 text-primary';
-      case 'pending':
-        return 'bg-muted text-muted-foreground';
-      case 'failed':
-        return 'bg-destructive/10 text-destructive';
-      default:
-        return 'bg-muted text-muted-foreground';
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <div className="p-6 flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">Loading export settings...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="p-6">
-        <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
-          <AlertCircle className="h-5 w-5 text-destructive" />
-          <Text className="text-destructive">Failed to load export settings</Text>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="p-6 max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/settings"
-            className="p-2 hover:bg-muted rounded-button transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </Link>
-          <div>
-            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
-              <Download className="h-6 w-6" />
-              Data Export
-            </H1>
-            <Body className="text-body-sm text-muted-foreground mt-1">
-              Export your data for backup or migration
-            </Body>
-          </div>
-        </div>
-        <Button
-          onClick={() => refetch()}
-          className="p-2 hover:bg-muted rounded-button transition-colors"
-        >
-          <RefreshCw className="h-5 w-5 text-muted-foreground" />
-        </Button>
-      </div>
-
-      {/* Export Types */}
-      <div className="bg-background border-2 border-border rounded-card p-6">
-        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Select Data to Export</H2>
-        <div className="grid grid-cols-2 gap-4">
-          {EXPORT_TYPES.map((type) => (
-            <Button
-              key={type.id}
-              onClick={() => setSelectedType(type.id)}
-              className={`text-left p-4 rounded-card border-2 transition-colors ${
-                selectedType === type.id
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border hover:border-primary/50'
-              }`}
-            >
-              <div className="flex items-start gap-3">
-                <type.icon className="h-5 w-5 text-muted-foreground mt-0.5" />
-                <div>
-                  <Body className="text-body-md font-weight-medium text-foreground">{type.label}</Body>
-                  <Body className="text-body-sm text-muted-foreground">{type.description}</Body>
+  const tabs = [
+    {
+      id: "export",
+      label: "Export",
+      icon: <List className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Select Data to Export" description="Choose what data you want to export" />
+          <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4 mb-6">
+            {EXPORT_OPTIONS.map((option) => (
+              <Card
+                key={option.id}
+                className={`p-4 cursor-pointer transition-colors ${selectedExport === option.id ? "border-primary" : ""}`}
+                onClick={() => { setSelectedExport(option.id); setSelectedFormat(option.formats[0]); }}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`p-2 rounded-card ${selectedExport === option.id ? "bg-primary text-white" : "bg-grey-800 text-grey-400"}`}>
+                    {option.icon}
+                  </div>
+                  <div className="flex-1">
+                    <Body className="font-weight-medium">{option.label}</Body>
+                    <Body size="sm" className="text-grey-400">{option.description}</Body>
+                    <div className="flex gap-1 mt-2">
+                      {option.formats.map((fmt) => (
+                        <Badge key={fmt} variant="outline" className="text-body-xs uppercase">{fmt}</Badge>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </Button>
-          ))}
-        </div>
-      </div>
+              </Card>
+            ))}
+          </Grid>
 
-      {/* Export Options */}
-      {selectedType && (
-        <div className="bg-background border-2 border-border rounded-card p-6">
-          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Export Options</H2>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          <Card className="p-6 mb-6">
+            <SectionHeader title="Export Options" />
+            <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
               <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Format
-                </Label>
-                <Select
-                  value={exportFormat}
-                  onChange={(e) => setExportFormat(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                >
-                  <option value="csv">CSV</option>
-                  <option value="xlsx">Excel (XLSX)</option>
-                  <option value="json">JSON</option>
+                <Body size="sm" className="text-grey-400 mb-1">Format</Body>
+                <Select value={selectedFormat} onChange={(e) => setSelectedFormat(e.target.value)}>
+                  {currentOption?.formats.map((fmt) => (
+                    <option key={fmt} value={fmt}>{fmt.toUpperCase()}</option>
+                  ))}
                 </Select>
               </div>
               <div>
-                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Date Range (Optional)
-                </Label>
-                <div className="flex gap-2">
-                  <Input
-                    type="date"
-                    value={dateRange.start}
-                    onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                    className="flex-1 px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                  <Input
-                    type="date"
-                    value={dateRange.end}
-                    onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                    className="flex-1 px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
-                  />
-                </div>
+                <Body size="sm" className="text-grey-400 mb-1">From Date (Optional)</Body>
+                <Input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} />
               </div>
-            </div>
-            <div className="flex items-center justify-end gap-3 pt-4">
-              <Button
-                onClick={() => setSelectedType(null)}
-                className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={() =>
-                  createExport.mutate({
-                    type: selectedType,
-                    format: exportFormat,
-                    date_range: dateRange.start ? dateRange : undefined,
-                  })
-                }
-                disabled={createExport.isPending}
-                className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
-              >
-                <Download className="h-4 w-4" />
-                {createExport.isPending ? 'Starting Export...' : 'Start Export'}
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+              <div>
+                <Body size="sm" className="text-grey-400 mb-1">To Date (Optional)</Body>
+                <Input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} />
+              </div>
+            </Grid>
+          </Card>
 
-      {/* Export History */}
-      <div className="bg-background border-2 border-border rounded-card p-6">
-        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Export History</H2>
-        {jobs.length === 0 ? (
-          <div className="text-center py-8">
-            <Download className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-            <Body className="text-body-sm text-muted-foreground">No exports yet</Body>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {jobs.map((job) => (
-              <div
-                key={job.id}
-                className="flex items-center justify-between p-4 bg-muted/30 rounded-card"
-              >
-                <div className="flex items-center gap-4">
-                  {getStatusIcon(job.status)}
-                  <div>
-                    <Body className="text-body-sm font-weight-medium text-foreground capitalize">
-                      {job.type} Export
-                    </Body>
-                    <Body className="text-body-xs text-muted-foreground">
-                      {formatDate(job.created_at)}
-                      {job.records_count && ` • ${job.records_count} records`}
-                      {job.file_size && ` • ${job.file_size}`}
-                    </Body>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Text className={`px-2 py-0.5 text-body-xs rounded capitalize ${getStatusColor(job.status)}`}>
-                    {job.status}
-                  </Text>
-                  {job.status === 'completed' && job.download_url && (
-                    <Link
-                      href={job.download_url}
-                      download
-                      className="p-2 text-primary hover:bg-primary/10 rounded-button transition-colors"
-                    >
-                      <Download className="h-4 w-4" />
-                    </Link>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+          <Button
+            variant="solid"
+            onClick={() => exportMutation.mutate({ type: selectedExport, format: selectedFormat, dateFrom: dateFrom || undefined, dateTo: dateTo || undefined })}
+            disabled={exportMutation.isPending}
+            icon={<Download className="size-4" />}
+            iconPosition="left"
+          >
+            {exportMutation.isPending ? "Starting Export..." : "Start Export"}
+          </Button>
+        </Section>
+      ),
+    },
+    {
+      id: "history",
+      label: "Export History",
+      icon: <Settings className="size-4" />,
+      content: (
+        <Section>
+          <SectionHeader title="Recent Exports" description="Your previous export requests" />
+          <Card className="p-8 text-center mt-4">
+            <Download className="size-12 text-grey-600 mx-auto mb-4" />
+            <Body className="font-weight-medium text-body-lg mb-2">No Recent Exports</Body>
+            <Body className="text-grey-400">Your export history will appear here</Body>
+          </Card>
+        </Section>
+      ),
+    },
+  ];
+
+  return (
+    <DetailPage
+      header={{ kicker: "Settings", title: "Export Data", description: "Export your data in various formats" }}
+      backButton={{ label: "Settings", href: "/settings" }}
+      tabs={tabs}
+    />
   );
 }

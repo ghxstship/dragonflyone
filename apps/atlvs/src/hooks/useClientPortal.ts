@@ -88,7 +88,7 @@ interface InvoicesResponse {
   };
 }
 
-interface InviteInput {
+export interface InviteInput {
   organization_id: string;
   contact_id: string;
   booking_id?: string;
@@ -122,21 +122,6 @@ async function fetchPortalDocuments(token: string): Promise<DocumentsResponse> {
 async function fetchPortalInvoices(token: string): Promise<InvoicesResponse> {
   const res = await fetch(`/api/client-portal/invoices?token=${encodeURIComponent(token)}`);
   if (!res.ok) throw new Error('Failed to fetch invoices');
-  return res.json();
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function sendPortalInvite(input: InviteInput): Promise<{
-  access: { id: string; access_token: string };
-  portal_url: string;
-  contact: { name: string; email: string };
-}> {
-  const res = await fetch('/api/client-portal/invite', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(input),
-  });
-  if (!res.ok) throw new Error('Failed to send invite');
   return res.json();
 }
 

@@ -1,14 +1,22 @@
 import { z } from "zod";
 
+const isProduction = process.env.NODE_ENV === 'production';
+
+// In production, critical variables are required. In development, they're optional.
 const serverSchema = z.object({
-  STRIPE_SECRET_KEY: z.string().min(1).optional(),
-  STRIPE_WEBHOOK_SECRET: z.string().min(1).optional(),
+  // Payment processing - required in production
+  STRIPE_SECRET_KEY: isProduction ? z.string().min(1) : z.string().min(1).optional(),
+  STRIPE_WEBHOOK_SECRET: isProduction ? z.string().min(1) : z.string().min(1).optional(),
+  // Communication - optional (graceful degradation)
   TWILIO_AUTH_TOKEN: z.string().min(1).optional(),
   TWILIO_SANDBOX_SIGNATURE: z.string().min(1).optional(),
   APP_URL: z.string().url().default("http://localhost:3000"),
-  SUPABASE_URL: z.string().url().optional(),
-  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
+  // Database - required in production
+  SUPABASE_URL: isProduction ? z.string().url() : z.string().url().optional(),
+  SUPABASE_SERVICE_ROLE_KEY: isProduction ? z.string().min(1) : z.string().min(1).optional(),
+  // Admin access - optional (feature flag)
   ADMIN_API_TOKEN: z.string().min(1).optional(),
+  // Email - optional (graceful degradation)
   RESEND_API_KEY: z.string().optional(),
   RESEND_FROM_EMAIL: z.string().email().optional(),
 });

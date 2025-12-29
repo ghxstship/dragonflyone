@@ -1,14 +1,45 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createLightingFocusSchema = z.object({
+  project_id: z.string().uuid(),
+  unit_number: z.number().int().positive(),
+  fixture_type: z.string().optional(),
+  position: z.string().optional(),
+  channel: z.number().int().optional(),
+  dimmer: z.number().int().optional(),
+  color: z.string().optional(),
+  gobo: z.string().optional(),
+  focus_notes: z.string().optional(),
+});
+
+const updateLightingFocusSchema = z.object({
+  id: z.string().uuid(),
+  focus_notes: z.string().optional(),
+  focused: z.boolean().optional(),
+  focused_by: z.string().uuid().optional(),
+});
 
 // Lighting focus sheets
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -26,14 +57,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { project_id, unit_number, fixture_type, position, channel, dimmer, color, gobo, focus_notes } = body;
+    const validatedData = createLightingFocusSchema.parse(body);
+    const { project_id, unit_number, fixture_type, position, channel, dimmer, color, gobo, focus_notes } = validatedData;
 
     const { data, error } = await supabase.from('lighting_focus').insert({
       project_id, unit_number, fixture_type, position, channel,
@@ -50,11 +88,18 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const body = await request.json();
-    const { id, focus_notes, focused, focused_by } = body;
+    const validatedData = updateLightingFocusSchema.parse(body);
+    const { id, focus_notes, focused, focused_by } = validatedData;
 
     await supabase.from('lighting_focus').update({
       focus_notes, focused, focused_by, focused_at: focused ? new Date().toISOString() : null

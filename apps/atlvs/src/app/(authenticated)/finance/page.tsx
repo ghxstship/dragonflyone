@@ -15,7 +15,9 @@ import {
   type ListPageAction,
   type DetailSection,
   } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+
+// Roles that can create/edit/delete financial transactions
 import { useLedgerData, type LedgerTransaction } from "@/hooks/useFinance";
 
 interface Transaction extends LedgerTransaction {
@@ -44,6 +46,11 @@ const filters: ListPageFilter[] = [
 
 export default function FinancePage() {
   const router = useRouter();
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access for create/edit/delete operations
+  const canManageFinance = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
+  
   const {
     transactions: ledgerTransactions,
     totalRevenue,
@@ -129,17 +136,17 @@ export default function FinancePage() {
         columns={columns}
         rowKey="id"
         loading={loading}
-        error={error ? new Error(error) : undefined}
+        error={error instanceof Error ? error : error ? new Error(String(error)) : undefined}
         onRetry={() => refetch()}
         searchPlaceholder="Search transactions..."
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedTxn(r); setDrawerOpen(true); }}
         createLabel="Add Transaction"
-        onCreate={() => router.push('/finance/new')}
+        onCreate={canManageFinance ? () => router.push('/finance/new') : undefined}
         entityType="transactions"
 
-        onImport={handleImport}
+        onImport={canManageFinance ? handleImport : undefined}
 
         importTemplates={importTemplates}
 
@@ -169,7 +176,10 @@ export default function FinancePage() {
           }
         }}
         bulkActions={[
-          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+          // Only show bulk actions for users with admin roles
+          ...(canManageFinance ? [
+            { id: 'delete', label: 'Delete Selected', variant: 'danger' as const },
+          ] : []),
         ]}
         showFavorite
         showSettings

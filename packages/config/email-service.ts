@@ -3,6 +3,8 @@
  * Centralized email sending with templates for all apps
  */
 
+import { logger } from './logger';
+
 // =============================================================================
 // TYPES
 // =============================================================================
@@ -116,7 +118,7 @@ export class EmailService {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('[EmailService] Failed to send:', errorText);
+        logger.error('[EmailService] Failed to send', undefined, { errorText });
         return { success: false, error: errorText };
       }
 
@@ -124,7 +126,7 @@ export class EmailService {
       return { success: true, id: data.id };
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unknown error';
-      console.error('[EmailService] Error:', message);
+      logger.error('[EmailService] Error', undefined, { message });
       return { success: false, error: message };
     }
   }

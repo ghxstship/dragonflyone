@@ -1,12 +1,48 @@
 export const dynamic = 'force-dynamic';
 
-import { logger } from '@ghxstship/config';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase } from '@ghxstship/config';
+import { z } from 'zod';
+
+const createPunchItemSchema = z.object({
+  title: z.string(),
+  description: z.string().optional(),
+  location: z.string().optional(),
+  department: z.string().optional(),
+  priority: z.string().optional(),
+  projectId: z.string().uuid().optional(),
+  assignedTo: z.string().uuid().optional(),
+  reportedBy: z.string().uuid().optional(),
+  dueDate: z.string().optional(),
+});
+
+const updatePunchItemSchema = z.object({
+  id: z.string().uuid(),
+  status: z.string().optional(),
+  assignedTo: z.string().uuid().optional(),
+  resolvedBy: z.string().uuid().optional(),
+  verifiedBy: z.string().uuid().optional(),
+  notes: z.string().optional(),
+});
+
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get("projectId");
     const status = searchParams.get("status");
@@ -35,8 +71,18 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const body = await request.json();
-    const { title, description, location, department, priority, projectId, assignedTo, reportedBy, dueDate } = body;
+    const validatedData = createPunchItemSchema.parse(body);
+    const { title, description, location, department, priority, projectId, assignedTo, reportedBy, dueDate } = validatedData;
 
     const { data, error } = await supabase
       .from("punch_list_items")
@@ -67,8 +113,18 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const body = await request.json();
-    const { id, status, assignedTo, resolvedBy, verifiedBy, notes } = body;
+    const validatedData = updatePunchItemSchema.parse(body);
+    const { id, status, assignedTo, resolvedBy, verifiedBy, notes } = validatedData;
 
     const updateData: Record<string, unknown> = {};
     if (status) {
@@ -100,6 +156,15 @@ export async function PATCH(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 

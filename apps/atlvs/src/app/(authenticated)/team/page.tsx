@@ -14,9 +14,19 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
+import { useTeamMembers, type TeamMember as APITeamMember } from "@/hooks/useTeamManagement";
 
-interface TeamMember {
+// Demo data for fallback when API returns empty
+const DEMO_TEAM_MEMBERS: DisplayTeamMember[] = [
+  { id: "1", name: "Sarah Johnson", email: "sarah@example.com", phone: "+1 555-0101", role: "Production Manager", department: "Operations", status: "active", avatar_url: null, hire_date: "2023-01-15", skills: ["Project Management", "Budgeting"] },
+  { id: "2", name: "Mike Chen", email: "mike@example.com", phone: "+1 555-0102", role: "Technical Director", department: "Technical", status: "active", avatar_url: null, hire_date: "2022-06-01", skills: ["AV Systems", "Lighting"] },
+  { id: "3", name: "Emily Davis", email: "emily@example.com", phone: "+1 555-0103", role: "Event Coordinator", department: "Events", status: "active", avatar_url: null, hire_date: "2023-03-20", skills: ["Logistics", "Vendor Management"] },
+  { id: "4", name: "James Wilson", email: "james@example.com", phone: null, role: "Stage Manager", department: "Production", status: "on_leave", avatar_url: null, hire_date: "2021-09-10", skills: ["Stage Management", "Crew Coordination"] },
+  { id: "5", name: "Lisa Brown", email: "lisa@example.com", phone: "+1 555-0105", role: "Account Manager", department: "Sales", status: "active", avatar_url: null, hire_date: "2024-01-08", skills: ["Client Relations", "Sales"] },
+];
+
+interface DisplayTeamMember {
   id: string;
   name: string;
   email: string;
@@ -29,19 +39,33 @@ interface TeamMember {
   skills: string[];
 }
 
-const mockTeamMembers: TeamMember[] = [
-  { id: "1", name: "Sarah Johnson", email: "sarah@example.com", phone: "+1 555-0101", role: "Production Manager", department: "Operations", status: "active", avatar_url: null, hire_date: "2023-01-15", skills: ["Project Management", "Budgeting"] },
-  { id: "2", name: "Mike Chen", email: "mike@example.com", phone: "+1 555-0102", role: "Technical Director", department: "Technical", status: "active", avatar_url: null, hire_date: "2022-06-01", skills: ["AV Systems", "Lighting"] },
-  { id: "3", name: "Emily Davis", email: "emily@example.com", phone: "+1 555-0103", role: "Event Coordinator", department: "Events", status: "active", avatar_url: null, hire_date: "2023-03-20", skills: ["Logistics", "Vendor Management"] },
-  { id: "4", name: "James Wilson", email: "james@example.com", phone: null, role: "Stage Manager", department: "Production", status: "on_leave", avatar_url: null, hire_date: "2021-09-10", skills: ["Stage Management", "Crew Coordination"] },
-  { id: "5", name: "Lisa Brown", email: "lisa@example.com", phone: "+1 555-0105", role: "Account Manager", department: "Sales", status: "active", avatar_url: null, hire_date: "2024-01-08", skills: ["Client Relations", "Sales"] },
-];
+// Normalize API team member to display format
+function normalizeTeamMember(m: APITeamMember): DisplayTeamMember {
+  const statusMap: Record<string, "active" | "inactive" | "on_leave"> = {
+    active: "active",
+    inactive: "inactive",
+    invited: "inactive",
+    suspended: "inactive",
+  };
+  return {
+    id: m.id,
+    name: m.name,
+    email: m.email,
+    phone: m.phone || null,
+    role: m.title || m.role,
+    department: m.department || "General",
+    status: statusMap[m.status] || "active",
+    avatar_url: m.avatar_url || null,
+    hire_date: m.joined_at || m.invited_at || new Date().toISOString(),
+    skills: m.permissions || [],
+  };
+}
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 };
 
-const getStatusVariant = (status: TeamMember["status"]): "solid" | "outline" | "ghost" => {
+const getStatusVariant = (status: DisplayTeamMember["status"]): "solid" | "outline" | "ghost" => {
   switch (status) {
     case "active": return "solid";
     case "on_leave": return "outline";
@@ -49,7 +73,7 @@ const getStatusVariant = (status: TeamMember["status"]): "solid" | "outline" | "
   }
 };
 
-const columns: ListPageColumn<TeamMember>[] = [
+const columns: ListPageColumn<DisplayTeamMember>[] = [
   { 
     key: "name", 
     label: "Name", 
@@ -66,7 +90,7 @@ const columns: ListPageColumn<TeamMember>[] = [
     accessor: "status", 
     sortable: true,
     render: (v) => (
-      <Badge variant={getStatusVariant(v as TeamMember["status"])}>
+      <Badge variant={getStatusVariant(v as DisplayTeamMember["status"])}>
         {String(v).replace("_", " ")}
       </Badge>
     )
@@ -90,23 +114,34 @@ const filters: ListPageFilter[] = [
 
 export default function TeamPage() {
   const router = useRouter();
-  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+  const { hasRole } = useAuthContext();
+  const [selectedMember, setSelectedMember] = useState<DisplayTeamMember | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const activeCount = mockTeamMembers.filter(m => m.status === "active").length;
-  const onLeaveCount = mockTeamMembers.filter(m => m.status === "on_leave").length;
+  // RBAC: Check if user has admin access for create/edit/delete operations
+  const canManageTeam = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
-  const rowActions: ListPageAction<TeamMember>[] = [
+  // Real API integration with demo fallback
+  const { data: apiData, isLoading, error, refetch } = useTeamMembers();
+  const apiMembers = apiData?.members || [];
+  const teamMembers: DisplayTeamMember[] = apiMembers.length > 0 
+    ? apiMembers.map(normalizeTeamMember) 
+    : DEMO_TEAM_MEMBERS;
+
+  const activeCount = teamMembers.filter(m => m.status === "active").length;
+  const onLeaveCount = teamMembers.filter(m => m.status === "on_leave").length;
+
+  const rowActions: ListPageAction<DisplayTeamMember>[] = [
     { id: "view", label: "View Profile", icon: <Eye className="size-4" />, onClick: (r) => { setSelectedMember(r); setDrawerOpen(true); } },
     { id: "email", label: "Send Email", icon: <Mail className="size-4" />, onClick: (r) => window.open(`mailto:${r.email}`) },
     { id: "more", label: "More Actions", icon: <MoreHorizontal className="size-4" />, onClick: (r) => router.push(`/employees/${r.id}`) },
   ];
 
   const stats = [
-    { label: "Total Members", value: mockTeamMembers.length },
+    { label: "Total Members", value: teamMembers.length },
     { label: "Active", value: activeCount },
     { label: "On Leave", value: onLeaveCount },
-    { label: "Departments", value: new Set(mockTeamMembers.map(m => m.department)).size },
+    { label: "Departments", value: new Set(teamMembers.map(m => m.department)).size },
   ];
 
   const detailSections: DetailSection[] = selectedMember ? [
@@ -126,20 +161,25 @@ export default function TeamPage() {
 
   return (
     <>
-      <ListPage<TeamMember>
+      <ListPage<DisplayTeamMember>
         title="Team"
         subtitle="Manage team members and roles"
-        data={mockTeamMembers}
+        data={teamMembers}
         columns={columns}
         rowKey="id"
+        loading={isLoading}
+        error={error}
+        onRetry={refetch}
         searchPlaceholder="Search team members..."
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedMember(r); setDrawerOpen(true); }}
         entityType="team"
+        createLabel={canManageTeam ? "Add Member" : undefined}
+        onCreate={canManageTeam ? () => router.push('/team/new') : undefined}
         onExport={createExportHandler({
           filename: "team-members",
-          getData: () => mockTeamMembers.map(m => ({
+          getData: () => teamMembers.map(m => ({
             name: m.name,
             email: m.email,
             phone: m.phone || "",
@@ -151,6 +191,7 @@ export default function TeamPage() {
         })}
         stats={stats}
         emptyMessage="No team members found"
+        emptyAction={canManageTeam ? { label: "Add Member", onClick: () => router.push('/team/new') } : undefined}
         showFavorite
         showSettings
       />

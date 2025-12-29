@@ -1,8 +1,17 @@
 export const dynamic = 'force-dynamic';
 
-import { log } from '@ghxstship/config';
+import { log, withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { z } from 'zod';
+
+const updateReportSchema = z.object({
+  name: z.string().min(1).optional(),
+  description: z.string().optional(),
+  kpi_codes: z.array(z.string()).optional(),
+  category: z.string().optional(),
+  filters: z.record(z.unknown()).optional(),
+});
 
 interface KpiReport {
   id: string;
@@ -24,11 +33,25 @@ interface KpiReport {
  * GET /api/kpi/reports/[id]
  * Get a specific KPI report by ID
  */
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = await params;
     const supabase = await createClient();
 
@@ -90,9 +113,19 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = await params;
     const supabase = await createClient();
     const body = await request.json();
+    const validatedData = updateReportSchema.parse(body);
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -132,7 +165,7 @@ export async function PATCH(
       kpi_codes,
       category,
       filters
-    } = body;
+    } = validatedData;
 
     const updateData: Record<string, unknown> = {
       updated_at: new Date().toISOString()
@@ -175,6 +208,15 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id } = await params;
     const supabase = await createClient();
 

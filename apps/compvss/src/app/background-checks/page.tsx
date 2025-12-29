@@ -18,7 +18,14 @@ import {
   type ListPageColumn,
   type ListPageFilter,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
+
+const ADMIN_ROLES = [
+  PlatformRole.COMPVSS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 import {
   useBackgroundChecks,
@@ -63,6 +70,11 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function BackgroundChecksPage() {
+  const { hasRole } = useAuthContext();
+  
+  // RBAC: Check if user has admin access
+  const canManageChecks = ADMIN_ROLES.some(role => hasRole(role));
+  
   const { data: checks = [], isLoading, refetch } = useBackgroundChecks();
   const createCheckMutation = useCreateBackgroundCheck();
   const renewCheckMutation = useRenewBackgroundCheck();
@@ -104,7 +116,7 @@ export default function BackgroundChecksPage() {
 
   const rowActions: ListPageAction<BackgroundCheck>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedCheck(r); setDrawerOpen(true); } },
-    { id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" />, onClick: handleRenew },
+    ...(canManageChecks ? [{ id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" />, onClick: handleRenew }] : []),
     { id: 'download', label: 'Download Report', icon: <Download className="size-4" />, onClick: handleDownload },
   ];
 
@@ -184,7 +196,7 @@ export default function BackgroundChecksPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedCheck(r); setDrawerOpen(true); }}
         createLabel="Initiate Check"
-        onCreate={() => setCreateModalOpen(true)}
+        onCreate={canManageChecks ? () => setCreateModalOpen(true) : undefined}
         entityType="background-checks"
         onImport={handleImport}
         importTemplates={importTemplates}
@@ -205,8 +217,8 @@ export default function BackgroundChecksPage() {
         })}
         stats={stats}
         emptyMessage="No background checks found"
-        emptyAction={{ label: 'Initiate Check', onClick: () => setCreateModalOpen(true) }}
-        onBulkAction={async (action, ids) => {
+        emptyAction={canManageChecks ? { label: 'Initiate Check', onClick: () => setCreateModalOpen(true) } : undefined}
+        onBulkAction={canManageChecks ? async (action, ids) => {
           if (action === 'delete') {
             for (const id of ids) {
               await deleteCheckMutation.mutateAsync(id);
@@ -219,11 +231,11 @@ export default function BackgroundChecksPage() {
             }
             refetch();
           }
-        }}
-        bulkActions={[
+        } : undefined}
+        bulkActions={canManageChecks ? [
           { id: 'renew', label: 'Renew Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
-        ]}
+        ] : []}
         showFavorite
         showSettings
       />

@@ -35,21 +35,20 @@ describe('usePermits', () => {
   });
 
   describe('usePermitsList hook', () => {
-    it('should return demo data on 401 response', async () => {
+    it('should handle 401 response as error', async () => {
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
         status: 401,
         ok: false,
+        json: () => Promise.resolve({ error: 'Unauthorized' }),
       });
 
       const { result } = renderHook(() => usePermitsList(), { wrapper: createWrapper() });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBe(true);
+        expect(result.current.isError).toBe(true);
       });
 
-      expect(result.current.data).toBeDefined();
-      expect(result.current.data?.permits).toBeDefined();
-      expect(result.current.data?.summary).toBeDefined();
+      expect(result.current.error).toBeDefined();
     });
 
     it('should return loading state initially', () => {

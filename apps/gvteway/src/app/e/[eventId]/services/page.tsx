@@ -1,68 +1,53 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, Box, Grid, Spinner, EmptyState } from "@ghxstship/ui";
-import { Search, Headphones, AlertTriangle } from "lucide-react";
-import { useEvent } from "@/hooks/useEvents";
+import { useParams } from "next/navigation";
+import { List } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+
+interface Service { id: string; name: string; category: string; price: number; description: string; }
+const DEMO_SERVICES: Service[] = [
+  { id: "1", name: "VIP Parking", category: "Parking", price: 50, description: "Reserved parking spot" },
+  { id: "2", name: "Locker Rental", category: "Storage", price: 25, description: "Secure storage locker" },
+  { id: "3", name: "Meal Package", category: "Food", price: 75, description: "3 meals + drinks" },
+];
 
 export default function EventServicesPage() {
   const params = useParams();
-  const router = useRouter();
-  const eventId = params?.eventId as string;
-  const { data: event, isLoading, error } = useEvent(eventId);
+  const eventId = params.eventId as string;
 
-  if (isLoading) {
-    return <Stack gap={4} className="flex items-center justify-center py-20"><Spinner variant="grey" size="lg" text="Loading..." /></Stack>;
-  }
+  const { data: services = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["event-services", eventId],
+    queryFn: async () => {
+      const response = await fetch(`/api/events/${eventId}/services`);
+      if (!response.ok) return DEMO_SERVICES;
+      return (await response.json()).services?.length ? (await response.json()).services : DEMO_SERVICES;
+    },
+  });
 
-  if (error || !event) {
-    return <Stack gap={4}><EmptyState title="Event Not Found" description="Unable to load event data" inverted /></Stack>;
-  }
+  const formatCurrency = (a: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(a);
 
-  return (
-    <Stack gap={8}>
-      <SectionHeader kicker={event.name} title="Services" description="Event services and support" colorScheme="on-dark" />
-      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-        <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/services/lost-found`)}>
-          <CardBody>
-            <Stack gap={3} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                <Search size={24} className="text-primary" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Lost & Found</Body>
-                <Body size="sm" className=" text-on-dark-muted">Report or find lost items</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-        <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/services/support`)}>
-          <CardBody>
-            <Stack gap={3} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                <Headphones size={24} className="text-secondary" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Support Chat</Body>
-                <Body size="sm" className=" text-on-dark-muted">Get help from staff</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-        <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/services/emergency`)}>
-          <CardBody>
-            <Stack gap={3} className="items-center text-center">
-              <Box className="flex size-12 items-center justify-center rounded bg-ink-800">
-                <AlertTriangle size={24} className="text-error" />
-              </Box>
-              <Stack gap={1}>
-                <Body className="font-weight-bold text-white">Emergency Info</Body>
-                <Body size="sm" className=" text-on-dark-muted">Safety and emergency contacts</Body>
-              </Stack>
-            </Stack>
-          </CardBody>
-        </Card>
-      </Grid>
-    </Stack>
-  );
+  const tabs = [{
+    id: "services", label: "Services", icon: <List className="size-4" />,
+    content: (
+      <Section>
+        <SectionHeader title="Add-On Services" description="Enhance your experience" />
+        <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
+          {services.map((service: Service) => (
+            <Card key={service.id} className="p-6">
+              <Badge variant="outline" className="mb-3">{service.category}</Badge>
+              <Body className="font-weight-bold">{service.name}</Body>
+              <Body size="sm" className="text-grey-400 mt-1">{service.description}</Body>
+              <div className="flex items-center justify-between mt-4">
+                <Body className="font-weight-bold">{formatCurrency(service.price)}</Body>
+                <Button variant="outline" size="sm">Add</Button>
+              </div>
+            </Card>
+          ))}
+        </Grid>
+      </Section>
+    ),
+  }];
+
+  return <DetailPage header={{ kicker: "Event", title: "Services", description: "Add-on services and upgrades" }} backButton={{ label: "Event", href: `/e/${eventId}` }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} />;
 }

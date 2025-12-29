@@ -1,14 +1,50 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, withAuth, PlatformRole } from '@ghxstship/config';
+import { z } from 'zod';
+
+const submitSalarySchema = z.object({
+  action: z.literal('submit'),
+  role_title: z.string(),
+  company_type: z.string().optional(),
+  location: z.string().optional(),
+  experience_level: z.string().optional(),
+  salary_amount: z.number().optional(),
+  hourly_rate: z.number().optional(),
+  benefits: z.array(z.string()).optional(),
+  year: z.number().optional(),
+});
+
+const setOpportunityRangeSchema = z.object({
+  action: z.literal('set_opportunity_range'),
+  opportunity_id: z.string().uuid(),
+  min_salary: z.number().optional(),
+  max_salary: z.number().optional(),
+  min_rate: z.number().optional(),
+  max_rate: z.number().optional(),
+  show_salary: z.boolean().optional(),
+});
+
+const salaryActionSchema = z.union([submitSalarySchema, setOpportunityRangeSchema]);
 
 // Salary/rate transparency options
+const COMPVSS_ROLES = [
+  PlatformRole.COMPVSS_ADMIN, PlatformRole.COMPVSS_TEAM_MEMBER, PlatformRole.COMPVSS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { searchParams } = new URL(request.url);
     const role = searchParams.get('role');
@@ -53,17 +89,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = getServerSupabase();
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Authenticate and authorize
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { action } = body;
+    const validatedData = salaryActionSchema.parse(body);
+    const { action } = validatedData;
 
     if (action === 'submit') {
-      const { role_title, company_type, location, experience_level, salary_amount, hourly_rate, benefits, year } = body;
+      const { role_title, company_type, location, experience_level, salary_amount, hourly_rate, benefits, year } = validatedData as z.infer<typeof submitSalarySchema>;
 
       const { data, error } = await supabase.from('salary_data').insert({
         role_title, company_type, location, experience_level,
@@ -76,7 +119,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'set_opportunity_range') {
-      const { opportunity_id, min_salary, max_salary, min_rate, max_rate, show_salary } = body;
+      const { opportunity_id, min_salary, max_salary, min_rate, max_rate, show_salary } = validatedData as z.infer<typeof setOpportunityRangeSchema>;
 
       await supabase.from('opportunities').update({
         min_salary, max_salary, min_rate, max_rate, show_salary

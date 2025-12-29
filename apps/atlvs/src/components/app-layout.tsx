@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useMemo, useState, useEffect, useCallback } from "react";
+import { ReactNode, useMemo, useCallback } from "react";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import {
   PageLayout,
@@ -24,7 +24,7 @@ import {
   Card,
   PageTransition,
 } from "@ghxstship/ui";
-import type { ContextLevel, SidebarNavSection, SidebarNavItem, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
+import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
 } from "./navigation";
@@ -45,76 +45,10 @@ import {
   useAuth,
   useFavorites,
   useKeyboardShortcuts,
+  useRecentPages,
 } from "@ghxstship/config/hooks";
 import { Plus, Search, FileText, Users } from "lucide-react";
 
-// =============================================================================
-// RECENT PAGES TRACKING
-// =============================================================================
-
-const RECENT_PAGES_KEY = "atlvs-recent-pages";
-const MAX_RECENT_PAGES = 5;
-
-function useRecentPages(currentPath: string) {
-  const [recentPages, setRecentPages] = useState<SidebarNavItem[]>([]);
-
-  // Load recent pages from localStorage
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem(RECENT_PAGES_KEY);
-      if (stored) {
-        try {
-          setRecentPages(JSON.parse(stored));
-        } catch {
-          // Ignore parse errors
-        }
-      }
-    }
-  }, []);
-
-  // Track page visits
-  useEffect(() => {
-    if (typeof window === "undefined" || !currentPath || currentPath === "/") return;
-    
-    // Don't track auth pages
-    if (currentPath.startsWith("/auth")) return;
-
-    // Get page title from navigation data
-    const findPageLabel = (path: string): string | null => {
-      for (const section of atlvsSidebarNavigation) {
-        for (const item of section.items) {
-          if (item.href === path) return item.label;
-        }
-        if (section.subsections) {
-          for (const sub of section.subsections) {
-            for (const item of sub.items) {
-              if (item.href === path) return item.label;
-            }
-          }
-        }
-      }
-      // Generate label from path if not found
-      const segments = path.split("/").filter(Boolean);
-      const lastSegment = segments[segments.length - 1] || "Page";
-      return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1).replace(/-/g, " ");
-    };
-
-    const label = findPageLabel(currentPath);
-    if (!label) return;
-
-    setRecentPages((prev) => {
-      // Remove if already exists
-      const filtered = prev.filter((p) => p.href !== currentPath);
-      // Add to front
-      const updated = [{ label, href: currentPath, icon: "Clock" }, ...filtered].slice(0, MAX_RECENT_PAGES);
-      // Persist
-      localStorage.setItem(RECENT_PAGES_KEY, JSON.stringify(updated));
-      return updated;
-    });
-  }, [currentPath]);
-
-  return recentPages;
-}
 
 // =============================================================================
 // ATLVS APP LAYOUT WRAPPERS
@@ -167,8 +101,8 @@ export function AtlvsAppLayout({
     return user?.roles || [];
   }, [user]);
 
-  // Track recent pages
-  const recentPages = useRecentPages(pathname);
+  // Track recent pages using shared hook
+  const recentPages = useRecentPages("atlvs", pathname, atlvsSidebarNavigation);
 
   // Manage favorites
   const { favorites } = useFavorites({

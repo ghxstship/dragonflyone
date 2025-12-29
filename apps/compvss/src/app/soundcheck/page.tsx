@@ -1,204 +1,184 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
 // Layout provided by route group
 import {
-  Container,
+  ListPage,
   H3,
   Body,
   Grid,
   Stack,
-  StatCard,
   Input,
   Select,
   Button,
   Card,
-  Tabs,
-  TabsList,
-  Tab,
-  TabPanel,
   Badge,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Textarea,
-  EnterprisePageHeader,
-  MainContent,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 import {
   useSoundcheckSlots,
   type SoundcheckSlot,
 } from '../../hooks/useSoundcheck';
+import { Eye, Play, CheckCircle } from "lucide-react";
 
+const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
+  switch (status) {
+    case "Completed": return "solid";
+    case "In Progress": return "outline";
+    default: return "ghost";
+  }
+};
 
 export default function SoundcheckPage() {
-  const router = useRouter();
-  const { data: soundcheckSlots = [] } = useSoundcheckSlots();
-  
-  // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
-    defaultTab: 'schedule',
-    validTabs: ['schedule', 'by-stage'],
-  });
+  const { data: soundcheckSlots = [], refetch } = useSoundcheckSlots();
   const [selectedSlot, setSelectedSlot] = useState<SoundcheckSlot | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [stageFilter, setStageFilter] = useState("All");
 
   const inProgress = soundcheckSlots.find(s => s.status === "In Progress");
   const completed = soundcheckSlots.filter(s => s.status === "Completed").length;
   const remaining = soundcheckSlots.filter(s => s.status === "Scheduled" || s.status === "Delayed").length;
   const delayed = soundcheckSlots.filter(s => s.status === "Delayed").length;
 
-  const filteredSoundchecks = stageFilter === "All" ? soundcheckSlots : soundcheckSlots.filter(s => s.stage === stageFilter);
+  const columns: ListPageColumn<SoundcheckSlot>[] = [
+    {
+      key: 'artistName',
+      label: 'Artist',
+      accessor: 'artistName',
+      sortable: true,
+      render: (_, s) => (
+        <Stack gap={1}>
+          <Body className="font-display">{s.artistName}</Body>
+          <Badge variant="outline">{s.stage}</Badge>
+        </Stack>
+      ),
+    },
+    {
+      key: 'scheduledStart',
+      label: 'Scheduled',
+      accessor: 'scheduledStart',
+      sortable: true,
+      render: (_, s) => <Body size="sm">{s.scheduledStart} - {s.scheduledEnd}</Body>,
+    },
+    {
+      key: 'actualStart',
+      label: 'Actual',
+      accessor: (s) => s.actualStart || '--:--',
+      render: (_, s) => <Body size="sm">{s.actualStart || "--:--"} - {s.actualEnd || "--:--"}</Body>,
+    },
+    { key: 'engineer', label: 'Engineer', accessor: (s) => s.engineer || '-' },
+    { key: 'duration', label: 'Duration', accessor: (s) => `${s.duration} min` },
+    {
+      key: 'status',
+      label: 'Status',
+      accessor: 'status',
+      sortable: true,
+      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+    },
+  ];
 
-  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
-    switch (status) {
-      case "Completed": return "success";
-      case "In Progress": return "info";
-      case "Scheduled": return "ghost";
-      case "Delayed": return "warning";
-      case "Cancelled": return "error";
-      default: return "ghost";
-    }
-  };
+  const filters: ListPageFilter[] = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: [
+        { value: 'Scheduled', label: 'Scheduled' },
+        { value: 'In Progress', label: 'In Progress' },
+        { value: 'Completed', label: 'Completed' },
+        { value: 'Delayed', label: 'Delayed' },
+      ],
+    },
+    {
+      key: 'stage',
+      label: 'Stage',
+      options: [
+        { value: 'Main Stage', label: 'Main Stage' },
+        { value: 'Side Stage', label: 'Side Stage' },
+      ],
+    },
+  ];
+
+  const rowActions: ListPageAction<SoundcheckSlot>[] = [
+    { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSlot(s) },
+    { id: 'start', label: 'Start', icon: <Play className="h-4 w-4" />, onClick: () => {}, hidden: (s) => s.status !== 'Scheduled' },
+    { id: 'complete', label: 'Complete', icon: <CheckCircle className="h-4 w-4" />, onClick: () => {}, hidden: (s) => s.status !== 'In Progress' },
+  ];
+
+  const stats = [
+    { label: 'Completed', value: completed },
+    { label: 'In Progress', value: inProgress ? 1 : 0 },
+    { label: 'Remaining', value: remaining },
+    { label: 'Delayed', value: delayed },
+  ];
 
   return (
     <>
-      <EnterprisePageHeader
+      {inProgress && (
+        <Card className="mx-4 mt-4 p-6">
+          <Stack gap={4}>
+            <Stack direction="horizontal" className="items-center justify-between">
+              <Stack gap={1}>
+                <Badge variant="solid">NOW SOUNDCHECKING</Badge>
+                <Body className="text-h5-md font-display">{inProgress.artistName}</Body>
+                <Body size="sm">{inProgress.stage} • Engineer: {inProgress.engineer}</Body>
+              </Stack>
+              <Stack gap={2} className="text-right">
+                <Body size="sm">Started: {inProgress.actualStart}</Body>
+                <Body size="sm">Scheduled End: {inProgress.scheduledEnd}</Body>
+                <Button variant="solid" onClick={() => setSelectedSlot(inProgress)}>Complete Soundcheck</Button>
+              </Stack>
+            </Stack>
+            <Stack gap={2}>
+              <Body size="sm">Requirements:</Body>
+              <Stack direction="horizontal" gap={2} className="flex-wrap">
+                {inProgress.requirements.map((req, idx) => <Badge key={idx} variant="outline">{req}</Badge>)}
+              </Stack>
+            </Stack>
+          </Stack>
+        </Card>
+      )}
+
+      <ListPage<SoundcheckSlot>
         title="Soundcheck Coordination"
         subtitle="Schedule and manage soundcheck and focus time for all artists"
-
-
-        primaryAction={{ label: 'Add Soundcheck', onClick: () => setShowAddModal(true) }}
+        data={soundcheckSlots}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        onRetry={refetch}
+        searchPlaceholder="Search soundchecks..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(s) => setSelectedSlot(s)}
+        createLabel="Add Soundcheck"
+        onCreate={() => setShowAddModal(true)}
+        entityType="soundcheck"
+        onExport={createExportHandler({
+          filename: "soundchecks",
+          getData: () => soundcheckSlots.map((s: SoundcheckSlot) => ({
+            artistName: s.artistName,
+            stage: s.stage,
+            scheduledStart: s.scheduledStart,
+            scheduledEnd: s.scheduledEnd,
+            actualStart: s.actualStart || '',
+            actualEnd: s.actualEnd || '',
+            engineer: s.engineer || '',
+            status: s.status,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No soundchecks scheduled"
+        emptyAction={{ label: 'Add Soundcheck', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-
-            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard value={completed.toString()} label="Completed" />
-              <StatCard value={inProgress ? "1" : "0"} label="In Progress" />
-              <StatCard value={remaining.toString()} label="Remaining" />
-              <StatCard value={delayed.toString()} label="Delayed" />
-            </Grid>
-
-            {inProgress && (
-              <Card className="p-6">
-                <Stack gap={4}>
-                  <Stack direction="horizontal" className="items-center justify-between">
-                    <Stack gap={1}>
-                      <Badge variant="solid">NOW SOUNDCHECKING</Badge>
-                      <Body className="text-h5-md font-display">{inProgress.artistName}</Body>
-                      <Body size="sm" className="">{inProgress.stage} • Engineer: {inProgress.engineer}</Body>
-                    </Stack>
-                    <Stack gap={2} className="text-right">
-                      <Body size="sm" className="">Started: {inProgress.actualStart}</Body>
-                      <Body size="sm" className="">Scheduled End: {inProgress.scheduledEnd}</Body>
-                      <Button variant="solid" onClick={() => setSelectedSlot(inProgress)}>Complete Soundcheck</Button>
-                    </Stack>
-                  </Stack>
-                  <Stack gap={2}>
-                    <Body size="sm" className="">Requirements:</Body>
-                    <Stack direction="horizontal" gap={2} className="flex-wrap">
-                      {inProgress.requirements.map((req, idx) => <Badge key={idx} variant="outline">{req}</Badge>)}
-                    </Stack>
-                  </Stack>
-                </Stack>
-              </Card>
-            )}
-
-            <Stack direction="horizontal" className="items-center justify-between">
-              <Tabs>
-                <TabsList>
-                  <Tab active={isActive('schedule')} onClick={() => setActiveTab('schedule')}>Schedule</Tab>
-                  <Tab active={isActive('by-stage')} onClick={() => setActiveTab('by-stage')}>By Stage</Tab>
-                </TabsList>
-              </Tabs>
-              <Stack direction="horizontal" gap={4}>
-                <Select value={stageFilter} onChange={(e) => setStageFilter(e.target.value)}>
-                  <option value="All">All Stages</option>
-                  <option value="Main Stage">Main Stage</option>
-                  <option value="Side Stage">Side Stage</option>
-                </Select>
-                <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Soundcheck</Button>
-              </Stack>
-            </Stack>
-
-            <TabPanel active={isActive('schedule')}>
-              <Stack gap={3}>
-                {filteredSoundchecks
-                  .sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart))
-                  .map((slot) => (
-                    <Card key={slot.id} className="p-4">
-                      <Grid cols={6} gap={4} className="items-center">
-                        <Stack gap={1}>
-                          <Body className="font-display">{slot.artistName}</Body>
-                          <Badge variant="outline">{slot.stage}</Badge>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Scheduled</Body>
-                          <Body>{slot.scheduledStart} - {slot.scheduledEnd}</Body>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Actual</Body>
-                          <Body>
-                            {slot.actualStart || "--:--"} - {slot.actualEnd || "--:--"}
-                          </Body>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Body size="sm" className="">Engineer</Body>
-                          <Body>{slot.engineer || "-"}</Body>
-                        </Stack>
-                        <Badge variant={getStatusVariant(slot.status)}>{slot.status}</Badge>
-                        <Stack direction="horizontal" gap={2}>
-                          {slot.status === "Scheduled" && <Button variant="outline" size="sm">Start</Button>}
-                          {slot.status === "In Progress" && <Button variant="outline" size="sm">Complete</Button>}
-                          <Button variant="ghost" size="sm" onClick={() => setSelectedSlot(slot)}>Details</Button>
-                        </Stack>
-                      </Grid>
-                    </Card>
-                  ))}
-              </Stack>
-            </TabPanel>
-
-            <TabPanel active={isActive('by-stage')}>
-              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
-                {["Main Stage", "Side Stage"].map((stage) => (
-                  <Card key={stage} className="p-4">
-                    <Stack gap={4}>
-                      <H3>{stage}</H3>
-                      <Stack gap={2}>
-                        {soundcheckSlots.filter(s => s.stage === stage).sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((slot) => (
-                          <Card key={slot.id} className="p-3">
-                            <Stack direction="horizontal" className="items-center justify-between">
-                              <Stack gap={1}>
-                                <Body>{slot.artistName}</Body>
-                                <Body size="sm" className="">{slot.scheduledStart} - {slot.scheduledEnd}</Body>
-                              </Stack>
-                              <Badge variant={getStatusVariant(slot.status)}>{slot.status}</Badge>
-                            </Stack>
-                          </Card>
-                        ))}
-                      </Stack>
-                    </Stack>
-                  </Card>
-                ))}
-              </Grid>
-            </TabPanel>
-
-            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Button variant="outline">Export Schedule</Button>
-              <Button variant="outline" onClick={() => router.push("/tech-rehearsal")}>Tech Rehearsals</Button>
-              <Button variant="outline" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
-            </Grid>
-          </Stack>
-        </Container>
-      </MainContent>
 
       <Modal open={!!selectedSlot} onClose={() => setSelectedSlot(null)}>
         <ModalHeader><H3>Soundcheck Details</H3></ModalHeader>

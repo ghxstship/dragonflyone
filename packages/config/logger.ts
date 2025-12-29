@@ -65,8 +65,9 @@ class Logger {
     this.log('warn', message, undefined, context);
   }
 
-  error(message: string, error?: Error, context?: LogContext): void {
-    this.log('error', message, error, context);
+  error(message: string, error?: Error | unknown, context?: LogContext): void {
+    const normalizedError = error instanceof Error ? error : error ? new Error(String(error)) : undefined;
+    this.log('error', message, normalizedError, context);
   }
 
   performance(operation: string, durationMs: number, context?: LogContext): void {
