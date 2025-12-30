@@ -367,6 +367,9 @@ importers:
 
   packages/config:
     dependencies:
+      '@ghxstship/ui':
+        specifier: workspace:*
+        version: link:../ui
       '@supabase/ssr':
         specifier: ^0.5.2
         version: 0.5.2(@supabase/supabase-js@2.84.0)
