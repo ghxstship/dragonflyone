@@ -73,7 +73,7 @@ export function CreatorNavigationPublic() {
           {/* Desktop Navigation with Mega-Menus */}
           <nav className="hidden lg:flex items-center gap-1">
             {/* Products Dropdown */}
-            <div
+            <Box
               className="relative"
               onMouseEnter={() => handleMouseEnter("products")}
               onMouseLeave={handleMouseLeave}
@@ -84,9 +84,9 @@ export function CreatorNavigationPublic() {
               </Button>
 
               {activeMenu === "products" && (
-                <div className="absolute left-0 top-full pt-2 z-50">
-                  <div className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-md p-6">
-                    <div className="grid grid-cols-3 gap-6">
+                <Box className="absolute left-0 top-full pt-2 z-50">
+                  <Box className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-md p-6">
+                    <Box className="grid grid-cols-3 gap-6">
                       {productsNavigation.products.map((product) => {
                         const IconComponent = productIcons[product.icon as keyof typeof productIcons] || Briefcase;
                         return (
@@ -95,15 +95,15 @@ export function CreatorNavigationPublic() {
                             href={product.href}
                             className="group p-4 border-2 border-transparent interactive-border-inverted bg-ink-900/50 hover:bg-ink-900"
                           >
-                            <div className="flex items-center gap-3 mb-2">
-                              <div className="p-2 border-2 border-ink-700 bg-ink-800">
+                            <Stack direction="horizontal" gap={3} className="items-center mb-2">
+                              <Box className="p-2 border-2 border-ink-700 bg-ink-800">
                                 <IconComponent className="h-5 w-5 text-brand-pink" />
-                              </div>
-                              <div>
-                                <div className="font-display text-h6-md uppercase text-white">{product.label}</div>
-                                <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-muted">{product.tagline}</div>
-                              </div>
-                            </div>
+                              </Box>
+                              <Stack gap={0}>
+                                <Text className="font-display text-h6-md uppercase text-white">{product.label}</Text>
+                                <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-muted">{product.tagline}</Text>
+                              </Stack>
+                            </Stack>
                             <Body className="text-body-sm text-on-dark-muted mb-3">{product.description}</Body>
                             <List className="space-y-1">
                               {product.features.map((feature) => (
@@ -113,17 +113,17 @@ export function CreatorNavigationPublic() {
                                 </ListItem>
                               ))}
                             </List>
-                            <div className="mt-3 font-mono text-mono-xs uppercase tracking-kicker text-brand-pink flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-reveal">
+                            <Stack direction="horizontal" gap={1} className="mt-3 font-mono text-mono-xs uppercase tracking-kicker text-brand-pink items-center opacity-0 group-hover:opacity-100 transition-reveal">
                               View Features <ArrowRight className="h-3 w-3" />
-                            </div>
+                            </Stack>
                           </Link>
                         );
                       })}
-                    </div>
+                    </Box>
 
-                    <div className="mt-6 pt-4 border-t border-ink-800">
-                      <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">Platform</div>
-                      <div className="flex gap-6">
+                    <Box className="mt-6 pt-4 border-t border-ink-800">
+                      <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">Platform</Text>
+                      <Stack direction="horizontal" gap={6}>
                         {productsNavigation.quickLinks.map((link) => (
                           <Link
                             key={link.href}
@@ -133,15 +133,15 @@ export function CreatorNavigationPublic() {
                             {link.label}
                           </Link>
                         ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      </Stack>
+                    </Box>
+                  </Box>
+                </Box>
               )}
-            </div>
+            </Box>
 
             {/* Solutions Dropdown */}
-            <div
+            <Box
               className="relative"
               onMouseEnter={() => handleMouseEnter("solutions")}
               onMouseLeave={handleMouseLeave}
@@ -152,13 +152,13 @@ export function CreatorNavigationPublic() {
               </Button>
 
               {activeMenu === "solutions" && (
-                <div className="absolute left-0 top-full pt-2 z-50">
-                  <div className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-lg p-6">
-                    <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-4">Solutions by Role</div>
-                    <div className="grid grid-cols-3 gap-x-8 gap-y-4">
+                <Box className="absolute left-0 top-full pt-2 z-50">
+                  <Box className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-lg p-6">
+                    <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-4">Solutions by Role</Text>
+                    <Box className="grid grid-cols-3 gap-x-8 gap-y-4">
                       {solutionsNavigation.groups.map((group) => (
-                        <div key={group.title}>
-                          <div className="font-display text-h6-md uppercase text-white mb-2">{group.title}</div>
+                        <Stack key={group.title} gap={2}>
+                          <Text className="font-display text-h6-md uppercase text-white">{group.title}</Text>
                           <List className="space-y-1">
                             {group.items.map((item) => (
                               <ListItem key={item.href}>
@@ -171,13 +171,13 @@ export function CreatorNavigationPublic() {
                               </ListItem>
                             ))}
                           </List>
-                        </div>
+                        </Stack>
                       ))}
-                    </div>
+                    </Box>
 
-                    <div className="mt-6 pt-4 border-t border-ink-800">
-                      <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">By Vertical</div>
-                      <div className="flex gap-6">
+                    <Box className="mt-6 pt-4 border-t border-ink-800">
+                      <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">By Vertical</Text>
+                      <Stack direction="horizontal" gap={6}>
                         {solutionsNavigation.verticals.map((vertical) => (
                           <Link
                             key={vertical.href}
@@ -187,15 +187,15 @@ export function CreatorNavigationPublic() {
                             {vertical.label}
                           </Link>
                         ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      </Stack>
+                    </Box>
+                  </Box>
+                </Box>
               )}
-            </div>
+            </Box>
 
             {/* Resources Dropdown */}
-            <div
+            <Box
               className="relative"
               onMouseEnter={() => handleMouseEnter("resources")}
               onMouseLeave={handleMouseLeave}
@@ -206,12 +206,12 @@ export function CreatorNavigationPublic() {
               </Button>
 
               {activeMenu === "resources" && (
-                <div className="absolute left-0 top-full pt-2 z-50">
-                  <div className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-sm p-6">
-                    <div className="grid grid-cols-3 gap-8">
+                <Box className="absolute left-0 top-full pt-2 z-50">
+                  <Box className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-sm p-6">
+                    <Box className="grid grid-cols-3 gap-8">
                       {resourcesNavigation.groups.map((group) => (
-                        <div key={group.title}>
-                          <div className="font-display text-h6-md uppercase text-white mb-3">{group.title}</div>
+                        <Stack key={group.title} gap={3}>
+                          <Text className="font-display text-h6-md uppercase text-white">{group.title}</Text>
                           <List className="space-y-2">
                             {group.items.map((item) => (
                               <ListItem key={item.href}>
@@ -224,13 +224,13 @@ export function CreatorNavigationPublic() {
                               </ListItem>
                             ))}
                           </List>
-                        </div>
+                        </Stack>
                       ))}
-                    </div>
+                    </Box>
 
-                    <div className="mt-6 pt-4 border-t border-ink-800">
-                      <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">Featured</div>
-                      <div className="flex gap-6">
+                    <Box className="mt-6 pt-4 border-t border-ink-800">
+                      <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">Featured</Text>
+                      <Stack direction="horizontal" gap={6}>
                         {resourcesNavigation.featured.map((link) => (
                           <Link
                             key={link.href}
@@ -240,12 +240,12 @@ export function CreatorNavigationPublic() {
                             {link.label}
                           </Link>
                         ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      </Stack>
+                    </Box>
+                  </Box>
+                </Box>
               )}
-            </div>
+            </Box>
 
             {/* Pricing (no dropdown) */}
             <Link
@@ -333,7 +333,7 @@ export function CreatorNavigationPublic() {
           <Stack className="min-h-full justify-between pt-20 pb-8">
             <Stack gap={4}>
               {/* Products */}
-              <div className="border-b border-ink-800 pb-4">
+              <Box className="border-b border-ink-800 pb-4">
                 <Button
                   variant="ghost"
                   inverted
@@ -359,10 +359,10 @@ export function CreatorNavigationPublic() {
                     ))}
                   </Stack>
                 )}
-              </div>
+              </Box>
 
               {/* Solutions */}
-              <div className="border-b border-ink-800 pb-4">
+              <Box className="border-b border-ink-800 pb-4">
                 <Button
                   variant="ghost"
                   inverted
@@ -376,8 +376,8 @@ export function CreatorNavigationPublic() {
                 {mobileSubmenu === "solutions" && (
                   <Stack gap={4} className="mt-4 pl-4">
                     {solutionsNavigation.groups.map((group) => (
-                      <div key={group.title}>
-                        <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">{group.title}</div>
+                      <Stack key={group.title} gap={2}>
+                        <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled">{group.title}</Text>
                         <Stack gap={1}>
                           {group.items.map((item) => (
                             <Link
@@ -390,14 +390,14 @@ export function CreatorNavigationPublic() {
                             </Link>
                           ))}
                         </Stack>
-                      </div>
+                      </Stack>
                     ))}
                   </Stack>
                 )}
-              </div>
+              </Box>
 
               {/* Resources */}
-              <div className="border-b border-ink-800 pb-4">
+              <Box className="border-b border-ink-800 pb-4">
                 <Button
                   variant="ghost"
                   inverted
@@ -411,8 +411,8 @@ export function CreatorNavigationPublic() {
                 {mobileSubmenu === "resources" && (
                   <Stack gap={4} className="mt-4 pl-4">
                     {resourcesNavigation.groups.map((group) => (
-                      <div key={group.title}>
-                        <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">{group.title}</div>
+                      <Stack key={group.title} gap={2}>
+                        <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled">{group.title}</Text>
                         <Stack gap={1}>
                           {group.items.map((item) => (
                             <Link
@@ -425,11 +425,11 @@ export function CreatorNavigationPublic() {
                             </Link>
                           ))}
                         </Stack>
-                      </div>
+                      </Stack>
                     ))}
                   </Stack>
                 )}
-              </div>
+              </Box>
 
               {/* Pricing */}
               <Link

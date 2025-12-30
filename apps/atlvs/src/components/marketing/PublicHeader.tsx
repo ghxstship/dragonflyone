@@ -3,6 +3,10 @@
 import {
   Button,
   Text,
+  Stack,
+  Container,
+  Label,
+  Body,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
@@ -24,143 +28,129 @@ export function PublicHeader({ className }: PublicHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className={clsx('sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border', className)}>
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+    <header className={clsx('sticky top-0 z-header bg-surface-primary/95 backdrop-blur supports-[backdrop-filter]:bg-surface-primary/60 border-b-2 border-ink-950', className)}>
+      <Container size="xl" className="px-container-sm">
+        <Stack direction="horizontal" gap={4} className="items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-card flex items-center justify-center">
-              <Text className="text-primary-foreground font-weight-bold text-body-sm">A</Text>
-            </div>
-            <Text className="font-weight-bold text-h4-md tracking-label">ATLVS</Text>
+          <Link href="/">
+            <Stack direction="horizontal" gap={2} className="items-center">
+              <div className="w-8 h-8 bg-ink-950 rounded-card flex items-center justify-center">
+                <Text className="text-white font-heading text-body-sm">A</Text>
+              </div>
+              <Text className="font-heading text-h4-md tracking-label">ATLVS</Text>
+            </Stack>
           </Link>
 
           {/* Desktop Navigation */}
           <PublicMegaMenu />
 
           {/* Desktop CTAs */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Link
-              href="/login"
-              className="px-4 py-2 text-body-sm font-weight-medium text-foreground/80 hover:text-foreground transition-colors"
-            >
-              Sign In
+          <Stack direction="horizontal" gap={3} className="hidden lg:flex items-center">
+            <Link href="/auth/signup">
+              <Button variant="outlineFill" size="sm" inverted={false}>Get Started</Button>
             </Link>
-            <Link
-              href="/signup"
-              className="px-4 py-2 text-body-sm font-weight-medium bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors border-2 border-primary shadow-sm"
-            >
-              Get Started
+            <Link href="/auth/signin">
+              <Button variant="outline" size="sm" inverted={false}>Sign In</Button>
             </Link>
-          </div>
+          </Stack>
 
           {/* Mobile Menu Toggle */}
           <Button
             variant="ghost"
-            size="sm"
-            className="lg:hidden p-2 text-foreground"
+            size="icon"
+            className="lg:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
+            inverted={false}
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
-        </div>
-      </div>
+        </Stack>
+      </Container>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-border bg-background">
-          <div className="container mx-auto px-4 py-4 space-y-4">
-            {/* Products */}
-            <div>
-              <div className="font-weight-medium text-foreground mb-2">Products</div>
-              <div className="space-y-1 pl-4">
-                {productsNavigation.products.map((product) => (
+        <div className="lg:hidden border-t-2 border-ink-950 bg-surface-primary">
+          <Container size="xl" className="px-container-sm py-container-sm">
+            <Stack gap={4}>
+              {/* Products */}
+              <Stack gap={2}>
+                <Label size="sm" className="text-ink-950">Products</Label>
+                <Stack gap={1} className="pl-4">
+                  {productsNavigation.products.map((product) => (
+                    <Link
+                      key={product.href}
+                      href={product.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Body size="sm" className="text-on-light-muted hover:text-ink-950 transition-colors py-1">{product.label}</Body>
+                    </Link>
+                  ))}
+                </Stack>
+              </Stack>
+
+              {/* Solutions */}
+              <Stack gap={2}>
+                <Label size="sm" className="text-ink-950">Solutions</Label>
+                <Stack gap={1} className="pl-4">
+                  {solutionsNavigation.groups.slice(0, 3).map((group) => (
+                    <Stack key={group.title} gap={1}>
+                      <Label size="xs" className="text-on-light-muted uppercase mt-2">{group.title}</Label>
+                      {group.items.slice(0, 2).map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          <Body size="sm" className="text-on-light-muted hover:text-ink-950 transition-colors py-1">{item.label}</Body>
+                        </Link>
+                      ))}
+                    </Stack>
+                  ))}
                   <Link
-                    key={product.href}
-                    href={product.href}
-                    className="block py-1 text-body-sm text-muted-foreground hover:text-foreground"
+                    href="/solutions"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    {product.label}
+                    <Body size="sm" className="text-brand-pink font-heading py-1">View All Solutions</Body>
                   </Link>
-                ))}
-              </div>
-            </div>
+                </Stack>
+              </Stack>
 
-            {/* Solutions */}
-            <div>
-              <div className="font-weight-medium text-foreground mb-2">Solutions</div>
-              <div className="space-y-1 pl-4">
-                {solutionsNavigation.groups.slice(0, 3).map((group) => (
-                  <div key={group.title}>
-                    <div className="text-body-xs text-muted-foreground uppercase tracking-kicker mt-2 mb-1">{group.title}</div>
-                    {group.items.slice(0, 2).map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className="block py-1 text-body-sm text-muted-foreground hover:text-foreground"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
-                ))}
-                <Link
-                  href="/solutions"
-                  className="block py-1 text-body-sm text-primary font-weight-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  View All Solutions
+              {/* Resources */}
+              <Stack gap={2}>
+                <Label size="sm" className="text-ink-950">Resources</Label>
+                <Stack gap={1} className="pl-4">
+                  {resourcesNavigation.groups.map((group) => (
+                    <Link
+                      key={group.items[0].href}
+                      href={group.items[0].href}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Body size="sm" className="text-on-light-muted hover:text-ink-950 transition-colors py-1">{group.title}</Body>
+                    </Link>
+                  ))}
+                </Stack>
+              </Stack>
+
+              {/* Pricing */}
+              <Link
+                href="/pricing"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Body size="sm" className="text-ink-950 font-heading">Pricing</Body>
+              </Link>
+
+              {/* CTAs */}
+              <Stack gap={2} className="pt-4 border-t-2 border-ink-950">
+                <Link href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="outlineFill" size="md" fullWidth inverted={false}>Get Started</Button>
                 </Link>
-              </div>
-            </div>
-
-            {/* Resources */}
-            <div>
-              <div className="font-weight-medium text-foreground mb-2">Resources</div>
-              <div className="space-y-1 pl-4">
-                {resourcesNavigation.groups.map((group) => (
-                  <Link
-                    key={group.items[0].href}
-                    href={group.items[0].href}
-                    className="block py-1 text-body-sm text-muted-foreground hover:text-foreground"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {group.title}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Pricing */}
-            <Link
-              href="/pricing"
-              className="block text-body-sm font-weight-medium text-foreground"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Pricing
-            </Link>
-
-            {/* CTAs */}
-            <div className="pt-4 border-t border-border space-y-2">
-              <Link
-                href="/login"
-                className="block w-full text-center px-4 py-2 text-body-sm font-weight-medium border-2 border-border rounded-button hover:bg-muted transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/signup"
-                className="block w-full text-center px-4 py-2 text-body-sm font-weight-medium bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors border-2 border-primary"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Get Started
-              </Link>
-            </div>
-          </div>
+                <Link href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="outline" size="md" fullWidth inverted={false}>Sign In</Button>
+                </Link>
+              </Stack>
+            </Stack>
+          </Container>
         </div>
       )}
     </header>

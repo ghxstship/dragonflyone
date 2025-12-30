@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase';
+import { createAdminClient, fromDynamic } from '@/lib/supabase';
 import { log, withAuth, PlatformRole } from '@ghxstship/config';
 import { z } from 'zod';
 
@@ -57,8 +57,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50');
     const offset = parseInt(searchParams.get('offset') || '0');
 
-    let query = supabase
-      .from('organization_catalog_items')
+    let query = fromDynamic(supabase, 'organization_catalog_items')
       .select('*', { count: 'exact' })
       .order('category')
       .order('item_name')
@@ -127,8 +126,7 @@ export async function POST(request: NextRequest) {
     const payload = await request.json();
     const validatedData = createCatalogItemSchema.parse(payload);
 
-    const { data, error } = await supabase
-      .from('organization_catalog_items')
+    const { data, error } = await fromDynamic(supabase, 'organization_catalog_items')
       .insert({
         organization_id: validatedData.organization_id,
         item_id: validatedData.item_id,

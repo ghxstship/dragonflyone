@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase';
+import { createAdminClient, fromDynamic } from '@/lib/supabase';
 import { log } from '@ghxstship/config';
 import { z } from 'zod';
 
@@ -27,8 +27,7 @@ export async function GET(
   const { id } = await params;
   
   try {
-    const { data, error } = await supabase
-      .from('organization_catalog_items')
+    const { data, error } = await fromDynamic(supabase, 'organization_catalog_items')
       .select('*')
       .eq('id', id)
       .single();
@@ -62,8 +61,7 @@ export async function PATCH(
     const payload = await request.json();
     const validatedData = updateCatalogItemSchema.parse(payload);
 
-    const { data, error } = await supabase
-      .from('organization_catalog_items')
+    const { data, error } = await fromDynamic(supabase, 'organization_catalog_items')
       .update({
         item_name: validatedData.item_name,
         description: validatedData.description,
@@ -107,8 +105,7 @@ export async function DELETE(
   const { id } = await params;
   
   try {
-    const { error } = await supabase
-      .from('organization_catalog_items')
+    const { error } = await fromDynamic(supabase, 'organization_catalog_items')
       .delete()
       .eq('id', id);
 

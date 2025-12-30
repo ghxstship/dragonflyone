@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase';
+import { createAdminClient, fromDynamic } from '@/lib/supabase';
 import { log } from '@ghxstship/config';
 
 export const dynamic = 'force-dynamic';
@@ -12,8 +12,7 @@ export async function POST(
   const { id } = await params;
   
   try {
-    const { data, error } = await supabase
-      .from('organization_catalog_items')
+    const { data, error } = await fromDynamic(supabase, 'organization_catalog_items')
       .update({
         is_locked: false,
         locked_by: null,

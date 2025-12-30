@@ -294,7 +294,7 @@ function PricingSection() {
               <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-cyan" /><Text size="sm" className="text-on-light-secondary">COMPVSS — Crews</Text></Stack>
               <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-light-secondary">ATLVS — Business</Text></Stack>
             </Stack>
-            <NextLink href="/pricing#single" className="w-full mt-auto"><Button variant="outline" size="md" fullWidth>See Options</Button></NextLink>
+            <NextLink href="/pricing#single" className="w-full mt-auto"><Button variant="outline" size="md" fullWidth inverted={false}>See Options</Button></NextLink>
           </Stack>
         </Card>
 

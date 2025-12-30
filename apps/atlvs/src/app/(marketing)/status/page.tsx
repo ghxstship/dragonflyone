@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { CheckCircle, AlertTriangle, XCircle, Bell, Activity } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button, Badge, Spinner} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button, Badge, Spinner, Grid, Box} from "@ghxstship/ui";
 
 interface ServiceStatus {
   id: string;
@@ -172,10 +172,10 @@ export default function StatusPage() {
                   <H3 className="text-white">7-Day Uptime History</H3>
                 </Stack>
 
-                <div className="grid grid-cols-7 gap-2">
+                <Grid cols={6} gap={2} className="grid-cols-7">
                   {UPTIME_HISTORY.map((day, idx) => (
                     <Stack key={idx} gap={2} className="items-center">
-                      <div 
+                      <Box 
                         className={`w-full h-16 rounded-card ${
                           day.uptime === 100 
                             ? "bg-success" 
@@ -189,19 +189,19 @@ export default function StatusPage() {
                       <Body size="sm" className="text-on-dark-muted">{day.uptime}%</Body>
                     </Stack>
                   ))}
-                </div>
+                </Grid>
 
                 <Stack direction="horizontal" gap={6} className="justify-center">
                   <Stack direction="horizontal" gap={2} className="items-center">
-                    <div className="size-3 rounded-avatar bg-success" />
+                    <Box className="size-3 rounded-avatar bg-success" />
                     <Body size="sm" className="text-on-dark-muted">100% Uptime</Body>
                   </Stack>
                   <Stack direction="horizontal" gap={2} className="items-center">
-                    <div className="size-3 rounded-avatar bg-success/70" />
+                    <Box className="size-3 rounded-avatar bg-success/70" />
                     <Body size="sm" className="text-on-dark-muted">99.9%+ Uptime</Body>
                   </Stack>
                   <Stack direction="horizontal" gap={2} className="items-center">
-                    <div className="size-3 rounded-avatar bg-accent" />
+                    <Box className="size-3 rounded-avatar bg-accent" />
                     <Body size="sm" className="text-on-dark-muted">Degraded</Body>
                   </Stack>
                 </Stack>
@@ -216,9 +216,9 @@ export default function StatusPage() {
             <Container size="lg" className="py-20">
               <Card className="p-12 border-2 border-primary/30 rounded-card bg-gradient-to-br from-primary/10 to-secondary/10 text-center">
                 <Stack gap={6} className="items-center">
-                  <div className="p-4 bg-primary/20 rounded-card">
+                  <Box className="p-4 bg-primary/20 rounded-card">
                     <Bell className="size-10 text-primary" />
-                  </div>
+                  </Box>
                   <Stack gap={2} className="items-center">
                     <Body className="text-white font-weight-bold text-h4-md">Subscribe to Status Updates</Body>
                     <Body className="text-on-dark-muted max-w-lg">Get notified via email or SMS when system status changes. Stay informed about maintenance windows and incidents.</Body>

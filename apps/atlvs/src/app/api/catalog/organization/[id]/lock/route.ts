@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase';
+import { createAdminClient, fromDynamic } from '@/lib/supabase';
 import { log } from '@ghxstship/config';
 import { z } from 'zod';
 
@@ -23,8 +23,7 @@ export async function POST(
     const payload = await request.json();
     const validatedData = lockItemSchema.parse(payload);
 
-    const { data, error } = await supabase
-      .from('organization_catalog_items')
+    const { data, error } = await fromDynamic(supabase, 'organization_catalog_items')
       .update({
         is_locked: true,
         locked_by: validatedData.locked_by,

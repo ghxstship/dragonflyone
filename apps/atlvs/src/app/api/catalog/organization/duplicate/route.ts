@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase';
+import { createAdminClient, fromDynamic } from '@/lib/supabase';
 import { log, withAuth, PlatformRole } from '@ghxstship/config';
 import { z } from 'zod';
 
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     const payload = await request.json();
     const validatedData = duplicateCatalogItemSchema.parse(payload);
 
-    const { data, error } = await supabase.rpc('duplicate_catalog_item_to_org', {
+    const { data, error } = await (supabase.rpc as (fn: string, params: Record<string, unknown>) => ReturnType<typeof supabase.rpc>)('duplicate_catalog_item_to_org', {
       p_source_item_id: validatedData.source_item_id,
       p_organization_id: validatedData.organization_id,
       p_custom_item_id: validatedData.custom_item_id,
@@ -49,8 +49,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    const { data: newItem, error: fetchError } = await supabase
-      .from('organization_catalog_items')
+    const { data: newItem, error: fetchError } = await fromDynamic(supabase, 'organization_catalog_items')
       .select('*')
       .eq('id', data)
       .single();

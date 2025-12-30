@@ -136,9 +136,12 @@ export default function SOPDetailPage() {
               <Stack gap={4}>
                 <Button
                   onClick={() => router.back()}
-                  className="flex w-fit items-center gap-2 border-2 border-grey-300 bg-white px-4 py-2"
+                  variant="outline"
+                  size="sm"
+                  icon={<ArrowLeft className="size-4" />}
+                  iconPosition="left"
+                  inverted={false}
                 >
-                  <ArrowLeft className="size-4" />
                   Back to SOPs
                 </Button>
                 <Stack gap={2}>
@@ -157,18 +160,24 @@ export default function SOPDetailPage() {
                 {sop.requires_acknowledgment && (
                   <Button
                     onClick={handleAcknowledge}
-                    className="flex items-center gap-2 border-2 border-success bg-success px-4 py-2 text-white"
+                    variant="solid"
+                    size="sm"
+                    icon={<CheckCircle className="size-4" />}
+                    iconPosition="left"
+                    className="bg-success border-success hover:bg-success/90"
                   >
-                    <CheckCircle className="size-4" />
                     Acknowledge
                   </Button>
                 )}
                 {canManageSOPs && (
                   <Button
                     onClick={() => router.push(`/sops/${sopId}/edit`)}
-                    className="flex items-center gap-2 border-2 border-grey-300 bg-white px-4 py-2"
+                    variant="outline"
+                    size="sm"
+                    icon={<Pencil className="size-4" />}
+                    iconPosition="left"
+                    inverted={false}
                   >
-                    <Pencil className="size-4" />
                     Edit
                   </Button>
                 )}
@@ -185,9 +194,12 @@ export default function SOPDetailPage() {
                       {canManageSOPs && (
                         <Button
                           onClick={() => setStepModalOpen(true)}
-                          className="flex items-center gap-2 border-2 border-primary bg-primary px-4 py-2 text-white"
+                          variant="solid"
+                          size="sm"
+                          icon={<Plus className="size-4" />}
+                          iconPosition="left"
+                          inverted={false}
                         >
-                          <Plus className="size-4" />
                           Add Step
                         </Button>
                       )}
@@ -217,13 +229,16 @@ export default function SOPDetailPage() {
                                   <Stack direction="horizontal" gap={1}>
                                     <Button
                                       onClick={() => setEditingStep(step)}
-                                      className="border-2 border-grey-200 bg-white p-2"
+                                      variant="outline"
+                                      size="icon"
+                                      inverted={false}
                                     >
                                       <Pencil className="size-4" />
                                     </Button>
                                     <Button
                                       onClick={() => setDeleteStepId(step.id)}
-                                      className="border-2 border-grey-200 bg-white p-2 text-error"
+                                      variant="destructive"
+                                      size="icon"
                                     >
                                       <Trash2 className="size-4" />
                                     </Button>
