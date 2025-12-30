@@ -174,7 +174,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
           {icon}
           <Stack gap={2} className="items-center">
             <H2 className={inverted ? "text-white" : "text-ink-900"}>{title}</H2>
-            <Body className={inverted ? "text-grey-400" : "text-grey-600"}>{message}</Body>
+            <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>{message}</Body>
           </Stack>
           {action}
         </Stack>
@@ -293,7 +293,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
                 </div>
               )}
               {renderStateContent(
-                <FileQuestion className="size-16 text-grey-500" />,
+                <FileQuestion className="size-16 text-on-dark-disabled" />,
                 "Not Found",
                 notFoundMessage,
                 notFoundAction && (
@@ -414,7 +414,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
                 {tab.badge !== undefined && (
                   <span className={clsx(
                     "px-1.5 py-0.5 text-xs rounded-badge font-medium",
-                    inverted ? "bg-grey-700 text-grey-300" : "bg-grey-200 text-grey-600"
+                    inverted ? "bg-grey-700 text-on-dark-secondary" : "bg-grey-200 text-on-dark-disabled"
                   )}>
                     {tab.badge}
                   </span>

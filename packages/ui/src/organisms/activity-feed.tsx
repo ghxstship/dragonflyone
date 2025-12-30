@@ -212,7 +212,7 @@ function ActivityItemCard({ activity, onClick, compact }: ActivityItemCardProps)
               {activity.user.name}
             </span>
           )}
-          <span className="text-grey-500 text-body-sm">
+          <span className="text-on-dark-disabled text-body-sm">
             {activity.title}
           </span>
           {activity.entityName && (
@@ -223,12 +223,12 @@ function ActivityItemCard({ activity, onClick, compact }: ActivityItemCardProps)
         </div>
         
         {activity.description && !compact && (
-          <p className="text-body-sm text-grey-500 mt-spacing-1 line-clamp-2">
+          <p className="text-body-sm text-on-dark-disabled mt-spacing-1 line-clamp-2">
             {activity.description}
           </p>
         )}
         
-        <p className="text-body-xs text-grey-400 mt-spacing-1">
+        <p className="text-body-xs text-on-dark-muted mt-spacing-1">
           {formatRelativeTime(activity.timestamp)}
         </p>
       </div>
@@ -350,7 +350,7 @@ export function ActivityFeed({
               <button
                 onClick={onRefresh}
                 disabled={loading}
-                className="p-spacing-2 text-grey-500 hover:text-grey-700 bg-transparent border-none cursor-pointer transition-colors disabled:opacity-50"
+                className="p-spacing-2 text-on-dark-disabled hover:text-on-dark-disabled bg-transparent border-none cursor-pointer transition-colors disabled:opacity-50"
               >
                 <RefreshCw className={clsx("size-4", loading && "animate-spin")} />
               </button>
@@ -373,16 +373,16 @@ export function ActivityFeed({
           </div>
         ) : filteredActivities.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-spacing-12 text-center">
-            <FileText className="size-12 text-grey-300 mb-spacing-4" />
-            <p className="text-body-md text-grey-500">No activity yet</p>
-            <p className="text-body-sm text-grey-400 mt-spacing-1">
+            <FileText className="size-12 text-on-dark-secondary mb-spacing-4" />
+            <p className="text-body-md text-on-dark-disabled">No activity yet</p>
+            <p className="text-body-sm text-on-dark-muted mt-spacing-1">
               Activity will appear here as actions are taken
             </p>
           </div>
         ) : (
           Array.from(groupedActivities.entries()).map(([group, items]) => (
             <div key={group} className="mb-spacing-4">
-              <p className="font-code text-mono-xs text-grey-500 uppercase tracking-wider mb-spacing-2 px-spacing-3">
+              <p className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider mb-spacing-2 px-spacing-3">
                 {group}
               </p>
               <div className="flex flex-col">

@@ -24,7 +24,7 @@ export default function WatchPartiesPage() {
     content: (
       <Section>
         {parties.length === 0 ? (
-          <Card className="p-8 text-center"><Tv className="size-12 text-grey-600 mx-auto mb-4" /><Body className="font-weight-medium mb-2">No watch parties</Body><Body className="text-grey-400 mb-4">Host or join a virtual watch party</Body><Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left">Create Watch Party</Button></Card>
+          <Card className="p-8 text-center"><Tv className="size-12 text-on-dark-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No watch parties</Body><Body className="text-on-dark-muted mb-4">Host or join a virtual watch party</Body><Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left">Create Watch Party</Button></Card>
         ) : (
           <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
             {parties.map((party: WatchParty) => (
@@ -32,8 +32,8 @@ export default function WatchPartiesPage() {
                 <div className="flex items-start justify-between">
                   <div>
                     <Body className="font-weight-bold">{party.event}</Body>
-                    <Body size="sm" className="text-grey-400">Hosted by {party.host}</Body>
-                    <div className="flex items-center gap-4 mt-3 text-grey-400">
+                    <Body size="sm" className="text-on-dark-muted">Hosted by {party.host}</Body>
+                    <div className="flex items-center gap-4 mt-3 text-on-dark-muted">
                       <div className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(party.date)}</Body></div>
                       <div className="flex items-center gap-1"><Users className="size-4" /><Body size="sm">{party.attendees} attending</Body></div>
                     </div>

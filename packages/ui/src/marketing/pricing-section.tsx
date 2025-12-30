@@ -110,7 +110,7 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
             {kicker && <Kicker>{kicker}</Kicker>}
             {title && <H2 className="text-white">{title}</H2>}
             {description && (
-              <Body size="lg" className="text-grey-400 max-w-2xl">
+              <Body size="lg" className="text-on-dark-muted max-w-2xl">
                 {description}
               </Body>
             )}
@@ -179,7 +179,7 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
                     <H3 size="sm" className="text-white">
                       {plan.name}
                     </H3>
-                    <Body size="sm" className="text-grey-400">
+                    <Body size="sm" className="text-on-dark-muted">
                       {plan.description}
                     </Body>
                   </Stack>
@@ -196,11 +196,11 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
                         )}
                       </span>
                       {plan.price.monthly > 0 && (
-                        <span className="text-grey-500">/user/month</span>
+                        <span className="text-on-dark-disabled">/user/month</span>
                       )}
                     </div>
                     {billing === "annual" && plan.price.monthly > 0 && (
-                      <Body size="sm" className="text-grey-500 mt-1">
+                      <Body size="sm" className="text-on-dark-disabled mt-1">
                         Billed annually
                       </Body>
                     )}
@@ -227,7 +227,7 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
                         {feature.included === true ? (
                           <Check className="size-5 text-success flex-shrink-0 mt-0.5" />
                         ) : feature.included === false ? (
-                          <X className="size-5 text-grey-600 flex-shrink-0 mt-0.5" />
+                          <X className="size-5 text-on-dark-disabled flex-shrink-0 mt-0.5" />
                         ) : (
                           <Check className="size-5 text-success flex-shrink-0 mt-0.5" />
                         )}
@@ -235,8 +235,8 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
                           size="sm"
                           className={clsx(
                             feature.included === false
-                              ? "text-grey-600"
-                              : "text-grey-300"
+                              ? "text-on-dark-disabled"
+                              : "text-on-light-secondary"
                           )}
                         >
                           {typeof feature.included === "string"

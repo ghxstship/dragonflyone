@@ -98,7 +98,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
         {kicker && (
           <span className={clsx(
             "font-mono text-xs uppercase tracking-widest font-bold",
-            isDark ? "text-grey-400" : "text-grey-500"
+            isDark ? "text-on-dark-muted" : "text-on-light-muted"
           )}>
             {kicker}
           </span>
@@ -117,7 +117,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
           typeof description === "string" ? (
             <p className={clsx(
               "font-body text-base md:text-lg",
-              isDark ? "text-grey-300" : "text-grey-600",
+              isDark ? "text-on-dark-secondary" : "text-on-light-muted",
               align === "center" ? "mx-auto max-w-2xl" : "max-w-3xl"
             )}>
               {description}

@@ -77,7 +77,7 @@ export default function ProductionTeamPage() {
           <Card className="p-4 mb-6">
             <div className="flex items-center gap-4 flex-wrap">
               <div className="flex-1 min-w-[200px] relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search team..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
               </div>
               <div className="flex gap-2">
@@ -99,16 +99,16 @@ export default function ProductionTeamPage() {
                   </div>
                   <div className="flex-1">
                     <Body className="font-weight-bold">{member.name}</Body>
-                    <Body size="sm" className="text-grey-400">{member.role}</Body>
+                    <Body size="sm" className="text-on-dark-muted">{member.role}</Body>
                     <Badge variant="outline" className="mt-2">{member.department}</Badge>
                   </div>
                 </div>
                 <div className="mt-4 space-y-2">
-                  <div className="flex items-center gap-2 text-grey-400">
+                  <div className="flex items-center gap-2 text-on-dark-muted">
                     <Mail className="size-4" />
                     <Body size="sm">{member.email}</Body>
                   </div>
-                  <div className="flex items-center gap-2 text-grey-400">
+                  <div className="flex items-center gap-2 text-on-dark-muted">
                     <Phone className="size-4" />
                     <Body size="sm">{member.phone}</Body>
                   </div>
@@ -129,11 +129,11 @@ export default function ProductionTeamPage() {
           <Card className="p-6 mt-4 max-w-md">
             <div className="space-y-4">
               <div>
-                <Body size="sm" className="text-grey-400 mb-1">Email Address</Body>
+                <Body size="sm" className="text-on-dark-muted mb-1">Email Address</Body>
                 <Input type="email" placeholder="colleague@example.com" />
               </div>
               <div>
-                <Body size="sm" className="text-grey-400 mb-1">Role</Body>
+                <Body size="sm" className="text-on-dark-muted mb-1">Role</Body>
                 <Input placeholder="e.g., Stage Manager" />
               </div>
               <Button variant="solid" icon={<UserPlus className="size-4" />} iconPosition="left">Send Invitation</Button>

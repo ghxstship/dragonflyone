@@ -17,7 +17,7 @@ export function Text({ as: Component = "span", variant = "default", size = "md",
     if (inverted) {
       switch (variant) {
         case "default": return "text-current";
-        case "muted": return "text-grey-400";
+        case "muted": return "text-on-dark-muted";
         case "mono": return "font-code";
         case "accent": return "text-black";
         default: return "";
@@ -25,7 +25,7 @@ export function Text({ as: Component = "span", variant = "default", size = "md",
     } else {
       switch (variant) {
         case "default": return "text-current";
-        case "muted": return "text-grey-500";
+        case "muted": return "text-on-dark-disabled";
         case "mono": return "font-code";
         case "accent": return "text-white";
         default: return "";

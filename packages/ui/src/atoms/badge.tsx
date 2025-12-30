@@ -51,9 +51,9 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
           case "solid":
             return "bg-white text-black border-2 border-white";
           case "outline":
-            return "border-2 border-grey-500 text-grey-200 bg-transparent";
+            return "border-2 border-grey-500 text-on-dark-secondary bg-transparent";
           case "ghost":
-            return "text-grey-200 bg-grey-800 border-2 border-transparent";
+            return "text-on-dark-secondary bg-grey-800 border-2 border-transparent";
           default:
             return "";
         }

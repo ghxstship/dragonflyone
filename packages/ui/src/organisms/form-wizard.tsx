@@ -52,7 +52,7 @@ export const FormWizard = forwardRef<HTMLDivElement, FormWizardProps>(
                     key={index}
                     className={clsx(
                       "font-code text-mono-xs uppercase tracking-widest",
-                      index <= currentStep ? "text-black" : "text-grey-400"
+                      index <= currentStep ? "text-black" : "text-on-light-muted"
                     )}
                   >
                     {step.props.title}

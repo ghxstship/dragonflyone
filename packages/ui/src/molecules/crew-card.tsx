@@ -151,7 +151,7 @@ export function CrewCard({
           <div
             className={clsx(
               "font-body mt-spacing-1",
-              inverted ? "text-grey-300" : "text-grey-700",
+              inverted ? "text-on-dark-secondary" : "text-on-light-muted",
               isCompact ? "text-body-sm" : "text-body-md"
             )}
           >
@@ -161,7 +161,7 @@ export function CrewCard({
 
         {/* Department */}
         {department && !isCompact && (
-          <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-grey-400" : "text-grey-500")}>
+          <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
             {department}
           </div>
         )}
@@ -173,7 +173,7 @@ export function CrewCard({
               "font-code text-mono-xs tracking-widest mt-auto",
               status === "available"
                 ? inverted ? "text-white" : "text-black"
-                : inverted ? "text-grey-400" : "text-grey-600"
+                : inverted ? "text-on-dark-muted" : "text-on-light-muted"
             )}
           >
             {statusInfo.label}
@@ -184,7 +184,7 @@ export function CrewCard({
         {currentAssignment && !isCompact && (
           <div className={clsx(
             "font-code text-mono-sm tracking-wide p-spacing-2 mt-spacing-2",
-            inverted ? "text-grey-300 bg-grey-800" : "text-grey-600 bg-grey-100"
+            inverted ? "text-on-dark-secondary bg-grey-800" : "text-on-dark-disabled bg-grey-100"
           )}>
             ASSIGNED: {currentAssignment}
           </div>
@@ -198,14 +198,14 @@ export function CrewCard({
                 key={index}
                 className={clsx(
                   "font-code text-mono-xs tracking-wide px-spacing-2 py-spacing-1 border",
-                  inverted ? "text-grey-300 border-grey-600" : "text-grey-700 border-grey-300"
+                  inverted ? "text-on-dark-secondary border-grey-600" : "text-on-dark-disabled border-grey-300"
                 )}
               >
                 {skill}
               </span>
             ))}
             {skills.length > 4 && (
-              <span className={clsx("font-code text-mono-xs tracking-wide px-spacing-2 py-spacing-1", inverted ? "text-grey-400" : "text-grey-500")}>
+              <span className={clsx("font-code text-mono-xs tracking-wide px-spacing-2 py-spacing-1", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
                 +{skills.length - 4}
               </span>
             )}
@@ -216,12 +216,12 @@ export function CrewCard({
         {isDetailed && (email || phone) && (
           <div className={clsx("flex flex-col gap-gap-xs mt-auto pt-spacing-3 border-t", inverted ? "border-grey-700" : "border-grey-200")}>
             {email && (
-              <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-grey-400" : "text-grey-600")}>
+              <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
                 {email}
               </div>
             )}
             {phone && (
-              <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-grey-400" : "text-grey-600")}>
+              <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
                 {phone}
               </div>
             )}
@@ -247,7 +247,7 @@ export function CrewCard({
                 )}
               />
             ))}
-            <span className={clsx("font-code text-mono-xs ml-spacing-2", inverted ? "text-grey-400" : "text-grey-600")}>
+            <span className={clsx("font-code text-mono-xs ml-spacing-2", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
               {rating.toFixed(1)}
             </span>
           </div>

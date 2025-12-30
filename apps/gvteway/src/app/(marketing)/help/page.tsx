@@ -16,24 +16,24 @@ export default function HelpPage() {
           <Card className="p-6 text-center cursor-pointer hover:border-primary transition-colors" onClick={() => router.push("/help/faq")}>
             <HelpCircle className="size-12 text-primary mx-auto mb-4" />
             <Body className="font-weight-bold">FAQ</Body>
-            <Body size="sm" className="text-grey-400 mt-2">Find answers to common questions</Body>
+            <Body size="sm" className="text-on-dark-muted mt-2">Find answers to common questions</Body>
           </Card>
           <Card className="p-6 text-center cursor-pointer hover:border-primary transition-colors" onClick={() => router.push("/support/chat")}>
             <MessageSquare className="size-12 text-primary mx-auto mb-4" />
             <Body className="font-weight-bold">Live Chat</Body>
-            <Body size="sm" className="text-grey-400 mt-2">Chat with our support team</Body>
+            <Body size="sm" className="text-on-dark-muted mt-2">Chat with our support team</Body>
           </Card>
           <Card className="p-6 text-center cursor-pointer hover:border-primary transition-colors" onClick={() => router.push("/help/docs")}>
             <FileText className="size-12 text-primary mx-auto mb-4" />
             <Body className="font-weight-bold">Documentation</Body>
-            <Body size="sm" className="text-grey-400 mt-2">Browse our help articles</Body>
+            <Body size="sm" className="text-on-dark-muted mt-2">Browse our help articles</Body>
           </Card>
         </Grid>
         <Card className="p-6 mt-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Phone className="size-8 text-primary" />
-              <div><Body className="font-weight-bold">Need immediate help?</Body><Body size="sm" className="text-grey-400">Call us at 1-800-GVTEWAY</Body></div>
+              <div><Body className="font-weight-bold">Need immediate help?</Body><Body size="sm" className="text-on-dark-muted">Call us at 1-800-GVTEWAY</Body></div>
             </div>
             <Button variant="outline">Call Now</Button>
           </div>

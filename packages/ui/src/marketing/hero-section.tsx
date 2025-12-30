@@ -167,7 +167,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
               {description && (
                 <div className="max-w-2xl animate-fade-in animation-delay-200">
                   {typeof description === "string" ? (
-                    <p className="font-body text-lg md:text-xl lg:text-2xl text-grey-300 leading-relaxed">
+                    <p className="font-body text-lg md:text-xl lg:text-2xl text-on-dark-secondary leading-relaxed">
                       {description}
                     </p>
                   ) : (

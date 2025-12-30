@@ -55,7 +55,7 @@ export default function LegalPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Documents</Body>
                   <H3 className="text-white">Legal Documents</H3>
-                  <Body className="text-grey-400 max-w-2xl">Important legal information about using ATLVS</Body>
+                  <Body className="text-on-dark-muted max-w-2xl">Important legal information about using ATLVS</Body>
                 </Stack>
 
                 <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -71,8 +71,8 @@ export default function LegalPage() {
                         </div>
                         <Stack gap={2}>
                           <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{doc.title}</Body>
-                          <Body size="sm" className="text-grey-400">{doc.description}</Body>
-                          <Body size="sm" className="text-grey-500">Last updated: {formatDate(doc.updated)}</Body>
+                          <Body size="sm" className="text-on-dark-muted">{doc.description}</Body>
+                          <Body size="sm" className="text-on-dark-disabled">Last updated: {formatDate(doc.updated)}</Body>
                         </Stack>
                         <Button 
                           variant="ghost" 

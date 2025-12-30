@@ -204,11 +204,11 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
       if (inverted) {
         return active
           ? "border-b-2 border-white text-white -mb-0.5"
-          : "text-grey-400 hover:text-white border-b-2 border-transparent -mb-0.5";
+          : "text-on-dark-muted hover:text-white border-b-2 border-transparent -mb-0.5";
       }
       return active
         ? "border-b-2 border-black text-black -mb-0.5"
-        : "text-grey-500 hover:text-black border-b-2 border-transparent -mb-0.5";
+        : "text-on-dark-disabled hover:text-black border-b-2 border-transparent -mb-0.5";
     };
 
     const getEnclosedClasses = () => {
@@ -216,7 +216,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         return clsx(
           active
             ? "bg-white text-black"
-            : "bg-transparent text-grey-300 hover:bg-grey-800 hover:text-white",
+            : "bg-transparent text-on-dark-secondary hover:bg-grey-800 hover:text-white",
           "border-r-2 border-grey-600 last:border-r-0"
         );
       }
@@ -233,7 +233,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         return clsx(
           active
             ? "bg-white text-black"
-            : "bg-transparent text-grey-300 hover:bg-grey-800 hover:text-white",
+            : "bg-transparent text-on-dark-secondary hover:bg-grey-800 hover:text-white",
           "first:rounded-l-[calc(var(--radius-card)-2px)] last:rounded-r-[calc(var(--radius-card)-2px)]"
         );
       }
@@ -283,7 +283,7 @@ export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
         role="tabpanel"
         className={clsx(
           "py-4 animate-fade-in",
-          inverted ? "text-grey-200" : "text-grey-800",
+          inverted ? "text-on-dark-secondary" : "text-on-light-muted",
           className
         )}
         {...props}

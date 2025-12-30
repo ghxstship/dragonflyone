@@ -148,7 +148,7 @@ export const CreatePage = forwardRef<HTMLDivElement, CreatePageProps>(
             <Container>
               <Stack gap={6} className="items-center justify-center py-16">
                 <Spinner size="lg" />
-                <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                   {loadingText}
                 </Body>
               </Stack>
@@ -239,7 +239,7 @@ export const CreatePage = forwardRef<HTMLDivElement, CreatePageProps>(
                           {section.description && (
                             <Body
                               size="sm"
-                              className={inverted ? "text-grey-400" : "text-grey-600"}
+                              className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}
                             >
                               {section.description}
                             </Body>

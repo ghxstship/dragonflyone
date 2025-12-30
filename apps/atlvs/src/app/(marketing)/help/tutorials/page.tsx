@@ -54,7 +54,7 @@ export default function TutorialsPage() {
           <Card className="p-4 mb-6">
             <div className="flex items-center gap-4 flex-wrap">
               <div className="flex-1 min-w-[200px] relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search tutorials..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
               </div>
               <div className="flex gap-2 flex-wrap">
@@ -71,15 +71,15 @@ export default function TutorialsPage() {
             {filteredTutorials.map((tutorial) => (
               <Card key={tutorial.id} className="p-6 cursor-pointer hover:border-primary">
                 <div className="aspect-video bg-grey-800 rounded-card flex items-center justify-center mb-4">
-                  <Play className="size-10 text-grey-400" />
+                  <Play className="size-10 text-on-dark-muted" />
                 </div>
                 <div className="flex items-center gap-2 mb-2">
                   <Badge variant="outline">{tutorial.category}</Badge>
                   <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
                 </div>
                 <Body className="font-weight-bold font-weight-medium">{tutorial.title}</Body>
-                <Body size="sm" className="text-grey-400 mb-2">{tutorial.description}</Body>
-                <div className="flex items-center gap-2 text-grey-500">
+                <Body size="sm" className="text-on-dark-muted mb-2">{tutorial.description}</Body>
+                <div className="flex items-center gap-2 text-on-dark-disabled">
                   <Clock className="size-4" />
                   <Body size="sm">{tutorial.duration}</Body>
                 </div>
@@ -101,7 +101,7 @@ export default function TutorialsPage() {
               <Card key={tutorial.id} className="p-6 cursor-pointer hover:border-primary">
                 <div className="flex items-start gap-6">
                   <div className="w-48 aspect-video bg-grey-800 rounded-card flex items-center justify-center flex-shrink-0">
-                    <Play className="size-8 text-grey-400" />
+                    <Play className="size-8 text-on-dark-muted" />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
@@ -110,8 +110,8 @@ export default function TutorialsPage() {
                       <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
                     </div>
                     <Body className="font-weight-bold font-weight-medium">{tutorial.title}</Body>
-                    <Body className="text-grey-400 mb-2">{tutorial.description}</Body>
-                    <div className="flex items-center gap-2 text-grey-500">
+                    <Body className="text-on-dark-muted mb-2">{tutorial.description}</Body>
+                    <div className="flex items-center gap-2 text-on-dark-disabled">
                       <Clock className="size-4" />
                       <Body size="sm">{tutorial.duration}</Body>
                     </div>

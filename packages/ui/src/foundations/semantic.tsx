@@ -112,7 +112,7 @@ export const Figure = forwardRef<HTMLElement, HTMLAttributes<HTMLElement> & { ca
       >
         {children}
         {caption && (
-          <figcaption className="mt-spacing-2 text-mono-sm text-grey-500 font-code">
+          <figcaption className="mt-spacing-2 text-mono-sm text-on-dark-disabled font-code">
             {caption}
           </figcaption>
         )}

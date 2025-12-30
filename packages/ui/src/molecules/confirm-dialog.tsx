@@ -131,7 +131,7 @@ export function ConfirmDialog({
           id="confirm-dialog-description"
           className={clsx(
             "font-body text-base leading-relaxed",
-            inverted ? "text-grey-300" : "text-grey-700",
+            inverted ? "text-on-dark-secondary" : "text-on-light-muted",
             details ? "mb-3" : "mb-6"
           )}
         >
@@ -143,8 +143,8 @@ export function ConfirmDialog({
           <div className={clsx(
             "font-code text-sm p-3 mb-6 border-2 rounded-[var(--radius-badge)]",
             inverted
-              ? "text-grey-400 bg-grey-800 border-grey-700"
-              : "text-grey-600 bg-grey-100 border-grey-200"
+              ? "text-on-dark-muted bg-grey-800 border-grey-700"
+              : "text-on-dark-disabled bg-grey-100 border-grey-200"
           )}>
             {details}
           </div>
@@ -163,7 +163,7 @@ export function ConfirmDialog({
               "hover:-translate-x-0.5 hover:-translate-y-0.5",
               "active:translate-x-0 active:translate-y-0",
               inverted
-                ? "bg-transparent text-grey-300 border-grey-500 hover:bg-grey-800 hover:shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
+                ? "bg-transparent text-on-dark-secondary border-grey-500 hover:bg-grey-800 hover:shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
                 : "bg-white text-black border-black hover:bg-grey-100 hover:shadow-[2px_2px_0_rgba(0,0,0,0.1)]",
               loading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
             )}

@@ -55,7 +55,7 @@ export default function CookiePolicyPage() {
                   <div className="flex items-center justify-between flex-wrap gap-4">
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold">Cookie Policy</Body>
-                      <Body size="sm" className="text-grey-400">Last updated: November 15, 2024</Body>
+                      <Body size="sm" className="text-on-dark-muted">Last updated: November 15, 2024</Body>
                     </Stack>
                     <Stack direction="horizontal" gap={3}>
                       <Button 
@@ -84,7 +84,7 @@ export default function CookiePolicyPage() {
                     <Card key={section.id} className="p-6 border-2 border-grey-800 rounded-card">
                       <Stack gap={4}>
                         <H3 className="text-white text-h5-md">{section.title}</H3>
-                        <Body className="text-grey-300 leading-relaxed">{section.content}</Body>
+                        <Body className="text-on-dark-secondary leading-relaxed">{section.content}</Body>
                       </Stack>
                     </Card>
                   ))}
@@ -96,7 +96,7 @@ export default function CookiePolicyPage() {
                       <Settings className="size-6 text-primary" />
                       <Body className="text-white font-weight-bold">Cookie Preferences</Body>
                     </Stack>
-                    <Body className="text-grey-400">You can manage your cookie preferences at any time.</Body>
+                    <Body className="text-on-dark-muted">You can manage your cookie preferences at any time.</Body>
                     <Button variant="outline" className="w-fit">Manage Preferences</Button>
                   </Stack>
                 </Card>

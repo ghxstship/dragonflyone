@@ -35,7 +35,7 @@ export default function GettingStartedPage() {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <Body className="font-weight-bold font-weight-medium">Your Progress</Body>
-                <Body size="sm" className="text-grey-400">{completedSteps} of {STEPS.length} steps completed</Body>
+                <Body size="sm" className="text-on-dark-muted">{completedSteps} of {STEPS.length} steps completed</Body>
               </div>
               <Body className="font-weight-bold font-weight-bold text-primary">{Math.round(progress)}%</Body>
             </div>
@@ -46,12 +46,12 @@ export default function GettingStartedPage() {
             {STEPS.map((step, idx) => (
               <Card key={step.id} className={`p-6 ${step.completed ? "border-success" : ""}`}>
                 <div className="flex items-start gap-4">
-                  <div className={`size-10 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-grey-800 text-grey-400"}`}>
+                  <div className={`size-10 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-grey-800 text-on-dark-muted"}`}>
                     {step.completed ? <Check className="size-5" /> : <Body className="font-weight-bold">{step.id}</Body>}
                   </div>
                   <div className="flex-1">
                     <Body className="font-weight-bold font-weight-medium">{step.title}</Body>
-                    <Body className="text-grey-400">{step.description}</Body>
+                    <Body className="text-on-dark-muted">{step.description}</Body>
                   </div>
                   {!step.completed && (
                     <Button variant={idx === completedSteps ? "solid" : "outline"} size="sm" icon={<ArrowRight className="size-4" />} iconPosition="right">
@@ -78,7 +78,7 @@ export default function GettingStartedPage() {
                 <div className="p-3 bg-primary/20 rounded-card"><Book className="size-6 text-primary" /></div>
                 <div>
                   <Body className="font-weight-bold">Documentation</Body>
-                  <Body size="sm" className="text-grey-400">Comprehensive guides and reference</Body>
+                  <Body size="sm" className="text-on-dark-muted">Comprehensive guides and reference</Body>
                 </div>
               </div>
             </Card>
@@ -87,7 +87,7 @@ export default function GettingStartedPage() {
                 <div className="p-3 bg-primary/20 rounded-card"><Play className="size-6 text-primary" /></div>
                 <div>
                   <Body className="font-weight-bold">Video Tutorials</Body>
-                  <Body size="sm" className="text-grey-400">Watch step-by-step walkthroughs</Body>
+                  <Body size="sm" className="text-on-dark-muted">Watch step-by-step walkthroughs</Body>
                 </div>
               </div>
             </Card>

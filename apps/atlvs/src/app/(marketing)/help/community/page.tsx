@@ -47,9 +47,9 @@ export default function CommunityPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <Body className="font-weight-medium">{discussion.title}</Body>
-                      <Body size="sm" className="text-grey-400">by {discussion.author}</Body>
+                      <Body size="sm" className="text-on-dark-muted">by {discussion.author}</Body>
                     </div>
-                    <div className="flex items-center gap-4 text-grey-500">
+                    <div className="flex items-center gap-4 text-on-dark-disabled">
                       <Body size="sm">{discussion.replies} replies</Body>
                       <Body size="sm">{discussion.views} views</Body>
                     </div>
@@ -65,7 +65,7 @@ export default function CommunityPage() {
           <Card className="p-8 text-center">
             <Users className="size-12 text-primary mx-auto mb-4" />
             <Body className="font-weight-bold font-weight-bold mb-2">Join the Community</Body>
-            <Body className="text-grey-400 mb-4">Connect with other ATLVS users, share tips, and get help</Body>
+            <Body className="text-on-dark-muted mb-4">Connect with other ATLVS users, share tips, and get help</Body>
             <Button variant="solid">Join Now</Button>
           </Card>
         </Section>

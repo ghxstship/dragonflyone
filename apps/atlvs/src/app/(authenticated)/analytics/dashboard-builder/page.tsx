@@ -118,7 +118,7 @@ export default function DashboardBuilderPage() {
                   }`}
                 >
                   <Body size="sm" className="text-white">{dashboard.name}</Body>
-                  <Body size="sm" className="text-grey-400">{dashboard.widgets.length} widgets</Body>
+                  <Body size="sm" className="text-on-dark-muted">{dashboard.widgets.length} widgets</Body>
                   {dashboard.isDefault && <Badge variant="ghost" className="mt-1">Default</Badge>}
                 </Button>
               ))}
@@ -133,7 +133,7 @@ export default function DashboardBuilderPage() {
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Box>
                     <H3 className="text-white">{selectedDashboard.name}</H3>
-                    <Body size="sm" className="text-grey-400">Last updated: {formatDate(selectedDashboard.lastModified)}</Body>
+                    <Body size="sm" className="text-on-dark-muted">Last updated: {formatDate(selectedDashboard.lastModified)}</Body>
                   </Box>
                   {canManageDashboards && (
                     <Stack direction="horizontal" gap={2}>
@@ -155,15 +155,15 @@ export default function DashboardBuilderPage() {
                   >
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between items-center">
-                        <Body size="sm" className="text-grey-400">{widget.title}</Body>
+                        <Body size="sm" className="text-on-dark-muted">{widget.title}</Body>
                         <Badge variant="outline" className="capitalize">{widget.type}</Badge>
                       </Stack>
                       <Box className="h-32 bg-ink-900/50 rounded-card flex items-center justify-center">
-                        {widget.type === "chart" && <BarChart3 className="size-12 text-grey-600" />}
-                        {widget.type === "line" && <LineChart className="size-12 text-grey-600" />}
-                        {widget.type === "pie" && <PieChart className="size-12 text-grey-600" />}
-                        {widget.type === "table" && <Table className="size-12 text-grey-600" />}
-                        {widget.type === "metric" && <LayoutGrid className="size-12 text-grey-600" />}
+                        {widget.type === "chart" && <BarChart3 className="size-12 text-on-dark-disabled" />}
+                        {widget.type === "line" && <LineChart className="size-12 text-on-dark-disabled" />}
+                        {widget.type === "pie" && <PieChart className="size-12 text-on-dark-disabled" />}
+                        {widget.type === "table" && <Table className="size-12 text-on-dark-disabled" />}
+                        {widget.type === "metric" && <LayoutGrid className="size-12 text-on-dark-disabled" />}
                       </Box>
                     </Stack>
                   </Card>
@@ -173,15 +173,15 @@ export default function DashboardBuilderPage() {
               {canManageDashboards && (
                 <Card inverted className="border-2 border-dashed border-ink-700 p-6">
                   <Stack gap={4} className="items-center">
-                    <Body className="text-grey-400">Add a new widget</Body>
+                    <Body className="text-on-dark-muted">Add a new widget</Body>
                     <Stack direction="horizontal" gap={3} className="flex-wrap justify-center">
                       {widgetTypes.map((wt) => (
                         <Button
                           key={wt.type}
                           className="p-3 rounded-card bg-ink-900/50 border-2 border-ink-700 hover:border-primary transition-colors flex flex-col items-center gap-2"
                         >
-                          <Text className="text-grey-400">{wt.icon}</Text>
-                          <Body size="sm" className="text-grey-400">{wt.label}</Body>
+                          <Text className="text-on-dark-muted">{wt.icon}</Text>
+                          <Body size="sm" className="text-on-dark-muted">{wt.label}</Body>
                         </Button>
                       ))}
                     </Stack>
@@ -192,8 +192,8 @@ export default function DashboardBuilderPage() {
           ) : (
             <Card inverted className="border-2 border-ink-800 p-8">
               <Stack gap={4} className="items-center justify-center py-12">
-                <LayoutGrid className="size-12 text-grey-600" />
-                <Body className="text-grey-400">Select a dashboard to edit</Body>
+                <LayoutGrid className="size-12 text-on-dark-disabled" />
+                <Body className="text-on-dark-muted">Select a dashboard to edit</Body>
               </Stack>
             </Card>
           )}

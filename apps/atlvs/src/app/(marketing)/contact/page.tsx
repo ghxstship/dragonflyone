@@ -114,12 +114,12 @@ export default function ContactPage() {
                   <Stack gap={6}>
                     <Stack gap={2}>
                       <H3 className="text-white">Send us a message</H3>
-                      <Body className="text-grey-400">Fill out the form and we will get back to you within 24 hours</Body>
+                      <Body className="text-on-dark-muted">Fill out the form and we will get back to you within 24 hours</Body>
                     </Stack>
 
                     <Form onSubmit={handleSubmit} className="space-y-4">
                       <div>
-                        <Body size="sm" className="text-grey-400 mb-2">Name *</Body>
+                        <Body size="sm" className="text-on-dark-muted mb-2">Name *</Body>
                         <Input
                           placeholder="Your name"
                           value={formData.name}
@@ -130,7 +130,7 @@ export default function ContactPage() {
                       </div>
 
                       <div>
-                        <Body size="sm" className="text-grey-400 mb-2">Email *</Body>
+                        <Body size="sm" className="text-on-dark-muted mb-2">Email *</Body>
                         <Input
                           type="email"
                           placeholder="you@company.com"
@@ -142,7 +142,7 @@ export default function ContactPage() {
                       </div>
 
                       <div>
-                        <Body size="sm" className="text-grey-400 mb-2">Company</Body>
+                        <Body size="sm" className="text-on-dark-muted mb-2">Company</Body>
                         <Input
                           placeholder="Your company"
                           value={formData.company}
@@ -151,7 +151,7 @@ export default function ContactPage() {
                       </div>
 
                       <div>
-                        <Body size="sm" className="text-grey-400 mb-2">Reason for Contact</Body>
+                        <Body size="sm" className="text-on-dark-muted mb-2">Reason for Contact</Body>
                         <Select
                           value={formData.reason}
                           onChange={(e) => handleChange("reason", e.target.value)}
@@ -163,7 +163,7 @@ export default function ContactPage() {
                       </div>
 
                       <div>
-                        <Body size="sm" className="text-grey-400 mb-2">Message *</Body>
+                        <Body size="sm" className="text-on-dark-muted mb-2">Message *</Body>
                         <Textarea
                           placeholder="How can we help?"
                           rows={5}
@@ -199,7 +199,7 @@ export default function ContactPage() {
                             <Mail className="size-5 text-primary" />
                           </div>
                           <Stack gap={0}>
-                            <Body size="sm" className="text-grey-500">Email</Body>
+                            <Body size="sm" className="text-on-dark-disabled">Email</Body>
                             <Body className="text-white font-weight-semibold">hello@atlvs.com</Body>
                           </Stack>
                         </Stack>
@@ -209,7 +209,7 @@ export default function ContactPage() {
                             <Phone className="size-5 text-primary" />
                           </div>
                           <Stack gap={0}>
-                            <Body size="sm" className="text-grey-500">Phone</Body>
+                            <Body size="sm" className="text-on-dark-disabled">Phone</Body>
                             <Body className="text-white font-weight-semibold">+1 (800) 555-ATLVS</Body>
                           </Stack>
                         </Stack>
@@ -219,7 +219,7 @@ export default function ContactPage() {
                             <Clock className="size-5 text-primary" />
                           </div>
                           <Stack gap={0}>
-                            <Body size="sm" className="text-grey-500">Hours</Body>
+                            <Body size="sm" className="text-on-dark-disabled">Hours</Body>
                             <Body className="text-white font-weight-semibold">Mon-Fri, 9am-6pm EST</Body>
                           </Stack>
                         </Stack>
@@ -260,7 +260,7 @@ export default function ContactPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Global Presence</Body>
                   <H3 className="text-white">Our Offices</H3>
-                  <Body className="text-grey-400 max-w-2xl">Visit us at one of our locations around the world</Body>
+                  <Body className="text-on-dark-muted max-w-2xl">Visit us at one of our locations around the world</Body>
                 </Stack>
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
@@ -270,16 +270,16 @@ export default function ContactPage() {
                         <Body className="text-white font-weight-semibold">{office.city}</Body>
                         <Stack gap={3}>
                           <Stack direction="horizontal" gap={2} className="items-start">
-                            <MapPin className="size-4 text-grey-500 mt-1 flex-shrink-0" />
-                            <Body size="sm" className="text-grey-400">{office.address}</Body>
+                            <MapPin className="size-4 text-on-dark-disabled mt-1 flex-shrink-0" />
+                            <Body size="sm" className="text-on-dark-muted">{office.address}</Body>
                           </Stack>
                           <Stack direction="horizontal" gap={2} className="items-center">
-                            <Phone className="size-4 text-grey-500 flex-shrink-0" />
-                            <Body size="sm" className="text-grey-400">{office.phone}</Body>
+                            <Phone className="size-4 text-on-dark-disabled flex-shrink-0" />
+                            <Body size="sm" className="text-on-dark-muted">{office.phone}</Body>
                           </Stack>
                           <Stack direction="horizontal" gap={2} className="items-center">
-                            <Clock className="size-4 text-grey-500 flex-shrink-0" />
-                            <Body size="sm" className="text-grey-400">{office.timezone}</Body>
+                            <Clock className="size-4 text-on-dark-disabled flex-shrink-0" />
+                            <Body size="sm" className="text-on-dark-muted">{office.timezone}</Body>
                           </Stack>
                         </Stack>
                       </Stack>

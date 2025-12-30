@@ -130,7 +130,7 @@ export default function AdminEventsPage() {
           <Card className="p-4 mb-6">
             <div className="flex items-center gap-4">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search events..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
               </div>
               <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
@@ -145,9 +145,9 @@ export default function AdminEventsPage() {
 
           {filteredEvents.length === 0 ? (
             <Card className="p-12 text-center">
-              <Calendar className="size-12 text-grey-600 mx-auto mb-4" />
+              <Calendar className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="font-weight-medium mb-2">No Events Found</Body>
-              <Body className="text-grey-400 mb-4">{search || statusFilter ? "Try adjusting your filters" : "Create your first event"}</Body>
+              <Body className="text-on-dark-muted mb-4">{search || statusFilter ? "Try adjusting your filters" : "Create your first event"}</Body>
               <Button variant="solid" onClick={() => router.push("/admin/events/new")} icon={<Plus className="size-4" />} iconPosition="left">
                 Create Event
               </Button>
@@ -170,7 +170,7 @@ export default function AdminEventsPage() {
                     <TableRow key={event.id}>
                       <TableCell>
                         <Body className="font-weight-medium">{event.title}</Body>
-                        <Body size="sm" className="text-grey-400">{event.venue_name}</Body>
+                        <Body size="sm" className="text-on-dark-muted">{event.venue_name}</Body>
                       </TableCell>
                       <TableCell><Body>{formatDate(event.start_date)}</Body></TableCell>
                       <TableCell><Badge variant={STATUS_COLORS[event.status] || "outline"}>{event.status}</Badge></TableCell>

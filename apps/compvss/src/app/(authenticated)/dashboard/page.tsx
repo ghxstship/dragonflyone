@@ -137,7 +137,7 @@ export default function CompvssDashboardPage() {
             <div className="flex items-start justify-between">
               <div>
                 <Body className="text-white font-weight-medium">Summer Music Festival 2024</Body>
-                <Body size="sm" className="text-grey-400">Load-in: June 12 • Event: June 15-17</Body>
+                <Body size="sm" className="text-on-dark-muted">Load-in: June 12 • Event: June 15-17</Body>
                 <div className="flex gap-2 mt-2">
                   <StatusBadge status="success" size="sm">ON TRACK</StatusBadge>
                   <Badge variant="solid" size="sm">32 CREW</Badge>
@@ -152,7 +152,7 @@ export default function CompvssDashboardPage() {
             <div className="flex items-start justify-between">
               <div>
                 <Body className="text-white font-weight-medium">Corporate Product Launch</Body>
-                <Body size="sm" className="text-grey-400">Setup: June 10 • Event: June 11</Body>
+                <Body size="sm" className="text-on-dark-muted">Setup: June 10 • Event: June 11</Body>
                 <div className="flex gap-2 mt-2">
                   <StatusBadge status="warning" size="sm">ATTENTION</StatusBadge>
                   <Badge variant="solid" size="sm">18 CREW</Badge>
@@ -167,7 +167,7 @@ export default function CompvssDashboardPage() {
             <div className="flex items-start justify-between">
               <div>
                 <Body className="text-white font-weight-medium">Theater Production: Hamilton</Body>
-                <Body size="sm" className="text-grey-400">Tech Week: June 8-13 • Opening: June 14</Body>
+                <Body size="sm" className="text-on-dark-muted">Tech Week: June 8-13 • Opening: June 14</Body>
                 <div className="flex gap-2 mt-2">
                   <StatusBadge status="info" size="sm">TECH WEEK</StatusBadge>
                   <Badge variant="solid" size="sm">24 CREW</Badge>
@@ -189,19 +189,19 @@ export default function CompvssDashboardPage() {
             <Body className="text-white font-weight-medium mb-3">Crew Status Today</Body>
             <div className="space-y-2">
               <div className="flex justify-between border-b border-grey-700 pb-2">
-                <Body size="sm" className="text-grey-400">Total Crew</Body>
+                <Body size="sm" className="text-on-dark-muted">Total Crew</Body>
                 <Body size="sm" className="text-white">{stats.totalCrew}</Body>
               </div>
               <div className="flex justify-between border-b border-grey-700 pb-2">
-                <Body size="sm" className="text-grey-400">Available</Body>
+                <Body size="sm" className="text-on-dark-muted">Available</Body>
                 <Body size="sm" className="text-white">{stats.activeCrew}</Body>
               </div>
               <div className="flex justify-between border-b border-grey-700 pb-2">
-                <Body size="sm" className="text-grey-400">Equipment Available</Body>
+                <Body size="sm" className="text-on-dark-muted">Equipment Available</Body>
                 <Body size="sm" className="text-white">{stats.availableEquipment}</Body>
               </div>
               <div className="flex justify-between">
-                <Body size="sm" className="text-grey-400">Equipment In Use</Body>
+                <Body size="sm" className="text-on-dark-muted">Equipment In Use</Body>
                 <Body size="sm" className="text-white">{stats.inUseEquipment}</Body>
               </div>
             </div>
@@ -210,7 +210,7 @@ export default function CompvssDashboardPage() {
             <Body className="text-white font-weight-medium mb-3">Recent Activity</Body>
             <div className="space-y-2">
               {recentActivity.map((activity) => (
-                <Body key={activity.id} size="sm" className="text-grey-400">
+                <Body key={activity.id} size="sm" className="text-on-dark-muted">
                   {activity.action}: {activity.detail}
                 </Body>
               ))}

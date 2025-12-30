@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
           <div className="p-4 bg-success/20 rounded-avatar w-fit mx-auto">
             <Mail className="size-8 text-success" />
           </div>
-          <Body className="text-grey-400">
+          <Body className="text-on-dark-muted">
             If an account exists for {email}, you will receive an email with instructions to reset your password.
           </Body>
           <Button variant="outline" onClick={() => router.push("/auth/signin")} icon={<ArrowLeft className="size-4" />} iconPosition="left">
@@ -78,9 +78,9 @@ export default function ForgotPasswordPage() {
     >
       <Form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Body size="sm" className="text-grey-400 mb-1">Email</Body>
+          <Body size="sm" className="text-on-dark-muted mb-1">Email</Body>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type="email" placeholder="you@example.com" value={email} onChange={(e) => { setEmail(e.target.value); setError(""); }} className={`pl-10 ${error ? "border-error" : ""}`} />
           </div>
           {error && <Body size="sm" className="text-error mt-1">{error}</Body>}

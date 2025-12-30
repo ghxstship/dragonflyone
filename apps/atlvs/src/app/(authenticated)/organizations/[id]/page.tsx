@@ -96,19 +96,19 @@ export default function OrganizationDetailPage() {
             <SectionHeader title="Contact Information" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Email</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Email</Body>
                 <Body className="text-white">{organization.email || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Phone</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Phone</Body>
                 <Body className="text-white">{organization.phone || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Website</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Website</Body>
                 <Body className="text-white">{organization.website || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Industry</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Industry</Body>
                 <Body className="text-white">{organization.industry || "Not specified"}</Body>
               </Card>
             </Grid>
@@ -119,19 +119,19 @@ export default function OrganizationDetailPage() {
             <SectionHeader title="Business Details" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Legal Name</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Legal Name</Body>
                 <Body className="text-white">{organization.legal_name || organization.name}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Tax ID</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Tax ID</Body>
                 <Body className="text-white">{organization.tax_id || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">DUNS Number</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">DUNS Number</Body>
                 <Body className="text-white">{organization.duns_number || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Company Size</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Company Size</Body>
                 <Body className="text-white">{organization.company_size || "Not specified"}</Body>
               </Card>
             </Grid>
@@ -163,15 +163,15 @@ export default function OrganizationDetailPage() {
               <SectionHeader title="Primary Contact" />
               <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
                 <Card inverted className="p-4">
-                  <Body size="xs" className="text-grey-400 mb-1">Name</Body>
+                  <Body size="xs" className="text-on-dark-muted mb-1">Name</Body>
                   <Body className="text-white">{organization.primary_contact.display_name}</Body>
                 </Card>
                 <Card inverted className="p-4">
-                  <Body size="xs" className="text-grey-400 mb-1">Email</Body>
+                  <Body size="xs" className="text-on-dark-muted mb-1">Email</Body>
                   <Body className="text-white">{organization.primary_contact.email || "Not provided"}</Body>
                 </Card>
                 <Card inverted className="p-4">
-                  <Body size="xs" className="text-grey-400 mb-1">Phone</Body>
+                  <Body size="xs" className="text-on-dark-muted mb-1">Phone</Body>
                   <Body className="text-white">{organization.primary_contact.phone || "Not provided"}</Body>
                 </Card>
               </Grid>
@@ -188,7 +188,7 @@ export default function OrganizationDetailPage() {
         <Section border>
           <SectionHeader title="Organization Contacts" />
           <Card inverted className="p-6">
-            <Body className="text-grey-400">Contact list will be displayed here.</Body>
+            <Body className="text-on-dark-muted">Contact list will be displayed here.</Body>
           </Card>
         </Section>
       ),
@@ -201,7 +201,7 @@ export default function OrganizationDetailPage() {
         <Section border>
           <SectionHeader title="Contracts" />
           <Card inverted className="p-6">
-            <Body className="text-grey-400">Contract history will be displayed here.</Body>
+            <Body className="text-on-dark-muted">Contract history will be displayed here.</Body>
           </Card>
         </Section>
       ),
@@ -214,7 +214,7 @@ export default function OrganizationDetailPage() {
         <Section border>
           <SectionHeader title="Financial Overview" />
           <Card inverted className="p-6">
-            <Body className="text-grey-400">Financial data will be displayed here.</Body>
+            <Body className="text-on-dark-muted">Financial data will be displayed here.</Body>
           </Card>
         </Section>
       ),

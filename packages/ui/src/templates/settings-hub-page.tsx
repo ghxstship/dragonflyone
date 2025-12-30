@@ -178,7 +178,7 @@ function SettingsCategoryCard({
               <div
                 className={clsx(
                   "size-6",
-                  inverted ? "text-grey-300" : "text-grey-600"
+                  inverted ? "text-on-dark-secondary" : "text-on-light-muted"
                 )}
               >
                 {category.icon}
@@ -211,7 +211,7 @@ function SettingsCategoryCard({
             {category.description && (
               <Label
                 size="sm"
-                className={inverted ? "text-on-dark-muted" : "text-grey-500"}
+                className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}
               >
                 {category.description}
               </Label>
@@ -222,7 +222,7 @@ function SettingsCategoryCard({
           <ChevronRight
             className={clsx(
               "size-5 shrink-0",
-              inverted ? "text-grey-500" : "text-grey-400"
+              inverted ? "text-on-dark-disabled" : "text-on-light-muted"
             )}
           />
         )}

@@ -28,7 +28,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
         <div className="p-spacing-4 border-2 border-t-0 border-black">
           <h3 className="font-heading text-h4-sm uppercase tracking-wider mb-spacing-2">{title}</h3>
           {metadata && (
-            <p className="font-code text-mono-xs uppercase tracking-widest text-grey-600 mb-spacing-3">
+            <p className="font-code text-mono-xs uppercase tracking-widest text-on-dark-disabled mb-spacing-3">
               {metadata}
             </p>
           )}

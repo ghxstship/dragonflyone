@@ -126,7 +126,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
           <div className="flex-1 flex items-center justify-center p-4">
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -162,7 +162,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
                 <H2 className={inverted ? "text-white" : "text-ink-900"}>
                   Something Went Wrong
                 </H2>
-                <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -208,7 +208,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
                   inverted ? "bg-grey-700" : "bg-grey-200"
                 )} />
               </div>
-              <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                 {emptyMessage}
               </Body>
               {emptyAction && (

@@ -54,7 +54,7 @@ export default function ReleasesPage() {
                       <Badge variant="outline" className="font-weight-medium px-3 py-1">v{release.version}</Badge>
                       <Badge variant={config.variant}>{config.icon} {config.label}</Badge>
                     </div>
-                    <div className="flex items-center gap-2 text-grey-500">
+                    <div className="flex items-center gap-2 text-on-dark-disabled">
                       <Calendar className="size-4" />
                       <Body size="sm">{formatDate(release.date)}</Body>
                     </div>
@@ -88,7 +88,7 @@ export default function ReleasesPage() {
                 <div className="flex items-center gap-3 mb-4">
                   <Sparkles className="size-6 text-primary" />
                   <Badge variant="outline" className="font-weight-medium px-3 py-1">v{release.version}</Badge>
-                  <Body size="sm" className="text-grey-500">{formatDate(release.date)}</Body>
+                  <Body size="sm" className="text-on-dark-disabled">{formatDate(release.date)}</Body>
                 </div>
                 <Body className="font-weight-bold font-weight-bold mb-4">{release.title}</Body>
                 <Stack gap={2}>

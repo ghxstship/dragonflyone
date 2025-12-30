@@ -82,13 +82,13 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
         return <Check className="size-5 text-success mx-auto" />;
       }
       if (value === false) {
-        return <X className="size-5 text-grey-600 mx-auto" />;
+        return <X className="size-5 text-on-dark-disabled mx-auto" />;
       }
       if (value === "partial") {
         return <Minus className="size-5 text-warning mx-auto" />;
       }
       return (
-        <Body size="sm" className="text-grey-300 text-center">
+        <Body size="sm" className="text-on-dark-secondary text-center">
           {value}
         </Body>
       );
@@ -106,7 +106,7 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
               {kicker && <Kicker>{kicker}</Kicker>}
               {title && <H2 className="text-white">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-grey-400 max-w-2xl">
+                <Body size="lg" className="text-on-dark-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -120,7 +120,7 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
               <thead className="sticky top-0 z-10">
                 <tr className="border-b-2 border-grey-800">
                   <th className="p-4 text-left bg-ink-950">
-                    <Body className="text-grey-400 font-semibold">Feature</Body>
+                    <Body className="text-on-dark-muted font-semibold">Feature</Body>
                   </th>
                   {columns.map((col) => (
                     <th
@@ -142,7 +142,7 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
                           {col.name}
                         </Body>
                         {col.price && (
-                          <Body size="sm" className="text-grey-400">
+                          <Body size="sm" className="text-on-dark-muted">
                             {col.price}
                           </Body>
                         )}
@@ -177,7 +177,7 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
                         className="border-b border-grey-800 hover:bg-grey-900/30 transition-colors"
                       >
                         <td className="p-4">
-                          <Body className="text-grey-300">{row.feature}</Body>
+                          <Body className="text-on-dark-secondary">{row.feature}</Body>
                         </td>
                         {columns.map((col) => (
                           <td

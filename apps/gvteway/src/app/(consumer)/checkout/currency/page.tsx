@@ -26,7 +26,7 @@ export default function CurrencyPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="size-10 bg-grey-800 rounded-avatar flex items-center justify-center font-weight-bold">{currency.symbol}</div>
-                  <div><Body className="font-weight-bold">{currency.code}</Body><Body size="sm" className="text-grey-400">{currency.name}</Body></div>
+                  <div><Body className="font-weight-bold">{currency.code}</Body><Body size="sm" className="text-on-dark-muted">{currency.name}</Body></div>
                 </div>
                 {selected === currency.code && <Check className="size-5 text-primary" />}
               </div>

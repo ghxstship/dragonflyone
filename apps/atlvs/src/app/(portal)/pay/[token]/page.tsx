@@ -114,7 +114,7 @@ export default function PaymentPage() {
           <Card className="p-8 text-center border-success">
             <CheckCircle className="size-16 text-success mx-auto mb-4" />
             <Body className="font-weight-bold font-weight-bold mb-2">Payment Complete</Body>
-            <Body className="text-grey-400">Thank you for your payment of {formatCurrency(invoice.amount)}</Body>
+            <Body className="text-on-dark-muted">Thank you for your payment of {formatCurrency(invoice.amount)}</Body>
           </Card>
         </Section>
       ) : (
@@ -122,11 +122,11 @@ export default function PaymentPage() {
           <Card className="p-6 mb-6">
             <div className="flex justify-between items-center">
               <div>
-                <Body className="text-grey-400">Invoice {invoice.number}</Body>
+                <Body className="text-on-dark-muted">Invoice {invoice.number}</Body>
                 <Body className="font-weight-bold font-weight-medium">{invoice.client}</Body>
               </div>
               <div className="text-right">
-                <Body className="text-grey-400">Amount Due</Body>
+                <Body className="text-on-dark-muted">Amount Due</Body>
                 <Body className="font-weight-bold font-weight-bold">{formatCurrency(invoice.amount)}</Body>
               </div>
             </div>
@@ -161,7 +161,7 @@ export default function PaymentPage() {
             </Button>
           </Form>
 
-          <div className="flex items-center justify-center gap-2 mt-6 text-grey-400">
+          <div className="flex items-center justify-center gap-2 mt-6 text-on-dark-muted">
             <Lock className="size-4" />
             <Body size="sm">Secured by Stripe</Body>
           </div>

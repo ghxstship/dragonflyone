@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Checkbox, Label, Form, AuthPage, H2, useNotifications} from "@ghxstship/ui";
+  Body, Button, Input, Checkbox, Label, Form, AuthPage, useNotifications} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function SignInPage() {
@@ -53,27 +53,27 @@ export default function SignInPage() {
   };
 
   return (
-    <AuthPage>
-      <div className="text-center mb-6">
-        <H2>Sign In</H2>
-        <Body className="text-grey-400">Welcome back! Sign in to your account</Body>
-      </div>
+    <AuthPage
+      title="Sign In"
+      subtitle="Welcome back! Sign in to your account"
+      footer={{ text: "Don't have an account?", linkText: "Sign up", linkHref: "/auth/signup" }}
+    >
       <Form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Body size="sm" className="text-grey-400 mb-1">Email</Body>
+          <Body size="sm" className="text-on-dark-muted mb-1">Email</Body>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type="email" placeholder="you@example.com" value={email} onChange={(e) => { setEmail(e.target.value); if (errors.email) setErrors((prev) => ({ ...prev, email: "" })); }} className={`pl-10 ${errors.email ? "border-error" : ""}`} />
           </div>
           {errors.email && <Body size="sm" className="text-error mt-1">{errors.email}</Body>}
         </div>
 
         <div>
-          <Body size="sm" className="text-grey-400 mb-1">Password</Body>
+          <Body size="sm" className="text-on-dark-muted mb-1">Password</Body>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type={showPassword ? "text" : "password"} placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value); if (errors.password) setErrors((prev) => ({ ...prev, password: "" })); }} className={`pl-10 pr-10 ${errors.password ? "border-error" : ""}`} />
-            <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-grey-400 hover:text-grey-300">
+            <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-on-dark-muted hover:text-on-dark-secondary">
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
             </Button>
           </div>
@@ -83,7 +83,7 @@ export default function SignInPage() {
         <div className="flex items-center justify-between">
           <Label className="flex items-center gap-2 cursor-pointer">
             <Checkbox />
-            <Body size="sm" className="text-grey-400">Remember me</Body>
+            <Body size="sm" className="text-on-dark-muted">Remember me</Body>
           </Label>
           <Button variant="ghost" size="sm" onClick={() => router.push("/auth/forgot-password")}>Forgot password?</Button>
         </div>
@@ -94,7 +94,7 @@ export default function SignInPage() {
 
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-grey-700" /></div>
-          <div className="relative flex justify-center"><Body size="sm" className="bg-grey-900 px-2 text-grey-500">Or continue with</Body></div>
+          <div className="relative flex justify-center"><Body size="sm" className="bg-grey-900 px-2 text-on-dark-disabled">Or continue with</Body></div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -102,12 +102,6 @@ export default function SignInPage() {
           <Button variant="outline" type="button">Microsoft</Button>
         </div>
       </Form>
-      <div className="text-center mt-4">
-        <Body size="sm" className="text-grey-400">
-          Don&apos;t have an account?{" "}
-          <Button variant="ghost" size="sm" onClick={() => router.push("/auth/signup")} className="text-primary p-0">Sign up</Button>
-        </Body>
-      </div>
     </AuthPage>
   );
 }

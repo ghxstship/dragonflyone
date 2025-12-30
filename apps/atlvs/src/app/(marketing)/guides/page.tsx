@@ -91,7 +91,7 @@ export default function GuidesPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Featured</Body>
                   <H3 className="text-white">Popular Guides</H3>
-                  <Body className="text-grey-400 max-w-2xl">Our most popular tutorials to get you started quickly.</Body>
+                  <Body className="text-on-dark-muted max-w-2xl">Our most popular tutorials to get you started quickly.</Body>
                 </Stack>
 
                 <Stack gap={6}>
@@ -110,13 +110,13 @@ export default function GuidesPage() {
                             <Stack direction="horizontal" gap={2} className="items-center">
                               <Badge variant="outline">{guide.category}</Badge>
                               <Badge className={DIFFICULTY_CONFIG[guide.difficulty].color}>{DIFFICULTY_CONFIG[guide.difficulty].label}</Badge>
-                              <Stack direction="horizontal" gap={1} className="items-center text-grey-500">
+                              <Stack direction="horizontal" gap={1} className="items-center text-on-dark-disabled">
                                 <Clock className="size-4" />
                                 <Body size="sm">{guide.duration}</Body>
                               </Stack>
                             </Stack>
                             <Body className="text-white font-weight-bold text-h5-md group-hover:text-primary transition-colors">{guide.title}</Body>
-                            <Body className="text-grey-400">{guide.description}</Body>
+                            <Body className="text-on-dark-muted">{guide.description}</Body>
                           </Stack>
                         </Stack>
                         <Button variant="solid" icon={<ArrowRight className="size-4" />} iconPosition="right">
@@ -145,7 +145,7 @@ export default function GuidesPage() {
                 <Card className="p-4 border-2 border-grey-800 rounded-card">
                   <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
                     <div className="flex-1 min-w-[200px] relative">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                       <Input
                         placeholder="Search guides..."
                         value={search}
@@ -171,9 +171,9 @@ export default function GuidesPage() {
                 {/* Guides Grid */}
                 {filteredGuides.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
-                    <Book className="size-16 text-grey-600 mx-auto mb-4" />
+                    <Book className="size-16 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Guides Found</Body>
-                    <Body className="text-grey-400 mb-4">Try a different search term or category</Body>
+                    <Body className="text-on-dark-muted mb-4">Try a different search term or category</Body>
                     <Button variant="outline" onClick={() => { setSearch(""); setSelectedCategory("All"); }}>Clear Filters</Button>
                   </Card>
                 ) : (
@@ -191,10 +191,10 @@ export default function GuidesPage() {
                           </Stack>
                           <Stack gap={2}>
                             <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{guide.title}</Body>
-                            <Body className="text-grey-400">{guide.description}</Body>
+                            <Body className="text-on-dark-muted">{guide.description}</Body>
                           </Stack>
                           <Stack direction="horizontal" className="justify-between items-center">
-                            <Stack direction="horizontal" gap={2} className="items-center text-grey-500">
+                            <Stack direction="horizontal" gap={2} className="items-center text-on-dark-disabled">
                               <Clock className="size-4" />
                               <Body size="sm">{guide.duration}</Body>
                             </Stack>

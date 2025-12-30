@@ -36,12 +36,12 @@ export default function VerifyEmailPage() {
     <AuthPage>
       <div className="text-center space-y-6">
         <H2>Verify Your Email</H2>
-        <Body className="text-grey-400">We&apos;ve sent a verification link to your email address</Body>
+        <Body className="text-on-dark-muted">We&apos;ve sent a verification link to your email address</Body>
         <div className="p-4 bg-primary/20 rounded-avatar w-fit mx-auto">
           <Mail className="size-8 text-primary" />
         </div>
 
-        <Body className="text-grey-400">
+        <Body className="text-on-dark-muted">
           Please check your inbox and click the verification link to activate your account. 
           If you don&apos;t see the email, check your spam folder.
         </Body>

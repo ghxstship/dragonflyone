@@ -53,9 +53,9 @@ export default function CartPage() {
       <Section>
         {items.length === 0 ? (
           <Card className="p-8 text-center">
-            <ShoppingCart className="size-12 text-grey-600 mx-auto mb-4" />
+            <ShoppingCart className="size-12 text-on-dark-disabled mx-auto mb-4" />
             <Body className="font-weight-medium mb-2">Your cart is empty</Body>
-            <Body className="text-grey-400 mb-4">Browse events to find tickets</Body>
+            <Body className="text-on-dark-muted mb-4">Browse events to find tickets</Body>
             <Button variant="solid" onClick={() => router.push("/browse")}>Browse Events</Button>
           </Card>
         ) : (
@@ -66,7 +66,7 @@ export default function CartPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <Body className="font-weight-bold">{item.name}</Body>
-                      <Body size="sm" className="text-grey-400">{item.type}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{item.type}</Body>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-2">
@@ -84,8 +84,8 @@ export default function CartPage() {
             <Card className="p-6 h-fit">
               <SectionHeader title="Order Summary" />
               <div className="space-y-3 mt-4">
-                <div className="flex justify-between"><Body className="text-grey-400">Subtotal</Body><Body>{formatCurrency(subtotal)}</Body></div>
-                <div className="flex justify-between"><Body className="text-grey-400">Service Fees</Body><Body>{formatCurrency(fees)}</Body></div>
+                <div className="flex justify-between"><Body className="text-on-dark-muted">Subtotal</Body><Body>{formatCurrency(subtotal)}</Body></div>
+                <div className="flex justify-between"><Body className="text-on-dark-muted">Service Fees</Body><Body>{formatCurrency(fees)}</Body></div>
                 <div className="border-t border-grey-800 pt-3 flex justify-between"><Body className="font-weight-bold">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></div>
               </div>
               <Button variant="solid" className="w-full mt-6" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={() => router.push("/checkout")}>Checkout</Button>

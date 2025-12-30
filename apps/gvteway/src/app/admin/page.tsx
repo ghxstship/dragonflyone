@@ -164,7 +164,7 @@ export default function AdminDashboardPage() {
                     <div className="p-2 rounded-avatar bg-grey-800">{getActivityIcon(item.type)}</div>
                     <div className="flex-1">
                       <Body size="sm">{item.description}</Body>
-                      <Body size="sm" className="text-grey-400">{formatTime(item.timestamp)}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{formatTime(item.timestamp)}</Body>
                     </div>
                     {item.amount && (
                       <Badge variant={item.type === "refund" ? "warning" : "success"}>
@@ -194,19 +194,19 @@ export default function AdminDashboardPage() {
           </div>
           <Grid cols={3} gap={6} className="grid-cols-1 lg:grid-cols-3">
             <Card className="p-6">
-              <Body size="sm" className="text-grey-400">Active Events</Body>
+              <Body size="sm" className="text-on-dark-muted">Active Events</Body>
               <Body className="text-display-md font-weight-bold mt-2">{adminStats.activeEvents}</Body>
               <Body size="sm" className="text-success mt-1">Currently live</Body>
             </Card>
             <Card className="p-6">
-              <Body size="sm" className="text-grey-400">Today&apos;s Sales</Body>
+              <Body size="sm" className="text-on-dark-muted">Today&apos;s Sales</Body>
               <Body className="text-display-md font-weight-bold mt-2">{adminStats.recentSales}</Body>
               <Body size="sm" className="text-success mt-1">+8% from yesterday</Body>
             </Card>
             <Card className="p-6">
-              <Body size="sm" className="text-grey-400">Conversion Rate</Body>
+              <Body size="sm" className="text-on-dark-muted">Conversion Rate</Body>
               <Body className="text-display-md font-weight-bold mt-2">4.2%</Body>
-              <Body size="sm" className="text-grey-400 mt-1">Industry avg: 3.1%</Body>
+              <Body size="sm" className="text-on-dark-muted mt-1">Industry avg: 3.1%</Body>
             </Card>
           </Grid>
         </Section>

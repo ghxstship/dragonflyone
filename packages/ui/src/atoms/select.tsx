@@ -130,7 +130,7 @@ export const SelectGroup = forwardRef<HTMLSelectElement, SelectGroupProps>(
           {children}
         </Select>
         {hint && !errorMessage && (
-          <p id={hintId} className="text-sm text-grey-500">
+          <p id={hintId} className="text-sm text-on-dark-disabled">
             {hint}
           </p>
         )}

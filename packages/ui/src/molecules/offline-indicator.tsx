@@ -78,7 +78,7 @@ export function OfflineIndicator({
     return (
       <div className={`inline-flex items-center gap-gap-xs ${className}`}>
         {isOffline ? (
-          <span className="inline-flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-xs uppercase tracking-widest bg-grey-200 text-grey-700 border border-grey-400">
+          <span className="inline-flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-xs uppercase tracking-widest bg-grey-200 text-on-dark-disabled border border-grey-400">
             <WifiOff className="h-spacing-3 w-spacing-3" />
             Offline
           </span>
@@ -106,10 +106,10 @@ export function OfflineIndicator({
       <div className={`fixed bottom-spacing-4 right-spacing-4 z-popover ${className}`}>
         {isOffline && (
           <div className="flex items-center gap-gap-sm px-spacing-4 py-spacing-3 bg-grey-900 text-white border-2 border-black shadow-hard">
-            <WifiOff className="h-spacing-5 w-spacing-5 text-grey-500" />
+            <WifiOff className="h-spacing-5 w-spacing-5 text-on-dark-disabled" />
             <div>
               <div className="font-heading text-mono-sm uppercase tracking-widest">Offline Mode</div>
-              <div className="text-mono-xs text-grey-500">Changes will sync when online</div>
+              <div className="text-mono-xs text-on-dark-disabled">Changes will sync when online</div>
             </div>
           </div>
         )}

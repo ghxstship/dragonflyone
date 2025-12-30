@@ -83,7 +83,7 @@ export const BentoGrid = forwardRef<HTMLElement, BentoGridProps>(
               {kicker && <Kicker>{kicker}</Kicker>}
               {title && <H2 className="text-white">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-grey-400 max-w-2xl">
+                <Body size="lg" className="text-on-dark-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -129,7 +129,7 @@ export const BentoGrid = forwardRef<HTMLElement, BentoGridProps>(
                     </H3>
                     <Body
                       size={item.size === "large" ? "md" : "sm"}
-                      className="text-grey-300"
+                      className="text-on-dark-secondary"
                     >
                       {item.description}
                     </Body>

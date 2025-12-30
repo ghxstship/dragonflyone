@@ -223,8 +223,8 @@ export function RowActions<T = unknown>({
                     inverted ? "bg-ink-900 border-grey-700" : "bg-white border-grey-200",
                     config.item,
                     action.variant === "danger"
-                      ? inverted ? "text-grey-400" : "text-grey-700"
-                      : inverted ? "text-grey-200" : "text-grey-800",
+                      ? inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                      : inverted ? "text-on-dark-secondary" : "text-on-light-muted",
                     isDisabled
                       ? "cursor-not-allowed opacity-50"
                       : inverted ? "cursor-pointer hover:bg-grey-800" : "cursor-pointer hover:bg-grey-100"
@@ -235,7 +235,7 @@ export function RowActions<T = unknown>({
                     {action.label}
                   </span>
                   {action.shortcut && (
-                    <span className={clsx("font-code text-mono-xs", inverted ? "text-grey-500" : "text-grey-500")}>
+                    <span className={clsx("font-code text-mono-xs", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
                       {action.shortcut}
                     </span>
                   )}

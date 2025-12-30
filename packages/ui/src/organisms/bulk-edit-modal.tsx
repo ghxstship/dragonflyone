@@ -132,7 +132,7 @@ export function BulkEditModal<T>({
             type="button"
             onClick={handleClose}
             disabled={loading}
-            className="p-spacing-1 bg-transparent border-none text-white cursor-pointer hover:text-grey-300 disabled:cursor-not-allowed"
+            className="p-spacing-1 bg-transparent border-none text-white cursor-pointer hover:text-on-dark-secondary disabled:cursor-not-allowed"
             aria-label="Close"
           >
             <X className="size-5" />
@@ -150,7 +150,7 @@ export function BulkEditModal<T>({
 
           {/* Selected items summary */}
           <div className="mb-spacing-6 p-spacing-4 bg-surface-secondary border-2 border-border-primary rounded-card">
-            <p className="font-code text-mono-sm text-grey-600 mb-spacing-2">
+            <p className="font-code text-mono-sm text-on-dark-disabled mb-spacing-2">
               {selectedItems.length} item{selectedItems.length !== 1 ? "s" : ""} selected:
             </p>
             <div className="flex flex-wrap gap-gap-xs max-h-spacing-24 overflow-auto">
@@ -163,7 +163,7 @@ export function BulkEditModal<T>({
                 </span>
               ))}
               {selectedItems.length > 10 && (
-                <span className="px-spacing-2 py-spacing-1 text-grey-500 font-code text-mono-xs">
+                <span className="px-spacing-2 py-spacing-1 text-on-dark-disabled font-code text-mono-xs">
                   +{selectedItems.length - 10} more
                 </span>
               )}
@@ -172,7 +172,7 @@ export function BulkEditModal<T>({
 
           {/* Fields */}
           <div className="space-y-spacing-4">
-            <p className="font-code text-mono-sm tracking-wide uppercase text-grey-600">
+            <p className="font-code text-mono-sm tracking-wide uppercase text-on-dark-disabled">
               Select fields to update:
             </p>
 

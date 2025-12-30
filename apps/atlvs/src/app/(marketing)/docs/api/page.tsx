@@ -64,17 +64,17 @@ export default function ApiDocsPage() {
             <Card className="p-6 text-center">
               <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Key className="size-6" /></div>
               <Body className="font-weight-bold">Authentication</Body>
-              <Body size="sm" className="text-grey-400">API key based auth</Body>
+              <Body size="sm" className="text-on-dark-muted">API key based auth</Body>
             </Card>
             <Card className="p-6 text-center">
               <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Code className="size-6" /></div>
               <Body className="font-weight-bold">REST API</Body>
-              <Body size="sm" className="text-grey-400">JSON responses</Body>
+              <Body size="sm" className="text-on-dark-muted">JSON responses</Body>
             </Card>
             <Card className="p-6 text-center">
               <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Webhook className="size-6" /></div>
               <Body className="font-weight-bold">Webhooks</Body>
-              <Body size="sm" className="text-grey-400">Real-time events</Body>
+              <Body size="sm" className="text-on-dark-muted">Real-time events</Body>
             </Card>
           </Grid>
 
@@ -84,7 +84,7 @@ export default function ApiDocsPage() {
               <Button variant="ghost" size="sm" className="absolute top-2 right-2" onClick={() => copyToClipboard(exampleCode, "example")}>
                 {copiedCode === "example" ? <Check className="size-4" /> : <Copy className="size-4" />}
               </Button>
-              <pre className="font-weight-normal text-grey-300 overflow-x-auto"><code>{exampleCode}</code></pre>
+              <pre className="font-weight-normal text-on-dark-secondary overflow-x-auto"><code>{exampleCode}</code></pre>
             </div>
           </Card>
 
@@ -113,7 +113,7 @@ export default function ApiDocsPage() {
                 <div className="flex items-center gap-4">
                   <Badge variant={METHOD_COLORS[endpoint.method]} className="w-16 justify-center">{endpoint.method}</Badge>
                   <code className="text-primary flex-1">{endpoint.path}</code>
-                  <Body size="sm" className="text-grey-400">{endpoint.description}</Body>
+                  <Body size="sm" className="text-on-dark-muted">{endpoint.description}</Body>
                 </div>
               </Card>
             ))}
@@ -121,7 +121,7 @@ export default function ApiDocsPage() {
 
           <Card className="p-8 mt-8 text-center">
             <Body className="font-weight-bold font-weight-bold mb-2">Need an API Key?</Body>
-            <Body className="text-grey-400 mb-4">Generate API keys in your account settings</Body>
+            <Body className="text-on-dark-muted mb-4">Generate API keys in your account settings</Body>
             <Button variant="solid" onClick={() => router.push("/settings/integrations")}>Get API Key</Button>
           </Card>
         </Section>

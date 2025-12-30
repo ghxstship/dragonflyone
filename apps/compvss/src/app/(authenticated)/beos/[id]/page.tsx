@@ -145,7 +145,7 @@ export default function BEODetailPage() {
                     <Body className="text-white font-weight-medium capitalize mb-2">
                       {sectionKey.replace(/_/g, " ")}
                     </Body>
-                    <Body size="sm" className="text-grey-300">
+                    <Body size="sm" className="text-on-dark-secondary">
                       {typeof sectionData === "string"
                         ? sectionData
                         : Array.isArray(sectionData)
@@ -185,7 +185,7 @@ export default function BEODetailPage() {
                   <div className="flex-1">
                     <Body className="text-white font-weight-medium">{item.activity}</Body>
                     {item.notes && (
-                      <Body size="xs" className="text-grey-400 mt-1">{item.notes}</Body>
+                      <Body size="xs" className="text-on-dark-muted mt-1">{item.notes}</Body>
                     )}
                   </div>
                 </div>
@@ -197,7 +197,7 @@ export default function BEODetailPage() {
         <Section border>
           <SectionHeader title="Event Timeline" />
           <Card inverted className="p-6">
-            <Body className="text-grey-400">No timeline items have been added yet.</Body>
+            <Body className="text-on-dark-muted">No timeline items have been added yet.</Body>
           </Card>
         </Section>
       ),
@@ -210,7 +210,7 @@ export default function BEODetailPage() {
         <Section border>
           <SectionHeader title="Distribution History" />
           <Card inverted className="p-6">
-            <Body className="text-grey-400">Distribution history will be displayed here.</Body>
+            <Body className="text-on-dark-muted">Distribution history will be displayed here.</Body>
           </Card>
         </Section>
       ),
@@ -223,7 +223,7 @@ export default function BEODetailPage() {
         <Section border>
           <SectionHeader title="Event Checklist" />
           <Card inverted className="p-6">
-            <Body className="text-grey-400">Event checklist items will be displayed here.</Body>
+            <Body className="text-on-dark-muted">Event checklist items will be displayed here.</Body>
           </Card>
         </Section>
       ),

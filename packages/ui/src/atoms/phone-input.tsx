@@ -139,7 +139,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       "transition-all duration-100",
       "focus:outline-none",
       "disabled:opacity-50 disabled:cursor-not-allowed",
-      inverted ? "placeholder:text-grey-500" : "placeholder:text-grey-400",
+      inverted ? "placeholder:text-on-dark-disabled" : "placeholder:text-on-dark-muted",
       error
         ? inverted
           ? "border-error-500 bg-ink-900 text-white"
@@ -237,7 +237,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                   >
                     <span className="text-base">{country.flag}</span>
                     <span className="text-mono-sm font-medium">{country.code}</span>
-                    <span className="text-mono-xs text-grey-500 truncate">{country.name}</span>
+                    <span className="text-mono-xs text-on-dark-disabled truncate">{country.name}</span>
                   </button>
                 ))}
               </div>

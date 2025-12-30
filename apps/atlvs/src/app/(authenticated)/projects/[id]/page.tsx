@@ -101,19 +101,19 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             <SectionHeader title="Project Details" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Venue</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Venue</Body>
                 <Body className="text-white">{project.venue || "Not specified"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Expected Attendees</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Expected Attendees</Body>
                 <Body className="text-white">{(project.expected_attendees || 0).toLocaleString()}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Start Date</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Start Date</Body>
                 <Body className="text-white">{project.start_date || "TBD"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">End Date</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">End Date</Body>
                 <Body className="text-white">{project.end_date || "TBD"}</Body>
               </Card>
             </Grid>
@@ -156,7 +156,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
                 <div className="flex items-center justify-between mb-2">
                   <div>
                     <Body className="text-white font-weight-medium">{milestone.name}</Body>
-                    <Body size="xs" className="text-grey-400">{milestone.date}</Body>
+                    <Body size="xs" className="text-on-dark-muted">{milestone.date}</Body>
                   </div>
                   <Badge variant={milestone.status === "Completed" ? "success" : milestone.status === "In Progress" ? "warning" : "outline"}>
                     {milestone.status}
@@ -180,8 +180,8 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             {team.map((member) => (
               <Card key={member.name} inverted className="p-4">
                 <Body className="text-white font-weight-medium">{member.name}</Body>
-                <Body size="sm" className="text-grey-300">{member.role}</Body>
-                <Body size="xs" className="text-grey-400 uppercase tracking-label">{member.department}</Body>
+                <Body size="sm" className="text-on-dark-secondary">{member.role}</Body>
+                <Body size="xs" className="text-on-dark-muted uppercase tracking-label">{member.department}</Body>
               </Card>
             ))}
           </Grid>
@@ -197,22 +197,22 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
           <SectionHeader title="Budget Overview" />
           <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mb-6">
             <Card inverted className="p-4">
-              <Body size="xs" className="text-grey-400 mb-1">Total Budget</Body>
+              <Body size="xs" className="text-on-dark-muted mb-1">Total Budget</Body>
               <Body className="text-white text-h4-md font-weight-bold">${(budget / 1000).toFixed(0)}K</Body>
             </Card>
             <Card inverted className="p-4">
-              <Body size="xs" className="text-grey-400 mb-1">Spent</Body>
+              <Body size="xs" className="text-on-dark-muted mb-1">Spent</Body>
               <Body className="text-white text-h4-md font-weight-bold">${(actual / 1000).toFixed(0)}K</Body>
             </Card>
             <Card inverted className="p-4">
-              <Body size="xs" className="text-grey-400 mb-1">Remaining</Body>
+              <Body size="xs" className="text-on-dark-muted mb-1">Remaining</Body>
               <Body className={`text-h4-md font-weight-bold ${budget - actual >= 0 ? "text-success" : "text-error"}`}>
                 ${((budget - actual) / 1000).toFixed(0)}K
               </Body>
             </Card>
           </Grid>
           <Card inverted className="p-6">
-            <Body className="text-grey-400">Detailed budget breakdown will be displayed here.</Body>
+            <Body className="text-on-dark-muted">Detailed budget breakdown will be displayed here.</Body>
           </Card>
         </Section>
       ),
@@ -225,7 +225,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         <Section border>
           <SectionHeader title="Project Documents" />
           <Card inverted className="p-6">
-            <Body className="text-grey-400">Documents will be displayed here.</Body>
+            <Body className="text-on-dark-muted">Documents will be displayed here.</Body>
           </Card>
         </Section>
       ),

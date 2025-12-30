@@ -63,7 +63,7 @@ function StarRating({ rating }: { rating: number }) {
           key={star}
           className={clsx(
             "size-5",
-            star <= rating ? "text-accent fill-accent" : "text-grey-600"
+            star <= rating ? "text-accent fill-accent" : "text-on-light-muted"
           )}
           viewBox="0 0 20 20"
         >
@@ -93,7 +93,7 @@ function TestimonialCard({
         )}
 
         {/* Quote */}
-        <Body className="text-grey-200 italic flex-1 text-lg leading-relaxed">
+        <Body className="text-on-dark-secondary italic flex-1 text-lg leading-relaxed">
           &ldquo;{testimonial.quote}&rdquo;
         </Body>
 
@@ -109,7 +109,7 @@ function TestimonialCard({
             <Body className="text-white font-semibold">
               {testimonial.author.name}
             </Body>
-            <Body size="sm" className="text-grey-400">
+            <Body size="sm" className="text-on-dark-muted">
               {testimonial.author.role}, {testimonial.author.company}
             </Body>
           </Stack>
@@ -169,7 +169,7 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
               {kicker && <Kicker>{kicker}</Kicker>}
               {title && <H2 className="text-white">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-grey-400 max-w-2xl">
+                <Body size="lg" className="text-on-dark-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -257,7 +257,7 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
                     <StarRating rating={featuredTestimonial.rating} />
                   )}
 
-                  <Body className="text-grey-200 italic text-xl md:text-2xl leading-relaxed max-w-3xl">
+                  <Body className="text-on-dark-secondary italic text-xl md:text-2xl leading-relaxed max-w-3xl">
                     &ldquo;{featuredTestimonial.quote}&rdquo;
                   </Body>
 
@@ -272,7 +272,7 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
                       <Body className="text-white font-semibold text-lg">
                         {featuredTestimonial.author.name}
                       </Body>
-                      <Body className="text-grey-400">
+                      <Body className="text-on-dark-muted">
                         {featuredTestimonial.author.role}, {featuredTestimonial.author.company}
                       </Body>
                     </Stack>

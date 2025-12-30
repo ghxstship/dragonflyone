@@ -106,8 +106,8 @@ export default function ProfilePage() {
                 ) : (
                   <>
                     <Body className="font-weight-bold">{profile.name}</Body>
-                    <Body className="text-grey-400">{profile.role}</Body>
-                    <Body size="sm" className="text-grey-500 mt-2">Member since {formatDate(profile.joined)}</Body>
+                    <Body className="text-on-dark-muted">{profile.role}</Body>
+                    <Body size="sm" className="text-on-dark-disabled mt-2">Member since {formatDate(profile.joined)}</Body>
                   </>
                 )}
               </div>
@@ -118,27 +118,27 @@ export default function ProfilePage() {
               <SectionHeader title="Contact Information" />
               <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
                 <div>
-                  <Body size="sm" className="text-grey-400 mb-1">Email</Body>
+                  <Body size="sm" className="text-on-dark-muted mb-1">Email</Body>
                   {isEditing ? (
                     <Input value={formData.email || ""} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                   ) : (
-                    <div className="flex items-center gap-2"><Mail className="size-4 text-grey-400" /><Body>{profile.email}</Body></div>
+                    <div className="flex items-center gap-2"><Mail className="size-4 text-on-dark-muted" /><Body>{profile.email}</Body></div>
                   )}
                 </div>
                 <div>
-                  <Body size="sm" className="text-grey-400 mb-1">Phone</Body>
+                  <Body size="sm" className="text-on-dark-muted mb-1">Phone</Body>
                   {isEditing ? (
                     <Input value={formData.phone || ""} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
                   ) : (
-                    <div className="flex items-center gap-2"><Phone className="size-4 text-grey-400" /><Body>{profile.phone}</Body></div>
+                    <div className="flex items-center gap-2"><Phone className="size-4 text-on-dark-muted" /><Body>{profile.phone}</Body></div>
                   )}
                 </div>
                 <div>
-                  <Body size="sm" className="text-grey-400 mb-1">Location</Body>
+                  <Body size="sm" className="text-on-dark-muted mb-1">Location</Body>
                   {isEditing ? (
                     <Input value={formData.location || ""} onChange={(e) => setFormData({ ...formData, location: e.target.value })} />
                   ) : (
-                    <div className="flex items-center gap-2"><MapPin className="size-4 text-grey-400" /><Body>{profile.location}</Body></div>
+                    <div className="flex items-center gap-2"><MapPin className="size-4 text-on-dark-muted" /><Body>{profile.location}</Body></div>
                   )}
                 </div>
               </Grid>
@@ -168,14 +168,14 @@ export default function ProfilePage() {
               <div className="flex items-center justify-between">
                 <div>
                   <Body className="font-weight-medium">Password</Body>
-                  <Body size="sm" className="text-grey-400">Last changed 30 days ago</Body>
+                  <Body size="sm" className="text-on-dark-muted">Last changed 30 days ago</Body>
                 </div>
                 <Button variant="outline">Change Password</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <Body className="font-weight-medium">Two-Factor Authentication</Body>
-                  <Body size="sm" className="text-grey-400">Add an extra layer of security</Body>
+                  <Body size="sm" className="text-on-dark-muted">Add an extra layer of security</Body>
                 </div>
                 <Button variant="outline">Enable</Button>
               </div>

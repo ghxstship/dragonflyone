@@ -170,7 +170,7 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
       "first:rounded-t-[var(--radius-card)] last:rounded-b-[var(--radius-card)]",
       inverted 
         ? clsx(
-            "text-grey-200 border-b border-grey-700 last:border-b-0",
+            "text-on-dark-secondary border-b border-grey-700 last:border-b-0",
             "hover:bg-grey-800 hover:-translate-x-0.5",
             "focus:bg-grey-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
           )

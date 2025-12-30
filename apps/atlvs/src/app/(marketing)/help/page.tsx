@@ -74,7 +74,7 @@ export default function HelpPage() {
             <Container size="lg" className="py-12">
               <Card className="p-6 border-2 border-grey-800 rounded-card">
                 <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-grey-400" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
                   <Input
                     placeholder="Search for help articles, guides, and documentation..."
                     value={search}
@@ -113,7 +113,7 @@ export default function HelpPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Quick Answers</Body>
                   <H3 className="text-white">Popular Articles</H3>
-                  <Body className="text-grey-400 max-w-2xl">The most frequently viewed help articles by our users.</Body>
+                  <Body className="text-on-dark-muted max-w-2xl">The most frequently viewed help articles by our users.</Body>
                 </Stack>
 
                 <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
@@ -126,14 +126,14 @@ export default function HelpPage() {
                       <Stack direction="horizontal" className="justify-between items-center gap-4">
                         <Stack direction="horizontal" gap={4} className="items-center">
                           <div className="p-2 bg-grey-800 rounded-card group-hover:bg-primary/20 transition-all">
-                            <FileText className="size-5 text-grey-400 group-hover:text-primary transition-colors" />
+                            <FileText className="size-5 text-on-dark-muted group-hover:text-primary transition-colors" />
                           </div>
                           <Stack gap={0}>
                             <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{article.title}</Body>
-                            <Body size="sm" className="text-grey-500">{article.category}</Body>
+                            <Body size="sm" className="text-on-dark-disabled">{article.category}</Body>
                           </Stack>
                         </Stack>
-                        <ArrowRight className="size-5 text-grey-600 group-hover:text-primary transition-colors" />
+                        <ArrowRight className="size-5 text-on-dark-disabled group-hover:text-primary transition-colors" />
                       </Stack>
                     </Card>
                   ))}
@@ -141,9 +141,9 @@ export default function HelpPage() {
 
                 {search && filteredArticles.length === 0 && (
                   <Card className="p-8 text-center border-2 border-grey-800 rounded-card">
-                    <HelpCircle className="size-12 text-grey-600 mx-auto mb-4" />
+                    <HelpCircle className="size-12 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Articles Found</Body>
-                    <Body className="text-grey-400 mb-4">Try a different search term or browse by category</Body>
+                    <Body className="text-on-dark-muted mb-4">Try a different search term or browse by category</Body>
                     <Button variant="outline" onClick={() => setSearch("")}>Clear Search</Button>
                   </Card>
                 )}
@@ -160,19 +160,19 @@ export default function HelpPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Contact Us</Body>
                   <H3 className="text-white">Need More Help?</H3>
-                  <Body className="text-grey-400 max-w-2xl">Our support team is here to assist you with any questions or issues.</Body>
+                  <Body className="text-on-dark-muted max-w-2xl">Our support team is here to assist you with any questions or issues.</Body>
                 </Stack>
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
                   {SUPPORT_OPTIONS.map((option) => (
                     <Card key={option.id} className={`p-6 border-2 rounded-card ${option.available ? "border-grey-800 hover:border-primary/50" : "border-grey-900 opacity-60"} transition-all`}>
                       <Stack gap={4} className="items-center text-center">
-                        <div className={`p-4 rounded-card ${option.available ? "bg-primary/20 text-primary" : "bg-grey-800 text-grey-500"}`}>
+                        <div className={`p-4 rounded-card ${option.available ? "bg-primary/20 text-primary" : "bg-grey-800 text-on-dark-disabled"}`}>
                           {option.icon}
                         </div>
                         <Stack gap={2} className="items-center">
                           <Body className="text-white font-weight-bold">{option.title}</Body>
-                          <Body size="sm" className="text-grey-400">{option.description}</Body>
+                          <Body size="sm" className="text-on-dark-muted">{option.description}</Body>
                         </Stack>
                         <Button
                           variant={option.available ? "solid" : "outline"}

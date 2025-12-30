@@ -106,7 +106,7 @@ export default function ProductionAdvancingPage() {
                       </div>
                       <div>
                         <Body className="font-weight-medium">{advance.item}</Body>
-                        <Body size="sm" className="text-grey-400">{advance.assignee} • Due {formatDate(advance.due_date)}</Body>
+                        <Body size="sm" className="text-on-dark-muted">{advance.assignee} • Due {formatDate(advance.due_date)}</Body>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -129,7 +129,7 @@ export default function ProductionAdvancingPage() {
         <Section>
           <SectionHeader title="Send Advance Request" description="Send advance questionnaire to venue or vendors" />
           <Card className="p-6 mt-4 max-w-md">
-            <Body className="text-grey-400 mb-4">Select a template and recipients to send an advance request.</Body>
+            <Body className="text-on-dark-muted mb-4">Select a template and recipients to send an advance request.</Body>
             <Button variant="solid" icon={<Send className="size-4" />} iconPosition="left">Create Advance Request</Button>
           </Card>
         </Section>

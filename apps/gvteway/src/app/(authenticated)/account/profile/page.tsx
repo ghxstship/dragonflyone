@@ -48,7 +48,7 @@ export default function ProfilePage() {
                     <div><Body size="sm" className="mb-1">Name</Body><Input value={formData.name || ""} onChange={(e) => setFormData({ ...formData, name: e.target.value })} /></div>
                   </div>
                 ) : (
-                  <><Body className="font-weight-bold">{profile.name}</Body><Body className="text-grey-400">{profile.email}</Body></>
+                  <><Body className="font-weight-bold">{profile.name}</Body><Body className="text-on-dark-muted">{profile.email}</Body></>
                 )}
               </div>
               {!isEditing && <Button variant="outline" onClick={() => { setFormData(profile); setIsEditing(true); }}>Edit</Button>}
@@ -56,9 +56,9 @@ export default function ProfilePage() {
             <div className="border-t border-grey-800 pt-6">
               <SectionHeader title="Contact" />
               <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
-                <div><Body size="sm" className="text-grey-400 mb-1">Email</Body>{isEditing ? <Input value={formData.email || ""} onChange={(e) => setFormData({ ...formData, email: e.target.value })} /> : <div className="flex items-center gap-2"><Mail className="size-4 text-grey-400" /><Body>{profile.email}</Body></div>}</div>
-                <div><Body size="sm" className="text-grey-400 mb-1">Phone</Body>{isEditing ? <Input value={formData.phone || ""} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} /> : <div className="flex items-center gap-2"><Phone className="size-4 text-grey-400" /><Body>{profile.phone}</Body></div>}</div>
-                <div><Body size="sm" className="text-grey-400 mb-1">Location</Body>{isEditing ? <Input value={formData.location || ""} onChange={(e) => setFormData({ ...formData, location: e.target.value })} /> : <div className="flex items-center gap-2"><MapPin className="size-4 text-grey-400" /><Body>{profile.location}</Body></div>}</div>
+                <div><Body size="sm" className="text-on-dark-muted mb-1">Email</Body>{isEditing ? <Input value={formData.email || ""} onChange={(e) => setFormData({ ...formData, email: e.target.value })} /> : <div className="flex items-center gap-2"><Mail className="size-4 text-on-dark-muted" /><Body>{profile.email}</Body></div>}</div>
+                <div><Body size="sm" className="text-on-dark-muted mb-1">Phone</Body>{isEditing ? <Input value={formData.phone || ""} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} /> : <div className="flex items-center gap-2"><Phone className="size-4 text-on-dark-muted" /><Body>{profile.phone}</Body></div>}</div>
+                <div><Body size="sm" className="text-on-dark-muted mb-1">Location</Body>{isEditing ? <Input value={formData.location || ""} onChange={(e) => setFormData({ ...formData, location: e.target.value })} /> : <div className="flex items-center gap-2"><MapPin className="size-4 text-on-dark-muted" /><Body>{profile.location}</Body></div>}</div>
               </Grid>
             </div>
             {isEditing && <div className="flex gap-4 mt-6 pt-6 border-t border-grey-800"><Button variant="solid" onClick={() => updateProfile.mutate(formData)} disabled={updateProfile.isPending}>{updateProfile.isPending ? "Saving..." : "Save"}</Button><Button variant="outline" onClick={() => setIsEditing(false)}>Cancel</Button></div>}
@@ -66,7 +66,7 @@ export default function ProfilePage() {
         </Section>
       ),
     },
-    { id: "security", label: "Security", icon: <Shield className="size-4" />, content: (<Section><SectionHeader title="Security" description="Manage account security" /><Card className="p-6 mt-4"><div className="flex items-center justify-between"><div><Body className="font-weight-medium">Password</Body><Body size="sm" className="text-grey-400">Last changed 30 days ago</Body></div><Button variant="outline">Change</Button></div></Card></Section>) },
+    { id: "security", label: "Security", icon: <Shield className="size-4" />, content: (<Section><SectionHeader title="Security" description="Manage account security" /><Card className="p-6 mt-4"><div className="flex items-center justify-between"><div><Body className="font-weight-medium">Password</Body><Body size="sm" className="text-on-dark-muted">Last changed 30 days ago</Body></div><Button variant="outline">Change</Button></div></Card></Section>) },
   ];
 
   return <DetailPage header={{ kicker: "Account", title: "Profile", description: "Manage your profile" }} loading={isLoading} error={error instanceof Error ? error : null} onRetry={refetch} tabs={tabs} />;

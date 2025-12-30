@@ -7,7 +7,7 @@
  */
 
 import { useRouter } from "next/navigation";
-import { Zap, Calendar, Users, FileText, BarChart3, Shield, Check, ArrowRight, List, Star } from "lucide-react";
+import { Zap, Calendar, Users, FileText, BarChart3, Shield, Check, List, Star } from "lucide-react";
 import {
   Body, Button, Card, Grid, Stack, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
@@ -40,7 +40,7 @@ export default function ATLVSProductPage() {
       content: (
         <Section>
           <Card className="p-8 mb-8">
-            <Body className="font-weight-bold text-grey-300 leading-relaxed">
+            <Body className="font-weight-bold text-on-dark-secondary leading-relaxed">
               ATLVS is the complete production management platform for live events, entertainment, and experiential marketing. 
               From planning to wrap, ATLVS helps you manage every aspect of your productions in one place.
             </Body>
@@ -52,7 +52,7 @@ export default function ATLVSProductPage() {
               <Card key={idx} className="p-6">
                 <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mb-4">{feature.icon}</div>
                 <Body className="font-weight-bold font-weight-medium mb-2">{feature.title}</Body>
-                <Body className="text-grey-400">{feature.description}</Body>
+                <Body className="text-on-dark-muted">{feature.description}</Body>
               </Card>
             ))}
           </Grid>
@@ -72,9 +72,9 @@ export default function ATLVSProductPage() {
               </div>
               <div className="flex flex-col justify-center items-center text-center">
                 <Body className="font-weight-bold font-weight-bold mb-2">Ready to get started?</Body>
-                <Body className="text-grey-400 mb-6">See ATLVS in action with a personalized demo</Body>
+                <Body className="text-on-dark-muted mb-6">See ATLVS in action with a personalized demo</Body>
                 <div className="flex gap-4">
-                  <Button variant="solid" onClick={() => router.push("/demo")} icon={<ArrowRight className="size-4" />} iconPosition="right">Request Demo</Button>
+                  <Button variant="solid" onClick={() => router.push("/demo")}>Request Demo</Button>
                   <Button variant="outline" onClick={() => router.push("/pricing")}>View Pricing</Button>
                 </div>
               </div>
@@ -98,10 +98,10 @@ export default function ATLVSProductPage() {
               { quote: "The ROI was immediate. We saw improvements from day one.", author: "Michael B.", role: "Operations Lead, Championship League" },
             ].map((testimonial, idx) => (
               <Card key={idx} className="p-6">
-                <Body className="text-grey-300 italic mb-4">&quot;{testimonial.quote}&quot;</Body>
+                <Body className="text-on-dark-secondary italic mb-4">&quot;{testimonial.quote}&quot;</Body>
                 <div>
                   <Body className="font-weight-medium">{testimonial.author}</Body>
-                  <Body size="sm" className="text-grey-400">{testimonial.role}</Body>
+                  <Body size="sm" className="text-on-dark-muted">{testimonial.role}</Body>
                 </div>
               </Card>
             ))}

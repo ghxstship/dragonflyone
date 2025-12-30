@@ -114,7 +114,7 @@ interface SearchInputProps {
 function SearchInput({ value, onChange, onClear, placeholder, inputRef }: SearchInputProps) {
   return (
     <div className="relative">
-      <Search className="absolute left-spacing-4 top-1/2 -translate-y-1/2 size-5 text-grey-400" />
+      <Search className="absolute left-spacing-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
       <input
         ref={inputRef}
         type="text"
@@ -124,7 +124,7 @@ function SearchInput({ value, onChange, onClear, placeholder, inputRef }: Search
         className={clsx(
           "w-full pl-spacing-12 pr-spacing-10 py-spacing-4",
           "bg-surface-primary border-b-2 border-border-primary",
-          "text-body-lg text-text-primary placeholder:text-grey-400",
+          "text-body-lg text-text-primary placeholder:text-on-dark-muted",
           "outline-none focus:border-primary-500 transition-colors"
         )}
         autoFocus
@@ -132,7 +132,7 @@ function SearchInput({ value, onChange, onClear, placeholder, inputRef }: Search
       {value && (
         <button
           onClick={onClear}
-          className="absolute right-spacing-4 top-1/2 -translate-y-1/2 p-spacing-1 text-grey-400 hover:text-grey-600 bg-transparent border-none cursor-pointer"
+          className="absolute right-spacing-4 top-1/2 -translate-y-1/2 p-spacing-1 text-on-dark-muted hover:text-on-dark-disabled bg-transparent border-none cursor-pointer"
         >
           <X className="size-4" />
         </button>
@@ -158,7 +158,7 @@ function FacetFilters({ facets, activeFilters, onFilterToggle, onClearFilters }:
   return (
     <div className="border-r-2 border-border-primary p-spacing-4 w-container-sm overflow-y-auto">
       <div className="flex items-center justify-between mb-spacing-4">
-        <span className="font-code text-mono-sm text-grey-500 uppercase tracking-wider">Filters</span>
+        <span className="font-code text-mono-sm text-on-dark-disabled uppercase tracking-wider">Filters</span>
         {activeFilters.length > 0 && (
           <button
             onClick={onClearFilters}
@@ -171,7 +171,7 @@ function FacetFilters({ facets, activeFilters, onFilterToggle, onClearFilters }:
       
       {facets.map((facet) => (
         <div key={facet.field} className="mb-spacing-4">
-          <p className="font-code text-mono-xs text-grey-600 uppercase tracking-wider mb-spacing-2">
+          <p className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider mb-spacing-2">
             {facet.label}
           </p>
           <div className="flex flex-col gap-gap-xs">
@@ -193,7 +193,7 @@ function FacetFilters({ facets, activeFilters, onFilterToggle, onClearFilters }:
                   <span className="text-body-sm">{item.label}</span>
                   <span className={clsx(
                     "text-body-xs font-code",
-                    isActive ? "text-white/70" : "text-grey-500"
+                    isActive ? "text-white/70" : "text-on-light-muted"
                   )}>
                     {item.count}
                   </span>
@@ -231,9 +231,9 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
   if (query && results.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-spacing-12 text-center">
-        <Search className="size-12 text-grey-300 mb-spacing-4" />
-        <p className="text-body-md text-grey-500">No results found for &quot;{query}&quot;</p>
-        <p className="text-body-sm text-grey-400 mt-spacing-2">Try different keywords or filters</p>
+        <Search className="size-12 text-on-dark-secondary mb-spacing-4" />
+        <p className="text-body-md text-on-dark-disabled">No results found for &quot;{query}&quot;</p>
+        <p className="text-body-sm text-on-dark-muted mt-spacing-2">Try different keywords or filters</p>
       </div>
     );
   }
@@ -258,10 +258,10 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
       {Object.entries(groupedResults).map(([entityType, items]) => (
         <div key={entityType}>
           <div className="px-spacing-4 py-spacing-2 bg-surface-secondary border-b border-border-secondary">
-            <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider flex items-center gap-gap-xs">
+            <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider flex items-center gap-gap-xs">
               {entityIcons[entityType] || <FileText className="size-3" />}
               {entityType}
-              <span className="text-grey-400">({items.length})</span>
+              <span className="text-on-dark-muted">({items.length})</span>
             </span>
           </div>
           {items.map((result) => {
@@ -294,7 +294,7 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
                   {result.description && (
                     <p className={clsx(
                       "text-body-sm truncate",
-                      isSelected ? "text-white/70" : "text-grey-500"
+                      isSelected ? "text-white/70" : "text-on-light-muted"
                     )}>
                       {result.description}
                     </p>
@@ -302,7 +302,7 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
                 </div>
                 <ChevronRight className={clsx(
                   "size-4",
-                  isSelected ? "text-white/70" : "text-grey-400"
+                  isSelected ? "text-white/70" : "text-on-light-muted"
                 )} />
               </button>
             );
@@ -336,7 +336,7 @@ function SearchSuggestions({
     <div className="p-spacing-4">
       {savedSearches.length > 0 && (
         <div className="mb-spacing-6">
-          <p className="font-code text-mono-xs text-grey-500 uppercase tracking-wider mb-spacing-2 flex items-center gap-gap-xs">
+          <p className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider mb-spacing-2 flex items-center gap-gap-xs">
             <Star className="size-3" />
             Saved Searches
           </p>
@@ -358,13 +358,13 @@ function SearchSuggestions({
       {recentSearches.length > 0 && (
         <div>
           <div className="flex items-center justify-between mb-spacing-2">
-            <p className="font-code text-mono-xs text-grey-500 uppercase tracking-wider flex items-center gap-gap-xs">
+            <p className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider flex items-center gap-gap-xs">
               <Clock className="size-3" />
               Recent Searches
             </p>
             <button
               onClick={onClearHistory}
-              className="text-body-xs text-grey-500 hover:text-grey-600 bg-transparent border-none cursor-pointer"
+              className="text-body-xs text-on-dark-disabled hover:text-on-dark-disabled bg-transparent border-none cursor-pointer"
             >
               Clear
             </button>
@@ -376,7 +376,7 @@ function SearchSuggestions({
                 onClick={() => onSelectRecent(query)}
                 className="flex items-center gap-gap-sm px-spacing-3 py-spacing-2 bg-surface-secondary hover:bg-surface-tertiary rounded-button text-left border-none cursor-pointer transition-colors"
               >
-                <Clock className="size-4 text-grey-400" />
+                <Clock className="size-4 text-on-dark-muted" />
                 <span className="text-body-sm text-text-primary">{query}</span>
               </button>
             ))}
@@ -386,9 +386,9 @@ function SearchSuggestions({
       
       {savedSearches.length === 0 && recentSearches.length === 0 && (
         <div className="flex flex-col items-center justify-center py-spacing-8 text-center">
-          <Search className="size-10 text-grey-300 mb-spacing-4" />
-          <p className="text-body-md text-grey-500">Start typing to search</p>
-          <p className="text-body-sm text-grey-400 mt-spacing-1">
+          <Search className="size-10 text-on-dark-secondary mb-spacing-4" />
+          <p className="text-body-md text-on-dark-disabled">Start typing to search</p>
+          <p className="text-body-sm text-on-dark-muted mt-spacing-1">
             Search across projects, contacts, events, and more
           </p>
         </div>
@@ -559,7 +559,7 @@ export function GlobalSearch({
         {/* Active Filters */}
         {filters.length > 0 && (
           <div className="flex items-center gap-gap-xs px-spacing-4 py-spacing-2 bg-surface-secondary border-b border-border-secondary overflow-x-auto">
-            <Filter className="size-4 text-grey-400 flex-shrink-0" />
+            <Filter className="size-4 text-on-dark-muted flex-shrink-0" />
             {filters.map((filter, index) => (
               <span
                 key={index}
@@ -613,7 +613,7 @@ export function GlobalSearch({
         
         {/* Footer */}
         <div className="flex items-center justify-between px-spacing-4 py-spacing-2 bg-surface-secondary border-t border-border-secondary">
-          <div className="flex items-center gap-gap-md text-body-xs text-grey-500">
+          <div className="flex items-center gap-gap-md text-body-xs text-on-dark-disabled">
             <span className="flex items-center gap-gap-xs">
               <kbd className="px-spacing-1 py-px bg-surface-tertiary rounded-badge font-code">↑↓</kbd>
               Navigate
@@ -635,7 +635,7 @@ export function GlobalSearch({
                   "flex items-center gap-gap-xs px-spacing-2 py-spacing-1 rounded-button text-body-xs border-none cursor-pointer transition-colors",
                   showFilters
                     ? "bg-primary-500 text-white"
-                    : "bg-surface-tertiary text-grey-600 hover:bg-grey-200"
+                    : "bg-surface-tertiary text-on-dark-disabled hover:bg-grey-200"
                 )}
               >
                 <Filter className="size-3" />
@@ -645,7 +645,7 @@ export function GlobalSearch({
             {onSaveSearch && query && (
               <button
                 onClick={() => onSaveSearch("New Search", query, filters)}
-                className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 bg-surface-tertiary text-grey-600 hover:bg-grey-200 rounded-button text-body-xs border-none cursor-pointer transition-colors"
+                className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 bg-surface-tertiary text-on-dark-disabled hover:bg-grey-200 rounded-button text-body-xs border-none cursor-pointer transition-colors"
               >
                 <Star className="size-3" />
                 Save

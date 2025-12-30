@@ -38,7 +38,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(
             <div className={clsx("pt-8 border-t-2", inverted ? "border-grey-800" : "border-grey-200")}>
               <p className={clsx(
                 "font-code text-xs uppercase tracking-widest font-bold",
-                inverted ? "text-grey-500" : "text-grey-400"
+                inverted ? "text-on-dark-disabled" : "text-on-light-muted"
               )}>{copyright}</p>
             </div>
           ) : null}
@@ -82,8 +82,8 @@ export const FooterLink = forwardRef<HTMLAnchorElement, FooterLinkProps>(
           "font-body text-xs transition-all duration-100 sm:text-sm",
           "hover:-translate-x-0.5",
           inverted
-            ? "text-grey-400 hover:text-white"
-            : "text-grey-600 hover:text-black",
+            ? "text-on-dark-muted hover:text-white"
+            : "text-on-dark-disabled hover:text-black",
           className
         )}
         {...props}

@@ -67,7 +67,7 @@ export function NotFoundContent({
   actions,
 }: NotFoundContentProps) {
   const textClass = inverted ? "text-white" : "text-ink-900";
-  const mutedTextClass = inverted ? "text-grey-400" : "text-grey-600";
+  const mutedTextClass = inverted ? "text-on-dark-muted" : "text-on-light-muted";
 
   return (
     <Stack gap={8} className="flex min-h-[60vh] flex-col items-center justify-center text-center py-8">

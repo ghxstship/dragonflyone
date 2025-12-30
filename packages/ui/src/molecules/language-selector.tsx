@@ -123,7 +123,7 @@ export function LanguageSelector({
         <span className="text-body-lg">{currentLang.flag}</span>
         <div className="flex-1 text-left">
           <div className="font-heading text-mono-sm uppercase tracking-widest">{currentLang.name}</div>
-          <div className="font-body text-mono-xs text-grey-600">{currentLang.nativeName}</div>
+          <div className="font-body text-mono-xs text-on-dark-disabled">{currentLang.nativeName}</div>
         </div>
         <ChevronDown className={`h-spacing-5 w-spacing-5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -141,7 +141,7 @@ export function LanguageSelector({
               <span className="text-body-lg">{lang.flag}</span>
               <div className="flex-1">
                 <div className="font-heading text-mono-sm uppercase tracking-widest">{lang.name}</div>
-                <div className="font-body text-mono-xs text-grey-600">{lang.nativeName}</div>
+                <div className="font-body text-mono-xs text-on-dark-disabled">{lang.nativeName}</div>
               </div>
               {lang.code === currentLanguage && (
                 <span className="text-black font-weight-bold">✓</span>

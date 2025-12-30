@@ -102,7 +102,7 @@ export const IntegrationGrid = forwardRef<HTMLElement, IntegrationGridProps>(
               {kicker && <Kicker>{kicker}</Kicker>}
               {title && <H2 className="text-white">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-grey-400 max-w-2xl">
+                <Body size="lg" className="text-on-dark-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -177,14 +177,14 @@ export const IntegrationGrid = forwardRef<HTMLElement, IntegrationGridProps>(
                     <Body className="text-white font-semibold group-hover:text-primary transition-colors">
                       {integration.name}
                     </Body>
-                    <Body size="sm" className="text-grey-400 line-clamp-2">
+                    <Body size="sm" className="text-on-dark-muted line-clamp-2">
                       {integration.description}
                     </Body>
                   </Stack>
 
                   {/* Link Indicator */}
                   {(integration.href || onIntegrationClick) && (
-                    <ArrowRight className="size-4 text-grey-600 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    <ArrowRight className="size-4 text-on-dark-disabled group-hover:text-primary group-hover:translate-x-1 transition-all" />
                   )}
                 </Stack>
               </Card>

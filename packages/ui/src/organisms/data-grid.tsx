@@ -478,7 +478,7 @@ export function DataGrid<T>({
                   compact ? "py-spacing-2 px-spacing-3 text-body-sm" : "py-spacing-3 px-spacing-4 text-body-md"
                 )}
               />
-              <span className="absolute left-spacing-3 top-1/2 -translate-y-1/2 text-grey-500">
+              <span className="absolute left-spacing-3 top-1/2 -translate-y-1/2 text-on-dark-disabled">
                 <Search className="size-4" />
               </span>
             </div>
@@ -517,7 +517,7 @@ export function DataGrid<T>({
           ))}
 
           {activeFilterCount > 0 && (
-            <button onClick={onClearFilters} className="px-spacing-2 py-spacing-1 font-code text-mono-xs bg-transparent text-grey-600 border-none cursor-pointer underline">
+            <button onClick={onClearFilters} className="px-spacing-2 py-spacing-1 font-code text-mono-xs bg-transparent text-on-dark-disabled border-none cursor-pointer underline">
               CLEAR ALL ({activeFilterCount})
             </button>
           )}
@@ -566,7 +566,7 @@ export function DataGrid<T>({
         <div className="flex items-center justify-between px-spacing-4 py-spacing-3 bg-black text-white">
           <span className="font-code text-mono-md">
             <strong>{selectedKeys.length}</strong> selected
-            <button onClick={() => onSelectionChange?.([])} className="ml-spacing-4 px-spacing-2 py-spacing-1 bg-transparent text-grey-400 border-none cursor-pointer underline">
+            <button onClick={() => onSelectionChange?.([])} className="ml-spacing-4 px-spacing-2 py-spacing-1 bg-transparent text-on-dark-muted border-none cursor-pointer underline">
               Clear
             </button>
           </span>
@@ -654,7 +654,7 @@ export function DataGrid<T>({
               </tr>
             ) : groupedData.length === 0 ? (
               <tr role="row">
-                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-spacing-12 text-center font-code text-grey-500" role="cell">
+                <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-spacing-12 text-center font-code text-on-dark-disabled" role="cell">
                   {emptyMessage}
                 </td>
               </tr>
@@ -768,7 +768,7 @@ export function DataGrid<T>({
 
       {pagination && (
         <nav className="flex items-center justify-between flex-wrap gap-gap-md" aria-label="Pagination">
-          <span className="font-code text-mono-sm text-grey-600" aria-live="polite">
+          <span className="font-code text-mono-sm text-on-dark-disabled" aria-live="polite">
             Showing {(pagination.page - 1) * pagination.pageSize + 1} - {Math.min(pagination.page * pagination.pageSize, pagination.total)} of {pagination.total}
           </span>
           <div className="flex gap-gap-xs" role="group" aria-label="Pagination controls">
@@ -818,7 +818,7 @@ function RowActionsDropdown<T>({
     <div className="relative inline-block">
       <button 
         onClick={() => setOpen(!open)} 
-        className="p-spacing-1 bg-transparent border-none cursor-pointer text-body-md hover:text-grey-600"
+        className="p-spacing-1 bg-transparent border-none cursor-pointer text-body-md hover:text-on-dark-disabled"
         aria-label="Row actions"
         aria-expanded={open}
         aria-haspopup="menu"

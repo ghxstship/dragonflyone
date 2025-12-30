@@ -282,8 +282,8 @@ function SavedFiltersDropdown({
   const hasActiveFilters = Object.keys(activeFilters).length > 0;
 
   const buttonClass = inverted
-    ? "bg-transparent text-grey-400 border-2 border-grey-700 hover:border-grey-500 transition-all duration-100 rounded-[var(--radius-button)]"
-    : "bg-transparent text-grey-600 border-2 border-grey-300 hover:border-grey-500 transition-all duration-100 rounded-[var(--radius-button)]";
+    ? "bg-transparent text-on-dark-muted border-2 border-grey-700 hover:border-grey-500 transition-all duration-100 rounded-[var(--radius-button)]"
+    : "bg-transparent text-on-dark-disabled border-2 border-grey-300 hover:border-grey-500 transition-all duration-100 rounded-[var(--radius-button)]";
 
   const dropdownClass = inverted
     ? "bg-grey-900 border-2 border-grey-700 shadow-lg"
@@ -325,7 +325,7 @@ function SavedFiltersDropdown({
                       onClick={(e) => handleDelete(preset.id, e)}
                       className={clsx(
                         "opacity-0 group-hover:opacity-100 p-1 rounded transition-opacity",
-                        inverted ? "hover:bg-grey-700 text-grey-500" : "hover:bg-grey-200 text-grey-400"
+                        inverted ? "hover:bg-grey-700 text-on-dark-disabled" : "hover:bg-grey-200 text-on-dark-muted"
                       )}
                     >
                       <Trash2 className="size-3" />
@@ -335,7 +335,7 @@ function SavedFiltersDropdown({
               ))}
             </div>
           ) : (
-            <div className={clsx("px-spacing-4 py-spacing-3 text-center", inverted ? "text-grey-500" : "text-grey-400")}>
+            <div className={clsx("px-spacing-4 py-spacing-3 text-center", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
               <span className="font-body text-body-sm">No saved filters</span>
             </div>
           )}
@@ -388,8 +388,8 @@ function SavedFiltersDropdown({
                         ? "hover:bg-grey-800 text-white"
                         : "hover:bg-grey-50 text-black"
                       : inverted
-                        ? "text-grey-600 cursor-not-allowed"
-                        : "text-grey-400 cursor-not-allowed"
+                        ? "text-on-dark-disabled cursor-not-allowed"
+                        : "text-on-dark-muted cursor-not-allowed"
                   )}
                 >
                   <Save className="size-4" />
@@ -822,13 +822,13 @@ export function ListPage<T>({
   // Theme-aware classes - Bold Contemporary Pop Art Adventure
   const bgClass = inverted ? "bg-black text-white" : "bg-white text-black";
   const _borderClass = inverted ? "border-grey-700" : "border-grey-300";
-  const mutedTextClass = inverted ? "text-grey-400" : "text-grey-600";
+  const mutedTextClass = inverted ? "text-on-dark-muted" : "text-on-light-muted";
   const primaryBtnClass = inverted
     ? "bg-white text-black border-2 border-white shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
     : "bg-black text-white border-2 border-black shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]";
   const secondaryBtnClass = inverted
-    ? "bg-transparent text-grey-400 border-2 border-grey-700 hover:border-grey-500 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
-    : "bg-transparent text-grey-600 border-2 border-grey-300 hover:border-grey-500 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]";
+    ? "bg-transparent text-on-dark-muted border-2 border-grey-700 hover:border-grey-500 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
+    : "bg-transparent text-on-dark-disabled border-2 border-grey-300 hover:border-grey-500 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]";
 
   // Error state
   if (error) {
@@ -934,7 +934,7 @@ export function ListPage<T>({
             {stats.map((stat, idx) => (
               <div key={idx} className={clsx("p-spacing-6 border", inverted ? "border-grey-800 bg-black" : "border-grey-200 bg-white")} role="group" aria-label={stat.label}>
                 <div className="font-display text-h2-sm" aria-live="polite">{stat.value}</div>
-                <div className={clsx("font-code text-mono-sm uppercase tracking-widest", inverted ? "text-grey-500" : "text-grey-400")}>{stat.label}</div>
+                <div className={clsx("font-code text-mono-sm uppercase tracking-widest", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>{stat.label}</div>
               </div>
             ))}
           </section>
@@ -958,7 +958,7 @@ export function ListPage<T>({
                   : "bg-white text-black border-grey-300 focus:border-grey-500"
               )}
             />
-            <span className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2", inverted ? "text-grey-500" : "text-grey-400")} aria-hidden="true"><Search className="size-4" /></span>
+            <span className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2", inverted ? "text-on-dark-disabled" : "text-on-light-muted")} aria-hidden="true"><Search className="size-4" /></span>
           </div>
           {filters.map(filter => (
             <div key={filter.key}>
@@ -1037,10 +1037,10 @@ export function ListPage<T>({
                       isActive
                         ? inverted
                           ? "bg-grey-700 text-white"
-                          : "bg-white text-grey-900 shadow-sm"
+                          : "bg-white text-on-light-primary shadow-sm"
                         : inverted
-                          ? "text-grey-500 hover:text-white hover:bg-grey-800"
-                          : "text-grey-400 hover:text-grey-900 hover:bg-grey-100"
+                          ? "text-on-dark-disabled hover:text-white hover:bg-grey-800"
+                          : "text-on-dark-muted hover:text-on-light-primary hover:bg-grey-100"
                     )}
                   >
                     <ViewIcon size={16} aria-hidden="true" />
@@ -1084,7 +1084,7 @@ export function ListPage<T>({
 
         {/* Results count */}
         <div 
-          className={clsx("mb-spacing-4 font-code text-mono-sm", inverted ? "text-grey-500" : "text-grey-400")}
+          className={clsx("mb-spacing-4 font-code text-mono-sm", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}
           role="status"
           aria-live="polite"
           aria-atomic="true"
@@ -1100,7 +1100,7 @@ export function ListPage<T>({
             groupBy={effectiveKanbanGroupBy}
             rowKey={rowKey}
             cardRender={kanbanCardRender || ((item) => (
-              <div className={clsx("text-sm", inverted ? "text-white" : "text-grey-900")}>
+              <div className={clsx("text-sm", inverted ? "text-white" : "text-on-light-primary")}>
                 {String(item[columns[0]?.key as keyof T] || "Item")}
               </div>
             ))}
@@ -1143,11 +1143,11 @@ export function ListPage<T>({
                       : "bg-white border-grey-200 hover:border-grey-300"
                   )}
                 >
-                  <div className={clsx("font-semibold text-sm mb-2", inverted ? "text-white" : "text-grey-900")}>
+                  <div className={clsx("font-semibold text-sm mb-2", inverted ? "text-white" : "text-on-light-primary")}>
                     {String(item[columns[0]?.key as keyof T] || "Item")}
                   </div>
                   {columns.slice(1, 3).map((col) => (
-                    <div key={col.key} className={clsx("text-xs", inverted ? "text-grey-400" : "text-grey-500")}>
+                    <div key={col.key} className={clsx("text-xs", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
                       {col.label}: {String(item[col.key as keyof T] || "-")}
                     </div>
                   ))}

@@ -261,7 +261,7 @@ export default function NewProductionPage() {
           <option value="">Select venue...</option>
           <option value="new">+ Add New Venue</option>
         </Select>
-        <Body size="sm" className=" text-grey-500">
+        <Body size="sm" className=" text-on-dark-disabled">
           Select an existing venue or create a new one
         </Body>
       </Stack>
@@ -384,7 +384,7 @@ export default function NewProductionPage() {
               <H3>{formData.title || 'Untitled Production'}</H3>
               <Badge variant="solid">{formData.format || 'No Format'}</Badge>
             </Stack>
-            {formData.tagline && <Body className="text-grey-600">{formData.tagline}</Body>}
+            {formData.tagline && <Body className="text-on-dark-disabled">{formData.tagline}</Body>}
           </Stack>
         </CardBody>
       </Card>

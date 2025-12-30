@@ -38,9 +38,9 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
     };
 
     const textColorClasses = {
-      black: "text-grey-600",
-      white: "text-grey-300",
-      grey: "text-grey-400",
+      black: "text-on-light-muted",
+      white: "text-on-light-secondary",
+      grey: "text-on-light-muted",
     };
 
     const spinner = (

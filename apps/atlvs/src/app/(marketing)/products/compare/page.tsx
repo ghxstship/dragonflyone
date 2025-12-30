@@ -80,9 +80,9 @@ export default function ProductComparePage() {
                     {category.features.map((feature) => (
                       <TableRow key={feature.name}>
                         <TableCell><Body size="sm">{feature.name}</Body></TableCell>
-                        <TableCell className="text-center">{feature.atlvs ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-grey-600 mx-auto" />}</TableCell>
-                        <TableCell className="text-center">{feature.compvss ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-grey-600 mx-auto" />}</TableCell>
-                        <TableCell className="text-center">{feature.gvteway ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-grey-600 mx-auto" />}</TableCell>
+                        <TableCell className="text-center">{feature.atlvs ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-on-dark-disabled mx-auto" />}</TableCell>
+                        <TableCell className="text-center">{feature.compvss ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-on-dark-disabled mx-auto" />}</TableCell>
+                        <TableCell className="text-center">{feature.gvteway ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-on-dark-disabled mx-auto" />}</TableCell>
                       </TableRow>
                     ))}
                   </>
@@ -93,7 +93,7 @@ export default function ProductComparePage() {
 
           <Card className="p-8 mt-8 text-center">
             <Body className="font-weight-bold font-weight-bold mb-2">Need the complete suite?</Body>
-            <Body className="text-grey-400 mb-4">Get all three products bundled together for the best value</Body>
+            <Body className="text-on-dark-muted mb-4">Get all three products bundled together for the best value</Body>
             <div className="flex gap-4 justify-center">
               <Button variant="solid" onClick={() => router.push("/demo")}>Request Demo</Button>
               <Button variant="outline" onClick={() => router.push("/pricing")}>View Pricing</Button>

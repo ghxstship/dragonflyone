@@ -105,7 +105,7 @@ export const VideoSection = forwardRef<HTMLElement, VideoSectionProps>(
                 {kicker && <Kicker>{kicker}</Kicker>}
                 {title && <H2 className="text-white">{title}</H2>}
                 {description && (
-                  <Body size="lg" className="text-grey-400 max-w-2xl">
+                  <Body size="lg" className="text-on-dark-muted max-w-2xl">
                     {description}
                   </Body>
                 )}

@@ -33,7 +33,7 @@ export type BreadcrumbItemProps = HTMLAttributes<HTMLLIElement> & {
 export const BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
   function BreadcrumbItem({ href, active, inverted = true, className, children, ...props }, ref) {
     const activeColor = inverted ? "text-white" : "text-black";
-    const inactiveColor = inverted ? "text-grey-400" : "text-grey-500";
+    const inactiveColor = inverted ? "text-on-dark-muted" : "text-on-light-muted";
     const hoverColor = inverted ? "hover:text-white" : "hover:text-black";
 
     return (

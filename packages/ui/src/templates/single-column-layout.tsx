@@ -202,7 +202,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
           <div className="flex-1 flex items-center justify-center p-8">
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -233,7 +233,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
                 <H2 className={inverted ? "text-white" : "text-ink-900"}>
                   Error Loading Content
                 </H2>
-                <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -274,7 +274,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
                   inverted ? "bg-grey-700" : "bg-grey-200"
                 )} />
               </div>
-              <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                 {emptyMessage}
               </Body>
               {emptyAction && (
@@ -301,7 +301,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
         )}>
           <Body className={clsx(
             "font-semibold mb-4 uppercase text-xs tracking-wider",
-            inverted ? "text-grey-400" : "text-grey-500"
+            inverted ? "text-on-dark-muted" : "text-on-light-muted"
           )}>
             On This Page
           </Body>
@@ -319,8 +319,8 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
                       ? "bg-primary/20 text-primary border-l-2 border-primary"
                       : "bg-primary/10 text-primary border-l-2 border-primary"
                     : inverted
-                      ? "text-grey-400 hover:text-white hover:bg-grey-800"
-                      : "text-grey-600 hover:text-ink-900 hover:bg-grey-100"
+                      ? "text-on-dark-muted hover:text-white hover:bg-grey-800"
+                      : "text-on-dark-disabled hover:text-ink-900 hover:bg-grey-100"
                 )}
               >
                 {item.label}

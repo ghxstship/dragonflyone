@@ -103,7 +103,7 @@ export default function ProductionSchedulePage() {
                       </div>
                       <div>
                         <Body className="font-weight-medium">{task.title}</Body>
-                        <Body size="sm" className="text-grey-400">{task.assignee} • Due {formatDate(task.due_date)}</Body>
+                        <Body size="sm" className="text-on-dark-muted">{task.assignee} • Due {formatDate(task.due_date)}</Body>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -126,9 +126,9 @@ export default function ProductionSchedulePage() {
         <Section>
           <SectionHeader title="Calendar View" description="View tasks on a calendar" />
           <Card className="p-8 text-center mt-4">
-            <Calendar className="size-12 text-grey-600 mx-auto mb-4" />
+            <Calendar className="size-12 text-on-dark-disabled mx-auto mb-4" />
             <Body className="font-weight-medium font-weight-medium mb-2">Calendar View</Body>
-            <Body className="text-grey-400">Calendar visualization coming soon</Body>
+            <Body className="text-on-dark-muted">Calendar visualization coming soon</Body>
           </Card>
         </Section>
       ),

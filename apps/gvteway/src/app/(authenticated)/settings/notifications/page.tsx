@@ -93,10 +93,10 @@ export default function NotificationSettingsPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between py-3 border-b border-grey-700">
                 <div className="flex items-center gap-3">
-                  <Mail className="size-5 text-grey-400" />
+                  <Mail className="size-5 text-on-dark-muted" />
                   <div>
                     <Body className="font-weight-medium text-white">Email Notifications</Body>
-                    <Body size="sm" className="text-grey-400">Receive notifications via email</Body>
+                    <Body size="sm" className="text-on-dark-muted">Receive notifications via email</Body>
                   </div>
                 </div>
                 <Switch
@@ -107,10 +107,10 @@ export default function NotificationSettingsPage() {
 
               <div className="flex items-center justify-between py-3 border-b border-grey-700">
                 <div className="flex items-center gap-3">
-                  <Smartphone className="size-5 text-grey-400" />
+                  <Smartphone className="size-5 text-on-dark-muted" />
                   <div>
                     <Body className="font-weight-medium text-white">Push Notifications</Body>
-                    <Body size="sm" className="text-grey-400">Receive notifications on your device</Body>
+                    <Body size="sm" className="text-on-dark-muted">Receive notifications on your device</Body>
                   </div>
                 </div>
                 <Switch
@@ -121,10 +121,10 @@ export default function NotificationSettingsPage() {
 
               <div className="flex items-center justify-between py-3">
                 <div className="flex items-center gap-3">
-                  <MessageSquare className="size-5 text-grey-400" />
+                  <MessageSquare className="size-5 text-on-dark-muted" />
                   <div>
                     <Body className="font-weight-medium text-white">SMS Notifications</Body>
-                    <Body size="sm" className="text-grey-400">Receive text messages for important updates</Body>
+                    <Body size="sm" className="text-on-dark-muted">Receive text messages for important updates</Body>
                   </div>
                 </div>
                 <Switch
@@ -160,7 +160,7 @@ export default function NotificationSettingsPage() {
                 <div key={item.key} className={`flex items-center justify-between py-3 ${idx < arr.length - 1 ? "border-b border-grey-700" : ""}`}>
                   <div>
                     <Body className="font-weight-medium text-white">{item.label}</Body>
-                    <Body size="sm" className="text-grey-400">{item.desc}</Body>
+                    <Body size="sm" className="text-on-dark-muted">{item.desc}</Body>
                   </div>
                   <Switch
                     checked={preferences.categories[item.key as keyof NotificationPreferences["categories"]]}
@@ -186,7 +186,7 @@ export default function NotificationSettingsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <Body className="font-weight-medium text-white">Event Reminder Timing</Body>
-                  <Body size="sm" className="text-grey-400">How far in advance to remind you</Body>
+                  <Body size="sm" className="text-on-dark-muted">How far in advance to remind you</Body>
                 </div>
                 <Select
                   value={preferences.reminder_timing}
@@ -204,7 +204,7 @@ export default function NotificationSettingsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <Body className="font-weight-medium text-white">Digest Frequency</Body>
-                  <Body size="sm" className="text-grey-400">How often to receive digest emails</Body>
+                  <Body size="sm" className="text-on-dark-muted">How often to receive digest emails</Body>
                 </div>
                 <Select
                   value={preferences.digest_frequency}
@@ -226,7 +226,7 @@ export default function NotificationSettingsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <Body className="font-weight-medium text-white">Enable Quiet Hours</Body>
-                  <Body size="sm" className="text-grey-400">Pause notifications during set times</Body>
+                  <Body size="sm" className="text-on-dark-muted">Pause notifications during set times</Body>
                 </div>
                 <Switch
                   checked={preferences.quiet_hours_enabled}
@@ -237,7 +237,7 @@ export default function NotificationSettingsPage() {
               {preferences.quiet_hours_enabled && (
                 <div className="flex gap-4 pt-4 border-t border-grey-700">
                   <div className="flex-1 space-y-2">
-                    <Body size="sm" className="text-grey-400">Start Time</Body>
+                    <Body size="sm" className="text-on-dark-muted">Start Time</Body>
                     <Select
                       value={preferences.quiet_hours_start}
                       onChange={(e) => setPreferences({ ...preferences, quiet_hours_start: e.target.value })}
@@ -253,7 +253,7 @@ export default function NotificationSettingsPage() {
                     </Select>
                   </div>
                   <div className="flex-1 space-y-2">
-                    <Body size="sm" className="text-grey-400">End Time</Body>
+                    <Body size="sm" className="text-on-dark-muted">End Time</Body>
                     <Select
                       value={preferences.quiet_hours_end}
                       onChange={(e) => setPreferences({ ...preferences, quiet_hours_end: e.target.value })}

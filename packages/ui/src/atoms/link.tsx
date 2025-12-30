@@ -26,13 +26,13 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       if (inverted) {
         switch (variant) {
           case "default":
-            return "text-current hover:text-grey-300 transition-colors";
+            return "text-current hover:text-on-dark-secondary transition-colors";
           case "nav":
-            return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-grey-300 transition-colors";
+            return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-on-dark-secondary transition-colors";
           case "footer":
-            return "font-body text-grey-500 hover:text-black transition-colors";
+            return "font-body text-on-dark-disabled hover:text-black transition-colors";
           case "inline":
-            return "underline underline-offset-4 hover:text-grey-300 transition-colors";
+            return "underline underline-offset-4 hover:text-on-dark-secondary transition-colors";
           case "button":
             return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-black hover:text-white";
           default:
@@ -41,13 +41,13 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       } else {
         switch (variant) {
           case "default":
-            return "text-current hover:text-grey-400 transition-colors";
+            return "text-current hover:text-on-dark-muted transition-colors";
           case "nav":
-            return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-grey-400 transition-colors";
+            return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-on-dark-muted transition-colors";
           case "footer":
-            return "font-body text-grey-300 hover:text-white transition-colors";
+            return "font-body text-on-dark-secondary hover:text-white transition-colors";
           case "inline":
-            return "underline underline-offset-4 hover:text-grey-400 transition-colors";
+            return "underline underline-offset-4 hover:text-on-dark-muted transition-colors";
           case "button":
             return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-white hover:text-black";
           default:

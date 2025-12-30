@@ -356,7 +356,7 @@ export function AtlvsAppLayout({
         background={background}
         header={
           <Container className="py-4">
-            <Link href="/" className="font-display text-h5-md uppercase text-white transition-colors hover:text-grey-200">
+            <Link href="/" className="font-display text-h5-md uppercase text-white transition-colors hover:text-on-dark-secondary">
               ATLVS
             </Link>
           </Container>
@@ -391,7 +391,7 @@ export function AtlvsAppLayout({
           navigation={getContextualNavigation()}
           currentPath={pathname}
           logo={
-            <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-grey-200">
+            <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-on-dark-secondary">
               ATLVS
             </Link>
           }

@@ -72,7 +72,7 @@ export default function LanguageSettingsPage() {
           <Card className="p-6 mb-6">
             <div className="flex items-center justify-between">
               <div>
-                <Body size="sm" className="text-grey-400 mb-1">Current Language</Body>
+                <Body size="sm" className="text-on-dark-muted mb-1">Current Language</Body>
                 <Body className="font-weight-medium text-white">{currentLanguage?.nativeName} ({currentLanguage?.name})</Body>
               </div>
               <Badge variant="success">Active</Badge>
@@ -91,7 +91,7 @@ export default function LanguageSettingsPage() {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <Body className="font-weight-medium text-white">{lang.nativeName}</Body>
-                    <Body size="sm" className="text-grey-400">{lang.name}</Body>
+                    <Body size="sm" className="text-on-dark-muted">{lang.name}</Body>
                   </div>
                   <div className="flex items-center gap-2">
                     {lang.code === selectedLanguage && <Check className="size-5 text-success" />}
@@ -99,7 +99,7 @@ export default function LanguageSettingsPage() {
                   </div>
                 </div>
                 <div className="flex items-center justify-between mb-2">
-                  <Body size="sm" className="text-grey-500">Translation Coverage</Body>
+                  <Body size="sm" className="text-on-dark-disabled">Translation Coverage</Body>
                   <Body size="sm" className={lang.coverage >= 95 ? "text-success" : "text-warning"}>{lang.coverage}%</Body>
                 </div>
                 <ProgressBar value={lang.coverage} max={100} variant={getCoverageVariant(lang.coverage)} size="sm" />
@@ -142,7 +142,7 @@ export default function LanguageSettingsPage() {
           </Grid>
 
           <div className="mt-6">
-            <Body size="sm" className="text-grey-400 mb-2">Missing your language?</Body>
+            <Body size="sm" className="text-on-dark-muted mb-2">Missing your language?</Body>
             <Button variant="outline">Request a Language</Button>
           </div>
         </Section>
@@ -172,12 +172,12 @@ export default function LanguageSettingsPage() {
             <Card className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <Body size="sm" className="text-grey-400">From</Body>
+                  <Body size="sm" className="text-on-dark-muted">From</Body>
                   <Body className="text-white">{currentLanguage?.nativeName}</Body>
                 </div>
-                <Body className="text-grey-400">→</Body>
+                <Body className="text-on-dark-muted">→</Body>
                 <div>
-                  <Body size="sm" className="text-grey-400">To</Body>
+                  <Body size="sm" className="text-on-dark-muted">To</Body>
                   <Body className="font-weight-medium text-white">{pendingLanguage.nativeName}</Body>
                 </div>
               </div>

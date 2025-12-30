@@ -130,7 +130,7 @@ export default function ChatPage() {
             {/* Room List */}
             <Section border>
               <div className="flex items-center gap-2 mb-4">
-                <Search className="size-4 text-grey-400" />
+                <Search className="size-4 text-on-dark-muted" />
                 <Input
                   placeholder="Search rooms..."
                   value={searchQuery}
@@ -141,7 +141,7 @@ export default function ChatPage() {
 
               <div className="space-y-2">
                 {filteredRooms.length === 0 ? (
-                  <Body className="text-grey-400 text-center py-4">No rooms found</Body>
+                  <Body className="text-on-dark-muted text-center py-4">No rooms found</Body>
                 ) : (
                   filteredRooms.map((room) => (
                     <Card
@@ -158,9 +158,9 @@ export default function ChatPage() {
                         </div>
                         <div className="flex items-center justify-between">
                           {getTypeBadge(room.type)}
-                          <Body size="sm" className="text-grey-400">{room.memberCount} members</Body>
+                          <Body size="sm" className="text-on-dark-muted">{room.memberCount} members</Body>
                         </div>
-                        <Body size="sm" className="text-grey-400 truncate">{room.lastMessage}</Body>
+                        <Body size="sm" className="text-on-dark-muted truncate">{room.lastMessage}</Body>
                       </div>
                     </Card>
                   ))
@@ -175,7 +175,7 @@ export default function ChatPage() {
                   <div className="flex items-center justify-between border-b border-grey-700 pb-4 mb-4">
                     <div>
                       <Body className="font-weight-medium text-white">{selectedRoom.name}</Body>
-                      <Body size="sm" className="text-grey-400">{selectedRoom.memberCount} members</Body>
+                      <Body size="sm" className="text-on-dark-muted">{selectedRoom.memberCount} members</Body>
                     </div>
                     {getTypeBadge(selectedRoom.type)}
                   </div>
@@ -186,7 +186,7 @@ export default function ChatPage() {
                         <Spinner variant="grey" size="sm" />
                       </div>
                     ) : messages.length === 0 ? (
-                      <Body className="text-grey-400 text-center py-8">No messages yet. Start the conversation!</Body>
+                      <Body className="text-on-dark-muted text-center py-8">No messages yet. Start the conversation!</Body>
                     ) : (
                       messages.map((message) => (
                         <div
@@ -196,10 +196,10 @@ export default function ChatPage() {
                           <Card className={`p-3 ${message.isOwn ? "bg-primary" : "bg-grey-800"}`}>
                             <div className="space-y-1">
                               {!message.isOwn && (
-                                <Body size="sm" className="font-weight-medium text-grey-400">{message.sender}</Body>
+                                <Body size="sm" className="font-weight-medium text-on-dark-muted">{message.sender}</Body>
                               )}
                               <Body className="text-white">{message.content}</Body>
-                              <Body size="sm" className="text-grey-500">{message.timestamp}</Body>
+                              <Body size="sm" className="text-on-dark-disabled">{message.timestamp}</Body>
                             </div>
                           </Card>
                         </div>
@@ -220,9 +220,9 @@ export default function ChatPage() {
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center min-h-96 text-center">
-                  <MessageSquare className="size-12 text-grey-600 mb-4" />
+                  <MessageSquare className="size-12 text-on-dark-disabled mb-4" />
                   <Body className="font-weight-medium text-white mb-2">Select a Chat Room</Body>
-                  <Body className="text-grey-400">Choose a room from the list to start chatting</Body>
+                  <Body className="text-on-dark-muted">Choose a room from the list to start chatting</Body>
                 </div>
               )}
             </Section>
@@ -244,8 +244,8 @@ export default function ChatPage() {
                   <Body className="font-weight-medium text-white">{room.name}</Body>
                   {getTypeBadge(room.type)}
                 </div>
-                <Body size="sm" className="text-grey-400 mb-2">{room.memberCount} members</Body>
-                <Body size="sm" className="text-grey-400 truncate">{room.lastMessage}</Body>
+                <Body size="sm" className="text-on-dark-muted mb-2">{room.memberCount} members</Body>
+                <Body size="sm" className="text-on-dark-muted truncate">{room.lastMessage}</Body>
               </Card>
             ))}
           </Grid>

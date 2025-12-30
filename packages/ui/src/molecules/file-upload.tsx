@@ -231,13 +231,13 @@ export function FileUpload({
 
         {/* Helper text */}
         {helperText && (
-          <div className="font-body text-body-sm text-grey-600">
+          <div className="font-body text-body-sm text-on-dark-disabled">
             {helperText}
           </div>
         )}
 
         {/* Constraints info */}
-        <div className="font-code text-mono-xs text-grey-500 mt-spacing-3 flex justify-center gap-gap-md flex-wrap">
+        <div className="font-code text-mono-xs text-on-dark-disabled mt-spacing-3 flex justify-center gap-gap-md flex-wrap">
           {accept && <span>FORMATS: {accept.replace(/,/g, ", ")}</span>}
           {maxSize && <span>MAX: {formatFileSize(maxSize)}</span>}
           {maxFiles && <span>LIMIT: {maxFiles} FILES</span>}
@@ -266,7 +266,7 @@ export function FileUpload({
                 <div
                   className={clsx(
                     "font-code text-mono-xs",
-                    file.status === "error" ? "text-grey-600" : "text-grey-500"
+                    file.status === "error" ? "text-on-dark-disabled" : "text-on-light-muted"
                   )}
                 >
                   {file.status === "error"
@@ -287,13 +287,13 @@ export function FileUpload({
 
               {/* Status / Remove button */}
               {file.status === "uploading" ? (
-                <span className="font-code text-mono-xs text-grey-600">
+                <span className="font-code text-mono-xs text-on-dark-disabled">
                   {file.progress}%
                 </span>
               ) : (
                 <button
                   onClick={() => onFileRemove?.(file.id)}
-                  className="w-icon-lg h-icon-lg bg-transparent border-none cursor-pointer text-grey-500 text-mono-sm flex items-center justify-center transition-colors duration-fast hover:text-black"
+                  className="w-icon-lg h-icon-lg bg-transparent border-none cursor-pointer text-on-dark-disabled text-mono-sm flex items-center justify-center transition-colors duration-fast hover:text-black"
                   aria-label={`Remove ${file.name}`}
                 >
                   <X className="size-4" />

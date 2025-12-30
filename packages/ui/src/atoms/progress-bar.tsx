@@ -82,13 +82,13 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
 
     // Label classes
     const labelClasses = {
-      default: inverted ? "text-grey-400" : "text-grey-600",
-      inverse: inverted ? "text-grey-600" : "text-grey-400",
+      default: inverted ? "text-on-dark-muted" : "text-on-light-muted",
+      inverse: inverted ? "text-on-dark-disabled" : "text-on-light-muted",
       success: inverted ? "text-success-300" : "text-success-700",
       warning: inverted ? "text-warning-300" : "text-warning-700",
       error: inverted ? "text-error-300" : "text-error-700",
       info: inverted ? "text-info-300" : "text-info-700",
-      pop: inverted ? "text-grey-300" : "text-grey-700",
+      pop: inverted ? "text-on-dark-secondary" : "text-on-light-muted",
     };
 
     return (

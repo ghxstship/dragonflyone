@@ -56,7 +56,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
     const paginationRange = generatePagination();
 
     const navButtonClasses = inverted
-      ? "px-spacing-3 py-spacing-2 border-2 border-grey-500 text-grey-200 bg-transparent rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:bg-white hover:text-black hover:border-white hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)] active:translate-x-0 active:translate-y-0 active:shadow-[1px_1px_0_rgba(255,255,255,0.1)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm leading-none"
+      ? "px-spacing-3 py-spacing-2 border-2 border-grey-500 text-on-dark-secondary bg-transparent rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:bg-white hover:text-black hover:border-white hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)] active:translate-x-0 active:translate-y-0 active:shadow-[1px_1px_0_rgba(255,255,255,0.1)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm leading-none"
       : "px-spacing-3 py-spacing-2 border-2 border-black text-black bg-white rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(0,0,0,0.1)] hover:bg-black hover:text-white hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(0,0,0,0.15)] active:translate-x-0 active:translate-y-0 active:shadow-[1px_1px_0_rgba(0,0,0,0.1)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm leading-none";
 
     return (
@@ -76,7 +76,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
         {paginationRange.map((pageNumber, index) => {
           if (pageNumber === "...") {
             return (
-              <span key={`dots-${index}`} className={clsx("px-spacing-2", inverted ? "text-grey-500" : "text-grey-500")}>
+              <span key={`dots-${index}`} className={clsx("px-spacing-2", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
                 ...
               </span>
             );
@@ -93,7 +93,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
                     ? "border-white bg-white text-black shadow-[3px_3px_0_hsl(var(--primary))]"
                     : "border-black bg-black text-white shadow-[3px_3px_0_hsl(var(--primary))]"
                   : inverted
-                    ? "border-grey-600 bg-transparent text-grey-300 shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:border-grey-400 hover:-translate-x-0.5 hover:-translate-y-0.5"
+                    ? "border-grey-600 bg-transparent text-on-dark-secondary shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:border-grey-400 hover:-translate-x-0.5 hover:-translate-y-0.5"
                     : "border-grey-300 bg-white text-black shadow-[2px_2px_0_rgba(0,0,0,0.08)] hover:border-black hover:-translate-x-0.5 hover:-translate-y-0.5"
               )}
             >

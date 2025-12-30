@@ -101,13 +101,13 @@ export function CreatorNavigationPublic() {
                               </div>
                               <div>
                                 <div className="font-display text-h6-md uppercase text-white">{product.label}</div>
-                                <div className="font-mono text-mono-xs uppercase tracking-kicker text-grey-400">{product.tagline}</div>
+                                <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-muted">{product.tagline}</div>
                               </div>
                             </div>
-                            <Body className="text-body-sm text-grey-400 mb-3">{product.description}</Body>
+                            <Body className="text-body-sm text-on-dark-muted mb-3">{product.description}</Body>
                             <List className="space-y-1">
                               {product.features.map((feature) => (
-                                <ListItem key={feature} className="font-mono text-mono-xs text-grey-500 flex items-center gap-2">
+                                <ListItem key={feature} className="font-mono text-mono-xs text-on-dark-disabled flex items-center gap-2">
                                   <Text className="w-1 h-1 bg-brand-pink" />
                                   {feature}
                                 </ListItem>
@@ -122,7 +122,7 @@ export function CreatorNavigationPublic() {
                     </div>
 
                     <div className="mt-6 pt-4 border-t border-ink-800">
-                      <div className="font-mono text-mono-xs uppercase tracking-kicker text-grey-500 mb-2">Platform</div>
+                      <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">Platform</div>
                       <div className="flex gap-6">
                         {productsNavigation.quickLinks.map((link) => (
                           <Link
@@ -154,7 +154,7 @@ export function CreatorNavigationPublic() {
               {activeMenu === "solutions" && (
                 <div className="absolute left-0 top-full pt-2 z-50">
                   <div className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-lg p-6">
-                    <div className="font-mono text-mono-xs uppercase tracking-kicker text-grey-500 mb-4">Solutions by Role</div>
+                    <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-4">Solutions by Role</div>
                     <div className="grid grid-cols-3 gap-x-8 gap-y-4">
                       {solutionsNavigation.groups.map((group) => (
                         <div key={group.title}>
@@ -176,7 +176,7 @@ export function CreatorNavigationPublic() {
                     </div>
 
                     <div className="mt-6 pt-4 border-t border-ink-800">
-                      <div className="font-mono text-mono-xs uppercase tracking-kicker text-grey-500 mb-2">By Vertical</div>
+                      <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">By Vertical</div>
                       <div className="flex gap-6">
                         {solutionsNavigation.verticals.map((vertical) => (
                           <Link
@@ -229,7 +229,7 @@ export function CreatorNavigationPublic() {
                     </div>
 
                     <div className="mt-6 pt-4 border-t border-ink-800">
-                      <div className="font-mono text-mono-xs uppercase tracking-kicker text-grey-500 mb-2">Featured</div>
+                      <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">Featured</div>
                       <div className="flex gap-6">
                         {resourcesNavigation.featured.map((link) => (
                           <Link
@@ -351,10 +351,10 @@ export function CreatorNavigationPublic() {
                         key={product.href}
                         href={product.href}
                         onClick={handleClose}
-                        className="text-body-md text-grey-300 hover:text-white"
+                        className="text-body-md text-on-dark-secondary hover:text-white"
                       >
                         {product.label}
-                        <Text className="font-mono text-mono-xs text-grey-500 ml-2">{product.tagline}</Text>
+                        <Text className="font-mono text-mono-xs text-on-dark-disabled ml-2">{product.tagline}</Text>
                       </Link>
                     ))}
                   </Stack>
@@ -377,14 +377,14 @@ export function CreatorNavigationPublic() {
                   <Stack gap={4} className="mt-4 pl-4">
                     {solutionsNavigation.groups.map((group) => (
                       <div key={group.title}>
-                        <div className="font-mono text-mono-xs uppercase tracking-kicker text-grey-500 mb-2">{group.title}</div>
+                        <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">{group.title}</div>
                         <Stack gap={1}>
                           {group.items.map((item) => (
                             <Link
                               key={item.href}
                               href={item.href}
                               onClick={handleClose}
-                              className="text-body-sm text-grey-300 hover:text-white"
+                              className="text-body-sm text-on-dark-secondary hover:text-white"
                             >
                               {item.label}
                             </Link>
@@ -412,14 +412,14 @@ export function CreatorNavigationPublic() {
                   <Stack gap={4} className="mt-4 pl-4">
                     {resourcesNavigation.groups.map((group) => (
                       <div key={group.title}>
-                        <div className="font-mono text-mono-xs uppercase tracking-kicker text-grey-500 mb-2">{group.title}</div>
+                        <div className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">{group.title}</div>
                         <Stack gap={1}>
                           {group.items.map((item) => (
                             <Link
                               key={item.href}
                               href={item.href}
                               onClick={handleClose}
-                              className="text-body-sm text-grey-300 hover:text-white"
+                              className="text-body-sm text-on-dark-secondary hover:text-white"
                             >
                               {item.label}
                             </Link>

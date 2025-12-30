@@ -130,7 +130,7 @@ export default function AdminTicketingPage() {
           <Card className="p-4 mb-6">
             <div className="flex items-center gap-4">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search tickets..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
               </div>
               <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
@@ -144,9 +144,9 @@ export default function AdminTicketingPage() {
 
           {filteredTickets.length === 0 ? (
             <Card className="p-12 text-center">
-              <Ticket className="size-12 text-grey-600 mx-auto mb-4" />
+              <Ticket className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="font-weight-medium mb-2">No Ticket Types Found</Body>
-              <Body className="text-grey-400 mb-4">{search || statusFilter ? "Try adjusting your filters" : "Create your first ticket type"}</Body>
+              <Body className="text-on-dark-muted mb-4">{search || statusFilter ? "Try adjusting your filters" : "Create your first ticket type"}</Body>
               <Button variant="solid" onClick={() => router.push("/admin/ticketing/new")} icon={<Plus className="size-4" />} iconPosition="left">
                 Create Ticket Type
               </Button>

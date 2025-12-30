@@ -60,7 +60,7 @@ export default function ProductionDocumentsPage() {
 
   const getFileIcon = (type: string) => {
     const colors: Record<string, string> = { pdf: "text-error", xlsx: "text-success", dwg: "text-info" };
-    return <FileText className={`size-5 ${colors[type] || "text-grey-400"}`} />;
+    return <FileText className={`size-5 ${colors[type] || "text-on-dark-muted"}`} />;
   };
 
   const tabs = [
@@ -80,7 +80,7 @@ export default function ProductionDocumentsPage() {
           <Card className="p-4 mb-6">
             <div className="flex items-center gap-4 flex-wrap">
               <div className="flex-1 min-w-[200px] relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search documents..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
               </div>
               <div className="flex gap-2 flex-wrap">
@@ -101,7 +101,7 @@ export default function ProductionDocumentsPage() {
                     <div className="p-2 bg-grey-800 rounded-card">{getFileIcon(doc.type)}</div>
                     <div>
                       <Body className="font-weight-medium">{doc.name}</Body>
-                      <Body size="sm" className="text-grey-400">{doc.uploaded_by} • {formatDate(doc.uploaded_at)} • {doc.size}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{doc.uploaded_by} • {formatDate(doc.uploaded_at)} • {doc.size}</Body>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -124,9 +124,9 @@ export default function ProductionDocumentsPage() {
         <Section>
           <SectionHeader title="Upload Documents" description="Add new documents to this production" />
           <Card className="p-8 mt-4 text-center border-2 border-dashed">
-            <Upload className="size-12 text-grey-600 mx-auto mb-4" />
+            <Upload className="size-12 text-on-dark-disabled mx-auto mb-4" />
             <Body className="font-weight-medium mb-2">Drag and drop files here</Body>
-            <Body size="sm" className="text-grey-400 mb-4">or click to browse</Body>
+            <Body size="sm" className="text-on-dark-muted mb-4">or click to browse</Body>
             <Button variant="outline">Browse Files</Button>
           </Card>
         </Section>

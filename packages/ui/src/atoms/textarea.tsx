@@ -39,7 +39,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           "focus:outline-none",
           "disabled:opacity-50 disabled:cursor-not-allowed",
           // Placeholder
-          inverted ? "placeholder:text-grey-500" : "placeholder:text-grey-400",
+          inverted ? "placeholder:text-on-dark-disabled" : "placeholder:text-on-dark-muted",
           // Error state
           error
             ? inverted
@@ -120,7 +120,7 @@ export const TextareaGroup = forwardRef<HTMLTextAreaElement, TextareaGroupProps>
           {...props}
         />
         {hint && !errorMessage && (
-          <p id={hintId} className="text-sm text-grey-500">
+          <p id={hintId} className="text-sm text-on-dark-disabled">
             {hint}
           </p>
         )}

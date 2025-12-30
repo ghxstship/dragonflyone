@@ -94,11 +94,11 @@ export default function ProductionWrapPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className={`p-2 rounded-card ${item.status === "completed" ? "bg-success/20" : "bg-grey-800"}`}>
-                      {item.status === "completed" ? <CheckCircle className="size-4 text-success" /> : <Clock className="size-4 text-grey-400" />}
+                      {item.status === "completed" ? <CheckCircle className="size-4 text-success" /> : <Clock className="size-4 text-on-dark-muted" />}
                     </div>
                     <div>
-                      <Body className={`font-weight-medium ${item.status === "completed" ? "line-through text-grey-500" : ""}`}>{item.item}</Body>
-                      <Body size="sm" className="text-grey-400">{item.assignee}</Body>
+                      <Body className={`font-weight-medium ${item.status === "completed" ? "line-through text-on-dark-disabled" : ""}`}>{item.item}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{item.assignee}</Body>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -123,25 +123,25 @@ export default function ProductionWrapPage() {
             <Card className="p-6">
               <FileText className="size-8 text-primary mb-4" />
               <Body className="font-weight-bold mb-2">Production Summary</Body>
-              <Body size="sm" className="text-grey-400 mb-4">Complete overview of the production including timeline, budget, and team</Body>
+              <Body size="sm" className="text-on-dark-muted mb-4">Complete overview of the production including timeline, budget, and team</Body>
               <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download PDF</Button>
             </Card>
             <Card className="p-6">
               <DollarSign className="size-8 text-primary mb-4" />
               <Body className="font-weight-bold mb-2">Financial Report</Body>
-              <Body size="sm" className="text-grey-400 mb-4">Detailed breakdown of all expenses, payments, and budget variance</Body>
+              <Body size="sm" className="text-on-dark-muted mb-4">Detailed breakdown of all expenses, payments, and budget variance</Body>
               <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download PDF</Button>
             </Card>
             <Card className="p-6">
               <Users className="size-8 text-primary mb-4" />
               <Body className="font-weight-bold mb-2">Team Report</Body>
-              <Body size="sm" className="text-grey-400 mb-4">Team member contributions, hours worked, and feedback summary</Body>
+              <Body size="sm" className="text-on-dark-muted mb-4">Team member contributions, hours worked, and feedback summary</Body>
               <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download PDF</Button>
             </Card>
             <Card className="p-6">
               <CheckCircle className="size-8 text-primary mb-4" />
               <Body className="font-weight-bold mb-2">Post-Mortem</Body>
-              <Body size="sm" className="text-grey-400 mb-4">Lessons learned, what went well, and areas for improvement</Body>
+              <Body size="sm" className="text-on-dark-muted mb-4">Lessons learned, what went well, and areas for improvement</Body>
               <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download PDF</Button>
             </Card>
           </Grid>

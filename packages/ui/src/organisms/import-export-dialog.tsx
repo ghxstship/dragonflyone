@@ -195,7 +195,7 @@ export function ImportExportDialog({
                   <div className="font-code text-mono-md tracking-widest mb-spacing-2">
                     DROP FILE HERE OR CLICK TO UPLOAD
                   </div>
-                  <div className="font-body text-body-sm text-grey-500">
+                  <div className="font-body text-body-sm text-on-dark-disabled">
                     Supported formats: {acceptedFormats.replace(/\./g, "").toUpperCase()}
                   </div>
                 </div>
@@ -204,7 +204,7 @@ export function ImportExportDialog({
               {importStep === "mapping" && selectedFile && (
                 <div>
                   <div className="mb-spacing-6 p-spacing-4 bg-surface-secondary border border-border-secondary">
-                    <div className="font-code text-mono-sm text-grey-600">Selected file:</div>
+                    <div className="font-code text-mono-sm text-on-dark-disabled">Selected file:</div>
                     <div className="font-body text-body-md font-weight-semibold">{selectedFile.name}</div>
                   </div>
 
@@ -237,7 +237,7 @@ export function ImportExportDialog({
                         {sampleFields.map(field => (
                           <div key={field} className="flex items-center gap-gap-sm">
                             <span className="flex-1 font-code text-mono-sm">{field}</span>
-                            <ArrowRight className="size-4 text-grey-400" />
+                            <ArrowRight className="size-4 text-on-dark-muted" />
                             <input
                               type="text"
                               value={fieldMapping[field] || ""}
@@ -285,8 +285,8 @@ export function ImportExportDialog({
                       Select Columns ({selectedColumns.size}/{columns.length})
                     </div>
                     <div className="flex gap-gap-xs">
-                      <button type="button" onClick={selectAllColumns} className="font-code text-mono-xs text-grey-600 bg-transparent border-none cursor-pointer underline">All</button>
-                      <button type="button" onClick={deselectAllColumns} className="font-code text-mono-xs text-grey-600 bg-transparent border-none cursor-pointer underline">None</button>
+                      <button type="button" onClick={selectAllColumns} className="font-code text-mono-xs text-on-dark-disabled bg-transparent border-none cursor-pointer underline">All</button>
+                      <button type="button" onClick={deselectAllColumns} className="font-code text-mono-xs text-on-dark-disabled bg-transparent border-none cursor-pointer underline">None</button>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-gap-xs max-h-container-sm overflow-auto p-spacing-2 border border-grey-200">
@@ -301,7 +301,7 @@ export function ImportExportDialog({
               )}
 
               {totalRecords !== undefined && (
-                <div className="mt-spacing-4 font-code text-mono-sm text-grey-600">
+                <div className="mt-spacing-4 font-code text-mono-sm text-on-dark-disabled">
                   {totalRecords.toLocaleString()} records will be exported
                 </div>
               )}

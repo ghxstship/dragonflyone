@@ -41,12 +41,12 @@ export default function HelpGettingStartedPage() {
             {QUICK_START_STEPS.map((step, idx) => (
               <Card key={step.id} className={`p-6 ${step.completed ? "border-success" : ""}`}>
                 <div className="flex items-start gap-4">
-                  <div className={`size-10 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-grey-800 text-grey-400"}`}>
+                  <div className={`size-10 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-grey-800 text-on-dark-muted"}`}>
                     {step.completed ? <Check className="size-5" /> : <Body className="font-weight-bold">{step.id}</Body>}
                   </div>
                   <div className="flex-1">
                     <Body className="font-weight-bold">{step.title}</Body>
-                    <Body size="sm" className="text-grey-400">{step.description}</Body>
+                    <Body size="sm" className="text-on-dark-muted">{step.description}</Body>
                   </div>
                   {!step.completed && idx === completedSteps && (
                     <Button variant="solid" size="sm" icon={<ArrowRight className="size-4" />} iconPosition="right">Start</Button>
@@ -69,10 +69,10 @@ export default function HelpGettingStartedPage() {
             {["Platform Overview", "Creating Projects", "Team Collaboration", "Reporting"].map((title, idx) => (
               <Card key={idx} className="p-6 cursor-pointer hover:border-primary">
                 <div className="aspect-video bg-grey-800 rounded-card flex items-center justify-center mb-4">
-                  <Play className="size-8 text-grey-400" />
+                  <Play className="size-8 text-on-dark-muted" />
                 </div>
                 <Body className="font-weight-medium">{title}</Body>
-                <Body size="sm" className="text-grey-400">5 min video</Body>
+                <Body size="sm" className="text-on-dark-muted">5 min video</Body>
               </Card>
             ))}
           </Grid>

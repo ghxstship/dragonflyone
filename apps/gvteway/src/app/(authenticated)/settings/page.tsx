@@ -91,7 +91,7 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <Body className="font-weight-medium text-white">Email Notifications</Body>
-                  <Body size="sm" className="text-grey-400">Receive updates about your orders and events</Body>
+                  <Body size="sm" className="text-on-dark-muted">Receive updates about your orders and events</Body>
                 </div>
                 <Switch
                   checked={settings.emailNotifications}
@@ -102,7 +102,7 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <Body className="font-weight-medium text-white">SMS Notifications</Body>
-                  <Body size="sm" className="text-grey-400">Get text alerts for important updates</Body>
+                  <Body size="sm" className="text-on-dark-muted">Get text alerts for important updates</Body>
                 </div>
                 <Switch
                   checked={settings.smsNotifications}
@@ -113,7 +113,7 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <Body className="font-weight-medium text-white">Marketing Emails</Body>
-                  <Body size="sm" className="text-grey-400">Receive promotions and recommendations</Body>
+                  <Body size="sm" className="text-on-dark-muted">Receive promotions and recommendations</Body>
                 </div>
                 <Switch
                   checked={settings.marketingEmails}
@@ -135,7 +135,7 @@ export default function SettingsPage() {
           <Card className="p-6">
             <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
               <div className="space-y-2">
-                <Body size="sm" className="text-grey-400">Language</Body>
+                <Body size="sm" className="text-on-dark-muted">Language</Body>
                 <Select
                   value={settings.language}
                   onChange={(e) => setSettings({ ...settings, language: e.target.value })}
@@ -147,7 +147,7 @@ export default function SettingsPage() {
               </div>
 
               <div className="space-y-2">
-                <Body size="sm" className="text-grey-400">Timezone</Body>
+                <Body size="sm" className="text-on-dark-muted">Timezone</Body>
                 <Select
                   value={settings.timezone}
                   onChange={(e) => setSettings({ ...settings, timezone: e.target.value })}
@@ -160,7 +160,7 @@ export default function SettingsPage() {
               </div>
 
               <div className="space-y-2">
-                <Body size="sm" className="text-grey-400">Currency</Body>
+                <Body size="sm" className="text-on-dark-muted">Currency</Body>
                 <Select
                   value={settings.currency}
                   onChange={(e) => setSettings({ ...settings, currency: e.target.value })}
@@ -185,19 +185,19 @@ export default function SettingsPage() {
           <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
             <Card className="p-4 cursor-pointer hover:ring-2 hover:ring-primary" onClick={() => router.push("/settings/privacy")}>
               <div className="flex items-center gap-3">
-                <Shield className="size-8 text-grey-400" />
+                <Shield className="size-8 text-on-dark-muted" />
                 <div>
                   <Body className="font-weight-medium text-white">Privacy Settings</Body>
-                  <Body size="sm" className="text-grey-400">Control your data and privacy</Body>
+                  <Body size="sm" className="text-on-dark-muted">Control your data and privacy</Body>
                 </div>
               </div>
             </Card>
             <Card className="p-4 cursor-pointer hover:ring-2 hover:ring-primary" onClick={() => router.push("/settings/sessions")}>
               <div className="flex items-center gap-3">
-                <Key className="size-8 text-grey-400" />
+                <Key className="size-8 text-on-dark-muted" />
                 <div>
                   <Body className="font-weight-medium text-white">Active Sessions</Body>
-                  <Body size="sm" className="text-grey-400">Manage your logged-in devices</Body>
+                  <Body size="sm" className="text-on-dark-muted">Manage your logged-in devices</Body>
                 </div>
               </div>
             </Card>

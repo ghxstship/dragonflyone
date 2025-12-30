@@ -177,7 +177,7 @@ export default function AssetScanPage() {
               </div>
 
               <Card className="p-4 mt-6 bg-grey-800">
-                <Body size="sm" className="text-grey-400">
+                <Body size="sm" className="text-on-dark-muted">
                   1. Select scan mode above<br />
                   2. Scan barcode with scanner or enter manually<br />
                   3. Confirm action in popup<br />
@@ -192,7 +192,7 @@ export default function AssetScanPage() {
                 <Card className="p-8 text-center">
                   <div className="flex items-center justify-center gap-2">
                     <Loader2 className="size-5 animate-spin" />
-                    <Body className="text-grey-400">Loading scan history...</Body>
+                    <Body className="text-on-dark-muted">Loading scan history...</Body>
                   </div>
                 </Card>
               ) : historyError ? (
@@ -206,18 +206,18 @@ export default function AssetScanPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Body className="font-weight-medium">{scan.asset_name}</Body>
-                          <Body size="sm" className="font-mono text-grey-400">{scan.barcode}</Body>
+                          <Body size="sm" className="font-mono text-on-dark-muted">{scan.barcode}</Body>
                         </div>
                         <div className="text-right">
                           {getActionBadge(scan.action)}
-                          <Body size="sm" className="text-grey-400 mt-1">{new Date(scan.timestamp).toLocaleTimeString()}</Body>
+                          <Body size="sm" className="text-on-dark-muted mt-1">{new Date(scan.timestamp).toLocaleTimeString()}</Body>
                         </div>
                       </div>
                     </Card>
                   ))}
                   {scanHistory.length === 0 && (
                     <Card className="p-8 text-center">
-                      <Body className="text-grey-400">No scans yet today</Body>
+                      <Body className="text-on-dark-muted">No scans yet today</Body>
                     </Card>
                   )}
                   <Button variant="outline" onClick={() => router.push("/assets/scan/history")} className="w-full">
@@ -243,11 +243,11 @@ export default function AssetScanPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Body className="font-weight-medium">{scan.asset_name}</Body>
-                    <Body size="sm" className="font-mono text-grey-400">{scan.barcode}</Body>
+                    <Body size="sm" className="font-mono text-on-dark-muted">{scan.barcode}</Body>
                   </div>
                   <div className="text-right">
                     {getActionBadge(scan.action)}
-                    <Body size="sm" className="text-grey-400 mt-1">{new Date(scan.timestamp).toLocaleString()}</Body>
+                    <Body size="sm" className="text-on-dark-muted mt-1">{new Date(scan.timestamp).toLocaleString()}</Body>
                   </div>
                 </div>
               </Card>
@@ -285,21 +285,21 @@ export default function AssetScanPage() {
 
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <div>
-                <Body size="sm" className="text-grey-400">Location</Body>
+                <Body size="sm" className="text-on-dark-muted">Location</Body>
                 <Body>{scannedAsset.location}</Body>
               </div>
               <div>
-                <Body size="sm" className="text-grey-400">Condition</Body>
+                <Body size="sm" className="text-on-dark-muted">Condition</Body>
                 <Body className="capitalize">{scannedAsset.condition}</Body>
               </div>
               {scannedAsset.serial_number && (
                 <div>
-                  <Body size="sm" className="text-grey-400">Serial Number</Body>
+                  <Body size="sm" className="text-on-dark-muted">Serial Number</Body>
                   <Body className="font-mono">{scannedAsset.serial_number}</Body>
                 </div>
               )}
               <div>
-                <Body size="sm" className="text-grey-400">Last Scan</Body>
+                <Body size="sm" className="text-on-dark-muted">Last Scan</Body>
                 <Body>{new Date(scannedAsset.last_scan).toLocaleString()}</Body>
               </div>
             </Grid>
@@ -313,7 +313,7 @@ export default function AssetScanPage() {
 
             {scanMode === "transfer" && (
               <div className="space-y-2">
-                <Body size="sm" className="text-grey-400">Transfer To Location</Body>
+                <Body size="sm" className="text-on-dark-muted">Transfer To Location</Body>
                 <Select value={transferLocation} onChange={(e) => setTransferLocation(e.target.value)}>
                   <option value="">Select location...</option>
                   <option value="warehouse_a">Warehouse A</option>

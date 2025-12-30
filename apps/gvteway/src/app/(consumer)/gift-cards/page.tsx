@@ -42,9 +42,9 @@ export default function GiftCardsPage() {
             <div className="mt-4"><Body size="sm" className="mb-1">Personal Message (optional)</Body><Textarea rows={3} placeholder="Add a personal message..." value={message} onChange={(e) => setMessage(e.target.value)} /></div>
           </Card>
           <Card className="p-6 h-fit">
-            <div className="text-center mb-6"><Gift className="size-16 text-primary mx-auto mb-4" /><Body className="font-weight-bold">GVTEWAY Gift Card</Body><Body className="text-grey-400 mt-2">The perfect gift for any event lover</Body></div>
+            <div className="text-center mb-6"><Gift className="size-16 text-primary mx-auto mb-4" /><Body className="font-weight-bold">GVTEWAY Gift Card</Body><Body className="text-on-dark-muted mt-2">The perfect gift for any event lover</Body></div>
             <div className="border-t border-grey-800 pt-6">
-              <div className="flex justify-between mb-4"><Body className="text-grey-400">Amount</Body><Body className="font-weight-bold">{formatCurrency(selectedAmount || 0)}</Body></div>
+              <div className="flex justify-between mb-4"><Body className="text-on-dark-muted">Amount</Body><Body className="font-weight-bold">{formatCurrency(selectedAmount || 0)}</Body></div>
               <Button variant="solid" className="w-full" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={() => purchaseGiftCard.mutate({ amount: selectedAmount, recipientEmail, message })} disabled={!selectedAmount || !recipientEmail || purchaseGiftCard.isPending}>{purchaseGiftCard.isPending ? "Processing..." : "Purchase Gift Card"}</Button>
             </div>
           </Card>

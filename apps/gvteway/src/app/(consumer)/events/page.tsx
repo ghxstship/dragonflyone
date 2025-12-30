@@ -36,15 +36,15 @@ export default function EventsPage() {
       <Section>
         <div className="flex gap-4 items-center mb-6">
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input placeholder="Search events..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
           </div>
         </div>
         {filteredEvents.length === 0 ? (
           <Card className="p-8 text-center">
-            <Calendar className="size-12 text-grey-600 mx-auto mb-4" />
+            <Calendar className="size-12 text-on-dark-disabled mx-auto mb-4" />
             <Body className="font-weight-medium mb-2">No events yet</Body>
-            <Body className="text-grey-400 mb-4">Create your first event</Body>
+            <Body className="text-on-dark-muted mb-4">Create your first event</Body>
             <Button variant="solid" onClick={() => router.push("/events/create")}>Create Event</Button>
           </Card>
         ) : (
@@ -54,7 +54,7 @@ export default function EventsPage() {
                 <div className="flex items-start justify-between">
                   <div>
                     <Body className="font-weight-bold">{event.name}</Body>
-                    <div className="flex items-center gap-4 mt-2 text-grey-400">
+                    <div className="flex items-center gap-4 mt-2 text-on-dark-muted">
                       <div className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></div>
                       <div className="flex items-center gap-1"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></div>
                     </div>

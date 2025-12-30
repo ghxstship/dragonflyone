@@ -67,29 +67,29 @@ export default function SignUpPage() {
     >
       <Form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Body size="sm" className="text-grey-400 mb-1">Full Name</Body>
+          <Body size="sm" className="text-on-dark-muted mb-1">Full Name</Body>
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input placeholder="John Smith" value={formData.name} onChange={(e) => handleChange("name", e.target.value)} className={`pl-10 ${errors.name ? "border-error" : ""}`} />
           </div>
           {errors.name && <Body size="sm" className="text-error mt-1">{errors.name}</Body>}
         </div>
 
         <div>
-          <Body size="sm" className="text-grey-400 mb-1">Email</Body>
+          <Body size="sm" className="text-on-dark-muted mb-1">Email</Body>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type="email" placeholder="you@example.com" value={formData.email} onChange={(e) => handleChange("email", e.target.value)} className={`pl-10 ${errors.email ? "border-error" : ""}`} />
           </div>
           {errors.email && <Body size="sm" className="text-error mt-1">{errors.email}</Body>}
         </div>
 
         <div>
-          <Body size="sm" className="text-grey-400 mb-1">Password</Body>
+          <Body size="sm" className="text-on-dark-muted mb-1">Password</Body>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type={showPassword ? "text" : "password"} placeholder="Create a password" value={formData.password} onChange={(e) => handleChange("password", e.target.value)} className={`pl-10 pr-10 ${errors.password ? "border-error" : ""}`} />
-            <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-grey-400 hover:text-grey-300">
+            <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-on-dark-muted hover:text-on-dark-secondary">
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
             </Button>
           </div>
@@ -97,9 +97,9 @@ export default function SignUpPage() {
         </div>
 
         <div>
-          <Body size="sm" className="text-grey-400 mb-1">Confirm Password</Body>
+          <Body size="sm" className="text-on-dark-muted mb-1">Confirm Password</Body>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type="password" placeholder="Confirm your password" value={formData.confirmPassword} onChange={(e) => handleChange("confirmPassword", e.target.value)} className={`pl-10 ${errors.confirmPassword ? "border-error" : ""}`} />
           </div>
           {errors.confirmPassword && <Body size="sm" className="text-error mt-1">{errors.confirmPassword}</Body>}
@@ -107,7 +107,7 @@ export default function SignUpPage() {
 
         <Label className="flex items-start gap-2 cursor-pointer">
           <Checkbox className="mt-1" required />
-          <Body size="sm" className="text-grey-400">I agree to the <Link href="/legal/terms" className="text-primary hover:underline">Terms of Service</Link> and <Link href="/legal/privacy" className="text-primary hover:underline">Privacy Policy</Link></Body>
+          <Body size="sm" className="text-on-dark-muted">I agree to the <Link href="/legal/terms" className="text-primary hover:underline">Terms of Service</Link> and <Link href="/legal/privacy" className="text-primary hover:underline">Privacy Policy</Link></Body>
         </Label>
 
         <Button type="submit" variant="solid" className="w-full" disabled={signUpMutation.isPending}>
@@ -116,7 +116,7 @@ export default function SignUpPage() {
 
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-grey-700" /></div>
-          <div className="relative flex justify-center"><Body size="sm" className="bg-grey-900 px-2 text-grey-500">Or continue with</Body></div>
+          <div className="relative flex justify-center"><Body size="sm" className="bg-grey-900 px-2 text-on-dark-disabled">Or continue with</Body></div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">

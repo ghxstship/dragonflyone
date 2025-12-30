@@ -41,21 +41,21 @@ export function EmptyState({ icon, title, description, action, secondaryAction, 
       {icon && (
         <div className={clsx(
           "mb-6 text-4xl",
-          inverted ? "text-grey-400" : "text-grey-500"
+          inverted ? "text-on-dark-muted" : "text-on-light-muted"
         )}>
           {icon}
         </div>
       )}
       <H3 className={clsx(
         "uppercase tracking-wider",
-        inverted ? "text-grey-300" : "text-grey-600"
+        inverted ? "text-on-dark-secondary" : "text-on-light-muted"
       )}>
         {title}
       </H3>
       {description && (
         <Body className={clsx(
           "mt-4 max-w-md",
-          inverted ? "text-grey-400" : "text-grey-500"
+          inverted ? "text-on-dark-muted" : "text-on-light-muted"
         )}>
           {description}
         </Body>
@@ -63,7 +63,7 @@ export function EmptyState({ icon, title, description, action, secondaryAction, 
       {suggestions && suggestions.length > 0 && (
         <div className={clsx(
           "mt-6 text-sm",
-          inverted ? "text-grey-500" : "text-grey-400"
+          inverted ? "text-on-dark-disabled" : "text-on-light-muted"
         )}>
           <span className="font-mono uppercase tracking-wider text-xs">Try searching for:</span>
           <div className="mt-2 flex flex-wrap justify-center gap-2">
@@ -73,8 +73,8 @@ export function EmptyState({ icon, title, description, action, secondaryAction, 
                 className={clsx(
                   "px-3 py-1 rounded-full text-xs font-medium",
                   inverted 
-                    ? "bg-grey-800 text-grey-300" 
-                    : "bg-grey-200 text-grey-600"
+                    ? "bg-grey-800 text-on-dark-secondary" 
+                    : "bg-grey-200 text-on-dark-disabled"
                 )}
               >
                 {suggestion}

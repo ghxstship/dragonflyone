@@ -39,7 +39,7 @@ const statusConfig = {
   used: { label: "USED", bgClass: "bg-grey-500", textClass: "text-white" },
   transferred: { label: "TRANSFERRED", bgClass: "bg-grey-600", textClass: "text-white" },
   refunded: { label: "REFUNDED", bgClass: "bg-grey-400", textClass: "text-black" },
-  expired: { label: "EXPIRED", bgClass: "bg-grey-300", textClass: "text-grey-700" },
+  expired: { label: "EXPIRED", bgClass: "bg-grey-300", textClass: "text-on-light-muted" },
 };
 
 function formatDate(date: Date | string): string {
@@ -85,7 +85,7 @@ export function TicketCard({
     >
       {/* Header with Status */}
       <div className="flex justify-between items-center px-spacing-5 py-spacing-4 border-b border-grey-200">
-        <div className="font-code text-mono-sm text-grey-600 tracking-widest">
+        <div className="font-code text-mono-sm text-on-dark-disabled tracking-widest">
           {ticketType}
         </div>
         <div
@@ -112,18 +112,18 @@ export function TicketCard({
               {formatDate(date)}
               {time && ` // ${time}`}
             </div>
-            <div className="font-body text-body-sm text-grey-700">
+            <div className="font-body text-body-sm text-on-dark-disabled">
               {venue}
             </div>
             {seatInfo && (
-              <div className="font-code text-mono-sm text-grey-600 tracking-wide">
+              <div className="font-code text-mono-sm text-on-dark-disabled tracking-wide">
                 {seatInfo}
               </div>
             )}
           </div>
 
           {attendeeName && (
-            <div className="font-body text-body-sm text-grey-700 mt-spacing-2">
+            <div className="font-body text-body-sm text-on-dark-disabled mt-spacing-2">
               {attendeeName}
             </div>
           )}
@@ -144,10 +144,10 @@ export function TicketCard({
 
       {/* Footer with Order Info */}
       <div className="flex justify-between items-center px-spacing-5 py-spacing-3 bg-grey-100 border-t border-grey-200">
-        <div className="font-code text-mono-xs text-grey-500 tracking-widest">
+        <div className="font-code text-mono-xs text-on-dark-disabled tracking-widest">
           {orderNumber && `ORDER #${orderNumber}`}
         </div>
-        <div className="font-code text-mono-xs text-grey-500 tracking-widest">
+        <div className="font-code text-mono-xs text-on-dark-disabled tracking-widest">
           ID: {id.slice(0, 8).toUpperCase()}
         </div>
       </div>

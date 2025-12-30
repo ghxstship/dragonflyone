@@ -47,12 +47,12 @@ export default function POSPage() {
       <Section>
         <Grid cols={3} gap={6} className="grid-cols-1 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <div className="relative mb-4"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" /><Input placeholder="Search products..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" /></div>
+            <div className="relative mb-4"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" /><Input placeholder="Search products..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" /></div>
             <Grid cols={3} gap={4} className="grid-cols-2 md:grid-cols-3">
               {filtered.map((product: Product) => (
                 <Card key={product.id} className="p-4 cursor-pointer hover:border-primary transition-colors" onClick={() => updateCart(product.id, 1)}>
                   <Body className="font-weight-bold">{product.name}</Body>
-                  <Body size="sm" className="text-grey-400">{product.category}</Body>
+                  <Body size="sm" className="text-on-dark-muted">{product.category}</Body>
                   <Body className="font-weight-bold mt-2">{formatCurrency(product.price)}</Body>
                 </Card>
               ))}
@@ -61,7 +61,7 @@ export default function POSPage() {
           <Card className="p-6 h-fit">
             <SectionHeader title="Cart" />
             {cartItems.length === 0 ? (
-              <div className="text-center py-8"><ShoppingCart className="size-8 text-grey-600 mx-auto mb-2" /><Body className="text-grey-400">Cart is empty</Body></div>
+              <div className="text-center py-8"><ShoppingCart className="size-8 text-on-dark-disabled mx-auto mb-2" /><Body className="text-on-dark-muted">Cart is empty</Body></div>
             ) : (
               <div className="space-y-3 mt-4">
                 {cartItems.map(([id, qty]) => {
@@ -69,7 +69,7 @@ export default function POSPage() {
                   if (!product) return null;
                   return (
                     <div key={id} className="flex items-center justify-between">
-                      <div><Body className="font-weight-medium">{product.name}</Body><Body size="sm" className="text-grey-400">{formatCurrency(product.price)} each</Body></div>
+                      <div><Body className="font-weight-medium">{product.name}</Body><Body size="sm" className="text-on-dark-muted">{formatCurrency(product.price)} each</Body></div>
                       <div className="flex items-center gap-2">
                         <Button variant="ghost" size="sm" onClick={() => updateCart(id, -1)}><Minus className="size-4" /></Button>
                         <Body className="w-6 text-center">{qty}</Body>

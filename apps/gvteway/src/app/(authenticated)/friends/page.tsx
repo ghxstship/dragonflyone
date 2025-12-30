@@ -26,17 +26,17 @@ export default function FriendsPage() {
     content: (
       <Section>
         <div className="flex gap-4 items-center mb-6">
-          <div className="relative flex-1 max-w-md"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" /><Input placeholder="Search friends..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" /></div>
+          <div className="relative flex-1 max-w-md"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" /><Input placeholder="Search friends..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" /></div>
         </div>
         {filtered.length === 0 ? (
-          <Card className="p-8 text-center"><Users className="size-12 text-grey-600 mx-auto mb-4" /><Body className="font-weight-medium mb-2">No friends yet</Body><Body className="text-grey-400 mb-4">Connect with other attendees</Body><Button variant="solid" icon={<UserPlus className="size-4" />} iconPosition="left">Find Friends</Button></Card>
+          <Card className="p-8 text-center"><Users className="size-12 text-on-dark-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No friends yet</Body><Body className="text-on-dark-muted mb-4">Connect with other attendees</Body><Button variant="solid" icon={<UserPlus className="size-4" />} iconPosition="left">Find Friends</Button></Card>
         ) : (
           <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
             {filtered.map((friend: Friend) => (
               <Card key={friend.id} className="p-4">
                 <div className="flex items-center gap-4">
                   <div className="size-12 bg-primary rounded-avatar flex items-center justify-center text-white font-weight-bold">{friend.name[0]}</div>
-                  <div><Body className="font-weight-bold">{friend.name}</Body><Body size="sm" className="text-grey-400">{friend.events} events together</Body></div>
+                  <div><Body className="font-weight-bold">{friend.name}</Body><Body size="sm" className="text-on-dark-muted">{friend.events} events together</Body></div>
                 </div>
               </Card>
             ))}

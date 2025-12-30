@@ -162,14 +162,14 @@ export const AgeVerificationModal = forwardRef<HTMLDivElement, AgeVerificationMo
           <H2 className="text-ink-950">{title || defaultTitle}</H2>
 
           {/* Description */}
-          <Body className="text-grey-700">
+          <Body className="text-on-dark-disabled">
             {description || defaultDescription}
           </Body>
 
           {requireDateOfBirth ? (
             /* Date of Birth Verification */
             <Stack gap={4}>
-              <Label size="sm" className="text-grey-600">
+              <Label size="sm" className="text-on-dark-disabled">
                 ENTER YOUR DATE OF BIRTH
               </Label>
               
@@ -230,7 +230,7 @@ export const AgeVerificationModal = forwardRef<HTMLDivElement, AgeVerificationMo
           ) : (
             /* Simple Yes/No Verification */
             <Stack gap={4}>
-              <Body size="sm" className="text-grey-600">
+              <Body size="sm" className="text-on-dark-disabled">
                 By clicking &quot;Yes&quot;, you confirm that you are {minimumAge} years of age or older.
               </Body>
 
@@ -254,7 +254,7 @@ export const AgeVerificationModal = forwardRef<HTMLDivElement, AgeVerificationMo
           )}
 
           {/* Legal disclaimer */}
-          <Body size="xs" className="text-grey-500">
+          <Body size="xs" className="text-on-dark-disabled">
             By proceeding, you agree to our{" "}
             <a href="/legal/terms" className="text-primary-600 underline">Terms of Service</a>
             {" "}and confirm that you meet the age requirements.

@@ -133,7 +133,7 @@ export default function CalendarPage() {
                 <div className="grid grid-cols-7 gap-1">
                   {dayNames.map((day) => (
                     <div key={day} className="p-2 text-center">
-                      <Body size="sm" className="text-grey-400">{day}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{day}</Body>
                     </div>
                   ))}
 
@@ -151,7 +151,7 @@ export default function CalendarPage() {
                               {event.title || event.name}
                             </Badge>
                           ))}
-                          {day.events.length > 2 && <Body size="sm" className="text-grey-400">+{day.events.length - 2} more</Body>}
+                          {day.events.length > 2 && <Body size="sm" className="text-on-dark-muted">+{day.events.length - 2} more</Body>}
                         </div>
                       )}
                     </Card>
@@ -169,7 +169,7 @@ export default function CalendarPage() {
                       {selectedDayEvents.map((event: CalendarEvent) => (
                         <Card key={event.id} className="p-4 cursor-pointer hover:border-primary" onClick={() => handleEventClick(event.id)}>
                           <Body className="font-weight-medium">{event.title || event.name}</Body>
-                          <Body size="sm" className="text-grey-400">{event.venue}</Body>
+                          <Body size="sm" className="text-on-dark-muted">{event.venue}</Body>
                           <div className="flex gap-2 mt-2">
                             <Badge variant="outline">{event.category}</Badge>
                             <Badge variant="success">From ${event.price}</Badge>
@@ -178,10 +178,10 @@ export default function CalendarPage() {
                       ))}
                     </div>
                   ) : (
-                    <Body className="text-grey-400 mt-4">No events on this date.</Body>
+                    <Body className="text-on-dark-muted mt-4">No events on this date.</Body>
                   )
                 ) : (
-                  <Body className="text-grey-400 mt-4">Click on a date to see events.</Body>
+                  <Body className="text-on-dark-muted mt-4">Click on a date to see events.</Body>
                 )}
               </Card>
 
@@ -192,7 +192,7 @@ export default function CalendarPage() {
                     <Link key={event.id} href={`/events/${event.id}`} className="flex items-center justify-between py-2 border-b border-grey-700">
                       <div>
                         <Body className="font-weight-medium">{event.title || event.name}</Body>
-                        <Body size="sm" className="text-grey-400">{new Date(event.date || event.start_date || "").toLocaleDateString()}</Body>
+                        <Body size="sm" className="text-on-dark-muted">{new Date(event.date || event.start_date || "").toLocaleDateString()}</Body>
                       </div>
                       <Badge variant="outline">${event.price || 0}</Badge>
                     </Link>
@@ -217,7 +217,7 @@ export default function CalendarPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Body className="font-weight-medium">{event.title || event.name}</Body>
-                    <Body size="sm" className="text-grey-400">{event.venue} • {new Date(event.date || event.start_date || "").toLocaleDateString()}</Body>
+                    <Body size="sm" className="text-on-dark-muted">{event.venue} • {new Date(event.date || event.start_date || "").toLocaleDateString()}</Body>
                   </div>
                   <div className="flex gap-2">
                     <Badge variant="outline">{event.category}</Badge>

@@ -40,8 +40,8 @@ export default function VenuesPage() {
         <div>
           <Body className="font-weight-medium text-white">{String(value)}</Body>
           <div className="flex items-center gap-1 mt-1">
-            <MapPin className="size-3 text-grey-400" />
-            <Body size="sm" className="text-grey-400">{row.address || "Location TBD"}</Body>
+            <MapPin className="size-3 text-on-dark-muted" />
+            <Body size="sm" className="text-on-dark-muted">{row.address || "Location TBD"}</Body>
           </div>
         </div>
       ),
@@ -53,7 +53,7 @@ export default function VenuesPage() {
       sortable: true,
       render: (value) => (
         <div className="flex items-center gap-2">
-          <Users className="size-4 text-grey-400" />
+          <Users className="size-4 text-on-dark-muted" />
           <Body size="sm">{Number(value).toLocaleString()}</Body>
         </div>
       ),

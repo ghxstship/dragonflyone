@@ -64,13 +64,13 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
                         </div>
                         <div>
                           <div className="font-weight-bold text-foreground">{product.label}</div>
-                          <div className="text-body-xs text-muted-foreground">{product.tagline}</div>
+                          <div className="text-body-xs text-on-dark-muted">{product.tagline}</div>
                         </div>
                       </div>
-                      <Body className="text-body-sm text-muted-foreground mb-3">{product.description}</Body>
+                      <Body className="text-body-sm text-on-dark-muted mb-3">{product.description}</Body>
                       <List className="space-y-1">
                         {product.features.map((feature) => (
-                          <ListItem key={feature} className="text-body-xs text-muted-foreground flex items-center gap-2">
+                          <ListItem key={feature} className="text-body-xs text-on-dark-muted flex items-center gap-2">
                             <Text className="w-1 h-1 rounded-avatar bg-primary" />
                             {feature}
                           </ListItem>
@@ -85,7 +85,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
               </div>
 
               <div className="mt-6 pt-4 border-t border-border">
-                <div className="text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker mb-2">Platform</div>
+                <div className="text-body-xs font-weight-medium text-on-dark-disabled uppercase tracking-kicker mb-2">Platform</div>
                 <div className="flex gap-4">
                   {productsNavigation.quickLinks.map((link) => (
                     <Link
@@ -117,7 +117,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
         {activeMenu === 'solutions' && (
           <div className="absolute left-0 top-full pt-2 z-50">
             <div className="bg-background border-2 border-border rounded-card shadow-xl min-w-dropdown-lg p-6">
-              <div className="text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker mb-4">Solutions by Role</div>
+              <div className="text-body-xs font-weight-medium text-on-dark-disabled uppercase tracking-kicker mb-4">Solutions by Role</div>
               <div className="grid grid-cols-3 gap-x-8 gap-y-4">
                 {solutionsNavigation.groups.map((group) => (
                   <div key={group.title}>
@@ -139,7 +139,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
               </div>
 
               <div className="mt-6 pt-4 border-t border-border">
-                <div className="text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker mb-2">By Vertical</div>
+                <div className="text-body-xs font-weight-medium text-on-dark-disabled uppercase tracking-kicker mb-2">By Vertical</div>
                 <div className="flex gap-4">
                   {solutionsNavigation.verticals.map((vertical) => (
                     <Link
@@ -192,7 +192,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
               </div>
 
               <div className="mt-6 pt-4 border-t border-border">
-                <div className="text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker mb-2">Featured</div>
+                <div className="text-body-xs font-weight-medium text-on-dark-disabled uppercase tracking-kicker mb-2">Featured</div>
                 <div className="flex gap-4">
                   {resourcesNavigation.featured.map((link) => (
                     <Link

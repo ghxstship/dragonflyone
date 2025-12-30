@@ -54,7 +54,7 @@ export default function FAQPage() {
           <Card className="p-4 mb-6">
             <div className="flex items-center gap-4 flex-wrap">
               <div className="flex-1 min-w-[200px] relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search questions..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
               </div>
               <div className="flex gap-2 flex-wrap">
@@ -69,9 +69,9 @@ export default function FAQPage() {
 
           {filteredFAQs.length === 0 ? (
             <Card className="p-8 text-center">
-              <HelpCircle className="size-12 text-grey-600 mx-auto mb-4" />
+              <HelpCircle className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="font-weight-medium text-h5-md mb-2">No Questions Found</Body>
-              <Body className="text-grey-400">Try a different search term or category</Body>
+              <Body className="text-on-dark-muted">Try a different search term or category</Body>
             </Card>
           ) : (
             <div className="space-y-4">
@@ -82,11 +82,11 @@ export default function FAQPage() {
                       <HelpCircle className="size-5 text-primary" />
                       <Body className="font-weight-medium">{faq.question}</Body>
                     </div>
-                    {expandedId === faq.id ? <ChevronUp className="size-5 text-grey-400" /> : <ChevronDown className="size-5 text-grey-400" />}
+                    {expandedId === faq.id ? <ChevronUp className="size-5 text-on-dark-muted" /> : <ChevronDown className="size-5 text-on-dark-muted" />}
                   </Button>
                   {expandedId === faq.id && (
                     <div className="px-6 pb-6 pt-0">
-                      <Body className="text-grey-300 pl-8">{faq.answer}</Body>
+                      <Body className="text-on-dark-secondary pl-8">{faq.answer}</Body>
                     </div>
                   )}
                 </Card>

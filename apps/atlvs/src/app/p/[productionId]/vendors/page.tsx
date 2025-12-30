@@ -82,7 +82,7 @@ export default function ProductionVendorsPage() {
           <Card className="p-4 mb-6">
             <div className="flex items-center gap-4 flex-wrap">
               <div className="flex-1 min-w-[200px] relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search vendors..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
               </div>
               <div className="flex gap-2 flex-wrap">
@@ -100,13 +100,13 @@ export default function ProductionVendorsPage() {
               <Card key={vendor.id} className="p-6">
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-4">
-                    <div className="p-3 bg-grey-800 rounded-card"><Building2 className="size-6 text-grey-400" /></div>
+                    <div className="p-3 bg-grey-800 rounded-card"><Building2 className="size-6 text-on-dark-muted" /></div>
                     <div>
                       <Body className="font-weight-bold font-weight-medium">{vendor.name}</Body>
-                      <Body size="sm" className="text-grey-400">{vendor.contact_name}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{vendor.contact_name}</Body>
                       <div className="flex items-center gap-4 mt-2">
-                        <div className="flex items-center gap-1 text-grey-400"><Mail className="size-4" /><Body size="sm">{vendor.email}</Body></div>
-                        <div className="flex items-center gap-1 text-grey-400"><Phone className="size-4" /><Body size="sm">{vendor.phone}</Body></div>
+                        <div className="flex items-center gap-1 text-on-dark-muted"><Mail className="size-4" /><Body size="sm">{vendor.email}</Body></div>
+                        <div className="flex items-center gap-1 text-on-dark-muted"><Phone className="size-4" /><Body size="sm">{vendor.phone}</Body></div>
                       </div>
                     </div>
                   </div>

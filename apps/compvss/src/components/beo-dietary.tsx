@@ -164,7 +164,7 @@ export function BEODietary({ requirements, onChange, readOnly = false }: BEODiet
           <CardBody>
             <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={2}>
-                <Body size="sm" className="text-grey-400">Type</Body>
+                <Body size="sm" className="text-on-dark-muted">Type</Body>
                 <Input
                   value={newType}
                   onChange={(e) => setNewType(e.target.value)}
@@ -172,7 +172,7 @@ export function BEODietary({ requirements, onChange, readOnly = false }: BEODiet
                 />
               </Stack>
               <Stack gap={2}>
-                <Body size="sm" className="text-grey-400">Guest Name (optional)</Body>
+                <Body size="sm" className="text-on-dark-muted">Guest Name (optional)</Body>
                 <Input
                   value={newGuestName}
                   onChange={(e) => setNewGuestName(e.target.value)}
@@ -180,7 +180,7 @@ export function BEODietary({ requirements, onChange, readOnly = false }: BEODiet
                 />
               </Stack>
               <Stack gap={2}>
-                <Body size="sm" className="text-grey-400">Guest Count</Body>
+                <Body size="sm" className="text-on-dark-muted">Guest Count</Body>
                 <Input
                   type="number"
                   min={1}
@@ -189,11 +189,11 @@ export function BEODietary({ requirements, onChange, readOnly = false }: BEODiet
                 />
               </Stack>
               <Stack gap={2}>
-                <Body size="sm" className="text-grey-400">Severity</Body>
+                <Body size="sm" className="text-on-dark-muted">Severity</Body>
                 <Select
                   value={newSeverity}
                   onChange={(e) => setNewSeverity(e.target.value as DietaryRequirement["severity"])}
-                  className="px-3 py-2 bg-ink-800 border-2 border-ink-700 rounded-button text-body-sm text-grey-300"
+                  className="px-3 py-2 bg-ink-800 border-2 border-ink-700 rounded-button text-body-sm text-on-dark-secondary"
                 >
                   <option value="preference">Preference</option>
                   <option value="intolerance">Intolerance</option>
@@ -203,7 +203,7 @@ export function BEODietary({ requirements, onChange, readOnly = false }: BEODiet
               </Stack>
             </Grid>
             <Stack gap={2} className="mt-4">
-              <Body size="sm" className="text-grey-400">Notes (optional)</Body>
+              <Body size="sm" className="text-on-dark-muted">Notes (optional)</Body>
               <Input
                 value={newNotes}
                 onChange={(e) => setNewNotes(e.target.value)}
@@ -265,8 +265,8 @@ export function BEODietary({ requirements, onChange, readOnly = false }: BEODiet
             </Stack>
           ) : (
             <Stack gap={4} className="items-center justify-center py-8">
-              <Utensils className="size-8 text-grey-500" />
-              <Body className="text-grey-400">No dietary requirements recorded</Body>
+              <Utensils className="size-8 text-on-dark-disabled" />
+              <Body className="text-on-dark-muted">No dietary requirements recorded</Body>
             </Stack>
           )}
         </CardBody>

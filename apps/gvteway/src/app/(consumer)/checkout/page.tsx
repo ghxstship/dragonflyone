@@ -159,9 +159,9 @@ function CheckoutContent() {
                   <div key={label} className="flex-1 flex items-center">
                     <div className="flex flex-col items-center">
                       <Badge variant={isActive || isPast ? "success" : "outline"}>{idx + 1}</Badge>
-                      <Body size="sm" className={isActive ? "font-weight-medium" : "text-grey-400"}>{label}</Body>
+                      <Body size="sm" className={isActive ? "font-weight-medium" : "text-on-dark-muted"}>{label}</Body>
                     </div>
-                    {idx < 2 && <ChevronRight className={`size-4 mx-2 ${isPast ? "text-success" : "text-grey-600"}`} />}
+                    {idx < 2 && <ChevronRight className={`size-4 mx-2 ${isPast ? "text-success" : "text-on-dark-disabled"}`} />}
                   </div>
                 );
               })}
@@ -178,23 +178,23 @@ function CheckoutContent() {
                       <div key={item.id} className="flex justify-between border-b border-grey-700 pb-4">
                         <div>
                           <Body className="font-weight-medium">{item.event_title}</Body>
-                          <Body size="sm" className="text-grey-400">{item.ticket_type_name}</Body>
-                          <Body size="sm" className="text-grey-400">Qty: {item.qty}</Body>
+                          <Body size="sm" className="text-on-dark-muted">{item.ticket_type_name}</Body>
+                          <Body size="sm" className="text-on-dark-muted">Qty: {item.qty}</Body>
                         </div>
                         <Body className="font-weight-medium">${(item.price * item.qty).toFixed(2)}</Body>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <Body className="text-grey-400 mt-4">Your cart is empty</Body>
+                  <Body className="text-on-dark-muted mt-4">Your cart is empty</Body>
                 )}
               </Card>
               <div className="space-y-4">
                 <Card className="p-6">
                   <SectionHeader title="Total" />
                   <div className="space-y-3 mt-4">
-                    <div className="flex justify-between"><Body className="text-grey-400">Subtotal</Body><Body>${subtotal.toFixed(2)}</Body></div>
-                    <div className="flex justify-between"><Body className="text-grey-400">Service Fees</Body><Body>${fees.toFixed(2)}</Body></div>
+                    <div className="flex justify-between"><Body className="text-on-dark-muted">Subtotal</Body><Body>${subtotal.toFixed(2)}</Body></div>
+                    <div className="flex justify-between"><Body className="text-on-dark-muted">Service Fees</Body><Body>${fees.toFixed(2)}</Body></div>
                     <div className="flex justify-between border-t border-grey-700 pt-3"><Body className="font-weight-medium">Total</Body><Body className="font-weight-medium">${total.toFixed(2)}</Body></div>
                   </div>
                 </Card>
@@ -208,24 +208,24 @@ function CheckoutContent() {
               <Card className="lg:col-span-2 p-6">
                 <SectionHeader title="Payment Information" />
                 <div className="space-y-4 mt-4">
-                  <div><Body size="sm" className="text-grey-400 mb-1">Cardholder Name *</Body><Input placeholder="John Smith" value={formData.cardName} onChange={(e) => handleFieldChange("cardName", e.target.value)} onBlur={() => handleFieldBlur("cardName")} />{touched.cardName && errors.cardName && <Body size="sm" className="text-error">{errors.cardName}</Body>}</div>
-                  <div><Body size="sm" className="text-grey-400 mb-1">Card Number *</Body><Input placeholder="4242 4242 4242 4242" value={formData.cardNumber} onChange={(e) => handleFieldChange("cardNumber", e.target.value)} onBlur={() => handleFieldBlur("cardNumber")} />{touched.cardNumber && errors.cardNumber && <Body size="sm" className="text-error">{errors.cardNumber}</Body>}</div>
+                  <div><Body size="sm" className="text-on-dark-muted mb-1">Cardholder Name *</Body><Input placeholder="John Smith" value={formData.cardName} onChange={(e) => handleFieldChange("cardName", e.target.value)} onBlur={() => handleFieldBlur("cardName")} />{touched.cardName && errors.cardName && <Body size="sm" className="text-error">{errors.cardName}</Body>}</div>
+                  <div><Body size="sm" className="text-on-dark-muted mb-1">Card Number *</Body><Input placeholder="4242 4242 4242 4242" value={formData.cardNumber} onChange={(e) => handleFieldChange("cardNumber", e.target.value)} onBlur={() => handleFieldBlur("cardNumber")} />{touched.cardNumber && errors.cardNumber && <Body size="sm" className="text-error">{errors.cardNumber}</Body>}</div>
                   <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
-                    <div><Body size="sm" className="text-grey-400 mb-1">Expiry Date *</Body><Input placeholder="MM/YY" value={formData.expiry} onChange={(e) => handleFieldChange("expiry", e.target.value)} onBlur={() => handleFieldBlur("expiry")} />{touched.expiry && errors.expiry && <Body size="sm" className="text-error">{errors.expiry}</Body>}</div>
-                    <div><Body size="sm" className="text-grey-400 mb-1">CVV *</Body><Input placeholder="123" type="password" value={formData.cvv} onChange={(e) => handleFieldChange("cvv", e.target.value)} onBlur={() => handleFieldBlur("cvv")} />{touched.cvv && errors.cvv && <Body size="sm" className="text-error">{errors.cvv}</Body>}</div>
+                    <div><Body size="sm" className="text-on-dark-muted mb-1">Expiry Date *</Body><Input placeholder="MM/YY" value={formData.expiry} onChange={(e) => handleFieldChange("expiry", e.target.value)} onBlur={() => handleFieldBlur("expiry")} />{touched.expiry && errors.expiry && <Body size="sm" className="text-error">{errors.expiry}</Body>}</div>
+                    <div><Body size="sm" className="text-on-dark-muted mb-1">CVV *</Body><Input placeholder="123" type="password" value={formData.cvv} onChange={(e) => handleFieldChange("cvv", e.target.value)} onBlur={() => handleFieldBlur("cvv")} />{touched.cvv && errors.cvv && <Body size="sm" className="text-error">{errors.cvv}</Body>}</div>
                   </Grid>
                   <div className="border-t border-grey-700 pt-4"><SectionHeader title="Billing Address" /></div>
-                  <div><Body size="sm" className="text-grey-400 mb-1">Street Address *</Body><Input placeholder="123 Main St" value={formData.street} onChange={(e) => handleFieldChange("street", e.target.value)} onBlur={() => handleFieldBlur("street")} />{touched.street && errors.street && <Body size="sm" className="text-error">{errors.street}</Body>}</div>
+                  <div><Body size="sm" className="text-on-dark-muted mb-1">Street Address *</Body><Input placeholder="123 Main St" value={formData.street} onChange={(e) => handleFieldChange("street", e.target.value)} onBlur={() => handleFieldBlur("street")} />{touched.street && errors.street && <Body size="sm" className="text-error">{errors.street}</Body>}</div>
                   <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
-                    <div><Body size="sm" className="text-grey-400 mb-1">City *</Body><Input placeholder="New York" value={formData.city} onChange={(e) => handleFieldChange("city", e.target.value)} onBlur={() => handleFieldBlur("city")} />{touched.city && errors.city && <Body size="sm" className="text-error">{errors.city}</Body>}</div>
-                    <div><Body size="sm" className="text-grey-400 mb-1">State *</Body><Input placeholder="NY" value={formData.state} onChange={(e) => handleFieldChange("state", e.target.value)} onBlur={() => handleFieldBlur("state")} />{touched.state && errors.state && <Body size="sm" className="text-error">{errors.state}</Body>}</div>
+                    <div><Body size="sm" className="text-on-dark-muted mb-1">City *</Body><Input placeholder="New York" value={formData.city} onChange={(e) => handleFieldChange("city", e.target.value)} onBlur={() => handleFieldBlur("city")} />{touched.city && errors.city && <Body size="sm" className="text-error">{errors.city}</Body>}</div>
+                    <div><Body size="sm" className="text-on-dark-muted mb-1">State *</Body><Input placeholder="NY" value={formData.state} onChange={(e) => handleFieldChange("state", e.target.value)} onBlur={() => handleFieldBlur("state")} />{touched.state && errors.state && <Body size="sm" className="text-error">{errors.state}</Body>}</div>
                   </Grid>
-                  <div><Body size="sm" className="text-grey-400 mb-1">ZIP Code *</Body><Input placeholder="10001" value={formData.zip} onChange={(e) => handleFieldChange("zip", e.target.value)} onBlur={() => handleFieldBlur("zip")} />{touched.zip && errors.zip && <Body size="sm" className="text-error">{errors.zip}</Body>}</div>
+                  <div><Body size="sm" className="text-on-dark-muted mb-1">ZIP Code *</Body><Input placeholder="10001" value={formData.zip} onChange={(e) => handleFieldChange("zip", e.target.value)} onBlur={() => handleFieldBlur("zip")} />{touched.zip && errors.zip && <Body size="sm" className="text-error">{errors.zip}</Body>}</div>
                 </div>
               </Card>
               <div className="space-y-4">
                 <Card className="p-6"><SectionHeader title="Total" /><div className="flex justify-between mt-4"><Body className="font-weight-medium">Total</Body><Body className="font-weight-medium">${total.toFixed(2)}</Body></div></Card>
-                <Card className="p-4"><div className="flex items-center gap-2"><Lock className="size-4 text-grey-400" /><Body size="sm" className="text-grey-400">Secure Checkout</Body></div><Body size="sm" className="text-grey-400 mt-2">Your payment information is encrypted and secure</Body></Card>
+                <Card className="p-4"><div className="flex items-center gap-2"><Lock className="size-4 text-on-dark-muted" /><Body size="sm" className="text-on-dark-muted">Secure Checkout</Body></div><Body size="sm" className="text-on-dark-muted mt-2">Your payment information is encrypted and secure</Body></Card>
                 <Button variant="solid" className="w-full" onClick={handlePayment} disabled={processing || !isFormValid()} icon={<CreditCard className="size-4" />} iconPosition="left">{processing ? "Processing..." : "Complete Purchase"}</Button>
               </div>
             </Grid>
@@ -235,8 +235,8 @@ function CheckoutContent() {
             <Card className="p-12 text-center">
               <div className="flex flex-col items-center gap-6">
                 <Badge variant="success" className="size-16 rounded-avatar flex items-center justify-center"><Check className="size-8" /></Badge>
-                <div><Body className="font-weight-bold">Order Confirmed!</Body><Body className="text-grey-400">Order #{orderId || "PROCESSING"}</Body></div>
-                <Card className="p-6"><Body className="text-grey-400 mb-2">Tickets have been sent to:</Body><Body className="font-weight-medium">user@example.com</Body></Card>
+                <div><Body className="font-weight-bold">Order Confirmed!</Body><Body className="text-on-dark-muted">Order #{orderId || "PROCESSING"}</Body></div>
+                <Card className="p-6"><Body className="text-on-dark-muted mb-2">Tickets have been sent to:</Body><Body className="font-weight-medium">user@example.com</Body></Card>
                 <div className="flex gap-4"><Button variant="outline" onClick={() => router.push("/tickets")}>View Tickets</Button><Button variant="solid" onClick={() => router.push("/events")}>Browse More Events</Button></div>
               </div>
             </Card>

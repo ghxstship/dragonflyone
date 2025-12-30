@@ -120,7 +120,7 @@ export function EventCard({
             <div className={clsx("font-heading text-h3-md leading-none", inverted ? "text-white" : "text-black")}>
               {dateInfo.day}
             </div>
-            <div className={clsx("font-code text-mono-xs tracking-widest mt-spacing-1", inverted ? "text-grey-400" : "text-grey-600")}>
+            <div className={clsx("font-code text-mono-xs tracking-widest mt-spacing-1", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
               {dateInfo.month}
             </div>
           </div>
@@ -161,7 +161,7 @@ export function EventCard({
       >
         {/* Category */}
         {category && !isCompact && (
-          <span className="font-code text-mono-xs text-grey-500 tracking-widest uppercase">
+          <span className="font-code text-mono-xs text-on-dark-disabled tracking-widest uppercase">
             {category}
           </span>
         )}
@@ -181,19 +181,19 @@ export function EventCard({
         <div
           className={clsx(
             "font-body",
-            inverted ? "text-grey-300" : "text-grey-700",
+            inverted ? "text-on-dark-secondary" : "text-on-light-muted",
             isCompact ? "text-body-sm" : "text-body-md"
           )}
         >
           {venue}
         </div>
-        <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-grey-400" : "text-grey-500")}>
+        <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
           {location}
         </div>
 
         {/* Compact Date */}
         {isCompact && (
-          <div className={clsx("font-code text-mono-xs tracking-widest mt-auto", inverted ? "text-grey-400" : "text-grey-600")}>
+          <div className={clsx("font-code text-mono-xs tracking-widest mt-auto", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
             {dateInfo.weekday} {dateInfo.month} {dateInfo.day}
           </div>
         )}

@@ -64,7 +64,7 @@ export default function CaseStudiesPage() {
       Theater: "bg-secondary/20 text-secondary border-secondary/30",
       Sports: "bg-success/20 text-success border-success/30",
     };
-    return colors[industry] || "bg-grey-800 text-grey-400 border-grey-700";
+    return colors[industry] || "bg-grey-800 text-on-dark-muted border-grey-700";
   };
 
   return (
@@ -117,7 +117,7 @@ export default function CaseStudiesPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Featured</Body>
                   <H3 className="text-white">Top Success Stories</H3>
-                  <Body className="text-grey-400 max-w-2xl">Our most impactful customer transformations</Body>
+                  <Body className="text-on-dark-muted max-w-2xl">Our most impactful customer transformations</Body>
                 </Stack>
 
                 <Stack gap={6}>
@@ -130,7 +130,7 @@ export default function CaseStudiesPage() {
                       <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
                         <div className="aspect-video bg-grey-800 rounded-card overflow-hidden">
                           <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                            <Building2 className="size-16 text-grey-600" />
+                            <Building2 className="size-16 text-on-dark-disabled" />
                           </div>
                         </div>
                         <Stack gap={4}>
@@ -139,13 +139,13 @@ export default function CaseStudiesPage() {
                             <Badge className={getIndustryColor(cs.industry)}>{cs.industry}</Badge>
                           </Stack>
                           <Body className="text-white font-weight-bold text-h4-md group-hover:text-primary transition-colors">{cs.title}</Body>
-                          <Body className="text-grey-500">{cs.company}</Body>
-                          <Body className="text-grey-400">{cs.summary}</Body>
+                          <Body className="text-on-dark-disabled">{cs.company}</Body>
+                          <Body className="text-on-dark-muted">{cs.summary}</Body>
                           <Grid cols={3} gap={4} className="grid-cols-3 mt-2">
                             {cs.results.map((result, idx) => (
                               <Stack key={idx} gap={0} className="text-center p-3 bg-grey-900/50 rounded-card">
                                 <Body className="text-primary font-weight-bold">{result.value}</Body>
-                                <Body size="sm" className="text-grey-500">{result.metric}</Body>
+                                <Body size="sm" className="text-on-dark-disabled">{result.metric}</Body>
                               </Stack>
                             ))}
                           </Grid>
@@ -190,13 +190,13 @@ export default function CaseStudiesPage() {
                 {isLoading ? (
                   <Stack className="items-center py-12">
                     <Spinner size="lg" />
-                    <Body className="text-grey-400 mt-4">Loading case studies...</Body>
+                    <Body className="text-on-dark-muted mt-4">Loading case studies...</Body>
                   </Stack>
                 ) : filteredStudies.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
-                    <FileText className="size-16 text-grey-600 mx-auto mb-4" />
+                    <FileText className="size-16 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Case Studies Found</Body>
-                    <Body className="text-grey-400 mb-4">Check back soon for more success stories in this industry</Body>
+                    <Body className="text-on-dark-muted mb-4">Check back soon for more success stories in this industry</Body>
                     <Button variant="outline" onClick={() => setSelectedIndustry("All")}>View All Industries</Button>
                   </Card>
                 ) : (
@@ -213,14 +213,14 @@ export default function CaseStudiesPage() {
                             <Badge className={getIndustryColor(cs.industry)}>{cs.industry}</Badge>
                           </Stack>
                           <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{cs.title}</Body>
-                          <Body size="sm" className="text-grey-500">{cs.company}</Body>
-                          <Body className="text-grey-400">{cs.summary}</Body>
+                          <Body size="sm" className="text-on-dark-disabled">{cs.company}</Body>
+                          <Body className="text-on-dark-muted">{cs.summary}</Body>
                           <Stack direction="horizontal" gap={4} className="mt-2">
                             {cs.results.slice(0, 2).map((result, idx) => (
                               <Stack key={idx} direction="horizontal" gap={2} className="items-center">
                                 <TrendingUp className="size-4 text-success" />
                                 <Body size="sm" className="text-primary font-weight-bold">{result.value}</Body>
-                                <Body size="sm" className="text-grey-300">{result.metric}</Body>
+                                <Body size="sm" className="text-on-dark-secondary">{result.metric}</Body>
                               </Stack>
                             ))}
                           </Stack>

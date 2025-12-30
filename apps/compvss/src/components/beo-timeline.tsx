@@ -108,7 +108,7 @@ export function BEOTimeline({ items, onChange, readOnly = false }: BEOTimelinePr
                   } ${item.is_critical ? "border-l-4 border-l-warning" : ""}`}
                 >
                   {!readOnly && (
-                    <GripVertical className="size-4 text-grey-500 cursor-grab mt-2" />
+                    <GripVertical className="size-4 text-on-dark-disabled cursor-grab mt-2" />
                   )}
                   
                   <Stack gap={2} className="flex-1">
@@ -134,7 +134,7 @@ export function BEOTimeline({ items, onChange, readOnly = false }: BEOTimelinePr
                         <Select
                           value={item.department || "Service"}
                           onChange={(e) => updateItem(item.id, { department: e.target.value })}
-                          className="px-2 py-1 bg-ink-800 border-2 border-ink-700 rounded-button text-body-sm text-grey-300"
+                          className="px-2 py-1 bg-ink-800 border-2 border-ink-700 rounded-button text-body-sm text-on-dark-secondary"
                         >
                           {DEPARTMENTS.map((dept) => (
                             <option key={dept} value={dept}>{dept}</option>
@@ -143,7 +143,7 @@ export function BEOTimeline({ items, onChange, readOnly = false }: BEOTimelinePr
                       )}
 
                       {!readOnly && (
-                        <Label className="flex items-center gap-2 text-body-sm text-grey-400">
+                        <Label className="flex items-center gap-2 text-body-sm text-on-dark-muted">
                           <Input
                             type="checkbox"
                             checked={item.is_critical || false}
@@ -156,7 +156,7 @@ export function BEOTimeline({ items, onChange, readOnly = false }: BEOTimelinePr
                     </Stack>
 
                     {readOnly ? (
-                      <Body size="sm" className="text-grey-300">{item.description}</Body>
+                      <Body size="sm" className="text-on-dark-secondary">{item.description}</Body>
                     ) : (
                       <Input
                         value={item.description}
@@ -180,8 +180,8 @@ export function BEOTimeline({ items, onChange, readOnly = false }: BEOTimelinePr
             </Stack>
           ) : (
             <Stack gap={4} className="items-center justify-center py-8">
-              <Clock className="size-8 text-grey-500" />
-              <Body className="text-grey-400">No timeline items yet</Body>
+              <Clock className="size-8 text-on-dark-disabled" />
+              <Body className="text-on-dark-muted">No timeline items yet</Body>
               {!readOnly && (
                 <Button variant="outline" size="sm" icon={<Plus className="size-4" />} onClick={addItem}>
                   Add First Item

@@ -191,7 +191,7 @@ export const CardDescription = forwardRef<HTMLParagraphElement, CardDescriptionP
         ref={ref}
         className={clsx(
           "text-sm mt-1",
-          inverted ? "text-grey-400" : "text-grey-600",
+          inverted ? "text-on-dark-muted" : "text-on-light-muted",
           className
         )}
         {...props}
@@ -213,7 +213,7 @@ export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
         ref={ref}
         className={clsx(
           "mb-4",
-          inverted ? "text-grey-300" : "text-grey-700",
+          inverted ? "text-on-dark-secondary" : "text-on-light-muted",
           className
         )}
         {...props}

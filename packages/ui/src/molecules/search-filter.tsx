@@ -165,7 +165,7 @@ export function SearchFilter({
           {/* Search Icon */}
           <span
             className={clsx(
-              "absolute top-1/2 -translate-y-1/2 text-grey-500",
+              "absolute top-1/2 -translate-y-1/2 text-on-dark-disabled",
               compact ? "left-spacing-3 text-body-sm" : "left-spacing-4 text-body-md"
             )}
           >
@@ -176,7 +176,7 @@ export function SearchFilter({
             <button
               onClick={() => handleSearchChange("")}
               className={clsx(
-                "absolute top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-grey-500 p-spacing-1 hover:text-grey-700",
+                "absolute top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-on-dark-disabled p-spacing-1 hover:text-on-dark-disabled",
                 compact ? "right-spacing-2 text-body-sm" : "right-spacing-3 text-body-md"
               )}
               aria-label="Clear search"
@@ -206,7 +206,7 @@ export function SearchFilter({
                     compact ? "px-spacing-3 py-spacing-2 text-mono-sm" : "px-spacing-4 py-spacing-3 text-mono-md",
                     groupActiveCount > 0
                       ? inverted ? "bg-white text-black" : "bg-black text-white"
-                      : inverted ? "bg-transparent text-grey-300 hover:bg-grey-800" : "bg-white text-black hover:bg-grey-100"
+                      : inverted ? "bg-transparent text-on-dark-secondary hover:bg-grey-800" : "bg-white text-black hover:bg-grey-100"
                   )}
                 >
                   {group.label}
@@ -239,7 +239,7 @@ export function SearchFilter({
                           className={clsx(
                             "flex justify-between items-center w-full px-spacing-4 py-spacing-3 font-body text-body-sm border-none border-b cursor-pointer text-left transition-colors duration-fast",
                             inverted
-                              ? clsx("text-grey-200 border-grey-700", isActive ? "bg-grey-800" : "hover:bg-grey-800")
+                              ? clsx("text-on-dark-secondary border-grey-700", isActive ? "bg-grey-800" : "hover:bg-grey-800")
                               : clsx("text-black border-grey-200", isActive ? "bg-grey-100" : "bg-white hover:bg-grey-50")
                           )}
                         >
@@ -259,7 +259,7 @@ export function SearchFilter({
                             {option.label}
                           </span>
                           {showCounts && option.count !== undefined && (
-                            <span className={clsx("font-code text-mono-xs", inverted ? "text-grey-400" : "text-grey-500")}>
+                            <span className={clsx("font-code text-mono-xs", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
                               {option.count}
                             </span>
                           )}
@@ -277,7 +277,7 @@ export function SearchFilter({
       {/* Active Filters Summary */}
       {activeCount > 0 && (
         <div className="flex items-center gap-gap-xs flex-wrap">
-          <span className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-grey-400" : "text-grey-600")}>
+          <span className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
             ACTIVE FILTERS:
           </span>
 
@@ -296,8 +296,8 @@ export function SearchFilter({
                   className={clsx(
                     "flex items-center gap-gap-xs px-spacing-2 py-spacing-1 font-code text-mono-xs tracking-wide border cursor-pointer transition-colors duration-fast",
                     inverted
-                      ? "bg-grey-800 text-grey-300 border-grey-600 hover:bg-grey-700"
-                      : "bg-grey-100 text-grey-700 border-grey-300 hover:bg-grey-200"
+                      ? "bg-grey-800 text-on-dark-secondary border-grey-600 hover:bg-grey-700"
+                      : "bg-grey-100 text-on-dark-disabled border-grey-300 hover:bg-grey-200"
                   )}
                 >
                   {option.label}
@@ -311,7 +311,7 @@ export function SearchFilter({
             onClick={onClearAll}
             className={clsx(
               "px-spacing-2 py-spacing-1 font-code text-mono-xs tracking-wide bg-transparent border-none cursor-pointer underline",
-              inverted ? "text-grey-400 hover:text-white" : "text-grey-600 hover:text-black"
+              inverted ? "text-on-dark-muted hover:text-white" : "text-on-dark-disabled hover:text-black"
             )}
           >
             CLEAR ALL

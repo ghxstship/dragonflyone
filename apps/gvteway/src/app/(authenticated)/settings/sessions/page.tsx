@@ -127,12 +127,12 @@ export default function SessionsPage() {
                     </div>
                     <div>
                       <Body className="font-weight-medium text-white">{currentSession.device_name || "Unknown Device"}</Body>
-                      <Body size="sm" className="text-grey-400">
+                      <Body size="sm" className="text-on-dark-muted">
                         {currentSession.browser || "Unknown Browser"} on {currentSession.os || "Unknown OS"}
                       </Body>
                       <div className="flex items-center gap-2 mt-1">
-                        <Globe className="size-3 text-grey-500" />
-                        <Body size="sm" className="text-grey-500">
+                        <Globe className="size-3 text-on-dark-disabled" />
+                        <Body size="sm" className="text-on-dark-disabled">
                           {currentSession.location || currentSession.ip_address || "Unknown location"}
                         </Body>
                       </div>
@@ -147,8 +147,8 @@ export default function SessionsPage() {
           <SectionHeader title="Other Sessions" description="Devices where you are also signed in" />
           {otherSessions.length === 0 ? (
             <div className="text-center py-12">
-              <Monitor className="size-12 text-grey-600 mx-auto mb-4" />
-              <Body className="text-grey-400">No other active sessions</Body>
+              <Monitor className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <Body className="text-on-dark-muted">No other active sessions</Body>
             </div>
           ) : (
             <Card className="overflow-hidden">
@@ -171,7 +171,7 @@ export default function SessionsPage() {
                           </div>
                           <div>
                             <Body className="font-weight-medium text-white">{session.device_name || "Unknown Device"}</Body>
-                            <Body size="sm" className="text-grey-400">
+                            <Body size="sm" className="text-on-dark-muted">
                               {session.browser || "Unknown"} on {session.os || "Unknown"}
                             </Body>
                           </div>
@@ -181,7 +181,7 @@ export default function SessionsPage() {
                         <Body size="sm" className="text-white">{session.location || session.ip_address || "Unknown"}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-grey-400">{formatTimeAgo(session.last_active_at)}</Body>
+                        <Body size="sm" className="text-on-dark-muted">{formatTimeAgo(session.last_active_at)}</Body>
                       </TableCell>
                       <TableCell>
                         <Button
@@ -216,7 +216,7 @@ export default function SessionsPage() {
                 </div>
                 <div>
                   <Body className="font-weight-medium text-white">Review unrecognized sessions</Body>
-                  <Body size="sm" className="text-grey-400">If you see a session you do not recognize, revoke it immediately</Body>
+                  <Body size="sm" className="text-on-dark-muted">If you see a session you do not recognize, revoke it immediately</Body>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -225,7 +225,7 @@ export default function SessionsPage() {
                 </div>
                 <div>
                   <Body className="font-weight-medium text-white">Sign out from shared devices</Body>
-                  <Body size="sm" className="text-grey-400">Always sign out from public or shared devices when done</Body>
+                  <Body size="sm" className="text-on-dark-muted">Always sign out from public or shared devices when done</Body>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -234,7 +234,7 @@ export default function SessionsPage() {
                 </div>
                 <div>
                   <Body className="font-weight-medium text-white">Enable two-factor authentication</Body>
-                  <Body size="sm" className="text-grey-400">Add an extra layer of security to your account</Body>
+                  <Body size="sm" className="text-on-dark-muted">Add an extra layer of security to your account</Body>
                 </div>
               </div>
             </div>

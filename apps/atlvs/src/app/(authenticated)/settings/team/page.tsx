@@ -120,7 +120,7 @@ export default function TeamSettingsPage() {
           <Card className="p-4 mb-6">
             <div className="flex items-center gap-4">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search members..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
               </div>
               {canManageTeam && (
@@ -133,9 +133,9 @@ export default function TeamSettingsPage() {
 
           {filteredMembers.length === 0 ? (
             <Card className="p-8 text-center">
-              <Users className="size-12 text-grey-600 mx-auto mb-4" />
+              <Users className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="font-weight-medium font-weight-medium mb-2">No Team Members</Body>
-              <Body className="text-grey-400 mb-4">{search ? "No members match your search" : "Invite your first team member"}</Body>
+              <Body className="text-on-dark-muted mb-4">{search ? "No members match your search" : "Invite your first team member"}</Body>
               {canManageTeam && (
                 <Button variant="solid" onClick={() => setShowInvite(true)} icon={<UserPlus className="size-4" />} iconPosition="left">
                   Invite Member
@@ -164,7 +164,7 @@ export default function TeamSettingsPage() {
                           </div>
                           <div>
                             <Body className="font-weight-medium">{member.name}</Body>
-                            <Body size="sm" className="text-grey-400">{member.email}</Body>
+                            <Body size="sm" className="text-on-dark-muted">{member.email}</Body>
                           </div>
                         </div>
                       </TableCell>
@@ -201,7 +201,7 @@ export default function TeamSettingsPage() {
                 <div className="flex justify-between items-center">
                   <div>
                     <Body className="font-weight-medium">{role}</Body>
-                    <Body size="sm" className="text-grey-400">
+                    <Body size="sm" className="text-on-dark-muted">
                       {role === "Admin" && "Full access to all features and settings"}
                       {role === "Manager" && "Can manage projects, team, and view reports"}
                       {role === "Member" && "Can create and edit content, limited settings"}
@@ -234,11 +234,11 @@ export default function TeamSettingsPage() {
         <ModalBody>
           <div className="space-y-4">
             <div>
-              <Body size="sm" className="text-grey-400 mb-1">Email Address</Body>
+              <Body size="sm" className="text-on-dark-muted mb-1">Email Address</Body>
               <Input type="email" placeholder="colleague@example.com" value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} />
             </div>
             <div>
-              <Body size="sm" className="text-grey-400 mb-1">Role</Body>
+              <Body size="sm" className="text-on-dark-muted mb-1">Role</Body>
               <Select value={inviteRole} onChange={(e) => setInviteRole(e.target.value)}>
                 {ROLES.map((role) => <option key={role} value={role}>{role}</option>)}
               </Select>

@@ -102,7 +102,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                   <div className="hidden md:flex items-center">
                     <span className={clsx(
                       "mx-3 text-sm",
-                      inverted ? "text-grey-600" : "text-grey-300"
+                      inverted ? "text-on-dark-disabled" : "text-on-light-secondary"
                     )}>
                       /
                     </span>
@@ -140,12 +140,12 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                             : "bg-black text-white border-black shadow-[2px_2px_0_hsl(var(--primary))]"
                           : inverted
                             ? clsx(
-                                "text-grey-400 border-transparent",
+                                "text-on-dark-muted border-transparent",
                                 "hover:text-white hover:bg-grey-800 hover:border-grey-700",
                                 "hover:-translate-x-0.5 hover:-translate-y-0.5"
                               )
                             : clsx(
-                                "text-grey-600 border-transparent",
+                                "text-on-dark-disabled border-transparent",
                                 "hover:text-black hover:bg-grey-100 hover:border-grey-200",
                                 "hover:-translate-x-0.5 hover:-translate-y-0.5"
                               )
@@ -156,7 +156,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                       {item.badge && (
                         <span className={clsx(
                           "px-1.5 py-0.5 text-xs font-mono rounded-[var(--radius-badge)] border",
-                          inverted ? "bg-grey-700 text-grey-300 border-grey-600" : "bg-grey-200 text-grey-600 border-grey-300"
+                          inverted ? "bg-grey-700 text-on-dark-secondary border-grey-600" : "bg-grey-200 text-on-dark-disabled border-grey-300"
                         )}>
                           {item.badge}
                         </span>
@@ -201,8 +201,8 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                     "transition-all duration-100",
                     "hover:-translate-x-0.5 hover:-translate-y-0.5",
                     inverted
-                      ? "text-grey-400 border-grey-700 hover:text-white hover:bg-grey-800 hover:shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
-                      : "text-grey-600 border-grey-300 hover:text-black hover:bg-grey-100 hover:shadow-[2px_2px_0_rgba(0,0,0,0.1)]"
+                      ? "text-on-dark-muted border-grey-700 hover:text-white hover:bg-grey-800 hover:shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
+                      : "text-on-dark-disabled border-grey-300 hover:text-black hover:bg-grey-100 hover:shadow-[2px_2px_0_rgba(0,0,0,0.1)]"
                   )}
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   aria-expanded={mobileMenuOpen}
@@ -266,8 +266,8 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                           ? "bg-white text-black border-white shadow-[3px_3px_0_hsl(var(--primary))]"
                           : "bg-black text-white border-black shadow-[3px_3px_0_hsl(var(--primary))]"
                         : inverted
-                          ? "text-grey-400 border-grey-700 hover:text-white hover:bg-grey-800"
-                          : "text-grey-600 border-grey-200 hover:text-black hover:bg-grey-100"
+                          ? "text-on-dark-muted border-grey-700 hover:text-white hover:bg-grey-800"
+                          : "text-on-dark-disabled border-grey-200 hover:text-black hover:bg-grey-100"
                     )}
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
@@ -276,7 +276,7 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
                     {item.badge && (
                       <span className={clsx(
                         "ml-auto px-2 py-0.5 text-sm font-mono rounded-[var(--radius-badge)] border",
-                        inverted ? "bg-grey-700 text-grey-300 border-grey-600" : "bg-grey-200 text-grey-600 border-grey-300"
+                        inverted ? "bg-grey-700 text-on-dark-secondary border-grey-600" : "bg-grey-200 text-on-dark-disabled border-grey-300"
                       )}>
                         {item.badge}
                       </span>

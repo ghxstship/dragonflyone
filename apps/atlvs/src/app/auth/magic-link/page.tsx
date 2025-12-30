@@ -1,15 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, ArrowRight, RefreshCw } from "lucide-react";
+import { Sparkles, ArrowRight, RefreshCw, Mail } from "lucide-react";
 import {
-  Alert, AuthPage, Body, Button, Card, Field, Form, H2, IconBox, Input, Label, ScrollReveal, Stack} from '@ghxstship/ui';
-import NextLink from "next/link";
-import { CreatorNavigationPublic } from "@/components/navigation";
+  Alert, AuthPage, Body, Button, Form, Input, Label, Stack} from '@ghxstship/ui';
 
 // =============================================================================
 // MAGIC LINK PAGE - ATLVS Passwordless Authentication
-// Bold Contemporary Pop Art Adventure Design System - Light Theme
+// Bold Contemporary Pop Art Adventure Design System
 // =============================================================================
 
 export default function MagicLinkPage() {
@@ -32,112 +30,66 @@ export default function MagicLinkPage() {
 
       if (!response.ok) throw new Error("Failed to send magic link");
       setSubmitted(true);
-    } catch (err) {
+    } catch {
       setError("Failed to send magic link. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  if (submitted) {
+    return (
+      <AuthPage title="Check Your Email" subtitle="We've sent a magic link to your inbox">
+        <Stack gap={6} className="text-center">
+          <div className="p-4 bg-success/20 rounded-avatar w-fit mx-auto">
+            <Sparkles className="size-8 text-success" />
+          </div>
+          <Body className="text-on-dark-muted">
+            We&apos;ve sent a magic link to <strong className="text-white">{email}</strong>. Click the link in the email to sign in.
+          </Body>
+          <Label size="xs" className="text-on-dark-disabled">Link expires in 1 hour</Label>
+          <Button variant="ghost" size="sm" onClick={() => setSubmitted(false)} icon={<RefreshCw className="size-4" />} iconPosition="left">
+            Use a different email
+          </Button>
+        </Stack>
+      </AuthPage>
+    );
+  }
+
   return (
-    <AuthPage header={<CreatorNavigationPublic />}>
-          <ScrollReveal animation="slide-up" duration={600}>
-            {/* Auth Card - Pop Art Style */}
-            <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">
-              {submitted ? (
-                /* Success State */
-                <Stack gap={6} className="text-center sm:gap-8">
-                  <IconBox size="lg" variant="success" className="mx-auto">
-                    <Sparkles className="size-6 text-success sm:size-8" />
-                  </IconBox>
+    <AuthPage
+      title="Magic Link"
+      subtitle="Sign in without a password. We'll email you a magic link."
+      footer={{ text: "Don't have an account?", linkText: "Sign up", linkHref: "/auth/signup" }}
+    >
+      {error && <Alert variant="error" className="mb-4">{error}</Alert>}
+      
+      <Form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Body size="sm" className="text-on-dark-muted mb-1">Email Address</Body>
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              required
+              className="pl-10"
+            />
+          </div>
+        </div>
 
-                  <Stack gap={3} className="sm:gap-4">
-                    <H2 className="text-black">CHECK YOUR EMAIL</H2>
-                    <Body size="sm" className="text-muted">
-                      We&apos;ve sent a magic link to{" "}
-                      <strong className="text-black">{email}</strong>. Click the link in the
-                      email to sign in.
-                    </Body>
-                    <Label size="xs" className="text-muted">
-                      Link expires in 1 hour
-                    </Label>
-                  </Stack>
+        <Button type="submit" variant="solid" size="lg" fullWidth disabled={loading} icon={<ArrowRight className="size-4" />} iconPosition="right">
+          {loading ? "Sending..." : "Send Magic Link"}
+        </Button>
+      </Form>
 
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setSubmitted(false)}
-                    icon={<RefreshCw className="size-4" />}
-                    iconPosition="left"
-                  >
-                    Use a different email
-                  </Button>
-                </Stack>
-              ) : (
-                /* Form State */
-                <Stack gap={6} className="sm:gap-8">
-                  {/* Header */}
-                  <Stack gap={3} className="text-center sm:gap-4">
-                    <IconBox size="lg" className="mx-auto">
-                      <Sparkles className="size-6 text-black sm:size-8" />
-                    </IconBox>
-                    <H2 className="text-black">MAGIC LINK</H2>
-                    <Body size="sm" className="text-muted">
-                      Sign in without a password. We&apos;ll email you a magic link.
-                    </Body>
-                  </Stack>
-
-                  {/* Error Alert */}
-                  {error && <Alert variant="error">{error}</Alert>}
-
-                  {/* Form */}
-                  <Form onSubmit={handleSubmit}>
-                    <Stack gap={4} className="sm:gap-6">
-                      <Field label="Email Address">
-                        <Input
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="your@email.com"
-                          required
-                        />
-                      </Field>
-
-                      <Button
-                        type="submit"
-                        variant="solid"
-                        size="lg"
-                        fullWidth
-                        disabled={loading}
-                        icon={<ArrowRight className="size-4" />}
-                        iconPosition="right"
-                      >
-                        {loading ? "Sending..." : "Send Magic Link"}
-                      </Button>
-                    </Stack>
-                  </Form>
-
-                  {/* Links */}
-                  <Stack gap={3} className="border-t border-black/10 pt-6 text-center">
-                    <NextLink href="/auth/signin">
-                      <Button variant="ghost" size="sm">
-                        Sign in with password instead
-                      </Button>
-                    </NextLink>
-
-                    <Body size="sm" className="text-muted">
-                      Don&apos;t have an account?{" "}
-                      <NextLink href="/auth/signup">
-                        <Button variant="ghost" size="sm" className="inline">
-                          Sign up
-                        </Button>
-                      </NextLink>
-                    </Body>
-                  </Stack>
-                </Stack>
-              )}
-            </Card>
-          </ScrollReveal>
+      <div className="text-center mt-6 pt-6 border-t border-grey-700">
+        <Button variant="ghost" size="sm" onClick={() => window.location.href = "/auth/signin"}>
+          Sign in with password instead
+        </Button>
+      </div>
     </AuthPage>
   );
 }

@@ -88,12 +88,12 @@ export default function ImportSettingsPage() {
                 onClick={() => setSelectedImport(option.id)}
               >
                 <div className="flex items-start gap-3">
-                  <div className={`p-2 rounded-card ${selectedImport === option.id ? "bg-primary text-white" : "bg-grey-800 text-grey-400"}`}>
+                  <div className={`p-2 rounded-card ${selectedImport === option.id ? "bg-primary text-white" : "bg-grey-800 text-on-dark-muted"}`}>
                     {option.icon}
                   </div>
                   <div className="flex-1">
                     <Body className="font-weight-medium">{option.label}</Body>
-                    <Body size="sm" className="text-grey-400">{option.description}</Body>
+                    <Body size="sm" className="text-on-dark-muted">{option.description}</Body>
                     <div className="flex gap-1 mt-2">
                       {option.formats.map((fmt) => (
                         <Badge key={fmt} variant="outline" className="text-body-xs uppercase">{fmt}</Badge>
@@ -119,15 +119,15 @@ export default function ImportSettingsPage() {
                   <Check className="size-6 text-success" />
                   <div>
                     <Body className="font-weight-medium">{selectedFile.name}</Body>
-                    <Body size="sm" className="text-grey-400">{(selectedFile.size / 1024).toFixed(1)} KB</Body>
+                    <Body size="sm" className="text-on-dark-muted">{(selectedFile.size / 1024).toFixed(1)} KB</Body>
                   </div>
                   <Button variant="ghost" size="sm" onClick={() => setSelectedFile(null)}>Remove</Button>
                 </div>
               ) : (
                 <>
-                  <Upload className="size-12 text-grey-600 mx-auto mb-4" />
+                  <Upload className="size-12 text-on-dark-disabled mx-auto mb-4" />
                   <Body className="font-weight-medium mb-2">Drag and drop your file here</Body>
-                  <Body size="sm" className="text-grey-400 mb-4">or click to browse</Body>
+                  <Body size="sm" className="text-on-dark-muted mb-4">or click to browse</Body>
                   <Input type="file" accept={currentOption?.formats.map((f) => `.${f}`).join(",")} onChange={handleFileChange} className="hidden" id="file-upload" />
                   <Label htmlFor="file-upload">
                     <Button variant="outline" className="cursor-pointer">Browse Files</Button>
@@ -137,7 +137,7 @@ export default function ImportSettingsPage() {
             </div>
             {currentOption && (
               <div className="mt-4 flex items-center justify-between">
-                <Body size="sm" className="text-grey-400">Need a template? Download our sample file.</Body>
+                <Body size="sm" className="text-on-dark-muted">Need a template? Download our sample file.</Body>
                 <Button variant="ghost" size="sm" onClick={() => window.open(currentOption.template, "_blank")}>Download Template</Button>
               </div>
             )}
@@ -163,9 +163,9 @@ export default function ImportSettingsPage() {
         <Section>
           <SectionHeader title="Recent Imports" description="Your previous import operations" />
           <Card className="p-8 text-center mt-4">
-            <Database className="size-12 text-grey-600 mx-auto mb-4" />
+            <Database className="size-12 text-on-dark-disabled mx-auto mb-4" />
             <Body className="font-weight-medium text-body-lg mb-2">No Recent Imports</Body>
-            <Body className="text-grey-400">Your import history will appear here</Body>
+            <Body className="text-on-dark-muted">Your import history will appear here</Body>
           </Card>
         </Section>
       ),

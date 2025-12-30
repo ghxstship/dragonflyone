@@ -87,7 +87,7 @@ export function PriceDisplay({
           className={clsx(
             "font-code tracking-widest uppercase",
             config.label,
-            inverted ? "text-grey-400" : "text-grey-600"
+            inverted ? "text-on-dark-muted" : "text-on-light-muted"
           )}
         >
           FROM
@@ -113,7 +113,7 @@ export function PriceDisplay({
             className={clsx(
               "font-code line-through tracking-wide",
               config.original,
-              inverted ? "text-grey-400" : "text-grey-600"
+              inverted ? "text-on-dark-muted" : "text-on-light-muted"
             )}
           >
             {formatPrice(originalPrice, currency, currencySymbol)}
@@ -126,7 +126,7 @@ export function PriceDisplay({
             className={clsx(
               "font-code tracking-wide",
               config.label,
-              inverted ? "text-grey-400" : "text-grey-600"
+              inverted ? "text-on-dark-muted" : "text-on-light-muted"
             )}
           >
             /{perUnit}
@@ -202,7 +202,7 @@ export function PriceRange({
         className={clsx(
           "font-code",
           config.label,
-          inverted ? "text-grey-400" : "text-grey-600"
+          inverted ? "text-on-dark-muted" : "text-on-light-muted"
         )}
       >
         –

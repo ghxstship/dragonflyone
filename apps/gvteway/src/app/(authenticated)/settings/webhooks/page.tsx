@@ -168,8 +168,8 @@ export default function WebhooksPage() {
 
           {webhooks.length === 0 ? (
             <div className="text-center py-12">
-              <Webhook className="size-12 text-grey-600 mx-auto mb-4" />
-              <Body className="text-grey-400 mb-4">No webhooks configured</Body>
+              <Webhook className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <Body className="text-on-dark-muted mb-4">No webhooks configured</Body>
               <Button variant="solid" onClick={() => setShowCreateModal(true)}>
                 Create Webhook
               </Button>
@@ -194,7 +194,7 @@ export default function WebhooksPage() {
                         <div>
                           <Body className="font-weight-medium text-white">{webhook.name}</Body>
                           {webhook.description && (
-                            <Body size="sm" className="text-grey-400">{webhook.description}</Body>
+                            <Body size="sm" className="text-on-dark-muted">{webhook.description}</Body>
                           )}
                         </div>
                       </TableCell>
@@ -281,7 +281,7 @@ export default function WebhooksPage() {
                         </Body>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-grey-400">
+                        <Body size="sm" className="text-on-dark-muted">
                           {new Date(delivery.created_at).toLocaleString()}
                         </Body>
                       </TableCell>
@@ -292,9 +292,9 @@ export default function WebhooksPage() {
             </Card>
           ) : (
             <div className="text-center py-12">
-              <Clock className="size-12 text-grey-600 mx-auto mb-4" />
-              <Body className="text-grey-400">No activity yet</Body>
-              <Body size="sm" className="text-grey-500 mt-2">
+              <Clock className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <Body className="text-on-dark-muted">No activity yet</Body>
+              <Body size="sm" className="text-on-dark-disabled mt-2">
                 Webhook deliveries will appear here once events are triggered
               </Body>
             </div>
@@ -326,20 +326,20 @@ export default function WebhooksPage() {
       <Modal open={showCreateModal} onClose={() => { setShowCreateModal(false); resetForm(); }} title="Create Webhook Endpoint">
         <div className="space-y-4">
           <div className="space-y-2">
-            <Body size="sm" className="text-grey-400">Name</Body>
+            <Body size="sm" className="text-on-dark-muted">Name</Body>
             <Input placeholder="e.g., Order Notifications" value={webhookName} onChange={(e) => setWebhookName(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Body size="sm" className="text-grey-400">Endpoint URL</Body>
+            <Body size="sm" className="text-on-dark-muted">Endpoint URL</Body>
             <Input placeholder="https://your-server.com/webhooks" value={webhookUrl} onChange={(e) => setWebhookUrl(e.target.value)} />
-            <Body size="sm" className="text-grey-500">Must be HTTPS</Body>
+            <Body size="sm" className="text-on-dark-disabled">Must be HTTPS</Body>
           </div>
           <div className="space-y-2">
-            <Body size="sm" className="text-grey-400">Description (optional)</Body>
+            <Body size="sm" className="text-on-dark-muted">Description (optional)</Body>
             <Input placeholder="Brief description" value={webhookDescription} onChange={(e) => setWebhookDescription(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Body size="sm" className="text-grey-400">Events to Subscribe</Body>
+            <Body size="sm" className="text-on-dark-muted">Events to Subscribe</Body>
             <Card className="p-4 max-h-[200px] overflow-y-auto">
               <Grid cols={2} gap={2} className="grid-cols-1 lg:grid-cols-2">
                 {ALL_WEBHOOK_EVENTS.map((event) => (
@@ -350,7 +350,7 @@ export default function WebhooksPage() {
                 ))}
               </Grid>
             </Card>
-            <Body size="sm" className="text-grey-500">{selectedEvents.length} events selected</Body>
+            <Body size="sm" className="text-on-dark-disabled">{selectedEvents.length} events selected</Body>
           </div>
           <div className="flex gap-4">
             <Button variant="outline" onClick={() => { setShowCreateModal(false); resetForm(); }}>Cancel</Button>
@@ -367,14 +367,14 @@ export default function WebhooksPage() {
             <Body size="sm" className="text-warning-100">This secret will only be shown once. Copy it now and store it securely.</Body>
           </Card>
           <div className="space-y-2">
-            <Body size="sm" className="text-grey-400">Signing Secret</Body>
+            <Body size="sm" className="text-on-dark-muted">Signing Secret</Body>
             <div className="flex gap-2">
               <Input value={newSecret} readOnly className="font-mono" />
               <Button variant="outline" onClick={copySecret} icon={copiedSecret ? <CheckCircle className="size-4" /> : <Copy className="size-4" />}>
                 {copiedSecret ? "Copied" : "Copy"}
               </Button>
             </div>
-            <Body size="sm" className="text-grey-500">Use this secret to verify webhook signatures</Body>
+            <Body size="sm" className="text-on-dark-disabled">Use this secret to verify webhook signatures</Body>
           </div>
           <Button variant="solid" onClick={() => setShowSecretModal(false)}>Done</Button>
         </div>
@@ -384,25 +384,25 @@ export default function WebhooksPage() {
         {selectedWebhook && (
           <div className="space-y-4">
             <div>
-              <Body size="sm" className="text-grey-400">Name</Body>
+              <Body size="sm" className="text-on-dark-muted">Name</Body>
               <Body className="font-weight-medium text-white">{selectedWebhook.name}</Body>
             </div>
             <div>
-              <Body size="sm" className="text-grey-400">URL</Body>
+              <Body size="sm" className="text-on-dark-muted">URL</Body>
               <Body size="sm" className="font-mono text-white break-all">{selectedWebhook.url}</Body>
             </div>
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <div>
-                <Body size="sm" className="text-grey-400">Status</Body>
+                <Body size="sm" className="text-on-dark-muted">Status</Body>
                 {getStatusBadge(selectedWebhook.status)}
               </div>
               <div>
-                <Body size="sm" className="text-grey-400">Retry Count</Body>
+                <Body size="sm" className="text-on-dark-muted">Retry Count</Body>
                 <Body className="text-white">{selectedWebhook.retry_count}</Body>
               </div>
             </Grid>
             <div>
-              <Body size="sm" className="text-grey-400">Subscribed Events</Body>
+              <Body size="sm" className="text-on-dark-muted">Subscribed Events</Body>
               <div className="flex flex-wrap gap-1 mt-1">
                 {selectedWebhook.events.map((event) => (
                   <Badge key={event} variant="outline">{getEventLabel(event)}</Badge>
@@ -411,17 +411,17 @@ export default function WebhooksPage() {
             </div>
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <div>
-                <Body size="sm" className="text-grey-400">Successful Deliveries</Body>
+                <Body size="sm" className="text-on-dark-muted">Successful Deliveries</Body>
                 <Body className="font-mono text-white">{selectedWebhook.success_count}</Body>
               </div>
               <div>
-                <Body size="sm" className="text-grey-400">Failed Deliveries</Body>
+                <Body size="sm" className="text-on-dark-muted">Failed Deliveries</Body>
                 <Body className="font-mono text-white">{selectedWebhook.failure_count}</Body>
               </div>
             </Grid>
             {selectedWebhook.last_triggered_at && (
               <div>
-                <Body size="sm" className="text-grey-400">Last Triggered</Body>
+                <Body size="sm" className="text-on-dark-muted">Last Triggered</Body>
                 <Body className="text-white">{new Date(selectedWebhook.last_triggered_at).toLocaleString()}</Body>
               </div>
             )}

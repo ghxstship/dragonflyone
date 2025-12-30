@@ -29,10 +29,10 @@ export default function ReviewsPage() {
     content: (
       <Section>
         <div className="flex gap-4 items-center mb-6">
-          <div className="relative flex-1 max-w-md"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" /><Input placeholder="Search reviews..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" /></div>
+          <div className="relative flex-1 max-w-md"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" /><Input placeholder="Search reviews..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" /></div>
         </div>
         {filtered.length === 0 ? (
-          <Card className="p-8 text-center"><Star className="size-12 text-grey-600 mx-auto mb-4" /><Body className="font-weight-medium mb-2">No reviews yet</Body><Body className="text-grey-400 mb-4">Share your event experiences</Body><Button variant="solid" onClick={() => router.push("/reviews/new")}>Write a Review</Button></Card>
+          <Card className="p-8 text-center"><Star className="size-12 text-on-dark-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No reviews yet</Body><Body className="text-on-dark-muted mb-4">Share your event experiences</Body><Button variant="solid" onClick={() => router.push("/reviews/new")}>Write a Review</Button></Card>
         ) : (
           <div className="space-y-4">
             {filtered.map((review: Review) => (
@@ -40,10 +40,10 @@ export default function ReviewsPage() {
                 <div className="flex items-start justify-between">
                   <div>
                     <Body className="font-weight-bold">{review.event}</Body>
-                    <div className="flex items-center gap-1 mt-2">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`size-4 ${i < review.rating ? "text-warning fill-warning" : "text-grey-600"}`} />)}</div>
-                    <Body className="text-grey-300 mt-3">{review.text}</Body>
+                    <div className="flex items-center gap-1 mt-2">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`size-4 ${i < review.rating ? "text-warning fill-warning" : "text-on-dark-disabled"}`} />)}</div>
+                    <Body className="text-on-dark-secondary mt-3">{review.text}</Body>
                   </div>
-                  <Body size="sm" className="text-grey-500">{formatDate(review.date)}</Body>
+                  <Body size="sm" className="text-on-dark-disabled">{formatDate(review.date)}</Body>
                 </div>
               </Card>
             ))}

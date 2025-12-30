@@ -28,7 +28,7 @@ export default function ShoppablePage() {
           {items.map((item: ShoppableItem) => (
             <Card key={item.id} className="overflow-hidden">
               <div className="h-40 bg-grey-800 flex items-center justify-center relative">
-                <Play className="size-12 text-grey-600" />
+                <Play className="size-12 text-on-dark-disabled" />
                 <div className="absolute top-2 right-2 bg-black/50 px-2 py-1 rounded-badge">{item.type}</div>
               </div>
               <div className="p-4">

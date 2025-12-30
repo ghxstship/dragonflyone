@@ -147,7 +147,7 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
     const bgClass = inverted ? "bg-ink-950 text-white" : "bg-grey-50 text-ink-900";
     const headerBgClass = inverted ? "bg-ink-900 border-grey-800" : "bg-white border-grey-200";
     const cardBgClass = inverted ? "bg-ink-900 border-grey-800" : "bg-white border-grey-200";
-    const mutedTextClass = inverted ? "text-grey-400" : "text-grey-500";
+    const mutedTextClass = inverted ? "text-on-dark-muted" : "text-on-light-muted";
 
     // Close mobile menu on escape key
     useEffect(() => {
@@ -283,8 +283,8 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                   className={clsx(
                     "p-2 rounded-button transition-colors",
                     inverted
-                      ? "hover:bg-grey-800 text-grey-400 hover:text-white"
-                      : "hover:bg-grey-100 text-grey-500 hover:text-ink-900"
+                      ? "hover:bg-grey-800 text-on-dark-muted hover:text-white"
+                      : "hover:bg-grey-100 text-on-dark-disabled hover:text-ink-900"
                   )}
                   title="Sign Out"
                   aria-label="Sign out"
@@ -317,8 +317,8 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                           activeRoute === item.id
                             ? "bg-primary/10 text-primary"
                             : inverted
-                              ? "hover:bg-grey-800 text-grey-400 hover:text-white"
-                              : "hover:bg-grey-100 text-grey-500 hover:text-ink-900"
+                              ? "hover:bg-grey-800 text-on-dark-muted hover:text-white"
+                              : "hover:bg-grey-100 text-on-dark-disabled hover:text-ink-900"
                         )}
                         aria-current={activeRoute === item.id ? "page" : undefined}
                       >
@@ -327,7 +327,7 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                         {item.badge !== undefined && (
                           <span className={clsx(
                             "px-1.5 py-0.5 text-xs rounded-badge font-medium",
-                            inverted ? "bg-grey-700 text-grey-300" : "bg-grey-200 text-grey-600"
+                            inverted ? "bg-grey-700 text-on-dark-secondary" : "bg-grey-200 text-on-dark-disabled"
                           )}>
                             {item.badge}
                           </span>
@@ -369,7 +369,7 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                         "px-1.5 py-0.5 text-xs rounded-badge font-medium",
                         activeRoute === item.id
                           ? "bg-white/20 text-white"
-                          : inverted ? "bg-grey-700 text-grey-300" : "bg-grey-200 text-grey-600"
+                          : inverted ? "bg-grey-700 text-on-dark-secondary" : "bg-grey-200 text-on-dark-disabled"
                       )}>
                         {item.badge}
                       </span>
@@ -407,8 +407,8 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                     className={clsx(
                       "text-xs transition-colors",
                       inverted
-                        ? "text-grey-400 hover:text-white"
-                        : "text-grey-500 hover:text-ink-900"
+                        ? "text-on-dark-muted hover:text-white"
+                        : "text-on-dark-disabled hover:text-ink-900"
                     )}
                   >
                     {link.label}

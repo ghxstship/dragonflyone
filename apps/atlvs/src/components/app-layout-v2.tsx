@@ -105,7 +105,7 @@ export function AtlvsAppLayoutV2({
           navigation={getContextualNavigation()}
           currentPath={pathname}
           logo={
-            <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-grey-200">
+            <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-on-dark-secondary">
               ATLVS
             </Link>
           }

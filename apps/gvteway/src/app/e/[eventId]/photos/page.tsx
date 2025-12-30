@@ -30,19 +30,19 @@ export default function EventPhotosPage() {
     content: (
       <Section>
         <Card className="p-6 mb-6 border-dashed text-center">
-          <Upload className="size-12 text-grey-600 mx-auto mb-4" />
+          <Upload className="size-12 text-on-dark-disabled mx-auto mb-4" />
           <Body className="font-weight-medium mb-2">Share Your Photos</Body>
-          <Body className="text-grey-400 mb-4">Upload photos from the event</Body>
+          <Body className="text-on-dark-muted mb-4">Upload photos from the event</Body>
           <Button variant="outline" icon={<Camera className="size-4" />} iconPosition="left">Upload Photo</Button>
         </Card>
         <SectionHeader title="Community Photos" />
         <Grid cols={3} gap={4} className="grid-cols-2 md:grid-cols-3 mt-4">
           {photos.map((photo: Photo) => (
             <Card key={photo.id} className="overflow-hidden">
-              <div className="h-40 bg-grey-800 flex items-center justify-center"><Camera className="size-8 text-grey-600" /></div>
+              <div className="h-40 bg-grey-800 flex items-center justify-center"><Camera className="size-8 text-on-dark-disabled" /></div>
               <div className="p-3 flex items-center justify-between">
-                <Body size="sm" className="text-grey-400">@{photo.user}</Body>
-                <div className="flex items-center gap-1 text-grey-400"><Heart className="size-4" /><Body size="sm">{photo.likes}</Body></div>
+                <Body size="sm" className="text-on-dark-muted">@{photo.user}</Body>
+                <div className="flex items-center gap-1 text-on-dark-muted"><Heart className="size-4" /><Body size="sm">{photo.likes}</Body></div>
               </div>
             </Card>
           ))}

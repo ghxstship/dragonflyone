@@ -104,7 +104,7 @@ export default function PartnersPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Partnership Types</Body>
                   <H3 className="text-white">Choose Your Program</H3>
-                  <Body className="text-grey-400 max-w-2xl">Select the partnership model that best fits your business and start earning today.</Body>
+                  <Body className="text-on-dark-muted max-w-2xl">Select the partnership model that best fits your business and start earning today.</Body>
                 </Stack>
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
@@ -120,14 +120,14 @@ export default function PartnersPage() {
 
                         <Stack gap={2}>
                           <Body className="text-white font-weight-bold text-h5-md">{type.title}</Body>
-                          <Body className="text-grey-400">{type.description}</Body>
+                          <Body className="text-on-dark-muted">{type.description}</Body>
                         </Stack>
 
                         <Stack gap={3}>
                           {type.benefits.map((benefit, idx) => (
                             <Stack key={idx} direction="horizontal" gap={3} className="items-center">
                               <Check className="size-4 text-success flex-shrink-0" />
-                              <Body size="sm" className="text-grey-300">{benefit}</Body>
+                              <Body size="sm" className="text-on-dark-secondary">{benefit}</Body>
                             </Stack>
                           ))}
                         </Stack>

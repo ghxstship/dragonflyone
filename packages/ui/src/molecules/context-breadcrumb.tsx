@@ -158,7 +158,7 @@ function ContextDropdown({ level, inverted, isOpen, onToggle, onClose }: Context
         {level.current?.badge && (
           <span className={clsx(
             "px-spacing-1 py-spacing-0.5 text-micro font-mono rounded-sm",
-            inverted ? "bg-grey-700 text-grey-300" : "bg-grey-200 text-grey-600"
+            inverted ? "bg-grey-700 text-on-dark-secondary" : "bg-grey-200 text-on-dark-disabled"
           )}>
             {level.current.badge}
           </span>
@@ -196,7 +196,7 @@ function ContextDropdown({ level, inverted, isOpen, onToggle, onClose }: Context
               <svg
                 className={clsx(
                   "absolute left-spacing-3 top-1/2 -translate-y-1/2 w-spacing-4 h-spacing-4",
-                  inverted ? "text-grey-400" : "text-grey-500"
+                  inverted ? "text-on-dark-muted" : "text-on-light-muted"
                 )}
                 fill="none"
                 viewBox="0 0 24 24"
@@ -215,8 +215,8 @@ function ContextDropdown({ level, inverted, isOpen, onToggle, onClose }: Context
                 className={clsx(
                   "w-full pl-spacing-9 pr-spacing-3 py-spacing-2 text-body-sm rounded-sm outline-none",
                   inverted
-                    ? "bg-grey-800 text-white placeholder:text-grey-500 focus:ring-1 focus:ring-grey-600"
-                    : "bg-grey-50 text-black placeholder:text-grey-500 focus:ring-1 focus:ring-grey-300"
+                    ? "bg-grey-800 text-white placeholder:text-on-dark-disabled focus:ring-1 focus:ring-grey-600"
+                    : "bg-grey-50 text-black placeholder:text-on-dark-disabled focus:ring-1 focus:ring-grey-300"
                 )}
               />
             </div>
@@ -231,14 +231,14 @@ function ContextDropdown({ level, inverted, isOpen, onToggle, onClose }: Context
             {level.isLoading ? (
               <div className={clsx(
                 "px-spacing-4 py-spacing-8 text-center text-body-sm",
-                inverted ? "text-grey-400" : "text-grey-500"
+                inverted ? "text-on-dark-muted" : "text-on-light-muted"
               )}>
                 Loading...
               </div>
             ) : filteredItems.length === 0 ? (
               <div className={clsx(
                 "px-spacing-4 py-spacing-8 text-center text-body-sm",
-                inverted ? "text-grey-400" : "text-grey-500"
+                inverted ? "text-on-dark-muted" : "text-on-light-muted"
               )}>
                 No results found
               </div>
@@ -247,7 +247,7 @@ function ContextDropdown({ level, inverted, isOpen, onToggle, onClose }: Context
                 {/* Section Label */}
                 <div className={clsx(
                   "px-spacing-3 py-spacing-1 text-micro font-mono uppercase tracking-wider",
-                  inverted ? "text-grey-400" : "text-grey-500"
+                  inverted ? "text-on-dark-muted" : "text-on-light-muted"
                 )}>
                   {level.label}s
                 </div>
@@ -268,7 +268,7 @@ function ContextDropdown({ level, inverted, isOpen, onToggle, onClose }: Context
                         : "",
                       level.current?.id === item.id
                         ? inverted ? "text-white" : "text-black"
-                        : inverted ? "text-grey-300 hover:text-white hover:bg-grey-800" : "text-grey-600 hover:text-black hover:bg-grey-50"
+                        : inverted ? "text-on-dark-secondary hover:text-white hover:bg-grey-800" : "text-on-dark-disabled hover:text-black hover:bg-grey-50"
                     )}
                     role="option"
                     aria-selected={level.current?.id === item.id}
@@ -319,8 +319,8 @@ function ContextDropdown({ level, inverted, isOpen, onToggle, onClose }: Context
                 className={clsx(
                   "w-full flex items-center gap-gap-xs px-spacing-3 py-spacing-2 text-body-sm rounded-sm transition-colors",
                   inverted
-                    ? "text-grey-300 hover:bg-grey-800 hover:text-white"
-                    : "text-grey-600 hover:bg-grey-100 hover:text-black"
+                    ? "text-on-dark-secondary hover:bg-grey-800 hover:text-white"
+                    : "text-on-dark-disabled hover:bg-grey-100 hover:text-black"
                 )}
               >
                 <svg
@@ -393,7 +393,7 @@ export const ContextBreadcrumb = forwardRef<HTMLElement, ContextBreadcrumbProps>
               <div className="flex-shrink-0">{logo}</div>
               <span className={clsx(
                 "mx-spacing-2 text-body-sm",
-                inverted ? "text-grey-600" : "text-grey-300"
+                inverted ? "text-on-dark-disabled" : "text-on-light-secondary"
               )}>
                 {separator}
               </span>
@@ -406,7 +406,7 @@ export const ContextBreadcrumb = forwardRef<HTMLElement, ContextBreadcrumbProps>
               {index > 0 && (
                 <span className={clsx(
                   "mx-2 text-body-sm",
-                  inverted ? "text-grey-600" : "text-grey-300"
+                  inverted ? "text-on-dark-disabled" : "text-on-light-secondary"
                 )}>
                   {separator}
                 </span>

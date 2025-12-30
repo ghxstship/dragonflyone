@@ -84,7 +84,7 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
               {kicker && <Kicker>{kicker}</Kicker>}
               {title && <H2 className="text-white">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-grey-400 max-w-2xl">
+                <Body size="lg" className="text-on-dark-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -123,7 +123,7 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
                             idx % 2 === 0 ? "md:justify-end" : "md:justify-start"
                           )}
                         >
-                          <Body size="sm" className="text-grey-500 font-mono">
+                          <Body size="sm" className="text-on-dark-disabled font-mono">
                             {item.date}
                           </Body>
                           {item.status && (
@@ -135,7 +135,7 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
                         <H3 size="sm" className="text-white">
                           {item.title}
                         </H3>
-                        <Body className="text-grey-400">
+                        <Body className="text-on-dark-muted">
                           {item.description}
                         </Body>
                       </Stack>
@@ -178,13 +178,13 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
 
                     {/* Content */}
                     <Stack gap={2} className="text-center">
-                      <Body size="sm" className="text-grey-500 font-mono">
+                      <Body size="sm" className="text-on-dark-disabled font-mono">
                         {item.date}
                       </Body>
                       <H3 size="sm" className="text-white">
                         {item.title}
                       </H3>
-                      <Body size="sm" className="text-grey-400">
+                      <Body size="sm" className="text-on-dark-muted">
                         {item.description}
                       </Body>
                       {item.status && (

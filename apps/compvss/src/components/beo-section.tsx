@@ -70,7 +70,7 @@ export function BEOSection({ section, variant = "full", showHeader = true }: BEO
             </Grid>
             {Array.isArray(content.spaces) && content.spaces.length > 0 && (
               <Stack gap={2}>
-                <Body size="sm" className="text-grey-400 font-weight-medium">Spaces</Body>
+                <Body size="sm" className="text-on-dark-muted font-weight-medium">Spaces</Body>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {(content.spaces as Array<{ name: string; setup: string }>).map((space, i) => (
                     <Badge key={i} variant="outline">
@@ -90,7 +90,7 @@ export function BEOSection({ section, variant = "full", showHeader = true }: BEO
             {items.map((item, i) => (
               <Stack key={i} direction="horizontal" gap={4} className="items-start py-2 border-b border-ink-800 last:border-0">
                 <Body className="text-primary font-mono text-body-sm min-w-[60px]">{item.time}</Body>
-                <Body size="sm" className="text-grey-300 flex-1">{item.description}</Body>
+                <Body size="sm" className="text-on-dark-secondary flex-1">{item.description}</Body>
                 {item.department && (
                   <Badge variant="ghost" className="text-mono-xs">{item.department}</Badge>
                 )}
@@ -98,7 +98,7 @@ export function BEOSection({ section, variant = "full", showHeader = true }: BEO
             ))}
           </Stack>
         ) : (
-          <Body size="sm" className="text-grey-500">No timeline items</Body>
+          <Body size="sm" className="text-on-dark-disabled">No timeline items</Body>
         );
 
       case "catering":
@@ -106,17 +106,17 @@ export function BEOSection({ section, variant = "full", showHeader = true }: BEO
           <Stack gap={4}>
             {Array.isArray(content.menu_items) && content.menu_items.length > 0 && (
               <Stack gap={2}>
-                <Body size="sm" className="text-grey-400 font-weight-medium">Menu Items</Body>
+                <Body size="sm" className="text-on-dark-muted font-weight-medium">Menu Items</Body>
                 <Stack gap={1}>
                   {(content.menu_items as string[]).map((item, i) => (
-                    <Body key={i} size="sm" className="text-grey-300">- {item}</Body>
+                    <Body key={i} size="sm" className="text-on-dark-secondary">- {item}</Body>
                   ))}
                 </Stack>
               </Stack>
             )}
             {Array.isArray(content.dietary_requirements) && content.dietary_requirements.length > 0 && (
               <Stack gap={2}>
-                <Body size="sm" className="text-grey-400 font-weight-medium">Dietary Requirements</Body>
+                <Body size="sm" className="text-on-dark-muted font-weight-medium">Dietary Requirements</Body>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {(content.dietary_requirements as string[]).map((req, i) => (
                     <Badge key={i} variant="outline" className="text-warning">{req}</Badge>
@@ -125,7 +125,7 @@ export function BEOSection({ section, variant = "full", showHeader = true }: BEO
               </Stack>
             )}
             {(!content.menu_items || (content.menu_items as string[]).length === 0) && (
-              <Body size="sm" className="text-grey-500">No catering details</Body>
+              <Body size="sm" className="text-on-dark-disabled">No catering details</Body>
             )}
           </Stack>
         );
@@ -136,23 +136,23 @@ export function BEOSection({ section, variant = "full", showHeader = true }: BEO
         return reqItems.length > 0 ? (
           <Stack gap={1}>
             {reqItems.map((item, i) => (
-              <Body key={i} size="sm" className="text-grey-300">- {item}</Body>
+              <Body key={i} size="sm" className="text-on-dark-secondary">- {item}</Body>
             ))}
           </Stack>
         ) : (
-          <Body size="sm" className="text-grey-500">No requirements listed</Body>
+          <Body size="sm" className="text-on-dark-disabled">No requirements listed</Body>
         );
 
       case "notes":
         return (
-          <Body size="sm" className="text-grey-300 whitespace-pre-wrap">
+          <Body size="sm" className="text-on-dark-secondary whitespace-pre-wrap">
             {(content.text as string) || "No notes"}
           </Body>
         );
 
       default:
         return (
-          <Body size="sm" className="text-grey-500">
+          <Body size="sm" className="text-on-dark-disabled">
             Unknown section type: {section.type}
           </Body>
         );
@@ -165,7 +165,7 @@ export function BEOSection({ section, variant = "full", showHeader = true }: BEO
         {showHeader && (
           <Stack direction="horizontal" gap={2} className="items-center">
             {SECTION_ICONS[section.type]}
-            <Body size="sm" className="font-weight-medium text-grey-300">{section.title}</Body>
+            <Body size="sm" className="font-weight-medium text-on-dark-secondary">{section.title}</Body>
           </Stack>
         )}
         {renderContent()}
@@ -193,8 +193,8 @@ export function BEOSection({ section, variant = "full", showHeader = true }: BEO
 function DetailItem({ label, value }: { label: string; value?: string }) {
   return (
     <Stack gap={1}>
-      <Body size="sm" className="text-grey-500">{label}</Body>
-      <Body size="sm" className="text-grey-300">{value || "N/A"}</Body>
+      <Body size="sm" className="text-on-dark-disabled">{label}</Body>
+      <Body size="sm" className="text-on-dark-secondary">{value || "N/A"}</Body>
     </Stack>
   );
 }

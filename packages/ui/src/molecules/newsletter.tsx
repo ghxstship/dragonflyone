@@ -46,8 +46,8 @@ export const Newsletter = forwardRef<HTMLDivElement, NewsletterProps>(
             className={clsx(
               "flex-1 px-spacing-4 py-spacing-3 font-body border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors",
               inverted
-                ? "bg-transparent border-white text-white placeholder:text-grey-400 focus:ring-white"
-                : "bg-white border-black text-black placeholder:text-grey-500 focus:ring-black"
+                ? "bg-transparent border-white text-white placeholder:text-on-dark-muted focus:ring-white"
+                : "bg-white border-black text-black placeholder:text-on-dark-disabled focus:ring-black"
             )}
             disabled={loading || success}
           />

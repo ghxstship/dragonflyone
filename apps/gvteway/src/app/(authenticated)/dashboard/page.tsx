@@ -118,15 +118,15 @@ export default function DashboardPage() {
                 <Body className="text-white font-weight-medium mb-3">System Health</Body>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <Body size="sm" className="text-grey-400">API Response</Body>
+                    <Body size="sm" className="text-on-dark-muted">API Response</Body>
                     <Body size="sm" className="text-white">{healthData?.apiResponseTime || 45}ms</Body>
                   </div>
                   <div className="flex justify-between">
-                    <Body size="sm" className="text-grey-400">Database</Body>
+                    <Body size="sm" className="text-on-dark-muted">Database</Body>
                     <Body size="sm" className="text-success">{getHealthStatusLabel(healthData?.databaseStatus || "healthy")}</Body>
                   </div>
                   <div className="flex justify-between">
-                    <Body size="sm" className="text-grey-400">Cache Hit</Body>
+                    <Body size="sm" className="text-on-dark-muted">Cache Hit</Body>
                     <Body size="sm" className="text-white">{healthData?.cacheHitRate || 94}%</Body>
                   </div>
                 </div>
@@ -136,7 +136,7 @@ export default function DashboardPage() {
                 <Body className="text-white font-weight-medium mb-3">Recent Activity</Body>
                 <div className="space-y-2">
                   {(activityData || fallbackActivity).map((activity) => (
-                    <Body key={activity.id} size="sm" className="text-grey-400">
+                    <Body key={activity.id} size="sm" className="text-on-dark-muted">
                       {activity.action}: {activity.detail}
                     </Body>
                   ))}
@@ -182,11 +182,11 @@ export default function DashboardPage() {
                 <div className="space-y-3">
                   <div className="border-l-4 border-primary pl-4">
                     <Body className="text-white">Summer Music Festival</Body>
-                    <Label size="xs" className="text-grey-400">June 15, 2024 • 342 tickets sold</Label>
+                    <Label size="xs" className="text-on-dark-muted">June 15, 2024 • 342 tickets sold</Label>
                   </div>
                   <div className="border-l-4 border-grey-700 pl-4">
                     <Body className="text-white">Rock Concert Series</Body>
-                    <Label size="xs" className="text-grey-400">July 20, 2024 • 156 tickets sold</Label>
+                    <Label size="xs" className="text-on-dark-muted">July 20, 2024 • 156 tickets sold</Label>
                   </div>
                 </div>
               </Card>
@@ -215,7 +215,7 @@ export default function DashboardPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Body className="text-white">Main Stage Theater</Body>
-                    <Label size="xs" className="text-grey-400">Capacity: 2,000 • Next Event: 3 days</Label>
+                    <Label size="xs" className="text-on-dark-muted">Capacity: 2,000 • Next Event: 3 days</Label>
                   </div>
                   <Button variant="outline" inverted size="sm" icon={<Building2 className="size-4" />} iconPosition="left">
                     Manage
@@ -261,15 +261,15 @@ export default function DashboardPage() {
                 <Body className="text-white font-weight-medium mb-3">Fan Engagement</Body>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <Body size="sm" className="text-grey-400">New Followers (7d)</Body>
+                    <Body size="sm" className="text-on-dark-muted">New Followers (7d)</Body>
                     <Body size="sm" className="text-white">+342</Body>
                   </div>
                   <div className="flex justify-between">
-                    <Body size="sm" className="text-grey-400">Avg. Engagement</Body>
+                    <Body size="sm" className="text-on-dark-muted">Avg. Engagement</Body>
                     <Body size="sm" className="text-white">8.4%</Body>
                   </div>
                   <div className="flex justify-between">
-                    <Body size="sm" className="text-grey-400">Messages</Body>
+                    <Body size="sm" className="text-on-dark-muted">Messages</Body>
                     <Body size="sm" className="text-white">23 unread</Body>
                   </div>
                 </div>
@@ -313,11 +313,11 @@ export default function DashboardPage() {
                 <div className="space-y-3">
                   <div className="border-l-4 border-primary pl-4">
                     <Body className="text-white">Electronic Night</Body>
-                    <Label size="xs" className="text-grey-400">Based on your preferences</Label>
+                    <Label size="xs" className="text-on-dark-muted">Based on your preferences</Label>
                   </div>
                   <div className="border-l-4 border-grey-700 pl-4">
                     <Body className="text-white">Jazz in the Park</Body>
-                    <Label size="xs" className="text-grey-400">Nearby • This Weekend</Label>
+                    <Label size="xs" className="text-on-dark-muted">Nearby • This Weekend</Label>
                   </div>
                 </div>
               </Card>

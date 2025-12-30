@@ -137,7 +137,7 @@ export default function VenuePage() {
             </Grid>
           ) : (
             <Card inverted className="p-6">
-              <Body className="text-grey-400">No upcoming events at this venue.</Body>
+              <Body className="text-on-dark-muted">No upcoming events at this venue.</Body>
             </Card>
           )}
         </Section>
@@ -162,7 +162,7 @@ export default function VenuePage() {
         <Section border>
           <SectionHeader title="Venue Amenities" />
           <Card inverted className="p-6">
-            <Body className="text-grey-400">No amenities information available.</Body>
+            <Body className="text-on-dark-muted">No amenities information available.</Body>
           </Card>
         </Section>
       ),
@@ -207,7 +207,7 @@ export default function VenuePage() {
           <Section border>
             <SectionHeader title="Need Help?" />
             <Card inverted className="p-4">
-              <Body className="text-grey-300 mb-4">
+              <Body className="text-on-dark-secondary mb-4">
                 Have questions about this venue? Contact our support team.
               </Body>
               <Button variant="outline" inverted onClick={() => router.push("/help")}>

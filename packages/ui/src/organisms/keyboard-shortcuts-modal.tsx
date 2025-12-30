@@ -40,7 +40,7 @@ function ShortcutKey({ keys }: ShortcutKeyProps) {
           className={clsx(
             "inline-flex items-center justify-center min-w-spacing-6 h-spacing-6 px-spacing-2",
             "bg-surface-tertiary border border-border-secondary rounded-button",
-            "font-code text-mono-sm text-grey-700"
+            "font-code text-mono-sm text-on-dark-disabled"
           )}
         >
           {part}
@@ -83,7 +83,7 @@ export function KeyboardShortcutsModal({
           </div>
           <button
             onClick={onClose}
-            className="p-spacing-2 text-grey-400 hover:text-white bg-transparent border-none cursor-pointer transition-colors"
+            className="p-spacing-2 text-on-dark-muted hover:text-white bg-transparent border-none cursor-pointer transition-colors"
           >
             <X className="size-5" />
           </button>
@@ -94,7 +94,7 @@ export function KeyboardShortcutsModal({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-gap-lg">
             {categories.map((category) => (
               <div key={category.id}>
-                <h3 className="font-code text-mono-sm text-grey-500 uppercase tracking-wider mb-spacing-3">
+                <h3 className="font-code text-mono-sm text-on-dark-disabled uppercase tracking-wider mb-spacing-3">
                   {category.label}
                 </h3>
                 <div className="flex flex-col gap-gap-sm">
@@ -106,7 +106,7 @@ export function KeyboardShortcutsModal({
                       <div>
                         <p className="text-body-md text-text-primary">{shortcut.label}</p>
                         {shortcut.description && (
-                          <p className="text-body-sm text-grey-500">{shortcut.description}</p>
+                          <p className="text-body-sm text-on-dark-disabled">{shortcut.description}</p>
                         )}
                       </div>
                       <ShortcutKey keys={shortcut.keys} />
@@ -119,15 +119,15 @@ export function KeyboardShortcutsModal({
           
           {categories.length === 0 && (
             <div className="flex flex-col items-center justify-center py-spacing-12 text-center">
-              <Keyboard className="size-12 text-grey-300 mb-spacing-4" />
-              <p className="text-body-md text-grey-500">No keyboard shortcuts available</p>
+              <Keyboard className="size-12 text-on-dark-secondary mb-spacing-4" />
+              <p className="text-body-md text-on-dark-disabled">No keyboard shortcuts available</p>
             </div>
           )}
         </div>
         
         {/* Footer */}
         <div className="px-spacing-6 py-spacing-3 bg-surface-secondary border-t border-border-secondary">
-          <p className="text-body-xs text-grey-500 text-center">
+          <p className="text-body-xs text-on-dark-disabled text-center">
             Press <kbd className="px-spacing-1 py-px bg-surface-tertiary rounded-badge font-code">Esc</kbd> to close
           </p>
         </div>

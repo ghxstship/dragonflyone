@@ -169,8 +169,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                     "hover:-translate-x-0.5 hover:-translate-y-0.5",
                     "active:translate-x-0 active:translate-y-0",
                     inverted 
-                      ? "border-grey-600 text-grey-300 hover:border-white hover:text-white hover:shadow-[2px_2px_0_rgba(255,255,255,0.2)]" 
-                      : "border-grey-300 text-grey-600 hover:border-black hover:text-black hover:shadow-[2px_2px_0_rgba(0,0,0,0.15)]"
+                      ? "border-grey-600 text-on-dark-secondary hover:border-white hover:text-white hover:shadow-[2px_2px_0_rgba(255,255,255,0.2)]" 
+                      : "border-grey-300 text-on-dark-disabled hover:border-black hover:text-black hover:shadow-[2px_2px_0_rgba(0,0,0,0.15)]"
                   )}
                   aria-label="Close modal"
                 >
@@ -181,7 +181,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               ) : null}
             </div>
           ) : null}
-          <div className={clsx("p-6", inverted ? "text-grey-200" : "text-grey-800")}>{children}</div>
+          <div className={clsx("p-6", inverted ? "text-on-dark-secondary" : "text-on-light-muted")}>{children}</div>
         </div>
       </div>
     );
@@ -209,7 +209,7 @@ export type ModalBodyProps = HTMLAttributes<HTMLDivElement> & {
 export const ModalBody = forwardRef<HTMLDivElement, ModalBodyProps>(
   function ModalBody({ inverted = true, className, children, ...props }, ref) {
     return (
-      <div ref={ref} className={clsx(inverted ? "text-grey-200" : "text-grey-800", className)} {...props}>
+      <div ref={ref} className={clsx(inverted ? "text-on-dark-secondary" : "text-on-light-muted", className)} {...props}>
         {children}
       </div>
     );

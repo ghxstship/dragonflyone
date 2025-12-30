@@ -111,7 +111,7 @@ export default function InvoiceDetailPage() {
             <Stack gap={3}>
               <Body className="text-white">{invoice.client_name}</Body>
               {invoice.project_name && (
-                <Body size="sm" className="text-grey-300">Project: {invoice.project_name}</Body>
+                <Body size="sm" className="text-on-dark-secondary">Project: {invoice.project_name}</Body>
               )}
             </Stack>
           </Section>
@@ -120,15 +120,15 @@ export default function InvoiceDetailPage() {
             <SectionHeader title="Invoice Details" />
             <Stack gap={3}>
               <Stack direction="horizontal" className="justify-between">
-                <Body size="sm" className="text-grey-400">Issue Date</Body>
+                <Body size="sm" className="text-on-dark-muted">Issue Date</Body>
                 <Body size="sm" className="text-white">{formatDate(invoice.issue_date)}</Body>
               </Stack>
               <Stack direction="horizontal" className="justify-between">
-                <Body size="sm" className="text-grey-400">Due Date</Body>
+                <Body size="sm" className="text-on-dark-muted">Due Date</Body>
                 <Body size="sm" className="text-white">{formatDate(invoice.due_date)}</Body>
               </Stack>
               <Stack direction="horizontal" className="justify-between">
-                <Body size="sm" className="text-grey-400">Payment Terms</Body>
+                <Body size="sm" className="text-on-dark-muted">Payment Terms</Body>
                 <Body size="sm" className="text-white">Net 30</Body>
               </Stack>
             </Stack>
@@ -138,7 +138,7 @@ export default function InvoiceDetailPage() {
         {invoice.notes && (
           <Section border>
             <SectionHeader title="Notes" />
-            <Body size="sm" className="whitespace-pre-wrap text-grey-300">{invoice.notes}</Body>
+            <Body size="sm" className="whitespace-pre-wrap text-on-dark-secondary">{invoice.notes}</Body>
           </Section>
         )}
       </Stack>
@@ -161,7 +161,7 @@ export default function InvoiceDetailPage() {
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack gap={1}>
                     <Body className="text-white">Payment Received</Body>
-                    <Body size="xs" className="text-grey-500">Credit Card</Body>
+                    <Body size="xs" className="text-on-dark-disabled">Credit Card</Body>
                   </Stack>
                   <Body className="font-mono text-success">{formatCurrency(invoice.amount_paid)}</Body>
                 </Stack>
@@ -170,8 +170,8 @@ export default function InvoiceDetailPage() {
           ) : (
             <Card inverted className="border-2 border-ink-800 p-8 text-center">
               <Stack gap={3} className="items-center">
-                <CreditCard className="size-8 text-grey-500" />
-                <Body className="text-grey-400">No payments recorded yet</Body>
+                <CreditCard className="size-8 text-on-dark-disabled" />
+                <Body className="text-on-dark-muted">No payments recorded yet</Body>
                 <Button 
                   variant="solid" 
                   size="sm"
@@ -205,7 +205,7 @@ export default function InvoiceDetailPage() {
                 <FileText className="mt-1 size-4 text-primary" />
                 <Stack gap={1} className="flex-1">
                   <Body size="sm" className="text-white">Invoice Created</Body>
-                  <Body size="xs" className="text-grey-500">{formatDate(invoice.issue_date)}</Body>
+                  <Body size="xs" className="text-on-dark-disabled">{formatDate(invoice.issue_date)}</Body>
                 </Stack>
               </Stack>
             </Card>
@@ -215,7 +215,7 @@ export default function InvoiceDetailPage() {
                   <Send className="mt-1 size-4 text-info" />
                   <Stack gap={1} className="flex-1">
                     <Body size="sm" className="text-white">Invoice Sent</Body>
-                    <Body size="xs" className="text-grey-500">Sent to {invoice.client_name}</Body>
+                    <Body size="xs" className="text-on-dark-disabled">Sent to {invoice.client_name}</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -226,7 +226,7 @@ export default function InvoiceDetailPage() {
                   <CheckCircle className="mt-1 size-4 text-success" />
                   <Stack gap={1} className="flex-1">
                     <Body size="sm" className="text-white">Payment Received</Body>
-                    <Body size="xs" className="text-grey-500">{formatCurrency(invoice.amount_paid)}</Body>
+                    <Body size="xs" className="text-on-dark-disabled">{formatCurrency(invoice.amount_paid)}</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -343,7 +343,7 @@ export default function InvoiceDetailPage() {
                 <Stack gap={2}>
                   <Label>Amount</Label>
                   <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-grey-500" />
+                    <DollarSign className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-on-dark-disabled" />
                     <Input
                       type="number"
                       value={paymentAmount}

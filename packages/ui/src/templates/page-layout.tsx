@@ -106,7 +106,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
           <main id="main-content" className="flex-1 flex items-center justify-center p-8" tabIndex={-1}>
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={isDark ? "text-grey-400" : "text-grey-600"}>
+              <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -138,7 +138,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
                 <H2 className={isDark ? "text-white" : "text-ink-900"}>
                   Something Went Wrong
                 </H2>
-                <Body className={isDark ? "text-grey-400" : "text-grey-600"}>
+                <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -176,7 +176,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
                 <H2 className={isDark ? "text-white" : "text-ink-900"}>
                   You&apos;re Offline
                 </H2>
-                <Body className={isDark ? "text-grey-400" : "text-grey-600"}>
+                <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
                   Please check your internet connection and try again.
                 </Body>
               </Stack>
@@ -212,7 +212,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
                 <H2 className={isDark ? "text-white" : "text-ink-900"}>
                   Access Denied
                 </H2>
-                <Body className={isDark ? "text-grey-400" : "text-grey-600"}>
+                <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
                   {restrictedMessage}
                 </Body>
               </Stack>
@@ -254,7 +254,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
                   isDark ? "bg-grey-700" : "bg-grey-200"
                 )} />
               </div>
-              <Body className={isDark ? "text-grey-400" : "text-grey-600"}>
+              <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
                 {emptyMessage}
               </Body>
               {emptyAction && (

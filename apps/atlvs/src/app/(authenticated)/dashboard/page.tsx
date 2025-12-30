@@ -66,7 +66,7 @@ const eisenhowerConfig: Record<EisenhowerQuadrant, {
     action: 'Remove',
     icon: Trash2,
     borderColor: 'border-grey-600',
-    actionColor: 'text-grey-300',
+    actionColor: 'text-on-dark-secondary',
   },
 };
 
@@ -159,11 +159,11 @@ export default function DashboardPage() {
           <Card inverted className="max-w-md p-8 text-center">
             <Stack gap={4}>
               <H3 className="text-white">Access Denied</H3>
-              <Body className="text-grey-300">
+              <Body className="text-on-dark-secondary">
                 You do not have permission to view the executive dashboard.
                 This requires ATLVS Team Member or higher role.
               </Body>
-              <Body size="xs" className="text-grey-500">
+              <Body size="xs" className="text-on-dark-disabled">
                 Current user: {user?.email || 'Unknown'}
               </Body>
               <Button variant="solid" onClick={() => router.push('/projects')}>
@@ -250,7 +250,7 @@ export default function DashboardPage() {
                 <TableRow key={project.id}>
                   <TableCell>
                     <H3 className="text-white">{project.name}</H3>
-                    <Body size="xs" className="font-mono text-grey-500">{project.id.substring(0, 12).toUpperCase()}</Body>
+                    <Body size="xs" className="font-mono text-on-dark-disabled">{project.id.substring(0, 12).toUpperCase()}</Body>
                   </TableCell>
                   <TableCell>{project.client_id || 'N/A'}</TableCell>
                   <TableCell>{project.manager_id || 'N/A'}</TableCell>
@@ -268,7 +268,7 @@ export default function DashboardPage() {
                   <TableCell>
                     <Stack gap={1}>
                       <ProgressBar value={project.progress || 0} variant="inverse" size="sm" className="w-24" />
-                      <Body size="xs" className="font-mono text-grey-300">{project.progress}%</Body>
+                      <Body size="xs" className="font-mono text-on-dark-secondary">{project.progress}%</Body>
                     </Stack>
                   </TableCell>
                   <TableCell>
@@ -293,8 +293,8 @@ export default function DashboardPage() {
               <Card key={activity.id} inverted className="border-2 border-ink-800 p-5 transition-colors hover:border-grey-500" role="article" aria-label={`${activity.action}: ${activity.detail}`}>
                 <Stack gap={1}>
                   <H3 className="text-white">{activity.action}</H3>
-                  <Body size="sm" className="text-grey-300">{activity.detail}</Body>
-                  <Body size="xs" className="mt-2 font-mono uppercase tracking-kicker text-grey-500">
+                  <Body size="sm" className="text-on-dark-secondary">{activity.detail}</Body>
+                  <Body size="xs" className="mt-2 font-mono uppercase tracking-kicker text-on-dark-disabled">
                     {activity.user} • {activity.time}
                   </Body>
                 </Stack>
@@ -312,7 +312,7 @@ export default function DashboardPage() {
             <Stack gap={3}>
               {quickLinksLoading ? (
                 <Card inverted className="border-2 border-ink-800 p-4">
-                  <Body className="text-grey-300">Loading quick links...</Body>
+                  <Body className="text-on-dark-secondary">Loading quick links...</Body>
                 </Card>
               ) : quickLinks && quickLinks.length > 0 ? (
                 quickLinks.slice(0, 4).map((favorite) => {
@@ -395,7 +395,7 @@ export default function DashboardPage() {
             <Stack gap={3}>
               {actionItemsLoading ? (
                 <Card inverted className="border-2 border-ink-800 p-4">
-                  <Body className="text-grey-300">Loading action items...</Body>
+                  <Body className="text-on-dark-secondary">Loading action items...</Body>
                 </Card>
               ) : actionItems && actionItems.length > 0 ? (
                 actionItems.map((item) => {
@@ -424,7 +424,7 @@ export default function DashboardPage() {
                           </Stack>
                           <Body size="sm" className=" text-white">{item.title}</Body>
                           {item.due_date && (
-                            <Body size="xs" className="font-mono text-grey-500">
+                            <Body size="xs" className="font-mono text-on-dark-disabled">
                               Due: {new Date(item.due_date).toLocaleDateString()}
                             </Body>
                           )}
@@ -456,7 +456,7 @@ export default function DashboardPage() {
                 })
               ) : (
                 <Card inverted className="border-2 border-ink-800 p-4">
-                  <Body className="text-grey-300">No pending action items</Body>
+                  <Body className="text-on-dark-secondary">No pending action items</Body>
                 </Card>
               )}
               

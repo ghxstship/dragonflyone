@@ -26,16 +26,16 @@ export default function GroupsPage() {
     content: (
       <Section>
         <div className="flex gap-4 items-center mb-6">
-          <div className="relative flex-1 max-w-md"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" /><Input placeholder="Search groups..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" /></div>
+          <div className="relative flex-1 max-w-md"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" /><Input placeholder="Search groups..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" /></div>
         </div>
         {filtered.length === 0 ? (
-          <Card className="p-8 text-center"><Users className="size-12 text-grey-600 mx-auto mb-4" /><Body className="font-weight-medium mb-2">No groups yet</Body><Body className="text-grey-400 mb-4">Create or join a group</Body><Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left">Create Group</Button></Card>
+          <Card className="p-8 text-center"><Users className="size-12 text-on-dark-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No groups yet</Body><Body className="text-on-dark-muted mb-4">Create or join a group</Body><Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left">Create Group</Button></Card>
         ) : (
           <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
             {filtered.map((group: Group) => (
               <Card key={group.id} className="p-6">
                 <Body className="font-weight-bold">{group.name}</Body>
-                <div className="flex items-center gap-4 mt-2 text-grey-400">
+                <div className="flex items-center gap-4 mt-2 text-on-dark-muted">
                   <Body size="sm">{group.members} members</Body>
                   <Body size="sm">{group.events} events</Body>
                 </div>

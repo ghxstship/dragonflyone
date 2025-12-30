@@ -37,15 +37,15 @@ export default function EventPage() {
         <Card className="p-6 mb-6">
           <div className="flex items-center gap-4 mb-4">
             <Badge variant="outline">{event.category}</Badge>
-            <div className="flex items-center gap-2 text-grey-400"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></div>
-            <div className="flex items-center gap-2 text-grey-400"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></div>
+            <div className="flex items-center gap-2 text-on-dark-muted"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></div>
+            <div className="flex items-center gap-2 text-on-dark-muted"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></div>
           </div>
-          <Body className="text-grey-300">{event.description}</Body>
+          <Body className="text-on-dark-secondary">{event.description}</Body>
         </Card>
         <Card className="p-6">
           <SectionHeader title="Get Tickets" />
           <div className="flex items-center justify-between mt-4">
-            <div><Body className="font-weight-bold">From {formatCurrency(event.price)}</Body><Body size="sm" className="text-grey-400">{event.capacity - event.sold} tickets remaining</Body></div>
+            <div><Body className="font-weight-bold">From {formatCurrency(event.price)}</Body><Body size="sm" className="text-on-dark-muted">{event.capacity - event.sold} tickets remaining</Body></div>
             <Button variant="solid" icon={<Ticket className="size-4" />} iconPosition="left" onClick={() => router.push(`/e/${eventId}/tickets`)}>Buy Tickets</Button>
           </div>
         </Card>
@@ -55,8 +55,8 @@ export default function EventPage() {
       <Section>
         <SectionHeader title="Event Information" />
         <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2 mt-4">
-          <Card className="p-6"><Body className="font-weight-bold mb-2">Venue</Body><Body className="text-grey-400">{event.venue}</Body></Card>
-          <Card className="p-6"><Body className="font-weight-bold mb-2">Date & Time</Body><Body className="text-grey-400">{formatDate(event.date)}</Body></Card>
+          <Card className="p-6"><Body className="font-weight-bold mb-2">Venue</Body><Body className="text-on-dark-muted">{event.venue}</Body></Card>
+          <Card className="p-6"><Body className="font-weight-bold mb-2">Date & Time</Body><Body className="text-on-dark-muted">{formatDate(event.date)}</Body></Card>
         </Grid>
       </Section>
     )},

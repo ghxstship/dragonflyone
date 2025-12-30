@@ -240,7 +240,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
       "transition-all duration-100",
       "focus:outline-none",
       "disabled:opacity-50 disabled:cursor-not-allowed",
-      inverted ? "placeholder:text-grey-500" : "placeholder:text-grey-400",
+      inverted ? "placeholder:text-on-dark-disabled" : "placeholder:text-on-dark-muted",
       error
         ? inverted
           ? clsx(
@@ -294,7 +294,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
           {isLoaded && (
             <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
               <svg
-                className={clsx("size-4", inverted ? "text-grey-500" : "text-grey-400")}
+                className={clsx("size-4", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"

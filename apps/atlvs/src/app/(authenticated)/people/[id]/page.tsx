@@ -93,21 +93,21 @@ export default function PersonDetailPage() {
             <SectionHeader title="Contact Information" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Email</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Email</Body>
                 <Body className="text-white">{person.email || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Phone</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Phone</Body>
                 <Body className="text-white">{person.phone || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Location</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Location</Body>
                 <Body className="text-white">
                   {person.artist_profile?.hometown || person.crew_profile?.department || "Not provided"}
                 </Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Organization</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Organization</Body>
                 <Body className="text-white">
                   {person.contact_profile?.company || person.artist_profile?.management_company || "Not provided"}
                 </Body>
@@ -120,13 +120,13 @@ export default function PersonDetailPage() {
             <SectionHeader title="Professional Details" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Title</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Title</Body>
                 <Body className="text-white">
                   {person.title || person.contact_profile?.job_title || "Not provided"}
                 </Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-grey-400 mb-1">Department</Body>
+                <Body size="xs" className="text-on-dark-muted mb-1">Department</Body>
                 <Body className="text-white">
                   {person.contact_profile?.department || person.crew_profile?.department || "Not provided"}
                 </Body>
@@ -154,7 +154,7 @@ export default function PersonDetailPage() {
         <Section border>
           <SectionHeader title="Assignments" />
           <Card inverted className="p-6">
-            <Body className="text-grey-400">Assignment history will be displayed here.</Body>
+            <Body className="text-on-dark-muted">Assignment history will be displayed here.</Body>
           </Card>
         </Section>
       ),
@@ -167,7 +167,7 @@ export default function PersonDetailPage() {
         <Section border>
           <SectionHeader title="Documents" />
           <Card inverted className="p-6">
-            <Body className="text-grey-400">Documents will be displayed here.</Body>
+            <Body className="text-on-dark-muted">Documents will be displayed here.</Body>
           </Card>
         </Section>
       ),
@@ -180,7 +180,7 @@ export default function PersonDetailPage() {
         <Section border>
           <SectionHeader title="Activity Timeline" />
           <Card inverted className="p-6">
-            <Body className="text-grey-400">Activity timeline will be displayed here.</Body>
+            <Body className="text-on-dark-muted">Activity timeline will be displayed here.</Body>
           </Card>
         </Section>
       ),

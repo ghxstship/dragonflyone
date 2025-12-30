@@ -287,7 +287,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
           <div className="flex-1 flex items-center justify-center p-8">
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -304,7 +304,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
                 <H2 className={inverted ? "text-white" : "text-ink-900"}>
                   Error
                 </H2>
-                <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -348,7 +348,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
               <Stack gap={1}>
                 <H2 className={clsx("text-lg", textClass)}>{title}</H2>
                 {subtitle && (
-                  <Body size="sm" className={inverted ? "text-grey-400" : "text-grey-600"}>
+                  <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                     {subtitle}
                   </Body>
                 )}

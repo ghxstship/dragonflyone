@@ -127,7 +127,7 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
                 <H2 className="text-white max-w-3xl">{title}</H2>
               )}
               {description && (
-                <Body size="lg" className="text-grey-400 max-w-2xl">
+                <Body size="lg" className="text-on-dark-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -158,7 +158,7 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
                   </H3>
 
                   {/* Description */}
-                  <Body className="text-grey-400">
+                  <Body className="text-on-dark-muted">
                     {feature.description}
                   </Body>
 
@@ -173,7 +173,7 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
                           className="items-center"
                         >
                           <div className="size-1.5 rounded-full bg-primary flex-shrink-0" />
-                          <Body size="sm" className="text-grey-300">
+                          <Body size="sm" className="text-on-dark-secondary">
                             {highlight}
                           </Body>
                         </Stack>

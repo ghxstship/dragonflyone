@@ -148,7 +148,7 @@ export default function WalletPage() {
               <SectionHeader title="Add New Card" />
               <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mb-4">
                 <div className="space-y-2">
-                  <Body size="sm" className="text-grey-400">Cardholder Name</Body>
+                  <Body size="sm" className="text-on-dark-muted">Cardholder Name</Body>
                   <Input
                     id="cardName"
                     placeholder="John Smith"
@@ -157,7 +157,7 @@ export default function WalletPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Body size="sm" className="text-grey-400">Card Number</Body>
+                  <Body size="sm" className="text-on-dark-muted">Card Number</Body>
                   <Input
                     id="cardNumber"
                     placeholder="4242 4242 4242 4242"
@@ -166,7 +166,7 @@ export default function WalletPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Body size="sm" className="text-grey-400">Expiry Date</Body>
+                  <Body size="sm" className="text-on-dark-muted">Expiry Date</Body>
                   <Input
                     id="expiry"
                     placeholder="MM/YY"
@@ -175,7 +175,7 @@ export default function WalletPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Body size="sm" className="text-grey-400">CVV</Body>
+                  <Body size="sm" className="text-on-dark-muted">CVV</Body>
                   <Input
                     id="cvv"
                     type="password"
@@ -200,9 +200,9 @@ export default function WalletPage() {
             <SectionHeader title="Your Cards" description="Manage your saved payment methods" />
             {paymentMethods.length === 0 ? (
               <div className="text-center py-12">
-                <CreditCard className="size-12 text-grey-600 mx-auto mb-4" />
+                <CreditCard className="size-12 text-on-dark-disabled mx-auto mb-4" />
                 <Body className="font-weight-medium text-white mb-2">No Payment Methods</Body>
-                <Body className="text-grey-400 mb-4">Add a payment method to make purchases</Body>
+                <Body className="text-on-dark-muted mb-4">Add a payment method to make purchases</Body>
                 <Button variant="solid" onClick={() => setShowAddCard(true)}>
                   Add Card
                 </Button>
@@ -213,7 +213,7 @@ export default function WalletPage() {
                   <Card key={method.id} className="p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <CreditCard className="size-8 text-grey-400" />
+                        <CreditCard className="size-8 text-on-dark-muted" />
                         <div>
                           <div className="flex items-center gap-2">
                             <Body className="font-weight-medium text-white capitalize">{method.type}</Body>
@@ -224,7 +224,7 @@ export default function WalletPage() {
                               </Badge>
                             )}
                           </div>
-                          <Body size="sm" className="text-grey-400">
+                          <Body size="sm" className="text-on-dark-muted">
                             **** {method.last4} | Expires {method.expiry}
                           </Body>
                         </div>
@@ -266,9 +266,9 @@ export default function WalletPage() {
           <SectionHeader title="Transaction History" description="View your past transactions" />
           {transactions.length === 0 ? (
             <div className="text-center py-12">
-              <DollarSign className="size-12 text-grey-600 mx-auto mb-4" />
+              <DollarSign className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="font-weight-medium text-white mb-2">No Transactions</Body>
-              <Body className="text-grey-400">Your transaction history will appear here</Body>
+              <Body className="text-on-dark-muted">Your transaction history will appear here</Body>
             </div>
           ) : (
             <Card className="overflow-hidden">

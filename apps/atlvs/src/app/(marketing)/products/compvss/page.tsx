@@ -7,7 +7,7 @@
  */
 
 import { useRouter } from "next/navigation";
-import { Users, Calendar, Clock, DollarSign, Check, ArrowRight, List, Star } from "lucide-react";
+import { Users, Calendar, Clock, DollarSign, Check, List, Star } from "lucide-react";
 import {
   Body, Button, Card, Grid, Stack, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
@@ -38,7 +38,7 @@ export default function COMPVSSProductPage() {
       content: (
         <Section>
           <Card className="p-8 mb-8">
-            <Body className="font-weight-bold text-grey-300 leading-relaxed">
+            <Body className="font-weight-bold text-on-dark-secondary leading-relaxed">
               COMPVSS is the complete crew management solution for live events. From scheduling to payroll, 
               manage your entire crew workflow in one platform.
             </Body>
@@ -52,7 +52,7 @@ export default function COMPVSSProductPage() {
                   <div className="p-3 bg-primary/20 rounded-card text-primary">{feature.icon}</div>
                   <div>
                     <Body className="font-weight-bold font-weight-medium mb-2">{feature.title}</Body>
-                    <Body className="text-grey-400">{feature.description}</Body>
+                    <Body className="text-on-dark-muted">{feature.description}</Body>
                   </div>
                 </div>
               </Card>
@@ -74,9 +74,9 @@ export default function COMPVSSProductPage() {
               </div>
               <div className="flex flex-col justify-center items-center text-center">
                 <Body className="font-weight-bold font-weight-bold mb-2">Ready to get started?</Body>
-                <Body className="text-grey-400 mb-6">See COMPVSS in action</Body>
+                <Body className="text-on-dark-muted mb-6">See COMPVSS in action</Body>
                 <div className="flex gap-4">
-                  <Button variant="solid" onClick={() => router.push("/demo")} icon={<ArrowRight className="size-4" />} iconPosition="right">Request Demo</Button>
+                  <Button variant="solid" onClick={() => router.push("/demo")}>Request Demo</Button>
                   <Button variant="outline" onClick={() => router.push("/pricing")}>View Pricing</Button>
                 </div>
               </div>
@@ -98,7 +98,7 @@ export default function COMPVSSProductPage() {
               { quote: "Scheduling used to take hours. Now it takes minutes.", author: "Event Coordinator" },
             ].map((testimonial, idx) => (
               <Card key={idx} className="p-6">
-                <Body className="text-grey-300 italic mb-4">&quot;{testimonial.quote}&quot;</Body>
+                <Body className="text-on-dark-secondary italic mb-4">&quot;{testimonial.quote}&quot;</Body>
                 <Body className="font-weight-medium">{testimonial.author}</Body>
               </Card>
             ))}

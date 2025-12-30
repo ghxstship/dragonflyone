@@ -121,8 +121,8 @@ export default function BatchOperationsPage() {
 
           {operations.length === 0 ? (
             <div className="text-center py-12">
-              <Layers className="size-12 text-grey-600 mx-auto mb-4" />
-              <Body className="text-grey-400">No batch operations found</Body>
+              <Layers className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <Body className="text-on-dark-muted">No batch operations found</Body>
             </div>
           ) : (
             <Card className="overflow-hidden">
@@ -144,7 +144,7 @@ export default function BatchOperationsPage() {
                         <TableCell>
                           <div>
                             <Body className="font-weight-medium">{op.operation_type}</Body>
-                            <Body size="sm" className="text-grey-400">{op.entity_type}</Body>
+                            <Body size="sm" className="text-on-dark-muted">{op.entity_type}</Body>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -153,15 +153,15 @@ export default function BatchOperationsPage() {
                         <TableCell>
                           <div className="space-y-1">
                             <div className="flex justify-between">
-                              <Body size="sm" className="text-grey-400">{op.processed_count}/{op.total_count}</Body>
-                              <Body size="sm" className="text-grey-400">{progressPercentage}%</Body>
+                              <Body size="sm" className="text-on-dark-muted">{op.processed_count}/{op.total_count}</Body>
+                              <Body size="sm" className="text-on-dark-muted">{progressPercentage}%</Body>
                             </div>
                             <ProgressBar value={progressPercentage} variant={op.status === "failed" ? "error" : "default"} size="sm" />
                             {op.failed_count > 0 && <Body size="sm" className="text-error">{op.failed_count} failed</Body>}
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Body size="sm" className="text-grey-400">{formatDate(op.created_at)}</Body>
+                          <Body size="sm" className="text-on-dark-muted">{formatDate(op.created_at)}</Body>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
@@ -209,36 +209,36 @@ export default function BatchOperationsPage() {
             <div className="space-y-6">
               <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
                 <div>
-                  <Body size="sm" className="text-grey-400">Operation Type</Body>
+                  <Body size="sm" className="text-on-dark-muted">Operation Type</Body>
                   <Body className="font-weight-medium">{selectedOperation.operation_type}</Body>
                 </div>
                 <div>
-                  <Body size="sm" className="text-grey-400">Entity Type</Body>
+                  <Body size="sm" className="text-on-dark-muted">Entity Type</Body>
                   <Body className="font-weight-medium">{selectedOperation.entity_type}</Body>
                 </div>
                 <div>
-                  <Body size="sm" className="text-grey-400">Status</Body>
+                  <Body size="sm" className="text-on-dark-muted">Status</Body>
                   <Badge variant={STATUS_BADGE_VARIANTS[selectedOperation.status]}>{selectedOperation.status.toUpperCase()}</Badge>
                 </div>
                 <div>
-                  <Body size="sm" className="text-grey-400">Items Count</Body>
+                  <Body size="sm" className="text-on-dark-muted">Items Count</Body>
                   <Body className="font-weight-medium">{selectedOperation.entity_ids.length}</Body>
                 </div>
                 <div>
-                  <Body size="sm" className="text-grey-400">Created</Body>
+                  <Body size="sm" className="text-on-dark-muted">Created</Body>
                   <Body>{formatDate(selectedOperation.created_at)}</Body>
                 </div>
                 <div>
-                  <Body size="sm" className="text-grey-400">Completed</Body>
+                  <Body size="sm" className="text-on-dark-muted">Completed</Body>
                   <Body>{formatDate(selectedOperation.completed_at)}</Body>
                 </div>
               </Grid>
 
               <Card className="p-4">
-                <Body size="sm" className="text-grey-400 mb-2">Progress</Body>
+                <Body size="sm" className="text-on-dark-muted mb-2">Progress</Body>
                 <div className="flex justify-between mb-2">
-                  <Body size="sm" className="text-grey-400">Processed: {selectedOperation.processed_count}</Body>
-                  <Body size="sm" className="text-grey-400">Total: {selectedOperation.total_count}</Body>
+                  <Body size="sm" className="text-on-dark-muted">Processed: {selectedOperation.processed_count}</Body>
+                  <Body size="sm" className="text-on-dark-muted">Total: {selectedOperation.total_count}</Body>
                 </div>
                 <ProgressBar value={progressPercentage} variant={selectedOperation.status === "failed" ? "error" : "default"} />
                 <div className="flex justify-between mt-2">
@@ -261,7 +261,7 @@ export default function BatchOperationsPage() {
 
               {selectedOperation.results && Object.keys(selectedOperation.results).length > 0 && (
                 <div>
-                  <Body size="sm" className="text-grey-400 mb-2">Results</Body>
+                  <Body size="sm" className="text-on-dark-muted mb-2">Results</Body>
                   <Card className="p-4">
                     <pre className="font-mono text-body-sm overflow-auto max-h-40">{JSON.stringify(selectedOperation.results, null, 2)}</pre>
                   </Card>

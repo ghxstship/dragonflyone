@@ -51,9 +51,9 @@ export default function WishlistPage() {
 
   const renderEmptyState = () => (
     <Card className="p-8 text-center">
-      <Heart className="size-12 text-grey-600 mx-auto mb-4" />
+      <Heart className="size-12 text-on-dark-disabled mx-auto mb-4" />
       <Body className="font-weight-medium text-h5-md mb-2">Your wishlist is empty</Body>
-      <Body className="text-grey-400 mb-4">Save events you are interested in</Body>
+      <Body className="text-on-dark-muted mb-4">Save events you are interested in</Body>
       <Button variant="solid" onClick={() => router.push("/browse")}>
         Browse Events
       </Button>
@@ -67,7 +67,7 @@ export default function WishlistPage() {
           <div className="flex items-start justify-between">
             <Link href={`/e/${item.id}`} className="block text-left">
               <Body className="font-weight-bold">{item.name}</Body>
-              <div className="flex items-center gap-4 mt-2 text-grey-400">
+              <div className="flex items-center gap-4 mt-2 text-on-dark-muted">
                 <div className="flex items-center gap-1">
                   <Calendar className="size-4" />
                   <Body size="sm">{formatDate(item.date)}</Body>

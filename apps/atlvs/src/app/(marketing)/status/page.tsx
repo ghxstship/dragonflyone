@@ -120,13 +120,13 @@ export default function StatusPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Services</Body>
                   <H3 className="text-white">Service Status</H3>
-                  <Body className="text-grey-400 max-w-2xl">Real-time status of all ATLVS services and infrastructure components.</Body>
+                  <Body className="text-on-dark-muted max-w-2xl">Real-time status of all ATLVS services and infrastructure components.</Body>
                 </Stack>
 
                 {isLoading ? (
                   <Stack className="items-center py-12">
                     <Spinner size="lg" />
-                    <Body className="text-grey-400 mt-4">Loading status...</Body>
+                    <Body className="text-on-dark-muted mt-4">Loading status...</Body>
                   </Stack>
                 ) : (
                   <Stack gap={3}>
@@ -140,12 +140,12 @@ export default function StatusPage() {
                               <Stack gap={0}>
                                 <Body className="text-white font-weight-bold">{service.name}</Body>
                                 {service.description && (
-                                  <Body size="sm" className="text-grey-500">{service.description}</Body>
+                                  <Body size="sm" className="text-on-dark-disabled">{service.description}</Body>
                                 )}
                               </Stack>
                             </Stack>
                             <Stack direction="horizontal" gap={4} className="items-center">
-                              <Stack direction="horizontal" gap={2} className="items-center text-grey-400">
+                              <Stack direction="horizontal" gap={2} className="items-center text-on-dark-muted">
                                 <Activity className="size-4" />
                                 <Body size="sm">{service.uptime}% uptime</Body>
                               </Stack>
@@ -185,8 +185,8 @@ export default function StatusPage() {
                         }`}
                         title={`${day.uptime}% uptime`}
                       />
-                      <Body size="sm" className="text-grey-500 text-center">{day.date}</Body>
-                      <Body size="sm" className="text-grey-400">{day.uptime}%</Body>
+                      <Body size="sm" className="text-on-dark-disabled text-center">{day.date}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{day.uptime}%</Body>
                     </Stack>
                   ))}
                 </div>
@@ -194,15 +194,15 @@ export default function StatusPage() {
                 <Stack direction="horizontal" gap={6} className="justify-center">
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <div className="size-3 rounded-avatar bg-success" />
-                    <Body size="sm" className="text-grey-400">100% Uptime</Body>
+                    <Body size="sm" className="text-on-dark-muted">100% Uptime</Body>
                   </Stack>
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <div className="size-3 rounded-avatar bg-success/70" />
-                    <Body size="sm" className="text-grey-400">99.9%+ Uptime</Body>
+                    <Body size="sm" className="text-on-dark-muted">99.9%+ Uptime</Body>
                   </Stack>
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <div className="size-3 rounded-avatar bg-accent" />
-                    <Body size="sm" className="text-grey-400">Degraded</Body>
+                    <Body size="sm" className="text-on-dark-muted">Degraded</Body>
                   </Stack>
                 </Stack>
               </Stack>
@@ -221,7 +221,7 @@ export default function StatusPage() {
                   </div>
                   <Stack gap={2} className="items-center">
                     <Body className="text-white font-weight-bold text-h4-md">Subscribe to Status Updates</Body>
-                    <Body className="text-grey-400 max-w-lg">Get notified via email or SMS when system status changes. Stay informed about maintenance windows and incidents.</Body>
+                    <Body className="text-on-dark-muted max-w-lg">Get notified via email or SMS when system status changes. Stay informed about maintenance windows and incidents.</Body>
                   </Stack>
                   <Stack direction="horizontal" gap={4}>
                     <Button variant="solid" size="lg">Subscribe via Email</Button>

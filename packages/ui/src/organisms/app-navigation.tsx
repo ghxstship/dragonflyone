@@ -71,7 +71,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
 
     const bgClass = colorScheme === "black" ? "bg-black/90" : "bg-ink-950/90";
     const borderClass = colorScheme === "black" ? "border-grey-800" : "border-ink-800";
-    const textClass = colorScheme === "black" ? "text-grey-300" : "text-ink-300";
+    const textClass = colorScheme === "black" ? "text-on-dark-secondary" : "text-ink-300";
     const overlayBgClass = colorScheme === "black" ? "bg-black/95" : "bg-ink-950/95";
 
     return (

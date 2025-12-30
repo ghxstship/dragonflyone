@@ -112,7 +112,7 @@ export const MarketingPage = forwardRef<HTMLDivElement, MarketingPageProps>(
           {icon}
           <Stack gap={2} className="items-center">
             <H2 className={inverted ? "text-white" : "text-ink-900"}>{title}</H2>
-            <Body className={inverted ? "text-grey-400" : "text-grey-600"}>{message}</Body>
+            <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>{message}</Body>
           </Stack>
           {action}
         </Stack>

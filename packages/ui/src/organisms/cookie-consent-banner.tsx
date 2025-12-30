@@ -211,7 +211,7 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
                   <button
                     type="button"
                     onClick={onClose}
-                    className="p-1 border-2 border-grey-300 rounded text-grey-600 hover:border-black hover:text-black transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[2px_2px_0_rgba(0,0,0,0.15)]"
+                    className="p-1 border-2 border-grey-300 rounded text-on-dark-disabled hover:border-black hover:text-black transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[2px_2px_0_rgba(0,0,0,0.15)]"
                     aria-label="Close cookie consent banner"
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
@@ -222,7 +222,7 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
               </div>
 
               {/* Description */}
-              <p id="cookie-consent-description" className="text-grey-700 text-sm leading-relaxed">
+              <p id="cookie-consent-description" className="text-on-dark-disabled text-sm leading-relaxed">
                 {description || defaultDescription}
               </p>
 
@@ -249,7 +249,7 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
               {/* Preferences Panel */}
               {showPreferences && (
                 <div className="border-2 border-grey-200 rounded-[var(--radius-card)] p-4 mt-2 bg-grey-50">
-                  <Label size="sm" className="text-grey-600 mb-3 block">COOKIE PREFERENCES</Label>
+                  <Label size="sm" className="text-on-dark-disabled mb-3 block">COOKIE PREFERENCES</Label>
                   <Stack gap={3}>
                     {cookieCategories.map((category) => (
                       <div 
@@ -258,16 +258,16 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
                       >
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <Body size="sm" className="font-semibold text-grey-900">
+                            <Body size="sm" className="font-semibold text-on-light-primary">
                               {category.label}
                             </Body>
                             {category.required && (
-                              <span className="text-xs px-1.5 py-0.5 bg-grey-200 text-grey-600 rounded font-medium">
+                              <span className="text-xs px-1.5 py-0.5 bg-grey-200 text-on-dark-disabled rounded font-medium">
                                 Required
                               </span>
                             )}
                           </div>
-                          <Body size="xs" className="text-grey-600 mt-0.5">
+                          <Body size="xs" className="text-on-dark-disabled mt-0.5">
                             {category.description}
                           </Body>
                         </div>
@@ -338,7 +338,7 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
 
               {/* CCPA-specific notice */}
               {complianceMode === "ccpa" && (
-                <p className="text-xs text-grey-500 mt-2">
+                <p className="text-xs text-on-dark-disabled mt-2">
                   California residents: You have the right to opt out of the sale of your personal information. 
                   <a href={privacyPolicyUrl} className="underline ml-1">Learn more about your rights</a>.
                 </p>

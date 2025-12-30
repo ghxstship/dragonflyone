@@ -253,7 +253,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
                 </h3>
               )}
               {currentImage.caption && (
-                <p className="mt-spacing-2 font-body text-grey-400 max-w-lg">
+                <p className="mt-spacing-2 font-body text-on-dark-muted max-w-lg">
                   {currentImage.caption}
                 </p>
               )}

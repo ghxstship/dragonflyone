@@ -61,9 +61,9 @@ export const MarketingPageHeader = forwardRef<HTMLElement, MarketingPageHeaderPr
 
     const textClasses = inverted
       ? {
-          kicker: "text-on-dark-muted",
+          kicker: "text-on-light-muted",
           title: "text-white",
-          description: "text-on-dark-secondary",
+          description: "text-on-light-secondary",
         }
       : {
           kicker: "text-muted",

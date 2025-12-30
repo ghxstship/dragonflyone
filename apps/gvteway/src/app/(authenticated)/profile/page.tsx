@@ -22,7 +22,7 @@ export default function ProfilePage() {
         <Card className="p-6 mb-6">
           <div className="flex items-center gap-6">
             <div className="size-20 bg-primary rounded-avatar flex items-center justify-center"><User className="size-10 text-white" /></div>
-            <div><Body className="font-weight-bold">{profile.name}</Body><Body className="text-grey-400">{profile.email}</Body></div>
+            <div><Body className="font-weight-bold">{profile.name}</Body><Body className="text-on-dark-muted">{profile.email}</Body></div>
           </div>
         </Card>
         <Grid cols={2} gap={4} className="grid-cols-2 mb-6">

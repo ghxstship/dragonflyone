@@ -164,13 +164,13 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
               </div>
               <div>
                 <H2 className="text-ink-950">Privacy Preference Center</H2>
-                <Body size="sm" className="text-grey-600">
+                <Body size="sm" className="text-on-dark-disabled">
                   Manage how your data is collected and used
                 </Body>
               </div>
             </div>
             {lastUpdated && (
-              <Body size="xs" className="text-grey-500">
+              <Body size="xs" className="text-on-dark-disabled">
                 Last updated: {lastUpdated}
               </Body>
             )}
@@ -181,14 +181,14 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
             <CardBody>
               <Stack gap={4}>
                 <H3 className="text-ink-950">{regionInfo.name}</H3>
-                <Body size="sm" className="text-grey-700">
+                <Body size="sm" className="text-on-dark-disabled">
                   Under applicable privacy laws, you have the following rights:
                 </Body>
                 <ul className="grid gap-2 sm:grid-cols-2">
                   {regionInfo.rights.map((right, index) => (
                     <li key={index} className="flex items-start gap-2">
                       <Check className="size-4 text-primary-600 mt-0.5 shrink-0" />
-                      <Body size="sm" className="text-grey-700">{right}</Body>
+                      <Body size="sm" className="text-on-dark-disabled">{right}</Body>
                     </li>
                   ))}
                 </ul>
@@ -199,7 +199,7 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
           {/* Consent Categories */}
           <Stack gap={4}>
             <H3 className="text-ink-950">Data Collection Preferences</H3>
-            <Body size="sm" className="text-grey-600">
+            <Body size="sm" className="text-on-dark-disabled">
               Choose which types of data processing you consent to. Required items cannot be disabled 
               as they are necessary for the service to function.
             </Body>
@@ -217,12 +217,12 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
                           <div className="flex items-center gap-2">
                             <Label size="sm" className="text-ink-950">{consent.name}</Label>
                             {consent.required && (
-                              <span className="px-2 py-0.5 bg-grey-200 text-grey-600 rounded-badge text-xs">
+                              <span className="px-2 py-0.5 bg-grey-200 text-on-dark-disabled rounded-badge text-xs">
                                 Required
                               </span>
                             )}
                           </div>
-                          <Body size="sm" className="text-grey-600 mt-1">
+                          <Body size="sm" className="text-on-dark-disabled mt-1">
                             {consent.description}
                           </Body>
                         </div>
@@ -241,7 +241,7 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
 
             {/* Save Button */}
             <div className="flex items-center justify-between pt-4 border-t border-grey-200">
-              <Body size="sm" className="text-grey-500">
+              <Body size="sm" className="text-on-dark-disabled">
                 {hasChanges ? "You have unsaved changes" : "All changes saved"}
               </Body>
               <Button
@@ -265,7 +265,7 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
           {/* Data Actions */}
           <Stack gap={4}>
             <H3 className="text-ink-950">Your Data</H3>
-            <Body size="sm" className="text-grey-600">
+            <Body size="sm" className="text-on-dark-disabled">
               Exercise your data rights with the actions below.
             </Body>
 
@@ -292,12 +292,12 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
                           </div>
                           <div>
                             <Label size="sm" className="text-ink-950">Export My Data</Label>
-                            <Body size="xs" className="text-grey-500">
+                            <Body size="xs" className="text-on-dark-disabled">
                               Download a copy of your data
                             </Body>
                           </div>
                         </div>
-                        <ChevronRight className="size-5 text-grey-400" />
+                        <ChevronRight className="size-5 text-on-dark-muted" />
                       </div>
                     </button>
                   </CardBody>
@@ -312,16 +312,16 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <div className="flex size-10 items-center justify-center border-2 border-grey-200 bg-grey-100 rounded-card">
-                            <History className="size-5 text-grey-600" />
+                            <History className="size-5 text-on-dark-disabled" />
                           </div>
                           <div>
                             <Label size="sm" className="text-ink-950">Consent History</Label>
-                            <Body size="xs" className="text-grey-500">
+                            <Body size="xs" className="text-on-dark-disabled">
                               View your consent changes
                             </Body>
                           </div>
                         </div>
-                        <ChevronRight className="size-5 text-grey-400" />
+                        <ChevronRight className="size-5 text-on-dark-muted" />
                       </div>
                     </button>
                   </CardBody>
@@ -340,12 +340,12 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
                           </div>
                           <div>
                             <Label size="sm" className="text-red-700">Delete My Account</Label>
-                            <Body size="xs" className="text-grey-500">
+                            <Body size="xs" className="text-on-dark-disabled">
                               Permanently delete your account and all data
                             </Body>
                           </div>
                         </div>
-                        <ChevronRight className="size-5 text-grey-400" />
+                        <ChevronRight className="size-5 text-on-dark-muted" />
                       </div>
                     </button>
                   </CardBody>
@@ -359,19 +359,19 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
             <CardBody>
               <Stack gap={3}>
                 <H3 className="text-ink-950">Questions About Your Privacy?</H3>
-                <Body size="sm" className="text-grey-700">
+                <Body size="sm" className="text-on-dark-disabled">
                   If you have questions about how we handle your data or want to exercise your rights, 
                   please contact our Data Protection Officer:
                 </Body>
                 <div className="flex flex-wrap gap-4">
                   <div>
-                    <Label size="xs" className="text-grey-500">EMAIL</Label>
+                    <Label size="xs" className="text-on-dark-disabled">EMAIL</Label>
                     <Body size="sm" className="text-primary-600">
                       <a href="mailto:dpo@ghxstship.com" className="underline">dpo@ghxstship.com</a>
                     </Body>
                   </div>
                   <div>
-                    <Label size="xs" className="text-grey-500">PRIVACY TEAM</Label>
+                    <Label size="xs" className="text-on-dark-disabled">PRIVACY TEAM</Label>
                     <Body size="sm" className="text-primary-600">
                       <a href="mailto:privacy@ghxstship.com" className="underline">privacy@ghxstship.com</a>
                     </Body>
@@ -394,7 +394,7 @@ export const defaultConsentCategories: ConsentCategory[] = [
     id: "essential",
     name: "Essential Services",
     description: "Required for the platform to function. Includes authentication, security, and core features.",
-    icon: <Shield className="size-5 text-grey-600" />,
+    icon: <Shield className="size-5 text-on-dark-disabled" />,
     required: true,
     enabled: true,
   },
@@ -402,7 +402,7 @@ export const defaultConsentCategories: ConsentCategory[] = [
     id: "marketing_email",
     name: "Email Marketing",
     description: "Receive promotional emails about events, offers, and platform updates.",
-    icon: <Mail className="size-5 text-grey-600" />,
+    icon: <Mail className="size-5 text-on-dark-disabled" />,
     required: false,
     enabled: false,
   },
@@ -410,7 +410,7 @@ export const defaultConsentCategories: ConsentCategory[] = [
     id: "marketing_push",
     name: "Push Notifications",
     description: "Receive push notifications about events and updates on your devices.",
-    icon: <Bell className="size-5 text-grey-600" />,
+    icon: <Bell className="size-5 text-on-dark-disabled" />,
     required: false,
     enabled: false,
   },
@@ -418,7 +418,7 @@ export const defaultConsentCategories: ConsentCategory[] = [
     id: "analytics",
     name: "Analytics & Performance",
     description: "Help us improve by allowing anonymous usage analytics and performance monitoring.",
-    icon: <BarChart3 className="size-5 text-grey-600" />,
+    icon: <BarChart3 className="size-5 text-on-dark-disabled" />,
     required: false,
     enabled: false,
   },
@@ -426,7 +426,7 @@ export const defaultConsentCategories: ConsentCategory[] = [
     id: "personalization",
     name: "Personalization",
     description: "Allow us to personalize your experience based on your preferences and activity.",
-    icon: <Users className="size-5 text-grey-600" />,
+    icon: <Users className="size-5 text-on-dark-disabled" />,
     required: false,
     enabled: false,
   },
@@ -434,7 +434,7 @@ export const defaultConsentCategories: ConsentCategory[] = [
     id: "cookies",
     name: "Non-Essential Cookies",
     description: "Allow third-party cookies for advertising and social media features.",
-    icon: <Cookie className="size-5 text-grey-600" />,
+    icon: <Cookie className="size-5 text-on-dark-disabled" />,
     required: false,
     enabled: false,
   },

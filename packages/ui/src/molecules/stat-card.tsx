@@ -40,7 +40,7 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
         {...props}
       >
         {icon && (
-          <div className={inverted ? "text-grey-400" : "text-grey-600"}>
+          <div className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
             {icon}
           </div>
         )}
@@ -52,7 +52,7 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
         </div>
         <div className={clsx(
           "font-heading text-sm uppercase tracking-wider",
-          inverted ? "text-grey-400" : "text-grey-600"
+          inverted ? "text-on-dark-muted" : "text-on-light-muted"
         )}>
           {label}
         </div>
@@ -63,7 +63,7 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
                 "font-code text-xs uppercase tracking-widest font-bold",
                 trend === "up" && (inverted ? "text-green-400" : "text-green-600"),
                 trend === "down" && (inverted ? "text-red-400" : "text-red-600"),
-                trend === "neutral" && (inverted ? "text-grey-400" : "text-grey-500")
+                trend === "neutral" && (inverted ? "text-on-dark-muted" : "text-on-light-muted")
               )}
             >
               {trend === "up" ? "↑" : trend === "down" ? "↓" : "→"} {trendValue}

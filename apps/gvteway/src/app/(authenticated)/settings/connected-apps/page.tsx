@@ -60,9 +60,9 @@ export default function ConnectedAppsPage() {
 
           {apps.length === 0 ? (
             <div className="text-center py-12">
-              <Link2 className="size-12 text-grey-600 mx-auto mb-4" />
-              <Body className="text-grey-400 mb-2">No connected apps</Body>
-              <Body size="sm" className="text-grey-500">
+              <Link2 className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <Body className="text-on-dark-muted mb-2">No connected apps</Body>
+              <Body size="sm" className="text-on-dark-disabled">
                 Connect third-party apps to enhance your GVTEWAY experience
               </Body>
             </div>
@@ -75,28 +75,28 @@ export default function ConnectedAppsPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-grey-700 rounded-card flex items-center justify-center">
-                          <Link2 className="size-6 text-grey-400" />
+                          <Link2 className="size-6 text-on-dark-muted" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2 mb-1">
                             <Body className="font-weight-medium text-white">{app.app_name}</Body>
                             <Badge variant="outline">{providerInfo.name}</Badge>
                           </div>
-                          <Body size="sm" className="text-grey-400 mb-2">{providerInfo.description}</Body>
+                          <Body size="sm" className="text-on-dark-muted mb-2">{providerInfo.description}</Body>
                           <div className="flex items-center gap-6">
                             <div>
-                              <Body size="sm" className="text-grey-500">Connected</Body>
-                              <Body size="sm" className="text-grey-400">{new Date(app.connected_at).toLocaleDateString()}</Body>
+                              <Body size="sm" className="text-on-dark-disabled">Connected</Body>
+                              <Body size="sm" className="text-on-dark-muted">{new Date(app.connected_at).toLocaleDateString()}</Body>
                             </div>
                             {app.last_used_at && (
                               <div>
-                                <Body size="sm" className="text-grey-500">Last Used</Body>
-                                <Body size="sm" className="text-grey-400">{new Date(app.last_used_at).toLocaleDateString()}</Body>
+                                <Body size="sm" className="text-on-dark-disabled">Last Used</Body>
+                                <Body size="sm" className="text-on-dark-muted">{new Date(app.last_used_at).toLocaleDateString()}</Body>
                               </div>
                             )}
                             <div>
-                              <Body size="sm" className="text-grey-500">Permissions</Body>
-                              <Body size="sm" className="text-grey-400">{app.scopes.length} granted</Body>
+                              <Body size="sm" className="text-on-dark-disabled">Permissions</Body>
+                              <Body size="sm" className="text-on-dark-muted">{app.scopes.length} granted</Body>
                             </div>
                           </div>
                         </div>
@@ -137,10 +137,10 @@ export default function ConnectedAppsPage() {
                 <Body className="font-weight-medium text-white">Security</Body>
               </div>
               <div className="space-y-3">
-                <Body size="sm" className="text-grey-400">
+                <Body size="sm" className="text-on-dark-muted">
                   Connected apps have access to specific parts of your GVTEWAY account based on the permissions you granted.
                 </Body>
-                <Body size="sm" className="text-grey-400">
+                <Body size="sm" className="text-on-dark-muted">
                   You can disconnect any app at any time. Disconnecting an app will revoke its access to your account.
                 </Body>
               </div>
@@ -151,13 +151,13 @@ export default function ConnectedAppsPage() {
                 <Body className="font-weight-medium text-white">Best Practices</Body>
               </div>
               <div className="space-y-3">
-                <Body size="sm" className="text-grey-400">
+                <Body size="sm" className="text-on-dark-muted">
                   Only connect apps from sources you trust.
                 </Body>
-                <Body size="sm" className="text-grey-400">
+                <Body size="sm" className="text-on-dark-muted">
                   Review permissions before granting access.
                 </Body>
-                <Body size="sm" className="text-grey-400">
+                <Body size="sm" className="text-on-dark-muted">
                   Regularly review and remove unused connections.
                 </Body>
               </div>

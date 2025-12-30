@@ -255,7 +255,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
           <div className="flex-1 flex items-center justify-center">
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -276,7 +276,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                 <H2 className={inverted ? "text-white" : "text-ink-900"}>
                   Error Loading Canvas
                 </H2>
-                <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -328,7 +328,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
             "flex items-center justify-between px-4 py-3 border-b-2",
             borderClass
           )}>
-            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-grey-400" : "text-grey-500")}>
+            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
               {leftPanelTitle}
             </Body>
             {isCollapsible && (
@@ -386,7 +386,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
             "flex items-center justify-between px-4 py-3 border-b-2",
             borderClass
           )}>
-            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-grey-400" : "text-grey-500")}>
+            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
               {rightPanelTitle}
             </Body>
             {isCollapsible && (
@@ -444,7 +444,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
             "flex items-center justify-between px-4 py-2 border-b-2",
             borderClass
           )}>
-            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-grey-400" : "text-grey-500")}>
+            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
               {bottomPanelTitle}
             </Body>
             {isCollapsible && (
@@ -595,10 +595,10 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                       )}>
                         <Layers className={clsx(
                           "size-10",
-                          inverted ? "text-grey-600" : "text-grey-400"
+                          inverted ? "text-on-dark-disabled" : "text-on-light-muted"
                         )} />
                       </div>
-                      <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+                      <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                         {emptyMessage}
                       </Body>
                       {emptyAction && (
@@ -633,7 +633,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                 )}>
                   {minimapContent || (
                     <div className="w-full h-full flex items-center justify-center">
-                      <Body size="sm" className={inverted ? "text-grey-500" : "text-grey-400"}>
+                      <Body size="sm" className={inverted ? "text-on-dark-disabled" : "text-on-light-muted"}>
                         Minimap
                       </Body>
                     </div>

@@ -30,7 +30,7 @@ export default function MerchBundlesPage() {
                 <div className="flex items-center gap-3"><Package className="size-8 text-primary" /><Body className="font-weight-bold">{bundle.name}</Body></div>
                 <Badge variant="success">Save {formatCurrency(bundle.savings)}</Badge>
               </div>
-              <div className="space-y-2 mb-4">{bundle.items.map((item, i) => <Body key={i} size="sm" className="text-grey-400">• {item}</Body>)}</div>
+              <div className="space-y-2 mb-4">{bundle.items.map((item, i) => <Body key={i} size="sm" className="text-on-dark-muted">• {item}</Body>)}</div>
               <div className="flex items-center justify-between">
                 <Body className="font-weight-bold">{formatCurrency(bundle.price)}</Body>
                 <Button variant="solid" icon={<ShoppingCart className="size-4" />} iconPosition="left">Add Bundle</Button>

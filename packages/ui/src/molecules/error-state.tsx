@@ -137,7 +137,7 @@ export function ErrorState({
           className={clsx(
             "mt-6 w-full max-w-2xl overflow-auto rounded-card p-4 text-left",
             "font-mono text-xs",
-            inverted ? "bg-ink-900 text-grey-400" : "bg-grey-100 text-grey-600"
+            inverted ? "bg-ink-900 text-on-dark-muted" : "bg-grey-100 text-on-dark-disabled"
           )}
         >
           <pre className="whitespace-pre-wrap break-words">{error.stack}</pre>

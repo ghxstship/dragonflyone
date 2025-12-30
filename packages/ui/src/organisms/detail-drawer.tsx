@@ -194,7 +194,7 @@ export function DetailDrawer<T = unknown>({
               {getTitle()}
             </h2>
             {getSubtitle() && (
-              <p className="font-code text-mono-sm text-grey-400 mt-spacing-1">
+              <p className="font-code text-mono-sm text-on-dark-muted mt-spacing-1">
                 {getSubtitle()}
               </p>
             )}
@@ -203,7 +203,7 @@ export function DetailDrawer<T = unknown>({
           <button
             type="button"
             onClick={onClose}
-            className="p-spacing-2 bg-transparent border-none text-white cursor-pointer text-body-lg leading-none hover:text-grey-300"
+            className="p-spacing-2 bg-transparent border-none text-white cursor-pointer text-body-lg leading-none hover:text-on-dark-secondary"
             aria-label="Close drawer"
           >
             <X className="size-5" />
@@ -284,7 +284,7 @@ export function DetailDrawer<T = unknown>({
                   {children}
                   {activityTimeline && (
                     <div className="mt-spacing-6 pt-spacing-6 border-t-2 border-border-primary">
-                      <h3 className="font-code text-mono-md tracking-widest uppercase text-grey-600 mb-spacing-4">
+                      <h3 className="font-code text-mono-md tracking-widest uppercase text-on-dark-disabled mb-spacing-4">
                         Activity
                       </h3>
                       {activityTimeline}
@@ -292,7 +292,7 @@ export function DetailDrawer<T = unknown>({
                   )}
                 </>
               ) : (
-                <div className="text-center p-spacing-12 text-grey-500 font-code text-mono-md">
+                <div className="text-center p-spacing-12 text-on-dark-disabled font-code text-mono-md">
                   Select an item from the list
                 </div>
               )}
@@ -312,7 +312,7 @@ export function DetailDrawer<T = unknown>({
                 {children}
                 {activityTimeline && (
                   <div className="mt-spacing-6 pt-spacing-6 border-t-2 border-border-primary">
-                    <h3 className="font-code text-mono-md tracking-widest uppercase text-grey-600 mb-spacing-4">
+                    <h3 className="font-code text-mono-md tracking-widest uppercase text-on-dark-disabled mb-spacing-4">
                       Activity
                     </h3>
                     {activityTimeline}
@@ -320,7 +320,7 @@ export function DetailDrawer<T = unknown>({
                 )}
               </>
             ) : (
-              <div className="text-center p-spacing-12 text-grey-500 font-code text-mono-md">
+              <div className="text-center p-spacing-12 text-on-dark-disabled font-code text-mono-md">
                 No record selected
               </div>
             )}
@@ -343,7 +343,7 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
           collapsed ? "mb-spacing-0" : "mb-spacing-4"
         )}
       >
-        <h3 className="font-code text-mono-md tracking-widest uppercase text-grey-600">
+        <h3 className="font-code text-mono-md tracking-widest uppercase text-on-dark-disabled">
           {section.title}
         </h3>
 
@@ -351,7 +351,7 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
           <button
             type="button"
             onClick={() => setCollapsed(!collapsed)}
-            className="p-spacing-1 bg-transparent border-none cursor-pointer text-mono-xs text-grey-500 hover:text-grey-700"
+            className="p-spacing-1 bg-transparent border-none cursor-pointer text-mono-xs text-on-dark-disabled hover:text-on-dark-disabled"
             aria-expanded={!collapsed}
           >
             {collapsed ? <ChevronDown className="size-3" /> : <ChevronUp className="size-3" />}

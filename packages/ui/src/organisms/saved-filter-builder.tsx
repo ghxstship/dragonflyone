@@ -280,7 +280,7 @@ export function SavedFilterBuilder({
     <div className={clsx("space-y-spacing-4", className)}>
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-gap-sm">
-        <h3 className="font-code text-mono-md tracking-widest uppercase text-grey-600">
+        <h3 className="font-code text-mono-md tracking-widest uppercase text-on-dark-disabled">
           Filters
         </h3>
 
@@ -310,14 +310,14 @@ export function SavedFilterBuilder({
                       >
                         {filter.name}
                         {filter.isDefault && (
-                          <span className="ml-spacing-2 text-mono-xs text-grey-500">(default)</span>
+                          <span className="ml-spacing-2 text-mono-xs text-on-dark-disabled">(default)</span>
                         )}
                       </button>
                       {onDeleteFilter && (
                         <button
                           type="button"
                           onClick={() => onDeleteFilter(filter.id)}
-                          className="p-spacing-1 text-grey-500 hover:text-error-500 bg-transparent border-none cursor-pointer"
+                          className="p-spacing-1 text-on-dark-disabled hover:text-error-500 bg-transparent border-none cursor-pointer"
                           aria-label="Delete filter"
                         >
                           <Trash2 className="size-3" />
@@ -345,7 +345,7 @@ export function SavedFilterBuilder({
             <button
               type="button"
               onClick={handleClearFilter}
-              className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-surface-primary text-grey-600 border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
+              className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-surface-primary text-on-dark-disabled border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
             >
               <X className="size-3" />
               Clear
@@ -460,7 +460,7 @@ function FilterGroupComponent({
         >
           {group.logic}
         </button>
-        <span className="font-body text-body-xs text-grey-500">
+        <span className="font-body text-body-xs text-on-dark-disabled">
           {group.logic === "AND" ? "All conditions must match" : "Any condition can match"}
         </span>
 
@@ -468,7 +468,7 @@ function FilterGroupComponent({
           <button
             type="button"
             onClick={() => onRemoveGroup(parentId, group.id)}
-            className="ml-auto p-spacing-1 text-grey-500 hover:text-error-500 bg-transparent border-none cursor-pointer"
+            className="ml-auto p-spacing-1 text-on-dark-disabled hover:text-error-500 bg-transparent border-none cursor-pointer"
             aria-label="Remove group"
           >
             <Trash2 className="size-4" />
@@ -527,7 +527,7 @@ function FilterGroupComponent({
           <button
             type="button"
             onClick={() => onAddGroup(group.id, depth)}
-            className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-xs tracking-wide uppercase bg-surface-primary text-grey-600 border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
+            className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-xs tracking-wide uppercase bg-surface-primary text-on-dark-disabled border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
           >
             <Plus className="size-3" />
             Add Group
@@ -645,7 +645,7 @@ function FilterConditionRow({
       <button
         type="button"
         onClick={() => onRemove(groupId, condition.id)}
-        className="p-spacing-1 text-grey-500 hover:text-error-500 bg-transparent border-none cursor-pointer"
+        className="p-spacing-1 text-on-dark-disabled hover:text-error-500 bg-transparent border-none cursor-pointer"
         aria-label="Remove condition"
       >
         <Trash2 className="size-4" />

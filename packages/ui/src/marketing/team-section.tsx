@@ -88,7 +88,7 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
               {kicker && <Kicker>{kicker}</Kicker>}
               {title && <H2 className="text-white">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-grey-400 max-w-2xl">
+                <Body size="lg" className="text-on-dark-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -126,7 +126,7 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
 
                   {/* Bio */}
                   {showBios && member.bio && (
-                    <Body size="sm" className="text-grey-400 line-clamp-3">
+                    <Body size="sm" className="text-on-dark-muted line-clamp-3">
                       {member.bio}
                     </Body>
                   )}
@@ -139,7 +139,7 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
                           href={member.social.linkedin}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-grey-500 hover:text-primary transition-colors"
+                          className="text-on-dark-disabled hover:text-primary transition-colors"
                           aria-label={`${member.name} on LinkedIn`}
                         >
                           <Linkedin className="size-5" />
@@ -150,7 +150,7 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
                           href={member.social.twitter}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-grey-500 hover:text-primary transition-colors"
+                          className="text-on-dark-disabled hover:text-primary transition-colors"
                           aria-label={`${member.name} on Twitter`}
                         >
                           <Twitter className="size-5" />

@@ -128,7 +128,7 @@ function VirtualizedListInner<T>(
         ref={setRefs}
         className={clsx(
           "flex items-center justify-center",
-          inverted ? "text-grey-400" : "text-grey-600",
+          inverted ? "text-on-dark-muted" : "text-on-light-muted",
           className
         )}
         style={{ height: containerHeight }}

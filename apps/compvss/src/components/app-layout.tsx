@@ -329,7 +329,7 @@ export function CompvssAppLayout({
         background={background}
         header={
           <Container className="py-4">
-            <Link href="/" className={`font-display text-h5-md uppercase ${isDark ? "text-white hover:text-grey-200" : "text-black hover:text-grey-700"} transition-colors`}>
+            <Link href="/" className={`font-display text-h5-md uppercase ${isDark ? "text-white hover:text-on-dark-secondary" : "text-black hover:text-on-dark-disabled"} transition-colors`}>
               COMPVSS
             </Link>
           </Container>
@@ -367,7 +367,7 @@ export function CompvssAppLayout({
           navigation={getContextualNavigation()}
           currentPath={pathname}
           logo={
-            <Link href="/dashboard" className={`font-display text-h5-md uppercase ${inverted ? "text-white hover:text-grey-200" : "text-black hover:text-grey-700"} transition-colors`}>
+            <Link href="/dashboard" className={`font-display text-h5-md uppercase ${inverted ? "text-white hover:text-on-dark-secondary" : "text-black hover:text-on-dark-disabled"} transition-colors`}>
               COMPVSS
             </Link>
           }

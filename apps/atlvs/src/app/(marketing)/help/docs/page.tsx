@@ -33,7 +33,7 @@ export default function HelpDocsPage() {
         <Section>
           <Card className="p-4 mb-6">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-grey-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
               <Input placeholder="Search documentation..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
             </div>
           </Card>
@@ -71,10 +71,10 @@ export default function HelpDocsPage() {
               <Card key={idx} className="p-4 cursor-pointer hover:border-primary">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <FileText className="size-4 text-grey-400" />
+                    <FileText className="size-4 text-on-dark-muted" />
                     <Body>{article}</Body>
                   </div>
-                  <ExternalLink className="size-4 text-grey-500" />
+                  <ExternalLink className="size-4 text-on-dark-disabled" />
                 </div>
               </Card>
             ))}

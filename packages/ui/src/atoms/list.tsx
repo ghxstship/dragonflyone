@@ -58,7 +58,7 @@ export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
           className={clsx("flex gap-gap-xs items-start", className)}
           {...props}
         >
-          <span className={clsx("flex-shrink-0", inverted ? "text-grey-400" : "text-ink-500")}>{icon}</span>
+          <span className={clsx("flex-shrink-0", inverted ? "text-on-dark-muted" : "text-ink-500")}>{icon}</span>
           <span>{children}</span>
         </li>
       );

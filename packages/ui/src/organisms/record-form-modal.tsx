@@ -247,10 +247,10 @@ export function RecordFormModal<T = Record<string, unknown>>({
         )}
 
         {field.hint && !error && (
-          <span className="block mt-spacing-1 font-code text-mono-xs text-grey-500">{field.hint}</span>
+          <span className="block mt-spacing-1 font-code text-mono-xs text-on-dark-disabled">{field.hint}</span>
         )}
         {error && (
-          <span className="block mt-spacing-1 font-code text-mono-xs text-grey-700 uppercase">{error}</span>
+          <span className="block mt-spacing-1 font-code text-mono-xs text-on-dark-disabled uppercase">{error}</span>
         )}
       </div>
     );
@@ -288,7 +288,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
                 <div
                   className={clsx(
                     "w-spacing-6 h-spacing-6 rounded-full flex items-center justify-center font-code text-mono-xs",
-                    idx <= currentStep ? "bg-black text-white" : "bg-grey-200 text-grey-500"
+                    idx <= currentStep ? "bg-black text-white" : "bg-grey-200 text-on-dark-disabled"
                   )}
                 >
                   {idx + 1}
@@ -296,7 +296,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
                 <span
                   className={clsx(
                     "font-code text-mono-xs uppercase",
-                    idx === currentStep ? "text-black" : "text-grey-500"
+                    idx === currentStep ? "text-black" : "text-on-light-muted"
                   )}
                 >
                   {step.title}

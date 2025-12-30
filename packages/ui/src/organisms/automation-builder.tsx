@@ -170,7 +170,7 @@ function TriggerNode({ trigger, onUpdate, expanded, onToggle }: TriggerNodeProps
       {expanded && (
         <div className="p-spacing-4 border-t border-border-secondary">
           <label className="block mb-spacing-3">
-            <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">Trigger Type</span>
+            <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">Trigger Type</span>
             <select
               value={trigger.type}
               onChange={(e) => onUpdate({ ...trigger, type: e.target.value as TriggerType })}
@@ -185,7 +185,7 @@ function TriggerNode({ trigger, onUpdate, expanded, onToggle }: TriggerNodeProps
           {/* Trigger-specific configuration */}
           {trigger.type === "schedule" && (
             <label className="block">
-              <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">Schedule (Cron)</span>
+              <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">Schedule (Cron)</span>
               <input
                 type="text"
                 value={String(trigger.config.cron || "")}
@@ -199,7 +199,7 @@ function TriggerNode({ trigger, onUpdate, expanded, onToggle }: TriggerNodeProps
           {trigger.type === "status_change" && (
             <>
               <label className="block mb-spacing-3">
-                <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">From Status</span>
+                <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">From Status</span>
                 <input
                   type="text"
                   value={String(trigger.config.fromStatus || "")}
@@ -209,7 +209,7 @@ function TriggerNode({ trigger, onUpdate, expanded, onToggle }: TriggerNodeProps
                 />
               </label>
               <label className="block">
-                <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">To Status</span>
+                <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">To Status</span>
                 <input
                   type="text"
                   value={String(trigger.config.toStatus || "")}
@@ -342,7 +342,7 @@ function ActionNode({ action, onUpdate, onRemove, index }: ActionNodeProps) {
       {expanded && (
         <div className="p-spacing-4 border-t border-border-secondary">
           <label className="block mb-spacing-3">
-            <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">Action Type</span>
+            <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">Action Type</span>
             <select
               value={action.type}
               onChange={(e) => onUpdate({ ...action, type: e.target.value as ActionType })}
@@ -358,7 +358,7 @@ function ActionNode({ action, onUpdate, onRemove, index }: ActionNodeProps) {
           {action.type === "send_notification" && (
             <>
               <label className="block mb-spacing-3">
-                <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">Title</span>
+                <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">Title</span>
                 <input
                   type="text"
                   value={String(action.config.title || "")}
@@ -368,7 +368,7 @@ function ActionNode({ action, onUpdate, onRemove, index }: ActionNodeProps) {
                 />
               </label>
               <label className="block">
-                <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">Message</span>
+                <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">Message</span>
                 <textarea
                   value={String(action.config.message || "")}
                   onChange={(e) => onUpdate({ ...action, config: { ...action.config, message: e.target.value } })}
@@ -383,7 +383,7 @@ function ActionNode({ action, onUpdate, onRemove, index }: ActionNodeProps) {
           {action.type === "send_email" && (
             <>
               <label className="block mb-spacing-3">
-                <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">To</span>
+                <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">To</span>
                 <input
                   type="email"
                   value={String(action.config.to || "")}
@@ -393,7 +393,7 @@ function ActionNode({ action, onUpdate, onRemove, index }: ActionNodeProps) {
                 />
               </label>
               <label className="block mb-spacing-3">
-                <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">Subject</span>
+                <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">Subject</span>
                 <input
                   type="text"
                   value={String(action.config.subject || "")}
@@ -403,7 +403,7 @@ function ActionNode({ action, onUpdate, onRemove, index }: ActionNodeProps) {
                 />
               </label>
               <label className="block">
-                <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">Body</span>
+                <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">Body</span>
                 <textarea
                   value={String(action.config.body || "")}
                   onChange={(e) => onUpdate({ ...action, config: { ...action.config, body: e.target.value } })}
@@ -418,7 +418,7 @@ function ActionNode({ action, onUpdate, onRemove, index }: ActionNodeProps) {
           {action.type === "call_webhook" && (
             <>
               <label className="block mb-spacing-3">
-                <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">URL</span>
+                <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">URL</span>
                 <input
                   type="url"
                   value={String(action.config.url || "")}
@@ -428,7 +428,7 @@ function ActionNode({ action, onUpdate, onRemove, index }: ActionNodeProps) {
                 />
               </label>
               <label className="block">
-                <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">Method</span>
+                <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">Method</span>
                 <select
                   value={String(action.config.method || "POST")}
                   onChange={(e) => onUpdate({ ...action, config: { ...action.config, method: e.target.value } })}
@@ -445,7 +445,7 @@ function ActionNode({ action, onUpdate, onRemove, index }: ActionNodeProps) {
           
           {action.type === "delay" && (
             <label className="block">
-              <span className="font-code text-mono-xs text-grey-500 uppercase tracking-wider">Delay (minutes)</span>
+              <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider">Delay (minutes)</span>
               <input
                 type="number"
                 value={Number(action.config.minutes || 0)}
@@ -586,7 +586,7 @@ export function AutomationBuilder({
             onChange={(e) => handleNameChange(e.target.value)}
             className="text-h2-sm font-display bg-transparent border-none outline-none focus:ring-2 focus:ring-primary-500 rounded-button px-spacing-2 -ml-spacing-2"
           />
-          <p className="text-body-sm text-grey-500 mt-spacing-1">
+          <p className="text-body-sm text-on-dark-disabled mt-spacing-1">
             Configure when this automation runs and what it does
           </p>
         </div>
@@ -598,7 +598,7 @@ export function AutomationBuilder({
               "flex items-center gap-gap-xs px-spacing-4 py-spacing-2 rounded-button border-2 font-code text-mono-sm cursor-pointer transition-colors",
               workflow.enabled
                 ? "bg-success-500 border-success-600 text-white"
-                : "bg-surface-secondary border-border-primary text-grey-600"
+                : "bg-surface-secondary border-border-primary text-on-dark-disabled"
             )}
           >
             {workflow.enabled ? <Play className="size-4" /> : <Pause className="size-4" />}
@@ -628,13 +628,13 @@ export function AutomationBuilder({
         
         {/* Arrow */}
         <div className="flex justify-center">
-          <ArrowRight className="size-6 text-grey-400 rotate-90" />
+          <ArrowRight className="size-6 text-on-dark-muted rotate-90" />
         </div>
         
         {/* Conditions */}
         <div className="bg-surface-secondary border-2 border-border-primary rounded-card p-spacing-4">
           <div className="flex items-center justify-between mb-spacing-3">
-            <span className="font-code text-mono-sm text-grey-500 uppercase tracking-wider">
+            <span className="font-code text-mono-sm text-on-dark-disabled uppercase tracking-wider">
               Conditions (Optional)
             </span>
             <button
@@ -647,7 +647,7 @@ export function AutomationBuilder({
           </div>
           
           {workflow.conditions.length === 0 ? (
-            <p className="text-body-sm text-grey-400 text-center py-spacing-4">
+            <p className="text-body-sm text-on-dark-muted text-center py-spacing-4">
               No conditions - automation will run for all matching triggers
             </p>
           ) : (
@@ -667,13 +667,13 @@ export function AutomationBuilder({
         
         {/* Arrow */}
         <div className="flex justify-center">
-          <ArrowRight className="size-6 text-grey-400 rotate-90" />
+          <ArrowRight className="size-6 text-on-dark-muted rotate-90" />
         </div>
         
         {/* Actions */}
         <div className="bg-surface-secondary border-2 border-border-primary rounded-card p-spacing-4">
           <div className="flex items-center justify-between mb-spacing-3">
-            <span className="font-code text-mono-sm text-grey-500 uppercase tracking-wider">
+            <span className="font-code text-mono-sm text-on-dark-disabled uppercase tracking-wider">
               Actions
             </span>
             <button
@@ -686,7 +686,7 @@ export function AutomationBuilder({
           </div>
           
           {workflow.actions.length === 0 ? (
-            <p className="text-body-sm text-grey-400 text-center py-spacing-4">
+            <p className="text-body-sm text-on-dark-muted text-center py-spacing-4">
               Add at least one action for this automation
             </p>
           ) : (
@@ -726,7 +726,7 @@ export function AutomationBuilder({
             className={clsx(
               "flex items-center gap-gap-xs px-spacing-4 py-spacing-2 rounded-button border-2 font-code text-mono-sm cursor-pointer transition-colors",
               testing || workflow.actions.length === 0
-                ? "bg-grey-100 border-grey-200 text-grey-400 cursor-not-allowed"
+                ? "bg-grey-100 border-grey-200 text-on-dark-muted cursor-not-allowed"
                 : "bg-surface-secondary border-border-primary text-text-primary hover:bg-surface-tertiary"
             )}
           >
@@ -742,7 +742,7 @@ export function AutomationBuilder({
             className={clsx(
               "flex items-center gap-gap-xs px-spacing-6 py-spacing-2 rounded-button border-2 font-code text-mono-sm cursor-pointer transition-colors",
               workflow.actions.length === 0
-                ? "bg-grey-100 border-grey-200 text-grey-400 cursor-not-allowed"
+                ? "bg-grey-100 border-grey-200 text-on-dark-muted cursor-not-allowed"
                 : "bg-primary-500 border-primary-600 text-white hover:bg-primary-600"
             )}
           >

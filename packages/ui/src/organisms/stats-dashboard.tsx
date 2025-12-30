@@ -85,7 +85,7 @@ export function StatsDashboard({
   const trendClasses = {
     up: inverted ? "text-green-400" : "text-green-600",
     down: inverted ? "text-red-400" : "text-red-600",
-    neutral: inverted ? "text-grey-400" : "text-grey-500",
+    neutral: inverted ? "text-on-dark-muted" : "text-on-light-muted",
   };
 
   return (
@@ -125,7 +125,7 @@ export function StatsDashboard({
               className={clsx(
                 "font-code tracking-widest uppercase font-bold",
                 compact ? "text-[10px]" : "text-xs",
-                inverted ? "text-grey-400" : "text-grey-600"
+                inverted ? "text-on-dark-muted" : "text-on-light-muted"
               )}
             >
               {stat.label}
@@ -133,7 +133,7 @@ export function StatsDashboard({
             {stat.icon && (
               <span className={clsx(
                 compact ? "text-sm" : "text-lg",
-                inverted ? "text-grey-500" : "text-grey-400"
+                inverted ? "text-on-dark-disabled" : "text-on-light-muted"
               )}>
                 {stat.icon}
               </span>
@@ -169,7 +169,7 @@ export function StatsDashboard({
               {stat.changeLabel && (
                 <span className={clsx(
                   "font-code text-xs tracking-wide",
-                  inverted ? "text-grey-500" : "text-grey-400"
+                  inverted ? "text-on-dark-disabled" : "text-on-light-muted"
                 )}>
                   {stat.changeLabel}
                 </span>
@@ -177,7 +177,7 @@ export function StatsDashboard({
               {stat.previousValue !== undefined && !stat.changeLabel && (
                 <span className={clsx(
                   "font-code text-xs tracking-wide",
-                  inverted ? "text-grey-500" : "text-grey-400"
+                  inverted ? "text-on-dark-disabled" : "text-on-light-muted"
                 )}>
                   vs {formatValue(stat.previousValue, stat.format)}
                 </span>
@@ -220,7 +220,7 @@ export function StatCard({
   const trendClasses = {
     up: inverted ? "text-green-400" : "text-green-600",
     down: inverted ? "text-red-400" : "text-red-600",
-    neutral: inverted ? "text-grey-400" : "text-grey-500",
+    neutral: inverted ? "text-on-dark-muted" : "text-on-light-muted",
   };
 
   return (
@@ -246,14 +246,14 @@ export function StatCard({
       <div className="flex items-start justify-between mb-3">
         <span className={clsx(
           "font-code text-xs tracking-widest uppercase font-bold",
-          inverted ? "text-grey-400" : "text-grey-600"
+          inverted ? "text-on-dark-muted" : "text-on-light-muted"
         )}>
           {label}
         </span>
         {icon && (
           <span className={clsx(
             "text-lg",
-            inverted ? "text-grey-500" : "text-grey-400"
+            inverted ? "text-on-dark-disabled" : "text-on-light-muted"
           )}>{icon}</span>
         )}
       </div>

@@ -121,7 +121,7 @@ export function Stepper({
                   config.indicator,
                   status === "completed" && "bg-black text-white border-black shadow-[2px_2px_0_hsl(var(--primary))]",
                   status === "current" && "bg-white text-black border-black shadow-[3px_3px_0_hsl(var(--primary))]",
-                  status === "upcoming" && "bg-grey-200 text-grey-500 border-grey-300 shadow-[2px_2px_0_rgba(0,0,0,0.08)]",
+                  status === "upcoming" && "bg-grey-200 text-on-dark-disabled border-grey-300 shadow-[2px_2px_0_rgba(0,0,0,0.08)]",
                   clickable ? "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5" : "cursor-default"
                 )}
                 aria-label={`Step ${index + 1}: ${step.label}`}
@@ -160,14 +160,14 @@ export function Stepper({
                 className={clsx(
                   "font-code tracking-wide uppercase",
                   config.label,
-                  status === "upcoming" ? "text-grey-500" : "text-black",
+                  status === "upcoming" ? "text-on-dark-disabled" : "text-black",
                   status === "current" && "font-weight-bold"
                 )}
               >
                 {step.label}
               </div>
               {step.description && (
-                <div className="font-body text-body-sm text-grey-600 mt-spacing-1">
+                <div className="font-body text-body-sm text-on-dark-disabled mt-spacing-1">
                   {step.description}
                 </div>
               )}

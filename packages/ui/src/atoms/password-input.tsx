@@ -38,7 +38,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             "focus:outline-none",
             "disabled:cursor-not-allowed disabled:opacity-50",
             // Placeholder
-            inverted ? "placeholder:text-grey-500" : "placeholder:text-grey-400",
+            inverted ? "placeholder:text-on-dark-disabled" : "placeholder:text-on-dark-muted",
             // Error state
             error
               ? inverted
@@ -79,8 +79,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             "rounded p-1 transition-colors duration-100",
             "focus:outline-none focus:ring-2 focus:ring-offset-1",
             inverted
-              ? "text-grey-400 hover:text-white focus:ring-[var(--color-primary-400)] focus:ring-offset-ink-900"
-              : "text-grey-500 hover:text-black focus:ring-[var(--color-primary-500)] focus:ring-offset-white"
+              ? "text-on-dark-muted hover:text-white focus:ring-[var(--color-primary-400)] focus:ring-offset-ink-900"
+              : "text-on-dark-disabled hover:text-black focus:ring-[var(--color-primary-500)] focus:ring-offset-white"
           )}
           aria-label={showPassword ? "Hide password" : "Show password"}
         >

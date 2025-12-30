@@ -62,7 +62,7 @@ function FAQAccordionItem({
         </Body>
         <ChevronDown
           className={clsx(
-            "size-5 text-grey-400 flex-shrink-0 transition-transform duration-300",
+            "size-5 text-on-dark-muted flex-shrink-0 transition-transform duration-300",
             isOpen && "rotate-180"
           )}
         />
@@ -74,7 +74,7 @@ function FAQAccordionItem({
           isOpen ? "max-h-96 pb-6" : "max-h-0"
         )}
       >
-        <Body className="text-grey-400 leading-relaxed">{faq.answer}</Body>
+        <Body className="text-on-dark-muted leading-relaxed">{faq.answer}</Body>
       </div>
     </div>
   );
@@ -136,7 +136,7 @@ export const FAQSection = forwardRef<HTMLElement, FAQSectionProps>(
               {kicker && <Kicker>{kicker}</Kicker>}
               {title && <H2 className="text-white">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-grey-400 max-w-2xl">
+                <Body size="lg" className="text-on-dark-muted max-w-2xl">
                   {description}
                 </Body>
               )}

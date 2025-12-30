@@ -183,7 +183,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
           <div className="flex-1 flex items-center justify-center p-8">
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -204,7 +204,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                 <H2 className={inverted ? "text-white" : "text-ink-900"}>
                   Error Loading Items
                 </H2>
-                <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -237,10 +237,10 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
               )}>
                 <LayoutGrid className={clsx(
                   "size-10",
-                  inverted ? "text-grey-600" : "text-grey-400"
+                  inverted ? "text-on-dark-disabled" : "text-on-light-muted"
                 )} />
               </div>
-              <Body className={inverted ? "text-grey-400" : "text-grey-600"}>
+              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                 {emptyMessage}
               </Body>
               {emptyAction && (
@@ -266,7 +266,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
           <Stack direction="horizontal" className="items-center justify-between">
             <Body className={clsx(
               "font-semibold uppercase text-xs tracking-wider",
-              inverted ? "text-grey-400" : "text-grey-500"
+              inverted ? "text-on-dark-muted" : "text-on-light-muted"
             )}>
               Filters
             </Body>
@@ -287,7 +287,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
             <Stack key={filter.id} gap={2}>
               <Body size="sm" className={clsx(
                 "font-medium",
-                inverted ? "text-grey-300" : "text-grey-700"
+                inverted ? "text-on-dark-secondary" : "text-on-light-muted"
               )}>
                 {filter.label}
               </Body>
@@ -341,8 +341,8 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                     className={clsx(
                       "lg:hidden flex items-center gap-2 px-3 py-2 border-2 rounded-button text-sm transition-colors",
                       inverted
-                        ? "border-grey-700 text-grey-300 hover:border-grey-600"
-                        : "border-grey-200 text-grey-600 hover:border-grey-300"
+                        ? "border-grey-700 text-on-dark-secondary hover:border-grey-600"
+                        : "border-grey-200 text-on-dark-disabled hover:border-grey-300"
                     )}
                   >
                     <Filter className="size-4" />
@@ -358,7 +358,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                 {/* Selection info */}
                 {selectable && selectedIds.length > 0 && (
                   <Stack direction="horizontal" gap={2} className="items-center">
-                    <Body size="sm" className={inverted ? "text-grey-400" : "text-grey-600"}>
+                    <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                       {selectedIds.length} selected
                     </Body>
                     <button
@@ -438,7 +438,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
             {pagination === "bottom" && totalPages > 1 && (
               <div className={clsx("mt-6 pt-6 border-t-2", borderClass)}>
                 <Stack direction="horizontal" className="items-center justify-between">
-                  <Body size="sm" className={inverted ? "text-grey-400" : "text-grey-600"}>
+                  <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                     Page {page} of {totalPages}
                     {totalItems !== undefined && ` (${totalItems} items)`}
                   </Body>
@@ -474,7 +474,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                 {isLoadingMore ? (
                   <Stack gap={2} className="items-center">
                     <Spinner size="md" />
-                    <Body size="sm" className={inverted ? "text-grey-400" : "text-grey-600"}>
+                    <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                       Loading more...
                     </Body>
                   </Stack>
