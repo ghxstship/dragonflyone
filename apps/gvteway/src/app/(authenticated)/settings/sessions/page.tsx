@@ -8,11 +8,13 @@
 
 import {
   Body,
+  Box,
   Button,
   Card,
   Grid,
   StatCard,
   Badge,
+  Stack,
   Table,
   TableHeader,
   TableBody,
@@ -120,36 +122,36 @@ export default function SessionsPage() {
             <>
               <SectionHeader title="Current Session" description="This is the device you are using now" />
               <Card className="p-4 mb-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-grey-700 rounded-card">
+                <Stack direction="horizontal" className="items-center justify-between">
+                  <Stack direction="horizontal" gap={4} className="items-center">
+                    <Box className="p-3 bg-grey-700 rounded-card">
                       {getDeviceIcon(currentSession.device_type)}
-                    </div>
-                    <div>
+                    </Box>
+                    <Stack gap={0}>
                       <Body className="font-weight-medium text-white">{currentSession.device_name || "Unknown Device"}</Body>
                       <Body size="sm" className="text-on-dark-muted">
                         {currentSession.browser || "Unknown Browser"} on {currentSession.os || "Unknown OS"}
                       </Body>
-                      <div className="flex items-center gap-2 mt-1">
+                      <Stack direction="horizontal" gap={2} className="items-center mt-1">
                         <Globe className="size-3 text-on-dark-disabled" />
                         <Body size="sm" className="text-on-dark-disabled">
                           {currentSession.location || currentSession.ip_address || "Unknown location"}
                         </Body>
-                      </div>
-                    </div>
-                  </div>
+                      </Stack>
+                    </Stack>
+                  </Stack>
                   <Badge variant="success">Active Now</Badge>
-                </div>
+                </Stack>
               </Card>
             </>
           )}
 
           <SectionHeader title="Other Sessions" description="Devices where you are also signed in" />
           {otherSessions.length === 0 ? (
-            <div className="text-center py-12">
+            <Stack className="text-center py-12 items-center">
               <Monitor className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted">No other active sessions</Body>
-            </div>
+            </Stack>
           ) : (
             <Card className="overflow-hidden">
               <Table>
@@ -165,17 +167,17 @@ export default function SessionsPage() {
                   {otherSessions.map((session: UserSession) => (
                     <TableRow key={session.id}>
                       <TableCell>
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-grey-700 rounded">
+                        <Stack direction="horizontal" gap={3} className="items-center">
+                          <Box className="p-2 bg-grey-700 rounded">
                             {getDeviceIcon(session.device_type)}
-                          </div>
-                          <div>
+                          </Box>
+                          <Stack gap={0}>
                             <Body className="font-weight-medium text-white">{session.device_name || "Unknown Device"}</Body>
                             <Body size="sm" className="text-on-dark-muted">
                               {session.browser || "Unknown"} on {session.os || "Unknown"}
                             </Body>
-                          </div>
-                        </div>
+                          </Stack>
+                        </Stack>
                       </TableCell>
                       <TableCell>
                         <Body size="sm" className="text-white">{session.location || session.ip_address || "Unknown"}</Body>
@@ -209,35 +211,35 @@ export default function SessionsPage() {
         <Section>
           <SectionHeader title="Security Tips" description="Best practices for account security" />
           <Card className="p-6">
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-avatar bg-primary flex items-center justify-center flex-shrink-0">
+            <Stack gap={4}>
+              <Stack direction="horizontal" gap={3} className="items-start">
+                <Box className="w-6 h-6 rounded-avatar bg-primary flex items-center justify-center flex-shrink-0">
                   <Body size="sm" className="text-white font-weight-medium">1</Body>
-                </div>
-                <div>
+                </Box>
+                <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Review unrecognized sessions</Body>
                   <Body size="sm" className="text-on-dark-muted">If you see a session you do not recognize, revoke it immediately</Body>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-avatar bg-primary flex items-center justify-center flex-shrink-0">
+                </Stack>
+              </Stack>
+              <Stack direction="horizontal" gap={3} className="items-start">
+                <Box className="w-6 h-6 rounded-avatar bg-primary flex items-center justify-center flex-shrink-0">
                   <Body size="sm" className="text-white font-weight-medium">2</Body>
-                </div>
-                <div>
+                </Box>
+                <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Sign out from shared devices</Body>
                   <Body size="sm" className="text-on-dark-muted">Always sign out from public or shared devices when done</Body>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-avatar bg-primary flex items-center justify-center flex-shrink-0">
+                </Stack>
+              </Stack>
+              <Stack direction="horizontal" gap={3} className="items-start">
+                <Box className="w-6 h-6 rounded-avatar bg-primary flex items-center justify-center flex-shrink-0">
                   <Body size="sm" className="text-white font-weight-medium">3</Body>
-                </div>
-                <div>
+                </Box>
+                <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Enable two-factor authentication</Body>
                   <Body size="sm" className="text-on-dark-muted">Add an extra layer of security to your account</Body>
-                </div>
-              </div>
-            </div>
+                </Stack>
+              </Stack>
+            </Stack>
           </Card>
         </Section>
       ),

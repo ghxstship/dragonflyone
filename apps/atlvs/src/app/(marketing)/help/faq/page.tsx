@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { HelpCircle, ChevronDown, ChevronUp, Search, List, Tag } from "lucide-react";
 import {
-  Body, Button, Card, Input, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Body, Button, Card, Input, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface FAQ {
   id: string;
@@ -52,19 +52,19 @@ export default function FAQPage() {
       content: (
         <Section>
           <Card className="p-4 mb-6">
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex-1 min-w-[200px] relative">
+            <Box className="flex items-center gap-4 flex-wrap">
+              <Box className="flex-1 min-w-[200px] relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search questions..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-              </div>
-              <div className="flex gap-2 flex-wrap">
+              </Box>
+              <Box className="flex gap-2 flex-wrap">
                 {CATEGORIES.map((cat) => (
                   <Button key={cat} variant={selectedCategory === cat ? "solid" : "outline"} size="sm" onClick={() => setSelectedCategory(cat)}>
                     {cat}
                   </Button>
                 ))}
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Card>
 
           {filteredFAQs.length === 0 ? (
@@ -74,24 +74,24 @@ export default function FAQPage() {
               <Body className="text-on-dark-muted">Try a different search term or category</Body>
             </Card>
           ) : (
-            <div className="space-y-4">
+            <Box className="space-y-4">
               {filteredFAQs.map((faq) => (
                 <Card key={faq.id} className="overflow-hidden">
                   <Button variant="ghost" className="w-full p-6 text-left flex items-center justify-between" onClick={() => setExpandedId(expandedId === faq.id ? null : faq.id)}>
-                    <div className="flex items-center gap-3">
+                    <Box className="flex items-center gap-3">
                       <HelpCircle className="size-5 text-primary" />
                       <Body className="font-weight-medium">{faq.question}</Body>
-                    </div>
+                    </Box>
                     {expandedId === faq.id ? <ChevronUp className="size-5 text-on-dark-muted" /> : <ChevronDown className="size-5 text-on-dark-muted" />}
                   </Button>
                   {expandedId === faq.id && (
-                    <div className="px-6 pb-6 pt-0">
+                    <Box className="px-6 pb-6 pt-0">
                       <Body className="text-on-dark-secondary pl-8">{faq.answer}</Body>
-                    </div>
+                    </Box>
                   )}
                 </Card>
               ))}
-            </div>
+            </Box>
           )}
         </Section>
       ),
@@ -103,24 +103,24 @@ export default function FAQPage() {
       content: (
         <Section>
           <SectionHeader title="Browse by Category" description="Find answers organized by topic" />
-          <div className="space-y-6 mt-6">
+          <Box className="space-y-6 mt-6">
             {CATEGORIES.filter((c) => c !== "All").map((category) => {
               const categoryFAQs = FAQS.filter((f) => f.category === category);
               return (
                 <Card key={category} className="p-6">
                   <Body className="font-weight-bold text-h5-md mb-4">{category} ({categoryFAQs.length})</Body>
-                  <div className="space-y-2">
+                  <Box className="space-y-2">
                     {categoryFAQs.map((faq) => (
                       <Button key={faq.id} variant="ghost" className="w-full justify-start" onClick={() => { setSelectedCategory(category); setExpandedId(faq.id); }}>
                         <HelpCircle className="size-4 mr-2" />
                         {faq.question}
                       </Button>
                     ))}
-                  </div>
+                  </Box>
                 </Card>
               );
             })}
-          </div>
+          </Box>
         </Section>
       ),
     },

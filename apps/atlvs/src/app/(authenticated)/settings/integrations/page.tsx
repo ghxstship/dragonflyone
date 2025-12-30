@@ -11,7 +11,7 @@ import { Plug, Check, X, List, Key } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, Grid, Modal, ModalBody, ModalFooter, ModalHeader, Input, StatCard, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Modal, ModalBody, ModalFooter, ModalHeader, Input, StatCard, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
 
 interface Integration {
   id: string;
@@ -118,29 +118,29 @@ export default function IntegrationsSettingsPage() {
             <StatCard label="Available" value={(integrations.length - connectedCount).toString()} icon={<Plug className="size-5" />} />
           </Grid>
 
-          <div className="flex gap-2 mb-6 flex-wrap">
+          <Box className="flex gap-2 mb-6 flex-wrap">
             {CATEGORIES.map((cat) => (
               <Button key={cat.id} variant={selectedCategory === cat.id ? "solid" : "outline"} size="sm" onClick={() => setSelectedCategory(cat.id)}>
                 {cat.label}
               </Button>
             ))}
-          </div>
+          </Box>
 
           <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
             {filteredIntegrations.map((integration: Integration) => (
               <Card key={integration.id} className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3">
-                    <div className="font-weight-bold">{integration.icon}</div>
-                    <div>
+                <Box className="flex items-start justify-between">
+                  <Box className="flex items-start gap-3">
+                    <Box className="font-weight-bold">{integration.icon}</Box>
+                    <Box>
                       <Body className="font-weight-medium">{integration.name}</Body>
                       <Body size="sm" className="text-on-dark-muted">{integration.description}</Body>
                       {integration.connected && integration.connected_at && (
                         <Body size="sm" className="text-on-dark-disabled mt-1">Connected {formatDate(integration.connected_at)}</Body>
                       )}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
+                    </Box>
+                  </Box>
+                  <Box className="flex items-center gap-2">
                     {integration.connected ? (
                       <>
                         <Badge variant="success">Connected</Badge>
@@ -155,8 +155,8 @@ export default function IntegrationsSettingsPage() {
                         <Button variant="outline" size="sm" onClick={() => setShowConnect(integration)}>Connect</Button>
                       )
                     )}
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
           </Grid>
@@ -195,18 +195,18 @@ export default function IntegrationsSettingsPage() {
       <Modal open={!!showConnect} onClose={() => { setShowConnect(null); setApiKey(""); }}>
         <ModalHeader><Body className="font-weight-bold font-weight-medium">Connect {showConnect?.name}</Body></ModalHeader>
         <ModalBody>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="font-weight-bold">{showConnect?.icon}</div>
-            <div>
+          <Box className="flex items-center gap-3 mb-4">
+            <Box className="font-weight-bold">{showConnect?.icon}</Box>
+            <Box>
               <Body className="font-weight-medium">{showConnect?.name}</Body>
               <Body size="sm" className="text-on-dark-muted">{showConnect?.description}</Body>
-            </div>
-          </div>
-          <div>
+            </Box>
+          </Box>
+          <Box>
             <Body size="sm" className="text-on-dark-muted mb-1">API Key</Body>
             <Input type="password" placeholder="Enter your API key" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
             <Body size="sm" className="text-on-dark-disabled mt-2">You can find your API key in your {showConnect?.name} account settings.</Body>
-          </div>
+          </Box>
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => { setShowConnect(null); setApiKey(""); }}>Cancel</Button>

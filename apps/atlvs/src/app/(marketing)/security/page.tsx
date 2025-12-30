@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Shield, Lock, Key, Eye, CheckCircle, FileText, Download, Server, Database, Globe } from "lucide-react";
 import {
-  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Box} from "@ghxstship/ui";
 
 const SECURITY_FEATURES: FeatureItem[] = [
   { id: "encryption", icon: <Lock className="size-8" />, title: "End-to-End Encryption", description: "All data encrypted at rest using AES-256 and in transit using TLS 1.3" },
@@ -115,9 +115,9 @@ export default function SecurityPage() {
                   {CERTIFICATIONS.map((cert) => (
                     <Card key={cert.id} className="p-6 border-2 border-grey-800 rounded-card hover:border-success/30 transition-all">
                       <Stack direction="horizontal" gap={4} className="items-start">
-                        <div className="p-3 bg-success/20 rounded-card text-success">
+                        <Box className="p-3 bg-success/20 rounded-card text-success">
                           {cert.icon}
-                        </div>
+                        </Box>
                         <Stack gap={2} className="flex-1">
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Body className="text-white font-weight-bold">{cert.name}</Body>
@@ -141,9 +141,9 @@ export default function SecurityPage() {
               <Card className="p-12 border-2 border-primary/30 rounded-card bg-gradient-to-br from-primary/10 to-secondary/10">
                 <Stack direction="horizontal" className="justify-between items-center flex-wrap gap-8">
                   <Stack direction="horizontal" gap={6} className="items-center">
-                    <div className="p-4 bg-primary/20 rounded-card">
+                    <Box className="p-4 bg-primary/20 rounded-card">
                       <FileText className="size-10 text-primary" />
-                    </div>
+                    </Box>
                     <Stack gap={2}>
                       <Body className="text-white font-weight-bold text-h5-md">Security Whitepaper</Body>
                       <Body className="text-on-dark-muted">Download our comprehensive security documentation detailing our practices, architecture, and compliance measures.</Body>

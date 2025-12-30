@@ -10,7 +10,7 @@ import { useState } from "react";
 
 import { Play, Clock, Star, Search, List, Bookmark } from "lucide-react";
 import {
-  Badge, Body, Button, Card, Grid, Input, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Tutorial {
   id: string;
@@ -52,37 +52,37 @@ export default function TutorialsPage() {
       content: (
         <Section>
           <Card className="p-4 mb-6">
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex-1 min-w-[200px] relative">
+            <Box className="flex items-center gap-4 flex-wrap">
+              <Box className="flex-1 min-w-[200px] relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search tutorials..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-              </div>
-              <div className="flex gap-2 flex-wrap">
+              </Box>
+              <Box className="flex gap-2 flex-wrap">
                 {CATEGORIES.map((cat) => (
                   <Button key={cat} variant={selectedCategory === cat ? "solid" : "outline"} size="sm" onClick={() => setSelectedCategory(cat)}>
                     {cat}
                   </Button>
                 ))}
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Card>
 
           <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
             {filteredTutorials.map((tutorial) => (
               <Card key={tutorial.id} className="p-6 cursor-pointer hover:border-primary">
-                <div className="aspect-video bg-grey-800 rounded-card flex items-center justify-center mb-4">
+                <Box className="aspect-video bg-grey-800 rounded-card flex items-center justify-center mb-4">
                   <Play className="size-10 text-on-dark-muted" />
-                </div>
-                <div className="flex items-center gap-2 mb-2">
+                </Box>
+                <Box className="flex items-center gap-2 mb-2">
                   <Badge variant="outline">{tutorial.category}</Badge>
                   <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
-                </div>
+                </Box>
                 <Body className="font-weight-bold font-weight-medium">{tutorial.title}</Body>
                 <Body size="sm" className="text-on-dark-muted mb-2">{tutorial.description}</Body>
-                <div className="flex items-center gap-2 text-on-dark-disabled">
+                <Box className="flex items-center gap-2 text-on-dark-disabled">
                   <Clock className="size-4" />
                   <Body size="sm">{tutorial.duration}</Body>
-                </div>
+                </Box>
               </Card>
             ))}
           </Grid>
@@ -96,31 +96,31 @@ export default function TutorialsPage() {
       content: (
         <Section>
           <SectionHeader title="Featured Tutorials" description="Our most popular video guides" />
-          <div className="space-y-6 mt-6">
+          <Box className="space-y-6 mt-6">
             {TUTORIALS.filter((t) => t.featured).map((tutorial) => (
               <Card key={tutorial.id} className="p-6 cursor-pointer hover:border-primary">
-                <div className="flex items-start gap-6">
-                  <div className="w-48 aspect-video bg-grey-800 rounded-card flex items-center justify-center flex-shrink-0">
+                <Box className="flex items-start gap-6">
+                  <Box className="w-48 aspect-video bg-grey-800 rounded-card flex items-center justify-center flex-shrink-0">
                     <Play className="size-8 text-on-dark-muted" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
+                  </Box>
+                  <Box className="flex-1">
+                    <Box className="flex items-center gap-2 mb-2">
                       <Star className="size-4 text-warning" />
                       <Badge variant="outline">{tutorial.category}</Badge>
                       <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
-                    </div>
+                    </Box>
                     <Body className="font-weight-bold font-weight-medium">{tutorial.title}</Body>
                     <Body className="text-on-dark-muted mb-2">{tutorial.description}</Body>
-                    <div className="flex items-center gap-2 text-on-dark-disabled">
+                    <Box className="flex items-center gap-2 text-on-dark-disabled">
                       <Clock className="size-4" />
                       <Body size="sm">{tutorial.duration}</Body>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                   <Button variant="solid" icon={<Play className="size-4" />} iconPosition="left">Watch</Button>
-                </div>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },

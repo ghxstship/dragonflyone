@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Checkbox, Label, Form, Link, AuthPage, useNotifications} from "@ghxstship/ui";
+  Body, Button, Input, Checkbox, Label, Form, Link, AuthPage, useNotifications, Box} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function SignUpPage() {
@@ -66,44 +66,44 @@ export default function SignUpPage() {
       footer={{ text: "Already have an account?", linkText: "Sign in", linkHref: "/auth/signin" }}
     >
       <Form onSubmit={handleSubmit} className="space-y-4">
-        <div>
+        <Box>
           <Body size="sm" className="text-on-dark-muted mb-1">Full Name</Body>
-          <div className="relative">
+          <Box className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input placeholder="John Smith" value={formData.name} onChange={(e) => handleChange("name", e.target.value)} className={`pl-10 ${errors.name ? "border-error" : ""}`} />
-          </div>
+          </Box>
           {errors.name && <Body size="sm" className="text-error mt-1">{errors.name}</Body>}
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <Body size="sm" className="text-on-dark-muted mb-1">Email</Body>
-          <div className="relative">
+          <Box className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type="email" placeholder="you@example.com" value={formData.email} onChange={(e) => handleChange("email", e.target.value)} className={`pl-10 ${errors.email ? "border-error" : ""}`} />
-          </div>
+          </Box>
           {errors.email && <Body size="sm" className="text-error mt-1">{errors.email}</Body>}
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <Body size="sm" className="text-on-dark-muted mb-1">Password</Body>
-          <div className="relative">
+          <Box className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type={showPassword ? "text" : "password"} placeholder="Create a password" value={formData.password} onChange={(e) => handleChange("password", e.target.value)} className={`pl-10 pr-10 ${errors.password ? "border-error" : ""}`} />
             <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword(!showPassword)} className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 p-0 min-w-0 text-on-dark-muted hover:text-white" aria-label={showPassword ? "Hide password" : "Show password"}>
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
             </Button>
-          </div>
+          </Box>
           {errors.password && <Body size="sm" className="text-error mt-1">{errors.password}</Body>}
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <Body size="sm" className="text-on-dark-muted mb-1">Confirm Password</Body>
-          <div className="relative">
+          <Box className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type="password" placeholder="Confirm your password" value={formData.confirmPassword} onChange={(e) => handleChange("confirmPassword", e.target.value)} className={`pl-10 ${errors.confirmPassword ? "border-error" : ""}`} />
-          </div>
+          </Box>
           {errors.confirmPassword && <Body size="sm" className="text-error mt-1">{errors.confirmPassword}</Body>}
-        </div>
+        </Box>
 
         <Label className="flex items-start gap-2 cursor-pointer">
           <Checkbox className="mt-1" required />
@@ -114,15 +114,15 @@ export default function SignUpPage() {
           {signUpMutation.isPending ? "Creating account..." : "Create Account"}
         </Button>
 
-        <div className="relative my-6">
-          <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-grey-700" /></div>
-          <div className="relative flex justify-center"><Body size="sm" className="bg-grey-900 px-2 text-on-dark-disabled">Or continue with</Body></div>
-        </div>
+        <Box className="relative my-6">
+          <Box className="absolute inset-0 flex items-center"><Box className="w-full border-t border-grey-700" /></Box>
+          <Box className="relative flex justify-center"><Body size="sm" className="bg-grey-900 px-2 text-on-dark-disabled">Or continue with</Body></Box>
+        </Box>
 
-        <div className="grid grid-cols-2 gap-4">
+        <Box className="grid grid-cols-2 gap-4">
           <Button variant="outline" type="button">Google</Button>
           <Button variant="outline" type="button">Microsoft</Button>
-        </div>
+        </Box>
       </Form>
     </AuthPage>
   );

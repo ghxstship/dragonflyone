@@ -11,7 +11,7 @@ import { Users, Mail, Shield, Trash2, Edit, Search, List, UserPlus } from "lucid
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, Select, StatCard, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, Select, StatCard, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
 
 interface TeamMember {
   id: string;
@@ -118,17 +118,17 @@ export default function TeamSettingsPage() {
           </Grid>
 
           <Card className="p-4 mb-6">
-            <div className="flex items-center gap-4">
-              <div className="flex-1 relative">
+            <Box className="flex items-center gap-4">
+              <Box className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search members..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-              </div>
+              </Box>
               {canManageTeam && (
                 <Button variant="solid" onClick={() => setShowInvite(true)} icon={<UserPlus className="size-4" />} iconPosition="left">
                   Invite Member
                 </Button>
               )}
-            </div>
+            </Box>
           </Card>
 
           {filteredMembers.length === 0 ? (
@@ -158,25 +158,25 @@ export default function TeamSettingsPage() {
                   {filteredMembers.map((member: TeamMember) => (
                     <TableRow key={member.id}>
                       <TableCell>
-                        <div className="flex items-center gap-3">
-                          <div className="size-10 rounded-avatar bg-primary flex items-center justify-center text-white font-weight-medium">
+                        <Box className="flex items-center gap-3">
+                          <Box className="size-10 rounded-avatar bg-primary flex items-center justify-center text-white font-weight-medium">
                             {member.name.split(" ").map((n) => n[0]).join("")}
-                          </div>
-                          <div>
+                          </Box>
+                          <Box>
                             <Body className="font-weight-medium">{member.name}</Body>
                             <Body size="sm" className="text-on-dark-muted">{member.email}</Body>
-                          </div>
-                        </div>
+                          </Box>
+                        </Box>
                       </TableCell>
                       <TableCell><Badge variant="outline">{member.role}</Badge></TableCell>
                       <TableCell><Badge variant={member.status === "active" ? "success" : member.status === "pending" ? "warning" : "outline"}>{member.status}</Badge></TableCell>
                       <TableCell><Body size="sm">{formatDate(member.joined_at)}</Body></TableCell>
                       {canManageTeam && (
                         <TableCell>
-                          <div className="flex items-center gap-1">
+                          <Box className="flex items-center gap-1">
                             <Button variant="ghost" size="sm" icon={<Edit className="size-4" />} />
                             <Button variant="ghost" size="sm" onClick={() => removeMutation.mutate(member.id)} disabled={removeMutation.isPending} icon={<Trash2 className="size-4 text-error" />} />
-                          </div>
+                          </Box>
                         </TableCell>
                       )}
                     </TableRow>
@@ -195,11 +195,11 @@ export default function TeamSettingsPage() {
       content: (
         <Section>
           <SectionHeader title="Role Permissions" description="Configure what each role can access" />
-          <div className="space-y-4 mt-4">
+          <Box className="space-y-4 mt-4">
             {ROLES.map((role) => (
               <Card key={role} className="p-4">
-                <div className="flex justify-between items-center">
-                  <div>
+                <Box className="flex justify-between items-center">
+                  <Box>
                     <Body className="font-weight-medium">{role}</Body>
                     <Body size="sm" className="text-on-dark-muted">
                       {role === "Admin" && "Full access to all features and settings"}
@@ -207,12 +207,12 @@ export default function TeamSettingsPage() {
                       {role === "Member" && "Can create and edit content, limited settings"}
                       {role === "Viewer" && "Read-only access to content"}
                     </Body>
-                  </div>
+                  </Box>
                   <Badge variant="outline">{members.filter((m: TeamMember) => m.role === role).length} members</Badge>
-                </div>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },
@@ -232,18 +232,18 @@ export default function TeamSettingsPage() {
       <Modal open={showInvite} onClose={() => setShowInvite(false)}>
         <ModalHeader><Body className="font-weight-bold font-weight-medium">Invite Team Member</Body></ModalHeader>
         <ModalBody>
-          <div className="space-y-4">
-            <div>
+          <Box className="space-y-4">
+            <Box>
               <Body size="sm" className="text-on-dark-muted mb-1">Email Address</Body>
               <Input type="email" placeholder="colleague@example.com" value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} />
-            </div>
-            <div>
+            </Box>
+            <Box>
               <Body size="sm" className="text-on-dark-muted mb-1">Role</Body>
               <Select value={inviteRole} onChange={(e) => setInviteRole(e.target.value)}>
                 {ROLES.map((role) => <option key={role} value={role}>{role}</option>)}
               </Select>
-            </div>
-          </div>
+            </Box>
+          </Box>
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setShowInvite(false)}>Cancel</Button>

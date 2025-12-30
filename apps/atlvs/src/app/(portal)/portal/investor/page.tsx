@@ -9,7 +9,7 @@
 import { TrendingUp, DollarSign, PieChart, FileText, BarChart3, List, Download } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Investment {
   id: string;
@@ -65,28 +65,28 @@ export default function InvestorPortalPage() {
           </Grid>
 
           <SectionHeader title="Investments" />
-          <div className="space-y-4 mt-4">
+          <Box className="space-y-4 mt-4">
             {investments.map((investment: Investment) => {
               const roi = (investment.returns / investment.amount) * 100;
               return (
                 <Card key={investment.id} className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div>
+                  <Box className="flex items-start justify-between">
+                    <Box>
                       <Body className="font-weight-bold font-weight-medium">{investment.production}</Body>
                       <Body size="sm" className="text-on-dark-muted mt-1">Invested {formatDate(investment.date)}</Body>
-                    </div>
-                    <div className="text-right">
+                    </Box>
+                    <Box className="text-right">
                       <Body className="font-weight-bold">{formatCurrency(investment.amount)}</Body>
-                      <div className="flex items-center gap-2 mt-2">
+                      <Box className="flex items-center gap-2 mt-2">
                         <Body size="sm" className="text-success">+{formatCurrency(investment.returns)} ({roi.toFixed(1)}%)</Body>
                         <Badge variant={STATUS_CONFIG[investment.status].variant}>{STATUS_CONFIG[investment.status].label}</Badge>
-                      </div>
-                    </div>
-                  </div>
+                      </Box>
+                    </Box>
+                  </Box>
                 </Card>
               );
             })}
-          </div>
+          </Box>
         </Section>
       ),
     },

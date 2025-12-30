@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Bell, Check, CheckCheck, AlertTriangle, List } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body, Button, Card, DetailPage, Section} from "@ghxstship/ui";
+  Body, Button, Card, DetailPage, Section, Box, Stack} from "@ghxstship/ui";
 
 interface Notification {
   id: string;
@@ -85,10 +85,10 @@ export default function NotificationsPage() {
       icon: <List className="size-4" />,
       content: (
         <Section>
-          <div className="flex gap-2 mb-6">
+          <Box className="flex gap-2 mb-6">
             <Button variant={filter === "all" ? "solid" : "outline"} size="sm" onClick={() => setFilter("all")}>All</Button>
             <Button variant={filter === "unread" ? "solid" : "outline"} size="sm" onClick={() => setFilter("unread")}>Unread ({unreadCount})</Button>
-          </div>
+          </Box>
 
           {filteredNotifications.length === 0 ? (
             <Card className="p-8 text-center">
@@ -97,34 +97,34 @@ export default function NotificationsPage() {
               <Body className="text-on-dark-muted">You are all caught up!</Body>
             </Card>
           ) : (
-            <div className="space-y-2">
+            <Stack gap={2}>
               {filteredNotifications.map((notification: Notification) => {
                 const config = TYPE_CONFIG[notification.type];
                 return (
                   <Card key={notification.id} className={`p-4 ${!notification.read ? "border-primary" : ""}`}>
-                    <div className="flex items-start gap-4">
-                      <div className={`p-2 rounded-card ${notification.type === "warning" ? "bg-warning/20" : notification.type === "success" ? "bg-success/20" : notification.type === "error" ? "bg-error/20" : "bg-grey-800"}`}>
+                    <Box className="flex items-start gap-4">
+                      <Box className={`p-2 rounded-card ${notification.type === "warning" ? "bg-warning/20" : notification.type === "success" ? "bg-success/20" : notification.type === "error" ? "bg-error/20" : "bg-grey-800"}`}>
                         {config.icon}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between">
-                          <div>
+                      </Box>
+                      <Box className="flex-1">
+                        <Box className="flex items-start justify-between">
+                          <Box>
                             <Body className={`font-weight-medium ${!notification.read ? "" : "text-on-dark-muted"}`}>{notification.title}</Body>
                             <Body size="sm" className="text-on-dark-muted">{notification.message}</Body>
-                          </div>
+                          </Box>
                           <Body size="sm" className="text-on-dark-disabled">{formatDate(notification.created_at)}</Body>
-                        </div>
-                      </div>
+                        </Box>
+                      </Box>
                       {!notification.read && (
                         <Button variant="ghost" size="sm" onClick={() => markAsRead.mutate(notification.id)}>
                           <Check className="size-4" />
                         </Button>
                       )}
-                    </div>
+                    </Box>
                   </Card>
                 );
               })}
-            </div>
+            </Stack>
           )}
         </Section>
       ),

@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Download, FileText, Database, Calendar, Users, Clock, List, Settings } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, Input, Select, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Select, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
 
 interface ExportOption {
   id: string;
@@ -71,20 +71,20 @@ export default function ExportSettingsPage() {
                 className={`p-4 cursor-pointer transition-colors ${selectedExport === option.id ? "border-primary" : ""}`}
                 onClick={() => { setSelectedExport(option.id); setSelectedFormat(option.formats[0]); }}
               >
-                <div className="flex items-start gap-3">
-                  <div className={`p-2 rounded-card ${selectedExport === option.id ? "bg-primary text-white" : "bg-grey-800 text-on-dark-muted"}`}>
+                <Box className="flex items-start gap-3">
+                  <Box className={`p-2 rounded-card ${selectedExport === option.id ? "bg-primary text-white" : "bg-grey-800 text-on-dark-muted"}`}>
                     {option.icon}
-                  </div>
-                  <div className="flex-1">
+                  </Box>
+                  <Box className="flex-1">
                     <Body className="font-weight-medium">{option.label}</Body>
                     <Body size="sm" className="text-on-dark-muted">{option.description}</Body>
-                    <div className="flex gap-1 mt-2">
+                    <Box className="flex gap-1 mt-2">
                       {option.formats.map((fmt) => (
                         <Badge key={fmt} variant="outline" className="text-body-xs uppercase">{fmt}</Badge>
                       ))}
-                    </div>
-                  </div>
-                </div>
+                    </Box>
+                  </Box>
+                </Box>
               </Card>
             ))}
           </Grid>
@@ -92,22 +92,22 @@ export default function ExportSettingsPage() {
           <Card className="p-6 mb-6">
             <SectionHeader title="Export Options" />
             <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
-              <div>
+              <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">Format</Body>
                 <Select value={selectedFormat} onChange={(e) => setSelectedFormat(e.target.value)}>
                   {currentOption?.formats.map((fmt) => (
                     <option key={fmt} value={fmt}>{fmt.toUpperCase()}</option>
                   ))}
                 </Select>
-              </div>
-              <div>
+              </Box>
+              <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">From Date (Optional)</Body>
                 <Input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} />
-              </div>
-              <div>
+              </Box>
+              <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">To Date (Optional)</Body>
                 <Input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} />
-              </div>
+              </Box>
             </Grid>
           </Card>
 

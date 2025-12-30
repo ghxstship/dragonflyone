@@ -17,7 +17,7 @@ import {
   Section,
   SectionHeader,
   StatCard,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import { Award, Gift, Star, Ticket, Zap, Trophy } from "lucide-react";
 import { useRewardsPageData } from "@/hooks/useRewards";
 
@@ -69,37 +69,37 @@ export default function RewardsPage() {
 
           <SectionHeader title="Membership Tier" description="Your progress through reward tiers" />
           <Card className="p-6 mb-6">
-            <div className="space-y-4">
+            <Box className="space-y-4">
               {tiers.map((tier) => (
-                <div key={tier.name} className="space-y-2">
-                  <div className="flex justify-between">
+                <Box key={tier.name} className="space-y-2">
+                  <Box className="flex justify-between">
                     <Body className="font-weight-medium">{tier.name}</Body>
                     <Body size="sm" className="text-on-dark-muted">{tier.minPoints.toLocaleString()} pts</Body>
-                  </div>
-                  <div className="relative">
+                  </Box>
+                  <Box className="relative">
                     <ProgressBar value={tier.name === userTier ? 100 : tier.minPoints < userPoints ? 100 : 0} size="lg" />
                     {tier.name === userTier && (
-                      <div className="absolute right-0 top-1/2 -translate-x-2 -translate-y-1/2">
+                      <Box className="absolute right-0 top-1/2 -translate-x-2 -translate-y-1/2">
                         <Zap className="size-6 fill-current text-primary" />
-                      </div>
+                      </Box>
                     )}
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               ))}
-            </div>
+            </Box>
           </Card>
 
           <SectionHeader title="Earn Points" description="Ways to earn more points" />
           <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
             {earnActivities.map((activity, idx) => (
               <Card key={idx} className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                <Box className="flex items-center justify-between">
+                  <Box className="flex items-center gap-3">
                     <activity.icon className="size-5 text-on-dark-muted" />
                     <Body className="font-weight-medium">{activity.name}</Body>
-                  </div>
+                  </Box>
                   <Badge variant="success">+{activity.points} pts</Badge>
-                </div>
+                </Box>
               </Card>
             ))}
           </Grid>
@@ -114,22 +114,22 @@ export default function RewardsPage() {
         <Section>
           <SectionHeader title="Available Rewards" description="Redeem your points for exclusive perks" />
           {rewards.length === 0 ? (
-            <div className="text-center py-12">
+            <Box className="text-center py-12">
               <Gift className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted">No rewards available</Body>
-            </div>
+            </Box>
           ) : (
             <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
               {rewards.map((reward: RewardItem) => (
                 <Card key={reward.id} className={`p-6 ${!reward.available ? "opacity-50" : ""}`}>
-                  <div className="space-y-4">
-                    <div className="flex items-start justify-between">
+                  <Box className="space-y-4">
+                    <Box className="flex items-start justify-between">
                       <Badge variant={reward.available ? "outline" : "outline"}>{reward.type}</Badge>
-                      <div className="text-right">
+                      <Box className="text-right">
                         <Body className="font-weight-medium">{reward.points}</Body>
                         <Body size="sm" className="text-on-dark-muted">points</Body>
-                      </div>
-                    </div>
+                      </Box>
+                    </Box>
                     <Body className="font-weight-medium">{reward.name}</Body>
                     <Button
                       variant="solid"
@@ -139,7 +139,7 @@ export default function RewardsPage() {
                     >
                       {userPoints < reward.points ? "Insufficient Points" : reward.available ? "Redeem" : "Locked"}
                     </Button>
-                  </div>
+                  </Box>
                 </Card>
               ))}
             </Grid>

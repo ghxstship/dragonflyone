@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { Body, Input, Textarea, CreatePage } from "@ghxstship/ui";
+import { Body, Input, Textarea, CreatePage, Box} from "@ghxstship/ui";
 
 export default function CreateEventPage() {
   const router = useRouter();
@@ -23,14 +23,14 @@ export default function CreateEventPage() {
 
   const sections = [
     { id: "details", title: "Event Details", content: (
-      <div className="space-y-4">
-        <div><Body size="sm" className="mb-1">Event Name</Body><Input placeholder="Summer Festival 2024" value={name} onChange={(e) => setName(e.target.value)} required /></div>
-        <div className="grid grid-cols-2 gap-4">
-          <div><Body size="sm" className="mb-1">Date</Body><Input type="date" value={date} onChange={(e) => setDate(e.target.value)} required /></div>
-          <div><Body size="sm" className="mb-1">Venue</Body><Input placeholder="Central Park" value={venue} onChange={(e) => setVenue(e.target.value)} required /></div>
-        </div>
-        <div><Body size="sm" className="mb-1">Description</Body><Textarea rows={4} placeholder="Event description..." value={description} onChange={(e) => setDescription(e.target.value)} /></div>
-      </div>
+      <Box className="space-y-4">
+        <Box><Body size="sm" className="mb-1">Event Name</Body><Input placeholder="Summer Festival 2024" value={name} onChange={(e) => setName(e.target.value)} required /></Box>
+        <Box className="grid grid-cols-2 gap-4">
+          <Box><Body size="sm" className="mb-1">Date</Body><Input type="date" value={date} onChange={(e) => setDate(e.target.value)} required /></Box>
+          <Box><Body size="sm" className="mb-1">Venue</Body><Input placeholder="Central Park" value={venue} onChange={(e) => setVenue(e.target.value)} required /></Box>
+        </Box>
+        <Box><Body size="sm" className="mb-1">Description</Body><Textarea rows={4} placeholder="Event description..." value={description} onChange={(e) => setDescription(e.target.value)} /></Box>
+      </Box>
     )},
   ];
 

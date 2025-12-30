@@ -8,7 +8,7 @@
 
 import { useRouter } from "next/navigation";
 import {
-  Button, Card, Grid, StatCard, DetailPage} from "@ghxstship/ui";
+  Button, Card, Grid, StatCard, DetailPage, Box} from "@ghxstship/ui";
 import { AdvanceRequestsList } from "@/components/advancing/advance-requests-list";
 import { useQuery } from "@tanstack/react-query";
 import type { ProductionAdvance } from "@ghxstship/config/types/advancing";
@@ -47,7 +47,7 @@ export default function AdvancingPage() {
   };
 
   const headerActions = (
-    <div className="flex gap-3">
+    <Box className="flex gap-3">
       {canCreateRequests && (
         <Button
           variant="solid"
@@ -66,7 +66,7 @@ export default function AdvancingPage() {
       >
         Browse Catalog
       </Button>
-    </div>
+    </Box>
   );
 
   const tabs = [

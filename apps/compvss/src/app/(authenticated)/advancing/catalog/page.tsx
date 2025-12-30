@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { useAuthContext, PlatformRole } from "@ghxstship/config";
 import { useAdvancingCatalog } from "@/hooks/useAdvancingCatalog";
 import {
-  Body, Button, Input, Card, Grid, Badge, Select, Field, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Body, Button, Input, Card, Grid, Badge, Select, Field, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 import type { ProductionCatalogItem } from "@ghxstship/config/types/advancing";
 import { Search, Package, Filter, X, List, ArrowLeft, Plus } from "lucide-react";
 
@@ -75,7 +75,7 @@ export default function CatalogPage() {
   const isSelected = (itemId: string) => selectedItems.some((i) => i.id === itemId);
 
   const headerActions = (
-    <div className="flex gap-3">
+    <Box className="flex gap-3">
       {canCreateAdvance && selectedItems.length > 0 && (
         <Button
           variant="solid"
@@ -97,7 +97,7 @@ export default function CatalogPage() {
       >
         View Requests
       </Button>
-    </div>
+    </Box>
   );
 
   const tabs = [
@@ -109,8 +109,8 @@ export default function CatalogPage() {
         <>
           {/* Search and Filters */}
           <Section border className="mb-6">
-            <div className="flex gap-4 mb-4">
-              <div className="relative flex-1">
+            <Box className="flex gap-4 mb-4">
+              <Box className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-on-dark-muted" />
                 <Input
                   placeholder="Search catalog items by name, ID, or specification..."
@@ -118,7 +118,7 @@ export default function CatalogPage() {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                   className="pl-10"
                 />
-              </div>
+              </Box>
               <Button
                 variant={showFilters ? "solid" : "outline"}
                 onClick={() => setShowFilters(!showFilters)}
@@ -132,10 +132,10 @@ export default function CatalogPage() {
                   Clear
                 </Button>
               )}
-            </div>
+            </Box>
 
             {/* Category Pills */}
-            <div className="flex flex-wrap gap-2 mb-4">
+            <Box className="flex flex-wrap gap-2 mb-4">
               <Badge
                 variant={!selectedCategory ? "solid" : "outline"}
                 onClick={() => {
@@ -159,13 +159,13 @@ export default function CatalogPage() {
                   {category}
                 </Badge>
               ))}
-            </div>
+            </Box>
 
             {/* Subcategory Pills */}
             {selectedCategory && subcategories.length > 0 && (
-              <div className="space-y-2">
+              <Box className="space-y-2">
                 <Body size="sm" className="text-on-dark-muted">Subcategories:</Body>
-                <div className="flex flex-wrap gap-2">
+                <Box className="flex flex-wrap gap-2">
                   <Badge
                     variant={!selectedSubcategory ? "solid" : "outline"}
                     onClick={() => setSelectedSubcategory(undefined)}
@@ -183,13 +183,13 @@ export default function CatalogPage() {
                       {sub}
                     </Badge>
                   ))}
-                </div>
-              </div>
+                </Box>
+              </Box>
             )}
 
             {/* Advanced Filters Panel */}
             {showFilters && (
-              <div className="mt-4 pt-4 border-t border-grey-700">
+              <Box className="mt-4 pt-4 border-t border-grey-700">
                 <Grid cols={3} gap={4} className="grid-cols-1 sm:grid-cols-3">
                   <Field label="View Mode">
                     <Select value={viewMode} onChange={(e) => setViewMode(e.target.value as "grid" | "list")}>
@@ -198,7 +198,7 @@ export default function CatalogPage() {
                     </Select>
                   </Field>
                 </Grid>
-              </div>
+              </Box>
             )}
           </Section>
 
@@ -216,48 +216,48 @@ export default function CatalogPage() {
                     onClick={() => toggleItemSelection(item)}
                     className={`cursor-pointer p-4 ${isSelected(item.id) ? "ring-2 ring-primary" : ""}`}
                   >
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center gap-2">
+                    <Box className="flex items-start justify-between mb-3">
+                      <Box className="flex items-center gap-2">
                         <Package className="size-4 text-on-dark-muted" />
                         <Body size="sm" className="text-on-dark-muted">{item.item_id}</Body>
-                      </div>
+                      </Box>
                       {isSelected(item.id) && <Badge variant="solid">Selected</Badge>}
-                    </div>
+                    </Box>
 
                     <Body className="font-weight-medium text-white mb-2">{item.item_name}</Body>
 
-                    <div className="flex gap-2 mb-3">
+                    <Box className="flex gap-2 mb-3">
                       <Badge variant="outline">{item.category}</Badge>
                       <Badge variant="outline">{item.subcategory}</Badge>
-                    </div>
+                    </Box>
 
                     {item.specifications && (
                       <Body size="sm" className="text-on-dark-muted mb-3 line-clamp-2">{item.specifications}</Body>
                     )}
 
-                    <div className="flex gap-1">
+                    <Box className="flex gap-1">
                       <Body size="sm" className="text-on-dark-muted">Unit:</Body>
                       <Body size="sm" className="text-white">{item.standard_unit}</Body>
-                    </div>
+                    </Box>
 
                     {item.common_variations && item.common_variations.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-3">
+                      <Box className="flex flex-wrap gap-1 mt-3">
                         {item.common_variations.slice(0, 3).map((variation, idx) => (
                           <Badge key={idx} variant="outline">{variation}</Badge>
                         ))}
                         {item.common_variations.length > 3 && (
                           <Badge variant="outline">+{item.common_variations.length - 3} more</Badge>
                         )}
-                      </div>
+                      </Box>
                     )}
                   </Card>
                 ))}
               </Grid>
             ) : (
-              <div className="text-center py-12">
+              <Box className="text-center py-12">
                 <Package className="size-12 text-on-dark-disabled mx-auto mb-4" />
                 <Body className="text-on-dark-muted">No items found. Try adjusting your search or filters.</Body>
-              </div>
+              </Box>
             )}
           </Section>
         </>
@@ -277,7 +277,7 @@ export default function CatalogPage() {
             <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {selectedItems.map((item) => (
                 <Card key={item.id} className="p-4">
-                  <div className="flex items-start justify-between mb-2">
+                  <Box className="flex items-start justify-between mb-2">
                     <Body className="font-weight-medium text-white">{item.item_name}</Body>
                     <Button
                       variant="ghost"
@@ -285,19 +285,19 @@ export default function CatalogPage() {
                       onClick={() => toggleItemSelection(item)}
                       icon={<X className="size-4" />}
                     />
-                  </div>
-                  <div className="flex gap-2">
+                  </Box>
+                  <Box className="flex gap-2">
                     <Badge variant="outline">{item.category}</Badge>
                     <Badge variant="outline">{item.subcategory}</Badge>
-                  </div>
+                  </Box>
                 </Card>
               ))}
             </Grid>
           ) : (
-            <div className="text-center py-12">
+            <Box className="text-center py-12">
               <Package className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted">No items selected. Browse the catalog to select items.</Body>
-            </div>
+            </Box>
           )}
         </Section>
       ),

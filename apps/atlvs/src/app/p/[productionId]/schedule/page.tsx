@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { Calendar, Plus, Clock, CheckCircle, AlertCircle, List, LayoutGrid } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Task {
   id: string;
@@ -82,39 +82,39 @@ export default function ProductionSchedulePage() {
             <StatCard label="Pending" value={stats.pending.toString()} icon={<Clock className="size-5" />} />
           </Grid>
 
-          <div className="flex gap-2 mb-6">
+          <Box className="flex gap-2 mb-6">
             {["all", "pending", "in_progress", "completed"].map((status) => (
               <Button key={status} variant={statusFilter === status ? "solid" : "outline"} size="sm" onClick={() => setStatusFilter(status)}>
                 {status === "all" ? "All" : STATUS_CONFIG[status as keyof typeof STATUS_CONFIG].label}
               </Button>
             ))}
-          </div>
+          </Box>
 
-          <div className="space-y-4">
+          <Box className="space-y-4">
             {filteredTasks.map((task: Task) => {
               const statusConfig = STATUS_CONFIG[task.status];
               const priorityConfig = PRIORITY_CONFIG[task.priority];
               return (
                 <Card key={task.id} className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-card ${task.status === "completed" ? "bg-success/20" : "bg-grey-800"}`}>
+                  <Box className="flex items-center justify-between">
+                    <Box className="flex items-center gap-4">
+                      <Box className={`p-2 rounded-card ${task.status === "completed" ? "bg-success/20" : "bg-grey-800"}`}>
                         {statusConfig.icon}
-                      </div>
-                      <div>
+                      </Box>
+                      <Box>
                         <Body className="font-weight-medium">{task.title}</Body>
                         <Body size="sm" className="text-on-dark-muted">{task.assignee} • Due {formatDate(task.due_date)}</Body>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
+                      </Box>
+                    </Box>
+                    <Box className="flex items-center gap-2">
                       <Badge variant={priorityConfig.variant}>{priorityConfig.label}</Badge>
                       <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 </Card>
               );
             })}
-          </div>
+          </Box>
         </Section>
       ),
     },

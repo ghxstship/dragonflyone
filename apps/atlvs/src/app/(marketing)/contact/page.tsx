@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Mail, Phone, MapPin, Send, Clock } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  MarketingPage, HeroSection, FAQSection, Container, Stack, Grid, Card, Body, H3, Button, Input, Select, Textarea, Form, useNotifications, type FAQItem} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FAQSection, Container, Stack, Grid, Card, Body, H3, Button, Input, Select, Textarea, Form, useNotifications, Box, type FAQItem} from "@ghxstship/ui";
 
 const CONTACT_REASONS = ["General Inquiry", "Sales", "Support", "Partnership", "Press", "Other"];
 
@@ -116,7 +116,7 @@ export default function ContactPage() {
                     </Stack>
 
                     <Form onSubmit={handleSubmit} className="space-y-4">
-                      <div>
+                      <Box>
                         <Body size="sm" className="text-on-dark-muted mb-2">Name *</Body>
                         <Input
                           placeholder="Your name"
@@ -125,9 +125,9 @@ export default function ContactPage() {
                           className={errors.name ? "border-error" : ""}
                         />
                         {errors.name && <Body size="sm" className="text-error mt-1">{errors.name}</Body>}
-                      </div>
+                      </Box>
 
-                      <div>
+                      <Box>
                         <Body size="sm" className="text-on-dark-muted mb-2">Email *</Body>
                         <Input
                           type="email"
@@ -137,18 +137,18 @@ export default function ContactPage() {
                           className={errors.email ? "border-error" : ""}
                         />
                         {errors.email && <Body size="sm" className="text-error mt-1">{errors.email}</Body>}
-                      </div>
+                      </Box>
 
-                      <div>
+                      <Box>
                         <Body size="sm" className="text-on-dark-muted mb-2">Company</Body>
                         <Input
                           placeholder="Your company"
                           value={formData.company}
                           onChange={(e) => handleChange("company", e.target.value)}
                         />
-                      </div>
+                      </Box>
 
-                      <div>
+                      <Box>
                         <Body size="sm" className="text-on-dark-muted mb-2">Reason for Contact</Body>
                         <Select
                           value={formData.reason}
@@ -158,9 +158,9 @@ export default function ContactPage() {
                             <option key={reason} value={reason}>{reason}</option>
                           ))}
                         </Select>
-                      </div>
+                      </Box>
 
-                      <div>
+                      <Box>
                         <Body size="sm" className="text-on-dark-muted mb-2">Message *</Body>
                         <Textarea
                           placeholder="How can we help?"
@@ -170,7 +170,7 @@ export default function ContactPage() {
                           className={errors.message ? "border-error" : ""}
                         />
                         {errors.message && <Body size="sm" className="text-error mt-1">{errors.message}</Body>}
-                      </div>
+                      </Box>
 
                       <Button
                         type="submit"
@@ -193,9 +193,9 @@ export default function ContactPage() {
                       <H3 className="text-white">Contact Information</H3>
                       <Stack gap={4}>
                         <Stack direction="horizontal" gap={4} className="items-center">
-                          <div className="p-3 bg-primary/20 rounded-card">
+                          <Box className="p-3 bg-primary/20 rounded-card">
                             <Mail className="size-5 text-primary" />
-                          </div>
+                          </Box>
                           <Stack gap={0}>
                             <Body size="sm" className="text-on-dark-disabled">Email</Body>
                             <Body className="text-white font-weight-semibold">hello@atlvs.com</Body>
@@ -203,9 +203,9 @@ export default function ContactPage() {
                         </Stack>
 
                         <Stack direction="horizontal" gap={4} className="items-center">
-                          <div className="p-3 bg-primary/20 rounded-card">
+                          <Box className="p-3 bg-primary/20 rounded-card">
                             <Phone className="size-5 text-primary" />
-                          </div>
+                          </Box>
                           <Stack gap={0}>
                             <Body size="sm" className="text-on-dark-disabled">Phone</Body>
                             <Body className="text-white font-weight-semibold">+1 (800) 555-ATLVS</Body>
@@ -213,9 +213,9 @@ export default function ContactPage() {
                         </Stack>
 
                         <Stack direction="horizontal" gap={4} className="items-center">
-                          <div className="p-3 bg-primary/20 rounded-card">
+                          <Box className="p-3 bg-primary/20 rounded-card">
                             <Clock className="size-5 text-primary" />
-                          </div>
+                          </Box>
                           <Stack gap={0}>
                             <Body size="sm" className="text-on-dark-disabled">Hours</Body>
                             <Body className="text-white font-weight-semibold">Mon-Fri, 9am-6pm EST</Body>

@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Lock, Eye, EyeOff, Check } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Form, AuthPage, useNotifications} from "@ghxstship/ui";
+  Body, Button, Input, Form, AuthPage, useNotifications, Box} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function ResetPasswordPage() {
@@ -55,13 +55,13 @@ export default function ResetPasswordPage() {
   if (success) {
     return (
       <AuthPage title="Password Reset Complete" subtitle="Your password has been updated successfully">
-        <div className="text-center space-y-6">
-          <div className="p-4 bg-success/20 rounded-avatar w-fit mx-auto">
+        <Box className="text-center space-y-6">
+          <Box className="p-4 bg-success/20 rounded-avatar w-fit mx-auto">
             <Check className="size-8 text-success" />
-          </div>
+          </Box>
           <Body className="text-on-dark-muted">You can now sign in with your new password.</Body>
           <Button variant="solid" onClick={() => router.push("/auth/signin")} className="w-full">Sign In</Button>
-        </div>
+        </Box>
       </AuthPage>
     );
   }
@@ -69,26 +69,26 @@ export default function ResetPasswordPage() {
   return (
     <AuthPage title="Reset Password" subtitle="Enter your new password">
       <Form onSubmit={handleSubmit} className="space-y-4">
-        <div>
+        <Box>
           <Body size="sm" className="text-on-dark-muted mb-1">New Password</Body>
-          <div className="relative">
+          <Box className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type={showPassword ? "text" : "password"} placeholder="Enter new password" value={password} onChange={(e) => { setPassword(e.target.value); if (errors.password) setErrors((prev) => ({ ...prev, password: "" })); }} className={`pl-10 pr-10 ${errors.password ? "border-error" : ""}`} />
             <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-on-dark-muted hover:text-on-dark-secondary">
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
             </Button>
-          </div>
+          </Box>
           {errors.password && <Body size="sm" className="text-error mt-1">{errors.password}</Body>}
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <Body size="sm" className="text-on-dark-muted mb-1">Confirm Password</Body>
-          <div className="relative">
+          <Box className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type="password" placeholder="Confirm new password" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value); if (errors.confirmPassword) setErrors((prev) => ({ ...prev, confirmPassword: "" })); }} className={`pl-10 ${errors.confirmPassword ? "border-error" : ""}`} />
-          </div>
+          </Box>
           {errors.confirmPassword && <Body size="sm" className="text-error mt-1">{errors.confirmPassword}</Body>}
-        </div>
+        </Box>
 
         <Button type="submit" variant="solid" className="w-full" disabled={resetMutation.isPending}>
           {resetMutation.isPending ? "Resetting..." : "Reset Password"}

@@ -2,7 +2,7 @@
 
 import { Package, ShoppingCart, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Badge, Body, Button, Card, Grid, DetailPage, Section } from "@ghxstship/ui";
+import { Badge, Body, Button, Card, Grid, DetailPage, Section, Box} from "@ghxstship/ui";
 
 interface Bundle { id: string; name: string; items: string[]; price: number; savings: number; }
 const DEMO: Bundle[] = [
@@ -26,15 +26,15 @@ export default function MerchBundlesPage() {
         <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
           {bundles.map((bundle: Bundle) => (
             <Card key={bundle.id} className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3"><Package className="size-8 text-primary" /><Body className="font-weight-bold">{bundle.name}</Body></div>
+              <Box className="flex items-start justify-between mb-4">
+                <Box className="flex items-center gap-3"><Package className="size-8 text-primary" /><Body className="font-weight-bold">{bundle.name}</Body></Box>
                 <Badge variant="success">Save {formatCurrency(bundle.savings)}</Badge>
-              </div>
-              <div className="space-y-2 mb-4">{bundle.items.map((item, i) => <Body key={i} size="sm" className="text-on-dark-muted">• {item}</Body>)}</div>
-              <div className="flex items-center justify-between">
+              </Box>
+              <Box className="space-y-2 mb-4">{bundle.items.map((item, i) => <Body key={i} size="sm" className="text-on-dark-muted">• {item}</Body>)}</Box>
+              <Box className="flex items-center justify-between">
                 <Body className="font-weight-bold">{formatCurrency(bundle.price)}</Body>
                 <Button variant="solid" icon={<ShoppingCart className="size-4" />} iconPosition="left">Add Bundle</Button>
-              </div>
+              </Box>
             </Card>
           ))}
         </Grid>

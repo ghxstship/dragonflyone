@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Check, List } from "lucide-react";
-import { Body, Card, Grid, DetailPage, Section, SectionHeader, Link } from "@ghxstship/ui";
+import { Body, Card, Grid, DetailPage, Section, SectionHeader, Link, Box} from "@ghxstship/ui";
 
 const CURRENCIES = [
   { code: "USD", name: "US Dollar", symbol: "$" },
@@ -23,13 +23,13 @@ export default function CurrencyPage() {
         <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
           {CURRENCIES.map((currency) => (
             <Card key={currency.code} className={`p-4 cursor-pointer transition-colors ${selected === currency.code ? "border-primary" : ""}`} onClick={() => setSelected(currency.code)}>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="size-10 bg-grey-800 rounded-avatar flex items-center justify-center font-weight-bold">{currency.symbol}</div>
-                  <div><Body className="font-weight-bold">{currency.code}</Body><Body size="sm" className="text-on-dark-muted">{currency.name}</Body></div>
-                </div>
+              <Box className="flex items-center justify-between">
+                <Box className="flex items-center gap-3">
+                  <Box className="size-10 bg-grey-800 rounded-avatar flex items-center justify-center font-weight-bold">{currency.symbol}</Box>
+                  <Box><Body className="font-weight-bold">{currency.code}</Body><Body size="sm" className="text-on-dark-muted">{currency.name}</Body></Box>
+                </Box>
                 {selected === currency.code && <Check className="size-5 text-primary" />}
-              </div>
+              </Box>
             </Card>
           ))}
         </Grid>

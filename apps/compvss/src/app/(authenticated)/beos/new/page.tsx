@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Input, Textarea, CreatePage, useNotifications} from "@ghxstship/ui";
+  Body, Input, Textarea, CreatePage, useNotifications, Box} from "@ghxstship/ui";
 
 export default function NewBEOPage() {
   const router = useRouter();
@@ -79,40 +79,40 @@ export default function NewBEOPage() {
       id: "event",
       title: "Event Details",
       content: (
-        <div className="space-y-4">
-          <div>
+        <Box className="space-y-4">
+          <Box>
             <Body size="sm" className="mb-1">Event Name *</Body>
             <Input placeholder="Corporate Gala 2024" value={eventName} onChange={(e) => handleChange("eventName", e.target.value)} error={!!errors.eventName} />
             {errors.eventName && <Body size="sm" className="text-error mt-1">{errors.eventName}</Body>}
-          </div>
-          <div>
+          </Box>
+          <Box>
             <Body size="sm" className="mb-1">Client *</Body>
             <Input placeholder="Client name" value={client} onChange={(e) => handleChange("client", e.target.value)} error={!!errors.client} />
             {errors.client && <Body size="sm" className="text-error mt-1">{errors.client}</Body>}
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
+          </Box>
+          <Box className="grid grid-cols-2 gap-4">
+            <Box>
               <Body size="sm" className="mb-1">Event Date *</Body>
               <Input type="date" value={date} onChange={(e) => handleChange("date", e.target.value)} error={!!errors.date} />
               {errors.date && <Body size="sm" className="text-error mt-1">{errors.date}</Body>}
-            </div>
-            <div>
+            </Box>
+            <Box>
               <Body size="sm" className="mb-1">Expected Guests</Body>
               <Input type="number" min="1" placeholder="100" value={guests} onChange={(e) => handleChange("guests", e.target.value)} error={!!errors.guests} />
               {errors.guests && <Body size="sm" className="text-error mt-1">{errors.guests}</Body>}
-            </div>
-          </div>
-        </div>
+            </Box>
+          </Box>
+        </Box>
       ),
     },
     {
       id: "notes",
       title: "Additional Notes",
       content: (
-        <div>
+        <Box>
           <Body size="sm" className="mb-1">Notes</Body>
           <Textarea rows={4} placeholder="Special requirements, dietary restrictions, etc." value={notes} onChange={(e) => handleChange("notes", e.target.value)} />
-        </div>
+        </Box>
       ),
     },
   ];

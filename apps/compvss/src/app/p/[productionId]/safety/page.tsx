@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { Shield, AlertTriangle, CheckCircle, FileText, Plus, List, ClipboardList } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, ProgressBar, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, ProgressBar, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface SafetyItem {
   id: string;
@@ -75,45 +75,45 @@ export default function ProductionSafetyPage() {
           </Grid>
 
           <Card className="p-6 mb-6">
-            <div className="flex justify-between mb-2">
+            <Box className="flex justify-between mb-2">
               <Body className="font-weight-medium">Overall Compliance</Body>
               <Body className="font-weight-bold">{Math.round(complianceRate)}%</Body>
-            </div>
+            </Box>
             <ProgressBar value={complianceRate} size="lg" />
           </Card>
 
-          <div className="flex gap-2 mb-6">
+          <Box className="flex gap-2 mb-6">
             {categories.map((cat) => (
               <Button key={cat} variant={category === cat ? "solid" : "outline"} size="sm" onClick={() => setCategory(cat)}>
                 {cat === "all" ? "All" : cat}
               </Button>
             ))}
-          </div>
+          </Box>
 
-          <div className="space-y-2">
+          <Box className="space-y-2">
             {filteredItems.map((item: SafetyItem) => {
               const config = STATUS_CONFIG[item.status];
               return (
                 <Card key={item.id} className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-card ${item.status === "compliant" ? "bg-success/20" : item.status === "pending" ? "bg-warning/20" : "bg-error/20"}`}>
+                  <Box className="flex items-center justify-between">
+                    <Box className="flex items-center gap-4">
+                      <Box className={`p-2 rounded-card ${item.status === "compliant" ? "bg-success/20" : item.status === "pending" ? "bg-warning/20" : "bg-error/20"}`}>
                         {config.icon}
-                      </div>
-                      <div>
+                      </Box>
+                      <Box>
                         <Body className="font-weight-medium">{item.item}</Body>
                         {item.notes && <Body size="sm" className="text-on-dark-muted">{item.notes}</Body>}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
+                      </Box>
+                    </Box>
+                    <Box className="flex items-center gap-2">
                       <Badge variant="outline">{item.category}</Badge>
                       <Badge variant={config.variant}>{config.label}</Badge>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 </Card>
               );
             })}
-          </div>
+          </Box>
         </Section>
       ),
     },
@@ -127,13 +127,13 @@ export default function ProductionSafetyPage() {
           <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
             {["Risk Assessment", "Emergency Plan", "Fire Safety Certificate", "Insurance Certificate"].map((doc) => (
               <Card key={doc} className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                <Box className="flex items-center justify-between">
+                  <Box className="flex items-center gap-3">
                     <FileText className="size-5 text-on-dark-muted" />
                     <Body className="font-weight-medium">{doc}</Body>
-                  </div>
+                  </Box>
                   <Button variant="outline" size="sm">Upload</Button>
-                </div>
+                </Box>
               </Card>
             ))}
           </Grid>

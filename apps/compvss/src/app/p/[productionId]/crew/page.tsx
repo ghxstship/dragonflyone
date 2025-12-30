@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { Users, Search, Plus, Mail, Phone, List, UserPlus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Input, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Input, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface CrewMember {
   id: string;
@@ -71,45 +71,45 @@ export default function ProductionCrewPage() {
             <StatCard label="Departments" value={new Set(crew.map((c: CrewMember) => c.department)).size.toString()} icon={<Users className="size-5" />} />
           </Grid>
 
-          <div className="flex gap-4 items-center mb-6">
-            <div className="relative flex-1 max-w-sm">
+          <Box className="flex gap-4 items-center mb-6">
+            <Box className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
               <Input placeholder="Search crew..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-            </div>
-            <div className="flex gap-2">
+            </Box>
+            <Box className="flex gap-2">
               {departments.map((dept) => (
                 <Button key={dept} variant={department === dept ? "solid" : "outline"} size="sm" onClick={() => setDepartment(dept)}>
                   {dept === "all" ? "All" : dept}
                 </Button>
               ))}
-            </div>
-          </div>
+            </Box>
+          </Box>
 
-          <div className="space-y-4">
+          <Box className="space-y-4">
             {filteredCrew.map((member: CrewMember) => (
               <Card key={member.id} className="p-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-4">
-                    <div className="size-12 bg-primary rounded-avatar flex items-center justify-center">
+                <Box className="flex items-start justify-between">
+                  <Box className="flex items-start gap-4">
+                    <Box className="size-12 bg-primary rounded-avatar flex items-center justify-center">
                       <Users className="size-6 text-white" />
-                    </div>
-                    <div>
+                    </Box>
+                    <Box>
                       <Body className="font-weight-bold">{member.name}</Body>
                       <Body className="text-on-dark-muted">{member.role}</Body>
-                      <div className="flex items-center gap-4 mt-2 text-on-dark-muted">
-                        <div className="flex items-center gap-1"><Mail className="size-4" /><Body size="sm">{member.email}</Body></div>
-                        <div className="flex items-center gap-1"><Phone className="size-4" /><Body size="sm">{member.phone}</Body></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
+                      <Box className="flex items-center gap-4 mt-2 text-on-dark-muted">
+                        <Box className="flex items-center gap-1"><Mail className="size-4" /><Body size="sm">{member.email}</Body></Box>
+                        <Box className="flex items-center gap-1"><Phone className="size-4" /><Body size="sm">{member.phone}</Body></Box>
+                      </Box>
+                    </Box>
+                  </Box>
+                  <Box className="flex items-center gap-2">
                     <Badge variant="outline">{member.department}</Badge>
                     <Badge variant={STATUS_CONFIG[member.status].variant}>{STATUS_CONFIG[member.status].label}</Badge>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },
@@ -121,12 +121,12 @@ export default function ProductionCrewPage() {
         <Section>
           <SectionHeader title="Invite Crew Member" description="Add new members to this production" />
           <Card className="p-6 mt-4">
-            <div className="space-y-4">
-              <div><Body size="sm" className="mb-1">Email</Body><Input placeholder="crew@example.com" /></div>
-              <div><Body size="sm" className="mb-1">Role</Body><Input placeholder="Stage Manager" /></div>
-              <div><Body size="sm" className="mb-1">Department</Body><Input placeholder="Production" /></div>
+            <Box className="space-y-4">
+              <Box><Body size="sm" className="mb-1">Email</Body><Input placeholder="crew@example.com" /></Box>
+              <Box><Body size="sm" className="mb-1">Role</Body><Input placeholder="Stage Manager" /></Box>
+              <Box><Body size="sm" className="mb-1">Department</Body><Input placeholder="Production" /></Box>
               <Button variant="solid" icon={<UserPlus className="size-4" />} iconPosition="left">Send Invitation</Button>
-            </div>
+            </Box>
           </Card>
         </Section>
       ),

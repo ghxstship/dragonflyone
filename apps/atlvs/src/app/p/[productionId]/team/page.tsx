@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { Users, Plus, Mail, Phone, Search, List, UserPlus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface TeamMember {
   id: string;
@@ -75,44 +75,44 @@ export default function ProductionTeamPage() {
           </Grid>
 
           <Card className="p-4 mb-6">
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex-1 min-w-[200px] relative">
+            <Box className="flex items-center gap-4 flex-wrap">
+              <Box className="flex-1 min-w-[200px] relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search team..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-              </div>
-              <div className="flex gap-2">
+              </Box>
+              <Box className="flex gap-2">
                 {DEPARTMENTS.map((dept) => (
                   <Button key={dept} variant={selectedDepartment === dept ? "solid" : "outline"} size="sm" onClick={() => setSelectedDepartment(dept)}>
                     {dept}
                   </Button>
                 ))}
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Card>
 
           <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
             {filteredTeam.map((member: TeamMember) => (
               <Card key={member.id} className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="size-12 bg-primary rounded-avatar flex items-center justify-center text-white font-weight-bold">
+                <Box className="flex items-start gap-4">
+                  <Box className="size-12 bg-primary rounded-avatar flex items-center justify-center text-white font-weight-bold">
                     {member.avatar}
-                  </div>
-                  <div className="flex-1">
+                  </Box>
+                  <Box className="flex-1">
                     <Body className="font-weight-bold">{member.name}</Body>
                     <Body size="sm" className="text-on-dark-muted">{member.role}</Body>
                     <Badge variant="outline" className="mt-2">{member.department}</Badge>
-                  </div>
-                </div>
-                <div className="mt-4 space-y-2">
-                  <div className="flex items-center gap-2 text-on-dark-muted">
+                  </Box>
+                </Box>
+                <Box className="mt-4 space-y-2">
+                  <Box className="flex items-center gap-2 text-on-dark-muted">
                     <Mail className="size-4" />
                     <Body size="sm">{member.email}</Body>
-                  </div>
-                  <div className="flex items-center gap-2 text-on-dark-muted">
+                  </Box>
+                  <Box className="flex items-center gap-2 text-on-dark-muted">
                     <Phone className="size-4" />
                     <Body size="sm">{member.phone}</Body>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
           </Grid>
@@ -127,17 +127,17 @@ export default function ProductionTeamPage() {
         <Section>
           <SectionHeader title="Invite Team Members" description="Add new members to this production" />
           <Card className="p-6 mt-4 max-w-md">
-            <div className="space-y-4">
-              <div>
+            <Box className="space-y-4">
+              <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">Email Address</Body>
                 <Input type="email" placeholder="colleague@example.com" />
-              </div>
-              <div>
+              </Box>
+              <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">Role</Body>
                 <Input placeholder="e.g., Stage Manager" />
-              </div>
+              </Box>
               <Button variant="solid" icon={<UserPlus className="size-4" />} iconPosition="left">Send Invitation</Button>
-            </div>
+            </Box>
           </Card>
         </Section>
       ),

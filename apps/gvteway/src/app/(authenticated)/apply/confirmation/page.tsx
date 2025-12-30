@@ -12,7 +12,7 @@ import {
   ScrollReveal,
   Stack,
   type MarketingSection,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import NextLink from "next/link";
 import {
   CheckCircle,
@@ -101,7 +101,7 @@ function ConfirmationContent() {
                 APPLICATION STATUS
               </Label>
               <Stack direction="horizontal" gap={2} className="items-center justify-center">
-                <div className="size-2 animate-pulse rounded-avatar bg-warning" />
+                <Box className="size-2 animate-pulse rounded-avatar bg-warning" />
                 <Label size="sm" className="text-warning">PENDING REVIEW</Label>
               </Stack>
             </Stack>

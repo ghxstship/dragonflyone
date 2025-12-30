@@ -10,7 +10,7 @@ import { useState } from "react";
 import { User, Mail, Phone, MapPin, Camera, List, Shield } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Input, Grid, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Body, Button, Card, Input, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Profile {
   id: string;
@@ -84,25 +84,25 @@ export default function ProfilePage() {
       content: (
         <Section>
           <Card className="p-6">
-            <div className="flex items-start gap-6 mb-6">
-              <div className="size-24 bg-primary rounded-avatar flex items-center justify-center relative">
+            <Box className="flex items-start gap-6 mb-6">
+              <Box className="size-24 bg-primary rounded-avatar flex items-center justify-center relative">
                 <User className="size-12 text-white" />
                 <Button variant="ghost" size="sm" className="absolute -bottom-1 -right-1 bg-grey-800 rounded-avatar p-2">
                   <Camera className="size-4" />
                 </Button>
-              </div>
-              <div className="flex-1">
+              </Box>
+              <Box className="flex-1">
                 {isEditing ? (
-                  <div className="space-y-4">
-                    <div>
+                  <Box className="space-y-4">
+                    <Box>
                       <Body size="sm" className="mb-1">Name</Body>
                       <Input value={formData.name || ""} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
-                    </div>
-                    <div>
+                    </Box>
+                    <Box>
                       <Body size="sm" className="mb-1">Role</Body>
                       <Input value={formData.role || ""} onChange={(e) => setFormData({ ...formData, role: e.target.value })} />
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 ) : (
                   <>
                     <Body className="font-weight-bold">{profile.name}</Body>
@@ -110,47 +110,47 @@ export default function ProfilePage() {
                     <Body size="sm" className="text-on-dark-disabled mt-2">Member since {formatDate(profile.joined)}</Body>
                   </>
                 )}
-              </div>
+              </Box>
               {!isEditing && <Button variant="outline" onClick={handleEdit}>Edit Profile</Button>}
-            </div>
+            </Box>
 
-            <div className="border-t border-grey-800 pt-6">
+            <Box className="border-t border-grey-800 pt-6">
               <SectionHeader title="Contact Information" />
               <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
-                <div>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted mb-1">Email</Body>
                   {isEditing ? (
                     <Input value={formData.email || ""} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                   ) : (
-                    <div className="flex items-center gap-2"><Mail className="size-4 text-on-dark-muted" /><Body>{profile.email}</Body></div>
+                    <Box className="flex items-center gap-2"><Mail className="size-4 text-on-dark-muted" /><Body>{profile.email}</Body></Box>
                   )}
-                </div>
-                <div>
+                </Box>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted mb-1">Phone</Body>
                   {isEditing ? (
                     <Input value={formData.phone || ""} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
                   ) : (
-                    <div className="flex items-center gap-2"><Phone className="size-4 text-on-dark-muted" /><Body>{profile.phone}</Body></div>
+                    <Box className="flex items-center gap-2"><Phone className="size-4 text-on-dark-muted" /><Body>{profile.phone}</Body></Box>
                   )}
-                </div>
-                <div>
+                </Box>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted mb-1">Location</Body>
                   {isEditing ? (
                     <Input value={formData.location || ""} onChange={(e) => setFormData({ ...formData, location: e.target.value })} />
                   ) : (
-                    <div className="flex items-center gap-2"><MapPin className="size-4 text-on-dark-muted" /><Body>{profile.location}</Body></div>
+                    <Box className="flex items-center gap-2"><MapPin className="size-4 text-on-dark-muted" /><Body>{profile.location}</Body></Box>
                   )}
-                </div>
+                </Box>
               </Grid>
-            </div>
+            </Box>
 
             {isEditing && (
-              <div className="flex gap-4 mt-6 pt-6 border-t border-grey-800">
+              <Box className="flex gap-4 mt-6 pt-6 border-t border-grey-800">
                 <Button variant="solid" onClick={handleSave} disabled={updateProfile.isPending}>
                   {updateProfile.isPending ? "Saving..." : "Save Changes"}
                 </Button>
                 <Button variant="outline" onClick={() => setIsEditing(false)}>Cancel</Button>
-              </div>
+              </Box>
             )}
           </Card>
         </Section>
@@ -164,22 +164,22 @@ export default function ProfilePage() {
         <Section>
           <SectionHeader title="Security Settings" description="Manage your account security" />
           <Card className="p-6 mt-4">
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
+            <Box className="space-y-6">
+              <Box className="flex items-center justify-between">
+                <Box>
                   <Body className="font-weight-medium">Password</Body>
                   <Body size="sm" className="text-on-dark-muted">Last changed 30 days ago</Body>
-                </div>
+                </Box>
                 <Button variant="outline">Change Password</Button>
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
+              </Box>
+              <Box className="flex items-center justify-between">
+                <Box>
                   <Body className="font-weight-medium">Two-Factor Authentication</Body>
                   <Body size="sm" className="text-on-dark-muted">Add an extra layer of security</Body>
-                </div>
+                </Box>
                 <Button variant="outline">Enable</Button>
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Card>
         </Section>
       ),

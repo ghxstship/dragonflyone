@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Download, ArrowLeft } from "lucide-react";
 import {
-  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button, Box} from "@ghxstship/ui";
 
 const SECTIONS = [
   { id: "collection", title: "1. Information We Collect", content: "We collect information you provide directly to us, such as when you create an account, use our services, or contact us for support. This includes your name, email address, and any other information you choose to provide." },
@@ -53,7 +53,7 @@ export default function PrivacyPolicyPage() {
             <Container size="lg" className="py-20">
               <Stack gap={8}>
                 <Card className="p-6 border-2 border-grey-800 rounded-card">
-                  <div className="flex items-center justify-between flex-wrap gap-4">
+                  <Box className="flex items-center justify-between flex-wrap gap-4">
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold">Privacy Policy</Body>
                       <Body size="sm" className="text-on-dark-muted">Last updated: December 1, 2024</Body>
@@ -77,7 +77,7 @@ export default function PrivacyPolicyPage() {
                         Download PDF
                       </Button>
                     </Stack>
-                  </div>
+                  </Box>
                 </Card>
 
                 <Stack gap={6}>

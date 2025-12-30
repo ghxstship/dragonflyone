@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Calendar, MapPin, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Badge, Body, Button, Card, Input, Grid as GridLayout, DetailPage, Section } from "@ghxstship/ui";
+import { Badge, Body, Button, Card, Input, Grid as GridLayout, DetailPage, Section, Box} from "@ghxstship/ui";
 
 interface Event { id: string; name: string; date: string; venue: string; category: string; price: number; image: string; }
 const DEMO_EVENTS: Event[] = [
@@ -41,28 +41,28 @@ export default function BrowsePage() {
     id: "events", label: "Events", icon: <List className="size-4" />,
     content: (
       <Section>
-        <div className="flex gap-4 items-center mb-6">
-          <div className="relative flex-1 max-w-md">
+        <Box className="flex gap-4 items-center mb-6">
+          <Box className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input placeholder="Search events..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-          </div>
-          <div className="flex gap-2">
+          </Box>
+          <Box className="flex gap-2">
             {categories.map((cat) => (
               <Button key={cat} variant={category === cat ? "solid" : "outline"} size="sm" onClick={() => setCategory(cat)}>{cat === "all" ? "All" : cat}</Button>
             ))}
-          </div>
-        </div>
+          </Box>
+        </Box>
         <GridLayout cols={3} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {filteredEvents.map((event: Event) => (
             <Card key={event.id} className="overflow-hidden cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/e/${event.id}`)}>
-              <div className="h-40 bg-grey-800 flex items-center justify-center"><Calendar className="size-12 text-on-dark-disabled" /></div>
-              <div className="p-4">
+              <Box className="h-40 bg-grey-800 flex items-center justify-center"><Calendar className="size-12 text-on-dark-disabled" /></Box>
+              <Box className="p-4">
                 <Badge variant="outline" className="mb-2">{event.category}</Badge>
                 <Body className="font-weight-bold">{event.name}</Body>
-                <div className="flex items-center gap-2 mt-2 text-on-dark-muted"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></div>
-                <div className="flex items-center gap-2 text-on-dark-muted"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></div>
+                <Box className="flex items-center gap-2 mt-2 text-on-dark-muted"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></Box>
+                <Box className="flex items-center gap-2 text-on-dark-muted"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></Box>
                 <Body className="font-weight-bold mt-3">From {formatCurrency(event.price)}</Body>
-              </div>
+              </Box>
             </Card>
           ))}
         </GridLayout>

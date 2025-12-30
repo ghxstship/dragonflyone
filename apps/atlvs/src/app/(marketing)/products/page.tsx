@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Zap, Users, Ticket, ArrowRight, Check } from "lucide-react";
 import {
-  MarketingPage, HeroSection, ComparisonTable, CTABanner, Container, Stack, Grid, Card, Body, H3, Button} from "@ghxstship/ui";
+  MarketingPage, HeroSection, ComparisonTable, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Box} from "@ghxstship/ui";
 
 const PRODUCTS = [
   {
@@ -115,9 +115,9 @@ export default function ProductsPage() {
                       onClick={() => router.push(product.href)}
                     >
                       <Stack gap={6}>
-                        <div className="p-4 bg-primary/20 rounded-card text-primary w-fit group-hover:scale-110 transition-transform">
+                        <Box className="p-4 bg-primary/20 rounded-card text-primary w-fit group-hover:scale-110 transition-transform">
                           {product.icon}
-                        </div>
+                        </Box>
 
                         <Stack gap={2}>
                           <Body className="text-white font-weight-bold text-h5-md">{product.name}</Body>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Plus, Minus, ShoppingCart, List } from "lucide-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Body, Button, Card, DetailPage, Section } from "@ghxstship/ui";
+import { Body, Button, Card, DetailPage, Section, Box} from "@ghxstship/ui";
 
 interface TicketType { id: string; name: string; price: number; available: number; description: string; }
 const DEMO_TICKETS: TicketType[] = [
@@ -51,33 +51,33 @@ export default function EventTicketsPage() {
     id: "tickets", label: "Tickets", icon: <List className="size-4" />,
     content: (
       <Section>
-        <div className="space-y-4 mb-6">
+        <Box className="space-y-4 mb-6">
           {tickets.map((ticket: TicketType) => (
             <Card key={ticket.id} className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
+              <Box className="flex items-center justify-between">
+                <Box>
                   <Body className="font-weight-bold">{ticket.name}</Body>
                   <Body size="sm" className="text-on-dark-muted">{ticket.description}</Body>
                   <Body size="sm" className="text-on-dark-disabled mt-1">{ticket.available} available</Body>
-                </div>
-                <div className="flex items-center gap-6">
+                </Box>
+                <Box className="flex items-center gap-6">
                   <Body className="font-weight-bold">{formatCurrency(ticket.price)}</Body>
-                  <div className="flex items-center gap-2">
+                  <Box className="flex items-center gap-2">
                     <Button variant="outline" size="sm" onClick={() => updateQuantity(ticket.id, -1)} disabled={(quantities[ticket.id] || 0) === 0}><Minus className="size-4" /></Button>
                     <Body className="w-8 text-center font-weight-bold">{quantities[ticket.id] || 0}</Body>
                     <Button variant="outline" size="sm" onClick={() => updateQuantity(ticket.id, 1)} disabled={(quantities[ticket.id] || 0) >= ticket.available}><Plus className="size-4" /></Button>
-                  </div>
-                </div>
-              </div>
+                  </Box>
+                </Box>
+              </Box>
             </Card>
           ))}
-        </div>
+        </Box>
         {hasItems && (
           <Card className="p-6 border-primary">
-            <div className="flex items-center justify-between">
-              <div><Body className="text-on-dark-muted">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></div>
+            <Box className="flex items-center justify-between">
+              <Box><Body className="text-on-dark-muted">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></Box>
               <Button variant="solid" icon={<ShoppingCart className="size-4" />} iconPosition="left" onClick={handleCheckout} disabled={addToCart.isPending}>{addToCart.isPending ? "Adding..." : "Add to Cart"}</Button>
-            </div>
+            </Box>
           </Card>
         )}
       </Section>

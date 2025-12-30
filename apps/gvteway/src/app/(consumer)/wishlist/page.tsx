@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Heart, Trash2, Calendar, MapPin, List } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Body, Button, Card, Grid, DetailPage, Section, Link } from "@ghxstship/ui";
+import { Body, Button, Card, Grid, DetailPage, Section, Link, Box} from "@ghxstship/ui";
 
 interface WishlistItem {
   id: string;
@@ -64,25 +64,25 @@ export default function WishlistPage() {
     <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
       {items.map((item: WishlistItem) => (
         <Card key={item.id} className="p-4">
-          <div className="flex items-start justify-between">
+          <Box className="flex items-start justify-between">
             <Link href={`/e/${item.id}`} className="block text-left">
               <Body className="font-weight-bold">{item.name}</Body>
-              <div className="flex items-center gap-4 mt-2 text-on-dark-muted">
-                <div className="flex items-center gap-1">
+              <Box className="flex items-center gap-4 mt-2 text-on-dark-muted">
+                <Box className="flex items-center gap-1">
                   <Calendar className="size-4" />
                   <Body size="sm">{formatDate(item.date)}</Body>
-                </div>
-                <div className="flex items-center gap-1">
+                </Box>
+                <Box className="flex items-center gap-1">
                   <MapPin className="size-4" />
                   <Body size="sm">{item.venue}</Body>
-                </div>
-              </div>
+                </Box>
+              </Box>
               <Body className="font-weight-bold mt-2">From {formatCurrency(item.price)}</Body>
             </Link>
             <Button variant="ghost" size="sm" onClick={() => removeItem.mutate(item.id)}>
               <Trash2 className="size-4 text-error" />
             </Button>
-          </div>
+          </Box>
         </Card>
       ))}
     </Grid>

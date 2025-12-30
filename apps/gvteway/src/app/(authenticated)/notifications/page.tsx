@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Bell, Check, CheckCheck, AlertTriangle, List } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Body, Button, Card, DetailPage, Section } from "@ghxstship/ui";
+import { Body, Button, Card, DetailPage, Section, Box} from "@ghxstship/ui";
 
 interface Notification { id: string; type: "info" | "warning" | "success"; title: string; message: string; read: boolean; created_at: string; }
 const DEMO: Notification[] = [
@@ -33,29 +33,29 @@ export default function NotificationsPage() {
     id: "notifications", label: "Notifications", icon: <List className="size-4" />,
     content: (
       <Section>
-        <div className="flex gap-2 mb-6">
+        <Box className="flex gap-2 mb-6">
           <Button variant={filter === "all" ? "solid" : "outline"} size="sm" onClick={() => setFilter("all")}>All</Button>
           <Button variant={filter === "unread" ? "solid" : "outline"} size="sm" onClick={() => setFilter("unread")}>Unread ({unreadCount})</Button>
-        </div>
+        </Box>
         {filtered.length === 0 ? (
           <Card className="p-8 text-center"><Bell className="size-12 text-on-dark-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No notifications</Body><Body className="text-on-dark-muted">You are all caught up!</Body></Card>
         ) : (
-          <div className="space-y-2">
+          <Box className="space-y-2">
             {filtered.map((n: Notification) => (
               <Card key={n.id} className={`p-4 ${!n.read ? "border-primary" : ""}`}>
-                <div className="flex items-start gap-4">
-                  <div className={`p-2 rounded-lg ${TYPE_CONFIG[n.type].bg}`}>{TYPE_CONFIG[n.type].icon}</div>
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between">
-                      <div><Body className={`font-weight-medium ${n.read ? "text-on-dark-muted" : ""}`}>{n.title}</Body><Body size="sm" className="text-on-dark-muted">{n.message}</Body></div>
+                <Box className="flex items-start gap-4">
+                  <Box className={`p-2 rounded-lg ${TYPE_CONFIG[n.type].bg}`}>{TYPE_CONFIG[n.type].icon}</Box>
+                  <Box className="flex-1">
+                    <Box className="flex items-start justify-between">
+                      <Box><Body className={`font-weight-medium ${n.read ? "text-on-dark-muted" : ""}`}>{n.title}</Body><Body size="sm" className="text-on-dark-muted">{n.message}</Body></Box>
                       <Body size="sm" className="text-on-dark-disabled">{formatDate(n.created_at)}</Body>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                   {!n.read && <Button variant="ghost" size="sm" onClick={() => markAsRead.mutate(n.id)}><Check className="size-4" /></Button>}
-                </div>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         )}
       </Section>
     ),

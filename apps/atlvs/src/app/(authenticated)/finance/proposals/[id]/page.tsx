@@ -11,7 +11,7 @@ import {
   Pencil, FileText, Send, Calendar, DollarSign, User, Building2, Eye, CheckCircle, XCircle, Clock} from "lucide-react";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, Grid, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, StatCard, useNotifications, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, StatCard, useNotifications, DetailPage, Section, SectionHeader, Box, Stack} from "@ghxstship/ui";
 import { useProposal, useSendProposal, type ProposalStatus } from "@/hooks/useProposals";
 
 const STATUS_COLORS: Record<ProposalStatus, "success" | "warning" | "error" | "info" | "outline"> = {
@@ -55,7 +55,7 @@ export default function ProposalDetailPage() {
   };
 
   const headerActions = canEdit ? (
-    <div className="flex items-center gap-2">
+    <Box className="flex items-center gap-2">
       {proposal?.status === "draft" && (
         <Button variant="outline" onClick={handleSend} disabled={sendMutation.isPending} icon={<Send className="size-4" />} iconPosition="left">
           {sendMutation.isPending ? "Sending..." : "Send"}
@@ -64,7 +64,7 @@ export default function ProposalDetailPage() {
       <Button variant="solid" onClick={() => router.push(`/finance/proposals/${proposalId}/edit`)} icon={<Pencil className="size-4" />} iconPosition="left">
         Edit
       </Button>
-    </div>
+    </Box>
   ) : null;
 
   const tabs = proposal ? [
@@ -84,20 +84,20 @@ export default function ProposalDetailPage() {
           <SectionHeader title="Client Information" />
           <Card className="p-6 mb-6">
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
-              <div className="flex items-center gap-3">
+              <Box className="flex items-center gap-3">
                 <User className="size-5 text-on-dark-muted" />
-                <div>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted">Contact</Body>
                   <Body>{proposal.contact?.first_name} {proposal.contact?.last_name}</Body>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
+                </Box>
+              </Box>
+              <Box className="flex items-center gap-3">
                 <Building2 className="size-5 text-on-dark-muted" />
-                <div>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted">Company</Body>
                   <Body>{proposal.contact?.company || "N/A"}</Body>
-                </div>
-              </div>
+                </Box>
+              </Box>
             </Grid>
           </Card>
 
@@ -127,22 +127,22 @@ export default function ProposalDetailPage() {
                   ))}
                 </TableBody>
               </Table>
-              <div className="p-6 border-t border-grey-700">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
+              <Box className="p-6 border-t border-grey-700">
+                <Box className="space-y-2">
+                  <Box className="flex justify-between">
                     <Body>Subtotal</Body>
                     <Body>{formatCurrency(proposal.subtotal)}</Body>
-                  </div>
-                  <div className="flex justify-between">
+                  </Box>
+                  <Box className="flex justify-between">
                     <Body>Tax</Body>
                     <Body>{formatCurrency(proposal.tax_amount)}</Body>
-                  </div>
-                  <div className="flex justify-between font-weight-bold">
+                  </Box>
+                  <Box className="flex justify-between font-weight-bold">
                     <Body>Total</Body>
                     <Body>{formatCurrency(proposal.total)}</Body>
-                  </div>
-                </div>
-              </div>
+                  </Box>
+                </Box>
+              </Box>
             </Card>
           ) : (
             <Card className="p-6 mb-6">
@@ -169,25 +169,25 @@ export default function ProposalDetailPage() {
         <Section>
           <SectionHeader title="Activity Timeline" description="Track proposal status changes" />
           <Card className="p-6">
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
+            <Box className="space-y-4">
+              <Box className="flex items-center gap-3">
                 <FileText className="size-4 text-on-dark-muted" />
                 <Body size="sm">Created on {formatDate(proposal.created_at)}</Body>
-              </div>
+              </Box>
               {proposal.sent_at && (
-                <div className="flex items-center gap-3">
+                <Box className="flex items-center gap-3">
                   <Send className="size-4 text-info" />
                   <Body size="sm">Sent on {formatDate(proposal.sent_at)}</Body>
-                </div>
+                </Box>
               )}
               {proposal.viewed_at && (
-                <div className="flex items-center gap-3">
+                <Box className="flex items-center gap-3">
                   <Eye className="size-4 text-warning" />
                   <Body size="sm">First viewed on {formatDate(proposal.viewed_at)}</Body>
-                </div>
+                </Box>
               )}
               {proposal.responded_at && (
-                <div className="flex items-center gap-3">
+                <Box className="flex items-center gap-3">
                   {proposal.status === "accepted" ? (
                     <CheckCircle className="size-4 text-success" />
                   ) : (
@@ -196,9 +196,9 @@ export default function ProposalDetailPage() {
                   <Body size="sm">
                     {proposal.status === "accepted" ? "Accepted" : "Declined"} on {formatDate(proposal.responded_at)}
                   </Body>
-                </div>
+                </Box>
               )}
-            </div>
+            </Box>
           </Card>
         </Section>
       ),

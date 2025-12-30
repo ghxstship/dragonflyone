@@ -22,8 +22,8 @@ import {
   Grid,
   Card,
   PageTransition,
-} from "@ghxstship/ui";
-import type { ContextLevel } from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
+import type { ContextLevel, Box} from "@ghxstship/ui";
 import { useBaseAppLayout } from "@ghxstship/config/layouts";
 import { atlvsLayoutConfig } from "../config/app-layout-config";
 
@@ -133,11 +133,11 @@ export function AtlvsAppLayoutV2({
           className={className}
           headerActions={userMenu}
         >
-          <div className="p-6 lg:p-8 pb-20 md:pb-8">
+          <Box className="p-6 lg:p-8 pb-20 md:pb-8">
             <PageTransition type="fade" duration={200}>
               {children}
             </PageTransition>
-          </div>
+          </Box>
         </AuthenticatedShell>
         
         <MobileBottomNav

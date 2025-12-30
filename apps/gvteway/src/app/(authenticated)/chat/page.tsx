@@ -20,6 +20,8 @@ import {
   DetailPage,
   Section,
   SectionHeader,
+  Box,
+  Stack,
 } from "@ghxstship/ui";
 import { MessageSquare, Send, Hash, Search } from "lucide-react";
 
@@ -129,7 +131,7 @@ export default function ChatPage() {
           <Grid cols={3} gap={6} className="grid-cols-1 lg:grid-cols-3">
             {/* Room List */}
             <Section border>
-              <div className="flex items-center gap-2 mb-4">
+              <Box className="flex items-center gap-2 mb-4">
                 <Search className="size-4 text-on-dark-muted" />
                 <Input
                   placeholder="Search rooms..."
@@ -137,9 +139,9 @@ export default function ChatPage() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="flex-1"
                 />
-              </div>
+              </Box>
 
-              <div className="space-y-2">
+              <Box className="space-y-2">
                 {filteredRooms.length === 0 ? (
                   <Body className="text-on-dark-muted text-center py-4">No rooms found</Body>
                 ) : (
@@ -149,65 +151,65 @@ export default function ChatPage() {
                       className={`cursor-pointer p-3 transition-all ${selectedRoom?.id === room.id ? "ring-2 ring-primary" : "hover:bg-grey-800"}`}
                       onClick={() => setSelectedRoom(room)}
                     >
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
+                      <Box className="space-y-2">
+                        <Box className="flex items-center justify-between">
                           <Body className="font-weight-medium text-white">{room.name}</Body>
                           {room.unreadCount > 0 && (
                             <Badge variant="solid">{room.unreadCount}</Badge>
                           )}
-                        </div>
-                        <div className="flex items-center justify-between">
+                        </Box>
+                        <Box className="flex items-center justify-between">
                           {getTypeBadge(room.type)}
                           <Body size="sm" className="text-on-dark-muted">{room.memberCount} members</Body>
-                        </div>
+                        </Box>
                         <Body size="sm" className="text-on-dark-muted truncate">{room.lastMessage}</Body>
-                      </div>
+                      </Box>
                     </Card>
                   ))
                 )}
-              </div>
+              </Box>
             </Section>
 
             {/* Chat Area */}
             <Section border className="lg:col-span-2">
               {selectedRoom ? (
-                <div className="flex flex-col min-h-96">
-                  <div className="flex items-center justify-between border-b border-grey-700 pb-4 mb-4">
-                    <div>
+                <Box className="flex flex-col min-h-96">
+                  <Box className="flex items-center justify-between border-b border-grey-700 pb-4 mb-4">
+                    <Box>
                       <Body className="font-weight-medium text-white">{selectedRoom.name}</Body>
                       <Body size="sm" className="text-on-dark-muted">{selectedRoom.memberCount} members</Body>
-                    </div>
+                    </Box>
                     {getTypeBadge(selectedRoom.type)}
-                  </div>
+                  </Box>
 
-                  <div className="flex-1 space-y-3 overflow-y-auto mb-4">
+                  <Box className="flex-1 space-y-3 overflow-y-auto mb-4">
                     {messagesLoading ? (
-                      <div className="flex items-center justify-center py-8">
+                      <Box className="flex items-center justify-center py-8">
                         <Spinner variant="grey" size="sm" />
-                      </div>
+                      </Box>
                     ) : messages.length === 0 ? (
                       <Body className="text-on-dark-muted text-center py-8">No messages yet. Start the conversation!</Body>
                     ) : (
                       messages.map((message) => (
-                        <div
+                        <Box
                           key={message.id}
                           className={`max-w-[80%] ${message.isOwn ? "ml-auto" : ""}`}
                         >
                           <Card className={`p-3 ${message.isOwn ? "bg-primary" : "bg-grey-800"}`}>
-                            <div className="space-y-1">
+                            <Box className="space-y-1">
                               {!message.isOwn && (
                                 <Body size="sm" className="font-weight-medium text-on-dark-muted">{message.sender}</Body>
                               )}
                               <Body className="text-white">{message.content}</Body>
                               <Body size="sm" className="text-on-dark-disabled">{message.timestamp}</Body>
-                            </div>
+                            </Box>
                           </Card>
-                        </div>
+                        </Box>
                       ))
                     )}
-                  </div>
+                  </Box>
 
-                  <div className="flex gap-2 border-t border-grey-700 pt-4">
+                  <Box className="flex gap-2 border-t border-grey-700 pt-4">
                     <Input
                       placeholder="Type a message..."
                       value={newMessage}
@@ -216,14 +218,14 @@ export default function ChatPage() {
                       className="flex-1"
                     />
                     <Button variant="solid" onClick={handleSendMessage} disabled={!newMessage.trim()} icon={<Send className="size-4" />} />
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               ) : (
-                <div className="flex flex-col items-center justify-center min-h-96 text-center">
+                <Box className="flex flex-col items-center justify-center min-h-96 text-center">
                   <MessageSquare className="size-12 text-on-dark-disabled mb-4" />
                   <Body className="font-weight-medium text-white mb-2">Select a Chat Room</Body>
                   <Body className="text-on-dark-muted">Choose a room from the list to start chatting</Body>
-                </div>
+                </Box>
               )}
             </Section>
           </Grid>
@@ -240,10 +242,10 @@ export default function ChatPage() {
           <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {rooms.map((room) => (
               <Card key={room.id} className="p-4 cursor-pointer hover:ring-2 hover:ring-primary" onClick={() => setSelectedRoom(room)}>
-                <div className="flex items-start justify-between mb-2">
+                <Box className="flex items-start justify-between mb-2">
                   <Body className="font-weight-medium text-white">{room.name}</Body>
                   {getTypeBadge(room.type)}
-                </div>
+                </Box>
                 <Body size="sm" className="text-on-dark-muted mb-2">{room.memberCount} members</Body>
                 <Body size="sm" className="text-on-dark-muted truncate">{room.lastMessage}</Body>
               </Card>

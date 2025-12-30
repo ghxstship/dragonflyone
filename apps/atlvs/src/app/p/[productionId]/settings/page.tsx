@@ -11,7 +11,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Save, Trash2, Users, Lock, List, AlertTriangle } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Input, Select, Textarea, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
+  Body, Button, Card, Input, Select, Textarea, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
 
 interface ProductionSettings {
   name: string;
@@ -94,16 +94,16 @@ export default function ProductionSettingsPage() {
         <Section>
           <Card className="p-6">
             <SectionHeader title="General Settings" description="Basic production information" />
-            <div className="space-y-4 mt-4">
-              <div>
+            <Box className="space-y-4 mt-4">
+              <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">Production Name</Body>
                 <Input value={formData.name} onChange={(e) => handleChange("name", e.target.value)} placeholder="Enter production name" />
-              </div>
-              <div>
+              </Box>
+              <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">Description</Body>
                 <Textarea value={formData.description} onChange={(e) => handleChange("description", e.target.value)} placeholder="Enter description" rows={3} />
-              </div>
-              <div>
+              </Box>
+              <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">Status</Body>
                 <Select value={formData.status} onChange={(e) => handleChange("status", e.target.value)}>
                   <option value="planning">Planning</option>
@@ -111,8 +111,8 @@ export default function ProductionSettingsPage() {
                   <option value="completed">Completed</option>
                   <option value="archived">Archived</option>
                 </Select>
-              </div>
-            </div>
+              </Box>
+            </Box>
             <Button variant="solid" className="mt-6" onClick={() => saveMutation.mutate(formData)} disabled={saveMutation.isPending} icon={<Save className="size-4" />} iconPosition="left">
               {saveMutation.isPending ? "Saving..." : "Save Changes"}
             </Button>
@@ -128,16 +128,16 @@ export default function ProductionSettingsPage() {
         <Section>
           <Card className="p-6">
             <SectionHeader title="Access Settings" description="Control who can access this production" />
-            <div className="space-y-4 mt-4">
-              <div>
+            <Box className="space-y-4 mt-4">
+              <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">Visibility</Body>
                 <Select value={formData.visibility} onChange={(e) => handleChange("visibility", e.target.value)}>
                   <option value="private">Private - Only invited members</option>
                   <option value="team">Team - All team members</option>
                   <option value="organization">Organization - All organization members</option>
                 </Select>
-              </div>
-            </div>
+              </Box>
+            </Box>
             <Button variant="outline" className="mt-6" onClick={() => router.push(`/p/${productionId}/team`)} icon={<Users className="size-4" />} iconPosition="left">
               Manage Team
             </Button>
@@ -153,13 +153,13 @@ export default function ProductionSettingsPage() {
         <Section>
           <Card className="p-6 border-error">
             <SectionHeader title="Danger Zone" description="Irreversible actions" />
-            <div className="mt-4 p-4 bg-error/10 rounded-card">
+            <Box className="mt-4 p-4 bg-error/10 rounded-card">
               <Body className="font-weight-medium mb-2">Delete Production</Body>
               <Body size="sm" className="text-on-dark-muted mb-4">Once you delete a production, there is no going back. Please be certain.</Body>
               <Button variant="outline" className="border-error text-error" onClick={() => setShowDeleteModal(true)} icon={<Trash2 className="size-4" />} iconPosition="left">
                 Delete Production
               </Button>
-            </div>
+            </Box>
           </Card>
         </Section>
       ),

@@ -11,7 +11,7 @@ import { Shield, Plus, Edit, Trash2, Check, X, List, Settings } from "lucide-rea
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, StatCard, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, StatCard, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
 
 interface Role {
   id: string;
@@ -138,43 +138,43 @@ export default function RolesSettingsPage() {
           </Grid>
 
           {canManageRoles && (
-            <div className="mb-6">
+            <Box className="mb-6">
               <Button variant="solid" onClick={() => setShowCreate(true)} icon={<Plus className="size-4" />} iconPosition="left">
                 Create Role
               </Button>
-            </div>
+            </Box>
           )}
 
-          <div className="space-y-4">
+          <Box className="space-y-4">
             {roles.map((role: Role) => (
               <Card key={role.id} className="p-4">
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
+                <Box className="flex justify-between items-start">
+                  <Box className="flex-1">
+                    <Box className="flex items-center gap-2 mb-1">
                       <Body className="font-weight-medium">{role.name}</Body>
                       {role.is_system && <Badge variant="outline" className="font-weight-normal">System</Badge>}
-                    </div>
+                    </Box>
                     <Body size="sm" className="text-on-dark-muted mb-3">{role.description}</Body>
-                    <div className="flex flex-wrap gap-1">
+                    <Box className="flex flex-wrap gap-1">
                       {role.permissions.slice(0, 5).map((perm) => (
                         <Badge key={perm} variant="outline" className="font-weight-normal">{PERMISSIONS.find((p) => p.id === perm)?.label || perm}</Badge>
                       ))}
                       {role.permissions.length > 5 && <Badge variant="outline" className="font-weight-normal">+{role.permissions.length - 5} more</Badge>}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4">
+                    </Box>
+                  </Box>
+                  <Box className="flex items-center gap-4">
                     <Badge variant="info">{role.member_count} members</Badge>
                     {canManageRoles && !role.is_system && (
-                      <div className="flex items-center gap-1">
+                      <Box className="flex items-center gap-1">
                         <Button variant="ghost" size="sm" onClick={() => { setEditingRole(role); setNewRoleName(role.name); setNewRoleDesc(role.description); setSelectedPermissions(role.permissions); setShowCreate(true); }} icon={<Edit className="size-4" />} />
                         <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(role.id)} disabled={deleteMutation.isPending} icon={<Trash2 className="size-4 text-error" />} />
-                      </div>
+                      </Box>
                     )}
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },
@@ -185,21 +185,21 @@ export default function RolesSettingsPage() {
       content: (
         <Section>
           <SectionHeader title="Available Permissions" description="All permissions that can be assigned to roles" />
-          <div className="space-y-6 mt-4">
+          <Box className="space-y-6 mt-4">
             {Object.entries(permissionsByCategory).map(([category, perms]) => (
               <Card key={category} className="p-4">
                 <Body className="font-weight-medium mb-3">{category}</Body>
-                <div className="grid grid-cols-2 gap-2">
+                <Box className="grid grid-cols-2 gap-2">
                   {perms.map((perm) => (
-                    <div key={perm.id} className="flex items-center gap-2 p-2 bg-grey-800 rounded">
+                    <Box key={perm.id} className="flex items-center gap-2 p-2 bg-grey-800 rounded">
                       <Check className="size-4 text-success" />
                       <Body size="sm">{perm.label}</Body>
-                    </div>
+                    </Box>
                   ))}
-                </div>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },
@@ -219,34 +219,34 @@ export default function RolesSettingsPage() {
       <Modal open={showCreate} onClose={() => { setShowCreate(false); resetForm(); }} size="lg">
         <ModalHeader><Body className="font-weight-bold font-weight-medium">{editingRole ? "Edit Role" : "Create Role"}</Body></ModalHeader>
         <ModalBody>
-          <div className="space-y-4">
-            <div>
+          <Box className="space-y-4">
+            <Box>
               <Body size="sm" className="text-on-dark-muted mb-1">Role Name</Body>
               <Input placeholder="e.g., Project Lead" value={newRoleName} onChange={(e) => setNewRoleName(e.target.value)} />
-            </div>
-            <div>
+            </Box>
+            <Box>
               <Body size="sm" className="text-on-dark-muted mb-1">Description</Body>
               <Input placeholder="What can this role do?" value={newRoleDesc} onChange={(e) => setNewRoleDesc(e.target.value)} />
-            </div>
-            <div>
+            </Box>
+            <Box>
               <Body size="sm" className="text-on-dark-muted mb-2">Permissions</Body>
-              <div className="space-y-4 max-h-64 overflow-y-auto">
+              <Box className="space-y-4 max-h-64 overflow-y-auto">
                 {Object.entries(permissionsByCategory).map(([category, perms]) => (
-                  <div key={category}>
+                  <Box key={category}>
                     <Body size="sm" className="font-weight-medium mb-2">{category}</Body>
-                    <div className="grid grid-cols-2 gap-2">
+                    <Box className="grid grid-cols-2 gap-2">
                       {perms.map((perm) => (
                         <Button key={perm.id} variant={selectedPermissions.includes(perm.id) ? "solid" : "outline"} size="sm" onClick={() => togglePermission(perm.id)} className="justify-start">
                           {selectedPermissions.includes(perm.id) ? <Check className="size-3 mr-2" /> : <X className="size-3 mr-2 opacity-50" />}
                           {perm.label}
                         </Button>
                       ))}
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 ))}
-              </div>
-            </div>
-          </div>
+              </Box>
+            </Box>
+          </Box>
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => { setShowCreate(false); resetForm(); }}>Cancel</Button>

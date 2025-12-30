@@ -9,7 +9,7 @@
 import { Award, BarChart3, DollarSign, Eye, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Sponsorship {
   id: string;
@@ -65,25 +65,25 @@ export default function SponsorPortalPage() {
           </Grid>
 
           <SectionHeader title="Sponsorships" />
-          <div className="space-y-4 mt-4">
+          <Box className="space-y-4 mt-4">
             {sponsorships.map((sponsorship: Sponsorship) => (
               <Card key={sponsorship.id} className="p-6">
-                <div className="flex items-start justify-between">
-                  <div>
+                <Box className="flex items-start justify-between">
+                  <Box>
                     <Body className="font-weight-bold font-weight-medium">{sponsorship.event}</Body>
-                    <div className="flex items-center gap-2 mt-2">
+                    <Box className="flex items-center gap-2 mt-2">
                       <Badge variant="outline">{sponsorship.tier}</Badge>
                       <Body size="sm" className="text-on-dark-muted">{formatNumber(sponsorship.impressions)} impressions</Body>
-                    </div>
-                  </div>
-                  <div className="text-right">
+                    </Box>
+                  </Box>
+                  <Box className="text-right">
                     <Body className="font-weight-bold">{formatCurrency(sponsorship.value)}</Body>
                     <Badge variant={STATUS_CONFIG[sponsorship.status].variant} className="mt-2">{STATUS_CONFIG[sponsorship.status].label}</Badge>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },

@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Mail, ArrowLeft } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Form, AuthPage, useNotifications} from "@ghxstship/ui";
+  Body, Button, Input, Form, AuthPage, useNotifications, Box} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function ForgotPasswordPage() {
@@ -55,17 +55,17 @@ export default function ForgotPasswordPage() {
   if (submitted) {
     return (
       <AuthPage title="Check Your Email" subtitle="We've sent password reset instructions to your email">
-        <div className="text-center space-y-6">
-          <div className="p-4 bg-success/20 rounded-avatar w-fit mx-auto">
+        <Box className="text-center space-y-6">
+          <Box className="p-4 bg-success/20 rounded-avatar w-fit mx-auto">
             <Mail className="size-8 text-success" />
-          </div>
+          </Box>
           <Body className="text-on-dark-muted">
             If an account exists for {email}, you will receive an email with instructions to reset your password.
           </Body>
           <Button variant="outline" onClick={() => router.push("/auth/signin")} icon={<ArrowLeft className="size-4" />} iconPosition="left">
             Back to Sign In
           </Button>
-        </div>
+        </Box>
       </AuthPage>
     );
   }
@@ -77,14 +77,14 @@ export default function ForgotPasswordPage() {
       footer={{ text: "Remember your password?", linkText: "Sign in", linkHref: "/auth/signin" }}
     >
       <Form onSubmit={handleSubmit} className="space-y-4">
-        <div>
+        <Box>
           <Body size="sm" className="text-on-dark-muted mb-1">Email</Body>
-          <div className="relative">
+          <Box className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input type="email" placeholder="you@example.com" value={email} onChange={(e) => { setEmail(e.target.value); setError(""); }} className={`pl-10 ${error ? "border-error" : ""}`} />
-          </div>
+          </Box>
           {error && <Body size="sm" className="text-error mt-1">{error}</Body>}
-        </div>
+        </Box>
 
         <Button type="submit" variant="solid" className="w-full" disabled={resetMutation.isPending}>
           {resetMutation.isPending ? "Sending..." : "Send Reset Link"}

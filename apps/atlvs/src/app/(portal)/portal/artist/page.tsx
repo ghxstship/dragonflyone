@@ -9,7 +9,7 @@
 import { Music, Calendar, DollarSign, Star, List, Settings } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Booking {
   id: string;
@@ -65,25 +65,25 @@ export default function ArtistPortalPage() {
           </Grid>
 
           <SectionHeader title="Upcoming Bookings" />
-          <div className="space-y-4 mt-4">
+          <Box className="space-y-4 mt-4">
             {bookings.filter((b: Booking) => b.status !== "completed").map((booking: Booking) => (
               <Card key={booking.id} className="p-6">
-                <div className="flex items-start justify-between">
-                  <div>
+                <Box className="flex items-start justify-between">
+                  <Box>
                     <Body className="font-weight-bold font-weight-medium">{booking.event}</Body>
-                    <div className="flex items-center gap-4 mt-2 text-on-dark-muted">
-                      <div className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(booking.date)}</Body></div>
+                    <Box className="flex items-center gap-4 mt-2 text-on-dark-muted">
+                      <Box className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(booking.date)}</Body></Box>
                       <Body size="sm">{booking.venue}</Body>
-                    </div>
-                  </div>
-                  <div className="text-right">
+                    </Box>
+                  </Box>
+                  <Box className="text-right">
                     <Body className="font-weight-bold">{formatCurrency(booking.fee)}</Body>
                     <Badge variant={STATUS_CONFIG[booking.status].variant} className="mt-2">{STATUS_CONFIG[booking.status].label}</Badge>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },
@@ -95,16 +95,16 @@ export default function ArtistPortalPage() {
         <Section>
           <SectionHeader title="Artist Profile" description="Manage your public profile" />
           <Card className="p-6 mt-4">
-            <div className="flex items-center gap-6 mb-6">
-              <div className="size-24 bg-primary rounded-avatar flex items-center justify-center">
+            <Box className="flex items-center gap-6 mb-6">
+              <Box className="size-24 bg-primary rounded-avatar flex items-center justify-center">
                 <Music className="size-12 text-white" />
-              </div>
-              <div>
+              </Box>
+              <Box>
                 <Body className="font-weight-bold font-weight-bold">Artist Name</Body>
                 <Body className="text-on-dark-muted">Genre: Pop, Electronic</Body>
                 <Badge variant="success" className="mt-2">Verified</Badge>
-              </div>
-            </div>
+              </Box>
+            </Box>
             <Button variant="outline">Edit Profile</Button>
           </Card>
         </Section>

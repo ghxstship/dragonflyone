@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { FileText, Check, Clock, List, Shield } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface ConsentRecord {
   id: string;
@@ -90,10 +90,10 @@ export default function ConsentHistoryPage() {
                   {consents.map((consent: ConsentRecord) => (
                     <TableRow key={consent.id}>
                       <TableCell>
-                        <div className="flex items-center gap-2">
+                        <Box className="flex items-center gap-2">
                           <FileText className="size-4 text-on-dark-muted" />
                           <Body className="font-weight-medium">{TYPE_LABELS[consent.type] || consent.type}</Body>
-                        </div>
+                        </Box>
                       </TableCell>
                       <TableCell><Badge variant="outline">v{consent.version}</Badge></TableCell>
                       <TableCell><Body size="sm">{formatDate(consent.accepted_at)}</Body></TableCell>
@@ -116,28 +116,28 @@ export default function ConsentHistoryPage() {
       content: (
         <Section>
           <SectionHeader title="Active Policies" description="View the current versions of our policies" />
-          <div className="space-y-4 mt-4">
+          <Box className="space-y-4 mt-4">
             {Object.entries(TYPE_LABELS).map(([key, label]) => {
               const consent = consents.find((c: ConsentRecord) => c.type === key);
               return (
                 <Card key={key} className="p-4">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-3">
+                  <Box className="flex justify-between items-center">
+                    <Box className="flex items-center gap-3">
                       <FileText className="size-5 text-on-dark-muted" />
-                      <div>
+                      <Box>
                         <Body className="font-weight-medium">{label}</Body>
                         {consent && <Body size="sm" className="text-on-dark-muted">Accepted v{consent.version} on {formatDate(consent.accepted_at)}</Body>}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
+                      </Box>
+                    </Box>
+                    <Box className="flex items-center gap-2">
                       {consent ? <Badge variant="success">Accepted</Badge> : <Badge variant="warning">Pending</Badge>}
                       <Button variant="ghost" size="sm" onClick={() => router.push(`/legal/${key.replace("_", "-")}`)}>View</Button>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 </Card>
               );
             })}
-          </div>
+          </Box>
         </Section>
       ),
     },

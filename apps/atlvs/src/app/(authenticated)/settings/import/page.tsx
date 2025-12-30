@@ -10,7 +10,7 @@ import { useState, useCallback } from "react";
 import { Upload, FileText, Database, Users, Calendar, List, Settings, Check } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, Input, Label, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Label, DetailPage, Section, SectionHeader, useNotifications, Box, Stack} from "@ghxstship/ui";
 
 interface ImportOption {
   id: string;
@@ -87,27 +87,27 @@ export default function ImportSettingsPage() {
                 className={`p-4 cursor-pointer transition-colors ${selectedImport === option.id ? "border-primary" : ""}`}
                 onClick={() => setSelectedImport(option.id)}
               >
-                <div className="flex items-start gap-3">
-                  <div className={`p-2 rounded-card ${selectedImport === option.id ? "bg-primary text-white" : "bg-grey-800 text-on-dark-muted"}`}>
+                <Box className="flex items-start gap-3">
+                  <Box className={`p-2 rounded-card ${selectedImport === option.id ? "bg-primary text-white" : "bg-grey-800 text-on-dark-muted"}`}>
                     {option.icon}
-                  </div>
-                  <div className="flex-1">
+                  </Box>
+                  <Box className="flex-1">
                     <Body className="font-weight-medium">{option.label}</Body>
                     <Body size="sm" className="text-on-dark-muted">{option.description}</Body>
-                    <div className="flex gap-1 mt-2">
+                    <Box className="flex gap-1 mt-2">
                       {option.formats.map((fmt) => (
                         <Badge key={fmt} variant="outline" className="text-body-xs uppercase">{fmt}</Badge>
                       ))}
-                    </div>
-                  </div>
-                </div>
+                    </Box>
+                  </Box>
+                </Box>
               </Card>
             ))}
           </Grid>
 
           <Card className="p-6 mb-6">
             <SectionHeader title="Upload File" />
-            <div
+            <Box
               className={`mt-4 border-2 border-dashed rounded-card p-8 text-center transition-colors ${dragActive ? "border-primary bg-primary/10" : "border-grey-700"}`}
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
@@ -115,14 +115,14 @@ export default function ImportSettingsPage() {
               onDrop={handleDrop}
             >
               {selectedFile ? (
-                <div className="flex items-center justify-center gap-3">
+                <Box className="flex items-center justify-center gap-3">
                   <Check className="size-6 text-success" />
-                  <div>
+                  <Box>
                     <Body className="font-weight-medium">{selectedFile.name}</Body>
                     <Body size="sm" className="text-on-dark-muted">{(selectedFile.size / 1024).toFixed(1)} KB</Body>
-                  </div>
+                  </Box>
                   <Button variant="ghost" size="sm" onClick={() => setSelectedFile(null)}>Remove</Button>
-                </div>
+                </Box>
               ) : (
                 <>
                   <Upload className="size-12 text-on-dark-disabled mx-auto mb-4" />
@@ -134,12 +134,12 @@ export default function ImportSettingsPage() {
                   </Label>
                 </>
               )}
-            </div>
+            </Box>
             {currentOption && (
-              <div className="mt-4 flex items-center justify-between">
+              <Box className="mt-4 flex items-center justify-between">
                 <Body size="sm" className="text-on-dark-muted">Need a template? Download our sample file.</Body>
                 <Button variant="ghost" size="sm" onClick={() => window.open(currentOption.template, "_blank")}>Download Template</Button>
-              </div>
+              </Box>
             )}
           </Card>
 

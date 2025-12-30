@@ -8,7 +8,7 @@
 
 import { Users, MessageSquare, Star, Trophy, ExternalLink, List, TrendingUp } from "lucide-react";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 const COMMUNITY_STATS = { members: "5,000+", discussions: "2,500+", solutions: "1,200+" };
 
@@ -41,22 +41,22 @@ export default function CommunityPage() {
 
           <Card className="p-6 mb-6">
             <SectionHeader title="Featured Discussions" />
-            <div className="space-y-4 mt-4">
+            <Box className="space-y-4 mt-4">
               {FEATURED_DISCUSSIONS.map((discussion) => (
                 <Card key={discussion.id} className="p-4 cursor-pointer hover:border-primary">
-                  <div className="flex items-center justify-between">
-                    <div>
+                  <Box className="flex items-center justify-between">
+                    <Box>
                       <Body className="font-weight-medium">{discussion.title}</Body>
                       <Body size="sm" className="text-on-dark-muted">by {discussion.author}</Body>
-                    </div>
-                    <div className="flex items-center gap-4 text-on-dark-disabled">
+                    </Box>
+                    <Box className="flex items-center gap-4 text-on-dark-disabled">
                       <Body size="sm">{discussion.replies} replies</Body>
                       <Body size="sm">{discussion.views} views</Body>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 </Card>
               ))}
-            </div>
+            </Box>
             <Button variant="outline" className="mt-4" icon={<ExternalLink className="size-4" />} iconPosition="right">
               View All Discussions
             </Button>
@@ -78,25 +78,25 @@ export default function CommunityPage() {
       content: (
         <Section>
           <SectionHeader title="Top Contributors" description="Our most helpful community members" />
-          <div className="space-y-4 mt-6">
+          <Box className="space-y-4 mt-6">
             {TOP_CONTRIBUTORS.map((contributor, idx) => (
               <Card key={idx} className="p-4">
-                <div className="flex items-center gap-4">
-                  <div className="size-10 rounded-avatar bg-primary flex items-center justify-center text-white font-weight-bold">
+                <Box className="flex items-center gap-4">
+                  <Box className="size-10 rounded-avatar bg-primary flex items-center justify-center text-white font-weight-bold">
                     #{idx + 1}
-                  </div>
-                  <div className="flex-1">
+                  </Box>
+                  <Box className="flex-1">
                     <Body className="font-weight-medium">{contributor.name}</Body>
                     <Badge variant="outline">{contributor.badge}</Badge>
-                  </div>
-                  <div className="flex items-center gap-2">
+                  </Box>
+                  <Box className="flex items-center gap-2">
                     <Trophy className="size-4 text-warning" />
                     <Body className="font-weight-bold">{contributor.points} pts</Body>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },

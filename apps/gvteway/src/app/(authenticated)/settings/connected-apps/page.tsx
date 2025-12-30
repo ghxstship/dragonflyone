@@ -17,7 +17,7 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import { Link2, Unlink, ExternalLink, Shield, Info } from "lucide-react";
 import { useConnectedAppsData, type ConnectedApp, getProviderInfo } from "@/hooks/useConnectedApps";
 
@@ -59,49 +59,49 @@ export default function ConnectedAppsPage() {
           <SectionHeader title="Your Connected Apps" description="Third-party applications with access to your account" />
 
           {apps.length === 0 ? (
-            <div className="text-center py-12">
+            <Box className="text-center py-12">
               <Link2 className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted mb-2">No connected apps</Body>
               <Body size="sm" className="text-on-dark-disabled">
                 Connect third-party apps to enhance your GVTEWAY experience
               </Body>
-            </div>
+            </Box>
           ) : (
-            <div className="space-y-3">
+            <Box className="space-y-3">
               {apps.map((app: ConnectedApp) => {
                 const providerInfo = getProviderInfo(app.provider);
                 return (
                   <Card key={app.id} className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-grey-700 rounded-card flex items-center justify-center">
+                    <Box className="flex items-start justify-between">
+                      <Box className="flex items-center gap-4">
+                        <Box className="w-12 h-12 bg-grey-700 rounded-card flex items-center justify-center">
                           <Link2 className="size-6 text-on-dark-muted" />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
+                        </Box>
+                        <Box>
+                          <Box className="flex items-center gap-2 mb-1">
                             <Body className="font-weight-medium text-white">{app.app_name}</Body>
                             <Badge variant="outline">{providerInfo.name}</Badge>
-                          </div>
+                          </Box>
                           <Body size="sm" className="text-on-dark-muted mb-2">{providerInfo.description}</Body>
-                          <div className="flex items-center gap-6">
-                            <div>
+                          <Box className="flex items-center gap-6">
+                            <Box>
                               <Body size="sm" className="text-on-dark-disabled">Connected</Body>
                               <Body size="sm" className="text-on-dark-muted">{new Date(app.connected_at).toLocaleDateString()}</Body>
-                            </div>
+                            </Box>
                             {app.last_used_at && (
-                              <div>
+                              <Box>
                                 <Body size="sm" className="text-on-dark-disabled">Last Used</Body>
                                 <Body size="sm" className="text-on-dark-muted">{new Date(app.last_used_at).toLocaleDateString()}</Body>
-                              </div>
+                              </Box>
                             )}
-                            <div>
+                            <Box>
                               <Body size="sm" className="text-on-dark-disabled">Permissions</Body>
                               <Body size="sm" className="text-on-dark-muted">{app.scopes.length} granted</Body>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
+                            </Box>
+                          </Box>
+                        </Box>
+                      </Box>
+                      <Box className="flex items-center gap-2">
                         <Button variant="ghost" size="sm" icon={<ExternalLink className="size-4" />} />
                         <Button
                           variant="outline"
@@ -113,12 +113,12 @@ export default function ConnectedAppsPage() {
                         >
                           Disconnect
                         </Button>
-                      </div>
-                    </div>
+                      </Box>
+                    </Box>
                   </Card>
                 );
               })}
-            </div>
+            </Box>
           )}
         </Section>
       ),
@@ -132,25 +132,25 @@ export default function ConnectedAppsPage() {
           <SectionHeader title="About Connected Apps" description="Understanding third-party app access" />
           <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
             <Card className="p-6">
-              <div className="flex items-start gap-3 mb-4">
+              <Box className="flex items-start gap-3 mb-4">
                 <Shield className="size-6 text-primary flex-shrink-0" />
                 <Body className="font-weight-medium text-white">Security</Body>
-              </div>
-              <div className="space-y-3">
+              </Box>
+              <Box className="space-y-3">
                 <Body size="sm" className="text-on-dark-muted">
                   Connected apps have access to specific parts of your GVTEWAY account based on the permissions you granted.
                 </Body>
                 <Body size="sm" className="text-on-dark-muted">
                   You can disconnect any app at any time. Disconnecting an app will revoke its access to your account.
                 </Body>
-              </div>
+              </Box>
             </Card>
             <Card className="p-6">
-              <div className="flex items-start gap-3 mb-4">
+              <Box className="flex items-start gap-3 mb-4">
                 <Info className="size-6 text-primary flex-shrink-0" />
                 <Body className="font-weight-medium text-white">Best Practices</Body>
-              </div>
-              <div className="space-y-3">
+              </Box>
+              <Box className="space-y-3">
                 <Body size="sm" className="text-on-dark-muted">
                   Only connect apps from sources you trust.
                 </Body>
@@ -160,7 +160,7 @@ export default function ConnectedAppsPage() {
                 <Body size="sm" className="text-on-dark-muted">
                   Regularly review and remove unused connections.
                 </Body>
-              </div>
+              </Box>
             </Card>
           </Grid>
         </Section>

@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { FileText, Shield, Cookie, Users, Globe, ArrowRight } from "lucide-react";
 import {
-  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Box} from "@ghxstship/ui";
 
 const LEGAL_DOCS = [
   { id: "terms", title: "Terms of Service", description: "Our terms and conditions for using ATLVS", icon: <FileText className="size-8" />, href: "/legal/terms", updated: "2024-12-01" },
@@ -66,9 +66,9 @@ export default function LegalPage() {
                       onClick={() => router.push(doc.href)}
                     >
                       <Stack gap={4}>
-                        <div className="p-4 bg-primary/20 rounded-card text-primary w-fit">
+                        <Box className="p-4 bg-primary/20 rounded-card text-primary w-fit">
                           {doc.icon}
-                        </div>
+                        </Box>
                         <Stack gap={2}>
                           <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{doc.title}</Body>
                           <Body size="sm" className="text-on-dark-muted">{doc.description}</Body>

@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import {
-  DetailPage, Badge, Body, Button, Card, CardBody, EmptyState, H3, Label, Spinner, Stack, StatCard} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Button, Card, CardBody, EmptyState, H3, Label, Spinner, Stack, StatCard, Box} from '@ghxstship/ui';
 import {
   Calendar, Users, Clock, CheckCircle, AlertTriangle, MapPin, Package, Shield, Radio, Truck} from "lucide-react";
 import { useProject } from "../../../../hooks/useProjects";
@@ -99,7 +99,7 @@ export default function ProductionOverviewPage() {
       </Stack>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <Box className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Crew"
           value={`${metrics.crew.checkedIn}/${metrics.crew.total}`}
@@ -128,15 +128,15 @@ export default function ProductionOverviewPage() {
           trend={metrics.safety.incidents === 0 ? "up" : "down"}
           trendValue={`${metrics.safety.openIssues} open issues`}
         />
-      </div>
+      </Box>
 
       {/* Quick Actions & Status */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <Box className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card variant="elevated">
           <CardBody>
             <Stack gap={4}>
               <H3>Quick Actions</H3>
-              <div className="grid grid-cols-2 gap-3">
+              <Box className="grid grid-cols-2 gap-3">
                 <Button variant="outline" size="sm" className="justify-start">
                   <Radio size={16} className="mr-2" />
                   Show Call
@@ -161,7 +161,7 @@ export default function ProductionOverviewPage() {
                   <Truck size={16} className="mr-2" />
                   Deliveries
                 </Button>
-              </div>
+              </Box>
             </Stack>
           </CardBody>
         </Card>
@@ -172,62 +172,62 @@ export default function ProductionOverviewPage() {
               <H3>Alerts</H3>
               <Stack gap={3}>
                 {metrics.schedule.delayed > 0 && (
-                  <div className="flex items-center gap-3 rounded border-2 border-warning-500/30 bg-warning-50 p-3">
+                  <Box className="flex items-center gap-3 rounded border-2 border-warning-500/30 bg-warning-50 p-3">
                     <Clock size={20} className="text-warning-600" />
-                    <div>
+                    <Box>
                       <Body className="font-weight-medium">
                         {metrics.schedule.delayed} Delayed Cues
                       </Body>
                       <Label className="text-muted">
                         Review schedule adjustments
                       </Label>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 )}
                 {metrics.equipment.issues > 0 && (
-                  <div className="flex items-center gap-3 rounded border-2 border-error-500/30 bg-error-50 p-3">
+                  <Box className="flex items-center gap-3 rounded border-2 border-error-500/30 bg-error-50 p-3">
                     <Package size={20} className="text-error-600" />
-                    <div>
+                    <Box>
                       <Body className="font-weight-medium">
                         {metrics.equipment.issues} Equipment Issues
                       </Body>
                       <Label className="text-muted">
                         Check maintenance queue
                       </Label>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 )}
                 {metrics.crew.pending > 0 && (
-                  <div className="flex items-center gap-3 rounded border-2 border-primary-500/30 bg-primary-50 p-3">
+                  <Box className="flex items-center gap-3 rounded border-2 border-primary-500/30 bg-primary-50 p-3">
                     <Users size={20} className="text-primary-600" />
-                    <div>
+                    <Box>
                       <Body className="font-weight-medium">
                         {metrics.crew.pending} Pending Confirmations
                       </Body>
                       <Label className="text-muted">
                         Follow up with crew members
                       </Label>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 )}
                 {metrics.safety.openIssues > 0 && (
-                  <div className="flex items-center gap-3 rounded border-2 border-warning-500/30 bg-warning-50 p-3">
+                  <Box className="flex items-center gap-3 rounded border-2 border-warning-500/30 bg-warning-50 p-3">
                     <Shield size={20} className="text-warning-600" />
-                    <div>
+                    <Box>
                       <Body className="font-weight-medium">
                         {metrics.safety.openIssues} Open Safety Issues
                       </Body>
                       <Label className="text-muted">
                         Review and resolve
                       </Label>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 )}
               </Stack>
             </Stack>
           </CardBody>
         </Card>
-      </div>
+      </Box>
 
       {/* Upcoming Cues */}
       <Card variant="elevated">
@@ -242,25 +242,25 @@ export default function ProductionOverviewPage() {
                 { cue: "House Open", time: "17:00", status: "upcoming", owner: "Front of House" },
                 { cue: "Show Start", time: "18:00", status: "upcoming", owner: "Stage Manager" },
               ].map((cue, index) => (
-                <div
+                <Box
                   key={index}
                   className="flex items-center gap-3 border-b border-ink-200 py-3 last:border-0"
                 >
-                  <div className="flex size-8 items-center justify-center rounded bg-ink-100">
+                  <Box className="flex size-8 items-center justify-center rounded bg-ink-100">
                     {cue.status === "in-progress" ? (
                       <Clock size={16} className="text-primary-600" />
                     ) : (
                       <CheckCircle size={16} className="text-ink-400" />
                     )}
-                  </div>
-                  <div className="flex-1">
+                  </Box>
+                  <Box className="flex-1">
                     <Body className="font-weight-medium">{cue.cue}</Body>
                     <Label className="text-muted">{cue.owner}</Label>
-                  </div>
+                  </Box>
                   <Badge variant={cue.status === "in-progress" ? "info" : "outline"}>
                     {cue.time}
                   </Badge>
-                </div>
+                </Box>
               ))}
             </Stack>
           </Stack>

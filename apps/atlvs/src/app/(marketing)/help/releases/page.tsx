@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Zap, Bug, Sparkles, Calendar, List, Star} from "lucide-react";
 import {
-  Badge, Body, Button, Card, Stack, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Stack, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Release {
   version: string;
@@ -44,26 +44,26 @@ export default function ReleasesPage() {
       icon: <List className="size-4" />,
       content: (
         <Section>
-          <div className="space-y-6">
+          <Box className="space-y-6">
             {RELEASES.map((release) => {
               const config = TYPE_CONFIG[release.type];
               return (
                 <Card key={release.version} className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-3">
+                  <Box className="flex items-start justify-between mb-4">
+                    <Box className="flex items-center gap-3">
                       <Badge variant="outline" className="font-weight-medium px-3 py-1">v{release.version}</Badge>
                       <Badge variant={config.variant}>{config.icon} {config.label}</Badge>
-                    </div>
-                    <div className="flex items-center gap-2 text-on-dark-disabled">
+                    </Box>
+                    <Box className="flex items-center gap-2 text-on-dark-disabled">
                       <Calendar className="size-4" />
                       <Body size="sm">{formatDate(release.date)}</Body>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                   <Body className="font-weight-bold font-weight-medium mb-4">{release.title}</Body>
                   <Stack gap={2}>
                     {release.highlights.map((highlight, idx) => (
                       <Stack key={idx} direction="horizontal" gap={2} className="items-center">
-                        <div className="size-1.5 rounded-avatar bg-primary" />
+                        <Box className="size-1.5 rounded-avatar bg-primary" />
                         <Body size="sm">{highlight}</Body>
                       </Stack>
                     ))}
@@ -71,7 +71,7 @@ export default function ReleasesPage() {
                 </Card>
               );
             })}
-          </div>
+          </Box>
         </Section>
       ),
     },
@@ -82,14 +82,14 @@ export default function ReleasesPage() {
       content: (
         <Section>
           <SectionHeader title="Major Releases" description="Significant platform updates" />
-          <div className="space-y-6 mt-6">
+          <Box className="space-y-6 mt-6">
             {RELEASES.filter((r) => r.type === "major").map((release) => (
               <Card key={release.version} className="p-8 border-primary">
-                <div className="flex items-center gap-3 mb-4">
+                <Box className="flex items-center gap-3 mb-4">
                   <Sparkles className="size-6 text-primary" />
                   <Badge variant="outline" className="font-weight-medium px-3 py-1">v{release.version}</Badge>
                   <Body size="sm" className="text-on-dark-disabled">{formatDate(release.date)}</Body>
-                </div>
+                </Box>
                 <Body className="font-weight-bold font-weight-bold mb-4">{release.title}</Body>
                 <Stack gap={2}>
                   {release.highlights.map((highlight, idx) => (
@@ -101,7 +101,7 @@ export default function ReleasesPage() {
                 </Stack>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },

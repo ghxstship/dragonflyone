@@ -37,7 +37,7 @@ import {
   DetailPage,
   Section,
   useNotifications,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface AdminEvent {
@@ -128,11 +128,11 @@ export default function AdminEventsPage() {
           </Grid>
 
           <Card className="p-4 mb-6">
-            <div className="flex items-center gap-4">
-              <div className="flex-1 relative">
+            <Box className="flex items-center gap-4">
+              <Box className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search events..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-              </div>
+              </Box>
               <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                 <option value="">All Statuses</option>
                 <option value="draft">Draft</option>
@@ -140,7 +140,7 @@ export default function AdminEventsPage() {
                 <option value="cancelled">Cancelled</option>
                 <option value="completed">Completed</option>
               </Select>
-            </div>
+            </Box>
           </Card>
 
           {filteredEvents.length === 0 ? (
@@ -177,11 +177,11 @@ export default function AdminEventsPage() {
                       <TableCell><Body>{event.tickets_sold.toLocaleString()} / {event.capacity.toLocaleString()}</Body></TableCell>
                       <TableCell><Body className="font-weight-medium">{formatCurrency(event.revenue)}</Body></TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-1">
+                        <Box className="flex items-center gap-1">
                           <Button variant="ghost" size="sm" onClick={() => router.push(`/events/${event.id}`)} icon={<Eye className="size-4" />} />
                           <Button variant="ghost" size="sm" onClick={() => router.push(`/admin/events/${event.id}/edit`)} icon={<Edit className="size-4" />} />
                           <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(event.id)} disabled={deleteMutation.isPending} icon={<Trash2 className="size-4 text-error" />} />
-                        </div>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ))}

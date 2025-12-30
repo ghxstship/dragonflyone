@@ -20,7 +20,7 @@ import {
   Spinner,
   H3,
   Body,
-} from '@ghxstship/ui';
+Box} from '@ghxstship/ui';
 import { useAdvanceTemplates, useCreateAdvanceFromTemplate, useAuthContext, PlatformRole } from '@ghxstship/config';
 import type { AdvanceTemplateListItem, TemplateFilters } from '@ghxstship/config';
 
@@ -95,7 +95,7 @@ export function TemplateBrowser({ onSelectTemplate, projectId, organizationId }:
       </CardHeader>
 
       <CardBody>
-        <div className="flex flex-col gap-md sm:flex-row">
+        <Box className="flex flex-col gap-md sm:flex-row">
           <Input
             type="text"
             placeholder="Search templates..."
@@ -135,12 +135,12 @@ export function TemplateBrowser({ onSelectTemplate, projectId, organizationId }:
             <option value="event_specific">Event Specific</option>
             <option value="department">Department</option>
           </Select>
-        </div>
+        </Box>
 
         {isLoading ? (
-          <div className="flex justify-center p-lg">
+          <Box className="flex justify-center p-lg">
             <Spinner variant="grey" />
-          </div>
+          </Box>
         ) : templates.length === 0 ? (
           <EmptyState
             title="No templates found"
@@ -164,12 +164,12 @@ export function TemplateBrowser({ onSelectTemplate, projectId, organizationId }:
                 {templates.map((template: AdvanceTemplateListItem) => (
                   <TableRow key={template.id}>
                     <TableCell>
-                      <div>
+                      <Box>
                         <Body>{template.name}</Body>
                         {template.description && (
                           <Body className="text-on-dark-muted">{template.description}</Body>
                         )}
-                      </div>
+                      </Box>
                     </TableCell>
                     <TableCell>
                       {template.category ? (

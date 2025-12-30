@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Music, Building2, Award, ArrowRight, Users, Briefcase, MapPin, Mic, Camera, Shield, DollarSign, Megaphone, Wrench, UserCheck } from "lucide-react";
 import {
-  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Box, type FeatureItem} from "@ghxstship/ui";
 
 const INDUSTRY_SOLUTIONS: FeatureItem[] = [
   { id: "festivals", icon: <Music className="size-8" />, title: "Festivals", description: "Multi-stage event management for music festivals, food festivals, and cultural events." },
@@ -102,9 +102,9 @@ export default function SolutionsPage() {
                     >
                       <Stack direction="horizontal" className="justify-between items-start gap-4">
                         <Stack direction="horizontal" gap={4} className="items-start">
-                          <div className="p-2 bg-primary/20 rounded-card text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                          <Box className="p-2 bg-primary/20 rounded-card text-primary group-hover:bg-primary group-hover:text-white transition-all">
                             {role.icon}
-                          </div>
+                          </Box>
                           <Stack gap={1}>
                             <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{role.title}</Body>
                             <Body size="sm" className="text-on-dark-muted">{role.description}</Body>

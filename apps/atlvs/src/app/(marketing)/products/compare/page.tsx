@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Check, X, Zap, Users, Ticket, List } from "lucide-react";
 import {
-  Body, Button, Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section} from "@ghxstship/ui";
+  Body, Button, Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, Box} from "@ghxstship/ui";
 
 const PRODUCTS = [
   { id: "atlvs", name: "ATLVS", icon: <Zap className="size-5" /> },
@@ -61,10 +61,10 @@ export default function ProductComparePage() {
                   <TableHead className="w-1/4">Feature</TableHead>
                   {PRODUCTS.map((product) => (
                     <TableHead key={product.id} className="text-center">
-                      <div className="flex items-center justify-center gap-2">
+                      <Box className="flex items-center justify-center gap-2">
                         {product.icon}
                         <Body className="font-weight-bold">{product.name}</Body>
-                      </div>
+                      </Box>
                     </TableHead>
                   ))}
                 </TableRow>
@@ -94,10 +94,10 @@ export default function ProductComparePage() {
           <Card className="p-8 mt-8 text-center">
             <Body className="font-weight-bold font-weight-bold mb-2">Need the complete suite?</Body>
             <Body className="text-on-dark-muted mb-4">Get all three products bundled together for the best value</Body>
-            <div className="flex gap-4 justify-center">
+            <Box className="flex gap-4 justify-center">
               <Button variant="solid" onClick={() => router.push("/demo")}>Request Demo</Button>
               <Button variant="outline" onClick={() => router.push("/pricing")}>View Pricing</Button>
-            </div>
+            </Box>
           </Card>
         </Section>
       ),

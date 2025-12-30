@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { Calendar, MapPin, Ticket, Users, Share2, Heart, List, Info } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+import { Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Event { id: string; name: string; date: string; venue: string; description: string; category: string; price: number; capacity: number; sold: number; }
 const DEMO_EVENT: Event = { id: "1", name: "Summer Festival 2024", date: "2024-12-20", venue: "Central Park, NYC", description: "The biggest summer festival of the year featuring top artists.", category: "Festival", price: 75, capacity: 5000, sold: 3500 };
@@ -35,19 +35,19 @@ export default function EventPage() {
           <StatCard label="Sold" value={`${Math.round((event.sold / event.capacity) * 100)}%`} icon={<Ticket className="size-5" />} />
         </Grid>
         <Card className="p-6 mb-6">
-          <div className="flex items-center gap-4 mb-4">
+          <Box className="flex items-center gap-4 mb-4">
             <Badge variant="outline">{event.category}</Badge>
-            <div className="flex items-center gap-2 text-on-dark-muted"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></div>
-            <div className="flex items-center gap-2 text-on-dark-muted"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></div>
-          </div>
+            <Box className="flex items-center gap-2 text-on-dark-muted"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></Box>
+            <Box className="flex items-center gap-2 text-on-dark-muted"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></Box>
+          </Box>
           <Body className="text-on-dark-secondary">{event.description}</Body>
         </Card>
         <Card className="p-6">
           <SectionHeader title="Get Tickets" />
-          <div className="flex items-center justify-between mt-4">
-            <div><Body className="font-weight-bold">From {formatCurrency(event.price)}</Body><Body size="sm" className="text-on-dark-muted">{event.capacity - event.sold} tickets remaining</Body></div>
+          <Box className="flex items-center justify-between mt-4">
+            <Box><Body className="font-weight-bold">From {formatCurrency(event.price)}</Body><Body size="sm" className="text-on-dark-muted">{event.capacity - event.sold} tickets remaining</Body></Box>
             <Button variant="solid" icon={<Ticket className="size-4" />} iconPosition="left" onClick={() => router.push(`/e/${eventId}/tickets`)}>Buy Tickets</Button>
-          </div>
+          </Box>
         </Card>
       </Section>
     )},

@@ -26,7 +26,7 @@ import {
   SectionHeader,
   ProjectCard,
   type DetailPageTab,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import Image from "next/image";
 import { useVenueDetailData } from "@/hooks/useVenueDetail";
 
@@ -67,14 +67,14 @@ export default function VenuePage() {
         <>
           {/* Hero Image */}
           {venue.image && (
-            <div className="relative h-64 md:h-80 rounded-card overflow-hidden mb-6">
+            <Box className="relative h-64 md:h-80 rounded-card overflow-hidden mb-6">
               <Image
                 src={venue.image}
                 alt={venue.name}
                 fill
                 className="object-cover"
               />
-            </div>
+            </Box>
           )}
 
           {/* Stats */}

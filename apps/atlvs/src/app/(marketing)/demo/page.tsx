@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Calendar, Users, Zap, Check, BarChart3, Shield, Globe } from "lucide-react";
 import {
-  MarketingPage, HeroSection, FeatureGrid, VideoSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, VideoSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Box, type FeatureItem} from "@ghxstship/ui";
 
 const DEMO_FEATURES: FeatureItem[] = [
   {
@@ -126,9 +126,9 @@ export default function DemoPage() {
                   <Stack gap={3}>
                     {DEMO_BENEFITS.map((benefit, idx) => (
                       <Stack key={idx} direction="horizontal" gap={3} className="items-center">
-                        <div className="p-1 bg-success/20 rounded-avatar">
+                        <Box className="p-1 bg-success/20 rounded-avatar">
                           <Check className="size-4 text-success" />
-                        </div>
+                        </Box>
                         <Body className="text-on-dark-secondary">{benefit}</Body>
                       </Stack>
                     ))}

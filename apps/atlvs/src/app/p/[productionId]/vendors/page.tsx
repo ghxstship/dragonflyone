@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { Building2, Plus, Mail, Phone, Search, DollarSign, List, FileText } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, Box, Stack} from "@ghxstship/ui";
 
 interface Vendor {
   id: string;
@@ -80,47 +80,47 @@ export default function ProductionVendorsPage() {
           </Grid>
 
           <Card className="p-4 mb-6">
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex-1 min-w-[200px] relative">
+            <Box className="flex items-center gap-4 flex-wrap">
+              <Box className="flex-1 min-w-[200px] relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search vendors..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-              </div>
-              <div className="flex gap-2 flex-wrap">
+              </Box>
+              <Box className="flex gap-2 flex-wrap">
                 {CATEGORIES.map((cat) => (
                   <Button key={cat} variant={selectedCategory === cat ? "solid" : "outline"} size="sm" onClick={() => setSelectedCategory(cat)}>
                     {cat}
                   </Button>
                 ))}
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Card>
 
-          <div className="space-y-4">
+          <Stack gap={4}>
             {filteredVendors.map((vendor: Vendor) => (
               <Card key={vendor.id} className="p-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-grey-800 rounded-card"><Building2 className="size-6 text-on-dark-muted" /></div>
-                    <div>
+                <Box className="flex items-start justify-between">
+                  <Box className="flex items-start gap-4">
+                    <Box className="p-3 bg-grey-800 rounded-card"><Building2 className="size-6 text-on-dark-muted" /></Box>
+                    <Box>
                       <Body className="font-weight-bold font-weight-medium">{vendor.name}</Body>
                       <Body size="sm" className="text-on-dark-muted">{vendor.contact_name}</Body>
-                      <div className="flex items-center gap-4 mt-2">
-                        <div className="flex items-center gap-1 text-on-dark-muted"><Mail className="size-4" /><Body size="sm">{vendor.email}</Body></div>
-                        <div className="flex items-center gap-1 text-on-dark-muted"><Phone className="size-4" /><Body size="sm">{vendor.phone}</Body></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right">
+                      <Box className="flex items-center gap-4 mt-2">
+                        <Box className="flex items-center gap-1 text-on-dark-muted"><Mail className="size-4" /><Body size="sm">{vendor.email}</Body></Box>
+                        <Box className="flex items-center gap-1 text-on-dark-muted"><Phone className="size-4" /><Body size="sm">{vendor.phone}</Body></Box>
+                      </Box>
+                    </Box>
+                  </Box>
+                  <Box className="text-right">
                     <Body className="font-weight-bold font-weight-medium">{formatCurrency(vendor.contract_value)}</Body>
-                    <div className="flex items-center gap-2 mt-2">
+                    <Box className="flex items-center gap-2 mt-2">
                       <Badge variant="outline">{vendor.category}</Badge>
                       <Badge variant={STATUS_CONFIG[vendor.status].variant}>{STATUS_CONFIG[vendor.status].label}</Badge>
-                    </div>
-                  </div>
-                </div>
+                    </Box>
+                  </Box>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Stack>
         </Section>
       ),
     },

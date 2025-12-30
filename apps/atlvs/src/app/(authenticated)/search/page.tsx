@@ -11,7 +11,7 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Search, FileText, Users, Briefcase, DollarSign, Calendar, Building, Package, List } from "lucide-react";
 import {
-  Badge, Body, Button, Card, Grid, Input, DetailPage, Section, Spinner} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, DetailPage, Section, Spinner, Box} from "@ghxstship/ui";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import { useGlobalSearch, type SearchResult as APISearchResult, type SearchFilters } from "@/hooks/useGlobalSearch";
 
@@ -120,19 +120,19 @@ export default function SearchPage() {
       content: (
         <Section>
           <Card className="p-6 mb-6">
-            <div className="relative">
+            <Box className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
               <Input placeholder="Search contacts, bookings, invoices, vendors..." value={query} onChange={(e) => setQuery(e.target.value)} className="pl-12 h-12 text-body-lg" />
-            </div>
+            </Box>
           </Card>
 
-          <div className="flex flex-wrap gap-2 mb-6">
+          <Box className="flex flex-wrap gap-2 mb-6">
             {types.map((type) => (
               <Button key={type} onClick={() => setSelectedType(type)} variant={selectedType === type ? "solid" : "outline"} className="capitalize">
                 {type === "all" ? "All" : type}s ({resultsByType[type] || 0})
               </Button>
             ))}
-          </div>
+          </Box>
 
           {/* Loading State */}
           {isLoading && query.length >= 2 && (
@@ -169,15 +169,15 @@ export default function SearchPage() {
                 <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
                   {filteredResults.map((result) => (
                     <Card key={result.id} className="p-4 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(result.href)}>
-                      <div className="flex justify-between items-center mb-3">
-                        <div className={`flex items-center gap-2 ${getTypeColor(result.type)}`}>
+                      <Box className="flex justify-between items-center mb-3">
+                        <Box className={`flex items-center gap-2 ${getTypeColor(result.type)}`}>
                           {getTypeIcon(result.type)}
                           <Badge variant="outline" className="capitalize">{result.type}</Badge>
-                        </div>
+                        </Box>
                         {result.metadata && Object.entries(result.metadata).map(([key, value]) => (
                           <Badge key={key} variant="outline" className="text-on-dark-muted">{String(value)}</Badge>
                         ))}
-                      </div>
+                      </Box>
                       <Body className="font-weight-medium">{result.title}</Body>
                       <Body size="sm" className="text-on-dark-muted">{result.description}</Body>
                     </Card>

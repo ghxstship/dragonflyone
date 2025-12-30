@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Send, List } from "lucide-react";
-import { Body, Button, Card, Input, DetailPage, Section } from "@ghxstship/ui";
+import { Body, Button, Card, Input, DetailPage, Section, Box} from "@ghxstship/ui";
 
 export default function SupportChatPage() {
   const [message, setMessage] = useState("");
@@ -24,20 +24,20 @@ export default function SupportChatPage() {
     content: (
       <Section>
         <Card className="p-4 h-96 overflow-y-auto mb-4">
-          <div className="space-y-4">
+          <Box className="space-y-4">
             {messages.map((msg) => (
-              <div key={msg.id} className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-xs p-3 rounded-lg ${msg.isUser ? "bg-primary text-white" : "bg-grey-800"}`}>
+              <Box key={msg.id} className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}>
+                <Box className={`max-w-xs p-3 rounded-lg ${msg.isUser ? "bg-primary text-white" : "bg-grey-800"}`}>
                   <Body size="sm">{msg.text}</Body>
-                </div>
-              </div>
+                </Box>
+              </Box>
             ))}
-          </div>
+          </Box>
         </Card>
-        <div className="flex gap-2">
+        <Box className="flex gap-2">
           <Input placeholder="Type your message..." value={message} onChange={(e) => setMessage(e.target.value)} onKeyDown={(e) => e.key === "Enter" && sendMessage()} className="flex-1" />
           <Button variant="solid" icon={<Send className="size-4" />} onClick={sendMessage} disabled={!message.trim()}>Send</Button>
-        </div>
+        </Box>
       </Section>
     ),
   }];

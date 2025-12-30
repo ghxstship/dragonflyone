@@ -11,8 +11,11 @@ import {
   Body,
   Button,
   Card,
+  Stack,
   Switch,
   Select,
+  SettingsRow,
+  SettingsGroup,
   useNotifications,
   DetailPage,
   Section,
@@ -60,7 +63,7 @@ export default function NotificationSettingsPage() {
   };
 
   const headerActions = (
-    <div className="flex gap-3">
+    <Stack direction="horizontal" gap={3}>
       <Button
         variant="solid"
         onClick={handleSave}
@@ -78,7 +81,7 @@ export default function NotificationSettingsPage() {
       >
         Reset
       </Button>
-    </div>
+    </Stack>
   );
 
   const tabs = [
@@ -90,49 +93,43 @@ export default function NotificationSettingsPage() {
         <Section>
           <SectionHeader title="Notification Channels" description="Choose how you receive notifications" />
           <Card className="p-6">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between py-3 border-b border-grey-700">
-                <div className="flex items-center gap-3">
-                  <Mail className="size-5 text-on-dark-muted" />
-                  <div>
-                    <Body className="font-weight-medium text-white">Email Notifications</Body>
-                    <Body size="sm" className="text-on-dark-muted">Receive notifications via email</Body>
-                  </div>
-                </div>
-                <Switch
-                  checked={preferences.email_enabled}
-                  onChange={(e) => setPreferences({ ...preferences, email_enabled: e.target.checked })}
-                />
-              </div>
-
-              <div className="flex items-center justify-between py-3 border-b border-grey-700">
-                <div className="flex items-center gap-3">
-                  <Smartphone className="size-5 text-on-dark-muted" />
-                  <div>
-                    <Body className="font-weight-medium text-white">Push Notifications</Body>
-                    <Body size="sm" className="text-on-dark-muted">Receive notifications on your device</Body>
-                  </div>
-                </div>
-                <Switch
-                  checked={preferences.push_enabled}
-                  onChange={(e) => setPreferences({ ...preferences, push_enabled: e.target.checked })}
-                />
-              </div>
-
-              <div className="flex items-center justify-between py-3">
-                <div className="flex items-center gap-3">
-                  <MessageSquare className="size-5 text-on-dark-muted" />
-                  <div>
-                    <Body className="font-weight-medium text-white">SMS Notifications</Body>
-                    <Body size="sm" className="text-on-dark-muted">Receive text messages for important updates</Body>
-                  </div>
-                </div>
-                <Switch
-                  checked={preferences.sms_enabled}
-                  onChange={(e) => setPreferences({ ...preferences, sms_enabled: e.target.checked })}
-                />
-              </div>
-            </div>
+            <SettingsGroup>
+              <SettingsRow
+                label="Email Notifications"
+                description="Receive notifications via email"
+                icon={<Mail className="size-5" />}
+                bordered
+                control={
+                  <Switch
+                    checked={preferences.email_enabled}
+                    onChange={(e) => setPreferences({ ...preferences, email_enabled: e.target.checked })}
+                  />
+                }
+              />
+              <SettingsRow
+                label="Push Notifications"
+                description="Receive notifications on your device"
+                icon={<Smartphone className="size-5" />}
+                bordered
+                control={
+                  <Switch
+                    checked={preferences.push_enabled}
+                    onChange={(e) => setPreferences({ ...preferences, push_enabled: e.target.checked })}
+                  />
+                }
+              />
+              <SettingsRow
+                label="SMS Notifications"
+                description="Receive text messages for important updates"
+                icon={<MessageSquare className="size-5" />}
+                control={
+                  <Switch
+                    checked={preferences.sms_enabled}
+                    onChange={(e) => setPreferences({ ...preferences, sms_enabled: e.target.checked })}
+                  />
+                }
+              />
+            </SettingsGroup>
           </Card>
         </Section>
       ),
@@ -145,7 +142,7 @@ export default function NotificationSettingsPage() {
         <Section>
           <SectionHeader title="Notification Types" description="Choose which notifications to receive" />
           <Card className="p-6">
-            <div className="space-y-4">
+            <SettingsGroup>
               {[
                 { key: "order_updates", label: "Order Updates", desc: "Confirmations, ticket delivery, and changes" },
                 { key: "event_reminders", label: "Event Reminders", desc: "Reminders before your upcoming events" },
@@ -157,19 +154,22 @@ export default function NotificationSettingsPage() {
                 { key: "community_updates", label: "Community Updates", desc: "Activity from groups and forums" },
                 { key: "account_security", label: "Account Security", desc: "Login alerts and security notifications", disabled: true },
               ].map((item, idx, arr) => (
-                <div key={item.key} className={`flex items-center justify-between py-3 ${idx < arr.length - 1 ? "border-b border-grey-700" : ""}`}>
-                  <div>
-                    <Body className="font-weight-medium text-white">{item.label}</Body>
-                    <Body size="sm" className="text-on-dark-muted">{item.desc}</Body>
-                  </div>
-                  <Switch
-                    checked={preferences.categories[item.key as keyof NotificationPreferences["categories"]]}
-                    onChange={(e) => updateCategory(item.key as keyof NotificationPreferences["categories"], e.target.checked)}
-                    disabled={item.disabled}
-                  />
-                </div>
+                <SettingsRow
+                  key={item.key}
+                  label={item.label}
+                  description={item.desc}
+                  bordered={idx < arr.length - 1}
+                  disabled={item.disabled}
+                  control={
+                    <Switch
+                      checked={preferences.categories[item.key as keyof NotificationPreferences["categories"]]}
+                      onChange={(e) => updateCategory(item.key as keyof NotificationPreferences["categories"], e.target.checked)}
+                      disabled={item.disabled}
+                    />
+                  }
+                />
               ))}
-            </div>
+            </SettingsGroup>
           </Card>
         </Section>
       ),
@@ -182,61 +182,61 @@ export default function NotificationSettingsPage() {
         <Section>
           <SectionHeader title="Timing Preferences" description="Control when you receive notifications" />
           <Card className="p-6 mb-6">
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Body className="font-weight-medium text-white">Event Reminder Timing</Body>
-                  <Body size="sm" className="text-on-dark-muted">How far in advance to remind you</Body>
-                </div>
-                <Select
-                  value={preferences.reminder_timing}
-                  onChange={(e) => setPreferences({ ...preferences, reminder_timing: e.target.value })}
-                  className="w-48"
-                >
-                  <option value="1h">1 hour before</option>
-                  <option value="3h">3 hours before</option>
-                  <option value="24h">1 day before</option>
-                  <option value="48h">2 days before</option>
-                  <option value="1w">1 week before</option>
-                </Select>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div>
-                  <Body className="font-weight-medium text-white">Digest Frequency</Body>
-                  <Body size="sm" className="text-on-dark-muted">How often to receive digest emails</Body>
-                </div>
-                <Select
-                  value={preferences.digest_frequency}
-                  onChange={(e) => setPreferences({ ...preferences, digest_frequency: e.target.value })}
-                  className="w-48"
-                >
-                  <option value="instant">Instant</option>
-                  <option value="daily">Daily</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="never">Never</option>
-                </Select>
-              </div>
-            </div>
+            <SettingsGroup>
+              <SettingsRow
+                label="Event Reminder Timing"
+                description="How far in advance to remind you"
+                bordered
+                control={
+                  <Select
+                    value={preferences.reminder_timing}
+                    onChange={(e) => setPreferences({ ...preferences, reminder_timing: e.target.value })}
+                    className="w-48"
+                  >
+                    <option value="1h">1 hour before</option>
+                    <option value="3h">3 hours before</option>
+                    <option value="24h">1 day before</option>
+                    <option value="48h">2 days before</option>
+                    <option value="1w">1 week before</option>
+                  </Select>
+                }
+              />
+              <SettingsRow
+                label="Digest Frequency"
+                description="How often to receive digest emails"
+                control={
+                  <Select
+                    value={preferences.digest_frequency}
+                    onChange={(e) => setPreferences({ ...preferences, digest_frequency: e.target.value })}
+                    className="w-48"
+                  >
+                    <option value="instant">Instant</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="never">Never</option>
+                  </Select>
+                }
+              />
+            </SettingsGroup>
           </Card>
 
           <SectionHeader title="Quiet Hours" description="Pause non-urgent notifications during set times" />
           <Card className="p-6">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Body className="font-weight-medium text-white">Enable Quiet Hours</Body>
-                  <Body size="sm" className="text-on-dark-muted">Pause notifications during set times</Body>
-                </div>
-                <Switch
-                  checked={preferences.quiet_hours_enabled}
-                  onChange={(e) => setPreferences({ ...preferences, quiet_hours_enabled: e.target.checked })}
-                />
-              </div>
-
+            <SettingsGroup>
+              <SettingsRow
+                label="Enable Quiet Hours"
+                description="Pause notifications during set times"
+                bordered={preferences.quiet_hours_enabled}
+                control={
+                  <Switch
+                    checked={preferences.quiet_hours_enabled}
+                    onChange={(e) => setPreferences({ ...preferences, quiet_hours_enabled: e.target.checked })}
+                  />
+                }
+              />
               {preferences.quiet_hours_enabled && (
-                <div className="flex gap-4 pt-4 border-t border-grey-700">
-                  <div className="flex-1 space-y-2">
+                <Stack direction="horizontal" gap={4} className="pt-4">
+                  <Stack gap={2} className="flex-1">
                     <Body size="sm" className="text-on-dark-muted">Start Time</Body>
                     <Select
                       value={preferences.quiet_hours_start}
@@ -251,8 +251,8 @@ export default function NotificationSettingsPage() {
                         );
                       })}
                     </Select>
-                  </div>
-                  <div className="flex-1 space-y-2">
+                  </Stack>
+                  <Stack gap={2} className="flex-1">
                     <Body size="sm" className="text-on-dark-muted">End Time</Body>
                     <Select
                       value={preferences.quiet_hours_end}
@@ -267,10 +267,10 @@ export default function NotificationSettingsPage() {
                         );
                       })}
                     </Select>
-                  </div>
-                </div>
+                  </Stack>
+                </Stack>
               )}
-            </div>
+            </SettingsGroup>
           </Card>
         </Section>
       ),

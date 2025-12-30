@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { FileText, Building2, ArrowRight, TrendingUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  MarketingPage, HeroSection, StatsSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Spinner} from "@ghxstship/ui";
+  MarketingPage, HeroSection, StatsSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Spinner, Box} from "@ghxstship/ui";
 
 interface CaseStudy {
   id: string;
@@ -128,11 +128,11 @@ export default function CaseStudiesPage() {
                       onClick={() => router.push(`/case-studies/${cs.id}`)}
                     >
                       <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
-                        <div className="aspect-video bg-grey-800 rounded-card overflow-hidden">
-                          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                        <Box className="aspect-video bg-grey-800 rounded-card overflow-hidden">
+                          <Box className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                             <Building2 className="size-16 text-on-dark-disabled" />
-                          </div>
-                        </div>
+                          </Box>
+                        </Box>
                         <Stack gap={4}>
                           <Stack direction="horizontal" gap={2}>
                             <Badge className="bg-accent/20 text-accent border-accent/30">Featured</Badge>

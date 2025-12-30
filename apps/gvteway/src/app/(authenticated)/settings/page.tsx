@@ -13,6 +13,7 @@ import {
   Button,
   Card,
   Select,
+  Stack,
   Switch,
   useNotifications,
   DetailPage,
@@ -58,7 +59,7 @@ export default function SettingsPage() {
   };
 
   const headerActions = (
-    <div className="flex gap-3">
+    <Stack direction="horizontal" gap={3}>
       <Button
         variant="solid"
         onClick={handleSave}
@@ -75,7 +76,7 @@ export default function SettingsPage() {
       >
         Cancel
       </Button>
-    </div>
+    </Stack>
   );
 
   const tabs = [
@@ -87,40 +88,40 @@ export default function SettingsPage() {
         <Section>
           <SectionHeader title="Notification Preferences" description="Control how you receive updates" />
           <Card className="p-6">
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
+            <Stack gap={6}>
+              <Stack direction="horizontal" className="items-center justify-between">
+                <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Email Notifications</Body>
                   <Body size="sm" className="text-on-dark-muted">Receive updates about your orders and events</Body>
-                </div>
+                </Stack>
                 <Switch
                   checked={settings.emailNotifications}
                   onChange={(e) => setSettings({ ...settings, emailNotifications: e.target.checked })}
                 />
-              </div>
+              </Stack>
 
-              <div className="flex items-center justify-between">
-                <div>
+              <Stack direction="horizontal" className="items-center justify-between">
+                <Stack gap={0}>
                   <Body className="font-weight-medium text-white">SMS Notifications</Body>
                   <Body size="sm" className="text-on-dark-muted">Get text alerts for important updates</Body>
-                </div>
+                </Stack>
                 <Switch
                   checked={settings.smsNotifications}
                   onChange={(e) => setSettings({ ...settings, smsNotifications: e.target.checked })}
                 />
-              </div>
+              </Stack>
 
-              <div className="flex items-center justify-between">
-                <div>
+              <Stack direction="horizontal" className="items-center justify-between">
+                <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Marketing Emails</Body>
                   <Body size="sm" className="text-on-dark-muted">Receive promotions and recommendations</Body>
-                </div>
+                </Stack>
                 <Switch
                   checked={settings.marketingEmails}
                   onChange={(e) => setSettings({ ...settings, marketingEmails: e.target.checked })}
                 />
-              </div>
-            </div>
+              </Stack>
+            </Stack>
           </Card>
         </Section>
       ),
@@ -134,7 +135,7 @@ export default function SettingsPage() {
           <SectionHeader title="Regional Preferences" description="Customize your language and regional settings" />
           <Card className="p-6">
             <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
-              <div className="space-y-2">
+              <Stack gap={2}>
                 <Body size="sm" className="text-on-dark-muted">Language</Body>
                 <Select
                   value={settings.language}
@@ -144,9 +145,9 @@ export default function SettingsPage() {
                   <option value="es">Español</option>
                   <option value="fr">Français</option>
                 </Select>
-              </div>
+              </Stack>
 
-              <div className="space-y-2">
+              <Stack gap={2}>
                 <Body size="sm" className="text-on-dark-muted">Timezone</Body>
                 <Select
                   value={settings.timezone}
@@ -157,9 +158,9 @@ export default function SettingsPage() {
                   <option value="America/Denver">Mountain Time</option>
                   <option value="America/Los_Angeles">Pacific Time</option>
                 </Select>
-              </div>
+              </Stack>
 
-              <div className="space-y-2">
+              <Stack gap={2}>
                 <Body size="sm" className="text-on-dark-muted">Currency</Body>
                 <Select
                   value={settings.currency}
@@ -169,7 +170,7 @@ export default function SettingsPage() {
                   <option value="EUR">EUR (€)</option>
                   <option value="GBP">GBP (£)</option>
                 </Select>
-              </div>
+              </Stack>
             </Grid>
           </Card>
         </Section>
@@ -184,22 +185,22 @@ export default function SettingsPage() {
           <SectionHeader title="Security Settings" description="Manage your account security" />
           <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
             <Card className="p-4 cursor-pointer hover:ring-2 hover:ring-primary" onClick={() => router.push("/settings/privacy")}>
-              <div className="flex items-center gap-3">
+              <Stack direction="horizontal" gap={3} className="items-center">
                 <Shield className="size-8 text-on-dark-muted" />
-                <div>
+                <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Privacy Settings</Body>
                   <Body size="sm" className="text-on-dark-muted">Control your data and privacy</Body>
-                </div>
-              </div>
+                </Stack>
+              </Stack>
             </Card>
             <Card className="p-4 cursor-pointer hover:ring-2 hover:ring-primary" onClick={() => router.push("/settings/sessions")}>
-              <div className="flex items-center gap-3">
+              <Stack direction="horizontal" gap={3} className="items-center">
                 <Key className="size-8 text-on-dark-muted" />
-                <div>
+                <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Active Sessions</Body>
                   <Body size="sm" className="text-on-dark-muted">Manage your logged-in devices</Body>
-                </div>
-              </div>
+                </Stack>
+              </Stack>
             </Card>
           </Grid>
         </Section>

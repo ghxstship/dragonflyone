@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Zap, Calendar, Users, FileText, BarChart3, Shield, Check, List, Star } from "lucide-react";
 import {
-  Body, Button, Card, Grid, Stack, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Body, Button, Card, Grid, Stack, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 const FEATURES = [
   { icon: <Calendar className="size-6" />, title: "Production Planning", description: "Plan and manage every aspect of your productions from start to finish" },
@@ -50,7 +50,7 @@ export default function ATLVSProductPage() {
           <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3 mt-6">
             {FEATURES.map((feature, idx) => (
               <Card key={idx} className="p-6">
-                <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mb-4">{feature.icon}</div>
+                <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mb-4">{feature.icon}</Box>
                 <Body className="font-weight-bold font-weight-medium mb-2">{feature.title}</Body>
                 <Body className="text-on-dark-muted">{feature.description}</Body>
               </Card>
@@ -59,7 +59,7 @@ export default function ATLVSProductPage() {
 
           <Card className="p-8 mt-8">
             <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2">
-              <div>
+              <Box>
                 <Body className="font-weight-bold font-weight-bold mb-4">Why ATLVS?</Body>
                 <Stack gap={3}>
                   {BENEFITS.map((benefit, idx) => (
@@ -69,15 +69,15 @@ export default function ATLVSProductPage() {
                     </Stack>
                   ))}
                 </Stack>
-              </div>
-              <div className="flex flex-col justify-center items-center text-center">
+              </Box>
+              <Box className="flex flex-col justify-center items-center text-center">
                 <Body className="font-weight-bold font-weight-bold mb-2">Ready to get started?</Body>
                 <Body className="text-on-dark-muted mb-6">See ATLVS in action with a personalized demo</Body>
-                <div className="flex gap-4">
+                <Box className="flex gap-4">
                   <Button variant="solid" onClick={() => router.push("/demo")}>Request Demo</Button>
                   <Button variant="outline" onClick={() => router.push("/pricing")}>View Pricing</Button>
-                </div>
-              </div>
+                </Box>
+              </Box>
             </Grid>
           </Card>
         </Section>
@@ -99,10 +99,10 @@ export default function ATLVSProductPage() {
             ].map((testimonial, idx) => (
               <Card key={idx} className="p-6">
                 <Body className="text-on-dark-secondary italic mb-4">&quot;{testimonial.quote}&quot;</Body>
-                <div>
+                <Box>
                   <Body className="font-weight-medium">{testimonial.author}</Body>
                   <Body size="sm" className="text-on-dark-muted">{testimonial.role}</Body>
-                </div>
+                </Box>
               </Card>
             ))}
           </Grid>

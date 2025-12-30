@@ -11,7 +11,7 @@
 import { useState } from "react";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, Grid, Modal, ProgressBar, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, StatCard} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Modal, ProgressBar, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, StatCard, Stack, Box} from "@ghxstship/ui";
 import {
   useBatchOperationsQuery,
   useCancelBatchOperation,
@@ -106,7 +106,7 @@ export default function BatchOperationsPage() {
           </Grid>
 
           <SectionHeader title="Filter by Status" />
-          <div className="flex flex-wrap gap-2 mb-6">
+          <Stack direction="horizontal" className="flex-wrap gap-2 mb-6">
             {["all", "pending", "processing", "completed", "failed", "partial"].map((status) => (
               <Button
                 key={status}
@@ -117,13 +117,13 @@ export default function BatchOperationsPage() {
                 {status.charAt(0).toUpperCase() + status.slice(1)}
               </Button>
             ))}
-          </div>
+          </Stack>
 
           {operations.length === 0 ? (
-            <div className="text-center py-12">
+            <Box className="text-center py-12">
               <Layers className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted">No batch operations found</Body>
-            </div>
+            </Box>
           ) : (
             <Card className="overflow-hidden">
               <Table>
@@ -142,29 +142,29 @@ export default function BatchOperationsPage() {
                     return (
                       <TableRow key={op.id}>
                         <TableCell>
-                          <div>
+                          <Box>
                             <Body className="font-weight-medium">{op.operation_type}</Body>
                             <Body size="sm" className="text-on-dark-muted">{op.entity_type}</Body>
-                          </div>
+                          </Box>
                         </TableCell>
                         <TableCell>
                           <Badge variant={STATUS_BADGE_VARIANTS[op.status]}>{op.status.toUpperCase()}</Badge>
                         </TableCell>
                         <TableCell>
-                          <div className="space-y-1">
-                            <div className="flex justify-between">
+                          <Stack gap={1}>
+                            <Stack direction="horizontal" className="justify-between">
                               <Body size="sm" className="text-on-dark-muted">{op.processed_count}/{op.total_count}</Body>
                               <Body size="sm" className="text-on-dark-muted">{progressPercentage}%</Body>
-                            </div>
+                            </Stack>
                             <ProgressBar value={progressPercentage} variant={op.status === "failed" ? "error" : "default"} size="sm" />
                             {op.failed_count > 0 && <Body size="sm" className="text-error">{op.failed_count} failed</Body>}
-                          </div>
+                          </Stack>
                         </TableCell>
                         <TableCell>
                           <Body size="sm" className="text-on-dark-muted">{formatDate(op.created_at)}</Body>
                         </TableCell>
                         <TableCell>
-                          <div className="flex items-center gap-2">
+                          <Stack direction="horizontal" gap={2} className="items-center">
                             <Button variant="ghost" size="sm" onClick={() => setSelectedOperation(op)}>Details</Button>
                             {op.status === "pending" && (
                               <Button variant="outline" size="sm" onClick={() => cancelOperation(op.id)}>Cancel</Button>
@@ -172,7 +172,7 @@ export default function BatchOperationsPage() {
                             {op.status === "failed" && (
                               <Button variant="solid" size="sm" onClick={() => retryOperation(op.id)}>Retry</Button>
                             )}
-                          </div>
+                          </Stack>
                         </TableCell>
                       </TableRow>
                     );
@@ -206,70 +206,70 @@ export default function BatchOperationsPage() {
         {selectedOperation && (() => {
           const progressPercentage = selectedOperation.total_count > 0 ? Math.round((selectedOperation.processed_count / selectedOperation.total_count) * 100) : 0;
           return (
-            <div className="space-y-6">
+            <Stack gap={6}>
               <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
-                <div>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted">Operation Type</Body>
                   <Body className="font-weight-medium">{selectedOperation.operation_type}</Body>
-                </div>
-                <div>
+                </Box>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted">Entity Type</Body>
                   <Body className="font-weight-medium">{selectedOperation.entity_type}</Body>
-                </div>
-                <div>
+                </Box>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted">Status</Body>
                   <Badge variant={STATUS_BADGE_VARIANTS[selectedOperation.status]}>{selectedOperation.status.toUpperCase()}</Badge>
-                </div>
-                <div>
+                </Box>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted">Items Count</Body>
                   <Body className="font-weight-medium">{selectedOperation.entity_ids.length}</Body>
-                </div>
-                <div>
+                </Box>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted">Created</Body>
                   <Body>{formatDate(selectedOperation.created_at)}</Body>
-                </div>
-                <div>
+                </Box>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted">Completed</Body>
                   <Body>{formatDate(selectedOperation.completed_at)}</Body>
-                </div>
+                </Box>
               </Grid>
 
               <Card className="p-4">
                 <Body size="sm" className="text-on-dark-muted mb-2">Progress</Body>
-                <div className="flex justify-between mb-2">
+                <Stack direction="horizontal" className="justify-between mb-2">
                   <Body size="sm" className="text-on-dark-muted">Processed: {selectedOperation.processed_count}</Body>
                   <Body size="sm" className="text-on-dark-muted">Total: {selectedOperation.total_count}</Body>
-                </div>
+                </Stack>
                 <ProgressBar value={progressPercentage} variant={selectedOperation.status === "failed" ? "error" : "default"} />
-                <div className="flex justify-between mt-2">
+                <Stack direction="horizontal" className="justify-between mt-2">
                   <Body size="sm" className="text-success">Success: {selectedOperation.success_count}</Body>
                   {selectedOperation.failed_count > 0 && <Body size="sm" className="text-error">Failed: {selectedOperation.failed_count}</Body>}
-                </div>
+                </Stack>
               </Card>
 
               {selectedOperation.error_message && (
                 <Card className="p-4 bg-error-900 border-error-500">
-                  <div className="flex items-start gap-2">
+                  <Stack direction="horizontal" gap={2} className="items-start">
                     <AlertTriangle className="size-5 text-error flex-shrink-0" />
-                    <div>
+                    <Box>
                       <Body className="font-weight-medium text-error-100">Error</Body>
                       <Body size="sm" className="text-error-200">{selectedOperation.error_message}</Body>
-                    </div>
-                  </div>
+                    </Box>
+                  </Stack>
                 </Card>
               )}
 
               {selectedOperation.results && Object.keys(selectedOperation.results).length > 0 && (
-                <div>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted mb-2">Results</Body>
                   <Card className="p-4">
                     <pre className="font-mono text-body-sm overflow-auto max-h-40">{JSON.stringify(selectedOperation.results, null, 2)}</pre>
                   </Card>
-                </div>
+                </Box>
               )}
 
               <Button variant="outline" onClick={() => setSelectedOperation(null)}>Close</Button>
-            </div>
+            </Stack>
           );
         })()}
       </Modal>

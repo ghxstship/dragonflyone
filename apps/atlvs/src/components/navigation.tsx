@@ -12,9 +12,11 @@ import {
   Body,
   Box,
   Button,
+  Header,
   Link,
   List,
   ListItem,
+  Nav,
   Stack,
   Text,
   UnifiedHeader,
@@ -60,7 +62,7 @@ export function CreatorNavigationPublic() {
 
   return (
     <>
-      <header className="sticky top-0 z-modal border-b border-ink-800 bg-ink-950/90 backdrop-blur">
+      <Header className="sticky top-0 z-modal border-b border-ink-800 bg-ink-950/90 backdrop-blur">
         <Stack
           direction="horizontal"
           className="mx-auto max-w-7xl items-center justify-between px-4 py-4 sm:px-4 sm:px-6 lg:px-8"
@@ -71,7 +73,7 @@ export function CreatorNavigationPublic() {
           </Link>
 
           {/* Desktop Navigation with Mega-Menus */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <Nav className="hidden lg:flex items-center gap-1">
             {/* Products Dropdown */}
             <Box
               className="relative"
@@ -257,10 +259,10 @@ export function CreatorNavigationPublic() {
             >
               Pricing
             </Link>
-          </nav>
+          </Nav>
 
           {/* Tablet/Simple Navigation (hidden on lg+) */}
-          <nav className="hidden md:flex lg:hidden">
+          <Nav className="hidden md:flex lg:hidden">
             <Stack
               direction="horizontal"
               gap={6}
@@ -281,7 +283,7 @@ export function CreatorNavigationPublic() {
                 </Link>
               ))}
             </Stack>
-          </nav>
+          </Nav>
 
           {/* Desktop CTAs + Mobile Toggle */}
           <Stack direction="horizontal" gap={3} className="items-center">
@@ -325,7 +327,7 @@ export function CreatorNavigationPublic() {
             </Button>
           </Stack>
         </Stack>
-      </header>
+      </Header>
 
       {/* Mobile Navigation Overlay */}
       {isOpen && (

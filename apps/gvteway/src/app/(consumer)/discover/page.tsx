@@ -17,7 +17,7 @@ import {
   Section,
   SectionHeader,
   ProjectCard,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import { Music, Tent, Drama, Trophy, Laugh, Moon, ArrowRight, Compass } from "lucide-react";
 import { useDiscoverData } from "@/hooks/useDiscover";
 
@@ -93,12 +93,12 @@ export default function DiscoverPage() {
 
           {trendingEvents.length > 0 && (
             <>
-              <div className="flex items-end justify-between mb-4">
+              <Box className="flex items-end justify-between mb-4">
                 <SectionHeader title="Trending Now" description="Most popular events this week" />
                 <Button variant="outline" onClick={() => router.push("/browse?sort=trending")} icon={<ArrowRight className="size-4" />} iconPosition="right">
                   View All
                 </Button>
-              </div>
+              </Box>
               <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-8">
                 {trendingEvents.map((event: DiscoverEvent) => (
                   <ProjectCard
@@ -115,12 +115,12 @@ export default function DiscoverPage() {
 
           {recommendedEvents.length > 0 && (
             <>
-              <div className="flex items-end justify-between mb-4">
+              <Box className="flex items-end justify-between mb-4">
                 <SectionHeader title="Recommended For You" description="Based on your interests and history" />
                 <Button variant="outline" onClick={() => router.push("/browse?sort=recommended")} icon={<ArrowRight className="size-4" />} iconPosition="right">
                   View All
                 </Button>
-              </div>
+              </Box>
               <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-8">
                 {recommendedEvents.map((event: DiscoverEvent) => (
                   <ProjectCard
@@ -137,12 +137,12 @@ export default function DiscoverPage() {
 
           {nearbyEvents.length > 0 && (
             <>
-              <div className="flex items-end justify-between mb-4">
+              <Box className="flex items-end justify-between mb-4">
                 <SectionHeader title="Near You" description="Events happening in your area" />
                 <Button variant="outline" onClick={() => router.push("/browse?nearby=true")} icon={<ArrowRight className="size-4" />} iconPosition="right">
                   View All
                 </Button>
-              </div>
+              </Box>
               <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {nearbyEvents.map((event: DiscoverEvent) => (
                   <ProjectCard
@@ -167,22 +167,22 @@ export default function DiscoverPage() {
         <Section>
           <SectionHeader title="Curated Collections" description="Hand-picked event collections" />
           {collections.length === 0 ? (
-            <div className="text-center py-12">
+            <Box className="text-center py-12">
               <Music className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted">No collections available</Body>
-            </div>
+            </Box>
           ) : (
             <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
               {collections.map((collection: DiscoverCollection) => (
                 <Card key={collection.id} className="p-6" role="article" aria-label={`${collection.name} collection with ${collection.events.length} events`}>
                   <Body className="font-weight-medium">{collection.name}</Body>
                   <Body size="sm" className="mt-2 text-on-dark-muted">{collection.description}</Body>
-                  <div className="flex items-center gap-3 mt-4">
+                  <Box className="flex items-center gap-3 mt-4">
                     <Badge variant="outline">{collection.events.length} events</Badge>
                     <Button variant="ghost" size="sm" onClick={() => router.push(`/collections/${collection.id}`)}>
                       Explore
                     </Button>
-                  </div>
+                  </Box>
                 </Card>
               ))}
             </Grid>

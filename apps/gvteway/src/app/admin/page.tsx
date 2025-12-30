@@ -30,7 +30,7 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import { useQuery } from "@tanstack/react-query";
 
 interface AdminStats {
@@ -152,28 +152,28 @@ export default function AdminDashboardPage() {
             </Card>
 
             <Card className="p-6">
-              <div className="flex items-center justify-between mb-4">
+              <Box className="flex items-center justify-between mb-4">
                 <SectionHeader title="Recent Activity" />
                 <Button variant="ghost" size="sm" icon={<ChevronRight className="size-4" />} iconPosition="right">
                   View All
                 </Button>
-              </div>
-              <div className="space-y-3">
+              </Box>
+              <Box className="space-y-3">
                 {recentActivity.slice(0, 5).map((item: RecentActivity) => (
-                  <div key={item.id} className="flex items-center gap-3 py-2 border-b border-grey-700 last:border-0">
-                    <div className="p-2 rounded-avatar bg-grey-800">{getActivityIcon(item.type)}</div>
-                    <div className="flex-1">
+                  <Box key={item.id} className="flex items-center gap-3 py-2 border-b border-grey-700 last:border-0">
+                    <Box className="p-2 rounded-avatar bg-grey-800">{getActivityIcon(item.type)}</Box>
+                    <Box className="flex-1">
                       <Body size="sm">{item.description}</Body>
                       <Body size="sm" className="text-on-dark-muted">{formatTime(item.timestamp)}</Body>
-                    </div>
+                    </Box>
                     {item.amount && (
                       <Badge variant={item.type === "refund" ? "warning" : "success"}>
                         {item.type === "refund" ? "-" : "+"}{formatCurrency(item.amount)}
                       </Badge>
                     )}
-                  </div>
+                  </Box>
                 ))}
-              </div>
+              </Box>
             </Card>
           </Grid>
         </Section>
@@ -185,13 +185,13 @@ export default function AdminDashboardPage() {
       icon: <Activity className="size-4" />,
       content: (
         <Section>
-          <div className="flex items-center justify-between mb-6">
+          <Box className="flex items-center justify-between mb-6">
             <SectionHeader title="Performance Overview" />
             <Badge variant="success">
               <TrendingUp className="size-3 mr-1" />
               +12% this month
             </Badge>
-          </div>
+          </Box>
           <Grid cols={3} gap={6} className="grid-cols-1 lg:grid-cols-3">
             <Card className="p-6">
               <Body size="sm" className="text-on-dark-muted">Active Events</Body>

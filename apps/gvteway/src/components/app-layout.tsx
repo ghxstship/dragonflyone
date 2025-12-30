@@ -21,8 +21,8 @@ import {
   Grid,
   Card,
   PageTransition,
-} from "@ghxstship/ui";
-import type { SidebarNavSection } from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
+import type { SidebarNavSection, Box} from "@ghxstship/ui";
 import {
   ConsumerNavigationPublic,
   ConsumerNavigationAuthenticated,
@@ -30,7 +30,7 @@ import {
   CreatorNavigationPublic,
   CreatorNavigationAuthenticated,
 } from "./navigation";
-import type { ContextLevel, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
+import type { ContextLevel, BreadcrumbContextItem, ContextOptions, Box} from "@ghxstship/ui";
 import { gvtewaySidebarNavigation, gvtewayEventNavigation, gvtewayQuickActions, gvtewayBottomNavigation, gvtewayDemoOrganizations } from "../data/gvteway";
 import { useEvents } from "@/hooks/useEvents";
 import {
@@ -394,11 +394,11 @@ export function GvtewayAppLayout({
           className={className}
           headerActions={userMenu}
         >
-          <div className="p-6 pb-20 md:pb-6">
+          <Box className="p-6 pb-20 md:pb-6">
             <PageTransition type="fade" duration={200}>
               {children}
             </PageTransition>
-          </div>
+          </Box>
         </AuthenticatedShell>
         
         {/* Mobile Bottom Navigation */}

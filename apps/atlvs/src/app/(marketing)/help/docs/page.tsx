@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { Book, FileText, Search, ExternalLink, List, Bookmark } from "lucide-react";
 import { useState } from "react";
 import {
-  Body, Button, Card, Grid, Input, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Body, Button, Card, Grid, Input, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 const DOC_CATEGORIES = [
   { id: "basics", title: "Basics", articles: ["Getting Started", "Creating Projects", "Managing Tasks", "Team Collaboration"] },
@@ -32,27 +32,27 @@ export default function HelpDocsPage() {
       content: (
         <Section>
           <Card className="p-4 mb-6">
-            <div className="relative">
+            <Box className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
               <Input placeholder="Search documentation..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-            </div>
+            </Box>
           </Card>
 
           <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
             {filteredCategories.map((category) => (
               <Card key={category.id} className="p-6">
-                <div className="flex items-center gap-2 mb-4">
+                <Box className="flex items-center gap-2 mb-4">
                   <Book className="size-5 text-primary" />
                   <Body className="font-weight-bold">{category.title}</Body>
-                </div>
-                <div className="space-y-2">
+                </Box>
+                <Box className="space-y-2">
                   {category.articles.map((article, idx) => (
                     <Button key={idx} variant="ghost" className="w-full justify-start" onClick={() => router.push(`/docs/${category.id}/${article.toLowerCase().replace(/\s+/g, "-")}`)}>
                       <FileText className="size-4 mr-2" />
                       {article}
                     </Button>
                   ))}
-                </div>
+                </Box>
               </Card>
             ))}
           </Grid>
@@ -66,19 +66,19 @@ export default function HelpDocsPage() {
       content: (
         <Section>
           <SectionHeader title="Most Viewed Articles" />
-          <div className="space-y-2 mt-4">
+          <Box className="space-y-2 mt-4">
             {DOC_CATEGORIES.flatMap((c) => c.articles).slice(0, 8).map((article, idx) => (
               <Card key={idx} className="p-4 cursor-pointer hover:border-primary">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                <Box className="flex items-center justify-between">
+                  <Box className="flex items-center gap-2">
                     <FileText className="size-4 text-on-dark-muted" />
                     <Body>{article}</Body>
-                  </div>
+                  </Box>
                   <ExternalLink className="size-4 text-on-dark-disabled" />
-                </div>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },

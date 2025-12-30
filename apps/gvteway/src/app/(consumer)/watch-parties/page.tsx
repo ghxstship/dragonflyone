@@ -2,7 +2,7 @@
 
 import { Tv, Users, Calendar, Plus, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Body, Button, Card, Grid, DetailPage, Section } from "@ghxstship/ui";
+import { Body, Button, Card, Grid, DetailPage, Section, Box} from "@ghxstship/ui";
 
 interface WatchParty { id: string; event: string; host: string; date: string; attendees: number; }
 const DEMO: WatchParty[] = [
@@ -29,17 +29,17 @@ export default function WatchPartiesPage() {
           <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
             {parties.map((party: WatchParty) => (
               <Card key={party.id} className="p-6 cursor-pointer hover:border-primary transition-colors">
-                <div className="flex items-start justify-between">
-                  <div>
+                <Box className="flex items-start justify-between">
+                  <Box>
                     <Body className="font-weight-bold">{party.event}</Body>
                     <Body size="sm" className="text-on-dark-muted">Hosted by {party.host}</Body>
-                    <div className="flex items-center gap-4 mt-3 text-on-dark-muted">
-                      <div className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(party.date)}</Body></div>
-                      <div className="flex items-center gap-1"><Users className="size-4" /><Body size="sm">{party.attendees} attending</Body></div>
-                    </div>
-                  </div>
+                    <Box className="flex items-center gap-4 mt-3 text-on-dark-muted">
+                      <Box className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(party.date)}</Body></Box>
+                      <Box className="flex items-center gap-1"><Users className="size-4" /><Body size="sm">{party.attendees} attending</Body></Box>
+                    </Box>
+                  </Box>
                   <Button variant="outline" size="sm">Join</Button>
-                </div>
+                </Box>
               </Card>
             ))}
           </Grid>

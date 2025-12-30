@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { Calendar, MapPin, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Body, Card, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+import { Body, Card, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Event { id: string; name: string; date: string; venue: string; price: number; }
 interface Collection { id: string; name: string; description: string; events: Event[]; }
@@ -31,13 +31,13 @@ export default function CollectionPage() {
         <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
           {collection.events.map((event: Event) => (
             <Card key={event.id} className="overflow-hidden cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/e/${event.id}`)}>
-              <div className="h-32 bg-grey-800 flex items-center justify-center"><Calendar className="size-8 text-on-dark-disabled" /></div>
-              <div className="p-4">
+              <Box className="h-32 bg-grey-800 flex items-center justify-center"><Calendar className="size-8 text-on-dark-disabled" /></Box>
+              <Box className="p-4">
                 <Body className="font-weight-bold">{event.name}</Body>
-                <div className="flex items-center gap-2 mt-2 text-on-dark-muted"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></div>
-                <div className="flex items-center gap-2 text-on-dark-muted"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></div>
+                <Box className="flex items-center gap-2 mt-2 text-on-dark-muted"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></Box>
+                <Box className="flex items-center gap-2 text-on-dark-muted"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></Box>
                 <Body className="font-weight-bold mt-2">From {formatCurrency(event.price)}</Body>
-              </div>
+              </Box>
             </Card>
           ))}
         </Grid>

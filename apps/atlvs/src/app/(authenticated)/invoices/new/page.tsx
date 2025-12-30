@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Plus, Trash2} from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Input, Textarea, CreatePage, useNotifications} from "@ghxstship/ui";
+  Body, Button, Card, Input, Textarea, CreatePage, useNotifications, Box} from "@ghxstship/ui";
 
 interface LineItem {
   id: string;
@@ -96,69 +96,69 @@ export default function NewInvoicePage() {
       id: "details",
       title: "Invoice Details",
       content: (
-        <div className="space-y-4">
-          <div>
+        <Box className="space-y-4">
+          <Box>
             <Body size="sm" className="mb-1">Client *</Body>
             <Input placeholder="Select or enter client name" value={client} onChange={(e) => handleChange("client", e.target.value)} error={!!errors.client} />
             {errors.client && <Body size="sm" className="text-error mt-1">{errors.client}</Body>}
-          </div>
-          <div>
+          </Box>
+          <Box>
             <Body size="sm" className="mb-1">Due Date *</Body>
             <Input type="date" value={dueDate} onChange={(e) => handleChange("dueDate", e.target.value)} error={!!errors.dueDate} />
             {errors.dueDate && <Body size="sm" className="text-error mt-1">{errors.dueDate}</Body>}
-          </div>
+          </Box>
           {errors.lineItems && <Body size="sm" className="text-error">{errors.lineItems}</Body>}
-        </div>
+        </Box>
       ),
     },
     {
       id: "items",
       title: "Line Items",
       content: (
-        <div className="space-y-4">
+        <Box className="space-y-4">
           {lineItems.map((item) => (
             <Card key={item.id} className="p-4">
-              <div className="flex gap-4 items-end">
-                <div className="flex-1">
+              <Box className="flex gap-4 items-end">
+                <Box className="flex-1">
                   <Body size="sm" className="mb-1">Description</Body>
                   <Input placeholder="Item description" value={item.description} onChange={(e) => updateLineItem(item.id, "description", e.target.value)} />
-                </div>
-                <div className="w-24">
+                </Box>
+                <Box className="w-24">
                   <Body size="sm" className="mb-1">Qty</Body>
                   <Input type="number" min="1" value={item.quantity} onChange={(e) => updateLineItem(item.id, "quantity", parseInt(e.target.value) || 1)} />
-                </div>
-                <div className="w-32">
+                </Box>
+                <Box className="w-32">
                   <Body size="sm" className="mb-1">Rate</Body>
                   <Input type="number" min="0" step="0.01" value={item.rate} onChange={(e) => updateLineItem(item.id, "rate", parseFloat(e.target.value) || 0)} />
-                </div>
-                <div className="w-32 text-right">
+                </Box>
+                <Box className="w-32 text-right">
                   <Body size="sm" className="mb-1">Amount</Body>
                   <Body className="font-weight-bold">${(item.quantity * item.rate).toFixed(2)}</Body>
-                </div>
+                </Box>
                 <Button variant="ghost" size="sm" onClick={() => removeLineItem(item.id)} disabled={lineItems.length === 1}>
                   <Trash2 className="size-4" />
                 </Button>
-              </div>
+              </Box>
             </Card>
           ))}
           <Button variant="outline" onClick={addLineItem} icon={<Plus className="size-4" />} iconPosition="left">Add Line Item</Button>
           <Card className="p-4 bg-grey-800">
-            <div className="flex justify-between items-center">
+            <Box className="flex justify-between items-center">
               <Body className="font-weight-bold">Total</Body>
               <Body className="font-weight-bold font-weight-bold">${total.toFixed(2)}</Body>
-            </div>
+            </Box>
           </Card>
-        </div>
+        </Box>
       ),
     },
     {
       id: "notes",
       title: "Notes",
       content: (
-        <div>
+        <Box>
           <Body size="sm" className="mb-1">Notes (optional)</Body>
           <Textarea rows={4} placeholder="Additional notes for the client" value={notes} onChange={(e) => handleChange("notes", e.target.value)} />
-        </div>
+        </Box>
       ),
     },
   ];

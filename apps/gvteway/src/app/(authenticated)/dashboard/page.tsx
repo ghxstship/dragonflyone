@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   Body,
+  Box,
   Button,
   Card,
   StatCard,
@@ -19,6 +20,7 @@ import {
   Label,
   Section,
   SectionHeader,
+  Stack,
   DetailPage,
 } from "@ghxstship/ui";
 import { useAuth } from "@ghxstship/config/auth-context";
@@ -75,13 +77,13 @@ export default function DashboardPage() {
     content: (
       <>
         {/* User Roles */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <Stack direction="horizontal" className="flex-wrap gap-2 mb-6">
           {user.platformRoles.map((role) => (
             <Badge key={role} variant="solid">
               {role}
             </Badge>
           ))}
-        </div>
+        </Stack>
 
         {/* Legend/Admin Dashboard */}
         {(hasLegendRole || isAdmin) && (
@@ -101,7 +103,7 @@ export default function DashboardPage() {
             <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
               <Card inverted className="p-4">
                 <Body className="text-white font-weight-medium mb-3">Platform Access</Body>
-                <div className="space-y-2">
+                <Stack gap={2}>
                   <Button variant="solid" className="w-full" onClick={() => router.push("/admin/atlvs")}>
                     ATLVS Admin
                   </Button>
@@ -111,36 +113,36 @@ export default function DashboardPage() {
                   <Button variant="outline" inverted className="w-full" onClick={() => router.push("/admin/gvteway")}>
                     GVTEWAY Admin
                   </Button>
-                </div>
+                </Stack>
               </Card>
 
               <Card inverted className="p-4">
                 <Body className="text-white font-weight-medium mb-3">System Health</Body>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
+                <Stack gap={2}>
+                  <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-on-dark-muted">API Response</Body>
                     <Body size="sm" className="text-white">{healthData?.apiResponseTime || 45}ms</Body>
-                  </div>
-                  <div className="flex justify-between">
+                  </Stack>
+                  <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-on-dark-muted">Database</Body>
                     <Body size="sm" className="text-success">{getHealthStatusLabel(healthData?.databaseStatus || "healthy")}</Body>
-                  </div>
-                  <div className="flex justify-between">
+                  </Stack>
+                  <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-on-dark-muted">Cache Hit</Body>
                     <Body size="sm" className="text-white">{healthData?.cacheHitRate || 94}%</Body>
-                  </div>
-                </div>
+                  </Stack>
+                </Stack>
               </Card>
 
               <Card inverted className="p-4">
                 <Body className="text-white font-weight-medium mb-3">Recent Activity</Body>
-                <div className="space-y-2">
+                <Stack gap={2}>
                   {(activityData || fallbackActivity).map((activity) => (
                     <Body key={activity.id} size="sm" className="text-on-dark-muted">
                       {activity.action}: {activity.detail}
                     </Body>
                   ))}
-                </div>
+                </Stack>
               </Card>
             </Grid>
           </Section>
@@ -164,7 +166,7 @@ export default function DashboardPage() {
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <Card inverted className="p-4">
                 <Body className="text-white font-weight-medium mb-3">Quick Actions</Body>
-                <div className="space-y-2">
+                <Stack gap={2}>
                   <Button variant="solid" className="w-full" icon={<Calendar className="size-4" />} iconPosition="left" onClick={() => router.push("/events/new")}>
                     Create New Event
                   </Button>
@@ -174,21 +176,21 @@ export default function DashboardPage() {
                   <Button variant="outline" inverted className="w-full" icon={<BarChart3 className="size-4" />} iconPosition="left" onClick={() => router.push("/analytics")}>
                     View Analytics
                   </Button>
-                </div>
+                </Stack>
               </Card>
 
               <Card inverted className="p-4">
                 <Body className="text-white font-weight-medium mb-3">Upcoming Events</Body>
-                <div className="space-y-3">
-                  <div className="border-l-4 border-primary pl-4">
+                <Stack gap={3}>
+                  <Box className="border-l-4 border-primary pl-4">
                     <Body className="text-white">Summer Music Festival</Body>
                     <Label size="xs" className="text-on-dark-muted">June 15, 2024 • 342 tickets sold</Label>
-                  </div>
-                  <div className="border-l-4 border-grey-700 pl-4">
+                  </Box>
+                  <Box className="border-l-4 border-grey-700 pl-4">
                     <Body className="text-white">Rock Concert Series</Body>
                     <Label size="xs" className="text-on-dark-muted">July 20, 2024 • 156 tickets sold</Label>
-                  </div>
-                </div>
+                  </Box>
+                </Stack>
               </Card>
             </Grid>
           </Section>
@@ -212,15 +214,15 @@ export default function DashboardPage() {
             <Card inverted className="p-4">
               <Body className="text-white font-weight-medium mb-3">Your Venues</Body>
               <Card inverted className="p-4 cursor-pointer hover:bg-grey-800" onClick={() => router.push("/venues/main-stage")}>
-                <div className="flex items-center justify-between">
-                  <div>
+                <Stack direction="horizontal" className="items-center justify-between">
+                  <Stack gap={0}>
                     <Body className="text-white">Main Stage Theater</Body>
                     <Label size="xs" className="text-on-dark-muted">Capacity: 2,000 • Next Event: 3 days</Label>
-                  </div>
+                  </Stack>
                   <Button variant="outline" inverted size="sm" icon={<Building2 className="size-4" />} iconPosition="left">
                     Manage
                   </Button>
-                </div>
+                </Stack>
               </Card>
             </Card>
           </Section>
@@ -244,7 +246,7 @@ export default function DashboardPage() {
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <Card inverted className="p-4">
                 <Body className="text-white font-weight-medium mb-3">Profile & Content</Body>
-                <div className="space-y-2">
+                <Stack gap={2}>
                   <Button variant="solid" className="w-full" icon={<User className="size-4" />} iconPosition="left" onClick={() => router.push("/artist/profile")}>
                     Edit Profile
                   </Button>
@@ -254,25 +256,25 @@ export default function DashboardPage() {
                   <Button variant="outline" inverted className="w-full" onClick={() => router.push("/artist/merch")}>
                     Manage Merchandise
                   </Button>
-                </div>
+                </Stack>
               </Card>
 
               <Card inverted className="p-4">
                 <Body className="text-white font-weight-medium mb-3">Fan Engagement</Body>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
+                <Stack gap={2}>
+                  <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-on-dark-muted">New Followers (7d)</Body>
                     <Body size="sm" className="text-white">+342</Body>
-                  </div>
-                  <div className="flex justify-between">
+                  </Stack>
+                  <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-on-dark-muted">Avg. Engagement</Body>
                     <Body size="sm" className="text-white">8.4%</Body>
-                  </div>
-                  <div className="flex justify-between">
+                  </Stack>
+                  <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-on-dark-muted">Messages</Body>
                     <Body size="sm" className="text-white">23 unread</Body>
-                  </div>
-                </div>
+                  </Stack>
+                </Stack>
               </Card>
             </Grid>
           </Section>
@@ -295,7 +297,7 @@ export default function DashboardPage() {
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <Card inverted className="p-4">
                 <Body className="text-white font-weight-medium mb-3">Quick Access</Body>
-                <div className="space-y-2">
+                <Stack gap={2}>
                   <Button variant="solid" className="w-full" icon={<Calendar className="size-4" />} iconPosition="left" onClick={() => router.push("/events")}>
                     Browse Events
                   </Button>
@@ -305,21 +307,21 @@ export default function DashboardPage() {
                   <Button variant="outline" inverted className="w-full" icon={<User className="size-4" />} iconPosition="left" onClick={() => router.push("/profile")}>
                     Edit Profile
                   </Button>
-                </div>
+                </Stack>
               </Card>
 
               <Card inverted className="p-4">
                 <Body className="text-white font-weight-medium mb-3">Recommendations</Body>
-                <div className="space-y-3">
-                  <div className="border-l-4 border-primary pl-4">
+                <Stack gap={3}>
+                  <Box className="border-l-4 border-primary pl-4">
                     <Body className="text-white">Electronic Night</Body>
                     <Label size="xs" className="text-on-dark-muted">Based on your preferences</Label>
-                  </div>
-                  <div className="border-l-4 border-grey-700 pl-4">
+                  </Box>
+                  <Box className="border-l-4 border-grey-700 pl-4">
                     <Body className="text-white">Jazz in the Park</Body>
                     <Label size="xs" className="text-on-dark-muted">Nearby • This Weekend</Label>
-                  </div>
-                </div>
+                  </Box>
+                </Stack>
               </Card>
             </Grid>
           </Section>

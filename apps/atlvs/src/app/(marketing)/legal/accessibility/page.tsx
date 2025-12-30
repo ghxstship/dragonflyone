@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Download, ArrowLeft, AlertCircle } from "lucide-react";
 import {
-  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button, Box} from "@ghxstship/ui";
 
 const SECTIONS = [
   { id: "commitment", title: "Our Commitment", content: "ATLVS is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards." },
@@ -51,7 +51,7 @@ export default function AccessibilityPage() {
             <Container size="lg" className="py-20">
               <Stack gap={8}>
                 <Card className="p-6 border-2 border-grey-800 rounded-card">
-                  <div className="flex items-center justify-between flex-wrap gap-4">
+                  <Box className="flex items-center justify-between flex-wrap gap-4">
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold">Accessibility Statement</Body>
                       <Body size="sm" className="text-on-dark-muted">Last updated: October 1, 2024</Body>
@@ -75,7 +75,7 @@ export default function AccessibilityPage() {
                         Download PDF
                       </Button>
                     </Stack>
-                  </div>
+                  </Box>
                 </Card>
 
                 <Stack gap={6}>

@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { FileText, Calendar, User, Search, ArrowRight, Clock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Input, Spinner} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Input, Spinner, Box} from "@ghxstship/ui";
 
 interface BlogPost {
   id: string;
@@ -107,11 +107,11 @@ export default function BlogPage() {
                   onClick={() => router.push(`/blog/${featuredPost.id}`)}
                 >
                   <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
-                    <div className="aspect-video bg-grey-800 rounded-card overflow-hidden">
-                      <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                    <Box className="aspect-video bg-grey-800 rounded-card overflow-hidden">
+                      <Box className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                         <FileText className="size-16 text-on-dark-disabled" />
-                      </div>
-                    </div>
+                      </Box>
+                    </Box>
                     <Stack gap={4}>
                       <Badge className={getCategoryColor(featuredPost.category)}>{featuredPost.category}</Badge>
                       <Body className="text-white font-weight-bold text-h4-md group-hover:text-primary transition-colors">{featuredPost.title}</Body>
@@ -154,7 +154,7 @@ export default function BlogPage() {
                 {/* Search and Filters */}
                 <Card className="p-4 border-2 border-grey-800 rounded-card">
                   <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
-                    <div className="flex-1 min-w-[200px] relative">
+                    <Box className="flex-1 min-w-[200px] relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                       <Input
                         placeholder="Search articles..."
@@ -162,7 +162,7 @@ export default function BlogPage() {
                         onChange={(e) => setSearch(e.target.value)}
                         className="pl-10"
                       />
-                    </div>
+                    </Box>
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       {CATEGORIES.map((cat) => (
                         <Button
@@ -200,11 +200,11 @@ export default function BlogPage() {
                         onClick={() => router.push(`/blog/${post.id}`)}
                       >
                         <Stack gap={4}>
-                          <div className="aspect-video bg-grey-800 rounded-card overflow-hidden">
-                            <div className="w-full h-full bg-gradient-to-br from-grey-700 to-grey-800 flex items-center justify-center group-hover:from-primary/20 group-hover:to-secondary/20 transition-all">
+                          <Box className="aspect-video bg-grey-800 rounded-card overflow-hidden">
+                            <Box className="w-full h-full bg-gradient-to-br from-grey-700 to-grey-800 flex items-center justify-center group-hover:from-primary/20 group-hover:to-secondary/20 transition-all">
                               <FileText className="size-8 text-on-dark-disabled" />
-                            </div>
-                          </div>
+                            </Box>
+                          </Box>
                           <Badge className={getCategoryColor(post.category)}>{post.category}</Badge>
                           <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{post.title}</Body>
                           <Body size="sm" className="text-on-dark-muted line-clamp-2">{post.excerpt}</Body>

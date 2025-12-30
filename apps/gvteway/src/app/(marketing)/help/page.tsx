@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { HelpCircle, MessageSquare, FileText, Phone, List } from "lucide-react";
-import { Body, Button, Card, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+import { Body, Button, Card, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 export default function HelpPage() {
   const router = useRouter();
@@ -30,13 +30,13 @@ export default function HelpPage() {
           </Card>
         </Grid>
         <Card className="p-6 mt-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+          <Box className="flex items-center justify-between">
+            <Box className="flex items-center gap-4">
               <Phone className="size-8 text-primary" />
-              <div><Body className="font-weight-bold">Need immediate help?</Body><Body size="sm" className="text-on-dark-muted">Call us at 1-800-GVTEWAY</Body></div>
-            </div>
+              <Box><Body className="font-weight-bold">Need immediate help?</Body><Body size="sm" className="text-on-dark-muted">Call us at 1-800-GVTEWAY</Body></Box>
+            </Box>
             <Button variant="outline">Call Now</Button>
-          </div>
+          </Box>
         </Card>
       </Section>
     ),

@@ -19,6 +19,7 @@ import {
   Select,
   Stack,
   Textarea,
+  Box,
   type MarketingSection,
   useNotifications,
 } from "@ghxstship/ui";
@@ -530,7 +531,7 @@ function ApplicationForm() {
           <Stack gap={6} className="mb-8">
             <Stack direction="horizontal" gap={2} className="justify-center">
               {Array.from({ length: totalSteps }, (_, i) => (
-                <div
+                <Box
                   key={i}
                   className={`h-2 w-12 transition-colors ${
                     i + 1 <= step ? "bg-accent" : "bg-ink-800"

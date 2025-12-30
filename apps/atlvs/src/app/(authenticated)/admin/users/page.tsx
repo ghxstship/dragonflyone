@@ -18,7 +18,7 @@ import {
   type PlatformUser,
 } from "@/hooks/useUsersQuery";
 import {
-  Badge, Body, Button, Card, Grid, Input, Modal, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, StatCard} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Modal, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, StatCard, Stack, Box} from "@ghxstship/ui";
 import { Search, Users, Shield, Clock, FileText } from "lucide-react";
 
 interface RoleGroup {
@@ -189,7 +189,7 @@ export default function AdminUsersPage() {
             <StatCard label="Active This Week" value={recentLogins.toString()} icon={<Clock className="size-5" />} />
           </Grid>
 
-          <div className="relative mb-6">
+          <Box className="relative mb-6">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
             <Input
               type="text"
@@ -198,13 +198,13 @@ export default function AdminUsersPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-12"
             />
-          </div>
+          </Box>
 
           {users.length === 0 ? (
-            <div className="text-center py-12">
+            <Box className="text-center py-12">
               <Users className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted">No users found</Body>
-            </div>
+            </Box>
           ) : (
             <Card className="overflow-hidden">
               <Table>
@@ -220,13 +220,13 @@ export default function AdminUsersPage() {
                   {users.map((user: PlatformUser) => (
                     <TableRow key={user.id}>
                       <TableCell>
-                        <div>
+                        <Box>
                           <Body className="font-weight-medium">{user.full_name || "No name"}</Body>
                           <Body size="sm" className="text-on-dark-muted">{user.email}</Body>
-                        </div>
+                        </Box>
                       </TableCell>
                       <TableCell>
-                        <div className="flex flex-wrap gap-1">
+                        <Stack direction="horizontal" className="flex-wrap gap-1">
                           {(user.platform_roles || []).slice(0, 3).map((role: string) => (
                             <Badge key={role} variant={getRoleBadgeVariant(role)} size="sm">
                               {role.replace(/_/g, " ")}
@@ -235,7 +235,7 @@ export default function AdminUsersPage() {
                           {(user.platform_roles || []).length > 3 && (
                             <Badge variant="outline" size="sm">+{user.platform_roles.length - 3} more</Badge>
                           )}
-                        </div>
+                        </Stack>
                       </TableCell>
                       <TableCell>
                         <Body size="sm" className="text-on-dark-muted">{formatDate(user.last_sign_in_at)}</Body>
@@ -260,10 +260,10 @@ export default function AdminUsersPage() {
         <Section>
           <SectionHeader title="Permission Audit Log" description="Track all role changes" />
           {auditLogs.length === 0 ? (
-            <div className="text-center py-12">
+            <Box className="text-center py-12">
               <FileText className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted">No audit logs found</Body>
-            </div>
+            </Box>
           ) : (
             <Card className="overflow-hidden">
               <Table>
@@ -323,11 +323,11 @@ export default function AdminUsersPage() {
 
       <Modal open={isEditModalOpen} onClose={closeEditModal} title={`Edit Roles for ${selectedUser?.email || ""}`}>
         {selectedUser && (
-          <div className="space-y-6">
+          <Stack gap={6}>
             {ROLE_GROUPS.map((group) => (
-              <div key={group.name}>
+              <Box key={group.name}>
                 <Body size="sm" className="text-on-dark-muted uppercase tracking-label mb-3">{group.name}</Body>
-                <div className="flex flex-wrap gap-2">
+                <Stack direction="horizontal" className="flex-wrap gap-2">
                   {group.roles.map((role) => {
                     const isSelected = selectedRoles.includes(role);
                     return (
@@ -341,16 +341,16 @@ export default function AdminUsersPage() {
                       </Button>
                     );
                   })}
-                </div>
-              </div>
+                </Stack>
+              </Box>
             ))}
-            <div className="flex gap-4">
+            <Stack direction="horizontal" gap={4}>
               <Button variant="outline" onClick={closeEditModal}>Cancel</Button>
               <Button variant="solid" onClick={saveRoles} disabled={saving}>
                 {saving ? "Saving..." : "Save Changes"}
               </Button>
-            </div>
-          </div>
+            </Stack>
+          </Stack>
         )}
       </Modal>
     </>

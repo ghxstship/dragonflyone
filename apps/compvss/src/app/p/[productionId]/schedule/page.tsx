@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { Calendar, Clock, CheckCircle, Plus, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, Box, Stack} from "@ghxstship/ui";
 
 interface ScheduleItem {
   id: string;
@@ -72,38 +72,38 @@ export default function ProductionSchedulePage() {
             <StatCard label="Shows" value={schedule.filter((s: ScheduleItem) => s.type === "show").length.toString()} icon={<Calendar className="size-5" />} />
           </Grid>
 
-          <div className="flex gap-2 mb-6">
+          <Box className="flex gap-2 mb-6">
             {["all", "rehearsal", "setup", "show", "meeting"].map((type) => (
               <Button key={type} variant={typeFilter === type ? "solid" : "outline"} size="sm" onClick={() => setTypeFilter(type)}>
                 {type === "all" ? "All" : TYPE_CONFIG[type as keyof typeof TYPE_CONFIG].label}
               </Button>
             ))}
-          </div>
+          </Box>
 
-          <div className="space-y-4">
+          <Stack gap={4}>
             {filteredSchedule.map((item: ScheduleItem) => (
               <Card key={item.id} className="p-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-grey-800 rounded-card">
+                <Box className="flex items-start justify-between">
+                  <Box className="flex items-start gap-4">
+                    <Box className="p-3 bg-grey-800 rounded-card">
                       <Calendar className="size-6 text-primary" />
-                    </div>
-                    <div>
+                    </Box>
+                    <Box>
                       <Body className="font-weight-bold">{item.title}</Body>
-                      <div className="flex items-center gap-4 mt-1 text-on-dark-muted">
-                        <div className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(item.date)}</Body></div>
-                        <div className="flex items-center gap-1"><Clock className="size-4" /><Body size="sm">{item.time}</Body></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
+                      <Box className="flex items-center gap-4 mt-1 text-on-dark-muted">
+                        <Box className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(item.date)}</Body></Box>
+                        <Box className="flex items-center gap-1"><Clock className="size-4" /><Body size="sm">{item.time}</Body></Box>
+                      </Box>
+                    </Box>
+                  </Box>
+                  <Box className="flex items-center gap-2">
                     <Badge variant={TYPE_CONFIG[item.type].variant}>{TYPE_CONFIG[item.type].label}</Badge>
                     <Badge variant={STATUS_CONFIG[item.status].variant}>{STATUS_CONFIG[item.status].label}</Badge>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Stack>
         </Section>
       ),
     },

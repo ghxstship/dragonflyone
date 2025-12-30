@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { CheckCircle, Ticket, Download, Share2, List } from "lucide-react";
-import { Body, Button, Card, Grid, DetailPage, Section } from "@ghxstship/ui";
+import { Body, Button, Card, Grid, DetailPage, Section, Box} from "@ghxstship/ui";
 
 export default function ConfirmationPage() {
   const router = useRouter();
@@ -29,10 +29,10 @@ export default function ConfirmationPage() {
             <Body size="sm" className="text-on-dark-muted">Save tickets to your device</Body>
           </Card>
         </Grid>
-        <div className="flex gap-4 justify-center">
+        <Box className="flex gap-4 justify-center">
           <Button variant="solid" onClick={() => router.push("/browse")}>Browse More Events</Button>
           <Button variant="outline" icon={<Share2 className="size-4" />} iconPosition="left">Share</Button>
-        </div>
+        </Box>
       </Section>
     ),
   }];

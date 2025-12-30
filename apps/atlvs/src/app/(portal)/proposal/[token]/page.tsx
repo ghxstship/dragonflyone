@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { CheckCircle, Clock, DollarSign, Calendar, List, MessageSquare } from "lucide-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Proposal {
   id: string;
@@ -82,13 +82,13 @@ export default function ProposalPage() {
       content: (
         <Section>
           <Card className="p-6 mb-6">
-            <div className="flex justify-between items-start">
-              <div>
+            <Box className="flex justify-between items-start">
+              <Box>
                 <Body className="font-weight-bold font-weight-bold">{proposal.title}</Body>
                 <Body className="text-on-dark-muted">Prepared for {proposal.client}</Body>
-              </div>
+              </Box>
               <Badge variant={STATUS_CONFIG[proposal.status].variant}>{STATUS_CONFIG[proposal.status].label}</Badge>
-            </div>
+            </Box>
           </Card>
 
           <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mb-6">
@@ -119,26 +119,26 @@ export default function ProposalPage() {
           {proposal.status === "pending" && (
             <Card className="p-6 mt-6">
               <SectionHeader title="Ready to proceed?" description="Accept or decline this proposal" />
-              <div className="flex gap-4 mt-4">
+              <Box className="flex gap-4 mt-4">
                 <Button variant="solid" onClick={() => updateProposal.mutate("accepted")} disabled={updateProposal.isPending}>
                   Accept Proposal
                 </Button>
                 <Button variant="outline" onClick={() => updateProposal.mutate("declined")} disabled={updateProposal.isPending}>
                   Decline
                 </Button>
-              </div>
+              </Box>
             </Card>
           )}
 
           {proposal.status === "accepted" && (
             <Card className="p-6 mt-6 border-success">
-              <div className="flex items-center gap-4">
+              <Box className="flex items-center gap-4">
                 <CheckCircle className="size-8 text-success" />
-                <div>
+                <Box>
                   <Body className="font-weight-bold font-weight-medium">Proposal Accepted</Body>
                   <Body className="text-on-dark-muted">Thank you! We will be in touch shortly to begin the project.</Body>
-                </div>
-              </div>
+                </Box>
+              </Box>
             </Card>
           )}
         </Section>

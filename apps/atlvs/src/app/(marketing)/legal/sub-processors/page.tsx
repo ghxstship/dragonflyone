@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Download, ArrowLeft, Bell } from "lucide-react";
 import {
-  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button, Badge, Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button, Badge, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Box} from "@ghxstship/ui";
 
 interface SubProcessor {
   name: string;
@@ -61,7 +61,7 @@ export default function SubProcessorsPage() {
             <Container size="xl" className="py-20">
               <Stack gap={8}>
                 <Card className="p-6 border-2 border-grey-800 rounded-card">
-                  <div className="flex items-center justify-between flex-wrap gap-4">
+                  <Box className="flex items-center justify-between flex-wrap gap-4">
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold">Sub-processor List</Body>
                       <Body size="sm" className="text-on-dark-muted">Last updated: November 1, 2024</Body>
@@ -85,7 +85,7 @@ export default function SubProcessorsPage() {
                         Download PDF
                       </Button>
                     </Stack>
-                  </div>
+                  </Box>
                 </Card>
 
                 <Card className="p-6 border-2 border-grey-800 rounded-card">

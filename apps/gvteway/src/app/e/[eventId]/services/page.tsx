@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+import { Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Service { id: string; name: string; category: string; price: number; description: string; }
 const DEMO_SERVICES: Service[] = [
@@ -38,10 +38,10 @@ export default function EventServicesPage() {
               <Badge variant="outline" className="mb-3">{service.category}</Badge>
               <Body className="font-weight-bold">{service.name}</Body>
               <Body size="sm" className="text-on-dark-muted mt-1">{service.description}</Body>
-              <div className="flex items-center justify-between mt-4">
+              <Box className="flex items-center justify-between mt-4">
                 <Body className="font-weight-bold">{formatCurrency(service.price)}</Body>
                 <Button variant="outline" size="sm">Add</Button>
-              </div>
+              </Box>
             </Card>
           ))}
         </Grid>

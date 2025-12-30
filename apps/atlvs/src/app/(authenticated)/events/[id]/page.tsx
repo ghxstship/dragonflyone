@@ -12,7 +12,7 @@ import {
   Pencil, Users, ExternalLink, Trash2, FileText, Clock} from "lucide-react";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useNotifications, Box, StackBox} from "@ghxstship/ui";
 import { useEvent, useDeleteEvent } from "@/hooks/useEvents";
 
 const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
@@ -176,11 +176,11 @@ export default function EventDetailPage() {
           {event.tags && event.tags.length > 0 && (
             <Section border className="mb-6">
               <SectionHeader title="Tags" />
-              <div className="flex flex-wrap gap-2">
+              <Box className="flex flex-wrap gap-2">
                 {event.tags.map((tag: string, i: number) => (
                   <Badge key={i} variant="outline">{tag}</Badge>
                 ))}
-              </div>
+              </Box>
             </Section>
           )}
 

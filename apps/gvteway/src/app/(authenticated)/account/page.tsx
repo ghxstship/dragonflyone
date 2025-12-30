@@ -17,7 +17,7 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import {
   Ticket,
   Calendar,
@@ -67,22 +67,22 @@ export default function AccountPage() {
               {upcomingEvents.length === 0 ? (
                 <Body className="text-on-dark-muted py-4">No upcoming events. Browse events to find your next experience!</Body>
               ) : (
-                <div className="space-y-3">
+                <Box className="space-y-3">
                   {upcomingEvents.map((event) => (
                     <Card key={event.id} className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div>
+                      <Box className="flex items-center justify-between">
+                        <Box>
                           <Body className="font-weight-medium text-white">{event.name}</Body>
                           <Body size="sm" className="text-on-dark-muted">{event.date} - {event.venue}</Body>
-                        </div>
-                        <div className="flex items-center gap-2">
+                        </Box>
+                        <Box className="flex items-center gap-2">
                           <Badge variant="info">{event.ticketCount} tickets</Badge>
                           <Button variant="outline" size="sm" onClick={() => router.push(`/account/tickets`)}>View</Button>
-                        </div>
-                      </div>
+                        </Box>
+                      </Box>
                     </Card>
                   ))}
-                </div>
+                </Box>
               )}
               <Link href="/account/tickets" className="block mt-4">
                 <Button variant="ghost" size="sm" icon={<ChevronRight className="size-4" />} iconPosition="right">
@@ -91,7 +91,7 @@ export default function AccountPage() {
               </Link>
             </Section>
 
-            <div className="space-y-6">
+            <Box className="space-y-6">
               <Section border>
                 <SectionHeader title="Quick Actions" />
                 <Grid cols={2} gap={3} className="grid-cols-1 sm:grid-cols-2">
@@ -112,22 +112,22 @@ export default function AccountPage() {
 
               <Section border>
                 <SectionHeader title="Recent Activity" />
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
+                <Box className="space-y-2">
+                  <Box className="flex items-center justify-between">
                     <Body className="text-white">Purchased 2 tickets</Body>
                     <Body size="sm" className="text-on-dark-muted">2 days ago</Body>
-                  </div>
-                  <div className="flex items-center justify-between">
+                  </Box>
+                  <Box className="flex items-center justify-between">
                     <Body className="text-white">Saved New Years Eve Concert</Body>
                     <Body size="sm" className="text-on-dark-muted">5 days ago</Body>
-                  </div>
-                  <div className="flex items-center justify-between">
+                  </Box>
+                  <Box className="flex items-center justify-between">
                     <Body className="text-white">Updated payment method</Body>
                     <Body size="sm" className="text-on-dark-muted">1 week ago</Body>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Section>
-            </div>
+            </Box>
           </Grid>
         </>
       ),
@@ -139,13 +139,13 @@ export default function AccountPage() {
       content: (
         <Section>
           <SectionHeader title="Your Tickets" description="View and manage your event tickets" />
-          <div className="text-center py-12">
+          <Box className="text-center py-12">
             <Ticket className="size-12 text-on-dark-disabled mx-auto mb-4" />
             <Body className="text-on-dark-muted mb-4">View all your tickets in one place</Body>
             <Button variant="solid" onClick={() => router.push("/account/tickets")}>
               View All Tickets
             </Button>
-          </div>
+          </Box>
         </Section>
       ),
     },
@@ -156,13 +156,13 @@ export default function AccountPage() {
       content: (
         <Section>
           <SectionHeader title="Order History" description="View your past orders and purchases" />
-          <div className="text-center py-12">
+          <Box className="text-center py-12">
             <ShoppingBag className="size-12 text-on-dark-disabled mx-auto mb-4" />
             <Body className="text-on-dark-muted mb-4">View your complete order history</Body>
             <Button variant="solid" onClick={() => router.push("/account/orders")}>
               View All Orders
             </Button>
-          </div>
+          </Box>
         </Section>
       ),
     },

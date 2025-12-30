@@ -8,7 +8,7 @@
 
 import { Check, ArrowRight, Play, List} from "lucide-react";
 import {
-  Body, Button, Card, Grid, ProgressBar, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Body, Button, Card, Grid, ProgressBar, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 const QUICK_START_STEPS = [
   { id: 1, title: "Sign Up", description: "Create your free account", completed: true },
@@ -30,31 +30,31 @@ export default function HelpGettingStartedPage() {
       content: (
         <Section>
           <Card className="p-6 mb-6">
-            <div className="flex items-center justify-between mb-4">
+            <Box className="flex items-center justify-between mb-4">
               <Body className="font-weight-bold font-weight-medium">Your Progress</Body>
               <Body className="font-weight-bold font-weight-bold text-primary">{Math.round(progress)}%</Body>
-            </div>
+            </Box>
             <ProgressBar value={progress} size="lg" />
           </Card>
 
-          <div className="space-y-4">
+          <Box className="space-y-4">
             {QUICK_START_STEPS.map((step, idx) => (
               <Card key={step.id} className={`p-6 ${step.completed ? "border-success" : ""}`}>
-                <div className="flex items-start gap-4">
-                  <div className={`size-10 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-grey-800 text-on-dark-muted"}`}>
+                <Box className="flex items-start gap-4">
+                  <Box className={`size-10 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-grey-800 text-on-dark-muted"}`}>
                     {step.completed ? <Check className="size-5" /> : <Body className="font-weight-bold">{step.id}</Body>}
-                  </div>
-                  <div className="flex-1">
+                  </Box>
+                  <Box className="flex-1">
                     <Body className="font-weight-bold">{step.title}</Body>
                     <Body size="sm" className="text-on-dark-muted">{step.description}</Body>
-                  </div>
+                  </Box>
                   {!step.completed && idx === completedSteps && (
                     <Button variant="solid" size="sm" icon={<ArrowRight className="size-4" />} iconPosition="right">Start</Button>
                   )}
-                </div>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },
@@ -68,9 +68,9 @@ export default function HelpGettingStartedPage() {
           <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2 mt-6">
             {["Platform Overview", "Creating Projects", "Team Collaboration", "Reporting"].map((title, idx) => (
               <Card key={idx} className="p-6 cursor-pointer hover:border-primary">
-                <div className="aspect-video bg-grey-800 rounded-card flex items-center justify-center mb-4">
+                <Box className="aspect-video bg-grey-800 rounded-card flex items-center justify-center mb-4">
                   <Play className="size-8 text-on-dark-muted" />
-                </div>
+                </Box>
                 <Body className="font-weight-medium">{title}</Body>
                 <Body size="sm" className="text-on-dark-muted">5 min video</Body>
               </Card>

@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Shield, Eye, EyeOff, Download, Trash2, List, FileText } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
 
 interface PrivacySettings {
   profile_visibility: "public" | "team" | "private";
@@ -108,7 +108,7 @@ export default function PrivacySettingsPage() {
         <Section>
           <Card className="p-6 mb-6">
             <SectionHeader title="Profile Visibility" description="Control who can see your profile" />
-            <div className="flex gap-2 mt-4">
+            <Box className="flex gap-2 mt-4">
               {(["public", "team", "private"] as const).map((visibility) => (
                 <Button
                   key={visibility}
@@ -123,41 +123,41 @@ export default function PrivacySettingsPage() {
                   {visibility}
                 </Button>
               ))}
-            </div>
+            </Box>
           </Card>
 
           <Card className="p-6 mb-6">
             <SectionHeader title="Data & Tracking" description="Control how your data is used" />
-            <div className="space-y-4 mt-4">
+            <Box className="space-y-4 mt-4">
               {[
                 { key: "activity_tracking" as const, label: "Activity Tracking", description: "Track your activity for personalized recommendations" },
                 { key: "analytics_sharing" as const, label: "Analytics Sharing", description: "Share anonymous usage data to help improve the product" },
                 { key: "marketing_emails" as const, label: "Marketing Emails", description: "Receive product updates and promotional emails" },
               ].map(({ key, label, description }) => (
-                <div key={key} className="flex items-center justify-between p-4 bg-grey-800 rounded-card">
-                  <div>
+                <Box key={key} className="flex items-center justify-between p-4 bg-grey-800 rounded-card">
+                  <Box>
                     <Body className="font-weight-medium">{label}</Body>
                     <Body size="sm" className="text-on-dark-muted">{description}</Body>
-                  </div>
+                  </Box>
                   <Button
                     variant="ghost"
                     onClick={() => toggleSetting(key)}
                     disabled={updateMutation.isPending}
                     className={`relative w-12 h-6 rounded-avatar transition-colors ${settings[key] ? "bg-primary" : "bg-grey-600"}`}
                   >
-                    <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-avatar transition-transform ${settings[key] ? "translate-x-6" : "translate-x-0"}`} />
+                    <Box className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-avatar transition-transform ${settings[key] ? "translate-x-6" : "translate-x-0"}`} />
                   </Button>
-                </div>
+                </Box>
               ))}
-            </div>
+            </Box>
           </Card>
 
           <Card className="p-6">
             <SectionHeader title="Data Retention" description="How long your data is stored" />
-            <div className="flex items-center gap-4 mt-4">
+            <Box className="flex items-center gap-4 mt-4">
               <Badge variant="info" className="font-weight-medium px-4 py-2">{settings.data_retention_days} days</Badge>
               <Body className="text-on-dark-muted">Your data is automatically deleted after this period of inactivity</Body>
-            </div>
+            </Box>
           </Card>
         </Section>
       ),
@@ -170,22 +170,22 @@ export default function PrivacySettingsPage() {
         <Section>
           <Card className="p-6 mb-6">
             <SectionHeader title="Export Your Data" description="Download a copy of all your data" />
-            <div className="mt-4">
+            <Box className="mt-4">
               <Body className="text-on-dark-muted mb-4">Request a complete export of your data including projects, contacts, and activity history. You will receive an email with a download link when ready.</Body>
               <Button variant="outline" onClick={() => setShowExportConfirm(true)} icon={<Download className="size-4" />} iconPosition="left">
                 Request Data Export
               </Button>
-            </div>
+            </Box>
           </Card>
 
           <Card className="p-6 border-error">
             <SectionHeader title="Delete Account" description="Permanently delete your account and all data" />
-            <div className="mt-4">
+            <Box className="mt-4">
               <Body className="text-on-dark-muted mb-4">This action cannot be undone. All your data will be permanently deleted after a 30-day grace period.</Body>
               <Button variant="outline" className="border-error text-error" onClick={() => setShowDeleteConfirm(true)} icon={<Trash2 className="size-4" />} iconPosition="left">
                 Delete Account
               </Button>
-            </div>
+            </Box>
           </Card>
         </Section>
       ),

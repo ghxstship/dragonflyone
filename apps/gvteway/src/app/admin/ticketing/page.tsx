@@ -38,7 +38,7 @@ import {
   DetailPage,
   Section,
   useNotifications,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface TicketType {
@@ -128,18 +128,18 @@ export default function AdminTicketingPage() {
           </Grid>
 
           <Card className="p-4 mb-6">
-            <div className="flex items-center gap-4">
-              <div className="flex-1 relative">
+            <Box className="flex items-center gap-4">
+              <Box className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search tickets..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-              </div>
+              </Box>
               <Select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                 <option value="">All Statuses</option>
                 <option value="active">Active</option>
                 <option value="sold_out">Sold Out</option>
                 <option value="inactive">Inactive</option>
               </Select>
-            </div>
+            </Box>
           </Card>
 
           {filteredTickets.length === 0 ? (
@@ -172,18 +172,18 @@ export default function AdminTicketingPage() {
                       <TableCell><Body>{ticket.event_title}</Body></TableCell>
                       <TableCell><Body className="font-weight-medium">{formatCurrency(ticket.price)}</Body></TableCell>
                       <TableCell>
-                        <div className="space-y-1">
+                        <Box className="space-y-1">
                           <Body size="sm">{ticket.sold.toLocaleString()} / {ticket.quantity.toLocaleString()}</Body>
                           <ProgressBar value={(ticket.sold / ticket.quantity) * 100} size="sm" />
-                        </div>
+                        </Box>
                       </TableCell>
                       <TableCell><Badge variant={STATUS_COLORS[ticket.status] || "outline"}>{ticket.status.replace("_", " ")}</Badge></TableCell>
                       <TableCell><Body className="font-weight-medium">{formatCurrency(ticket.sold * ticket.price)}</Body></TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-1">
+                        <Box className="flex items-center gap-1">
                           <Button variant="ghost" size="sm" onClick={() => router.push(`/admin/ticketing/${ticket.id}/edit`)} icon={<Edit className="size-4" />} />
                           <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(ticket.id)} disabled={deleteMutation.isPending} icon={<Trash2 className="size-4 text-error" />} />
-                        </div>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ))}

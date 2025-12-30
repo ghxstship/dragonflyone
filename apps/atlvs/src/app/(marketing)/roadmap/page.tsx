@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { CheckCircle, Clock, Zap } from "lucide-react";
 import {
-  MarketingPage, HeroSection, TimelineSection, StatsSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Badge} from "@ghxstship/ui";
+  MarketingPage, HeroSection, TimelineSection, StatsSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Badge, Box} from "@ghxstship/ui";
 
 interface RoadmapItem {
   id: string;
@@ -126,9 +126,9 @@ export default function RoadmapPage() {
                       <Card key={item.id} className="p-6 border-2 border-grey-800 rounded-card hover:border-grey-700 transition-all">
                         <Stack gap={4}>
                           <Stack direction="horizontal" className="justify-between items-start">
-                            <div className={`p-3 rounded-card ${item.status === "completed" ? "bg-success/20 text-success" : item.status === "in_progress" ? "bg-primary/20 text-primary" : "bg-grey-800 text-on-dark-muted"}`}>
+                            <Box className={`p-3 rounded-card ${item.status === "completed" ? "bg-success/20 text-success" : item.status === "in_progress" ? "bg-primary/20 text-primary" : "bg-grey-800 text-on-dark-muted"}`}>
                               {config.icon}
-                            </div>
+                            </Box>
                             <Stack direction="horizontal" gap={2}>
                               <Badge variant="outline">{item.quarter}</Badge>
                               <Badge className={config.color}>{config.label}</Badge>

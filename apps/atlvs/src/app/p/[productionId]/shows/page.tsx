@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { Calendar, Plus, Clock, MapPin, Users, List, LayoutGrid } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Show {
   id: string;
@@ -69,33 +69,33 @@ export default function ProductionShowsPage() {
             <StatCard label="Sell-through" value={`${Math.round((totalSold / totalCapacity) * 100)}%`} icon={<Users className="size-5" />} />
           </Grid>
 
-          <div className="space-y-4">
+          <Box className="space-y-4">
             {shows.map((show: Show) => {
               const statusConfig = STATUS_CONFIG[show.status];
               const sellThrough = Math.round((show.tickets_sold / show.capacity) * 100);
               return (
                 <Card key={show.id} className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div>
+                  <Box className="flex items-start justify-between">
+                    <Box>
                       <Body className="font-weight-bold font-weight-medium">{show.name}</Body>
-                      <div className="flex items-center gap-4 mt-2 text-on-dark-muted">
-                        <div className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(show.date)}</Body></div>
-                        <div className="flex items-center gap-1"><Clock className="size-4" /><Body size="sm">{show.time}</Body></div>
-                        <div className="flex items-center gap-1"><MapPin className="size-4" /><Body size="sm">{show.venue}</Body></div>
-                      </div>
-                    </div>
-                    <div className="text-right">
+                      <Box className="flex items-center gap-4 mt-2 text-on-dark-muted">
+                        <Box className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(show.date)}</Body></Box>
+                        <Box className="flex items-center gap-1"><Clock className="size-4" /><Body size="sm">{show.time}</Body></Box>
+                        <Box className="flex items-center gap-1"><MapPin className="size-4" /><Body size="sm">{show.venue}</Body></Box>
+                      </Box>
+                    </Box>
+                    <Box className="text-right">
                       <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
-                      <div className="mt-2">
+                      <Box className="mt-2">
                         <Body className="font-weight-bold">{show.tickets_sold.toLocaleString()} / {show.capacity.toLocaleString()}</Body>
                         <Body size="sm" className="text-on-dark-muted">{sellThrough}% sold</Body>
-                      </div>
-                    </div>
-                  </div>
+                      </Box>
+                    </Box>
+                  </Box>
                 </Card>
               );
             })}
-          </div>
+          </Box>
         </Section>
       ),
     },

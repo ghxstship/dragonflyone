@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Calendar, MapPin, Search, Plus, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Badge, Body, Button, Card, Input, DetailPage, Section } from "@ghxstship/ui";
+import { Badge, Body, Button, Card, Input, DetailPage, Section, Box} from "@ghxstship/ui";
 
 interface Event { id: string; name: string; date: string; venue: string; status: "draft" | "published" | "sold_out"; tickets_sold: number; }
 const DEMO_EVENTS: Event[] = [
@@ -34,12 +34,12 @@ export default function EventsPage() {
     id: "events", label: "Events", icon: <List className="size-4" />,
     content: (
       <Section>
-        <div className="flex gap-4 items-center mb-6">
-          <div className="relative flex-1 max-w-md">
+        <Box className="flex gap-4 items-center mb-6">
+          <Box className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
             <Input placeholder="Search events..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-          </div>
-        </div>
+          </Box>
+        </Box>
         {filteredEvents.length === 0 ? (
           <Card className="p-8 text-center">
             <Calendar className="size-12 text-on-dark-disabled mx-auto mb-4" />
@@ -48,25 +48,25 @@ export default function EventsPage() {
             <Button variant="solid" onClick={() => router.push("/events/create")}>Create Event</Button>
           </Card>
         ) : (
-          <div className="space-y-4">
+          <Box className="space-y-4">
             {filteredEvents.map((event: Event) => (
               <Card key={event.id} className="p-6 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/e/${event.id}`)}>
-                <div className="flex items-start justify-between">
-                  <div>
+                <Box className="flex items-start justify-between">
+                  <Box>
                     <Body className="font-weight-bold">{event.name}</Body>
-                    <div className="flex items-center gap-4 mt-2 text-on-dark-muted">
-                      <div className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></div>
-                      <div className="flex items-center gap-1"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></div>
-                    </div>
-                  </div>
-                  <div className="text-right">
+                    <Box className="flex items-center gap-4 mt-2 text-on-dark-muted">
+                      <Box className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></Box>
+                      <Box className="flex items-center gap-1"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></Box>
+                    </Box>
+                  </Box>
+                  <Box className="text-right">
                     <Body className="font-weight-bold">{event.tickets_sold} sold</Body>
                     <Badge variant={STATUS_CONFIG[event.status].variant} className="mt-2">{STATUS_CONFIG[event.status].label}</Badge>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         )}
       </Section>
     ),

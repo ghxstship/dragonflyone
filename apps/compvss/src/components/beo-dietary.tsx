@@ -5,6 +5,7 @@ import { Plus, X, AlertTriangle, Utensils, Users } from "lucide-react";
 import {
   Badge,
   Body,
+  Box,
   Button,
   Card,
   CardBody,
@@ -223,7 +224,7 @@ export function BEODietary({ requirements, onChange, readOnly = false }: BEODiet
           {requirements.length > 0 ? (
             <Stack gap={2}>
               {requirements.map((req) => (
-                <div
+                <Box
                   key={req.id}
                   className={`flex items-center justify-between p-3 rounded-button border-2 ${SEVERITY_COLORS[req.severity]}`}
                 >
@@ -260,7 +261,7 @@ export function BEODietary({ requirements, onChange, readOnly = false }: BEODiet
                       />
                     </Stack>
                   )}
-                </div>
+                </Box>
               ))}
             </Stack>
           ) : (

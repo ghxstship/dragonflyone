@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { ShoppingCart, Trash2, Plus, Minus, CreditCard, List } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Body, Button, Card, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+import { Body, Button, Card, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface CartItem { id: string; name: string; quantity: number; price: number; type: string; }
 const DEMO_CART: CartItem[] = [
@@ -60,34 +60,34 @@ export default function CartPage() {
           </Card>
         ) : (
           <Grid cols={3} gap={6} className="grid-cols-1 lg:grid-cols-3">
-            <div className="lg:col-span-2 space-y-4">
+            <Box className="lg:col-span-2 space-y-4">
               {items.map((item: CartItem) => (
                 <Card key={item.id} className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
+                  <Box className="flex items-center justify-between">
+                    <Box>
                       <Body className="font-weight-bold">{item.name}</Body>
                       <Body size="sm" className="text-on-dark-muted">{item.type}</Body>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-2">
+                    </Box>
+                    <Box className="flex items-center gap-4">
+                      <Box className="flex items-center gap-2">
                         <Button variant="ghost" size="sm" onClick={() => updateQuantity.mutate({ id: item.id, quantity: Math.max(1, item.quantity - 1) })}><Minus className="size-4" /></Button>
                         <Body className="w-8 text-center">{item.quantity}</Body>
                         <Button variant="ghost" size="sm" onClick={() => updateQuantity.mutate({ id: item.id, quantity: item.quantity + 1 })}><Plus className="size-4" /></Button>
-                      </div>
+                      </Box>
                       <Body className="font-weight-bold w-20 text-right">{formatCurrency(item.price * item.quantity)}</Body>
                       <Button variant="ghost" size="sm" onClick={() => removeItem.mutate(item.id)}><Trash2 className="size-4 text-error" /></Button>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 </Card>
               ))}
-            </div>
+            </Box>
             <Card className="p-6 h-fit">
               <SectionHeader title="Order Summary" />
-              <div className="space-y-3 mt-4">
-                <div className="flex justify-between"><Body className="text-on-dark-muted">Subtotal</Body><Body>{formatCurrency(subtotal)}</Body></div>
-                <div className="flex justify-between"><Body className="text-on-dark-muted">Service Fees</Body><Body>{formatCurrency(fees)}</Body></div>
-                <div className="border-t border-grey-800 pt-3 flex justify-between"><Body className="font-weight-bold">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></div>
-              </div>
+              <Box className="space-y-3 mt-4">
+                <Box className="flex justify-between"><Body className="text-on-dark-muted">Subtotal</Body><Body>{formatCurrency(subtotal)}</Body></Box>
+                <Box className="flex justify-between"><Body className="text-on-dark-muted">Service Fees</Body><Body>{formatCurrency(fees)}</Body></Box>
+                <Box className="border-t border-grey-800 pt-3 flex justify-between"><Body className="font-weight-bold">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></Box>
+              </Box>
               <Button variant="solid" className="w-full mt-6" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={() => router.push("/checkout")}>Checkout</Button>
             </Card>
           </Grid>

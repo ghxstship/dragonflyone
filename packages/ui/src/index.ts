@@ -175,6 +175,8 @@ export { CollaborativeField, CollaborativeCursor, CollaboratorsList } from "./mo
 export type { CollaborativeFieldProps, CollaborativeCursorProps, CollaboratorsListProps, CollaborationUser, FieldPresenceState } from "./molecules/collaborative-field.js";
 export { QuickAddFab } from "./molecules/quick-add-fab.js";
 export type { QuickAddFabProps, QuickAddAction } from "./molecules/quick-add-fab.js";
+export { SettingsRow, SettingsGroup, InfoRow, NumberedStep } from "./molecules/settings-row.js";
+export type { SettingsRowProps, SettingsGroupProps, InfoRowProps, NumberedStepProps } from "./molecules/settings-row.js";
 
 // =============================================================================
 // ORGANISMS - Complex components

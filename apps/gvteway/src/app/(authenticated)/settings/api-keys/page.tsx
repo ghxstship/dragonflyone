@@ -28,7 +28,7 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import { Key, Plus, Trash2, Eye, EyeOff, Copy, CheckCircle, Shield } from "lucide-react";
 import {
   useApiKeysData,
@@ -166,13 +166,13 @@ export default function ApiKeysPage() {
           </Grid>
 
           {apiKeys.length === 0 ? (
-            <div className="text-center py-12">
+            <Box className="text-center py-12">
               <Key className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted mb-4">No API keys created</Body>
               {canManageApiKeys && (
                 <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create API Key</Button>
               )}
-            </div>
+            </Box>
           ) : (
             <Card className="overflow-hidden">
               <Table>
@@ -208,7 +208,7 @@ export default function ApiKeysPage() {
                         </Body>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-2">
+                        <Box className="flex items-center gap-2">
                           {apiKey.expires_at ? (
                             <>
                               <Body size="sm" className="text-on-dark-muted">{new Date(apiKey.expires_at).toLocaleDateString()}</Body>
@@ -217,17 +217,17 @@ export default function ApiKeysPage() {
                           ) : (
                             <Body size="sm" className="text-on-dark-muted">Never</Body>
                           )}
-                        </div>
+                        </Box>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-2">
+                        <Box className="flex items-center gap-2">
                           {canManageApiKeys && (
                             <>
                               <Button variant="ghost" size="sm" onClick={() => handleToggleKey(apiKey)} icon={apiKey.is_active ? <EyeOff className="size-4" /> : <Eye className="size-4" />} />
                               <Button variant="ghost" size="sm" onClick={() => handleDeleteKey(apiKey.id)} icon={<Trash2 className="size-4" />} />
                             </>
                           )}
-                        </div>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -248,21 +248,21 @@ export default function ApiKeysPage() {
           <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
             <Card className="p-6">
               <Body className="font-weight-medium text-white mb-4">Do:</Body>
-              <div className="space-y-2">
+              <Box className="space-y-2">
                 <Body size="sm" className="text-on-dark-muted">Store API keys securely in environment variables</Body>
                 <Body size="sm" className="text-on-dark-muted">Use the minimum required scopes</Body>
                 <Body size="sm" className="text-on-dark-muted">Set expiration dates for keys</Body>
                 <Body size="sm" className="text-on-dark-muted">Rotate keys regularly</Body>
-              </div>
+              </Box>
             </Card>
             <Card className="p-6">
               <Body className="font-weight-medium text-white mb-4">Do Not:</Body>
-              <div className="space-y-2">
+              <Box className="space-y-2">
                 <Body size="sm" className="text-on-dark-muted">Commit API keys to version control</Body>
                 <Body size="sm" className="text-on-dark-muted">Share keys across applications</Body>
                 <Body size="sm" className="text-on-dark-muted">Use production keys in development</Body>
                 <Body size="sm" className="text-on-dark-muted">Expose keys in client-side code</Body>
-              </div>
+              </Box>
             </Card>
           </Grid>
         </Section>
@@ -287,12 +287,12 @@ export default function ApiKeysPage() {
       />
 
       <Modal open={showCreateModal} onClose={() => { setShowCreateModal(false); resetForm(); }} title="Create API Key">
-        <div className="space-y-4">
-          <div className="space-y-2">
+        <Box className="space-y-4">
+          <Box className="space-y-2">
             <Body size="sm" className="text-on-dark-muted">Key Name</Body>
             <Input placeholder="e.g., Production Server" value={keyName} onChange={(e) => setKeyName(e.target.value)} />
-          </div>
-          <div className="space-y-2">
+          </Box>
+          <Box className="space-y-2">
             <Body size="sm" className="text-on-dark-muted">Expiration</Body>
             <Select value={expiresIn} onChange={(e) => setExpiresIn(e.target.value)}>
               <option value="never">Never expires</option>
@@ -300,47 +300,47 @@ export default function ApiKeysPage() {
               <option value="90d">90 days</option>
               <option value="1y">1 year</option>
             </Select>
-          </div>
-          <div className="space-y-2">
+          </Box>
+          <Box className="space-y-2">
             <Body size="sm" className="text-on-dark-muted">Scopes</Body>
             <Card className="p-4 max-h-[200px] overflow-y-auto">
               <Grid cols={2} gap={2} className="grid-cols-1 lg:grid-cols-2">
                 {ALL_API_SCOPES.map((scope) => (
-                  <div key={scope} className="flex items-center gap-2">
+                  <Box key={scope} className="flex items-center gap-2">
                     <Checkbox checked={selectedScopes.includes(scope)} onChange={() => toggleScope(scope)} />
                     <Body size="sm">{getScopeLabel(scope)}</Body>
-                  </div>
+                  </Box>
                 ))}
               </Grid>
             </Card>
             <Body size="sm" className="text-on-dark-disabled">{selectedScopes.length} scopes selected</Body>
-          </div>
-          <div className="flex gap-4">
+          </Box>
+          <Box className="flex gap-4">
             <Button variant="outline" onClick={() => { setShowCreateModal(false); resetForm(); }}>Cancel</Button>
             <Button variant="solid" onClick={handleCreateKey} disabled={isCreating || !keyName || selectedScopes.length === 0}>
               {isCreating ? "Creating..." : "Create API Key"}
             </Button>
-          </div>
-        </div>
+          </Box>
+        </Box>
       </Modal>
 
       <Modal open={showKeyModal} onClose={() => setShowKeyModal(false)} title="API Key Created">
-        <div className="space-y-4">
+        <Box className="space-y-4">
           <Card className="p-4 bg-warning-900 border-warning-500">
             <Body size="sm" className="text-warning-100">This API key will only be shown once. Copy it now and store it securely.</Body>
           </Card>
-          <div className="space-y-2">
+          <Box className="space-y-2">
             <Body size="sm" className="text-on-dark-muted">Your API Key</Body>
-            <div className="flex gap-2">
+            <Box className="flex gap-2">
               <Input value={newKey} readOnly className="font-mono" />
               <Button variant="outline" onClick={copyKey} icon={copiedKey ? <CheckCircle className="size-4" /> : <Copy className="size-4" />}>
                 {copiedKey ? "Copied" : "Copy"}
               </Button>
-            </div>
+            </Box>
             <Body size="sm" className="text-on-dark-disabled">Include this key in your API requests using the Authorization header</Body>
-          </div>
+          </Box>
           <Button variant="solid" onClick={() => setShowKeyModal(false)}>Done</Button>
-        </div>
+        </Box>
       </Modal>
     </>
   );

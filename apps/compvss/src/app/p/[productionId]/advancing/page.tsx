@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { Send, CheckCircle, Clock, List, Mail } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, ProgressBar, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, ProgressBar, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface AdvanceItem {
   id: string;
@@ -75,45 +75,45 @@ export default function ProductionAdvancingPage() {
           </Grid>
 
           <Card className="p-6 mb-6">
-            <div className="flex justify-between mb-2">
+            <Box className="flex justify-between mb-2">
               <Body className="font-weight-medium">Advance Progress</Body>
               <Body className="font-weight-bold">{Math.round(progress)}%</Body>
-            </div>
+            </Box>
             <ProgressBar value={progress} size="lg" />
           </Card>
 
-          <div className="flex gap-2 mb-6">
+          <Box className="flex gap-2 mb-6">
             {categories.map((cat) => (
               <Button key={cat} variant={category === cat ? "solid" : "outline"} size="sm" onClick={() => setCategory(cat)}>
                 {cat === "all" ? "All" : cat}
               </Button>
             ))}
-          </div>
+          </Box>
 
-          <div className="space-y-2">
+          <Box className="space-y-2">
             {filteredAdvances.map((item: AdvanceItem) => {
               const config = STATUS_CONFIG[item.status];
               return (
                 <Card key={item.id} className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-card ${item.status === "confirmed" ? "bg-success/20" : item.status === "sent" ? "bg-info/20" : "bg-grey-800"}`}>
+                  <Box className="flex items-center justify-between">
+                    <Box className="flex items-center gap-4">
+                      <Box className={`p-2 rounded-card ${item.status === "confirmed" ? "bg-success/20" : item.status === "sent" ? "bg-info/20" : "bg-grey-800"}`}>
                         {config.icon}
-                      </div>
-                      <div>
+                      </Box>
+                      <Box>
                         <Body className="font-weight-medium">{item.item}</Body>
                         <Body size="sm" className="text-on-dark-muted">To: {item.recipient}</Body>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
+                      </Box>
+                    </Box>
+                    <Box className="flex items-center gap-2">
                       <Badge variant="outline">{item.category}</Badge>
                       <Badge variant={config.variant}>{config.label}</Badge>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 </Card>
               );
             })}
-          </div>
+          </Box>
         </Section>
       ),
     },

@@ -11,7 +11,7 @@ import {
   Pencil, Users, FileText, DollarSign, Target, Download} from "lucide-react";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ProgressBar, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ProgressBar, useNotifications, Box} from "@ghxstship/ui";
 import { useProjectDetailData } from "@/hooks/useProjectDetail";
 
 const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
@@ -133,10 +133,10 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
           <Section border>
             <SectionHeader title="Overall Progress" />
             <Card inverted className="p-4">
-              <div className="flex items-center justify-between mb-2">
+              <Box className="flex items-center justify-between mb-2">
                 <Body className="text-white">Completion</Body>
                 <Body className="text-white font-weight-bold">{progress}%</Body>
-              </div>
+              </Box>
               <ProgressBar value={progress} variant="inverse" />
             </Card>
           </Section>
@@ -150,22 +150,22 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
       content: (
         <Section border>
           <SectionHeader title="Project Milestones" />
-          <div className="space-y-4">
+          <Box className="space-y-4">
             {milestones.map((milestone) => (
               <Card key={milestone.id} inverted className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <div>
+                <Box className="flex items-center justify-between mb-2">
+                  <Box>
                     <Body className="text-white font-weight-medium">{milestone.name}</Body>
                     <Body size="xs" className="text-on-dark-muted">{milestone.date}</Body>
-                  </div>
+                  </Box>
                   <Badge variant={milestone.status === "Completed" ? "success" : milestone.status === "In Progress" ? "warning" : "outline"}>
                     {milestone.status}
                   </Badge>
-                </div>
+                </Box>
                 <ProgressBar value={milestone.progress} variant="inverse" />
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },

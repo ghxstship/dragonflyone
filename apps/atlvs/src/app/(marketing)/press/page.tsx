@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Download, Mail, Calendar, ArrowRight, FileText, Package, Users, ImageIcon } from "lucide-react";
 import {
-  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Box} from "@ghxstship/ui";
 
 interface PressRelease {
   id: string;
@@ -135,9 +135,9 @@ export default function PressPage() {
                     <Card key={asset.id} className="p-6 border-2 border-grey-800 rounded-card hover:border-primary/50 transition-all">
                       <Stack direction="horizontal" className="justify-between items-start gap-4">
                         <Stack direction="horizontal" gap={4} className="items-start">
-                          <div className="p-3 bg-primary/20 rounded-card text-primary">
+                          <Box className="p-3 bg-primary/20 rounded-card text-primary">
                             {asset.icon}
-                          </div>
+                          </Box>
                           <Stack gap={1}>
                             <Body className="text-white font-weight-bold">{asset.name}</Body>
                             <Body size="sm" className="text-on-dark-muted">{asset.description}</Body>
@@ -166,9 +166,9 @@ export default function PressPage() {
               <Card className="p-12 border-2 border-grey-800 rounded-card">
                 <Stack direction="horizontal" className="justify-between items-center flex-wrap gap-8">
                   <Stack direction="horizontal" gap={6} className="items-center">
-                    <div className="p-4 bg-primary/20 rounded-card">
+                    <Box className="p-4 bg-primary/20 rounded-card">
                       <Mail className="size-8 text-primary" />
-                    </div>
+                    </Box>
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold text-h5-md">Press Contact</Body>
                       <Body className="text-on-dark-muted">For media inquiries, interviews, and press information</Body>

@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { FileText, Search, Upload, Download, Folder, File, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Input, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Input, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Document {
   id: string;
@@ -66,39 +66,39 @@ export default function ProductionDocumentsPage() {
             <StatCard label="Spreadsheets" value={documents.filter((d: Document) => d.type === "xlsx").length.toString()} icon={<File className="size-5" />} />
           </Grid>
 
-          <div className="flex gap-4 items-center mb-6">
-            <div className="relative flex-1 max-w-sm">
+          <Box className="flex gap-4 items-center mb-6">
+            <Box className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
               <Input placeholder="Search documents..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-            </div>
-            <div className="flex gap-2">
+            </Box>
+            <Box className="flex gap-2">
               {folders.map((f) => (
                 <Button key={f} variant={folder === f ? "solid" : "outline"} size="sm" onClick={() => setFolder(f)}>
                   {f === "all" ? "All" : f}
                 </Button>
               ))}
-            </div>
-          </div>
+            </Box>
+          </Box>
 
-          <div className="space-y-2">
+          <Box className="space-y-2">
             {filteredDocs.map((doc: Document) => (
               <Card key={doc.id} className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                <Box className="flex items-center justify-between">
+                  <Box className="flex items-center gap-3">
                     <FileText className="size-5 text-on-dark-muted" />
-                    <div>
+                    <Box>
                       <Body className="font-weight-medium">{doc.name}</Body>
                       <Body size="sm" className="text-on-dark-muted">{doc.size} • Updated {formatDate(doc.updated)}</Body>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
+                    </Box>
+                  </Box>
+                  <Box className="flex items-center gap-2">
                     <Badge variant="outline">{doc.folder}</Badge>
                     <Button variant="ghost" size="sm"><Download className="size-4" /></Button>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },

@@ -19,7 +19,7 @@ import {
   Section,
   SectionHeader,
   Link,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import { useEvents } from "@/hooks/useEvents";
 
 interface CalendarEvent {
@@ -106,10 +106,10 @@ export default function CalendarPage() {
   const handleEventClick = (eventId: string) => router.push(`/events/${eventId}`);
 
   const headerActions = (
-    <div className="flex items-center gap-2">
+    <Box className="flex items-center gap-2">
       <Button variant={viewMode === "month" ? "solid" : "outline"} onClick={() => setViewMode("month")}>Month</Button>
       <Button variant={viewMode === "week" ? "solid" : "outline"} onClick={() => setViewMode("week")}>Week</Button>
-    </div>
+    </Box>
   );
 
   const tabs = [
@@ -120,21 +120,21 @@ export default function CalendarPage() {
       content: (
         <Section>
           <Grid cols={3} gap={8} className="grid-cols-1 lg:grid-cols-3">
-            <div className="lg:col-span-2">
+            <Box className="lg:col-span-2">
               <Card className="p-6">
-                <div className="flex items-center justify-between mb-6">
+                <Box className="flex items-center justify-between mb-6">
                   <Button variant="ghost" onClick={handlePrevMonth} icon={<ChevronLeft className="size-4" />} />
                   <Body className="font-weight-bold">{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</Body>
                   <Button variant="ghost" onClick={handleNextMonth} icon={<ChevronRight className="size-4" />} />
-                </div>
+                </Box>
 
                 <Button variant="outline" className="mb-4" onClick={handleToday}>Today</Button>
 
-                <div className="grid grid-cols-7 gap-1">
+                <Box className="grid grid-cols-7 gap-1">
                   {dayNames.map((day) => (
-                    <div key={day} className="p-2 text-center">
+                    <Box key={day} className="p-2 text-center">
                       <Body size="sm" className="text-on-dark-muted">{day}</Body>
-                    </div>
+                    </Box>
                   ))}
 
                   {calendarDays.map((day, index) => (
@@ -145,38 +145,38 @@ export default function CalendarPage() {
                     >
                       <Body className={selectedDate?.toDateString() === day.date.toDateString() ? "text-white" : ""}>{day.date.getDate()}</Body>
                       {day.events.length > 0 && (
-                        <div className="mt-1 space-y-1">
+                        <Box className="mt-1 space-y-1">
                           {day.events.slice(0, 2).map((event) => (
                             <Badge key={event.id} variant={selectedDate?.toDateString() === day.date.toDateString() ? "outline" : "info"} size="sm" className="truncate block">
                               {event.title || event.name}
                             </Badge>
                           ))}
                           {day.events.length > 2 && <Body size="sm" className="text-on-dark-muted">+{day.events.length - 2} more</Body>}
-                        </div>
+                        </Box>
                       )}
                     </Card>
                   ))}
-                </div>
+                </Box>
               </Card>
-            </div>
+            </Box>
 
-            <div className="space-y-6">
+            <Box className="space-y-6">
               <Card className="p-6">
                 <SectionHeader title={selectedDate ? selectedDate.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }) : "Select a Date"} />
                 {selectedDate ? (
                   selectedDayEvents.length > 0 ? (
-                    <div className="space-y-4 mt-4">
+                    <Box className="space-y-4 mt-4">
                       {selectedDayEvents.map((event: CalendarEvent) => (
                         <Card key={event.id} className="p-4 cursor-pointer hover:border-primary" onClick={() => handleEventClick(event.id)}>
                           <Body className="font-weight-medium">{event.title || event.name}</Body>
                           <Body size="sm" className="text-on-dark-muted">{event.venue}</Body>
-                          <div className="flex gap-2 mt-2">
+                          <Box className="flex gap-2 mt-2">
                             <Badge variant="outline">{event.category}</Badge>
                             <Badge variant="success">From ${event.price}</Badge>
-                          </div>
+                          </Box>
                         </Card>
                       ))}
-                    </div>
+                    </Box>
                   ) : (
                     <Body className="text-on-dark-muted mt-4">No events on this date.</Body>
                   )
@@ -187,19 +187,19 @@ export default function CalendarPage() {
 
               <Card className="p-6">
                 <SectionHeader title="Upcoming This Month" />
-                <div className="space-y-3 mt-4">
+                <Box className="space-y-3 mt-4">
                   {upcomingEvents.map((event: CalendarEvent) => (
                     <Link key={event.id} href={`/events/${event.id}`} className="flex items-center justify-between py-2 border-b border-grey-700">
-                      <div>
+                      <Box>
                         <Body className="font-weight-medium">{event.title || event.name}</Body>
                         <Body size="sm" className="text-on-dark-muted">{new Date(event.date || event.start_date || "").toLocaleDateString()}</Body>
-                      </div>
+                      </Box>
                       <Badge variant="outline">${event.price || 0}</Badge>
                     </Link>
                   ))}
-                </div>
+                </Box>
               </Card>
-            </div>
+            </Box>
           </Grid>
         </Section>
       ),
@@ -211,22 +211,22 @@ export default function CalendarPage() {
       content: (
         <Section>
           <SectionHeader title="All Events" description="Browse all upcoming events" />
-          <div className="space-y-4 mt-4">
+          <Box className="space-y-4 mt-4">
             {(events || []).slice(0, 20).map((event: CalendarEvent) => (
               <Card key={event.id} className="p-4 cursor-pointer hover:border-primary" onClick={() => handleEventClick(event.id)}>
-                <div className="flex items-center justify-between">
-                  <div>
+                <Box className="flex items-center justify-between">
+                  <Box>
                     <Body className="font-weight-medium">{event.title || event.name}</Body>
                     <Body size="sm" className="text-on-dark-muted">{event.venue} • {new Date(event.date || event.start_date || "").toLocaleDateString()}</Body>
-                  </div>
-                  <div className="flex gap-2">
+                  </Box>
+                  <Box className="flex gap-2">
                     <Badge variant="outline">{event.category}</Badge>
                     <Badge variant="success">From ${event.price}</Badge>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },

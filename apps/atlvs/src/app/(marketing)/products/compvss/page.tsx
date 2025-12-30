@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Users, Calendar, Clock, DollarSign, Check, List, Star } from "lucide-react";
 import {
-  Body, Button, Card, Grid, Stack, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Body, Button, Card, Grid, Stack, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 const FEATURES = [
   { icon: <Users className="size-6" />, title: "Crew Database", description: "Comprehensive database of crew members and their skills" },
@@ -48,20 +48,20 @@ export default function COMPVSSProductPage() {
           <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2 mt-6">
             {FEATURES.map((feature, idx) => (
               <Card key={idx} className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-primary/20 rounded-card text-primary">{feature.icon}</div>
-                  <div>
+                <Box className="flex items-start gap-4">
+                  <Box className="p-3 bg-primary/20 rounded-card text-primary">{feature.icon}</Box>
+                  <Box>
                     <Body className="font-weight-bold font-weight-medium mb-2">{feature.title}</Body>
                     <Body className="text-on-dark-muted">{feature.description}</Body>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
           </Grid>
 
           <Card className="p-8 mt-8">
             <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2">
-              <div>
+              <Box>
                 <Body className="font-weight-bold font-weight-bold mb-4">Why COMPVSS?</Body>
                 <Stack gap={3}>
                   {BENEFITS.map((benefit, idx) => (
@@ -71,15 +71,15 @@ export default function COMPVSSProductPage() {
                     </Stack>
                   ))}
                 </Stack>
-              </div>
-              <div className="flex flex-col justify-center items-center text-center">
+              </Box>
+              <Box className="flex flex-col justify-center items-center text-center">
                 <Body className="font-weight-bold font-weight-bold mb-2">Ready to get started?</Body>
                 <Body className="text-on-dark-muted mb-6">See COMPVSS in action</Body>
-                <div className="flex gap-4">
+                <Box className="flex gap-4">
                   <Button variant="solid" onClick={() => router.push("/demo")}>Request Demo</Button>
                   <Button variant="outline" onClick={() => router.push("/pricing")}>View Pricing</Button>
-                </div>
-              </div>
+                </Box>
+              </Box>
             </Grid>
           </Card>
         </Section>

@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Book, FileText, Video, Download, ArrowRight, Presentation, Wrench, GraduationCap } from "lucide-react";
 import {
-  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Box} from "@ghxstship/ui";
 
 const RESOURCE_CATEGORIES: FeatureItem[] = [
   { id: "guides", icon: <Book className="size-8" />, title: "Guides", description: "Step-by-step tutorials to help you master ATLVS and production management best practices." },
@@ -104,9 +104,9 @@ export default function ResourcesPage() {
                       onClick={() => router.push(`/guides/${path.id}`)}
                     >
                       <Stack gap={4}>
-                        <div className="p-3 bg-primary/20 rounded-card text-primary w-fit group-hover:bg-primary group-hover:text-white transition-all">
+                        <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit group-hover:bg-primary group-hover:text-white transition-all">
                           {path.icon}
-                        </div>
+                        </Box>
                         <Stack gap={2}>
                           <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{path.title}</Body>
                           <Body className="text-on-dark-muted">{path.description}</Body>
@@ -143,9 +143,9 @@ export default function ResourcesPage() {
                     <Card key={resource.id} className="p-5 border-2 border-grey-800 rounded-card hover:border-grey-700 transition-all">
                       <Stack direction="horizontal" className="justify-between items-start gap-4">
                         <Stack direction="horizontal" gap={4} className="items-start">
-                          <div className="p-2 bg-grey-800 rounded-card">
+                          <Box className="p-2 bg-grey-800 rounded-card">
                             <FileText className="size-5 text-on-dark-muted" />
-                          </div>
+                          </Box>
                           <Stack gap={1}>
                             <Body className="text-white font-weight-bold">{resource.title}</Body>
                             <Body size="sm" className="text-on-dark-muted">{resource.description}</Body>

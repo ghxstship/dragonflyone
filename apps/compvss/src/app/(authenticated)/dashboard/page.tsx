@@ -11,7 +11,7 @@ import { useCrew } from "@/hooks/useCrew";
 import { useEquipment } from "@/hooks/useEquipment";
 import { useActivityFeed } from "@ghxstship/config/hooks";
 import {
-  Body, Button, Card, StatCard, Grid, PageLayout, MarketingPageHeader, Section, SectionHeader, StatusBadge, Badge} from "@ghxstship/ui";
+  Body, Button, Card, StatCard, Grid, PageLayout, MarketingPageHeader, Section, SectionHeader, Stack, StatusBadge, Badge} from "@ghxstship/ui";
 import { useAuthContext, PlatformRole } from "@ghxstship/config";
 
 const ADMIN_ROLES = [
@@ -87,7 +87,7 @@ export default function CompvssDashboardPage() {
         <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
           <Card inverted className="p-4">
             <Body className="text-white font-weight-medium mb-3">Project Management</Body>
-            <div className="space-y-2">
+            <Stack gap={2}>
               {canManage && (
                 <Button variant="solid" className="w-full" onClick={() => router.push("/projects/new")}>
                   Create Project
@@ -96,11 +96,11 @@ export default function CompvssDashboardPage() {
               <Button variant="outline" inverted className="w-full" onClick={() => router.push("/projects")}>
                 View All Projects
               </Button>
-            </div>
+            </Stack>
           </Card>
           <Card inverted className="p-4">
             <Body className="text-white font-weight-medium mb-3">Crew Management</Body>
-            <div className="space-y-2">
+            <Stack gap={2}>
               {canManage && (
                 <Button variant="solid" className="w-full" onClick={() => router.push("/crew/assign")}>
                   Assign Crew
@@ -109,18 +109,18 @@ export default function CompvssDashboardPage() {
               <Button variant="outline" inverted className="w-full" onClick={() => router.push("/crew")}>
                 Crew Directory
               </Button>
-            </div>
+            </Stack>
           </Card>
           <Card inverted className="p-4">
             <Body className="text-white font-weight-medium mb-3">Equipment</Body>
-            <div className="space-y-2">
+            <Stack gap={2}>
               <Button variant="solid" className="w-full" onClick={() => router.push("/equipment")}>
                 Equipment Inventory
               </Button>
               <Button variant="outline" inverted className="w-full" onClick={() => router.push("/maintenance")}>
                 Maintenance Schedule
               </Button>
-            </div>
+            </Stack>
           </Card>
         </Grid>
       </Section>
@@ -132,53 +132,53 @@ export default function CompvssDashboardPage() {
           title="Active Projects"
           description="Current productions and their status"
         />
-        <div className="space-y-4">
+        <Stack gap={4}>
           <Card inverted className="p-4 border-l-4 border-success">
-            <div className="flex items-start justify-between">
-              <div>
+            <Stack direction="horizontal" className="items-start justify-between">
+              <Stack gap={1}>
                 <Body className="text-white font-weight-medium">Summer Music Festival 2024</Body>
                 <Body size="sm" className="text-on-dark-muted">Load-in: June 12 • Event: June 15-17</Body>
-                <div className="flex gap-2 mt-2">
+                <Stack direction="horizontal" gap={2} className="mt-2">
                   <StatusBadge status="success" size="sm">ON TRACK</StatusBadge>
                   <Badge variant="solid" size="sm">32 CREW</Badge>
-                </div>
-              </div>
+                </Stack>
+              </Stack>
               <Button variant="outline" inverted size="sm" onClick={() => router.push("/projects/summer-festival-2024")}>
                 View
               </Button>
-            </div>
+            </Stack>
           </Card>
           <Card inverted className="p-4 border-l-4 border-warning">
-            <div className="flex items-start justify-between">
-              <div>
+            <Stack direction="horizontal" className="items-start justify-between">
+              <Stack gap={1}>
                 <Body className="text-white font-weight-medium">Corporate Product Launch</Body>
                 <Body size="sm" className="text-on-dark-muted">Setup: June 10 • Event: June 11</Body>
-                <div className="flex gap-2 mt-2">
+                <Stack direction="horizontal" gap={2} className="mt-2">
                   <StatusBadge status="warning" size="sm">ATTENTION</StatusBadge>
                   <Badge variant="solid" size="sm">18 CREW</Badge>
-                </div>
-              </div>
+                </Stack>
+              </Stack>
               <Button variant="outline" inverted size="sm" onClick={() => router.push("/projects/corporate-launch")}>
                 View
               </Button>
-            </div>
+            </Stack>
           </Card>
           <Card inverted className="p-4 border-l-4 border-info">
-            <div className="flex items-start justify-between">
-              <div>
+            <Stack direction="horizontal" className="items-start justify-between">
+              <Stack gap={1}>
                 <Body className="text-white font-weight-medium">Theater Production: Hamilton</Body>
                 <Body size="sm" className="text-on-dark-muted">Tech Week: June 8-13 • Opening: June 14</Body>
-                <div className="flex gap-2 mt-2">
+                <Stack direction="horizontal" gap={2} className="mt-2">
                   <StatusBadge status="info" size="sm">TECH WEEK</StatusBadge>
                   <Badge variant="solid" size="sm">24 CREW</Badge>
-                </div>
-              </div>
+                </Stack>
+              </Stack>
               <Button variant="outline" inverted size="sm" onClick={() => router.push("/projects/hamilton")}>
                 View
               </Button>
-            </div>
+            </Stack>
           </Card>
-        </div>
+        </Stack>
       </Section>
 
       {/* Status & Activity */}
@@ -187,34 +187,34 @@ export default function CompvssDashboardPage() {
         <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
           <Card inverted className="p-4">
             <Body className="text-white font-weight-medium mb-3">Crew Status Today</Body>
-            <div className="space-y-2">
-              <div className="flex justify-between border-b border-grey-700 pb-2">
+            <Stack gap={2}>
+              <Stack direction="horizontal" className="justify-between border-b border-grey-700 pb-2">
                 <Body size="sm" className="text-on-dark-muted">Total Crew</Body>
                 <Body size="sm" className="text-white">{stats.totalCrew}</Body>
-              </div>
-              <div className="flex justify-between border-b border-grey-700 pb-2">
+              </Stack>
+              <Stack direction="horizontal" className="justify-between border-b border-grey-700 pb-2">
                 <Body size="sm" className="text-on-dark-muted">Available</Body>
                 <Body size="sm" className="text-white">{stats.activeCrew}</Body>
-              </div>
-              <div className="flex justify-between border-b border-grey-700 pb-2">
+              </Stack>
+              <Stack direction="horizontal" className="justify-between border-b border-grey-700 pb-2">
                 <Body size="sm" className="text-on-dark-muted">Equipment Available</Body>
                 <Body size="sm" className="text-white">{stats.availableEquipment}</Body>
-              </div>
-              <div className="flex justify-between">
+              </Stack>
+              <Stack direction="horizontal" className="justify-between">
                 <Body size="sm" className="text-on-dark-muted">Equipment In Use</Body>
                 <Body size="sm" className="text-white">{stats.inUseEquipment}</Body>
-              </div>
-            </div>
+              </Stack>
+            </Stack>
           </Card>
           <Card inverted className="p-4">
             <Body className="text-white font-weight-medium mb-3">Recent Activity</Body>
-            <div className="space-y-2">
+            <Stack gap={2}>
               {recentActivity.map((activity) => (
                 <Body key={activity.id} size="sm" className="text-on-dark-muted">
                   {activity.action}: {activity.detail}
                 </Body>
               ))}
-            </div>
+            </Stack>
           </Card>
         </Grid>
       </Section>

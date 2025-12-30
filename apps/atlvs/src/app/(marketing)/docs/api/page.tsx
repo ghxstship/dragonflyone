@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Code, Key, Webhook, Copy, Check, List, Terminal} from "lucide-react";
 import {
-  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
 
 interface Endpoint {
   method: "GET" | "POST" | "PUT" | "DELETE";
@@ -62,17 +62,17 @@ export default function ApiDocsPage() {
         <Section>
           <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mb-6">
             <Card className="p-6 text-center">
-              <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Key className="size-6" /></div>
+              <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Key className="size-6" /></Box>
               <Body className="font-weight-bold">Authentication</Body>
               <Body size="sm" className="text-on-dark-muted">API key based auth</Body>
             </Card>
             <Card className="p-6 text-center">
-              <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Code className="size-6" /></div>
+              <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Code className="size-6" /></Box>
               <Body className="font-weight-bold">REST API</Body>
               <Body size="sm" className="text-on-dark-muted">JSON responses</Body>
             </Card>
             <Card className="p-6 text-center">
-              <div className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Webhook className="size-6" /></div>
+              <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Webhook className="size-6" /></Box>
               <Body className="font-weight-bold">Webhooks</Body>
               <Body size="sm" className="text-on-dark-muted">Real-time events</Body>
             </Card>
@@ -80,22 +80,22 @@ export default function ApiDocsPage() {
 
           <Card className="p-6 mb-6">
             <SectionHeader title="Quick Start" description="Get started with the ATLVS API" />
-            <div className="mt-4 bg-grey-900 rounded-card p-4 relative">
+            <Box className="mt-4 bg-grey-900 rounded-card p-4 relative">
               <Button variant="ghost" size="sm" className="absolute top-2 right-2" onClick={() => copyToClipboard(exampleCode, "example")}>
                 {copiedCode === "example" ? <Check className="size-4" /> : <Copy className="size-4" />}
               </Button>
               <pre className="font-weight-normal text-on-dark-secondary overflow-x-auto"><code>{exampleCode}</code></pre>
-            </div>
+            </Box>
           </Card>
 
           <Card className="p-6">
             <SectionHeader title="Base URL" />
-            <div className="mt-4 flex items-center gap-4">
+            <Box className="mt-4 flex items-center gap-4">
               <code className="bg-grey-800 px-4 py-2 rounded text-primary">https://api.atlvs.com/v1</code>
               <Button variant="ghost" size="sm" onClick={() => copyToClipboard("https://api.atlvs.com/v1", "baseurl")}>
                 {copiedCode === "baseurl" ? <Check className="size-4" /> : <Copy className="size-4" />}
               </Button>
-            </div>
+            </Box>
           </Card>
         </Section>
       ),
@@ -107,17 +107,17 @@ export default function ApiDocsPage() {
       content: (
         <Section>
           <SectionHeader title="API Endpoints" description="Available REST API endpoints" />
-          <div className="space-y-2 mt-4">
+          <Box className="space-y-2 mt-4">
             {ENDPOINTS.map((endpoint, idx) => (
               <Card key={idx} className="p-4 cursor-pointer hover:border-primary transition-colors">
-                <div className="flex items-center gap-4">
+                <Box className="flex items-center gap-4">
                   <Badge variant={METHOD_COLORS[endpoint.method]} className="w-16 justify-center">{endpoint.method}</Badge>
                   <code className="text-primary flex-1">{endpoint.path}</code>
                   <Body size="sm" className="text-on-dark-muted">{endpoint.description}</Body>
-                </div>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
 
           <Card className="p-8 mt-8 text-center">
             <Body className="font-weight-bold font-weight-bold mb-2">Need an API Key?</Body>

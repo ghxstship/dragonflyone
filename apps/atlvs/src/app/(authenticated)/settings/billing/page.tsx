@@ -12,7 +12,7 @@ import { CreditCard, Check, Download, Calendar, DollarSign, Users, HardDrive, Li
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, Grid, Stack, Modal, ModalBody, ModalFooter, ModalHeader, ProgressBar, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Stack, Modal, ModalBody, ModalFooter, ModalHeader, ProgressBar, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface BillingInfo {
   plan: { name: string; price: number; interval: "monthly" | "yearly"; features: string[] };
@@ -97,56 +97,56 @@ export default function BillingSettingsPage() {
           </Grid>
 
           <Card className="p-6 mb-6 border-primary">
-            <div className="flex justify-between items-start mb-4">
-              <div>
+            <Box className="flex justify-between items-start mb-4">
+              <Box>
                 <Body className="font-weight-bold text-body-lg">{data?.plan.name} Plan</Body>
                 <Body className="text-on-dark-muted">{formatCurrency(data?.plan.price || 0)}/{data?.plan.interval}</Body>
-              </div>
+              </Box>
               <Button variant="outline" size="sm" onClick={() => setShowChangePlan(true)}>Change Plan</Button>
-            </div>
+            </Box>
             <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
-              <div className="p-3 bg-grey-800 rounded-card">
+              <Box className="p-3 bg-grey-800 rounded-card">
                 <Body size="sm" className="text-on-dark-muted">Bookings</Body>
                 <Body className="font-weight-medium">{data?.usage.bookings_limit === -1 ? "Unlimited" : `${data?.usage.bookings}/${data?.usage.bookings_limit}`}</Body>
                 {data?.usage.bookings_limit !== -1 && <ProgressBar value={(data?.usage.bookings || 0) / (data?.usage.bookings_limit || 1) * 100} size="sm" className="mt-2" />}
-              </div>
-              <div className="p-3 bg-grey-800 rounded-card">
+              </Box>
+              <Box className="p-3 bg-grey-800 rounded-card">
                 <Body size="sm" className="text-on-dark-muted">Storage</Body>
                 <Body className="font-weight-medium">{data?.usage.storage_gb}GB / {data?.usage.storage_limit_gb}GB</Body>
                 <ProgressBar value={(data?.usage.storage_gb || 0) / (data?.usage.storage_limit_gb || 1) * 100} size="sm" className="mt-2" />
-              </div>
-              <div className="p-3 bg-grey-800 rounded-card">
+              </Box>
+              <Box className="p-3 bg-grey-800 rounded-card">
                 <Body size="sm" className="text-on-dark-muted">Team</Body>
                 <Body className="font-weight-medium">{data?.usage.team_members} / {data?.usage.team_limit}</Body>
                 <ProgressBar value={(data?.usage.team_members || 0) / (data?.usage.team_limit || 1) * 100} size="sm" className="mt-2" />
-              </div>
+              </Box>
             </Grid>
           </Card>
 
           <Card className="p-6">
             <SectionHeader title="Payment Method" />
             {data?.payment_method ? (
-              <div className="flex justify-between items-center p-4 bg-grey-800 rounded-card mt-4">
-                <div className="flex items-center gap-3">
+              <Box className="flex justify-between items-center p-4 bg-grey-800 rounded-card mt-4">
+                <Box className="flex items-center gap-3">
                   <CreditCard className="size-8 text-on-dark-muted" />
-                  <div>
+                  <Box>
                     <Body className="font-weight-medium">•••• •••• •••• {data.payment_method.last4}</Body>
                     <Body size="sm" className="text-on-dark-muted">Expires {data.payment_method.exp_month}/{data.payment_method.exp_year}</Body>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
                 <Button variant="ghost" size="sm">Update</Button>
-              </div>
+              </Box>
             ) : (
-              <div className="text-center py-8 bg-grey-800 rounded-card mt-4">
+              <Box className="text-center py-8 bg-grey-800 rounded-card mt-4">
                 <CreditCard className="size-8 text-on-dark-disabled mx-auto mb-2" />
                 <Body className="text-on-dark-muted">No payment method on file</Body>
                 <Button variant="ghost" size="sm" className="mt-2">Add Payment Method</Button>
-              </div>
+              </Box>
             )}
-            <div className="flex items-center gap-2 mt-4 text-on-dark-muted">
+            <Box className="flex items-center gap-2 mt-4 text-on-dark-muted">
               <Calendar className="size-4" />
               <Body size="sm">Next billing date: {data?.next_billing_date ? formatDate(data.next_billing_date) : "N/A"}</Body>
-            </div>
+            </Box>
           </Card>
         </Section>
       ),
@@ -164,23 +164,23 @@ export default function BillingSettingsPage() {
               <Body className="text-on-dark-muted">No invoices yet</Body>
             </Card>
           ) : (
-            <div className="space-y-2 mt-4">
+            <Box className="space-y-2 mt-4">
               {data.invoices.map((invoice) => (
                 <Card key={invoice.id} className="p-4">
-                  <div className="flex justify-between items-center">
-                    <div>
+                  <Box className="flex justify-between items-center">
+                    <Box>
                       <Body className="font-weight-medium">{formatDate(invoice.date)}</Body>
                       <Body size="sm" className="text-on-dark-muted">{invoice.id}</Body>
-                    </div>
-                    <div className="flex items-center gap-4">
+                    </Box>
+                    <Box className="flex items-center gap-4">
                       <Badge variant={invoice.status === "paid" ? "success" : invoice.status === "pending" ? "warning" : "error"}>{invoice.status}</Badge>
                       <Body className="font-weight-medium">{formatCurrency(invoice.amount)}</Body>
                       <Button variant="ghost" size="sm" icon={<Download className="size-4" />} />
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 </Card>
               ))}
-            </div>
+            </Box>
           )}
         </Section>
       ),

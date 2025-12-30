@@ -5,6 +5,7 @@ import { Plus, Trash2, Clock, GripVertical } from "lucide-react";
 import {
   Badge,
   Body,
+  Box,
   Button,
   Card,
   CardBody,
@@ -97,7 +98,7 @@ export function BEOTimeline({ items, onChange, readOnly = false }: BEOTimelinePr
           {items.length > 0 ? (
             <Stack gap={2}>
               {sortedItems.map((item, index) => (
-                <div
+                <Box
                   key={item.id}
                   draggable={!readOnly}
                   onDragStart={() => handleDragStart(index)}
@@ -175,7 +176,7 @@ export function BEOTimeline({ items, onChange, readOnly = false }: BEOTimelinePr
                       onClick={() => removeItem(item.id)}
                     />
                   )}
-                </div>
+                </Box>
               ))}
             </Stack>
           ) : (

@@ -1,12 +1,14 @@
 'use client';
 
 import {
+  Box,
   Button,
   Text,
   Stack,
   Container,
   Label,
   Body,
+  Header,
 } from '@ghxstship/ui';
 
 import { useState } from 'react';
@@ -28,15 +30,15 @@ export function PublicHeader({ className }: PublicHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className={clsx('sticky top-0 z-header bg-surface-primary/95 backdrop-blur supports-[backdrop-filter]:bg-surface-primary/60 border-b-2 border-ink-950', className)}>
+    <Header variant="page" className={clsx('sticky top-0 z-header bg-surface-primary/95 backdrop-blur supports-[backdrop-filter]:bg-surface-primary/60 border-b-2 border-ink-950', className)}>
       <Container size="xl" className="px-container-sm">
         <Stack direction="horizontal" gap={4} className="items-center justify-between h-16">
           {/* Logo */}
           <Link href="/">
             <Stack direction="horizontal" gap={2} className="items-center">
-              <div className="w-8 h-8 bg-ink-950 rounded-card flex items-center justify-center">
+              <Box className="w-8 h-8 bg-ink-950 rounded-card flex items-center justify-center">
                 <Text className="text-white font-heading text-body-sm">A</Text>
-              </div>
+              </Box>
               <Text className="font-heading text-h4-md tracking-label">ATLVS</Text>
             </Stack>
           </Link>
@@ -70,7 +72,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t-2 border-ink-950 bg-surface-primary">
+        <Box className="lg:hidden border-t-2 border-ink-950 bg-surface-primary">
           <Container size="xl" className="px-container-sm py-container-sm">
             <Stack gap={4}>
               {/* Products */}
@@ -151,9 +153,9 @@ export function PublicHeader({ className }: PublicHeaderProps) {
               </Stack>
             </Stack>
           </Container>
-        </div>
+        </Box>
       )}
-    </header>
+    </Header>
   );
 }
 

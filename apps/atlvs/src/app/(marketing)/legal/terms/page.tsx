@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Download, ArrowLeft } from "lucide-react";
 import {
-  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button, Box} from "@ghxstship/ui";
 
 const SECTIONS = [
   { id: "acceptance", title: "1. Acceptance of Terms", content: "By accessing or using ATLVS, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site." },
@@ -52,7 +52,7 @@ export default function TermsPage() {
             <Container size="lg" className="py-20">
               <Stack gap={8}>
                 <Card className="p-6 border-2 border-grey-800 rounded-card">
-                  <div className="flex items-center justify-between flex-wrap gap-4">
+                  <Box className="flex items-center justify-between flex-wrap gap-4">
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold">Terms of Service</Body>
                       <Body size="sm" className="text-on-dark-muted">Last updated: December 1, 2024</Body>
@@ -76,7 +76,7 @@ export default function TermsPage() {
                         Download PDF
                       </Button>
                     </Stack>
-                  </div>
+                  </Box>
                 </Card>
 
                 <Stack gap={6}>

@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Book, Clock, Star, ArrowRight, Search } from "lucide-react";
 import {
-  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Input} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Input, Box} from "@ghxstship/ui";
 
 interface Guide {
   id: string;
@@ -103,9 +103,9 @@ export default function GuidesPage() {
                     >
                       <Stack direction="horizontal" className="justify-between items-center gap-6 flex-wrap">
                         <Stack direction="horizontal" gap={6} className="items-center">
-                          <div className="p-4 bg-primary/20 rounded-card group-hover:bg-primary group-hover:text-white transition-all">
+                          <Box className="p-4 bg-primary/20 rounded-card group-hover:bg-primary group-hover:text-white transition-all">
                             <Star className="size-8 text-primary group-hover:text-white transition-colors" />
-                          </div>
+                          </Box>
                           <Stack gap={2}>
                             <Stack direction="horizontal" gap={2} className="items-center">
                               <Badge variant="outline">{guide.category}</Badge>
@@ -144,7 +144,7 @@ export default function GuidesPage() {
                 {/* Search and Filters */}
                 <Card className="p-4 border-2 border-grey-800 rounded-card">
                   <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
-                    <div className="flex-1 min-w-[200px] relative">
+                    <Box className="flex-1 min-w-[200px] relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                       <Input
                         placeholder="Search guides..."
@@ -152,7 +152,7 @@ export default function GuidesPage() {
                         onChange={(e) => setSearch(e.target.value)}
                         className="pl-10"
                       />
-                    </div>
+                    </Box>
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       {CATEGORIES.map((cat) => (
                         <Button

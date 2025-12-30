@@ -2,7 +2,7 @@
 
 import { Users, MessageSquare, Calendar, Award, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+import { Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Discussion { id: string; title: string; replies: number; author: string; }
 const DEMO: Discussion[] = [
@@ -28,16 +28,16 @@ export default function CommunityPage() {
           <StatCard label="Top Contributors" value="50" icon={<Award className="size-5" />} />
         </Grid>
         <SectionHeader title="Recent Discussions" />
-        <div className="space-y-4 mt-4">
+        <Box className="space-y-4 mt-4">
           {discussions.map((d: Discussion) => (
             <Card key={d.id} className="p-4 cursor-pointer hover:border-primary transition-colors">
-              <div className="flex items-center justify-between">
-                <div><Body className="font-weight-bold">{d.title}</Body><Body size="sm" className="text-on-dark-muted">by {d.author}</Body></div>
-                <div className="flex items-center gap-2 text-on-dark-muted"><MessageSquare className="size-4" /><Body size="sm">{d.replies}</Body></div>
-              </div>
+              <Box className="flex items-center justify-between">
+                <Box><Body className="font-weight-bold">{d.title}</Body><Body size="sm" className="text-on-dark-muted">by {d.author}</Body></Box>
+                <Box className="flex items-center gap-2 text-on-dark-muted"><MessageSquare className="size-4" /><Body size="sm">{d.replies}</Body></Box>
+              </Box>
             </Card>
           ))}
-        </div>
+        </Box>
         <Button variant="outline" className="w-full mt-4">View All Discussions</Button>
       </Section>
     ),

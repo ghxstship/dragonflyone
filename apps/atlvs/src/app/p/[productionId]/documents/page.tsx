@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { FileText, Plus, Download, Trash2, Search, Folder, Upload, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Document {
   id: string;
@@ -78,41 +78,41 @@ export default function ProductionDocumentsPage() {
           </Grid>
 
           <Card className="p-4 mb-6">
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex-1 min-w-[200px] relative">
+            <Box className="flex items-center gap-4 flex-wrap">
+              <Box className="flex-1 min-w-[200px] relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
                 <Input placeholder="Search documents..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-              </div>
-              <div className="flex gap-2 flex-wrap">
+              </Box>
+              <Box className="flex gap-2 flex-wrap">
                 {FOLDERS.map((folder) => (
                   <Button key={folder} variant={selectedFolder === folder ? "solid" : "outline"} size="sm" onClick={() => setSelectedFolder(folder)}>
                     {folder}
                   </Button>
                 ))}
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Card>
 
-          <div className="space-y-2">
+          <Box className="space-y-2">
             {filteredDocuments.map((doc: Document) => (
               <Card key={doc.id} className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-grey-800 rounded-card">{getFileIcon(doc.type)}</div>
-                    <div>
+                <Box className="flex items-center justify-between">
+                  <Box className="flex items-center gap-4">
+                    <Box className="p-2 bg-grey-800 rounded-card">{getFileIcon(doc.type)}</Box>
+                    <Box>
                       <Body className="font-weight-medium">{doc.name}</Body>
                       <Body size="sm" className="text-on-dark-muted">{doc.uploaded_by} • {formatDate(doc.uploaded_at)} • {doc.size}</Body>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
+                    </Box>
+                  </Box>
+                  <Box className="flex items-center gap-2">
                     <Badge variant="outline">{doc.folder}</Badge>
                     <Button variant="ghost" size="sm" icon={<Download className="size-4" />} />
                     <Button variant="ghost" size="sm" icon={<Trash2 className="size-4" />} />
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },

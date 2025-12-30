@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { MessageSquare, Send, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Body, Button, Card, Input, DetailPage, Section } from "@ghxstship/ui";
+import { Body, Button, Card, Input, DetailPage, Section, Box} from "@ghxstship/ui";
 
 interface Message { id: string; user: string; text: string; time: string; }
 const DEMO_MESSAGES: Message[] = [
@@ -32,30 +32,30 @@ export default function EventChatPage() {
       <Section>
         <Card className="p-4 h-96 overflow-y-auto mb-4">
           {messages.length === 0 ? (
-            <div className="h-full flex items-center justify-center">
-              <div className="text-center">
+            <Box className="h-full flex items-center justify-center">
+              <Box className="text-center">
                 <MessageSquare className="size-12 text-on-dark-disabled mx-auto mb-4" />
                 <Body className="text-on-dark-muted">No messages yet. Start the conversation!</Body>
-              </div>
-            </div>
+              </Box>
+            </Box>
           ) : (
-            <div className="space-y-4">
+            <Box className="space-y-4">
               {messages.map((msg: Message) => (
-                <div key={msg.id} className="flex gap-3">
-                  <div className="size-8 bg-primary rounded-avatar flex items-center justify-center text-white text-body-sm">{msg.user[0]}</div>
-                  <div>
-                    <div className="flex items-center gap-2"><Body className="font-weight-medium">{msg.user}</Body><Body size="sm" className="text-on-dark-disabled">{msg.time}</Body></div>
+                <Box key={msg.id} className="flex gap-3">
+                  <Box className="size-8 bg-primary rounded-avatar flex items-center justify-center text-white text-body-sm">{msg.user[0]}</Box>
+                  <Box>
+                    <Box className="flex items-center gap-2"><Body className="font-weight-medium">{msg.user}</Body><Body size="sm" className="text-on-dark-disabled">{msg.time}</Body></Box>
                     <Body className="text-on-dark-secondary">{msg.text}</Body>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               ))}
-            </div>
+            </Box>
           )}
         </Card>
-        <div className="flex gap-2">
+        <Box className="flex gap-2">
           <Input placeholder="Type a message..." value={message} onChange={(e) => setMessage(e.target.value)} className="flex-1" />
           <Button variant="solid" icon={<Send className="size-4" />} disabled={!message.trim()}>Send</Button>
-        </div>
+        </Box>
       </Section>
     ),
   }];

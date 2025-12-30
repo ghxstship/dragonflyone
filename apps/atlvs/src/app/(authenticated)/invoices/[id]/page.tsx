@@ -10,7 +10,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { 
   Edit2, Send, Mail, DollarSign, Calendar, FileText, Clock, CheckCircle, Download, Printer, CreditCard} from 'lucide-react';
 import {
-  DetailPage, Stack, Grid, Card, Section, SectionHeader, StatCard, Badge, Button, Body, H3, Label, Input, Select, useNotifications} from '@ghxstship/ui';
+  DetailPage, Stack, Grid, Card, Section, SectionHeader, StatCard, Badge, Button, Body, H3, Label, Input, Select, useNotifications, Box} from '@ghxstship/ui';
 import { useInvoice, useSendInvoice, useRecordPayment } from '@/hooks/useInvoices';
 
 const formatDate = (dateStr: string) => {
@@ -334,7 +334,7 @@ export default function InvoiceDetailPage() {
       
 
       {showPaymentModal && invoice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <Box className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <Card inverted className="w-full max-w-md border-2 border-ink-700 p-6">
             <Stack gap={6}>
               <H3 className="text-white">Record Payment</H3>
@@ -342,7 +342,7 @@ export default function InvoiceDetailPage() {
               <Stack gap={4}>
                 <Stack gap={2}>
                   <Label>Amount</Label>
-                  <div className="relative">
+                  <Box className="relative">
                     <DollarSign className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-on-dark-disabled" />
                     <Input
                       type="number"
@@ -353,7 +353,7 @@ export default function InvoiceDetailPage() {
                       step="0.01"
                       className="pl-10"
                     />
-                  </div>
+                  </Box>
                 </Stack>
                 
                 <Stack gap={2}>
@@ -401,7 +401,7 @@ export default function InvoiceDetailPage() {
               </Stack>
             </Stack>
           </Card>
-        </div>
+        </Box>
       )}
     </>
   );

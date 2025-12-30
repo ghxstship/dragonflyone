@@ -10,7 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Calendar, Users, FileText, DollarSign, Clock, CheckCircle, List, Activity} from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, ProgressBar, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, ProgressBar, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface Production {
   id: string;
@@ -62,25 +62,25 @@ export default function ProductionOverviewPage() {
           <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
             <Card className="p-6">
               <SectionHeader title="Task Progress" />
-              <div className="mt-4">
-                <div className="flex justify-between mb-2">
+              <Box className="mt-4">
+                <Box className="flex justify-between mb-2">
                   <Body size="sm" className="text-on-dark-muted">{production?.tasks_completed || 0} of {production?.tasks_total || 0} tasks completed</Body>
                   <Body size="sm" className="font-weight-medium">{Math.round(taskProgress)}%</Body>
-                </div>
+                </Box>
                 <ProgressBar value={taskProgress} size="lg" />
-              </div>
+              </Box>
               <Button variant="outline" className="mt-4" onClick={() => router.push(`/p/${productionId}/schedule`)}>View Schedule</Button>
             </Card>
 
             <Card className="p-6">
               <SectionHeader title="Budget Status" />
-              <div className="mt-4">
-                <div className="flex justify-between mb-2">
+              <Box className="mt-4">
+                <Box className="flex justify-between mb-2">
                   <Body size="sm" className="text-on-dark-muted">{formatCurrency(production?.spent || 0)} of {formatCurrency(production?.budget || 0)} spent</Body>
                   <Body size="sm" className="font-weight-medium">{Math.round(budgetProgress)}%</Body>
-                </div>
+                </Box>
                 <ProgressBar value={budgetProgress} size="lg" variant={budgetProgress > 90 ? "error" : budgetProgress > 75 ? "warning" : "default"} />
-              </div>
+              </Box>
               <Button variant="outline" className="mt-4" onClick={() => router.push(`/finance/budgets`)}>View Budget</Button>
             </Card>
           </Grid>
@@ -104,7 +104,7 @@ export default function ProductionOverviewPage() {
       content: (
         <Section>
           <SectionHeader title="Recent Activity" description="Latest updates on this production" />
-          <div className="space-y-4 mt-4">
+          <Box className="space-y-4 mt-4">
             {[
               { action: "Task completed", detail: "Stage setup finalized", time: "2 hours ago", icon: <CheckCircle className="size-4 text-success" /> },
               { action: "Document uploaded", detail: "Vendor contract signed", time: "4 hours ago", icon: <FileText className="size-4 text-info" /> },
@@ -112,17 +112,17 @@ export default function ProductionOverviewPage() {
               { action: "Budget updated", detail: "Lighting budget increased", time: "2 days ago", icon: <DollarSign className="size-4 text-warning" /> },
             ].map((activity, idx) => (
               <Card key={idx} className="p-4">
-                <div className="flex items-center gap-4">
-                  <div className="p-2 bg-grey-800 rounded-card">{activity.icon}</div>
-                  <div className="flex-1">
+                <Box className="flex items-center gap-4">
+                  <Box className="p-2 bg-grey-800 rounded-card">{activity.icon}</Box>
+                  <Box className="flex-1">
                     <Body className="font-weight-medium">{activity.action}</Body>
                     <Body size="sm" className="text-on-dark-muted">{activity.detail}</Body>
-                  </div>
+                  </Box>
                   <Body size="sm" className="text-on-dark-disabled">{activity.time}</Body>
-                </div>
+                </Box>
               </Card>
             ))}
-          </div>
+          </Box>
         </Section>
       ),
     },
@@ -141,10 +141,10 @@ export default function ProductionOverviewPage() {
       onRetry={refetch}
       tabs={tabs}
       actions={
-        <div className="flex gap-2">
+        <Box className="flex gap-2">
           <Badge variant={production?.status === "active" ? "success" : "warning"}>{production?.status || "Loading"}</Badge>
           <Button variant="outline" onClick={() => router.push(`/p/${productionId}/settings`)}>Settings</Button>
-        </div>
+        </Box>
       }
     />
   );

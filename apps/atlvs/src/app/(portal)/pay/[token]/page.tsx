@@ -11,7 +11,7 @@ import { CreditCard, CheckCircle, Lock} from "lucide-react";
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Form, Input, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
+  Body, Button, Card, Form, Input, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
 
 interface Invoice {
   id: string;
@@ -120,51 +120,51 @@ export default function PaymentPage() {
       ) : (
         <Section>
           <Card className="p-6 mb-6">
-            <div className="flex justify-between items-center">
-              <div>
+            <Box className="flex justify-between items-center">
+              <Box>
                 <Body className="text-on-dark-muted">Invoice {invoice.number}</Body>
                 <Body className="font-weight-bold font-weight-medium">{invoice.client}</Body>
-              </div>
-              <div className="text-right">
+              </Box>
+              <Box className="text-right">
                 <Body className="text-on-dark-muted">Amount Due</Body>
                 <Body className="font-weight-bold font-weight-bold">{formatCurrency(invoice.amount)}</Body>
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Card>
 
           <SectionHeader title="Payment Details" />
           <Form onSubmit={handleSubmit} className="space-y-4 mt-4">
-            <div>
+            <Box>
               <Body size="sm" className="mb-1">Cardholder Name *</Body>
               <Input placeholder="John Doe" value={name} onChange={(e) => handleChange("name", e.target.value)} error={!!errors.name} />
               {errors.name && <Body size="sm" className="text-error mt-1">{errors.name}</Body>}
-            </div>
-            <div>
+            </Box>
+            <Box>
               <Body size="sm" className="mb-1">Card Number *</Body>
               <Input placeholder="4242 4242 4242 4242" value={cardNumber} onChange={(e) => handleChange("cardNumber", e.target.value)} error={!!errors.cardNumber} />
               {errors.cardNumber && <Body size="sm" className="text-error mt-1">{errors.cardNumber}</Body>}
-            </div>
-            <div className="flex gap-4">
-              <div className="flex-1">
+            </Box>
+            <Box className="flex gap-4">
+              <Box className="flex-1">
                 <Body size="sm" className="mb-1">Expiry *</Body>
                 <Input placeholder="MM/YY" value={expiry} onChange={(e) => handleChange("expiry", e.target.value)} error={!!errors.expiry} />
                 {errors.expiry && <Body size="sm" className="text-error mt-1">{errors.expiry}</Body>}
-              </div>
-              <div className="flex-1">
+              </Box>
+              <Box className="flex-1">
                 <Body size="sm" className="mb-1">CVC *</Body>
                 <Input placeholder="123" value={cvc} onChange={(e) => handleChange("cvc", e.target.value)} error={!!errors.cvc} />
                 {errors.cvc && <Body size="sm" className="text-error mt-1">{errors.cvc}</Body>}
-              </div>
-            </div>
+              </Box>
+            </Box>
             <Button type="submit" variant="solid" className="w-full" disabled={processPayment.isPending}>
               {processPayment.isPending ? "Processing..." : `Pay ${formatCurrency(invoice.amount)}`}
             </Button>
           </Form>
 
-          <div className="flex items-center justify-center gap-2 mt-6 text-on-dark-muted">
+          <Box className="flex items-center justify-center gap-2 mt-6 text-on-dark-muted">
             <Lock className="size-4" />
             <Body size="sm">Secured by Stripe</Body>
-          </div>
+          </Box>
         </Section>
       ),
     },

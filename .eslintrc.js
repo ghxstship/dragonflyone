@@ -154,6 +154,38 @@ module.exports = {
         {
           "element": "hr",
           "message": "Use <Divider> from @ghxstship/ui instead of raw <hr>. Import: import { Divider } from '@ghxstship/ui';"
+        },
+        {
+          "element": "div",
+          "message": "Use <Box> or <Stack> from @ghxstship/ui instead of raw <div>. For layouts use <Stack direction='horizontal|vertical'>, for containers use <Box>. Import: import { Box, Stack } from '@ghxstship/ui';"
+        },
+        {
+          "element": "section",
+          "message": "Use <Section> from @ghxstship/ui instead of raw <section>. Import: import { Section } from '@ghxstship/ui';"
+        },
+        {
+          "element": "article",
+          "message": "Use <Card> or <Box as='article'> from @ghxstship/ui instead of raw <article>. Import: import { Card, Box } from '@ghxstship/ui';"
+        },
+        {
+          "element": "aside",
+          "message": "Use <Box as='aside'> from @ghxstship/ui instead of raw <aside>. Import: import { Box } from '@ghxstship/ui';"
+        },
+        {
+          "element": "nav",
+          "message": "Use <Navigation> or <Box as='nav'> from @ghxstship/ui instead of raw <nav>. Import: import { Navigation, Box } from '@ghxstship/ui';"
+        },
+        {
+          "element": "header",
+          "message": "Use <Box as='header'> from @ghxstship/ui instead of raw <header>. Import: import { Box } from '@ghxstship/ui';"
+        },
+        {
+          "element": "footer",
+          "message": "Use <Footer> or <Box as='footer'> from @ghxstship/ui instead of raw <footer>. Import: import { Footer, Box } from '@ghxstship/ui';"
+        },
+        {
+          "element": "main",
+          "message": "Use <Box as='main'> from @ghxstship/ui instead of raw <main>. Import: import { Box } from '@ghxstship/ui';"
         }
       ]
     }],
@@ -192,7 +224,7 @@ module.exports = {
     // • Radius: Sharp on actions (4px), rounded on containers (8-16px)
     // • Animation: Snappy (100-200ms) with bounce/overshoot
     // 
-    // Set to "warn" during transition. Change to "error" once violations fixed.
+    // Set to "warn" during transition period. Raw HTML elements are blocked by react/forbid-elements.
     // ════════════════════════════════════════════════════════════════════
     "no-restricted-syntax": [
       "warn",
@@ -299,6 +331,38 @@ module.exports = {
       {
         "selector": "Literal[value=/(?<![a-z-])border(?![a-z-])/]",
         "message": "⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic."
+      },
+      
+      // ────────────────────────────────────────────────────────────────
+      // PROHIBITED: Raw Tailwind Spacing (Use Design System Tokens)
+      // ────────────────────────────────────────────────────────────────
+      {
+        "selector": "Literal[value=/(?<![a-z-])space-y-[0-9]+(?![a-z-])/]",
+        "message": "❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';"
+      },
+      {
+        "selector": "Literal[value=/(?<![a-z-])space-x-[0-9]+(?![a-z-])/]",
+        "message": "❌ PROHIBITED: Raw Tailwind space-x. Use <Stack direction='horizontal' gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';"
+      },
+      {
+        "selector": "Literal[value=/^flex$/]",
+        "message": "❌ PROHIBITED: Raw Tailwind flex. Use <Stack direction='horizontal'> for flex layouts. Import: import { Stack } from '@ghxstship/ui';"
+      },
+      {
+        "selector": "Literal[value=/^flex-col$/]",
+        "message": "❌ PROHIBITED: Raw Tailwind flex-col. Use <Stack> (vertical by default) for flex column layouts. Import: import { Stack } from '@ghxstship/ui';"
+      },
+      {
+        "selector": "Literal[value=/^flex-row$/]",
+        "message": "❌ PROHIBITED: Raw Tailwind flex-row. Use <Stack direction='horizontal'> for flex row layouts. Import: import { Stack } from '@ghxstship/ui';"
+      },
+      {
+        "selector": "Literal[value=/^grid$/]",
+        "message": "❌ PROHIBITED: Raw Tailwind grid. Use <Grid> component for grid layouts. Import: import { Grid } from '@ghxstship/ui';"
+      },
+      {
+        "selector": "Literal[value=/^grid-cols-[0-9]+$/]",
+        "message": "❌ PROHIBITED: Raw Tailwind grid-cols. Use <Grid cols={N}> component. Import: import { Grid } from '@ghxstship/ui';"
       }
     ],
     
@@ -395,25 +459,6 @@ module.exports = {
             }
           ]
         }]
-      }
-    },
-    {
-      // Public/marketing pages are exempt from layout normalization
-      // These have unique designs that don't fit standard templates
-      files: [
-        "apps/*/src/app/page.tsx",
-        "apps/*/src/app/(public)/**/page.tsx",
-        "apps/*/src/app/blog/**/page.tsx",
-        "apps/*/src/app/case-studies/**/page.tsx",
-        "apps/*/src/app/about/**/page.tsx",
-        "apps/*/src/app/pricing/**/page.tsx",
-        "apps/*/src/app/features/**/page.tsx",
-        "apps/*/src/app/help/**/page.tsx",
-        "apps/*/src/app/proposal/**/page.tsx",
-        "apps/*/src/app/pay/**/page.tsx"
-      ],
-      rules: {
-        "no-restricted-imports": "off"
       }
     },
     {

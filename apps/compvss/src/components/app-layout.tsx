@@ -23,7 +23,7 @@ import {
   Grid,
   Card,
   PageTransition,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
 } from "./navigation";
@@ -37,7 +37,7 @@ import {
   compvssDemoWorkspaces,
   compvssBottomNavigation,
 } from "../data/compvss";
-import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
+import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions, Box} from "@ghxstship/ui";
 import {
   useCommandPalette,
   buildNavigationCommands,
@@ -394,11 +394,11 @@ export function CompvssAppLayout({
           className={className}
           headerActions={userMenu}
         >
-          <div className="p-6 lg:p-8 pb-20 md:pb-8">
+          <Box className="p-6 lg:p-8 pb-20 md:pb-8">
             <PageTransition type="fade" duration={200}>
               {children}
             </PageTransition>
-          </div>
+          </Box>
         </AuthenticatedShell>
         
         {/* Mobile Bottom Navigation */}

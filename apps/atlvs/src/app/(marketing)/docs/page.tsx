@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { Book, Code, Zap, FileText, Search, ArrowRight, Terminal, Settings, Users } from "lucide-react";
 import { useState } from "react";
 import {
-  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Input} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Input, Box} from "@ghxstship/ui";
 
 interface DocSection {
   id: string;
@@ -78,7 +78,7 @@ export default function DocsPage() {
           content: (
             <Container size="lg" className="py-12">
               <Card className="p-6 border-2 border-grey-800 rounded-card">
-                <div className="relative">
+                <Box className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
                   <Input
                     placeholder="Search documentation..."
@@ -86,7 +86,7 @@ export default function DocsPage() {
                     onChange={(e) => setSearch(e.target.value)}
                     className="pl-12 h-14"
                   />
-                </div>
+                </Box>
               </Card>
             </Container>
           ),
@@ -133,9 +133,9 @@ export default function DocsPage() {
                       <Card key={section.id} className="p-6 border-2 border-grey-800 rounded-card hover:border-grey-700 transition-all">
                         <Stack gap={4}>
                           <Stack direction="horizontal" gap={4} className="items-start">
-                            <div className="p-3 bg-primary/20 rounded-card text-primary">
+                            <Box className="p-3 bg-primary/20 rounded-card text-primary">
                               {section.icon}
-                            </div>
+                            </Box>
                             <Stack gap={1}>
                               <Body className="text-white font-weight-bold">{section.title}</Body>
                               <Body size="sm" className="text-on-dark-muted">{section.description}</Body>

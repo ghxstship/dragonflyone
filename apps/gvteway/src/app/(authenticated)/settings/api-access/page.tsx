@@ -27,7 +27,7 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import { Key, Plus, Trash2, Copy, CheckCircle, Power, PowerOff, Code, FileText } from "lucide-react";
 import {
   useApiKeysData,
@@ -143,13 +143,13 @@ export default function ApiAccessPage() {
           <SectionHeader title="API Keys" description="Manage your API keys for programmatic access" />
 
           {apiKeys.length === 0 ? (
-            <div className="text-center py-12">
+            <Box className="text-center py-12">
               <Key className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted mb-4">No API keys</Body>
               {canManageApiKeys && (
                 <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create API Key</Button>
               )}
-            </div>
+            </Box>
           ) : (
             <Card className="overflow-hidden">
               <Table>
@@ -186,14 +186,14 @@ export default function ApiAccessPage() {
                         </Body>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-2">
+                        <Box className="flex items-center gap-2">
                           {canManageApiKeys && (
                             <>
                               <Button variant="ghost" size="sm" onClick={() => handleToggleKey(key)} icon={key.is_active ? <PowerOff className="size-4" /> : <Power className="size-4" />} />
                               <Button variant="ghost" size="sm" onClick={() => handleDeleteKey(key.id)} icon={<Trash2 className="size-4" />} />
                             </>
                           )}
-                        </div>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -213,32 +213,32 @@ export default function ApiAccessPage() {
           <SectionHeader title="API Documentation" description="How to use your API keys" />
           <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
             <Card className="p-6">
-              <div className="flex items-start gap-3 mb-4">
+              <Box className="flex items-start gap-3 mb-4">
                 <Code className="size-6 text-primary flex-shrink-0" />
                 <Body className="font-weight-medium text-white">Authentication</Body>
-              </div>
-              <div className="space-y-3">
+              </Box>
+              <Box className="space-y-3">
                 <Body size="sm" className="text-on-dark-muted">
                   Include your API key in the Authorization header:
                 </Body>
                 <Card className="p-3 bg-grey-800">
                   <Body size="sm" className="font-mono text-white">Authorization: Bearer YOUR_API_KEY</Body>
                 </Card>
-              </div>
+              </Box>
             </Card>
             <Card className="p-6">
-              <div className="flex items-start gap-3 mb-4">
+              <Box className="flex items-start gap-3 mb-4">
                 <FileText className="size-6 text-primary flex-shrink-0" />
                 <Body className="font-weight-medium text-white">Base URL</Body>
-              </div>
-              <div className="space-y-3">
+              </Box>
+              <Box className="space-y-3">
                 <Body size="sm" className="text-on-dark-muted">
                   All API requests should be made to:
                 </Body>
                 <Card className="p-3 bg-grey-800">
                   <Body size="sm" className="font-mono text-white">https://api.gvteway.com/v1</Body>
                 </Card>
-              </div>
+              </Box>
             </Card>
           </Grid>
         </Section>
@@ -263,50 +263,50 @@ export default function ApiAccessPage() {
       />
 
       <Modal open={showCreateModal} onClose={() => { setShowCreateModal(false); resetForm(); }} title="Create API Key">
-        <div className="space-y-4">
-          <div className="space-y-2">
+        <Box className="space-y-4">
+          <Box className="space-y-2">
             <Body size="sm" className="text-on-dark-muted">Key Name</Body>
             <Input placeholder="e.g., Production Server" value={keyName} onChange={(e) => setKeyName(e.target.value)} />
-          </div>
-          <div className="space-y-2">
+          </Box>
+          <Box className="space-y-2">
             <Body size="sm" className="text-on-dark-muted">Permissions</Body>
             <Card className="p-4 max-h-[250px] overflow-y-auto">
               <Grid cols={2} gap={2} className="grid-cols-1 lg:grid-cols-2">
                 {ALL_API_SCOPES.map((scope) => (
-                  <div key={scope} className="flex items-center gap-2">
+                  <Box key={scope} className="flex items-center gap-2">
                     <Checkbox checked={selectedScopes.includes(scope)} onChange={() => toggleScope(scope)} />
                     <Body size="sm">{getScopeLabel(scope)}</Body>
-                  </div>
+                  </Box>
                 ))}
               </Grid>
             </Card>
             <Body size="sm" className="text-on-dark-disabled">{selectedScopes.length} permissions selected</Body>
-          </div>
-          <div className="flex gap-4">
+          </Box>
+          <Box className="flex gap-4">
             <Button variant="outline" onClick={() => { setShowCreateModal(false); resetForm(); }}>Cancel</Button>
             <Button variant="solid" onClick={handleCreateKey} disabled={isCreating || !keyName || selectedScopes.length === 0}>
               {isCreating ? "Creating..." : "Create Key"}
             </Button>
-          </div>
-        </div>
+          </Box>
+        </Box>
       </Modal>
 
       <Modal open={showKeyModal} onClose={() => setShowKeyModal(false)} title="API Key Created">
-        <div className="space-y-4">
+        <Box className="space-y-4">
           <Card className="p-4 bg-warning-900 border-warning-500">
             <Body size="sm" className="text-warning-100">This key will only be shown once. Copy it now and store it securely.</Body>
           </Card>
-          <div className="space-y-2">
+          <Box className="space-y-2">
             <Body size="sm" className="text-on-dark-muted">Your API Key</Body>
-            <div className="flex gap-2">
+            <Box className="flex gap-2">
               <Input value={newKey} readOnly className="font-mono" />
               <Button variant="outline" onClick={copyKey} icon={copiedKey ? <CheckCircle className="size-4" /> : <Copy className="size-4" />}>
                 {copiedKey ? "Copied" : "Copy"}
               </Button>
-            </div>
-          </div>
+            </Box>
+          </Box>
           <Button variant="solid" onClick={() => setShowKeyModal(false)}>Done</Button>
-        </div>
+        </Box>
       </Modal>
     </>
   );

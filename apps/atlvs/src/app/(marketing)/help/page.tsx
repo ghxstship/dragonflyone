@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { HelpCircle, Book, MessageSquare, Video, FileText, Search, ArrowRight, Mail, Phone, Headphones } from "lucide-react";
 import {
-  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Input} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Input, Box} from "@ghxstship/ui";
 
 const HELP_CATEGORIES: FeatureItem[] = [
   { id: "getting-started", icon: <Book className="size-8" />, title: "Getting Started", description: "Learn the basics of ATLVS with our beginner-friendly guides and tutorials." },
@@ -73,7 +73,7 @@ export default function HelpPage() {
           content: (
             <Container size="lg" className="py-12">
               <Card className="p-6 border-2 border-grey-800 rounded-card">
-                <div className="relative">
+                <Box className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
                   <Input
                     placeholder="Search for help articles, guides, and documentation..."
@@ -81,7 +81,7 @@ export default function HelpPage() {
                     onChange={(e) => setSearch(e.target.value)}
                     className="pl-12 h-14 text-body-lg"
                   />
-                </div>
+                </Box>
               </Card>
             </Container>
           ),
@@ -125,9 +125,9 @@ export default function HelpPage() {
                     >
                       <Stack direction="horizontal" className="justify-between items-center gap-4">
                         <Stack direction="horizontal" gap={4} className="items-center">
-                          <div className="p-2 bg-grey-800 rounded-card group-hover:bg-primary/20 transition-all">
+                          <Box className="p-2 bg-grey-800 rounded-card group-hover:bg-primary/20 transition-all">
                             <FileText className="size-5 text-on-dark-muted group-hover:text-primary transition-colors" />
-                          </div>
+                          </Box>
                           <Stack gap={0}>
                             <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{article.title}</Body>
                             <Body size="sm" className="text-on-dark-disabled">{article.category}</Body>
@@ -167,9 +167,9 @@ export default function HelpPage() {
                   {SUPPORT_OPTIONS.map((option) => (
                     <Card key={option.id} className={`p-6 border-2 rounded-card ${option.available ? "border-grey-800 hover:border-primary/50" : "border-grey-900 opacity-60"} transition-all`}>
                       <Stack gap={4} className="items-center text-center">
-                        <div className={`p-4 rounded-card ${option.available ? "bg-primary/20 text-primary" : "bg-grey-800 text-on-dark-disabled"}`}>
+                        <Box className={`p-4 rounded-card ${option.available ? "bg-primary/20 text-primary" : "bg-grey-800 text-on-dark-disabled"}`}>
                           {option.icon}
-                        </div>
+                        </Box>
                         <Stack gap={2} className="items-center">
                           <Body className="text-white font-weight-bold">{option.title}</Body>
                           <Body size="sm" className="text-on-dark-muted">{option.description}</Body>

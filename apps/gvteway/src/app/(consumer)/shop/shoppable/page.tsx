@@ -2,7 +2,7 @@
 
 import { ShoppingBag, Play, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Body, Button, Card, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+import { Body, Button, Card, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 interface ShoppableItem { id: string; title: string; price: number; type: string; }
 const DEMO: ShoppableItem[] = [
@@ -27,17 +27,17 @@ export default function ShoppablePage() {
         <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
           {items.map((item: ShoppableItem) => (
             <Card key={item.id} className="overflow-hidden">
-              <div className="h-40 bg-grey-800 flex items-center justify-center relative">
+              <Box className="h-40 bg-grey-800 flex items-center justify-center relative">
                 <Play className="size-12 text-on-dark-disabled" />
-                <div className="absolute top-2 right-2 bg-black/50 px-2 py-1 rounded-badge">{item.type}</div>
-              </div>
-              <div className="p-4">
+                <Box className="absolute top-2 right-2 bg-black/50 px-2 py-1 rounded-badge">{item.type}</Box>
+              </Box>
+              <Box className="p-4">
                 <Body className="font-weight-bold">{item.title}</Body>
-                <div className="flex items-center justify-between mt-3">
+                <Box className="flex items-center justify-between mt-3">
                   <Body className="font-weight-bold">{formatCurrency(item.price)}</Body>
                   <Button variant="solid" size="sm" icon={<ShoppingBag className="size-4" />} iconPosition="left">Buy</Button>
-                </div>
-              </div>
+                </Box>
+              </Box>
             </Card>
           ))}
         </Grid>

@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import {
   Smartphone, ArrowUpFromLine, ArrowDownToLine, ClipboardList, ArrowRightLeft, Loader2, QrCode, History} from "lucide-react";
 import {
-  Body, Button, Card, Input, Select, Grid, Badge, Modal, StatCard, useNotifications, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
+  Body, Button, Card, Input, Select, Grid, Badge, Modal, StatCard, useNotifications, DetailPage, Section, SectionHeader, Stack, Box} from "@ghxstship/ui";
 import {
   useAssetScan,
   useAssetLookup,
@@ -156,7 +156,7 @@ export default function AssetScanPage() {
               </Grid>
 
               <SectionHeader title="Scan or Enter Barcode" />
-              <div className="space-y-4">
+              <Stack gap={4}>
                 <Input
                   ref={inputRef}
                   value={manualBarcode}
@@ -174,7 +174,7 @@ export default function AssetScanPage() {
                 >
                   {isScanning ? "Scanning..." : canScanAssets ? "Process Scan" : "Scan Access Required"}
                 </Button>
-              </div>
+              </Stack>
 
               <Card className="p-4 mt-6 bg-grey-800">
                 <Body size="sm" className="text-on-dark-muted">
@@ -186,33 +186,33 @@ export default function AssetScanPage() {
               </Card>
             </Card>
 
-            <div>
+            <Box>
               <SectionHeader title="Recent Scans" />
               {isLoadingHistory ? (
                 <Card className="p-8 text-center">
-                  <div className="flex items-center justify-center gap-2">
+                  <Stack direction="horizontal" gap={2} className="items-center justify-center">
                     <Loader2 className="size-5 animate-spin" />
                     <Body className="text-on-dark-muted">Loading scan history...</Body>
-                  </div>
+                  </Stack>
                 </Card>
               ) : historyError ? (
                 <Card className="p-6 bg-error-900 border-error-500">
                   <Body className="text-error-100">Failed to load scan history</Body>
                 </Card>
               ) : (
-                <div className="space-y-3">
+                <Stack gap={3}>
                   {scanHistory.slice(0, 5).map((scan) => (
                     <Card key={scan.id} className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div>
+                      <Stack direction="horizontal" className="items-center justify-between">
+                        <Box>
                           <Body className="font-weight-medium">{scan.asset_name}</Body>
                           <Body size="sm" className="font-mono text-on-dark-muted">{scan.barcode}</Body>
-                        </div>
-                        <div className="text-right">
+                        </Box>
+                        <Box className="text-right">
                           {getActionBadge(scan.action)}
                           <Body size="sm" className="text-on-dark-muted mt-1">{new Date(scan.timestamp).toLocaleTimeString()}</Body>
-                        </div>
-                      </div>
+                        </Box>
+                      </Stack>
                     </Card>
                   ))}
                   {scanHistory.length === 0 && (
@@ -223,9 +223,9 @@ export default function AssetScanPage() {
                   <Button variant="outline" onClick={() => router.push("/assets/scan/history")} className="w-full">
                     View Full History
                   </Button>
-                </div>
+                </Stack>
               )}
-            </div>
+            </Box>
           </Grid>
         </Section>
       ),
@@ -237,22 +237,22 @@ export default function AssetScanPage() {
       content: (
         <Section>
           <SectionHeader title="Scan History" description="All recorded asset scans" />
-          <div className="space-y-3">
+          <Stack gap={3}>
             {scanHistory.map((scan) => (
               <Card key={scan.id} className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
+                <Stack direction="horizontal" className="items-center justify-between">
+                  <Box>
                     <Body className="font-weight-medium">{scan.asset_name}</Body>
                     <Body size="sm" className="font-mono text-on-dark-muted">{scan.barcode}</Body>
-                  </div>
-                  <div className="text-right">
+                  </Box>
+                  <Box className="text-right">
                     {getActionBadge(scan.action)}
                     <Body size="sm" className="text-on-dark-muted mt-1">{new Date(scan.timestamp).toLocaleString()}</Body>
-                  </div>
-                </div>
+                  </Box>
+                </Stack>
               </Card>
             ))}
-          </div>
+          </Stack>
         </Section>
       ),
     },
@@ -273,46 +273,46 @@ export default function AssetScanPage() {
 
       <Modal open={showActionModal} onClose={() => setShowActionModal(false)} title="Confirm Action">
         {scannedAsset && (
-          <div className="space-y-6">
+          <Stack gap={6}>
             <Card className="p-4 bg-grey-800">
               <Body className="font-mono mb-2">{scannedAsset.barcode}</Body>
               <Body className="font-weight-medium text-body-lg">{scannedAsset.name}</Body>
-              <div className="flex items-center gap-2 mt-2">
+              <Stack direction="horizontal" gap={2} className="items-center mt-2">
                 <Badge variant="outline">{scannedAsset.category}</Badge>
                 {getStatusBadge(scannedAsset.status)}
-              </div>
+              </Stack>
             </Card>
 
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
-              <div>
+              <Box>
                 <Body size="sm" className="text-on-dark-muted">Location</Body>
                 <Body>{scannedAsset.location}</Body>
-              </div>
-              <div>
+              </Box>
+              <Box>
                 <Body size="sm" className="text-on-dark-muted">Condition</Body>
                 <Body className="capitalize">{scannedAsset.condition}</Body>
-              </div>
+              </Box>
               {scannedAsset.serial_number && (
-                <div>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted">Serial Number</Body>
                   <Body className="font-mono">{scannedAsset.serial_number}</Body>
-                </div>
+                </Box>
               )}
-              <div>
+              <Box>
                 <Body size="sm" className="text-on-dark-muted">Last Scan</Body>
                 <Body>{new Date(scannedAsset.last_scan).toLocaleString()}</Body>
-              </div>
+              </Box>
             </Grid>
 
             <Card className="p-4">
-              <div className="flex items-center justify-between">
+              <Stack direction="horizontal" className="items-center justify-between">
                 <Body className="font-weight-medium">Action:</Body>
                 {getActionBadge(scanMode)}
-              </div>
+              </Stack>
             </Card>
 
             {scanMode === "transfer" && (
-              <div className="space-y-2">
+              <Stack gap={2}>
                 <Body size="sm" className="text-on-dark-muted">Transfer To Location</Body>
                 <Select value={transferLocation} onChange={(e) => setTransferLocation(e.target.value)}>
                   <option value="">Select location...</option>
@@ -321,10 +321,10 @@ export default function AssetScanPage() {
                   <option value="venue">Venue</option>
                   <option value="truck">Truck</option>
                 </Select>
-              </div>
+              </Stack>
             )}
 
-            <div className="flex gap-4">
+            <Stack direction="horizontal" gap={4}>
               <Button
                 variant="solid"
                 onClick={handleAction}
@@ -340,8 +340,8 @@ export default function AssetScanPage() {
               <Button variant="outline" onClick={() => setShowActionModal(false)} disabled={isRecording}>
                 Cancel
               </Button>
-            </div>
-          </div>
+            </Stack>
+          </Stack>
         )}
       </Modal>
     </>

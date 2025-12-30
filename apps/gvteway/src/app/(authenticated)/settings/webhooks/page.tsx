@@ -15,6 +15,7 @@ import {
   StatCard,
   Input,
   Badge,
+  Stack,
   Table,
   TableHeader,
   TableBody,
@@ -167,13 +168,13 @@ export default function WebhooksPage() {
           </Grid>
 
           {webhooks.length === 0 ? (
-            <div className="text-center py-12">
+            <Stack className="text-center py-12 items-center">
               <Webhook className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted mb-4">No webhooks configured</Body>
               <Button variant="solid" onClick={() => setShowCreateModal(true)}>
                 Create Webhook
               </Button>
-            </div>
+            </Stack>
           ) : (
             <Card className="overflow-hidden">
               <Table>
@@ -191,12 +192,12 @@ export default function WebhooksPage() {
                   {webhooks.map((webhook) => (
                     <TableRow key={webhook.id}>
                       <TableCell>
-                        <div>
+                        <Stack gap={0}>
                           <Body className="font-weight-medium text-white">{webhook.name}</Body>
                           {webhook.description && (
                             <Body size="sm" className="text-on-dark-muted">{webhook.description}</Body>
                           )}
-                        </div>
+                        </Stack>
                       </TableCell>
                       <TableCell>
                         <Body size="sm" className="font-mono text-white truncate max-w-[200px]">
@@ -208,19 +209,19 @@ export default function WebhooksPage() {
                         <Body size="sm" className="text-white">{webhook.events.length} events</Body>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center gap-1">
+                        <Stack direction="horizontal" gap={3} className="items-center">
+                          <Stack direction="horizontal" gap={1} className="items-center">
                             <CheckCircle className="size-3 text-success" />
                             <Body size="sm" className="font-mono text-white">{webhook.success_count}</Body>
-                          </div>
-                          <div className="flex items-center gap-1">
+                          </Stack>
+                          <Stack direction="horizontal" gap={1} className="items-center">
                             <XCircle className="size-3 text-error" />
                             <Body size="sm" className="font-mono text-white">{webhook.failure_count}</Body>
-                          </div>
-                        </div>
+                          </Stack>
+                        </Stack>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-2">
+                        <Stack direction="horizontal" gap={2} className="items-center">
                           <Button variant="ghost" size="sm" onClick={() => setSelectedWebhook(webhook)} icon={<Eye className="size-4" />} />
                           <Button
                             variant="ghost"
@@ -229,7 +230,7 @@ export default function WebhooksPage() {
                             icon={webhook.status === "active" ? <Pause className="size-4" /> : <Play className="size-4" />}
                           />
                           <Button variant="ghost" size="sm" onClick={() => handleDeleteWebhook(webhook.id)} icon={<Trash2 className="size-4" />} />
-                        </div>
+                        </Stack>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -291,13 +292,13 @@ export default function WebhooksPage() {
               </Table>
             </Card>
           ) : (
-            <div className="text-center py-12">
+            <Stack className="text-center py-12 items-center">
               <Clock className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted">No activity yet</Body>
               <Body size="sm" className="text-on-dark-disabled mt-2">
                 Webhook deliveries will appear here once events are triggered
               </Body>
-            </div>
+            </Stack>
           )}
         </Section>
       ),
@@ -324,112 +325,112 @@ export default function WebhooksPage() {
       />
 
       <Modal open={showCreateModal} onClose={() => { setShowCreateModal(false); resetForm(); }} title="Create Webhook Endpoint">
-        <div className="space-y-4">
-          <div className="space-y-2">
+        <Stack gap={4}>
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Name</Body>
             <Input placeholder="e.g., Order Notifications" value={webhookName} onChange={(e) => setWebhookName(e.target.value)} />
-          </div>
-          <div className="space-y-2">
+          </Stack>
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Endpoint URL</Body>
             <Input placeholder="https://your-server.com/webhooks" value={webhookUrl} onChange={(e) => setWebhookUrl(e.target.value)} />
             <Body size="sm" className="text-on-dark-disabled">Must be HTTPS</Body>
-          </div>
-          <div className="space-y-2">
+          </Stack>
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Description (optional)</Body>
             <Input placeholder="Brief description" value={webhookDescription} onChange={(e) => setWebhookDescription(e.target.value)} />
-          </div>
-          <div className="space-y-2">
+          </Stack>
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Events to Subscribe</Body>
             <Card className="p-4 max-h-[200px] overflow-y-auto">
               <Grid cols={2} gap={2} className="grid-cols-1 lg:grid-cols-2">
                 {ALL_WEBHOOK_EVENTS.map((event) => (
-                  <div key={event} className="flex items-center gap-2">
+                  <Stack key={event} direction="horizontal" gap={2} className="items-center">
                     <Checkbox checked={selectedEvents.includes(event)} onChange={() => toggleEvent(event)} />
                     <Body size="sm">{getEventLabel(event)}</Body>
-                  </div>
+                  </Stack>
                 ))}
               </Grid>
             </Card>
             <Body size="sm" className="text-on-dark-disabled">{selectedEvents.length} events selected</Body>
-          </div>
-          <div className="flex gap-4">
+          </Stack>
+          <Stack direction="horizontal" gap={4}>
             <Button variant="outline" onClick={() => { setShowCreateModal(false); resetForm(); }}>Cancel</Button>
             <Button variant="solid" onClick={handleCreateWebhook} disabled={isCreating || !webhookName || !webhookUrl || selectedEvents.length === 0}>
               {isCreating ? "Creating..." : "Create Webhook"}
             </Button>
-          </div>
-        </div>
+          </Stack>
+        </Stack>
       </Modal>
 
       <Modal open={showSecretModal} onClose={() => setShowSecretModal(false)} title="Webhook Secret">
-        <div className="space-y-4">
+        <Stack gap={4}>
           <Card className="p-4 bg-warning-900 border-warning-500">
             <Body size="sm" className="text-warning-100">This secret will only be shown once. Copy it now and store it securely.</Body>
           </Card>
-          <div className="space-y-2">
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Signing Secret</Body>
-            <div className="flex gap-2">
+            <Stack direction="horizontal" gap={2}>
               <Input value={newSecret} readOnly className="font-mono" />
               <Button variant="outline" onClick={copySecret} icon={copiedSecret ? <CheckCircle className="size-4" /> : <Copy className="size-4" />}>
                 {copiedSecret ? "Copied" : "Copy"}
               </Button>
-            </div>
+            </Stack>
             <Body size="sm" className="text-on-dark-disabled">Use this secret to verify webhook signatures</Body>
-          </div>
+          </Stack>
           <Button variant="solid" onClick={() => setShowSecretModal(false)}>Done</Button>
-        </div>
+        </Stack>
       </Modal>
 
       <Modal open={!!selectedWebhook} onClose={() => setSelectedWebhook(null)} title="Webhook Details">
         {selectedWebhook && (
-          <div className="space-y-4">
-            <div>
+          <Stack gap={4}>
+            <Stack gap={1}>
               <Body size="sm" className="text-on-dark-muted">Name</Body>
               <Body className="font-weight-medium text-white">{selectedWebhook.name}</Body>
-            </div>
-            <div>
+            </Stack>
+            <Stack gap={1}>
               <Body size="sm" className="text-on-dark-muted">URL</Body>
               <Body size="sm" className="font-mono text-white break-all">{selectedWebhook.url}</Body>
-            </div>
+            </Stack>
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
-              <div>
+              <Stack gap={1}>
                 <Body size="sm" className="text-on-dark-muted">Status</Body>
                 {getStatusBadge(selectedWebhook.status)}
-              </div>
-              <div>
+              </Stack>
+              <Stack gap={1}>
                 <Body size="sm" className="text-on-dark-muted">Retry Count</Body>
                 <Body className="text-white">{selectedWebhook.retry_count}</Body>
-              </div>
+              </Stack>
             </Grid>
-            <div>
+            <Stack gap={1}>
               <Body size="sm" className="text-on-dark-muted">Subscribed Events</Body>
-              <div className="flex flex-wrap gap-1 mt-1">
+              <Stack direction="horizontal" className="flex-wrap gap-1 mt-1">
                 {selectedWebhook.events.map((event) => (
                   <Badge key={event} variant="outline">{getEventLabel(event)}</Badge>
                 ))}
-              </div>
-            </div>
+              </Stack>
+            </Stack>
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
-              <div>
+              <Stack gap={1}>
                 <Body size="sm" className="text-on-dark-muted">Successful Deliveries</Body>
                 <Body className="font-mono text-white">{selectedWebhook.success_count}</Body>
-              </div>
-              <div>
+              </Stack>
+              <Stack gap={1}>
                 <Body size="sm" className="text-on-dark-muted">Failed Deliveries</Body>
                 <Body className="font-mono text-white">{selectedWebhook.failure_count}</Body>
-              </div>
+              </Stack>
             </Grid>
             {selectedWebhook.last_triggered_at && (
-              <div>
+              <Stack gap={1}>
                 <Body size="sm" className="text-on-dark-muted">Last Triggered</Body>
                 <Body className="text-white">{new Date(selectedWebhook.last_triggered_at).toLocaleString()}</Body>
-              </div>
+              </Stack>
             )}
-            <div className="flex gap-4">
+            <Stack direction="horizontal" gap={4}>
               <Button variant="outline" onClick={() => setSelectedWebhook(null)}>Close</Button>
               <Button variant="outline" onClick={() => handleDeleteWebhook(selectedWebhook.id)}>Delete Webhook</Button>
-            </div>
-          </div>
+            </Stack>
+          </Stack>
         )}
       </Modal>
     </>

@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Download, ArrowLeft, Settings } from "lucide-react";
 import {
-  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button, Box} from "@ghxstship/ui";
 
 const SECTIONS = [
   { id: "what", title: "1. What Are Cookies", content: "Cookies are small text files that are placed on your computer or mobile device when you visit a website. They are widely used to make websites work more efficiently and to provide information to the owners of the site." },
@@ -52,7 +52,7 @@ export default function CookiePolicyPage() {
             <Container size="lg" className="py-20">
               <Stack gap={8}>
                 <Card className="p-6 border-2 border-grey-800 rounded-card">
-                  <div className="flex items-center justify-between flex-wrap gap-4">
+                  <Box className="flex items-center justify-between flex-wrap gap-4">
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold">Cookie Policy</Body>
                       <Body size="sm" className="text-on-dark-muted">Last updated: November 15, 2024</Body>
@@ -76,7 +76,7 @@ export default function CookiePolicyPage() {
                         Download PDF
                       </Button>
                     </Stack>
-                  </div>
+                  </Box>
                 </Card>
 
                 <Stack gap={6}>

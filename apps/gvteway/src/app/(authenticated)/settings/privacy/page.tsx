@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   Body,
+  Box,
   Button,
   Card,
   Input,
@@ -18,6 +19,7 @@ import {
   Badge,
   Switch,
   Modal,
+  Stack,
   useNotifications,
   DetailPage,
   Section,
@@ -141,8 +143,8 @@ export default function PrivacySettingsPage() {
         <Section>
           <SectionHeader title="Privacy Settings" description="Control who can see your profile and activity" />
           <Card className="p-6">
-            <div className="space-y-6">
-              <div className="space-y-2">
+            <Stack gap={6}>
+              <Stack gap={2}>
                 <Body size="sm" className="text-on-dark-muted">Profile Visibility</Body>
                 <Select
                   value={settings.profile_visibility}
@@ -152,9 +154,9 @@ export default function PrivacySettingsPage() {
                   <option value="fans">Fans Only - Only verified fans</option>
                   <option value="private">Private - Only you</option>
                 </Select>
-              </div>
+              </Stack>
 
-              <div className="space-y-2">
+              <Stack gap={2}>
                 <Body size="sm" className="text-on-dark-muted">Who Can Message You</Body>
                 <Select
                   value={settings.allow_messages}
@@ -164,41 +166,41 @@ export default function PrivacySettingsPage() {
                   <option value="verified">Verified Fans Only</option>
                   <option value="none">No One</option>
                 </Select>
-              </div>
+              </Stack>
 
-              <div className="flex items-center justify-between py-3 border-t border-grey-700">
-                <div>
+              <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-grey-700">
+                <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Show Activity</Body>
                   <Body size="sm" className="text-on-dark-muted">Let others see your recent activity</Body>
-                </div>
+                </Stack>
                 <Switch
                   checked={settings.show_activity}
                   onChange={(e) => setSettings({ ...settings, show_activity: e.target.checked })}
                 />
-              </div>
+              </Stack>
 
-              <div className="flex items-center justify-between py-3 border-t border-grey-700">
-                <div>
+              <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-grey-700">
+                <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Show Events Attended</Body>
                   <Body size="sm" className="text-on-dark-muted">Display events on your profile</Body>
-                </div>
+                </Stack>
                 <Switch
                   checked={settings.show_events_attended}
                   onChange={(e) => setSettings({ ...settings, show_events_attended: e.target.checked })}
                 />
-              </div>
+              </Stack>
 
-              <div className="flex items-center justify-between py-3 border-t border-grey-700">
-                <div>
+              <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-grey-700">
+                <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Show Reviews</Body>
                   <Body size="sm" className="text-on-dark-muted">Display your reviews publicly</Body>
-                </div>
+                </Stack>
                 <Switch
                   checked={settings.show_reviews}
                   onChange={(e) => setSettings({ ...settings, show_reviews: e.target.checked })}
                 />
-              </div>
-            </div>
+              </Stack>
+            </Stack>
           </Card>
         </Section>
       ),
@@ -209,19 +211,19 @@ export default function PrivacySettingsPage() {
       icon: <UserX className="size-4" />,
       content: (
         <Section>
-          <div className="flex items-center justify-between mb-4">
+          <Stack direction="horizontal" className="items-center justify-between mb-4">
             <SectionHeader title="Blocked Users" description="Users you have blocked" />
             <Button variant="outline" size="sm" onClick={() => setShowBlockModal(true)} icon={<Plus className="size-4" />} iconPosition="left">
               Block User
             </Button>
-          </div>
+          </Stack>
           {blockedUsers.length > 0 ? (
-            <div className="space-y-3">
+            <Stack gap={3}>
               {blockedUsers.map((blocked) => (
                 <Card key={blocked.id} className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-grey-700 rounded-avatar flex items-center justify-center">
+                  <Stack direction="horizontal" className="items-center justify-between">
+                    <Stack direction="horizontal" gap={3} className="items-center">
+                      <Box className="w-10 h-10 bg-grey-700 rounded-avatar flex items-center justify-center">
                         {blocked.user_avatar ? (
                           <Image
                             src={blocked.user_avatar}
@@ -233,14 +235,14 @@ export default function PrivacySettingsPage() {
                         ) : (
                           <Body className="text-white">{blocked.user_name.charAt(0)}</Body>
                         )}
-                      </div>
-                      <div>
+                      </Box>
+                      <Stack gap={0}>
                         <Body className="font-weight-medium text-white">{blocked.user_name}</Body>
                         <Body size="sm" className="text-on-dark-muted">
                           Blocked {new Date(blocked.blocked_at).toLocaleDateString()}
                         </Body>
-                      </div>
-                    </div>
+                      </Stack>
+                    </Stack>
                     <Button
                       variant="ghost"
                       size="sm"
@@ -249,15 +251,15 @@ export default function PrivacySettingsPage() {
                     >
                       {isUnblockingUser ? "Unblocking..." : "Unblock"}
                     </Button>
-                  </div>
+                  </Stack>
                 </Card>
               ))}
-            </div>
+            </Stack>
           ) : (
-            <div className="text-center py-12">
+            <Stack className="text-center py-12 items-center">
               <UserX className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted">No blocked users</Body>
-            </div>
+            </Stack>
           )}
         </Section>
       ),
@@ -268,38 +270,38 @@ export default function PrivacySettingsPage() {
       icon: <Flag className="size-4" />,
       content: (
         <Section>
-          <div className="flex items-center justify-between mb-4">
+          <Stack direction="horizontal" className="items-center justify-between mb-4">
             <SectionHeader title="Your Reports" description="Reports you have submitted" />
             <Button variant="outline" size="sm" onClick={() => setShowReportModal(true)} icon={<Plus className="size-4" />} iconPosition="left">
               Report User
             </Button>
-          </div>
+          </Stack>
           {reports.length > 0 ? (
-            <div className="space-y-3">
+            <Stack gap={3}>
               {reports.map((report) => (
                 <Card key={report.id} className="p-4">
-                  <div className="flex items-start justify-between mb-2">
+                  <Stack direction="horizontal" className="items-start justify-between mb-2">
                     <Body className="font-weight-medium text-white">{report.reported_user_name}</Body>
                     {getStatusBadge(report.status)}
-                  </div>
+                  </Stack>
                   <Body size="sm" className="text-on-dark-muted">{report.reason}</Body>
                   <Body size="sm" className="text-on-dark-disabled mt-2">
                     {new Date(report.created_at).toLocaleDateString()}
                   </Body>
                 </Card>
               ))}
-            </div>
+            </Stack>
           ) : (
-            <div className="text-center py-12">
+            <Stack className="text-center py-12 items-center">
               <Flag className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-on-dark-muted">No reports submitted</Body>
-            </div>
+            </Stack>
           )}
 
           <Card className="p-6 mt-6 bg-grey-800">
-            <div className="flex items-start gap-3">
+            <Stack direction="horizontal" gap={3} className="items-start">
               <HelpCircle className="size-6 text-on-dark-muted flex-shrink-0" />
-              <div>
+              <Stack gap={2}>
                 <Body className="font-weight-medium text-white mb-2">Need Help?</Body>
                 <Body size="sm" className="text-on-dark-muted mb-4">
                   If you are experiencing harassment or safety concerns, please contact our support team.
@@ -307,8 +309,8 @@ export default function PrivacySettingsPage() {
                 <Button variant="outline" onClick={() => router.push("/support/chat")}>
                   Contact Support
                 </Button>
-              </div>
-            </div>
+              </Stack>
+            </Stack>
           </Card>
         </Section>
       ),
@@ -339,27 +341,27 @@ export default function PrivacySettingsPage() {
         onClose={() => setShowBlockModal(false)}
         title="Block User"
       >
-        <div className="space-y-4">
+        <Stack gap={4}>
           <Body className="text-on-dark-muted">
             Blocked users cannot message you or see your activity.
           </Body>
-          <div className="space-y-2">
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Username or User ID</Body>
             <Input
               value={blockUserId}
               onChange={(e) => setBlockUserId(e.target.value)}
               placeholder="Enter username or ID"
             />
-          </div>
-          <div className="flex gap-4">
+          </Stack>
+          <Stack direction="horizontal" gap={4}>
             <Button variant="solid" disabled={isBlockingUser} onClick={handleBlock}>
               {isBlockingUser ? "Blocking..." : "Block User"}
             </Button>
             <Button variant="outline" onClick={() => setShowBlockModal(false)}>
               Cancel
             </Button>
-          </div>
-        </div>
+          </Stack>
+        </Stack>
       </Modal>
 
       <Modal
@@ -367,17 +369,17 @@ export default function PrivacySettingsPage() {
         onClose={() => setShowReportModal(false)}
         title="Report User"
       >
-        <div className="space-y-4">
-          <div className="space-y-2">
+        <Stack gap={4}>
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Username or User ID</Body>
             <Input
               value={reportUserId}
               onChange={(e) => setReportUserId(e.target.value)}
               placeholder="Enter username or ID"
             />
-          </div>
+          </Stack>
 
-          <div className="space-y-2">
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Reason</Body>
             <Select
               value={reportReason}
@@ -391,9 +393,9 @@ export default function PrivacySettingsPage() {
               <option value="scam">Scam/Fraud</option>
               <option value="other">Other</option>
             </Select>
-          </div>
+          </Stack>
 
-          <div className="space-y-2">
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Details</Body>
             <Textarea
               value={reportDetails}
@@ -401,17 +403,17 @@ export default function PrivacySettingsPage() {
               placeholder="Provide additional details..."
               rows={4}
             />
-          </div>
+          </Stack>
 
-          <div className="flex gap-4">
+          <Stack direction="horizontal" gap={4}>
             <Button variant="solid" disabled={isReportingUser} onClick={handleReport}>
               {isReportingUser ? "Submitting..." : "Submit Report"}
             </Button>
             <Button variant="outline" onClick={() => setShowReportModal(false)}>
               Cancel
             </Button>
-          </div>
-        </div>
+          </Stack>
+        </Stack>
       </Modal>
     </>
   );

@@ -19,7 +19,7 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-} from "@ghxstship/ui";
+Box} from "@ghxstship/ui";
 import { Globe, Check, Info } from "lucide-react";
 import { useLanguageSettings } from "@ghxstship/config";
 import { DEMO_LANGUAGES } from "@/lib/demo-data";
@@ -70,13 +70,13 @@ export default function LanguageSettingsPage() {
       content: (
         <Section>
           <Card className="p-6 mb-6">
-            <div className="flex items-center justify-between">
-              <div>
+            <Box className="flex items-center justify-between">
+              <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">Current Language</Body>
                 <Body className="font-weight-medium text-white">{currentLanguage?.nativeName} ({currentLanguage?.name})</Body>
-              </div>
+              </Box>
               <Badge variant="success">Active</Badge>
-            </div>
+            </Box>
           </Card>
 
           <SectionHeader title="Available Languages" description="Select your preferred language" />
@@ -88,20 +88,20 @@ export default function LanguageSettingsPage() {
                 className={`p-4 cursor-pointer transition-all ${lang.code === selectedLanguage ? "ring-2 ring-primary" : ""}`}
                 onClick={() => handleLanguageSelect(lang)}
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div>
+                <Box className="flex items-start justify-between mb-3">
+                  <Box>
                     <Body className="font-weight-medium text-white">{lang.nativeName}</Body>
                     <Body size="sm" className="text-on-dark-muted">{lang.name}</Body>
-                  </div>
-                  <div className="flex items-center gap-2">
+                  </Box>
+                  <Box className="flex items-center gap-2">
                     {lang.code === selectedLanguage && <Check className="size-5 text-success" />}
                     {lang.isDefault && <Badge variant="outline">Default</Badge>}
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mb-2">
+                  </Box>
+                </Box>
+                <Box className="flex items-center justify-between mb-2">
                   <Body size="sm" className="text-on-dark-disabled">Translation Coverage</Body>
                   <Body size="sm" className={lang.coverage >= 95 ? "text-success" : "text-warning"}>{lang.coverage}%</Body>
-                </div>
+                </Box>
                 <ProgressBar value={lang.coverage} max={100} variant={getCoverageVariant(lang.coverage)} size="sm" />
               </Card>
             ))}
@@ -119,32 +119,32 @@ export default function LanguageSettingsPage() {
           <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
             <Card className="p-6">
               <Body className="font-weight-medium text-white mb-4">What gets translated:</Body>
-              <div className="space-y-2">
+              <Box className="space-y-2">
                 {["Navigation and menus", "Buttons and labels", "System messages", "Help content", "Email notifications"].map((item) => (
-                  <div key={item} className="flex items-center gap-2">
+                  <Box key={item} className="flex items-center gap-2">
                     <Check className="size-4 text-success" />
                     <Body size="sm" className="text-white">{item}</Body>
-                  </div>
+                  </Box>
                 ))}
-              </div>
+              </Box>
             </Card>
             <Card className="p-6">
               <Body className="font-weight-medium text-white mb-4">What stays in original language:</Body>
-              <div className="space-y-2">
+              <Box className="space-y-2">
                 {["Event names and descriptions", "Artist names", "Venue information", "User reviews", "Chat messages"].map((item) => (
-                  <div key={item} className="flex items-center gap-2">
-                    <div className="size-1 rounded-avatar bg-grey-500" />
+                  <Box key={item} className="flex items-center gap-2">
+                    <Box className="size-1 rounded-avatar bg-grey-500" />
                     <Body size="sm" className="text-white">{item}</Body>
-                  </div>
+                  </Box>
                 ))}
-              </div>
+              </Box>
             </Card>
           </Grid>
 
-          <div className="mt-6">
+          <Box className="mt-6">
             <Body size="sm" className="text-on-dark-muted mb-2">Missing your language?</Body>
             <Button variant="outline">Request a Language</Button>
-          </div>
+          </Box>
         </Section>
       ),
     },
@@ -167,20 +167,20 @@ export default function LanguageSettingsPage() {
 
       <Modal open={showConfirmModal} onClose={() => { setShowConfirmModal(false); setPendingLanguage(null); }} title="Change Language">
         {pendingLanguage && (
-          <div className="space-y-4">
+          <Box className="space-y-4">
             <Body>Are you sure you want to change your language to <strong>{pendingLanguage.nativeName}</strong>?</Body>
             <Card className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
+              <Box className="flex items-center justify-between">
+                <Box>
                   <Body size="sm" className="text-on-dark-muted">From</Body>
                   <Body className="text-white">{currentLanguage?.nativeName}</Body>
-                </div>
+                </Box>
                 <Body className="text-on-dark-muted">→</Body>
-                <div>
+                <Box>
                   <Body size="sm" className="text-on-dark-muted">To</Body>
                   <Body className="font-weight-medium text-white">{pendingLanguage.nativeName}</Body>
-                </div>
-              </div>
+                </Box>
+              </Box>
             </Card>
             {pendingLanguage.coverage < 90 && (
               <Card className="p-4 bg-warning-900 border-warning-500">
@@ -189,11 +189,11 @@ export default function LanguageSettingsPage() {
                 </Body>
               </Card>
             )}
-            <div className="flex gap-4">
+            <Box className="flex gap-4">
               <Button variant="outline" onClick={() => { setShowConfirmModal(false); setPendingLanguage(null); }}>Cancel</Button>
               <Button variant="solid" onClick={confirmLanguageChange}>Change Language</Button>
-            </div>
-          </div>
+            </Box>
+          </Box>
         )}
       </Modal>
     </>

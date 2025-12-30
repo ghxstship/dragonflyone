@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Gift, CreditCard, List } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import { Body, Button, Card, Input, Textarea, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
+import { Body, Button, Card, Input, Textarea, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
 
 const AMOUNTS = [25, 50, 100, 250];
 
@@ -34,19 +34,19 @@ export default function GiftCardsPage() {
         <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
           <Card className="p-6">
             <SectionHeader title="Select Amount" />
-            <div className="flex gap-2 mt-4 flex-wrap">
+            <Box className="flex gap-2 mt-4 flex-wrap">
               {AMOUNTS.map((a) => <Button key={a} variant={amount === a && !customAmount ? "solid" : "outline"} onClick={() => { setAmount(a); setCustomAmount(""); }}>{formatCurrency(a)}</Button>)}
-            </div>
-            <div className="mt-4"><Body size="sm" className="mb-1">Custom Amount</Body><Input type="number" min="10" max="500" placeholder="Enter amount" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} /></div>
-            <div className="mt-6"><Body size="sm" className="mb-1">Recipient Email</Body><Input type="email" placeholder="friend@example.com" value={recipientEmail} onChange={(e) => setRecipientEmail(e.target.value)} /></div>
-            <div className="mt-4"><Body size="sm" className="mb-1">Personal Message (optional)</Body><Textarea rows={3} placeholder="Add a personal message..." value={message} onChange={(e) => setMessage(e.target.value)} /></div>
+            </Box>
+            <Box className="mt-4"><Body size="sm" className="mb-1">Custom Amount</Body><Input type="number" min="10" max="500" placeholder="Enter amount" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} /></Box>
+            <Box className="mt-6"><Body size="sm" className="mb-1">Recipient Email</Body><Input type="email" placeholder="friend@example.com" value={recipientEmail} onChange={(e) => setRecipientEmail(e.target.value)} /></Box>
+            <Box className="mt-4"><Body size="sm" className="mb-1">Personal Message (optional)</Body><Textarea rows={3} placeholder="Add a personal message..." value={message} onChange={(e) => setMessage(e.target.value)} /></Box>
           </Card>
           <Card className="p-6 h-fit">
-            <div className="text-center mb-6"><Gift className="size-16 text-primary mx-auto mb-4" /><Body className="font-weight-bold">GVTEWAY Gift Card</Body><Body className="text-on-dark-muted mt-2">The perfect gift for any event lover</Body></div>
-            <div className="border-t border-grey-800 pt-6">
-              <div className="flex justify-between mb-4"><Body className="text-on-dark-muted">Amount</Body><Body className="font-weight-bold">{formatCurrency(selectedAmount || 0)}</Body></div>
+            <Box className="text-center mb-6"><Gift className="size-16 text-primary mx-auto mb-4" /><Body className="font-weight-bold">GVTEWAY Gift Card</Body><Body className="text-on-dark-muted mt-2">The perfect gift for any event lover</Body></Box>
+            <Box className="border-t border-grey-800 pt-6">
+              <Box className="flex justify-between mb-4"><Body className="text-on-dark-muted">Amount</Body><Body className="font-weight-bold">{formatCurrency(selectedAmount || 0)}</Body></Box>
               <Button variant="solid" className="w-full" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={() => purchaseGiftCard.mutate({ amount: selectedAmount, recipientEmail, message })} disabled={!selectedAmount || !recipientEmail || purchaseGiftCard.isPending}>{purchaseGiftCard.isPending ? "Processing..." : "Purchase Gift Card"}</Button>
-            </div>
+            </Box>
           </Card>
         </Grid>
       </Section>
