@@ -9,30 +9,9 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
-  Edit2,
-  CheckCircle,
-  Send,
-  FileText,
-  Clock,
-  Users,
-  MapPin,
-  Utensils,
-  ListChecks,
-} from "lucide-react";
+  Edit2, CheckCircle, Send, FileText, Clock, Users, MapPin, Utensils, ListChecks} from "lucide-react";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  DetailPage,
-  Grid,
-  StatCard,
-  Section,
-  SectionHeader,
-  Modal,
-  useNotifications,
-  type DetailPageTab,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, Modal, useNotifications} from "@ghxstship/ui";
 import { useBEO, useApproveBEO, useDistributeBEO } from "@/hooks/useBEOs";
 import { useAuthContext, PlatformRole } from "@ghxstship/config";
 

@@ -10,17 +10,7 @@ import { useParams } from "next/navigation";
 import { CheckCircle, Clock, FileText, Download, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  StatCard,
-  ProgressBar,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, ProgressBar, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface WrapItem {
   id: string;

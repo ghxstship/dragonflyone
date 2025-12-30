@@ -31,7 +31,7 @@ export function useRisks(filters?: {
     queryKey: ['risks', filters],
     queryFn: async () => {
       let query = supabase
-        .from('risks')
+        .from('projects')
         .select(`
           *,
           owner:users(name)
@@ -62,7 +62,7 @@ export function useRisk(id: string) {
     queryKey: ['risks', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('risks')
+        .from('projects')
         .select(`
           *,
           owner:users(name)
@@ -83,7 +83,7 @@ export function useCreateRisk() {
   return useMutation({
     mutationFn: async (risk: Omit<Risk, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('risks')
+        .from('projects')
         .insert([risk])
         .select()
         .single();
@@ -103,7 +103,7 @@ export function useUpdateRisk() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Risk> & { id: string }) => {
       const { data, error } = await supabase
-        .from('risks')
+        .from('projects')
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq('id', id)
         .select()
@@ -125,7 +125,7 @@ export function useDeleteRisk() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('risks')
+        .from('projects')
         .delete()
         .eq('id', id);
 

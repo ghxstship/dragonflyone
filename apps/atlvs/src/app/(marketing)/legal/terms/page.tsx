@@ -9,16 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Download, ArrowLeft } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  CTABanner,
-  Container,
-  Stack,
-  Card,
-  Body,
-  H3,
-  Button,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button} from "@ghxstship/ui";
 
 const SECTIONS = [
   { id: "acceptance", title: "1. Acceptance of Terms", content: "By accessing or using ATLVS, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site." },

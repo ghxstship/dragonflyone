@@ -7,21 +7,11 @@
  */
 
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Building2, Plus, Mail, Phone, Search, DollarSign, List, FileText } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Input,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section} from "@ghxstship/ui";
 
 interface Vendor {
   id: string;
@@ -51,7 +41,6 @@ const STATUS_CONFIG = {
 
 export default function ProductionVendorsPage() {
   const params = useParams();
-  const router = useRouter();
   const productionId = params.productionId as string;
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");

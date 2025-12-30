@@ -11,22 +11,7 @@ import { Plug, Check, X, List, Key } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Input,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-  useNotifications,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Modal, ModalBody, ModalFooter, ModalHeader, Input, StatCard, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
 
 interface Integration {
   id: string;

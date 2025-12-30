@@ -126,7 +126,7 @@ export function useApiLogs(filters?: ApiLogFilters) {
     queryKey: ['api_logs', filters],
     queryFn: async () => {
       let query = supabase
-        .from('api_logs')
+        .from('audit_logs')
         .select('*')
         .order('created_at', { ascending: false })
         .limit(100);
@@ -292,7 +292,7 @@ export function useApiStats(productionId?: string) {
       const [keysResult, webhooksResult, logsResult] = await Promise.all([
         supabase.from('api_keys').select('is_active').eq('production_id', productionId || ''),
         supabase.from('webhooks').select('is_active, failure_count').eq('production_id', productionId || ''),
-        supabase.from('api_logs').select('status_code, response_time_ms').eq('production_id', productionId || '').limit(1000),
+        supabase.from('audit_logs').select('status_code, response_time_ms').eq('production_id', productionId || '').limit(1000),
       ]);
 
       const keys = keysResult.data || [];

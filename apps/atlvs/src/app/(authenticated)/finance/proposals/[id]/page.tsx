@@ -8,37 +8,10 @@
 
 import { useRouter, useParams } from "next/navigation";
 import {
-  Pencil,
-  FileText,
-  Send,
-  Calendar,
-  DollarSign,
-  User,
-  Building2,
-  Eye,
-  CheckCircle,
-  XCircle,
-  Clock,
-} from "lucide-react";
+  Pencil, FileText, Send, Calendar, DollarSign, User, Building2, Eye, CheckCircle, XCircle, Clock} from "lucide-react";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  StatCard,
-  useNotifications,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, StatCard, useNotifications, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 import { useProposal, useSendProposal, type ProposalStatus } from "@/hooks/useProposals";
 
 const STATUS_COLORS: Record<ProposalStatus, "success" | "warning" | "error" | "info" | "outline"> = {

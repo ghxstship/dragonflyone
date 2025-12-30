@@ -9,21 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Users, DollarSign, Zap, Check } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  StatsSection,
-  LogoCloud,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  type StatItem,
-  type LogoItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, StatsSection, LogoCloud, CTABanner, Container, Stack, Grid, Card, Body, H3, Button} from "@ghxstship/ui";
 
 const PARTNER_TYPES = [
   {

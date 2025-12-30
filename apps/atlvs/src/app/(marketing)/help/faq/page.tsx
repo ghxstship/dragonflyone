@@ -10,14 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { HelpCircle, ChevronDown, ChevronUp, Search, List, Tag } from "lucide-react";
 import {
-  Body,
-  Button,
-  Card,
-  Input,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Body, Button, Card, Input, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface FAQ {
   id: string;

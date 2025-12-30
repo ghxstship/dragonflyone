@@ -47,7 +47,7 @@ export function useEvents(filters?: EventFilters) {
     queryKey: ['events', filters],
     queryFn: async () => {
       let query = supabase
-        .from('events')
+        .from('legend_events')
         .select('*')
         .order('start_date', { ascending: true });
 
@@ -77,7 +77,7 @@ export function useEvent(id: string) {
     queryKey: ['events', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('events')
+        .from('legend_events')
         .select('*')
         .eq('id', id)
         .single();
@@ -96,7 +96,7 @@ export function useCreateEvent() {
   return useMutation({
     mutationFn: async (event: Omit<Event, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('events')
+        .from('legend_events')
         .insert(event)
         .select()
         .single();
@@ -117,7 +117,7 @@ export function useUpdateEvent() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Event> & { id: string }) => {
       const { data, error } = await supabase
-        .from('events')
+        .from('legend_events')
         .update(updates)
         .eq('id', id)
         .select()
@@ -138,7 +138,7 @@ export function useDeleteEvent() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('events').delete().eq('id', id);
+      const { error } = await supabase.from('legend_events').delete().eq('id', id);
 
       if (error) throw error;
     },
@@ -155,7 +155,7 @@ export function usePublishEvent() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('events')
+        .from('legend_events')
         .update({ status: 'published' })
         .eq('id', id)
         .select()

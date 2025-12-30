@@ -125,7 +125,7 @@ export class PortalAccessClient {
    */
   async getUserAccess(userId: string): Promise<PortalAccessRecord[]> {
     const { data, error } = await this.supabase
-      .from('portal_user_entity_access')
+      .from('user_organizations')
       .select('*')
       .eq('user_id', userId)
       .is('revoked_at', null)
@@ -157,7 +157,7 @@ export class PortalAccessClient {
     entityId: string
   ): Promise<Array<{ userId: string; email: string; accessLevel: PortalAccessLevel; grantedAt: Date }>> {
     const { data, error } = await this.supabase
-      .from('portal_user_entity_access')
+      .from('user_organizations')
       .select(`
         user_id,
         access_level,
@@ -194,7 +194,7 @@ export class PortalAccessClient {
     newAccessLevel: PortalAccessLevel
   ): Promise<{ success: boolean; error?: string }> {
     const { error } = await this.supabase
-      .from('portal_user_entity_access')
+      .from('user_organizations')
       .update({
         access_level: newAccessLevel,
         updated_at: new Date().toISOString(),
@@ -221,7 +221,7 @@ export class PortalAccessClient {
     newExpiresAt: Date
   ): Promise<{ success: boolean; error?: string }> {
     const { error } = await this.supabase
-      .from('portal_user_entity_access')
+      .from('user_organizations')
       .update({
         expires_at: newExpiresAt.toISOString(),
         updated_at: new Date().toISOString(),

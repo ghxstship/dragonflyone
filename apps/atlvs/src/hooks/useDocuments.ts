@@ -32,7 +32,7 @@ export const useDocuments = (filters?: { folder_id?: string; type?: string }) =>
     queryKey: ['documents', filters],
     queryFn: async () => {
       let query = supabase
-        .from('documents')
+        .from('legend_documents')
         .select('*')
         .eq('status', 'active')
         .order('created_at', { ascending: false });
@@ -56,7 +56,7 @@ export const useFolders = () => {
     queryKey: ['folders'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('folders')
+        .from('legend_documents')
         .select('*')
         .order('name');
       if (error) throw error;
@@ -71,7 +71,7 @@ export const useCreateDocument = () => {
   return useMutation({
     mutationFn: async (doc: Omit<Document, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('documents')
+        .from('legend_documents')
         .insert(doc)
         .select()
         .single();
@@ -90,7 +90,7 @@ export const useCreateFolder = () => {
   return useMutation({
     mutationFn: async (folder: Omit<Folder, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('folders')
+        .from('legend_documents')
         .insert(folder)
         .select()
         .single();
@@ -109,7 +109,7 @@ export const useUpdateDocument = () => {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Document> & { id: string }) => {
       const { data, error } = await supabase
-        .from('documents')
+        .from('legend_documents')
         .update(updates)
         .eq('id', id)
         .select()
@@ -129,7 +129,7 @@ export const useDeleteDocument = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('documents')
+        .from('legend_documents')
         .update({ status: 'deleted' })
         .eq('id', id);
       if (error) throw error;
@@ -146,7 +146,7 @@ export const useUpdateFolder = () => {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Folder> & { id: string }) => {
       const { data, error } = await supabase
-        .from('folders')
+        .from('legend_documents')
         .update(updates)
         .eq('id', id)
         .select()
@@ -166,7 +166,7 @@ export const useDeleteFolder = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('folders')
+        .from('legend_documents')
         .delete()
         .eq('id', id);
       if (error) throw error;

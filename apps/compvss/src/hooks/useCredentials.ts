@@ -92,7 +92,7 @@ export function useCredentialTypes(productionId?: string) {
     queryKey: ['credential_types', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('credential_types')
+        .from('workforce_certifications')
         .select('*')
         .order('access_level', { ascending: false });
 
@@ -113,7 +113,7 @@ export function useCredentialType(id: string) {
     queryKey: ['credential_types', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('credential_types')
+        .from('workforce_certifications')
         .select('*')
         .eq('id', id)
         .single();
@@ -131,7 +131,7 @@ export function useCredentials(filters?: CredentialFilters) {
     queryKey: ['credentials', filters],
     queryFn: async () => {
       let query = supabase
-        .from('credentials')
+        .from('workforce_certifications')
         .select(`
           *,
           credential_type:credential_types(*),
@@ -165,7 +165,7 @@ export function useCredential(id: string) {
     queryKey: ['credentials', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('credentials')
+        .from('workforce_certifications')
         .select(`
           *,
           credential_type:credential_types(*),
@@ -187,7 +187,7 @@ export function useZones(productionId?: string) {
     queryKey: ['zones', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('zones')
+        .from('legend_places')
         .select('*')
         .order('access_level', { ascending: false });
 
@@ -208,7 +208,7 @@ export function useCredentialZoneAccess(credentialTypeId: string) {
     queryKey: ['credential_zone_access', credentialTypeId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('credential_zone_access')
+        .from('workforce_certifications')
         .select(`
           *,
           zone:zones(*)
@@ -229,7 +229,7 @@ export function useCreateCredentialType() {
   return useMutation({
     mutationFn: async (credentialType: Omit<CredentialType, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('credential_types')
+        .from('workforce_certifications')
         .insert(credentialType)
         .select()
         .single();
@@ -250,7 +250,7 @@ export function useUpdateCredentialType() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<CredentialType> & { id: string }) => {
       const { data, error } = await supabase
-        .from('credential_types')
+        .from('workforce_certifications')
         .update(updates)
         .eq('id', id)
         .select()
@@ -272,7 +272,7 @@ export function useIssueCredential() {
   return useMutation({
     mutationFn: async (credential: Omit<Credential, 'id' | 'created_at' | 'updated_at' | 'credential_type' | 'contact'>) => {
       const { data, error } = await supabase
-        .from('credentials')
+        .from('workforce_certifications')
         .insert({
           ...credential,
           status: 'active',
@@ -297,7 +297,7 @@ export function useRevokeCredential() {
   return useMutation({
     mutationFn: async ({ id, reason, revokedBy }: { id: string; reason: string; revokedBy: string }) => {
       const { data, error } = await supabase
-        .from('credentials')
+        .from('workforce_certifications')
         .update({
           status: 'revoked',
           revoked_at: new Date().toISOString(),
@@ -324,7 +324,7 @@ export function useSuspendCredential() {
   return useMutation({
     mutationFn: async ({ id, reason }: { id: string; reason?: string }) => {
       const { data, error } = await supabase
-        .from('credentials')
+        .from('workforce_certifications')
         .update({
           status: 'suspended',
           notes: reason,
@@ -349,7 +349,7 @@ export function useReactivateCredential() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('credentials')
+        .from('workforce_certifications')
         .update({ status: 'active' })
         .eq('id', id)
         .select()
@@ -370,7 +370,7 @@ export function useVerifyCredential() {
     mutationFn: async ({ badgeNumber, zoneId }: { badgeNumber: string; zoneId?: string }) => {
       // First find the credential
       const { data: credential, error: credError } = await supabase
-        .from('credentials')
+        .from('workforce_certifications')
         .select(`
           *,
           credential_type:credential_types(*),
@@ -394,7 +394,7 @@ export function useVerifyCredential() {
       // If zone specified, check zone access
       if (zoneId) {
         const { data: access } = await supabase
-          .from('credential_zone_access')
+          .from('workforce_certifications')
           .select('access_type')
           .eq('credential_type_id', credential.credential_type_id)
           .eq('zone_id', zoneId)
@@ -419,7 +419,7 @@ export function useCreateZone() {
   return useMutation({
     mutationFn: async (zone: Omit<Zone, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('zones')
+        .from('legend_places')
         .insert(zone)
         .select()
         .single();
@@ -447,14 +447,14 @@ export function useUpdateZoneAccess() {
     }) => {
       // Delete existing access
       await supabase
-        .from('credential_zone_access')
+        .from('workforce_certifications')
         .delete()
         .eq('credential_type_id', credentialTypeId);
 
       // Insert new access
       if (zoneAccess.length > 0) {
         const { error } = await supabase
-          .from('credential_zone_access')
+          .from('workforce_certifications')
           .insert(zoneAccess.map(za => ({
             credential_type_id: credentialTypeId,
             zone_id: za.zone_id,
@@ -477,7 +477,7 @@ export function useCredentialStats(productionId?: string) {
   return useQuery({
     queryKey: ['credentials', 'stats', productionId],
     queryFn: async () => {
-      let query = supabase.from('credentials').select('status, credential_type_id');
+      let query = supabase.from('workforce_certifications').select('status, credential_type_id');
       
       if (productionId) {
         query = query.eq('production_id', productionId);
@@ -514,7 +514,7 @@ export function useLogCredentialScan() {
       result: 'granted' | 'denied';
     }) => {
       const { data, error } = await supabase
-        .from('credential_scans')
+        .from('audit_logs')
         .insert({
           credential_id: credentialId,
           zone_id: zoneId,

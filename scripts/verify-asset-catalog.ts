@@ -42,37 +42,37 @@ async function runTests() {
 
   // Test 1: Verify organization_catalog_items table exists
   await test('organization_catalog_items table exists', async () => {
-    const { error } = await supabase.from('organization_catalog_items').select('id').limit(1);
+    const { error } = await supabase.from('assets').select('id').limit(1);
     if (error) throw new Error(error.message);
   });
 
   // Test 2: Verify catalog_visibility_settings table exists
   await test('catalog_visibility_settings table exists', async () => {
-    const { error } = await supabase.from('catalog_visibility_settings').select('id').limit(1);
+    const { error } = await supabase.from('dashboard_configs').select('id').limit(1);
     if (error) throw new Error(error.message);
   });
 
   // Test 3: Verify asset_request_permissions table exists
   await test('asset_request_permissions table exists', async () => {
-    const { error } = await supabase.from('asset_request_permissions').select('id').limit(1);
+    const { error } = await supabase.from('assets').select('id').limit(1);
     if (error) throw new Error(error.message);
   });
 
   // Test 4: Verify advance_template_items table exists
   await test('advance_template_items table exists', async () => {
-    const { error } = await supabase.from('advance_template_items').select('id').limit(1);
+    const { error } = await supabase.from('legend_documents').select('id').limit(1);
     if (error) throw new Error(error.message);
   });
 
   // Test 5: Verify user_template_favorites table exists
   await test('user_template_favorites table exists', async () => {
-    const { error } = await supabase.from('user_template_favorites').select('id').limit(1);
+    const { error } = await supabase.from('user_favorites').select('id').limit(1);
     if (error) throw new Error(error.message);
   });
 
   // Test 6: Verify advance_templates table has new columns
   await test('advance_templates has template_type column', async () => {
-    const { data, error } = await supabase.from('advance_templates').select('template_type').limit(1);
+    const { data, error } = await supabase.from('legend_documents').select('template_type').limit(1);
     if (error) throw new Error(error.message);
   });
 
@@ -147,7 +147,7 @@ async function runTests() {
     
     // Create
     const { data: created, error: createError } = await supabase
-      .from('organization_catalog_items')
+      .from('assets')
       .insert({
         organization_id: '00000000-0000-0000-0000-000000000001',
         item_id: testItemId,
@@ -162,7 +162,7 @@ async function runTests() {
     
     // Read
     const { data: read, error: readError } = await supabase
-      .from('organization_catalog_items')
+      .from('assets')
       .select('*')
       .eq('id', created.id)
       .single();
@@ -171,7 +171,7 @@ async function runTests() {
     
     // Update
     const { error: updateError } = await supabase
-      .from('organization_catalog_items')
+      .from('assets')
       .update({ item_name: 'Updated Test Item' })
       .eq('id', created.id);
     
@@ -179,7 +179,7 @@ async function runTests() {
     
     // Delete
     const { error: deleteError } = await supabase
-      .from('organization_catalog_items')
+      .from('assets')
       .delete()
       .eq('id', created.id);
     
@@ -190,7 +190,7 @@ async function runTests() {
   await test('CRUD on catalog_visibility_settings', async () => {
     // Create
     const { data: created, error: createError } = await supabase
-      .from('catalog_visibility_settings')
+      .from('dashboard_configs')
       .insert({
         organization_id: '00000000-0000-0000-0000-000000000001',
         scope_type: 'organization',
@@ -204,7 +204,7 @@ async function runTests() {
     
     // Update
     const { error: updateError } = await supabase
-      .from('catalog_visibility_settings')
+      .from('dashboard_configs')
       .update({ is_visible: false })
       .eq('id', created.id);
     
@@ -212,7 +212,7 @@ async function runTests() {
     
     // Delete
     const { error: deleteError } = await supabase
-      .from('catalog_visibility_settings')
+      .from('dashboard_configs')
       .delete()
       .eq('id', created.id);
     
@@ -223,7 +223,7 @@ async function runTests() {
   await test('CRUD on asset_request_permissions', async () => {
     // Create
     const { data: created, error: createError } = await supabase
-      .from('asset_request_permissions')
+      .from('assets')
       .insert({
         organization_id: '00000000-0000-0000-0000-000000000001',
         category: `Test-${Date.now()}`,
@@ -236,7 +236,7 @@ async function runTests() {
     
     // Update
     const { error: updateError } = await supabase
-      .from('asset_request_permissions')
+      .from('assets')
       .update({ max_quantity: 10 })
       .eq('id', created.id);
     
@@ -244,7 +244,7 @@ async function runTests() {
     
     // Delete
     const { error: deleteError } = await supabase
-      .from('asset_request_permissions')
+      .from('assets')
       .delete()
       .eq('id', created.id);
     
@@ -255,7 +255,7 @@ async function runTests() {
   await test('CRUD on advance_templates with items', async () => {
     // Create template
     const { data: template, error: templateError } = await supabase
-      .from('advance_templates')
+      .from('legend_documents')
       .insert({
         organization_id: '00000000-0000-0000-0000-000000000001',
         name: `Test Template ${Date.now()}`,
@@ -269,7 +269,7 @@ async function runTests() {
     
     // Add item to template
     const { data: item, error: itemError } = await supabase
-      .from('advance_template_items')
+      .from('legend_documents')
       .insert({
         template_id: template.id,
         item_name: 'Test Item',
@@ -283,7 +283,7 @@ async function runTests() {
     
     // Update item
     const { error: updateItemError } = await supabase
-      .from('advance_template_items')
+      .from('legend_documents')
       .update({ default_quantity: 10 })
       .eq('id', item.id);
     
@@ -291,7 +291,7 @@ async function runTests() {
     
     // Delete item
     const { error: deleteItemError } = await supabase
-      .from('advance_template_items')
+      .from('legend_documents')
       .delete()
       .eq('id', item.id);
     
@@ -299,7 +299,7 @@ async function runTests() {
     
     // Delete template
     const { error: deleteTemplateError } = await supabase
-      .from('advance_templates')
+      .from('legend_documents')
       .delete()
       .eq('id', template.id);
     

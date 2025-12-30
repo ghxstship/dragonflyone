@@ -39,7 +39,7 @@ export function useCaseStudies() {
     queryKey: ['case-studies'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('case_studies')
+        .from('legend_documents')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -67,7 +67,7 @@ export function useBestPractices() {
     queryKey: ['best-practices'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('best_practices')
+        .from('knowledge_articles')
         .select('*')
         .order('views', { ascending: false });
 

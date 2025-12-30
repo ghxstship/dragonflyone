@@ -9,20 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Book, FileText, Video, Download, ArrowRight, Presentation, Wrench, GraduationCap } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  Badge,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge} from "@ghxstship/ui";
 
 const RESOURCE_CATEGORIES: FeatureItem[] = [
   { id: "guides", icon: <Book className="size-8" />, title: "Guides", description: "Step-by-step tutorials to help you master ATLVS and production management best practices." },

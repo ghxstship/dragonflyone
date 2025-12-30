@@ -3,19 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, LayoutGrid, BarChart3, PieChart, LineChart, Table, AlertTriangle } from "lucide-react";
 import {
-  DetailPage,
-  Badge,
-  Body,
-  Box,
-  Button,
-  Card,
-  Grid,
-  H3,
-  Stack,
-  Text,
-  Spinner,
-  EmptyState,
-} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Box, Button, Card, Grid, H3, Stack, Text, Spinner, EmptyState} from '@ghxstship/ui';
 import { useDashboardBuilder, type DashboardConfig, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 
 interface Widget {

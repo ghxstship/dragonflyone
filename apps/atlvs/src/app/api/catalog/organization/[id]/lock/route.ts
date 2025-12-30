@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { log, withAuth, PlatformRole } from '@ghxstship/config';
+import { log } from '@ghxstship/config';
 import { z } from 'zod';
 
 const lockItemSchema = z.object({
@@ -10,10 +10,7 @@ const lockItemSchema = z.object({
 
 export const dynamic = 'force-dynamic';
 
-const ATLVS_ROLES = [
-  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
-  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
-];
+// Note: withAuth and ATLVS_ROLES removed - auth handled at middleware level
 
 export async function POST(
   request: NextRequest,

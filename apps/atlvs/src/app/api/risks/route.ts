@@ -1,9 +1,9 @@
 export const dynamic = 'force-dynamic';
 
-import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase';
+import { log as logger } from '@ghxstship/config';
 
 // Validation schema
 const riskSchema = z.object({
@@ -31,11 +31,6 @@ const riskSchema = z.object({
   tags: z.array(z.string()).optional(),
 });
 
-// GET /api/risks - List all risks
-const ATLVS_ROLES = [
-  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
-  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
-];
 
 export async function GET(request: NextRequest) {
   const supabaseAdmin = createAdminClient();

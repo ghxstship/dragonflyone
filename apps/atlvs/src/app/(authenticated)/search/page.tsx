@@ -11,16 +11,7 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Search, FileText, Users, Briefcase, DollarSign, Calendar, Building, Package, List } from "lucide-react";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Input,
-  DetailPage,
-  Section,
-  Spinner,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, DetailPage, Section, Spinner} from "@ghxstship/ui";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import { useGlobalSearch, type SearchResult as APISearchResult, type SearchFilters } from "@/hooks/useGlobalSearch";
 

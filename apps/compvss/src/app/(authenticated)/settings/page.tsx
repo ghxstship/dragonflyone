@@ -8,17 +8,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  useNotifications,
-  SettingsPageLayout,
-  H2,
-  Body,
-  Button,
-  Switch,
-  Select,
-  Stack,
-  Grid,
-  Card,
-} from "@ghxstship/ui";
+  useNotifications, SettingsPageLayout, H2, Body, Button, Switch, Select, Stack, Grid, Card} from "@ghxstship/ui";
 
 /**
  * COMPVSS Settings Page - Bold Contemporary Pop Art Adventure

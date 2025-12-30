@@ -4,17 +4,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { Eye, Clock, GitCompare, AlertTriangle } from "lucide-react";
 import {
-  DetailPage,
-  Badge,
-  Body,
-  Button,
-  Card,
-  CardBody,
-  Grid,
-  Stack,
-  Spinner,
-  EmptyState,
-} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Button, Card, CardBody, Grid, Stack, Spinner, EmptyState} from '@ghxstship/ui';
 import { useQuery } from "@tanstack/react-query";
 
 interface BEOVersion {

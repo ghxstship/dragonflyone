@@ -6,20 +6,10 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useRouter } from "next/navigation";
-import { Music, Calendar, DollarSign, FileText, Star, List, Settings } from "lucide-react";
+import { Music, Calendar, DollarSign, Star, List, Settings } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Booking {
   id: string;
@@ -43,7 +33,6 @@ const STATUS_CONFIG = {
 };
 
 export default function ArtistPortalPage() {
-  const router = useRouter();
 
   const { data: bookings = [], isLoading, error, refetch } = useQuery({
     queryKey: ["artist-bookings"],

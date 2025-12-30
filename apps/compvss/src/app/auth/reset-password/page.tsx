@@ -4,17 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
 import {
-  Alert,
-  AuthPage,
-  Body,
-  Button,
-  Card,
-  Field,
-  Form,
-  H2,
-  Input,
-  Stack,
-} from '@ghxstship/ui';
+  Alert, AuthPage, Body, Button, Card, Field, Form, H2, Input, Stack} from '@ghxstship/ui';
 import NextLink from "next/link";
 
 export default function ResetPasswordPage() {

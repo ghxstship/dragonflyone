@@ -161,7 +161,7 @@ export class LiveStatusManager {
     userId?: string
   ): Promise<{ success: boolean; error?: string }> {
     try {
-      const { error } = await this.supabase.from('status_updates').insert({
+      const { error } = await this.supabase.from('audit_logs').insert({
         entity_type: entityType as string,
         entity_id: entityId,
         status: status as string,
@@ -190,7 +190,7 @@ export class LiveStatusManager {
     entityId: string
   ): Promise<StatusUpdate | null> {
     const { data, error } = await this.supabase
-      .from('status_updates')
+      .from('audit_logs')
       .select('*')
       .eq('entity_type', entityType)
       .eq('entity_id', entityId)
@@ -221,7 +221,7 @@ export class LiveStatusManager {
     limit: number = 50
   ): Promise<StatusUpdate[]> {
     const { data, error } = await this.supabase
-      .from('status_updates')
+      .from('audit_logs')
       .select('*')
       .eq('entity_type', entityType)
       .eq('entity_id', entityId)
@@ -267,7 +267,7 @@ export class LiveStatusManager {
       }));
 
       const { data, error } = await this.supabase
-        .from('status_updates')
+        .from('audit_logs')
         .insert(records)
         .select();
 
@@ -290,7 +290,7 @@ export class LiveStatusManager {
     cutoffDate.setDate(cutoffDate.getDate() - olderThanDays);
 
     const { data } = await this.supabase
-      .from('status_updates')
+      .from('audit_logs')
       .delete()
       .lt('updated_at', cutoffDate.toISOString())
       .select();
@@ -351,7 +351,7 @@ export class StatusAggregator {
 
     // Fetch latest status for each entity
     const { data, error } = await this.supabase
-      .from('status_updates')
+      .from('audit_logs')
       .select('*')
       .eq('entity_type', entityType)
       .in('entity_id', entityIds)
@@ -394,7 +394,7 @@ export class StatusAggregator {
     entityIds?: string[]
   ): Promise<Record<StatusValue, number>> {
     let query = this.supabase
-      .from('status_updates')
+      .from('audit_logs')
       .select('status')
       .eq('entity_type', entityType);
 

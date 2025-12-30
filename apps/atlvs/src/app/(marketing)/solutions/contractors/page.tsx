@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Briefcase, FileText, DollarSign, Calendar, Check, TrendingUp, Users } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const FEATURES: FeatureItem[] = [
   { id: "jobs", icon: <Briefcase className="size-8" />, title: "Job Management", description: "Track all your contracts, gigs, and projects in one centralized dashboard." },

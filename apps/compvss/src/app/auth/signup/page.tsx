@@ -3,22 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Alert,
-  AuthPage,
-  Body,
-  Button,
-  Card,
-  Checkbox,
-  Divider,
-  Field,
-  Form,
-  Grid,
-  H2,
-  Input,
-  PasswordInput,
-  Stack,
-  useNotifications,
-} from '@ghxstship/ui';
+  Alert, AuthPage, Body, Button, Card, Checkbox, Divider, Field, Form, Grid, H2, Input, PasswordInput, Stack, useNotifications} from '@ghxstship/ui';
 import NextLink from "next/link";
 
 export default function SignUpPage() {

@@ -30,7 +30,7 @@ export function useMaintenance(filters?: MaintenanceFilters) {
     queryKey: ['maintenance', filters],
     queryFn: async () => {
       let query = supabase
-        .from('maintenance_records')
+        .from('asset_maintenance_events')
         .select('*')
         .order('next_due', { ascending: true });
 
@@ -57,7 +57,7 @@ export function useMaintenanceRecord(id: string) {
     queryKey: ['maintenance', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('maintenance_records')
+        .from('asset_maintenance_events')
         .select('*')
         .eq('id', id)
         .single();
@@ -76,7 +76,7 @@ export function useCreateMaintenance() {
   return useMutation({
     mutationFn: async (record: Omit<MaintenanceRecord, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('maintenance_records')
+        .from('asset_maintenance_events')
         .insert(record)
         .select()
         .single();
@@ -97,7 +97,7 @@ export function useUpdateMaintenance() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<MaintenanceRecord> & { id: string }) => {
       const { data, error } = await supabase
-        .from('maintenance_records')
+        .from('asset_maintenance_events')
         .update(updates)
         .eq('id', id)
         .select()
@@ -118,7 +118,7 @@ export function useDeleteMaintenance() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('maintenance_records').delete().eq('id', id);
+      const { error } = await supabase.from('asset_maintenance_events').delete().eq('id', id);
 
       if (error) throw error;
     },

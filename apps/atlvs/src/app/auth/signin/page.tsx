@@ -11,16 +11,7 @@ import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body,
-  Button,
-  Input,
-  Checkbox,
-  Label,
-  Form,
-  AuthPage,
-  H2,
-  useNotifications,
-} from "@ghxstship/ui";
+  Body, Button, Input, Checkbox, Label, Form, AuthPage, H2, useNotifications} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function SignInPage() {

@@ -63,7 +63,7 @@ export function useExpenses(filters?: ExpenseFilters) {
     queryKey: ['expenses', filters],
     queryFn: async () => {
       let query = supabase
-        .from('expenses')
+        .from('finance_expenses')
         .select(`
           *,
           category:expense_categories(id, name),
@@ -104,7 +104,7 @@ export function useExpense(id: string) {
     queryKey: ['expenses', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .select(`
           *,
           category:expense_categories(*),
@@ -127,7 +127,7 @@ export function useExpenseCategories(productionId?: string) {
     queryKey: ['expense_categories', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('expense_categories')
+        .from('finance_expenses')
         .select('*')
         .eq('is_active', true)
         .order('name', { ascending: true });
@@ -150,7 +150,7 @@ export function useCreateExpense() {
   return useMutation({
     mutationFn: async (expense: Omit<Expense, 'id' | 'created_at' | 'updated_at' | 'category' | 'submitter' | 'approver'>) => {
       const { data, error } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .insert(expense)
         .select()
         .single();
@@ -171,7 +171,7 @@ export function useUpdateExpense() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Expense> & { id: string }) => {
       const { data, error } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .update(updates)
         .eq('id', id)
         .select()
@@ -194,7 +194,7 @@ export function useSubmitExpense() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .update({ status: 'submitted' })
         .eq('id', id)
         .select()
@@ -217,7 +217,7 @@ export function useApproveExpense() {
   return useMutation({
     mutationFn: async ({ id, approverId }: { id: string; approverId: string }) => {
       const { data, error } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .update({
           status: 'approved',
           approved_by: approverId,
@@ -244,7 +244,7 @@ export function useRejectExpense() {
   return useMutation({
     mutationFn: async ({ id, reason }: { id: string; reason?: string }) => {
       const { data, error } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .update({
           status: 'rejected',
           notes: reason,
@@ -270,7 +270,7 @@ export function useMarkExpensePaid() {
   return useMutation({
     mutationFn: async ({ id, paymentMethod, paymentReference }: { id: string; paymentMethod?: string; paymentReference?: string }) => {
       const { data, error } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .update({
           status: 'paid',
           paid_at: new Date().toISOString(),
@@ -298,7 +298,7 @@ export function useCreateExpenseCategory() {
   return useMutation({
     mutationFn: async (category: Omit<ExpenseCategory, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('expense_categories')
+        .from('finance_expenses')
         .insert(category)
         .select()
         .single();
@@ -319,7 +319,7 @@ export function useUpdateExpenseCategory() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<ExpenseCategory> & { id: string }) => {
       const { data, error } = await supabase
-        .from('expense_categories')
+        .from('finance_expenses')
         .update(updates)
         .eq('id', id)
         .select()
@@ -341,7 +341,7 @@ export function useDeleteExpense() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .delete()
         .eq('id', id);
 
@@ -358,7 +358,7 @@ export function useExpenseStats(productionId?: string) {
   return useQuery({
     queryKey: ['expenses', 'stats', productionId],
     queryFn: async () => {
-      let query = supabase.from('expenses').select('status, amount, category_id');
+      let query = supabase.from('finance_expenses').select('status, amount, category_id');
       
       if (productionId) {
         query = query.eq('production_id', productionId);

@@ -37,7 +37,7 @@ export function useVendorData() {
     queryKey: ['vendor-data'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('vendor_profiles')
+        .from('orgs_profile_vendor')
         .select('*')
         .single();
 
@@ -60,7 +60,7 @@ export function useVendorDeliveries() {
     queryKey: ['vendor-deliveries'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('vendor_deliveries')
+        .from('deliveries')
         .select('*')
         .gte('date', new Date().toISOString())
         .order('date', { ascending: true })
@@ -85,7 +85,7 @@ export function useVendorInvoices() {
     queryKey: ['vendor-invoices'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select('*')
         .order('created_at', { ascending: false })
         .limit(5);

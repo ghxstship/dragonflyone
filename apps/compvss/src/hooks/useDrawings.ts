@@ -31,7 +31,7 @@ export function useDrawings(projectId?: string) {
     queryKey: ['drawings', projectId],
     queryFn: async () => {
       let query = supabase
-        .from('production_documents')
+        .from('legend_documents')
         .select('*')
         .in('document_type', ['CAD', 'Drawing', 'PDF', 'Vectorworks', 'AutoCAD', 'SketchUp'])
         .order('created_at', { ascending: false });
@@ -70,7 +70,7 @@ export function useUploadDrawing() {
   return useMutation({
     mutationFn: async (drawing: Omit<Drawing, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('production_documents')
+        .from('legend_documents')
         .insert({
           name: drawing.name,
           document_type: drawing.type,
@@ -99,7 +99,7 @@ export function useDeleteDrawing() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('production_documents').delete().eq('id', id);
+      const { error } = await supabase.from('legend_documents').delete().eq('id', id);
       if (error) throw error;
     },
     onSuccess: () => {

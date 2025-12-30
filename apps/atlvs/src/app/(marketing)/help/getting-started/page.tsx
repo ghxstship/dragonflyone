@@ -6,18 +6,9 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useRouter } from "next/navigation";
-import { Zap, Check, ArrowRight, Play, List, FileText } from "lucide-react";
+import { Check, ArrowRight, Play, List} from "lucide-react";
 import {
-  Body,
-  Button,
-  Card,
-  Grid,
-  ProgressBar,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Body, Button, Card, Grid, ProgressBar, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 const QUICK_START_STEPS = [
   { id: 1, title: "Sign Up", description: "Create your free account", completed: true },
@@ -28,7 +19,6 @@ const QUICK_START_STEPS = [
 ];
 
 export default function HelpGettingStartedPage() {
-  const router = useRouter();
   const completedSteps = QUICK_START_STEPS.filter((s) => s.completed).length;
   const progress = (completedSteps / QUICK_START_STEPS.length) * 100;
 

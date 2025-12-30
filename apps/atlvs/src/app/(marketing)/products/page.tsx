@@ -9,20 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Zap, Users, Ticket, ArrowRight, Check } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  ComparisonTable,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  type ComparisonColumn,
-  type ComparisonRow,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, ComparisonTable, CTABanner, Container, Stack, Grid, Card, Body, H3, Button} from "@ghxstship/ui";
 
 const PRODUCTS = [
   {

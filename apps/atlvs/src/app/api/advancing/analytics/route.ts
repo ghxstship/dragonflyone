@@ -1,18 +1,8 @@
-import { withAuth, PlatformRole } from '@ghxstship/config';
-// apps/atlvs/src/app/api/advancing/analytics/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { log as logger } from '@ghxstship/config';
 
 export const dynamic = 'force-dynamic';
-
-/**
- * GET /api/advancing/analytics
- * Get analytics data for advancing requests
- */
-const ATLVS_ROLES = [
-  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
-  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
-];
 
 export async function GET(request: NextRequest) {
   const supabaseAdmin = createAdminClient();
@@ -121,7 +111,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     logger.error('Error in analytics route:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error.message },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

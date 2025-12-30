@@ -6,20 +6,7 @@ import { Eye, Pencil, Trash2 } from "lucide-react";
 // Layout provided by route group
 import { useIncidents } from "@/hooks/useIncidents";
 import {
-  ListPage,
-  Badge,
-  RecordFormModal,
-  DetailDrawer,
-  ConfirmDialog,
-  Grid,
-  Stack,
-  Body,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-  type FormFieldConfig,
-  type DetailSection,
-} from "@ghxstship/ui";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Incident {

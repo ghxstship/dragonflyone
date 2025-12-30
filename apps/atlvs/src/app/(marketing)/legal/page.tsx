@@ -9,17 +9,7 @@
 import { useRouter } from "next/navigation";
 import { FileText, Shield, Cookie, Users, Globe, ArrowRight } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button} from "@ghxstship/ui";
 
 const LEGAL_DOCS = [
   { id: "terms", title: "Terms of Service", description: "Our terms and conditions for using ATLVS", icon: <FileText className="size-8" />, href: "/legal/terms", updated: "2024-12-01" },

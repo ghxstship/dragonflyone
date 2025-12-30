@@ -12,17 +12,7 @@ import { useRouter } from 'next/navigation';
 import { Package, DollarSign, FileText } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body,
-  CreatePage,
-  Grid,
-  Input,
-  Select,
-  Stack,
-  Text,
-  Textarea,
-  useNotifications,
-  type FormSection,
-} from '@ghxstship/ui';
+  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
 import { useCreateAsset, type Asset } from '@/hooks/useAssets';
 
 const ASSET_CATEGORIES = [

@@ -27,7 +27,7 @@ export function useBidOpportunities() {
     queryKey: ['bid-opportunities'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('opportunities')
+        .from('bid_opportunities')
         .select('*')
         .order('created_at', { ascending: false });
 

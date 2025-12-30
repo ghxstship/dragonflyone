@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Calendar, DollarSign, Star, Check, TrendingUp, Users, FileText } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const FEATURES: FeatureItem[] = [
   { id: "booking", icon: <Calendar className="size-8" />, title: "Booking Management", description: "Track all your bookings, confirmations, and schedules in one centralized calendar." },

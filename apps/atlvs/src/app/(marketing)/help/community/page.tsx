@@ -6,19 +6,9 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useRouter } from "next/navigation";
 import { Users, MessageSquare, Star, Trophy, ExternalLink, List, TrendingUp } from "lucide-react";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 const COMMUNITY_STATS = { members: "5,000+", discussions: "2,500+", solutions: "1,200+" };
 
@@ -35,7 +25,6 @@ const TOP_CONTRIBUTORS = [
 ];
 
 export default function CommunityPage() {
-  const router = useRouter();
 
   const tabs = [
     {

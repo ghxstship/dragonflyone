@@ -34,7 +34,7 @@ export function useConversations() {
     queryKey: ['conversations'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('conversations')
+        .from('watch_party_messages')
         .select('*')
         .order('updated_at', { ascending: false });
 
@@ -60,7 +60,7 @@ export function useDirectMessages(conversationId: string) {
     queryKey: ['direct-messages', conversationId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('direct_messages')
+        .from('watch_party_messages')
         .select('*')
         .eq('conversation_id', conversationId)
         .order('created_at', { ascending: true });
@@ -87,7 +87,7 @@ export function useSendDirectMessage() {
   return useMutation({
     mutationFn: async (message: { conversationId: string; content: string }) => {
       const { data, error } = await supabase
-        .from('direct_messages')
+        .from('watch_party_messages')
         .insert({
           conversation_id: message.conversationId,
           content: message.content,

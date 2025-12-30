@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-component-props -- dynamic width percentage requires inline style */
 "use client";
 
 import { useState, useEffect } from "react";

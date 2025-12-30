@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Zap, Check, ArrowRight, List } from "lucide-react";
+import { Check, ArrowRight, List} from "lucide-react";
 import { Body, Stack, Button, Card, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
 
 const FEATURES = ["Campaign management", "Brand activation tracking", "Team coordination", "Performance analytics"];

@@ -25,7 +25,7 @@ export function useMyContracts() {
     queryKey: ['my-contracts'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('contracts')
+        .from('docs_profile_contract')
         .select('*')
         .order('created_at', { ascending: false });
 

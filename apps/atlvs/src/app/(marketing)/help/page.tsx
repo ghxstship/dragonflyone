@@ -10,20 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { HelpCircle, Book, MessageSquare, Video, FileText, Search, ArrowRight, Mail, Phone, Headphones } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  Input,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Input} from "@ghxstship/ui";
 
 const HELP_CATEGORIES: FeatureItem[] = [
   { id: "getting-started", icon: <Book className="size-8" />, title: "Getting Started", description: "Learn the basics of ATLVS with our beginner-friendly guides and tutorials." },

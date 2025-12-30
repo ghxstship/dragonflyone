@@ -7,21 +7,11 @@
  */
 
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { FileText, Plus, Download, Trash2, Search, Folder, Upload, List, Grid as GridIcon } from "lucide-react";
+import { useParams } from "next/navigation";
+import { FileText, Plus, Download, Trash2, Search, Folder, Upload, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Input,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Document {
   id: string;
@@ -46,7 +36,6 @@ const FOLDERS = ["All", "Schedules", "Contracts", "Designs", "Finance", "Team", 
 
 export default function ProductionDocumentsPage() {
   const params = useParams();
-  const router = useRouter();
   const productionId = params.productionId as string;
   const [search, setSearch] = useState("");
   const [selectedFolder, setSelectedFolder] = useState("All");

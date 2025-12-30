@@ -10,18 +10,7 @@ import { useRouter } from "next/navigation";
 import { CheckCircle, AlertTriangle, XCircle, Bell, Activity } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  MarketingPage,
-  HeroSection,
-  CTABanner,
-  Container,
-  Stack,
-  Card,
-  Body,
-  H3,
-  Button,
-  Badge,
-  Spinner,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button, Badge, Spinner} from "@ghxstship/ui";
 
 interface ServiceStatus {
   id: string;

@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Megaphone, Check, Ticket, Users, BarChart3, Calendar, Mail } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const FEATURES: FeatureItem[] = [
   { id: "promotion", icon: <Megaphone className="size-8" />, title: "Event Promotion", description: "Create and manage promotional campaigns across multiple channels." },

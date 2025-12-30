@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Music, Building2, Award, ArrowRight, Users, Briefcase, MapPin, Mic, Camera, Shield, DollarSign, Megaphone, Wrench, UserCheck } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const INDUSTRY_SOLUTIONS: FeatureItem[] = [
   { id: "festivals", icon: <Music className="size-8" />, title: "Festivals", description: "Multi-stage event management for music festivals, food festivals, and cultural events." },

@@ -13,7 +13,7 @@ export const useCertifications = (crewMemberId?: string) => {
     queryKey: ['crew_certifications', crewMemberId],
     queryFn: async () => {
       let query = supabase
-        .from('crew_certifications')
+        .from('workforce_certifications')
         .select('*')
         .order('expiration_date');
 
@@ -34,7 +34,7 @@ export const useAddCertification = () => {
   return useMutation({
     mutationFn: async (cert: CrewCertificationInsert) => {
       const { data, error } = await supabase
-        .from('crew_certifications')
+        .from('workforce_certifications')
         .insert(cert)
         .select()
         .single();
@@ -53,7 +53,7 @@ export const useUpdateCertification = () => {
   return useMutation({
     mutationFn: async ({ id, ...updates }: CrewCertificationUpdate & { id: string }) => {
       const { data, error } = await supabase
-        .from('crew_certifications')
+        .from('workforce_certifications')
         .update(updates)
         .eq('id', id)
         .select()
@@ -73,7 +73,7 @@ export const useDeleteCertification = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('crew_certifications')
+        .from('workforce_certifications')
         .delete()
         .eq('id', id);
       if (error) throw error;

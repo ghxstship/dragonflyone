@@ -29,7 +29,7 @@ export function usePurchaseOrders(filters?: ProcurementFilters) {
     queryKey: ['purchase_orders', filters],
     queryFn: async () => {
       let query = supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -56,7 +56,7 @@ export function usePurchaseOrder(id: string) {
     queryKey: ['purchase_orders', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select('*')
         .eq('id', id)
         .single();
@@ -75,7 +75,7 @@ export function useCreatePurchaseOrder() {
   return useMutation({
     mutationFn: async (po: Omit<PurchaseOrder, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .insert(po)
         .select()
         .single();
@@ -96,7 +96,7 @@ export function useUpdatePurchaseOrder() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<PurchaseOrder> & { id: string }) => {
       const { data, error } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .update(updates)
         .eq('id', id)
         .select()
@@ -117,7 +117,7 @@ export function useDeletePurchaseOrder() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('purchase_orders').delete().eq('id', id);
+      const { error } = await supabase.from('finance_purchase_orders').delete().eq('id', id);
 
       if (error) throw error;
     },

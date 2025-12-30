@@ -35,7 +35,7 @@ export function useTranslatedContent() {
     queryKey: ['translated-content'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('translated_content')
+        .from('legend_documents')
         .select('*')
         .order('updated_at', { ascending: false });
 
@@ -58,7 +58,7 @@ export function useLanguageSettings() {
     queryKey: ['language-settings'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('language_settings')
+        .from('user_settings')
         .select('*')
         .order('name', { ascending: true });
 

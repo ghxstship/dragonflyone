@@ -10,17 +10,7 @@ import { useParams } from "next/navigation";
 import { Users, Search, Plus, Mail, Phone, List, UserPlus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Input,
-  Grid,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Input, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface CrewMember {
   id: string;

@@ -9,28 +9,10 @@
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import {
-  Pencil,
-  Users,
-  ExternalLink,
-  Trash2,
-  FileText,
-  Clock,
-} from "lucide-react";
+  Pencil, Users, ExternalLink, Trash2, FileText, Clock} from "lucide-react";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  DetailPage,
-  Grid,
-  StatCard,
-  Section,
-  SectionHeader,
-  ConfirmDialog,
-  useNotifications,
-  type DetailPageTab,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useNotifications} from "@ghxstship/ui";
 import { useEvent, useDeleteEvent } from "@/hooks/useEvents";
 
 const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
@@ -51,7 +33,6 @@ const EVENT_TYPE_LABELS: Record<string, string> = {
   conference: "Conference",
   other: "Other",
 };
-
 
 export default function EventDetailPage() {
   const router = useRouter();

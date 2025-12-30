@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Film, Check, ArrowRight, List } from "lucide-react";
+import { Check, ArrowRight, List} from "lucide-react";
 import { Body, Stack, Button, Card, Grid, DetailPage, Section, SectionHeader } from "@ghxstship/ui";
 
 const FEATURES = ["Production planning", "Budget management", "Team coordination", "Timeline tracking"];

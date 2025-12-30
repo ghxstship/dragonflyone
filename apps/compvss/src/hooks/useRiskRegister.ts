@@ -33,7 +33,7 @@ export function useRisks() {
     queryKey: ['risks'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('risks')
+        .from('projects')
         .select('*')
         .order('risk_score', { ascending: false });
 
@@ -73,7 +73,7 @@ export function useCreateRisk() {
       const riskScore = probScores[risk.probability] * impactScores[risk.impact];
 
       const { data, error } = await supabase
-        .from('risks')
+        .from('projects')
         .insert({
           title: risk.title,
           description: risk.description,
@@ -109,7 +109,7 @@ export function useUpdateRiskStatus() {
   return useMutation({
     mutationFn: async ({ id, status }: { id: string; status: Risk['status'] }) => {
       const { data, error } = await supabase
-        .from('risks')
+        .from('projects')
         .update({ status })
         .eq('id', id)
         .select()

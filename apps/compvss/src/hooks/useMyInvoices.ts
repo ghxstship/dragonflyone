@@ -24,7 +24,7 @@ export function useMyInvoices() {
     queryKey: ['my-invoices'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('*')
         .order('created_at', { ascending: false });
 

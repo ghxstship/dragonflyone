@@ -39,7 +39,7 @@ export function useSocialCrewMembers() {
     queryKey: ['social-crew-members'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('crew_members')
+        .from('legend_people')
         .select('*')
         .order('name', { ascending: true });
 
@@ -68,7 +68,7 @@ export function useCrewPhotos() {
     queryKey: ['crew-photos'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('crew_photos')
+        .from('legend_documents')
         .select('*')
         .order('uploaded_at', { ascending: false });
 
@@ -107,7 +107,7 @@ export function useCrewPosts() {
     queryKey: ['crew-posts'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('crew_posts')
+        .from('reviews')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -136,7 +136,7 @@ export function useLikePhoto() {
     mutationFn: async ({ photoId, userId }: { photoId: string; userId: string }) => {
       // Get current photo
       const { data: photo, error: fetchError } = await supabase
-        .from('crew_photos')
+        .from('legend_documents')
         .select('*')
         .eq('id', photoId)
         .single();
@@ -151,7 +151,7 @@ export function useLikePhoto() {
         : [...liked_by, userId];
 
       const { data, error } = await supabase
-        .from('crew_photos')
+        .from('legend_documents')
         .update({
           likes: newLikedBy.length,
           liked_by: newLikedBy,

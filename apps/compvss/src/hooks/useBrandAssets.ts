@@ -29,7 +29,7 @@ export function useBrandAssets() {
     queryKey: ['brand-assets'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('brand_assets')
+        .from('legend_documents')
         .select('*')
         .order('name', { ascending: true });
 
@@ -52,7 +52,7 @@ export function useBrandGuidelines() {
     queryKey: ['brand-guidelines'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('brand_guidelines')
+        .from('legend_documents')
         .select('*')
         .order('title', { ascending: true });
 

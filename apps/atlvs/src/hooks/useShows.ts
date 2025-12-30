@@ -69,7 +69,7 @@ export function useShows(filters?: ShowFilters) {
     queryKey: ['shows', filters],
     queryFn: async () => {
       let query = supabase
-        .from('shows')
+        .from('legend_events')
         .select(`
           *,
           production:productions(id, title),
@@ -107,7 +107,7 @@ export function useShow(id: string) {
     queryKey: ['shows', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('shows')
+        .from('legend_events')
         .select(`
           *,
           production:productions(id, title),
@@ -129,7 +129,7 @@ export function useCues(showId: string) {
     queryKey: ['cues', showId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('cues')
+        .from('show_cues')
         .select('*')
         .eq('show_id', showId)
         .order('sort_order', { ascending: true });
@@ -148,7 +148,7 @@ export function useCreateShow() {
   return useMutation({
     mutationFn: async (show: Omit<Show, 'id' | 'created_at' | 'updated_at' | 'production' | 'venue'>) => {
       const { data, error } = await supabase
-        .from('shows')
+        .from('legend_events')
         .insert(show)
         .select()
         .single();
@@ -169,7 +169,7 @@ export function useUpdateShow() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Show> & { id: string }) => {
       const { data, error } = await supabase
-        .from('shows')
+        .from('legend_events')
         .update(updates)
         .eq('id', id)
         .select()
@@ -191,7 +191,7 @@ export function useDeleteShow() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('shows').delete().eq('id', id);
+      const { error } = await supabase.from('legend_events').delete().eq('id', id);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -207,7 +207,7 @@ export function useCreateCue() {
   return useMutation({
     mutationFn: async (cue: Omit<Cue, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('cues')
+        .from('show_cues')
         .insert(cue)
         .select()
         .single();
@@ -228,7 +228,7 @@ export function useUpdateCue() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Cue> & { id: string }) => {
       const { data, error } = await supabase
-        .from('cues')
+        .from('show_cues')
         .update(updates)
         .eq('id', id)
         .select()
@@ -249,7 +249,7 @@ export function useDeleteCue() {
 
   return useMutation({
     mutationFn: async ({ id, showId }: { id: string; showId: string }) => {
-      const { error } = await supabase.from('cues').delete().eq('id', id);
+      const { error } = await supabase.from('show_cues').delete().eq('id', id);
       if (error) throw error;
       return { showId };
     },
@@ -266,7 +266,7 @@ export function useExecuteCue() {
   return useMutation({
     mutationFn: async ({ id, showId }: { id: string; showId: string }) => {
       const { data, error } = await supabase
-        .from('cues')
+        .from('show_cues')
         .update({
           status: 'executed',
           actual_time: new Date().toISOString(),
@@ -291,7 +291,7 @@ export function useReorderCues() {
   return useMutation({
     mutationFn: async ({ showId, cueOrders }: { showId: string; cueOrders: { id: string; sort_order: number }[] }) => {
       const updates = cueOrders.map(({ id, sort_order }) =>
-        supabase.from('cues').update({ sort_order }).eq('id', id)
+        supabase.from('show_cues').update({ sort_order }).eq('id', id)
       );
       
       await Promise.all(updates);
@@ -310,7 +310,7 @@ export function useUpcomingShows(limit = 10) {
     queryFn: async () => {
       const today = new Date().toISOString().split('T')[0];
       const { data, error } = await supabase
-        .from('shows')
+        .from('legend_events')
         .select(`
           *,
           production:productions(id, title),
@@ -333,7 +333,7 @@ export function useShowStats(productionId?: string) {
   return useQuery({
     queryKey: ['shows', 'stats', productionId],
     queryFn: async () => {
-      let query = supabase.from('shows').select('status, tickets_sold, attendance, revenue, capacity');
+      let query = supabase.from('legend_events').select('status, tickets_sold, attendance, revenue, capacity');
       
       if (productionId) {
         query = query.eq('production_id', productionId);

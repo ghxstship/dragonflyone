@@ -6,20 +6,10 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useRouter } from "next/navigation";
 import { TrendingUp, DollarSign, PieChart, FileText, BarChart3, List, Download } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Investment {
   id: string;
@@ -42,7 +32,6 @@ const STATUS_CONFIG = {
 };
 
 export default function InvestorPortalPage() {
-  const router = useRouter();
 
   const { data: investments = [], isLoading, error, refetch } = useQuery({
     queryKey: ["investor-investments"],

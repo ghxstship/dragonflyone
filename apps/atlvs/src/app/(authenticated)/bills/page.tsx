@@ -4,21 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, DollarSign, CheckCircle, Trash2, Download } from 'lucide-react';
 import {
-  ListPage,
-  Badge,
-  RecordFormModal,
-  DetailDrawer,
-  ConfirmDialog,
-  Grid,
-  Body,
-  useNotifications,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-  type ListPageBulkAction,
-  type FormFieldConfig,
-  type DetailSection,
-} from '@ghxstship/ui';
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useNotifications} from '@ghxstship/ui';
 import { createExportHandler } from '@ghxstship/config';
 import { useBillsData, type Bill } from '@/hooks/useBills';
 

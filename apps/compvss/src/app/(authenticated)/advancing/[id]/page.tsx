@@ -10,10 +10,7 @@ import { useRouter } from "next/navigation";
 import { ClipboardList, Package } from "lucide-react";
 import { useAuthContext, PlatformRole, useAdvancingRequest } from "@ghxstship/config";
 import {
-  Badge,
-  DetailPage,
-  type DetailPageTab,
-} from "@ghxstship/ui";
+  Badge, DetailPage} from "@ghxstship/ui";
 import { AdvanceRequestDetail } from "@/components/advancing/advance-request-detail";
 import { FulfillmentManager } from "@/components/advancing/fulfillment-manager";
 

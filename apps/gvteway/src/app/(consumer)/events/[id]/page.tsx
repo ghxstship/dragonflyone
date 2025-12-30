@@ -49,7 +49,7 @@ function useEventWithTickets(id: string) {
     queryKey: ['events', id, 'with-tickets'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('events')
+        .from('legend_events')
         .select(`
           *,
           ticket_types (*)

@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { ClipboardList, Check, Calendar, Users, BarChart3, Target, DollarSign } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const FEATURES: FeatureItem[] = [
   { id: "tasks", icon: <ClipboardList className="size-8" />, title: "Task Management", description: "Create, assign, and track tasks with dependencies and deadlines." },

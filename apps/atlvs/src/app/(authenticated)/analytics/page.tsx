@@ -4,18 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { TrendingUp, TrendingDown, DollarSign, Calendar, Users, FileText, BarChart3, PieChart, ArrowRight, RefreshCw } from 'lucide-react';
 import {
-  DetailPage,
-  Body,
-  Box,
-  Button,
-  Card,
-  Grid,
-  H2,
-  ProgressBar,
-  Select,
-  Stack,
-  Text,
-} from '@ghxstship/ui';
+  DetailPage, Body, Box, Button, Card, Grid, H2, ProgressBar, Select, Stack, Text} from '@ghxstship/ui';
 import { useAuthContext, PlatformRole } from '@ghxstship/config';
 import { useAnalyticsDashboard } from '@/hooks/useAnalytics';
 

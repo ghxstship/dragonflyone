@@ -24,7 +24,7 @@ export function useBuildStrikeTasks(productionId?: string) {
     queryKey: ['build-strike-tasks', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('build_strike_tasks')
+        .from('projects')
         .select('*')
         .order('priority', { ascending: false });
 
@@ -55,7 +55,7 @@ export function useUpdateBuildStrikeTaskStatus() {
   return useMutation({
     mutationFn: async ({ id, status }: { id: string; status: BuildStrikeTask['status'] }) => {
       const { data, error } = await supabase
-        .from('build_strike_tasks')
+        .from('projects')
         .update({ status })
         .eq('id', id)
         .select()
@@ -77,7 +77,7 @@ export function useCreateBuildStrikeTask() {
   return useMutation({
     mutationFn: async (task: Omit<BuildStrikeTask, 'id'>) => {
       const { data, error } = await supabase
-        .from('build_strike_tasks')
+        .from('projects')
         .insert({
           task_name: task.task,
           area: task.area,

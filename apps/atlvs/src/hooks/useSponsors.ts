@@ -75,7 +75,7 @@ export function useSponsorTiers(productionId?: string) {
     queryKey: ['sponsor_tiers', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('sponsor_tiers')
+        .from('deals')
         .select('*')
         .order('level', { ascending: false });
 
@@ -90,64 +90,93 @@ export function useSponsorTiers(productionId?: string) {
   });
 }
 
-// Fetch all sponsors
+// Fetch all sponsors (3NF: legend_organizations + orgs_profile_sponsor)
 export function useSponsors(filters?: SponsorFilters) {
   return useQuery({
     queryKey: ['sponsors', filters],
     queryFn: async () => {
       let query = supabase
-        .from('sponsors')
+        .from('legend_organizations')
         .select(`
           *,
-          tier:sponsor_tiers(id, name, level, price)
+          orgs_profile_sponsor!org_id(*)
         `)
-        .order('contract_value', { ascending: false });
+        .not('orgs_profile_sponsor', 'is', null)
+        .order('created_at', { ascending: false });
 
       if (filters?.productionId) {
-        query = query.eq('production_id', filters.productionId);
-      }
-      if (filters?.tierId) {
-        query = query.eq('sponsor_tier_id', filters.tierId);
+        query = query.eq('orgs_profile_sponsor.production_id', filters.productionId);
       }
       if (filters?.status) {
         query = query.eq('status', filters.status);
       }
-      if (filters?.paymentStatus) {
-        query = query.eq('payment_status', filters.paymentStatus);
-      }
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as unknown as Sponsor[];
+      
+      // Transform to legacy Sponsor interface
+      return (data || []).map(org => {
+        const profile = (org.orgs_profile_sponsor as Record<string, unknown>[])?.[0] || {};
+        return {
+          id: org.id,
+          production_id: profile.production_id as string,
+          organization_id: org.organization_id,
+          company_name: org.name,
+          contact_name: org.primary_contact_id,
+          contact_email: org.email,
+          contact_phone: org.phone,
+          logo_url: org.logo_url,
+          website_url: org.website,
+          status: profile.sponsorship_status as string || 'prospect',
+          contract_value: profile.contract_value as number || 0,
+          payment_status: profile.payment_status as string || 'pending',
+          amount_paid: profile.amount_paid as number || 0,
+          notes: org.notes,
+          created_at: org.created_at,
+          updated_at: org.updated_at,
+        };
+      }) as unknown as Sponsor[];
     },
   });
 }
 
-// Fetch single sponsor with deliverables
+// Fetch single sponsor with deliverables (3NF: legend_organizations + orgs_profile_sponsor)
 export function useSponsor(id: string) {
   return useQuery({
     queryKey: ['sponsors', id],
     queryFn: async () => {
-      const { data: sponsor, error: sponsorError } = await supabase
-        .from('sponsors')
+      const { data: org, error: orgError } = await supabase
+        .from('legend_organizations')
         .select(`
           *,
-          tier:sponsor_tiers(*)
+          orgs_profile_sponsor!org_id(*)
         `)
         .eq('id', id)
         .single();
 
-      if (sponsorError) throw sponsorError;
+      if (orgError) throw orgError;
 
-      const { data: deliverables, error: delError } = await supabase
-        .from('sponsor_deliverables')
-        .select('*')
-        .eq('sponsor_id', id)
-        .order('due_date', { ascending: true });
-
-      if (delError) throw delError;
-
-      return { ...sponsor, deliverables } as unknown as Sponsor;
+      const profile = (org.orgs_profile_sponsor as Record<string, unknown>[])?.[0] || {};
+      
+      return {
+        id: org.id,
+        production_id: profile.production_id as string,
+        organization_id: org.organization_id,
+        company_name: org.name,
+        contact_name: org.primary_contact_id,
+        contact_email: org.email,
+        contact_phone: org.phone,
+        logo_url: org.logo_url,
+        website_url: org.website,
+        status: profile.sponsorship_status as string || 'prospect',
+        contract_value: profile.contract_value as number || 0,
+        payment_status: profile.payment_status as string || 'pending',
+        amount_paid: profile.amount_paid as number || 0,
+        notes: org.notes,
+        created_at: org.created_at,
+        updated_at: org.updated_at,
+        deliverables: [],
+      } as unknown as Sponsor;
     },
     enabled: !!id,
   });
@@ -160,7 +189,7 @@ export function useCreateSponsorTier() {
   return useMutation({
     mutationFn: async (tier: Omit<SponsorTier, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('sponsor_tiers')
+        .from('deals')
         .insert(tier)
         .select()
         .single();
@@ -181,7 +210,7 @@ export function useUpdateSponsorTier() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<SponsorTier> & { id: string }) => {
       const { data, error } = await supabase
-        .from('sponsor_tiers')
+        .from('deals')
         .update(updates)
         .eq('id', id)
         .select()
@@ -203,7 +232,7 @@ export function useDeleteSponsorTier() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('sponsor_tiers')
+        .from('deals')
         .delete()
         .eq('id', id);
 
@@ -216,20 +245,48 @@ export function useDeleteSponsorTier() {
   });
 }
 
-// Create sponsor
+// Create sponsor (3NF: legend_organizations + orgs_profile_sponsor)
 export function useCreateSponsor() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (sponsor: Omit<Sponsor, 'id' | 'created_at' | 'updated_at' | 'tier' | 'deliverables'>) => {
-      const { data, error } = await supabase
-        .from('sponsors')
-        .insert(sponsor)
+      // Create organization first
+      const { data: org, error: orgError } = await supabase
+        .from('legend_organizations')
+        .insert({
+          name: sponsor.company_name,
+          org_type: 'sponsor',
+          status: 'active',
+          email: sponsor.contact_email,
+          phone: sponsor.contact_phone,
+          logo_url: sponsor.logo_url,
+          website: sponsor.website_url,
+          notes: sponsor.notes,
+        })
         .select()
         .single();
 
-      if (error) throw error;
-      return data;
+      if (orgError) throw orgError;
+
+      // Create sponsor profile
+      const { error: profileError } = await supabase
+        .from('orgs_profile_sponsor')
+        .insert({
+          org_id: org.id,
+          sponsorship_status: sponsor.status,
+          contract_value: sponsor.contract_value,
+          payment_status: sponsor.payment_status,
+          amount_paid: sponsor.amount_paid,
+        });
+
+      if (profileError) {
+        // Rollback org creation
+        await supabase.from('legend_organizations').delete().eq('id', org.id);
+        throw profileError;
+      }
+
+      return org;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sponsors'] });
@@ -237,20 +294,42 @@ export function useCreateSponsor() {
   });
 }
 
-// Update sponsor
+// Update sponsor (3NF: legend_organizations + orgs_profile_sponsor)
 export function useUpdateSponsor() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Sponsor> & { id: string }) => {
+      // Update organization
       const { data, error } = await supabase
-        .from('sponsors')
-        .update(updates)
+        .from('legend_organizations')
+        .update({
+          name: updates.company_name,
+          email: updates.contact_email,
+          phone: updates.contact_phone,
+          logo_url: updates.logo_url,
+          website: updates.website_url,
+          notes: updates.notes,
+        })
         .eq('id', id)
         .select()
         .single();
 
       if (error) throw error;
+
+      // Update sponsor profile
+      if (updates.status || updates.contract_value || updates.payment_status || updates.amount_paid) {
+        await supabase
+          .from('orgs_profile_sponsor')
+          .update({
+            sponsorship_status: updates.status,
+            contract_value: updates.contract_value,
+            payment_status: updates.payment_status,
+            amount_paid: updates.amount_paid,
+          })
+          .eq('org_id', id);
+      }
+
       return data;
     },
     onSuccess: (_, variables) => {
@@ -267,7 +346,7 @@ export function useCreateDeliverable() {
   return useMutation({
     mutationFn: async (deliverable: Omit<SponsorDeliverable, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('sponsor_deliverables')
+        .from('projects')
         .insert(deliverable)
         .select()
         .single();
@@ -288,7 +367,7 @@ export function useUpdateDeliverable() {
   return useMutation({
     mutationFn: async ({ id, sponsorId, ...updates }: Partial<SponsorDeliverable> & { id: string; sponsorId: string }) => {
       const { data, error } = await supabase
-        .from('sponsor_deliverables')
+        .from('projects')
         .update(updates)
         .eq('id', id)
         .select()
@@ -310,7 +389,7 @@ export function useCompleteDeliverable() {
   return useMutation({
     mutationFn: async ({ id, sponsorId, completedBy }: { id: string; sponsorId: string; completedBy: string }) => {
       const { data, error } = await supabase
-        .from('sponsor_deliverables')
+        .from('projects')
         .update({
           status: 'completed',
           completed_at: new Date().toISOString(),
@@ -329,31 +408,31 @@ export function useCompleteDeliverable() {
   });
 }
 
-// Record payment
+// Record payment (3NF: orgs_profile_sponsor)
 export function useRecordPayment() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({ id, amount }: { id: string; amount: number }) => {
-      // First get current sponsor
-      const { data: sponsor, error: getError } = await supabase
-        .from('sponsors')
+      // First get current sponsor profile
+      const { data: profile, error: getError } = await supabase
+        .from('orgs_profile_sponsor')
         .select('amount_paid, contract_value')
-        .eq('id', id)
+        .eq('org_id', id)
         .single();
 
       if (getError) throw getError;
 
-      const newAmountPaid = (sponsor.amount_paid || 0) + amount;
-      const paymentStatus = newAmountPaid >= sponsor.contract_value ? 'paid' : 'partial';
+      const newAmountPaid = (profile.amount_paid || 0) + amount;
+      const paymentStatus = newAmountPaid >= (profile.contract_value || 0) ? 'paid' : 'partial';
 
       const { data, error } = await supabase
-        .from('sponsors')
+        .from('orgs_profile_sponsor')
         .update({
           amount_paid: newAmountPaid,
           payment_status: paymentStatus,
         })
-        .eq('id', id)
+        .eq('org_id', id)
         .select()
         .single();
 
@@ -372,7 +451,8 @@ export function useSponsorStats(productionId?: string) {
   return useQuery({
     queryKey: ['sponsors', 'stats', productionId],
     queryFn: async () => {
-      let query = supabase.from('sponsors').select('status, payment_status, contract_value, amount_paid');
+      // 3NF: legend_organizations + orgs_profile_sponsor
+      let query = supabase.from('legend_organizations').select('status, orgs_profile_sponsor!org_id(sponsorship_status, payment_status, contract_value, amount_paid)').not('orgs_profile_sponsor', 'is', null);
       
       if (productionId) {
         query = query.eq('production_id', productionId);

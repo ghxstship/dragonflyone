@@ -25,7 +25,7 @@ export function useMyCredentials() {
     queryKey: ['my-credentials'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('certifications')
+        .from('workforce_certifications')
         .select('*')
         .order('expires_at', { ascending: true });
 

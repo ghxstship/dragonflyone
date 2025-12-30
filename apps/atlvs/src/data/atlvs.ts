@@ -36,8 +36,9 @@ export const atlvsNavigation = [
 ];
 
 // Sidebar navigation with full route structure
-// Optimized for UX: 6 primary sections, task-based grouping, progressive disclosure
+// Optimized for UX: 7 primary sections, task-based grouping, progressive disclosure
 // Role-based filtering: items with allowedRoles are only shown to users with matching roles
+// Updated 2025-12-29: Added missing routes, consolidated sections, improved information architecture
 export const atlvsSidebarNavigation = [
   {
     section: "Home",
@@ -45,145 +46,80 @@ export const atlvsSidebarNavigation = [
     // Home section visible to all roles
     items: [
       { label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard", primary: true },
-      { label: "Portfolio", href: "/portfolio", icon: "Briefcase", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.EXECUTIVE] },
-      { label: "Productions", href: "/productions", icon: "FolderKanban" },
-      { label: "Events", href: "/events", icon: "Calendar" },
+      { label: "Search", href: "/search", icon: "Search" },
       { label: "Calendar", href: "/calendar", icon: "CalendarDays" },
       { label: "Notifications", href: "/notifications", icon: "Bell" },
-      { label: "OKRs & Goals", href: "/okrs", icon: "Target", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.EXECUTIVE] },
-      { label: "Strategic Alignment", href: "/alignment", icon: "Crosshair", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE] },
+      { label: "Team", href: "/team", icon: "Users" },
     ],
     subsections: [
       {
-        label: "Productions",
+        label: "Strategic",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.EXECUTIVE],
         items: [
-          { label: "New Production", href: "/productions/new", icon: "Plus" },
-          { label: "Event Types", href: "/event-types", icon: "Tag" },
+          { label: "Portfolio", href: "/portfolio", icon: "Briefcase" },
+          { label: "OKRs & Goals", href: "/okrs", icon: "Target" },
+          { label: "Strategic Alignment", href: "/alignment", icon: "Crosshair" },
+        ],
+      },
+    ],
+  },
+  {
+    section: "Productions",
+    icon: "FolderKanban",
+    items: [
+      { label: "All Productions", href: "/productions", icon: "FolderKanban", primary: true },
+      { label: "New Production", href: "/productions/new", icon: "Plus" },
+      { label: "Events", href: "/events", icon: "Calendar" },
+      { label: "New Event", href: "/events/new", icon: "Plus" },
+      { label: "Projects", href: "/projects", icon: "Briefcase" },
+      { label: "New Project", href: "/projects/new", icon: "Plus" },
+    ],
+    subsections: [
+      {
+        label: "Advancing",
+        items: [
+          { label: "Advances", href: "/advancing", icon: "FastForward" },
+          { label: "Review Queue", href: "/advancing/review", icon: "ClipboardCheck" },
         ],
       },
       {
-        label: "Calendar Views",
+        label: "Event Types",
         items: [
-          { label: "Timeline", href: "/calendar/timeline", icon: "GanttChart" },
-          { label: "Spaces Calendar", href: "/calendar/spaces", icon: "LayoutGrid" },
+          { label: "Event Types", href: "/event-types", icon: "Tag" },
+          { label: "Departments", href: "/departments", icon: "Building" },
         ],
       },
     ],
   },
   {
     section: "Sales & CRM",
-    icon: "Users",
+    icon: "Handshake",
     allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.SALES, ATLVS_ROLES.MARKETING],
     items: [
       { label: "Pipeline", href: "/pipeline", icon: "GitBranch", primary: true },
       { label: "Deals", href: "/deals", icon: "Handshake" },
+      { label: "New Deal", href: "/deals/new", icon: "Plus" },
       { label: "Contacts", href: "/contacts", icon: "Contact" },
-      { label: "Clients", href: "/clients", icon: "Building" },
-      { label: "Leads", href: "/leads/scoring", icon: "Star" },
       { label: "Proposals", href: "/proposals", icon: "FileText" },
-      { label: "RFPs", href: "/rfp", icon: "FileSearch" },
-      { label: "Partnerships", href: "/partnerships", icon: "Link", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER] },
-      { label: "Stakeholders", href: "/stakeholders", icon: "Users" },
+      { label: "Quotes", href: "/quotes", icon: "FileQuestion" },
     ],
     subsections: [
       {
         label: "CRM Tools",
         items: [
           { label: "CRM Dashboard", href: "/crm", icon: "LayoutDashboard" },
-          { label: "Tasks", href: "/crm/tasks", icon: "CheckSquare" },
-          { label: "Calendar", href: "/crm/calendar", icon: "Calendar" },
-          { label: "Email Integration", href: "/crm/email-integration", icon: "Mail" },
-          { label: "Relationships", href: "/crm/relationships", icon: "Link2" },
-          { label: "Lead Scoring", href: "/crm/lead-scoring", icon: "Star" },
+          { label: "Clients", href: "/clients", icon: "Building" },
+          { label: "Leads", href: "/leads/scoring", icon: "Star" },
+          { label: "RFPs", href: "/rfp", icon: "FileSearch" },
+          { label: "Stakeholders", href: "/stakeholders", icon: "Users" },
         ],
       },
       {
-        label: "Pipeline",
+        label: "Partnerships",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER],
         items: [
-          { label: "Analytics", href: "/pipeline/analytics", icon: "BarChart" },
-          { label: "New Deal", href: "/pipeline/deals/new", icon: "Plus" },
-          { label: "Settings", href: "/pipeline/settings", icon: "Settings" },
-        ],
-      },
-      {
-        label: "Contacts",
-        items: [
-          { label: "New Contact", href: "/contacts/new", icon: "Plus" },
-          { label: "Duplicates", href: "/contacts/duplicates", icon: "Copy" },
-        ],
-      },
-      {
-        label: "Lead Generation",
-        items: [
+          { label: "Partnerships", href: "/partnerships", icon: "Link" },
           { label: "Lead Forms", href: "/lead-forms", icon: "FormInput" },
-          { label: "New Form", href: "/lead-forms/new", icon: "Plus" },
-          { label: "Lead Nurturing", href: "/leads/nurturing", icon: "Sprout" },
-        ],
-      },
-      {
-        label: "Proposals",
-        items: [
-          { label: "New Proposal", href: "/proposals/new", icon: "Plus" },
-          { label: "Templates", href: "/proposals/templates", icon: "Copy" },
-          { label: "New RFP", href: "/rfps/new", icon: "Plus" },
-        ],
-      },
-    ],
-  },
-  {
-    section: "Projects",
-    icon: "FolderKanban",
-    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.PROJECT_MANAGER, ATLVS_ROLES.OPERATIONS],
-    items: [
-      { label: "All Projects", href: "/projects", icon: "FolderKanban", primary: true },
-      { label: "Contracts", href: "/contracts", icon: "FileText", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.FINANCE] },
-      { label: "Scenarios", href: "/scenarios", icon: "GitCompare" },
-      { label: "Advances", href: "/advances", icon: "ArrowUpRight", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.FINANCE] },
-      { label: "Advancing", href: "/advancing", icon: "FastForward" },
-      { label: "Project Costs", href: "/project-costs", icon: "DollarSign" },
-      { label: "Crew", href: "/crew", icon: "Users" },
-      { label: "Departments", href: "/departments", icon: "Building" },
-    ],
-    subsections: [
-      {
-        label: "Contracts",
-        items: [
-          { label: "New Contract", href: "/contracts/new", icon: "Plus" },
-          { label: "Templates", href: "/contracts/templates", icon: "Copy" },
-          { label: "Clauses", href: "/contracts/clauses", icon: "FileText" },
-        ],
-      },
-    ],
-  },
-  {
-    section: "Bookings",
-    icon: "CalendarCheck",
-    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.SALES],
-    items: [
-      { label: "All Bookings", href: "/bookings", icon: "CalendarCheck", primary: true },
-      { label: "New Booking", href: "/bookings/new", icon: "Plus" },
-      { label: "Packages", href: "/bookings/packages", icon: "Package" },
-      { label: "Templates", href: "/bookings/templates", icon: "Copy" },
-      { label: "Holds", href: "/holds", icon: "Clock" },
-      { label: "Availability", href: "/availability", icon: "CalendarDays" },
-    ],
-    subsections: [
-      {
-        label: "Holds",
-        items: [
-          { label: "Expiring", href: "/holds/expiring", icon: "AlertTriangle" },
-        ],
-      },
-      {
-        label: "Availability",
-        items: [
-          { label: "Widget", href: "/availability/widget", icon: "LayoutGrid" },
-        ],
-      },
-      {
-        label: "BEOs",
-        items: [
-          { label: "Templates", href: "/beos/templates", icon: "FileText" },
         ],
       },
     ],
@@ -195,12 +131,20 @@ export const atlvsSidebarNavigation = [
     items: [
       { label: "Overview", href: "/finance", icon: "DollarSign", primary: true },
       { label: "Invoices", href: "/invoices", icon: "FileText" },
-      { label: "Billing", href: "/billing", icon: "Receipt" },
+      { label: "New Invoice", href: "/invoices/new", icon: "Plus" },
       { label: "Budgets", href: "/budgets", icon: "PieChart" },
-      { label: "Payroll", href: "/payroll", icon: "Wallet", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.FINANCE, ATLVS_ROLES.HR] },
-      { label: "Taxes", href: "/taxes", icon: "Calculator", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.FINANCE, ATLVS_ROLES.ACCOUNTANT] },
+      { label: "Bills", href: "/finance/bills", icon: "Receipt" },
+      { label: "Orders", href: "/orders", icon: "ShoppingCart" },
     ],
     subsections: [
+      {
+        label: "Expenses",
+        items: [
+          { label: "All Expenses", href: "/finance/expenses", icon: "Receipt" },
+          { label: "Purchase Orders", href: "/finance/purchase-orders", icon: "ClipboardList" },
+          { label: "Proposals", href: "/finance/proposals", icon: "FileText" },
+        ],
+      },
       {
         label: "Accounting",
         allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.FINANCE, ATLVS_ROLES.ACCOUNTANT],
@@ -208,37 +152,8 @@ export const atlvsSidebarNavigation = [
           { label: "Revenue Recognition", href: "/revenue-recognition", icon: "TrendingUp" },
           { label: "Bank Reconciliation", href: "/finance/bank-reconciliation", icon: "RefreshCw" },
           { label: "Accounts Receivable", href: "/finance/accounts-receivable", icon: "ArrowDownRight" },
-          { label: "Credit Cards", href: "/finance/credit-cards", icon: "CreditCard" },
-          { label: "Commissions", href: "/finance/commissions", icon: "Percent" },
-          { label: "Reports", href: "/reports/revenue", icon: "BarChart" },
-        ],
-      },
-      {
-        label: "Expenses",
-        items: [
-          { label: "All Expenses", href: "/expenses", icon: "Receipt" },
-          { label: "Categories", href: "/expenses/categories", icon: "Grid" },
-          { label: "Reports", href: "/expenses/reports", icon: "FileText" },
-        ],
-      },
-      {
-        label: "Payment Schedules",
-        items: [
-          { label: "All Schedules", href: "/payment-schedules", icon: "Calendar" },
-          { label: "Overdue", href: "/payment-schedules/overdue", icon: "AlertTriangle" },
-          { label: "Upcoming", href: "/payment-schedules/upcoming", icon: "Clock" },
-        ],
-      },
-      {
-        label: "Vendor Payments",
-        items: [
-          { label: "Vendor Invoices", href: "/vendor-invoices", icon: "FileText" },
-          { label: "New Invoice", href: "/vendor-invoices/new", icon: "Plus" },
-          { label: "Vendor Orders", href: "/vendor-orders", icon: "ShoppingCart" },
-          { label: "New Order", href: "/vendor-orders/new", icon: "Plus" },
-          { label: "Approvals", href: "/vendor-orders/approvals", icon: "CheckCircle" },
-          { label: "Purchase Orders", href: "/purchase-orders", icon: "ClipboardList" },
-          { label: "New PO", href: "/purchase-orders/new", icon: "Plus" },
+          { label: "Payroll", href: "/payroll", icon: "Wallet" },
+          { label: "Taxes", href: "/taxes", icon: "Calculator" },
         ],
       },
     ],
@@ -246,69 +161,28 @@ export const atlvsSidebarNavigation = [
   {
     section: "Resources",
     icon: "Package",
-    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.OPERATIONS, ATLVS_ROLES.PROCUREMENT],
     items: [
       { label: "Assets", href: "/assets", icon: "Package", primary: true },
-      { label: "Employees", href: "/employees", icon: "Users", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.HR] },
+      { label: "New Asset", href: "/assets/new", icon: "Plus" },
+      { label: "Maintenance", href: "/assets/maintenance", icon: "Wrench" },
+      { label: "Scan", href: "/assets/scan", icon: "QrCode" },
       { label: "Vendors", href: "/vendors", icon: "Building" },
       { label: "Documents", href: "/documents", icon: "FileArchive" },
-      { label: "Training", href: "/training", icon: "GraduationCap", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.HR] },
     ],
     subsections: [
       {
-        label: "Asset Management",
-        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.OPERATIONS],
+        label: "Venues & Spaces",
         items: [
-          { label: "Tracking", href: "/assets/tracking", icon: "MapPin" },
-          { label: "Maintenance", href: "/assets/maintenance", icon: "Wrench" },
-          { label: "Utilization", href: "/assets/utilization", icon: "BarChart" },
-          { label: "Rentals", href: "/assets/rentals", icon: "Key" },
-          { label: "Kits & Bundles", href: "/assets/kits", icon: "Package" },
-          { label: "Specifications", href: "/assets/specifications", icon: "FileText" },
-          { label: "Calibration", href: "/assets/calibration", icon: "Settings" },
-          { label: "Storage", href: "/assets/storage", icon: "Archive" },
-          { label: "Scan", href: "/assets/scan", icon: "QrCode" },
-          { label: "Serialized", href: "/assets/serialized", icon: "Hash" },
-          { label: "Optimization", href: "/assets/optimization", icon: "Zap" },
-          { label: "Performance", href: "/assets/performance", icon: "Activity" },
-          { label: "Idle Analysis", href: "/assets/idle-analysis", icon: "Clock" },
-          { label: "Damage Reports", href: "/assets/damage-reports", icon: "AlertTriangle" },
-        ],
-      },
-      {
-        label: "Vendor Management",
-        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.PROCUREMENT],
-        items: [
-          { label: "Vendor Contracts", href: "/vendors/contracts", icon: "FileText" },
-          { label: "Rate Cards", href: "/vendors/rate-cards", icon: "DollarSign" },
-          { label: "New Vendor", href: "/vendors/new", icon: "Plus" },
-          { label: "Categories", href: "/vendors/categories", icon: "Grid" },
-          { label: "Preferred Vendors", href: "/preferred-vendors", icon: "Star" },
-          { label: "New Preferred", href: "/preferred-vendors/new", icon: "Plus" },
+          { label: "Venues", href: "/venues", icon: "Building" },
+          { label: "Spaces", href: "/spaces", icon: "LayoutGrid" },
+          { label: "Floor Plans", href: "/floor-plans", icon: "Map" },
         ],
       },
       {
         label: "Inventory",
         items: [
           { label: "All Inventory", href: "/inventory", icon: "Package" },
-          { label: "New Item", href: "/inventory/new", icon: "Plus" },
-          { label: "Availability", href: "/inventory/availability", icon: "CalendarCheck" },
-          { label: "Scan", href: "/inventory/scan", icon: "QrCode" },
           { label: "Catalog", href: "/catalog", icon: "Grid" },
-          { label: "Categories", href: "/catalog/categories", icon: "FolderTree" },
-          { label: "New Catalog Item", href: "/catalog/new", icon: "Plus" },
-        ],
-      },
-      {
-        label: "Venues & Spaces",
-        items: [
-          { label: "Venues", href: "/venues", icon: "Building" },
-          { label: "Locations", href: "/locations", icon: "MapPin" },
-          { label: "Spaces", href: "/spaces", icon: "LayoutGrid" },
-          { label: "New Space", href: "/spaces/new", icon: "Plus" },
-          { label: "Combinations", href: "/spaces/combinations", icon: "Layers" },
-          { label: "Floor Plans", href: "/floor-plans", icon: "Map" },
-          { label: "New Floor Plan", href: "/floor-plans/new", icon: "Plus" },
         ],
       },
       {
@@ -316,95 +190,9 @@ export const atlvsSidebarNavigation = [
         allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.PROCUREMENT],
         items: [
           { label: "Procurement", href: "/procurement", icon: "ShoppingCart" },
-          { label: "Categories", href: "/procurement/categories", icon: "Grid" },
           { label: "Vendor Selection", href: "/procurement/vendor-selection", icon: "UserCheck" },
-          { label: "Vendor Audits", href: "/procurement/vendor-audits", icon: "ClipboardCheck" },
-          { label: "Emergency", href: "/procurement/emergency", icon: "AlertCircle" },
-          { label: "Logistics", href: "/procurement/logistics", icon: "Truck" },
         ],
       },
-    ],
-  },
-  {
-    section: "People",
-    icon: "Users",
-    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.HR],
-    items: [
-      { label: "Workforce", href: "/workforce", icon: "Users", primary: true },
-      { label: "Performance", href: "/performance", icon: "TrendingUp" },
-      { label: "Compensation", href: "/workforce/compensation", icon: "DollarSign", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.HR] },
-      { label: "Succession", href: "/workforce/succession", icon: "ArrowUpRight", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE] },
-      { label: "Referrals", href: "/workforce/referrals", icon: "UserPlus" },
-    ],
-    subsections: [
-      {
-        label: "Compliance",
-        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.HR],
-        items: [
-          { label: "Background Checks", href: "/workforce/background-checks", icon: "ShieldCheck" },
-          { label: "Labor Laws", href: "/workforce/labor-laws", icon: "Scale" },
-          { label: "Union Compliance", href: "/workforce/union-compliance", icon: "Shield" },
-          { label: "Union Rules", href: "/workforce/union-rules", icon: "FileText" },
-          { label: "Handbook", href: "/workforce/handbook", icon: "Book" },
-        ],
-      },
-    ],
-  },
-  {
-    section: "Analytics",
-    icon: "BarChart3",
-    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.EXECUTIVE],
-    items: [
-      { label: "Overview", href: "/analytics", icon: "BarChart3", primary: true },
-      { label: "KPIs", href: "/analytics/kpi", icon: "Target" },
-      { label: "Reports", href: "/reports", icon: "FileBarChart" },
-      { label: "Dashboard Builder", href: "/analytics/dashboard-builder", icon: "LayoutGrid", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER] },
-    ],
-    subsections: [
-      {
-        label: "Advanced Analytics",
-        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE],
-        items: [
-          { label: "Data Warehouse", href: "/analytics/data-warehouse", icon: "Database" },
-          { label: "Client Retention", href: "/analytics/client-retention", icon: "UserCheck" },
-          { label: "Scheduled Reports", href: "/reports/scheduled", icon: "Clock" },
-          { label: "Marketing Attribution", href: "/marketing/attribution", icon: "BarChart" },
-          { label: "Pipeline Analytics", href: "/analytics/pipeline", icon: "GitBranch" },
-          { label: "Revenue Analytics", href: "/analytics/revenue", icon: "DollarSign" },
-          { label: "Metrics", href: "/metrics", icon: "BarChart" },
-          { label: "KPIs", href: "/metrics/kpis", icon: "Target" },
-          { label: "Metrics Reports", href: "/metrics/reports", icon: "FileText" },
-        ],
-      },
-      {
-        label: "Risk & Compliance",
-        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE],
-        items: [
-          { label: "Audit Trail", href: "/audit", icon: "Shield" },
-          { label: "Compliance", href: "/compliance", icon: "CheckCircle" },
-          { label: "Risks", href: "/risks", icon: "AlertTriangle" },
-        ],
-      },
-      {
-        label: "Governance",
-        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE],
-        items: [
-          { label: "Governance", href: "/governance", icon: "Landmark" },
-          { label: "Subsidiaries", href: "/subsidiaries", icon: "Building2" },
-          { label: "IP Tracking", href: "/ip-tracking", icon: "Shield" },
-        ],
-      },
-    ],
-  },
-  {
-    section: "Client Portal",
-    icon: "Globe",
-    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.SALES],
-    items: [
-      { label: "Portal", href: "/client-portal", icon: "Globe", primary: true },
-      { label: "Documents", href: "/client-portal/documents", icon: "FileText" },
-      { label: "Events", href: "/client-portal/events", icon: "Calendar" },
-      { label: "Invoices", href: "/client-portal/invoices", icon: "Receipt" },
     ],
   },
   {
@@ -412,39 +200,21 @@ export const atlvsSidebarNavigation = [
     icon: "BookOpen",
     items: [
       { label: "People", href: "/people", icon: "Users", primary: true },
+      { label: "New Person", href: "/people/new", icon: "Plus" },
       { label: "Organizations", href: "/organizations", icon: "Building2" },
+      { label: "New Organization", href: "/organizations/new", icon: "Plus" },
       { label: "Places", href: "/places", icon: "MapPin" },
-      { label: "Products", href: "/products", icon: "Package" },
-      { label: "Events", href: "/events", icon: "Calendar" },
+      { label: "New Place", href: "/places/new", icon: "Plus" },
     ],
     subsections: [
       {
-        label: "People",
+        label: "Workforce",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.HR],
         items: [
-          { label: "New Person", href: "/people/new", icon: "Plus" },
-          { label: "Contacts", href: "/people?type=contact", icon: "Contact" },
-          { label: "Employees", href: "/people?type=employee", icon: "Briefcase" },
-          { label: "Crew", href: "/people?type=crew", icon: "Users" },
-          { label: "Artists", href: "/people?type=artist", icon: "Music" },
-        ],
-      },
-      {
-        label: "Organizations",
-        items: [
-          { label: "New Organization", href: "/organizations/new", icon: "Plus" },
-          { label: "Vendors", href: "/organizations?type=vendor", icon: "Building" },
-          { label: "Clients", href: "/organizations?type=client", icon: "Users" },
-          { label: "Sponsors", href: "/organizations?type=sponsor", icon: "Heart" },
-          { label: "Partners", href: "/organizations?type=partner", icon: "Handshake" },
-        ],
-      },
-      {
-        label: "Places",
-        items: [
-          { label: "New Place", href: "/places/new", icon: "Plus" },
-          { label: "Venues", href: "/places?type=venue", icon: "Building2" },
-          { label: "Warehouses", href: "/places?type=warehouse", icon: "Warehouse" },
-          { label: "Stages", href: "/places?type=stage", icon: "Theater" },
+          { label: "Workforce", href: "/workforce", icon: "Users" },
+          { label: "Employees", href: "/employees", icon: "Briefcase" },
+          { label: "Crew", href: "/crew", icon: "HardHat" },
+          { label: "Training", href: "/training", icon: "GraduationCap" },
         ],
       },
       {
@@ -460,9 +230,39 @@ export const atlvsSidebarNavigation = [
     ],
   },
   {
+    section: "Analytics",
+    icon: "BarChart3",
+    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.EXECUTIVE],
+    items: [
+      { label: "Overview", href: "/analytics", icon: "BarChart3", primary: true },
+      { label: "Dashboard Builder", href: "/analytics/dashboard-builder", icon: "LayoutGrid" },
+      { label: "KPIs", href: "/analytics/kpi", icon: "Target" },
+      { label: "Reports", href: "/reports", icon: "FileBarChart" },
+    ],
+    subsections: [
+      {
+        label: "Advanced Analytics",
+        items: [
+          { label: "Pipeline Analytics", href: "/analytics/pipeline", icon: "GitBranch" },
+          { label: "Revenue Analytics", href: "/analytics/revenue", icon: "DollarSign" },
+          { label: "Client Retention", href: "/analytics/client-retention", icon: "UserCheck" },
+        ],
+      },
+      {
+        label: "Governance",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE],
+        items: [
+          { label: "Audit Trail", href: "/audit", icon: "Shield" },
+          { label: "Compliance", href: "/compliance", icon: "CheckCircle" },
+          { label: "Risks", href: "/risks", icon: "AlertTriangle" },
+          { label: "Governance", href: "/governance", icon: "Landmark" },
+        ],
+      },
+    ],
+  },
+  {
     section: "Settings",
     icon: "Settings",
-    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER],
     items: [
       { label: "Settings", href: "/settings", icon: "Settings", primary: true },
       { label: "Organization", href: "/settings/organization", icon: "Building" },
@@ -485,15 +285,16 @@ export const atlvsSidebarNavigation = [
         items: [
           { label: "Import", href: "/settings/import", icon: "Download" },
           { label: "Export", href: "/settings/export", icon: "Upload" },
-          { label: "Pricing Rules", href: "/pricing-rules", icon: "DollarSign" },
+          { label: "Billing", href: "/settings/billing", icon: "CreditCard" },
         ],
       },
       {
-        label: "Billing & Webhooks",
+        label: "Portals",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER],
         items: [
-          { label: "Billing", href: "/settings/billing", icon: "CreditCard" },
-          { label: "Webhooks", href: "/webhooks", icon: "Webhook" },
-          { label: "New Webhook", href: "/webhooks/new", icon: "Plus" },
+          { label: "Investor Portal", href: "/portals/investor", icon: "TrendingUp" },
+          { label: "Sponsor Portal", href: "/portals/sponsor", icon: "Heart" },
+          { label: "Vendor Portal", href: "/portals/vendor", icon: "Building" },
         ],
       },
       {
@@ -502,7 +303,6 @@ export const atlvsSidebarNavigation = [
         items: [
           { label: "Users", href: "/admin/users", icon: "Users" },
           { label: "Batch Operations", href: "/admin/batch-operations", icon: "Layers" },
-          { label: "Support Tickets", href: "/support/tickets", icon: "Headphones" },
         ],
       },
     ],

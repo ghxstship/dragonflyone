@@ -42,7 +42,7 @@ export function usePortfolios(filters?: {
     queryKey: ['portfolios', filters],
     queryFn: async () => {
       let query = supabase
-        .from('portfolios')
+        .from('legend_documents')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -67,7 +67,7 @@ export function usePortfolioItems(filters?: {
     queryKey: ['portfolio_items', filters],
     queryFn: async () => {
       let query = supabase
-        .from('portfolio_items')
+        .from('assets')
         .select('*')
         .order('display_order', { ascending: true });
 
@@ -94,7 +94,7 @@ export function usePortfolioItem(id: string) {
     queryKey: ['portfolio_items', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('portfolio_items')
+        .from('assets')
         .select('*')
         .eq('id', id)
         .single();
@@ -125,7 +125,7 @@ export function useCreatePortfolioItem() {
       is_featured?: boolean;
     }) => {
       const { data, error } = await supabase
-        .from('portfolio_items')
+        .from('assets')
         .insert([item])
         .select()
         .single();
@@ -145,7 +145,7 @@ export function useUpdatePortfolioItem() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<PortfolioItem> & { id: string }) => {
       const { data, error } = await supabase
-        .from('portfolio_items')
+        .from('assets')
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq('id', id)
         .select()
@@ -167,7 +167,7 @@ export function useDeletePortfolioItem() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('portfolio_items')
+        .from('assets')
         .delete()
         .eq('id', id);
 
@@ -185,7 +185,7 @@ export function useTogglePortfolioItemFeatured() {
   return useMutation({
     mutationFn: async ({ id, is_featured }: { id: string; is_featured: boolean }) => {
       const { data, error } = await supabase
-        .from('portfolio_items')
+        .from('assets')
         .update({ is_featured, updated_at: new Date().toISOString() })
         .eq('id', id)
         .select()

@@ -26,7 +26,7 @@ export function useCrewAvailability() {
     queryKey: ['crew-availability'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('crew_members')
+        .from('legend_people')
         .select('*')
         .order('name', { ascending: true });
 

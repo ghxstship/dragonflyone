@@ -186,7 +186,7 @@ export class DocumentLockService {
     try {
       // Check for existing locks
       const { data: existing, error: fetchError } = await this.supabase
-        .from('document_locks')
+        .from('legend_documents')
         .select('*')
         .eq('document_id', documentId)
         .eq('field_name', fieldName)
@@ -213,7 +213,7 @@ export class DocumentLockService {
 
       // Acquire or extend lock
       const { data, error } = await this.supabase
-        .from('document_locks')
+        .from('legend_documents')
         .upsert({
           document_id: documentId,
           field_name: fieldName,
@@ -250,7 +250,7 @@ export class DocumentLockService {
   async releaseLock(documentId: string, fieldName: string, userId: string): Promise<boolean> {
     try {
       const { error } = await this.supabase
-        .from('document_locks')
+        .from('legend_documents')
         .delete()
         .eq('document_id', documentId)
         .eq('field_name', fieldName)
@@ -267,7 +267,7 @@ export class DocumentLockService {
    */
   async getDocumentLocks(documentId: string): Promise<DocumentLock[]> {
     const { data, error } = await this.supabase
-      .from('document_locks')
+      .from('legend_documents')
       .select('*')
       .eq('document_id', documentId)
       .gt('expires_at', new Date().toISOString());
@@ -288,7 +288,7 @@ export class DocumentLockService {
    */
   async cleanupExpiredLocks(): Promise<number> {
     const { data } = await this.supabase
-      .from('document_locks')
+      .from('legend_documents')
       .delete()
       .lt('expires_at', new Date().toISOString())
       .select();

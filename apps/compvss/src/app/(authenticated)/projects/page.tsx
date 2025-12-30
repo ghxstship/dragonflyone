@@ -4,20 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Edit, Users, Trash2, Download } from 'lucide-react';
 import {
-  ListPage,
-  Badge,
-  RecordFormModal,
-  DetailDrawer,
-  ConfirmDialog,
-  Grid,
-  Body,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-  type ListPageBulkAction,
-  type FormFieldConfig,
-  type DetailSection,
-} from '@ghxstship/ui';
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body} from '@ghxstship/ui';
 import { createExportHandler, useAuthContext, PlatformRole } from '@ghxstship/config';
 
 // Roles that can manage projects (COMPVSS has no SUPER_ADMIN, only ADMIN)

@@ -9,23 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Download, ArrowLeft, Bell } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  CTABanner,
-  Container,
-  Stack,
-  Card,
-  Body,
-  H3,
-  Button,
-  Badge,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button, Badge, Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@ghxstship/ui";
 
 interface SubProcessor {
   name: string;

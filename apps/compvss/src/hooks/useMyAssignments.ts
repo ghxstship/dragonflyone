@@ -26,7 +26,7 @@ export function useMyAssignments() {
     queryKey: ['my-assignments'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('crew_assignments')
+        .from('event_role_assignments')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -54,7 +54,7 @@ export function useUpdateAssignmentStatus() {
   return useMutation({
     mutationFn: async ({ id, status }: { id: string; status: Assignment['status'] }) => {
       const { data, error } = await supabase
-        .from('crew_assignments')
+        .from('event_role_assignments')
         .update({ confirmation_status: status })
         .eq('id', id)
         .select()

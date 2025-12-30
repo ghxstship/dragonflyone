@@ -24,7 +24,7 @@ export function useMyHospitality() {
     queryKey: ['my-hospitality'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('hospitality_requests')
+        .from('orders')
         .select('*')
         .order('created_at', { ascending: false });
 

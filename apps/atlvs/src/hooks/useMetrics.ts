@@ -78,15 +78,20 @@ export function useProductionMetrics(productionId?: string) {
         tasksResult,
         permitsResult,
         insuranceResult,
-        venuesResult,
+        venueCountResult,
       ] = await Promise.all([
-        supabase.from('expenses').select('amount, status').eq('production_id', productionId || ''),
-        supabase.from('sponsors').select('contract_value, amount_paid, status'),
-        supabase.from('investors').select('investment_amount, status'),
-        supabase.from('schedule_tasks').select('status, priority'),
+        supabase.from('finance_expenses').select('amount, status').eq('production_id', productionId || ''),
+        // 3NF: legend_organizations + orgs_profile_sponsor
+        supabase.from('legend_organizations').select('*, orgs_profile_sponsor!org_id(contract_value, amount_paid, sponsorship_status)').not('orgs_profile_sponsor', 'is', null),
+        // 3NF: legend_organizations + orgs_profile_investor (if exists) - using empty array as fallback
+        Promise.resolve({ data: [], error: null }),
+        supabase.from('projects').select('status, priority'),
         supabase.from('permits').select('status, expiration_date'),
-        supabase.from('insurance_policies').select('coverage_amount, status'),
-        supabase.from('venues').select('capacity, rental_cost, status'),
+        supabase.from('docs_profile_contract').select('coverage_amount, status'),
+        supabase.from('legend_places')
+          .select('*, places_profile_venue!place_id(capacity, rental_cost)')
+          .not('places_profile_venue', 'is', null)
+          .eq('production_id', productionId || ''),
       ]);
 
       const expenses = expensesResult.data || [];
@@ -95,14 +100,27 @@ export function useProductionMetrics(productionId?: string) {
       const tasks = tasksResult.data || [];
       const permits = permitsResult.data || [];
       const insurance = insuranceResult.data || [];
-      const venues = venuesResult.data || [];
+      const venues = (venueCountResult.data || []).map(v => {
+        const profile = (v.places_profile_venue as Record<string, unknown>[])?.[0] || {};
+        return {
+          capacity: profile.capacity as number || 0,
+          rental_cost: profile.rental_cost as number || 0,
+        };
+      });
 
       const now = new Date();
       const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
 
       const totalSpent = expenses.reduce((sum, e) => sum + (e.amount || 0), 0);
-      const sponsorRevenue = sponsors.reduce((sum, s) => sum + (s.contract_value || 0), 0);
-      const sponsorsPaid = sponsors.reduce((sum, s) => sum + (s.amount_paid || 0), 0);
+      // 3NF: Extract sponsor profile data
+      const sponsorRevenue = sponsors.reduce((sum, s) => {
+        const profile = (s.orgs_profile_sponsor as Record<string, unknown>[])?.[0] || {};
+        return sum + ((profile.contract_value as number) || 0);
+      }, 0);
+      const sponsorsPaid = sponsors.reduce((sum, s) => {
+        const profile = (s.orgs_profile_sponsor as Record<string, unknown>[])?.[0] || {};
+        return sum + ((profile.amount_paid as number) || 0);
+      }, 0);
       const totalRaised = investors.filter(i => i.status === 'funded').reduce((sum, i) => sum + (i.investment_amount || 0), 0);
       const tasksCompleted = tasks.filter(t => t.status === 'completed').length;
       const permitsApproved = permits.filter(p => p.status === 'approved').length;

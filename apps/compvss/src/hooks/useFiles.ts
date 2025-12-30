@@ -37,7 +37,7 @@ export function useProjectFiles(projectId?: string) {
     queryKey: ['project-files', projectId],
     queryFn: async () => {
       let query = supabase
-        .from('production_documents')
+        .from('legend_documents')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -72,7 +72,7 @@ export function useFileVersions(fileId: string) {
     queryKey: ['file-versions', fileId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('document_versions')
+        .from('legend_documents')
         .select('*')
         .eq('document_id', fileId)
         .order('version', { ascending: false });
@@ -98,7 +98,7 @@ export function useUploadFile() {
   return useMutation({
     mutationFn: async (file: Omit<ProjectFile, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('production_documents')
+        .from('legend_documents')
         .insert({
           name: file.name,
           document_type: file.type,
@@ -126,7 +126,7 @@ export function useDeleteFile() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('production_documents').delete().eq('id', id);
+      const { error } = await supabase.from('legend_documents').delete().eq('id', id);
       if (error) throw error;
     },
     onSuccess: () => {

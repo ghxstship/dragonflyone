@@ -12,18 +12,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { User } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body,
-  Box,
-  EditPage,
-  Grid,
-  Input,
-  Select,
-  Stack,
-  Text,
-  Textarea,
-  useNotifications,
-  type FormSection,
-} from '@ghxstship/ui';
+  Body, Box, EditPage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
 import { usePersonQuery, useUpdatePerson, useDeletePerson } from '@/hooks/usePeopleQuery';
 
 // Person types are managed on the detail page, not the edit form

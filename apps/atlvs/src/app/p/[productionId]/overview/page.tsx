@@ -7,20 +7,10 @@
  */
 
 import { useParams, useRouter } from "next/navigation";
-import { Calendar, Users, FileText, DollarSign, Clock, CheckCircle, AlertCircle, List, Activity } from "lucide-react";
+import { Calendar, Users, FileText, DollarSign, Clock, CheckCircle, List, Activity} from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  ProgressBar,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, ProgressBar, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Production {
   id: string;

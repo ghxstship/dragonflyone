@@ -10,19 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Book, Clock, Star, ArrowRight, Search } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  Badge,
-  Input,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Input} from "@ghxstship/ui";
 
 interface Guide {
   id: string;

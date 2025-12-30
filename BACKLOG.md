@@ -8709,3 +8709,62 @@ Many API routes still use manual `withAuth` checks instead of the standardized `
 - [ ] All routes have consistent auth, roles, validation, rate limiting
 - [ ] Audit logging enabled for all write operations
 - [ ] No manual `withAuth` calls remain in codebase
+
+---
+
+## BACK-112: Legacy Table References Cleanup (P1)
+
+**Status:** TODO  
+**Added:** 2025-12-29  
+**Category:** Database Schema Alignment
+
+### Description
+Multiple API routes and hooks reference database tables that don't exist in the current schema. These queries will fail at runtime.
+
+### Missing Tables Referenced in Codebase
+The following tables are referenced in code but don't exist in `supabase-types.ts`:
+
+| Table Name | Usage Count | Suggested Resolution |
+|------------|-------------|---------------------|
+| `tickets` | 70 | Create table or map to existing |
+| `invoices` | 53 | Create table or use `docs_profile_invoice` |
+| `purchase_orders` | 43 | Use `finance_purchase_orders` |
+| `expenses` | 39 | Use `finance_expenses` |
+| `opportunities` | 33 | Create table or use `deals` |
+| `vendor_invoices` | 30 | Create table or use existing |
+| `unified_notifications` | 30 | Use `notifications` |
+| `crew_members` | 29 | Use `legend_people` with profile |
+| `profiles` | 28 | Use `platform_users` |
+| `maintenance_records` | 28 | Create table |
+| `payments` | 26 | Create table |
+| `crew_assignments` | 26 | Create table |
+| `bookings` | 26 | Create table |
+| `workflows` | 25 | Create table |
+| `timesheets` | 25 | Create table |
+| `master_calendar_events` | 25 | Use `legend_events` |
+| `ticket_types` | 24 | Create table |
+| `contracts` | 22 | Use `docs_profile_contract` |
+| `cues` | 21 | Create table |
+| `analytics_dashboards` | 20 | Create table |
+| `space_holds` | 19 | Create table |
+| `maintenance_schedules` | 19 | Create table |
+| `leads` | 19 | Create table or use `contacts` |
+| `documents` | 19 | Use `legend_documents` |
+| `communications` | 19 | Create table |
+| `client_invoices` | 19 | Create table |
+| `sponsor_tiers` | 4 | Create table or use metadata |
+| `sponsor_deliverables` | 5 | Create table or use metadata |
+| `investment_rounds` | 7 | Create table or use metadata |
+| `investor_documents` | 1 | Create table or use `legend_documents` |
+
+### Acceptance Criteria
+- [ ] All referenced tables either exist in schema or are mapped to existing tables
+- [ ] All API routes return valid data (not runtime errors)
+- [ ] Build passes with no type errors
+- [ ] All CRUD operations work with real data
+
+### Notes
+- Build currently passes because TypeScript doesn't validate Supabase table names at compile time
+- These issues will manifest as runtime errors when the APIs are called
+- Priority should be given to high-usage tables first
+

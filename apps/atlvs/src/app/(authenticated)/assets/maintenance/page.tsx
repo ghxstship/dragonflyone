@@ -4,23 +4,11 @@ import { useState } from "react";
 import { Eye, Check, Pencil } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage,
-  Badge,
-  DetailDrawer,
-  RecordFormModal,
-  Grid,
-  Body,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-  type DetailSection,
-  type FormFieldConfig,
-} from "@ghxstship/ui";
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body} from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useMaintenance, type MaintenanceRecord, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import { DEMO_MAINTENANCE_RECORDS } from '../../../../lib/demo-data';
 
 // Roles that can create/edit/delete maintenance records
-
 
 const getStatusVariant = getBadgeVariant;
 
@@ -158,11 +146,9 @@ export default function AssetMaintenancePage() {
     },
   });
 
-
   // Import templates for field mapping
 
   const importTemplates = getImportTemplates('asset-maintenance');
-
 
   return (
     <>

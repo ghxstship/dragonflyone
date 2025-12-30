@@ -14,21 +14,7 @@ const ADMIN_ROLES = [
   PlatformRole.LEGEND_DEVELOPER,
 ];
 import {
-  Container,
-  Section,
-  Stack,
-  Grid,
-  Card,
-  H2,
-  H3,
-  Body,
-  Button,
-  Badge,
-  Box,
-  RecordFormModal,
-  ConfirmDialog,
-  type FormFieldConfig,
-} from '@ghxstship/ui';
+  Container, Section, Stack, Grid, Card, H2, H3, Body, Button, Badge, Box, RecordFormModal, ConfirmDialog} from '@ghxstship/ui';
 
 const stepFormFields: FormFieldConfig[] = [
   { name: 'step_number', label: 'Step Number', type: 'number', required: true },

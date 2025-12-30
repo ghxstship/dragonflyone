@@ -4,15 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthContext, PlatformRole } from '@ghxstship/config';
 import {
-  CreatePage,
-  Field,
-  Input,
-  Textarea,
-  Select,
-  Grid,
-  Stack,
-  useNotifications,
-} from '@ghxstship/ui';
+  CreatePage, Field, Input, Textarea, Select, Grid, Stack, useNotifications} from '@ghxstship/ui';
 import { Briefcase, Calendar, DollarSign } from 'lucide-react';
 
 // Roles that can create projects

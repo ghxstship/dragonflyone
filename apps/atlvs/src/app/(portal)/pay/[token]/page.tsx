@@ -6,21 +6,12 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useParams, useRouter } from "next/navigation";
-import { CreditCard, CheckCircle, Shield, Lock } from "lucide-react";
+import { useParams } from "next/navigation";
+import { CreditCard, CheckCircle, Lock} from "lucide-react";
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
-  Body,
-  Button,
-  Card,
-  Form,
-  Input,
-  DetailPage,
-  Section,
-  SectionHeader,
-  useNotifications,
-} from "@ghxstship/ui";
+  Body, Button, Card, Form, Input, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
 
 interface Invoice {
   id: string;
@@ -42,7 +33,6 @@ const DEMO_INVOICE: Invoice = {
 
 export default function PaymentPage() {
   const params = useParams();
-  const router = useRouter();
   const { addNotification } = useNotifications();
   const token = params.token as string;
   const [cardNumber, setCardNumber] = useState("");

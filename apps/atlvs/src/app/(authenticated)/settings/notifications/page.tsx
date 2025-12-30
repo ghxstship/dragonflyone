@@ -9,20 +9,8 @@ import { useState } from 'react';
 import { Bell, Mail, MessageSquare, Calendar, DollarSign, Users, Save } from 'lucide-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  Body,
-  Box,
-  Button,
-  Card,
-  H2,
-  Input,
-  Label,
-  SettingsPageLayout,
-  Skeleton,
-  Stack,
-  Text,
-} from '@ghxstship/ui';
+  Body, Box, Button, Card, H2, Input, Label, SettingsPageLayout, Skeleton, Stack, Text} from '@ghxstship/ui';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
-
 
 interface NotificationSettings {
   email_bookings: boolean;

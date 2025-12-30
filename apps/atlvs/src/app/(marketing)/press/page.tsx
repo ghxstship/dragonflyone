@@ -7,20 +7,9 @@
  */
 
 import { useRouter } from "next/navigation";
-import { Download, Mail, Calendar, ArrowRight, FileText, Image as ImageIcon, Package, Users } from "lucide-react";
+import { Download, Mail, Calendar, ArrowRight, FileText, Package, Users, ImageIcon } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  Badge,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge} from "@ghxstship/ui";
 
 interface PressRelease {
   id: string;

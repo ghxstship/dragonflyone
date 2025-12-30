@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { log, withAuth, PlatformRole } from '@ghxstship/config';
+import { log } from '@ghxstship/config';
 import { z } from 'zod';
 
 export const dynamic = 'force-dynamic';
@@ -8,11 +8,6 @@ export const dynamic = 'force-dynamic';
 const favoriteSchema = z.object({
   user_id: z.string().uuid(),
 });
-
-const ATLVS_ROLES = [
-  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
-  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
-];
 
 export async function POST(
   request: NextRequest,
@@ -38,10 +33,11 @@ export async function POST(
     }
 
     const { error } = await supabase
-      .from('user_template_favorites')
+      .from('user_favorites')
       .insert({
-        user_id: userId,
-        template_id: id,
+        person_id: userId,
+        entity_type: 'advance_template',
+        entity_id: id,
       });
 
     if (error) {
@@ -78,10 +74,11 @@ export async function DELETE(
     }
 
     const { error } = await supabase
-      .from('user_template_favorites')
+      .from('user_favorites')
       .delete()
-      .eq('user_id', userId)
-      .eq('template_id', id);
+      .eq('person_id', userId)
+      .eq('entity_type', 'advance_template')
+      .eq('entity_id', id);
 
     if (error) {
       log.error('Failed to remove template from favorites:', error);

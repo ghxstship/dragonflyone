@@ -10,17 +10,7 @@ import Image from 'next/image';
 import { MapPin, Building2, Warehouse, Theater, Grid3X3, DoorOpen, Box as BoxIcon, Map, Briefcase, Eye, Pencil, Trash2, Users, Maximize } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Badge,
-  Body,
-  Box as UIBox,
-  ListPage,
-  Stack,
-  Text,
-  useNotifications,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-} from '@ghxstship/ui';
+  Badge, Body, Box as UIBox, ListPage, Stack, Text, useNotifications} from '@ghxstship/ui';
 import {
   usePlacesQuery,
   useDeletePlace,

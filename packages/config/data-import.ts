@@ -86,7 +86,7 @@ export class DataImportEngine {
       const filePath = `imports/${userId}/${timestamp}_${file.name}`;
       
       const { error: uploadError } = await this.supabase.storage
-        .from('imports')
+        .from('audit_logs')
         .upload(filePath, file);
 
       if (uploadError) {
@@ -151,7 +151,7 @@ export class DataImportEngine {
 
       // Download file from storage
       const { data: fileData, error: downloadError } = await this.supabase.storage
-        .from('imports')
+        .from('audit_logs')
         .download(job.file_path);
 
       if (downloadError || !fileData) {

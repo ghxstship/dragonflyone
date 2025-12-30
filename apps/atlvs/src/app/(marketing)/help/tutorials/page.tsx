@@ -7,19 +7,10 @@
  */
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+
 import { Play, Clock, Star, Search, List, Bookmark } from "lucide-react";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Input,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Tutorial {
   id: string;
@@ -44,7 +35,6 @@ const CATEGORIES = ["All", "Getting Started", "Collaboration", "Advanced", "Anal
 const DIFFICULTY_COLORS = { beginner: "success", intermediate: "warning", advanced: "error" } as const;
 
 export default function TutorialsPage() {
-  const router = useRouter();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 

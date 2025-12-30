@@ -75,7 +75,7 @@ export function useInvestmentRounds(productionId?: string) {
     queryKey: ['investment_rounds', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('investment_rounds')
+        .from('deals')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -96,7 +96,7 @@ export function useInvestmentRound(id: string) {
     queryKey: ['investment_rounds', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('investment_rounds')
+        .from('deals')
         .select('*')
         .eq('id', id)
         .single();
@@ -108,55 +108,76 @@ export function useInvestmentRound(id: string) {
   });
 }
 
-// Fetch all investors
+// Fetch all investors (3NF: legend_organizations with org_type='investor')
 export function useInvestors(filters?: InvestorFilters) {
   return useQuery({
     queryKey: ['investors', filters],
     queryFn: async () => {
       let query = supabase
-        .from('investors')
-        .select(`
-          *,
-          round:investment_rounds(id, name, round_type)
-        `)
-        .order('investment_amount', { ascending: false });
+        .from('legend_organizations')
+        .select('*')
+        .eq('org_type', 'investor')
+        .order('created_at', { ascending: false });
 
-      if (filters?.productionId) {
-        query = query.eq('production_id', filters.productionId);
-      }
-      if (filters?.roundId) {
-        query = query.eq('round_id', filters.roundId);
-      }
       if (filters?.status) {
         query = query.eq('status', filters.status);
-      }
-      if (filters?.investorType) {
-        query = query.eq('investor_type', filters.investorType);
       }
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as unknown as Investor[];
+      
+      // Transform to legacy Investor interface
+      return (data || []).map(org => {
+        const meta = org.metadata as Record<string, unknown> || {};
+        return {
+          id: org.id,
+          production_id: meta.production_id as string,
+          investor_type: meta.investor_type as string || 'entity',
+          name: org.name,
+          contact_name: org.primary_contact_id,
+          contact_email: org.email,
+          contact_phone: org.phone,
+          investment_amount: meta.investment_amount as number || 0,
+          ownership_percentage: meta.ownership_percentage as number,
+          status: org.status || 'prospect',
+          notes: org.notes,
+          created_at: org.created_at,
+          updated_at: org.updated_at,
+        };
+      }) as unknown as Investor[];
     },
   });
 }
 
-// Fetch single investor
+// Fetch single investor (3NF: legend_organizations with org_type='investor')
 export function useInvestor(id: string) {
   return useQuery({
     queryKey: ['investors', id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('investors')
-        .select(`
-          *,
-          round:investment_rounds(*)
-        `)
+      const { data: org, error } = await supabase
+        .from('legend_organizations')
+        .select('*')
         .eq('id', id)
         .single();
 
       if (error) throw error;
-      return data as unknown as Investor;
+      
+      const meta = org.metadata as Record<string, unknown> || {};
+      return {
+        id: org.id,
+        production_id: meta.production_id as string,
+        investor_type: meta.investor_type as string || 'entity',
+        name: org.name,
+        contact_name: org.primary_contact_id,
+        contact_email: org.email,
+        contact_phone: org.phone,
+        investment_amount: meta.investment_amount as number || 0,
+        ownership_percentage: meta.ownership_percentage as number,
+        status: org.status || 'prospect',
+        notes: org.notes,
+        created_at: org.created_at,
+        updated_at: org.updated_at,
+      } as unknown as Investor;
     },
     enabled: !!id,
   });
@@ -168,7 +189,7 @@ export function useInvestorDocuments(investorId?: string, roundId?: string) {
     queryKey: ['investor_documents', investorId, roundId],
     queryFn: async () => {
       let query = supabase
-        .from('investor_documents')
+        .from('legend_documents')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -193,7 +214,7 @@ export function useCreateInvestmentRound() {
   return useMutation({
     mutationFn: async (round: Omit<InvestmentRound, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('investment_rounds')
+        .from('deals')
         .insert(round)
         .select()
         .single();
@@ -214,7 +235,7 @@ export function useUpdateInvestmentRound() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<InvestmentRound> & { id: string }) => {
       const { data, error } = await supabase
-        .from('investment_rounds')
+        .from('deals')
         .update(updates)
         .eq('id', id)
         .select()
@@ -230,15 +251,29 @@ export function useUpdateInvestmentRound() {
   });
 }
 
-// Create investor
+// Create investor (3NF: legend_organizations with org_type='investor')
 export function useCreateInvestor() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (investor: Omit<Investor, 'id' | 'created_at' | 'updated_at' | 'round'>) => {
       const { data, error } = await supabase
-        .from('investors')
-        .insert(investor)
+        .from('legend_organizations')
+        .insert({
+          name: investor.name,
+          org_type: 'investor',
+          status: investor.status || 'prospect',
+          email: investor.contact_email,
+          phone: investor.contact_phone,
+          notes: investor.notes,
+          metadata: {
+            production_id: investor.production_id,
+            investor_type: investor.investor_type,
+            investment_amount: investor.investment_amount,
+            ownership_percentage: investor.ownership_percentage,
+            round_id: investor.round_id,
+          },
+        })
         .select()
         .single();
 
@@ -252,15 +287,26 @@ export function useCreateInvestor() {
   });
 }
 
-// Update investor
+// Update investor (3NF: legend_organizations with org_type='investor')
 export function useUpdateInvestor() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Investor> & { id: string }) => {
       const { data, error } = await supabase
-        .from('investors')
-        .update(updates)
+        .from('legend_organizations')
+        .update({
+          name: updates.name,
+          status: updates.status,
+          email: updates.contact_email,
+          phone: updates.contact_phone,
+          notes: updates.notes,
+          metadata: {
+            investor_type: updates.investor_type,
+            investment_amount: updates.investment_amount,
+            ownership_percentage: updates.ownership_percentage,
+          },
+        })
         .eq('id', id)
         .select()
         .single();
@@ -276,44 +322,49 @@ export function useUpdateInvestor() {
   });
 }
 
-// Record funding
+// Record funding (3NF: legend_organizations with org_type='investor')
 export function useRecordFunding() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({ id, amount }: { id: string; amount: number }) => {
       // Update investor status and funding date
-      const { data: investor, error: investorError } = await supabase
-        .from('investors')
+      const { data: org, error: orgError } = await supabase
+        .from('legend_organizations')
         .update({
           status: 'funded',
-          funding_date: new Date().toISOString(),
+          metadata: {
+            funding_date: new Date().toISOString(),
+          },
         })
         .eq('id', id)
-        .select('round_id')
+        .select('metadata')
         .single();
 
-      if (investorError) throw investorError;
+      if (orgError) throw orgError;
+
+      const meta = org.metadata as Record<string, unknown> || {};
+      const roundId = meta.round_id as string;
 
       // Update round raised amount
-      if (investor.round_id) {
+      if (roundId) {
         const { data: round, error: roundError } = await supabase
-          .from('investment_rounds')
+          .from('deals')
           .select('raised_amount')
-          .eq('id', investor.round_id)
+          .eq('id', roundId)
           .single();
 
         if (roundError) throw roundError;
 
         await supabase
-          .from('investment_rounds')
+          .from('deals')
           .update({
             raised_amount: (round.raised_amount || 0) + amount,
           })
-          .eq('id', investor.round_id);
+          .eq('id', roundId);
       }
 
-      return investor;
+      return org;
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['investors'] });
@@ -328,8 +379,9 @@ export function useInvestorStats(productionId?: string) {
   return useQuery({
     queryKey: ['investors', 'stats', productionId],
     queryFn: async () => {
-      let investorQuery = supabase.from('investors').select('status, investment_amount');
-      let roundQuery = supabase.from('investment_rounds').select('target_amount, raised_amount, status');
+      // 3NF: legend_organizations with org_type='investor'
+      let investorQuery = supabase.from('legend_organizations').select('status, metadata').eq('org_type', 'investor');
+      let roundQuery = supabase.from('deals').select('target_amount, raised_amount, status');
       
       if (productionId) {
         investorQuery = investorQuery.eq('production_id', productionId);

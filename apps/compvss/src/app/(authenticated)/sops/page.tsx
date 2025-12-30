@@ -6,19 +6,7 @@ import { Eye, Pencil, CheckCircle, BookOpen, FolderOpen } from 'lucide-react';
 // Layout provided by route group
 import { useSOPs, useSOPStats, useSOPCategories } from '@/hooks/useSOPs';
 import {
-  ListPage,
-  Badge,
-  RecordFormModal,
-  DetailDrawer,
-  Grid,
-  Stack,
-  Body,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-  type FormFieldConfig,
-  type DetailSection,
-} from '@ghxstship/ui';
+  ListPage, Badge, RecordFormModal, DetailDrawer, Grid, Stack, Body} from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface SOP {

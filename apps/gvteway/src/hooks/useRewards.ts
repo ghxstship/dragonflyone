@@ -48,7 +48,7 @@ export const useRewardTransactions = (userId?: string) => {
       if (!userId) return [];
       
       const { data, error } = await supabase
-        .from('reward_transactions')
+        .from('loyalty_transactions')
         .select('*')
         .eq('user_id', userId)
         .order('created_at', { ascending: false })

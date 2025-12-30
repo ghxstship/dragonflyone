@@ -33,7 +33,7 @@ export function useCrew(filters?: CrewFilters) {
     queryKey: ['crew', filters],
     queryFn: async () => {
       let query = supabase
-        .from('crew_members')
+        .from('legend_people')
         .select('*')
         .order('full_name', { ascending: true });
 
@@ -60,7 +60,7 @@ export function useCrewMember(id: string) {
     queryKey: ['crew', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('crew_members')
+        .from('legend_people')
         .select('*')
         .eq('id', id)
         .single();
@@ -79,7 +79,7 @@ export function useCreateCrewMember() {
   return useMutation({
     mutationFn: async (crewMember: Omit<CrewMember, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('crew_members')
+        .from('legend_people')
         .insert(crewMember)
         .select()
         .single();
@@ -100,7 +100,7 @@ export function useUpdateCrewMember() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<CrewMember> & { id: string }) => {
       const { data, error } = await supabase
-        .from('crew_members')
+        .from('legend_people')
         .update(updates)
         .eq('id', id)
         .select()
@@ -121,7 +121,7 @@ export function useDeleteCrewMember() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error} = await supabase.from('crew_members').delete().eq('id', id);
+      const { error} = await supabase.from('legend_people').delete().eq('id', id);
 
       if (error) throw error;
     },

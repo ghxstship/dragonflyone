@@ -114,7 +114,7 @@ export function useInsurancePolicies(filters?: InsuranceFilters) {
     queryKey: ['insurance_policies', filters],
     queryFn: async () => {
       let query = supabase
-        .from('insurance_policies')
+        .from('docs_profile_contract')
         .select('*')
         .order('expiration_date', { ascending: true });
 
@@ -141,7 +141,7 @@ export function useInsurancePolicy(id: string) {
     queryKey: ['insurance_policies', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('insurance_policies')
+        .from('docs_profile_contract')
         .select('*')
         .eq('id', id)
         .single();
@@ -204,7 +204,7 @@ export function useCreateInsurancePolicy() {
   return useMutation({
     mutationFn: async (policy: Omit<InsurancePolicy, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('insurance_policies')
+        .from('docs_profile_contract')
         .insert(policy)
         .select()
         .single();
@@ -225,7 +225,7 @@ export function useUpdateInsurancePolicy() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<InsurancePolicy> & { id: string }) => {
       const { data, error } = await supabase
-        .from('insurance_policies')
+        .from('docs_profile_contract')
         .update(updates)
         .eq('id', id)
         .select()
@@ -280,7 +280,7 @@ export function useInsuranceStats(productionId?: string) {
   return useQuery({
     queryKey: ['insurance_policies', 'stats', productionId],
     queryFn: async () => {
-      let query = supabase.from('insurance_policies').select('status, policy_type, coverage_amount, premium, expiration_date');
+      let query = supabase.from('docs_profile_contract').select('status, policy_type, coverage_amount, premium, expiration_date');
       
       if (productionId) {
         query = query.eq('production_id', productionId);

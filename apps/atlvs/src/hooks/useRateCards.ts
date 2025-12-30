@@ -37,7 +37,7 @@ export function useRateCards(filters?: RateCardFilters) {
     queryKey: ['rate-cards', filters],
     queryFn: async () => {
       let query = supabase
-        .from('vendor_rate_cards')
+        .from('vendor_contracts')
         .select(`
           *,
           vendors(name)
@@ -71,7 +71,7 @@ export function useRateCard(id: string) {
     queryKey: ['rate-cards', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('vendor_rate_cards')
+        .from('vendor_contracts')
         .select(`
           *,
           vendors(name)
@@ -96,7 +96,7 @@ export function useCreateRateCard() {
   return useMutation({
     mutationFn: async (rateCard: Omit<RateCard, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('vendor_rate_cards')
+        .from('vendor_contracts')
         .insert(rateCard)
         .select()
         .single();
@@ -116,7 +116,7 @@ export function useUpdateRateCard() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<RateCard> & { id: string }) => {
       const { data, error } = await supabase
-        .from('vendor_rate_cards')
+        .from('vendor_contracts')
         .update(updates)
         .eq('id', id)
         .select()
@@ -137,7 +137,7 @@ export function useDeleteRateCard() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('vendor_rate_cards')
+        .from('vendor_contracts')
         .delete()
         .eq('id', id);
 

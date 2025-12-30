@@ -9,26 +9,8 @@ import { useState } from 'react';
 import { Key, Smartphone, Monitor, Clock, AlertTriangle, Check, LogOut, Eye, EyeOff } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  Alert,
-  Badge,
-  Body,
-  Box,
-  Button,
-  Card,
-  EmptyState,
-  Form,
-  Grid,
-  H2,
-  Input,
-  Label,
-  Modal,
-  SettingsPageLayout,
-  Skeleton,
-  Stack,
-  Text,
-} from '@ghxstship/ui';
+  Alert, Badge, Body, Box, Button, Card, EmptyState, Form, Grid, H2, Input, Label, Modal, SettingsPageLayout, Skeleton, Stack, Text} from '@ghxstship/ui';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
-
 
 interface SecuritySettings {
   two_factor_enabled: boolean;

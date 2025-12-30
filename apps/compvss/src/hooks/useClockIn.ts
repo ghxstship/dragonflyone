@@ -97,7 +97,7 @@ export function useClockStatus(userId: string) {
       // Get weekly totals from time_entries table
       const weekStart = getWeekStart();
       const { data: weekEntries } = await supabase
-        .from('time_entries')
+        .from('workforce_time_entries')
         .select('hours_regular, hours_overtime')
         .eq('user_id', userId)
         .gte('date', weekStart);

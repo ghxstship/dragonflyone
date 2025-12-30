@@ -18,24 +18,7 @@ import {
   type PlatformUser,
 } from "@/hooks/useUsersQuery";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Input,
-  Modal,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  DetailPage,
-  Section,
-  SectionHeader,
-  StatCard,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Modal, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, StatCard} from "@ghxstship/ui";
 import { Search, Users, Shield, Clock, FileText } from "lucide-react";
 
 interface RoleGroup {

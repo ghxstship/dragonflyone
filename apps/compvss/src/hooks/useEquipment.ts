@@ -28,7 +28,7 @@ export function useEquipment(filters?: {
     queryKey: ['equipment', filters],
     queryFn: async () => {
       let query = supabase
-        .from('equipment')
+        .from('assets')
         .select('*')
         .order('name', { ascending: true });
 
@@ -52,7 +52,7 @@ export function useEquipmentItem(id: string) {
     queryKey: ['equipment', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('equipment')
+        .from('assets')
         .select('*')
         .eq('id', id)
         .single();
@@ -70,7 +70,7 @@ export function useCreateEquipment() {
   return useMutation({
     mutationFn: async (equipment: Omit<Equipment, 'id' | 'created_at'>) => {
       const { data, error } = await supabase
-        .from('equipment')
+        .from('assets')
         .insert([equipment])
         .select()
         .single();
@@ -90,7 +90,7 @@ export function useUpdateEquipment() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Equipment> & { id: string }) => {
       const { data, error } = await supabase
-        .from('equipment')
+        .from('assets')
         .update(updates)
         .eq('id', id)
         .select()
@@ -112,7 +112,7 @@ export function useDeleteEquipment() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('equipment')
+        .from('assets')
         .delete()
         .eq('id', id);
 

@@ -10,27 +10,10 @@
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import {
-  Pencil,
-  FileText,
-  Users,
-  DollarSign,
-  Trash2,
-} from "lucide-react";
+  Pencil, FileText, Users, DollarSign, Trash2} from "lucide-react";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  DetailPage,
-  Grid,
-  StatCard,
-  Section,
-  SectionHeader,
-  ConfirmDialog,
-  useNotifications,
-  type DetailPageTab,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useNotifications} from "@ghxstship/ui";
 import { useOrganizationQuery, useDeleteOrganization } from "@/hooks/useOrganizationsQuery";
 
 const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {

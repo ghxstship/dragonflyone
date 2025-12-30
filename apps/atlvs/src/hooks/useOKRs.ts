@@ -32,7 +32,7 @@ export function useOKRs(filters?: {
     queryKey: ['okrs', filters],
     queryFn: async () => {
       let query = supabase
-        .from('okrs')
+        .from('kpi_reports')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -59,7 +59,7 @@ export function useOKR(id: string) {
     queryKey: ['okrs', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('okrs')
+        .from('kpi_reports')
         .select('*')
         .eq('id', id)
         .single();
@@ -89,7 +89,7 @@ export function useCreateOKR() {
       status?: string;
     }) => {
       const { data, error } = await supabase
-        .from('okrs')
+        .from('kpi_reports')
         .insert([okr])
         .select()
         .single();
@@ -109,7 +109,7 @@ export function useUpdateOKR() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<OKR> & { id: string }) => {
       const { data, error } = await supabase
-        .from('okrs')
+        .from('kpi_reports')
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq('id', id)
         .select()
@@ -131,7 +131,7 @@ export function useDeleteOKR() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('okrs')
+        .from('kpi_reports')
         .delete()
         .eq('id', id);
 

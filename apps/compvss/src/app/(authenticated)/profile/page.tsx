@@ -10,15 +10,7 @@ import { useState } from "react";
 import { User, Mail, Phone, MapPin, Camera, List, Shield } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body,
-  Button,
-  Card,
-  Input,
-  Grid,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Body, Button, Card, Input, Grid, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Profile {
   id: string;

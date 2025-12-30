@@ -11,21 +11,7 @@ import { useRouter } from "next/navigation";
 import { FileText, Building2, ArrowRight, TrendingUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  MarketingPage,
-  HeroSection,
-  StatsSection,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  Badge,
-  Spinner,
-  type StatItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, StatsSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Spinner} from "@ghxstship/ui";
 
 interface CaseStudy {
   id: string;

@@ -8,25 +8,10 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Settings, Save, Trash2, Users, Bell, Lock, List, AlertTriangle } from "lucide-react";
+import { Save, Trash2, Users, Lock, List, AlertTriangle } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body,
-  Button,
-  Card,
-  Grid,
-  Input,
-  Select,
-  Textarea,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  DetailPage,
-  Section,
-  SectionHeader,
-  useNotifications,
-} from "@ghxstship/ui";
+  Body, Button, Card, Input, Select, Textarea, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
 
 interface ProductionSettings {
   name: string;
@@ -52,7 +37,7 @@ export default function ProductionSettingsPage() {
     notifications: true,
   });
 
-  const { data: settings, isLoading, error, refetch } = useQuery({
+  const { isLoading, error, refetch } = useQuery({
     queryKey: ["production-settings", productionId],
     queryFn: async () => {
       const response = await fetch(`/api/productions/${productionId}/settings`);

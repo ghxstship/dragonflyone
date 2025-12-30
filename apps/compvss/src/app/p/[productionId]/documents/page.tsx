@@ -10,17 +10,7 @@ import { useParams } from "next/navigation";
 import { FileText, Search, Upload, Download, Folder, File, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Input,
-  Grid,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Input, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Document {
   id: string;

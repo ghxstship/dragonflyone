@@ -189,14 +189,22 @@ export async function withAudit(
   const supabase = createServerClient(supabaseUrl, supabaseAnonKey);
 
   try {
-    await supabase.from('audit_logs').insert({
-      user_id: userData?.user?.id ?? null,
-      action,
-      resource_type: resource,
-      resource_id: request.nextUrl.pathname.split('/').pop() ?? null,
-      ip_address: request.headers.get('x-forwarded-for'),
-      user_agent: request.headers.get('user-agent'),
-    });
+    // Use chronicle_entries for audit logging (3NF pattern)
+    const organizationId = request.headers.get('x-organization-id');
+    if (organizationId) {
+      await supabase.from('chronicle_entries').insert({
+        organization_id: organizationId,
+        chronicle_type: 'audit',
+        action,
+        action_category: 'other',
+        actor_type: 'user',
+        actor_id: userData?.user?.id ?? null,
+        subject_entity_type: resource,
+        subject_entity_id: request.nextUrl.pathname.split('/').pop() ?? null,
+        source_ip: request.headers.get('x-forwarded-for'),
+        source_user_agent: request.headers.get('user-agent'),
+      });
+    }
   } catch (error) {
     logger.error('Audit log error', error instanceof Error ? error : undefined);
   }

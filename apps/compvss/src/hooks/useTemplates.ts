@@ -28,7 +28,7 @@ export function useTemplates() {
     queryKey: ['templates'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('templates')
+        .from('legend_documents')
         .select('*')
         .order('name', { ascending: true });
 

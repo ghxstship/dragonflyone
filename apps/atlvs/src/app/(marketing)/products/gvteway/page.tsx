@@ -9,15 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Ticket, QrCode, BarChart3, Shield, Check, ArrowRight, List, Star } from "lucide-react";
 import {
-  Body,
-  Button,
-  Card,
-  Grid,
-  Stack,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Body, Button, Card, Grid, Stack, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 const FEATURES = [
   { icon: <Ticket className="size-6" />, title: "Ticket Sales", description: "Flexible ticketing with multiple tiers and pricing" },

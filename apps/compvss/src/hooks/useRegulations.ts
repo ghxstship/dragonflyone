@@ -24,7 +24,7 @@ export function useRegulations() {
     queryKey: ['regulations'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('regulations')
+        .from('legend_documents')
         .select('*')
         .order('title', { ascending: true });
 

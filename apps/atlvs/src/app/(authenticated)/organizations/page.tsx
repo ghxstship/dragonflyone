@@ -10,31 +10,10 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { 
-  Building2, 
-  Mail, 
-  Phone, 
-  Users,
-  Briefcase,
-  Heart,
-  Handshake,
-  Building,
-  Eye,
-  Pencil,
-  Trash2,
-} from 'lucide-react';
+  Building2, Mail, Phone, Users, Briefcase, Heart, Handshake, Building, Eye, Pencil, Trash2} from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Badge,
-  Body,
-  Box,
-  ListPage,
-  Stack,
-  Text,
-  useNotifications,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-} from '@ghxstship/ui';
+  Badge, Body, Box, ListPage, Stack, Text, useNotifications} from '@ghxstship/ui';
 import {
   useOrganizationsQuery,
   useDeleteOrganization,

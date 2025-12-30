@@ -9,15 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Zap, Calendar, Users, FileText, BarChart3, Shield, Check, ArrowRight, List, Star } from "lucide-react";
 import {
-  Body,
-  Button,
-  Card,
-  Grid,
-  Stack,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Body, Button, Card, Grid, Stack, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 const FEATURES = [
   { icon: <Calendar className="size-6" />, title: "Production Planning", description: "Plan and manage every aspect of your productions from start to finish" },

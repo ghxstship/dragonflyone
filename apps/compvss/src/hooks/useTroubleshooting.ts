@@ -25,7 +25,7 @@ export function useTroubleshootingGuides() {
     queryKey: ['troubleshooting-guides'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('troubleshooting_guides')
+        .from('knowledge_articles')
         .select('*')
         .order('views', { ascending: false });
 

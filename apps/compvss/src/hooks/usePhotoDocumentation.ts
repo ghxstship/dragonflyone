@@ -27,7 +27,7 @@ export function usePhotoSets(projectId?: string) {
     queryKey: ['photo-sets', projectId],
     queryFn: async () => {
       let query = supabase
-        .from('photo_sets')
+        .from('legend_documents')
         .select('*')
         .order('captured_at', { ascending: false });
 
@@ -61,7 +61,7 @@ export function useCreatePhotoSet() {
   return useMutation({
     mutationFn: async (photoSet: Omit<PhotoSet, 'id'>) => {
       const { data, error } = await supabase
-        .from('photo_sets')
+        .from('legend_documents')
         .insert({
           phase: photoSet.phase,
           project_id: photoSet.projectId,
@@ -92,7 +92,7 @@ export function useApprovePhotoSet() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('photo_sets')
+        .from('legend_documents')
         .update({ approved: true })
         .eq('id', id)
         .select()

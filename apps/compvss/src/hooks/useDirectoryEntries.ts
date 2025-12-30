@@ -25,7 +25,7 @@ export function useDirectoryEntries() {
     queryKey: ['directory-entries'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('directory_entries')
+        .from('contacts')
         .select('*')
         .order('name', { ascending: true });
 

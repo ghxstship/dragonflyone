@@ -7,17 +7,9 @@
  */
 
 import { useRouter } from "next/navigation";
-import { Zap, Bug, Sparkles, Wrench, Calendar, List, Star } from "lucide-react";
+import { Zap, Bug, Sparkles, Calendar, List, Star} from "lucide-react";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Stack,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Stack, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Release {
   version: string;

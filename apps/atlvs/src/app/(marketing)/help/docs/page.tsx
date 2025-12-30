@@ -10,15 +10,7 @@ import { useRouter } from "next/navigation";
 import { Book, FileText, Search, ExternalLink, List, Bookmark } from "lucide-react";
 import { useState } from "react";
 import {
-  Body,
-  Button,
-  Card,
-  Grid,
-  Input,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Body, Button, Card, Grid, Input, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 const DOC_CATEGORIES = [
   { id: "basics", title: "Basics", articles: ["Getting Started", "Creating Projects", "Managing Tasks", "Team Collaboration"] },

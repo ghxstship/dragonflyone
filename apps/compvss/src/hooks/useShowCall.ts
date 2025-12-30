@@ -25,7 +25,7 @@ export function useShowCallCrew(eventId?: string) {
     queryKey: ['show-call-crew', eventId],
     queryFn: async () => {
       let query = supabase
-        .from('show_call_attendance')
+        .from('orders')
         .select('*')
         .order('call_time', { ascending: true });
 
@@ -57,7 +57,7 @@ export function useCheckInCrew() {
   return useMutation({
     mutationFn: async ({ id, status }: { id: string; status: ShowCallCrewMember['status'] }) => {
       const { data, error } = await supabase
-        .from('show_call_attendance')
+        .from('orders')
         .update({
           status,
           checked_in_at: status === 'Checked In' || status === 'On Site' ? new Date().toISOString() : null,

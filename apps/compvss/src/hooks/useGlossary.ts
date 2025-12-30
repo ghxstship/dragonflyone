@@ -23,7 +23,7 @@ export function useGlossaryTerms() {
     queryKey: ['glossary-terms'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('glossary_terms')
+        .from('knowledge_articles')
         .select('*')
         .order('term', { ascending: true });
 

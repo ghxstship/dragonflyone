@@ -8,17 +8,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FileText, Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2} from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body,
-  Button,
-  Card,
-  Input,
-  Textarea,
-  CreatePage,
-  useNotifications,
-} from "@ghxstship/ui";
+  Body, Button, Card, Input, Textarea, CreatePage, useNotifications} from "@ghxstship/ui";
 
 interface LineItem {
   id: string;
@@ -123,7 +116,7 @@ export default function NewInvoicePage() {
       title: "Line Items",
       content: (
         <div className="space-y-4">
-          {lineItems.map((item, index) => (
+          {lineItems.map((item) => (
             <Card key={item.id} className="p-4">
               <div className="flex gap-4 items-end">
                 <div className="flex-1">

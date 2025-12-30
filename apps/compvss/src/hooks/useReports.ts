@@ -96,7 +96,7 @@ export function useDailyReports(filters?: DailyReportFilters) {
     queryKey: ['daily_reports', filters],
     queryFn: async () => {
       let query = supabase
-        .from('daily_reports')
+        .from('legend_documents')
         .select(`
           *,
           show:shows(id, title, show_date),
@@ -134,7 +134,7 @@ export function useDailyReport(id: string) {
     queryKey: ['daily_reports', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('daily_reports')
+        .from('legend_documents')
         .select(`
           *,
           show:shows(id, title, show_date),
@@ -157,7 +157,7 @@ export function useWrapReports(filters?: WrapReportFilters) {
     queryKey: ['wrap_reports', filters],
     queryFn: async () => {
       let query = supabase
-        .from('wrap_reports')
+        .from('legend_documents')
         .select(`
           *,
           production:productions(id, title),
@@ -186,7 +186,7 @@ export function useWrapReport(id: string) {
     queryKey: ['wrap_reports', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('wrap_reports')
+        .from('legend_documents')
         .select(`
           *,
           production:productions(id, title),
@@ -210,7 +210,7 @@ export function useCreateDailyReport() {
   return useMutation({
     mutationFn: async (report: Omit<DailyReport, 'id' | 'created_at' | 'updated_at' | 'show' | 'submitter' | 'reviewer'>) => {
       const { data, error } = await supabase
-        .from('daily_reports')
+        .from('legend_documents')
         .insert(report)
         .select()
         .single();
@@ -231,7 +231,7 @@ export function useUpdateDailyReport() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<DailyReport> & { id: string }) => {
       const { data, error } = await supabase
-        .from('daily_reports')
+        .from('legend_documents')
         .update(updates)
         .eq('id', id)
         .select()
@@ -254,7 +254,7 @@ export function useSubmitDailyReport() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('daily_reports')
+        .from('legend_documents')
         .update({
           status: 'submitted',
           submitted_at: new Date().toISOString(),
@@ -280,7 +280,7 @@ export function useApproveDailyReport() {
   return useMutation({
     mutationFn: async ({ id, reviewerId }: { id: string; reviewerId: string }) => {
       const { data, error } = await supabase
-        .from('daily_reports')
+        .from('legend_documents')
         .update({
           status: 'approved',
           reviewed_by: reviewerId,
@@ -307,7 +307,7 @@ export function useCreateWrapReport() {
   return useMutation({
     mutationFn: async (report: Omit<WrapReport, 'id' | 'created_at' | 'updated_at' | 'production' | 'submitter' | 'reviewer'>) => {
       const { data, error } = await supabase
-        .from('wrap_reports')
+        .from('legend_documents')
         .insert(report)
         .select()
         .single();
@@ -328,7 +328,7 @@ export function useUpdateWrapReport() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<WrapReport> & { id: string }) => {
       const { data, error } = await supabase
-        .from('wrap_reports')
+        .from('legend_documents')
         .update(updates)
         .eq('id', id)
         .select()
@@ -349,8 +349,8 @@ export function useReportStats(productionId?: string) {
   return useQuery({
     queryKey: ['reports', 'stats', productionId],
     queryFn: async () => {
-      let dailyQuery = supabase.from('daily_reports').select('status, attendance, revenue');
-      let wrapQuery = supabase.from('wrap_reports').select('status');
+      let dailyQuery = supabase.from('legend_documents').select('status, attendance, revenue');
+      let wrapQuery = supabase.from('legend_documents').select('status');
       
       if (productionId) {
         dailyQuery = dailyQuery.eq('production_id', productionId);

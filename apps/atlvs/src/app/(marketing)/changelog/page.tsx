@@ -10,20 +10,7 @@ import { useState } from "react";
 import { Zap, Bug, Sparkles, Wrench, Calendar, Check } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  MarketingPage,
-  HeroSection,
-  TimelineSection,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  Badge,
-  Spinner,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, TimelineSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Spinner} from "@ghxstship/ui";
 
 interface ChangelogEntry {
   id: string;

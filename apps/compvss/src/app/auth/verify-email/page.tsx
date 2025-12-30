@@ -4,15 +4,7 @@ import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Mail, RefreshCw } from "lucide-react";
 import {
-  H2,
-  Body,
-  Button,
-  Stack,
-  Card,
-  AuthPage,
-  Alert,
-  useNotifications,
-} from "@ghxstship/ui";
+  H2, Body, Button, Stack, Card, AuthPage, Alert, useNotifications} from "@ghxstship/ui";
 import NextLink from "next/link";
 
 function VerifyEmailContent() {

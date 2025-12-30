@@ -9,16 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Download, ArrowLeft } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  CTABanner,
-  Container,
-  Stack,
-  Card,
-  Body,
-  H3,
-  Button,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button} from "@ghxstship/ui";
 
 const SECTIONS = [
   { id: "collection", title: "1. Information We Collect", content: "We collect information you provide directly to us, such as when you create an account, use our services, or contact us for support. This includes your name, email address, and any other information you choose to provide." },

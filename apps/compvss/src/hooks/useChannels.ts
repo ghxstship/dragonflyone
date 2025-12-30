@@ -48,7 +48,7 @@ export function useChannels(productionId?: string) {
     queryKey: ['channels', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('messaging_channels')
+        .from('notifications')
         .select('*')
         .order('name', { ascending: true });
 
@@ -69,7 +69,7 @@ export function useChannel(id: string) {
     queryKey: ['channels', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('messaging_channels')
+        .from('notifications')
         .select('*')
         .eq('id', id)
         .single();
@@ -87,7 +87,7 @@ export function useChannelMessages(channelId: string) {
     queryKey: ['channel-messages', channelId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('channel_messages')
+        .from('watch_party_messages')
         .select('*')
         .eq('channel_id', channelId)
         .order('timestamp', { ascending: true });
@@ -105,7 +105,7 @@ export function useChannelMembers() {
     queryKey: ['channel-members'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('crew_members')
+        .from('legend_people')
         .select('id, full_name, role, department')
         .order('full_name', { ascending: true });
 
@@ -128,7 +128,7 @@ export function useCreateChannel() {
   return useMutation({
     mutationFn: async (channel: Omit<Channel, 'id' | 'created_at' | 'unread_count' | 'members'>) => {
       const { data, error } = await supabase
-        .from('messaging_channels')
+        .from('notifications')
         .insert({
           name: channel.name,
           type: channel.type,
@@ -156,7 +156,7 @@ export function useSendMessage() {
   return useMutation({
     mutationFn: async (message: Omit<Message, 'id' | 'timestamp'>) => {
       const { data, error } = await supabase
-        .from('channel_messages')
+        .from('watch_party_messages')
         .insert({
           channel_id: message.channel_id,
           sender_id: message.sender.id,
@@ -181,7 +181,7 @@ export function useDeleteChannel() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('messaging_channels').delete().eq('id', id);
+      const { error } = await supabase.from('notifications').delete().eq('id', id);
       if (error) throw error;
     },
     onSuccess: () => {

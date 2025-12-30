@@ -7,21 +7,11 @@
  */
 
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Users, Plus, Mail, Phone, Search, List, UserPlus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Input,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface TeamMember {
   id: string;
@@ -46,7 +36,6 @@ const DEPARTMENTS = ["All", "Production", "Stage", "Technical"];
 
 export default function ProductionTeamPage() {
   const params = useParams();
-  const router = useRouter();
   const productionId = params.productionId as string;
   const [search, setSearch] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("All");

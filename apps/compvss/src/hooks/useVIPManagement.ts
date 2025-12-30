@@ -64,7 +64,7 @@ export function useAccessZones(productionId?: string) {
     queryKey: ['access-zones', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('access_zones')
+        .from('legend_places')
         .select('*')
         .order('name', { ascending: true });
 

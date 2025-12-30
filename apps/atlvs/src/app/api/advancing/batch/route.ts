@@ -1,8 +1,7 @@
-import { withAuth, PlatformRole } from '@ghxstship/config';
-// apps/atlvs/src/app/api/advancing/batch/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase';
+import { log as logger } from '@ghxstship/config';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,15 +20,6 @@ const batchStatusUpdateSchema = z.object({
   request_ids: z.array(z.string().uuid()).min(1).max(50),
   status: z.enum(['cancelled']),
 });
-
-/**
- * POST /api/advancing/batch
- * Batch operations for advance requests
- */
-const ATLVS_ROLES = [
-  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
-  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
-];
 
 export async function POST(request: NextRequest) {
   const supabaseAdmin = createAdminClient();
@@ -70,7 +60,7 @@ export async function POST(request: NextRequest) {
 
     logger.error('Error in batch operation:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error.message },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

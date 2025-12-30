@@ -39,7 +39,7 @@ export function useTickets(filters?: {
     queryKey: ['tickets', filters],
     queryFn: async () => {
       let query = supabase
-        .from('tickets')
+        .from('products_profile_ticket')
         .select(`
           *,
           event:events(title, event_date),
@@ -68,7 +68,7 @@ export function useTicket(id: string) {
     queryKey: ['tickets', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('tickets')
+        .from('products_profile_ticket')
         .select(`
           *,
           event:events(title, event_date, venue_id),
@@ -91,7 +91,7 @@ export function useUpdateTicket() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Ticket> & { id: string }) => {
       const { data, error } = await supabase
-        .from('tickets')
+        .from('products_profile_ticket')
         .update(updates)
         .eq('id', id)
         .select()
@@ -113,7 +113,7 @@ export function useCancelTicket() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('tickets')
+        .from('products_profile_ticket')
         .update({ status: 'cancelled' })
         .eq('id', id)
         .select()
@@ -138,7 +138,7 @@ export function useTicketStats(event_id?: string) {
     queryKey: ['ticket-stats', event_id],
     queryFn: async () => {
       let query = supabase
-        .from('tickets')
+        .from('products_profile_ticket')
         .select('status, price');
 
       if (event_id) {

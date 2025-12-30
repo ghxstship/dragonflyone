@@ -28,7 +28,7 @@ export function useShipments(filters?: LogisticsFilters) {
     queryKey: ['shipments', filters],
     queryFn: async () => {
       let query = supabase
-        .from('shipments')
+        .from('deliveries')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -52,7 +52,7 @@ export function useShipment(id: string) {
     queryKey: ['shipments', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('shipments')
+        .from('deliveries')
         .select('*')
         .eq('id', id)
         .single();
@@ -71,7 +71,7 @@ export function useCreateShipment() {
   return useMutation({
     mutationFn: async (shipment: Omit<Shipment, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('shipments')
+        .from('deliveries')
         .insert(shipment)
         .select()
         .single();
@@ -92,7 +92,7 @@ export function useUpdateShipment() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Shipment> & { id: string }) => {
       const { data, error } = await supabase
-        .from('shipments')
+        .from('deliveries')
         .update(updates)
         .eq('id', id)
         .select()
@@ -113,7 +113,7 @@ export function useDeleteShipment() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('shipments').delete().eq('id', id);
+      const { error } = await supabase.from('deliveries').delete().eq('id', id);
 
       if (error) throw error;
     },

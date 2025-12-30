@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Briefcase, Check, FileText, DollarSign, Users, Calendar, Wrench } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const FEATURES: FeatureItem[] = [
   { id: "contracts", icon: <FileText className="size-8" />, title: "Contract Management", description: "Manage subcontracts, scope of work, and deliverables in one place." },

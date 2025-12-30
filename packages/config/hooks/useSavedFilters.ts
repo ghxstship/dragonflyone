@@ -35,6 +35,7 @@ export interface ViewPreset {
 
 interface UseSavedFiltersOptions {
   entityType: string;
+  organizationId: string;
   userId?: string;
   includePublic?: boolean;
 }
@@ -54,7 +55,7 @@ interface UseSavedFiltersReturn {
  * Hook for managing saved filter presets
  */
 export function useSavedFilters(options: UseSavedFiltersOptions): UseSavedFiltersReturn {
-  const { entityType, userId, includePublic = true } = options;
+  const { entityType, organizationId, userId, includePublic = true } = options;
   
   const [presets, setPresets] = useState<FilterPreset[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,8 +78,8 @@ export function useSavedFilters(options: UseSavedFiltersOptions): UseSavedFilter
     id: string;
     name: string;
     conditions: Json;
-    is_default: boolean;
-    is_public: boolean;
+    is_default: boolean | null;
+    is_public: boolean | null;
   }): FilterPreset => {
     const filters: Record<string, string | string[]> = {};
     const conditions = row.conditions as unknown as FilterCondition[];
@@ -95,8 +96,8 @@ export function useSavedFilters(options: UseSavedFiltersOptions): UseSavedFilter
       id: row.id,
       name: row.name,
       filters,
-      isDefault: row.is_default,
-      isPublic: row.is_public,
+      isDefault: row.is_default ?? false,
+      isPublic: row.is_public ?? false,
     };
   }, []);
 
@@ -178,6 +179,7 @@ export function useSavedFilters(options: UseSavedFiltersOptions): UseSavedFilter
       const { error: insertError } = await supabase
         .from("saved_filters")
         .insert({
+          organization_id: organizationId,
           user_id: currentUserId,
           name,
           entity_type: entityType,
@@ -192,7 +194,7 @@ export function useSavedFilters(options: UseSavedFiltersOptions): UseSavedFilter
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save filter");
     }
-  }, [currentUserId, entityType, convertToConditions, fetchPresets]);
+  }, [currentUserId, organizationId, entityType, convertToConditions, fetchPresets]);
 
   const deletePreset = useCallback(async (id: string) => {
     try {
@@ -266,6 +268,7 @@ export function useSavedFilters(options: UseSavedFiltersOptions): UseSavedFilter
 
 interface UseSavedViewsOptions {
   entityType: string;
+  organizationId: string;
   userId?: string;
 }
 
@@ -285,7 +288,7 @@ interface UseSavedViewsReturn {
  * Hook for managing saved view configurations
  */
 export function useSavedViews(options: UseSavedViewsOptions): UseSavedViewsReturn {
-  const { entityType, userId } = options;
+  const { entityType, organizationId, userId } = options;
   
   const [views, setViews] = useState<ViewPreset[]>([]);
   const [defaultView, setDefaultViewState] = useState<ViewPreset | null>(null);
@@ -312,8 +315,8 @@ export function useSavedViews(options: UseSavedViewsOptions): UseSavedViewsRetur
     sort_by: string | null;
     sort_order: string | null;
     page_size: number | null;
-    is_default: boolean;
-    is_public: boolean;
+    is_default: boolean | null;
+    is_public: boolean | null;
   }): ViewPreset => ({
     id: row.id,
     name: row.name,
@@ -323,8 +326,8 @@ export function useSavedViews(options: UseSavedViewsOptions): UseSavedViewsRetur
     sortBy: row.sort_by ?? undefined,
     sortOrder: (row.sort_order as "asc" | "desc") ?? undefined,
     pageSize: row.page_size ?? undefined,
-    isDefault: row.is_default,
-    isPublic: row.is_public,
+    isDefault: row.is_default ?? false,
+    isPublic: row.is_public ?? false,
   }), []);
 
   const fetchViews = useCallback(async () => {
@@ -374,6 +377,7 @@ export function useSavedViews(options: UseSavedViewsOptions): UseSavedViewsRetur
       const { error: insertError } = await supabase
         .from("saved_views")
         .insert({
+          organization_id: organizationId,
           user_id: currentUserId,
           name,
           entity_type: entityType,
@@ -392,7 +396,7 @@ export function useSavedViews(options: UseSavedViewsOptions): UseSavedViewsRetur
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save view");
     }
-  }, [currentUserId, entityType, fetchViews]);
+  }, [currentUserId, organizationId, entityType, fetchViews]);
 
   const updateView = useCallback(async (id: string, config: Partial<ViewPreset>) => {
     try {

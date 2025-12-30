@@ -37,7 +37,7 @@ export function useArtistData() {
     queryKey: ['artist-data'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('artist_profiles')
+        .from('people_profile_artist')
         .select('*')
         .single();
 
@@ -59,7 +59,7 @@ export function useUpcomingShows() {
     queryKey: ['upcoming-shows'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('artist_shows')
+        .from('legend_events')
         .select('*')
         .gte('date', new Date().toISOString())
         .order('date', { ascending: true })
@@ -86,7 +86,7 @@ export function useRiderStatus() {
     queryKey: ['rider-status'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('artist_riders')
+        .from('legend_documents')
         .select('*')
         .order('updated_at', { ascending: false });
 

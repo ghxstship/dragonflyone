@@ -11,18 +11,7 @@ import { useRouter } from "next/navigation";
 import { useAuthContext, PlatformRole } from "@ghxstship/config";
 import { useAdvancingCatalog } from "@/hooks/useAdvancingCatalog";
 import {
-  Body,
-  Button,
-  Input,
-  Card,
-  Grid,
-  Badge,
-  Select,
-  Field,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Body, Button, Input, Card, Grid, Badge, Select, Field, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 import type { ProductionCatalogItem } from "@ghxstship/config/types/advancing";
 import { Search, Package, Filter, X, List, ArrowLeft, Plus } from "lucide-react";
 

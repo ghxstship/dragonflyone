@@ -10,16 +10,7 @@ import { useState, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Briefcase, MapPin, Calendar } from "lucide-react";
 import {
-  Body,
-  Grid,
-  Input,
-  Select,
-  Stack,
-  Textarea,
-  CreatePage,
-  useNotifications,
-  type FormSection,
-} from "@ghxstship/ui";
+  Body, Grid, Input, Select, Stack, Textarea, CreatePage, useNotifications} from "@ghxstship/ui";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import { useCreateProject } from "@/hooks/useProjects";
 

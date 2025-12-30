@@ -25,7 +25,7 @@ export const useAnalytics = (filters?: {
     queryKey: ['analytics', filters],
     queryFn: async () => {
       let query = supabase
-        .from('analytics_metrics')
+        .from('kpi_reports')
         .select('*')
         .order('date', { ascending: false });
 
@@ -55,7 +55,7 @@ export const useCreateMetric = () => {
   return useMutation({
     mutationFn: async (metric: Omit<AnalyticsMetric, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('analytics_metrics')
+        .from('kpi_reports')
         .insert(metric)
         .select()
         .single();

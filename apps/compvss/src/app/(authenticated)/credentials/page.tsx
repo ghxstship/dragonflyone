@@ -7,19 +7,7 @@ import { Eye, Pencil, Ban, CheckCircle, QrCode, Download, UserPlus } from 'lucid
 import { useCredentials, useCredentialStats, useRevokeCredential, useSuspendCredential, useReactivateCredential } from '@/hooks/useCredentials';
 import { useAuthContext } from '@ghxstship/config';
 import {
-  ListPage,
-  Badge,
-  DetailDrawer,
-  ConfirmDialog,
-  Grid,
-  Stack,
-  Body,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-  type ListPageBulkAction,
-  type DetailSection,
-} from '@ghxstship/ui';
+  ListPage, Badge, DetailDrawer, ConfirmDialog, Grid, Stack, Body} from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Credential {

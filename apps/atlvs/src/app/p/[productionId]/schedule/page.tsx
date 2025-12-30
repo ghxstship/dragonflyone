@@ -7,20 +7,11 @@
  */
 
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Calendar, Plus, Clock, CheckCircle, AlertCircle, List, LayoutGrid } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Task {
   id: string;
@@ -54,7 +45,6 @@ const PRIORITY_CONFIG = {
 
 export default function ProductionSchedulePage() {
   const params = useParams();
-  const router = useRouter();
   const productionId = params.productionId as string;
   const [statusFilter, setStatusFilter] = useState<string>("all");
 

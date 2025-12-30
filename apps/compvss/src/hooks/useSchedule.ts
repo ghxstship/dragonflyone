@@ -29,7 +29,7 @@ export function useSchedule(filters?: ScheduleFilters) {
     queryKey: ['schedule', filters],
     queryFn: async () => {
       let query = supabase
-        .from('schedule_phases')
+        .from('projects')
         .select('*')
         .order('phase_order', { ascending: true });
 
@@ -53,7 +53,7 @@ export function useSchedulePhase(id: string) {
     queryKey: ['schedule', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('schedule_phases')
+        .from('projects')
         .select('*')
         .eq('id', id)
         .single();
@@ -84,7 +84,7 @@ export function useCreateSchedulePhase() {
   return useMutation({
     mutationFn: async (phase: CreateSchedulePhaseInput) => {
       const { data, error } = await supabase
-        .from('schedule_phases')
+        .from('projects')
         .insert(phase)
         .select()
         .single();
@@ -117,7 +117,7 @@ export function useUpdateSchedulePhase() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: UpdateSchedulePhaseInput) => {
       const { data, error } = await supabase
-        .from('schedule_phases')
+        .from('projects')
         .update(updates)
         .eq('id', id)
         .select()
@@ -138,7 +138,7 @@ export function useDeleteSchedulePhase() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('schedule_phases').delete().eq('id', id);
+      const { error } = await supabase.from('projects').delete().eq('id', id);
 
       if (error) throw error;
     },

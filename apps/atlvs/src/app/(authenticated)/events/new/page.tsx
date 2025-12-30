@@ -12,17 +12,7 @@ import { useRouter } from 'next/navigation';
 import { Calendar, Clock, MapPin, Settings } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body,
-  CreatePage,
-  Grid,
-  Input,
-  Select,
-  Stack,
-  Text,
-  Textarea,
-  useNotifications,
-  type FormSection,
-} from '@ghxstship/ui';
+  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
 import { useCreateEvent, type Event } from '@/hooks/useEvents';
 
 const EVENT_TYPES = [

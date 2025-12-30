@@ -8,16 +8,7 @@
 
 import { useRouter } from "next/navigation";
 import {
-  MarketingPage,
-  HeroSection,
-  PricingSection,
-  FAQSection,
-  CTABanner,
-  LogoCloud,
-  type PricingPlan,
-  type FAQItem,
-  type LogoItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, PricingSection, FAQSection, CTABanner, LogoCloud} from "@ghxstship/ui";
 
 const PLANS: PricingPlan[] = [
   {

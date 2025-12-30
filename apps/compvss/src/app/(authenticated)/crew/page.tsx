@@ -6,21 +6,7 @@ import { Eye, ClipboardList, Pencil, Trash2, Download } from "lucide-react";
 // Layout provided by route group
 import { useCrew } from "@/hooks/useCrew";
 import {
-  ListPage,
-  Badge,
-  RecordFormModal,
-  DetailDrawer,
-  ConfirmDialog,
-  Grid,
-  Stack,
-  Body,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-  type ListPageBulkAction,
-  type FormFieldConfig,
-  type DetailSection,
-} from "@ghxstship/ui";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
 
 // Roles that can manage crew (COMPVSS has no SUPER_ADMIN, only ADMIN)

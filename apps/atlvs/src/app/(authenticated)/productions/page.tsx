@@ -8,15 +8,7 @@
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import { 
-  Badge, 
-  Body, 
-  ListPage, 
-  Stack,
-  useNotifications,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-} from "@ghxstship/ui";
+  Badge, Body, ListPage, Stack, useNotifications} from "@ghxstship/ui";
 import { useProductions, useDeleteProduction, type Production } from "../../../hooks/useProductions";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import { atlvsDemoProductions, type ProductionContext } from "@/data/atlvs";

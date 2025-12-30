@@ -6,21 +6,11 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Calendar, Plus, Clock, MapPin, Users, List, LayoutGrid } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Show {
   id: string;
@@ -49,7 +39,6 @@ const STATUS_CONFIG = {
 
 export default function ProductionShowsPage() {
   const params = useParams();
-  const router = useRouter();
   const productionId = params.productionId as string;
 
   const { data: shows = [], isLoading, error, refetch } = useQuery({

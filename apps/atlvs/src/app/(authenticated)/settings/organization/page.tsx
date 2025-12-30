@@ -11,21 +11,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import { useRouter } from 'next/navigation';
 import {
-  Alert,
-  Body,
-  Box,
-  Button,
-  Card,
-  EmptyState,
-  Grid,
-  H2,
-  Input,
-  Label,
-  Select,
-  SettingsPageLayout,
-  Skeleton,
-  Stack,
-} from '@ghxstship/ui';
+  Alert, Body, Box, Button, Card, EmptyState, Grid, H2, Input, Label, Select, SettingsPageLayout, Skeleton, Stack} from '@ghxstship/ui';
 
 interface OrganizationSettings {
   id: string;

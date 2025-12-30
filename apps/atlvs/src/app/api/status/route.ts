@@ -1,7 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { withAuth, PlatformRole } from '@ghxstship/config';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
 interface ServiceStatus {
@@ -14,6 +13,7 @@ interface ServiceStatus {
 async function checkDatabaseStatus(): Promise<ServiceStatus> {
   const start = Date.now();
   try {
+    const supabase = createAdminClient();
     const { error } = await supabase.from('platform_users').select('id').limit(1);
     const latency = Date.now() - start;
     
@@ -35,6 +35,7 @@ async function checkDatabaseStatus(): Promise<ServiceStatus> {
 async function checkAuthStatus(): Promise<ServiceStatus> {
   const start = Date.now();
   try {
+    const supabase = createAdminClient();
     const { error } = await supabase.auth.getSession();
     const latency = Date.now() - start;
     
@@ -56,6 +57,7 @@ async function checkAuthStatus(): Promise<ServiceStatus> {
 async function checkStorageStatus(): Promise<ServiceStatus> {
   const start = Date.now();
   try {
+    const supabase = createAdminClient();
     const { error } = await supabase.storage.listBuckets();
     const latency = Date.now() - start;
     
@@ -74,12 +76,7 @@ async function checkStorageStatus(): Promise<ServiceStatus> {
   }
 }
 
-const ATLVS_ROLES = [
-  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
-  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
-];
-
-export async function GET(_request: NextRequest) {
+export async function GET() {
   const supabase = createAdminClient();
   const startTime = Date.now();
   

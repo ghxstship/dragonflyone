@@ -26,7 +26,7 @@ export function useMySchedule() {
     queryKey: ['my-schedule'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('crew_schedules')
+        .from('workforce_time_entries')
         .select('*')
         .order('date', { ascending: true });
 

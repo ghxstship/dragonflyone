@@ -50,7 +50,7 @@ export function useQuickLinks(filters?: QuickLinkFilters) {
     queryKey: ['quick_links', filters],
     queryFn: async () => {
       let query = supabase
-        .from('quick_links')
+        .from('dashboard_configs')
         .select('*')
         .eq('is_active', true)
         .order('sort_order', { ascending: true });
@@ -92,7 +92,7 @@ export function useUserQuickLinkFavorites(userId?: string) {
       }
 
       const { data, error } = await supabase
-        .from('user_quick_link_favorites')
+        .from('user_favorites')
         .select(`
           *,
           quick_link:quick_links(*)
@@ -139,14 +139,14 @@ export function useAddQuickLinkFavorite() {
     mutationFn: async ({ userId, quickLinkId }: { userId: string; quickLinkId: string }) => {
       // Get current count to set sort order
       const { data: existing } = await supabase
-        .from('user_quick_link_favorites')
+        .from('user_favorites')
         .select('id')
         .eq('user_id', userId);
 
       const sortOrder = (existing?.length || 0) + 1;
 
       const { data, error } = await supabase
-        .from('user_quick_link_favorites')
+        .from('user_favorites')
         .insert({
           user_id: userId,
           quick_link_id: quickLinkId,
@@ -171,7 +171,7 @@ export function useRemoveQuickLinkFavorite() {
   return useMutation({
     mutationFn: async ({ userId, quickLinkId }: { userId: string; quickLinkId: string }) => {
       const { error } = await supabase
-        .from('user_quick_link_favorites')
+        .from('user_favorites')
         .delete()
         .eq('user_id', userId)
         .eq('quick_link_id', quickLinkId);
@@ -214,7 +214,7 @@ export function useQuickLinkStats() {
     queryKey: ['quick_links', 'stats'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('quick_links')
+        .from('dashboard_configs')
         .select('category')
         .eq('is_active', true);
 

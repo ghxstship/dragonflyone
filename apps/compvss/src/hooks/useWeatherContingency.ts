@@ -36,7 +36,7 @@ export function useWeatherPlans() {
     queryKey: ['weather-plans'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('weather_contingency_plans')
+        .from('legend_documents')
         .select('*')
         .order('created_at', { ascending: false });
 

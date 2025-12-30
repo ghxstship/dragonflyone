@@ -32,6 +32,7 @@ export interface FilterCondition {
 
 export interface SavedFilter {
   id: string;
+  organization_id: string;
   user_id: string;
   name: string;
   description: string | null;
@@ -49,6 +50,7 @@ export interface SavedFilter {
 
 export interface SavedView {
   id: string;
+  organization_id: string;
   user_id: string;
   name: string;
   description: string | null;
@@ -77,13 +79,15 @@ export class SavedFiltersManager {
    * Create saved filter
    */
   async createFilter(
+    organizationId: string,
     userId: string,
-    filter: Omit<SavedFilter, 'id' | 'user_id' | 'use_count' | 'last_used_at' | 'created_at' | 'updated_at'>
+    filter: Omit<SavedFilter, 'id' | 'organization_id' | 'user_id' | 'use_count' | 'last_used_at' | 'created_at' | 'updated_at'>
   ): Promise<{ success: boolean; filterId?: string; error?: string }> {
     try {
       const { data, error } = await this.supabase
         .from('saved_filters')
         .insert({
+          organization_id: organizationId,
           user_id: userId,
           name: filter.name,
           description: filter.description,
@@ -326,13 +330,15 @@ export class SavedViewsManager {
    * Create saved view
    */
   async createView(
+    organizationId: string,
     userId: string,
-    view: Omit<SavedView, 'id' | 'user_id' | 'created_at' | 'updated_at'>
+    view: Omit<SavedView, 'id' | 'organization_id' | 'user_id' | 'created_at' | 'updated_at'>
   ): Promise<{ success: boolean; viewId?: string; error?: string }> {
     try {
       const { data, error } = await this.supabase
         .from('saved_views')
         .insert({
+          organization_id: organizationId,
           user_id: userId,
           name: view.name,
           description: view.description,
@@ -508,6 +514,7 @@ export class SavedViewsManager {
       const { data, error } = await this.supabase
         .from('saved_views')
         .insert({
+          organization_id: original.organization_id,
           user_id: original.user_id,
           name: newName,
           description: original.description,

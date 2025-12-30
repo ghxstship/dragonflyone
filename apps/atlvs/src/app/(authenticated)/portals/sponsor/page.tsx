@@ -7,26 +7,9 @@
 
 import { useRouter } from 'next/navigation';
 import { 
-  Megaphone, 
-  BarChart3,
-  Eye,
-  Calendar,
-  Download,
-  ChevronRight,
-  Users,
-  TrendingUp,
-} from 'lucide-react';
+  Megaphone, BarChart3, Eye, Calendar, Download, ChevronRight, Users, TrendingUp} from 'lucide-react';
 import {
-  DetailPage,
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Stack,
-  StatCard,
-  Text,
-} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Button, Card, Grid, Stack, StatCard, Text} from '@ghxstship/ui';
 import { useQuery } from '@tanstack/react-query';
 
 interface SponsorStats {

@@ -10,15 +10,7 @@ import { useParams } from "next/navigation";
 import { Calendar, Clock, CheckCircle, Plus, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  StatCard,
-  DetailPage,
-  Section,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section} from "@ghxstship/ui";
 
 interface ScheduleItem {
   id: string;

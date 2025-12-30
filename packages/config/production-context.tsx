@@ -11,13 +11,9 @@ import { supabase } from './supabase-client';
 export interface Production {
   id: string;
   name: string;
-  status: string;
-  event_date: string;
-  load_in_date: string;
-  load_out_date: string;
-  budget: number | null;
-  sponsorship_target: number | null;
-  venue_id: string | null;
+  status: string | null;
+  start_datetime: string | null;
+  end_datetime: string | null;
   organization_id: string;
 }
 
@@ -54,10 +50,12 @@ export function ProductionProvider({ children }: { children: React.ReactNode }) 
         return;
       }
 
+      // Use legend_events for productions (3NF pattern - productions are events with production profile)
       const { data, error: fetchError } = await supabase
-        .from('productions')
-        .select('id, name, status, event_date, load_in_date, load_out_date, budget, sponsorship_target, venue_id, organization_id')
-        .order('event_date', { ascending: false });
+        .from('legend_events')
+        .select('id, name, status, start_datetime, end_datetime, organization_id')
+        .eq('event_type', 'production')
+        .order('start_datetime', { ascending: false });
 
       if (fetchError) throw fetchError;
 

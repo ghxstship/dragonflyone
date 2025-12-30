@@ -12,22 +12,7 @@ import { CreditCard, Check, Download, Calendar, DollarSign, Users, HardDrive, Li
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Stack,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  ProgressBar,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Stack, Modal, ModalBody, ModalFooter, ModalHeader, ProgressBar, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface BillingInfo {
   plan: { name: string; price: number; interval: "monthly" | "yearly"; features: string[] };

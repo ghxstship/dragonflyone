@@ -376,7 +376,7 @@ export class ExportService {
     createdAt: Date;
   }>> {
     const { data, error } = await this.supabase
-      .from('export_audit_log')
+      .from('audit_logs')
       .select('id, export_type, table_name, record_count, status, created_at')
       .eq('user_id', this.userId)
       .order('created_at', { ascending: false })

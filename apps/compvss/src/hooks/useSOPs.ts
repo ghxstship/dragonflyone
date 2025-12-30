@@ -100,7 +100,7 @@ export function useSOPCategories(productionId?: string) {
     queryKey: ['sop_categories', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('sop_categories')
+        .from('legend_documents')
         .select('*')
         .order('sort_order', { ascending: true });
 
@@ -121,7 +121,7 @@ export function useSOPs(filters?: SOPFilters) {
     queryKey: ['sops', filters],
     queryFn: async () => {
       let query = supabase
-        .from('sops')
+        .from('legend_documents')
         .select(`
           *,
           category:sop_categories(id, name, color, icon),
@@ -152,7 +152,7 @@ export function useSOP(id: string) {
     queryKey: ['sops', id],
     queryFn: async () => {
       const { data: sop, error: sopError } = await supabase
-        .from('sops')
+        .from('legend_documents')
         .select(`
           *,
           category:sop_categories(id, name, color, icon),
@@ -164,7 +164,7 @@ export function useSOP(id: string) {
       if (sopError) throw sopError;
 
       const { data: steps, error: stepsError } = await supabase
-        .from('sop_steps')
+        .from('legend_documents')
         .select('*')
         .eq('sop_id', id)
         .order('step_number', { ascending: true });
@@ -183,7 +183,7 @@ export function useSOPAcknowledgments(sopId?: string, userId?: string) {
     queryKey: ['sop_acknowledgments', sopId, userId],
     queryFn: async () => {
       let query = supabase
-        .from('sop_acknowledgments')
+        .from('audit_logs')
         .select(`
           *,
           sop:sops(id, title),
@@ -211,7 +211,7 @@ export function useSOPTrainingRecords(sopId?: string, userId?: string) {
     queryKey: ['sop_training_records', sopId, userId],
     queryFn: async () => {
       let query = supabase
-        .from('sop_training_records')
+        .from('workforce_certifications')
         .select(`
           *,
           sop:sops(id, title),
@@ -240,7 +240,7 @@ export function useCreateSOPCategory() {
   return useMutation({
     mutationFn: async (category: Omit<SOPCategory, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('sop_categories')
+        .from('legend_documents')
         .insert(category)
         .select()
         .single();
@@ -261,7 +261,7 @@ export function useCreateSOP() {
   return useMutation({
     mutationFn: async (sop: Omit<SOP, 'id' | 'created_at' | 'updated_at' | 'category' | 'owner' | 'steps'>) => {
       const { data, error } = await supabase
-        .from('sops')
+        .from('legend_documents')
         .insert(sop)
         .select()
         .single();
@@ -282,7 +282,7 @@ export function useUpdateSOP() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<SOP> & { id: string }) => {
       const { data, error } = await supabase
-        .from('sops')
+        .from('legend_documents')
         .update(updates)
         .eq('id', id)
         .select()
@@ -305,7 +305,7 @@ export function useCreateSOPStep() {
   return useMutation({
     mutationFn: async (step: Omit<SOPStep, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('sop_steps')
+        .from('legend_documents')
         .insert(step)
         .select()
         .single();
@@ -326,7 +326,7 @@ export function useUpdateSOPStep() {
   return useMutation({
     mutationFn: async ({ id, sopId, ...updates }: Partial<SOPStep> & { id: string; sopId: string }) => {
       const { data, error } = await supabase
-        .from('sop_steps')
+        .from('legend_documents')
         .update(updates)
         .eq('id', id)
         .select()
@@ -347,7 +347,7 @@ export function useDeleteSOPStep() {
 
   return useMutation({
     mutationFn: async ({ id, sopId }: { id: string; sopId: string }) => {
-      const { error } = await supabase.from('sop_steps').delete().eq('id', id);
+      const { error } = await supabase.from('legend_documents').delete().eq('id', id);
       if (error) throw error;
       return { sopId };
     },
@@ -364,7 +364,7 @@ export function useAcknowledgeSOP() {
   return useMutation({
     mutationFn: async ({ sopId, userId }: { sopId: string; userId: string }) => {
       const { data, error } = await supabase
-        .from('sop_acknowledgments')
+        .from('audit_logs')
         .insert({
           sop_id: sopId,
           user_id: userId,
@@ -389,7 +389,7 @@ export function useStartSOPTraining() {
   return useMutation({
     mutationFn: async ({ sopId, userId }: { sopId: string; userId: string }) => {
       const { data, error } = await supabase
-        .from('sop_training_records')
+        .from('workforce_certifications')
         .insert({
           sop_id: sopId,
           user_id: userId,
@@ -416,7 +416,7 @@ export function useCompleteSOPTraining() {
   return useMutation({
     mutationFn: async ({ id, score, passed }: { id: string; score: number; passed: boolean }) => {
       const { data, error } = await supabase
-        .from('sop_training_records')
+        .from('workforce_certifications')
         .update({
           status: passed ? 'completed' : 'failed',
           completed_at: new Date().toISOString(),
@@ -440,7 +440,7 @@ export function useSOPStats(productionId?: string) {
   return useQuery({
     queryKey: ['sops', 'stats', productionId],
     queryFn: async () => {
-      let query = supabase.from('sops').select('status, requires_acknowledgment, requires_training');
+      let query = supabase.from('legend_documents').select('status, requires_acknowledgment, requires_training');
       
       if (productionId) {
         query = query.eq('production_id', productionId);

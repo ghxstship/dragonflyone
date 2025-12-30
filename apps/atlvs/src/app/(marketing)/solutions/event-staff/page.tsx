@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Check, Calendar, Clock, Radio, BarChart3, Users, DollarSign } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const FEATURES: FeatureItem[] = [
   { id: "shifts", icon: <Calendar className="size-8" />, title: "Shift Scheduling", description: "View and accept shifts that match your availability and preferences." },

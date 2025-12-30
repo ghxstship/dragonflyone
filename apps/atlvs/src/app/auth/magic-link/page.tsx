@@ -3,20 +3,7 @@
 import { useState } from "react";
 import { Sparkles, ArrowRight, RefreshCw } from "lucide-react";
 import {
-  Alert,
-  AuthPage,
-  Body,
-  Button,
-  Card,
-  Field,
-  Form,
-  H2,
-  IconBox,
-  Input,
-  Label,
-  ScrollReveal,
-  Stack,
-} from '@ghxstship/ui';
+  Alert, AuthPage, Body, Button, Card, Field, Form, H2, IconBox, Input, Label, ScrollReveal, Stack} from '@ghxstship/ui';
 import NextLink from "next/link";
 import { CreatorNavigationPublic } from "@/components/navigation";
 

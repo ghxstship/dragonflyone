@@ -1,13 +1,7 @@
 'use client';
 
 import {
-  Container,
-  Section,
-  Stack,
-  Grid,
-  Card,
-  Box,
-} from '@ghxstship/ui';
+  Container, Section, Stack, Grid, Card, Box} from '@ghxstship/ui';
 
 export default function AuthenticatedLoading() {
   return (

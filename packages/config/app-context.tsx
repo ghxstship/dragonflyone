@@ -15,7 +15,8 @@ type Organization = Database['public']['Tables']['organizations']['Row'];
 type Team = Database['public']['Tables']['teams']['Row'];
 type Workspace = Database['public']['Tables']['workspaces']['Row'];
 type Project = Database['public']['Tables']['projects']['Row'];
-type Activation = Database['public']['Tables']['activations']['Row'];
+// Activation is a legend_event with activation profile - use legend_events table
+type Activation = Database['public']['Tables']['legend_events']['Row'];
 
 // Simplified context item for breadcrumb display
 export interface ContextItem {
@@ -222,16 +223,12 @@ export function AppContextProvider({
     }
   }, [fetchWithAuth]);
 
-  // Load activations
-  const loadActivations = useCallback(async (orgId: string, projectId?: string, eventId?: string) => {
+  // Load activations (using legend_events with activation event_type - 3NF pattern)
+  const loadActivations = useCallback(async (orgId: string, _projectId?: string, parentEventId?: string) => {
     try {
-      const baseQuery = `activations?organization_id=eq.${orgId}&select=*&order=name`;
-      let query = baseQuery;
-      if (projectId) {
-        query += `&project_id=eq.${projectId}`;
-      }
-      if (eventId) {
-        query += `&event_id=eq.${eventId}`;
+      let query = `legend_events?organization_id=eq.${orgId}&event_type=eq.activation&select=*&order=name`;
+      if (parentEventId) {
+        query += `&parent_event_id=eq.${parentEventId}`;
       }
       const data = await fetchWithAuth(query);
       setActivations(data || []);
@@ -291,7 +288,7 @@ export function AppContextProvider({
   const setActivation = useCallback((act: Activation | null) => {
     setActivationState(act);
     if (act) {
-      addRecentItem({ type: 'activation', id: act.id, name: act.name, slug: act.slug });
+      addRecentItem({ type: 'activation', id: act.id, name: act.name, slug: act.name.toLowerCase().replace(/\s+/g, '-') });
     }
   }, [addRecentItem]);
 
@@ -390,31 +387,26 @@ export function AppContextProvider({
   }, [projects]);
 
   const searchActivations = useCallback(async (query: string): Promise<ContextItem[]> => {
+    // Activations are legend_events - map to ContextItem format
+    const toContextItem = (a: Activation): ContextItem => ({
+      id: a.id,
+      name: a.name,
+      slug: a.name.toLowerCase().replace(/\s+/g, '-'),
+      icon: a.image_url,
+      color: null,
+      badge: a.event_type,
+    });
+
     if (!query.trim()) {
-      return activations.map(a => ({
-        id: a.id,
-        name: a.name,
-        slug: a.slug,
-        icon: a.icon,
-        color: a.color,
-        badge: a.category,
-      }));
+      return activations.map(toContextItem);
     }
     
     const filtered = activations.filter(a => 
       a.name.toLowerCase().includes(query.toLowerCase()) ||
-      a.slug.toLowerCase().includes(query.toLowerCase()) ||
       (a.code && a.code.toLowerCase().includes(query.toLowerCase()))
     );
     
-    return filtered.map(a => ({
-      id: a.id,
-      name: a.name,
-      slug: a.slug,
-      icon: a.icon,
-      color: a.color,
-      badge: a.category,
-    }));
+    return filtered.map(toContextItem);
   }, [activations]);
 
   // Pinning

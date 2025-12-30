@@ -9,15 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Book, Check, ArrowRight, Play, List, FileText } from "lucide-react";
 import {
-  Body,
-  Button,
-  Card,
-  Grid,
-  ProgressBar,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Body, Button, Card, Grid, ProgressBar, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 const STEPS = [
   { id: 1, title: "Create Your Account", description: "Sign up and set up your profile", completed: true },

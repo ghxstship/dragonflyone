@@ -9,16 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Download, ArrowLeft, Settings } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  CTABanner,
-  Container,
-  Stack,
-  Card,
-  Body,
-  H3,
-  Button,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button} from "@ghxstship/ui";
 
 const SECTIONS = [
   { id: "what", title: "1. What Are Cookies", content: "Cookies are small text files that are placed on your computer or mobile device when you visit a website. They are widely used to make websites work more efficiently and to provide information to the owners of the site." },

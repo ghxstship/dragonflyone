@@ -5,21 +5,7 @@ import { useRouter } from "next/navigation";
 import { Eye, Upload, Wrench, Trash2, Download } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage,
-  Badge,
-  RecordFormModal,
-  DetailDrawer,
-  ConfirmDialog,
-  Grid,
-  Body,
-  useNotifications,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-  type ListPageBulkAction,
-  type FormFieldConfig,
-  type DetailSection,
-  } from "@ghxstship/ui";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useNotifications} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import { useAssets, useDeleteAsset, type Asset as APIAsset } from "../../../hooks/useAssets";
 
@@ -65,7 +51,6 @@ function normalizeAsset(a: APIAsset): Asset {
     projects: 0,
   };
 }
-
 
 const columns: ListPageColumn<Asset>[] = [
   { key: 'name', label: 'Asset', accessor: 'name', sortable: true },

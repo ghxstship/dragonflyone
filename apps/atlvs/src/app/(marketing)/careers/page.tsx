@@ -11,22 +11,7 @@ import { useRouter } from "next/navigation";
 import { Briefcase, MapPin, Clock, DollarSign, Heart, Users, Zap, Building2, ArrowRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  StatsSection,
-  CTABanner,
-  Container,
-  Stack,
-  Card,
-  Body,
-  H3,
-  Button,
-  Badge,
-  Spinner,
-  type FeatureItem,
-  type StatItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, StatsSection, CTABanner, Container, Stack, Card, Body, H3, Button, Badge, Spinner} from "@ghxstship/ui";
 
 interface JobPosting {
   id: string;

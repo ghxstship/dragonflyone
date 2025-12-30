@@ -7,21 +7,11 @@
  */
 
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { CheckCircle, Clock, FileText, DollarSign, Users, List, Download } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  ProgressBar,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, ProgressBar, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface WrapItem {
   id: string;
@@ -46,7 +36,6 @@ const CATEGORIES = ["All", "Financial", "Documentation", "Team", "Equipment"];
 
 export default function ProductionWrapPage() {
   const params = useParams();
-  const router = useRouter();
   const productionId = params.productionId as string;
   const [selectedCategory, setSelectedCategory] = useState("All");
 

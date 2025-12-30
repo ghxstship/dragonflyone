@@ -2,12 +2,7 @@
 
 // Layout provided by route group
 import {
-  ListPage,
-  Badge,
-  Text,
-  type ListPageColumn,
-  type ListPageFilter,
-} from '@ghxstship/ui';
+  ListPage, Badge, Text} from '@ghxstship/ui';
 import { createExportHandler } from '@ghxstship/config';
 import { useSyncJobs } from '@/hooks/useIntegrations';
 

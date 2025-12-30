@@ -36,7 +36,7 @@ export function useAvailability(filters?: AvailabilityFilters) {
     queryKey: ['availability', filters],
     queryFn: async () => {
       let query = supabase
-        .from('crew_availability')
+        .from('workforce_time_entries')
         .select(`
           id,
           crew_member_id,
@@ -119,7 +119,7 @@ export function useCreateAvailability() {
       notes?: string;
     }) => {
       const { data, error } = await supabase
-        .from('crew_availability')
+        .from('workforce_time_entries')
         .insert(slot)
         .select()
         .single();
@@ -147,7 +147,7 @@ export function useUpdateAvailability() {
       notes: string;
     }>) => {
       const { data, error } = await supabase
-        .from('crew_availability')
+        .from('workforce_time_entries')
         .update(updates)
         .eq('id', id)
         .select()
@@ -169,7 +169,7 @@ export function useDeleteAvailability() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('crew_availability')
+        .from('workforce_time_entries')
         .delete()
         .eq('id', id);
 
@@ -188,7 +188,7 @@ export function useBulkUpdateAvailability() {
   return useMutation({
     mutationFn: async ({ ids, status }: { ids: string[]; status: string }) => {
       const { error } = await supabase
-        .from('crew_availability')
+        .from('workforce_time_entries')
         .update({ availability_type: status })
         .in('id', ids);
 

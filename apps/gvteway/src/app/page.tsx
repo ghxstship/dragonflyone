@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-component-props -- backgroundImage requires inline styles for dynamic URLs */
 "use client";
 
 import {

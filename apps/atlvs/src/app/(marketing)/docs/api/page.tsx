@@ -8,18 +8,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Code, Key, Webhook, FileText, Copy, Check, List, Terminal } from "lucide-react";
+import { Code, Key, Webhook, Copy, Check, List, Terminal} from "lucide-react";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  DetailPage,
-  Section,
-  SectionHeader,
-  useNotifications,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
 
 interface Endpoint {
   method: "GET" | "POST" | "PUT" | "DELETE";

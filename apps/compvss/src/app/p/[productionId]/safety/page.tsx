@@ -10,17 +10,7 @@ import { useParams } from "next/navigation";
 import { Shield, AlertTriangle, CheckCircle, FileText, Plus, List, ClipboardList } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  StatCard,
-  ProgressBar,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, ProgressBar, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface SafetyItem {
   id: string;

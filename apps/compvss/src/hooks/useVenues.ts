@@ -23,8 +23,9 @@ export const useVenues = (filters?: { status?: string; city?: string }) => {
     queryKey: ['compvss-venues', filters],
     queryFn: async () => {
       let query = supabase
-        .from('venues')
-        .select('*')
+        .from('legend_places')
+        .select('*, places_profile_venue!place_id(*)')
+        .not('places_profile_venue', 'is', null)
         .order('name');
 
       if (filters?.status) {
@@ -46,9 +47,15 @@ export const useCreateVenue = () => {
 
   return useMutation({
     mutationFn: async (venue: Omit<Venue, 'id' | 'created_at' | 'updated_at'>) => {
+      // 3NF: legend_places + places_profile_venue
       const { data, error } = await supabase
-        .from('venues')
-        .insert(venue)
+        .from('legend_places')
+        .insert({
+          name: venue.name,
+          place_type: 'venue',
+          status: venue.status || 'active',
+          metadata: venue,
+        })
         .select()
         .single();
       if (error) throw error;
@@ -65,11 +72,17 @@ export const useUpdateVenue = () => {
 
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Venue> & { id: string }) => {
-      const { data, error } = await supabase
-        .from('venues')
+      // 3NF: legend_places + places_profile_venue
+      const { error: updateError } = await supabase
+        .from('legend_places')
         .update(updates)
+        .eq('id', id);
+      if (updateError) throw updateError;
+
+      const { data, error } = await supabase
+        .from('legend_places')
+        .select('*, places_profile_venue!place_id(*)')
         .eq('id', id)
-        .select()
         .single();
       if (error) throw error;
       return data;
@@ -85,8 +98,9 @@ export const useDeleteVenue = () => {
 
   return useMutation({
     mutationFn: async (id: string) => {
+      // 3NF: Delete from legend_places (cascades to profile)
       const { error } = await supabase
-        .from('venues')
+        .from('legend_places')
         .delete()
         .eq('id', id);
       if (error) throw error;

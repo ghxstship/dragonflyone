@@ -11,20 +11,7 @@ import { useRouter } from "next/navigation";
 import { FileText, Calendar, User, Search, ArrowRight, Clock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  MarketingPage,
-  HeroSection,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  Badge,
-  Input,
-  Spinner,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Input, Spinner} from "@ghxstship/ui";
 
 interface BlogPost {
   id: string;

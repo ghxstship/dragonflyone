@@ -29,7 +29,7 @@ export function useSoundcheckSlots(eventId?: string) {
     queryKey: ['soundcheck-slots', eventId],
     queryFn: async () => {
       let query = supabase
-        .from('soundcheck_slots')
+        .from('legend_events')
         .select('*')
         .order('scheduled_start', { ascending: true });
 
@@ -69,7 +69,7 @@ export function useUpdateSoundcheckStatus() {
       if (actualEnd !== undefined) updates.actual_end = actualEnd;
 
       const { data, error } = await supabase
-        .from('soundcheck_slots')
+        .from('legend_events')
         .update(updates)
         .eq('id', id)
         .select()

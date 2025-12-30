@@ -8,28 +8,10 @@
 
 import { useRouter, notFound } from "next/navigation";
 import {
-  Pencil,
-  Users,
-  FileText,
-  DollarSign,
-  Target,
-  Download,
-} from "lucide-react";
+  Pencil, Users, FileText, DollarSign, Target, Download} from "lucide-react";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  DetailPage,
-  Grid,
-  StatCard,
-  Section,
-  SectionHeader,
-  ProgressBar,
-  useNotifications,
-  type DetailPageTab,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ProgressBar, useNotifications} from "@ghxstship/ui";
 import { useProjectDetailData } from "@/hooks/useProjectDetail";
 
 const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {

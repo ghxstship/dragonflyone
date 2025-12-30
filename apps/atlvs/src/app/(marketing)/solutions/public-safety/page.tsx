@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Shield, Check, AlertTriangle, Radio, FileText, Users, MapPin } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const FEATURES: FeatureItem[] = [
   { id: "planning", icon: <Shield className="size-8" />, title: "Safety Planning", description: "Create comprehensive safety plans with risk assessments and mitigation strategies." },

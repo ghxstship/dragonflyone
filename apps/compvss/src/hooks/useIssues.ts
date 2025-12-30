@@ -32,7 +32,7 @@ export function useIssues(productionId?: string) {
     queryKey: ['issues', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('issues')
+        .from('projects')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -71,7 +71,7 @@ export function useCreateIssue() {
   return useMutation({
     mutationFn: async (issue: Omit<Issue, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('issues')
+        .from('projects')
         .insert({
           title: issue.title,
           description: issue.description,
@@ -108,7 +108,7 @@ export function useUpdateIssueStatus() {
       if (resolution) updates.resolution = resolution;
 
       const { data, error } = await supabase
-        .from('issues')
+        .from('projects')
         .update(updates)
         .eq('id', id)
         .select()
@@ -129,7 +129,7 @@ export function useDeleteIssue() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('issues').delete().eq('id', id);
+      const { error } = await supabase.from('projects').delete().eq('id', id);
       if (error) throw error;
     },
     onSuccess: () => {

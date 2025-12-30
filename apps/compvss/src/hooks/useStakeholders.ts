@@ -35,7 +35,7 @@ export function useStakeholders() {
     queryKey: ['stakeholders'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('stakeholders')
+        .from('contacts')
         .select('*')
         .order('name', { ascending: true });
 
@@ -61,7 +61,7 @@ export function useStakeholderUpdates() {
     queryKey: ['stakeholder-updates'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('stakeholder_updates')
+        .from('audit_logs')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -87,7 +87,7 @@ export function useInviteStakeholder() {
   return useMutation({
     mutationFn: async (stakeholder: Omit<Stakeholder, 'id' | 'lastLogin'>) => {
       const { data, error } = await supabase
-        .from('stakeholders')
+        .from('contacts')
         .insert({
           name: stakeholder.name,
           organization: stakeholder.organization,

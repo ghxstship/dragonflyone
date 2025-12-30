@@ -10,16 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Shield, List, AlertTriangle } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body,
-  Button,
-  Card,
-  Input,
-  Textarea,
-  DetailPage,
-  Section,
-  SectionHeader,
-  useNotifications,
-} from "@ghxstship/ui";
+  Body, Button, Card, Input, Textarea, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
 
 interface ProductionSettings {
   id: string;

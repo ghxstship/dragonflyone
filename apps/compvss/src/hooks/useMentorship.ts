@@ -38,7 +38,7 @@ export function useMentors() {
     queryKey: ['mentors'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('mentors')
+        .from('legend_people')
         .select('*')
         .order('name', { ascending: true });
 
@@ -66,7 +66,7 @@ export function useMentorshipPrograms() {
     queryKey: ['mentorship-programs'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('mentorship_programs')
+        .from('projects')
         .select('*')
         .order('name', { ascending: true });
 
@@ -93,7 +93,7 @@ export function useRequestMentorship() {
   return useMutation({
     mutationFn: async (request: { mentorId: string; message: string; experienceLevel: string; goals: string }) => {
       const { data, error } = await supabase
-        .from('mentorship_requests')
+        .from('contacts')
         .insert({
           mentor_id: request.mentorId,
           message: request.message,

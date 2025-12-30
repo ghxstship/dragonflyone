@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { log, withAuth, PlatformRole } from '@ghxstship/config';
+import { log } from '@ghxstship/config';
 import { z } from 'zod';
 
 const updateVisibilitySchema = z.object({
@@ -16,11 +16,6 @@ const updateVisibilitySchema = z.object({
 });
 
 export const dynamic = 'force-dynamic';
-
-const ATLVS_ROLES = [
-  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
-  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
-];
 
 export async function GET(
   request: NextRequest,

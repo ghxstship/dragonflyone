@@ -40,7 +40,7 @@ export const useTransactions = (filters?: {
     queryKey: ['transactions', filters],
     queryFn: async () => {
       let query = supabase
-        .from('transactions')
+        .from('ledger_entries')
         .select('*')
         .order('date', { ascending: false });
 
@@ -69,7 +69,7 @@ export const useAccounts = () => {
     queryKey: ['financial-accounts'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('financial_accounts')
+        .from('ledger_entries')
         .select('*')
         .order('name');
       if (error) throw error;
@@ -84,7 +84,7 @@ export const useCreateTransaction = () => {
   return useMutation({
     mutationFn: async (transaction: Omit<Transaction, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('transactions')
+        .from('ledger_entries')
         .insert(transaction)
         .select()
         .single();
@@ -104,7 +104,7 @@ export const useUpdateTransaction = () => {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Transaction> & { id: string }) => {
       const { data, error } = await supabase
-        .from('transactions')
+        .from('ledger_entries')
         .update(updates)
         .eq('id', id)
         .select()
@@ -125,7 +125,7 @@ export const useDeleteTransaction = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('transactions')
+        .from('ledger_entries')
         .delete()
         .eq('id', id)
         .select()

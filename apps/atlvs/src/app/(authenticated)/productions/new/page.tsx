@@ -8,28 +8,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
-  Sparkles, 
-  Calendar, 
-  DollarSign, 
-  Users, 
-  Target,
-} from 'lucide-react';
+  Sparkles, Calendar, DollarSign, Users, Target} from 'lucide-react';
 import {
-  Stack,
-  Grid,
-  Card,
-  CardBody,
-  H3,
-  Body,
-  Label,
-  Input,
-  Select,
-  Textarea,
-  Badge,
-  WizardPage,
-  useNotifications,
-  type WizardStep,
-} from '@ghxstship/ui';
+  Stack, Grid, Card, CardBody, H3, Body, Label, Input, Select, Textarea, Badge, WizardPage, useNotifications} from '@ghxstship/ui';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 
 // Roles that can create productions

@@ -10,12 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body,
-  Input,
-  Textarea,
-  CreatePage,
-  useNotifications,
-} from "@ghxstship/ui";
+  Body, Input, Textarea, CreatePage, useNotifications} from "@ghxstship/ui";
 
 export default function NewBEOPage() {
   const router = useRouter();

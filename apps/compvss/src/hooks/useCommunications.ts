@@ -16,7 +16,7 @@ export const useCommunications = (filters?: {
     queryKey: ['communications', filters],
     queryFn: async () => {
       let query = supabase
-        .from('communications')
+        .from('integration_communication_channels')
         .select('*')
         .order('timestamp', { ascending: false })
         .limit(100);
@@ -41,7 +41,7 @@ export const useSendCommunication = () => {
   return useMutation({
     mutationFn: async (comm: CommunicationInsert) => {
       const { data, error } = await supabase
-        .from('communications')
+        .from('integration_communication_channels')
         .insert(comm)
         .select()
         .single();
@@ -60,7 +60,7 @@ export const useUpdateCommunication = () => {
   return useMutation({
     mutationFn: async ({ id, ...updates }: CommunicationUpdate & { id: string }) => {
       const { data, error } = await supabase
-        .from('communications')
+        .from('integration_communication_channels')
         .update(updates)
         .eq('id', id)
         .select()
@@ -80,7 +80,7 @@ export const useDeleteCommunication = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('communications')
+        .from('integration_communication_channels')
         .delete()
         .eq('id', id);
       if (error) throw error;

@@ -10,20 +10,7 @@ import { useRouter } from "next/navigation";
 import { Book, Code, Zap, FileText, Search, ArrowRight, Terminal, Settings, Users } from "lucide-react";
 import { useState } from "react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  Input,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Input} from "@ghxstship/ui";
 
 interface DocSection {
   id: string;

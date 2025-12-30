@@ -27,7 +27,7 @@ export function useWinLossRecords() {
     queryKey: ['win-loss-records'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('opportunities')
+        .from('bid_opportunities')
         .select('*')
         .in('status', ['Won', 'Lost', 'Closed'])
         .order('created_at', { ascending: false });

@@ -26,7 +26,7 @@ export function useMyTimesheets() {
     queryKey: ['my-timesheets'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('timesheets')
+        .from('chronicle_profile_timesheet')
         .select('*')
         .order('work_date', { ascending: false });
 

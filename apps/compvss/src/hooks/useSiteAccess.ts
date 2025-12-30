@@ -37,7 +37,7 @@ export function useAccessPoints(productionId?: string) {
     queryKey: ['access-points', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('access_points')
+        .from('legend_places')
         .select('*')
         .order('name', { ascending: true });
 
@@ -67,7 +67,7 @@ export function useVehiclePasses(productionId?: string) {
     queryKey: ['vehicle-passes', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('vehicle_passes')
+        .from('orders')
         .select('*')
         .order('valid_from', { ascending: true });
 
@@ -101,7 +101,7 @@ export function useIssueVehiclePass() {
   return useMutation({
     mutationFn: async (pass: Omit<VehiclePass, 'id'>) => {
       const { data, error } = await supabase
-        .from('vehicle_passes')
+        .from('orders')
         .insert({
           vehicle_type: pass.vehicleType,
           license_plate: pass.licensePlate,
@@ -132,7 +132,7 @@ export function useUpdateAccessPointStatus() {
   return useMutation({
     mutationFn: async ({ id, status }: { id: string; status: AccessPoint['status'] }) => {
       const { data, error } = await supabase
-        .from('access_points')
+        .from('legend_places')
         .update({ status })
         .eq('id', id)
         .select()

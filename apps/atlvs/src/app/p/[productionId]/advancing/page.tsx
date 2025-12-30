@@ -7,21 +7,11 @@
  */
 
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { ClipboardCheck, Plus, CheckCircle, Clock, AlertCircle, List, Send } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  ProgressBar,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, ProgressBar, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface AdvanceItem {
   id: string;
@@ -50,7 +40,6 @@ const STATUS_CONFIG = {
 
 export default function ProductionAdvancingPage() {
   const params = useParams();
-  const router = useRouter();
   const productionId = params.productionId as string;
   const [selectedCategory, setSelectedCategory] = useState("All");
 

@@ -4,8 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, BarChart3 } from 'lucide-react';
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body, useNotifications,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body, useNotifications} from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useBudgets } from '@/hooks/useBudgets';
 import {
@@ -132,11 +131,9 @@ export default function BudgetsPage() {
 
   });
 
-
   // Import templates for field mapping
 
   const importTemplates = getImportTemplates('budgets');
-
 
   return (
     <>

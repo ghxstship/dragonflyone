@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { MapPin, Calendar, Users, BarChart3, Check, Building, FileText } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const FEATURES: FeatureItem[] = [
   { id: "booking", icon: <Calendar className="size-8" />, title: "Venue Booking", description: "Manage venue availability and bookings with an intuitive calendar system." },

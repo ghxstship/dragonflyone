@@ -7,27 +7,9 @@
 
 import { useRouter } from 'next/navigation';
 import { 
-  Package, 
-  FileText,
-  DollarSign,
-  TrendingUp,
-  Clock,
-  CheckCircle,
-  AlertCircle,
-  ChevronRight,
-  ShoppingCart,
-} from 'lucide-react';
+  Package, FileText, DollarSign, TrendingUp, Clock, CheckCircle, AlertCircle, ChevronRight, ShoppingCart} from 'lucide-react';
 import {
-  DetailPage,
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Stack,
-  StatCard,
-  Text,
-} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Button, Card, Grid, Stack, StatCard, Text} from '@ghxstship/ui';
 import { useQuery } from '@tanstack/react-query';
 
 interface VendorStats {

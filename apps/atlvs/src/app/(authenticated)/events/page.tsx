@@ -7,19 +7,7 @@ import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { useEvents, useEventStats, useCreateEvent, useDeleteEvent } from '../../../hooks/useEvents';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  ListPage,
-  Badge,
-  RecordFormModal,
-  DetailDrawer,
-  ConfirmDialog,
-  Grid,
-  Body,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-  type FormFieldConfig,
-  type DetailSection,
-} from '@ghxstship/ui';
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body} from '@ghxstship/ui';
 
 // Roles that can create/edit/delete events
 

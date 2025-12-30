@@ -99,7 +99,7 @@ export class DocumentManager {
 
       // Create document record
       const { data, error } = await this.supabase
-        .from('documents')
+        .from('legend_documents')
         .insert({
           name: metadata.name,
           description: metadata.description,
@@ -164,7 +164,7 @@ export class DocumentManager {
     try {
       // Get existing document
       const { data: existingDoc, error: fetchError } = await this.supabase
-        .from('documents')
+        .from('legend_documents')
         .select('*')
         .eq('id', documentId)
         .single();
@@ -191,7 +191,7 @@ export class DocumentManager {
       }
 
       // Archive old version
-      await this.supabase.from('document_versions').insert({
+      await this.supabase.from('legend_documents').insert({
         document_id: documentId,
         version: existingDoc.version,
         file_path: existingDoc.file_path,
@@ -202,7 +202,7 @@ export class DocumentManager {
 
       // Update document with new version
       const { data, error } = await this.supabase
-        .from('documents')
+        .from('legend_documents')
         .update({
           file_path: filePath,
           file_size: file.size,
@@ -255,7 +255,7 @@ export class DocumentManager {
     documentId: string
   ): Promise<{ document?: Document; downloadUrl?: string; error?: string }> {
     const { data: doc, error } = await this.supabase
-      .from('documents')
+      .from('legend_documents')
       .select('*')
       .eq('id', documentId)
       .single();
@@ -302,7 +302,7 @@ export class DocumentManager {
    */
   async getEntityDocuments(entityType: string, entityId: string): Promise<Document[]> {
     const { data, error } = await this.supabase
-      .from('documents')
+      .from('legend_documents')
       .select('*')
       .eq('entity_type', entityType)
       .eq('entity_id', entityId)
@@ -338,7 +338,7 @@ export class DocumentManager {
    */
   async getVersionHistory(documentId: string): Promise<DocumentVersion[]> {
     const { data, error } = await this.supabase
-      .from('document_versions')
+      .from('legend_documents')
       .select('*')
       .eq('document_id', documentId)
       .order('version', { ascending: false });
@@ -368,7 +368,7 @@ export class DocumentManager {
   ): Promise<{ success: boolean; error?: string }> {
     try {
       const { error } = await this.supabase
-        .from('documents')
+        .from('legend_documents')
         .update(updates)
         .eq('id', documentId);
 
@@ -390,7 +390,7 @@ export class DocumentManager {
     try {
       // Get document
       const { data: doc, error: fetchError } = await this.supabase
-        .from('documents')
+        .from('legend_documents')
         .select('file_path, uploaded_by')
         .eq('id', documentId)
         .single();
@@ -409,7 +409,7 @@ export class DocumentManager {
 
       // Delete document record (versions cascade delete)
       const { error } = await this.supabase
-        .from('documents')
+        .from('legend_documents')
         .delete()
         .eq('id', documentId);
 
@@ -432,7 +432,7 @@ export class DocumentManager {
     }
   ): Promise<Document[]> {
     let dbQuery = this.supabase
-      .from('documents')
+      .from('legend_documents')
       .select('*')
       .ilike('name', `%${query}%`);
 
@@ -481,7 +481,7 @@ export class DocumentManager {
    */
   async getStorageUsage(userId: string): Promise<{ totalSize: number; documentCount: number }> {
     const { data, error } = await this.supabase
-      .from('documents')
+      .from('legend_documents')
       .select('file_size')
       .eq('uploaded_by', userId);
 

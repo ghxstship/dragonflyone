@@ -9,20 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Shield, Lock, Key, Eye, CheckCircle, FileText, Download, Server, Database, Globe } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  Badge,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge} from "@ghxstship/ui";
 
 const SECURITY_FEATURES: FeatureItem[] = [
   { id: "encryption", icon: <Lock className="size-8" />, title: "End-to-End Encryption", description: "All data encrypted at rest using AES-256 and in transit using TLS 1.3" },

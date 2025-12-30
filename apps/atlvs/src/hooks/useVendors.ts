@@ -2,42 +2,94 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import type { Json } from '@ghxstship/config/supabase-types';
 
+// Legend status enum type
+type LegendStatus = 'pending' | 'active' | 'draft' | 'archived' | 'inactive';
+
+// Vendor interface matching 3NF schema (legend_organizations + orgs_profile_vendor)
 export interface Vendor {
   id: string;
+  organization_id: string;
   name: string;
-  email: string;
-  phone?: string;
-  address?: string;
-  category: string;
-  status: 'active' | 'inactive' | 'pending';
-  payment_terms?: string;
-  tax_id?: string;
-  contact_name?: string;
-  rating?: number;
-  total_orders?: number;
-  total_spend?: number;
+  legal_name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  website?: string | null;
+  tax_id?: string | null;
+  industry?: string | null;
+  status: LegendStatus | null;
+  tags?: string[] | null;
+  logo_url?: string | null;
+  metadata?: Json | null;
+  notes?: string | null;
   created_at: string;
   updated_at: string;
+  // Vendor profile fields
+  vendor_type?: string | null;
+  payment_terms?: string | null;
+  credit_limit?: number | null;
+  currency?: string | null;
+  tax_exempt?: boolean | null;
+  performance_rating?: number | null;
+  is_approved?: boolean | null;
+  total_orders?: number | null;
+  total_spend?: number | null;
 }
 
-// Fetch all vendors
-export function useVendors(filters?: { status?: string; category?: string }) {
+// Transform database response to Vendor interface
+function transformVendor(data: Record<string, unknown>): Vendor {
+  const profile = data.orgs_profile_vendor as Record<string, unknown> | null;
+  return {
+    id: data.id as string,
+    organization_id: data.organization_id as string,
+    name: data.name as string,
+    legal_name: data.legal_name as string | null,
+    email: data.email as string | null,
+    phone: data.phone as string | null,
+    website: data.website as string | null,
+    tax_id: data.tax_id as string | null,
+    industry: data.industry as string | null,
+    status: data.status as LegendStatus | null,
+    tags: data.tags as string[] | null,
+    logo_url: data.logo_url as string | null,
+    metadata: data.metadata as Json | null,
+    notes: data.notes as string | null,
+    created_at: data.created_at as string,
+    updated_at: data.updated_at as string,
+    vendor_type: profile?.vendor_type as string | null,
+    payment_terms: profile?.payment_terms as string | null,
+    credit_limit: profile?.credit_limit as number | null,
+    currency: profile?.currency as string | null,
+    tax_exempt: profile?.tax_exempt as boolean | null,
+    performance_rating: profile?.performance_rating as number | null,
+    is_approved: profile?.is_approved as boolean | null,
+    total_orders: profile?.total_orders as number | null,
+    total_spend: profile?.total_spend as number | null,
+  };
+}
+
+// Fetch all vendors (3NF: legend_organizations with org_type='vendor')
+export function useVendors(filters?: { status?: LegendStatus; category?: string }) {
   return useQuery({
     queryKey: ['vendors', filters],
     queryFn: async () => {
-      let query = supabase.from('vendors').select('*').order('name', { ascending: true });
+      let query = supabase
+        .from('legend_organizations')
+        .select('*, orgs_profile_vendor!org_id(*)')
+        .eq('org_type', 'vendor')
+        .order('name', { ascending: true });
 
       if (filters?.status) {
         query = query.eq('status', filters.status);
       }
       if (filters?.category) {
-        query = query.eq('category', filters.category);
+        query = query.eq('industry', filters.category);
       }
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as unknown as unknown as Vendor[];
+      return (data || []).map(transformVendor);
     },
   });
 }
@@ -48,32 +100,63 @@ export function useVendor(id: string) {
     queryKey: ['vendors', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('vendors')
-        .select('*')
+        .from('legend_organizations')
+        .select('*, orgs_profile_vendor!org_id(*)')
         .eq('id', id)
+        .eq('org_type', 'vendor')
         .single();
 
       if (error) throw error;
-      return data as unknown as unknown as Vendor;
+      return transformVendor(data as Record<string, unknown>);
     },
     enabled: !!id,
   });
 }
 
-// Create vendor
+// Create vendor (inserts into legend_organizations + orgs_profile_vendor)
 export function useCreateVendor() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (vendor: Omit<Vendor, 'id' | 'created_at' | 'updated_at'>) => {
-      const { data, error } = await supabase
-        .from('vendors')
-        .insert(vendor)
+      // Insert into legend_organizations
+      const { data: org, error: orgError } = await supabase
+        .from('legend_organizations')
+        .insert({
+          organization_id: vendor.organization_id,
+          name: vendor.name,
+          legal_name: vendor.legal_name ?? null,
+          email: vendor.email ?? null,
+          phone: vendor.phone ?? null,
+          website: vendor.website ?? null,
+          tax_id: vendor.tax_id ?? null,
+          industry: vendor.industry ?? null,
+          status: vendor.status ?? 'active',
+          tags: vendor.tags ?? null,
+          logo_url: vendor.logo_url ?? null,
+          metadata: vendor.metadata ?? null,
+          notes: vendor.notes ?? null,
+          org_type: 'vendor',
+        })
         .select()
         .single();
 
-      if (error) throw error;
-      return data;
+      if (orgError) throw orgError;
+
+      // Insert vendor profile
+      const { error: profileError } = await supabase
+        .from('orgs_profile_vendor')
+        .insert({
+          org_id: org.id,
+          vendor_type: vendor.vendor_type ?? null,
+          payment_terms: vendor.payment_terms ?? null,
+          credit_limit: vendor.credit_limit ?? null,
+          currency: vendor.currency ?? 'USD',
+          tax_exempt: vendor.tax_exempt ?? false,
+        });
+
+      if (profileError) throw profileError;
+      return org;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['vendors'] });
@@ -87,14 +170,46 @@ export function useUpdateVendor() {
 
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Vendor> & { id: string }) => {
+      // Build update object with only defined fields
+      const orgUpdates: Record<string, unknown> = {};
+      if (updates.name !== undefined) orgUpdates.name = updates.name;
+      if (updates.legal_name !== undefined) orgUpdates.legal_name = updates.legal_name;
+      if (updates.email !== undefined) orgUpdates.email = updates.email;
+      if (updates.phone !== undefined) orgUpdates.phone = updates.phone;
+      if (updates.website !== undefined) orgUpdates.website = updates.website;
+      if (updates.tax_id !== undefined) orgUpdates.tax_id = updates.tax_id;
+      if (updates.industry !== undefined) orgUpdates.industry = updates.industry;
+      if (updates.status !== undefined) orgUpdates.status = updates.status;
+      if (updates.tags !== undefined) orgUpdates.tags = updates.tags;
+      if (updates.logo_url !== undefined) orgUpdates.logo_url = updates.logo_url;
+      if (updates.metadata !== undefined) orgUpdates.metadata = updates.metadata;
+      if (updates.notes !== undefined) orgUpdates.notes = updates.notes;
+
+      // Update legend_organizations
       const { data, error } = await supabase
-        .from('vendors')
-        .update(updates)
+        .from('legend_organizations')
+        .update(orgUpdates)
         .eq('id', id)
         .select()
         .single();
 
       if (error) throw error;
+
+      // Update vendor profile if profile fields provided
+      const profileUpdates: Record<string, unknown> = {};
+      if (updates.vendor_type !== undefined) profileUpdates.vendor_type = updates.vendor_type;
+      if (updates.payment_terms !== undefined) profileUpdates.payment_terms = updates.payment_terms;
+      if (updates.credit_limit !== undefined) profileUpdates.credit_limit = updates.credit_limit;
+      if (updates.currency !== undefined) profileUpdates.currency = updates.currency;
+      if (updates.tax_exempt !== undefined) profileUpdates.tax_exempt = updates.tax_exempt;
+
+      if (Object.keys(profileUpdates).length > 0) {
+        await supabase
+          .from('orgs_profile_vendor')
+          .update(profileUpdates)
+          .eq('org_id', id);
+      }
+
       return data;
     },
     onSuccess: () => {
@@ -103,13 +218,17 @@ export function useUpdateVendor() {
   });
 }
 
-// Delete vendor
+// Delete vendor (cascades to profile via FK)
 export function useDeleteVendor() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('vendors').delete().eq('id', id);
+      const { error } = await supabase
+        .from('legend_organizations')
+        .delete()
+        .eq('id', id)
+        .eq('org_type', 'vendor');
 
       if (error) throw error;
     },

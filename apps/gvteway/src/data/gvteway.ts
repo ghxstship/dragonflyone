@@ -51,14 +51,18 @@ export const gvtewayMembershipNavigation = [
 ];
 
 // Sidebar navigation for authenticated users
-// Optimized for UX: Consumer-focused journey with clear primary actions
+// Optimized for UX: 7 primary sections, consumer-focused journey with clear primary actions
 // Role-based filtering: items with allowedRoles are only shown to users with matching roles
+// Updated 2025-12-29: Merged duplicate Account sections, added missing routes, improved information architecture
 export const gvtewaySidebarNavigation = [
   {
     section: "Home",
     icon: "LayoutDashboard",
     items: [
       { label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard", primary: true },
+      { label: "Notifications", href: "/notifications", icon: "Bell" },
+      { label: "Messages", href: "/messages", icon: "Mail" },
+      { label: "Chat", href: "/chat", icon: "MessageCircle" },
     ],
   },
   {
@@ -67,22 +71,17 @@ export const gvtewaySidebarNavigation = [
     items: [
       { label: "Browse Events", href: "/events", icon: "Calendar", primary: true },
       { label: "Search", href: "/search", icon: "Search" },
+      { label: "Discover", href: "/discover", icon: "Sparkles" },
       { label: "Artists", href: "/artists", icon: "Music" },
       { label: "Venues", href: "/venues", icon: "MapPin" },
-      { label: "Near Me", href: "/nearby", icon: "Navigation" },
+      { label: "Calendar", href: "/calendar", icon: "CalendarDays" },
     ],
     subsections: [
       {
-        label: "Explore More",
+        label: "Explore",
         items: [
           { label: "Browse All", href: "/browse", icon: "Compass" },
-          { label: "Map View", href: "/map", icon: "Map" },
-          { label: "New Events", href: "/new-events", icon: "Sparkles" },
-          { label: "Tours", href: "/tours", icon: "Route" },
-          { label: "Destinations", href: "/destinations", icon: "Plane" },
-          { label: "Packages", href: "/packages", icon: "Package" },
-          { label: "Discovery Quiz", href: "/discover/quiz", icon: "HelpCircle" },
-          { label: "Universal Search", href: "/search/universal", icon: "Globe" },
+          { label: "Watch Parties", href: "/watch-parties", icon: "Video" },
         ],
       },
     ],
@@ -92,55 +91,8 @@ export const gvtewaySidebarNavigation = [
     icon: "Ticket",
     items: [
       { label: "All Tickets", href: "/tickets", icon: "Ticket", primary: true },
-      { label: "My Events", href: "/my-events", icon: "CalendarCheck" },
       { label: "Orders", href: "/orders", icon: "ShoppingBag" },
-      { label: "Calendar", href: "/calendar", icon: "Calendar" },
-    ],
-    subsections: [
-      {
-        label: "Ticket Actions",
-        items: [
-          { label: "Transfer Tickets", href: "/tickets/transfer", icon: "ArrowRightLeft" },
-          { label: "Gift Tickets", href: "/tickets/gift", icon: "Gift" },
-          { label: "Group Tickets", href: "/tickets/groups", icon: "Users" },
-          { label: "Track Delivery", href: "/tickets/tracking", icon: "Truck" },
-          { label: "Print at Home", href: "/tickets/print-at-home", icon: "Printer" },
-          { label: "Resale", href: "/resale", icon: "RefreshCw" },
-          { label: "Groups", href: "/groups", icon: "Users" },
-        ],
-      },
-      {
-        label: "History",
-        items: [
-          { label: "Order History", href: "/orders/history", icon: "History" },
-          { label: "Urgency Alerts", href: "/tickets/urgency", icon: "Clock" },
-        ],
-      },
-      {
-        label: "Protection",
-        items: [
-          { label: "Anti-Scalping", href: "/tickets/anti-scalping", icon: "ShieldCheck" },
-        ],
-      },
-    ],
-  },
-  {
-    section: "Account",
-    icon: "User",
-    items: [
-      { label: "My Account", href: "/account", icon: "User", primary: true },
-      { label: "Profile", href: "/account/profile", icon: "UserCircle" },
-      { label: "My Tickets", href: "/account/tickets", icon: "Ticket" },
-      { label: "Orders", href: "/account/orders", icon: "ShoppingBag" },
-    ],
-    subsections: [
-      {
-        label: "Financials",
-        items: [
-          { label: "My Refunds", href: "/account/my-refunds", icon: "RefreshCw" },
-          { label: "My Transfers", href: "/account/my-transfers", icon: "ArrowRightLeft" },
-        ],
-      },
+      { label: "Groups", href: "/groups", icon: "Users" },
     ],
   },
   {
@@ -150,48 +102,6 @@ export const gvtewaySidebarNavigation = [
       { label: "Community", href: "/community", icon: "Users", primary: true },
       { label: "Friends", href: "/friends", icon: "Users" },
       { label: "Reviews", href: "/reviews", icon: "Star" },
-      { label: "Social", href: "/social", icon: "Share2" },
-    ],
-    subsections: [
-      {
-        label: "Connect",
-        items: [
-          { label: "Forums", href: "/forums", icon: "MessageCircle" },
-          { label: "Watch Parties", href: "/watch-parties", icon: "Video" },
-          { label: "Q&A Sessions", href: "/qa-sessions", icon: "MessageSquare" },
-          { label: "Fan Clubs", href: "/fan-clubs", icon: "Heart" },
-          { label: "Match Fans", href: "/match", icon: "Sparkles" },
-          { label: "Activity Feed", href: "/activity", icon: "Activity" },
-        ],
-      },
-      {
-        label: "Content",
-        items: [
-          { label: "Photos", href: "/photos", icon: "Image" },
-          { label: "User Content", href: "/ugc", icon: "Camera" },
-          { label: "Exclusive Content", href: "/content", icon: "FileText", allowedRoles: [GVTEWAY_ROLES.MEMBER_PREMIUM, GVTEWAY_ROLES.VIP] },
-        ],
-      },
-    ],
-  },
-  {
-    section: "Rewards",
-    icon: "Gift",
-    items: [
-      { label: "Rewards", href: "/rewards", icon: "Gift", primary: true },
-      { label: "Membership", href: "/membership", icon: "Crown" },
-      { label: "Referrals", href: "/referrals", icon: "UserPlus" },
-      { label: "Deals", href: "/deals", icon: "Percent" },
-    ],
-    subsections: [
-      {
-        label: "Benefits",
-        allowedRoles: [GVTEWAY_ROLES.MEMBER_PREMIUM, GVTEWAY_ROLES.VIP],
-        items: [
-          { label: "Member Benefits", href: "/membership/benefits", icon: "Gift" },
-          { label: "Gift Cards", href: "/gift-cards", icon: "CreditCard" },
-        ],
-      },
     ],
   },
   {
@@ -201,16 +111,9 @@ export const gvtewaySidebarNavigation = [
       { label: "Merch Store", href: "/merch", icon: "ShoppingCart", primary: true },
       { label: "Cart", href: "/cart", icon: "ShoppingCart" },
       { label: "Bundles", href: "/merch/bundles", icon: "Package" },
-    ],
-    subsections: [
-      {
-        label: "Checkout",
-        items: [
-          { label: "Checkout", href: "/checkout", icon: "CreditCard" },
-          { label: "Currency", href: "/checkout/currency", icon: "DollarSign" },
-          { label: "Shoppable Posts", href: "/shop/shoppable", icon: "ShoppingBag" },
-        ],
-      },
+      { label: "Gift Cards", href: "/gift-cards", icon: "CreditCard" },
+      { label: "Checkout", href: "/checkout", icon: "CreditCard" },
+      { label: "Wishlist", href: "/wishlist", icon: "Heart" },
     ],
   },
   {
@@ -218,39 +121,18 @@ export const gvtewaySidebarNavigation = [
     icon: "User",
     items: [
       { label: "Profile", href: "/profile", icon: "User", primary: true },
+      { label: "My Account", href: "/account", icon: "UserCircle" },
       { label: "Wallet", href: "/wallet", icon: "Wallet" },
-      { label: "Wishlist", href: "/wishlist", icon: "Heart" },
-      { label: "Favorites", href: "/favorites", icon: "Heart" },
+      { label: "Rewards", href: "/rewards", icon: "Gift" },
+      { label: "Apply", href: "/apply", icon: "FileText" },
     ],
     subsections: [
       {
-        label: "Profile",
+        label: "Account Details",
         items: [
-          { label: "Badges", href: "/profile/badges", icon: "Award" },
-          { label: "Reputation", href: "/profile/reputation", icon: "Star" },
-          { label: "Saved Searches", href: "/saved-searches", icon: "Bookmark" },
-          { label: "Price Alerts", href: "/price-alerts", icon: "Bell" },
-          { label: "Offline Wallet", href: "/wallet/offline", icon: "WifiOff" },
-        ],
-      },
-    ],
-  },
-  {
-    section: "Help",
-    icon: "HelpCircle",
-    items: [
-      { label: "Help Center", href: "/help", icon: "HelpCircle", primary: true },
-      { label: "Support Chat", href: "/support/chat", icon: "MessageCircle" },
-      { label: "Accessibility", href: "/accessibility", icon: "Accessibility" },
-    ],
-    subsections: [
-      {
-        label: "Support",
-        items: [
-          { label: "Lost & Found", href: "/lost-found", icon: "Search" },
-          { label: "Directions", href: "/directions", icon: "Navigation" },
-          { label: "Messages", href: "/messages", icon: "Mail" },
-          { label: "Notifications", href: "/notifications", icon: "Bell" },
+          { label: "My Tickets", href: "/account/tickets", icon: "Ticket" },
+          { label: "My Orders", href: "/account/orders", icon: "ShoppingBag" },
+          { label: "My Profile", href: "/account/profile", icon: "UserCircle" },
         ],
       },
       {
@@ -259,7 +141,7 @@ export const gvtewaySidebarNavigation = [
           { label: "Settings", href: "/settings", icon: "Settings" },
           { label: "Privacy", href: "/settings/privacy", icon: "Lock" },
           { label: "Language", href: "/settings/language", icon: "Globe" },
-          { label: "Notification Preferences", href: "/settings/notifications", icon: "Bell" },
+          { label: "Notifications", href: "/settings/notifications", icon: "Bell" },
           { label: "Sessions", href: "/settings/sessions", icon: "Monitor" },
           { label: "Connected Apps", href: "/settings/connected-apps", icon: "Plug" },
         ],
@@ -273,6 +155,14 @@ export const gvtewaySidebarNavigation = [
           { label: "Webhooks", href: "/settings/webhooks", icon: "Webhook" },
         ],
       },
+    ],
+  },
+  {
+    section: "Help",
+    icon: "HelpCircle",
+    items: [
+      { label: "Help Center", href: "/help", icon: "HelpCircle", primary: true },
+      { label: "Support Chat", href: "/support/chat", icon: "MessageCircle" },
     ],
   },
 ];

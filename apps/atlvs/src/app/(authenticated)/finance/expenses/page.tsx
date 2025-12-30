@@ -9,17 +9,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, CheckCircle, XCircle } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Badge,
-  Body,
-  Box,
-  ListPage,
-  Stack,
-  Text,
-  useNotifications,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-} from '@ghxstship/ui';
+  Badge, Body, Box, ListPage, Stack, Text, useNotifications} from '@ghxstship/ui';
 import { useExpenses, useDeleteExpense, type Expense } from '@/hooks/useExpenses';
 
 const STATUS_COLORS: Record<Expense['status'], 'success' | 'warning' | 'error' | 'info' | 'outline'> = {

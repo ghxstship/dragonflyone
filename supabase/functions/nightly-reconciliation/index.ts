@@ -141,7 +141,7 @@ serve(async (req) => {
     const resolved = discrepancies.length === 0;
 
     // Log reconciliation result
-    await supabase.from('reconciliation_logs').insert({
+    await supabase.from('audit_logs').insert({
       period_start: startDate.toISOString(),
       period_end: endDate.toISOString(),
       discrepancies: discrepancies,
@@ -155,7 +155,7 @@ serve(async (req) => {
       console.log(`Found ${discrepancies.length} discrepancies - alerting finance team`);
       
       // Insert notification for finance admins
-      await supabase.from('admin_notifications').insert({
+      await supabase.from('notifications').insert({
         type: 'reconciliation_alert',
         title: 'Daily Reconciliation Discrepancies Found',
         message: `${discrepancies.length} discrepancy(ies) found in daily reconciliation for ${startDate.toISOString().split('T')[0]}`,

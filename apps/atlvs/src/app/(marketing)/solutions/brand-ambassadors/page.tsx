@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Users, MapPin, Calendar, BarChart3, Check, Camera, DollarSign } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const FEATURES: FeatureItem[] = [
   { id: "scheduling", icon: <Calendar className="size-8" />, title: "Event Scheduling", description: "Manage your activation schedule with availability and shift preferences." },

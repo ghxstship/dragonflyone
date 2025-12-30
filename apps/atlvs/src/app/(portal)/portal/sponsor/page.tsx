@@ -6,20 +6,10 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useRouter } from "next/navigation";
-import { Award, BarChart3, DollarSign, Eye, FileText, List, Settings } from "lucide-react";
+import { Award, BarChart3, DollarSign, Eye, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Sponsorship {
   id: string;
@@ -43,7 +33,6 @@ const STATUS_CONFIG = {
 };
 
 export default function SponsorPortalPage() {
-  const router = useRouter();
 
   const { data: sponsorships = [], isLoading, error, refetch } = useQuery({
     queryKey: ["sponsor-sponsorships"],

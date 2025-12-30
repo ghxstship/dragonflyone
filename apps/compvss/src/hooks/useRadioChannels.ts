@@ -35,7 +35,7 @@ export function useRadioChannels(productionId?: string) {
     queryKey: ['radio-channels', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('radio_channels')
+        .from('dashboard_configs')
         .select('*')
         .order('priority', { ascending: true });
 
@@ -56,7 +56,7 @@ export function useRadioMessages(channelId?: string) {
     queryKey: ['radio-messages', channelId],
     queryFn: async () => {
       let query = supabase
-        .from('radio_messages')
+        .from('watch_party_messages')
         .select('*')
         .order('timestamp', { ascending: false })
         .limit(50);
@@ -79,7 +79,7 @@ export function useSendRadioMessage() {
   return useMutation({
     mutationFn: async (message: Omit<RadioMessage, 'id' | 'timestamp'>) => {
       const { data, error } = await supabase
-        .from('radio_messages')
+        .from('watch_party_messages')
         .insert({
           channel_id: message.channel_id,
           channel: message.channel,

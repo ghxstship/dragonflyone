@@ -9,30 +9,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Smartphone,
-  ArrowUpFromLine,
-  ArrowDownToLine,
-  ClipboardList,
-  ArrowRightLeft,
-  Loader2,
-  QrCode,
-  History,
-} from "lucide-react";
+  Smartphone, ArrowUpFromLine, ArrowDownToLine, ClipboardList, ArrowRightLeft, Loader2, QrCode, History} from "lucide-react";
 import {
-  Body,
-  Button,
-  Card,
-  Input,
-  Select,
-  Grid,
-  Badge,
-  Modal,
-  StatCard,
-  useNotifications,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Body, Button, Card, Input, Select, Grid, Badge, Modal, StatCard, useNotifications, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 import {
   useAssetScan,
   useAssetLookup,

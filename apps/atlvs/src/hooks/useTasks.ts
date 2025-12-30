@@ -79,7 +79,7 @@ export function useTasks(filters?: TaskFilters) {
     queryKey: ['schedule_tasks', filters],
     queryFn: async () => {
       let query = supabase
-        .from('schedule_tasks')
+        .from('projects')
         .select(`
           *,
           assignee:contacts!assigned_to(id, first_name, last_name),
@@ -119,7 +119,7 @@ export function useTask(id: string) {
     queryKey: ['schedule_tasks', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('schedule_tasks')
+        .from('projects')
         .select(`
           *,
           assignee:contacts!assigned_to(id, first_name, last_name),
@@ -141,7 +141,7 @@ export function useContingencies(filters?: ContingencyFilters) {
     queryKey: ['contingencies', filters],
     queryFn: async () => {
       let query = supabase
-        .from('contingencies')
+        .from('projects')
         .select(`
           *,
           owner:contacts!owner_id(id, first_name, last_name),
@@ -175,7 +175,7 @@ export function useContingency(id: string) {
     queryKey: ['contingencies', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('contingencies')
+        .from('projects')
         .select(`
           *,
           owner:contacts!owner_id(id, first_name, last_name),
@@ -198,7 +198,7 @@ export function useCreateTask() {
   return useMutation({
     mutationFn: async (task: Omit<ScheduleTask, 'id' | 'created_at' | 'updated_at' | 'assignee' | 'show'>) => {
       const { data, error } = await supabase
-        .from('schedule_tasks')
+        .from('projects')
         .insert(task)
         .select()
         .single();
@@ -219,7 +219,7 @@ export function useUpdateTask() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<ScheduleTask> & { id: string }) => {
       const { data, error } = await supabase
-        .from('schedule_tasks')
+        .from('projects')
         .update(updates)
         .eq('id', id)
         .select()
@@ -242,7 +242,7 @@ export function useCompleteTask() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('schedule_tasks')
+        .from('projects')
         .update({
           status: 'completed',
           completed_at: new Date().toISOString(),
@@ -268,7 +268,7 @@ export function useCreateContingency() {
   return useMutation({
     mutationFn: async (contingency: Omit<Contingency, 'id' | 'created_at' | 'updated_at' | 'owner' | 'backup_owner'>) => {
       const { data, error } = await supabase
-        .from('contingencies')
+        .from('projects')
         .insert(contingency)
         .select()
         .single();
@@ -289,7 +289,7 @@ export function useUpdateContingency() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Contingency> & { id: string }) => {
       const { data, error } = await supabase
-        .from('contingencies')
+        .from('projects')
         .update(updates)
         .eq('id', id)
         .select()
@@ -312,7 +312,7 @@ export function useTriggerContingency() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('contingencies')
+        .from('projects')
         .update({
           status: 'triggered',
           triggered_at: new Date().toISOString(),
@@ -338,7 +338,7 @@ export function useResolveContingency() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('contingencies')
+        .from('projects')
         .update({
           status: 'resolved',
           resolved_at: new Date().toISOString(),
@@ -362,7 +362,7 @@ export function useTaskStats(productionId?: string) {
   return useQuery({
     queryKey: ['schedule_tasks', 'stats', productionId],
     queryFn: async () => {
-      let query = supabase.from('schedule_tasks').select('status, priority');
+      let query = supabase.from('projects').select('status, priority');
       
       if (productionId) {
         query = query.eq('production_id', productionId);
@@ -390,7 +390,7 @@ export function useContingencyStats(productionId?: string) {
   return useQuery({
     queryKey: ['contingencies', 'stats', productionId],
     queryFn: async () => {
-      let query = supabase.from('contingencies').select('status, severity, category');
+      let query = supabase.from('projects').select('status, severity, category');
       
       if (productionId) {
         query = query.eq('production_id', productionId);
@@ -438,7 +438,7 @@ export function useTaskTemplates() {
     queryKey: ['task_templates'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('task_templates')
+        .from('legend_documents')
         .select('*')
         .order('name', { ascending: true });
 
@@ -455,7 +455,7 @@ export function useCreateTaskTemplate() {
   return useMutation({
     mutationFn: async (template: Omit<TaskTemplate, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('task_templates')
+        .from('legend_documents')
         .insert(template)
         .select()
         .single();
@@ -476,7 +476,7 @@ export function useUpdateTaskTemplate() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<TaskTemplate> & { id: string }) => {
       const { data, error } = await supabase
-        .from('task_templates')
+        .from('legend_documents')
         .update(updates)
         .eq('id', id)
         .select()
@@ -499,7 +499,7 @@ export function useDeleteTaskTemplate() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('task_templates')
+        .from('legend_documents')
         .delete()
         .eq('id', id);
 

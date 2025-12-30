@@ -26,7 +26,7 @@ export function useSyncJobs() {
     queryKey: ['sync-jobs'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('sync_jobs')
+        .from('audit_logs')
         .select('*')
         .order('created_at', { ascending: false })
         .limit(20);

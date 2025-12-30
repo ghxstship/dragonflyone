@@ -26,7 +26,7 @@ export const useOKRs = (filters?: { quarter?: string; owner?: string; type?: str
     queryKey: ['okrs', filters],
     queryFn: async () => {
       let query = supabase
-        .from('okrs')
+        .from('kpi_reports')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -53,7 +53,7 @@ export const useCreateOKR = () => {
   return useMutation({
     mutationFn: async (okr: Omit<OKR, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('okrs')
+        .from('kpi_reports')
         .insert(okr)
         .select()
         .single();
@@ -72,7 +72,7 @@ export const useUpdateOKR = () => {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<OKR> & { id: string }) => {
       const { data, error } = await supabase
-        .from('okrs')
+        .from('kpi_reports')
         .update(updates)
         .eq('id', id)
         .select()
@@ -92,7 +92,7 @@ export const useDeleteOKR = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('okrs')
+        .from('kpi_reports')
         .delete()
         .eq('id', id)
         .select()

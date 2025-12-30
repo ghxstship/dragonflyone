@@ -22,7 +22,7 @@ export const useSafetyIncidents = (filters?: { status?: IncidentStatus; severity
     queryKey: ['safety-incidents', filters],
     queryFn: async () => {
       let query = supabase
-        .from('safety_incidents')
+        .from('audit_logs')
         .select('*')
         .order('incident_date', { ascending: false });
 
@@ -45,7 +45,7 @@ export const useCrewCertifications = (filters?: { status?: CertificationStatus }
     queryKey: ['crew-certifications', filters],
     queryFn: async () => {
       let query = supabase
-        .from('crew_certifications')
+        .from('workforce_certifications')
         .select('*')
         .order('expiration_date');
 
@@ -66,7 +66,7 @@ export const useReportSafetyIncident = () => {
   return useMutation({
     mutationFn: async (incident: SafetyIncidentInsert) => {
       const { data, error } = await supabase
-        .from('safety_incidents')
+        .from('audit_logs')
         .insert(incident)
         .select()
         .single();
@@ -85,7 +85,7 @@ export const useUpdateSafetyIncident = () => {
   return useMutation({
     mutationFn: async ({ id, ...updates }: SafetyIncidentUpdate & { id: string }) => {
       const { data, error } = await supabase
-        .from('safety_incidents')
+        .from('audit_logs')
         .update(updates)
         .eq('id', id)
         .select()
@@ -105,7 +105,7 @@ export const useDeleteSafetyIncident = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('safety_incidents')
+        .from('audit_logs')
         .delete()
         .eq('id', id);
       if (error) throw error;
@@ -122,7 +122,7 @@ export const useUpdateCrewCertification = () => {
   return useMutation({
     mutationFn: async ({ id, ...updates }: CrewCertificationUpdate & { id: string }) => {
       const { data, error } = await supabase
-        .from('crew_certifications')
+        .from('workforce_certifications')
         .update(updates)
         .eq('id', id)
         .select()
@@ -142,7 +142,7 @@ export const useDeleteCrewCertification = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('crew_certifications')
+        .from('workforce_certifications')
         .delete()
         .eq('id', id);
       if (error) throw error;

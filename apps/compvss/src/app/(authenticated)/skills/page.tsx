@@ -5,13 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCrewSkills } from "@/hooks/useSkills";
 import { useCrew } from "@/hooks/useCrew";
 import {
-  ListPage,
-  Badge,
-  Stack,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-} from "@ghxstship/ui";
+  ListPage, Badge, Stack} from "@ghxstship/ui";
 import { getSubcategoryNames, createExportHandler } from "@ghxstship/config";
 
 const skillCategories = getSubcategoryNames('TECH');
@@ -45,7 +39,6 @@ const getLevelVariant = (level: string): "solid" | "outline" | "ghost" => {
     default: return "ghost";
   }
 };
-
 
 export default function SkillsPage() {
   const router = useRouter();

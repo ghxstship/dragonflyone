@@ -8,12 +8,7 @@
 
 import { useRouter } from "next/navigation";
 import {
-  Button,
-  Card,
-  Grid,
-  StatCard,
-  DetailPage,
-} from "@ghxstship/ui";
+  Button, Card, Grid, StatCard, DetailPage} from "@ghxstship/ui";
 import { AdvanceRequestsList } from "@/components/advancing/advance-requests-list";
 import { useQuery } from "@tanstack/react-query";
 import type { ProductionAdvance } from "@ghxstship/config/types/advancing";

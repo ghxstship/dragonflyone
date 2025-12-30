@@ -133,7 +133,7 @@ export async function getOrganizationSSOConfig(
   const supabase = createClient(supabaseUrl, supabaseKey);
   
   const { data, error } = await supabase
-    .from('organization_sso_configs')
+    .from('legend_organizations')
     .select('*')
     .eq('organization_id', organizationId)
     .eq('enabled', true)
@@ -166,7 +166,7 @@ export async function checkDomainSSO(
   const supabase = createClient(supabaseUrl, supabaseKey);
   
   const { data, error } = await supabase
-    .from('organization_sso_configs')
+    .from('legend_organizations')
     .select('*, organizations!inner(domain)')
     .eq('organizations.domain', domain)
     .eq('enabled', true)
@@ -325,7 +325,7 @@ export async function upsertSSOConfig(
   
   try {
     const { error } = await supabase
-      .from('organization_sso_configs')
+      .from('legend_organizations')
       .upsert({
         organization_id: organizationId,
         provider_type: config.type,
@@ -365,7 +365,7 @@ export async function disableSSOConfig(
   
   try {
     const { error } = await supabase
-      .from('organization_sso_configs')
+      .from('legend_organizations')
       .update({
         enabled: false,
         updated_at: new Date().toISOString(),

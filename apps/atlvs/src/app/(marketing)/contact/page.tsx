@@ -11,23 +11,7 @@ import { useRouter } from "next/navigation";
 import { Mail, Phone, MapPin, Send, Clock } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  MarketingPage,
-  HeroSection,
-  FAQSection,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  Input,
-  Select,
-  Textarea,
-  Form,
-  useNotifications,
-  type FAQItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FAQSection, Container, Stack, Grid, Card, Body, H3, Button, Input, Select, Textarea, Form, useNotifications} from "@ghxstship/ui";
 
 const CONTACT_REASONS = ["General Inquiry", "Sales", "Support", "Partnership", "Press", "Other"];
 

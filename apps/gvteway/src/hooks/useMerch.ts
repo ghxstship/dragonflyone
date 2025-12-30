@@ -24,7 +24,7 @@ export const useMerch = (filters?: { category?: string; eventId?: string }) => {
     queryKey: ['merch', filters],
     queryFn: async () => {
       let query = supabase
-        .from('merch_items')
+        .from('assets')
         .select('*')
         .eq('status', 'active')
         .order('created_at', { ascending: false });
@@ -49,7 +49,7 @@ export const useCreateMerchItem = () => {
   return useMutation({
     mutationFn: async (item: Omit<MerchItem, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('merch_items')
+        .from('assets')
         .insert(item)
         .select()
         .single();
@@ -68,7 +68,7 @@ export const useUpdateMerchItem = () => {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<MerchItem> & { id: string }) => {
       const { data, error } = await supabase
-        .from('merch_items')
+        .from('assets')
         .update(updates)
         .eq('id', id)
         .select()
@@ -88,7 +88,7 @@ export const useDeleteMerchItem = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('merch_items')
+        .from('assets')
         .delete()
         .eq('id', id);
       if (error) throw error;

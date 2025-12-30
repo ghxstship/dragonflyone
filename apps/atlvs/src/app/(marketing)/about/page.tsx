@@ -9,16 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Heart, Target, Users, Globe } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  StatsSection,
-  TeamSection,
-  FeatureGrid,
-  CTABanner,
-  type StatItem,
-  type TeamMember,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, StatsSection, TeamSection, FeatureGrid, CTABanner} from "@ghxstship/ui";
 
 const STATS: StatItem[] = [
   { id: "founded", value: 2020, label: "Founded", description: "Building the future of production" },

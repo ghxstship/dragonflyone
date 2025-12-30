@@ -28,7 +28,7 @@ export function useSetTimes(eventId?: string) {
     queryKey: ['set-times', eventId],
     queryFn: async () => {
       let query = supabase
-        .from('set_times')
+        .from('legend_events')
         .select('*')
         .order('scheduled_start', { ascending: true });
 
@@ -68,7 +68,7 @@ export function useUpdateSetTime() {
       if (status !== undefined) updates.status = status;
 
       const { data, error } = await supabase
-        .from('set_times')
+        .from('legend_events')
         .update(updates)
         .eq('id', id)
         .select()

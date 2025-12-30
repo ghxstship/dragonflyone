@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole, log as logger } from '@ghxstship/config';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -75,6 +75,7 @@ const UpdateEventSchema = z.object({
 });
 
 async function getAuthenticatedUser(request: NextRequest) {
+  const authHeader = request.headers.get('authorization');
   if (!authHeader?.startsWith('Bearer ')) {
     return null;
   }

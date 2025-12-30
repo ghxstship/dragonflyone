@@ -34,7 +34,7 @@ export function useOfflineContent() {
     queryKey: ['offline-content'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('offline_content')
+        .from('legend_documents')
         .select('*')
         .order('title', { ascending: true });
 
@@ -59,7 +59,7 @@ export function useOfflinePackages() {
     queryKey: ['offline-packages'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('offline_packages')
+        .from('legend_documents')
         .select('*')
         .order('name', { ascending: true });
 

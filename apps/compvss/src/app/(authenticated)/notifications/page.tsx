@@ -9,12 +9,7 @@ import { useState } from "react";
 import { Bell, Check, CheckCheck, AlertTriangle, List } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body,
-  Button,
-  Card,
-  DetailPage,
-  Section,
-} from "@ghxstship/ui";
+  Body, Button, Card, DetailPage, Section} from "@ghxstship/ui";
 
 interface Notification {
   id: string;

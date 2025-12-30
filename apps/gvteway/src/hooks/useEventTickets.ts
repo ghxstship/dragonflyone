@@ -53,13 +53,13 @@ export function useEventTickets(eventId: string): UseEventTicketsResult {
 
       const [ticketsResult, eventResult] = await Promise.all([
         supabase
-          .from('tickets')
+          .from('products_profile_ticket')
           .select('*')
           .eq('event_id', eventId)
           .eq('user_id', user.id)
           .order('created_at', { ascending: false }),
         supabase
-          .from('events')
+          .from('legend_events')
           .select('id, name, start_date, start_time, venue_name')
           .eq('id', eventId)
           .single(),

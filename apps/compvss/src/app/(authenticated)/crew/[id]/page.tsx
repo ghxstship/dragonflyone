@@ -7,30 +7,9 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { 
-  User, 
-  Mail, 
-  Phone,
-  MapPin,
-  Calendar,
-  Briefcase,
-  Star,
-  Edit,
-  Clock,
-  CheckCircle,
-} from 'lucide-react';
+  User, Mail, Phone, MapPin, Calendar, Briefcase, Star, Edit, Clock, CheckCircle} from 'lucide-react';
 import {
-  DetailPage,
-  Badge,
-  Body,
-  Box,
-  Button,
-  Card,
-  Grid,
-  Stack,
-  Text,
-  Spinner,
-  EmptyState,
-} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Box, Button, Card, Grid, Stack, Text, Spinner, EmptyState} from '@ghxstship/ui';
 import { useQuery } from '@tanstack/react-query';
 
 interface CrewMember {

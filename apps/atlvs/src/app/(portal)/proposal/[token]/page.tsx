@@ -6,20 +6,11 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useParams, useRouter } from "next/navigation";
-import { FileText, CheckCircle, Clock, DollarSign, Calendar, List, MessageSquare } from "lucide-react";
-import { useState } from "react";
+import { useParams } from "next/navigation";
+import { CheckCircle, Clock, DollarSign, Calendar, List, MessageSquare } from "lucide-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Proposal {
   id: string;
@@ -47,10 +38,9 @@ const DEMO_PROPOSAL: Proposal = {
 
 export default function ProposalPage() {
   const params = useParams();
-  const router = useRouter();
   const token = params.token as string;
 
-  const { data: proposal = DEMO_PROPOSAL, isLoading, error, refetch } = useQuery({
+  const { data: proposal = DEMO_PROPOSAL, isLoading, error, refetch } = useQuery<Proposal>({
     queryKey: ["proposal", token],
     queryFn: async () => {
       const response = await fetch(`/api/proposals/${token}`);
@@ -119,7 +109,7 @@ export default function ProposalPage() {
             </Card>
           </Grid>
 
-          {proposal.sections.map((section, idx) => (
+          {proposal.sections.map((section: { title: string; content: string }, idx: number) => (
             <Card key={idx} className="p-6 mb-4">
               <Body className="font-weight-bold font-weight-medium mb-2">{section.title}</Body>
               <Body className="text-grey-300">{section.content}</Body>

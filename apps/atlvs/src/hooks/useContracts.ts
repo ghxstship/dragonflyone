@@ -25,7 +25,7 @@ export function useContracts() {
     queryKey: ['contracts'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('contracts')
+        .from('docs_profile_contract')
         .select(`
           *,
           vendor:vendors(name)
@@ -43,7 +43,7 @@ export function useContract(id: string) {
     queryKey: ['contracts', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('contracts')
+        .from('docs_profile_contract')
         .select(`
           *,
           vendor:vendors(name)
@@ -64,7 +64,7 @@ export function useCreateContract() {
   return useMutation({
     mutationFn: async (contract: Omit<Contract, 'id' | 'created_at'>) => {
       const { data, error } = await supabase
-        .from('contracts')
+        .from('docs_profile_contract')
         .insert([contract])
         .select()
         .single();
@@ -84,7 +84,7 @@ export function useUpdateContract() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Contract> & { id: string }) => {
       const { data, error } = await supabase
-        .from('contracts')
+        .from('docs_profile_contract')
         .update(updates)
         .eq('id', id)
         .select()
@@ -106,7 +106,7 @@ export function useDeleteContract() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('contracts')
+        .from('docs_profile_contract')
         .delete()
         .eq('id', id);
 

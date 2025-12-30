@@ -4,13 +4,7 @@ import { useRouter } from "next/navigation";
 // Layout provided by route group
 import { useVenues } from "@/hooks/useVenues";
 import {
-  ListPage,
-  Badge,
-  Text,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-} from '@ghxstship/ui';
+  ListPage, Badge, Text} from '@ghxstship/ui';
 import { createExportHandler } from "@ghxstship/config";
 import { Eye } from "lucide-react";
 

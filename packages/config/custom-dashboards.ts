@@ -77,7 +77,7 @@ export class DashboardManager {
   ): Promise<{ success: boolean; dashboard?: Dashboard; error?: string }> {
     try {
       const { data, error } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .insert({
           user_id: userId,
           name: dashboard.name,
@@ -120,7 +120,7 @@ export class DashboardManager {
    */
   async getUserDashboards(userId: string): Promise<Dashboard[]> {
     const { data, error } = await this.supabase
-      .from('dashboard_widgets')
+      .from('dashboard_configs')
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
@@ -148,7 +148,7 @@ export class DashboardManager {
    */
   async getDefaultDashboard(userId: string): Promise<Dashboard | null> {
     const { data, error } = await this.supabase
-      .from('dashboard_widgets')
+      .from('dashboard_configs')
       .select('*')
       .eq('user_id', userId)
       .eq('is_default', true)
@@ -182,7 +182,7 @@ export class DashboardManager {
     try {
       // Get current dashboard
       const { data: dashboard, error: fetchError } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .select('widgets')
         .eq('id', dashboardId)
         .single();
@@ -202,7 +202,7 @@ export class DashboardManager {
 
       // Update dashboard
       const { error: updateError } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .update({ widgets: updatedWidgets })
         .eq('id', dashboardId);
 
@@ -227,7 +227,7 @@ export class DashboardManager {
   ): Promise<{ success: boolean; error?: string }> {
     try {
       const { data: dashboard, error: fetchError } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .select('widgets')
         .eq('id', dashboardId)
         .single();
@@ -249,7 +249,7 @@ export class DashboardManager {
       };
 
       const { error: updateError } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .update({ widgets: updatedWidgets })
         .eq('id', dashboardId);
 
@@ -273,7 +273,7 @@ export class DashboardManager {
   ): Promise<{ success: boolean; error?: string }> {
     try {
       const { data: dashboard, error: fetchError } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .select('widgets')
         .eq('id', dashboardId)
         .single();
@@ -285,7 +285,7 @@ export class DashboardManager {
       const updatedWidgets = (dashboard.widgets as WidgetConfig[]).filter((w) => w.id !== widgetId);
 
       const { error: updateError } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .update({ widgets: updatedWidgets })
         .eq('id', dashboardId);
 
@@ -309,7 +309,7 @@ export class DashboardManager {
   ): Promise<{ success: boolean; error?: string }> {
     try {
       const { data: dashboard, error: fetchError } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .select('widgets')
         .eq('id', dashboardId)
         .single();
@@ -325,7 +325,7 @@ export class DashboardManager {
         .filter(Boolean);
 
       const { error: updateError } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .update({ widgets: reorderedWidgets })
         .eq('id', dashboardId);
 
@@ -350,14 +350,14 @@ export class DashboardManager {
     try {
       // Unset current default
       await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .update({ is_default: false })
         .eq('user_id', userId)
         .eq('is_default', true);
 
       // Set new default
       const { error } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .update({ is_default: true })
         .eq('id', dashboardId)
         .eq('user_id', userId);
@@ -382,7 +382,7 @@ export class DashboardManager {
   ): Promise<{ success: boolean; dashboard?: Dashboard; error?: string }> {
     try {
       const { data: original, error: fetchError } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .select('*')
         .eq('id', dashboardId)
         .single();
@@ -392,7 +392,7 @@ export class DashboardManager {
       }
 
       const { data, error } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .insert({
           user_id: original.user_id,
           name: newName,
@@ -435,7 +435,7 @@ export class DashboardManager {
    */
   async deleteDashboard(dashboardId: string): Promise<boolean> {
     const { error } = await this.supabase
-      .from('dashboard_widgets')
+      .from('dashboard_configs')
       .delete()
       .eq('id', dashboardId);
 
@@ -451,7 +451,7 @@ export class DashboardManager {
   ): Promise<{ success: boolean; error?: string }> {
     try {
       const { error } = await this.supabase
-        .from('dashboard_widgets')
+        .from('dashboard_configs')
         .update({ is_public: isPublic })
         .eq('id', dashboardId);
 
@@ -471,7 +471,7 @@ export class DashboardManager {
    */
   async getPublicDashboards(limit: number = 20): Promise<Dashboard[]> {
     const { data, error } = await this.supabase
-      .from('dashboard_widgets')
+      .from('dashboard_configs')
       .select('*')
       .eq('is_public', true)
       .order('created_at', { ascending: false })

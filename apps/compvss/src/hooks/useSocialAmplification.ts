@@ -39,7 +39,7 @@ export function useArtistProfiles() {
     queryKey: ['artist-profiles'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('artist_social_profiles')
+        .from('legend_people')
         .select('*')
         .order('followers', { ascending: false });
 
@@ -65,7 +65,7 @@ export function useAmplificationCampaigns() {
     queryKey: ['amplification-campaigns'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('amplification_campaigns')
+        .from('deals')
         .select('*')
         .order('start_date', { ascending: false });
 
@@ -95,7 +95,7 @@ export function useCreateAmplificationCampaign() {
   return useMutation({
     mutationFn: async (campaign: Omit<AmplificationCampaign, 'id' | 'reach' | 'posts' | 'engagement'>) => {
       const { data, error } = await supabase
-        .from('amplification_campaigns')
+        .from('deals')
         .insert({
           name: campaign.name,
           event_name: campaign.eventName,

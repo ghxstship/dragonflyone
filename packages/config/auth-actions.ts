@@ -111,7 +111,7 @@ export async function signUp(
 
     if (input.inviteCode) {
       const { data: invite } = await supabase
-        .from('user_invitations')
+        .from('contacts')
         .select('id, organization_id, role, expires_at, used_at')
         .eq('invite_code', input.inviteCode)
         .single();
@@ -135,7 +135,7 @@ export async function signUp(
 
       // Mark invite as used
       await supabase
-        .from('user_invitations')
+        .from('contacts')
         .update({ used_at: new Date().toISOString() })
         .eq('id', invite.id);
     }
@@ -250,7 +250,7 @@ export async function signIn(
 
     // Get onboarding status
     const { data: profile } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .select('onboarding_completed')
       .eq('id', data.user.id)
       .single();
@@ -464,7 +464,7 @@ export async function handleOAuthCallback(
 
     // Get onboarding status
     const { data: profile } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .select('onboarding_completed')
       .eq('id', data.user.id)
       .single();
@@ -579,7 +579,7 @@ export async function updateProfile(
 
     // Update profiles
     const { error: profileError } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .update({
         first_name: input.firstName,
         last_name: input.lastName,
@@ -653,7 +653,7 @@ export async function completeOnboarding(
     const supabase = getSupabaseAdmin();
 
     const { error } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .update({
         onboarding_completed: true,
         onboarding_step: 5,
@@ -694,7 +694,7 @@ export async function getSession(): Promise<{
       .single();
 
     const { data: profile } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .select('onboarding_completed')
       .eq('id', session.user.id)
       .single();

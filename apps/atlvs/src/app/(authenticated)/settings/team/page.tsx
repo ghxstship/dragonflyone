@@ -11,29 +11,7 @@ import { Users, Mail, Shield, Trash2, Edit, Search, List, UserPlus } from "lucid
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Input,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  StatCard,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  DetailPage,
-  Section,
-  SectionHeader,
-  useNotifications,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, Select, StatCard, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
 
 interface TeamMember {
   id: string;

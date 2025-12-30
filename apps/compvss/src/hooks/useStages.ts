@@ -51,7 +51,7 @@ export function useStages(productionId?: string) {
     queryKey: ['stages', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('stages')
+        .from('legend_places')
         .select('*')
         .order('name', { ascending: true });
 
@@ -81,7 +81,7 @@ export function useTechRehearsalSessions(productionId?: string) {
     queryKey: ['tech-rehearsal-sessions', productionId],
     queryFn: async () => {
       let query = supabase
-        .from('tech_rehearsal_sessions')
+        .from('legend_events')
         .select('*')
         .order('date', { ascending: true });
 
@@ -116,7 +116,7 @@ export function useRehearsalNotes(sessionId?: string) {
     queryKey: ['rehearsal-notes', sessionId],
     queryFn: async () => {
       let query = supabase
-        .from('rehearsal_notes')
+        .from('legend_documents')
         .select('*')
         .order('timestamp', { ascending: false });
 
@@ -149,7 +149,7 @@ export function useAddRehearsalNote() {
   return useMutation({
     mutationFn: async (note: Omit<RehearsalNote, 'id'>) => {
       const { data, error } = await supabase
-        .from('rehearsal_notes')
+        .from('legend_documents')
         .insert({
           session_id: note.session_id,
           timestamp: note.timestamp,

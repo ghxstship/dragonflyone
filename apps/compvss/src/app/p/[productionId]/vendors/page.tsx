@@ -10,16 +10,7 @@ import { useParams } from "next/navigation";
 import { Building2, Search, Plus, Mail, Phone, DollarSign, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Input,
-  Grid,
-  StatCard,
-  DetailPage,
-  Section,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Input, Grid, StatCard, DetailPage, Section} from "@ghxstship/ui";
 
 interface Vendor {
   id: string;

@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { TrendingUp, Check, BarChart3, PieChart, FileText, Target, DollarSign } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const FEATURES: FeatureItem[] = [
   { id: "portfolio", icon: <PieChart className="size-8" />, title: "Portfolio Tracking", description: "Track all your event industry investments in one comprehensive dashboard." },

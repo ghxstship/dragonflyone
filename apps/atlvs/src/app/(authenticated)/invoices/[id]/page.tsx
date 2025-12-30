@@ -8,35 +8,9 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { 
-  Edit2, 
-  Send, 
-  Mail, 
-  DollarSign, 
-  Calendar, 
-  FileText, 
-  Clock, 
-  CheckCircle, 
-  Download, 
-  Printer,
-  CreditCard,
-} from 'lucide-react';
+  Edit2, Send, Mail, DollarSign, Calendar, FileText, Clock, CheckCircle, Download, Printer, CreditCard} from 'lucide-react';
 import {
-  DetailPage,
-  Stack,
-  Grid,
-  Card,
-  Section,
-  SectionHeader,
-  StatCard,
-  Badge,
-  Button,
-  Body,
-  H3,
-  Label,
-  Input,
-  Select,
-  useNotifications,
-} from '@ghxstship/ui';
+  DetailPage, Stack, Grid, Card, Section, SectionHeader, StatCard, Badge, Button, Body, H3, Label, Input, Select, useNotifications} from '@ghxstship/ui';
 import { useInvoice, useSendInvoice, useRecordPayment } from '@/hooks/useInvoices';
 
 const formatDate = (dateStr: string) => {

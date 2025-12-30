@@ -9,20 +9,7 @@
 import { useRouter } from "next/navigation";
 import { CheckCircle, Clock, Zap } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  TimelineSection,
-  StatsSection,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Badge,
-  type StatItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, TimelineSection, StatsSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Badge} from "@ghxstship/ui";
 
 interface RoadmapItem {
   id: string;

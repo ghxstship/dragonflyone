@@ -20,7 +20,7 @@ export const useCrewSkills = (crewId?: string) => {
     queryKey: ['crew-skills', crewId],
     queryFn: async () => {
       let query = supabase
-        .from('crew_skills')
+        .from('workforce_certifications')
         .select('*')
         .order('skill_name');
 
@@ -41,7 +41,7 @@ export const useAddCrewSkill = () => {
   return useMutation({
     mutationFn: async (skill: Omit<CrewSkill, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('crew_skills')
+        .from('workforce_certifications')
         .insert(skill)
         .select()
         .single();
@@ -60,7 +60,7 @@ export const useUpdateCrewSkill = () => {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<CrewSkill> & { id: string }) => {
       const { data, error } = await supabase
-        .from('crew_skills')
+        .from('workforce_certifications')
         .update(updates)
         .eq('id', id)
         .select()
@@ -80,7 +80,7 @@ export const useDeleteCrewSkill = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('crew_skills')
+        .from('workforce_certifications')
         .delete()
         .eq('id', id);
       if (error) throw error;

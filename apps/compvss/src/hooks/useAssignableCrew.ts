@@ -22,7 +22,7 @@ export function useAssignableCrew() {
     queryKey: ['assignable-crew'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('crew_members')
+        .from('legend_people')
         .select('*')
         .order('full_name', { ascending: true });
 

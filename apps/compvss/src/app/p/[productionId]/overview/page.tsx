@@ -2,31 +2,9 @@
 
 import { useParams, useRouter } from "next/navigation";
 import {
-  DetailPage,
-  Badge,
-  Body,
-  Button,
-  Card,
-  CardBody,
-  EmptyState,
-  H3,
-  Label,
-  Spinner,
-  Stack,
-  StatCard,
-} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Button, Card, CardBody, EmptyState, H3, Label, Spinner, Stack, StatCard} from '@ghxstship/ui';
 import {
-  Calendar,
-  Users,
-  Clock,
-  CheckCircle,
-  AlertTriangle,
-  MapPin,
-  Package,
-  Shield,
-  Radio,
-  Truck,
-} from "lucide-react";
+  Calendar, Users, Clock, CheckCircle, AlertTriangle, MapPin, Package, Shield, Radio, Truck} from "lucide-react";
 import { useProject } from "../../../../hooks/useProjects";
 import { useCrew } from "../../../../hooks/useCrew";
 import { useEquipment } from "../../../../hooks/useEquipment";

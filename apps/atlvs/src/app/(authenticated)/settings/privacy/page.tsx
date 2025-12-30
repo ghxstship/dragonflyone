@@ -10,19 +10,7 @@ import { useState } from "react";
 import { Shield, Eye, EyeOff, Download, Trash2, List, FileText } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  DetailPage,
-  Section,
-  SectionHeader,
-  useNotifications,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useNotifications} from "@ghxstship/ui";
 
 interface PrivacySettings {
   profile_visibility: "public" | "team" | "private";

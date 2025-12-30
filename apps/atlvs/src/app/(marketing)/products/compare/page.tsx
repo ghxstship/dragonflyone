@@ -9,19 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Check, X, Zap, Users, Ticket, List } from "lucide-react";
 import {
-  Body,
-  Button,
-  Card,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Body, Button, Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section} from "@ghxstship/ui";
 
 const PRODUCTS = [
   { id: "atlvs", name: "ATLVS", icon: <Zap className="size-5" /> },

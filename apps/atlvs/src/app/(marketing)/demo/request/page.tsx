@@ -8,19 +8,10 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Calendar, Building2, Users, Mail } from "lucide-react";
+import { Calendar, Building2, Mail} from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body,
-  Grid,
-  Input,
-  Select,
-  Stack,
-  Textarea,
-  CreatePage,
-  useNotifications,
-  type FormSection,
-} from "@ghxstship/ui";
+  Body, Grid, Input, Select, Stack, Textarea, CreatePage, useNotifications} from "@ghxstship/ui";
 
 const COMPANY_SIZES = ["1-10", "11-50", "51-200", "201-500", "500+"];
 const INDUSTRIES = ["Music Festivals", "Corporate Events", "Theater", "Sports", "Experiential Marketing", "Other"];

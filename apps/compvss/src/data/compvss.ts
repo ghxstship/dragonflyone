@@ -36,8 +36,9 @@ export const compvssNavigation = [
 ];
 
 // Sidebar navigation with full route structure
-// Optimized for UX: Task-based grouping aligned with production workflow phases
+// Optimized for UX: 8 primary sections, task-based grouping aligned with production workflow phases
 // Role-based filtering: items with allowedRoles are only shown to users with matching roles
+// Updated 2025-12-29: Added missing routes, consolidated sections, improved information architecture
 export const compvssSidebarNavigation = [
   {
     section: "Home",
@@ -45,8 +46,11 @@ export const compvssSidebarNavigation = [
     // Home section visible to all roles
     items: [
       { label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard", primary: true },
+      { label: "Search", href: "/search", icon: "Search" },
       { label: "Schedule", href: "/schedule", icon: "Calendar" },
       { label: "Projects", href: "/projects", icon: "FolderKanban" },
+      { label: "Notifications", href: "/notifications", icon: "Bell" },
+      { label: "Profile", href: "/profile", icon: "User" },
     ],
     subsections: [
       {
@@ -55,12 +59,6 @@ export const compvssSidebarNavigation = [
           { label: "My Schedule", href: "/my-schedule", icon: "Calendar" },
           { label: "My Assignments", href: "/my-assignments", icon: "ClipboardList" },
           { label: "My Timesheets", href: "/my-timesheets", icon: "Clock" },
-          { label: "My Training", href: "/my-training", icon: "GraduationCap" },
-          { label: "My Credentials", href: "/my-credentials", icon: "IdCard" },
-          { label: "My Contracts", href: "/my-contracts", icon: "FileText" },
-          { label: "My Invoices", href: "/my-invoices", icon: "Receipt" },
-          { label: "My Deliveries", href: "/my-deliveries", icon: "Package" },
-          { label: "My Hospitality", href: "/my-hospitality", icon: "Crown" },
         ],
       },
     ],
@@ -68,25 +66,22 @@ export const compvssSidebarNavigation = [
   {
     section: "Crew",
     icon: "Users",
-    allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.CREW_LEAD, COMPVSS_ROLES.PRODUCTION_MANAGER],
     items: [
       { label: "All Crew", href: "/crew", icon: "Users", primary: true },
-      { label: "Assign Crew", href: "/crew/assign", icon: "UserPlus", allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.CREW_LEAD] },
       { label: "Availability", href: "/availability", icon: "CalendarCheck" },
       { label: "Timekeeping", href: "/timekeeping", icon: "Clock" },
       { label: "Skills Matrix", href: "/skills", icon: "Zap" },
       { label: "Certifications", href: "/certifications", icon: "Award" },
+      { label: "Credentials", href: "/credentials", icon: "IdCard" },
     ],
     subsections: [
       {
         label: "Crew Admin",
         allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER],
         items: [
-          { label: "Background Checks", href: "/crew/background-checks", icon: "ShieldCheck" },
-          { label: "Crew Social", href: "/crew/social", icon: "Heart" },
+          { label: "Background Checks", href: "/background-checks", icon: "ShieldCheck" },
           { label: "Travel", href: "/travel", icon: "Plane" },
           { label: "Expenses", href: "/expenses", icon: "Receipt" },
-          { label: "Mentorship", href: "/mentorship", icon: "GraduationCap" },
         ],
       },
     ],
@@ -94,13 +89,13 @@ export const compvssSidebarNavigation = [
   {
     section: "Production",
     icon: "Clapperboard",
-    allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.PRODUCTION_MANAGER, COMPVSS_ROLES.STAGE_MANAGER, COMPVSS_ROLES.CREW_LEAD],
     items: [
       { label: "Run of Show", href: "/run-of-show", icon: "ListOrdered", primary: true },
-      { label: "Stage Management", href: "/stage-management", icon: "Monitor", allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.PRODUCTION_MANAGER, COMPVSS_ROLES.STAGE_MANAGER] },
+      { label: "Stage Management", href: "/stage-management", icon: "Monitor" },
       { label: "Build & Strike", href: "/build-strike", icon: "Hammer" },
       { label: "Show Call", href: "/show-call", icon: "Phone" },
       { label: "Set Times", href: "/set-times", icon: "Clock" },
+      { label: "BEOs", href: "/beos", icon: "FileText" },
     ],
     subsections: [
       {
@@ -114,7 +109,7 @@ export const compvssSidebarNavigation = [
         ],
       },
       {
-        label: "Quality & Completion",
+        label: "Quality",
         items: [
           { label: "QA Checkpoints", href: "/qa-checkpoints", icon: "CheckSquare" },
           { label: "Punch List", href: "/punch-list", icon: "ClipboardList" },
@@ -122,10 +117,11 @@ export const compvssSidebarNavigation = [
         ],
       },
       {
-        label: "BEOs",
+        label: "Documentation",
         items: [
-          { label: "All BEOs", href: "/beos", icon: "FileText" },
-          { label: "New BEO", href: "/beos/new", icon: "Plus" },
+          { label: "SOPs", href: "/sops", icon: "Book" },
+          { label: "Spec Sheets", href: "/spec-sheets", icon: "FileSpreadsheet" },
+          { label: "Troubleshooting", href: "/troubleshooting", icon: "HelpCircle" },
         ],
       },
     ],
@@ -133,30 +129,18 @@ export const compvssSidebarNavigation = [
   {
     section: "Resources",
     icon: "Package",
-    allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.LOGISTICS, COMPVSS_ROLES.PRODUCTION_MANAGER],
     items: [
       { label: "Equipment", href: "/equipment", icon: "Package", primary: true },
       { label: "Venues", href: "/venues", icon: "Building" },
-      { label: "Artists", href: "/artists", icon: "Music" },
-      { label: "Logistics", href: "/logistics", icon: "Truck" },
+      { label: "Deliveries", href: "/deliveries", icon: "PackageCheck" },
+      { label: "Maintenance", href: "/maintenance", icon: "Wrench" },
+      { label: "Subcontractors", href: "/subcontractors", icon: "Users" },
     ],
     subsections: [
       {
-        label: "Resource Management",
+        label: "Site",
         items: [
-          { label: "Deliveries", href: "/deliveries", icon: "PackageCheck" },
-          { label: "Maintenance", href: "/maintenance", icon: "Wrench" },
-          { label: "Catering", href: "/catering", icon: "UtensilsCrossed" },
-          { label: "Files", href: "/files", icon: "FileArchive" },
           { label: "Site Access", href: "/site-access", icon: "Key" },
-        ],
-      },
-      {
-        label: "Vendors",
-        allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER],
-        items: [
-          { label: "Compare Vendors", href: "/vendors/compare", icon: "GitCompare" },
-          { label: "Subcontractors", href: "/subcontractors", icon: "Users" },
           { label: "Permits", href: "/permits", icon: "FileCheck" },
         ],
       },
@@ -170,40 +154,26 @@ export const compvssSidebarNavigation = [
       { label: "Safety Dashboard", href: "/safety", icon: "Shield", primary: true },
       { label: "Incidents", href: "/incidents", icon: "AlertTriangle" },
       { label: "Issues", href: "/issues", icon: "AlertCircle" },
+      { label: "Risk Register", href: "/risk-register", icon: "FileWarning" },
+      { label: "Emergency Plans", href: "/emergency", icon: "Siren" },
       { label: "Weather", href: "/weather", icon: "Cloud" },
     ],
     subsections: [
       {
-        label: "Risk Management",
-        allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.SAFETY_OFFICER],
+        label: "Contingency",
         items: [
-          { label: "Risk Register", href: "/risk-register", icon: "FileWarning" },
-          { label: "Emergency Plans", href: "/emergency", icon: "Siren" },
           { label: "Weather Contingency", href: "/weather-contingency", icon: "CloudRain" },
-          { label: "Backup Plans", href: "/backup-plans", icon: "LifeBuoy" },
         ],
       },
     ],
   },
   {
-    section: "Communications",
-    icon: "MessageSquare",
-    // Communications visible to all roles
+    section: "Advancing",
+    icon: "ArrowUpRight",
     items: [
-      { label: "Comms Hub", href: "/communications", icon: "MessageSquare", primary: true },
-      { label: "Channels", href: "/communications/channels", icon: "Radio" },
-      { label: "Messages", href: "/messages", icon: "Mail" },
-      { label: "Stakeholder Portal", href: "/stakeholder-portal", icon: "Users", allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.CLIENT] },
-    ],
-    subsections: [
-      {
-        label: "Vendor Communications",
-        items: [
-          { label: "Vendor Comms", href: "/vendor-communications", icon: "MessageSquare" },
-          { label: "Vendor Schedules", href: "/vendor-schedules", icon: "Calendar" },
-          { label: "New Schedule", href: "/vendor-schedules/new", icon: "Plus" },
-        ],
-      },
+      { label: "Advances", href: "/advancing", icon: "ArrowUpRight", primary: true },
+      { label: "Catalog", href: "/advancing/catalog", icon: "Grid" },
+      { label: "New Request", href: "/advancing/new", icon: "Plus" },
     ],
   },
   {
@@ -212,60 +182,15 @@ export const compvssSidebarNavigation = [
     allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.PRODUCTION_MANAGER],
     items: [
       { label: "VIP Management", href: "/vip-management", icon: "Crown", primary: true },
-      { label: "Settlement", href: "/settlement", icon: "DollarSign", allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER] },
-    ],
-  },
-  {
-    section: "Directory",
-    icon: "BookOpen",
-    // Directory visible to all roles
-    items: [
-      { label: "Directory", href: "/directory", icon: "BookOpen", primary: true },
-      { label: "Knowledge Base", href: "/knowledge", icon: "Library" },
-      { label: "Opportunities", href: "/opportunities", icon: "Target" },
-    ],
-    subsections: [
-      {
-        label: "Resources",
-        items: [
-          { label: "Best Practices", href: "/best-practices", icon: "Lightbulb" },
-          { label: "Case Studies", href: "/case-studies", icon: "FileText" },
-          { label: "Glossary", href: "/glossary", icon: "Book" },
-          { label: "Troubleshooting", href: "/troubleshooting", icon: "HelpCircle" },
-          { label: "Spec Sheets", href: "/spec-sheets", icon: "FileSpreadsheet" },
-        ],
-      },
-      {
-        label: "Jobs & Bids",
-        allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.CONTRACTOR],
-        items: [
-          { label: "Mobile Jobs", href: "/opportunities/mobile", icon: "Smartphone" },
-          { label: "Proposals", href: "/opportunities/proposals", icon: "FileText" },
-          { label: "Bid Portal", href: "/bid-portal", icon: "Gavel" },
-          { label: "Win/Loss Analysis", href: "/opportunities/win-loss", icon: "TrendingUp" },
-        ],
-      },
-    ],
-  },
-  {
-    section: "Advancing",
-    icon: "ArrowUpRight",
-    allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.PRODUCTION_MANAGER],
-    items: [
-      { label: "Advances", href: "/advancing", icon: "ArrowUpRight", primary: true },
-      { label: "Catalog", href: "/advancing/catalog", icon: "Grid" },
-      { label: "New Request", href: "/advancing/new", icon: "Plus" },
+      { label: "Settlement", href: "/settlement", icon: "DollarSign" },
     ],
   },
   {
     section: "Settings",
     icon: "Settings",
-    allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER],
     items: [
       { label: "Settings", href: "/settings", icon: "Settings", primary: true },
-      { label: "Integrations", href: "/integrations", icon: "Plug", allowedRoles: [COMPVSS_ROLES.ADMIN] },
-      { label: "Offline Mode", href: "/offline", icon: "WifiOff" },
-      { label: "Social Amplification", href: "/social-amplification", icon: "Share2" },
+      { label: "Integrations", href: "/integrations", icon: "Plug" },
     ],
   },
 ];

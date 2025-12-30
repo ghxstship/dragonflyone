@@ -182,7 +182,7 @@ export async function middleware(request: NextRequest) {
 
   if (session && !isPublicPath && !isOnboardingPath) {
     const { data: profile } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .select('onboarding_completed')
       .eq('id', session.user.id)
       .single();

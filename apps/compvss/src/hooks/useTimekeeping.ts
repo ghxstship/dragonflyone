@@ -39,7 +39,7 @@ export function useTimekeeping(filters?: TimeEntryFilters) {
     queryKey: ['timekeeping', filters],
     queryFn: async () => {
       let query = supabase
-        .from('time_entries')
+        .from('workforce_time_entries')
         .select(`
           *,
           user:users(id, email, full_name),
@@ -76,7 +76,7 @@ export function useTimeEntry(id: string) {
     queryKey: ['timekeeping', id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('time_entries')
+        .from('workforce_time_entries')
         .select(`
           *,
           user:users(id, email, full_name),
@@ -99,7 +99,7 @@ export function useCreateTimeEntry() {
   return useMutation({
     mutationFn: async (timeEntry: Omit<TimeEntry, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
-        .from('time_entries')
+        .from('workforce_time_entries')
         .insert(timeEntry)
         .select()
         .single();
@@ -120,7 +120,7 @@ export function useUpdateTimeEntry() {
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<TimeEntry> & { id: string }) => {
       const { data, error } = await supabase
-        .from('time_entries')
+        .from('workforce_time_entries')
         .update(updates)
         .eq('id', id)
         .select()
@@ -142,7 +142,7 @@ export function useApproveTimeEntry() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
-        .from('time_entries')
+        .from('workforce_time_entries')
         .update({ status: 'approved' })
         .eq('id', id)
         .select()
@@ -164,7 +164,7 @@ export function useDeleteTimeEntry() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('time_entries')
+        .from('workforce_time_entries')
         .delete()
         .eq('id', id);
 

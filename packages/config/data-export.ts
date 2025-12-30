@@ -233,7 +233,7 @@ export class DataExportEngine {
 
     // Upload to storage
     const { data, error } = await this.supabase.storage
-      .from('exports')
+      .from('audit_logs')
       .upload(`${filename}.csv`, new Blob([csv], { type: 'text/csv' }), {
         upsert: true,
       });
@@ -244,7 +244,7 @@ export class DataExportEngine {
 
     // Get public URL
     const { data: urlData } = this.supabase.storage
-      .from('exports')
+      .from('audit_logs')
       .getPublicUrl(data.path);
 
     return urlData.publicUrl;
@@ -268,7 +268,7 @@ export class DataExportEngine {
 
     // Upload to storage
     const { data: uploadData, error } = await this.supabase.storage
-      .from('exports')
+      .from('audit_logs')
       .upload(`${filename}.json`, new Blob([json], { type: 'application/json' }), {
         upsert: true,
       });
@@ -279,7 +279,7 @@ export class DataExportEngine {
 
     // Get public URL
     const { data: urlData } = this.supabase.storage
-      .from('exports')
+      .from('audit_logs')
       .getPublicUrl(uploadData.path);
 
     return urlData.publicUrl;

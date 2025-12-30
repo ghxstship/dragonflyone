@@ -11,18 +11,7 @@ import { useCrew } from "@/hooks/useCrew";
 import { useEquipment } from "@/hooks/useEquipment";
 import { useActivityFeed } from "@ghxstship/config/hooks";
 import {
-  Body,
-  Button,
-  Card,
-  StatCard,
-  Grid,
-  PageLayout,
-  MarketingPageHeader,
-  Section,
-  SectionHeader,
-  StatusBadge,
-  Badge,
-} from "@ghxstship/ui";
+  Body, Button, Card, StatCard, Grid, PageLayout, MarketingPageHeader, Section, SectionHeader, StatusBadge, Badge} from "@ghxstship/ui";
 import { useAuthContext, PlatformRole } from "@ghxstship/config";
 
 const ADMIN_ROLES = [

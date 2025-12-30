@@ -9,20 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Calendar, Users, Zap, Check, BarChart3, Shield, Globe } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  VideoSection,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  Button,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, VideoSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button} from "@ghxstship/ui";
 
 const DEMO_FEATURES: FeatureItem[] = [
   {

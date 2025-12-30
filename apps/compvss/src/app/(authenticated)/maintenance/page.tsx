@@ -6,19 +6,7 @@ import { Eye, Pencil, Check } from "lucide-react";
 // Layout provided by route group
 import { useMaintenance } from "@/hooks/useMaintenance";
 import {
-  ListPage,
-  Badge,
-  DetailDrawer,
-  RecordFormModal,
-  Grid,
-  Stack,
-  Body,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
-  type FormFieldConfig,
-  type DetailSection,
-} from "@ghxstship/ui";
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Stack, Body} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface MaintenanceItem {

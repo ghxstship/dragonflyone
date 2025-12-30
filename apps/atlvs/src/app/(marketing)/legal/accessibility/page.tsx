@@ -9,16 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Download, ArrowLeft, AlertCircle } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  CTABanner,
-  Container,
-  Stack,
-  Card,
-  Body,
-  H3,
-  Button,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container, Stack, Card, Body, H3, Button} from "@ghxstship/ui";
 
 const SECTIONS = [
   { id: "commitment", title: "Our Commitment", content: "ATLVS is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards." },

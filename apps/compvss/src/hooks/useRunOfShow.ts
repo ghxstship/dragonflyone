@@ -23,7 +23,7 @@ export function useCues(eventId?: string) {
     queryKey: ['cues', eventId],
     queryFn: async () => {
       let query = supabase
-        .from('cues')
+        .from('show_cues')
         .select('*')
         .order('scheduled_time', { ascending: true });
 
@@ -53,7 +53,7 @@ export function useUpdateCueStatus() {
   return useMutation({
     mutationFn: async ({ id, status }: { id: string; status: CueItem['status'] }) => {
       const { data, error } = await supabase
-        .from('cues')
+        .from('show_cues')
         .update({ status })
         .eq('id', id)
         .select()

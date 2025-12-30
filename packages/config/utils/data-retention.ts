@@ -326,7 +326,7 @@ export async function executeAllRetentionPolicies(
 
   // Get policies from database or use defaults
   const { data: policies } = await supabase
-    .from('data_retention_policies')
+    .from('dashboard_configs')
     .select('*')
     .eq('is_active', true);
 

@@ -9,18 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Award, Check, BarChart3, Target, Users, Eye, DollarSign } from "lucide-react";
 import {
-  MarketingPage,
-  HeroSection,
-  FeatureGrid,
-  CTABanner,
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Body,
-  H3,
-  type FeatureItem,
-} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3} from "@ghxstship/ui";
 
 const FEATURES: FeatureItem[] = [
   { id: "management", icon: <Award className="size-8" />, title: "Sponsorship Management", description: "Manage sponsorship agreements, deliverables, and activations in one place." },

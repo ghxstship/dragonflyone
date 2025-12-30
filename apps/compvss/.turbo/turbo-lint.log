@@ -1,20 +1,5 @@
 
-
 > compvss@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/compvss
 > next lint --max-warnings 9999
 
-
-[36m./src/app/(authenticated)/search/page.tsx[39m
-[33m5[39m:[33m10[39m  [33m[1mWarning[22m[39m: 'Search' is defined but never used. Allowed unused vars must match /^_/u.  [90m[1m@typescript-eslint/no-unused-vars[22m[39m
-
-[36m./src/app/set-times/page.tsx[39m
-[33m14[39m:[33m3[39m  [33m[1mWarning[22m[39m: 'Card' is defined but never used. Allowed unused vars must match /^_/u.  [90m[1m@typescript-eslint/no-unused-vars[22m[39m
-
-[36m./src/app/spec-sheets/page.tsx[39m
-[33m13[39m:[33m3[39m  [33m[1mWarning[22m[39m: 'Card' is defined but never used. Allowed unused vars must match /^_/u.  [90m[1m@typescript-eslint/no-unused-vars[22m[39m
-
-[36m./src/app/vip-management/page.tsx[39m
-[33m9[39m:[33m3[39m  [33m[1mWarning[22m[39m: 'Grid' is defined but never used. Allowed unused vars must match /^_/u.  [90m[1m@typescript-eslint/no-unused-vars[22m[39m
-[33m14[39m:[33m3[39m  [33m[1mWarning[22m[39m: 'Card' is defined but never used. Allowed unused vars must match /^_/u.  [90m[1m@typescript-eslint/no-unused-vars[22m[39m
-
-[36minfo[39m  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+✔ No ESLint warnings or errors

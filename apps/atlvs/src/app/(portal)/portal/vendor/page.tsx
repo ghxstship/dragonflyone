@@ -6,20 +6,10 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useRouter } from "next/navigation";
 import { Building2, FileText, DollarSign, Clock, CheckCircle, List, Settings } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  StatCard,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 interface Contract {
   id: string;
@@ -43,7 +33,6 @@ const STATUS_CONFIG = {
 };
 
 export default function VendorPortalPage() {
-  const router = useRouter();
 
   const { data: contracts = [], isLoading, error, refetch } = useQuery({
     queryKey: ["vendor-contracts"],

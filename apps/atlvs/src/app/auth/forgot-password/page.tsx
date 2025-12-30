@@ -11,13 +11,7 @@ import { useRouter } from "next/navigation";
 import { Mail, ArrowLeft } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body,
-  Button,
-  Input,
-  Form,
-  AuthPage,
-  useNotifications,
-} from "@ghxstship/ui";
+  Body, Button, Input, Form, AuthPage, useNotifications} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function ForgotPasswordPage() {

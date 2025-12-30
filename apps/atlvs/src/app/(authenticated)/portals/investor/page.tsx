@@ -7,25 +7,9 @@
 
 import { useRouter } from 'next/navigation';
 import { 
-  TrendingUp, 
-  DollarSign,
-  PieChart,
-  Calendar,
-  Download,
-  ChevronRight,
-  BarChart3,
-} from 'lucide-react';
+  TrendingUp, DollarSign, PieChart, Calendar, Download, ChevronRight, BarChart3} from 'lucide-react';
 import {
-  DetailPage,
-  Badge,
-  Body,
-  Button,
-  Card,
-  Grid,
-  Stack,
-  StatCard,
-  Text,
-} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Button, Card, Grid, Stack, StatCard, Text} from '@ghxstship/ui';
 import { useQuery } from '@tanstack/react-query';
 
 interface InvestorStats {

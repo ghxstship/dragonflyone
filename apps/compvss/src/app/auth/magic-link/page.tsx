@@ -3,17 +3,7 @@
 import { useState } from "react";
 import { Mail } from "lucide-react";
 import {
-  Alert,
-  AuthPage,
-  Body,
-  Button,
-  Card,
-  Field,
-  Form,
-  H2,
-  Input,
-  Stack,
-} from '@ghxstship/ui';
+  Alert, AuthPage, Body, Button, Card, Field, Form, H2, Input, Stack} from '@ghxstship/ui';
 import NextLink from "next/link";
 
 export default function MagicLinkPage() {

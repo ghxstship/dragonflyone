@@ -80,7 +80,7 @@ export function useActionItems(filters?: ActionItemFilters) {
       
       // Fetch high-priority/pending schedule tasks
       let tasksQuery = supabase
-        .from('schedule_tasks')
+        .from('projects')
         .select(`
           id,
           title,
@@ -110,7 +110,7 @@ export function useActionItems(filters?: ActionItemFilters) {
 
       // Fetch meeting action items
       let meetingItemsQuery = supabase
-        .from('meeting_action_items')
+        .from('projects')
         .select(`
           id,
           description,
@@ -256,13 +256,13 @@ export function useActionItemStats() {
     queryFn: async () => {
       // Get task counts
       const { data: tasks, error: tasksError } = await supabase
-        .from('schedule_tasks')
+        .from('projects')
         .select('priority, status')
         .in('status', ['pending', 'in_progress']);
 
       // Get meeting action item counts
       const { data: meetingItems, error: meetingError } = await supabase
-        .from('meeting_action_items')
+        .from('projects')
         .select('priority, status')
         .in('status', ['pending', 'in_progress']);
 

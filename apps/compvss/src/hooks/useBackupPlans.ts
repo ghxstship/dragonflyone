@@ -29,7 +29,7 @@ export function useBackupPlans(projectId?: string) {
     queryKey: ['backup-plans', projectId],
     queryFn: async () => {
       let query = supabase
-        .from('backup_plans')
+        .from('legend_documents')
         .select('*')
         .order('name', { ascending: true });
 
@@ -65,7 +65,7 @@ export function useCreateBackupPlan() {
   return useMutation({
     mutationFn: async (plan: Omit<BackupPlan, 'id' | 'created_at' | 'updated_at' | 'lastUpdated'>) => {
       const { data, error } = await supabase
-        .from('backup_plans')
+        .from('legend_documents')
         .insert({
           name: plan.name,
           category: plan.category,
@@ -104,7 +104,7 @@ export function useUpdateBackupPlan() {
       if (updates.status) dbUpdates.status = updates.status;
 
       const { data, error } = await supabase
-        .from('backup_plans')
+        .from('legend_documents')
         .update(dbUpdates)
         .eq('id', id)
         .select()
@@ -125,7 +125,7 @@ export function useDeleteBackupPlan() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('backup_plans').delete().eq('id', id);
+      const { error } = await supabase.from('legend_documents').delete().eq('id', id);
       if (error) throw error;
     },
     onSuccess: () => {

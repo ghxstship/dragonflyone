@@ -9,15 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Users, Calendar, Clock, DollarSign, Check, ArrowRight, List, Star } from "lucide-react";
 import {
-  Body,
-  Button,
-  Card,
-  Grid,
-  Stack,
-  DetailPage,
-  Section,
-  SectionHeader,
-} from "@ghxstship/ui";
+  Body, Button, Card, Grid, Stack, DetailPage, Section, SectionHeader} from "@ghxstship/ui";
 
 const FEATURES = [
   { icon: <Users className="size-6" />, title: "Crew Database", description: "Comprehensive database of crew members and their skills" },

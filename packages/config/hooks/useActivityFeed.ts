@@ -96,35 +96,36 @@ export function useActivityFeed(filters?: ActivityFilters) {
       const activities: ActivityItem[] = [];
 
       try {
-        // Fetch recent audit logs if available
-        const { data: auditLogs, error: auditError } = await supabase
-          .from('audit_logs')
+        // Fetch recent chronicle entries (audit logs) using 3NF pattern
+        const { data: chronicleEntries, error: chronicleError } = await supabase
+          .from('chronicle_entries')
           .select(`
             id,
             action,
-            resource_type,
-            resource_id,
-            user_id,
+            subject_entity_type,
+            subject_entity_id,
+            actor_id,
+            actor_name,
             created_at,
-            metadata,
-            user:platform_users(full_name)
+            metadata
           `)
+          .eq('chronicle_type', 'audit')
           .order('created_at', { ascending: false })
           .limit(limit);
 
-        if (!auditError && auditLogs && auditLogs.length > 0) {
-          auditLogs.forEach((log) => {
-            const userName = (log.user as { full_name?: string })?.full_name || 'System';
+        if (!chronicleError && chronicleEntries && chronicleEntries.length > 0) {
+          chronicleEntries.forEach((entry) => {
+            const userName = entry.actor_name || 'System';
             activities.push({
-              id: log.id,
-              type: mapResourceToType(log.resource_type),
-              action: formatAction(log.action, log.resource_type),
-              detail: formatDetail(log.action, log.resource_type, log.metadata as Record<string, unknown>),
-              time: formatRelativeTime(new Date(log.created_at ?? new Date())),
+              id: entry.id,
+              type: mapResourceToType(entry.subject_entity_type ?? 'unknown'),
+              action: formatAction(entry.action, entry.subject_entity_type ?? 'unknown'),
+              detail: formatDetail(entry.action, entry.subject_entity_type ?? 'unknown', entry.metadata as Record<string, unknown>),
+              time: formatRelativeTime(new Date(entry.created_at ?? new Date())),
               user: userName,
-              userId: log.user_id ?? undefined,
-              entityId: log.resource_id ?? undefined,
-              metadata: log.metadata as Record<string, unknown>,
+              userId: entry.actor_id ?? undefined,
+              entityId: entry.subject_entity_id ?? undefined,
+              metadata: entry.metadata as Record<string, unknown>,
             });
           });
         }
@@ -177,9 +178,9 @@ export function useActivityFeed(filters?: ActivityFilters) {
           });
         }
 
-        // Fetch recent expenses
+        // Fetch recent expenses from finance_expenses (3NF table)
         const { data: expenses, error: expensesError } = await supabase
-          .from('expenses')
+          .from('finance_expenses')
           .select('id, description, amount, status, created_at')
           .order('created_at', { ascending: false })
           .limit(5);
@@ -190,7 +191,7 @@ export function useActivityFeed(filters?: ActivityFilters) {
               id: `expense-${expense.id}`,
               type: 'expense',
               action: expense.status === 'approved' ? 'Expense approved' : 'Expense submitted',
-              detail: `${expense.description} - $${expense.amount.toLocaleString()}`,
+              detail: `${expense.description || 'Expense'} - $${(expense.amount ?? 0).toLocaleString()}`,
               time: formatRelativeTime(new Date(expense.created_at ?? new Date())),
               user: 'Finance Team',
               entityId: expense.id,
