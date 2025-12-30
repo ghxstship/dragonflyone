@@ -247,7 +247,7 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
           background={isDark ? "ink" : "grey"}
           pattern={showPattern ? patternType : "none"}
           patternOpacity={isDark ? 0.03 : 0.04}
-          className="flex flex-1 items-center justify-center px-4 py-8 sm:px-6 sm:py-12 md:py-16"
+          className="flex flex-1 items-center justify-center px-4 py-4 sm:px-6 sm:py-6"
         >
           <main id={mainContentId} tabIndex={-1} role="main" aria-label="Authentication content">
             <Container className={clsx("w-full", contentMaxWidthClasses[contentMaxWidth])}>

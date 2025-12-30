@@ -11,14 +11,12 @@ import { useRouter } from "next/navigation";
 import { Mail, Phone, MapPin, Send, Clock } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  MarketingPage, HeroSection, FAQSection, Container, Stack, Grid, Card, Body, H3, Button, Input, Select, Textarea, Form, useNotifications} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FAQSection, Container, Stack, Grid, Card, Body, H3, Button, Input, Select, Textarea, Form, useNotifications, type FAQItem} from "@ghxstship/ui";
 
 const CONTACT_REASONS = ["General Inquiry", "Sales", "Support", "Partnership", "Press", "Other"];
 
 const OFFICES = [
-  { city: "New York", address: "123 Broadway, Suite 500", phone: "+1 (212) 555-0100", timezone: "EST" },
-  { city: "San Francisco", address: "456 Market St, Floor 10", phone: "+1 (415) 555-0200", timezone: "PST" },
-  { city: "London", address: "789 Oxford St, Unit 3", phone: "+44 20 7123 4567", timezone: "GMT" },
+  { city: "Tampa, FL", address: "Headquarters", phone: "+1 (800) 555-ATLVS", timezone: "EST" },
 ];
 
 const FAQS: FAQItem[] = [
@@ -258,12 +256,12 @@ export default function ContactPage() {
             <Container size="xl" className="py-20">
               <Stack gap={12}>
                 <Stack gap={4} className="text-center items-center">
-                  <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Global Presence</Body>
-                  <H3 className="text-white">Our Offices</H3>
-                  <Body className="text-on-dark-muted max-w-2xl">Visit us at one of our locations around the world</Body>
+                  <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Headquarters</Body>
+                  <H3 className="text-white">Our Office</H3>
+                  <Body className="text-on-dark-muted max-w-2xl">Visit us at our headquarters</Body>
                 </Stack>
 
-                <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
+                <Grid cols={1} gap={6} className="grid-cols-1 max-w-md mx-auto">
                   {OFFICES.map((office, index) => (
                     <Card key={index} className="p-6 border-2 border-grey-800 rounded-card hover:border-primary/50 transition-colors">
                       <Stack gap={4}>

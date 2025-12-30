@@ -84,7 +84,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
     return (
       <section
         ref={ref}
-        className={clsx("relative py-16 md:py-24", bgClasses[background], className)}
+        className={clsx("relative py-12 sm:py-16 md:py-20 lg:py-24", bgClasses[background], className)}
       >
         {/* Pattern Overlay */}
         {pattern !== "none" && (

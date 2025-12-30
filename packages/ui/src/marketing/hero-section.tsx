@@ -116,7 +116,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
         ref={ref}
         className={clsx(
           "relative overflow-hidden text-white",
-          fullHeight ? "min-h-screen" : "min-h-[70vh]",
+          fullHeight ? "min-h-[100dvh]" : "min-h-[60vh] md:min-h-[70vh]",
           bgClasses[background],
           className
         )}
@@ -143,8 +143,8 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
         <Container size="xl" className="relative z-10 h-full">
           <div
             className={clsx(
-              "flex flex-col justify-center h-full py-20 md:py-32",
-              fullHeight && "min-h-screen",
+              "flex flex-col justify-center h-full py-12 sm:py-16 md:py-24 lg:py-32",
+              fullHeight && "min-h-[100dvh]",
               alignClasses[align]
             )}
           >

@@ -102,7 +102,7 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
     return (
       <section
         ref={ref}
-        className={clsx("relative py-20 md:py-32", bgClasses[background], className)}
+        className={clsx("relative py-12 sm:py-16 md:py-24 lg:py-32", bgClasses[background], className)}
       >
         {/* Pattern Overlay */}
         {pattern !== "none" && (
@@ -118,7 +118,7 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
             <Stack
               gap={4}
               className={clsx(
-                "mb-12 md:mb-16",
+                "mb-8 sm:mb-10 md:mb-12 lg:mb-16",
                 align === "center" ? "text-center items-center" : "text-left"
               )}
             >

@@ -153,7 +153,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
         ref={ref}
         className={clsx(
           bgClass,
-          !noPadding && !border && "py-16 md:py-24",
+          !noPadding && !border && "py-10 sm:py-12 md:py-16 lg:py-24",
           border && "border-2 border-grey-800 p-6 rounded-[var(--radius-card)]",
           className
         )}

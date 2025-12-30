@@ -56,7 +56,9 @@ export function PublicHeader({ className }: PublicHeaderProps) {
 
           {/* Mobile Menu Toggle */}
           <Button
-            className="lg:hidden p-2"
+            variant="ghost"
+            size="sm"
+            className="lg:hidden p-2 text-foreground"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -135,7 +137,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
             {/* Pricing */}
             <Link
               href="/pricing"
-              className="block font-weight-medium text-foreground"
+              className="block text-body-sm font-weight-medium text-foreground"
               onClick={() => setMobileMenuOpen(false)}
             >
               Pricing

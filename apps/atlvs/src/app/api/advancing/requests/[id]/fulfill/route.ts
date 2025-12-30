@@ -1,4 +1,4 @@
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole, logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/requests/[id]/fulfill/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -130,7 +130,7 @@ export async function POST(
       .select('fulfillment_status')
       .eq('advance_id', id);
 
-    interface FulfillmentItem { fulfillment_status: string }
+    interface FulfillmentItem { fulfillment_status: string | null }
     const allComplete = updatedItems?.every((item: FulfillmentItem) => item.fulfillment_status === 'complete');
     const anyPartial = updatedItems?.some((item: FulfillmentItem) => item.fulfillment_status === 'partial');
 

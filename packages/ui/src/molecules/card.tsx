@@ -112,7 +112,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         onClick={onClick}
         onKeyDown={handleKeyDown}
         className={clsx(
-          "p-6 rounded-[var(--radius-card)]",
+          "p-4 sm:p-5 md:p-6 rounded-[var(--radius-card)]",
           getVariantClasses(),
           interactiveClasses,
           shouldBeAccessible && "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",

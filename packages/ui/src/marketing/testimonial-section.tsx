@@ -82,7 +82,7 @@ function TestimonialCard({
   showRatings?: boolean;
 }) {
   return (
-    <Card className="p-6 md:p-8 border-2 border-grey-800 rounded-card h-full">
+    <Card className="p-4 sm:p-6 md:p-8 border-2 border-grey-800 rounded-card h-full">
       <Stack gap={6} className="h-full">
         {/* Quote Icon */}
         <Quote className="size-10 text-primary/50" />
@@ -160,12 +160,12 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
     return (
       <section
         ref={ref}
-        className={clsx("py-20 md:py-32", bgClasses[background], className)}
+        className={clsx("py-12 sm:py-16 md:py-24 lg:py-32", bgClasses[background], className)}
       >
         <Container size="xl">
           {/* Section Header */}
           {(kicker || title || description) && (
-            <Stack gap={4} className="mb-12 md:mb-16 text-center items-center">
+            <Stack gap={4} className="mb-8 sm:mb-10 md:mb-12 lg:mb-16 text-center items-center">
               {kicker && <Kicker>{kicker}</Kicker>}
               {title && <H2 className="text-white">{title}</H2>}
               {description && (
@@ -249,7 +249,7 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
           {/* Featured Variant */}
           {variant === "featured" && featuredTestimonial && (
             <div className="max-w-4xl mx-auto">
-              <Card className="p-8 md:p-12 border-2 border-primary/30 rounded-card bg-gradient-to-br from-primary/10 to-transparent">
+              <Card className="p-6 sm:p-8 md:p-10 lg:p-12 border-2 border-primary/30 rounded-card bg-gradient-to-br from-primary/10 to-transparent">
                 <Stack gap={8} className="text-center items-center">
                   <Quote className="size-16 text-primary/50" />
                   

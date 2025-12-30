@@ -97,12 +97,12 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
     return (
       <section
         ref={ref}
-        className={clsx("py-20 md:py-32", bgClasses[background], className)}
+        className={clsx("py-12 sm:py-16 md:py-24 lg:py-32", bgClasses[background], className)}
       >
         <Container size="xl">
           {/* Section Header */}
           {(kicker || title || description) && (
-            <Stack gap={4} className="mb-12 text-center items-center">
+            <Stack gap={4} className="mb-8 sm:mb-10 md:mb-12 text-center items-center">
               {kicker && <Kicker>{kicker}</Kicker>}
               {title && <H2 className="text-white">{title}</H2>}
               {description && (

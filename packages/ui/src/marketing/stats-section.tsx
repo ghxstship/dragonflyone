@@ -181,7 +181,7 @@ export const StatsSection = forwardRef<HTMLElement, StatsSectionProps>(
           if (typeof ref === "function") ref(node);
           else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = node;
         }}
-        className={clsx("py-16 md:py-24", bgClasses[background], className)}
+        className={clsx("py-12 sm:py-16 md:py-20 lg:py-24", bgClasses[background], className)}
       >
         <Container size="xl">
           {/* Section Header */}
@@ -189,7 +189,7 @@ export const StatsSection = forwardRef<HTMLElement, StatsSectionProps>(
             <Stack
               gap={4}
               className={clsx(
-                "mb-12",
+                "mb-8 sm:mb-10 md:mb-12",
                 align === "center" ? "text-center items-center" : "text-left"
               )}
             >

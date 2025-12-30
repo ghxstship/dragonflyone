@@ -102,11 +102,11 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
     return (
       <section
         ref={ref}
-        className={clsx("py-20 md:py-32", bgClasses[background], className)}
+        className={clsx("py-12 sm:py-16 md:py-24 lg:py-32", bgClasses[background], className)}
       >
         <Container size="xl">
           {/* Section Header */}
-          <Stack gap={4} className="mb-12 md:mb-16 text-center items-center">
+          <Stack gap={4} className="mb-8 sm:mb-10 md:mb-12 lg:mb-16 text-center items-center">
             {kicker && <Kicker>{kicker}</Kicker>}
             {title && <H2 className="text-white">{title}</H2>}
             {description && (
@@ -157,7 +157,7 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
               <Card
                 key={plan.id}
                 className={clsx(
-                  "p-6 md:p-8 rounded-card relative",
+                  "p-4 sm:p-6 md:p-8 rounded-card relative",
                   plan.highlighted
                     ? "border-2 border-primary ring-2 ring-primary/20"
                     : "border-2 border-grey-800"
