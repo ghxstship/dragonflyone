@@ -117,7 +117,7 @@ function HeroSection() {
         <ScrollReveal animation="slide-up" delay={200} duration={800}>
           <Stack gap={6} className="mt-12 items-center">
             <NextLink href="/apply">
-              <Button variant="pop" size="lg" inverted>Request Membership</Button>
+              <Button variant="primary" size="lg" inverted>Request Membership</Button>
             </NextLink>
             <Label size="xs" className="uppercase tracking-label text-on-dark-muted">
               Invitation Only • 4321 Members Worldwide
@@ -423,7 +423,7 @@ function PricingSection() {
               </Stack>
                 
               <NextLink href="/apply" className="mt-6 w-full">
-                <Button variant="outlineWhite" size="md" fullWidth>{tier.cta}</Button>
+                <Button variant="outline" size="md" fullWidth>{tier.cta}</Button>
               </NextLink>
             </Card>
           ))}
@@ -494,7 +494,7 @@ function CtaSection() {
           </Body>
           
           <NextLink href="/apply">
-            <Button variant="pop" size="lg" icon={<ArrowRight />} inverted>
+            <Button variant="primary" size="lg" icon={<ArrowRight />} inverted>
               Request Membership
             </Button>
           </NextLink>

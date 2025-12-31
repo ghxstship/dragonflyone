@@ -110,7 +110,7 @@ function ConfirmationContent() {
             <Stack gap={4} className="w-full">
               <NextLink href="/events" className="w-full">
                 <Button
-                  variant="pop"
+                  variant="solid"
                   size="lg"
                   fullWidth
                   icon={<ArrowRight className="size-4" />}

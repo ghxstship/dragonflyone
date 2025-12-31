@@ -49,10 +49,10 @@ export function PublicHeader({ className }: PublicHeaderProps) {
           {/* Desktop CTAs */}
           <Stack direction="horizontal" gap={3} className="hidden lg:flex items-center">
             <Link href="/auth/signup">
-              <Button variant="outlineFill" size="sm" inverted={false}>Get Started</Button>
+              <Button variant="primary" size="sm" inverted={false}>Get Started</Button>
             </Link>
             <Link href="/auth/signin">
-              <Button variant="outline" size="sm" inverted={false}>Sign In</Button>
+              <Button variant="ghost" size="sm" inverted={false}>Sign In</Button>
             </Link>
           </Stack>
 
@@ -145,10 +145,10 @@ export function PublicHeader({ className }: PublicHeaderProps) {
               {/* CTAs */}
               <Stack gap={2} className="pt-4 border-t-2 border-ink-950">
                 <Link href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outlineFill" size="md" fullWidth inverted={false}>Get Started</Button>
+                  <Button variant="primary" size="md" fullWidth inverted={false}>Get Started</Button>
                 </Link>
                 <Link href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outline" size="md" fullWidth inverted={false}>Sign In</Button>
+                  <Button variant="ghost" size="md" fullWidth inverted={false}>Sign In</Button>
                 </Link>
               </Stack>
             </Stack>

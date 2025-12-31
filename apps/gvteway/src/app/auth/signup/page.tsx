@@ -106,7 +106,7 @@ export default function SignUpPage() {
       background="black"
       headerAction={
         <NextLink href="/auth/signin" className="hidden sm:block">
-          <Button variant="outlineInk" size="sm">
+          <Button variant="outline" size="sm">
             Sign In
           </Button>
         </NextLink>
@@ -214,7 +214,7 @@ export default function SignUpPage() {
                     {/* Primary CTA */}
                     <Button
                       type="submit"
-                      variant="pop"
+                      variant="solid"
                       size="lg"
                       fullWidth
                       disabled={loading}
@@ -238,7 +238,7 @@ export default function SignUpPage() {
                 {/* OAuth Buttons */}
                 <Stack gap={3}>
                   <Button
-                    variant="outlineInk"
+                    variant="outline"
                     size="lg"
                     fullWidth
                     onClick={() => handleOAuthSignUp("google")}
@@ -247,7 +247,7 @@ export default function SignUpPage() {
                     Sign up with Google
                   </Button>
                   <Button
-                    variant="outlineInk"
+                    variant="outline"
                     size="lg"
                     fullWidth
                     onClick={() => handleOAuthSignUp("apple")}

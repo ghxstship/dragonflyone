@@ -49,7 +49,7 @@ export default function ForgotPasswordPage() {
       background="black"
       headerAction={
         <NextLink href="/auth/signin" className="hidden sm:block">
-          <Button variant="outlineInk" size="sm">
+          <Button variant="outline" size="sm">
             Sign In
           </Button>
         </NextLink>
@@ -75,7 +75,7 @@ export default function ForgotPasswordPage() {
                   </Stack>
 
                   <NextLink href="/auth/signin" className="w-full">
-                    <Button variant="pop" size="lg" fullWidth>
+                    <Button variant="solid" size="lg" fullWidth>
                       Back to Sign In
                     </Button>
                   </NextLink>
@@ -114,7 +114,7 @@ export default function ForgotPasswordPage() {
 
                       <Button
                         type="submit"
-                        variant="pop"
+                        variant="solid"
                         size="lg"
                         fullWidth
                         disabled={loading}

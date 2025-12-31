@@ -123,7 +123,7 @@ function ResetPasswordContent() {
 
                       <Button
                         type="submit"
-                        variant="pop"
+                        variant="solid"
                         size="lg"
                         fullWidth
                         disabled={loading}

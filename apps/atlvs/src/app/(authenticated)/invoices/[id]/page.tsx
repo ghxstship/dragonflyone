@@ -265,7 +265,7 @@ export default function InvoiceDetailPage() {
           invoice && (
             <Stack direction="horizontal" gap={2}>
               <Button
-                variant="outlineWhite"
+                variant="outline"
                 size="sm"
                 onClick={() => window.print()}
                 icon={<Printer className="size-4" />}
@@ -274,7 +274,7 @@ export default function InvoiceDetailPage() {
                 Print
               </Button>
               <Button
-                variant="outlineWhite"
+                variant="outline"
                 size="sm"
                 icon={<Download className="size-4" />}
                 iconPosition="left"
@@ -284,7 +284,7 @@ export default function InvoiceDetailPage() {
               {invoice.status === 'draft' && (
                 <>
                   <Button
-                    variant="outlineWhite"
+                    variant="outline"
                     size="sm"
                     onClick={() => router.push(`/invoices/${invoiceId}/edit`)}
                     icon={<Edit2 className="size-4" />}
@@ -307,7 +307,7 @@ export default function InvoiceDetailPage() {
               {['sent', 'viewed', 'partial', 'overdue'].includes(invoice.status) && (
                 <>
                   <Button
-                    variant="outlineWhite"
+                    variant="outline"
                     size="sm"
                     onClick={handleSend}
                     disabled={sendMutation.isPending}
@@ -384,7 +384,7 @@ export default function InvoiceDetailPage() {
               
               <Stack direction="horizontal" gap={3} className="justify-end">
                 <Button
-                  variant="outlineWhite"
+                  variant="outline"
                   onClick={() => setShowPaymentModal(false)}
                 >
                   Cancel

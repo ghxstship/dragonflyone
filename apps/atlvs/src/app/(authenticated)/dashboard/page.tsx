@@ -321,7 +321,7 @@ export default function DashboardPage() {
                   return (
                     <Button
                       key={favorite.id}
-                      variant="outlineWhite"
+                      variant="outline"
                       fullWidth
                       className="justify-start text-left"
                       onClick={() => handleQuickLinkClick(link.href)}
@@ -335,7 +335,7 @@ export default function DashboardPage() {
               ) : (
                 <>
                   <Button 
-                    variant="outlineWhite" 
+                    variant="outline" 
                     fullWidth
                     className="justify-start text-left"
                     onClick={() => handleQuickLinkClick('/projects/new')}
@@ -345,7 +345,7 @@ export default function DashboardPage() {
                     Create New Project
                   </Button>
                   <Button 
-                    variant="outlineWhite" 
+                    variant="outline" 
                     fullWidth
                     className="justify-start text-left"
                     onClick={() => handleQuickLinkClick('/expenses/new')}
@@ -355,7 +355,7 @@ export default function DashboardPage() {
                     Submit Expense Report
                   </Button>
                   <Button 
-                    variant="outlineWhite" 
+                    variant="outline" 
                     fullWidth
                     className="justify-start text-left"
                     onClick={() => handleQuickLinkClick('/assets/availability')}
@@ -365,7 +365,7 @@ export default function DashboardPage() {
                     Check Asset Availability
                   </Button>
                   <Button 
-                    variant="outlineWhite" 
+                    variant="outline" 
                     fullWidth
                     className="justify-start text-left"
                     onClick={() => handleQuickLinkClick('/reports/financial/new')}
@@ -379,7 +379,7 @@ export default function DashboardPage() {
               
               {/* View All Links Button */}
               <Button
-                variant="outlineWhite"
+                variant="outline"
                 fullWidth
                 onClick={() => router.push('/quick-links')}
                 icon={<ArrowRight className="size-4" />}
@@ -462,7 +462,7 @@ export default function DashboardPage() {
               
               {/* View All Action Items Button */}
               <Button
-                variant="outlineWhite"
+                variant="outline"
                 fullWidth
                 onClick={() => router.push('/action-items')}
                 icon={<ArrowRight className="size-4" />}

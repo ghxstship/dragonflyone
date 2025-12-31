@@ -55,7 +55,7 @@ export default function SignInPage() {
       background="black"
       headerAction={
         <NextLink href="/apply" className="hidden sm:block">
-          <Button variant="outlineInk" size="sm">
+          <Button variant="outline" size="sm">
             Apply for Membership
           </Button>
         </NextLink>

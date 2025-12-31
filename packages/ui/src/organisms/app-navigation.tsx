@@ -125,14 +125,14 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
             <Stack direction="horizontal" gap={3} className="items-center">
               {primaryCta && (
                 <Link href={primaryCta.href} className="hidden md:block">
-                  <Button variant="outlineWhite" size="sm">
+                  <Button variant="outline" size="sm">
                     {primaryCta.label}
                   </Button>
                 </Link>
               )}
               {secondaryCta && (
                 <Link href={secondaryCta.href} className="hidden md:block">
-                  <Button variant="outlineInk" size="sm">
+                  <Button variant="outline" size="sm">
                     {secondaryCta.label}
                   </Button>
                 </Link>
@@ -197,14 +197,14 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
               <Stack gap={4}>
                 {primaryCta && (
                   <Link href={primaryCta.href} onClick={handleClose} className="block">
-                    <Button variant="outlineWhite" size="md" fullWidth>
+                    <Button variant="outline" size="md" fullWidth>
                       {primaryCta.label}
                     </Button>
                   </Link>
                 )}
                 {secondaryCta && (
                   <Link href={secondaryCta.href} onClick={handleClose} className="block">
-                    <Button variant="outlineInk" size="md" fullWidth>
+                    <Button variant="outline" size="md" fullWidth>
                       {secondaryCta.label}
                     </Button>
                   </Link>

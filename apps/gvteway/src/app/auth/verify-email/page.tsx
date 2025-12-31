@@ -104,7 +104,7 @@ function VerifyEmailContent() {
           </Label>
 
           <Button
-            variant="outlineInk"
+            variant="outline"
             size="lg"
             fullWidth
             onClick={handleResendVerification}

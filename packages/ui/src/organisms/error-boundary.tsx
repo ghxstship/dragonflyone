@@ -54,7 +54,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <span className="font-display text-display-md text-white">ERROR</span>
             <Button
               onClick={() => window.location.href = '/'}
-              variant="outlineWhite"
+              variant="outline"
               size="sm"
             >
               HOME

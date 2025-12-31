@@ -50,7 +50,7 @@ export default function MagicLinkPage() {
       background="black"
       headerAction={
         <NextLink href="/auth/signin" className="hidden sm:block">
-          <Button variant="outlineInk" size="sm">
+          <Button variant="outline" size="sm">
             Sign In
           </Button>
         </NextLink>
@@ -122,7 +122,7 @@ export default function MagicLinkPage() {
 
                       <Button
                         type="submit"
-                        variant="pop"
+                        variant="solid"
                         size="lg"
                         fullWidth
                         disabled={loading}

@@ -551,71 +551,96 @@ a {
 
 /* -----------------------------------------------------------------------------
    CARD HOVER EFFECTS - For Article, Card, and interactive panels
-   Usage: class="pop-card" or class="pop-card-brand"
+   
+   NORMALIZED POP-ART SHADOW STRATEGY:
+   - Resting: Neutral black shadow (clean, professional)
+   - Hover: Accent color shadow appears (rewards interaction)
+   - Active: Shadow shrinks (confirms action)
+   
+   Usage:
+   - pop-card: Standard neutral shadows
+   - pop-card-primary: Neutral resting, PRIMARY color on hover
+   - pop-card-accent: Neutral resting, ACCENT (pink) color on hover
    ----------------------------------------------------------------------------- */
 
-/* Standard pop-art card hover - subtle shadow with lift */
+/* Standard pop-art card hover - neutral black shadow throughout */
 .pop-card {
   cursor: pointer;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.15);
   transition: transform var(--duration-fast) var(--ease-bounce), 
               box-shadow var(--duration-fast) var(--ease-bounce);
 }
 .pop-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 0.25);
 }
 .pop-card:active {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.15);
 }
 
-/* Brand-colored pop-art card hover - uses app's primary color */
-.pop-card-brand {
+/* Primary card - neutral resting, PRIMARY color on hover */
+.pop-card-primary {
   cursor: pointer;
-  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.15);
   transition: transform var(--duration-fast) var(--ease-bounce), 
               box-shadow var(--duration-fast) var(--ease-bounce);
 }
-.pop-card-brand:hover {
-  transform: translateY(-4px);
-  box-shadow: 8px 8px 0 0 hsl(var(--primary));
+.pop-card-primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 hsl(var(--primary));
 }
-.pop-card-brand:active {
-  transform: translateY(-1px);
-  box-shadow: 2px 2px 0 0 hsl(var(--primary));
+.pop-card-primary:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 0 hsl(var(--primary) / 0.7);
 }
 
-/* Accent-colored pop-art card hover */
+/* Accent card - neutral resting, ACCENT (pink) color on hover */
 .pop-card-accent {
   cursor: pointer;
-  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.15);
   transition: transform var(--duration-fast) var(--ease-bounce), 
               box-shadow var(--duration-fast) var(--ease-bounce);
 }
 .pop-card-accent:hover {
-  transform: translateY(-4px);
-  box-shadow: 8px 8px 0 0 hsl(var(--accent));
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 hsl(var(--brand-pink));
 }
 .pop-card-accent:active {
-  transform: translateY(-1px);
-  box-shadow: 2px 2px 0 0 hsl(var(--accent));
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 0 hsl(var(--brand-pink) / 0.7);
 }
 
-/* Dark mode card hover - white/light shadows */
+/* Brand card - alias for primary (backwards compatibility) */
+.pop-card-brand {
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.15);
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              box-shadow var(--duration-fast) var(--ease-bounce);
+}
+.pop-card-brand:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 hsl(var(--brand-pink));
+}
+.pop-card-brand:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 0 hsl(var(--brand-pink) / 0.7);
+}
+
+/* Dark background card - neutral shadows */
 .pop-card-dark {
   cursor: pointer;
-  box-shadow: 4px 4px 0 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.3);
   transition: transform var(--duration-fast) var(--ease-bounce), 
               box-shadow var(--duration-fast) var(--ease-bounce);
 }
 .pop-card-dark:hover {
-  transform: translateY(-4px);
-  box-shadow: 8px 8px 0 0 rgba(255, 255, 255, 0.25);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 0.4);
 }
 .pop-card-dark:active {
-  transform: translateY(-1px);
-  box-shadow: 2px 2px 0 0 rgba(255, 255, 255, 0.15);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.25);
 }
 
 /* -----------------------------------------------------------------------------

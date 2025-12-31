@@ -45,7 +45,7 @@ export default function SignInPage() {
       appName="COMPVSS"
       headerAction={
         <NextLink href="/auth/signup" className="hidden sm:block">
-          <Button variant="outlineInk" size="sm">
+          <Button variant="outline" size="sm">
             Get Started
           </Button>
         </NextLink>

@@ -2,7 +2,7 @@
 
 import { AtlvsAppLayout } from "../components/app-layout";
 import {
-  Stack, Grid, Card, Body, H1, H3, Label, Container, Display, List, ListItem, Article, Box, Text, Button, MarketingPage, type MarketingSection} from '@ghxstship/ui';
+  Stack, Grid, Card, Body, H1, H3, Label, Container, Display, Article, Box, Text, Button, MarketingPage, type MarketingSection} from '@ghxstship/ui';
 import type { LucideIcon } from "lucide-react";
 import NextLink from "next/link";
 import {
@@ -37,10 +37,10 @@ function HeroSection() {
         </Body>
         <Stack direction="horizontal" gap={4} className="flex-wrap justify-center">
           <NextLink href="/products">
-            <Button variant="pop" size="lg">EXPLORE PRODUCTS</Button>
+            <Button variant="primary" size="lg">EXPLORE PRODUCTS</Button>
           </NextLink>
           <NextLink href="/pricing">
-            <Button variant="outlineWhite" size="lg">SEE PRICING</Button>
+            <Button variant="outline" size="lg">SEE PRICING</Button>
           </NextLink>
         </Stack>
         <Stack direction="horizontal" gap={6} className="mt-4 flex-wrap justify-center">
@@ -75,11 +75,11 @@ function VerticalsSection() {
             </Box>
             <H3 className="font-display text-h5-md uppercase tracking-label text-ink-950">{vertical.title}</H3>
             <Body className="mt-3 flex-1 text-on-light-muted">{vertical.description}</Body>
-            <List className="mt-4 space-y-1">
+            <Stack gap={1} className="mt-4">
               {vertical.features.map((feature) => (
-                <ListItem key={feature} className="font-mono text-mono-xs uppercase tracking-label text-on-light-muted">{feature}</ListItem>
+                <Text key={feature} className="font-mono text-mono-xs uppercase tracking-label text-on-light-muted">{feature}</Text>
               ))}
-            </List>
+            </Stack>
             <NextLink href={vertical.href} className="mt-6 inline-block font-mono text-mono-xs uppercase tracking-label text-brand-pink transition-colors hover:text-ink-950">
               Learn More →
             </NextLink>
@@ -131,14 +131,14 @@ function SolutionsSection() {
             <Stack gap={6} className={index % 2 === 1 ? "lg:order-1" : ""}>
               <H3 className="font-display text-h3-md uppercase tracking-label text-ink-950">{pillar.title}</H3>
               <Body className="text-body-md text-on-light-muted">{pillar.description}</Body>
-              <List className="space-y-2">
+              <Stack gap={2}>
                 {pillar.features.map((feature) => (
-                  <ListItem key={feature} className="flex items-start gap-3">
+                  <Stack key={feature} direction="horizontal" gap={3} className="items-start">
                     <Check className="h-4 w-4 flex-shrink-0 text-brand-pink" />
                     <Text size="sm" className="text-on-light-secondary">{feature}</Text>
-                  </ListItem>
+                  </Stack>
                 ))}
-              </List>
+              </Stack>
               <Text className="font-mono text-mono-xs uppercase tracking-label text-brand-pink">Replaces: {pillar.replaces}</Text>
             </Stack>
           </Article>
@@ -241,7 +241,7 @@ function CompvssSection() {
             <Text className="font-mono text-mono-xs uppercase tracking-label text-brand-cyan">{atlvsCompvssSection.note}</Text>
           </Stack>
           <NextLink href={atlvsCompvssSection.cta.href}>
-            <Button variant="outlineWhite" size="md">
+            <Button variant="outline" size="md">
               {atlvsCompvssSection.cta.label}
             </Button>
           </NextLink>
@@ -310,7 +310,7 @@ function PricingSection() {
               <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-light-secondary">EXPERIENCE — Business + Tickets</Text></Stack>
               <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-light-secondary">PRODUCTION — Business + Crews</Text></Stack>
             </Stack>
-            <NextLink href="/pricing#bundles" className="w-full mt-auto"><Button variant="pop" size="md" fullWidth>See Bundles</Button></NextLink>
+            <NextLink href="/pricing#bundles" className="w-full mt-auto"><Button variant="accent" size="md" fullWidth inverted={false}>See Bundles</Button></NextLink>
           </Stack>
         </Card>
 
@@ -325,14 +325,14 @@ function PricingSection() {
               <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-dark-secondary">2.0% transaction fees</Text></Stack>
               <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-dark-secondary">Dedicated CSM + SLA</Text></Stack>
             </Stack>
-            <NextLink href="/contact?plan=enterprise" className="w-full mt-auto"><Button variant="outlineWhite" size="md" fullWidth>Go Enterprise</Button></NextLink>
+            <NextLink href="/contact?plan=enterprise" className="w-full mt-auto"><Button variant="outline" size="md" fullWidth>Go Enterprise</Button></NextLink>
           </Stack>
         </Card>
       </Grid>
 
       <Stack gap={4} className="mt-12 text-center">
         <Body size="sm" className="text-on-light-muted">No per-seat charges. Unlimited users on ATLVS and COMPVSS.</Body>
-        <NextLink href="/pricing"><Button variant="outline" size="md" icon={<ArrowRight />}>See Full Pricing</Button></NextLink>
+        <NextLink href="/pricing"><Button variant="primary" size="md" inverted={false} icon={<ArrowRight />}>See Full Pricing</Button></NextLink>
       </Stack>
     </Container>
   );
@@ -344,8 +344,8 @@ function CtaSection() {
       <Display size="md" className="text-white">NOT SURE WHERE TO START?</Display>
       <Body size="lg" className="mx-auto mt-4 max-w-xl text-on-dark-muted">Modular by design. Find the tier that fits your stack.</Body>
       <Stack direction="horizontal" gap={4} className="mt-8 flex-wrap justify-center">
-        <NextLink href="/products"><Button variant="pop" size="lg">EXPLORE PRODUCTS</Button></NextLink>
-        <NextLink href="/pricing"><Button variant="outlineWhite" size="lg">SEE PRICING</Button></NextLink>
+        <NextLink href="/products"><Button variant="primary" size="lg">EXPLORE PRODUCTS</Button></NextLink>
+        <NextLink href="/pricing"><Button variant="outline" size="lg">SEE PRICING</Button></NextLink>
       </Stack>
       <Stack direction="horizontal" gap={6} className="mt-8 flex-wrap justify-center">
         <Text size="sm" className="text-on-dark-disabled">PRODUCTIONS</Text>

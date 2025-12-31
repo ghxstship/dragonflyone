@@ -243,7 +243,7 @@ export const SignInForm = forwardRef<HTMLDivElement, SignInFormProps>(
 
                 <Button
                   type="submit"
-                  variant={inverted ? "pop" : "solid"}
+                  variant="solid"
                   size="lg"
                   fullWidth
                   disabled={loading}
@@ -277,7 +277,7 @@ export const SignInForm = forwardRef<HTMLDivElement, SignInFormProps>(
                 <Stack gap={3}>
                   {oauthProviders.includes("google") && (
                     <Button
-                      variant={inverted ? "outlineInk" : "outline"}
+                      variant="outline"
                       size="lg"
                       fullWidth
                       onClick={() => handleOAuthSignIn("google")}
@@ -289,7 +289,7 @@ export const SignInForm = forwardRef<HTMLDivElement, SignInFormProps>(
                   )}
                   {oauthProviders.includes("apple") && (
                     <Button
-                      variant={inverted ? "outlineInk" : "outline"}
+                      variant="outline"
                       size="lg"
                       fullWidth
                       onClick={() => handleOAuthSignIn("apple")}

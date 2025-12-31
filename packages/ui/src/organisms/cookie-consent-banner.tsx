@@ -295,7 +295,7 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
                       Accept All
                     </Button>
                     <Button
-                      variant="secondary"
+                      variant="solid"
                       size="md"
                       onClick={handleRejectAll}
                     >
@@ -319,7 +319,7 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
                       Save Preferences
                     </Button>
                     <Button
-                      variant="secondary"
+                      variant="solid"
                       size="md"
                       onClick={handleAcceptAll}
                     >

@@ -595,7 +595,7 @@ function ApplicationForm() {
               {step < totalSteps ? (
                 <Button
                   type="button"
-                  variant="pop"
+                  variant="solid"
                   size="lg"
                   onClick={handleNext}
                   icon={<ArrowRight className="size-4" />}
@@ -606,7 +606,7 @@ function ApplicationForm() {
               ) : (
                 <Button
                   type="submit"
-                  variant="pop"
+                  variant="solid"
                   size="lg"
                   disabled={isSubmitting}
                   icon={<Check className="size-4" />}

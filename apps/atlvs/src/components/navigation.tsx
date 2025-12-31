@@ -14,8 +14,6 @@ import {
   Button,
   Header,
   Link,
-  List,
-  ListItem,
   Nav,
   Stack,
   Text,
@@ -23,7 +21,7 @@ import {
 } from '@ghxstship/ui';
 import type { ContextLevel } from "@ghxstship/ui";
 import clsx from "clsx";
-import { ChevronDown, ChevronRight, Briefcase, Users, Ticket, ArrowRight } from "lucide-react";
+import { ChevronDown, ChevronRight, Briefcase, Users, Ticket } from "lucide-react";
 
 // =============================================================================
 // CREATOR NAVIGATION (ATLVS is B2B - all users are "creators"/business users)
@@ -95,28 +93,17 @@ export function CreatorNavigationPublic() {
                           <Link
                             key={product.href}
                             href={product.href}
-                            className="group p-4 border-2 border-transparent interactive-border-inverted bg-ink-900/50 hover:bg-ink-900"
+                            className="group p-4 border-2 border-transparent hover:border-ink-700 bg-ink-900/50 hover:bg-ink-900 transition-all"
                           >
-                            <Stack direction="horizontal" gap={3} className="items-center mb-2">
-                              <Box className="p-2 border-2 border-ink-700 bg-ink-800">
+                            <Stack direction="horizontal" gap={3} className="items-start">
+                              <Box className="p-2 border-2 border-ink-700 bg-ink-800 shrink-0">
                                 <IconComponent className="h-5 w-5 text-brand-pink" />
                               </Box>
-                              <Stack gap={0}>
+                              <Stack gap={1}>
                                 <Text className="font-display text-h6-md uppercase text-white">{product.label}</Text>
-                                <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-muted">{product.tagline}</Text>
+                                <Text className="font-mono text-mono-xs uppercase tracking-kicker text-brand-pink">{product.tagline}</Text>
+                                <Body className="text-body-sm text-on-dark-muted mt-1">{product.description}</Body>
                               </Stack>
-                            </Stack>
-                            <Body className="text-body-sm text-on-dark-muted mb-3">{product.description}</Body>
-                            <List className="space-y-1">
-                              {product.features.map((feature) => (
-                                <ListItem key={feature} className="font-mono text-mono-xs text-on-dark-disabled flex items-center gap-2">
-                                  <Text className="w-1 h-1 bg-brand-pink" />
-                                  {feature}
-                                </ListItem>
-                              ))}
-                            </List>
-                            <Stack direction="horizontal" gap={1} className="mt-3 font-mono text-mono-xs uppercase tracking-kicker text-brand-pink items-center opacity-0 group-hover:opacity-100 transition-reveal">
-                              View Features <ArrowRight className="h-3 w-3" />
                             </Stack>
                           </Link>
                         );
@@ -161,18 +148,17 @@ export function CreatorNavigationPublic() {
                       {solutionsNavigation.groups.map((group) => (
                         <Stack key={group.title} gap={2}>
                           <Text className="font-display text-h6-md uppercase text-white">{group.title}</Text>
-                          <List className="space-y-1">
+                          <Stack gap={1}>
                             {group.items.map((item) => (
-                              <ListItem key={item.href}>
-                                <Link
-                                  href={item.href}
-                                  className="font-mono text-mono-sm nav-link-inverted"
-                                >
-                                  {item.label}
-                                </Link>
-                              </ListItem>
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                className="font-mono text-mono-sm text-on-dark-muted hover:text-white block"
+                              >
+                                {item.label}
+                              </Link>
                             ))}
-                          </List>
+                          </Stack>
                         </Stack>
                       ))}
                     </Box>
@@ -184,7 +170,7 @@ export function CreatorNavigationPublic() {
                           <Link
                             key={vertical.href}
                             href={vertical.href}
-                            className="font-mono text-mono-sm nav-link-inverted"
+                            className="font-mono text-mono-sm text-on-dark-muted hover:text-white"
                           >
                             {vertical.label}
                           </Link>
@@ -214,18 +200,17 @@ export function CreatorNavigationPublic() {
                       {resourcesNavigation.groups.map((group) => (
                         <Stack key={group.title} gap={3}>
                           <Text className="font-display text-h6-md uppercase text-white">{group.title}</Text>
-                          <List className="space-y-2">
+                          <Stack gap={2}>
                             {group.items.map((item) => (
-                              <ListItem key={item.href}>
-                                <Link
-                                  href={item.href}
-                                  className="font-mono text-mono-sm nav-link-inverted"
-                                >
-                                  {item.label}
-                                </Link>
-                              </ListItem>
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                className="font-mono text-mono-sm text-on-dark-muted hover:text-white block"
+                              >
+                                {item.label}
+                              </Link>
                             ))}
-                          </List>
+                          </Stack>
                         </Stack>
                       ))}
                     </Box>
@@ -237,7 +222,7 @@ export function CreatorNavigationPublic() {
                           <Link
                             key={link.href}
                             href={link.href}
-                            className="font-mono text-mono-sm nav-link-brand"
+                            className="font-mono text-mono-sm text-brand-pink hover:text-white"
                           >
                             {link.label}
                           </Link>
@@ -250,14 +235,10 @@ export function CreatorNavigationPublic() {
             </Box>
 
             {/* Pricing (no dropdown) */}
-            <Link
-              href="/pricing"
-              className={clsx(
-                "px-4 py-2 font-mono text-mono-sm uppercase tracking-kicker transition-colors",
-                isActive("/pricing") ? "text-white" : "text-ink-300 hover:text-white"
-              )}
-            >
-              Pricing
+            <Link href="/pricing">
+              <Button variant="ghost" size="sm" inverted className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300 hover:text-white">
+                Pricing
+              </Button>
             </Link>
           </Nav>
 

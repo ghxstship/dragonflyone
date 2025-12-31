@@ -14,7 +14,7 @@ const sizeClasses = {
   icon: "p-3 min-h-[44px] min-w-[44px]",
 };
 
-export type ButtonVariant = "solid" | "outline" | "ghost" | "outlineWhite" | "outlineInk" | "outlineFill" | "outlineFillWhite" | "pop" | "popPink" | "popCyan" | "popYellow" | "destructive" | "secondary" | "accent";
+export type ButtonVariant = "solid" | "outline" | "ghost" | "primary" | "accent" | "destructive";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -32,23 +32,22 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 /**
  * Button component - Bold Contemporary Pop Art Adventure
  * 
- * Features:
- * - 2px bold borders
- * - Hard offset shadows (comic panel style)
- * - Bounce hover animation with lift effect
- * - Press effect on active state
+ * NORMALIZED POP-ART SHADOW STRATEGY:
+ * - Resting state: Neutral shadows (black) - clean, professional
+ * - Hover state: Accent color shadow appears - rewards interaction
+ * - Active state: Shadow shrinks - confirms action
  * 
  * Variants:
- * - solid: Primary action button with hard shadow
- * - secondary: Secondary action with violet accent
- * - outline: Bold border, inverts on hover
- * - ghost: Minimal button for tertiary actions
- * - pop: Maximum impact - 4px border, accent shadow
- * - destructive: Error/delete actions
- * - outlineWhite: White border for dark backgrounds
- * - outlineInk: Subtle ink border for dark backgrounds
- * - outlineFill: Border that fills with color on hover (light bg)
- * - outlineFillWhite: Border that fills white on hover (dark bg)
+ * - solid: Standard filled button (neutral shadows)
+ * - outline: Border button that fills on hover (neutral shadows)
+ * - ghost: Minimal button for tertiary actions (no shadow)
+ * - primary: Brand emphasis - neutral resting, PRIMARY color on hover
+ * - accent: Special promotions - neutral resting, ACCENT color on hover  
+ * - destructive: Error/delete actions (red themed)
+ * 
+ * The `inverted` prop controls light/dark background adaptation:
+ * - inverted=true (default): For dark backgrounds
+ * - inverted=false: For light backgrounds
  */
 // Loading spinner component
 const LoadingSpinner = () => (
@@ -94,132 +93,73 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   );
 
   const getVariantClasses = () => {
-    // Explicit dark-background variants (no inverted prop needed)
-    switch (variant) {
-      case "outlineWhite":
-        return clsx(
-          "border-white text-white bg-transparent",
-          "shadow-[3px_3px_0_rgba(255,255,255,0.15)]",
-          "hover:shadow-[5px_5px_0_hsl(var(--primary))]",
-          "active:shadow-[2px_2px_0_hsl(var(--primary))]",
-          "focus-visible:ring-primary focus-visible:ring-offset-ink-950"
-        );
-      case "outlineInk":
-        return clsx(
-          "border-ink-700 text-ink-400 bg-transparent",
-          "shadow-[3px_3px_0_rgba(255,255,255,0.1)]",
-          "hover:border-white hover:text-white hover:shadow-[5px_5px_0_hsl(var(--primary)/0.5)]",
-          "active:shadow-[2px_2px_0_hsl(var(--primary)/0.3)]",
-          "focus-visible:ring-white focus-visible:ring-offset-ink-950"
-        );
-      case "outlineFill":
-        // Fill on hover - for light backgrounds
-        return clsx(
-          "border-black text-black bg-transparent",
-          "shadow-[3px_3px_0_rgba(0,0,0,0.1)]",
-          "hover:bg-black hover:text-white hover:shadow-[4px_4px_0_hsl(var(--primary))]",
-          "active:bg-grey-900 active:shadow-[2px_2px_0_hsl(var(--primary))]",
-          "focus-visible:ring-black focus-visible:ring-offset-white"
-        );
-      case "outlineFillWhite":
-        // Fill on hover - for dark backgrounds
-        return clsx(
-          "border-white text-white bg-transparent",
-          "shadow-[3px_3px_0_rgba(255,255,255,0.15)]",
-          "hover:bg-white hover:text-ink-950 hover:shadow-[4px_4px_0_hsl(var(--primary))]",
-          "active:bg-grey-200 active:shadow-[2px_2px_0_hsl(var(--primary))]",
-          "focus-visible:ring-white focus-visible:ring-offset-ink-950"
-        );
-      case "pop":
-        return clsx(
-          "border-2 border-current",
-          inverted 
-            ? "bg-ink-950 text-white shadow-[5px_5px_0_hsl(var(--primary))]" 
-            : "bg-white text-black shadow-[5px_5px_0_hsl(var(--primary))]",
-          "hover:shadow-[7px_7px_0_hsl(var(--primary))]",
-          "active:shadow-[2px_2px_0_hsl(var(--primary))]",
-          inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
-        );
-      case "popPink":
-        return clsx(
-          "border-2 border-current",
-          inverted 
-            ? "bg-ink-950 text-white shadow-[5px_5px_0_hsl(var(--brand-pink))]" 
-            : "bg-white text-black shadow-[5px_5px_0_hsl(var(--brand-pink))]",
-          "hover:shadow-[7px_7px_0_hsl(var(--brand-pink))]",
-          "active:shadow-[2px_2px_0_hsl(var(--brand-pink))]",
-          inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
-        );
-      case "popCyan":
-        return clsx(
-          "border-2 border-current",
-          inverted 
-            ? "bg-ink-950 text-white shadow-[5px_5px_0_hsl(var(--brand-cyan))]" 
-            : "bg-white text-black shadow-[5px_5px_0_hsl(var(--brand-cyan))]",
-          "hover:shadow-[7px_7px_0_hsl(var(--brand-cyan))]",
-          "active:shadow-[2px_2px_0_hsl(var(--brand-cyan))]",
-          inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
-        );
-      case "popYellow":
-        return clsx(
-          "border-2 border-current",
-          inverted 
-            ? "bg-ink-950 text-white shadow-[5px_5px_0_hsl(var(--brand-yellow))]" 
-            : "bg-white text-black shadow-[5px_5px_0_hsl(var(--brand-yellow))]",
-          "hover:shadow-[7px_7px_0_hsl(var(--brand-yellow))]",
-          "active:shadow-[2px_2px_0_hsl(var(--brand-yellow))]",
-          inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
-        );
-      case "destructive":
-        return clsx(
-          "bg-error-500 text-white border-error-500",
-          "shadow-[4px_4px_0_rgba(239,68,68,0.4)]",
-          "hover:bg-error-600 hover:border-error-600 hover:shadow-[6px_6px_0_rgba(239,68,68,0.5)]",
-          "active:shadow-[2px_2px_0_rgba(239,68,68,0.4)]",
-          "focus-visible:ring-error-500"
-        );
-      case "secondary":
-        return clsx(
-          "bg-violet-500 text-white border-violet-500",
-          "shadow-[4px_4px_0_rgba(139,92,246,0.4)]",
-          "hover:bg-violet-600 hover:border-violet-600 hover:shadow-[6px_6px_0_rgba(139,92,246,0.5)]",
-          "active:shadow-[2px_2px_0_rgba(139,92,246,0.4)]",
-          "focus-visible:ring-violet-500"
-        );
-      case "accent":
-        return clsx(
-          "bg-accent text-black border-accent",
-          "shadow-[4px_4px_0_rgba(245,158,11,0.5)]",
-          "hover:bg-accent/90 hover:shadow-[6px_6px_0_rgba(245,158,11,0.6)]",
-          "active:shadow-[2px_2px_0_rgba(245,158,11,0.5)]",
-          "focus-visible:ring-accent"
-        );
+    // Destructive variant - same on both backgrounds
+    if (variant === "destructive") {
+      return clsx(
+        "bg-error-500 text-white border-error-500",
+        "shadow-[4px_4px_0_rgba(0,0,0,0.25)]",
+        "hover:bg-error-600 hover:border-error-600 hover:shadow-[6px_6px_0_rgba(185,28,28,0.5)]",
+        "active:shadow-[2px_2px_0_rgba(185,28,28,0.4)]",
+        "focus-visible:ring-error-500"
+      );
+    }
+
+    // Primary variant - accent color appears on HOVER (brand emphasis)
+    if (variant === "primary") {
+      return clsx(
+        inverted
+          ? "bg-white text-black border-white"
+          : "bg-black text-white border-black",
+        "shadow-[4px_4px_0_rgba(0,0,0,0.2)]",
+        "hover:shadow-[6px_6px_0_hsl(var(--primary))]",
+        "active:shadow-[2px_2px_0_hsl(var(--primary)/0.7)]",
+        inverted
+          ? "focus-visible:ring-white focus-visible:ring-offset-ink-950"
+          : "focus-visible:ring-black focus-visible:ring-offset-white"
+      );
+    }
+
+    // Accent variant - accent color appears on HOVER (special promotions)
+    if (variant === "accent") {
+      return clsx(
+        inverted
+          ? "bg-white text-black border-white"
+          : "bg-black text-white border-black",
+        "shadow-[4px_4px_0_rgba(0,0,0,0.2)]",
+        "hover:shadow-[6px_6px_0_hsl(var(--brand-pink))]",
+        "active:shadow-[2px_2px_0_hsl(var(--brand-pink)/0.7)]",
+        inverted
+          ? "focus-visible:ring-white focus-visible:ring-offset-ink-950"
+          : "focus-visible:ring-black focus-visible:ring-offset-white"
+      );
     }
 
     // Standard variants with inverted support
+    // inverted=true: For dark backgrounds (white/light elements)
+    // inverted=false: For light backgrounds (black/dark elements)
     if (inverted) {
       switch (variant) {
         case "solid":
           return clsx(
             "bg-white text-black border-white",
-            "shadow-[4px_4px_0_hsl(var(--primary)/0.4)]",
-            "hover:bg-grey-200 hover:shadow-[6px_6px_0_hsl(var(--primary)/0.5)]",
-            "active:shadow-[2px_2px_0_hsl(var(--primary)/0.4)]",
+            "shadow-[4px_4px_0_rgba(0,0,0,0.25)]",
+            "hover:bg-grey-100 hover:shadow-[6px_6px_0_rgba(0,0,0,0.3)]",
+            "active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
             "focus-visible:ring-white focus-visible:ring-offset-ink-950"
           );
         case "outline":
           return clsx(
             "border-white text-white bg-transparent",
-            "shadow-[3px_3px_0_rgba(255,255,255,0.15)]",
-            "hover:bg-white hover:text-black hover:shadow-[4px_4px_0_hsl(var(--primary))]",
-            "active:bg-grey-200 active:shadow-[2px_2px_0_hsl(var(--primary))]",
+            "shadow-[3px_3px_0_rgba(0,0,0,0.2)]",
+            "hover:bg-white hover:text-black hover:shadow-[5px_5px_0_rgba(0,0,0,0.25)]",
+            "active:bg-grey-100 active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
             "focus-visible:ring-white focus-visible:ring-offset-ink-950"
           );
         case "ghost":
           return clsx(
             "border-transparent text-white bg-transparent shadow-none",
-            "hover:bg-grey-800 hover:border-grey-700",
-            "active:bg-grey-700",
+            "hover:bg-white/10 hover:border-white/20",
+            "active:bg-white/20",
             "focus-visible:ring-white focus-visible:ring-offset-ink-950"
           );
         default:
@@ -231,23 +171,23 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
           return clsx(
             "bg-black text-white border-black",
             "shadow-[4px_4px_0_rgba(0,0,0,0.25)]",
-            "hover:bg-grey-900 hover:shadow-[6px_6px_0_hsl(var(--primary)/0.4)]",
-            "active:shadow-[2px_2px_0_rgba(0,0,0,0.25)]",
+            "hover:bg-grey-900 hover:shadow-[6px_6px_0_rgba(0,0,0,0.3)]",
+            "active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
             "focus-visible:ring-black focus-visible:ring-offset-white"
           );
         case "outline":
           return clsx(
             "border-black text-black bg-transparent",
-            "shadow-[3px_3px_0_rgba(0,0,0,0.1)]",
-            "hover:bg-black hover:text-white hover:shadow-[4px_4px_0_hsl(var(--primary))]",
-            "active:bg-grey-900 active:shadow-[2px_2px_0_hsl(var(--primary))]",
+            "shadow-[3px_3px_0_rgba(0,0,0,0.15)]",
+            "hover:bg-black hover:text-white hover:shadow-[5px_5px_0_rgba(0,0,0,0.25)]",
+            "active:bg-grey-900 active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
             "focus-visible:ring-black focus-visible:ring-offset-white"
           );
         case "ghost":
           return clsx(
             "border-transparent text-black bg-transparent shadow-none",
-            "hover:bg-grey-100 hover:border-grey-200",
-            "active:bg-grey-200",
+            "hover:bg-black/5 hover:border-black/10",
+            "active:bg-black/10",
             "focus-visible:ring-black focus-visible:ring-offset-white"
           );
         default:

@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import clsx from "clsx";
 import type { HTMLAttributes } from "react";
 
-export type CardVariant = "default" | "outlined" | "elevated" | "pop";
+export type CardVariant = "default" | "outlined" | "elevated" | "primary" | "accent";
 
 export type CardProps = HTMLAttributes<HTMLDivElement> & {
   variant?: CardVariant;
@@ -15,11 +15,21 @@ export type CardProps = HTMLAttributes<HTMLDivElement> & {
 /**
  * Card component - Bold Contemporary Pop Art Adventure
  * 
- * Features:
- * - Comic panel aesthetic with bold borders
- * - Hard offset shadows
- * - Hover lift effect for interactive cards
- * - Pop variant for maximum impact
+ * NORMALIZED POP-ART SHADOW STRATEGY:
+ * - Resting state: Neutral shadows (black) - clean, professional
+ * - Hover state (interactive): Accent color shadow appears - rewards interaction
+ * - Active state: Shadow shrinks - confirms action
+ * 
+ * Variants:
+ * - default: Standard card with neutral shadow
+ * - outlined: Transparent background with border
+ * - elevated: Stronger neutral shadow for emphasis
+ * - primary: Neutral resting, PRIMARY color shadow on hover
+ * - accent: Neutral resting, ACCENT (pink) color shadow on hover
+ * 
+ * The `inverted` prop controls light/dark background adaptation:
+ * - inverted=true (default): For dark backgrounds
+ * - inverted=false: For light backgrounds
  */
 export const Card = forwardRef<HTMLDivElement, CardProps>(
   function Card({ variant = "default", interactive, inverted = true, asButton, className, children, onClick, onKeyDown, ...props }, ref) {
@@ -36,32 +46,49 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       onKeyDown?.(e);
     };
     const getVariantClasses = () => {
+      // Primary variant - accent color on hover
+      if (variant === "primary") {
+        return clsx(
+          inverted
+            ? "bg-ink-900 border-2 border-ink-700 text-white"
+            : "bg-white border-2 border-black text-black",
+          "shadow-[4px_4px_0_rgba(0,0,0,0.2)]"
+        );
+      }
+
+      // Accent variant - pink accent color on hover
+      if (variant === "accent") {
+        return clsx(
+          inverted
+            ? "bg-ink-900 border-2 border-ink-700 text-white"
+            : "bg-white border-2 border-black text-black",
+          "shadow-[4px_4px_0_rgba(0,0,0,0.2)]"
+        );
+      }
+
       if (inverted) {
+        // Dark background cards - use subtle shadows
         switch (variant) {
           case "default":
             return clsx(
-              "bg-ink-900 border-2 border-grey-700 text-white",
-              "shadow-[4px_4px_0_rgba(255,255,255,0.15)]"
+              "bg-ink-900 border-2 border-ink-700 text-white",
+              "shadow-[4px_4px_0_rgba(0,0,0,0.3)]"
             );
           case "outlined":
             return clsx(
-              "bg-transparent border-2 border-grey-600 text-white",
-              "shadow-[4px_4px_0_rgba(255,255,255,0.1)]"
+              "bg-transparent border-2 border-ink-600 text-white",
+              "shadow-[4px_4px_0_rgba(0,0,0,0.2)]"
             );
           case "elevated":
             return clsx(
-              "bg-ink-900 border-2 border-grey-600 text-white",
-              "shadow-[6px_6px_0_rgba(255,255,255,0.2)]"
-            );
-          case "pop":
-            return clsx(
-              "bg-ink-950 border-4 border-white text-white",
-              "shadow-[6px_6px_0_hsl(var(--primary))]"
+              "bg-ink-900 border-2 border-ink-600 text-white",
+              "shadow-[6px_6px_0_rgba(0,0,0,0.4)]"
             );
           default:
             return "";
         }
       } else {
+        // Light background cards - use black shadows
         switch (variant) {
           case "default":
             return clsx(
@@ -78,11 +105,6 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
               "bg-white border-2 border-grey-300 text-black",
               "shadow-[6px_6px_0_rgba(0,0,0,0.2)]"
             );
-          case "pop":
-            return clsx(
-              "bg-white border-4 border-black text-black",
-              "shadow-[6px_6px_0_hsl(var(--primary))]"
-            );
           default:
             return "";
         }
@@ -94,13 +116,13 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           "cursor-pointer",
           "transition-all duration-100 ease-[var(--ease-bounce)]",
           "hover:-translate-x-0.5 hover:-translate-y-0.5",
-          inverted
-            ? "hover:shadow-[6px_6px_0_rgba(255,255,255,0.25)]"
-            : "hover:shadow-[6px_6px_0_rgba(0,0,0,0.2)]",
-          "active:translate-x-0.5 active:translate-y-0.5",
-          inverted
-            ? "active:shadow-[2px_2px_0_rgba(255,255,255,0.15)]"
-            : "active:shadow-[2px_2px_0_rgba(0,0,0,0.1)]"
+          // Accent color shadow on hover for primary/accent variants
+          variant === "primary"
+            ? "hover:shadow-[6px_6px_0_hsl(var(--primary))] active:shadow-[2px_2px_0_hsl(var(--primary)/0.7)]"
+            : variant === "accent"
+              ? "hover:shadow-[6px_6px_0_hsl(var(--brand-pink))] active:shadow-[2px_2px_0_hsl(var(--brand-pink)/0.7)]"
+              : "hover:shadow-[6px_6px_0_rgba(0,0,0,0.25)] active:shadow-[2px_2px_0_rgba(0,0,0,0.15)]",
+          "active:translate-x-0.5 active:translate-y-0.5"
         )
       : "";
 
