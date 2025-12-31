@@ -4,35 +4,60 @@
  * Resources Page - 2026 Landing Page Best Practices
  * Full-width marketing layout with hero, resource categories, and featured downloads
  * Bold Contemporary Pop Art Adventure Design System
+ * Content sourced from centralized marketing-content configuration
  */
 
 import { useRouter } from "next/navigation";
 import { Book, FileText, Video, Download, ArrowRight, Presentation, Wrench, GraduationCap } from "lucide-react";
 import {
   MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Box} from "@ghxstship/ui";
+import {
+  getFeaturedTemplates,
+  getTemplatesByPlatform,
+  getFeaturedGuides,
+  getGuidesByPlatform,
+  getVideosByPlatform,
+  getUpcomingWebinars,
+} from "@ghxstship/config/marketing-content";
 
-const RESOURCE_CATEGORIES: FeatureItem[] = [
-  { id: "guides", icon: <Book className="size-8" />, title: "Guides", description: "Step-by-step tutorials to help you master ATLVS and production management best practices." },
-  { id: "templates", icon: <FileText className="size-8" />, title: "Templates", description: "Ready-to-use templates for production planning, budgeting, and crew management." },
-  { id: "videos", icon: <Video className="size-8" />, title: "Video Tutorials", description: "Watch and learn with our comprehensive video library covering all features." },
+const PLATFORM_TEMPLATES = getTemplatesByPlatform('atlvs');
+const PLATFORM_GUIDES = getGuidesByPlatform('atlvs');
+const PLATFORM_VIDEOS = getVideosByPlatform('atlvs');
+const UPCOMING_WEBINARS = getUpcomingWebinars();
+
+const RESOURCE_CATEGORIES = [
+  { id: "guides", icon: <Book className="size-8" />, title: "Guides", description: `${PLATFORM_GUIDES.length} step-by-step tutorials to help you master ATLVS and production management best practices.` },
+  { id: "templates", icon: <FileText className="size-8" />, title: "Templates", description: `${PLATFORM_TEMPLATES.length} ready-to-use templates for production planning, budgeting, and crew management.` },
+  { id: "videos", icon: <Video className="size-8" />, title: "Video Tutorials", description: `${PLATFORM_VIDEOS.length} videos covering all features and workflows.` },
   { id: "docs", icon: <FileText className="size-8" />, title: "Documentation", description: "Technical reference and API documentation for developers and power users." },
-  { id: "webinars", icon: <Presentation className="size-8" />, title: "Webinars", description: "Live and recorded training sessions from industry experts and our team." },
+  { id: "webinars", icon: <Presentation className="size-8" />, title: "Webinars", description: `${UPCOMING_WEBINARS.length} upcoming live sessions plus on-demand recordings.` },
   { id: "tools", icon: <Wrench className="size-8" />, title: "Tools", description: "Free calculators, estimators, and utilities to streamline your workflow." },
 ];
 
-const FEATURED_RESOURCES = [
-  { id: "1", title: "Production Planning Template", type: "Template", format: "XLSX", description: "Comprehensive production planning spreadsheet with timeline and resource allocation.", downloads: 2500 },
-  { id: "2", title: "Budget Tracking Spreadsheet", type: "Template", format: "XLSX", description: "Track production budgets with automated calculations and variance analysis.", downloads: 1800 },
-  { id: "3", title: "Crew Call Sheet Template", type: "Template", format: "PDF", description: "Professional call sheet template with all essential crew information fields.", downloads: 3200 },
-  { id: "4", title: "Event Timeline Template", type: "Template", format: "PDF", description: "Visual timeline template for event scheduling and milestone tracking.", downloads: 1500 },
-  { id: "5", title: "Vendor Contract Template", type: "Template", format: "DOCX", description: "Standard vendor contract template with customizable terms and conditions.", downloads: 900 },
-  { id: "6", title: "Post-Production Checklist", type: "Guide", format: "PDF", description: "Comprehensive checklist for post-production wrap and asset management.", downloads: 1100 },
-];
+const FEATURED_TEMPLATES = getFeaturedTemplates().slice(0, 4).map(t => ({
+  id: t.id,
+  title: t.title,
+  type: "Template",
+  format: t.format.toUpperCase(),
+  description: t.description,
+  downloads: t.downloads || 0,
+}));
+
+const FEATURED_GUIDES_LIST = getFeaturedGuides().slice(0, 2).map(g => ({
+  id: g.id,
+  title: g.title,
+  type: "Guide",
+  format: "PDF",
+  description: g.description,
+  downloads: 1000,
+}));
+
+const FEATURED_RESOURCES = [...FEATURED_TEMPLATES, ...FEATURED_GUIDES_LIST];
 
 const LEARNING_PATHS = [
-  { id: "beginner", title: "Getting Started", description: "New to ATLVS? Start here.", icon: <GraduationCap className="size-6" />, articles: 12, duration: "2 hours" },
-  { id: "intermediate", title: "Advanced Features", description: "Master powerful features.", icon: <Wrench className="size-6" />, articles: 18, duration: "4 hours" },
-  { id: "expert", title: "API & Integrations", description: "Build custom solutions.", icon: <FileText className="size-6" />, articles: 25, duration: "6 hours" },
+  { id: "beginner", title: "Getting Started", description: "New to ATLVS? Start here.", icon: <GraduationCap className="size-6" />, articles: PLATFORM_GUIDES.filter(g => g.difficulty === 'beginner').length || 12, duration: "2 hours" },
+  { id: "intermediate", title: "Advanced Features", description: "Master powerful features.", icon: <Wrench className="size-6" />, articles: PLATFORM_GUIDES.filter(g => g.difficulty === 'intermediate').length || 18, duration: "4 hours" },
+  { id: "expert", title: "API & Integrations", description: "Build custom solutions.", icon: <FileText className="size-6" />, articles: PLATFORM_GUIDES.filter(g => g.difficulty === 'advanced').length || 25, duration: "6 hours" },
 ];
 
 export default function ResourcesPage() {

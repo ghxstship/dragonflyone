@@ -1,8 +1,17 @@
 "use client";
 
+/**
+ * Help Center Page - GVTEWAY
+ * Central hub for support resources
+ * Content sourced from centralized marketing-content configuration
+ */
+
 import { useRouter } from "next/navigation";
 import { HelpCircle, MessageSquare, FileText, Phone, List } from "lucide-react";
 import { Body, Button, Card, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+import { getFAQsByPlatform } from "@ghxstship/config/marketing-content";
+
+const FAQ_COUNT = getFAQsByPlatform('gvteway').length;
 
 export default function HelpPage() {
   const router = useRouter();
@@ -16,7 +25,7 @@ export default function HelpPage() {
           <Card className="p-6 text-center cursor-pointer hover:border-primary transition-colors" onClick={() => router.push("/help/faq")}>
             <HelpCircle className="size-12 text-primary mx-auto mb-4" />
             <Body className="font-weight-bold">FAQ</Body>
-            <Body size="sm" className="text-on-dark-muted mt-2">Find answers to common questions</Body>
+            <Body size="sm" className="text-on-dark-muted mt-2">{FAQ_COUNT} answers to common questions</Body>
           </Card>
           <Card className="p-6 text-center cursor-pointer hover:border-primary transition-colors" onClick={() => router.push("/support/chat")}>
             <MessageSquare className="size-12 text-primary mx-auto mb-4" />

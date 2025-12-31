@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * FAQ Page
- * Frequently asked questions
+ * FAQ Page - GVTEWAY
+ * Frequently asked questions for event-goers and consumers
  * Uses DetailPage template for consistent layout
  * Content sourced from centralized marketing-content configuration
  */
@@ -24,18 +24,13 @@ interface LocalFAQ {
 const CATEGORY_LABELS: Record<string, string> = {
   'all': 'All',
   'getting-started': 'Getting Started',
-  'competitive-comparison': 'Comparisons',
-  'financial-workflows': 'Finance',
-  'production-operations': 'Production',
-  'consumer-ticketing': 'Ticketing',
-  'billing-pricing': 'Billing',
+  'consumer-ticketing': 'Tickets & Events',
+  'billing-pricing': 'Payments',
   'security-compliance': 'Security',
-  'integrations': 'Integrations',
-  'team-collaboration': 'Team',
-  'data-export': 'Data & Export',
+  'integrations': 'App Features',
 };
 
-const PLATFORM_FAQS: LocalFAQ[] = getFAQsByPlatform('atlvs').map(faq => ({
+const PLATFORM_FAQS: LocalFAQ[] = getFAQsByPlatform('gvteway').map(faq => ({
   id: faq.id,
   question: faq.question,
   answer: faq.answer,
@@ -147,7 +142,7 @@ export default function FAQPage() {
       }}
       backButton={{ label: "Help Center", href: "/help" }}
       tabs={tabs}
-      actions={<Button variant="outline" onClick={() => router.push("/contact")}>Contact Support</Button>}
+      actions={<Button variant="outline" onClick={() => router.push("/support/chat")}>Contact Support</Button>}
     />
   );
 }

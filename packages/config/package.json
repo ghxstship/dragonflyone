@@ -40,7 +40,8 @@
     "./hooks/useAdvancingCatalog": "./hooks/useAdvancingCatalog.ts",
     "./components": "./components/index.ts",
     "./pricing-tiers": "./pricing-tiers.ts",
-    "./layouts": "./layouts/index.ts"
+    "./layouts": "./layouts/index.ts",
+    "./marketing-content": "./marketing-content/index.ts"
   },
   "dependencies": {
     "@ghxstship/ui": "workspace:*",
