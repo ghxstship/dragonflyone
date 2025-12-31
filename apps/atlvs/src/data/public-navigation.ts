@@ -68,6 +68,19 @@ export const productsNavigation = {
       ],
       icon: 'ticket',
     },
+    {
+      label: 'Experience Generator',
+      href: '/generator',
+      tagline: 'AI-Powered Design',
+      description: 'Transform any idea into a production blueprint.',
+      features: [
+        'AI Blueprint Generation',
+        '5-Senses Design',
+        'Guest Journey Mapping',
+        'Production Docs',
+      ],
+      icon: 'sparkles',
+    },
   ] as ProductNavItem[],
   quickLinks: [
     { label: 'Compare Products', href: '/products/compare' },

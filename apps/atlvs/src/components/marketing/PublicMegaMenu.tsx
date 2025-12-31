@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, Command, Users, Ticket, ArrowRight } from 'lucide-react';
+import { ChevronDown, Command, Users, Ticket, ArrowRight, Sparkles } from 'lucide-react';
 import clsx from 'clsx';
 import {
   Body,
@@ -28,6 +28,7 @@ const productIcons = {
   command: Command,
   users: Users,
   ticket: Ticket,
+  sparkles: Sparkles,
 };
 
 export function PublicMegaMenu({ className }: MegaMenuProps) {
@@ -71,7 +72,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
                         </Stack>
                       </Stack>
                       <Body className="text-body-sm text-on-dark-muted mb-3">{product.description}</Body>
-                      <List className="space-y-1">
+                      <List className="flex flex-col gap-1">
                         {product.features.map((feature) => (
                           <ListItem key={feature} className="text-body-xs text-on-dark-muted flex items-center gap-2">
                             <Text className="w-1 h-1 rounded-avatar bg-primary" />
@@ -125,7 +126,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
                 {solutionsNavigation.groups.map((group) => (
                   <Stack key={group.title} gap={2}>
                     <Text className="font-weight-medium text-foreground">{group.title}</Text>
-                    <List className="space-y-1">
+                    <List className="flex flex-col gap-1">
                       {group.items.map((item) => (
                         <ListItem key={item.href}>
                           <Link
@@ -178,7 +179,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
                 {resourcesNavigation.groups.map((group) => (
                   <Stack key={group.title} gap={3}>
                     <Text className="font-weight-medium text-foreground">{group.title}</Text>
-                    <List className="space-y-2">
+                    <List className="flex flex-col gap-2">
                       {group.items.map((item) => (
                         <ListItem key={item.href}>
                           <Link

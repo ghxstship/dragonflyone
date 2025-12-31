@@ -1,8 +1,9 @@
 
+
 > atlvs@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
 > NODE_OPTIONS='--max-old-space-size=8192' next build --no-lint
 
- ⚠ Linting is disabled.
-  ▲ Next.js 14.2.35
+ [33m[1m⚠[22m[39m Linting is disabled.
+  [1m[38;2;173;127;168m▲ Next.js 14.2.35[39m[22m
   - Environments: .env.local
 
