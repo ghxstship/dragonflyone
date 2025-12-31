@@ -32,6 +32,15 @@ All notable completed work for the GHXSTSHIP platform.
 - All 58 entity-mapped pages now use useEntityConfig
 - 49 remaining pages are specialized (finance, dashboard, settings) without entity mappings
 
+**Supabase Database Fixes:**
+- Created migration `0047_fix_function_errors.sql` to fix 10 database function errors
+- Fixed functions: `rpc_project_timeline`, `assign_workflow_to_user`, `get_user_workflows`, `rpc_deal_pipeline_analysis`, `rpc_organization_dashboard_summary`, `generate_deal_number`, `can_access_entity`, `rpc_ingest_pos_transaction`, `rpc_get_pos_sales_summary`, `promote_ad_hoc_vendor`
+- Issues resolved: GROUP BY clause errors, missing column references, nested aggregate errors, ON CONFLICT specification errors
+
+**Lint Status:**
+- 0 lint errors
+- 488 lint warnings (advisory: 3NF database access patterns, SSOT suggestions, Tailwind utility preferences)
+
 ---
 
 ### 2025-12-31

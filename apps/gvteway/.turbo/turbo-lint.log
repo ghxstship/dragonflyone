@@ -35,8 +35,8 @@
 43:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
 
 ./src/app/(authenticated)/orders/page.tsx
-30:44  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-82:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+7:3  Warning: 'Badge' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:3  Warning: 'Text' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/(authenticated)/rewards/page.tsx
 72:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
@@ -73,8 +73,8 @@
 170:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
 
 ./src/app/(authenticated)/tickets/page.tsx
-30:45  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-77:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+7:3  Warning: 'Badge' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:3  Warning: 'Text' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/(authenticated)/venues/page.tsx
 33:44  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
