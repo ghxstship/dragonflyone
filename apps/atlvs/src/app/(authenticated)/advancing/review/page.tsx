@@ -14,10 +14,11 @@ import {
   DOCUMENT_STATUS_COLORS,
   formatCurrency,
   formatDate,
+  useEntityConfig,
 } from '@ghxstship/config';
 import {
   Badge, Body, Box, ListPage, Stack, Text,
-  type ListPageColumn, type ListPageFilter, type ListPageAction,
+  type ListPageAction,
 } from "@ghxstship/ui";
 import { useAdvanceReviewQueue, type AdvanceRequest } from '@/hooks/useAdvanceReview';
 
@@ -26,11 +27,14 @@ export default function AdvancingReviewPage() {
   const { hasRole } = useAuthContext();
   const canReview = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
+  // SSOT: Get filters from entity registry (columns have custom renders)
+  const { filters } = useEntityConfig<AdvanceRequest>({ entityName: 'advancing' });
+
   const { data, isLoading, error, refetch } = useAdvanceReviewQueue();
   const advances = data?.advances || [];
 
-  
-  const columns: ListPageColumn<AdvanceRequest>[] = [
+  // Custom columns with complex renders
+  const columns: { key: string; label: string; accessor: string | ((adv: AdvanceRequest) => string); sortable?: boolean; render?: (value: unknown, adv: AdvanceRequest) => React.ReactNode }[] = [
     {
       key: 'activation_name', label: 'Request', accessor: 'activation_name', sortable: true,
       render: (_value: unknown, adv) => (
@@ -65,15 +69,7 @@ export default function AdvancingReviewPage() {
     },
   ];
 
-  const filters: ListPageFilter[] = [
-    { key: 'status', label: 'Status', options: [
-      { value: 'submitted', label: 'Submitted' },
-      { value: 'under_review', label: 'Under Review' },
-      { value: 'approved', label: 'Approved' },
-      { value: 'rejected', label: 'Rejected' },
-      { value: 'fulfilled', label: 'Fulfilled' },
-    ]},
-  ];
+  // SSOT: Filters are provided by useEntityConfig
 
   const rowActions: ListPageAction<AdvanceRequest>[] = [
     { id: 'review', label: 'Review', icon: <Eye className="h-4 w-4" />, onClick: (adv) => router.push(`/advancing/review/${adv.id}`) },

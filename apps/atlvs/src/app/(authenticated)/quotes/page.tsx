@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Upload } from "lucide-react";
 import {
-  ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection} from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+  ListPage, DetailDrawer, Grid, Body,
+  type ListPageAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useEntityConfig } from "@ghxstship/config";
 import { useQuotesData, type Quote } from "@/hooks/useQuotes";
 
 const formatCurrency = (amount: number) => {
@@ -15,23 +15,12 @@ const formatCurrency = (amount: number) => {
   return `$${amount.toFixed(0)}`;
 };
 
-const getStatusVariant = getBadgeVariant;
-
-const columns: ListPageColumn<Quote>[] = [
-  { key: 'quote_number', label: 'Quote ID', accessor: 'quote_number', sortable: true },
-  { key: 'client', label: 'Client', accessor: (r) => r.client?.name || r.client_name, sortable: true },
-  { key: 'project', label: 'Project', accessor: (r) => r.opportunity_name || r.title },
-  { key: 'total_amount', label: 'Amount', accessor: (r) => formatCurrency(Number(r.total_amount) || 0), sortable: true },
-  { key: 'valid_until', label: 'Valid Until', accessor: (r) => r.valid_until ? new Date(r.valid_until).toLocaleDateString() : '—', sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [{ value: 'draft', label: 'Draft' }, { value: 'sent', label: 'Sent' }, { value: 'viewed', label: 'Viewed' }, { value: 'negotiating', label: 'Negotiating' }, { value: 'accepted', label: 'Accepted' }, { value: 'declined', label: 'Declined' }, { value: 'converted', label: 'Converted' }] },
-];
-
 export default function QuotesPage() {
   const router = useRouter();
+  
+  // SSOT: Get columns and filters from entity registry
+  const { columns, filters } = useEntityConfig<Quote>({ entityName: 'quotes' });
+  
   const {
     quotes,
     totalValue,

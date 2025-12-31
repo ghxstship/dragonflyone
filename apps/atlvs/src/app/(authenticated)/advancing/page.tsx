@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation';
 import { Eye, Check } from 'lucide-react';
 // Layout provided by route group
 import {
-  ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection} from "@ghxstship/ui";
-import { useAdvancingRequests, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
-import type { ProductionAdvance, AdvanceStatus } from '@ghxstship/config/types/advancing';
+  ListPage, DetailDrawer, Grid, Body,
+  type ListPageAction, type DetailSection} from "@ghxstship/ui";
+import { useAdvancingRequests, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES, useEntityConfig } from '@ghxstship/config';
+import type { ProductionAdvance } from '@ghxstship/config/types/advancing';
 
 // Roles that can approve/delete advancing requests
 
@@ -22,45 +22,15 @@ const formatDate = (dateString: string | null) => {
   return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 };
 
-const getStatusBadgeVariant = (status: AdvanceStatus): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case 'approved':
-    case 'in_progress':
-    case 'fulfilled':
-      return 'solid';
-    case 'rejected':
-    case 'cancelled':
-      return 'ghost';
-    default:
-      return 'outline';
-  }
-};
-
-const columns: ListPageColumn<ProductionAdvance>[] = [
-  { key: 'activation_name', label: 'Request', accessor: (r) => r.team_workspace || r.activation_name || 'Untitled', sortable: true },
-  { key: 'project', label: 'Project', accessor: (r) => r.project?.name || '—' },
-  { key: 'submitter', label: 'Submitter', accessor: (r) => r.submitter?.full_name || 'Unknown' },
-  { key: 'submitted_at', label: 'Submitted', accessor: (r) => formatDate(r.submitted_at), sortable: true },
-  { key: 'estimated_cost', label: 'Est. Cost', accessor: (r) => formatCurrency(r.estimated_cost), sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusBadgeVariant(v as AdvanceStatus)}>{String(v).replace('_', ' ')}</Badge> },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [
-    { value: 'draft', label: 'Draft' },
-    { value: 'submitted', label: 'Submitted' },
-    { value: 'under_review', label: 'Under Review' },
-    { value: 'approved', label: 'Approved' },
-    { value: 'in_progress', label: 'In Progress' },
-    { value: 'fulfilled', label: 'Fulfilled' },
-    { value: 'rejected', label: 'Rejected' },
-    { value: 'cancelled', label: 'Cancelled' },
-  ]},
-];
+// SSOT: Columns and filters from entity registry
 
 export default function AdvancingPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
+  
+  // SSOT: Get columns and filters from entity registry
+  const { columns, filters } = useEntityConfig<ProductionAdvance>({ entityName: 'advancing' });
+  
   const { data: requestsData, isLoading, error, refetch } = useAdvancingRequests({ limit: 100 });
   const requests = (requestsData?.data || []) as ProductionAdvance[];
   

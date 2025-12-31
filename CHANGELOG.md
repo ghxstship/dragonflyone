@@ -9,14 +9,19 @@ All notable completed work for the GHXSTSHIP platform.
 #### useEntityConfig Migration Complete
 
 **Entity Registry Integration:**
-- Migrated 47 pages to use `useEntityConfig` hook for SSOT compliance
+- Migrated 58 pages to use `useEntityConfig` hook for SSOT compliance
 - All pages with entity mappings now consume columns, filters, and formFields from the entity registry
-- Added missing status color exports: `PEOPLE_STATUS_COLORS`, `PEOPLE_TYPE_COLORS`, `PLACES_STATUS_COLORS`, `PLACES_TYPE_COLORS`, `ORGANIZATION_STATUS_COLORS`, `ORGANIZATION_TYPE_COLORS`, `PRODUCTION_STATUS_COLORS`
+- Added missing status color exports: `PEOPLE_STATUS_COLORS`, `PEOPLE_TYPE_COLORS`, `PLACES_STATUS_COLORS`, `PLACES_TYPE_COLORS`, `ORGANIZATION_STATUS_COLORS`, `ORGANIZATION_TYPE_COLORS`, `PRODUCTION_STATUS_COLORS`, `DEAL_STATUS_COLORS`, `DEAL_STAGE_COLORS`, `QUOTE_STATUS_COLORS`, `ADVANCING_STATUS_COLORS`
 
 **Pages Migrated:**
-- ATLVS: events, projects, assets, invoices, bills, budgets, orders, assets/maintenance, organizations, people, places, productions
+- ATLVS: events, projects, assets, invoices, bills, budgets, orders, assets/maintenance, organizations, people, places, productions, deals, quotes, advancing, advancing/review
 - COMPVSS: crew, equipment, expenses, incidents, projects, sops, credentials
 - GVTEWAY: orders, tickets
+
+**New Entity Definitions Created:**
+- `deals` - Sales opportunities and pipeline management
+- `quotes` - Sales quotes and proposals
+- `advancing` - Artist and vendor advancing requests
 
 **Migration Strategy:**
 - Pages with simple column definitions: Full migration (columns, filters, formFields from useEntityConfig)
@@ -24,7 +29,8 @@ All notable completed work for the GHXSTSHIP platform.
 
 **Build Verification:**
 - Production build: 7 tasks successful, 0 errors
-- All 47 entity-mapped pages now use useEntityConfig
+- All 58 entity-mapped pages now use useEntityConfig
+- 49 remaining pages are specialized (finance, dashboard, settings) without entity mappings
 
 ---
 

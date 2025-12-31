@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Download, Archive } from 'lucide-react';
 // Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+  ListPage, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
+  type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES, useEntityConfig } from '@ghxstship/config';
 import { useDeals } from '../../../hooks/useDeals';
 
 // Roles that can create/edit/delete deals
@@ -25,39 +25,13 @@ interface Deal {
 
 const formatCurrency = (amount?: number) => amount ? `$${amount.toLocaleString()}` : '—';
 
-const columns: ListPageColumn<Deal>[] = [
-  { key: 'title', label: 'Deal', accessor: 'title', sortable: true },
-  { key: 'client', label: 'Client', accessor: (r) => r.client || '—' },
-  { key: 'value', label: 'Value', accessor: (r) => formatCurrency(r.value), sortable: true },
-  { key: 'stage', label: 'Stage', accessor: (r) => r.stage || '—', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
-  { key: 'probability', label: 'Probability', accessor: (r) => r.probability ? `${r.probability}%` : '—' },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={v === 'won' ? 'solid' : v === 'lost' ? 'ghost' : 'outline'}>{String(v)}</Badge> },
-];
-
-// Schema: Aligned with API createDealSchema status enum
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [
-    { value: 'lead', label: 'Lead' },
-    { value: 'qualified', label: 'Qualified' },
-    { value: 'proposal', label: 'Proposal' },
-    { value: 'won', label: 'Won' },
-    { value: 'lost', label: 'Lost' },
-  ]},
-  { key: 'stage', label: 'Stage', options: [{ value: 'prospecting', label: 'Prospecting' }, { value: 'qualification', label: 'Qualification' }, { value: 'proposal', label: 'Proposal' }, { value: 'negotiation', label: 'Negotiation' }] },
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'title', label: 'Deal Title', type: 'text', required: true },
-  { name: 'client', label: 'Client', type: 'text', required: true },
-  { name: 'value', label: 'Value', type: 'number', required: true },
-  { name: 'stage', label: 'Stage', type: 'select', required: true, options: [{ value: 'prospecting', label: 'Prospecting' }, { value: 'qualification', label: 'Qualification' }, { value: 'proposal', label: 'Proposal' }, { value: 'negotiation', label: 'Negotiation' }] },
-  { name: 'probability', label: 'Probability (%)', type: 'number' },
-  { name: 'closeDate', label: 'Expected Close', type: 'date' },
-];
-
 export default function DealsPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
+  
+  // SSOT: Get columns, filters, formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<Deal>({ entityName: 'deals' });
+  
   const { data: dealsData, isLoading, error, refetch } = useDeals();
   const deals = (dealsData || []) as Deal[];
   

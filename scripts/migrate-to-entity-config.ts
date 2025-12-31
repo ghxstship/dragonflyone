@@ -41,6 +41,13 @@ const PATH_TO_ENTITY: Record<string, string> = {
   'incidents': 'incidents',
   'vendors': 'vendors',
   'contacts': 'contacts',
+  'deals': 'deals',
+  'quotes': 'quotes',
+  'advancing': 'advancing',
+  'schedules': 'schedules',
+  'timesheets': 'timesheets',
+  'reports': 'reports',
+  'notifications': 'notifications',
 };
 
 interface MigrationCandidate {

@@ -30,6 +30,9 @@ import { peopleEntity } from './people';
 import { placesEntity } from './places';
 import { organizationsEntity } from './organizations';
 import { productionsEntity } from './productions';
+import { dealsEntity } from './deals';
+import { quotesEntity } from './quotes';
+import { advancingEntity } from './advancing';
 
 // Export individual entities
 export { credentialsEntity } from './credentials';
@@ -55,6 +58,9 @@ export { peopleEntity, PEOPLE_STATUS_COLORS, PEOPLE_TYPE_COLORS } from './people
 export { placesEntity, PLACES_STATUS_COLORS, PLACES_TYPE_COLORS } from './places';
 export { organizationsEntity, ORGANIZATION_STATUS_COLORS, ORGANIZATION_TYPE_COLORS } from './organizations';
 export { productionsEntity, PRODUCTION_STATUS_COLORS } from './productions';
+export { dealsEntity, DEAL_STATUS_COLORS, DEAL_STAGE_COLORS } from './deals';
+export { quotesEntity, QUOTE_STATUS_COLORS } from './quotes';
+export { advancingEntity, ADVANCING_STATUS_COLORS } from './advancing';
 
 // All entities array
 export const allEntities = [
@@ -81,6 +87,9 @@ export const allEntities = [
   assetsEntity,
   tasksEntity,
   incidentsEntity,
+  dealsEntity,
+  quotesEntity,
+  advancingEntity,
 ];
 
 // Register all entities on module load
@@ -111,6 +120,9 @@ export const ENTITY_NAMES = {
   ASSETS: 'assets',
   TASKS: 'tasks',
   INCIDENTS: 'incidents',
+  DEALS: 'deals',
+  QUOTES: 'quotes',
+  ADVANCING: 'advancing',
 } as const;
 
 export type EntityNameType = typeof ENTITY_NAMES[keyof typeof ENTITY_NAMES];

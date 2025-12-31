@@ -96,6 +96,11 @@ export {
   EXPENSE_STATUS_COLORS,
 } from './status-mappings';
 
+// Entity-specific status colors from entity files
+export { DEAL_STATUS_COLORS, DEAL_STAGE_COLORS } from './entities/deals';
+export { QUOTE_STATUS_COLORS } from './entities/quotes';
+export { ADVANCING_STATUS_COLORS } from './entities/advancing';
+
 // Formatters
 export {
   formatDate,
