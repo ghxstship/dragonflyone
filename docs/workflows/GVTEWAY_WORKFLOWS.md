@@ -1,17 +1,32 @@
 # GVTEWAY Detailed Workflows
 
+> **Version:** 2.0  
+> **Last Updated:** December 31, 2025  
 > **App Purpose:** Consumer-facing ticketing, fan engagement, experiences  
-> **Total Pages:** 189
+> **Total Pages:** 189  
+> **Total Workflows:** 31
+
+---
+
+## Related Documentation
+
+| Document | Description |
+|----------|-------------|
+| [USER_GUIDES.md](../guides/USER_GUIDES.md) | End-to-end user guides including GVTEWAY consumer journey |
+| [WORKFLOW_INVENTORY.md](./WORKFLOW_INVENTORY.md) | Master workflow inventory with cross-platform overview |
+| [ATLVS_WORKFLOWS.md](./ATLVS_WORKFLOWS.md) | Business operations workflows |
+| [COMPVSS_WORKFLOWS.md](./COMPVSS_WORKFLOWS.md) | Production operations workflows |
 
 ---
 
 ## Table of Contents
 
-1. [Consumer Workflows](#consumer-workflows)
-2. [Member Workflows](#member-workflows)
-3. [Artist Workflows](#artist-workflows)
-4. [Admin Workflows](#admin-workflows)
-5. [Event Staff Workflows](#event-staff-workflows)
+1. [Consumer Workflows](#consumer-workflows) (7 workflows)
+2. [Member Workflows](#member-workflows) (11 workflows)
+3. [Artist Workflows](#artist-workflows) (2 workflows)
+4. [Admin Workflows](#admin-workflows) (8 workflows)
+5. [Venue Manager Workflows](#venue-manager-workflows) (1 workflow)
+6. [Offline & Authentication Workflows](#offline--authentication-workflows) (2 workflows)
 
 ---
 

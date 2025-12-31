@@ -1,7 +1,20 @@
 # End-to-End Workflow Implementation Summary
 
+> **Version:** 2.0  
+> **Last Updated:** December 31, 2025
+
 ## Overview
 Completed implementation of comprehensive role-based workflows for all platform user roles (Legend, ATLVS, COMPVSS, GVTEWAY) and event user roles (Executive through Guest tiers).
+
+## Related Documentation
+
+| Document | Description |
+|----------|-------------|
+| [USER_GUIDES.md](../guides/USER_GUIDES.md) | End-to-end user guides from signup to archiving |
+| [WORKFLOW_INVENTORY.md](./WORKFLOW_INVENTORY.md) | Master workflow inventory (96 workflows) |
+| [ATLVS_WORKFLOWS.md](./ATLVS_WORKFLOWS.md) | ATLVS detailed workflows (31) |
+| [COMPVSS_WORKFLOWS.md](./COMPVSS_WORKFLOWS.md) | COMPVSS detailed workflows (34) |
+| [GVTEWAY_WORKFLOWS.md](./GVTEWAY_WORKFLOWS.md) | GVTEWAY detailed workflows (31) |
 
 ---
 

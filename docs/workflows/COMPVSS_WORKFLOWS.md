@@ -1,17 +1,33 @@
 # COMPVSS Detailed Workflows
 
+> **Version:** 2.0  
+> **Last Updated:** December 31, 2025  
 > **App Purpose:** Production operations, crew management, event execution  
-> **Total Pages:** 166
+> **Total Pages:** 166  
+> **Total Workflows:** 34
+
+---
+
+## Related Documentation
+
+| Document | Description |
+|----------|-------------|
+| [USER_GUIDES.md](../guides/USER_GUIDES.md) | End-to-end user guides including COMPVSS production operations journey |
+| [WORKFLOW_INVENTORY.md](./WORKFLOW_INVENTORY.md) | Master workflow inventory with cross-platform overview |
+| [ATLVS_WORKFLOWS.md](./ATLVS_WORKFLOWS.md) | Business operations workflows |
+| [GVTEWAY_WORKFLOWS.md](./GVTEWAY_WORKFLOWS.md) | Consumer platform workflows |
 
 ---
 
 ## Table of Contents
 
-1. [Admin Workflows](#admin-workflows)
-2. [Team Member Workflows](#team-member-workflows)
-3. [Crew Workflows](#crew-workflows)
-4. [Artist Workflows](#artist-workflows)
-5. [Vendor Workflows](#vendor-workflows)
+1. [Admin Workflows](#admin-workflows) (18 workflows)
+2. [Team Member Workflows](#team-member-workflows) (6 workflows)
+3. [Crew Workflows](#crew-workflows) (3 workflows)
+4. [Artist Workflows](#artist-workflows) (2 workflows)
+5. [Vendor Workflows](#vendor-workflows) (2 workflows)
+6. [Stakeholder Workflows](#stakeholder-workflows) (1 workflow)
+7. [Offline & Authentication Workflows](#offline--authentication-workflows) (2 workflows)
 
 ---
 

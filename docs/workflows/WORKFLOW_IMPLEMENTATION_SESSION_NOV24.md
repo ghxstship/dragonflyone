@@ -1,5 +1,18 @@
 # 🚀 Full-Stack Workflow Implementation Session - November 24, 2025
 
+> **Version:** 2.0  
+> **Last Updated:** December 31, 2025
+
+## Related Documentation
+
+| Document | Description |
+|----------|-------------|
+| [USER_GUIDES.md](../guides/USER_GUIDES.md) | End-to-end user guides from signup to archiving |
+| [WORKFLOW_INVENTORY.md](./WORKFLOW_INVENTORY.md) | Master workflow inventory (96 workflows) |
+| [WORKFLOW_IMPLEMENTATION_SUMMARY.md](./WORKFLOW_IMPLEMENTATION_SUMMARY.md) | Role system and implementation summary |
+
+---
+
 ## 📊 SESSION OVERVIEW
 
 **Objective:** Continue full-stack repository-wide implementation of all core and advanced end-to-end workflows according to MASTER_ROADMAP.md

@@ -1,8 +1,21 @@
 # GHXSTSHIP Platform - Master Workflow Inventory
 
-> **Generated:** December 12, 2025  
+> **Version:** 2.0  
+> **Last Updated:** December 31, 2025  
 > **Total Pages:** 591 (ATLVS: 236, COMPVSS: 166, GVTEWAY: 189)  
 > **Total Workflows Documented:** 96 detailed workflows
+
+---
+
+## Related Documentation
+
+| Document | Description |
+|----------|-------------|
+| [USER_GUIDES.md](../guides/USER_GUIDES.md) | Comprehensive end-to-end user guides from signup to archiving |
+| [ATLVS_WORKFLOWS.md](./ATLVS_WORKFLOWS.md) | Detailed ATLVS platform workflows (31 workflows) |
+| [COMPVSS_WORKFLOWS.md](./COMPVSS_WORKFLOWS.md) | Detailed COMPVSS platform workflows (34 workflows) |
+| [GVTEWAY_WORKFLOWS.md](./GVTEWAY_WORKFLOWS.md) | Detailed GVTEWAY platform workflows (31 workflows) |
+| [PERMISSIONS.md](../PERMISSIONS.md) | Role-based access control documentation |
 
 ---
 
@@ -10,9 +23,9 @@
 
 1. [Platform Overview](#platform-overview)
 2. [User Types & Roles](#user-types--roles)
-3. [ATLVS Workflows](#atlvs-workflows) → [Detailed Workflows](./docs/workflows/ATLVS_WORKFLOWS.md)
-4. [COMPVSS Workflows](#compvss-workflows) → [Detailed Workflows](./docs/workflows/COMPVSS_WORKFLOWS.md)
-5. [GVTEWAY Workflows](#gvteway-workflows) → [Detailed Workflows](./docs/workflows/GVTEWAY_WORKFLOWS.md)
+3. [ATLVS Workflows](#atlvs-workflows) → [Detailed Workflows](./ATLVS_WORKFLOWS.md)
+4. [COMPVSS Workflows](#compvss-workflows) → [Detailed Workflows](./COMPVSS_WORKFLOWS.md)
+5. [GVTEWAY Workflows](#gvteway-workflows) → [Detailed Workflows](./GVTEWAY_WORKFLOWS.md)
 6. [Access & Permissions Matrix](#access--permissions-matrix)
 7. [Identified Gaps & Recommendations](#identified-gaps--recommendations)
 
@@ -95,7 +108,7 @@
 
 ## ATLVS Workflows (236 pages)
 
-> **📄 Full Details:** [ATLVS_WORKFLOWS.md](./docs/workflows/ATLVS_WORKFLOWS.md) - 31 detailed workflows
+> **📄 Full Details:** [ATLVS_WORKFLOWS.md](./ATLVS_WORKFLOWS.md) - 31 detailed workflows
 
 ### Workflow Summary by User Type
 
@@ -154,7 +167,7 @@
 
 ## COMPVSS Workflows (166 pages)
 
-> **📄 Full Details:** [COMPVSS_WORKFLOWS.md](./docs/workflows/COMPVSS_WORKFLOWS.md) - 34 detailed workflows
+> **📄 Full Details:** [COMPVSS_WORKFLOWS.md](./COMPVSS_WORKFLOWS.md) - 34 detailed workflows
 
 ### Workflow Summary by User Type
 
@@ -224,7 +237,7 @@
 
 ## GVTEWAY Workflows (189 pages)
 
-> **📄 Full Details:** [GVTEWAY_WORKFLOWS.md](./docs/workflows/GVTEWAY_WORKFLOWS.md) - 31 detailed workflows
+> **📄 Full Details:** [GVTEWAY_WORKFLOWS.md](./GVTEWAY_WORKFLOWS.md) - 31 detailed workflows
 
 ### Workflow Summary by User Type
 
@@ -414,9 +427,9 @@
 
 | App | Document | Workflows | Description |
 |-----|----------|-----------|-------------|
-| ATLVS | [ATLVS_WORKFLOWS.md](./docs/workflows/ATLVS_WORKFLOWS.md) | 31 | Step-by-step workflows for admin, team member, viewer, and portal users |
-| COMPVSS | [COMPVSS_WORKFLOWS.md](./docs/workflows/COMPVSS_WORKFLOWS.md) | 34 | Step-by-step workflows for admin, team member, crew, artist, vendor, stakeholder |
-| GVTEWAY | [GVTEWAY_WORKFLOWS.md](./docs/workflows/GVTEWAY_WORKFLOWS.md) | 31 | Step-by-step workflows for consumers, members, artists, admins, venue managers |
+| ATLVS | [ATLVS_WORKFLOWS.md](./ATLVS_WORKFLOWS.md) | 31 | Step-by-step workflows for admin, team member, viewer, and portal users |
+| COMPVSS | [COMPVSS_WORKFLOWS.md](./COMPVSS_WORKFLOWS.md) | 34 | Step-by-step workflows for admin, team member, crew, artist, vendor, stakeholder |
+| GVTEWAY | [GVTEWAY_WORKFLOWS.md](./GVTEWAY_WORKFLOWS.md) | 31 | Step-by-step workflows for consumers, members, artists, admins, venue managers |
 
 Each detailed workflow document includes:
 - **Actor**: Who performs the workflow

@@ -1,16 +1,31 @@
 # ATLVS Detailed Workflows
 
+> **Version:** 2.0  
+> **Last Updated:** December 31, 2025  
 > **App Purpose:** Business operations, finance, project management, investor relations  
-> **Total Pages:** 236
+> **Total Pages:** 236  
+> **Total Workflows:** 31
+
+---
+
+## Related Documentation
+
+| Document | Description |
+|----------|-------------|
+| [USER_GUIDES.md](../guides/USER_GUIDES.md) | End-to-end user guides including ATLVS business operations journey |
+| [WORKFLOW_INVENTORY.md](./WORKFLOW_INVENTORY.md) | Master workflow inventory with cross-platform overview |
+| [COMPVSS_WORKFLOWS.md](./COMPVSS_WORKFLOWS.md) | Production operations workflows |
+| [GVTEWAY_WORKFLOWS.md](./GVTEWAY_WORKFLOWS.md) | Consumer platform workflows |
 
 ---
 
 ## Table of Contents
 
-1. [Admin Workflows](#admin-workflows)
-2. [Team Member Workflows](#team-member-workflows)
-3. [Viewer Workflows](#viewer-workflows)
-4. [Portal User Workflows](#portal-user-workflows)
+1. [Admin Workflows](#admin-workflows) (20 workflows)
+2. [Team Member Workflows](#team-member-workflows) (4 workflows)
+3. [Viewer Workflows](#viewer-workflows) (1 workflow)
+4. [Portal User Workflows](#portal-user-workflows) (5 workflows)
+5. [Authentication Workflows](#authentication-workflows) (1 workflow)
 
 ---
 
