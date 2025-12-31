@@ -1,0 +1,104 @@
+PRODUCTION BUDGET TEMPLATE
+Production Name:,[Enter Production Name]
+Production Date:,[Enter Date]
+Prepared By:,[Enter Name]
+Version:,1.0
+Last Updated:,[Auto-fill Date]
+
+BUDGET SUMMARY
+Category,Budgeted,Actual,Variance,% Variance,Notes
+TALENT,$0.00,$0.00,$0.00,0%,
+PRODUCTION,$0.00,$0.00,$0.00,0%,
+VENUE,$0.00,$0.00,$0.00,0%,
+MARKETING,$0.00,$0.00,$0.00,0%,
+OPERATIONS,$0.00,$0.00,$0.00,0%,
+OVERHEAD,$0.00,$0.00,$0.00,0%,
+CONTINGENCY,$0.00,$0.00,$0.00,0%,
+TOTAL,$0.00,$0.00,$0.00,0%,
+
+TALENT COSTS
+Line Item,Description,Quantity,Unit Cost,Budgeted,Actual,Variance,Notes
+Headliner Guarantee,Main artist fee,1,$0.00,$0.00,$0.00,$0.00,
+Support Act 1,Opening artist,1,$0.00,$0.00,$0.00,$0.00,
+Support Act 2,Second opener,1,$0.00,$0.00,$0.00,$0.00,
+DJ/Host,Event host,1,$0.00,$0.00,$0.00,$0.00,
+Artist Travel,Flights/ground,1,$0.00,$0.00,$0.00,$0.00,
+Artist Lodging,Hotel rooms,1,$0.00,$0.00,$0.00,$0.00,
+Artist Hospitality,Rider requirements,1,$0.00,$0.00,$0.00,$0.00,
+Artist Per Diems,Daily allowances,1,$0.00,$0.00,$0.00,$0.00,
+Backline Rental,Instruments/amps,1,$0.00,$0.00,$0.00,$0.00,
+TALENT SUBTOTAL,,,,,$0.00,$0.00,$0.00,
+
+PRODUCTION COSTS
+Line Item,Description,Quantity,Unit Cost,Budgeted,Actual,Variance,Notes
+Sound System,PA rental,1,$0.00,$0.00,$0.00,$0.00,
+Sound Engineer,FOH/Monitor,2,$0.00,$0.00,$0.00,$0.00,
+Lighting Package,Fixtures/control,1,$0.00,$0.00,$0.00,$0.00,
+Lighting Designer,LD fee,1,$0.00,$0.00,$0.00,$0.00,
+Video/LED,Screens/content,1,$0.00,$0.00,$0.00,$0.00,
+Video Engineer,Operator,1,$0.00,$0.00,$0.00,$0.00,
+Staging,Deck/risers,1,$0.00,$0.00,$0.00,$0.00,
+Rigging,Points/motors,1,$0.00,$0.00,$0.00,$0.00,
+Power/Generator,Electrical,1,$0.00,$0.00,$0.00,$0.00,
+Backline,Drums/amps,1,$0.00,$0.00,$0.00,$0.00,
+Crew Labor,Stagehands,10,$0.00,$0.00,$0.00,$0.00,
+Crew Catering,Meals,1,$0.00,$0.00,$0.00,$0.00,
+Production Supplies,Tape/cables,1,$0.00,$0.00,$0.00,$0.00,
+PRODUCTION SUBTOTAL,,,,,$0.00,$0.00,$0.00,
+
+VENUE COSTS
+Line Item,Description,Quantity,Unit Cost,Budgeted,Actual,Variance,Notes
+Venue Rental,Facility fee,1,$0.00,$0.00,$0.00,$0.00,
+Venue Labor,House crew,1,$0.00,$0.00,$0.00,$0.00,
+Venue Security,In-house guards,1,$0.00,$0.00,$0.00,$0.00,
+Venue Catering,F&B minimum,1,$0.00,$0.00,$0.00,$0.00,
+Parking,Lot rental,1,$0.00,$0.00,$0.00,$0.00,
+Cleaning,Post-event,1,$0.00,$0.00,$0.00,$0.00,
+Insurance,Event coverage,1,$0.00,$0.00,$0.00,$0.00,
+Permits,City/fire,1,$0.00,$0.00,$0.00,$0.00,
+VENUE SUBTOTAL,,,,,$0.00,$0.00,$0.00,
+
+MARKETING COSTS
+Line Item,Description,Quantity,Unit Cost,Budgeted,Actual,Variance,Notes
+Digital Advertising,Social/display,1,$0.00,$0.00,$0.00,$0.00,
+Print Advertising,Posters/flyers,1,$0.00,$0.00,$0.00,$0.00,
+Radio/Streaming,Audio ads,1,$0.00,$0.00,$0.00,$0.00,
+PR/Publicity,Press outreach,1,$0.00,$0.00,$0.00,$0.00,
+Graphic Design,Creative assets,1,$0.00,$0.00,$0.00,$0.00,
+Photography,Event photos,1,$0.00,$0.00,$0.00,$0.00,
+Videography,Event video,1,$0.00,$0.00,$0.00,$0.00,
+Influencer/Street Team,Promotion,1,$0.00,$0.00,$0.00,$0.00,
+MARKETING SUBTOTAL,,,,,$0.00,$0.00,$0.00,
+
+OPERATIONS COSTS
+Line Item,Description,Quantity,Unit Cost,Budgeted,Actual,Variance,Notes
+Box Office,Ticket staff,1,$0.00,$0.00,$0.00,$0.00,
+Guest Services,Ushers/hosts,1,$0.00,$0.00,$0.00,$0.00,
+Security,External guards,1,$0.00,$0.00,$0.00,$0.00,
+Medical/EMT,First aid,1,$0.00,$0.00,$0.00,$0.00,
+Transportation,Shuttles,1,$0.00,$0.00,$0.00,$0.00,
+Radios/Comms,Rental,1,$0.00,$0.00,$0.00,$0.00,
+Credentials,Badges/wristbands,1,$0.00,$0.00,$0.00,$0.00,
+Signage,Wayfinding,1,$0.00,$0.00,$0.00,$0.00,
+OPERATIONS SUBTOTAL,,,,,$0.00,$0.00,$0.00,
+
+OVERHEAD COSTS
+Line Item,Description,Quantity,Unit Cost,Budgeted,Actual,Variance,Notes
+Management Fee,Producer fee,1,$0.00,$0.00,$0.00,$0.00,
+Legal,Contracts/review,1,$0.00,$0.00,$0.00,$0.00,
+Accounting,Settlement,1,$0.00,$0.00,$0.00,$0.00,
+Office/Admin,Supplies,1,$0.00,$0.00,$0.00,$0.00,
+Travel,Staff travel,1,$0.00,$0.00,$0.00,$0.00,
+OVERHEAD SUBTOTAL,,,,,$0.00,$0.00,$0.00,
+
+CONTINGENCY
+Line Item,Description,Quantity,Unit Cost,Budgeted,Actual,Variance,Notes
+Contingency,10% of total,1,$0.00,$0.00,$0.00,$0.00,Recommended 10-15%
+CONTINGENCY SUBTOTAL,,,,,$0.00,$0.00,$0.00,
+
+NOTES & ASSUMPTIONS
+1. All costs are estimates and subject to change
+2. Contingency should be 10-15% of total budget
+3. Update actuals as expenses are incurred
+4. Review variance weekly during production
+5. Approval required for any line item exceeding 10% variance

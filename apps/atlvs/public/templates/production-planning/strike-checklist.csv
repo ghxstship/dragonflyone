@@ -1,0 +1,121 @@
+STRIKE CHECKLIST
+Production:,[Enter Production Name]
+Date:,[Enter Date]
+Venue:,[Enter Venue]
+Production Manager:,[Enter Name]
+
+STRIKE TIMELINE
+Time,Activity,Department,Status,Notes
+Show End,Begin Strike Prep,All,,
++0:15,Artist Clear,Stage,,
++0:30,Begin Backline Strike,Backline,,
++0:45,Begin Audio Strike,Audio,,
++1:00,Begin Lighting Strike,Lighting,,
++1:00,Begin Video Strike,Video,,
++1:30,Begin Staging Strike,Stage,,
++2:00,Begin Rigging Strike,Rigging,,
++3:00,Vendor Pickups Begin,All,,
++4:00,Final Walkthrough,Production,,
++4:30,Venue Handoff,Production,,
+
+DEPARTMENT CHECKLISTS
+
+AUDIO DEPARTMENT
+Task,Complete,Initials,Notes
+FOH console packed,[ ],,
+Monitor console packed,[ ],,
+All microphones collected,[ ],,
+All DI boxes collected,[ ],,
+All cables coiled and cased,[ ],,
+PA flown out and cased,[ ],,
+Subs packed,[ ],,
+Monitor wedges packed,[ ],,
+IEM systems packed,[ ],,
+RF equipment packed,[ ],,
+Multicore/snakes packed,[ ],,
+Power distro packed,[ ],,
+All cases labeled,[ ],,
+Truck loaded,[ ],,
+Department head sign-off,[ ],,
+
+LIGHTING DEPARTMENT
+Task,Complete,Initials,Notes
+All fixtures powered down,[ ],,
+Fixtures struck and cased,[ ],,
+Truss lowered,[ ],,
+Truss disassembled,[ ],,
+All cables coiled,[ ],,
+Console packed,[ ],,
+Dimmers packed,[ ],,
+Haze/fog machines packed,[ ],,
+Follow spots packed,[ ],,
+All clamps collected,[ ],,
+Safety cables collected,[ ],,
+All cases labeled,[ ],,
+Truck loaded,[ ],,
+Department head sign-off,[ ],,
+
+VIDEO DEPARTMENT
+Task,Complete,Initials,Notes
+LED wall struck,[ ],,
+Cameras packed,[ ],,
+Switcher packed,[ ],,
+Projectors packed,[ ],,
+Screens struck,[ ],,
+All cables coiled,[ ],,
+Media servers packed,[ ],,
+All cases labeled,[ ],,
+Truck loaded,[ ],,
+Department head sign-off,[ ],,
+
+STAGE DEPARTMENT
+Task,Complete,Initials,Notes
+Backline struck,[ ],,
+Drum riser cleared,[ ],,
+Staging disassembled,[ ],,
+Risers stacked,[ ],,
+Stairs removed,[ ],,
+Skirting removed,[ ],,
+All hardware collected,[ ],,
+Stage swept,[ ],,
+All cases labeled,[ ],,
+Truck loaded,[ ],,
+Department head sign-off,[ ],,
+
+RIGGING DEPARTMENT
+Task,Complete,Initials,Notes
+All points lowered,[ ],,
+Motors removed,[ ],,
+Chain bagged,[ ],,
+Shackles collected,[ ],,
+Spansets collected,[ ],,
+Bridles collected,[ ],,
+All hardware accounted,[ ],,
+Rigging plot returned,[ ],,
+All cases labeled,[ ],,
+Truck loaded,[ ],,
+Department head sign-off,[ ],,
+
+VENUE WALKTHROUGH
+Area,Condition,Issues,Photos Taken,Notes
+Stage,[ ] Good [ ] Damage,,,
+FOH,[ ] Good [ ] Damage,,,
+Dressing Rooms,[ ] Good [ ] Damage,,,
+Loading Dock,[ ] Good [ ] Damage,,,
+Parking Lot,[ ] Good [ ] Damage,,,
+Restrooms,[ ] Good [ ] Damage,,,
+Green Room,[ ] Good [ ] Damage,,,
+Production Office,[ ] Good [ ] Damage,,,
+
+EQUIPMENT RETURN TRACKING
+Vendor,Equipment,Quantity Out,Quantity In,Damage,Driver,Time Out,Notes
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+
+SIGN-OFF
+Role,Name,Signature,Time
+Production Manager,,,
+Venue Manager,,,
+Security Lead,,,

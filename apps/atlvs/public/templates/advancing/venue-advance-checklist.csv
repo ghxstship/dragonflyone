@@ -1,0 +1,158 @@
+VENUE ADVANCE CHECKLIST
+Event Name:,[Enter Event Name]
+Event Date:,[Enter Date]
+Venue:,[Enter Venue]
+Advance Date:,[Enter Date]
+Advanced By:,[Enter Name]
+
+VENUE CONTACTS
+Role,Name,Phone,Email,Confirmed
+Venue Manager,,,,[ ]
+Technical Director,,,,[ ]
+Production Manager,,,,[ ]
+Box Office Manager,,,,[ ]
+Catering Manager,,,,[ ]
+Security Director,,,,[ ]
+Parking Manager,,,,[ ]
+After Hours Contact,,,,[ ]
+
+VENUE ACCESS
+Item,Details,Confirmed,Notes
+Venue Address,,,[ ],
+Loading Dock Address,,,[ ],
+Load-In Date,,,[ ],
+Load-In Time,,,[ ],
+Venue Opens,,,[ ],
+Doors,,,[ ],
+Curfew,,,[ ],
+Load-Out Complete By,,,[ ],
+
+LOADING DOCK
+Item,Details,Confirmed,Notes
+Number of Docks,,,[ ],
+Dock Dimensions,,,[ ],
+Dock Height,,,[ ],
+Max Vehicle Size,,,[ ],
+Freight Elevator,Yes/No,[ ],
+Elevator Dimensions,,,[ ],
+Distance to Stage,,,[ ],
+Dock Reservation Required,Yes/No,[ ],
+
+STAGE SPECIFICATIONS
+Item,Details,Confirmed,Notes
+Stage Width,,,[ ],
+Stage Depth,,,[ ],
+Stage Height,,,[ ],
+Wing Space SL,,,[ ],
+Wing Space SR,,,[ ],
+Proscenium Width,,,[ ],
+Proscenium Height,,,[ ],
+Grid Height,,,[ ],
+
+RIGGING
+Item,Details,Confirmed,Notes
+Rigging Type,Points/Beam/Grid,[ ],
+Number of Points,,,[ ],
+Point Capacity,,,[ ],
+Trim Height,,,[ ],
+House Rigger Required,Yes/No,[ ],
+Rigging Plot Received,Yes/No,[ ],
+
+POWER
+Item,Details,Confirmed,Notes
+Power Available,,,[ ],
+Voltage,,,[ ],
+Amperage,,,[ ],
+3-Phase Available,Yes/No,[ ],
+Cam-Lock Available,Yes/No,[ ],
+Tie-In Required,Yes/No,[ ],
+House Electrician Required,Yes/No,[ ],
+Generator Parking,Yes/No,[ ],
+
+HOUSE SYSTEMS
+Item,Available,Details,Using,Notes
+House PA,Yes/No,,,
+House Monitors,Yes/No,,,
+House Console,Yes/No,,,
+House Lighting,Yes/No,,,
+House Video,Yes/No,,,
+House Intercom,Yes/No,,,
+House Dimmers,Yes/No,,,
+
+DRESSING ROOMS
+Room,Capacity,Amenities,Assigned To,Notes
+Dressing Room 1,,,,
+Dressing Room 2,,,,
+Dressing Room 3,,,,
+Green Room,,,,
+Production Office,,,,
+Wardrobe,,,,
+
+CATERING
+Item,Details,Confirmed,Notes
+Kitchen Available,Yes/No,[ ],
+Catering Provider,,,[ ],
+Breakfast Time,,,[ ],
+Lunch Time,,,[ ],
+Dinner Time,,,[ ],
+Crew Meal Count,,,[ ],
+Artist Meal Count,,,[ ],
+Dietary Restrictions,,,[ ],
+
+PARKING
+Type,Quantity,Location,Confirmed,Notes
+Production Vehicles,,,[ ],
+Artist Vehicles,,,[ ],
+Bus Parking,,,[ ],
+Truck Parking,,,[ ],
+Crew Parking,,,[ ],
+Overnight Parking,Yes/No,[ ],
+
+SECURITY
+Item,Details,Confirmed,Notes
+House Security Provided,Yes/No,[ ],
+Security Count,,,[ ],
+Security Hours,,,[ ],
+Barricade Provided,Yes/No,[ ],
+Credential System,,,[ ],
+Guest List Process,,,[ ],
+
+PERMITS & INSURANCE
+Item,Status,Details,Notes
+Venue Insurance,Required/Provided,,
+Event Insurance,Required/Provided,,
+Fire Permit,Required/Obtained,,
+Noise Permit,Required/Obtained,,
+Alcohol License,Required/Obtained,,
+Other Permits,,,
+
+EMERGENCY INFORMATION
+Item,Details
+Nearest Hospital,,
+Hospital Address,,
+Hospital Phone,,
+Fire Exit Locations,,
+Emergency Assembly Point,,
+First Aid Location,,
+AED Location,,
+
+VENUE RULES
+Rule,Acknowledged,Notes
+Noise Restrictions,,
+Pyro/Haze Restrictions,,
+Rigging Restrictions,,
+Catering Restrictions,,
+Alcohol Restrictions,,
+Smoking Policy,,
+Other,,
+
+OUTSTANDING ITEMS
+Item,Owner,Due Date,Status
+,,,
+,,,
+,,,
+
+CONFIRMATION
+Role,Name,Signature,Date
+Venue Representative,,,
+Production Manager,,,

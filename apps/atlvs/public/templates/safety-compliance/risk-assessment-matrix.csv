@@ -1,0 +1,152 @@
+RISK ASSESSMENT MATRIX
+Event Name:,[Enter Event Name]
+Event Date:,[Enter Date]
+Venue:,[Enter Venue]
+Assessed By:,[Enter Name]
+Assessment Date:,[Enter Date]
+Version:,[X.X]
+
+RISK RATING GUIDE
+Likelihood,Score,Description
+Rare,1,May occur only in exceptional circumstances
+Unlikely,2,Could occur but not expected
+Possible,3,Might occur at some time
+Likely,4,Will probably occur
+Almost Certain,5,Expected to occur in most circumstances
+
+Consequence,Score,Description
+Insignificant,1,No injuries / minor inconvenience
+Minor,2,First aid treatment / minor disruption
+Moderate,3,Medical treatment / significant disruption
+Major,4,Serious injury / major disruption
+Catastrophic,5,Death or permanent disability / event cancellation
+
+Risk Score,Rating,Action Required
+1-4,Low,Monitor and manage through routine procedures
+5-9,Medium,Specific monitoring and response procedures required
+10-16,High,Senior management attention / detailed action plan required
+17-25,Extreme,Immediate action required / consider cancellation
+
+RISK ASSESSMENT
+
+CROWD MANAGEMENT RISKS
+Hazard,Who at Risk,Likelihood (1-5),Consequence (1-5),Risk Score,Existing Controls,Additional Controls Required,Responsible,Status
+Crowd crush/surge,Patrons,,,,,,,
+Overcrowding,Patrons/Staff,,,,,,,
+Crowd disorder,Patrons/Staff,,,,,,,
+Alcohol-related incidents,Patrons/Staff,,,,,,,
+Drug-related incidents,Patrons/Staff,,,,,,,
+Unauthorized access,All,,,,,,,
+Lost children,Patrons,,,,,,,
+
+STRUCTURAL/VENUE RISKS
+Hazard,Who at Risk,Likelihood (1-5),Consequence (1-5),Risk Score,Existing Controls,Additional Controls Required,Responsible,Status
+Stage collapse,Performers/Crew,,,,,,,
+Barrier failure,Patrons,,,,,,,
+Temporary structure failure,All,,,,,,,
+Rigging failure,All,,,,,,,
+Seating collapse,Patrons,,,,,,,
+Floor/surface failure,All,,,,,,,
+
+FIRE RISKS
+Hazard,Who at Risk,Likelihood (1-5),Consequence (1-5),Risk Score,Existing Controls,Additional Controls Required,Responsible,Status
+Electrical fire,All,,,,,,,
+Pyrotechnics,All,,,,,,,
+Cooking/catering fire,Staff/Patrons,,,,,,,
+Arson,All,,,,,,,
+Blocked fire exits,All,,,,,,,
+Inadequate fire equipment,All,,,,,,,
+
+ELECTRICAL RISKS
+Hazard,Who at Risk,Likelihood (1-5),Consequence (1-5),Risk Score,Existing Controls,Additional Controls Required,Responsible,Status
+Electrocution,Crew/Performers,,,,,,,
+Electrical fire,All,,,,,,,
+Power failure,All,,,,,,,
+Inadequate power supply,All,,,,,,,
+Wet conditions + electricity,All,,,,,,,
+
+WEATHER RISKS (Outdoor Events)
+Hazard,Who at Risk,Likelihood (1-5),Consequence (1-5),Risk Score,Existing Controls,Additional Controls Required,Responsible,Status
+Lightning,All,,,,,,,
+High winds,All,,,,,,,
+Heavy rain/flooding,All,,,,,,,
+Extreme heat,All,,,,,,,
+Extreme cold,All,,,,,,,
+Tornado,All,,,,,,,
+
+SECURITY RISKS
+Hazard,Who at Risk,Likelihood (1-5),Consequence (1-5),Risk Score,Existing Controls,Additional Controls Required,Responsible,Status
+Terrorism,All,,,,,,,
+Active shooter,All,,,,,,,
+Assault/violence,All,,,,,,,
+Theft,All,,,,,,,
+Vandalism,Property,,,,,,,
+Bomb threat,All,,,,,,,
+
+MEDICAL RISKS
+Hazard,Who at Risk,Likelihood (1-5),Consequence (1-5),Risk Score,Existing Controls,Additional Controls Required,Responsible,Status
+Heart attack/stroke,Patrons,,,,,,,
+Allergic reaction,All,,,,,,,
+Drug overdose,Patrons,,,,,,,
+Dehydration/heat stroke,All,,,,,,,
+Crush injuries,Patrons,,,,,,,
+Falls,All,,,,,,,
+
+OPERATIONAL RISKS
+Hazard,Who at Risk,Likelihood (1-5),Consequence (1-5),Risk Score,Existing Controls,Additional Controls Required,Responsible,Status
+Slip/trip/fall,All,,,,,,,
+Manual handling injury,Crew,,,,,,,
+Working at height,Crew,,,,,,,
+Noise exposure,All,,,,,,,
+Vehicle movement,All,,,,,,,
+Food poisoning,All,,,,,,,
+
+SPECIAL EFFECTS RISKS
+Hazard,Who at Risk,Likelihood (1-5),Consequence (1-5),Risk Score,Existing Controls,Additional Controls Required,Responsible,Status
+Pyrotechnics,All,,,,,,,
+Lasers,Patrons/Performers,,,,,,,
+Smoke/haze,All,,,,,,,
+Strobe lighting,Patrons,,,,,,,
+CO2/cryogenics,Performers/Crew,,,,,,,
+Confetti/streamers,All,,,,,,,
+
+RISK SUMMARY
+Category,High Risks,Medium Risks,Low Risks,Total
+Crowd Management,,,,,
+Structural/Venue,,,,,
+Fire,,,,,
+Electrical,,,,,
+Weather,,,,,
+Security,,,,,
+Medical,,,,,
+Operational,,,,,
+Special Effects,,,,,
+TOTAL,,,,,
+
+ACTION PLAN FOR HIGH RISKS
+Risk,Action Required,Responsible,Due Date,Status
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+
+RESIDUAL RISK ASSESSMENT
+After implementing additional controls:
+Risk,Original Score,Residual Score,Acceptable?,Notes
+,,,Yes/No,
+,,,Yes/No,
+,,,Yes/No,
+
+REVIEW AND APPROVAL
+Role,Name,Signature,Date
+Risk Assessor,,,
+Safety Director,,,
+Production Manager,,,
+Venue Manager,,,
+
+NOTES
+1. This assessment must be reviewed before each event
+2. All high and extreme risks must have documented action plans
+3. Residual risk must be acceptable before proceeding
+4. Update assessment if conditions change
+5. Retain for minimum 3 years

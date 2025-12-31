@@ -1,0 +1,114 @@
+TICKET PRICING MATRIX
+Event Name:,[Enter Event Name]
+Event Date:,[Enter Date]
+Venue:,[Enter Venue]
+Capacity:,[Enter Number]
+Prepared By:,[Enter Name]
+
+PRICING STRATEGY
+Strategy Type,Selected,Notes
+Fixed Pricing,[ ],Same price throughout
+Tiered Pricing,[ ],Price increases as inventory decreases
+Dynamic Pricing,[ ],Prices adjust based on demand
+Early Bird,[ ],Discounted early purchase period
+
+TICKET TYPES
+Type,Face Value,Fees,Total Price,Quantity Available,Inventory %,Revenue Potential
+General Admission,$,$,$,,,,$
+VIP,$,$,$,,,,$
+Reserved Seating,$,$,$,,,,$
+Premium/Platinum,$,$,$,,,,$
+Student/Senior,$,$,$,,,,$
+Group (10+),$,$,$,,,,$
+TOTAL,,,,,,,$
+
+TIERED PRICING SCHEDULE
+Tier,Price,Start Date,End Date,Quantity,Status
+Tier 1 (Early Bird),$,,,,,[ ] Active
+Tier 2,$,,,,,[ ] Active
+Tier 3,$,,,,,[ ] Active
+Tier 4 (Door),$,,,,,[ ] Active
+
+VIP PACKAGE DETAILS
+Package Name,Price,Includes,Quantity
+VIP Package,$,"Early entry, merch, meet & greet",,
+Premium Package,$,"Front row, VIP lounge, open bar",,
+Ultimate Package,$,"All VIP + backstage tour",,
+
+FEE STRUCTURE
+Fee Type,Amount,Per Ticket,Collected By,Notes
+Service Fee,$,Yes,Ticketing Platform,
+Facility Fee,$,Yes,Venue,
+Order Fee,$,No (per order),Ticketing Platform,
+Delivery Fee,$,No (per order),Ticketing Platform,
+Credit Card Fee,%,Yes,Payment Processor,
+
+REVENUE PROJECTIONS
+Scenario,Tickets Sold,% Capacity,Gross Revenue,Fees,Net Revenue
+Conservative,,50%,$,$,$
+Target,,75%,$,$,$
+Optimistic,,90%,$,$,$
+Sellout,,100%,$,$,$
+
+COMP TICKETS
+Category,Quantity,Value,Approved By
+Artist/Management,,$,
+Promoter,,$,
+Venue,,$,
+Sponsors,,$,
+Media/Press,,$,
+Contest Winners,,$,
+TOTAL COMPS,,$,
+
+HOLDS
+Category,Quantity,Release Date,Notes
+Production Hold,,,
+Artist Hold,,,
+Sponsor Hold,,,
+VIP Hold,,,
+ADA Hold,,,
+TOTAL HOLDS,,,
+
+DISCOUNT CODES
+Code,Discount Type,Amount,Valid From,Valid To,Max Uses,Current Uses,Status
+,Percentage,%,,,,,,[ ] Active
+,Fixed Amount,$,,,,,,[ ] Active
+,BOGO,Buy 1 Get 1,,,,,,[ ] Active
+,Group,% off 10+,,,,,,[ ] Active
+
+PRESALE SCHEDULE
+Presale,Start Date/Time,End Date/Time,Code Required,Allocation
+Artist Presale,,,,
+Venue Presale,,,,
+Sponsor Presale,,,,
+Email List Presale,,,,
+Credit Card Presale,,,,
+General On-Sale,,,,
+
+REFUND POLICY
+Condition,Refund Amount,Deadline,Notes
+Customer Request,0%,N/A,No refunds
+Event Postponed,100% or transfer,,
+Event Cancelled,100%,,
+Artist Change,Case by case,,
+
+ACCESSIBILITY
+Ticket Type,Price,Quantity,Location,Notes
+ADA Seating,$,,,
+ADA + Companion,$,,,
+Sensory Friendly,$,,,
+
+SALES TRACKING
+Date,Tickets Sold (Day),Tickets Sold (Cumulative),Revenue (Day),Revenue (Cumulative),Notes
+,,,,$,$,
+,,,,$,$,
+,,,,$,$,
+,,,,$,$,
+,,,,$,$,
+
+NOTES
+1. All prices include applicable taxes unless noted
+2. Fees are non-refundable
+3. Ticket limits: [X] per customer
+4. Age restrictions: [All ages / 18+ / 21+]
+5. Re-entry policy: [Allowed / Not allowed]

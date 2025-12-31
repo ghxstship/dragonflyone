@@ -1,0 +1,172 @@
+VENUE SITE SURVEY
+Venue Name:,[Enter Venue Name]
+Address:,[Enter Address]
+Survey Date:,[Enter Date]
+Surveyed By:,[Enter Name]
+
+VENUE OVERVIEW
+Item,Details,Notes
+Venue Type,(Arena/Theater/Club/Outdoor/Other),
+Capacity (Seated),,
+Capacity (Standing),,
+Capacity (Mixed),,
+Year Built,,
+Last Renovation,,
+Venue Contact,,
+Venue Phone,,
+Venue Email,,
+
+LOADING/ACCESS
+Item,Details,Rating (1-5),Notes
+Number of Loading Docks,,,
+Dock Door Dimensions,,,
+Dock Height,,,
+Max Vehicle Length,,,
+Freight Elevator,Yes/No,,
+Elevator Dimensions,,,
+Elevator Weight Limit,,,
+Distance to Stage,,,
+Path Obstructions,,,
+Overnight Parking,Yes/No,,
+
+STAGE SPECIFICATIONS
+Item,Details,Notes
+Stage Width,,
+Stage Depth,,
+Stage Height,,
+Wing Space (SL),,
+Wing Space (SR),,
+Proscenium Width,,
+Proscenium Height,,
+Fly System,Yes/No,
+Grid Height,,
+Trap Room,Yes/No,
+Orchestra Pit,Yes/No,
+Pit Dimensions,,
+
+RIGGING
+Item,Details,Notes
+Rigging Type,(Points/Beam/Grid),
+Number of Points,,
+Point Capacity,,
+Point Spacing,,
+Trim Height,,
+House Rigging Available,Yes/No,
+Rigging Restrictions,,
+Certified Rigger Required,Yes/No,
+Rigging Plot Available,Yes/No,
+
+POWER
+Item,Details,Notes
+House Power Available,,
+Main Disconnect Location,,
+3-Phase Available,Yes/No,
+Voltage,,
+Amperage Available,,
+Cam-Lock Connections,Yes/No,
+Distance to Stage,,
+Generator Parking,Yes/No,
+Tie-In Required,Yes/No,
+Electrician Required,Yes/No,
+
+AUDIO
+Item,Details,Notes
+House PA,Yes/No,
+PA Type/Brand,,
+House Console,Yes/No,
+Console Type,,
+Monitor System,,
+Delay Positions,,
+Audio Restrictions,,
+Noise Ordinance,,
+Curfew Time,,
+
+LIGHTING
+Item,Details,Notes
+House Lighting,Yes/No,
+Fixture Inventory,,
+House Console,Yes/No,
+Console Type,,
+Dimmer Capacity,,
+LED Fixtures,,
+Follow Spots,,
+Spot Positions,,
+
+VIDEO
+Item,Details,Notes
+House Video,Yes/No,
+Screen Positions,,
+Projector Positions,,
+LED Wall Mounting,,
+Camera Positions,,
+Video Tie Lines,,
+
+FRONT OF HOUSE
+Item,Details,Notes
+FOH Position,,
+FOH Dimensions,,
+Distance to Stage,,
+Sight Lines,,
+FOH Power,,
+FOH Access,,
+
+DRESSING ROOMS
+Room,Capacity,Amenities,Condition,Notes
+Dressing Room 1,,,,
+Dressing Room 2,,,,
+Dressing Room 3,,,,
+Green Room,,,,
+Production Office,,,,
+Wardrobe,,,,
+
+CATERING/HOSPITALITY
+Item,Details,Notes
+Catering Kitchen,Yes/No,
+Kitchen Equipment,,
+Dining Area,,
+Dining Capacity,,
+Refrigeration,,
+Ice Machine,,
+Coffee/Water,,
+
+RESTROOMS
+Area,Quantity,Condition,ADA Compliant,Notes
+Public Restrooms,,,,
+Backstage Restrooms,,,,
+Artist Restrooms,,,,
+Crew Restrooms,,,,
+
+SAFETY/EMERGENCY
+Item,Details,Notes
+Fire Exits,,
+Fire Extinguishers,,
+First Aid Location,,
+AED Location,,
+Emergency Contact,,
+Evacuation Plan,,
+Sprinkler System,Yes/No,
+Smoke Detectors,Yes/No,
+
+PARKING
+Item,Details,Notes
+Production Parking,,
+Artist Parking,,
+Crew Parking,,
+Bus Parking,,
+Truck Parking,,
+Public Parking,,
+
+ADDITIONAL NOTES
+Category,Notes
+Venue Strengths,
+Venue Challenges,
+Recommendations,
+Follow-Up Items,
+
+PHOTO LOG
+Photo #,Location,Description,Taken By
+1,,,
+2,,,
+3,,,
+4,,,
+5,,,

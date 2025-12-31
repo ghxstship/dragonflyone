@@ -1,0 +1,68 @@
+CREW TIMESHEET
+Production:,[Enter Production Name]
+Week Ending:,[Enter Date]
+Prepared By:,[Enter Name]
+
+EMPLOYEE INFORMATION
+Field,Details
+Employee Name,
+Employee ID,
+Department,
+Position,
+Supervisor,
+Pay Rate,
+Overtime Rate,
+
+DAILY TIME LOG
+Date,Day,Time In,Meal Out,Meal In,Time Out,Regular Hours,OT Hours,Total Hours,Notes
+,Monday,,,,,,,,
+,Tuesday,,,,,,,,
+,Wednesday,,,,,,,,
+,Thursday,,,,,,,,
+,Friday,,,,,,,,
+,Saturday,,,,,,,,
+,Sunday,,,,,,,,
+
+WEEKLY SUMMARY
+Category,Hours,Rate,Amount
+Regular Hours,,$0.00,$0.00
+Overtime Hours (1.5x),,$0.00,$0.00
+Double Time Hours (2x),,$0.00,$0.00
+TOTAL HOURS,,,
+TOTAL PAY,,,$0.00
+
+MEAL PENALTIES
+Date,Violation Type,Penalty Amount,Notes
+,,,$0.00,
+,,,$0.00,
+TOTAL PENALTIES,,,$0.00,
+
+ADDITIONAL PAY
+Category,Description,Amount,Notes
+Kit Rental,,,$0.00,
+Mileage,,,$0.00,
+Per Diem,,,$0.00,
+Other,,,$0.00,
+TOTAL ADDITIONAL,,,$0.00,
+
+GRAND TOTAL
+Category,Amount
+Regular Pay,$0.00
+Overtime Pay,$0.00
+Meal Penalties,$0.00
+Additional Pay,$0.00
+GRAND TOTAL,$0.00
+
+APPROVALS
+Role,Name,Signature,Date
+Employee,,,
+Supervisor,,,
+Payroll,,,
+
+NOTES
+1. All times must be recorded in 24-hour format or with AM/PM
+2. Meal breaks of 30+ minutes are unpaid
+3. Overtime applies after 8 hours daily or 40 hours weekly
+4. Double time applies after 12 hours daily
+5. Submit timesheet within 48 hours of week end
+6. Discrepancies must be reported immediately to supervisor

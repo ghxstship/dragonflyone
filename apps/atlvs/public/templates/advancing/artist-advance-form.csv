@@ -1,0 +1,145 @@
+ARTIST ADVANCE FORM
+Event Name:,[Enter Event Name]
+Event Date:,[Enter Date]
+Venue:,[Enter Venue]
+Advance Date:,[Enter Date]
+Advanced By:,[Enter Name]
+
+ARTIST INFORMATION
+Field,Details,Confirmed
+Artist/Act Name,,,[ ]
+Management Company,,,[ ]
+Tour Manager,,,[ ]
+Tour Manager Phone,,,[ ]
+Tour Manager Email,,,[ ]
+Production Manager,,,[ ]
+Production Manager Phone,,,[ ]
+Production Manager Email,,,[ ]
+
+TRAVEL DETAILS
+Field,Details,Confirmed
+Arrival Date,,,[ ]
+Arrival Time,,,[ ]
+Arrival Method,(Flight/Bus/Van),[ ]
+Flight Number,,,[ ]
+Arriving From,,,[ ]
+Party Size,,,[ ]
+Departure Date,,,[ ]
+Departure Time,,,[ ]
+Ground Transportation Needed,Yes/No,[ ]
+
+HOTEL REQUIREMENTS
+Field,Details,Confirmed
+Check-In Date,,,[ ]
+Check-Out Date,,,[ ]
+Number of Rooms,,,[ ]
+Room Types,,,[ ]
+Special Requests,,,[ ]
+Hotel Confirmation #,,,[ ]
+Hotel Name,,,[ ]
+Hotel Address,,,[ ]
+Hotel Phone,,,[ ]
+
+PRODUCTION REQUIREMENTS
+Category,Requirement,Provided By,Confirmed,Notes
+Sound System,,Promoter/Artist,[ ],
+Monitor System,,Promoter/Artist,[ ],
+Lighting Package,,Promoter/Artist,[ ],
+Backline,,Promoter/Artist,[ ],
+Risers/Staging,,Promoter/Artist,[ ],
+Video/LED,,Promoter/Artist,[ ],
+Barricade,,Promoter/Artist,[ ],
+Follow Spots,,Promoter/Artist,[ ],
+
+BACKLINE REQUIREMENTS
+Item,Quantity,Specs,Provided By,Confirmed
+Drum Kit,,,Promoter/Artist,[ ]
+Guitar Amps,,,Promoter/Artist,[ ]
+Bass Amps,,,Promoter/Artist,[ ]
+Keyboards,,,Promoter/Artist,[ ]
+DJ Equipment,,,Promoter/Artist,[ ]
+Microphones,,,Promoter/Artist,[ ]
+Stands,,,Promoter/Artist,[ ]
+Other,,,Promoter/Artist,[ ]
+
+SCHEDULE
+Time,Activity,Location,Notes
+,Load-In,,
+,Sound Check,,
+,Doors,,
+,Support Act,,
+,Changeover,,
+,Headliner,,
+,Curfew,,
+,Load-Out,,
+
+HOSPITALITY REQUIREMENTS
+Category,Requirement,Quantity,Confirmed,Notes
+Dressing Rooms,,,,
+Green Room,,,,
+Production Office,,,,
+Catering - Breakfast,,,,
+Catering - Lunch,,,,
+Catering - Dinner,,,,
+Buyout Amount,$,,,
+Beverages,,,,
+Snacks,,,,
+Towels,,,,
+Other,,,,
+
+GUEST LIST
+Category,Quantity,Notes
+Artist Guest List,,
+Management Guest List,,
+Label Guest List,,
+VIP/Meet & Greet,,
+Photo Pass,,
+Press Pass,,
+
+MERCHANDISE
+Field,Details,Confirmed
+Merch Allowed,Yes/No,[ ]
+Merch Location,,,[ ]
+Merch Seller,Artist/Venue,[ ]
+Soft Goods Split,%/%,[ ]
+Hard Goods Split,%/%,[ ]
+Settlement Time,,,[ ]
+
+CREDENTIALS REQUIRED
+Type,Quantity,Names
+All Access,,
+Backstage,,
+Stage,,
+Photo,,
+Press,,
+VIP,,
+
+SPECIAL REQUIREMENTS
+Category,Requirement,Notes
+Dietary Restrictions,,
+Allergies,,
+Security Requirements,,
+Privacy Requirements,,
+Other,,
+
+CONTACT SHEET
+Role,Name,Phone,Email
+Tour Manager,,,
+Production Manager,,,
+FOH Engineer,,,
+Monitor Engineer,,,
+Lighting Director,,,
+Backline Tech,,,
+Merch Manager,,,
+Artist Assistant,,,
+
+NOTES & ISSUES
+Item,Status,Resolution
+,,,
+,,,
+,,,
+
+ADVANCE CONFIRMATION
+Role,Name,Signature,Date
+Artist Representative,,,
+Promoter Representative,,,

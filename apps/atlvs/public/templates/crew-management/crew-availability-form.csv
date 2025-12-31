@@ -1,0 +1,90 @@
+CREW AVAILABILITY FORM
+Crew Member Name:,[Enter Name]
+Phone:,[Enter Phone]
+Email:,[Enter Email]
+Submitted Date:,[Enter Date]
+
+AVAILABILITY PERIOD
+Start Date:,[Enter Start Date]
+End Date:,[Enter End Date]
+
+WEEKLY AVAILABILITY
+Day,Available,Preferred Shift,Notes
+Monday,[ ] Yes [ ] No,,
+Tuesday,[ ] Yes [ ] No,,
+Wednesday,[ ] Yes [ ] No,,
+Thursday,[ ] Yes [ ] No,,
+Friday,[ ] Yes [ ] No,,
+Saturday,[ ] Yes [ ] No,,
+Sunday,[ ] Yes [ ] No,,
+
+SHIFT PREFERENCES
+Shift Type,Preference (1-5),Notes
+Day Shift (6am-2pm),,
+Swing Shift (2pm-10pm),,
+Night Shift (10pm-6am),,
+Split Shift,,
+On-Call,,
+
+SPECIFIC DATE AVAILABILITY
+Date,Available,Shift Preference,Notes
+,[ ] Yes [ ] No,,
+,[ ] Yes [ ] No,,
+,[ ] Yes [ ] No,,
+,[ ] Yes [ ] No,,
+,[ ] Yes [ ] No,,
+,[ ] Yes [ ] No,,
+,[ ] Yes [ ] No,,
+,[ ] Yes [ ] No,,
+,[ ] Yes [ ] No,,
+,[ ] Yes [ ] No,,
+
+BLACKOUT DATES (Not Available)
+Start Date,End Date,Reason
+,,,
+,,,
+,,,
+,,,
+
+SKILLS & CERTIFICATIONS
+Skill/Certification,Level (1-5),Expiration Date,Notes
+Audio - FOH,,,,
+Audio - Monitors,,,,
+Lighting - Console,,,,
+Lighting - Rigging,,,,
+Video - Switching,,,,
+Video - Camera,,,,
+Stage - Carpentry,,,,
+Stage - Rigging,,,,
+Forklift Certified,,,,
+Scissor Lift Certified,,,,
+First Aid/CPR,,,,
+OSHA 10/30,,,,
+
+POSITION PREFERENCES
+Position,Preference (1-5),Notes
+Audio Engineer,,
+Lighting Technician,,
+Video Technician,,
+Stagehand,,
+Rigger,,
+Backline Tech,,
+Runner,,
+Loader,,
+
+TRAVEL AVAILABILITY
+Item,Response,Notes
+Willing to travel,[ ] Yes [ ] No,
+Maximum travel distance,,
+Passport valid,[ ] Yes [ ] No,
+Driver's license,[ ] Yes [ ] No,
+Own vehicle,[ ] Yes [ ] No,
+
+ADDITIONAL NOTES
+[Space for additional information]
+
+ACKNOWLEDGMENT
+I confirm that the availability information provided is accurate. I understand that I am responsible for updating this form if my availability changes.
+
+Signature:,
+Date:,

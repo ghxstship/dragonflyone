@@ -1,0 +1,81 @@
+CREW CONTACT SHEET
+Production:,[Enter Production Name]
+Date:,[Enter Date]
+Production Manager:,[Enter Name]
+
+CREW ROSTER
+Name,Role,Department,Phone,Email,Emergency Contact,Emergency Phone,Credential Type,Notes
+,,,,,,,All Access,
+,,,,,,,All Access,
+,,,,,,,Backstage,
+,,,,,,,Backstage,
+,,,,,,,Stage,
+,,,,,,,Stage,
+,,,,,,,FOH,
+,,,,,,,FOH,
+,,,,,,,Crew,
+,,,,,,,Crew,
+
+DEPARTMENT HEADS
+Department,Name,Phone,Email,Radio Channel
+Production,,,, CH 1
+Stage,,,, CH 1
+Audio,,,, CH 2
+Lighting,,,, CH 3
+Video,,,, CH 3
+Backline,,,, CH 4
+Rigging,,,, CH 4
+Catering,,,, CH 6
+Security,,,, CH 5
+Operations,,,, CH 6
+
+VENDOR CONTACTS
+Company,Contact Name,Phone,Email,Service,Notes
+,,,,,Audio
+,,,,,Lighting
+,,,,,Video
+,,,,,Staging
+,,,,,Backline
+,,,,,Rigging
+,,,,,Power
+,,,,,Catering
+,,,,,Security
+,,,,,Transportation
+
+VENUE CONTACTS
+Role,Name,Phone,Email,Notes
+Venue Manager,,,,
+Technical Director,,,,
+House Audio,,,,
+House Lighting,,,,
+House Electrician,,,,
+Security Director,,,,
+Catering Manager,,,,
+Box Office Manager,,,,
+Parking Manager,,,,
+
+ARTIST/MANAGEMENT CONTACTS
+Role,Name,Phone,Email,Notes
+Artist Manager,,,,
+Tour Manager,,,,
+Production Manager,,,,
+FOH Engineer,,,,
+Monitor Engineer,,,,
+Lighting Director,,,,
+Tour Accountant,,,,
+Merchandise Manager,,,,
+
+EMERGENCY CONTACTS
+Service,Name,Phone,Address,Notes
+Hospital,,,,Nearest ER
+Police,,,,Local precinct
+Fire Department,,,,
+Poison Control,,,1-800-222-1222,
+Venue Emergency,,,,
+
+NOTES
+1. All contact information is confidential
+2. Do not share outside of production team
+3. Update immediately if any changes occur
+4. Emergency contacts should be called in order listed
+5. Radio channels are primary communication during show

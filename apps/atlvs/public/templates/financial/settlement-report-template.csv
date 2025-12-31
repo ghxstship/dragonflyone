@@ -1,0 +1,145 @@
+EVENT SETTLEMENT REPORT
+Event Name:,[Enter Event Name]
+Event Date:,[Enter Date]
+Venue:,[Enter Venue]
+Prepared By:,[Enter Name]
+Settlement Date:,[Enter Date]
+
+EVENT SUMMARY
+Item,Details
+Event Type,
+Capacity,
+Attendance,
+Sellout %,
+Weather,
+Notes,
+
+REVENUE
+Category,Quantity,Price,Gross,Fees/Tax,Net,Notes
+Ticket Sales - GA,,,$0.00,$0.00,$0.00,
+Ticket Sales - VIP,,,$0.00,$0.00,$0.00,
+Ticket Sales - Reserved,,,$0.00,$0.00,$0.00,
+Ticket Sales - Comp,,,$0.00,$0.00,$0.00,
+TOTAL TICKET REVENUE,,,$0.00,$0.00,$0.00,
+
+Merchandise - Soft Goods,,,$0.00,$0.00,$0.00,
+Merchandise - Hard Goods,,,$0.00,$0.00,$0.00,
+TOTAL MERCHANDISE,,,$0.00,$0.00,$0.00,
+
+Sponsorship,,,$0.00,$0.00,$0.00,
+VIP Packages,,,$0.00,$0.00,$0.00,
+Parking,,,$0.00,$0.00,$0.00,
+Food & Beverage,,,$0.00,$0.00,$0.00,
+Other Revenue,,,$0.00,$0.00,$0.00,
+TOTAL OTHER REVENUE,,,$0.00,$0.00,$0.00,
+
+GROSS REVENUE,,,$0.00,$0.00,$0.00,
+
+EXPENSES - TALENT
+Category,Budgeted,Actual,Variance,Notes
+Headliner Guarantee,$0.00,$0.00,$0.00,
+Support Act 1,$0.00,$0.00,$0.00,
+Support Act 2,$0.00,$0.00,$0.00,
+DJ/Host,$0.00,$0.00,$0.00,
+Artist Travel,$0.00,$0.00,$0.00,
+Artist Lodging,$0.00,$0.00,$0.00,
+Artist Hospitality,$0.00,$0.00,$0.00,
+Artist Per Diems,$0.00,$0.00,$0.00,
+Backline,$0.00,$0.00,$0.00,
+TALENT SUBTOTAL,$0.00,$0.00,$0.00,
+
+EXPENSES - PRODUCTION
+Category,Budgeted,Actual,Variance,Notes
+Sound,$0.00,$0.00,$0.00,
+Lighting,$0.00,$0.00,$0.00,
+Video,$0.00,$0.00,$0.00,
+Staging,$0.00,$0.00,$0.00,
+Rigging,$0.00,$0.00,$0.00,
+Power/Generator,$0.00,$0.00,$0.00,
+Crew Labor,$0.00,$0.00,$0.00,
+Crew Catering,$0.00,$0.00,$0.00,
+Production Supplies,$0.00,$0.00,$0.00,
+PRODUCTION SUBTOTAL,$0.00,$0.00,$0.00,
+
+EXPENSES - VENUE
+Category,Budgeted,Actual,Variance,Notes
+Venue Rental,$0.00,$0.00,$0.00,
+Venue Labor,$0.00,$0.00,$0.00,
+Venue Security,$0.00,$0.00,$0.00,
+Venue Catering,$0.00,$0.00,$0.00,
+Parking,$0.00,$0.00,$0.00,
+Cleaning,$0.00,$0.00,$0.00,
+Insurance,$0.00,$0.00,$0.00,
+Permits,$0.00,$0.00,$0.00,
+VENUE SUBTOTAL,$0.00,$0.00,$0.00,
+
+EXPENSES - MARKETING
+Category,Budgeted,Actual,Variance,Notes
+Digital Advertising,$0.00,$0.00,$0.00,
+Print Advertising,$0.00,$0.00,$0.00,
+Radio/Streaming,$0.00,$0.00,$0.00,
+PR/Publicity,$0.00,$0.00,$0.00,
+Graphic Design,$0.00,$0.00,$0.00,
+Photography,$0.00,$0.00,$0.00,
+Videography,$0.00,$0.00,$0.00,
+MARKETING SUBTOTAL,$0.00,$0.00,$0.00,
+
+EXPENSES - OPERATIONS
+Category,Budgeted,Actual,Variance,Notes
+Box Office,$0.00,$0.00,$0.00,
+Guest Services,$0.00,$0.00,$0.00,
+External Security,$0.00,$0.00,$0.00,
+Medical/EMT,$0.00,$0.00,$0.00,
+Transportation,$0.00,$0.00,$0.00,
+Radios/Comms,$0.00,$0.00,$0.00,
+Credentials,$0.00,$0.00,$0.00,
+Signage,$0.00,$0.00,$0.00,
+OPERATIONS SUBTOTAL,$0.00,$0.00,$0.00,
+
+EXPENSES - OVERHEAD
+Category,Budgeted,Actual,Variance,Notes
+Management Fee,$0.00,$0.00,$0.00,
+Legal,$0.00,$0.00,$0.00,
+Accounting,$0.00,$0.00,$0.00,
+Office/Admin,$0.00,$0.00,$0.00,
+Travel,$0.00,$0.00,$0.00,
+OVERHEAD SUBTOTAL,$0.00,$0.00,$0.00,
+
+TOTAL EXPENSES,$0.00,$0.00,$0.00,
+
+PROFIT/LOSS CALCULATION
+Item,Amount
+Gross Revenue,$0.00
+Less: Total Expenses,$0.00
+NET PROFIT/LOSS,$0.00
+
+ARTIST BACKEND CALCULATION
+Item,Amount,Notes
+Net Profit,$0.00,
+Less: Artist Guarantee,$0.00,
+Profit After Guarantee,$0.00,
+Artist Backend %,%,
+Artist Backend Amount,$0.00,
+TOTAL ARTIST PAYMENT,$0.00,
+
+FINAL PAYMENTS
+Payee,Amount,Payment Method,Date Paid,Notes
+Artist - Balance Due,$0.00,,,
+Artist - Backend,$0.00,,,
+Venue - Balance,$0.00,,,
+Vendor 1,$0.00,,,
+Vendor 2,$0.00,,,
+Vendor 3,$0.00,,,
+
+APPROVALS
+Role,Name,Signature,Date
+Production Manager,,,
+Finance Manager,,,
+Artist Representative,,,
+Venue Representative,,,
+
+NOTES
+1. All figures are final and reconciled
+2. Receipts and invoices attached
+3. Discrepancies noted and resolved
+4. Settlement completed within 30 days of event

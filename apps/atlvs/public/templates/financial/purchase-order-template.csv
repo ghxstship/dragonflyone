@@ -1,0 +1,93 @@
+PURCHASE ORDER
+PO Number:,[Auto-generate]
+Date:,[Enter Date]
+Production:,[Enter Production Name]
+Requested By:,[Enter Name]
+Department:,[Enter Department]
+
+VENDOR INFORMATION
+Field,Details
+Vendor Name,
+Contact Name,
+Address,
+City/State/ZIP,
+Phone,
+Email,
+Vendor ID,
+Tax ID,
+
+SHIP TO
+Field,Details
+Company Name,
+Attention,
+Address,
+City/State/ZIP,
+Phone,
+Delivery Instructions,
+
+BILLING INFORMATION
+Field,Details
+Company Name,
+Address,
+City/State/ZIP,
+Billing Contact,
+Email,
+
+ORDER DETAILS
+Line,Item/Description,Quantity,Unit,Unit Price,Total,GL Code,Notes
+1,,,Each,$0.00,$0.00,,
+2,,,Each,$0.00,$0.00,,
+3,,,Each,$0.00,$0.00,,
+4,,,Each,$0.00,$0.00,,
+5,,,Each,$0.00,$0.00,,
+6,,,Each,$0.00,$0.00,,
+7,,,Each,$0.00,$0.00,,
+8,,,Each,$0.00,$0.00,,
+9,,,Each,$0.00,$0.00,,
+10,,,Each,$0.00,$0.00,,
+
+ORDER SUMMARY
+Item,Amount
+Subtotal,$0.00
+Shipping,$0.00
+Tax,$0.00
+TOTAL,$0.00
+
+DELIVERY REQUIREMENTS
+Field,Details
+Required Delivery Date,
+Shipping Method,
+Shipping Account,
+Special Instructions,
+
+PAYMENT TERMS
+Field,Details
+Payment Terms,Net 30
+Payment Method,
+Budget Code,
+Cost Center,
+
+APPROVALS
+Role,Name,Signature,Date,Status
+Requestor,,,, Requested
+Department Head,,,, [ ] Approved [ ] Rejected
+Finance,,,, [ ] Approved [ ] Rejected
+Purchasing,,,, [ ] Approved [ ] Rejected
+
+TERMS AND CONDITIONS
+1. This Purchase Order is subject to the terms and conditions on the reverse side or attached.
+2. Vendor must reference PO number on all invoices and correspondence.
+3. Goods must be delivered by the required date or PO may be cancelled.
+4. All goods are subject to inspection upon receipt.
+5. Invoices must be submitted within 30 days of delivery.
+6. Payment will be made according to stated payment terms.
+7. Any changes to this PO must be approved in writing.
+
+NOTES
+[Additional notes or special instructions]
+
+FOR VENDOR USE
+Field,Details
+Order Confirmation #,
+Expected Ship Date,
+Tracking Number,

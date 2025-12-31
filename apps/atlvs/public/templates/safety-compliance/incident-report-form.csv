@@ -1,0 +1,180 @@
+INCIDENT REPORT FORM
+Report Number:,[Auto-generate]
+Date of Report:,[Enter Date]
+Time of Report:,[Enter Time]
+Reported By:,[Enter Name]
+Position:,[Enter Position]
+
+INCIDENT INFORMATION
+Field,Details
+Date of Incident,
+Time of Incident,
+Location of Incident,
+Event Name,
+Venue,
+
+INCIDENT TYPE
+Type,Check
+Injury - Employee,[ ]
+Injury - Patron,[ ]
+Injury - Contractor,[ ]
+Property Damage,[ ]
+Theft,[ ]
+Assault/Violence,[ ]
+Medical Emergency,[ ]
+Fire/Smoke,[ ]
+Electrical,[ ]
+Slip/Trip/Fall,[ ]
+Equipment Failure,[ ]
+Security Incident,[ ]
+Weather Related,[ ]
+Near Miss,[ ]
+Other,[ ]
+
+SEVERITY LEVEL
+Level,Check,Description
+Minor,[ ],First aid only / minor property damage
+Moderate,[ ],Medical attention required / significant damage
+Serious,[ ],Hospitalization / major damage
+Critical,[ ],Life-threatening / catastrophic damage
+
+PERSONS INVOLVED
+Person 1
+Field,Details
+Name,
+Role,(Employee/Patron/Contractor/Vendor/Other)
+Phone,
+Email,
+Address,
+Date of Birth,
+Employer (if contractor),
+
+Person 2
+Field,Details
+Name,
+Role,(Employee/Patron/Contractor/Vendor/Other)
+Phone,
+Email,
+Address,
+Date of Birth,
+Employer (if contractor),
+
+WITNESSES
+Witness 1
+Field,Details
+Name,
+Phone,
+Email,
+Statement Summary,
+
+Witness 2
+Field,Details
+Name,
+Phone,
+Email,
+Statement Summary,
+
+INCIDENT DESCRIPTION
+Describe what happened in detail:
+[Provide detailed narrative of the incident including events leading up to it]
+
+What was the person doing at the time of the incident?
+[Describe activity]
+
+What equipment or materials were involved?
+[List any equipment or materials]
+
+What were the environmental conditions?
+[Describe lighting, weather, floor conditions, etc.]
+
+INJURY DETAILS (if applicable)
+Field,Details
+Body Part Injured,
+Type of Injury,(Cut/Bruise/Fracture/Burn/Other)
+Description of Injury,
+First Aid Provided,[ ] Yes [ ] No
+First Aid Description,
+Medical Treatment Required,[ ] Yes [ ] No
+Transported to Hospital,[ ] Yes [ ] No
+Hospital Name,
+Ambulance Called,[ ] Yes [ ] No
+Ambulance Company,
+
+PROPERTY DAMAGE (if applicable)
+Field,Details
+Property Damaged,
+Owner of Property,
+Description of Damage,
+Estimated Value,$
+Photos Taken,[ ] Yes [ ] No
+Photo Numbers/Files,
+
+IMMEDIATE ACTIONS TAKEN
+Action,Taken By,Time
+,,,
+,,,
+,,,
+,,,
+
+ROOT CAUSE ANALYSIS
+Contributing Factors,Check,Details
+Unsafe Act,[ ],
+Unsafe Condition,[ ],
+Equipment Failure,[ ],
+Lack of Training,[ ],
+Inadequate Procedures,[ ],
+Environmental Factors,[ ],
+Human Error,[ ],
+Other,[ ],
+
+CORRECTIVE ACTIONS
+Action,Responsible Party,Due Date,Status
+,,,[ ] Open
+,,,[ ] Open
+,,,[ ] Open
+,,,[ ] Open
+
+NOTIFICATIONS
+Party,Notified By,Date/Time,Method
+Supervisor,,,
+Safety Director,,,
+HR (if employee),,,
+Insurance,,,
+Legal (if needed),,,
+OSHA (if required),,,
+Police (if required),,,
+
+ATTACHMENTS
+Item,Attached
+Photos,[ ] Yes [ ] No [ ] N/A
+Video,[ ] Yes [ ] No [ ] N/A
+Witness Statements,[ ] Yes [ ] No [ ] N/A
+Medical Records,[ ] Yes [ ] No [ ] N/A
+Police Report,[ ] Yes [ ] No [ ] N/A
+Other Documents,[ ] Yes [ ] No [ ] N/A
+
+FOLLOW-UP REQUIRED
+Item,Required,Due Date,Completed
+Medical follow-up,[ ] Yes [ ] No,,[ ]
+Investigation,[ ] Yes [ ] No,,[ ]
+Training,[ ] Yes [ ] No,,[ ]
+Equipment repair,[ ] Yes [ ] No,,[ ]
+Policy review,[ ] Yes [ ] No,,[ ]
+Insurance claim,[ ] Yes [ ] No,,[ ]
+
+SIGNATURES
+Role,Name,Signature,Date
+Reporting Person,,,
+Supervisor,,,
+Safety Director,,,
+HR Representative,,,
+
+CONFIDENTIALITY NOTICE
+This report contains confidential information. Do not distribute without authorization.
+
+INSTRUCTIONS
+1. Complete this form as soon as possible after the incident
+2. Be factual and objective - do not assign blame
+3. Attach all relevant documentation
+4. Submit to Safety Director within 24 hours
+5. Retain copy for department records

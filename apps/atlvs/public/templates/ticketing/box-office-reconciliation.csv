@@ -1,0 +1,133 @@
+BOX OFFICE RECONCILIATION
+Event Name:,[Enter Event Name]
+Event Date:,[Enter Date]
+Venue:,[Enter Venue]
+Prepared By:,[Enter Name]
+Reconciliation Date:,[Enter Date]
+
+TICKET SALES SUMMARY
+Category,Quantity,Face Value,Fees,Gross Revenue
+Advance - Online,,$,$,$
+Advance - Phone,,$,$,$
+Advance - Outlet,,$,$,$
+Day of Show - Cash,,$,$,$
+Day of Show - Credit,,$,$,$
+Will Call Conversions,,$,$,$
+TOTAL SOLD,,$,$,$
+
+TICKET INVENTORY
+Category,Allocated,Sold,Comps,Holds,Unsold
+General Admission,,,,,,
+VIP,,,,,,
+Reserved,,,,,,
+ADA,,,,,,
+TOTAL,,,,,,
+
+COMP TICKETS ISSUED
+Category,Quantity,Face Value,Authorized By,Notes
+Artist/Management,,$,,
+Promoter,,$,,
+Venue,,$,,
+Sponsors,,$,,
+Media/Press,,$,,
+Contest Winners,,$,,
+Other,,$,,
+TOTAL COMPS,,$,,
+
+REFUNDS PROCESSED
+Date,Order #,Quantity,Amount,Reason,Processed By
+,,,,$,,
+,,,,$,,
+,,,,$,,
+TOTAL REFUNDS,,,$,,
+
+PAYMENT RECONCILIATION
+Payment Method,Transactions,Gross Amount,Fees,Net Amount
+Credit Card - Visa,,$,$,$
+Credit Card - MC,,$,$,$
+Credit Card - Amex,,$,$,$
+Debit Card,,$,$,$
+Cash,,$,$,$
+Check,,$,$,$
+Other,,$,$,$
+TOTAL,,$,$,$
+
+CASH RECONCILIATION
+Item,Amount
+Opening Bank,$
+Cash Sales,$
+Less: Payouts,$
+Expected Cash,$
+Actual Cash,$
+Variance,$
+Variance Explanation,
+
+CREDIT CARD RECONCILIATION
+Processor,Transactions,Gross,Processing Fee %,Processing Fees,Net
+,,$,%,$,$
+,,$,%,$,$
+TOTAL,,$,,$,$
+
+FEE BREAKDOWN
+Fee Type,Per Ticket,Quantity,Total,Collected By,Remit To
+Service Fee,$,,$,,
+Facility Fee,$,,$,,
+Order Fee,$,,$,,
+Credit Card Fee,$,,$,,
+TOTAL FEES,,,$,,
+
+REVENUE DISTRIBUTION
+Recipient,Percentage,Amount,Payment Method,Due Date,Paid
+Promoter,%,$,,,[ ]
+Venue,%,$,,,[ ]
+Ticketing Platform,%,$,,,[ ]
+Artist (if applicable),%,$,,,[ ]
+TOTAL,100%,$,,,
+
+DISCREPANCIES
+Item,Expected,Actual,Variance,Explanation,Resolution
+Ticket Count,,,,,
+Cash,,,,$,,
+Credit Card,,,,$,,
+Comps,,,,,
+
+WILL CALL REPORT
+Category,Tickets Held,Tickets Picked Up,No Shows
+Artist Guest List,,,,
+Promoter Guest List,,,,
+VIP Upgrades,,,,
+Online Will Call,,,,
+TOTAL,,,,
+
+DAILY SALES BREAKDOWN (if multi-day)
+Date,Tickets Sold,Gross Revenue,Notes
+,,$,
+,,$,
+,,$,
+TOTAL,,$,
+
+FINAL NUMBERS
+Metric,Value
+Total Capacity,
+Total Sold,
+Total Comps,
+Total Attendance,
+Sellout Percentage,%
+Gross Ticket Revenue,$
+Total Fees,$
+Refunds,$
+Net Ticket Revenue,$
+
+APPROVALS
+Role,Name,Signature,Date
+Box Office Manager,,,
+Venue Representative,,,
+Promoter Representative,,,
+Accounting,,,
+
+NOTES
+1. All figures are final and reconciled
+2. Discrepancies over $100 require written explanation
+3. Cash variance over $50 requires investigation
+4. Retain all documentation for 7 years
+5. Submit reconciliation within 48 hours of event

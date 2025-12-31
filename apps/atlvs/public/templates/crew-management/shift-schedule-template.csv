@@ -1,0 +1,104 @@
+SHIFT SCHEDULE
+Production:,[Enter Production Name]
+Week Of:,[Enter Week Start Date]
+Prepared By:,[Enter Name]
+Version:,[X.X]
+
+SCHEDULE OVERVIEW
+Day,Date,Event,Call Time,End Time,Notes
+Monday,,,,,
+Tuesday,,,,,
+Wednesday,,,,,
+Thursday,,,,,
+Friday,,,,,
+Saturday,,,,,
+Sunday,,,,,
+
+MONDAY SCHEDULE
+Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+
+TUESDAY SCHEDULE
+Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+
+WEDNESDAY SCHEDULE
+Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+
+THURSDAY SCHEDULE
+Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+
+FRIDAY SCHEDULE
+Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+
+SATURDAY SCHEDULE
+Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+
+SUNDAY SCHEDULE
+Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+
+WEEKLY HOURS SUMMARY
+Name,Mon,Tue,Wed,Thu,Fri,Sat,Sun,Total Regular,Total OT,Notes
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+
+DEPARTMENT COVERAGE
+Department,Mon,Tue,Wed,Thu,Fri,Sat,Sun,Notes
+Production,,,,,,,,
+Audio,,,,,,,,
+Lighting,,,,,,,,
+Video,,,,,,,,
+Stage,,,,,,,,
+Rigging,,,,,,,,
+Catering,,,,,,,,
+Security,,,,,,,,
+
+OVERTIME ALERTS
+Name,Day,Projected Hours,Alert Type,Notes
+,,,,Daily OT (>8 hrs)
+,,,,Weekly OT (>40 hrs)
+,,,,Turnaround (<10 hrs)
+
+NOTES
+1. Minimum 10-hour turnaround between shifts
+2. Meal break required every 6 hours
+3. Overtime after 8 hours daily or 40 hours weekly
+4. Double time after 12 hours daily
+5. Schedule changes require 24-hour notice when possible
+6. Contact Production Manager for any conflicts

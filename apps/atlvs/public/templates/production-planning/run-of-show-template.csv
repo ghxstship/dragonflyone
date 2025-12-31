@@ -1,0 +1,60 @@
+RUN OF SHOW TEMPLATE
+Production:,[Enter Production Name]
+Date:,[Enter Date]
+Venue:,[Enter Venue]
+Stage Manager:,[Enter Name]
+Version:,1.0
+
+SHOW TIMING SUMMARY
+Item,Time,Duration
+Doors Open,,
+Opening Act Start,,
+Opening Act End,,
+Changeover,,
+Headliner Start,,
+Headliner End,,
+Curfew,,
+
+DETAILED RUN OF SHOW
+Cue #,Clock Time,Running Time,Duration,Element,Audio,Lighting,Video,Stage,Notes
+1,17:00,0:00,0:30,Doors Open,House Music,House Preset,Logo Loop,Clear,FOH ready
+2,17:30,0:30,0:05,House Announcement,Announce Track,Dim 50%,Welcome Slide,Clear,Safety announcement
+3,17:35,0:35,0:25,Pre-Show,House Music,House Preset,Sponsor Loop,Clear,
+4,18:00,1:00,0:02,Opener Intro,Intro Track,Blackout,Artist Name,Clear,
+5,18:02,1:02,0:45,Opening Act Set,Live,Show Look 1,IMAG,Artist On,45 min set
+6,18:47,1:47,0:03,Opener Outro,Outro Track,Fade to Black,Thank You,Artist Off,
+7,18:50,1:50,0:25,Changeover,House Music,Work Lights,Sponsor Loop,Crew On,25 min change
+8,19:15,2:15,0:05,Headliner Intro,Intro Track,Blackout,Hype Video,Clear,Build energy
+9,19:20,2:20,1:30,Headliner Set,Live,Show Look 2,IMAG,Artist On,90 min set
+10,20:50,3:50,0:05,Encore Break,Crowd Noise,Blackout,Logo,Artist Off,2 min break
+11,20:55,3:55,0:15,Encore,Live,Show Look 3,IMAG,Artist On,15 min encore
+12,21:10,4:10,0:05,Show End,Outro Track,Fade to House,Thank You,Artist Off,
+13,21:15,4:15,0:15,House Exit,Exit Music,House Lights,Exit Info,Clear,Clear venue
+14,21:30,4:30,,Curfew,Off,Off,Off,Clear,Venue curfew
+
+DEPARTMENT CONTACTS
+Department,Name,Phone,Radio Channel
+Production Manager,,,CH 1
+Stage Manager,,,CH 1
+FOH Audio,,,CH 2
+Monitor Audio,,,CH 2
+Lighting Director,,,CH 3
+Video Director,,,CH 3
+Backline Tech,,,CH 4
+Security Lead,,,CH 5
+Venue Manager,,,CH 6
+
+EMERGENCY PROCEDURES
+Situation,Action,Who Announces,Notes
+Medical Emergency,Stop show if needed,Stage Manager,Call EMT immediately
+Fire Alarm,Evacuate per venue plan,Venue Manager,Follow exit routes
+Severe Weather,Monitor and shelter,Production Manager,Venue has shelter plan
+Power Failure,Switch to backup,Audio Lead,Generator on standby
+Artist Emergency,Extend changeover,Stage Manager,Have backup content ready
+
+NOTES
+1. All times are approximate - adjust based on actual show flow
+2. Stage Manager has final call on all cues
+3. Radio check 30 minutes before doors
+4. All department heads confirm ready before each major cue
+5. Document any deviations from plan for post-mortem
