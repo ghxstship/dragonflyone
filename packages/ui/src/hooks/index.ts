@@ -32,3 +32,7 @@ export type { KeyboardShortcut, ShortcutCategory, UseKeyboardShortcutsOptions, U
 // Undo/Redo state management
 export { useUndoRedo } from "./useUndoRedo.js";
 export type { UndoRedoOptions, UndoRedoApi } from "./useUndoRedo.js";
+
+// Toast convenience hook
+export { useToast } from "./useToast.js";
+export type { ToastOptions } from "./useToast.js";

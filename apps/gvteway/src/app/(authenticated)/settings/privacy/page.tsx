@@ -20,7 +20,7 @@ import {
   Switch,
   Modal,
   Stack,
-  useNotifications,
+  useToast,
   DetailPage,
   Section,
   SectionHeader,
@@ -31,7 +31,7 @@ import { Shield, UserX, Flag, Save, Plus, HelpCircle } from "lucide-react";
 
 export default function PrivacySettingsPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const {
     blockedUsers,
     reports,
@@ -64,18 +64,18 @@ export default function PrivacySettingsPage() {
   const handleSaveSettings = async () => {
     try {
       await updateSettings(settings);
-      addNotification({ type: "success", title: "Saved", message: "Privacy settings saved" });
+      toast.success("Saved", "Privacy settings saved");
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to save settings" });
+      toast.error("Error", err instanceof Error ? err.message : "Failed to save settings");
     }
   };
 
   const handleUnblock = async (userId: string) => {
     try {
       await unblockUser(userId);
-      addNotification({ type: "success", title: "Unblocked", message: "User unblocked" });
+      toast.success("Unblocked", "User unblocked");
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to unblock user" });
+      toast.error("Error", err instanceof Error ? err.message : "Failed to unblock user");
     }
   };
 
@@ -83,11 +83,11 @@ export default function PrivacySettingsPage() {
     e.preventDefault();
     try {
       await blockUser(blockUserId);
-      addNotification({ type: "success", title: "Blocked", message: "User blocked" });
+      toast.success("Blocked", "User blocked");
       setShowBlockModal(false);
       setBlockUserId("");
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to block user" });
+      toast.error("Error", err instanceof Error ? err.message : "Failed to block user");
     }
   };
 
@@ -99,13 +99,13 @@ export default function PrivacySettingsPage() {
         reason: reportReason,
         details: reportDetails,
       });
-      addNotification({ type: "success", title: "Submitted", message: "Report submitted. We will review it shortly." });
+      toast.success("Submitted", "Report submitted. We will review it shortly.");
       setShowReportModal(false);
       setReportUserId("");
       setReportReason("");
       setReportDetails("");
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to submit report" });
+      toast.error("Error", err instanceof Error ? err.message : "Failed to submit report");
     }
   };
 

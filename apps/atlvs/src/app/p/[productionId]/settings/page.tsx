@@ -11,7 +11,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Save, Trash2, Users, Lock, List, AlertTriangle } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Input, Select, Textarea, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
+  Body, Button, Card, Input, Select, Textarea, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
 
 interface ProductionSettings {
   name: string;
@@ -25,7 +25,7 @@ export default function ProductionSettingsPage() {
   const params = useParams();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const productionId = params.productionId as string;
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -60,10 +60,10 @@ export default function ProductionSettingsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["production-settings", productionId] });
-      addNotification({ type: "success", title: "Saved", message: "Production settings updated" });
+      toast.success("Saved", "Production settings updated");
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to save settings" });
+      toast.error("Error", "Failed to save settings");
     },
   });
 
@@ -73,11 +73,11 @@ export default function ProductionSettingsPage() {
       if (!response.ok) throw new Error("Failed to delete production");
     },
     onSuccess: () => {
-      addNotification({ type: "success", title: "Deleted", message: "Production has been deleted" });
+      toast.success("Deleted", "Production has been deleted");
       router.push("/projects");
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to delete production" });
+      toast.error("Error", "Failed to delete production");
     },
   });
 

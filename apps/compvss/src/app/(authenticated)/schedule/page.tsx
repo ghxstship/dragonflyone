@@ -1,8 +1,10 @@
 "use client";
 
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, Body, Badge, Stack, ProgressBar} from "@ghxstship/ui";
+  ListPage, Body, Badge, Stack, ProgressBar,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import { useSchedulePageData, type ScheduleItem } from "@/hooks/useSchedule";
 import { Eye, Play, CheckCircle } from "lucide-react";
@@ -29,6 +31,7 @@ const getProgress = (item: ScheduleItem): number => {
 };
 
 export default function SchedulePage() {
+  const router = useRouter();
   const {
     items: schedule,
     summary,
@@ -43,7 +46,7 @@ export default function SchedulePage() {
       label: 'Item',
       accessor: 'title',
       sortable: true,
-      render: (_, item) => (
+      render: (_value: unknown, item) => (
         <Stack gap={1}>
           <Body className="font-display">{item.title}</Body>
           <Body size="sm" className="text-muted-foreground font-mono">
@@ -57,7 +60,7 @@ export default function SchedulePage() {
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, item) => (
+      render: (_value: unknown, item) => (
         <Badge variant={getStatusVariant(item.status)}>
           {item.status?.replace('_', ' ').toUpperCase()}
         </Badge>
@@ -72,7 +75,7 @@ export default function SchedulePage() {
       key: 'progress',
       label: 'Progress',
       accessor: (item) => `${getProgress(item)}%`,
-      render: (_, item) => (
+      render: (_value: unknown, item) => (
         <Stack gap={1}>
           <ProgressBar value={getProgress(item)} size="sm" />
           <Body size="sm" className="font-mono">{getProgress(item)}%</Body>
@@ -133,6 +136,9 @@ export default function SchedulePage() {
       stats={stats}
       emptyMessage="No schedule items found"
       emptyAction={{ label: 'Add Item', onClick: () => {} }}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useCrewSkills } from "@/hooks/useSkills";
 import { useCrew } from "@/hooks/useCrew";
 import {
-  ListPage, Badge, Stack} from "@ghxstship/ui";
+  ListPage, Badge, Stack,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { getSubcategoryNames, createExportHandler } from "@ghxstship/config";
 
 const skillCategories = getSubcategoryNames('TECH');
@@ -82,7 +83,7 @@ export default function SkillsPage() {
       key: 'skills',
       label: 'Skills',
       accessor: (m) => m.skills.join(', '),
-      render: (_, member) => (
+      render: (_value: unknown, member) => (
         <Stack gap={2} direction="horizontal" className="flex-wrap">
           {member.skills.length > 0 ? (
             member.skills.slice(0, 4).map((skill: string, idx: number) => (
@@ -102,7 +103,7 @@ export default function SkillsPage() {
       label: 'Level',
       accessor: 'level',
       sortable: true,
-      render: (_, member) => (
+      render: (_value: unknown, member) => (
         <Badge variant={getLevelVariant(member.level)}>
           {member.level?.charAt(0).toUpperCase() + member.level?.slice(1) || 'N/A'}
         </Badge>
@@ -164,6 +165,9 @@ export default function SkillsPage() {
       stats={stats}
       emptyMessage="No crew found"
       emptyAction={{ label: 'Add Crew', onClick: () => router.push('/crew/new') }}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

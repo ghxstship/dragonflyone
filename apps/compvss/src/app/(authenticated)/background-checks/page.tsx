@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 import { Eye, RefreshCw, Download } from "lucide-react";
 // Layout provided by route group
 import {
-  Badge, Body, DetailDrawer, Grid, ListPage, RecordFormModal, Stack, Text} from '@ghxstship/ui';
+  Badge, Body, DetailDrawer, Grid, ListPage, RecordFormModal, Stack, Text,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
 
 const ADMIN_ROLES = [
@@ -32,11 +34,11 @@ const getExpiryLabel = (days?: number) => {
 
 const columns: ListPageColumn<BackgroundCheck>[] = [
   { key: 'crewMemberName', label: 'Crew Member', accessor: 'crewMemberName', sortable: true },
-  { key: 'department', label: 'Department', accessor: 'department', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'department', label: 'Department', accessor: 'department', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
   { key: 'checkType', label: 'Check Type', accessor: 'checkType' },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
   { key: 'expirationDate', label: 'Expiration', accessor: (r) => r.expirationDate || '—', sortable: true },
-  { key: 'daysUntilExpiry', label: 'Days Left', accessor: (r) => getExpiryLabel(r.daysUntilExpiry), render: (v, r) => {
+  { key: 'daysUntilExpiry', label: 'Days Left', accessor: (r) => getExpiryLabel(r.daysUntilExpiry), render: (v: unknown, r: BackgroundCheck) => {
     const days = r.daysUntilExpiry;
     const colorClass = days === undefined ? '' : days < 0 ? 'text-error-500' : days <= 30 ? 'text-warning-500' : 'text-success-500';
     return <Text className={colorClass}>{String(v)}</Text>;
@@ -57,6 +59,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function BackgroundChecksPage() {
+  const router = useRouter();
   const { hasRole } = useAuthContext();
   
   // RBAC: Check if user has admin access
@@ -188,6 +191,7 @@ export default function BackgroundChecksPage() {
         onImport={handleImport}
         importTemplates={importTemplates}
         importSampleFields={['crewMemberName', 'department', 'checkType', 'provider']}
+        templateDownloadUrl="/templates/safety-compliance/safety-briefing-checklist.csv"
         onExport={createExportHandler({
           filename: "background-checks",
           getData: () => checks.map(c => ({
@@ -223,6 +227,9 @@ export default function BackgroundChecksPage() {
           { id: 'renew', label: 'Renew Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ] : []}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

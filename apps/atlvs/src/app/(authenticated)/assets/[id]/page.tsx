@@ -10,7 +10,8 @@ import { useRouter, useParams } from "next/navigation";
 import { Pencil, Wrench, Upload, History, Trash2 } from "lucide-react";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useToast,
+  type DetailPageTab} from "@ghxstship/ui";
 import { useAssets, useDeleteAsset } from "@/hooks/useAssets";
 import { useState } from "react";
 
@@ -47,7 +48,7 @@ export default function AssetDetailPage() {
   const router = useRouter();
   const params = useParams();
   const assetId = params?.id as string;
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const { hasRole } = useAuthContext();
   const canEdit = ATLVS_ADMIN_ROLES.some((role) => hasRole(role));
@@ -79,18 +80,10 @@ export default function AssetDetailPage() {
     if (!asset) return;
     try {
       await deleteMutation.mutateAsync(asset.id);
-      addNotification({
-        type: "success",
-        title: "Asset Deleted",
-        message: `${asset.tag} has been deleted.`,
-      });
+      toast.success("Asset Deleted", `${asset.tag} has been deleted.`);
       router.push("/assets");
     } catch (err) {
-      addNotification({
-        type: "error",
-        title: "Failed to Delete",
-        message: err instanceof Error ? err.message : "An error occurred",
-      });
+      toast.error("Failed to Delete", err instanceof Error ? err.message : "An error occurred",);
     }
   };
 

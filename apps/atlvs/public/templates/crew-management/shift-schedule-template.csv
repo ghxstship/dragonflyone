@@ -1,104 +1,32 @@
-SHIFT SCHEDULE
-Production:,[Enter Production Name]
-Week Of:,[Enter Week Start Date]
-Prepared By:,[Enter Name]
-Version:,[X.X]
+shift_date,employee_number,role_code,department,start_time,end_time,break_minutes,hourly_rate,location,status,notes
+2024-01-15,,STAGEHAND,Stage,06:00,14:00,30,0.00,Main Stage,scheduled,Load in
+2024-01-15,,STAGEHAND,Stage,06:00,14:00,30,0.00,Main Stage,scheduled,Load in
+2024-01-15,,RIGGER,Rigging,07:00,15:00,30,0.00,Main Stage,scheduled,Rigging call
+2024-01-15,,AUDIO_A1,Audio,08:00,16:00,30,0.00,FOH,scheduled,System setup
+2024-01-15,,AUDIO_A2,Audio,08:00,16:00,30,0.00,Stage,scheduled,Monitor setup
+2024-01-15,,LD,Lighting,08:00,16:00,30,0.00,FOH,scheduled,Focus
+2024-01-15,,LX_TECH,Lighting,08:00,16:00,30,0.00,Stage,scheduled,Focus assist
+2024-01-15,,VIDEO_ENG,Video,09:00,17:00,30,0.00,FOH,scheduled,LED setup
+2024-01-15,,STAGEHAND,Stage,14:00,22:00,30,0.00,Main Stage,scheduled,Show crew
+2024-01-15,,SECURITY,Security,16:00,00:00,30,0.00,All Areas,scheduled,Event security
 
-SCHEDULE OVERVIEW
-Day,Date,Event,Call Time,End Time,Notes
-Monday,,,,,
-Tuesday,,,,,
-Wednesday,,,,,
-Thursday,,,,,
-Friday,,,,,
-Saturday,,,,,
-Sunday,,,,,
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- shift_date: Date of shift (YYYY-MM-DD format)
+- employee_number: Employee ID (leave blank for open shifts)
+- role_code: Role code from workforce_roles (e.g. STAGEHAND, RIGGER)
+- department: Audio | Lighting | Video | Stage | Rigging | Security | Catering | Production
+- start_time: Shift start (HH:MM in 24-hour format)
+- end_time: Shift end (HH:MM in 24-hour format)
+- break_minutes: Scheduled break time in minutes
+- hourly_rate: Override rate (0 = use role/employee default)
+- location: Work location
+- status: scheduled | confirmed | in_progress | completed | cancelled
+- notes: Shift notes
 
-MONDAY SCHEDULE
-Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-
-TUESDAY SCHEDULE
-Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-
-WEDNESDAY SCHEDULE
-Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-
-THURSDAY SCHEDULE
-Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-
-FRIDAY SCHEDULE
-Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-
-SATURDAY SCHEDULE
-Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-
-SUNDAY SCHEDULE
-Name,Position,Department,Call Time,Meal 1,Meal 2,End Time,Total Hours,Notes
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-
-WEEKLY HOURS SUMMARY
-Name,Mon,Tue,Wed,Thu,Fri,Sat,Sun,Total Regular,Total OT,Notes
-,,,,,,,,,,,
-,,,,,,,,,,,
-,,,,,,,,,,,
-,,,,,,,,,,,
-,,,,,,,,,,,
-
-DEPARTMENT COVERAGE
-Department,Mon,Tue,Wed,Thu,Fri,Sat,Sun,Notes
-Production,,,,,,,,
-Audio,,,,,,,,
-Lighting,,,,,,,,
-Video,,,,,,,,
-Stage,,,,,,,,
-Rigging,,,,,,,,
-Catering,,,,,,,,
-Security,,,,,,,,
-
-OVERTIME ALERTS
-Name,Day,Projected Hours,Alert Type,Notes
-,,,,Daily OT (>8 hrs)
-,,,,Weekly OT (>40 hrs)
-,,,,Turnaround (<10 hrs)
-
-NOTES
-1. Minimum 10-hour turnaround between shifts
-2. Meal break required every 6 hours
-3. Overtime after 8 hours daily or 40 hours weekly
-4. Double time after 12 hours daily
-5. Schedule changes require 24-hour notice when possible
-6. Contact Production Manager for any conflicts
+HOW TO USE:
+1. Add a row for each shift needed
+2. Assign employee_number when crew is confirmed
+3. Leave employee_number blank for open/unfilled shifts
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Shifts

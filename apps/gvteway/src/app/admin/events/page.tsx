@@ -2,8 +2,8 @@
 
 /**
  * Admin Events Management Page
- * Manage all events on the platform
- * Uses DetailPage template for consistent layout
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useState } from "react";
@@ -36,8 +36,10 @@ import {
   TableRow,
   DetailPage,
   Section,
-  useNotifications,
-Box} from "@ghxstship/ui";
+  useToast,
+  Box,
+} from "@ghxstship/ui";
+import { EVENT_STATUS_COLORS } from "@ghxstship/config";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface AdminEvent {
@@ -51,12 +53,7 @@ interface AdminEvent {
   revenue: number;
 }
 
-const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
-  draft: "outline",
-  published: "success",
-  cancelled: "error",
-  completed: "info",
-};
+const STATUS_COLORS = EVENT_STATUS_COLORS;
 
 const DEMO_EVENTS: AdminEvent[] = [
   { id: "1", title: "Summer Festival 2024", venue_name: "Central Park", start_date: "2024-07-15", status: "published", tickets_sold: 2500, capacity: 5000, revenue: 125000 },
@@ -67,7 +64,7 @@ const DEMO_EVENTS: AdminEvent[] = [
 export default function AdminEventsPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("");
@@ -90,10 +87,10 @@ export default function AdminEventsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "events"] });
-      addNotification({ type: "success", title: "Deleted", message: "Event deleted successfully" });
+      toast.success("Deleted", "Event deleted successfully");
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to delete event" });
+      toast.error("Error", "Failed to delete event");
     },
   });
 

@@ -54,18 +54,15 @@ export interface Credential {
 
 export interface Zone {
   id: string;
-  production_id: string;
-  venue_id?: string;
   name: string;
-  code: string;
-  zone_type: 'public' | 'vip' | 'backstage' | 'production' | 'operations' | 'restricted' | 'emergency';
+  code?: string;
   description?: string;
   capacity?: number;
-  access_level: number;
-  parent_zone_id?: string;
-  color?: string;
-  coordinates?: Record<string, unknown>;
-  is_active: boolean;
+  organization_id: string;
+  place_type: string;
+  parent_place_id?: string;
+  status?: string;
+  metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }
@@ -367,47 +364,77 @@ export function useReactivateCredential() {
 // Verify credential by badge number or QR
 export function useVerifyCredential() {
   return useMutation({
-    mutationFn: async ({ badgeNumber, zoneId }: { badgeNumber: string; zoneId?: string }) => {
-      // First find the credential
+    mutationFn: async ({ badgeNumber, zoneId }: { badgeNumber: string; zoneId?: string }): Promise<{
+      valid: boolean;
+      reason?: string;
+      accessType?: string;
+      credential?: Credential;
+    }> => {
+      // First find the credential from credentials table
       const { data: credential, error: credError } = await supabase
-        .from('workforce_certifications')
+        .from('credentials')
         .select(`
           *,
           credential_type:credential_types(*),
-          contact:contacts(id, first_name, last_name, email, phone)
+          contact:legend_people(id, first_name, last_name, email, phone)
         `)
         .eq('badge_number', badgeNumber)
         .single();
 
-      if (credError) throw new Error('Credential not found');
+      if (credError || !credential) {
+        throw new Error('Credential not found');
+      }
       
+      // Map to Credential type
+      const mappedCredential: Credential = {
+        id: credential.id,
+        production_id: credential.production_id,
+        credential_type_id: credential.credential_type_id,
+        contact_id: credential.contact_id,
+        badge_number: credential.badge_number,
+        status: credential.status,
+        issued_at: credential.issued_at,
+        issued_by: credential.issued_by,
+        expires_at: credential.expires_at,
+        revoked_at: credential.revoked_at,
+        revoked_by: credential.revoked_by,
+        revoke_reason: credential.revoke_reason,
+        photo_url: credential.photo_url,
+        qr_code: credential.qr_code,
+        notes: credential.notes,
+        created_at: credential.created_at,
+        updated_at: credential.updated_at,
+        credential_type: credential.credential_type,
+        contact: credential.contact,
+      };
+
       // Check if active
-      if (credential.status !== 'active') {
-        return { valid: false, reason: `Credential is ${credential.status}`, credential };
+      if (mappedCredential.status !== 'active') {
+        return { valid: false, reason: `Credential is ${mappedCredential.status}`, credential: mappedCredential };
       }
 
       // Check expiration
-      if (credential.expires_at && new Date(credential.expires_at) < new Date()) {
-        return { valid: false, reason: 'Credential has expired', credential };
+      if (mappedCredential.expires_at && new Date(mappedCredential.expires_at) < new Date()) {
+        return { valid: false, reason: 'Credential has expired', credential: mappedCredential };
       }
 
       // If zone specified, check zone access
       if (zoneId) {
         const { data: access } = await supabase
-          .from('workforce_certifications')
+          .from('credential_zone_access')
           .select('access_type')
-          .eq('credential_type_id', credential.credential_type_id)
+          .eq('credential_type_id', mappedCredential.credential_type_id)
           .eq('zone_id', zoneId)
           .single();
 
         if (!access || access.access_type === 'denied') {
-          return { valid: false, reason: 'No access to this zone', credential };
+          return { valid: false, reason: 'No access to this zone', credential: mappedCredential };
         }
 
-        return { valid: true, accessType: access.access_type, credential };
+        return { valid: true, accessType: access.access_type, credential: mappedCredential };
       }
 
-      return { valid: true, credential };
+      return { valid: true, credential: mappedCredential };
     },
   });
 }
@@ -417,10 +444,19 @@ export function useCreateZone() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (zone: Omit<Zone, 'id' | 'created_at' | 'updated_at'>) => {
+    mutationFn: async (zone: { name: string; organization_id: string; place_type: string; code?: string; description?: string; capacity?: number; parent_place_id?: string; metadata?: Record<string, unknown> }) => {
       const { data, error } = await supabase
         .from('legend_places')
-        .insert(zone)
+        .insert({
+          name: zone.name,
+          organization_id: zone.organization_id,
+          place_type: zone.place_type,
+          code: zone.code,
+          description: zone.description,
+          capacity: zone.capacity,
+          parent_place_id: zone.parent_place_id,
+          metadata: zone.metadata,
+        })
         .select()
         .single();
 
@@ -434,6 +470,8 @@ export function useCreateZone() {
 }
 
 // Update zone access for credential type
+// Note: Zone access is stored in the access_passes.access_zones JSON field
+// This hook updates the zone access configuration for a credential type
 export function useUpdateZoneAccess() {
   const queryClient = useQueryClient();
 
@@ -445,24 +483,17 @@ export function useUpdateZoneAccess() {
       credentialTypeId: string; 
       zoneAccess: { zone_id: string; access_type: string }[] 
     }) => {
-      // Delete existing access
-      await supabase
-        .from('workforce_certifications')
-        .delete()
-        .eq('credential_type_id', credentialTypeId);
+      // Zone access is managed through access_passes.access_zones JSON field
+      // This mutation updates the zone access configuration
+      // For now, we store this in the credential type's metadata
+      const { error } = await supabase
+        .from('access_passes')
+        .update({
+          access_zones: zoneAccess,
+        })
+        .eq('pass_type', credentialTypeId);
 
-      // Insert new access
-      if (zoneAccess.length > 0) {
-        const { error } = await supabase
-          .from('workforce_certifications')
-          .insert(zoneAccess.map(za => ({
-            credential_type_id: credentialTypeId,
-            zone_id: za.zone_id,
-            access_type: za.access_type,
-          })));
-
-        if (error) throw error;
-      }
+      if (error) throw error;
 
       return { credentialTypeId };
     },

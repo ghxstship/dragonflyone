@@ -10,12 +10,12 @@ import { useRouter } from "next/navigation";
 import { Mail, RefreshCw } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, AuthPage, H2, useNotifications, Box} from "@ghxstship/ui";
+  Body, Button, AuthPage, H2, useToast, Box} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function VerifyEmailPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const resendMutation = useMutation({
     mutationFn: async () => {
@@ -25,10 +25,10 @@ export default function VerifyEmailPage() {
       if (error) throw error;
     },
     onSuccess: () => {
-      addNotification({ type: "success", title: "Email Sent", message: "Verification email has been resent" });
+      toast.success("Email Sent", "Verification email has been resent");
     },
     onError: (err: Error) => {
-      addNotification({ type: "error", title: "Error", message: err.message });
+      toast.error("Error", err.message);
     },
   });
 

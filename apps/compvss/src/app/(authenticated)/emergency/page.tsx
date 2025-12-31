@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import { Ambulance, Flame, AlertTriangle, Eye, Phone } from "lucide-react";
 import {
-  ListPage, H3, Body, Grid, Stack, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Alert} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Alert,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import {
   useEmergencyContacts,
@@ -18,6 +20,7 @@ const getStatusVariant = (available: boolean): 'solid' | 'outline' => {
 };
 
 export default function EmergencyPage() {
+  const router = useRouter();
   const { data: contacts = [], isLoading, refetch } = useEmergencyContacts();
   const { data: procedures = [] } = useEmergencyProcedures();
   const [selectedProcedure, setSelectedProcedure] = useState<EmergencyProcedure | null>(null);
@@ -30,7 +33,7 @@ export default function EmergencyPage() {
       label: 'Contact',
       accessor: 'name',
       sortable: true,
-      render: (_, c) => (
+      render: (_value: unknown, c) => (
         <Stack gap={1}>
           <Body className="font-display">{c.name}</Body>
           <Body size="sm" className="text-muted-foreground">{c.role}</Body>
@@ -42,7 +45,7 @@ export default function EmergencyPage() {
       label: 'Category',
       accessor: 'category',
       sortable: true,
-      render: (_, c) => <Badge variant="outline">{c.category}</Badge>,
+      render: (_value: unknown, c) => <Badge variant="outline">{c.category}</Badge>,
     },
     { key: 'phone', label: 'Phone', accessor: 'phone' },
     { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true },
@@ -50,7 +53,7 @@ export default function EmergencyPage() {
       key: 'available',
       label: 'Status',
       accessor: (c) => c.available ? 'Available' : 'Unavailable',
-      render: (_, c) => <Badge variant={getStatusVariant(c.available)}>{c.available ? 'Available' : 'Unavailable'}</Badge>,
+      render: (_value: unknown, c) => <Badge variant={getStatusVariant(c.available)}>{c.available ? 'Available' : 'Unavailable'}</Badge>,
     },
   ];
 
@@ -142,6 +145,9 @@ export default function EmergencyPage() {
         })}
         stats={stats}
         emptyMessage="No emergency contacts found"
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

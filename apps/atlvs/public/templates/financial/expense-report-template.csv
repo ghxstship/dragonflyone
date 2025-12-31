@@ -1,87 +1,29 @@
-EXPENSE REPORT
-Production:,[Enter Production Name]
-Report Date:,[Enter Date]
-Submitted By:,[Enter Name]
-Department:,[Enter Department]
-Report Period:,[Start Date] to [End Date]
+expense_number,expense_date,category_code,vendor_name,description,amount,currency,payment_method,has_receipt,status,notes
+EXP-001,2024-01-15,TRAVEL,Delta Airlines,Flight to venue advance,425.50,USD,credit_card,true,pending,
+EXP-002,2024-01-16,LODGING,Marriott Hotels,Hotel - 2 nights,378.00,USD,credit_card,true,pending,
+EXP-003,2024-01-17,MEALS,Local Restaurant,Client dinner meeting,156.75,USD,credit_card,true,pending,4 attendees
+EXP-004,2024-01-17,TRANSPORT,Uber,Airport to venue,45.00,USD,credit_card,false,pending,
+EXP-005,2024-01-18,SUPPLIES,Home Depot,Production supplies,89.99,USD,credit_card,true,pending,
+EXP-006,2024-01-18,MILEAGE,Personal Vehicle,Site visits - 45 miles,30.15,USD,reimbursement,false,pending,45 miles @ $0.67
+,,,,,,,,,,,
 
-EMPLOYEE INFORMATION
-Field,Details
-Employee Name,
-Employee ID,
-Department,
-Manager,
-Email,
-Phone,
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- expense_number: Unique expense reference (e.g. EXP-001)
+- expense_date: Date incurred (YYYY-MM-DD format)
+- category_code: TRAVEL | LODGING | MEALS | TRANSPORT | SUPPLIES | EQUIPMENT | MILEAGE | OTHER
+- vendor_name: Vendor or merchant name
+- description: Expense description
+- amount: Amount (decimal, no currency symbol)
+- currency: USD | EUR | GBP | CAD (default USD)
+- payment_method: credit_card | cash | reimbursement | corporate_card
+- has_receipt: true | false
+- status: draft | pending | approved | rejected | paid
+- notes: Additional notes
 
-EXPENSE SUMMARY BY CATEGORY
-Category,Budgeted,Actual,Variance,Notes
-Travel,$0.00,$0.00,$0.00,
-Lodging,$0.00,$0.00,$0.00,
-Meals,$0.00,$0.00,$0.00,
-Transportation,$0.00,$0.00,$0.00,
-Supplies,$0.00,$0.00,$0.00,
-Equipment,$0.00,$0.00,$0.00,
-Entertainment,$0.00,$0.00,$0.00,
-Other,$0.00,$0.00,$0.00,
-TOTAL,$0.00,$0.00,$0.00,
-
-DETAILED EXPENSE LOG
-Date,Category,Vendor/Description,Business Purpose,Payment Method,Amount,Receipt,Approved
-,Travel,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Travel,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Lodging,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Lodging,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Meals,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Meals,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Meals,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Transportation,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Transportation,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Supplies,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Equipment,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Entertainment,,,Credit Card,$0.00,[ ] Yes,[ ]
-,Other,,,Credit Card,$0.00,[ ] Yes,[ ]
-
-MILEAGE LOG
-Date,From,To,Miles,Rate,Amount,Business Purpose
-,,,,$0.67,$0.00,
-,,,,$0.67,$0.00,
-,,,,$0.67,$0.00,
-TOTAL MILEAGE,,,,,$0.00,
-
-PER DIEM CLAIMS
-Date,Location,Breakfast,Lunch,Dinner,Incidentals,Total,Notes
-,,$0.00,$0.00,$0.00,$0.00,$0.00,
-,,$0.00,$0.00,$0.00,$0.00,$0.00,
-,,$0.00,$0.00,$0.00,$0.00,$0.00,
-TOTAL PER DIEM,,,,,,$0.00,
-
-ADVANCES & REIMBURSEMENTS
-Type,Date,Amount,Notes
-Advance Received,,$0.00,
-Previous Balance,,$0.00,
-TOTAL ADVANCES,,$0.00,
-
-CALCULATION
-Item,Amount
-Total Expenses,$0.00
-Less: Advances,$0.00
-Less: Corporate Card,$0.00
-AMOUNT DUE TO EMPLOYEE,$0.00
-AMOUNT DUE TO COMPANY,$0.00
-
-APPROVALS
-Role,Name,Signature,Date,Status
-Employee,,,, Submitted
-Manager,,,, [ ] Approved [ ] Rejected
-Finance,,,, [ ] Approved [ ] Rejected
-Payment Processed,,,,
-
-NOTES
-1. All expenses must have receipts attached
-2. Expenses over $75 require manager pre-approval
-3. Entertainment expenses require attendee list
-4. Mileage calculated at current IRS rate
-5. Per diem rates based on GSA guidelines
-6. Submit within 30 days of expense date
-7. Missing receipts require written explanation
+HOW TO USE:
+1. Add a row for each expense
+2. Use decimal format for amounts (e.g. 125.50)
+3. Attach receipts separately when importing
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Expenses

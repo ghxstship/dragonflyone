@@ -1,5 +1,25 @@
 # EVENT SAFETY PLAN
 
+<!-- IMPORT FORMAT: Copy plan details and hazards tables to CSV for import -->
+
+## Plan Details (Importable)
+
+| field | value |
+|-------|-------|
+| plan_id | |
+| event_name | |
+| event_date | |
+| event_times | |
+| venue_name | |
+| venue_address | |
+| expected_attendance | |
+| event_type | |
+| safety_director | |
+| production_manager | |
+| security_director | |
+| medical_director | |
+| status | |
+
 ## Event Information
 
 | Field | Details |
@@ -305,3 +325,14 @@
 | Production Manager | | | |
 | Venue Manager | | | |
 | Security Director | | | |
+
+---
+
+<!-- IMPORT INSTRUCTIONS
+To import safety plan:
+1. Copy the Plan Details table to a CSV file
+2. Dates must be YYYY-MM-DD format
+3. Valid event_type: concert | festival | corporate | private | other
+4. Valid status: draft | approved | active | archived
+5. Import via ATLVS > Settings > Data Import > Safety Plans
+-->

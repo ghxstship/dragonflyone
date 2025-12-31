@@ -2,31 +2,31 @@
 
 /**
  * Project Detail Page
- * Shows detailed information about a specific project
- * Uses normalized DetailPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useRouter, notFound } from "next/navigation";
 import {
-  Pencil, Users, FileText, DollarSign, Target, Download} from "lucide-react";
-import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
+  Pencil, Users, FileText, DollarSign, Target, Download,
+} from "lucide-react";
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  PROJECT_STATUS_COLORS,
+} from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ProgressBar, useNotifications, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ProgressBar, useToast, Box,
+  type DetailPageTab,
+} from "@ghxstship/ui";
 import { useProjectDetailData } from "@/hooks/useProjectDetail";
 
-const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
-  "On Track": "success",
-  "At Risk": "warning",
-  "Off Track": "error",
-  active: "success",
-  completed: "info",
-  cancelled: "error",
-};
+const STATUS_COLORS = PROJECT_STATUS_COLORS;
 
 export default function ProjectDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const {
     project,
     isLoading,
@@ -50,9 +50,9 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
       a.href = url;
       a.download = `project-${params.id}-report.pdf`;
       a.click();
-      addNotification({ type: "success", title: "Success", message: "Report generated" });
+      toast.success("Success", "Report generated");
     } catch {
-      addNotification({ type: "error", title: "Error", message: "Failed to generate report" });
+      toast.error("Error", "Failed to generate report");
     }
   };
 

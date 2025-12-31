@@ -6,6 +6,7 @@ import { Stack } from "../foundations/layout.js";
 import { Spinner } from "../atoms/spinner.js";
 import { Body, H2 } from "../atoms/typography.js";
 import { Button } from "../atoms/button.js";
+import { Tooltip } from "../atoms/tooltip.js";
 import { 
   AlertTriangle, 
   ZoomIn, 
@@ -481,76 +482,88 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                 <Stack direction="horizontal" gap={1} className="items-center">
                   {(canvasControls === "zoom" || canvasControls === "both") && (
                     <>
-                      <button
-                        onClick={handleZoomOut}
-                        disabled={zoom <= minZoom}
-                        className={clsx(
-                          "p-2 rounded transition-colors disabled:opacity-50",
-                          inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
-                        )}
-                        title="Zoom Out"
-                      >
-                        <ZoomOut className="size-4" />
-                      </button>
-                      <button
-                        onClick={handleZoomReset}
-                        className={clsx(
-                          "px-2 py-1 rounded text-sm font-mono min-w-[60px] text-center transition-colors",
-                          inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
-                        )}
-                        title="Reset Zoom"
-                      >
-                        {Math.round(zoom * 100)}%
-                      </button>
-                      <button
-                        onClick={handleZoomIn}
-                        disabled={zoom >= maxZoom}
-                        className={clsx(
-                          "p-2 rounded transition-colors disabled:opacity-50",
-                          inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
-                        )}
-                        title="Zoom In"
-                      >
-                        <ZoomIn className="size-4" />
-                      </button>
-                      <button
-                        onClick={handleZoomFit}
-                        className={clsx(
-                          "p-2 rounded transition-colors",
-                          inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
-                        )}
-                        title="Fit to View"
-                      >
-                        <Maximize2 className="size-4" />
-                      </button>
+                      <Tooltip content="Zoom Out" inverted={!inverted}>
+                        <button
+                          onClick={handleZoomOut}
+                          disabled={zoom <= minZoom}
+                          className={clsx(
+                            "p-2 rounded transition-colors disabled:opacity-50",
+                            inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                          )}
+                          aria-label="Zoom out"
+                        >
+                          <ZoomOut className="size-4" />
+                        </button>
+                      </Tooltip>
+                      <Tooltip content="Reset Zoom" inverted={!inverted}>
+                        <button
+                          onClick={handleZoomReset}
+                          className={clsx(
+                            "px-2 py-1 rounded text-sm font-mono min-w-[60px] text-center transition-colors",
+                            inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                          )}
+                          aria-label="Reset zoom"
+                        >
+                          {Math.round(zoom * 100)}%
+                        </button>
+                      </Tooltip>
+                      <Tooltip content="Zoom In" inverted={!inverted}>
+                        <button
+                          onClick={handleZoomIn}
+                          disabled={zoom >= maxZoom}
+                          className={clsx(
+                            "p-2 rounded transition-colors disabled:opacity-50",
+                            inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                          )}
+                          aria-label="Zoom in"
+                        >
+                          <ZoomIn className="size-4" />
+                        </button>
+                      </Tooltip>
+                      <Tooltip content="Fit to View" inverted={!inverted}>
+                        <button
+                          onClick={handleZoomFit}
+                          className={clsx(
+                            "p-2 rounded transition-colors",
+                            inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                          )}
+                          aria-label="Fit to view"
+                        >
+                          <Maximize2 className="size-4" />
+                        </button>
+                      </Tooltip>
                     </>
                   )}
                   {(canvasControls === "pan" || canvasControls === "both") && (
+                    <Tooltip content="Pan Mode" inverted={!inverted}>
+                      <button
+                        onClick={() => setIsPanning(!isPanning)}
+                        className={clsx(
+                          "p-2 rounded transition-colors",
+                          isPanning
+                            ? "bg-primary text-white"
+                            : inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                        )}
+                        aria-label="Pan mode"
+                      >
+                        <Move className="size-4" />
+                      </button>
+                    </Tooltip>
+                  )}
+                  <Tooltip content="Toggle Grid" inverted={!inverted}>
                     <button
-                      onClick={() => setIsPanning(!isPanning)}
+                      onClick={() => {}}
                       className={clsx(
                         "p-2 rounded transition-colors",
-                        isPanning
-                          ? "bg-primary text-white"
+                        grid !== "none"
+                          ? "bg-primary/20 text-primary"
                           : inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
                       )}
-                      title="Pan Mode"
+                      aria-label="Toggle grid"
                     >
-                      <Move className="size-4" />
+                      <Grid className="size-4" />
                     </button>
-                  )}
-                  <button
-                    onClick={() => {}}
-                    className={clsx(
-                      "p-2 rounded transition-colors",
-                      grid !== "none"
-                        ? "bg-primary/20 text-primary"
-                        : inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
-                    )}
-                    title="Toggle Grid"
-                  >
-                    <Grid className="size-4" />
-                  </button>
+                  </Tooltip>
                 </Stack>
               )}
             </Stack>

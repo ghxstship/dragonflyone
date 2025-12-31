@@ -17,7 +17,7 @@ import {
   searchFAQs as _searchFAQs,
   getFAQsByPlatform as _getFAQsByPlatform,
   type FAQ as _FAQ,
-} from './faqs.js';
+} from './faqs';
 
 import {
   TEMPLATES as _TEMPLATES,
@@ -25,7 +25,7 @@ import {
   getTemplatesByPlatform as _getTemplatesByPlatform,
   getFeaturedTemplates as _getFeaturedTemplates,
   type Template as _Template,
-} from './templates.js';
+} from './templates';
 
 import {
   GUIDES as _GUIDES,
@@ -33,7 +33,7 @@ import {
   getGuidesByPlatform as _getGuidesByPlatform,
   getFeaturedGuides as _getFeaturedGuides,
   type Guide as _Guide,
-} from './guides.js';
+} from './guides';
 
 import {
   VIDEOS as _VIDEOS,
@@ -41,7 +41,7 @@ import {
   getVideosByPlatform as _getVideosByPlatform,
   getFeaturedVideos as _getFeaturedVideos,
   type Video as _Video,
-} from './videos.js';
+} from './videos';
 
 import {
   TOOLS as _TOOLS,
@@ -49,7 +49,7 @@ import {
   getToolsByPlatform as _getToolsByPlatform,
   getFeaturedTools as _getFeaturedTools,
   type Tool as _Tool,
-} from './tools.js';
+} from './tools';
 
 import {
   WEBINARS as _WEBINARS,
@@ -57,7 +57,7 @@ import {
   getWebinarsByPlatform as _getWebinarsByPlatform,
   getFeaturedWebinars as _getFeaturedWebinars,
   type Webinar as _Webinar,
-} from './webinars.js';
+} from './webinars';
 
 // FAQs
 export {
@@ -70,7 +70,7 @@ export {
   getFAQCountByCategory,
   type FAQ,
   type FAQCategory,
-} from './faqs.js';
+} from './faqs';
 
 // Templates
 export {
@@ -87,7 +87,7 @@ export {
   type Template,
   type TemplateCategory,
   type TemplateFormat,
-} from './templates.js';
+} from './templates';
 
 // Guides
 export {
@@ -105,7 +105,7 @@ export {
   type GuideCategory,
   type GuideDifficulty,
   type GuideChapter,
-} from './guides.js';
+} from './guides';
 
 // Videos
 export {
@@ -121,7 +121,7 @@ export {
   getVideoCountByCategory,
   type Video,
   type VideoCategory,
-} from './videos.js';
+} from './videos';
 
 // Tools
 export {
@@ -136,7 +136,7 @@ export {
   type ToolCategory,
   type ToolInput,
   type ToolOutput,
-} from './tools.js';
+} from './tools';
 
 // Webinars
 export {
@@ -156,7 +156,7 @@ export {
   type WebinarSeries,
   type WebinarHost,
   type WebinarSpeaker,
-} from './webinars.js';
+} from './webinars';
 
 /**
  * Search across all content types

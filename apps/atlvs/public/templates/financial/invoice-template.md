@@ -1,107 +1,84 @@
 # INVOICE
 
+<!-- IMPORT FORMAT: Copy line items table to CSV for import -->
+
+## Invoice Details (Importable)
+
+| field | value |
+|-------|-------|
+| invoice_number | |
+| invoice_date | |
+| due_date | |
+| payment_terms | net_30 |
+| client_name | |
+| client_contact | |
+| client_email | |
+| project_name | |
+| po_number | |
+| status | draft |
+
 ## From
 
-**[Your Company Name]**  
-[Street Address]  
-[City, State ZIP]  
-[Phone]  
-[Email]  
-[Website]
-
----
+| field | value |
+|-------|-------|
+| company_name | |
+| address | |
+| city_state_zip | |
+| phone | |
+| email | |
 
 ## Bill To
 
-**[Client Company Name]**  
-[Contact Name]  
-[Street Address]  
-[City, State ZIP]  
-[Phone]  
-[Email]
+| field | value |
+|-------|-------|
+| client_company | |
+| contact_name | |
+| address | |
+| city_state_zip | |
+| phone | |
+| email | |
 
----
+## Line Items (Importable)
 
-## Invoice Details
-
-| Field | Details |
-|-------|---------|
-| **Invoice Number** | INV-[XXXX] |
-| **Invoice Date** | [Date] |
-| **Due Date** | [Date] |
-| **Payment Terms** | Net 30 |
-| **Project/Event** | [Project Name] |
-| **PO Number** | [If applicable] |
-
----
-
-## Services/Items
-
-| Description | Quantity | Unit Price | Amount |
-|-------------|----------|------------|--------|
-| [Service/Item 1] | | $ | $ |
-| [Service/Item 2] | | $ | $ |
-| [Service/Item 3] | | $ | $ |
-| [Service/Item 4] | | $ | $ |
-| [Service/Item 5] | | $ | $ |
-
----
+| description | quantity | unit_price | amount | notes |
+|-------------|----------|------------|--------|-------|
+| | 1 | 0.00 | 0.00 | |
+| | 1 | 0.00 | 0.00 | |
+| | 1 | 0.00 | 0.00 | |
 
 ## Summary
 
-| | Amount |
-|---|--------|
-| **Subtotal** | $ |
-| **Tax (X%)** | $ |
-| **Discount** | ($ ) |
-| **TOTAL DUE** | **$** |
-
----
+| item | amount |
+|------|--------|
+| subtotal | 0.00 |
+| tax_rate | 0.00 |
+| tax_amount | 0.00 |
+| discount | 0.00 |
+| total_due | 0.00 |
 
 ## Payment Information
 
-### Payment Methods Accepted
-- [ ] Check (payable to [Company Name])
-- [ ] Wire Transfer
-- [ ] ACH
-- [ ] Credit Card
+| method | details |
+|--------|---------|
+| Check Payable To | |
+| Bank Name | |
+| Account Name | |
+| Account Number | |
+| Routing Number | |
 
-### Wire Transfer Instructions
-```
-Bank Name: [Bank Name]
-Account Name: [Account Name]
-Account Number: [Account Number]
-Routing Number: [Routing Number]
-SWIFT Code: [If international]
-```
+## Terms
 
-### ACH Instructions
-```
-Bank Name: [Bank Name]
-Account Name: [Account Name]
-Account Number: [Account Number]
-Routing Number: [Routing Number]
-```
+1. Payment due within 30 days of invoice date
+2. Late payments subject to 1.5% monthly finance charge
+3. All sales final unless agreed in writing
 
 ---
 
-## Terms & Conditions
-
-1. Payment is due within 30 days of invoice date unless otherwise specified.
-2. Late payments are subject to a 1.5% monthly finance charge.
-3. All sales are final unless otherwise agreed in writing.
-4. Client is responsible for any collection costs or legal fees.
-
----
-
-## Notes
-
-[Additional notes or special instructions]
-
----
-
-**Thank you for your business!**
-
----
-
-*Questions about this invoice? Contact [Name] at [Email] or [Phone]*
+<!-- IMPORT INSTRUCTIONS
+To import invoice:
+1. Copy Line Items table to a CSV file
+2. Amounts should be decimal (no $ symbol)
+3. Valid payment_terms: net_30 | net_15 | net_60 | due_on_receipt
+4. Valid status: draft | sent | paid | overdue | cancelled
+5. Import via ATLVS > Settings > Data Import > Invoices
+-->

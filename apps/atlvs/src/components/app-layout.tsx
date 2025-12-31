@@ -24,7 +24,7 @@ import {
   Card,
   PageTransition,
 Box} from "@ghxstship/ui";
-import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions, Box} from "@ghxstship/ui";
+import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions, HeaderNotification, HeaderQuickAction } from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
 } from "./navigation";
@@ -251,11 +251,90 @@ export function AtlvsAppLayout({
     }));
   };
 
-  // Demo notifications for header
-  const demoNotifications = [
-    { id: "1", title: "New project created", message: "Project 'Summer Campaign' was created", time: "2 min ago", read: false },
-    { id: "2", title: "Budget approved", message: "Q4 budget has been approved by finance", time: "1 hour ago", read: false },
-    { id: "3", title: "Team member added", message: "Sarah joined the Marketing team", time: "3 hours ago", read: true },
+  // Demo notifications for header (enhanced format)
+  const demoNotifications: HeaderNotification[] = [
+    { 
+      id: "1", 
+      title: "New project created", 
+      message: "Project 'Summer Campaign' was created", 
+      timestamp: new Date(Date.now() - 2 * 60 * 1000).toISOString(),
+      read: false,
+      type: "success",
+      priority: "normal",
+      category: "updates",
+      source: "Projects",
+      actionLabel: "View project",
+      actionUrl: "/projects/summer-campaign",
+    },
+    { 
+      id: "2", 
+      title: "Budget approved", 
+      message: "Q4 budget has been approved by finance", 
+      timestamp: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
+      read: false,
+      type: "info",
+      priority: "high",
+      category: "alerts",
+      source: "Finance",
+    },
+    { 
+      id: "3", 
+      title: "Sarah mentioned you", 
+      message: "Hey, can you review the latest designs?", 
+      timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+      read: true,
+      type: "info",
+      priority: "normal",
+      category: "mentions",
+      source: "Comments",
+    },
+    { 
+      id: "4", 
+      title: "Team member added", 
+      message: "Sarah joined the Marketing team", 
+      timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
+      read: true,
+      type: "success",
+      priority: "low",
+      category: "updates",
+      source: "Teams",
+    },
+  ];
+
+  // Header quick actions (contextual based on current page)
+  const headerQuickActions: HeaderQuickAction[] = [
+    {
+      id: "new-deal",
+      label: "New Deal",
+      icon: <Plus size={14} />,
+      href: "/deals/new",
+      shortcut: "D",
+      contextPaths: ["/deals*", "/pipeline*", "/dashboard*"],
+    },
+    {
+      id: "new-project",
+      label: "New Project",
+      icon: <Plus size={14} />,
+      href: "/projects/new",
+      shortcut: "P",
+      contextPaths: ["/projects*", "/dashboard*"],
+    },
+    {
+      id: "new-contact",
+      label: "New Contact",
+      icon: <Users size={14} />,
+      href: "/contacts/new",
+      shortcut: "C",
+      contextPaths: ["/contacts*"],
+    },
+    {
+      id: "new-invoice",
+      label: "New Invoice",
+      icon: <FileText size={14} />,
+      href: "/invoices/new",
+      shortcut: "I",
+      contextPaths: ["/invoices*", "/finance*"],
+    },
   ];
 
   // Handle sign out
@@ -402,22 +481,50 @@ export function AtlvsAppLayout({
             name: user.name || "User",
             email: user.email,
             avatar: user.avatar,
+            status: "online",
+            role: user.roles?.[0] || "Member",
           } : {
             name: "Demo User",
             email: "demo@ghxstship.com",
+            status: "online",
+            role: "Admin",
           }}
           quickActions={atlvsQuickActions.slice(0, 3)}
+          headerQuickActions={headerQuickActions}
           favorites={favorites}
           recentPages={recentPages}
           userRoles={userRoles}
           storageKey="atlvs-sidebar"
           inverted={background === "black"}
           onNavigate={handleContextNavigation}
+          onSearchOpen={() => {
+            // Command palette is already handled by useCommandPalette hook
+            // This triggers when clicking the search bar in the header
+          }}
           settingsPath={isProductionContext ? `/p/${productionId}/settings` : "/settings"}
+          helpPath="/help"
           notifications={demoNotifications}
+          onNotificationClick={(notification) => {
+            if (notification.actionUrl) {
+              router.push(notification.actionUrl);
+            }
+          }}
+          onNotificationMarkRead={() => {
+            // Notification read state handled by notification service
+          }}
+          onNotificationMarkAllRead={() => {
+            // Bulk notification read state handled by notification service
+          }}
+          onNotificationSettings={() => {
+            router.push("/settings/notifications");
+          }}
+          onKeyboardShortcuts={() => {
+            // Keyboard shortcuts modal handled by command palette
+          }}
           onSignOut={handleSignOut}
           className={className}
           headerActions={userMenu}
+          useEnhancedHeader={true}
         >
           <Box className="p-6 lg:p-8 pb-20 md:pb-8">
             <PageTransition type="fade" duration={200}>

@@ -30,7 +30,7 @@ import {
   CreatorNavigationPublic,
   CreatorNavigationAuthenticated,
 } from "./navigation";
-import type { ContextLevel, BreadcrumbContextItem, ContextOptions, Box} from "@ghxstship/ui";
+import type { ContextLevel, BreadcrumbContextItem, ContextOptions, Box, HeaderNotification, HeaderQuickAction } from "@ghxstship/ui";
 import { gvtewaySidebarNavigation, gvtewayEventNavigation, gvtewayQuickActions, gvtewayBottomNavigation, gvtewayDemoOrganizations } from "../data/gvteway";
 import { useEvents } from "@/hooks/useEvents";
 import {
@@ -42,7 +42,7 @@ import {
   useKeyboardShortcuts,
   useRecentPages,
 } from "@ghxstship/config/hooks";
-import { Search, Ticket, Calendar, MapPin } from "lucide-react";
+import { Search, Ticket, Calendar, MapPin, Plus } from "lucide-react";
 
 
 // =============================================================================
@@ -282,6 +282,81 @@ export function GvtewayAppLayout({
     })),
   };
 
+  // Demo notifications for header (enhanced format)
+  const demoNotifications: HeaderNotification[] = [
+    { 
+      id: "1", 
+      title: "New event published", 
+      message: "Summer Music Festival is now live", 
+      timestamp: new Date(Date.now() - 10 * 60 * 1000).toISOString(),
+      read: false,
+      type: "success",
+      priority: "normal",
+      category: "updates",
+      source: "Events",
+      actionLabel: "View event",
+      actionUrl: "/events/summer-music-festival",
+    },
+    { 
+      id: "2", 
+      title: "Ticket sales milestone", 
+      message: "500 tickets sold for Jazz Night", 
+      timestamp: new Date(Date.now() - 45 * 60 * 1000).toISOString(),
+      read: false,
+      type: "info",
+      priority: "normal",
+      category: "updates",
+      source: "Sales",
+    },
+    { 
+      id: "3", 
+      title: "Venue capacity alert", 
+      message: "Main Stage is 90% sold", 
+      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+      read: true,
+      type: "warning",
+      priority: "high",
+      category: "alerts",
+      source: "Venues",
+    },
+  ];
+
+  // Header quick actions (contextual based on current page)
+  const headerQuickActions: HeaderQuickAction[] = [
+    {
+      id: "find-events",
+      label: "Find Events",
+      icon: <Calendar size={14} />,
+      href: "/events",
+      shortcut: "E",
+      contextPaths: ["/events*", "/discover*", "/"],
+    },
+    {
+      id: "buy-tickets",
+      label: "Buy Tickets",
+      icon: <Ticket size={14} />,
+      href: "/tickets",
+      shortcut: "T",
+      contextPaths: ["/e/*", "/tickets*"],
+    },
+    {
+      id: "find-venues",
+      label: "Find Venues",
+      icon: <MapPin size={14} />,
+      href: "/venues",
+      shortcut: "V",
+      contextPaths: ["/venues*"],
+    },
+    {
+      id: "new-event",
+      label: "Create Event",
+      icon: <Plus size={14} />,
+      href: "/events/new",
+      shortcut: "N",
+      contextPaths: ["/dashboard*", "/account*"],
+    },
+  ];
+
   // Portal variant - minimal branded layout for external access
   if (variant === "portal") {
     return (
@@ -380,19 +455,48 @@ export function GvtewayAppLayout({
             name: user.name || user.full_name || "User",
             email: user.email,
             avatar: user.avatar,
+            status: "online",
+            role: user.roles?.[0] || "Member",
           } : {
             name: "Guest User",
             email: "guest@gvteway.com",
+            status: "online",
+            role: "Guest",
           }}
           quickActions={gvtewayQuickActions}
+          headerQuickActions={headerQuickActions}
           favorites={favorites}
           recentPages={recentPages}
           userRoles={userRoles}
           storageKey="gvteway-sidebar"
           inverted
           onNavigate={handleContextNavigation}
+          onSearchOpen={() => {
+            // Command palette is already handled by useCommandPalette hook
+          }}
+          settingsPath="/account/settings"
+          helpPath="/help"
+          notifications={demoNotifications}
+          onNotificationClick={(notification) => {
+            if (notification.actionUrl) {
+              router.push(notification.actionUrl);
+            }
+          }}
+          onNotificationMarkRead={(id) => {
+            console.log("Mark notification read:", id);
+          }}
+          onNotificationMarkAllRead={() => {
+            console.log("Mark all notifications read");
+          }}
+          onNotificationSettings={() => {
+            router.push("/account/settings/notifications");
+          }}
+          onKeyboardShortcuts={() => {
+            console.log("Show keyboard shortcuts");
+          }}
           className={className}
           headerActions={userMenu}
+          useEnhancedHeader={true}
         >
           <Box className="p-6 pb-20 md:pb-6">
             <PageTransition type="fade" duration={200}>

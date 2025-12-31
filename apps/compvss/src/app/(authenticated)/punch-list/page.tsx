@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import {
   usePunchItems,
@@ -28,6 +30,7 @@ const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
 };
 
 export default function PunchListPage() {
+  const router = useRouter();
   const { data: punchItems = [], refetch } = usePunchItems();
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<PunchItem | null>(null);
@@ -42,7 +45,7 @@ export default function PunchListPage() {
       label: 'Item',
       accessor: 'title',
       sortable: true,
-      render: (_, item) => (
+      render: (_value: unknown, item) => (
         <Stack gap={1}>
           <Body className="font-display">{item.title}</Body>
           <Body size="sm" className="text-muted-foreground">{item.location}</Body>
@@ -54,21 +57,21 @@ export default function PunchListPage() {
       label: 'Department',
       accessor: 'department',
       sortable: true,
-      render: (_, item) => <Badge variant="outline">{item.department}</Badge>,
+      render: (_value: unknown, item) => <Badge variant="outline">{item.department}</Badge>,
     },
     {
       key: 'priority',
       label: 'Priority',
       accessor: 'priority',
       sortable: true,
-      render: (_, item) => <Badge variant={getPriorityVariant(item.priority)}>{item.priority}</Badge>,
+      render: (_value: unknown, item) => <Badge variant={getPriorityVariant(item.priority)}>{item.priority}</Badge>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, item) => <Badge variant={getStatusVariant(item.status)}>{item.status}</Badge>,
+      render: (_value: unknown, item) => <Badge variant={getStatusVariant(item.status)}>{item.status}</Badge>,
     },
     { key: 'assignedTo', label: 'Assigned To', accessor: (i) => i.assignedTo || 'Unassigned' },
     { key: 'reportedBy', label: 'Reported By', accessor: 'reportedBy' },
@@ -153,6 +156,9 @@ export default function PunchListPage() {
         stats={stats}
         emptyMessage="No punch list items found"
         emptyAction={{ label: 'Add Item', onClick: () => setShowAddModal(true) }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

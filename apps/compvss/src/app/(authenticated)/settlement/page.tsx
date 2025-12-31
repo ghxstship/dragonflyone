@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import {
   useSettlements,
@@ -36,7 +37,7 @@ export default function SettlementPage() {
       label: 'Project',
       accessor: 'projectName',
       sortable: true,
-      render: (_, s) => (
+      render: (_value: unknown, s) => (
         <Stack gap={1}>
           <Body className="font-display">{s.projectName}</Body>
           <Body size="sm" className="text-muted-foreground">Event: {s.eventDate}</Body>
@@ -48,35 +49,35 @@ export default function SettlementPage() {
       label: 'Contract',
       accessor: 'contractValue',
       sortable: true,
-      render: (_, s) => <Body className="font-mono">${s.contractValue.toLocaleString()}</Body>,
+      render: (_value: unknown, s) => <Body className="font-mono">${s.contractValue.toLocaleString()}</Body>,
     },
     {
       key: 'actualCosts',
       label: 'Costs',
       accessor: 'actualCosts',
       sortable: true,
-      render: (_, s) => <Body className="font-mono">${s.actualCosts.toLocaleString()}</Body>,
+      render: (_value: unknown, s) => <Body className="font-mono">${s.actualCosts.toLocaleString()}</Body>,
     },
     {
       key: 'grossProfit',
       label: 'Profit',
       accessor: 'grossProfit',
       sortable: true,
-      render: (_, s) => <Body className="font-mono">${s.grossProfit.toLocaleString()}</Body>,
+      render: (_value: unknown, s) => <Body className="font-mono">${s.grossProfit.toLocaleString()}</Body>,
     },
     {
       key: 'marginPct',
       label: 'Margin',
       accessor: 'marginPct',
       sortable: true,
-      render: (_, s) => <Body>{s.marginPct}%</Body>,
+      render: (_value: unknown, s) => <Body>{s.marginPct}%</Body>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
     },
   ];
 
@@ -138,6 +139,9 @@ export default function SettlementPage() {
         stats={stats}
         emptyMessage="No settlements found"
         emptyAction={{ label: 'Create Settlement', onClick: () => router.push('/settlement/new') }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

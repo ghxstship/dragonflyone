@@ -1,11 +1,21 @@
 'use client';
 
+/**
+ * SOP Detail Page
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
+ */
+
 import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Pencil, Plus, Trash2, CheckCircle, AlertTriangle } from 'lucide-react';
-// Layout provided by route group
 import { useSOP, useCreateSOPStep, useUpdateSOPStep, useDeleteSOPStep, useAcknowledgeSOP, type SOPStep } from '@/hooks/useSOPs';
-import { useAuth, useAuthContext, PlatformRole } from '@ghxstship/config';
+import { 
+  useAuth, 
+  useAuthContext, 
+  PlatformRole,
+  DOCUMENT_STATUS_COLORS,
+} from '@ghxstship/config';
 
 const ADMIN_ROLES = [
   PlatformRole.COMPVSS_ADMIN,
@@ -14,7 +24,9 @@ const ADMIN_ROLES = [
   PlatformRole.LEGEND_DEVELOPER,
 ];
 import {
-  Container, Section, Stack, Grid, Card, H2, H3, Body, Button, Badge, Box, RecordFormModal, ConfirmDialog} from '@ghxstship/ui';
+  Container, Section, Stack, Grid, Card, H2, H3, Body, Button, Badge, Box, RecordFormModal, ConfirmDialog,
+  type FormFieldConfig,
+} from "@ghxstship/ui";
 
 const stepFormFields: FormFieldConfig[] = [
   { name: 'step_number', label: 'Step Number', type: 'number', required: true },
@@ -46,12 +58,7 @@ export default function SOPDetailPage() {
   const [editingStep, setEditingStep] = useState<SOPStep | null>(null);
   const [deleteStepId, setDeleteStepId] = useState<string | null>(null);
 
-  const statusColors: Record<string, 'success' | 'warning' | 'error' | 'ghost'> = {
-    approved: 'success',
-    review: 'warning',
-    draft: 'ghost',
-    archived: 'error',
-  };
+  const statusColors = DOCUMENT_STATUS_COLORS;
 
   const handleCreateStep = async (data: Record<string, unknown>) => {
     await createStepMutation.mutateAsync({

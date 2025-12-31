@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Play } from 'lucide-react';
 import { useWorkflows, useCreateWorkflow, useDeleteWorkflow, useToggleWorkflow } from '../../../hooks/useWorkflows';
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body} from '@ghxstship/ui';
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { useAuthContext, PlatformRole } from '@ghxstship/config';
 
 const ADMIN_ROLES = [
@@ -55,7 +56,7 @@ const columns: ListPageColumn<Workflow>[] = [
     key: 'trigger_type',
     label: 'Trigger',
     accessor: 'trigger_type',
-    render: (value) => (
+    render: (value: unknown) => (
       <Badge variant={triggerColors[String(value)] || 'outline'}>
         {triggerLabels[String(value)] || String(value)}
       </Badge>
@@ -65,7 +66,7 @@ const columns: ListPageColumn<Workflow>[] = [
     key: 'enabled',
     label: 'Status',
     accessor: 'enabled',
-    render: (value) => (
+    render: (value: unknown) => (
       <Badge variant={value ? 'success' : 'ghost'}>
         {value ? 'Enabled' : 'Disabled'}
       </Badge>
@@ -86,7 +87,7 @@ const columns: ListPageColumn<Workflow>[] = [
     label: 'Created',
     accessor: 'created_at',
     sortable: true,
-    render: (value) => value ? new Date(String(value)).toLocaleDateString() : '—',
+    render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '—',
   },
 ];
 

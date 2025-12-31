@@ -6,7 +6,8 @@ import { Eye, Pencil, Trash2 } from "lucide-react";
 // Layout provided by route group
 import { useIncidents } from "@/hooks/useIncidents";
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body} from "@ghxstship/ui";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Incident {
@@ -23,11 +24,11 @@ interface Incident {
 
 const columns: ListPageColumn<Incident>[] = [
   { key: 'id', label: 'ID', accessor: 'id', sortable: true },
-  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Badge variant="outline">{String(v).replace('-', ' ')}</Badge> },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v: unknown) => <Badge variant="outline">{String(v).replace('-', ' ')}</Badge> },
   { key: 'event_name', label: 'Event', accessor: (r) => r.event_name || 'N/A' },
   { key: 'reporter', label: 'Reporter', accessor: 'reporter' },
   { key: 'incident_date', label: 'Date', accessor: (r) => r.incident_date || 'N/A', sortable: true },
-  { key: 'severity', label: 'Severity', accessor: 'severity', sortable: true, render: (v) => <Badge variant={v === 'high' || v === 'critical' ? 'solid' : 'outline'}>{String(v)}</Badge> },
+  { key: 'severity', label: 'Severity', accessor: 'severity', sortable: true, render: (v: unknown) => <Badge variant={v === 'high' || v === 'critical' ? 'solid' : 'outline'}>{String(v)}</Badge> },
   { key: 'status', label: 'Status', accessor: (r) => r.status.replace('-', ' '), sortable: true },
 ];
 
@@ -148,6 +149,7 @@ export default function IncidentsPage() {
         onImport={handleImport}
         importTemplates={importTemplates}
         importSampleFields={['type', 'reporter', 'severity', 'status', 'incident_date']}
+        templateDownloadUrl="/templates/safety-compliance/incident-report-form.csv"
         onExport={createExportHandler({
           filename: "incidents",
           getData: () => incidents.map(i => ({
@@ -183,6 +185,9 @@ export default function IncidentsPage() {
           { id: 'close', label: 'Close Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

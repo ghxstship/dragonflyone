@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Alert, AuthPage, Body, Button, Card, Checkbox, Divider, Field, Form, Grid, H2, Input, PasswordInput, Stack, useNotifications} from '@ghxstship/ui';
+  Alert, AuthPage, Body, Button, Card, Checkbox, Divider, Field, Form, Grid, H2, Input, PasswordInput, Stack, useToast} from '@ghxstship/ui';
 import NextLink from "next/link";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -75,7 +75,7 @@ export default function SignUpPage() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        addNotification({ type: 'info', title: 'Coming Soon', message: `${provider} sign-up will be available once OAuth is configured` });
+        toast.info('Coming Soon', `${provider} sign-up will be available once OAuth is configured`);
         setLoading(false);
       }
     } catch (err) {

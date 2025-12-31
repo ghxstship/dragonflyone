@@ -3,15 +3,38 @@
 /**
  * Asset Barcode Scanner Page
  * Scan assets for check-in, check-out, and inventory
- * Uses DetailPage template for consistent layout
+ * Uses shared ScannerLayout for consistent UI across apps
  */
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Smartphone, ArrowUpFromLine, ArrowDownToLine, ClipboardList, ArrowRightLeft, Loader2, QrCode, History} from "lucide-react";
+  Smartphone,
+  ArrowUpFromLine,
+  ArrowDownToLine,
+  ClipboardList,
+  ArrowRightLeft,
+  Loader2,
+  QrCode,
+  History,
+} from "lucide-react";
 import {
-  Body, Button, Card, Input, Select, Grid, Badge, Modal, StatCard, useNotifications, DetailPage, Section, SectionHeader, Stack, Box} from "@ghxstship/ui";
+  Body,
+  Button,
+  Card,
+  Select,
+  Grid,
+  Badge,
+  Modal,
+  useToast,
+  DetailPage,
+  Stack,
+  Box,
+  Section,
+  SectionHeader,
+  StatCard,
+  Input,
+} from "@ghxstship/ui";
 import {
   useAssetScan,
   useAssetLookup,
@@ -25,7 +48,7 @@ import { DEMO_SCAN_HISTORY } from "../../../../lib/demo-data";
 export default function AssetScanPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [manualBarcode, setManualBarcode] = useState("");
   const [lookupBarcode, setLookupBarcode] = useState<string | null>(null);
   const [scannedAsset, setScannedAsset] = useState<ScannedAsset | null>(null);
@@ -63,10 +86,10 @@ export default function AssetScanPage() {
 
   useEffect(() => {
     if (lookupError) {
-      addNotification({ type: "error", title: "Asset Not Found", message: lookupError instanceof Error ? lookupError.message : "Asset not found" });
+      toast.error("Asset Not Found", lookupError instanceof Error ? lookupError.message : "Asset not found");
       setLookupBarcode(null);
     }
-  }, [lookupError, addNotification]);
+  }, [lookupError, toast]);
 
   const handleScan = async (barcode: string) => {
     if (!barcode.trim()) return;
@@ -82,14 +105,14 @@ export default function AssetScanPage() {
         location: scanMode === "transfer" ? transferLocation : scannedAsset.location,
         notes: undefined,
       });
-      addNotification({ type: "success", title: "Success", message: `Asset ${scanMode.replace("_", " ")} recorded successfully` });
+      toast.success("Success", `Asset ${scanMode.replace("_", " ")} recorded successfully`);
       setShowActionModal(false);
       setScannedAsset(null);
       setTransferLocation("");
       refetchHistory();
       if (inputRef.current) inputRef.current.focus();
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to record scan" });
+      toast.error("Error", err instanceof Error ? err.message : "Failed to record scan");
     }
   };
 

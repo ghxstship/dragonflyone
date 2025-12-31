@@ -1,5 +1,31 @@
 # CREW MEMBER AGREEMENT
 
+<!-- IMPORT FORMAT: Copy contract details table to CSV for import -->
+
+## Contract Details (Importable)
+
+| field | value |
+|-------|-------|
+| contract_number | |
+| contract_date | |
+| production_name | |
+| work_start_date | |
+| work_end_date | |
+| employee_name | |
+| employee_email | |
+| employee_phone | |
+| position_title | |
+| department | |
+| reports_to | |
+| work_location | |
+| hourly_rate | |
+| overtime_rate | |
+| day_rate | |
+| kit_rental_rate | |
+| per_diem_rate | |
+| employment_type | |
+| status | |
+
 ## Agreement Information
 
 | Field | Details |
@@ -199,3 +225,15 @@ Signature: _________________________
 Print Name: _________________________
 
 Date: _________________________
+
+---
+
+<!-- IMPORT INSTRUCTIONS
+To import crew contract:
+1. Copy the Contract Details table to a CSV file
+2. Dates must be YYYY-MM-DD format
+3. Rates should be decimal (no $ symbol)
+4. Valid employment_type: w2_employee | 1099_contractor
+5. Valid status: draft | sent | signed | active | completed | terminated
+6. Import via ATLVS > Settings > Data Import > Contracts
+-->

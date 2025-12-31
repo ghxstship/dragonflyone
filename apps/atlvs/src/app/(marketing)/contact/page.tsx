@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Mail, Phone, MapPin, Send, Clock } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  MarketingPage, HeroSection, FAQSection, Container, Stack, Grid, Card, Body, H3, Button, Input, Select, Textarea, Form, useNotifications, Box, type FAQItem} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FAQSection, Container, Stack, Grid, Card, Body, H3, Button, Input, Select, Textarea, Form, useToast, Box, type FAQItem} from "@ghxstship/ui";
 
 const CONTACT_REASONS = ["General Inquiry", "Sales", "Support", "Partnership", "Press", "Other"];
 
@@ -28,7 +28,7 @@ const FAQS: FAQItem[] = [
 
 export default function ContactPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -51,11 +51,11 @@ export default function ContactPage() {
       return response.json();
     },
     onSuccess: () => {
-      addNotification({ type: "success", title: "Message Sent", message: "We'll get back to you within 24 hours" });
+      toast.success("Message Sent", "We'll get back to you within 24 hours");
       setFormData({ name: "", email: "", company: "", reason: "General Inquiry", message: "" });
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to send message. Please try again." });
+      toast.error("Error", "Failed to send message. Please try again.");
     },
   });
 

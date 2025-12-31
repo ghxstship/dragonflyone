@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Edit, Users, Trash2, Download } from 'lucide-react';
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body} from '@ghxstship/ui';
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, useAuthContext, PlatformRole } from '@ghxstship/config';
 
 // Roles that can manage projects (COMPVSS has no SUPER_ADMIN, only ADMIN)
@@ -35,21 +36,21 @@ export default function ProjectsPage() {
       key: 'code', 
       label: 'Code', 
       accessor: 'code',
-      render: (value) => <Badge variant="outline">{String(value)}</Badge>
+      render: (value: unknown) => <Badge variant="outline">{String(value)}</Badge>
     },
     { 
       key: 'phase', 
       label: 'Phase', 
       accessor: 'phase', 
       sortable: true,
-      render: (value) => <Badge variant="solid">{String(value)}</Badge>
+      render: (value: unknown) => <Badge variant="solid">{String(value)}</Badge>
     },
     { 
       key: 'status', 
       label: 'Status', 
       accessor: 'status', 
       sortable: true,
-      render: (value) => {
+      render: (value: unknown) => {
         const variant = value === 'active' ? 'success' : value === 'planning' ? 'info' : value === 'completed' ? 'outline' : 'warning';
         return <Badge variant={variant}>{String(value).toUpperCase()}</Badge>;
       }
@@ -59,27 +60,27 @@ export default function ProjectsPage() {
       label: 'Budget', 
       accessor: 'budget', 
       sortable: true,
-      render: (value) => `$${Number(value || 0).toLocaleString()}`
+      render: (value: unknown) => `$${Number(value || 0).toLocaleString()}`
     },
     { 
       key: 'crew_count', 
       label: 'Crew', 
       accessor: 'crew_count',
-      render: (value) => value ? `${value} assigned` : '-'
+      render: (value: unknown) => value ? `${value} assigned` : '-'
     },
     { 
       key: 'start_date', 
       label: 'Start Date', 
       accessor: 'start_date', 
       sortable: true,
-      render: (value) => value ? new Date(String(value)).toLocaleDateString() : '-'
+      render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '-'
     },
     { 
       key: 'event_date', 
       label: 'Event Date', 
       accessor: 'event_date', 
       sortable: true,
-      render: (value) => value ? new Date(String(value)).toLocaleDateString() : '-'
+      render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '-'
     },
   ];
 

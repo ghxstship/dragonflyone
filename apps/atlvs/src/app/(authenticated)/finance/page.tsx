@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { Eye } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage, Badge, DetailDrawer, Grid, Body} from "@ghxstship/ui";
+  ListPage, Badge, DetailDrawer, Grid, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 
 // Roles that can create/edit/delete financial transactions
@@ -23,10 +24,10 @@ const formatCurrency = (amount: number) => {
 
 const columns: ListPageColumn<Transaction>[] = [
   { key: 'id', label: 'Transaction', accessor: 'id', sortable: true },
-  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
   { key: 'entity', label: 'Party', accessor: 'entity' },
   { key: 'amount', label: 'Amount', accessor: (r) => `$${Math.abs(r.amount).toLocaleString()}`, sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={String(v) === "Paid" ? "solid" : "outline"}>{String(v)}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={String(v) === "Paid" ? "solid" : "outline"}>{String(v)}</Badge> },
   { key: 'date', label: 'Date', accessor: 'date', sortable: true },
 ];
 
@@ -136,8 +137,8 @@ export default function FinancePage() {
         entityType="transactions"
 
         onImport={canManageFinance ? handleImport : undefined}
-
         importTemplates={importTemplates}
+        templateDownloadUrl="/templates/financial/expense-report-template.csv"
 
         importSampleFields={['transactions', 'type', 'entity', 'amount', 'status', 'date']}
         onExport={createExportHandler({
@@ -170,6 +171,9 @@ export default function FinancePage() {
             { id: 'delete', label: 'Delete Selected', variant: 'danger' as const },
           ] : []),
         ]}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

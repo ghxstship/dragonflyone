@@ -23,7 +23,7 @@ import {
   TableCell,
   Modal,
   Checkbox,
-  useNotifications,
+  useToast,
   DetailPage,
   Section,
   SectionHeader,
@@ -46,7 +46,7 @@ const ADMIN_ROLES = [
 ];
 
 export default function ApiAccessPage() {
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const { hasRole } = useAuthContext();
   const canManageApiKeys = ADMIN_ROLES.some((role) => hasRole(role));
 
@@ -84,18 +84,18 @@ export default function ApiAccessPage() {
       setShowCreateModal(false);
       setShowKeyModal(true);
       resetForm();
-      addNotification({ type: "success", title: "Created", message: "API key created successfully" });
+      toast.success("Created", "API key created successfully");
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to create API key" });
+      toast.error("Error", err instanceof Error ? err.message : "Failed to create API key");
     }
   };
 
   const handleToggleKey = async (key: ApiKey) => {
     try {
       await toggleApiKey({ id: key.id, is_active: !key.is_active });
-      addNotification({ type: "success", title: "Updated", message: `API key ${key.is_active ? "disabled" : "enabled"}` });
+      toast.success("Updated", `API key ${key.is_active ? "disabled" : "enabled"}`);
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to update API key" });
+      toast.error("Error", err instanceof Error ? err.message : "Failed to update API key");
     }
   };
 
@@ -103,9 +103,9 @@ export default function ApiAccessPage() {
     if (confirm("Are you sure you want to delete this API key? This action cannot be undone.")) {
       try {
         await deleteApiKey(id);
-        addNotification({ type: "success", title: "Deleted", message: "API key deleted" });
+        toast.success("Deleted", "API key deleted");
       } catch (err) {
-        addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to delete API key" });
+        toast.error("Error", err instanceof Error ? err.message : "Failed to delete API key");
       }
     }
   };

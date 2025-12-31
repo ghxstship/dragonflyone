@@ -7,7 +7,8 @@
 
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { Badge, ListPage} from "@ghxstship/ui";
+import { Badge, ListPage,
+  type ListPageFilter} from "@ghxstship/ui";
 
 interface BEO {
   id: string;

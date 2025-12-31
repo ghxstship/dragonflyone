@@ -8,7 +8,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  useNotifications, SettingsPageLayout, H2, Body, Button, Switch, Select, Stack, Grid, Card} from "@ghxstship/ui";
+  useToast, SettingsPageLayout, H2, Body, Button, Switch, Select, Stack, Grid, Card} from "@ghxstship/ui";
 
 /**
  * COMPVSS Settings Page - Bold Contemporary Pop Art Adventure
@@ -16,7 +16,7 @@ import {
  */
 export default function SettingsPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [notifications, setNotifications] = useState({
     crewAlerts: true,
     equipmentAlerts: true,
@@ -31,7 +31,7 @@ export default function SettingsPage() {
       maxWidth="lg"
       headerActions={
         <Stack gap={3} direction="horizontal">
-          <Button variant="outline" onClick={() => addNotification({ type: 'success', title: 'Saved', message: 'Settings saved successfully' })}>Save Settings</Button>
+          <Button variant="outline" onClick={() => toast.success('Saved', 'Settings saved successfully')}>Save Settings</Button>
           <Button variant="ghost" onClick={() => router.push('/dashboard')}>Reset to Defaults</Button>
         </Stack>
       }

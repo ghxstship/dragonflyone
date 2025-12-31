@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useTimekeeping, useApproveTimeEntry } from "@/hooks/useTimekeeping";
 import { log, createExportHandler } from '@ghxstship/config';
 import {
-  ListPage, Badge, Text} from "@ghxstship/ui";
+  ListPage, Badge, Text,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { Check } from "lucide-react";
 
 interface TimeEntry {
@@ -42,7 +43,7 @@ export default function TimekeepingPage() {
       key: 'id',
       label: 'ID',
       accessor: (e) => e.id.substring(0, 8).toUpperCase(),
-      render: (_, e) => <Text className="font-mono">{e.id.substring(0, 8).toUpperCase()}</Text>,
+      render: (_value: unknown, e) => <Text className="font-mono">{e.id.substring(0, 8).toUpperCase()}</Text>,
     },
     {
       key: 'user',
@@ -61,26 +62,26 @@ export default function TimekeepingPage() {
       label: 'Date',
       accessor: 'date',
       sortable: true,
-      render: (_, e) => <Text className="font-mono">{new Date(e.date).toLocaleDateString()}</Text>,
+      render: (_value: unknown, e) => <Text className="font-mono">{new Date(e.date).toLocaleDateString()}</Text>,
     },
     {
       key: 'hours_regular',
       label: 'Regular',
       accessor: 'hours_regular',
-      render: (_, e) => <Text className="font-mono">{e.hours_regular}h</Text>,
+      render: (_value: unknown, e) => <Text className="font-mono">{e.hours_regular}h</Text>,
     },
     {
       key: 'hours_overtime',
       label: 'Overtime',
       accessor: 'hours_overtime',
-      render: (_, e) => <Text className="font-mono">{e.hours_overtime}h</Text>,
+      render: (_value: unknown, e) => <Text className="font-mono">{e.hours_overtime}h</Text>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, e) => <Badge variant={e.status === "approved" ? "solid" : "outline"}>{e.status}</Badge>,
+      render: (_value: unknown, e) => <Badge variant={e.status === "approved" ? "solid" : "outline"}>{e.status}</Badge>,
     },
   ];
 
@@ -142,6 +143,9 @@ export default function TimekeepingPage() {
       stats={stats}
       emptyMessage="No time entries found"
       emptyAction={{ label: 'Log Time', onClick: () => router.push('/timekeeping/log') }}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

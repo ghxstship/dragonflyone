@@ -10,7 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Shield, List, AlertTriangle } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Input, Textarea, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
+  Body, Button, Card, Input, Textarea, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
 
 interface ProductionSettings {
   id: string;
@@ -31,7 +31,7 @@ const DEMO_SETTINGS: ProductionSettings = {
 export default function ProductionSettingsPage() {
   const params = useParams();
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const queryClient = useQueryClient();
   const productionId = params.productionId as string;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -60,10 +60,10 @@ export default function ProductionSettingsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["production-settings", productionId] });
-      addNotification({ type: "success", title: "Settings Saved", message: "Production settings updated successfully" });
+      toast.success("Settings Saved", "Production settings updated successfully");
     },
     onError: (err: Error) => {
-      addNotification({ type: "error", title: "Error", message: err.message });
+      toast.error("Error", err.message);
     },
   });
 
@@ -74,11 +74,11 @@ export default function ProductionSettingsPage() {
       return response.json();
     },
     onSuccess: () => {
-      addNotification({ type: "success", title: "Production Deleted", message: "Production has been deleted" });
+      toast.success("Production Deleted", "Production has been deleted");
       router.push("/productions");
     },
     onError: (err: Error) => {
-      addNotification({ type: "error", title: "Delete Failed", message: err.message });
+      toast.error("Delete Failed", err.message);
     },
   });
 

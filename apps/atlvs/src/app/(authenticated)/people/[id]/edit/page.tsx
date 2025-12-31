@@ -12,7 +12,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { User } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body, Box, EditPage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
+  Body, Box, EditPage, Grid, Input, Select, Stack, Text, Textarea, useToast,
+  type FormSection} from "@ghxstship/ui";
 import { usePersonQuery, useUpdatePerson, useDeletePerson } from '@/hooks/usePeopleQuery';
 
 // Person types are managed on the detail page, not the edit form
@@ -44,7 +45,7 @@ export default function EditPersonPage() {
   const personId = params?.id as string;
   
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   
   const { data: person, isLoading, error } = usePersonQuery(personId);
   const updateMutation = useUpdatePerson();
@@ -132,19 +133,11 @@ export default function EditPersonPage() {
         tags: tags.length > 0 ? tags : undefined,
       });
 
-      addNotification({
-        type: 'success',
-        title: 'Person Updated',
-        message: `${formData.first_name} ${formData.last_name} has been updated.`,
-      });
+      toast.success('Person Updated', `${formData.first_name} ${formData.last_name} has been updated.`);
 
       router.push(`/people/${personId}`);
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Update Person',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Update Person', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsSubmitting(false);
     }
@@ -156,19 +149,11 @@ export default function EditPersonPage() {
     try {
       await deleteMutation.mutateAsync(personId);
 
-      addNotification({
-        type: 'success',
-        title: 'Person Deleted',
-        message: `${person?.display_name} has been removed.`,
-      });
+      toast.success('Person Deleted', `${person?.display_name} has been removed.`);
 
       router.push('/people');
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Delete Person',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Delete Person', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsDeleting(false);
     }

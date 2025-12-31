@@ -4,6 +4,34 @@ All notable completed work for the GHXSTSHIP platform.
 
 ## [Unreleased]
 
+### 2025-12-31
+
+#### SSOT Compliance Infrastructure & Type Compatibility
+
+**ListPage/DataGrid Entity Registry Compatibility:**
+- Updated `ListPageColumn` interface to accept entity registry `ColumnDefinition` types
+- Updated `ListPageFilter` interface to accept entity registry `FilterDefinition` types
+- Updated `DataGridColumn` interface for entity registry compatibility
+- Fixed accessor handling in `DataGrid` and `ListPage` to support string keys
+- Added `maxWidth`, `hideable`, `group`, `className`, `headerClassName` properties
+- Added `avatar` and `link` dataTypes for entity registry support
+- Added `prefix` and `suffix` format options
+
+**SSOT Status Colors Migration:**
+- Fixed events page to use `EVENT_STATUS_COLORS` from `@ghxstship/config`
+- All 25 pages now use SSOT status color imports (0 local definitions)
+
+**Documentation Updates:**
+- Updated `SSOT_COMPLIANCE_AUDIT_REPORT.md` with accurate verification evidence
+- Added `BACK-112: Migrate List Pages to useEntityConfig` to BACKLOG.md
+- Added `BACK-113: Remove 'as unknown as' Type Casts` to BACKLOG.md
+
+**Build Verification:**
+- Production build: 7 tasks successful, 0 errors
+- Lint: 0 errors, 5 warnings (integrations package only)
+
+---
+
 ### 2025-01-11
 
 #### ENTERPRISE LAYER AUDIT - ALL 17 AGENTS COMPLETE

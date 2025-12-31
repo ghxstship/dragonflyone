@@ -2,26 +2,27 @@
 
 /**
  * Person Detail Page
- * Shows detailed information about a specific person from the unified people table
- * Uses normalized DetailPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import {
-  Pencil, Briefcase, FileText, Clock, Trash2} from "lucide-react";
-import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
+  Pencil, Briefcase, FileText, Clock, Trash2,
+} from "lucide-react";
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  PEOPLE_STATUS_COLORS,
+} from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useToast,
+  type DetailPageTab,
+} from "@ghxstship/ui";
 import { usePersonQuery, useDeletePerson } from "@/hooks/usePeopleQuery";
 
-const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
-  active: "success",
-  inactive: "outline",
-  pending: "warning",
-  archived: "error",
-  draft: "outline",
-};
+const STATUS_COLORS = PEOPLE_STATUS_COLORS;
 
 const TYPE_LABELS: Record<string, string> = {
   contact: "Contact",
@@ -36,7 +37,7 @@ export default function PersonDetailPage() {
   const router = useRouter();
   const params = useParams();
   const personId = params?.id as string;
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const { hasRole } = useAuthContext();
   const canEdit = ATLVS_ADMIN_ROLES.some((role) => hasRole(role));
@@ -58,18 +59,10 @@ export default function PersonDetailPage() {
     if (!person) return;
     try {
       await deleteMutation.mutateAsync(person.id);
-      addNotification({
-        type: "success",
-        title: "Person Deleted",
-        message: `${person.display_name} has been deleted.`,
-      });
+      toast.success("Person Deleted", `${person.display_name} has been deleted.`);
       router.push("/people");
     } catch (err) {
-      addNotification({
-        type: "error",
-        title: "Failed to Delete",
-        message: err instanceof Error ? err.message : "An error occurred",
-      });
+      toast.error("Failed to Delete", err instanceof Error ? err.message : "An error occurred",);
     }
   };
 

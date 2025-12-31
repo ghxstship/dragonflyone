@@ -2,26 +2,24 @@
 
 /**
  * Advancing Review Queue Page
- * Uses normalized ListPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors and formatters.
  */
 
 import { useRouter } from 'next/navigation';
 import { Eye, Clock, CheckCircle, XCircle } from 'lucide-react';
-import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  DOCUMENT_STATUS_COLORS,
+  formatCurrency,
+  formatDate,
+} from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text} from '@ghxstship/ui';
+  Badge, Body, Box, ListPage, Stack, Text,
+  type ListPageColumn, type ListPageFilter, type ListPageAction,
+} from "@ghxstship/ui";
 import { useAdvanceReviewQueue, type AdvanceRequest } from '@/hooks/useAdvanceReview';
-
-const STATUS_COLORS: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  draft: 'outline',
-  submitted: 'info',
-  under_review: 'warning',
-  approved: 'success',
-  rejected: 'error',
-  fulfilled: 'success',
-  cancelled: 'outline',
-  in_progress: 'info',
-};
 
 export default function AdvancingReviewPage() {
   const router = useRouter();
@@ -31,13 +29,11 @@ export default function AdvancingReviewPage() {
   const { data, isLoading, error, refetch } = useAdvanceReviewQueue();
   const advances = data?.advances || [];
 
-  const formatCurrency = (amount: number | null | undefined) => amount != null ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount) : '$0.00';
-  const formatDate = (dateStr: string | null | undefined) => dateStr ? new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A';
-
+  
   const columns: ListPageColumn<AdvanceRequest>[] = [
     {
       key: 'activation_name', label: 'Request', accessor: 'activation_name', sortable: true,
-      render: (_, adv) => (
+      render: (_value: unknown, adv) => (
         <Box>
           <Text className="font-weight-medium">{adv.activation_name || 'Advance Request'}</Text>
           {adv.team_workspace && <Body size="sm" className="text-muted-foreground">{adv.team_workspace}</Body>}
@@ -48,8 +44,8 @@ export default function AdvancingReviewPage() {
     { key: 'submitter', label: 'Submitter', accessor: (adv) => adv.submitter?.full_name || 'Unknown' },
     {
       key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_, adv) => (
-        <Badge variant={STATUS_COLORS[adv.status] || 'outline'}>
+      render: (_value: unknown, adv) => (
+        <Badge variant={DOCUMENT_STATUS_COLORS[adv.status] || 'outline'}>
           <Stack direction="horizontal" gap={1} className="items-center">
             {adv.status === 'approved' && <CheckCircle className="h-3 w-3" />}
             {adv.status === 'rejected' && <XCircle className="h-3 w-3" />}
@@ -61,11 +57,11 @@ export default function AdvancingReviewPage() {
     },
     {
       key: 'estimated_cost', label: 'Amount', accessor: 'estimated_cost', sortable: true,
-      render: (_, adv) => <Text className="font-weight-medium">{formatCurrency(adv.estimated_cost)}</Text>,
+      render: (_value: unknown, adv) => <Text className="font-weight-medium">{formatCurrency(adv.estimated_cost ?? 0)}</Text>,
     },
     {
       key: 'created_at', label: 'Requested', accessor: 'created_at', sortable: true,
-      render: (_, adv) => <Text>{formatDate(adv.created_at)}</Text>,
+      render: (_value: unknown, adv) => <Text>{formatDate(adv.created_at)}</Text>,
     },
   ];
 
@@ -100,6 +96,9 @@ export default function AdvancingReviewPage() {
       emptyMessage="No advance requests to review"
       entityType="advances"
       breadcrumbs={[{ label: 'Advancing', href: '/advancing' }, { label: 'Review Queue' }]}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

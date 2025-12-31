@@ -11,7 +11,7 @@ import { CreditCard, CheckCircle, Lock} from "lucide-react";
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Form, Input, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
+  Body, Button, Card, Form, Input, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
 
 interface Invoice {
   id: string;
@@ -33,7 +33,7 @@ const DEMO_INVOICE: Invoice = {
 
 export default function PaymentPage() {
   const params = useParams();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const token = params.token as string;
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
@@ -78,11 +78,11 @@ export default function PaymentPage() {
       return response.json();
     },
     onSuccess: () => {
-      addNotification({ type: "success", title: "Payment Successful", message: "Your payment has been processed" });
+      toast.success("Payment Successful", "Your payment has been processed");
       refetch();
     },
     onError: (err: Error) => {
-      addNotification({ type: "error", title: "Payment Failed", message: err.message });
+      toast.error("Payment Failed", err.message);
     },
   });
 

@@ -1,121 +1,78 @@
-STRIKE CHECKLIST
-Production:,[Enter Production Name]
-Date:,[Enter Date]
-Venue:,[Enter Venue]
-Production Manager:,[Enter Name]
+department,task,is_complete,completed_by,completed_at,notes
+AUDIO,FOH console packed,false,,,
+AUDIO,Monitor console packed,false,,,
+AUDIO,All microphones collected,false,,,
+AUDIO,All DI boxes collected,false,,,
+AUDIO,All cables coiled and cased,false,,,
+AUDIO,PA flown out and cased,false,,,
+AUDIO,Subs packed,false,,,
+AUDIO,Monitor wedges packed,false,,,
+AUDIO,IEM systems packed,false,,,
+AUDIO,RF equipment packed,false,,,
+AUDIO,Multicore/snakes packed,false,,,
+AUDIO,Power distro packed,false,,,
+AUDIO,All cases labeled,false,,,
+AUDIO,Truck loaded,false,,,
+AUDIO,Department head sign-off,false,,,
+LIGHTING,All fixtures powered down,false,,,
+LIGHTING,Fixtures struck and cased,false,,,
+LIGHTING,Truss lowered,false,,,
+LIGHTING,Truss disassembled,false,,,
+LIGHTING,All cables coiled,false,,,
+LIGHTING,Console packed,false,,,
+LIGHTING,Dimmers packed,false,,,
+LIGHTING,Haze/fog machines packed,false,,,
+LIGHTING,Follow spots packed,false,,,
+LIGHTING,All clamps collected,false,,,
+LIGHTING,Safety cables collected,false,,,
+LIGHTING,All cases labeled,false,,,
+LIGHTING,Truck loaded,false,,,
+LIGHTING,Department head sign-off,false,,,
+VIDEO,LED wall struck,false,,,
+VIDEO,Cameras packed,false,,,
+VIDEO,Switcher packed,false,,,
+VIDEO,Projectors packed,false,,,
+VIDEO,Screens struck,false,,,
+VIDEO,All cables coiled,false,,,
+VIDEO,Media servers packed,false,,,
+VIDEO,All cases labeled,false,,,
+VIDEO,Truck loaded,false,,,
+VIDEO,Department head sign-off,false,,,
+STAGE,Backline struck,false,,,
+STAGE,Drum riser cleared,false,,,
+STAGE,Staging disassembled,false,,,
+STAGE,Risers stacked,false,,,
+STAGE,Stairs removed,false,,,
+STAGE,Skirting removed,false,,,
+STAGE,All hardware collected,false,,,
+STAGE,Stage swept,false,,,
+STAGE,All cases labeled,false,,,
+STAGE,Truck loaded,false,,,
+STAGE,Department head sign-off,false,,,
+RIGGING,All points lowered,false,,,
+RIGGING,Motors removed,false,,,
+RIGGING,Chain bagged,false,,,
+RIGGING,Shackles collected,false,,,
+RIGGING,Spansets collected,false,,,
+RIGGING,Bridles collected,false,,,
+RIGGING,All hardware accounted,false,,,
+RIGGING,Rigging plot returned,false,,,
+RIGGING,All cases labeled,false,,,
+RIGGING,Truck loaded,false,,,
+RIGGING,Department head sign-off,false,,,
 
-STRIKE TIMELINE
-Time,Activity,Department,Status,Notes
-Show End,Begin Strike Prep,All,,
-+0:15,Artist Clear,Stage,,
-+0:30,Begin Backline Strike,Backline,,
-+0:45,Begin Audio Strike,Audio,,
-+1:00,Begin Lighting Strike,Lighting,,
-+1:00,Begin Video Strike,Video,,
-+1:30,Begin Staging Strike,Stage,,
-+2:00,Begin Rigging Strike,Rigging,,
-+3:00,Vendor Pickups Begin,All,,
-+4:00,Final Walkthrough,Production,,
-+4:30,Venue Handoff,Production,,
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- department: AUDIO | LIGHTING | VIDEO | STAGE | RIGGING | PRODUCTION
+- task: Task description
+- is_complete: true | false
+- completed_by: Name of person who completed task
+- completed_at: Completion time (HH:MM in 24-hour format)
+- notes: Additional notes
 
-DEPARTMENT CHECKLISTS
-
-AUDIO DEPARTMENT
-Task,Complete,Initials,Notes
-FOH console packed,[ ],,
-Monitor console packed,[ ],,
-All microphones collected,[ ],,
-All DI boxes collected,[ ],,
-All cables coiled and cased,[ ],,
-PA flown out and cased,[ ],,
-Subs packed,[ ],,
-Monitor wedges packed,[ ],,
-IEM systems packed,[ ],,
-RF equipment packed,[ ],,
-Multicore/snakes packed,[ ],,
-Power distro packed,[ ],,
-All cases labeled,[ ],,
-Truck loaded,[ ],,
-Department head sign-off,[ ],,
-
-LIGHTING DEPARTMENT
-Task,Complete,Initials,Notes
-All fixtures powered down,[ ],,
-Fixtures struck and cased,[ ],,
-Truss lowered,[ ],,
-Truss disassembled,[ ],,
-All cables coiled,[ ],,
-Console packed,[ ],,
-Dimmers packed,[ ],,
-Haze/fog machines packed,[ ],,
-Follow spots packed,[ ],,
-All clamps collected,[ ],,
-Safety cables collected,[ ],,
-All cases labeled,[ ],,
-Truck loaded,[ ],,
-Department head sign-off,[ ],,
-
-VIDEO DEPARTMENT
-Task,Complete,Initials,Notes
-LED wall struck,[ ],,
-Cameras packed,[ ],,
-Switcher packed,[ ],,
-Projectors packed,[ ],,
-Screens struck,[ ],,
-All cables coiled,[ ],,
-Media servers packed,[ ],,
-All cases labeled,[ ],,
-Truck loaded,[ ],,
-Department head sign-off,[ ],,
-
-STAGE DEPARTMENT
-Task,Complete,Initials,Notes
-Backline struck,[ ],,
-Drum riser cleared,[ ],,
-Staging disassembled,[ ],,
-Risers stacked,[ ],,
-Stairs removed,[ ],,
-Skirting removed,[ ],,
-All hardware collected,[ ],,
-Stage swept,[ ],,
-All cases labeled,[ ],,
-Truck loaded,[ ],,
-Department head sign-off,[ ],,
-
-RIGGING DEPARTMENT
-Task,Complete,Initials,Notes
-All points lowered,[ ],,
-Motors removed,[ ],,
-Chain bagged,[ ],,
-Shackles collected,[ ],,
-Spansets collected,[ ],,
-Bridles collected,[ ],,
-All hardware accounted,[ ],,
-Rigging plot returned,[ ],,
-All cases labeled,[ ],,
-Truck loaded,[ ],,
-Department head sign-off,[ ],,
-
-VENUE WALKTHROUGH
-Area,Condition,Issues,Photos Taken,Notes
-Stage,[ ] Good [ ] Damage,,,
-FOH,[ ] Good [ ] Damage,,,
-Dressing Rooms,[ ] Good [ ] Damage,,,
-Loading Dock,[ ] Good [ ] Damage,,,
-Parking Lot,[ ] Good [ ] Damage,,,
-Restrooms,[ ] Good [ ] Damage,,,
-Green Room,[ ] Good [ ] Damage,,,
-Production Office,[ ] Good [ ] Damage,,,
-
-EQUIPMENT RETURN TRACKING
-Vendor,Equipment,Quantity Out,Quantity In,Damage,Driver,Time Out,Notes
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-
-SIGN-OFF
-Role,Name,Signature,Time
-Production Manager,,,
-Venue Manager,,,
-Security Lead,,,
+HOW TO USE:
+1. Update is_complete to true as tasks are finished
+2. Record who completed each task and when
+3. Add notes for any issues or damage
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Strike Checklist

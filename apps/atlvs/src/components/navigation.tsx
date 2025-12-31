@@ -17,7 +17,7 @@ import {
   Nav,
   Stack,
   Text,
-  UnifiedHeader,
+  PublicNavbar,
 } from '@ghxstship/ui';
 import type { ContextLevel } from "@ghxstship/ui";
 import clsx from "clsx";
@@ -464,7 +464,7 @@ export function CreatorNavigationAuthenticated({
   ];
 
   return (
-    <UnifiedHeader
+    <PublicNavbar
       logo={
         <Link href="/dashboard" className="font-display text-h5-md uppercase text-white">
           ATLVS

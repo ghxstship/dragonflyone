@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import {
   useSoundcheckSlots,
@@ -20,6 +22,7 @@ const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
 };
 
 export default function SoundcheckPage() {
+  const router = useRouter();
   const { data: soundcheckSlots = [], refetch } = useSoundcheckSlots();
   const [selectedSlot, setSelectedSlot] = useState<SoundcheckSlot | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -35,7 +38,7 @@ export default function SoundcheckPage() {
       label: 'Artist',
       accessor: 'artistName',
       sortable: true,
-      render: (_, s) => (
+      render: (_value: unknown, s) => (
         <Stack gap={1}>
           <Body className="font-display">{s.artistName}</Body>
           <Badge variant="outline">{s.stage}</Badge>
@@ -47,13 +50,13 @@ export default function SoundcheckPage() {
       label: 'Scheduled',
       accessor: 'scheduledStart',
       sortable: true,
-      render: (_, s) => <Body size="sm">{s.scheduledStart} - {s.scheduledEnd}</Body>,
+      render: (_value: unknown, s) => <Body size="sm">{s.scheduledStart} - {s.scheduledEnd}</Body>,
     },
     {
       key: 'actualStart',
       label: 'Actual',
       accessor: (s) => s.actualStart || '--:--',
-      render: (_, s) => <Body size="sm">{s.actualStart || "--:--"} - {s.actualEnd || "--:--"}</Body>,
+      render: (_value: unknown, s) => <Body size="sm">{s.actualStart || "--:--"} - {s.actualEnd || "--:--"}</Body>,
     },
     { key: 'engineer', label: 'Engineer', accessor: (s) => s.engineer || '-' },
     { key: 'duration', label: 'Duration', accessor: (s) => `${s.duration} min` },
@@ -62,7 +65,7 @@ export default function SoundcheckPage() {
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
     },
   ];
 
@@ -158,6 +161,9 @@ export default function SoundcheckPage() {
         stats={stats}
         emptyMessage="No soundchecks scheduled"
         emptyAction={{ label: 'Add Soundcheck', onClick: () => setShowAddModal(true) }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

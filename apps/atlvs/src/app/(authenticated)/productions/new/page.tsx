@@ -10,7 +10,8 @@ import { useRouter } from 'next/navigation';
 import { 
   Sparkles, Calendar, DollarSign, Users, Target} from 'lucide-react';
 import {
-  Stack, Grid, Card, CardBody, H3, Body, Label, Input, Select, Textarea, Badge, WizardPage, useNotifications} from '@ghxstship/ui';
+  Stack, Grid, Card, CardBody, H3, Body, Label, Input, Select, Textarea, Badge, WizardPage, useToast,
+  type WizardStep} from "@ghxstship/ui";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 
 // Roles that can create productions
@@ -58,7 +59,7 @@ const PRODUCTION_FORMATS = [
 export default function NewProductionPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<ProductionFormData>({
@@ -109,19 +110,11 @@ export default function NewProductionPage() {
       }
 
       const data = await response.json();
-      addNotification({
-        type: 'success',
-        title: 'Production Created',
-        message: `"${formData.title}" has been created successfully.`,
-      });
+      toast.success('Production Created', `"${formData.title}" has been created successfully.`);
       router.push(`/p/${data.id}/overview`);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
-      addNotification({
-        type: 'error',
-        title: 'Failed to Create Production',
-        message: errorMessage,
-      });
+      toast.error('Failed to Create Production', errorMessage,);
     } finally {
       setIsSubmitting(false);
     }

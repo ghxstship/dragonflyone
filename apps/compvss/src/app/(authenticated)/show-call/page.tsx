@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  ListPage, Body, Stack, Badge} from "@ghxstship/ui";
+  ListPage, Body, Stack, Badge,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import { useShowCallCrew } from '@/hooks/useShowCall';
 import { Eye, Phone, CheckCircle } from "lucide-react";
@@ -41,7 +42,7 @@ export default function ShowCallPage() {
       label: 'Crew Member',
       accessor: 'name',
       sortable: true,
-      render: (_, c) => (
+      render: (_value: unknown, c) => (
         <Stack gap={1}>
           <Body className="font-display">{c.name}</Body>
           <Body size="sm" className="text-muted-foreground">{c.role}</Body>
@@ -53,7 +54,7 @@ export default function ShowCallPage() {
       label: 'Department',
       accessor: 'department',
       sortable: true,
-      render: (_, c) => <Badge variant="outline">{c.department}</Badge>,
+      render: (_value: unknown, c) => <Badge variant="outline">{c.department}</Badge>,
     },
     { key: 'callTime', label: 'Call Time', accessor: 'callTime', sortable: true },
     { key: 'checkedInAt', label: 'Checked In', accessor: (c) => c.checkedInAt || '—' },
@@ -62,7 +63,7 @@ export default function ShowCallPage() {
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, c) => <Badge variant={getStatusVariant(c.status)}>{c.status}</Badge>,
+      render: (_value: unknown, c) => <Badge variant={getStatusVariant(c.status)}>{c.status}</Badge>,
     },
   ];
 
@@ -133,6 +134,9 @@ export default function ShowCallPage() {
       })}
       stats={stats}
       emptyMessage="No crew members found"
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

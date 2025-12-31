@@ -2,29 +2,29 @@
 
 /**
  * Bills List Page
- * Uses normalized ListPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, CheckCircle, AlertCircle } from 'lucide-react';
-import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  FINANCIAL_STATUS_COLORS,
+} from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text, useNotifications} from '@ghxstship/ui';
+  Badge, Body, Box, ListPage, Stack, Text, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction,
+} from "@ghxstship/ui";
 import { useBills, useDeleteBill, type Bill } from '@/hooks/useBills';
 
-const STATUS_COLORS: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  draft: 'outline',
-  pending: 'warning',
-  approved: 'info',
-  paid: 'success',
-  partial: 'warning',
-  cancelled: 'outline',
-};
+const STATUS_COLORS = FINANCIAL_STATUS_COLORS;
 
 export default function BillsPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const canManage = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const { data, isLoading, error, refetch } = useBills();
@@ -35,9 +35,9 @@ export default function BillsPage() {
     if (!confirm(`Delete bill "${bill.bill_number}"?`)) return;
     try {
       await deleteMutation.mutateAsync(bill.id);
-      addNotification({ type: 'success', title: 'Bill Deleted', message: `Bill ${bill.bill_number} has been deleted` });
+      toast.success("Bill Deleted", `Bill ${bill.bill_number} has been deleted`);
     } catch (err) {
-      addNotification({ type: 'error', title: 'Delete Failed', message: err instanceof Error ? err.message : 'Failed to delete bill' });
+      toast.error('Delete Failed', err instanceof Error ? err.message : 'Failed to delete bill');
     }
   };
 
@@ -47,7 +47,7 @@ export default function BillsPage() {
   const columns: ListPageColumn<Bill>[] = [
     {
       key: 'bill_number', label: 'Bill', accessor: 'bill_number', sortable: true,
-      render: (_, bill) => (
+      render: (_value: unknown, bill) => (
         <Box>
           <Text className="font-weight-medium">{bill.bill_number}</Text>
           {bill.project?.name && <Body size="sm" className="text-muted-foreground">{bill.project.name}</Body>}
@@ -57,7 +57,7 @@ export default function BillsPage() {
     { key: 'vendor', label: 'Vendor', accessor: (bill) => bill.vendor?.name || 'Unknown', sortable: true },
     {
       key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_, bill) => (
+      render: (_value: unknown, bill) => (
         <Badge variant={STATUS_COLORS[bill.status] || 'outline'}>
           <Stack direction="horizontal" gap={1} className="items-center">
             {bill.status === 'paid' && <CheckCircle className="h-3 w-3" />}
@@ -69,18 +69,18 @@ export default function BillsPage() {
     },
     {
       key: 'amount', label: 'Amount', accessor: 'amount', sortable: true,
-      render: (_, bill) => <Text className="font-weight-medium">{formatCurrency(bill.amount || 0)}</Text>,
+      render: (_value: unknown, bill) => <Text className="font-weight-medium">{formatCurrency(bill.amount || 0)}</Text>,
     },
     {
       key: 'amount_due', label: 'Due', accessor: (bill) => bill.amount - bill.amount_paid,
-      render: (_, bill) => {
+      render: (_value: unknown, bill) => {
         const amountDue = bill.amount - bill.amount_paid;
         return <Text className={amountDue > 0 ? 'text-warning' : 'text-success'}>{formatCurrency(amountDue)}</Text>;
       },
     },
     {
       key: 'due_date', label: 'Due Date', accessor: 'due_date', sortable: true,
-      render: (_, bill) => <Text>{formatDate(bill.due_date)}</Text>,
+      render: (_value: unknown, bill) => <Text>{formatDate(bill.due_date)}</Text>,
     },
   ];
 
@@ -122,6 +122,9 @@ export default function BillsPage() {
       emptyAction={canManage ? { label: 'Add Bill', onClick: () => router.push('/finance/bills/new') } : undefined}
       entityType="bills"
       breadcrumbs={[{ label: 'Finance', href: '/finance' }, { label: 'Bills' }]}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

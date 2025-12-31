@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useNotifications, AuthPage, SignInForm, Button } from "@ghxstship/ui";
+import { useToast, AuthPage, SignInForm, Button } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
 import NextLink from "next/link";
 import type { ReactNode } from "react";
@@ -19,7 +19,7 @@ const Link = ({ href, children, className }: { href: string; children: ReactNode
 export default function SignInPage() {
   const router = useRouter();
   const { login } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const handleSubmit = async (email: string, password: string) => {
     await login(email, password);
@@ -32,11 +32,7 @@ export default function SignInPage() {
     if (data.url) {
       window.location.href = data.url;
     } else {
-      addNotification({
-        type: "info",
-        title: "Coming Soon",
-        message: `${provider} sign-in will be available once OAuth is configured`,
-      });
+      toast.info("Coming Soon", `${provider} sign-in will be available once OAuth is configured`);
     }
   };
 

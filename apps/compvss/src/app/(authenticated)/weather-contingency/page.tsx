@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Grid, Stack, Select, Button, Card, Badge, Alert, Modal, ModalHeader, ModalBody, ModalFooter, Textarea} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Select, Button, Card, Badge, Alert, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import {
   useWeatherPlans,
@@ -45,6 +47,7 @@ const getRiskBg = (risk: string): string => {
 };
 
 export default function WeatherContingencyPage() {
+  const router = useRouter();
   const { data: weatherPlans = [], isLoading, refetch } = useWeatherPlans();
   const [selectedPlan, setSelectedPlan] = useState<WeatherPlan | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -59,7 +62,7 @@ export default function WeatherContingencyPage() {
       label: 'Project',
       accessor: 'projectName',
       sortable: true,
-      render: (_, p) => (
+      render: (_value: unknown, p) => (
         <Stack gap={1}>
           <Body className="font-display">{p.projectName}</Body>
           <Stack direction="horizontal" gap={2}>
@@ -76,14 +79,14 @@ export default function WeatherContingencyPage() {
       label: 'Risk',
       accessor: 'riskLevel',
       sortable: true,
-      render: (_, p) => <Badge variant={getRiskVariant(p.riskLevel)}>{p.riskLevel}</Badge>,
+      render: (_value: unknown, p) => <Badge variant={getRiskVariant(p.riskLevel)}>{p.riskLevel}</Badge>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, p) => <Badge variant={getStatusVariant(p.status)}>{p.status}</Badge>,
+      render: (_value: unknown, p) => <Badge variant={getStatusVariant(p.status)}>{p.status}</Badge>,
     },
     { key: 'contingencyPlans', label: 'Actions', accessor: (p) => `${p.contingencyPlans.length} actions` },
   ];
@@ -169,6 +172,9 @@ export default function WeatherContingencyPage() {
         stats={stats}
         emptyMessage="No weather plans found"
         emptyAction={{ label: 'Create Plan', onClick: () => setShowCreateModal(true) }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

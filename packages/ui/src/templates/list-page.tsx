@@ -1,8 +1,25 @@
 "use client";
 
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import clsx from "clsx";
-import { Upload, Download, Search, List, LayoutGrid, Columns3, Calendar as CalendarIcon, GanttChart as GanttIcon, Table, Clock, MapPin, Image, Filter, Save, Trash2, ChevronDown } from "lucide-react";
+import { Upload, Download, Search, List, LayoutGrid, Columns3, Calendar as CalendarIcon, GanttChart as GanttIcon, Table, Clock, MapPin, Image, Filter, Save, Trash2, ChevronDown, RefreshCw, Settings2, GripVertical, X } from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { DataGrid } from "../organisms/data-grid.js";
 import { ImportExportDialog, type ExportFormat, type ColumnConfig, type ImportTemplate } from "../organisms/import-export-dialog.js";
 import { BulkEditModal } from "../organisms/bulk-edit-modal.js";
@@ -13,6 +30,8 @@ import { GanttChart, type GanttTask } from "../organisms/gantt-chart.js";
 import { TimelineView, type TimelineItem } from "../organisms/timeline-view.js";
 import { MapView, type MapLocation } from "../organisms/map-view.js";
 import { GalleryView, type GalleryItem } from "../organisms/gallery-view.js";
+import { Tooltip } from "../atoms/tooltip.js";
+import { QrCode, Barcode, Radio, Nfc } from "lucide-react";
 
 // Re-export view types for consumers
 export type { GanttTask, TimelineItem, MapLocation, GalleryItem };
@@ -166,18 +185,32 @@ function detectSmartViews<T>(columns: ListPageColumn<T>[]): SmartViewDetection {
   };
 }
 
+/** Status variant for badge colors */
+export type StatusVariant = 'success' | 'warning' | 'error' | 'info' | 'ghost' | 'outline';
+
 export interface ListPageColumn<T> {
   key: string;
   label: string;
-  accessor: keyof T | ((row: T) => React.ReactNode);
+  /** Field accessor - keyof T, string key, or function (compatible with entity registry) */
+  accessor: keyof T | string | ((row: T) => React.ReactNode) | ((row: T) => unknown);
   /** Optional computed value for display/sort */
   formula?: (row: T) => React.ReactNode;
   sortable?: boolean;
   width?: string;
   minWidth?: string;
+  /** Maximum width (for entity registry compatibility) */
+  maxWidth?: string;
   align?: "left" | "center" | "right";
   render?: (value: unknown, row: T) => React.ReactNode;
   hidden?: boolean;
+  /** Whether column can be hidden by user (for entity registry compatibility) */
+  hideable?: boolean;
+  /** Column group for organization (for entity registry compatibility) */
+  group?: string;
+  /** Cell class name (for entity registry compatibility) */
+  className?: string;
+  /** Header class name (for entity registry compatibility) */
+  headerClassName?: string;
   /** Enable inline editing for this column */
   editable?: boolean;
   /** Editor type for inline editing */
@@ -188,12 +221,40 @@ export interface ListPageColumn<T> {
   linkedOptions?: { value: string; label: string; subtitle?: string }[];
   /** Validation function - return error message or null */
   validate?: (value: unknown, row: T) => string | null;
+  /** Data type for automatic formatting (SSOT) - includes avatar/link for entity registry */
+  dataType?: 'string' | 'number' | 'currency' | 'date' | 'datetime' | 'boolean' | 'status' | 'badge' | 'avatar' | 'link';
+  /** Format options for dataType */
+  formatOptions?: {
+    currency?: string;
+    dateFormat?: string;
+    locale?: string;
+    precision?: number;
+    prefix?: string;
+    suffix?: string;
+  };
+  /** Status color mapping for status/badge dataType (SSOT) */
+  statusColors?: Record<string, StatusVariant>;
 }
 
 export interface ListPageFilter {
   key: string;
   label: string;
-  options: { value: string; label: string; count?: number }[];
+  /** Filter type (for entity registry compatibility) */
+  type?: 'select' | 'multiselect' | 'text' | 'number' | 'date' | 'daterange' | 'boolean';
+  /** Filter options - compatible with entity registry FilterOption */
+  options?: { value: string; label: string; count?: number; icon?: string; color?: string; disabled?: boolean }[];
+  /** Dynamic options loader (for entity registry compatibility) */
+  optionsLoader?: () => Promise<{ value: string; label: string }[]>;
+  /** Placeholder text (for entity registry compatibility) */
+  placeholder?: string;
+  /** Default value (for entity registry compatibility) */
+  defaultValue?: unknown;
+  /** Whether filter is hidden by default (for entity registry compatibility) */
+  hidden?: boolean;
+  /** Filter group for organization (for entity registry compatibility) */
+  group?: string;
+  /** Icon for the filter (for entity registry compatibility) */
+  icon?: string;
   multiple?: boolean;
 }
 
@@ -404,6 +465,277 @@ function SavedFiltersDropdown({
   );
 }
 
+// =============================================================================
+// TABLE SETTINGS POPOVER COMPONENT
+// =============================================================================
+
+type DensityMode = "compact" | "default" | "relaxed";
+
+interface SortableColumnItemProps {
+  column: { key: string; label: string };
+  isVisible: boolean;
+  onToggle: (key: string) => void;
+  inverted: boolean;
+}
+
+function SortableColumnItem({ column, isVisible, onToggle, inverted }: SortableColumnItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: column.key });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={clsx(
+        "flex items-center gap-2 px-3 py-2 rounded-button",
+        inverted ? "hover:bg-grey-800" : "hover:bg-grey-100",
+        isDragging && "z-50"
+      )}
+    >
+      <button
+        type="button"
+        className={clsx(
+          "cursor-grab p-0.5 rounded",
+          inverted ? "text-on-dark-disabled hover:text-on-dark-muted" : "text-on-light-muted hover:text-on-light-primary"
+        )}
+        {...attributes}
+        {...listeners}
+      >
+        <GripVertical className="size-4" />
+      </button>
+      <label className="flex items-center gap-2 flex-1 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={isVisible}
+          onChange={() => onToggle(column.key)}
+          className="cursor-pointer accent-primary"
+        />
+        <span className={clsx("font-body text-body-sm", inverted ? "text-white" : "text-on-light-primary")}>
+          {column.label}
+        </span>
+      </label>
+    </div>
+  );
+}
+
+interface TableSettingsPopoverProps<T> {
+  columns: ListPageColumn<T>[];
+  hiddenColumns: string[];
+  onHiddenColumnsChange?: (hiddenColumns: string[]) => void;
+  columnOrder?: string[];
+  onColumnOrderChange?: (columnOrder: string[]) => void;
+  density: DensityMode;
+  onDensityChange?: (density: DensityMode) => void;
+  inverted: boolean;
+}
+
+function TableSettingsPopover<T>({
+  columns,
+  hiddenColumns,
+  onHiddenColumnsChange,
+  columnOrder,
+  onColumnOrderChange,
+  density,
+  onDensityChange,
+  inverted,
+}: TableSettingsPopoverProps<T>) {
+  const [isOpen, setIsOpen] = useState(false);
+  const popoverRef = React.useRef<HTMLDivElement>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const orderedColumns = useMemo(() => {
+    if (!columnOrder || columnOrder.length === 0) {
+      return columns.map(c => ({ key: c.key, label: c.label }));
+    }
+    const ordered: { key: string; label: string }[] = [];
+    columnOrder.forEach(key => {
+      const col = columns.find(c => c.key === key);
+      if (col) ordered.push({ key: col.key, label: col.label });
+    });
+    columns.forEach(col => {
+      if (!columnOrder.includes(col.key)) {
+        ordered.push({ key: col.key, label: col.label });
+      }
+    });
+    return ordered;
+  }, [columns, columnOrder]);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id && onColumnOrderChange) {
+      const oldIndex = orderedColumns.findIndex((c) => c.key === active.id);
+      const newIndex = orderedColumns.findIndex((c) => c.key === over.id);
+      const newOrder = arrayMove(orderedColumns, oldIndex, newIndex).map(c => c.key);
+      onColumnOrderChange(newOrder);
+    }
+  };
+
+  const handleToggleColumn = (key: string) => {
+    if (!onHiddenColumnsChange) return;
+    if (hiddenColumns.includes(key)) {
+      onHiddenColumnsChange(hiddenColumns.filter(k => k !== key));
+    } else {
+      onHiddenColumnsChange([...hiddenColumns, key]);
+    }
+  };
+
+  const handleResetColumns = () => {
+    onHiddenColumnsChange?.([]);
+    if (onColumnOrderChange) {
+      onColumnOrderChange(columns.map(c => c.key));
+    }
+  };
+
+  const buttonClass = inverted
+    ? "p-2 border-2 border-grey-700 text-on-dark-muted hover:border-grey-500 hover:text-white rounded-button transition-all duration-100"
+    : "p-2 border-2 border-grey-300 text-on-light-muted hover:border-grey-400 hover:text-on-light-primary rounded-button transition-all duration-100";
+
+  const dropdownClass = inverted
+    ? "bg-grey-900 border-2 border-grey-700"
+    : "bg-white border-2 border-grey-200";
+
+  return (
+    <div ref={popoverRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={buttonClass}
+        aria-label="Table settings"
+        aria-expanded={isOpen}
+      >
+        <Settings2 className="size-4" />
+      </button>
+      {isOpen && (
+        <div
+          className={clsx(
+            "absolute right-0 top-full mt-2 w-72 rounded-card shadow-lg z-dropdown",
+            dropdownClass
+          )}
+          role="dialog"
+          aria-label="Table settings"
+        >
+          <div className={clsx("px-4 py-3 border-b", inverted ? "border-grey-700" : "border-grey-200")}>
+            <div className="flex items-center justify-between">
+              <span className={clsx("font-heading text-body-md font-semibold", inverted ? "text-white" : "text-on-light-primary")}>
+                Table Settings
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className={clsx(
+                  "p-1 rounded-button",
+                  inverted ? "hover:bg-grey-800 text-on-dark-muted" : "hover:bg-grey-100 text-on-light-muted"
+                )}
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+          </div>
+
+          {onDensityChange && (
+            <div className={clsx("px-4 py-3 border-b", inverted ? "border-grey-700" : "border-grey-200")}>
+              <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
+                Row Density
+              </span>
+              <div className="flex gap-2 mt-2">
+                {(["compact", "default", "relaxed"] as DensityMode[]).map((mode) => (
+                  <button
+                    key={mode}
+                    type="button"
+                    onClick={() => onDensityChange(mode)}
+                    className={clsx(
+                      "flex-1 px-3 py-2 rounded-button border-2 font-code text-mono-sm capitalize transition-all",
+                      density === mode
+                        ? inverted
+                          ? "border-white bg-white text-black"
+                          : "border-black bg-black text-white"
+                        : inverted
+                          ? "border-grey-700 text-on-dark-muted hover:border-grey-500"
+                          : "border-grey-200 text-on-light-muted hover:border-grey-400"
+                    )}
+                  >
+                    {mode}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {(onHiddenColumnsChange || onColumnOrderChange) && (
+            <div className="px-4 py-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
+                  Columns
+                </span>
+                <button
+                  type="button"
+                  onClick={handleResetColumns}
+                  className={clsx(
+                    "font-code text-mono-xs underline",
+                    inverted ? "text-on-dark-muted hover:text-white" : "text-on-light-muted hover:text-on-light-primary"
+                  )}
+                >
+                  Reset
+                </button>
+              </div>
+              <div className="max-h-64 overflow-y-auto -mx-1">
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                >
+                  <SortableContext
+                    items={orderedColumns.map((c) => c.key)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {orderedColumns.map((column) => (
+                      <SortableColumnItem
+                        key={column.key}
+                        column={column}
+                        isVisible={!hiddenColumns.includes(column.key)}
+                        onToggle={handleToggleColumn}
+                        inverted={inverted}
+                      />
+                    ))}
+                  </SortableContext>
+                </DndContext>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export interface ListPageProps<T> {
   /** Page title */
   title: string;
@@ -453,6 +785,8 @@ export interface ListPageProps<T> {
   importTemplates?: ImportTemplate[];
   /** Sample fields for import template download */
   importSampleFields?: string[];
+  /** URL to download a pre-formatted import template file */
+  templateDownloadUrl?: string;
   /** Export handler - receives format and selected columns */
   onExport?: (format: ExportFormat, selectedColumns: string[]) => Promise<void>;
   /** Available export formats */
@@ -526,6 +860,38 @@ export interface ListPageProps<T> {
   }>;
   /** Bulk edit submit handler */
   onBulkEdit?: (updates: Record<string, unknown>, selectedIds: string[]) => Promise<void>;
+  
+  // =========================================================================
+  // ENHANCED TOOLBAR PROPS
+  // =========================================================================
+  
+  /** Refresh data handler */
+  onRefresh?: () => void;
+  /** Whether data is currently refreshing */
+  isRefreshing?: boolean;
+  /** Row density mode */
+  density?: "compact" | "default" | "relaxed";
+  /** Density change handler */
+  onDensityChange?: (density: "compact" | "default" | "relaxed") => void;
+  /** Column order (array of column keys in display order) */
+  columnOrder?: string[];
+  /** Column order change handler */
+  onColumnOrderChange?: (columnOrder: string[]) => void;
+  /** Hidden columns (array of column keys to hide) */
+  hiddenColumns?: string[];
+  /** Hidden columns change handler */
+  onHiddenColumnsChange?: (hiddenColumns: string[]) => void;
+  
+  // =========================================================================
+  // CAPABILITY DETECTION PROPS
+  // =========================================================================
+  
+  /** Enable automatic capability detection for toolbar actions */
+  enableCapabilityDetection?: boolean;
+  /** Handler for scan actions detected from capabilities */
+  onScanAction?: (capability: string, route: string) => void;
+  /** Base path for capability-generated routes */
+  capabilityBasePath?: string;
 }
 
 export function ListPage<T>({
@@ -553,6 +919,7 @@ export function ListPage<T>({
   onImport,
   importTemplates = [],
   importSampleFields = [],
+  templateDownloadUrl,
   onExport,
   exportFormats = ["csv", "json", "excel"],
   stats = [],
@@ -577,6 +944,15 @@ export function ListPage<T>({
   views = [],
   activeView = "list",
   onViewChange,
+  // Enhanced toolbar props
+  onRefresh,
+  isRefreshing = false,
+  density = "default",
+  onDensityChange,
+  columnOrder,
+  onColumnOrderChange,
+  hiddenColumns: hiddenColumnsProp,
+  onHiddenColumnsChange,
   // Kanban-specific props
   kanbanGroupBy,
   kanbanColumns,
@@ -604,6 +980,10 @@ export function ListPage<T>({
   galleryImageField,
   galleryThumbnailField,
   onGalleryItemClick,
+  // Capability detection props
+  enableCapabilityDetection = false,
+  onScanAction,
+  capabilityBasePath = '',
 }: ListPageProps<T> & {
   kanbanGroupBy?: keyof T;
   kanbanColumns?: KanbanBoardColumn[];
@@ -633,12 +1013,107 @@ export function ListPage<T>({
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
   const [internalActiveView, setInternalActiveView] = useState(activeView);
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
+
+  // Keyboard shortcuts: Cmd+K (search), R (refresh), Cmd+N (create new)
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Cmd/Ctrl + K: Focus search
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+      }
+      // R: Refresh (only when not in input/textarea)
+      if (event.key === "r" && !event.metaKey && !event.ctrlKey && !event.shiftKey) {
+        const target = event.target as HTMLElement;
+        if (target.tagName !== "INPUT" && target.tagName !== "TEXTAREA" && !target.isContentEditable) {
+          event.preventDefault();
+          onRefresh?.();
+        }
+      }
+      // Cmd/Ctrl + N: Create new
+      if ((event.metaKey || event.ctrlKey) && event.key === "n") {
+        event.preventDefault();
+        onCreate?.();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onRefresh, onCreate]);
   
   // Smart view detection - auto-detect available views from column definitions
   const smartViews = useMemo(() => detectSmartViews(columns), [columns]);
   
   // Use provided views if available, otherwise use smart-detected views
   const effectiveViews = views.length > 0 ? views : smartViews.views;
+  
+  // Capability detection - auto-detect scan actions from column definitions
+  // Uses pattern matching similar to smart view detection
+  const capabilityScanActions = useMemo(() => {
+    if (!enableCapabilityDetection || !onScanAction) return [];
+    
+    const keys = columns.map(c => c.key);
+    const actions: Array<{ id: string; label: string; icon: React.ReactNode; onClick: () => void }> = [];
+    const effectiveEntityType = entityType || title.toLowerCase().replace(/\s+/g, '-');
+    
+    // QR Code patterns
+    const qrPatterns = [/^qr_code$/i, /^qrcode$/i, /qr_id$/i, /^qr$/i];
+    const hasQr = keys.some(k => qrPatterns.some(p => p.test(k)));
+    if (hasQr) {
+      actions.push({
+        id: 'scannable-qr',
+        label: 'Scan QR',
+        icon: <QrCode className="size-4" />,
+        onClick: () => onScanAction('scannable:qr', `${capabilityBasePath}/${effectiveEntityType}/scan?mode=qr`),
+      });
+    }
+    
+    // Barcode patterns
+    const barcodePatterns = [/^barcode$/i, /^upc$/i, /^sku$/i, /^ean$/i, /serial_number/i, /asset_tag/i, /^tag$/i, /badge_id/i, /badge_number/i];
+    const hasBarcode = keys.some(k => barcodePatterns.some(p => p.test(k)));
+    if (hasBarcode) {
+      actions.push({
+        id: 'scannable-barcode',
+        label: 'Scan Barcode',
+        icon: <Barcode className="size-4" />,
+        onClick: () => onScanAction('scannable:barcode', `${capabilityBasePath}/${effectiveEntityType}/scan?mode=barcode`),
+      });
+    }
+    
+    // RFID patterns
+    const rfidPatterns = [/^rfid$/i, /rfid_tag/i, /rfid_id/i, /^rfid_code$/i];
+    const hasRfid = keys.some(k => rfidPatterns.some(p => p.test(k)));
+    if (hasRfid) {
+      actions.push({
+        id: 'scannable-rfid',
+        label: 'Scan RFID',
+        icon: <Radio className="size-4" />,
+        onClick: () => onScanAction('scannable:rfid', `${capabilityBasePath}/${effectiveEntityType}/scan?mode=rfid`),
+      });
+    }
+    
+    // NFC patterns
+    const nfcPatterns = [/^nfc$/i, /^nfc_id$/i, /nfc_tag/i, /^nfc_code$/i];
+    const hasNfc = keys.some(k => nfcPatterns.some(p => p.test(k)));
+    if (hasNfc) {
+      actions.push({
+        id: 'scannable-nfc',
+        label: 'Scan NFC',
+        icon: <Nfc className="size-4" />,
+        onClick: () => onScanAction('scannable:nfc', `${capabilityBasePath}/${effectiveEntityType}/scan?mode=nfc`),
+      });
+    }
+    
+    return actions;
+  }, [enableCapabilityDetection, onScanAction, columns, entityType, title, capabilityBasePath]);
+  
+  // Merge user-provided quick actions with capability-detected scan actions
+  const effectiveQuickActions = useMemo(() => {
+    // Filter out capability scan actions that user has already provided
+    const userActionIds = new Set(quickActions.map(a => a.id));
+    const newScanActions = capabilityScanActions.filter(a => !userActionIds.has(a.id));
+    return [...quickActions, ...newScanActions];
+  }, [quickActions, capabilityScanActions]);
   
   // Use provided field mappings if available, otherwise use smart-detected fields
   const effectiveKanbanGroupBy = kanbanGroupBy || (smartViews.kanbanGroupBy as keyof T | undefined);
@@ -769,7 +1244,7 @@ export function ListPage<T>({
         return columns.some(col => {
           const value = typeof col.accessor === "function" 
             ? col.accessor(row) 
-            : row[col.accessor];
+            : (row as Record<string, unknown>)[col.accessor as string];
           return String(value || "").toLowerCase().includes(searchLower);
         });
       });
@@ -792,8 +1267,8 @@ export function ListPage<T>({
       const col = columns.find(c => c.key === sortColumn);
       if (col) {
         result.sort((a, b) => {
-          const aVal = typeof col.accessor === "function" ? col.accessor(a) : a[col.accessor];
-          const bVal = typeof col.accessor === "function" ? col.accessor(b) : b[col.accessor];
+          const aVal = typeof col.accessor === "function" ? col.accessor(a) : (a as Record<string, unknown>)[col.accessor as string];
+          const bVal = typeof col.accessor === "function" ? col.accessor(b) : (b as Record<string, unknown>)[col.accessor as string];
           if (aVal === bVal) return 0;
           if (aVal === null || aVal === undefined) return 1;
           if (bVal === null || bVal === undefined) return -1;
@@ -911,7 +1386,7 @@ export function ListPage<T>({
                   + {createLabel}
                 </button>
               )}
-              {quickActions.length > 0 && quickActions.map((action) => (
+              {effectiveQuickActions.length > 0 && effectiveQuickActions.map((action) => (
                 <button 
                   key={action.id} 
                   onClick={action.onClick} 
@@ -945,6 +1420,7 @@ export function ListPage<T>({
           <div className="flex-1 min-w-card-sm relative">
             <label htmlFor="list-search" className="sr-only">Search {title}</label>
             <input
+              ref={searchInputRef}
               id="list-search"
               type="search"
               value={searchValue}
@@ -952,13 +1428,21 @@ export function ListPage<T>({
               placeholder={searchPlaceholder}
               aria-label={`Search ${title}`}
               className={clsx(
-                "w-full py-spacing-3 px-spacing-4 pl-spacing-10 font-body text-body-md border outline-none",
+                "w-full py-spacing-3 px-spacing-4 pl-spacing-10 pr-16 font-body text-body-md border outline-none rounded-button",
                 inverted
                   ? "bg-black text-white border-grey-700 focus:border-grey-500"
                   : "bg-white text-black border-grey-300 focus:border-grey-500"
               )}
             />
-            <span className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2", inverted ? "text-on-dark-disabled" : "text-on-light-muted")} aria-hidden="true"><Search className="size-4" /></span>
+            <Search className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2 size-4", inverted ? "text-on-dark-disabled" : "text-on-light-muted")} aria-hidden="true" />
+            <kbd
+              className={clsx(
+                "absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 rounded text-xs font-mono",
+                inverted ? "bg-grey-800 text-on-dark-disabled" : "bg-grey-100 text-on-light-muted"
+              )}
+            >
+              ⌘K
+            </kbd>
           </div>
           {filters.map(filter => (
             <div key={filter.key}>
@@ -974,7 +1458,7 @@ export function ListPage<T>({
                 )}
               >
                 <option value="All">{filter.label}: All</option>
-                {filter.options.map(opt => (
+                {(filter.options || []).map(opt => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
                 ))}
               </select>
@@ -1002,53 +1486,91 @@ export function ListPage<T>({
             />
           )}
           
-          {/* View Toggle - Auto-detected from columns */}
-          {effectiveViews.length > 1 && (
-            <div 
-              className={clsx("flex items-center gap-1 ml-auto border rounded-lg p-1", inverted ? "border-grey-700 bg-grey-900" : "border-grey-200 bg-grey-50")}
-              role="tablist"
-              aria-label="View options"
-            >
-              {effectiveViews.map((view) => {
-                const isActive = currentActiveView === view.id;
-                const ViewIcon = {
-                  list: List,
-                  grid: LayoutGrid,
-                  kanban: Columns3,
-                  calendar: CalendarIcon,
-                  gantt: GanttIcon,
-                  table: Table,
-                  timeline: Clock,
-                  map: MapPin,
-                  gallery: Image,
-                }[view.icon] || List;
-                
-                return (
-                  <button
-                    key={view.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    aria-label={`${view.label} view`}
-                    onClick={() => handleViewChange(view.id)}
-                    title={view.label}
-                    className={clsx(
-                      "p-2 rounded transition-colors",
-                      isActive
-                        ? inverted
-                          ? "bg-grey-700 text-white"
-                          : "bg-white text-on-light-primary shadow-sm"
-                        : inverted
-                          ? "text-on-dark-disabled hover:text-white hover:bg-grey-800"
-                          : "text-on-dark-muted hover:text-on-light-primary hover:bg-grey-100"
-                    )}
-                  >
-                    <ViewIcon size={16} aria-hidden="true" />
-                  </button>
-                );
-              })}
-            </div>
-          )}
+          {/* Right side toolbar actions */}
+          <div className="flex items-center gap-2 ml-auto">
+            {/* View Toggle - Auto-detected from columns */}
+            {effectiveViews.length > 1 && (
+              <div 
+                className={clsx("flex items-center gap-1 border rounded-lg p-1", inverted ? "border-grey-700 bg-grey-900" : "border-grey-200 bg-grey-50")}
+                role="tablist"
+                aria-label="View options"
+              >
+                {effectiveViews.map((view) => {
+                  const isActive = currentActiveView === view.id;
+                  const ViewIcon = {
+                    list: List,
+                    grid: LayoutGrid,
+                    kanban: Columns3,
+                    calendar: CalendarIcon,
+                    gantt: GanttIcon,
+                    table: Table,
+                    timeline: Clock,
+                    map: MapPin,
+                    gallery: Image,
+                  }[view.icon] || List;
+                  
+                  return (
+                    <Tooltip key={view.id} content={view.label} inverted={!inverted}>
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected={isActive}
+                        aria-label={`${view.label} view`}
+                        onClick={() => handleViewChange(view.id)}
+                        className={clsx(
+                          "p-2 rounded transition-colors",
+                          isActive
+                            ? inverted
+                              ? "bg-grey-700 text-white"
+                              : "bg-white text-on-light-primary shadow-sm"
+                            : inverted
+                              ? "text-on-dark-disabled hover:text-white hover:bg-grey-800"
+                              : "text-on-dark-muted hover:text-on-light-primary hover:bg-grey-100"
+                        )}
+                      >
+                        <ViewIcon size={16} aria-hidden="true" />
+                      </button>
+                    </Tooltip>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Refresh Button */}
+            {onRefresh && (
+              <Tooltip content={<span>Refresh <kbd className="ml-1 px-1.5 py-0.5 bg-black/20 rounded text-xs">R</kbd></span>} inverted={!inverted}>
+                <button
+                  type="button"
+                  onClick={onRefresh}
+                  disabled={isRefreshing}
+                  className={clsx(
+                    "p-2 border-2 rounded-button transition-all duration-100",
+                    inverted
+                      ? "border-grey-700 text-on-dark-muted hover:border-grey-500 hover:text-white"
+                      : "border-grey-300 text-on-light-muted hover:border-grey-400 hover:text-on-light-primary",
+                    isRefreshing && "animate-spin"
+                  )}
+                  aria-label="Refresh data"
+                >
+                  <RefreshCw className="size-4" />
+                </button>
+              </Tooltip>
+            )}
+
+            {/* Table Settings (Density + Column Visibility) */}
+            {(columnVisibility || onDensityChange) && (
+              <TableSettingsPopover
+                columns={columns}
+                hiddenColumns={hiddenColumnsProp || []}
+                onHiddenColumnsChange={onHiddenColumnsChange}
+                columnOrder={columnOrder}
+                onColumnOrderChange={onColumnOrderChange}
+                density={density}
+                onDensityChange={onDensityChange}
+                inverted={inverted}
+              />
+            )}
+          </div>
         </nav>
 
         {/* Bulk Action Bar - Floating component for better UX */}
@@ -1260,6 +1782,7 @@ export function ListPage<T>({
             emptyMessage={emptyMessage}
             striped={striped}
             compact={compact}
+            density={density}
             columnVisibility={columnVisibility}
             inlineEditing={inlineEditing}
             onCellEdit={onCellEdit}
@@ -1291,6 +1814,7 @@ export function ListPage<T>({
           onImport={handleImport}
           importTemplates={importTemplates}
           sampleFields={importSampleFields}
+          templateDownloadUrl={templateDownloadUrl}
           exportFormats={exportFormats}
           columns={exportColumns}
           onExport={handleExport}
@@ -1317,7 +1841,7 @@ export function ListPage<T>({
           getItemLabel={(item: T) => {
             const firstCol = columns[0];
             if (!firstCol) return "Item";
-            const val = typeof firstCol.accessor === "function" ? firstCol.accessor(item) : item[firstCol.accessor];
+            const val = typeof firstCol.accessor === "function" ? firstCol.accessor(item) : (item as Record<string, unknown>)[firstCol.accessor as string];
             return String(val ?? "Item");
           }}
           title={`Bulk Edit ${title}`}

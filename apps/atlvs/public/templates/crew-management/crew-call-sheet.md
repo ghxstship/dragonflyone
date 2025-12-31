@@ -1,126 +1,86 @@
 # CREW CALL SHEET
 
+<!-- IMPORT FORMAT: Copy department call times table to CSV for import -->
+
 ## Production Information
 
-| Field | Details |
-|-------|---------|
-| **Production** | [Enter Production Name] |
-| **Date** | [Enter Date] |
-| **Day** | [Day of Week] |
-| **Weather** | [Forecast] |
-| **Venue** | [Venue Name] |
-| **Address** | [Full Address] |
+| Field | Value |
+|-------|-------|
+| **Production** | |
+| **Date** | |
+| **Venue** | |
+| **Address** | |
+| **Weather** | |
 
----
+## Key Times
 
-## Important Contacts
+| event | time | notes |
+|-------|------|-------|
+| Crew Call | | |
+| Doors | | |
+| Show Start | | |
+| Show End | | |
+| Curfew | | |
 
-| Role | Name | Phone | Radio |
-|------|------|-------|-------|
+## Department Call Times (Importable)
+
+| department | call_time | location | department_head | headcount | notes |
+|------------|-----------|----------|-----------------|-----------|-------|
+| Production | | | | | |
+| Rigging | | | | | |
+| Audio | | | | | |
+| Lighting | | | | | |
+| Video | | | | | |
+| Stage | | | | | |
+| Backline | | | | | |
+| Catering | | | | | |
+| Security | | | | | |
+
+## Key Contacts
+
+| role | name | phone | radio_channel |
+|------|------|-------|---------------|
 | Production Manager | | | CH 1 |
 | Stage Manager | | | CH 1 |
 | Venue Manager | | | CH 6 |
 | Security Lead | | | CH 5 |
 | Medical/EMT | | | CH 7 |
-| Emergency | 911 | | |
 
----
+## Today's Schedule
 
-## General Call Times
+| time | activity | department | notes |
+|------|----------|------------|-------|
+| | Load-In Begins | Production | |
+| | Rigging Call | Rigging | |
+| | Audio Setup | Audio | |
+| | Lighting Focus | Lighting | |
+| | Sound Check | Audio | |
+| | Doors | Operations | |
+| | Show Start | All | |
+| | Show End | All | |
+| | Load-Out | Production | |
 
-| Event | Time |
-|-------|------|
-| **Crew Call** | |
-| **Doors** | |
-| **Show Start** | |
-| **Show End** | |
-| **Curfew** | |
+## Catering
 
----
-
-## Department Call Times
-
-| Department | Call Time | Location | Department Head |
-|------------|-----------|----------|-----------------|
-| Production | | | |
-| Rigging | | | |
-| Audio | | | |
-| Lighting | | | |
-| Video | | | |
-| Stage | | | |
-| Backline | | | |
-| Catering | | | |
-| Security | | | |
-| Box Office | | | |
-| Merch | | | |
-
----
-
-## Parking & Access
-
-| Item | Details |
-|------|---------|
-| **Crew Parking** | |
-| **Load-In Location** | |
-| **Credential Pick-Up** | |
-| **Check-In Location** | |
-
----
-
-## Catering Schedule
-
-| Meal | Time | Location |
+| meal | time | location |
 |------|------|----------|
 | Breakfast | | |
 | Lunch | | |
 | Dinner | | |
 
----
-
 ## Safety Information
 
-### Nearest Hospital
-**Name:** [Hospital Name]  
-**Address:** [Address]  
-**Phone:** [Phone]  
-**Distance:** [X miles / X minutes]
-
-### Emergency Assembly Point
-[Location Description]
-
-### First Aid Location
-[Location Description]
-
----
-
-## Today's Schedule
-
-| Time | Activity | Notes |
-|------|----------|-------|
-| | Load-In Begins | |
-| | Rigging Call | |
-| | Audio/Lighting Focus | |
-| | Sound Check | |
-| | Lunch | |
-| | Dinner | |
-| | Doors | |
-| | Show Start | |
-| | Show End | |
-| | Load-Out | |
-
----
-
-## Notes & Announcements
-
-1. 
-2. 
-3. 
-
----
+| item | value |
+|------|-------|
+| **Nearest Hospital** | |
+| **Hospital Address** | |
+| **Hospital Phone** | |
+| **Emergency Assembly** | |
+| **First Aid Location** | |
 
 ## Radio Channels
 
-| Channel | Department |
+| channel | department |
 |---------|------------|
 | CH 1 | Production |
 | CH 2 | Audio |
@@ -132,6 +92,9 @@
 
 ---
 
-**Prepared By:** [Name]  
-**Version:** [X.X]  
-**Last Updated:** [Date/Time]
+<!-- IMPORT INSTRUCTIONS
+To import department call times:
+1. Copy the Department Call Times table to a CSV file
+2. Times must be in HH:MM 24-hour format
+3. Import via ATLVS > Settings > Data Import > Call Sheet
+-->

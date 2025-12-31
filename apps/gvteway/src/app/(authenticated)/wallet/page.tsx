@@ -2,8 +2,8 @@
 
 /**
  * GVTEWAY Wallet Page
- * Manage payment methods and view transaction history
- * Uses DetailPage template for consistent layout
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useState } from "react";
@@ -34,21 +34,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  useNotifications,
+  useToast,
   DetailPage,
   Section,
   SectionHeader,
-Box} from "@ghxstship/ui";
+  Box,
+} from "@ghxstship/ui";
+import { FINANCIAL_STATUS_COLORS } from "@ghxstship/config";
 import { useWalletData, type PaymentMethod, type Transaction } from "@/hooks/useWalletData";
 
-const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
-  completed: "success",
-  pending: "warning",
-  failed: "error",
-};
+const STATUS_COLORS = FINANCIAL_STATUS_COLORS;
 
 export default function WalletPage() {
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const {
     paymentMethods,
     transactions,
@@ -88,34 +86,34 @@ export default function WalletPage() {
 
   const handleAddCard = async () => {
     if (!newCard.name || !newCard.cardNumber || !newCard.expiry || !newCard.cvv) {
-      addNotification({ type: "error", title: "Error", message: "Please fill in all fields" });
+      toast.error("Error", "Please fill in all fields");
       return;
     }
     try {
       await addPaymentMethod(newCard);
-      addNotification({ type: "success", title: "Success", message: "Payment method added" });
+      toast.success("Success", "Payment method added");
       setShowAddCard(false);
       setNewCard({ name: "", cardNumber: "", expiry: "", cvv: "" });
     } catch {
-      addNotification({ type: "error", title: "Error", message: "Failed to add payment method" });
+      toast.error("Error", "Failed to add payment method");
     }
   };
 
   const handleRemoveCard = async (id: string) => {
     try {
       await removePaymentMethod(id);
-      addNotification({ type: "success", title: "Removed", message: "Payment method removed" });
+      toast.success("Removed", "Payment method removed");
     } catch {
-      addNotification({ type: "error", title: "Error", message: "Failed to remove payment method" });
+      toast.error("Error", "Failed to remove payment method");
     }
   };
 
   const handleSetDefault = async (id: string) => {
     try {
       await setDefaultPaymentMethod(id);
-      addNotification({ type: "success", title: "Updated", message: "Default payment method updated" });
+      toast.success("Updated", "Default payment method updated");
     } catch {
-      addNotification({ type: "error", title: "Error", message: "Failed to update default" });
+      toast.error("Error", "Failed to update default");
     }
   };
 

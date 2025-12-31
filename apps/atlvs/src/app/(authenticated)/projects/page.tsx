@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, ClipboardList, Trash2, Archive, Download } from 'lucide-react';
 // Layout provided by route group
 import { 
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body} from '@ghxstship/ui';
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import { useProjects, useCreateProject, useDeleteProject } from '@/hooks/useProjects';
 
@@ -33,7 +34,7 @@ const columns: ListPageColumn<Project>[] = [
     label: 'Status', 
     accessor: 'status', 
     sortable: true,
-    render: (value) => <Badge>{String(value || 'Active').toUpperCase()}</Badge>
+    render: (value: unknown) => <Badge>{String(value || 'Active').toUpperCase()}</Badge>
   },
   { key: 'phase', label: 'Phase', accessor: 'phase', sortable: true },
   { 
@@ -41,14 +42,14 @@ const columns: ListPageColumn<Project>[] = [
     label: 'Budget', 
     accessor: 'budget', 
     sortable: true,
-    render: (value) => value ? `$${Number(value).toLocaleString()}` : '—'
+    render: (value: unknown) => value ? `$${Number(value).toLocaleString()}` : '—'
   },
   {
     key: 'start_date',
     label: 'Start Date',
     accessor: 'start_date',
     sortable: true,
-    render: (value) => value ? new Date(String(value)).toLocaleDateString() : '—'
+    render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '—'
   },
 ];
 
@@ -115,7 +116,7 @@ export default function ProjectsPage() {
 
   // Build row actions based on user permissions
   const rowActions: ListPageAction<Project>[] = [
-    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedProject(row); setDrawerOpen(true); } },
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row: Project) => { setSelectedProject(row); setDrawerOpen(true); } },
     // Only show edit/duplicate/delete for users with admin roles
     ...(canManageProjects ? [
       { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row: Project) => router.push(`/projects/${row.id}/edit`) },
@@ -171,8 +172,15 @@ export default function ProjectsPage() {
   };
 
   const handleCreate = async (data: Record<string, unknown>) => {
+    // Generate a project code if not provided
+    const projectCode = data.code 
+      ? String(data.code) 
+      : `PRJ-${Date.now().toString(36).toUpperCase()}`;
+    
     await createProjectMutation.mutateAsync({
+      code: projectCode,
       name: String(data.name || ''),
+      organization_id: '', // Will be set by RLS policy based on user's org
       status: (data.status as 'planning' | 'active' | 'on-hold' | 'completed' | 'cancelled') || 'planning',
       budget: data.budget ? Number(data.budget) : undefined,
       start_date: String(data.start_date || new Date().toISOString()),
@@ -269,6 +277,7 @@ export default function ProjectsPage() {
         onImport={canManageProjects ? handleImport : undefined}
         importTemplates={importTemplates}
         importSampleFields={['name', 'code', 'status', 'budget', 'start_date', 'end_date']}
+        templateDownloadUrl="/templates/production-planning/event-timeline-template.csv"
         onExport={createExportHandler({
           filename: "projects",
           getData: () => (projects || []).map(p => ({
@@ -283,7 +292,10 @@ export default function ProjectsPage() {
         stats={stats}
         emptyMessage="No projects yet"
         emptyAction={canManageProjects ? { label: 'Create Project', onClick: () => setCreateModalOpen(true) } : undefined}
-showFavorite
+enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
+        showFavorite
         showSettings
       />
 

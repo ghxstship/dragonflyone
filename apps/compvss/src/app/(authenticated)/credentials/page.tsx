@@ -1,14 +1,26 @@
 'use client';
 
+/**
+ * Credentials Page
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
+ */
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Ban, CheckCircle, QrCode, Download, UserPlus } from 'lucide-react';
-// Layout provided by route group
+import { Eye, Pencil, Ban, CheckCircle, Download, UserPlus } from 'lucide-react';
 import { useCredentials, useCredentialStats, useRevokeCredential, useSuspendCredential, useReactivateCredential } from '@/hooks/useCredentials';
-import { useAuthContext } from '@ghxstship/config';
+import { 
+  useAuthContext,
+  createExportHandler, 
+  createImportHandler, 
+  getImportTemplates,
+  CREDENTIAL_STATUS_COLORS,
+} from '@ghxstship/config';
 import {
-  ListPage, Badge, DetailDrawer, ConfirmDialog, Grid, Stack, Body} from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+  ListPage, Badge, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type DetailSection,
+} from "@ghxstship/ui";
 
 interface Credential {
   id: string;
@@ -20,13 +32,7 @@ interface Credential {
   contact?: { id: string; first_name: string; last_name: string; email: string; phone?: string };
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
-  active: 'success',
-  pending: 'warning',
-  suspended: 'warning',
-  revoked: 'error',
-  expired: 'error',
-};
+const statusColors = CREDENTIAL_STATUS_COLORS;
 
 const columns: ListPageColumn<Credential>[] = [
   { 
@@ -47,7 +53,7 @@ const columns: ListPageColumn<Credential>[] = [
     label: 'Type', 
     accessor: (row) => row.credential_type?.name || '—',
     sortable: true,
-    render: (_, row) => row.credential_type ? (
+    render: (_value: unknown, row) => row.credential_type ? (
       <Badge color={row.credential_type.color}>
         {row.credential_type.code}
       </Badge>
@@ -58,14 +64,14 @@ const columns: ListPageColumn<Credential>[] = [
     label: 'Level', 
     accessor: (row) => row.credential_type?.access_level || 0,
     sortable: true,
-    render: (_, row) => `L${row.credential_type?.access_level || 0}`
+    render: (_value: unknown, row) => `L${row.credential_type?.access_level || 0}`
   },
   { 
     key: 'status', 
     label: 'Status', 
     accessor: 'status', 
     sortable: true,
-    render: (value) => (
+    render: (value: unknown) => (
       <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
@@ -76,14 +82,14 @@ const columns: ListPageColumn<Credential>[] = [
     label: 'Issued',
     accessor: 'issued_at',
     sortable: true,
-    render: (value) => value ? new Date(String(value)).toLocaleDateString() : '—'
+    render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '—'
   },
   {
     key: 'expires_at',
     label: 'Expires',
     accessor: 'expires_at',
     sortable: true,
-    render: (value) => value ? new Date(String(value)).toLocaleDateString() : 'Never'
+    render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : 'Never'
   },
 ];
 
@@ -287,6 +293,7 @@ export default function CredentialsPage() {
         onImport={handleImport}
         importTemplates={importTemplates}
         importSampleFields={['badge_number', 'status', 'expires_at']}
+        templateDownloadUrl="/templates/imports/workforce-certifications-import.csv"
         onExport={createExportHandler({
           filename: "credentials",
           getData: () => (credentials || []).map(c => ({
@@ -303,8 +310,10 @@ export default function CredentialsPage() {
         stats={pageStats}
         emptyMessage="No credentials issued yet"
         emptyAction={{ label: 'Issue First Credential', onClick: () => router.push('/credentials/issue') }}
-quickActions={[
-          { id: 'scan', label: 'Scan Credential', icon: <QrCode className="size-4" />, onClick: () => router.push('/credentials/scan') },
+enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
+        quickActions={[
           { id: 'types', label: 'Manage Types', icon: <Pencil className="size-4" />, onClick: () => router.push('/credentials/types') },
           { id: 'zones', label: 'Zone Access', icon: <UserPlus className="size-4" />, onClick: () => router.push('/credentials/zones') },
         ]}

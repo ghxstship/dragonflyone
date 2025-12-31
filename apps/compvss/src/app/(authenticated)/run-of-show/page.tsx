@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, Badge, Body, Stack} from '@ghxstship/ui';
+  ListPage, Badge, Body, Stack,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler, useAuthContext, PlatformRole } from '@ghxstship/config';
 import { useSchedule } from '@/hooks/useSchedule';
 import {
@@ -49,14 +50,14 @@ export default function RunOfShowPage() {
       label: 'Time',
       accessor: 'time',
       sortable: true,
-      render: (_, c) => <Body className="font-display font-mono">{c.time}</Body>,
+      render: (_value: unknown, c) => <Body className="font-display font-mono">{c.time}</Body>,
     },
     {
       key: 'cue',
       label: 'Cue',
       accessor: 'cue',
       sortable: true,
-      render: (_, c) => (
+      render: (_value: unknown, c) => (
         <Stack gap={1}>
           <Body className="font-display">{c.cue}</Body>
           <Body size="sm" className="text-muted-foreground">{c.department}</Body>
@@ -69,7 +70,7 @@ export default function RunOfShowPage() {
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, c) => <Badge variant={getStatusVariant(c.status)}>{c.status.toUpperCase()}</Badge>,
+      render: (_value: unknown, c) => <Badge variant={getStatusVariant(c.status)}>{c.status.toUpperCase()}</Badge>,
     },
   ];
 
@@ -137,6 +138,9 @@ export default function RunOfShowPage() {
       stats={stats}
       emptyMessage="No cues found"
       emptyAction={canManageCues ? { label: 'Add Cue', onClick: () => router.push('/run-of-show/cues/new') } : undefined}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

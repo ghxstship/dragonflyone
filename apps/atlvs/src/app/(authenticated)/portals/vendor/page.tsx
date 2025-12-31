@@ -2,14 +2,18 @@
 
 /**
  * Vendor Portal Dashboard
- * Self-service portal for vendors to manage orders, invoices, and catalog
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useRouter } from 'next/navigation';
 import { 
-  Package, FileText, DollarSign, TrendingUp, Clock, CheckCircle, AlertCircle, ChevronRight, ShoppingCart} from 'lucide-react';
+  Package, FileText, DollarSign, TrendingUp, Clock, CheckCircle, AlertCircle, ChevronRight, ShoppingCart,
+} from 'lucide-react';
 import {
-  DetailPage, Badge, Body, Button, Card, Grid, Stack, StatCard, Text} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Button, Card, Grid, Stack, StatCard, Text,
+} from '@ghxstship/ui';
+import { ORDER_STATUS_COLORS, FINANCIAL_STATUS_COLORS } from '@ghxstship/config';
 import { useQuery } from '@tanstack/react-query';
 
 interface VendorStats {
@@ -36,17 +40,7 @@ interface Invoice {
   due_date: string;
 }
 
-const STATUS_COLORS: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  pending: 'warning',
-  confirmed: 'info',
-  shipped: 'info',
-  delivered: 'success',
-  cancelled: 'error',
-  draft: 'outline',
-  sent: 'info',
-  paid: 'success',
-  overdue: 'error',
-};
+const STATUS_COLORS = { ...ORDER_STATUS_COLORS, ...FINANCIAL_STATUS_COLORS };
 
 const DEMO_STATS: VendorStats = {
   activeOrders: 12,
@@ -112,7 +106,7 @@ export default function VendorPortalPage() {
         description: "Manage your orders, invoices, and product catalog",
       }}
       backButton={{ label: "Back to Portals", href: "/portals" }}
-      isLoading={isLoading}
+      loading={isLoading}
       error={error instanceof Error ? error : null}
       onRetry={() => refetch()}
     >

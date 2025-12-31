@@ -12,7 +12,8 @@ import { useRouter } from 'next/navigation';
 import { Package, DollarSign, FileText } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
+  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useToast,
+  type FormSection} from "@ghxstship/ui";
 import { useCreateAsset, type Asset } from '@/hooks/useAssets';
 
 const ASSET_CATEGORIES = [
@@ -51,7 +52,7 @@ interface FormData {
 export default function NewAssetPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const createMutation = useCreateAsset();
 
   const canManageAssets = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
@@ -110,19 +111,11 @@ export default function NewAssetPage() {
         depreciation_rate: formData.depreciation_rate ? parseFloat(formData.depreciation_rate) : undefined,
       });
 
-      addNotification({
-        type: 'success',
-        title: 'Asset Created',
-        message: `${formData.tag} has been added to the catalog.`,
-      });
+      toast.success('Asset Created', `${formData.tag} has been added to the catalog.`);
 
       router.push(`/assets/${asset.id}`);
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Create Asset',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Create Asset', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsSubmitting(false);
     }

@@ -1,5 +1,24 @@
 # EMERGENCY ACTION PLAN
 
+<!-- IMPORT FORMAT: Copy emergency contacts and procedures tables to CSV for import -->
+
+## Plan Details (Importable)
+
+| field | value |
+|-------|-------|
+| plan_id | |
+| event_name | |
+| event_date | |
+| venue_name | |
+| venue_address | |
+| venue_capacity | |
+| incident_commander | |
+| operations_chief | |
+| safety_officer | |
+| security_chief | |
+| medical_chief | |
+| status | |
+
 ## Event Information
 
 | Field | Details |
@@ -347,3 +366,13 @@ All emergency announcements should be:
 | Incident Commander | | | |
 | Safety Director | | | |
 | Venue Manager | | | |
+
+---
+
+<!-- IMPORT INSTRUCTIONS
+To import emergency action plan:
+1. Copy the Plan Details table to a CSV file
+2. Dates must be YYYY-MM-DD format
+3. Valid status: draft | approved | active | archived
+4. Import via ATLVS > Settings > Data Import > Emergency Plans
+-->

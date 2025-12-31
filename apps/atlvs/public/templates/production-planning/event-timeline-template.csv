@@ -1,69 +1,42 @@
-EVENT TIMELINE TEMPLATE
-Production Name:,[Enter Production Name]
-Event Date:,[Enter Date]
-Prepared By:,[Enter Name]
+phase,milestone,target_date,actual_date,owner,status,dependencies,priority,notes
+PRE-PRODUCTION,Contract Signed,,,Producer,not_started,,high,
+PRE-PRODUCTION,Venue Confirmed,,,Producer,not_started,Contract Signed,high,
+PRE-PRODUCTION,Budget Approved,,,Finance,not_started,Contract Signed,high,
+PRE-PRODUCTION,Talent Confirmed,,,Talent Buyer,not_started,Budget Approved,high,
+PRE-PRODUCTION,Production Design Complete,,,Production Manager,not_started,Venue Confirmed,high,
+PRE-PRODUCTION,Marketing Launch,,,Marketing,not_started,Talent Confirmed,high,
+PRE-PRODUCTION,Tickets On Sale,,,Box Office,not_started,Marketing Launch,high,
+PRE-PRODUCTION,Vendor Contracts Signed,,,Production Manager,not_started,Budget Approved,medium,
+PRE-PRODUCTION,Crew Hired,,,Production Manager,not_started,Budget Approved,medium,
+PRE-PRODUCTION,Permits Obtained,,,Operations,not_started,Venue Confirmed,high,
+PRE-PRODUCTION,Insurance Secured,,,Operations,not_started,Venue Confirmed,high,
+PRE-PRODUCTION,Advancing Complete,,,Production Manager,not_started,Talent Confirmed,high,
+PRODUCTION,Load-In Begins,,,Production Manager,not_started,All Pre-Production,high,
+PRODUCTION,Sound Check Complete,,,Audio Engineer,not_started,Load-In Begins,high,
+PRODUCTION,Doors Open,,,Operations,not_started,Sound Check Complete,high,
+PRODUCTION,Show Start,,,Stage Manager,not_started,Doors Open,high,
+PRODUCTION,Show End,,,Stage Manager,not_started,Show Start,high,
+PRODUCTION,Load-Out Complete,,,Production Manager,not_started,Show End,high,
+POST-PRODUCTION,Settlement Complete,,,Finance,not_started,Load-Out Complete,high,
+POST-PRODUCTION,Final Invoices Paid,,,Finance,not_started,Settlement Complete,medium,
+POST-PRODUCTION,Post-Mortem Meeting,,,Producer,not_started,Settlement Complete,medium,
+POST-PRODUCTION,Archive Complete,,,Production Manager,not_started,Post-Mortem Meeting,low,
 
-MILESTONE TRACKER
-Phase,Milestone,Target Date,Actual Date,Owner,Status,Dependencies,Notes
-PRE-PRODUCTION,Contract Signed,,,Producer,Not Started,,
-PRE-PRODUCTION,Venue Confirmed,,,Producer,Not Started,Contract Signed,
-PRE-PRODUCTION,Budget Approved,,,Finance,Not Started,Contract Signed,
-PRE-PRODUCTION,Talent Confirmed,,,Talent Buyer,Not Started,Budget Approved,
-PRE-PRODUCTION,Production Design Complete,,,Production Manager,Not Started,Venue Confirmed,
-PRE-PRODUCTION,Marketing Launch,,,Marketing,Not Started,Talent Confirmed,
-PRE-PRODUCTION,Tickets On Sale,,,Box Office,Not Started,Marketing Launch,
-PRE-PRODUCTION,Vendor Contracts Signed,,,Production Manager,Not Started,Budget Approved,
-PRE-PRODUCTION,Crew Hired,,,Production Manager,Not Started,Budget Approved,
-PRE-PRODUCTION,Permits Obtained,,,Operations,Not Started,Venue Confirmed,
-PRE-PRODUCTION,Insurance Secured,,,Operations,Not Started,Venue Confirmed,
-PRE-PRODUCTION,Advancing Complete,,,Production Manager,Not Started,Talent Confirmed,
-PRODUCTION,Load-In Begins,,,Production Manager,Not Started,All Pre-Production,
-PRODUCTION,Sound Check Complete,,,Audio Engineer,Not Started,Load-In Begins,
-PRODUCTION,Doors Open,,,Operations,Not Started,Sound Check Complete,
-PRODUCTION,Show Start,,,Stage Manager,Not Started,Doors Open,
-PRODUCTION,Show End,,,Stage Manager,Not Started,Show Start,
-PRODUCTION,Load-Out Complete,,,Production Manager,Not Started,Show End,
-POST-PRODUCTION,Settlement Complete,,,Finance,Not Started,Load-Out Complete,
-POST-PRODUCTION,Final Invoices Paid,,,Finance,Not Started,Settlement Complete,
-POST-PRODUCTION,Post-Mortem Meeting,,,Producer,Not Started,Settlement Complete,
-POST-PRODUCTION,Archive Complete,,,Production Manager,Not Started,Post-Mortem Meeting,
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- phase: PRE-PRODUCTION | PRODUCTION | POST-PRODUCTION
+- milestone: Task or milestone name
+- target_date: Planned date (YYYY-MM-DD format)
+- actual_date: Completed date (YYYY-MM-DD format)
+- owner: Person or role responsible
+- status: not_started | in_progress | complete | blocked | at_risk
+- dependencies: Prerequisite milestones (comma-separated)
+- priority: high | medium | low
+- notes: Additional notes
 
-DETAILED TASK LIST
-Week,Task,Start Date,Due Date,Owner,Status,Priority,Notes
--12,Sign artist contract,,,Talent Buyer,Not Started,High,
--12,Confirm venue hold,,,Producer,Not Started,High,
--12,Create initial budget,,,Finance,Not Started,High,
--10,Finalize production design,,,Production Manager,Not Started,High,
--10,Book vendors (sound/lights),,,Production Manager,Not Started,High,
--10,Submit permit applications,,,Operations,Not Started,Medium,
--8,Launch marketing campaign,,,Marketing,Not Started,High,
--8,Tickets on sale,,,Box Office,Not Started,High,
--8,Begin crew hiring,,,Production Manager,Not Started,Medium,
--6,Finalize vendor contracts,,,Production Manager,Not Started,Medium,
--6,Complete advancing,,,Production Manager,Not Started,High,
--6,Confirm crew roster,,,Production Manager,Not Started,Medium,
--4,Final marketing push,,,Marketing,Not Started,Medium,
--4,Confirm all permits,,,Operations,Not Started,High,
--4,Finalize run of show,,,Stage Manager,Not Started,High,
--2,Final production meeting,,,Producer,Not Started,High,
--2,Distribute call sheets,,,Production Manager,Not Started,High,
--2,Confirm all vendors,,,Production Manager,Not Started,High,
--1,Load-in day 1,,,Production Manager,Not Started,High,
-0,Show day,,,Stage Manager,Not Started,High,
-+1,Load-out complete,,,Production Manager,Not Started,High,
-+1,Begin settlement,,,Finance,Not Started,High,
-+2,Complete settlement,,,Finance,Not Started,High,
-+4,Final invoices paid,,,Finance,Not Started,Medium,
-+4,Post-mortem meeting,,,Producer,Not Started,Medium,
-
-STATUS KEY
-Not Started,Task has not begun
-In Progress,Task is actively being worked on
-Complete,Task is finished
-Blocked,Task cannot proceed due to dependency
-At Risk,Task may miss deadline
-
-PRIORITY KEY
-High,Critical path - must be completed on time
-Medium,Important but has some flexibility
-Low,Nice to have - can be deferred if needed
+HOW TO USE:
+1. Fill in target dates for each milestone
+2. Update status as work progresses
+3. Add actual dates when complete
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Timeline

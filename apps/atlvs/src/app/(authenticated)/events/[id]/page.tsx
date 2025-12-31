@@ -2,27 +2,27 @@
 
 /**
  * Event Detail Page
- * Shows detailed information about a specific event
- * Uses normalized DetailPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import {
-  Pencil, Users, ExternalLink, Trash2, FileText, Clock} from "lucide-react";
-import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
+  Pencil, Users, ExternalLink, Trash2, FileText, Clock,
+} from "lucide-react";
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  EVENT_STATUS_COLORS,
+} from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useNotifications, Box, StackBox} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useToast, Box,
+  type DetailPageTab,
+} from "@ghxstship/ui";
 import { useEvent, useDeleteEvent } from "@/hooks/useEvents";
 
-const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
-  draft: "outline",
-  scheduled: "info",
-  on_sale: "success",
-  sold_out: "warning",
-  completed: "success",
-  cancelled: "error",
-};
+const STATUS_COLORS = EVENT_STATUS_COLORS;
 
 const EVENT_TYPE_LABELS: Record<string, string> = {
   concert: "Concert",
@@ -38,7 +38,7 @@ export default function EventDetailPage() {
   const router = useRouter();
   const params = useParams();
   const eventId = params?.id as string;
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const { hasRole } = useAuthContext();
   const canEdit = ATLVS_ADMIN_ROLES.some((role) => hasRole(role));
@@ -68,18 +68,10 @@ export default function EventDetailPage() {
     if (!event) return;
     try {
       await deleteMutation.mutateAsync(event.id);
-      addNotification({
-        type: "success",
-        title: "Event Deleted",
-        message: `${event.name} has been deleted.`,
-      });
+      toast.success("Event Deleted", `${event.name} has been deleted.`);
       router.push("/events");
     } catch (err) {
-      addNotification({
-        type: "error",
-        title: "Failed to Delete",
-        message: err instanceof Error ? err.message : "An error occurred",
-      });
+      toast.error("Failed to Delete", err instanceof Error ? err.message : "An error occurred",);
     }
   };
 

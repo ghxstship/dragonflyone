@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Shield, Eye, EyeOff, Download, Trash2, List, FileText } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
 
 interface PrivacySettings {
   profile_visibility: "public" | "team" | "private";
@@ -30,7 +30,7 @@ const DEMO_SETTINGS: PrivacySettings = {
 
 export default function PrivacySettingsPage() {
   const queryClient = useQueryClient();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showExportConfirm, setShowExportConfirm] = useState(false);
@@ -56,10 +56,10 @@ export default function PrivacySettingsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["privacy-settings"] });
-      addNotification({ type: "success", title: "Saved", message: "Privacy settings updated" });
+      toast.success("Saved", "Privacy settings updated");
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to update settings" });
+      toast.error("Error", "Failed to update settings");
     },
   });
 
@@ -70,11 +70,11 @@ export default function PrivacySettingsPage() {
       return response.json();
     },
     onSuccess: () => {
-      addNotification({ type: "success", title: "Export Started", message: "You will receive an email when your data is ready" });
+      toast.success("Export Started", "You will receive an email when your data is ready");
       setShowExportConfirm(false);
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to start export" });
+      toast.error("Error", "Failed to start export");
     },
   });
 
@@ -85,11 +85,11 @@ export default function PrivacySettingsPage() {
       return response.json();
     },
     onSuccess: () => {
-      addNotification({ type: "success", title: "Account Scheduled for Deletion", message: "Your account will be deleted in 30 days" });
+      toast.success("Account Scheduled for Deletion", "Your account will be deleted in 30 days");
       setShowDeleteConfirm(false);
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to schedule deletion" });
+      toast.error("Error", "Failed to schedule deletion");
     },
   });
 

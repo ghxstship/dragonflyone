@@ -2,24 +2,24 @@
 
 /**
  * Proposals List Page
- * Uses normalized ListPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, FileText, Send, CheckCircle, XCircle, Clock } from 'lucide-react';
-import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  PROPOSAL_STATUS_COLORS,
+} from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text, useNotifications} from '@ghxstship/ui';
+  Badge, Body, Box, ListPage, Stack, Text, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction,
+} from "@ghxstship/ui";
 import { useProposals, useDeleteProposal, type Proposal, type ProposalStatus } from '@/hooks/useProposals';
 
-const STATUS_COLORS: Record<ProposalStatus, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  draft: 'outline',
-  sent: 'info',
-  viewed: 'warning',
-  accepted: 'success',
-  declined: 'error',
-  expired: 'outline',
-};
+const STATUS_COLORS = PROPOSAL_STATUS_COLORS;
 
 const STATUS_ICONS: Record<ProposalStatus, React.ReactNode> = {
   draft: <FileText className="h-3 w-3" />,
@@ -33,7 +33,7 @@ const STATUS_ICONS: Record<ProposalStatus, React.ReactNode> = {
 export default function ProposalsPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const canManage = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const { data, isLoading, error, refetch } = useProposals({});
@@ -44,9 +44,9 @@ export default function ProposalsPage() {
     if (!confirm(`Delete proposal "${proposal.name}"?`)) return;
     try {
       await deleteMutation.mutateAsync(proposal.id);
-      addNotification({ type: 'success', title: 'Proposal Deleted', message: `${proposal.name} has been deleted` });
+      toast.success("Proposal Deleted", `${proposal.name} has been deleted`);
     } catch (err) {
-      addNotification({ type: 'error', title: 'Delete Failed', message: err instanceof Error ? err.message : 'Failed to delete proposal' });
+      toast.error('Delete Failed', err instanceof Error ? err.message : 'Failed to delete proposal');
     }
   };
 
@@ -56,7 +56,7 @@ export default function ProposalsPage() {
   const columns: ListPageColumn<Proposal>[] = [
     {
       key: 'name', label: 'Proposal', accessor: 'name', sortable: true,
-      render: (_, p) => (
+      render: (_value: unknown, p) => (
         <Box>
           <Text className="font-weight-medium">{p.name}</Text>
           <Body size="sm" className="text-muted-foreground">{p.proposal_number}</Body>
@@ -65,7 +65,7 @@ export default function ProposalsPage() {
     },
     {
       key: 'client', label: 'Client', accessor: (p) => `${p.contact?.first_name || ''} ${p.contact?.last_name || ''}`.trim() || 'Unknown',
-      render: (_, p) => (
+      render: (_value: unknown, p) => (
         <Box>
           <Text>{p.contact?.first_name} {p.contact?.last_name}</Text>
           {p.contact?.company && <Body size="sm" className="text-muted-foreground">{p.contact.company}</Body>}
@@ -74,7 +74,7 @@ export default function ProposalsPage() {
     },
     {
       key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_, p) => (
+      render: (_value: unknown, p) => (
         <Badge variant={STATUS_COLORS[p.status]}>
           <Stack direction="horizontal" gap={1} className="items-center">
             {STATUS_ICONS[p.status]}
@@ -85,15 +85,15 @@ export default function ProposalsPage() {
     },
     {
       key: 'total', label: 'Amount', accessor: 'total', sortable: true,
-      render: (_, p) => <Text className="font-weight-medium">{formatCurrency(p.total)}</Text>,
+      render: (_value: unknown, p) => <Text className="font-weight-medium">{formatCurrency(p.total)}</Text>,
     },
     {
       key: 'valid_until', label: 'Valid Until', accessor: 'valid_until', sortable: true,
-      render: (_, p) => <Text>{formatDate(p.valid_until)}</Text>,
+      render: (_value: unknown, p) => <Text>{formatDate(p.valid_until)}</Text>,
     },
     {
       key: 'created_at', label: 'Created', accessor: 'created_at', sortable: true,
-      render: (_, p) => <Text>{formatDate(p.created_at)}</Text>,
+      render: (_value: unknown, p) => <Text>{formatDate(p.created_at)}</Text>,
     },
   ];
 
@@ -136,6 +136,9 @@ export default function ProposalsPage() {
       emptyAction={canManage ? { label: 'Create Proposal', onClick: () => router.push('/finance/proposals/new') } : undefined}
       entityType="proposals"
       breadcrumbs={[{ label: 'Finance', href: '/finance' }, { label: 'Proposals' }]}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

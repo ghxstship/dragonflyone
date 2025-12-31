@@ -39,12 +39,12 @@ const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
 };
 
 const columns: ListPageColumn<FlaggedContent>[] = [
-  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Text>{getTypeIcon(String(v))} {String(v)}</Text> },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v: unknown) => <Text>{getTypeIcon(String(v))} {String(v)}</Text> },
   { key: 'content', label: 'Content', accessor: 'content' },
   { key: 'author', label: 'Author', accessor: 'author' },
-  { key: 'reason', label: 'Reason', accessor: 'reason', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'reason', label: 'Reason', accessor: 'reason', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
   { key: 'reportedBy', label: 'Reported By', accessor: 'reportedBy' },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
   { key: 'timestamp', label: 'Time', accessor: 'timestamp', sortable: true },
 ];
 

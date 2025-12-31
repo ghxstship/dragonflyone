@@ -1,98 +1,60 @@
-DEPARTMENT HEAD CHECKLIST
-Production:,[Enter Production Name]
-Date:,[Enter Date]
-Department:,[Enter Department]
-Department Head:,[Enter Name]
+department,phase,task,is_complete,completed_by,completed_at,notes
+ALL,PRE-SHOW,Arrive at venue and check in,false,,,
+ALL,PRE-SHOW,Verify crew roster and attendance,false,,,
+ALL,PRE-SHOW,Inspect equipment delivery,false,,,
+ALL,PRE-SHOW,Report any missing/damaged equipment,false,,,
+ALL,PRE-SHOW,Review run of show,false,,,
+ALL,PRE-SHOW,Attend production meeting,false,,,
+ALL,PRE-SHOW,Brief department crew,false,,,
+ALL,PRE-SHOW,Complete department setup,false,,,
+ALL,PRE-SHOW,Test all equipment,false,,,
+ALL,PRE-SHOW,Verify communication (radio check),false,,,
+ALL,PRE-SHOW,Confirm ready status to PM,false,,,
+ALL,PRE-SHOW,Final walkthrough,false,,,
+ALL,PRE-SHOW,Confirm show ready,false,,,
+ALL,SHOW,Monitor department during show,false,,,
+ALL,SHOW,Respond to any issues,false,,,
+ALL,SHOW,Maintain communication with PM,false,,,
+ALL,SHOW,Document any problems,false,,,
+ALL,SHOW,Coordinate with other departments,false,,,
+ALL,SHOW,Manage crew breaks,false,,,
+ALL,POST-SHOW,Begin department strike,false,,,
+ALL,POST-SHOW,Supervise equipment packing,false,,,
+ALL,POST-SHOW,Verify all equipment accounted,false,,,
+ALL,POST-SHOW,Document any damage,false,,,
+ALL,POST-SHOW,Complete equipment return,false,,,
+ALL,POST-SHOW,Submit timesheets,false,,,
+ALL,POST-SHOW,Report to PM on completion,false,,,
+AUDIO,PRE-SHOW,PA system operational,false,,,
+AUDIO,PRE-SHOW,Console patched and tested,false,,,
+AUDIO,PRE-SHOW,All inputs verified,false,,,
+AUDIO,PRE-SHOW,Monitor system tested,false,,,
+AUDIO,PRE-SHOW,RF coordination complete,false,,,
+LIGHTING,PRE-SHOW,All fixtures operational,false,,,
+LIGHTING,PRE-SHOW,Focus complete,false,,,
+LIGHTING,PRE-SHOW,Console programmed,false,,,
+LIGHTING,PRE-SHOW,Haze/fog tested,false,,,
+VIDEO,PRE-SHOW,LED wall calibrated,false,,,
+VIDEO,PRE-SHOW,Cameras positioned,false,,,
+VIDEO,PRE-SHOW,Switcher programmed,false,,,
+VIDEO,PRE-SHOW,Graphics loaded,false,,,
+STAGE,PRE-SHOW,Stage deck secure,false,,,
+STAGE,PRE-SHOW,Risers in position,false,,,
+STAGE,PRE-SHOW,Backline positioned,false,,,
 
-PRE-SHOW CHECKLIST
-Task,Time,Complete,Initials,Notes
-Arrive at venue and check in,,,[ ],
-Verify crew roster and attendance,,,[ ],
-Inspect equipment delivery,,,[ ],
-Report any missing/damaged equipment,,,[ ],
-Review run of show,,,[ ],
-Attend production meeting,,,[ ],
-Brief department crew,,,[ ],
-Complete department setup,,,[ ],
-Test all equipment,,,[ ],
-Verify communication (radio check),,,[ ],
-Confirm ready status to PM,,,[ ],
-Complete sound check/focus,,,[ ],
-Final walkthrough,,,[ ],
-Confirm show ready,,,[ ],
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- department: ALL | AUDIO | LIGHTING | VIDEO | STAGE | RIGGING | PRODUCTION
+- phase: PRE-SHOW | SHOW | POST-SHOW
+- task: Task description
+- is_complete: true | false
+- completed_by: Name of person who completed
+- completed_at: Completion time (HH:MM)
+- notes: Additional notes
 
-SHOW CHECKLIST
-Task,Time,Complete,Initials,Notes
-Monitor department during show,,,[ ],
-Respond to any issues,,,[ ],
-Maintain communication with PM,,,[ ],
-Document any problems,,,[ ],
-Coordinate with other departments,,,[ ],
-Manage crew breaks,,,[ ],
-Prepare for changeovers,,,[ ],
-Execute show elements,,,[ ],
-
-POST-SHOW CHECKLIST
-Task,Time,Complete,Initials,Notes
-Begin department strike,,,[ ],
-Supervise equipment packing,,,[ ],
-Verify all equipment accounted,,,[ ],
-Document any damage,,,[ ],
-Complete equipment return,,,[ ],
-Collect department paperwork,,,[ ],
-Submit timesheets,,,[ ],
-Debrief with crew,,,[ ],
-Report to PM on completion,,,[ ],
-Sign off with venue,,,[ ],
-
-AUDIO DEPARTMENT SPECIFIC
-Task,Complete,Notes
-PA system operational,[ ],
-Console patched and tested,[ ],
-All inputs verified,[ ],
-Monitor system tested,[ ],
-RF coordination complete,[ ],
-Playback system ready,[ ],
-Recording system ready,[ ],
-Comms system tested,[ ],
-
-LIGHTING DEPARTMENT SPECIFIC
-Task,Complete,Notes
-All fixtures operational,[ ],
-Focus complete,[ ],
-Console programmed,[ ],
-Haze/fog tested,[ ],
-Follow spots positioned,[ ],
-Color/gobo inventory,[ ],
-Backup equipment ready,[ ],
-
-VIDEO DEPARTMENT SPECIFIC
-Task,Complete,Notes
-LED wall calibrated,[ ],
-Cameras positioned,[ ],
-Switcher programmed,[ ],
-Graphics loaded,[ ],
-Recording ready,[ ],
-Streaming ready,[ ],
-Backup content available,[ ],
-
-STAGE DEPARTMENT SPECIFIC
-Task,Complete,Notes
-Stage deck secure,[ ],
-Risers in position,[ ],
-Stairs secured,[ ],
-Skirting complete,[ ],
-Backline positioned,[ ],
-Props/set pieces ready,[ ],
-Quick change areas ready,[ ],
-
-ISSUES LOG
-Time,Issue,Resolution,Reported To
-,,,
-,,,
-,,,
-
-SIGN-OFF
-Role,Name,Signature,Time
-Department Head,,,
-Production Manager,,,
+HOW TO USE:
+1. Filter by your department or use ALL for universal tasks
+2. Update is_complete to true as tasks are finished
+3. Record who completed each task
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Checklists

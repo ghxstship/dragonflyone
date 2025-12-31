@@ -3,7 +3,8 @@
 import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, Badge, Body, Stack} from '@ghxstship/ui';
+  ListPage, Badge, Body, Stack,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from '@ghxstship/config';
 import { Eye, Layout } from 'lucide-react';
 import { useStages, type Stage } from '@/hooks/useStages';
@@ -22,7 +23,7 @@ export default function StageManagementPage() {
       label: 'Stage',
       accessor: 'name',
       sortable: true,
-      render: (_, s) => (
+      render: (_value: unknown, s) => (
         <Stack gap={1}>
           <Body className="font-display">{s.name}</Body>
           <Badge variant="outline">{s.type}</Badge>
@@ -36,7 +37,7 @@ export default function StageManagementPage() {
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
     },
   ];
 
@@ -98,6 +99,9 @@ export default function StageManagementPage() {
       })}
       stats={stats}
       emptyMessage="No stages found"
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

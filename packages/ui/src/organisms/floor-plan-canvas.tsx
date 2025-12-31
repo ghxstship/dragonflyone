@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import { ZoomIn, ZoomOut, RotateCcw, Grid3X3, Lock } from "lucide-react";
 import clsx from "clsx";
+import { Tooltip } from "../atoms/tooltip.js";
 
 export interface FloorPlanObject {
   id: string;
@@ -120,40 +121,48 @@ export function FloorPlanCanvas({
     <div className={clsx("relative overflow-hidden border-2 border-border rounded-card", className)}>
       {/* Toolbar */}
       <div className="absolute top-2 left-2 z-10 flex items-center gap-1 bg-background border-2 border-border rounded-button p-1">
-        <button
-          onClick={handleZoomIn}
-          className="p-1.5 hover:bg-muted rounded-button transition-colors"
-          title="Zoom In"
-        >
-          <ZoomIn className="h-4 w-4" />
-        </button>
-        <button
-          onClick={handleZoomOut}
-          className="p-1.5 hover:bg-muted rounded-button transition-colors"
-          title="Zoom Out"
-        >
-          <ZoomOut className="h-4 w-4" />
-        </button>
+        <Tooltip content="Zoom In">
+          <button
+            onClick={handleZoomIn}
+            className="p-1.5 hover:bg-muted rounded-button transition-colors"
+            aria-label="Zoom in"
+          >
+            <ZoomIn className="h-4 w-4" />
+          </button>
+        </Tooltip>
+        <Tooltip content="Zoom Out">
+          <button
+            onClick={handleZoomOut}
+            className="p-1.5 hover:bg-muted rounded-button transition-colors"
+            aria-label="Zoom out"
+          >
+            <ZoomOut className="h-4 w-4" />
+          </button>
+        </Tooltip>
         <span className="text-body-xs text-muted-foreground px-2 min-w-[3rem] text-center">
           {Math.round(zoom * 100)}%
         </span>
-        <button
-          onClick={handleResetZoom}
-          className="p-1.5 hover:bg-muted rounded-button transition-colors"
-          title="Reset View"
-        >
-          <RotateCcw className="h-4 w-4" />
-        </button>
+        <Tooltip content="Reset View">
+          <button
+            onClick={handleResetZoom}
+            className="p-1.5 hover:bg-muted rounded-button transition-colors"
+            aria-label="Reset view"
+          >
+            <RotateCcw className="h-4 w-4" />
+          </button>
+        </Tooltip>
         <div className="w-px h-5 bg-border mx-1" />
-        <button
-          className={clsx(
-            "p-1.5 rounded-button transition-colors",
-            showGrid ? "bg-primary/10 text-primary" : "hover:bg-muted"
-          )}
-          title="Toggle Grid"
-        >
-          <Grid3X3 className="h-4 w-4" />
-        </button>
+        <Tooltip content="Toggle Grid">
+          <button
+            className={clsx(
+              "p-1.5 rounded-button transition-colors",
+              showGrid ? "bg-primary/10 text-primary" : "hover:bg-muted"
+            )}
+            aria-label="Toggle grid"
+          >
+            <Grid3X3 className="h-4 w-4" />
+          </button>
+        </Tooltip>
       </div>
 
       {/* Canvas */}

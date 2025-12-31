@@ -2,18 +2,21 @@
 
 /**
  * BEO Detail Page
- * Shows detailed information about a specific Banquet Event Order
- * Uses normalized DetailPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
-  Edit2, CheckCircle, Send, FileText, Clock, Users, MapPin, Utensils, ListChecks} from "lucide-react";
+  Edit2, CheckCircle, Send, FileText, Clock, Users, MapPin, Utensils, ListChecks,
+} from "lucide-react";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, Modal, useNotifications, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, Modal, useToast, Box,
+  type DetailPageTab,
+} from "@ghxstship/ui";
 import { useBEO, useApproveBEO, useDistributeBEO } from "@/hooks/useBEOs";
-import { useAuthContext, PlatformRole } from "@ghxstship/config";
+import { useAuthContext, PlatformRole, DOCUMENT_STATUS_COLORS } from "@ghxstship/config";
 
 const ADMIN_ROLES = [
   PlatformRole.COMPVSS_ADMIN,
@@ -22,12 +25,7 @@ const ADMIN_ROLES = [
   PlatformRole.LEGEND_DEVELOPER,
 ];
 
-const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
-  draft: "outline",
-  pending_review: "warning",
-  approved: "success",
-  distributed: "info",
-};
+const STATUS_COLORS = DOCUMENT_STATUS_COLORS;
 
 const STATUS_LABELS: Record<string, string> = {
   draft: "Draft",
@@ -48,7 +46,7 @@ export default function BEODetailPage() {
   const params = useParams();
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const beoId = params.id as string;
 
   const canManageBEO = ADMIN_ROLES.some((role) => hasRole(role));
@@ -80,17 +78,9 @@ export default function BEODetailPage() {
   const handleApprove = async () => {
     try {
       await approveMutation.mutateAsync(beoId);
-      addNotification({
-        type: "success",
-        title: "BEO Approved",
-        message: "The BEO has been approved successfully.",
-      });
+      toast.success("BEO Approved", "The BEO has been approved successfully.");
     } catch (err) {
-      addNotification({
-        type: "error",
-        title: "Approval Failed",
-        message: err instanceof Error ? err.message : "An error occurred",
-      });
+      toast.error("Approval Failed", err instanceof Error ? err.message : "An error occurred");
     }
   };
 
@@ -103,17 +93,9 @@ export default function BEODetailPage() {
       });
       setShowDistributeModal(false);
       setSelectedDepartments([]);
-      addNotification({
-        type: "success",
-        title: "BEO Distributed",
-        message: `BEO sent to ${selectedDepartments.length} department(s).`,
-      });
+      toast.success("BEO Distributed", `BEO sent to ${selectedDepartments.length} department(s).`);
     } catch (err) {
-      addNotification({
-        type: "error",
-        title: "Distribution Failed",
-        message: err instanceof Error ? err.message : "An error occurred",
-      });
+      toast.error("Distribution Failed", err instanceof Error ? err.message : "An error occurred");
     }
   };
 

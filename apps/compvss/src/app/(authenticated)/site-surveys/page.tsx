@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  ListPage, Badge, Stack, Body, Text} from "@ghxstship/ui";
+  ListPage, Badge, Stack, Body, Text,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import { useSiteSurveysData, type SiteSurvey } from "@/hooks/useSiteSurveys";
 import { Eye } from "lucide-react";
@@ -39,14 +40,14 @@ export default function SiteSurveysPage() {
       label: 'Survey #',
       accessor: 'survey_number',
       sortable: true,
-      render: (_, s) => <Text className="font-mono">{s.survey_number}</Text>,
+      render: (_value: unknown, s) => <Text className="font-mono">{s.survey_number}</Text>,
     },
     {
       key: 'venue_name',
       label: 'Venue',
       accessor: 'venue_name',
       sortable: true,
-      render: (_, s) => (
+      render: (_value: unknown, s) => (
         <Stack gap={1}>
           <Body>{s.venue_name}</Body>
           <Body size="sm" className="text-muted-foreground">{s.venue_address}</Body>
@@ -59,7 +60,7 @@ export default function SiteSurveysPage() {
       label: 'Date',
       accessor: 'survey_date',
       sortable: true,
-      render: (_, s) => <Text className="font-mono">{formatDate(s.survey_date)}</Text>,
+      render: (_value: unknown, s) => <Text className="font-mono">{formatDate(s.survey_date)}</Text>,
     },
     { key: 'surveyor_name', label: 'Surveyor', accessor: 'surveyor_name' },
     { key: 'power_assessment', label: 'Power', accessor: (s) => s.power_assessment || '—' },
@@ -70,7 +71,7 @@ export default function SiteSurveysPage() {
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
     },
   ];
 
@@ -143,6 +144,9 @@ export default function SiteSurveysPage() {
       stats={stats}
       emptyMessage="No site surveys found"
       emptyAction={{ label: 'Schedule Survey', onClick: () => router.push('/site-surveys/schedule') }}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

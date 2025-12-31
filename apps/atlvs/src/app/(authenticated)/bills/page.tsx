@@ -1,44 +1,41 @@
 'use client';
 
+/**
+ * Bills Page
+ * 
+ * SSOT-compliant: Uses entity registry for status colors and formatters.
+ */
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, DollarSign, CheckCircle, Trash2, Download } from 'lucide-react';
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useNotifications} from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection,
+} from "@ghxstship/ui";
+import { 
+  createExportHandler,
+  FINANCIAL_STATUS_COLORS,
+  formatCurrency,
+  formatDate,
+} from '@ghxstship/config';
 import { useBillsData, type Bill } from '@/hooks/useBills';
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  pending: 'warning',
-  approved: 'info',
-  partial: 'info',
-  paid: 'success',
-  cancelled: 'error',
-};
-
-const formatCurrency = (amount?: number) => {
-  if (!amount) return '$0';
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(amount);
-};
-
-const formatDate = (dateString?: string) => {
-  if (!dateString) return '—';
-  return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-};
+const statusColors = FINANCIAL_STATUS_COLORS;
 
 const columns: ListPageColumn<Bill>[] = [
   { key: 'bill_number', label: 'Bill #', accessor: 'bill_number', sortable: true },
   { key: 'vendor', label: 'Vendor', accessor: (r) => r.vendor?.name || '—', sortable: true },
   { key: 'description', label: 'Description', accessor: 'description' },
-  { key: 'amount', label: 'Amount', accessor: 'amount', sortable: true, render: (v) => formatCurrency(Number(v)) },
-  { key: 'amount_paid', label: 'Paid', accessor: 'amount_paid', render: (v) => formatCurrency(Number(v)) },
-  { key: 'due_date', label: 'Due Date', accessor: 'due_date', sortable: true, render: (v) => formatDate(String(v)) },
+  { key: 'amount', label: 'Amount', accessor: 'amount', sortable: true, render: (v: unknown) => formatCurrency(Number(v)) },
+  { key: 'amount_paid', label: 'Paid', accessor: 'amount_paid', render: (v: unknown) => formatCurrency(Number(v)) },
+  { key: 'due_date', label: 'Due Date', accessor: 'due_date', sortable: true, render: (v: unknown) => formatDate(String(v)) },
   { 
     key: 'status', 
     label: 'Status', 
     accessor: 'status', 
     sortable: true,
-    render: (v) => <Badge variant={statusColors[String(v)] || 'outline'}>{String(v).toUpperCase()}</Badge>
+    render: (v: unknown) => <Badge variant={statusColors[String(v)] || 'outline'}>{String(v).toUpperCase()}</Badge>
   },
 ];
 
@@ -79,7 +76,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function BillsPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const {
     bills,
     summary,
@@ -113,9 +110,9 @@ export default function BillsPage() {
         notes: data.notes ? String(data.notes) : undefined,
       });
       setCreateModalOpen(false);
-      addNotification({ type: 'success', title: 'Bill Created', message: 'New bill has been created successfully.' });
+      toast.success('Bill Created', 'New bill has been created successfully.');
     } catch (err) {
-      addNotification({ type: 'error', title: 'Error', message: err instanceof Error ? err.message : 'Failed to create bill' });
+      toast.error('Error', err instanceof Error ? err.message : 'Failed to create bill');
     }
   };
 
@@ -125,9 +122,9 @@ export default function BillsPage() {
         await approveBill(billToApprove.id);
         setApproveConfirmOpen(false);
         setBillToApprove(null);
-        addNotification({ type: 'success', title: 'Bill Approved', message: `Bill ${billToApprove.bill_number} has been approved.` });
+        toast.success("Bill Approved", `Bill ${billToApprove.bill_number} has been approved.`);
       } catch (err) {
-        addNotification({ type: 'error', title: 'Error', message: err instanceof Error ? err.message : 'Failed to approve bill' });
+        toast.error('Error', err instanceof Error ? err.message : 'Failed to approve bill');
       }
     }
   };
@@ -138,9 +135,9 @@ export default function BillsPage() {
         await deleteBill(billToDelete.id);
         setDeleteConfirmOpen(false);
         setBillToDelete(null);
-        addNotification({ type: 'success', title: 'Bill Deleted', message: `Bill ${billToDelete.bill_number} has been deleted.` });
+        toast.success("Bill Deleted", `Bill ${billToDelete.bill_number} has been deleted.`);
       } catch (err) {
-        addNotification({ type: 'error', title: 'Error', message: err instanceof Error ? err.message : 'Failed to delete bill' });
+        toast.error('Error', err instanceof Error ? err.message : 'Failed to delete bill');
       }
     }
   };
@@ -162,16 +159,16 @@ export default function BillsPage() {
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
     if (actionId === 'approve') {
       for (const id of selectedIds) {
-        await approveBill(id).catch((err) => addNotification({ type: 'error', title: 'Approval Failed', message: err instanceof Error ? err.message : 'Failed to approve bill' }));
+        await approveBill(id).catch((err) => toast.error("Approval Failed", err instanceof Error ? err.message : 'Failed to approve bill'));
       }
       refetch();
-      addNotification({ type: 'success', title: 'Bills Approved', message: `${selectedIds.length} bills approved.` });
+      toast.success("Bills Approved", `${selectedIds.length} bills approved.`);
     } else if (actionId === 'delete') {
       for (const id of selectedIds) {
-        await deleteBill(id).catch((err) => addNotification({ type: 'error', title: 'Delete Failed', message: err instanceof Error ? err.message : 'Failed to delete bill' }));
+        await deleteBill(id).catch((err) => toast.error("Delete Failed", err instanceof Error ? err.message : 'Failed to delete bill'));
       }
       refetch();
-      addNotification({ type: 'success', title: 'Bills Deleted', message: `${selectedIds.length} bills deleted.` });
+      toast.success("Bills Deleted", `${selectedIds.length} bills deleted.`);
     }
   };
 

@@ -1,8 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, Badge, Text} from '@ghxstship/ui';
+  ListPage, Badge, Text,
+  type ListPageColumn, type ListPageFilter} from "@ghxstship/ui";
 import { createExportHandler } from '@ghxstship/config';
 import { useSyncJobs } from '@/hooks/useIntegrations';
 
@@ -24,6 +26,7 @@ const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
 };
 
 export default function CompvssIntegrationsPage() {
+  const router = useRouter();
   const { data: syncJobs = [], isLoading: loading, refetch: fetchSyncJobs } = useSyncJobs();
 
   const columns: ListPageColumn<SyncJob>[] = [
@@ -32,34 +35,34 @@ export default function CompvssIntegrationsPage() {
       label: 'Source',
       accessor: 'source_system',
       sortable: true,
-      render: (_, job) => <Text className="font-weight-semibold">{job.source_system.toUpperCase()}</Text>,
+      render: (_value: unknown, job) => <Text className="font-weight-semibold">{job.source_system.toUpperCase()}</Text>,
     },
     {
       key: 'target_system',
       label: 'Target',
       accessor: 'target_system',
       sortable: true,
-      render: (_, job) => <Text>{job.target_system.toUpperCase()}</Text>,
+      render: (_value: unknown, job) => <Text>{job.target_system.toUpperCase()}</Text>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, job) => <Badge variant={getStatusVariant(job.status)}>{job.status.toUpperCase()}</Badge>,
+      render: (_value: unknown, job) => <Badge variant={getStatusVariant(job.status)}>{job.status.toUpperCase()}</Badge>,
     },
     {
       key: 'created_at',
       label: 'Created',
       accessor: 'created_at',
       sortable: true,
-      render: (_, job) => <Text size="sm">{new Date(job.created_at).toLocaleString()}</Text>,
+      render: (_value: unknown, job) => <Text size="sm">{new Date(job.created_at).toLocaleString()}</Text>,
     },
     {
       key: 'action',
       label: 'Action',
       accessor: (job) => job.payload.action,
-      render: (_, job) => <Text className="font-mono">{job.payload.action}</Text>,
+      render: (_value: unknown, job) => <Text className="font-mono">{job.payload.action}</Text>,
     },
   ];
 
@@ -115,6 +118,9 @@ export default function CompvssIntegrationsPage() {
       })}
       stats={stats}
       emptyMessage="No sync jobs found"
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

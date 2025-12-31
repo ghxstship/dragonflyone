@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { Eye, Upload, Wrench, Trash2, Download } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useNotifications} from "@ghxstship/ui";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig,
+  type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import { useAssets, useDeleteAsset, type Asset as APIAsset } from "../../../hooks/useAssets";
 
@@ -54,12 +56,12 @@ function normalizeAsset(a: APIAsset): Asset {
 
 const columns: ListPageColumn<Asset>[] = [
   { key: 'name', label: 'Asset', accessor: 'name', sortable: true },
-  { key: 'category', label: 'Category', accessor: 'category', sortable: true, render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'category', label: 'Category', accessor: 'category', sortable: true, render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
   { key: 'location', label: 'Location', accessor: 'location' },
   { key: 'value', label: 'Value', accessor: (r) => `$${(r.value / 1000).toFixed(0)}K`, sortable: true },
   { key: 'condition', label: 'Condition', accessor: 'condition' },
   { key: 'utilization', label: 'Utilization', accessor: (r) => `${(r.utilization * 100).toFixed(0)}%`, sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={v === 'Available' ? 'solid' : 'outline'}>{String(v)}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={v === 'Available' ? 'solid' : 'outline'}>{String(v)}</Badge> },
   { key: 'nextMaintenance', label: 'Next Maint.', accessor: 'nextMaintenance', sortable: true },
 ];
 
@@ -87,7 +89,7 @@ const formFields: FormFieldConfig[] = [
 export default function AssetsPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const { data: apiAssets, isLoading, error, refetch } = useAssets();
   const deleteMutation = useDeleteAsset();
   
@@ -143,18 +145,10 @@ export default function AssetsPage() {
         throw new Error('Failed to create asset');
       }
       setCreateModalOpen(false);
-      addNotification({
-        type: 'success',
-        title: 'Asset Created',
-        message: `Asset "${data.name}" has been created successfully.`,
-      });
+      toast.success('Asset Created', `Asset "${data.name}" has been created successfully.`);
       refetch();
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Create Asset',
-        message: err instanceof Error ? err.message : 'An unexpected error occurred',
-      });
+      toast.error('Failed to Create Asset', err instanceof Error ? err.message : 'An unexpected error occurred',);
     }
   };
 
@@ -163,18 +157,10 @@ export default function AssetsPage() {
       try {
         await deleteMutation.mutateAsync(assetToDelete.id);
         setDeleteConfirmOpen(false);
-        addNotification({
-          type: 'success',
-          title: 'Asset Deleted',
-          message: `Asset "${assetToDelete.name}" has been deleted.`,
-        });
+        toast.success('Asset Deleted', `Asset "${assetToDelete.name}" has been deleted.`);
         setAssetToDelete(null);
       } catch (err) {
-        addNotification({
-          type: 'error',
-          title: 'Failed to Delete Asset',
-          message: err instanceof Error ? err.message : 'An unexpected error occurred',
-        });
+        toast.error('Failed to Delete Asset', err instanceof Error ? err.message : 'An unexpected error occurred',);
       }
     }
   };
@@ -273,6 +259,7 @@ export default function AssetsPage() {
         onImport={canManageAssets ? handleImport : undefined}
         importTemplates={importTemplates}
         importSampleFields={['name', 'category', 'location', 'value', 'condition']}
+        templateDownloadUrl="/templates/imports/assets-import.csv"
         onExport={createExportHandler({
           filename: "assets",
           getData: () => assets.map(a => ({
@@ -288,7 +275,10 @@ export default function AssetsPage() {
         stats={stats}
         emptyMessage="No assets found"
         emptyAction={canManageAssets ? { label: 'Add Asset', onClick: () => setCreateModalOpen(true) } : undefined}
-showFavorite
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
+        showFavorite
         showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Asset" fields={formFields} onSubmit={handleCreate} size="lg" />

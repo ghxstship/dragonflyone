@@ -4,7 +4,8 @@ import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Eye } from "lucide-react";
 import {
-  ListPage, Badge, ListPageColumn, ListPageFilter, ListPageAction} from "@ghxstship/ui";
+  ListPage, Badge, ListPageColumn, ListPageFilter, ListPageAction,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { useCrew } from "@/hooks/useCrew";
 import { useEquipment } from "@/hooks/useEquipment";
 import { useQuery } from "@tanstack/react-query";

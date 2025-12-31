@@ -3,6 +3,7 @@
 import React from "react";
 import { CreditCard, Building2, Wallet, Check, Trash2 } from "lucide-react";
 import clsx from "clsx";
+import { Tooltip } from "../atoms/tooltip.js";
 
 export interface PaymentMethod {
   id: string;
@@ -127,22 +128,26 @@ export function PaymentMethodSelector({
             {showActions && (
               <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
                 {onSetDefault && !method.isDefault && (
-                  <button
-                    onClick={() => onSetDefault(method.id)}
-                    className="p-1.5 text-body-xs text-muted-foreground hover:text-primary transition-colors"
-                    title="Set as default"
-                  >
-                    Set Default
-                  </button>
+                  <Tooltip content="Set as default">
+                    <button
+                      onClick={() => onSetDefault(method.id)}
+                      className="p-1.5 text-body-xs text-muted-foreground hover:text-primary transition-colors"
+                      aria-label="Set as default"
+                    >
+                      Set Default
+                    </button>
+                  </Tooltip>
                 )}
                 {onDelete && (
-                  <button
-                    onClick={() => onDelete(method.id)}
-                    className="p-1.5 text-muted-foreground hover:text-destructive transition-colors"
-                    title="Remove payment method"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                  <Tooltip content="Remove payment method">
+                    <button
+                      onClick={() => onDelete(method.id)}
+                      className="p-1.5 text-muted-foreground hover:text-destructive transition-colors"
+                      aria-label="Remove payment method"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </Tooltip>
                 )}
               </div>
             )}

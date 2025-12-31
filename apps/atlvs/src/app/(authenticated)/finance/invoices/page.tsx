@@ -2,29 +2,29 @@
 
 /**
  * Invoices List Page
- * Uses normalized ListPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, CheckCircle, AlertCircle } from 'lucide-react';
-import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  FINANCIAL_STATUS_COLORS,
+} from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text, useNotifications} from '@ghxstship/ui';
+  Badge, Body, Box, ListPage, Stack, Text, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction,
+} from "@ghxstship/ui";
 import { useInvoices, useDeleteInvoice, type Invoice } from '@/hooks/useInvoices';
 
-const STATUS_COLORS: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  draft: 'outline',
-  sent: 'info',
-  paid: 'success',
-  partial: 'warning',
-  overdue: 'error',
-  cancelled: 'outline',
-};
+const STATUS_COLORS = FINANCIAL_STATUS_COLORS;
 
 export default function InvoicesPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const canManage = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const { data: invoices = [], isLoading, error, refetch } = useInvoices();
@@ -35,7 +35,7 @@ export default function InvoicesPage() {
     try {
       await deleteMutation.mutateAsync(inv.id);
     } catch (err) {
-      addNotification({ type: 'error', title: 'Delete Failed', message: err instanceof Error ? err.message : 'Failed to delete invoice' });
+      toast.error('Delete Failed', err instanceof Error ? err.message : 'Failed to delete invoice');
     }
   };
 
@@ -45,7 +45,7 @@ export default function InvoicesPage() {
   const columns: ListPageColumn<Invoice>[] = [
     {
       key: 'invoice_number', label: 'Invoice', accessor: 'invoice_number', sortable: true,
-      render: (_, inv) => (
+      render: (_value: unknown, inv) => (
         <Box>
           <Text className="font-weight-medium">{inv.invoice_number}</Text>
           {inv.project_name && <Body size="sm" className="text-muted-foreground">{inv.project_name}</Body>}
@@ -55,7 +55,7 @@ export default function InvoicesPage() {
     { key: 'client_name', label: 'Client', accessor: 'client_name', sortable: true },
     {
       key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_, inv) => (
+      render: (_value: unknown, inv) => (
         <Badge variant={STATUS_COLORS[inv.status] || 'outline'}>
           <Stack direction="horizontal" gap={1} className="items-center">
             {inv.status === 'paid' && <CheckCircle className="h-3 w-3" />}
@@ -67,15 +67,15 @@ export default function InvoicesPage() {
     },
     {
       key: 'total_amount', label: 'Amount', accessor: 'total_amount', sortable: true,
-      render: (_, inv) => <Text className="font-weight-medium">{formatCurrency(inv.total_amount)}</Text>,
+      render: (_value: unknown, inv) => <Text className="font-weight-medium">{formatCurrency(inv.total_amount)}</Text>,
     },
     {
       key: 'amount_due', label: 'Due', accessor: 'amount_due', sortable: true,
-      render: (_, inv) => <Text className={inv.amount_due > 0 ? 'text-warning' : 'text-success'}>{formatCurrency(inv.amount_due)}</Text>,
+      render: (_value: unknown, inv) => <Text className={inv.amount_due > 0 ? 'text-warning' : 'text-success'}>{formatCurrency(inv.amount_due)}</Text>,
     },
     {
       key: 'due_date', label: 'Due Date', accessor: 'due_date', sortable: true,
-      render: (_, inv) => <Text>{formatDate(inv.due_date)}</Text>,
+      render: (_value: unknown, inv) => <Text>{formatDate(inv.due_date)}</Text>,
     },
   ];
 
@@ -117,6 +117,9 @@ export default function InvoicesPage() {
       emptyAction={canManage ? { label: 'Create Invoice', onClick: () => router.push('/finance/invoices/new') } : undefined}
       entityType="invoices"
       breadcrumbs={[{ label: 'Finance', href: '/finance' }, { label: 'Invoices' }]}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

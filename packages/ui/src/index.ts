@@ -177,6 +177,8 @@ export { QuickAddFab } from "./molecules/quick-add-fab.js";
 export type { QuickAddFabProps, QuickAddAction } from "./molecules/quick-add-fab.js";
 export { SettingsRow, SettingsGroup, InfoRow, NumberedStep } from "./molecules/settings-row.js";
 export type { SettingsRowProps, SettingsGroupProps, InfoRowProps, NumberedStepProps } from "./molecules/settings-row.js";
+export { DownloadTemplateButton, ImportButton } from "./molecules/download-template-button.js";
+export type { DownloadTemplateButtonProps, ImportButtonProps } from "./molecules/download-template-button.js";
 
 // =============================================================================
 // ORGANISMS - Complex components
@@ -228,8 +230,9 @@ export { ImportExportDialog } from "./organisms/import-export-dialog.js";
 export type { ImportExportDialogProps, ExportFormat, ColumnConfig, ImportTemplate } from "./organisms/import-export-dialog.js";
 export { AppNavigation } from "./organisms/app-navigation.js";
 export type { AppNavigationProps, NavItem as AppNavItem } from "./organisms/app-navigation.js";
-export { UnifiedHeader } from "./organisms/unified-header.js";
-export type { UnifiedHeaderProps, NavItem as UnifiedNavItem } from "./organisms/unified-header.js";
+// Public Navbar - for public/marketing pages
+export { PublicNavbar } from "./organisms/public-navbar.js";
+export type { PublicNavbarProps, PublicNavItem } from "./organisms/public-navbar.js";
 export { WorkflowTimeline } from "./organisms/workflow-timeline.js";
 export type { WorkflowTimelineProps, WorkflowStage } from "./organisms/workflow-timeline.js";
 export { ProtectedRoute } from "./organisms/protected-route.js";
@@ -245,8 +248,22 @@ export { KeyboardShortcutsModal } from "./organisms/keyboard-shortcuts-modal.js"
 export type { KeyboardShortcutsModalProps } from "./organisms/keyboard-shortcuts-modal.js";
 export { ActivityFeed } from "./organisms/activity-feed.js";
 export type { ActivityFeedProps, ActivityItem, ActivityType, ActivityUser } from "./organisms/activity-feed.js";
+// NotificationCenter is deprecated - use AppNavbar's integrated notification system instead
 export { NotificationCenter, NotificationBell } from "./organisms/notification-center.js";
 export type { NotificationCenterProps, NotificationBellProps, Notification, NotificationType, NotificationPriority } from "./organisms/notification-center.js";
+// App Navbar - for authenticated app shell pages
+export { AppNavbar } from "./organisms/app-navbar.js";
+export type { 
+  AppNavbarProps,
+  HeaderUser, 
+  HeaderNotification, 
+  UserStatus, 
+  ThemeMode,
+  NotificationCategory,
+  QuickAction as HeaderQuickAction,
+  BreadcrumbContextItem,
+  ContextOptions,
+} from "./organisms/app-navbar.js";
 export type { ContextSwitcherProps, ProductionContext } from "./organisms/context-switcher.js";
 // AppPageHeader - Enterprise page header with breadcrumbs, tabs, views, actions
 // Use this for authenticated app pages. For marketing pages, use MarketingPageHeader from foundations.
@@ -284,7 +301,7 @@ export type { PageLayoutProps } from "./templates/page-layout.js";
 // SectionLayout removed - use Section from foundations/layout instead
 // AppShell removed - use AuthenticatedShell instead
 export { AuthenticatedShell } from "./templates/authenticated-shell.js";
-export type { AuthenticatedShellProps, ContextOptions } from "./templates/authenticated-shell.js";
+export type { AuthenticatedShellProps } from "./templates/authenticated-shell.js";
 // BreadcrumbContextItem exported from ./types/breadcrumb.js
 export { ListPage } from "./templates/list-page.js";
 export type { ListPageProps, ListPageColumn, ListPageFilter, ListPageAction, ListPageBulkAction } from "./templates/list-page.js";
@@ -334,7 +351,7 @@ export type {
 // =============================================================================
 // SHARED TYPES - Canonical types used across components
 // =============================================================================
-export type { BreadcrumbItem, BreadcrumbContextItem } from "./types/breadcrumb.js";
+export type { BreadcrumbItem } from "./types/breadcrumb.js";
 
 // =============================================================================
 // FOUNDATIONS - Layout primitives

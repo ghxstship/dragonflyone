@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { Eye, Package, Truck, Trash2, Printer, Download } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body} from "@ghxstship/ui";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
 
 const ADMIN_ROLES = [
@@ -34,7 +35,7 @@ const columns: ListPageColumn<Delivery>[] = [
     label: 'Status', 
     accessor: 'status', 
     sortable: true,
-    render: (value) => (
+    render: (value: unknown) => (
       <Badge variant={value === 'Received' ? 'solid' : value === 'Delayed' ? 'solid' : 'outline'}>
         {String(value)}
       </Badge>
@@ -248,6 +249,7 @@ export default function DeliveriesPage() {
         onImport={handleImport}
         importTemplates={importTemplates}
         importSampleFields={['vendor', 'description', 'scheduledDate', 'scheduledTime', 'status']}
+        templateDownloadUrl="/templates/production-planning/load-in-schedule-template.csv"
         onExport={createExportHandler({
           filename: "deliveries",
           getData: () => deliveries.map(d => ({
@@ -264,6 +266,9 @@ export default function DeliveriesPage() {
         stats={stats}
         emptyMessage="No deliveries found"
         emptyAction={canManageDeliveries ? { label: 'Add Delivery', onClick: () => setCreateModalOpen(true) } : undefined}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

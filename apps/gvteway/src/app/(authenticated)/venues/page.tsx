@@ -51,7 +51,7 @@ export default function VenuesPage() {
       label: "Capacity",
       accessor: "capacity",
       sortable: true,
-      render: (value) => (
+      render: (value: unknown) => (
         <Box className="flex items-center gap-2">
           <Users className="size-4 text-on-dark-muted" />
           <Body size="sm">{Number(value).toLocaleString()}</Body>
@@ -63,7 +63,7 @@ export default function VenuesPage() {
       label: "Status",
       accessor: "status",
       sortable: true,
-      render: (value) => {
+      render: (value: unknown) => {
         const variant = value === "active" ? "success" : value === "inactive" ? "warning" : "outline";
         return <Badge variant={variant}>{String(value || "active").toUpperCase()}</Badge>;
       },

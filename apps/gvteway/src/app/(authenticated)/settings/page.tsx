@@ -15,7 +15,7 @@ import {
   Select,
   Stack,
   Switch,
-  useNotifications,
+  useToast,
   DetailPage,
   Section,
   SectionHeader,
@@ -26,7 +26,7 @@ import { useSettingsData, type UserSettings } from "@/hooks/useSettings";
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [localSettings, setLocalSettings] = useState<UserSettings | null>(null);
 
   const {
@@ -52,9 +52,9 @@ export default function SettingsPage() {
   const handleSave = async () => {
     try {
       await saveSettings(settings);
-      addNotification({ type: "success", title: "Saved", message: "Settings updated successfully" });
+      toast.success("Saved", "Settings updated successfully");
     } catch {
-      addNotification({ type: "error", title: "Error", message: "Failed to save settings" });
+      toast.error("Error", "Failed to save settings");
     }
   };
 

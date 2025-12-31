@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import clsx from "clsx";
-import { X, Upload, AlertTriangle, ArrowRight } from "lucide-react";
+import { X, Upload, AlertTriangle, ArrowRight, Download } from "lucide-react";
 
 export type ExportFormat = "csv" | "json" | "excel" | "pdf";
 
@@ -30,6 +30,8 @@ export interface ImportExportDialogProps {
   acceptedFormats?: string;
   maxFileSize?: number;
   sampleFields?: string[];
+  /** URL to download a pre-formatted template file */
+  templateDownloadUrl?: string;
   // Export props
   exportFormats?: ExportFormat[];
   columns?: ColumnConfig[];
@@ -51,6 +53,7 @@ export function ImportExportDialog({
   acceptedFormats = ".csv,.xlsx,.json",
   maxFileSize = 10 * 1024 * 1024,
   sampleFields = [],
+  templateDownloadUrl,
   exportFormats = ["csv", "json", "excel"],
   columns = [],
   onExport,
@@ -198,6 +201,19 @@ export function ImportExportDialog({
                   <div className="font-body text-body-sm text-on-dark-disabled">
                     Supported formats: {acceptedFormats.replace(/\./g, "").toUpperCase()}
                   </div>
+                  {templateDownloadUrl && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.open(templateDownloadUrl, "_blank");
+                      }}
+                      className="mt-spacing-4 inline-flex items-center gap-gap-xs px-spacing-4 py-spacing-2 font-body text-body-sm border-2 border-border-primary bg-surface-primary hover:bg-surface-secondary transition-colors cursor-pointer"
+                    >
+                      <Download className="size-4" />
+                      Download Template
+                    </button>
+                  )}
                 </div>
               )}
 

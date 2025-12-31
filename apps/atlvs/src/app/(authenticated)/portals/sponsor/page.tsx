@@ -2,14 +2,18 @@
 
 /**
  * Sponsor Portal Dashboard
- * Self-service portal for sponsors to manage activations and view reports
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useRouter } from 'next/navigation';
 import { 
-  Megaphone, BarChart3, Eye, Calendar, Download, ChevronRight, Users, TrendingUp} from 'lucide-react';
+  Megaphone, BarChart3, Eye, Calendar, Download, ChevronRight, Users, TrendingUp,
+} from 'lucide-react';
 import {
-  DetailPage, Badge, Body, Button, Card, Grid, Stack, StatCard, Text} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Button, Card, Grid, Stack, StatCard, Text,
+} from '@ghxstship/ui';
+import { EVENT_STATUS_COLORS } from '@ghxstship/config';
 import { useQuery } from '@tanstack/react-query';
 
 interface SponsorStats {
@@ -37,11 +41,7 @@ interface Report {
   download_url: string;
 }
 
-const STATUS_COLORS: Record<string, 'success' | 'warning' | 'info' | 'outline'> = {
-  active: 'success',
-  upcoming: 'warning',
-  completed: 'info',
-};
+const STATUS_COLORS = EVENT_STATUS_COLORS;
 
 const DEMO_STATS: SponsorStats = {
   activeActivations: 5,
@@ -105,7 +105,7 @@ export default function SponsorPortalPage() {
         description: "Manage your activations and view performance reports",
       }}
       backButton={{ label: "Back to Portals", href: "/portals" }}
-      isLoading={isLoading}
+      loading={isLoading}
       error={error instanceof Error ? error : null}
       onRetry={() => refetch()}
     >

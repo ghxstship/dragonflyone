@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Stack, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter} from "@ghxstship/ui";
+  ListPage, H3, Body, Stack, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler, getSubcategoryNames } from "@ghxstship/config";
 import {
   useTroubleshootingGuides,
@@ -14,6 +16,7 @@ import { Eye, ThumbsUp } from "lucide-react";
 const categories = getSubcategoryNames('TECH');
 
 export default function TroubleshootingPage() {
+  const router = useRouter();
   const { data: guides = [], isLoading, refetch } = useTroubleshootingGuides();
   const [selectedGuide, setSelectedGuide] = useState<TroubleshootingGuide | null>(null);
 
@@ -23,7 +26,7 @@ export default function TroubleshootingPage() {
       label: 'Guide',
       accessor: 'title',
       sortable: true,
-      render: (_, g) => (
+      render: (_value: unknown, g) => (
         <Stack gap={1}>
           <Body className="font-display">{g.title}</Body>
           <Body size="sm" className="text-muted-foreground">{g.symptom}</Body>
@@ -35,7 +38,7 @@ export default function TroubleshootingPage() {
       label: 'Category',
       accessor: 'category',
       sortable: true,
-      render: (_, g) => <Badge variant="outline">{g.category}</Badge>,
+      render: (_value: unknown, g) => <Badge variant="outline">{g.category}</Badge>,
     },
     { key: 'steps', label: 'Steps', accessor: (g) => `${g.steps.length} steps` },
     { key: 'views', label: 'Views', accessor: 'views', sortable: true },
@@ -90,6 +93,9 @@ export default function TroubleshootingPage() {
         })}
         stats={stats}
         emptyMessage="No troubleshooting guides found"
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

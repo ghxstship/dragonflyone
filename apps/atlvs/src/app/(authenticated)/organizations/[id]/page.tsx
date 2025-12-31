@@ -2,27 +2,27 @@
 
 /**
  * Organization Detail Page
- * Shows detailed information about a specific organization from the unified organizations table
- * Consolidates: vendors, clients, sponsors, partners
- * Uses normalized DetailPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import {
-  Pencil, FileText, Users, DollarSign, Trash2} from "lucide-react";
-import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
+  Pencil, FileText, Users, DollarSign, Trash2,
+} from "lucide-react";
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  ORGANIZATION_STATUS_COLORS,
+} from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useNotifications} from "@ghxstship/ui";
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useToast,
+  type DetailPageTab,
+} from "@ghxstship/ui";
 import { useOrganizationQuery, useDeleteOrganization } from "@/hooks/useOrganizationsQuery";
 
-const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
-  active: "success",
-  inactive: "outline",
-  pending: "warning",
-  archived: "error",
-  draft: "outline",
-};
+const STATUS_COLORS = ORGANIZATION_STATUS_COLORS;
 
 const TYPE_LABELS: Record<string, string> = {
   vendor: "Vendor",
@@ -39,7 +39,7 @@ export default function OrganizationDetailPage() {
   const router = useRouter();
   const params = useParams();
   const orgId = params?.id as string;
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const { hasRole } = useAuthContext();
   const canEdit = ATLVS_ADMIN_ROLES.some((role) => hasRole(role));
@@ -61,18 +61,10 @@ export default function OrganizationDetailPage() {
     if (!organization) return;
     try {
       await deleteMutation.mutateAsync(organization.id);
-      addNotification({
-        type: "success",
-        title: "Organization Deleted",
-        message: `${organization.name} has been deleted.`,
-      });
+      toast.success("Organization Deleted", `${organization.name} has been deleted.`);
       router.push("/organizations");
     } catch (err) {
-      addNotification({
-        type: "error",
-        title: "Failed to Delete",
-        message: err instanceof Error ? err.message : "An error occurred",
-      });
+      toast.error("Failed to Delete", err instanceof Error ? err.message : "An error occurred",);
     }
   };
 

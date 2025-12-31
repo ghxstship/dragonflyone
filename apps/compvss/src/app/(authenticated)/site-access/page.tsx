@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Modal, ModalHeader, ModalBody, ModalFooter, Badge} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Modal, ModalHeader, ModalBody, ModalFooter, Badge,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import {
   useAccessPoints,
@@ -21,6 +23,7 @@ const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
 };
 
 export default function SiteAccessPage() {
+  const router = useRouter();
   const { data: accessPoints = [], isLoading } = useAccessPoints();
   const { data: vehiclePasses = [], refetch } = useVehiclePasses();
   const [showAddPassModal, setShowAddPassModal] = useState(false);
@@ -36,7 +39,7 @@ export default function SiteAccessPage() {
       label: 'Vehicle',
       accessor: 'vehicleType',
       sortable: true,
-      render: (_, p) => (
+      render: (_value: unknown, p) => (
         <Stack gap={1}>
           <Badge variant="outline">{p.vehicleType}</Badge>
           <Body size="sm" className="text-muted-foreground">{p.licensePlate}</Body>
@@ -49,7 +52,7 @@ export default function SiteAccessPage() {
       key: 'accessPoints',
       label: 'Access',
       accessor: (p) => p.accessPoints.join(', '),
-      render: (_, p) => (
+      render: (_value: unknown, p) => (
         <Stack direction="horizontal" gap={1}>
           {p.accessPoints.slice(0, 2).map(ap => <Badge key={ap} variant="outline">{ap}</Badge>)}
         </Stack>
@@ -60,14 +63,14 @@ export default function SiteAccessPage() {
       label: 'Valid Until',
       accessor: 'validUntil',
       sortable: true,
-      render: (_, p) => <Body size="sm">{new Date(p.validUntil).toLocaleTimeString()}</Body>,
+      render: (_value: unknown, p) => <Body size="sm">{new Date(p.validUntil).toLocaleTimeString()}</Body>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, p) => <Badge variant={getStatusVariant(p.status)}>{p.status}</Badge>,
+      render: (_value: unknown, p) => <Badge variant={getStatusVariant(p.status)}>{p.status}</Badge>,
     },
   ];
 
@@ -137,6 +140,9 @@ export default function SiteAccessPage() {
         stats={stats}
         emptyMessage="No vehicle passes found"
         emptyAction={{ label: 'Issue Vehicle Pass', onClick: () => setShowAddPassModal(true) }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

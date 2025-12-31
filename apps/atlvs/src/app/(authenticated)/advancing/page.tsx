@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Eye, Check } from 'lucide-react';
 // Layout provided by route group
 import {
-  ListPage, Badge, DetailDrawer, Grid, Body} from '@ghxstship/ui';
+  ListPage, Badge, DetailDrawer, Grid, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection} from "@ghxstship/ui";
 import { useAdvancingRequests, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import type { ProductionAdvance, AdvanceStatus } from '@ghxstship/config/types/advancing';
 
@@ -41,7 +42,7 @@ const columns: ListPageColumn<ProductionAdvance>[] = [
   { key: 'submitter', label: 'Submitter', accessor: (r) => r.submitter?.full_name || 'Unknown' },
   { key: 'submitted_at', label: 'Submitted', accessor: (r) => formatDate(r.submitted_at), sortable: true },
   { key: 'estimated_cost', label: 'Est. Cost', accessor: (r) => formatCurrency(r.estimated_cost), sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusBadgeVariant(v as AdvanceStatus)}>{String(v).replace('_', ' ')}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusBadgeVariant(v as AdvanceStatus)}>{String(v).replace('_', ' ')}</Badge> },
 ];
 
 const filters: ListPageFilter[] = [
@@ -140,6 +141,7 @@ export default function AdvancingPage() {
         onImport={canManageAdvancing ? handleImport : undefined}
         importTemplates={importTemplates}
         importSampleFields={['activation_name', 'estimated_cost', 'status']}
+        templateDownloadUrl="/templates/advancing/artist-advance-form.csv"
         onExport={createExportHandler({
           filename: "advancing-requests",
           getData: () => requests.map(r => ({
@@ -175,6 +177,9 @@ export default function AdvancingPage() {
           { id: 'approve', label: 'Approve Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ] : []}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

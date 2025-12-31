@@ -12,7 +12,8 @@ import { useRouter } from 'next/navigation';
 import { Building2, Phone, Tag, FileText } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
+  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useToast,
+  type FormSection} from "@ghxstship/ui";
 import { useCreateOrganization, type OrgType, type Organization } from '@/hooks/useOrganizationsQuery';
 
 const ORG_TYPES: { value: OrgType; label: string; description: string }[] = [
@@ -62,7 +63,7 @@ interface FormData {
 export default function NewOrganizationPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const createMutation = useCreateOrganization();
 
   const canManageOrgs = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
@@ -135,19 +136,11 @@ export default function NewOrganizationPage() {
         notes: formData.notes.trim() || undefined,
       });
 
-      addNotification({
-        type: 'success',
-        title: 'Organization Created',
-        message: `${formData.name} has been added.`,
-      });
+      toast.success('Organization Created', `${formData.name} has been added.`);
 
       router.push(`/organizations/${org.id}`);
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Create Organization',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Create Organization', err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsSubmitting(false);
     }

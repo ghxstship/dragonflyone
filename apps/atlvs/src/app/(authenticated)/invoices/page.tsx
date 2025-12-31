@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Mail, DollarSign, ClipboardList, Trash2, Download, Bell } from "lucide-react";
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useNotifications} from "@ghxstship/ui";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 import { useInvoicesData, type Invoice } from "@/hooks/useInvoices";
 
@@ -23,21 +24,21 @@ const columns: ListPageColumn<Invoice>[] = [
     label: 'Amount', 
     accessor: 'total_amount', 
     sortable: true,
-    render: (value) => formatCurrency(Number(value))
+    render: (value: unknown) => formatCurrency(Number(value))
   },
   { 
     key: 'due_date', 
     label: 'Due Date', 
     accessor: 'due_date', 
     sortable: true,
-    render: (value) => formatDate(String(value))
+    render: (value: unknown) => formatDate(String(value))
   },
   { 
     key: 'status', 
     label: 'Status', 
     accessor: 'status', 
     sortable: true,
-    render: (value) => (
+    render: (value: unknown) => (
       <Badge variant={value === 'paid' ? 'solid' : value === 'overdue' ? 'solid' : 'outline'}>
         {String(value).toUpperCase()}
       </Badge>
@@ -77,7 +78,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function InvoicesPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const {
     invoices,
     isLoading: loading,
@@ -98,9 +99,9 @@ export default function InvoicesPage() {
   const handleSendInvoice = async (invoice: Invoice) => {
     try {
       await sendInvoice(invoice.id);
-      addNotification({ type: "success", title: "Success", message: "Invoice sent successfully" });
+      toast.success("Success", "Invoice sent successfully");
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: "Failed to send invoice" });
+      toast.error("Error", "Failed to send invoice");
     }
   };
 
@@ -111,7 +112,7 @@ export default function InvoicesPage() {
       setDeleteConfirmOpen(false);
       setInvoiceToDelete(null);
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: "Failed to delete invoice" });
+      toast.error("Error", "Failed to delete invoice");
     }
   };
 
@@ -135,16 +136,16 @@ export default function InvoicesPage() {
     try {
       await createInvoice(data);
       setCreateModalOpen(false);
-      addNotification({ type: "success", title: "Success", message: "Invoice created" });
+      toast.success("Success", "Invoice created");
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: "Failed to create invoice" });
+      toast.error("Error", "Failed to create invoice");
     }
   };
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
     if (actionId === 'remind') {
       await Promise.all(selectedIds.map(id => sendReminder(id)));
-      addNotification({ type: 'info', title: 'Sending', message: 'Payment reminders being sent' });
+      toast.info('Sending', 'Payment reminders being sent');
     } else if (actionId === 'export') {
       const selected = invoices.filter(inv => selectedIds.includes(inv.id));
       const csv = [
@@ -174,7 +175,7 @@ export default function InvoicesPage() {
         });
       }
       await refetch();
-      addNotification({ type: 'success', title: 'Import Complete', message: `${records.length} invoices imported` });
+      toast.success("Import Complete", `${records.length} invoices imported`);
     },
   });
 
@@ -235,6 +236,7 @@ export default function InvoicesPage() {
         onImport={handleImport}
         importTemplates={importTemplates}
         importSampleFields={['invoice_number', 'client_name', 'total_amount', 'due_date', 'status']}
+        templateDownloadUrl="/templates/financial/invoice-template.md"
         onExport={createExportHandler({
           filename: "invoices",
           getData: () => (invoices || []).map(i => ({
@@ -251,7 +253,10 @@ export default function InvoicesPage() {
         stats={stats}
         emptyMessage="No invoices found"
         emptyAction={{ label: 'Create Invoice', onClick: () => setCreateModalOpen(true) }}
-showFavorite
+enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
+        showFavorite
         showSettings
       />
 

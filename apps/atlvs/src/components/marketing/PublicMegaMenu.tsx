@@ -8,6 +8,7 @@ import {
   Body,
   Box,
   Button,
+  Grid,
   List,
   ListItem,
   Nav,
@@ -53,7 +54,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
         {activeMenu === 'products' && (
           <Box className="absolute left-0 top-full pt-2 z-50">
             <Box className="bg-background border-2 border-border rounded-card shadow-xl min-w-dropdown-md p-6">
-              <Box className="grid grid-cols-3 gap-6">
+              <Grid cols={3} gap={6}>
                 {productsNavigation.products.map((product) => {
                   const IconComponent = productIcons[product.icon as keyof typeof productIcons] || Command;
                   return (
@@ -86,7 +87,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
                     </Link>
                   );
                 })}
-              </Box>
+              </Grid>
 
               <Box className="mt-6 pt-4 border-t border-border">
                 <Text className="text-body-xs font-weight-medium text-on-dark-disabled uppercase tracking-kicker mb-2">Platform</Text>
@@ -122,7 +123,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
           <Box className="absolute left-0 top-full pt-2 z-50">
             <Box className="bg-background border-2 border-border rounded-card shadow-xl min-w-dropdown-lg p-6">
               <Text className="text-body-xs font-weight-medium text-on-dark-disabled uppercase tracking-kicker mb-4">Solutions by Role</Text>
-              <Box className="grid grid-cols-3 gap-x-8 gap-y-4">
+              <Grid cols={3} gap={4} className="gap-x-8">
                 {solutionsNavigation.groups.map((group) => (
                   <Stack key={group.title} gap={2}>
                     <Text className="font-weight-medium text-foreground">{group.title}</Text>
@@ -140,7 +141,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
                     </List>
                   </Stack>
                 ))}
-              </Box>
+              </Grid>
 
               <Box className="mt-6 pt-4 border-t border-border">
                 <Text className="text-body-xs font-weight-medium text-on-dark-disabled uppercase tracking-kicker mb-2">By Vertical</Text>
@@ -175,7 +176,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
         {activeMenu === 'resources' && (
           <Box className="absolute left-0 top-full pt-2 z-50">
             <Box className="bg-background border-2 border-border rounded-card shadow-xl min-w-dropdown-sm p-6">
-              <Box className="grid grid-cols-3 gap-8">
+              <Grid cols={3} gap={8}>
                 {resourcesNavigation.groups.map((group) => (
                   <Stack key={group.title} gap={3}>
                     <Text className="font-weight-medium text-foreground">{group.title}</Text>
@@ -193,7 +194,7 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
                     </List>
                   </Stack>
                 ))}
-              </Box>
+              </Grid>
 
               <Box className="mt-6 pt-4 border-t border-border">
                 <Text className="text-body-xs font-weight-medium text-on-dark-disabled uppercase tracking-kicker mb-2">Featured</Text>
@@ -213,6 +214,14 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
           </Box>
         )}
       </Box>
+
+      {/* Integrations (no dropdown) */}
+      <Link
+        href="/integrations"
+        className="px-4 py-2 text-body-sm font-weight-medium nav-link"
+      >
+        Integrations
+      </Link>
 
       {/* Pricing (no dropdown) */}
       <Link

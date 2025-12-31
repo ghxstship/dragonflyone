@@ -12,7 +12,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { MapPin, Ruler } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body, EditPage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
+  Body, EditPage, Grid, Input, Select, Stack, Text, Textarea, useToast,
+  type FormSection} from "@ghxstship/ui";
 import { 
   usePlaceQuery, 
   useUpdatePlace, 
@@ -60,7 +61,7 @@ export default function EditPlacePage() {
   const placeId = params?.id as string;
   
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   
   const { data: place, isLoading, error } = usePlaceQuery(placeId);
   const updateMutation = useUpdatePlace();
@@ -147,19 +148,11 @@ export default function EditPlacePage() {
         notes: formData.notes.trim() || undefined,
       });
 
-      addNotification({
-        type: 'success',
-        title: 'Place Updated',
-        message: `${formData.name} has been updated.`,
-      });
+      toast.success('Place Updated', `${formData.name} has been updated.`);
 
       router.push(`/places/${placeId}`);
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Update Place',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Update Place', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsSubmitting(false);
     }
@@ -171,19 +164,11 @@ export default function EditPlacePage() {
     try {
       await deleteMutation.mutateAsync(placeId);
 
-      addNotification({
-        type: 'success',
-        title: 'Place Deleted',
-        message: `${place?.name} has been removed.`,
-      });
+      toast.success('Place Deleted', `${place?.name} has been removed.`);
 
       router.push('/places');
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Delete Place',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Delete Place', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsDeleting(false);
     }

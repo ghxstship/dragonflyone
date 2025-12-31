@@ -24,7 +24,7 @@ import {
   TableCell,
   Modal,
   Checkbox,
-  useNotifications,
+  useToast,
   DetailPage,
   Section,
   SectionHeader,
@@ -40,7 +40,7 @@ import {
 } from "@/hooks/useWebhooks";
 
 export default function WebhooksPage() {
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedWebhook, setSelectedWebhook] = useState<WebhookEndpoint | null>(null);
@@ -101,9 +101,9 @@ export default function WebhooksPage() {
       setShowCreateModal(false);
       setShowSecretModal(true);
       resetForm();
-      addNotification({ type: "success", title: "Created", message: "Webhook created successfully" });
+      toast.success("Created", "Webhook created successfully");
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to create webhook" });
+      toast.error("Error", err instanceof Error ? err.message : "Failed to create webhook");
     }
   };
 
@@ -111,9 +111,9 @@ export default function WebhooksPage() {
     const newStatus = webhook.status === "active" ? "paused" : "active";
     try {
       await updateWebhook({ id: webhook.id, status: newStatus });
-      addNotification({ type: "success", title: "Updated", message: `Webhook ${newStatus}` });
+      toast.success("Updated", `Webhook ${newStatus}`);
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to update webhook" });
+      toast.error("Error", err instanceof Error ? err.message : "Failed to update webhook");
     }
   };
 
@@ -122,9 +122,9 @@ export default function WebhooksPage() {
       try {
         await deleteWebhook(id);
         setSelectedWebhook(null);
-        addNotification({ type: "success", title: "Deleted", message: "Webhook deleted" });
+        toast.success("Deleted", "Webhook deleted");
       } catch (err) {
-        addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to delete webhook" });
+        toast.error("Error", err instanceof Error ? err.message : "Failed to delete webhook");
       }
     }
   };

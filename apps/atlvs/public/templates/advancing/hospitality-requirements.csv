@@ -1,156 +1,59 @@
-HOSPITALITY RIDER
-Artist:,[Enter Artist Name]
-Event:,[Enter Event Name]
-Date:,[Enter Date]
-Party Size:,[Enter Number]
+category,item_name,quantity,brand_preference,is_required,notes
+DRESSING_ROOM,artist_dressing_room,1,,true,Private lockable well-lit
+DRESSING_ROOM,band_dressing_room,1,,true,Seating for band
+DRESSING_ROOM,production_office,1,,true,Table chairs power WiFi
+DRESSING_ROOM,full_length_mirror,1,,true,
+DRESSING_ROOM,clothes_rack,2,,true,
+DRESSING_ROOM,hangers,20,,true,
+DRESSING_ROOM,towels_white,12,,true,
+DRESSING_ROOM,power_strips,2,,true,
+BEVERAGE,bottled_water_still,24,,true,Room temperature
+BEVERAGE,bottled_water_sparkling,12,,false,
+BEVERAGE,coconut_water,6,,false,
+BEVERAGE,fresh_juice_orange,1,,true,Quart
+BEVERAGE,fresh_juice_apple,1,,true,Quart
+BEVERAGE,hot_tea_selection,1,,true,Variety box
+BEVERAGE,honey,1,,true,Local/organic
+BEVERAGE,coffee_hot,1,,true,Fresh brewed pot
+BEVERAGE,energy_drinks,6,,false,
+BEVERAGE,soft_drinks_cola,6,,false,
+BEVERAGE,beer_domestic,12,,false,Bottles
+BEVERAGE,beer_craft,12,,false,Bottles
+BEVERAGE,wine_red,2,,false,Good quality bottles
+BEVERAGE,wine_white,2,,false,Chilled bottles
+FOOD,fresh_fruit_platter,1,,true,Seasonal cut
+FOOD,vegetable_crudites,1,,true,With hummus/dip
+FOOD,cheese_platter,1,,true,Variety
+FOOD,deli_tray,1,,false,Turkey ham cheese
+FOOD,chips_snacks,1,,false,Assorted
+FOOD,nuts_mixed,1,,false,No peanuts
+FOOD,granola_bars,12,,true,
+CATERING,breakfast_headcount,0,,false,
+CATERING,breakfast_time,,,false,HH:MM format
+CATERING,lunch_headcount,0,,false,
+CATERING,lunch_time,,,false,HH:MM format
+CATERING,dinner_headcount,0,,false,
+CATERING,dinner_time,,,false,HH:MM format
+BUYOUT,breakfast_buyout_amount,0,,false,Per person decimal
+BUYOUT,lunch_buyout_amount,0,,false,Per person decimal
+BUYOUT,dinner_buyout_amount,0,,false,Per person decimal
+DIETARY,vegetarian_count,0,,false,
+DIETARY,vegan_count,0,,false,
+DIETARY,gluten_free_count,0,,false,
+DIETARY,nut_allergy_count,0,,false,
 
-DRESSING ROOM REQUIREMENTS
-Room,Quantity,Capacity,Requirements,Notes
-Artist Dressing Room,1,,"Private, lockable, well-lit, mirror, comfortable seating",
-Band Dressing Room,1,,"Seating for band, table, mirror",
-Production Office,1,,"Table, chairs, power outlets, WiFi",
-Quick Change,1,,"Near stage, private, mirror, rack",
-Wardrobe,1,,"Steamer, iron, ironing board, rack",
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- category: DRESSING_ROOM | BEVERAGE | FOOD | CATERING | BUYOUT | DIETARY
+- item_name: Item identifier (snake_case)
+- quantity: Number required (integer or decimal)
+- brand_preference: Preferred brand if any
+- is_required: true | false
+- notes: Additional notes
 
-DRESSING ROOM SUPPLIES
-Item,Quantity,Notes
-Full-length mirror,1,
-Lighted makeup mirror,1,
-Comfortable seating,As needed,
-Coffee table,1,
-Clothes rack,2,
-Hangers,20,
-Towels (white),12,
-Hand towels,6,
-Tissues,2 boxes,
-Trash cans,2,
-Power strips,2,
-
-BEVERAGES - DRESSING ROOM
-Item,Quantity,Brand Preference,Notes
-Bottled water (still),24,,Room temperature
-Bottled water (sparkling),12,,
-Coconut water,6,,
-Fresh juice (orange),1 quart,,
-Fresh juice (apple),1 quart,,
-Hot tea selection,1 box,,Variety
-Honey,1 jar,,Local/organic
-Lemons,6,,Fresh
-Coffee (hot),1 pot,,Fresh brewed
-Cream/milk,1 pint,,
-Sugar/sweetener,As needed,,
-Red Bull/Energy drinks,6,,
-Soft drinks (cola),6,,
-Soft drinks (diet),6,,
-Soft drinks (lemon-lime),6,,
-Beer (domestic),12,,Bottles
-Beer (import/craft),12,,Bottles
-Wine (red),2 bottles,,Good quality
-Wine (white),2 bottles,,Chilled
-
-FOOD - DRESSING ROOM
-Item,Quantity,Notes
-Fresh fruit platter,1,Seasonal, cut
-Vegetable crudites,1,With hummus/dip
-Cheese platter,1,Variety
-Crackers/bread,1,Assorted
-Deli tray,1,Turkey, ham, cheese
-Chips/snacks,Assorted,
-Nuts (mixed),1 bowl,No peanuts
-Candy/chocolate,Assorted,
-Granola bars,12,
-Protein bars,6,
-
-CATERING - HOT MEALS
-Meal,Time,Head Count,Dietary Notes
-Breakfast,,,
-Lunch,,,
-Dinner,,,
-
-BREAKFAST REQUIREMENTS
-Item,Quantity,Notes
-Fresh fruit,Platter,
-Yogurt,Individual,
-Granola/cereal,Assorted,
-Bagels/toast,Assorted,With cream cheese/butter
-Eggs,Scrambled/fried,
-Bacon/sausage,,
-Potatoes,,
-Pastries,,
-Coffee/tea,Continuous,
-Juice,Orange/apple,
-
-LUNCH REQUIREMENTS
-Item,Quantity,Notes
-Salad bar,,Variety of greens and toppings
-Protein options,2,One vegetarian
-Starch/grain,1,
-Vegetables,2,
-Bread/rolls,,
-Dessert,,
-Beverages,,
-
-DINNER REQUIREMENTS
-Item,Quantity,Notes
-Salad,,
-Protein options,2,One vegetarian
-Starch/grain,1,
-Vegetables,2,
-Bread/rolls,,
-Dessert,,
-Beverages,,
-
-DIETARY RESTRICTIONS
-Person,Restriction,Notes
-,Vegetarian,
-,Vegan,
-,Gluten-free,
-,Dairy-free,
-,Nut allergy,
-,Other,
-
-BUYOUT OPTION
-Meal,Buyout Amount,Notes
-Breakfast,$,Per person
-Lunch,$,Per person
-Dinner,$,Per person
-Full Day,$,Per person
-
-CREW CATERING
-Meal,Time,Head Count,Location
-Breakfast,,,
-Lunch,,,
-Dinner,,,
-
-RUNNER/TRANSPORTATION
-Item,Quantity,Hours,Notes
-Production runner,1,All day,With vehicle
-Airport runs,As needed,,
-Errand runs,As needed,,
-
-LAUNDRY
-Item,Quantity,Notes
-Washer/dryer access,1,Or laundry service
-Detergent,,Unscented
-Hangers,20,
-
-MISCELLANEOUS
-Item,Quantity,Notes
-WiFi password,,High-speed required
-Local restaurant menus,,Variety
-Pharmacy location,,
-Hospital location,,
-Grocery store location,,
-
-NOTES
-1. All items should be fresh and of good quality
-2. Dietary restrictions must be strictly observed
-3. Dressing rooms should be ready 2 hours before sound check
-4. Hot meals should be served at specified times
-5. Leftovers may be taken by artist/crew
-
-CONTACT
-Role,Name,Phone,Email
-Tour Manager,,,
-Artist Assistant,,,
-Catering Contact,,,
+HOW TO USE:
+1. Update quantities for each item
+2. Add brand preferences where applicable
+3. Set is_required based on rider requirements
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Hospitality

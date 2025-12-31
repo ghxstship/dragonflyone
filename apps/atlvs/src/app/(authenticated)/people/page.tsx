@@ -2,15 +2,24 @@
 
 /**
  * Unified People Page
- * Uses normalized ListPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors and formatters.
  */
 
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { User, Mail, Phone, Users, Briefcase, Music, Heart, UserCheck, Eye, Pencil, Trash2 } from 'lucide-react';
-import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  PEOPLE_STATUS_COLORS,
+  PEOPLE_TYPE_COLORS,
+  formatDate,
+} from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text, useNotifications} from '@ghxstship/ui';
+  Badge, Body, Box, ListPage, Stack, Text, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction,
+} from "@ghxstship/ui";
 import {
   usePeopleQuery,
   useDeletePerson,
@@ -28,18 +37,10 @@ const TYPE_CONFIG: Record<PersonType, { label: string; icon: React.ReactNode; co
   candidate: { label: 'Candidates', icon: <UserCheck className="h-4 w-4" />, color: 'outline' },
 };
 
-const STATUS_COLORS: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  active: 'success',
-  inactive: 'outline',
-  pending: 'warning',
-  archived: 'error',
-  draft: 'outline',
-};
-
 export default function PeoplePage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const canManagePeople = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const { data: people = [], isLoading, error, refetch } = usePeopleQuery({});
@@ -49,9 +50,9 @@ export default function PeoplePage() {
     if (!confirm(`Are you sure you want to delete ${person.display_name}?`)) return;
     try {
       await deleteMutation.mutateAsync(person.id);
-      addNotification({ type: 'success', title: 'Person Deleted', message: `${person.display_name} has been deleted.` });
+      toast.success("Person Deleted", `${person.display_name} has been deleted.`);
     } catch (err) {
-      addNotification({ type: 'error', title: 'Delete Failed', message: err instanceof Error ? err.message : 'Failed to delete person' });
+      toast.error('Delete Failed', err instanceof Error ? err.message : 'Failed to delete person');
     }
   };
 
@@ -69,12 +70,11 @@ export default function PeoplePage() {
     URL.revokeObjectURL(url);
   };
 
-  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-
+  
   const columns: ListPageColumn<Person>[] = [
     {
       key: 'display_name', label: 'Name', accessor: 'display_name', sortable: true,
-      render: (_, person) => (
+      render: (_value: unknown, person) => (
         <Stack direction="horizontal" gap={3} className="items-center">
           <Box className="w-10 h-10 rounded-avatar bg-primary/10 flex items-center justify-center overflow-hidden">
             {person.avatar_url ? (
@@ -92,7 +92,7 @@ export default function PeoplePage() {
     },
     {
       key: 'email', label: 'Contact', accessor: 'email',
-      render: (_, person) => (
+      render: (_value: unknown, person) => (
         <Stack gap={1}>
           {person.email && <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground"><Mail className="h-3 w-3" /><Text size="xs">{person.email}</Text></Stack>}
           {person.phone && <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground"><Phone className="h-3 w-3" /><Text size="xs">{person.phone}</Text></Stack>}
@@ -102,10 +102,10 @@ export default function PeoplePage() {
     { key: 'title', label: 'Title', accessor: 'title', sortable: true },
     {
       key: 'primary_type', label: 'Type', accessor: 'primary_type', sortable: true,
-      render: (_, person) => (
+      render: (_value: unknown, person) => (
         <Stack direction="horizontal" gap={1} className="flex-wrap">
           {person.person_types.slice(0, 2).map((type) => (
-            <Badge key={type} variant={STATUS_COLORS[TYPE_CONFIG[type]?.color] || 'outline'} className="text-body-xs">
+            <Badge key={type} variant={PEOPLE_TYPE_COLORS[type] || 'outline'} className="text-body-xs">
               {TYPE_CONFIG[type]?.label.replace('s', '') || type}
             </Badge>
           ))}
@@ -115,11 +115,11 @@ export default function PeoplePage() {
     },
     {
       key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_, person) => <Badge variant={STATUS_COLORS[person.status] || 'outline'}>{person.status.toUpperCase()}</Badge>,
+      render: (_value: unknown, person) => <Badge variant={PEOPLE_STATUS_COLORS[person.status] || 'outline'}>{person.status.toUpperCase()}</Badge>,
     },
     {
       key: 'updated_at', label: 'Updated', accessor: 'updated_at', sortable: true,
-      render: (_, person) => <Text size="sm" className="text-muted-foreground">{formatDate(person.updated_at)}</Text>,
+      render: (_value: unknown, person) => <Text size="sm" className="text-muted-foreground">{formatDate(person.updated_at)}</Text>,
     },
   ];
 
@@ -156,6 +156,9 @@ export default function PeoplePage() {
       emptyMessage="No people yet"
       emptyAction={canManagePeople ? { label: 'Add Person', onClick: () => router.push('/people/new') } : undefined}
       entityType="people"
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

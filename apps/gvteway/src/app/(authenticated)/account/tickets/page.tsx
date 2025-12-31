@@ -9,7 +9,7 @@ import {
   Modal,
   Stack,
   Text,
-  useNotifications,
+  useToast,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -30,7 +30,7 @@ interface DisplayTicket {
 
 export default function AccountTicketsPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const { data: ticketsData, isLoading, error, refetch } = useTickets();
   const [transferModalOpen, setTransferModalOpen] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<DisplayTicket | null>(null);
@@ -76,9 +76,9 @@ export default function AccountTicketsPage() {
       generator.addParagraph('QR Code for entry will be displayed in the GVTEWAY app. Please have your phone ready at the entrance.');
 
       generator.download(`ticket-${ticket.id.slice(0, 8)}.pdf`);
-      addNotification({ type: 'success', title: 'Ticket Downloaded', message: 'Your ticket has been downloaded' });
+      toast.success('Ticket Downloaded', 'Your ticket has been downloaded');
     } catch (err) {
-      addNotification({ type: 'error', title: 'Download Failed', message: err instanceof Error ? err.message : 'Failed to generate ticket' });
+      toast.error('Download Failed', err instanceof Error ? err.message : 'Failed to generate ticket');
     }
   };
 
@@ -93,7 +93,7 @@ export default function AccountTicketsPage() {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(transferEmail)) {
-      addNotification({ type: 'error', title: 'Invalid Email', message: 'Please enter a valid email address' });
+      toast.error('Invalid Email', 'Please enter a valid email address');
       return;
     }
 
@@ -113,15 +113,11 @@ export default function AccountTicketsPage() {
         throw new Error(data.error || 'Transfer failed');
       }
 
-      addNotification({ 
-        type: 'success', 
-        title: 'Transfer Initiated', 
-        message: `Transfer request sent to ${transferEmail}. They will receive an email to accept the ticket.` 
-      });
+      toast.success("Transfer Initiated", `Transfer request sent to ${transferEmail}. They will receive an email to accept the ticket.`);
       setTransferModalOpen(false);
       refetch();
     } catch (err) {
-      addNotification({ type: 'error', title: 'Transfer Failed', message: err instanceof Error ? err.message : 'Failed to transfer ticket' });
+      toast.error('Transfer Failed', err instanceof Error ? err.message : 'Failed to transfer ticket');
     } finally {
       setIsTransferring(false);
     }
@@ -135,7 +131,7 @@ export default function AccountTicketsPage() {
     { key: 'seat', label: 'Seat', accessor: (t) => t.seat || '—' },
     {
       key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_, ticket) => (
+      render: (_value: unknown, ticket) => (
         <Badge variant={ticket.status === 'active' ? 'success' : ticket.status === 'used' ? 'info' : 'warning'}>
           {ticket.status}
         </Badge>
@@ -176,6 +172,9 @@ export default function AccountTicketsPage() {
         emptyAction={{ label: 'Browse Events', onClick: () => router.push('/browse') }}
         entityType="tickets"
         breadcrumbs={[{ label: 'Account', href: '/account' }, { label: 'Tickets' }]}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

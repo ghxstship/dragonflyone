@@ -12,7 +12,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { Calendar, MapPin, Settings, FileText } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body, EditPage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
+  Body, EditPage, Grid, Input, Select, Stack, Text, Textarea, useToast,
+  type FormSection} from "@ghxstship/ui";
 import { useEvent, useUpdateEvent, useDeleteEvent, type Event } from '@/hooks/useEvents';
 
 const EVENT_TYPES = [
@@ -66,7 +67,7 @@ export default function EditEventPage() {
   const eventId = params?.id as string;
   
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   
   const { data: event, isLoading, error } = useEvent(eventId);
   const updateMutation = useUpdateEvent();
@@ -176,19 +177,11 @@ export default function EditEventPage() {
         tags: tags.length > 0 ? tags : undefined,
       });
 
-      addNotification({
-        type: 'success',
-        title: 'Event Updated',
-        message: `${formData.name} has been updated.`,
-      });
+      toast.success('Event Updated', `${formData.name} has been updated.`);
 
       router.push(`/events/${eventId}`);
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Update Event',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Update Event', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsSubmitting(false);
     }
@@ -200,19 +193,11 @@ export default function EditEventPage() {
     try {
       await deleteMutation.mutateAsync(eventId);
 
-      addNotification({
-        type: 'success',
-        title: 'Event Deleted',
-        message: `${event?.name} has been removed.`,
-      });
+      toast.success('Event Deleted', `${event?.name} has been removed.`);
 
       router.push('/events');
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Delete Event',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Delete Event', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsDeleting(false);
     }

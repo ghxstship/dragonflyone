@@ -12,7 +12,8 @@ import { useRouter } from 'next/navigation';
 import { Calendar, Clock, MapPin, Settings } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
+  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useToast,
+  type FormSection} from "@ghxstship/ui";
 import { useCreateEvent, type Event } from '@/hooks/useEvents';
 
 const EVENT_TYPES = [
@@ -60,7 +61,7 @@ interface FormData {
 export default function NewEventPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const createMutation = useCreateEvent();
 
   const canManageEvents = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
@@ -142,19 +143,11 @@ export default function NewEventPage() {
         tags: tags.length > 0 ? tags : undefined,
       });
 
-      addNotification({
-        type: 'success',
-        title: 'Event Created',
-        message: `${formData.name} has been created.`,
-      });
+      toast.success('Event Created', `${formData.name} has been created.`);
 
       router.push(`/events/${result.event?.id || result.id}`);
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Create Event',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Create Event', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsSubmitting(false);
     }

@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Eye, ArrowUp, Check } from 'lucide-react';
 // Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, Grid, Stack, Body} from '@ghxstship/ui';
+  ListPage, Badge, RecordFormModal, DetailDrawer, Grid, Stack, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from '@ghxstship/config';
 
 const ADMIN_ROLES = [
@@ -33,9 +35,9 @@ const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<Issue>[] = [
   { key: 'title', label: 'Issue', accessor: 'title', sortable: true },
-  { key: 'category', label: 'Category', accessor: 'category', render: (v) => <Badge variant="outline">{String(v).toUpperCase()}</Badge> },
-  { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v) => <Badge variant={getPriorityVariant(String(v))}>{String(v).toUpperCase()}</Badge> },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v).replace('_', ' ').toUpperCase()}</Badge> },
+  { key: 'category', label: 'Category', accessor: 'category', render: (v: unknown) => <Badge variant="outline">{String(v).toUpperCase()}</Badge> },
+  { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v: unknown) => <Badge variant={getPriorityVariant(String(v))}>{String(v).toUpperCase()}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v).replace('_', ' ').toUpperCase()}</Badge> },
   { key: 'department', label: 'Department', accessor: 'department' },
   { key: 'reported_by', label: 'Reported By', accessor: 'reported_by' },
   { key: 'created_at', label: 'Created', accessor: (r) => new Date(r.created_at).toLocaleTimeString(), sortable: true },
@@ -57,6 +59,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function IssuesPage() {
+  const router = useRouter();
   const { hasRole } = useAuthContext();
   
   // RBAC: Check if user has admin access
@@ -181,6 +184,7 @@ export default function IssuesPage() {
           onImport={handleImport}
           importTemplates={importTemplates}
           importSampleFields={['title', 'description', 'category', 'priority', 'department']}
+          templateDownloadUrl="/templates/safety-compliance/incident-report-form.csv"
           onExport={createExportHandler({
             filename: "issues",
             getData: () => issues.map(i => ({
@@ -217,6 +221,9 @@ export default function IssuesPage() {
           { id: 'resolve', label: 'Resolve Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ] : []}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

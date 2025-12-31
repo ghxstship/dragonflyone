@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { Eye, Check, X, Trash2, Download } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, useNotifications, Stack, Grid, Body} from "@ghxstship/ui";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, useToast, Stack, Grid, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
 
 // Roles that can approve/reject/delete expenses
@@ -24,10 +25,10 @@ const columns: ListPageColumn<Expense>[] = [
   { key: 'expense_number', label: 'Expense #', accessor: 'expense_number', sortable: true },
   { key: 'crew_member_name', label: 'Crew Member', accessor: 'crew_member_name', sortable: true },
   { key: 'project_name', label: 'Project', accessor: 'project_name' },
-  { key: 'category', label: 'Category', accessor: 'category', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'category', label: 'Category', accessor: 'category', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
   { key: 'amount', label: 'Amount', accessor: (r) => formatCurrency(r.amount), sortable: true },
   { key: 'expense_date', label: 'Date', accessor: (r) => formatDate(r.expense_date), sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={v === 'approved' || v === 'paid' ? 'solid' : v === 'pending' ? 'outline' : 'ghost'}>{String(v)}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={v === 'approved' || v === 'paid' ? 'solid' : v === 'pending' ? 'outline' : 'ghost'}>{String(v)}</Badge> },
 ];
 
 const filters: ListPageFilter[] = [
@@ -44,7 +45,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function ExpensesPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const { hasRole } = useAuthContext();
   
   // RBAC: Check if user has admin access for approve/reject/delete operations
@@ -71,11 +72,11 @@ export default function ExpensesPage() {
     ...(canManageExpenses ? [
       { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: async (r: Expense) => {
         await updateStatus({ id: r.id, status: 'approved' });
-        addNotification({ type: 'success', title: 'Success', message: 'Expense approved' });
+        toast.success('Success', 'Expense approved');
       }},
       { id: 'reject', label: 'Reject', icon: <X className="size-4" />, variant: 'danger' as const, onClick: async (r: Expense) => {
         await updateStatus({ id: r.id, status: 'rejected' });
-        addNotification({ type: 'success', title: 'Success', message: 'Expense rejected' });
+        toast.success('Success', 'Expense rejected');
       }},
       { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (r: Expense) => { setExpenseToDelete(r); setDeleteConfirmOpen(true); } },
     ] : []),
@@ -187,6 +188,7 @@ export default function ExpensesPage() {
         onImport={handleImport}
         importTemplates={importTemplates}
         importSampleFields={['expense_number', 'amount', 'category', 'description', 'expense_date', 'status']}
+        templateDownloadUrl="/templates/financial/expense-report-template.csv"
         onExport={createExportHandler({
           filename: "expenses",
           getData: () => expenses.map((exp: Expense) => ({
@@ -208,7 +210,10 @@ export default function ExpensesPage() {
         stats={stats}
         emptyMessage="No expenses found"
         emptyAction={{ label: 'Submit Expense', onClick: () => setCreateModalOpen(true) }}
-showFavorite
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
+        showFavorite
         showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Submit Expense" fields={formFields} onSubmit={handleCreate} size="lg" />

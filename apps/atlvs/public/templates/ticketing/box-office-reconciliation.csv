@@ -1,133 +1,29 @@
-BOX OFFICE RECONCILIATION
-Event Name:,[Enter Event Name]
-Event Date:,[Enter Date]
-Venue:,[Enter Venue]
-Prepared By:,[Enter Name]
-Reconciliation Date:,[Enter Date]
+sale_category,ticket_type,quantity,face_value,fees,gross_revenue,payment_method,transaction_count,net_amount,notes
+advance_online,ga,0,0.00,0.00,0.00,credit_card,0,0.00,
+advance_online,vip,0,0.00,0.00,0.00,credit_card,0,0.00,
+advance_phone,ga,0,0.00,0.00,0.00,credit_card,0,0.00,
+day_of_show,ga,0,0.00,0.00,0.00,cash,0,0.00,
+day_of_show,ga,0,0.00,0.00,0.00,credit_card,0,0.00,
+comp,artist,0,0.00,0.00,0.00,,0,0.00,Artist comps
+comp,promoter,0,0.00,0.00,0.00,,0,0.00,Promoter comps
+comp,media,0,0.00,0.00,0.00,,0,0.00,Press comps
+refund,,0,0.00,0.00,0.00,,0,0.00,
 
-TICKET SALES SUMMARY
-Category,Quantity,Face Value,Fees,Gross Revenue
-Advance - Online,,$,$,$
-Advance - Phone,,$,$,$
-Advance - Outlet,,$,$,$
-Day of Show - Cash,,$,$,$
-Day of Show - Credit,,$,$,$
-Will Call Conversions,,$,$,$
-TOTAL SOLD,,$,$,$
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- sale_category: advance_online | advance_phone | advance_outlet | day_of_show | will_call | comp | refund
+- ticket_type: ga | vip | reserved | ada | artist | promoter | venue | sponsor | media
+- quantity: Number of tickets
+- face_value: Face value per ticket (decimal)
+- fees: Fees per ticket (decimal)
+- gross_revenue: Total gross (quantity x (face_value + fees))
+- payment_method: credit_card | cash | check | comp
+- transaction_count: Number of transactions
+- net_amount: Net after fees
+- notes: Additional notes
 
-TICKET INVENTORY
-Category,Allocated,Sold,Comps,Holds,Unsold
-General Admission,,,,,,
-VIP,,,,,,
-Reserved,,,,,,
-ADA,,,,,,
-TOTAL,,,,,,
-
-COMP TICKETS ISSUED
-Category,Quantity,Face Value,Authorized By,Notes
-Artist/Management,,$,,
-Promoter,,$,,
-Venue,,$,,
-Sponsors,,$,,
-Media/Press,,$,,
-Contest Winners,,$,,
-Other,,$,,
-TOTAL COMPS,,$,,
-
-REFUNDS PROCESSED
-Date,Order #,Quantity,Amount,Reason,Processed By
-,,,,$,,
-,,,,$,,
-,,,,$,,
-TOTAL REFUNDS,,,$,,
-
-PAYMENT RECONCILIATION
-Payment Method,Transactions,Gross Amount,Fees,Net Amount
-Credit Card - Visa,,$,$,$
-Credit Card - MC,,$,$,$
-Credit Card - Amex,,$,$,$
-Debit Card,,$,$,$
-Cash,,$,$,$
-Check,,$,$,$
-Other,,$,$,$
-TOTAL,,$,$,$
-
-CASH RECONCILIATION
-Item,Amount
-Opening Bank,$
-Cash Sales,$
-Less: Payouts,$
-Expected Cash,$
-Actual Cash,$
-Variance,$
-Variance Explanation,
-
-CREDIT CARD RECONCILIATION
-Processor,Transactions,Gross,Processing Fee %,Processing Fees,Net
-,,$,%,$,$
-,,$,%,$,$
-TOTAL,,$,,$,$
-
-FEE BREAKDOWN
-Fee Type,Per Ticket,Quantity,Total,Collected By,Remit To
-Service Fee,$,,$,,
-Facility Fee,$,,$,,
-Order Fee,$,,$,,
-Credit Card Fee,$,,$,,
-TOTAL FEES,,,$,,
-
-REVENUE DISTRIBUTION
-Recipient,Percentage,Amount,Payment Method,Due Date,Paid
-Promoter,%,$,,,[ ]
-Venue,%,$,,,[ ]
-Ticketing Platform,%,$,,,[ ]
-Artist (if applicable),%,$,,,[ ]
-TOTAL,100%,$,,,
-
-DISCREPANCIES
-Item,Expected,Actual,Variance,Explanation,Resolution
-Ticket Count,,,,,
-Cash,,,,$,,
-Credit Card,,,,$,,
-Comps,,,,,
-
-WILL CALL REPORT
-Category,Tickets Held,Tickets Picked Up,No Shows
-Artist Guest List,,,,
-Promoter Guest List,,,,
-VIP Upgrades,,,,
-Online Will Call,,,,
-TOTAL,,,,
-
-DAILY SALES BREAKDOWN (if multi-day)
-Date,Tickets Sold,Gross Revenue,Notes
-,,$,
-,,$,
-,,$,
-TOTAL,,$,
-
-FINAL NUMBERS
-Metric,Value
-Total Capacity,
-Total Sold,
-Total Comps,
-Total Attendance,
-Sellout Percentage,%
-Gross Ticket Revenue,$
-Total Fees,$
-Refunds,$
-Net Ticket Revenue,$
-
-APPROVALS
-Role,Name,Signature,Date
-Box Office Manager,,,
-Venue Representative,,,
-Promoter Representative,,,
-Accounting,,,
-
-NOTES
-1. All figures are final and reconciled
-2. Discrepancies over $100 require written explanation
-3. Cash variance over $50 requires investigation
-4. Retain all documentation for 7 years
-5. Submit reconciliation within 48 hours of event
+HOW TO USE:
+1. One row per sale category/ticket type/payment method combination
+2. Use decimal format for amounts (no $ symbol)
+3. Delete this instruction section before importing
+4. Import via ATLVS > Settings > Data Import > Box Office

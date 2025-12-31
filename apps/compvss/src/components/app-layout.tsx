@@ -37,7 +37,7 @@ import {
   compvssDemoWorkspaces,
   compvssBottomNavigation,
 } from "../data/compvss";
-import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions, Box} from "@ghxstship/ui";
+import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions, Box, HeaderNotification, HeaderQuickAction } from "@ghxstship/ui";
 import {
   useCommandPalette,
   buildNavigationCommands,
@@ -47,7 +47,7 @@ import {
   useKeyboardShortcuts,
   useRecentPages,
 } from "@ghxstship/config/hooks";
-import { Search, Users, Calendar, Wrench } from "lucide-react";
+import { Search, Users, Calendar, Wrench, Plus } from "lucide-react";
 
 
 // =============================================================================
@@ -321,6 +321,81 @@ export function CompvssAppLayout({
     workspaces: compvssDemoWorkspaces,
   };
 
+  // Demo notifications for header (enhanced format)
+  const demoNotifications: HeaderNotification[] = [
+    { 
+      id: "1", 
+      title: "Crew call sheet updated", 
+      message: "Tomorrow's call time changed to 6:00 AM", 
+      timestamp: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
+      read: false,
+      type: "warning",
+      priority: "high",
+      category: "alerts",
+      source: "Schedule",
+      actionLabel: "View schedule",
+      actionUrl: "/schedule",
+    },
+    { 
+      id: "2", 
+      title: "Equipment check-in complete", 
+      message: "All audio equipment verified for Stage A", 
+      timestamp: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
+      read: false,
+      type: "success",
+      priority: "normal",
+      category: "updates",
+      source: "Equipment",
+    },
+    { 
+      id: "3", 
+      title: "Mike mentioned you", 
+      message: "Can you confirm the rigging specs?", 
+      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+      read: true,
+      type: "info",
+      priority: "normal",
+      category: "mentions",
+      source: "Comments",
+    },
+  ];
+
+  // Header quick actions (contextual based on current page)
+  const headerQuickActions: HeaderQuickAction[] = [
+    {
+      id: "new-crew",
+      label: "Add Crew",
+      icon: <Users size={14} />,
+      href: "/crew/new",
+      shortcut: "C",
+      contextPaths: ["/crew*", "/dashboard*"],
+    },
+    {
+      id: "new-schedule",
+      label: "New Schedule",
+      icon: <Calendar size={14} />,
+      href: "/schedule/new",
+      shortcut: "S",
+      contextPaths: ["/schedule*", "/run-of-show*"],
+    },
+    {
+      id: "new-equipment",
+      label: "Add Equipment",
+      icon: <Wrench size={14} />,
+      href: "/equipment/new",
+      shortcut: "E",
+      contextPaths: ["/equipment*"],
+    },
+    {
+      id: "new-advance",
+      label: "New Advance",
+      icon: <Plus size={14} />,
+      href: "/advancing/new",
+      shortcut: "A",
+      contextPaths: ["/advancing*"],
+    },
+  ];
+
   // For portal pages, use minimal branded layout without sidebar
   if (variant === "portal") {
     const isDark = background === "black";
@@ -379,20 +454,48 @@ export function CompvssAppLayout({
             name: user.name || user.full_name || "User",
             email: user.email,
             avatar: user.avatar,
+            status: "online",
+            role: user.roles?.[0] || "Crew",
           } : {
             name: "Crew Lead",
             email: "crew@ghxstship.com",
+            status: "online",
+            role: "Production Manager",
           }}
           quickActions={compvssQuickActions.slice(0, 3)}
+          headerQuickActions={headerQuickActions}
           favorites={favorites}
           recentPages={recentPages}
           userRoles={userRoles}
           storageKey="compvss-sidebar"
           inverted={inverted}
           onNavigate={handleContextNavigation}
+          onSearchOpen={() => {
+            // Command palette is already handled by useCommandPalette hook
+          }}
           settingsPath={isProductionContext ? `/p/${productionId}/settings` : "/settings"}
+          helpPath="/help"
+          notifications={demoNotifications}
+          onNotificationClick={(notification) => {
+            if (notification.actionUrl) {
+              router.push(notification.actionUrl);
+            }
+          }}
+          onNotificationMarkRead={(id) => {
+            console.log("Mark notification read:", id);
+          }}
+          onNotificationMarkAllRead={() => {
+            console.log("Mark all notifications read");
+          }}
+          onNotificationSettings={() => {
+            router.push("/settings/notifications");
+          }}
+          onKeyboardShortcuts={() => {
+            console.log("Show keyboard shortcuts");
+          }}
           className={className}
           headerActions={userMenu}
+          useEnhancedHeader={true}
         >
           <Box className="p-6 lg:p-8 pb-20 md:pb-8">
             <PageTransition type="fade" duration={200}>

@@ -16,7 +16,7 @@ import {
   Select,
   SettingsRow,
   SettingsGroup,
-  useNotifications,
+  useToast,
   DetailPage,
   Section,
   SectionHeader,
@@ -25,7 +25,7 @@ import { Bell, Mail, Smartphone, MessageSquare, Clock, Save, RotateCcw } from "l
 import { useNotificationSettingsData, type NotificationPreferences } from "@/hooks/useNotificationSettings";
 
 export default function NotificationSettingsPage() {
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [localPreferences, setLocalPreferences] = useState<NotificationPreferences | null>(null);
 
   const {
@@ -42,9 +42,9 @@ export default function NotificationSettingsPage() {
   const handleSave = async () => {
     try {
       await savePreferences(preferences);
-      addNotification({ type: "success", title: "Saved", message: "Preferences saved successfully" });
+      toast.success("Saved", "Preferences saved successfully");
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to save preferences" });
+      toast.error("Error", err instanceof Error ? err.message : "Failed to save preferences");
     }
   };
 

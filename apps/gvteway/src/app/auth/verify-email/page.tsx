@@ -14,7 +14,7 @@ import {
   AuthPage,
   IconBox,
   Alert,
-  useNotifications,
+  useToast,
 } from "@ghxstship/ui";
 import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
 import NextLink from "next/link";
@@ -30,15 +30,11 @@ function VerifyEmailContent() {
   const [isResending, setIsResending] = useState(false);
   const [resendSuccess, setResendSuccess] = useState(false);
   const [resendError, setResendError] = useState("");
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const handleResendVerification = async () => {
     if (!email) {
-      addNotification({
-        type: "error",
-        title: "Error",
-        message: "No email address provided",
-      });
+      toast.error("Error", "No email address provided",);
       return;
     }
 
@@ -59,19 +55,11 @@ function VerifyEmailContent() {
       }
 
       setResendSuccess(true);
-      addNotification({
-        type: "success",
-        title: "Email Sent",
-        message: "Verification email has been resent",
-      });
+      toast.success("Email Sent", "Verification email has been resent",);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to resend verification email";
       setResendError(message);
-      addNotification({
-        type: "error",
-        title: "Error",
-        message,
-      });
+      toast.error("Error", message);
     } finally {
       setIsResending(false);
     }

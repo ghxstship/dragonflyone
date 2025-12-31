@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import {
   useRisks,
@@ -20,6 +22,7 @@ const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
 };
 
 export default function RiskRegisterPage() {
+  const router = useRouter();
   const { data: risks = [], isLoading, error, refetch } = useRisks();
   const [selectedRisk, setSelectedRisk] = useState<Risk | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -34,7 +37,7 @@ export default function RiskRegisterPage() {
       label: 'Risk',
       accessor: 'title',
       sortable: true,
-      render: (_, risk) => (
+      render: (_value: unknown, risk) => (
         <Stack gap={1}>
           <Body className="font-display">{risk.title}</Body>
           <Body size="sm" className="text-muted-foreground">{risk.projectName}</Body>
@@ -46,27 +49,27 @@ export default function RiskRegisterPage() {
       label: 'Category',
       accessor: 'category',
       sortable: true,
-      render: (_, risk) => <Badge variant="outline">{risk.category}</Badge>,
+      render: (_value: unknown, risk) => <Badge variant="outline">{risk.category}</Badge>,
     },
     {
       key: 'probability',
       label: 'P/I',
       accessor: (r) => `${r.probability}/${r.impact}`,
-      render: (_, risk) => <Body size="sm">P: {risk.probability} / I: {risk.impact}</Body>,
+      render: (_value: unknown, risk) => <Body size="sm">P: {risk.probability} / I: {risk.impact}</Body>,
     },
     {
       key: 'riskScore',
       label: 'Score',
       accessor: 'riskScore',
       sortable: true,
-      render: (_, risk) => <Badge variant={risk.riskScore >= 12 ? "solid" : "outline"}>{risk.riskScore}</Badge>,
+      render: (_value: unknown, risk) => <Badge variant={risk.riskScore >= 12 ? "solid" : "outline"}>{risk.riskScore}</Badge>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, risk) => <Badge variant={getStatusVariant(risk.status)}>{risk.status}</Badge>,
+      render: (_value: unknown, risk) => <Badge variant={getStatusVariant(risk.status)}>{risk.status}</Badge>,
     },
     { key: 'owner', label: 'Owner', accessor: 'owner' },
   ];
@@ -143,6 +146,9 @@ export default function RiskRegisterPage() {
         stats={stats}
         emptyMessage="No risks found"
         emptyAction={{ label: 'Add Risk', onClick: () => setShowAddModal(true) }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

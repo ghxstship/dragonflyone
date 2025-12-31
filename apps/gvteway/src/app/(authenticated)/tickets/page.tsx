@@ -38,7 +38,7 @@ export default function TicketsPage() {
       key: 'ticket_type', 
       label: 'Type', 
       accessor: (row) => row.ticket_type?.name || 'General',
-      render: (value) => <Badge variant="outline">{String(value)}</Badge>
+      render: (value: unknown) => <Badge variant="outline">{String(value)}</Badge>
     },
     { key: 'seat_number', label: 'Seat', accessor: (row) => row.seat_number || 'GA' },
     { 
@@ -46,21 +46,21 @@ export default function TicketsPage() {
       label: 'Price', 
       accessor: 'price', 
       sortable: true,
-      render: (value) => `$${Number(value || 0).toFixed(2)}`
+      render: (value: unknown) => `$${Number(value || 0).toFixed(2)}`
     },
     { 
       key: 'event_date', 
       label: 'Event Date', 
       accessor: (row) => row.event?.start_date || row.event?.event_date,
       sortable: true,
-      render: (value) => value ? new Date(String(value)).toLocaleDateString() : 'TBD'
+      render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : 'TBD'
     },
     { 
       key: 'status', 
       label: 'Status', 
       accessor: 'status', 
       sortable: true,
-      render: (value) => {
+      render: (value: unknown) => {
         // Schema: status enum ['valid', 'used', 'cancelled', 'refunded']
         const variant = value === 'valid' ? 'success' : value === 'used' ? 'info' : value === 'cancelled' ? 'error' : value === 'refunded' ? 'warning' : 'outline';
         return <Badge variant={variant}>{String(value).toUpperCase()}</Badge>;
@@ -70,7 +70,7 @@ export default function TicketsPage() {
       key: 'id', 
       label: 'Ticket ID', 
       accessor: 'id',
-      render: (value) => <Text className="font-mono">{String(value).substring(0, 12).toUpperCase()}</Text>
+      render: (value: unknown) => <Text className="font-mono">{String(value).substring(0, 12).toUpperCase()}</Text>
     },
   ];
 
@@ -193,6 +193,9 @@ export default function TicketsPage() {
         stats={stats}
         emptyMessage="No tickets found"
         emptyAction={{ label: 'Browse Events', onClick: () => router.push('/events') }}
+        quickActions={[
+          { id: 'scan', label: 'Scan', icon: <QrCode className="size-4" />, onClick: () => router.push('/tickets/scan') },
+        ]}
       />
 
       <DetailDrawer

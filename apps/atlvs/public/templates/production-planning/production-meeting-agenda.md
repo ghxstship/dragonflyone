@@ -1,140 +1,94 @@
 # Production Meeting Agenda
 
-**Production:** [Enter Production Name]  
-**Date:** [Enter Date]  
-**Time:** [Enter Time]  
-**Location:** [Enter Location / Video Call Link]  
-**Called By:** [Enter Name]
+<!-- IMPORT FORMAT: Copy action items table to CSV for import -->
 
----
+## Meeting Details
+
+| Field | Value |
+|-------|-------|
+| **Production** | |
+| **Date** | |
+| **Time** | |
+| **Location** | |
+| **Called By** | |
 
 ## Attendees
 
-| Name | Role | Present |
-|------|------|---------|
-| | Producer | [ ] |
-| | Production Manager | [ ] |
-| | Stage Manager | [ ] |
-| | Technical Director | [ ] |
-| | Audio Lead | [ ] |
-| | Lighting Lead | [ ] |
-| | Video Lead | [ ] |
-| | Operations Manager | [ ] |
-| | Marketing Lead | [ ] |
-| | Finance Lead | [ ] |
+| name | role | is_present |
+|------|------|------------|
+| | Producer | false |
+| | Production Manager | false |
+| | Stage Manager | false |
+| | Technical Director | false |
+| | Audio Lead | false |
+| | Lighting Lead | false |
+| | Video Lead | false |
+| | Operations Manager | false |
+| | Marketing Lead | false |
+| | Finance Lead | false |
 
----
+## Action Items (Importable)
 
-## Agenda Items
+| action_item | owner | due_date | priority | status | notes |
+|-------------|-------|----------|----------|--------|-------|
+| | | | high | not_started | |
+| | | | medium | not_started | |
+| | | | low | not_started | |
 
-### 1. Review of Previous Action Items (10 min)
+## Issues & Blockers
 
-| Action Item | Owner | Status | Notes |
-|-------------|-------|--------|-------|
-| | | [ ] Complete [ ] In Progress [ ] Blocked | |
-| | | [ ] Complete [ ] In Progress [ ] Blocked | |
-| | | [ ] Complete [ ] In Progress [ ] Blocked | |
+| issue | impact | owner | resolution | due_date | status |
+|-------|--------|-------|------------|----------|--------|
+| | high | | | | open |
+| | medium | | | | open |
 
----
+## Decisions Required
 
-### 2. Production Updates (15 min)
+| decision | options | recommendation | decision_made | decided_by |
+|----------|---------|----------------|---------------|------------|
+| | | | | |
 
-#### Timeline Status
-- [ ] On Track
-- [ ] Minor Delays
-- [ ] Major Concerns
+## Department Reports
 
-**Key Milestones:**
-| Milestone | Target Date | Status | Notes |
-|-----------|-------------|--------|-------|
-| | | | |
-| | | | |
+### Technical
+- **Audio:** 
+- **Lighting:** 
+- **Video:** 
+- **Staging:** 
 
-#### Budget Status
-- Current Spend: $
-- Budget Remaining: $
-- Variance: %
+### Operations
+- **Venue:** 
+- **Security:** 
+- **Catering:** 
 
-**Budget Concerns:**
+### Talent
+- **Artist Status:** 
+- **Advancing:** 
+- **Rider:** 
 
----
-
-### 3. Department Reports (20 min)
-
-#### Technical
-- Audio:
-- Lighting:
-- Video:
-- Staging:
-
-#### Operations
-- Venue:
-- Security:
-- Catering:
-- Transportation:
-
-#### Talent
-- Artist Confirmation:
-- Advancing Status:
-- Rider Requirements:
-
-#### Marketing
-- Ticket Sales:
-- Marketing Campaign:
-- PR/Media:
-
----
-
-### 4. Issues & Blockers (15 min)
-
-| Issue | Impact | Owner | Resolution | Due Date |
-|-------|--------|-------|------------|----------|
-| | High/Medium/Low | | | |
-| | High/Medium/Low | | | |
-| | High/Medium/Low | | | |
-
----
-
-### 5. Decisions Required (10 min)
-
-| Decision | Options | Recommendation | Decision Made |
-|----------|---------|----------------|---------------|
-| | | | |
-| | | | |
-
----
-
-### 6. New Action Items (10 min)
-
-| Action Item | Owner | Due Date | Priority |
-|-------------|-------|----------|----------|
-| | | | High/Medium/Low |
-| | | | High/Medium/Low |
-| | | | High/Medium/Low |
-| | | | High/Medium/Low |
-| | | | High/Medium/Low |
-
----
-
-### 7. Next Meeting
-
-**Date:** [Enter Date]  
-**Time:** [Enter Time]  
-**Location:** [Enter Location]
-
-**Agenda Items for Next Meeting:**
-1. 
-2. 
-3. 
-
----
+### Marketing
+- **Ticket Sales:** 
+- **Campaign:** 
 
 ## Meeting Notes
 
-[Space for additional notes taken during the meeting]
+
+
+## Next Meeting
+
+| Field | Value |
+|-------|-------|
+| **Date** | |
+| **Time** | |
+| **Location** | |
 
 ---
 
-**Meeting Adjourned:** [Enter Time]  
-**Minutes Prepared By:** [Enter Name]  
-**Distribution:** [List of recipients]
+<!-- IMPORT INSTRUCTIONS
+To import action items:
+1. Copy the Action Items table to a CSV file
+2. Ensure dates are YYYY-MM-DD format
+3. Valid priority: high | medium | low
+4. Valid status: not_started | in_progress | complete | blocked
+5. Import via ATLVS > Settings > Data Import > Action Items
+-->

@@ -6,7 +6,8 @@ import { Eye, ClipboardList, Pencil, Trash2, Download } from "lucide-react";
 // Layout provided by route group
 import { useCrew } from "@/hooks/useCrew";
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body} from "@ghxstship/ui";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
 
 // Roles that can manage crew (COMPVSS has no SUPER_ADMIN, only ADMIN)
@@ -43,7 +44,7 @@ const columns: ListPageColumn<CrewMember>[] = [
     label: 'Status', 
     accessor: 'availability', 
     sortable: true,
-    render: (value) => {
+    render: (value: unknown) => {
       // Schema: availability enum 'available' | 'busy' | 'on-leave'
       const variant = value === 'available' ? 'success' : value === 'busy' ? 'warning' : 'outline';
       const label = value === 'available' ? 'Available' : value === 'busy' ? 'Busy' : 'On Leave';
@@ -55,14 +56,14 @@ const columns: ListPageColumn<CrewMember>[] = [
     label: 'Day Rate', 
     accessor: 'rate', 
     sortable: true,
-    render: (value) => `$${Number(value).toLocaleString()}/day`
+    render: (value: unknown) => `$${Number(value).toLocaleString()}/day`
   },
   { 
     key: 'rating', 
     label: 'Rating', 
     accessor: 'rating', 
     sortable: true,
-    render: (value) => `${value}★`
+    render: (value: unknown) => `${value}★`
   },
 ];
 
@@ -147,7 +148,7 @@ export default function CrewPage() {
   }));
 
   const rowActions: ListPageAction<CrewMember>[] = [
-    { id: 'view', label: 'View Profile', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedMember(row); setDrawerOpen(true); } },
+    { id: 'view', label: 'View Profile', icon: <Eye className="size-4" />, onClick: (row: CrewMember) => { setSelectedMember(row); setDrawerOpen(true); } },
     ...(canManageCrew ? [
       { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" />, onClick: (row: CrewMember) => router.push(`/crew/assign?member=${row.id}`) },
       { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row: CrewMember) => router.push(`/crew/${row.id}/edit`) },
@@ -340,6 +341,7 @@ export default function CrewPage() {
         onImport={handleImport}
         importTemplates={importTemplates}
         importSampleFields={['name', 'role', 'department', 'rate', 'email']}
+        templateDownloadUrl="/templates/crew-management/crew-roster-template.csv"
         onExport={createExportHandler({
           filename: "crew",
           getData: () => crewList.map(c => ({
@@ -358,7 +360,10 @@ export default function CrewPage() {
         stats={stats}
         emptyMessage="No crew members found"
         emptyAction={canManageCrew ? { label: 'Add Crew Member', onClick: () => setCreateModalOpen(true) } : undefined}
-showFavorite
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
+        showFavorite
         showSettings
       />
 

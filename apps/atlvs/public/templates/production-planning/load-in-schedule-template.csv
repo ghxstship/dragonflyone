@@ -1,80 +1,37 @@
-LOAD-IN SCHEDULE
-Production:,[Enter Production Name]
-Date:,[Enter Date]
-Venue:,[Enter Venue]
-Production Manager:,[Enter Name]
+scheduled_time,activity,vendor_name,dock_number,equipment,contact_name,contact_phone,status,notes
+06:00,Venue Opens,Venue Staff,,Keys/Access,,,scheduled,
+06:30,Production Arrives,Production Team,,Cases/Tools,,,scheduled,
+07:00,Staging Delivery,Staging Co.,1,Deck/Risers,,,scheduled,
+07:30,Rigging Call,Rigging Crew,,Motors/Chain,,,scheduled,
+08:00,Audio Delivery,Audio Vendor,2,PA/Consoles,,,scheduled,
+08:30,Lighting Delivery,Lighting Vendor,1,Fixtures/Truss,,,scheduled,
+09:00,Video Delivery,Video Vendor,2,LED/Cameras,,,scheduled,
+09:30,Backline Delivery,Backline Co.,1,Drums/Amps,,,scheduled,
+10:00,Decor/Scenic,Scenic Vendor,2,Set Pieces,,,scheduled,
+10:30,Catering Setup,Caterer,,Tables/Food,,,scheduled,
+11:00,Merch Delivery,Merch Team,1,Merch/POS,,,scheduled,
+12:00,Lunch Break,All Crew,,Catering,,,scheduled,
+13:00,Focus/Program,LD/Crew,,Lighting,,,scheduled,
+14:00,Line Check,Audio/Band,,Audio,,,scheduled,
+15:00,Sound Check,Artist,,Full System,,,scheduled,
+16:00,Dinner Break,All Crew,,Catering,,,scheduled,
+17:00,Doors Open,All Departments,,Ready,,,scheduled,
 
-VENUE ACCESS INFORMATION
-Item,Details
-Venue Address,
-Loading Dock Location,
-Dock Hours,
-Number of Docks,
-Freight Elevator,Yes/No
-Max Vehicle Size,
-Parking Location,
-Venue Contact,
-Venue Phone,
-Security Check-In,
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- scheduled_time: Time of activity (HH:MM in 24-hour format)
+- activity: Description of the activity
+- vendor_name: Vendor or crew responsible
+- dock_number: Loading dock number (integer, leave blank if N/A)
+- equipment: Equipment being delivered/used
+- contact_name: Contact person name
+- contact_phone: Contact phone number
+- status: scheduled | in_progress | complete | delayed | cancelled
+- notes: Additional notes
 
-LOAD-IN TIMELINE
-Time,Activity,Vendor/Crew,Dock #,Equipment,Contact,Phone,Status
-06:00,Venue Opens,Venue Staff,N/A,Keys/Access,,,
-06:30,Production Arrives,Production Team,N/A,Cases/Tools,,,
-07:00,Staging Delivery,Staging Co.,Dock 1,Deck/Risers,,,
-07:30,Rigging Call,Rigging Crew,N/A,Motors/Chain,,,
-08:00,Audio Delivery,Audio Vendor,Dock 2,PA/Consoles,,,
-08:30,Lighting Delivery,Lighting Vendor,Dock 1,Fixtures/Truss,,,
-09:00,Video Delivery,Video Vendor,Dock 2,LED/Cameras,,,
-09:30,Backline Delivery,Backline Co.,Dock 1,Drums/Amps,,,
-10:00,Decor/Scenic,Scenic Vendor,Dock 2,Set Pieces,,,
-10:30,Catering Setup,Caterer,Service,Tables/Food,,,
-11:00,Merch Delivery,Merch Team,Dock 1,Merch/POS,,,
-12:00,Lunch Break,All Crew,N/A,Catering,,,
-13:00,Focus/Program,LD/Crew,N/A,Lighting,,,
-14:00,Line Check,Audio/Band,N/A,Audio,,,
-15:00,Sound Check,Artist,N/A,Full System,,,
-16:00,Dinner Break,All Crew,N/A,Catering,,,
-17:00,Doors Open,All Departments,N/A,Ready,,,
-
-VENDOR CHECKLIST
-Vendor,Contact,Phone,Email,Arrival Time,Dock,Equipment List,Received,Notes
-Staging,,,,,,,,
-Audio,,,,,,,,
-Lighting,,,,,,,,
-Video,,,,,,,,
-Backline,,,,,,,,
-Rigging,,,,,,,,
-Power/Gen,,,,,,,,
-Catering,,,,,,,,
-Security,,,,,,,,
-Merch,,,,,,,,
-
-CREW CALL TIMES
-Department,Call Time,Head Count,Department Head,Notes
-Production,06:30,2,,
-Rigging,07:30,4,,
-Audio,08:00,4,,
-Lighting,08:30,4,,
-Video,09:00,3,,
-Stage,07:00,6,,
-Catering,10:00,2,,
-Security,16:00,8,,
-Box Office,16:30,4,,
-
-EQUIPMENT TRACKING
-Item,Quantity,Vendor,Received,Condition,Return Date,Notes
-PA System,1,,,,,
-Lighting Package,1,,,,,
-LED Wall,1,,,,,
-Staging,1,,,,,
-Backline,1,,,,,
-Rigging,1,,,,,
-Barricade,1,,,,,
-
-NOTES
-1. All vendors must check in with Production Manager upon arrival
-2. Dock assignments may change based on timing
-3. No vehicles left unattended at dock
-4. All equipment must be signed in/out
-5. Report any damage immediately
+HOW TO USE:
+1. Adjust times to match your load-in schedule
+2. Add vendor contact information
+3. Update status as activities complete
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Load-In Schedule

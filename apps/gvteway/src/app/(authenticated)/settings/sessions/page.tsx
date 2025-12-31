@@ -24,7 +24,7 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-  useNotifications,
+  useToast,
 } from "@ghxstship/ui";
 import { Monitor, Smartphone, Tablet, Globe, Trash2, LogOut, Shield } from "lucide-react";
 import { useSessionsData, type UserSession } from "@/hooks/useSessions";
@@ -55,7 +55,7 @@ function formatTimeAgo(dateString: string): string {
 }
 
 export default function SessionsPage() {
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const {
     sessions,
@@ -75,9 +75,9 @@ export default function SessionsPage() {
     if (confirm("Are you sure you want to end this session? The device will be signed out.")) {
       try {
         await revokeSession(id);
-        addNotification({ type: "success", title: "Session Revoked", message: "The session has been ended" });
+        toast.success("Session Revoked", "The session has been ended");
       } catch (err) {
-        addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to revoke session" });
+        toast.error("Error", err instanceof Error ? err.message : "Failed to revoke session");
       }
     }
   };
@@ -86,9 +86,9 @@ export default function SessionsPage() {
     if (confirm("Are you sure you want to sign out all other devices?")) {
       try {
         await revokeAllSessions();
-        addNotification({ type: "success", title: "Sessions Revoked", message: "All other sessions have been ended" });
+        toast.success("Sessions Revoked", "All other sessions have been ended");
       } catch (err) {
-        addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to revoke sessions" });
+        toast.error("Error", err instanceof Error ? err.message : "Failed to revoke sessions");
       }
     }
   };

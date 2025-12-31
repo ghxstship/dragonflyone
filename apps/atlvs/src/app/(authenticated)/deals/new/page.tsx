@@ -12,7 +12,8 @@ import { useRouter } from 'next/navigation';
 import { Briefcase, DollarSign, FileText } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
+  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useToast,
+  type FormSection} from "@ghxstship/ui";
 import { useCreateDeal } from '@/hooks/useDeals';
 
 interface FormData {
@@ -49,7 +50,7 @@ const SOURCE_OPTIONS = [
 export default function NewDealPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     title: '',
@@ -106,19 +107,11 @@ export default function NewDealPage() {
         expected_close_date: formData.expected_close || undefined,
       });
 
-      addNotification({
-        type: 'success',
-        title: 'Deal Created',
-        message: `${formData.title} has been added to the pipeline.`,
-      });
+      toast.success('Deal Created', `${formData.title} has been added to the pipeline.`);
 
       router.push('/deals');
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Create Deal',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Create Deal', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsSubmitting(false);
     }

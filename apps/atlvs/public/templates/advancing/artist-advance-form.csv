@@ -1,145 +1,59 @@
-ARTIST ADVANCE FORM
-Event Name:,[Enter Event Name]
-Event Date:,[Enter Date]
-Venue:,[Enter Venue]
-Advance Date:,[Enter Date]
-Advanced By:,[Enter Name]
+section,field_name,field_value,is_confirmed,notes
+ARTIST,artist_name,,false,
+ARTIST,management_company,,false,
+ARTIST,tour_manager_name,,false,
+ARTIST,tour_manager_phone,,false,
+ARTIST,tour_manager_email,,false,
+ARTIST,production_manager_name,,false,
+ARTIST,production_manager_email,,false,
+ARTIST,party_size,,false,
+TRAVEL,arrival_date,,false,YYYY-MM-DD format
+TRAVEL,arrival_time,,false,HH:MM format
+TRAVEL,arrival_method,,false,flight | bus | van | car
+TRAVEL,flight_number,,false,
+TRAVEL,arriving_from,,false,
+TRAVEL,departure_date,,false,YYYY-MM-DD format
+TRAVEL,departure_time,,false,HH:MM format
+TRAVEL,ground_transport_needed,,false,true | false
+HOTEL,check_in_date,,false,YYYY-MM-DD format
+HOTEL,check_out_date,,false,YYYY-MM-DD format
+HOTEL,room_count,,false,
+HOTEL,room_types,,false,
+HOTEL,hotel_name,,false,
+HOTEL,hotel_confirmation,,false,
+PRODUCTION,sound_system_provider,,false,promoter | artist
+PRODUCTION,monitor_system_provider,,false,promoter | artist
+PRODUCTION,lighting_provider,,false,promoter | artist
+PRODUCTION,backline_provider,,false,promoter | artist
+PRODUCTION,video_provider,,false,promoter | artist
+SCHEDULE,load_in_time,,false,HH:MM format
+SCHEDULE,sound_check_time,,false,HH:MM format
+SCHEDULE,doors_time,,false,HH:MM format
+SCHEDULE,set_time,,false,HH:MM format
+SCHEDULE,curfew_time,,false,HH:MM format
+HOSPITALITY,dressing_room_count,,false,
+HOSPITALITY,catering_buyout_amount,,false,Decimal amount
+HOSPITALITY,dietary_restrictions,,false,
+MERCH,merch_allowed,,false,true | false
+MERCH,soft_goods_split,,false,e.g. 85/15
+MERCH,hard_goods_split,,false,e.g. 80/20
+MERCH,merch_seller,,false,artist | venue
+GUEST_LIST,artist_guest_count,,false,
+GUEST_LIST,management_guest_count,,false,
+GUEST_LIST,photo_pass_count,,false,
+GUEST_LIST,press_pass_count,,false,
 
-ARTIST INFORMATION
-Field,Details,Confirmed
-Artist/Act Name,,,[ ]
-Management Company,,,[ ]
-Tour Manager,,,[ ]
-Tour Manager Phone,,,[ ]
-Tour Manager Email,,,[ ]
-Production Manager,,,[ ]
-Production Manager Phone,,,[ ]
-Production Manager Email,,,[ ]
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- section: ARTIST | TRAVEL | HOTEL | PRODUCTION | SCHEDULE | HOSPITALITY | MERCH | GUEST_LIST
+- field_name: Field identifier (snake_case)
+- field_value: The value for this field
+- is_confirmed: true | false
+- notes: Additional notes or valid values
 
-TRAVEL DETAILS
-Field,Details,Confirmed
-Arrival Date,,,[ ]
-Arrival Time,,,[ ]
-Arrival Method,(Flight/Bus/Van),[ ]
-Flight Number,,,[ ]
-Arriving From,,,[ ]
-Party Size,,,[ ]
-Departure Date,,,[ ]
-Departure Time,,,[ ]
-Ground Transportation Needed,Yes/No,[ ]
-
-HOTEL REQUIREMENTS
-Field,Details,Confirmed
-Check-In Date,,,[ ]
-Check-Out Date,,,[ ]
-Number of Rooms,,,[ ]
-Room Types,,,[ ]
-Special Requests,,,[ ]
-Hotel Confirmation #,,,[ ]
-Hotel Name,,,[ ]
-Hotel Address,,,[ ]
-Hotel Phone,,,[ ]
-
-PRODUCTION REQUIREMENTS
-Category,Requirement,Provided By,Confirmed,Notes
-Sound System,,Promoter/Artist,[ ],
-Monitor System,,Promoter/Artist,[ ],
-Lighting Package,,Promoter/Artist,[ ],
-Backline,,Promoter/Artist,[ ],
-Risers/Staging,,Promoter/Artist,[ ],
-Video/LED,,Promoter/Artist,[ ],
-Barricade,,Promoter/Artist,[ ],
-Follow Spots,,Promoter/Artist,[ ],
-
-BACKLINE REQUIREMENTS
-Item,Quantity,Specs,Provided By,Confirmed
-Drum Kit,,,Promoter/Artist,[ ]
-Guitar Amps,,,Promoter/Artist,[ ]
-Bass Amps,,,Promoter/Artist,[ ]
-Keyboards,,,Promoter/Artist,[ ]
-DJ Equipment,,,Promoter/Artist,[ ]
-Microphones,,,Promoter/Artist,[ ]
-Stands,,,Promoter/Artist,[ ]
-Other,,,Promoter/Artist,[ ]
-
-SCHEDULE
-Time,Activity,Location,Notes
-,Load-In,,
-,Sound Check,,
-,Doors,,
-,Support Act,,
-,Changeover,,
-,Headliner,,
-,Curfew,,
-,Load-Out,,
-
-HOSPITALITY REQUIREMENTS
-Category,Requirement,Quantity,Confirmed,Notes
-Dressing Rooms,,,,
-Green Room,,,,
-Production Office,,,,
-Catering - Breakfast,,,,
-Catering - Lunch,,,,
-Catering - Dinner,,,,
-Buyout Amount,$,,,
-Beverages,,,,
-Snacks,,,,
-Towels,,,,
-Other,,,,
-
-GUEST LIST
-Category,Quantity,Notes
-Artist Guest List,,
-Management Guest List,,
-Label Guest List,,
-VIP/Meet & Greet,,
-Photo Pass,,
-Press Pass,,
-
-MERCHANDISE
-Field,Details,Confirmed
-Merch Allowed,Yes/No,[ ]
-Merch Location,,,[ ]
-Merch Seller,Artist/Venue,[ ]
-Soft Goods Split,%/%,[ ]
-Hard Goods Split,%/%,[ ]
-Settlement Time,,,[ ]
-
-CREDENTIALS REQUIRED
-Type,Quantity,Names
-All Access,,
-Backstage,,
-Stage,,
-Photo,,
-Press,,
-VIP,,
-
-SPECIAL REQUIREMENTS
-Category,Requirement,Notes
-Dietary Restrictions,,
-Allergies,,
-Security Requirements,,
-Privacy Requirements,,
-Other,,
-
-CONTACT SHEET
-Role,Name,Phone,Email
-Tour Manager,,,
-Production Manager,,,
-FOH Engineer,,,
-Monitor Engineer,,,
-Lighting Director,,,
-Backline Tech,,,
-Merch Manager,,,
-Artist Assistant,,,
-
-NOTES & ISSUES
-Item,Status,Resolution
-,,,
-,,,
-,,,
-
-ADVANCE CONFIRMATION
-Role,Name,Signature,Date
-Artist Representative,,,
-Promoter Representative,,,
+HOW TO USE:
+1. Fill in field_value for each row
+2. Set is_confirmed to true as items are verified
+3. Add notes for special requirements
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Artist Advance

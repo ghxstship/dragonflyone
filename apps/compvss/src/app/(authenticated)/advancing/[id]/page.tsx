@@ -2,15 +2,22 @@
 
 /**
  * Advance Request Detail Page
- * Shows detailed information about a specific advance request
- * Uses normalized DetailPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useRouter } from "next/navigation";
 import { ClipboardList, Package } from "lucide-react";
-import { useAuthContext, PlatformRole, useAdvancingRequest } from "@ghxstship/config";
+import { 
+  useAuthContext, 
+  PlatformRole, 
+  useAdvancingRequest,
+  DOCUMENT_STATUS_COLORS,
+} from "@ghxstship/config";
 import {
-  Badge, DetailPage} from "@ghxstship/ui";
+  Badge, DetailPage,
+  type DetailPageTab,
+} from "@ghxstship/ui";
 import { AdvanceRequestDetail } from "@/components/advancing/advance-request-detail";
 import { FulfillmentManager } from "@/components/advancing/fulfillment-manager";
 
@@ -21,14 +28,7 @@ const ADMIN_ROLES = [
   PlatformRole.LEGEND_DEVELOPER,
 ];
 
-const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
-  pending: "warning",
-  approved: "success",
-  in_progress: "info",
-  fulfilled: "success",
-  rejected: "error",
-  cancelled: "error",
-};
+const STATUS_COLORS = DOCUMENT_STATUS_COLORS;
 
 const STATUS_LABELS: Record<string, string> = {
   pending: "Pending",

@@ -17,6 +17,7 @@
     "auth-helpers.ts",
     "supabase-client.ts",
     "supabase-types.ts",
+    "supabase-table-types.ts",
     "rpc-client.ts",
     "analytics-client.ts",
     "realtime-client.ts",
@@ -70,7 +71,11 @@
     "calendar-utils.ts",
     "types/**/*.ts",
     "providers/**/*.ts",
-    "providers/**/*.tsx"
+    "providers/**/*.tsx",
+    "dataset-capabilities/**/*.ts",
+    "dataset-capabilities/**/*.tsx",
+    "entity-registry/**/*.ts",
+    "entity-registry/**/*.tsx"
   ],
   "exclude": [
     "node_modules",

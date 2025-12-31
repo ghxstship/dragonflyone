@@ -21,7 +21,7 @@ import {
   Textarea,
   Box,
   type MarketingSection,
-  useNotifications,
+  useToast,
 } from "@ghxstship/ui";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -414,7 +414,7 @@ function FinalStep({ formData, setFormData, error, agreeToTerms, setAgreeToTerms
 
 function ApplicationForm() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const { submitApplication, isSubmitting } = useMembershipApplyData();
 
   const [step, setStep] = useState(1);
@@ -512,11 +512,7 @@ function ApplicationForm() {
 
     try {
       await submitApplication(formData);
-      addNotification({
-        type: "success",
-        title: "Application Submitted",
-        message: "We will review your application and get back to you within 24-48 hours.",
-      });
+      toast.success("Application Submitted", "We will review your application and get back to you within 24-48 hours.",);
       router.push("/apply/confirmation");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to submit application. Please try again.");

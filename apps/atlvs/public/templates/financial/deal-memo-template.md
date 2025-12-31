@@ -1,193 +1,113 @@
 # ARTIST DEAL MEMO
 
-## Agreement Details
+<!-- IMPORT FORMAT: Copy deal terms table to CSV for import -->
 
-| Field | Details |
-|-------|---------|
-| **Date** | [Enter Date] |
-| **Event Name** | [Enter Event Name] |
-| **Event Date** | [Enter Event Date] |
-| **Venue** | [Enter Venue Name] |
-| **City/State** | [Enter City, State] |
+## Deal Information (Importable)
 
----
+| field | value |
+|-------|-------|
+| deal_number | |
+| event_name | |
+| event_date | |
+| venue_name | |
+| artist_name | |
+| guarantee_amount | |
+| deposit_amount | |
+| deposit_due_date | |
+| balance_amount | |
+| balance_due_date | |
+| backend_threshold | |
+| backend_artist_percent | |
+| set_length_minutes | |
+| set_time | |
+| billing_position | |
+| exclusivity_radius_miles | |
+| exclusivity_days_before | |
+| exclusivity_days_after | |
+| status | |
 
 ## Artist Information
 
-| Field | Details |
-|-------|---------|
-| **Artist/Act Name** | |
-| **Legal Entity Name** | |
-| **Management Company** | |
-| **Manager Name** | |
-| **Manager Phone** | |
-| **Manager Email** | |
-| **Agent Name** | |
-| **Agent Phone** | |
-| **Agent Email** | |
-| **Federal Tax ID** | |
+| field | value |
+|-------|-------|
+| artist_legal_name | |
+| management_company | |
+| manager_name | |
+| manager_phone | |
+| manager_email | |
+| agent_name | |
+| agent_phone | |
+| agent_email | |
+| tax_id | |
 
----
+## Promoter Information
 
-## Promoter/Buyer Information
-
-| Field | Details |
-|-------|---------|
-| **Company Name** | |
-| **Contact Name** | |
-| **Phone** | |
-| **Email** | |
-| **Address** | |
-
----
+| field | value |
+|-------|-------|
+| promoter_company | |
+| promoter_contact | |
+| promoter_phone | |
+| promoter_email | |
+| promoter_address | |
 
 ## Financial Terms
 
-### Guarantee
-| Item | Amount |
-|------|--------|
-| **Artist Guarantee** | $ |
-| **Deposit Amount** | $ |
-| **Deposit Due Date** | |
-| **Balance Due** | $ |
-| **Balance Due Date** | |
-
-### Backend/Bonus Structure
-| Threshold | Split | Notes |
-|-----------|-------|-------|
-| After $ gross | % to Artist / % to Promoter | |
-| After $ gross | % to Artist / % to Promoter | |
-| Sellout Bonus | $ | |
-
-### Payment Terms
-- [ ] Wire Transfer
-- [ ] Check
-- [ ] Cash (day of show)
-
-**Wire Instructions:**
-```
-Bank Name:
-Account Name:
-Account Number:
-Routing Number:
-```
-
----
-
-## Performance Details
-
-| Field | Details |
-|-------|---------|
-| **Set Length** | minutes |
-| **Set Time** | |
-| **Sound Check Time** | |
-| **Load-In Time** | |
-| **Billing Position** | Headliner / Support / Co-Headliner |
-| **Exclusivity Radius** | miles |
-| **Exclusivity Period** | days before / days after |
-
----
+| term | value | notes |
+|------|-------|-------|
+| Artist Guarantee | | |
+| Deposit (50%) | | Due upon signing |
+| Balance | | Due day of show |
+| Backend Threshold | | After expenses |
+| Artist Backend % | | Of net profit |
+| Sellout Bonus | | If applicable |
 
 ## Production Requirements
 
-### Technical
-- [ ] Full Technical Rider Attached
-- [ ] Sound System Provided by: Promoter / Artist
-- [ ] Lighting Provided by: Promoter / Artist
-- [ ] Backline Provided by: Promoter / Artist
-
-### Hospitality
-- [ ] Hospitality Rider Attached
-- [ ] Dressing Rooms Required: 
-- [ ] Buyout Amount: $
-- [ ] Catering Required: Yes / No
-
----
+| item | provided_by | notes |
+|------|-------------|-------|
+| Sound System | promoter | |
+| Lighting | promoter | |
+| Backline | artist | |
+| Dressing Rooms | promoter | Quantity: |
+| Catering | promoter | Per rider |
+| Hospitality Buyout | | Amount: |
 
 ## Travel & Accommodations
 
-| Item | Quantity | Details | Provided By |
-|------|----------|---------|-------------|
-| Hotel Rooms | | | Promoter / Artist |
-| Ground Transportation | | | Promoter / Artist |
-| Flights | | | Promoter / Artist |
-| Per Diems | | $ per person | Promoter / Artist |
+| item | quantity | provided_by | notes |
+|------|----------|-------------|-------|
+| Hotel Rooms | | promoter | |
+| Ground Transportation | | promoter | |
+| Flights | | artist | |
+| Per Diems | | | Per person: |
+
+## Merchandise Terms
+
+| term | value |
+|------|-------|
+| Merch Allowed | true |
+| Soft Goods Split | 85/15 |
+| Hard Goods Split | 80/20 |
+| Merch Seller | artist |
+
+## Attachments Checklist
+
+| document | attached |
+|----------|----------|
+| Technical Rider | false |
+| Hospitality Rider | false |
+| Stage Plot | false |
+| Input List | false |
+| W-9 / Tax Form | false |
 
 ---
 
-## Merchandise
-
-| Term | Details |
-|------|---------|
-| **Merch Allowed** | Yes / No |
-| **Soft Goods Split** | % Artist / % Venue |
-| **Hard Goods Split** | % Artist / % Venue |
-| **Merch Seller** | Artist / Venue |
-| **Merch Location** | |
-
----
-
-## Marketing & Promotion
-
-| Item | Approval Required |
-|------|-------------------|
-| Artist Name/Likeness | Yes / No |
-| Artist Photos | Yes / No |
-| Artist Bio | Yes / No |
-| Social Media Tagging | Yes / No |
-| Recording/Filming | Yes / No |
-
----
-
-## Cancellation Terms
-
-| Scenario | Terms |
-|----------|-------|
-| Artist Cancellation | |
-| Promoter Cancellation | |
-| Force Majeure | |
-| Weather (Outdoor) | |
-
----
-
-## Additional Terms
-
-1. 
-2. 
-3. 
-
----
-
-## Attachments
-
-- [ ] Technical Rider
-- [ ] Hospitality Rider
-- [ ] Stage Plot
-- [ ] Input List
-- [ ] W-9 / Tax Form
-
----
-
-## Signatures
-
-This Deal Memo constitutes a binding agreement between the parties.
-
-**ARTIST/REPRESENTATIVE**
-
-Signature: _________________________
-
-Print Name: _________________________
-
-Title: _________________________
-
-Date: _________________________
-
-**PROMOTER/BUYER**
-
-Signature: _________________________
-
-Print Name: _________________________
-
-Title: _________________________
-
-Date: _________________________
+<!-- IMPORT INSTRUCTIONS
+To import deal memo:
+1. Copy the Deal Information table to a CSV file
+2. Ensure dates are YYYY-MM-DD format
+3. Amounts should be decimal (no $ symbol)
+4. Valid status: draft | pending | confirmed | cancelled
+5. Valid billing_position: headliner | support | co-headliner | opener
+6. Import via ATLVS > Settings > Data Import > Deals
+-->

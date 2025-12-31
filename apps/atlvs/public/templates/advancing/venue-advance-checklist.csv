@@ -1,158 +1,66 @@
-VENUE ADVANCE CHECKLIST
-Event Name:,[Enter Event Name]
-Event Date:,[Enter Date]
-Venue:,[Enter Venue]
-Advance Date:,[Enter Date]
-Advanced By:,[Enter Name]
+section,item_name,item_value,is_confirmed,notes
+ACCESS,venue_address,,false,
+ACCESS,loading_dock_address,,false,
+ACCESS,load_in_date,,false,YYYY-MM-DD format
+ACCESS,load_in_time,,false,HH:MM format
+ACCESS,venue_opens_time,,false,HH:MM format
+ACCESS,doors_time,,false,HH:MM format
+ACCESS,curfew_time,,false,HH:MM format
+LOADING,number_of_docks,,false,
+LOADING,dock_dimensions,,false,
+LOADING,dock_height,,false,
+LOADING,max_vehicle_size,,false,
+LOADING,freight_elevator,,false,true | false
+LOADING,distance_to_stage,,false,
+STAGE,stage_width,,false,
+STAGE,stage_depth,,false,
+STAGE,stage_height,,false,
+STAGE,wing_space_sl,,false,
+STAGE,wing_space_sr,,false,
+STAGE,grid_height,,false,
+RIGGING,rigging_type,,false,points | beam | grid
+RIGGING,number_of_points,,false,
+RIGGING,point_capacity,,false,
+RIGGING,trim_height,,false,
+RIGGING,house_rigger_required,,false,true | false
+POWER,power_available,,false,
+POWER,voltage,,false,
+POWER,amperage,,false,
+POWER,three_phase_available,,false,true | false
+POWER,camlock_available,,false,true | false
+POWER,tie_in_required,,false,true | false
+HOUSE,house_pa_available,,false,true | false
+HOUSE,house_monitors_available,,false,true | false
+HOUSE,house_lighting_available,,false,true | false
+HOUSE,house_video_available,,false,true | false
+CATERING,kitchen_available,,false,true | false
+CATERING,breakfast_time,,false,HH:MM format
+CATERING,lunch_time,,false,HH:MM format
+CATERING,dinner_time,,false,HH:MM format
+CATERING,crew_meal_count,,false,
+PARKING,production_vehicle_count,,false,
+PARKING,bus_parking_available,,false,true | false
+PARKING,truck_parking_available,,false,true | false
+PARKING,overnight_parking,,false,true | false
+SECURITY,house_security_provided,,false,true | false
+SECURITY,security_count,,false,
+SECURITY,barricade_provided,,false,true | false
+EMERGENCY,nearest_hospital,,false,
+EMERGENCY,hospital_address,,false,
+EMERGENCY,hospital_phone,,false,
+EMERGENCY,first_aid_location,,false,
 
-VENUE CONTACTS
-Role,Name,Phone,Email,Confirmed
-Venue Manager,,,,[ ]
-Technical Director,,,,[ ]
-Production Manager,,,,[ ]
-Box Office Manager,,,,[ ]
-Catering Manager,,,,[ ]
-Security Director,,,,[ ]
-Parking Manager,,,,[ ]
-After Hours Contact,,,,[ ]
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- section: ACCESS | LOADING | STAGE | RIGGING | POWER | HOUSE | CATERING | PARKING | SECURITY | EMERGENCY
+- item_name: Field identifier (snake_case)
+- item_value: The value for this field
+- is_confirmed: true | false
+- notes: Additional notes or valid values
 
-VENUE ACCESS
-Item,Details,Confirmed,Notes
-Venue Address,,,[ ],
-Loading Dock Address,,,[ ],
-Load-In Date,,,[ ],
-Load-In Time,,,[ ],
-Venue Opens,,,[ ],
-Doors,,,[ ],
-Curfew,,,[ ],
-Load-Out Complete By,,,[ ],
-
-LOADING DOCK
-Item,Details,Confirmed,Notes
-Number of Docks,,,[ ],
-Dock Dimensions,,,[ ],
-Dock Height,,,[ ],
-Max Vehicle Size,,,[ ],
-Freight Elevator,Yes/No,[ ],
-Elevator Dimensions,,,[ ],
-Distance to Stage,,,[ ],
-Dock Reservation Required,Yes/No,[ ],
-
-STAGE SPECIFICATIONS
-Item,Details,Confirmed,Notes
-Stage Width,,,[ ],
-Stage Depth,,,[ ],
-Stage Height,,,[ ],
-Wing Space SL,,,[ ],
-Wing Space SR,,,[ ],
-Proscenium Width,,,[ ],
-Proscenium Height,,,[ ],
-Grid Height,,,[ ],
-
-RIGGING
-Item,Details,Confirmed,Notes
-Rigging Type,Points/Beam/Grid,[ ],
-Number of Points,,,[ ],
-Point Capacity,,,[ ],
-Trim Height,,,[ ],
-House Rigger Required,Yes/No,[ ],
-Rigging Plot Received,Yes/No,[ ],
-
-POWER
-Item,Details,Confirmed,Notes
-Power Available,,,[ ],
-Voltage,,,[ ],
-Amperage,,,[ ],
-3-Phase Available,Yes/No,[ ],
-Cam-Lock Available,Yes/No,[ ],
-Tie-In Required,Yes/No,[ ],
-House Electrician Required,Yes/No,[ ],
-Generator Parking,Yes/No,[ ],
-
-HOUSE SYSTEMS
-Item,Available,Details,Using,Notes
-House PA,Yes/No,,,
-House Monitors,Yes/No,,,
-House Console,Yes/No,,,
-House Lighting,Yes/No,,,
-House Video,Yes/No,,,
-House Intercom,Yes/No,,,
-House Dimmers,Yes/No,,,
-
-DRESSING ROOMS
-Room,Capacity,Amenities,Assigned To,Notes
-Dressing Room 1,,,,
-Dressing Room 2,,,,
-Dressing Room 3,,,,
-Green Room,,,,
-Production Office,,,,
-Wardrobe,,,,
-
-CATERING
-Item,Details,Confirmed,Notes
-Kitchen Available,Yes/No,[ ],
-Catering Provider,,,[ ],
-Breakfast Time,,,[ ],
-Lunch Time,,,[ ],
-Dinner Time,,,[ ],
-Crew Meal Count,,,[ ],
-Artist Meal Count,,,[ ],
-Dietary Restrictions,,,[ ],
-
-PARKING
-Type,Quantity,Location,Confirmed,Notes
-Production Vehicles,,,[ ],
-Artist Vehicles,,,[ ],
-Bus Parking,,,[ ],
-Truck Parking,,,[ ],
-Crew Parking,,,[ ],
-Overnight Parking,Yes/No,[ ],
-
-SECURITY
-Item,Details,Confirmed,Notes
-House Security Provided,Yes/No,[ ],
-Security Count,,,[ ],
-Security Hours,,,[ ],
-Barricade Provided,Yes/No,[ ],
-Credential System,,,[ ],
-Guest List Process,,,[ ],
-
-PERMITS & INSURANCE
-Item,Status,Details,Notes
-Venue Insurance,Required/Provided,,
-Event Insurance,Required/Provided,,
-Fire Permit,Required/Obtained,,
-Noise Permit,Required/Obtained,,
-Alcohol License,Required/Obtained,,
-Other Permits,,,
-
-EMERGENCY INFORMATION
-Item,Details
-Nearest Hospital,,
-Hospital Address,,
-Hospital Phone,,
-Fire Exit Locations,,
-Emergency Assembly Point,,
-First Aid Location,,
-AED Location,,
-
-VENUE RULES
-Rule,Acknowledged,Notes
-Noise Restrictions,,
-Pyro/Haze Restrictions,,
-Rigging Restrictions,,
-Catering Restrictions,,
-Alcohol Restrictions,,
-Smoking Policy,,
-Other,,
-
-OUTSTANDING ITEMS
-Item,Owner,Due Date,Status
-,,,
-,,,
-,,,
-
-CONFIRMATION
-Role,Name,Signature,Date
-Venue Representative,,,
-Production Manager,,,
+HOW TO USE:
+1. Fill in item_value for each row
+2. Set is_confirmed to true as items are verified
+3. Add notes for special requirements
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Venue Advance

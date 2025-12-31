@@ -1,5 +1,27 @@
 # VENDOR SERVICES AGREEMENT
 
+<!-- IMPORT FORMAT: Copy contract details table to CSV for import -->
+
+## Contract Details (Importable)
+
+| field | value |
+|-------|-------|
+| contract_number | |
+| contract_date | |
+| event_name | |
+| event_date | |
+| vendor_name | |
+| vendor_contact | |
+| vendor_email | |
+| vendor_phone | |
+| total_amount | |
+| deposit_amount | |
+| deposit_due_date | |
+| balance_amount | |
+| balance_due_date | |
+| payment_terms | |
+| status | |
+
 ## Agreement Information
 
 | Field | Details |
@@ -174,3 +196,15 @@ Print Name: _________________________
 Title: _________________________
 
 Date: _________________________
+
+---
+
+<!-- IMPORT INSTRUCTIONS
+To import vendor agreement:
+1. Copy the Contract Details table to a CSV file
+2. Dates must be YYYY-MM-DD format
+3. Amounts should be decimal (no $ symbol)
+4. Valid payment_terms: net_30 | net_15 | net_60 | due_on_receipt
+5. Valid status: draft | sent | signed | active | completed | cancelled
+6. Import via ATLVS > Settings > Data Import > Vendor Contracts
+-->

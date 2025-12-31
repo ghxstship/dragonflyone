@@ -2,8 +2,8 @@
 
 /**
  * Admin Ticketing Management Page
- * Manage ticket types, pricing, and inventory
- * Uses DetailPage template for consistent layout
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useState } from "react";
@@ -37,8 +37,10 @@ import {
   TableRow,
   DetailPage,
   Section,
-  useNotifications,
-Box} from "@ghxstship/ui";
+  useToast,
+  Box,
+} from "@ghxstship/ui";
+import { TICKET_STATUS_COLORS } from "@ghxstship/config";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface TicketType {
@@ -52,11 +54,7 @@ interface TicketType {
   status: "active" | "sold_out" | "inactive";
 }
 
-const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "outline"> = {
-  active: "success",
-  sold_out: "warning",
-  inactive: "outline",
-};
+const STATUS_COLORS = TICKET_STATUS_COLORS;
 
 const DEMO_TICKETS: TicketType[] = [
   { id: "1", event_id: "e1", event_title: "Summer Festival 2024", name: "General Admission", price: 75, quantity: 3000, sold: 2100, status: "active" },
@@ -68,7 +66,7 @@ const DEMO_TICKETS: TicketType[] = [
 export default function AdminTicketingPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("");
@@ -91,10 +89,10 @@ export default function AdminTicketingPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "ticketing"] });
-      addNotification({ type: "success", title: "Deleted", message: "Ticket type deleted" });
+      toast.success("Deleted", "Ticket type deleted");
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to delete ticket type" });
+      toast.error("Error", "Failed to delete ticket type");
     },
   });
 

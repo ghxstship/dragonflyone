@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import clsx from "clsx";
 import { Lock, User } from "lucide-react";
+import { Tooltip } from "../atoms/tooltip.js";
 
 // =============================================================================
 // TYPES
@@ -271,32 +272,30 @@ export function CollaboratorsList({
       <span className="text-body-sm text-on-dark-disabled">Collaborators:</span>
       <div className="flex -space-x-spacing-2">
         {visibleCollaborators.map((user) => (
-          <div
-            key={user.id}
-            className="relative group"
-            title={user.name}
-          >
-            {user.avatar ? (
-              <img 
-                src={user.avatar} 
-                alt={user.name} 
-                className="size-8 rounded-avatar border-2 border-surface-primary"
-                style={{ borderColor: user.color }}
-              />
-            ) : (
-              <div 
-                className="size-8 rounded-avatar border-2 border-surface-primary flex items-center justify-center text-body-xs font-code text-white"
-                style={{ backgroundColor: user.color }}
-              >
-                {user.name.charAt(0).toUpperCase()}
-              </div>
-            )}
+          <Tooltip key={user.id} content={user.name}>
+            <div className="relative group">
+              {user.avatar ? (
+                <img 
+                  src={user.avatar} 
+                  alt={user.name} 
+                  className="size-8 rounded-avatar border-2 border-surface-primary"
+                  style={{ borderColor: user.color }}
+                />
+              ) : (
+                <div 
+                  className="size-8 rounded-avatar border-2 border-surface-primary flex items-center justify-center text-body-xs font-code text-white"
+                  style={{ backgroundColor: user.color }}
+                >
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+              )}
             {/* Online indicator */}
-            <span 
-              className="absolute bottom-0 right-0 size-2 rounded-avatar border border-surface-primary"
-              style={{ backgroundColor: user.color }}
-            />
-          </div>
+              <span 
+                className="absolute bottom-0 right-0 size-2 rounded-avatar border border-surface-primary"
+                style={{ backgroundColor: user.color }}
+              />
+            </div>
+          </Tooltip>
         ))}
         {hiddenCount > 0 && (
           <div className="size-8 rounded-avatar bg-grey-200 border-2 border-surface-primary flex items-center justify-center text-body-xs font-code text-on-dark-disabled">

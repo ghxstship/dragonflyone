@@ -2,29 +2,29 @@
 
 /**
  * Purchase Orders List Page
- * Uses normalized ListPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, CheckCircle, Truck } from 'lucide-react';
-import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  PURCHASE_ORDER_STATUS_COLORS,
+} from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text, useNotifications} from '@ghxstship/ui';
+  Badge, Body, Box, ListPage, Stack, Text, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction,
+} from "@ghxstship/ui";
 import { usePurchaseOrders, useDeletePurchaseOrder, type PurchaseOrder } from '@/hooks/usePurchaseOrders';
 
-const STATUS_COLORS: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  draft: 'outline',
-  pending: 'warning',
-  approved: 'info',
-  ordered: 'info',
-  received: 'success',
-  cancelled: 'error',
-};
+const STATUS_COLORS = PURCHASE_ORDER_STATUS_COLORS;
 
 export default function PurchaseOrdersPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const canManage = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const { data: purchaseOrders = [], isLoading, error, refetch } = usePurchaseOrders();
@@ -35,7 +35,7 @@ export default function PurchaseOrdersPage() {
     try {
       await deleteMutation.mutateAsync(po.id);
     } catch (err) {
-      addNotification({ type: 'error', title: 'Delete Failed', message: err instanceof Error ? err.message : 'Failed to delete purchase order' });
+      toast.error('Delete Failed', err instanceof Error ? err.message : 'Failed to delete purchase order');
     }
   };
 
@@ -46,7 +46,7 @@ export default function PurchaseOrdersPage() {
     { key: 'po_number', label: 'PO Number', accessor: 'po_number', sortable: true },
     {
       key: 'vendor', label: 'Vendor', accessor: (po) => po.vendor?.name || 'Unknown', sortable: true,
-      render: (_, po) => (
+      render: (_value: unknown, po) => (
         <Box>
           <Text>{po.vendor?.name || 'Unknown'}</Text>
           {po.category && <Body size="sm" className="text-muted-foreground">{po.category}</Body>}
@@ -55,7 +55,7 @@ export default function PurchaseOrdersPage() {
     },
     {
       key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_, po) => (
+      render: (_value: unknown, po) => (
         <Badge variant={STATUS_COLORS[po.status] || 'outline'}>
           <Stack direction="horizontal" gap={1} className="items-center">
             {po.status === 'received' && <CheckCircle className="h-3 w-3" />}
@@ -67,14 +67,14 @@ export default function PurchaseOrdersPage() {
     },
     {
       key: 'total_amount', label: 'Amount', accessor: 'total_amount', sortable: true,
-      render: (_, po) => <Text className="font-weight-medium">{formatCurrency(po.total_amount || 0)}</Text>,
+      render: (_value: unknown, po) => <Text className="font-weight-medium">{formatCurrency(po.total_amount || 0)}</Text>,
     },
     {
       key: 'priority', label: 'Priority', accessor: 'priority', sortable: true,
     },
     {
       key: 'created_at', label: 'Created', accessor: 'created_at', sortable: true,
-      render: (_, po) => <Text>{formatDate(po.created_at)}</Text>,
+      render: (_value: unknown, po) => <Text>{formatDate(po.created_at)}</Text>,
     },
   ];
 
@@ -117,6 +117,9 @@ export default function PurchaseOrdersPage() {
       emptyAction={canManage ? { label: 'Create PO', onClick: () => router.push('/finance/purchase-orders/new') } : undefined}
       entityType="purchase-orders"
       breadcrumbs={[{ label: 'Finance', href: '/finance' }, { label: 'Purchase Orders' }]}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

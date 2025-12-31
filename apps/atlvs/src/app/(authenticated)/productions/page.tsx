@@ -2,15 +2,22 @@
 
 /**
  * Productions List Page
- * Uses normalized ListPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import { 
-  Badge, Body, ListPage, Stack, useNotifications} from "@ghxstship/ui";
+  Badge, Body, ListPage, Stack, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction,
+} from "@ghxstship/ui";
 import { useProductions, useDeleteProduction, type Production } from "../../../hooks/useProductions";
-import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  PRODUCTION_STATUS_COLORS,
+} from '@ghxstship/config';
 import { atlvsDemoProductions, type ProductionContext } from "@/data/atlvs";
 
 // Unified production display type
@@ -45,19 +52,10 @@ function normalizeProduction(p: Production | ProductionContext): DisplayProducti
   };
 }
 
-const STATUS_COLORS: Record<string, "success" | "warning" | "info" | "outline"> = {
-  active: "success",
-  planning: "warning",
-  completed: "info",
-  draft: "outline",
-  upcoming: "info",
-  past: "outline",
-};
-
 export default function ProductionsPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const canManageProductions = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
   
   const { data: apiProductions, isLoading, error, refetch } = useProductions();
@@ -67,9 +65,9 @@ export default function ProductionsPage() {
     if (!confirm(`Delete production "${prod.name}"?`)) return;
     try {
       await deleteMutation.mutateAsync(prod.id);
-      addNotification({ type: 'success', title: 'Production Deleted', message: `${prod.name} has been deleted` });
+      toast.success("Production Deleted", `${prod.name} has been deleted`);
     } catch (err) {
-      addNotification({ type: 'error', title: 'Delete Failed', message: err instanceof Error ? err.message : 'Failed to delete production' });
+      toast.error('Delete Failed', err instanceof Error ? err.message : 'Failed to delete production');
     }
   };
   
@@ -84,7 +82,7 @@ export default function ProductionsPage() {
       label: 'Production',
       accessor: 'name',
       sortable: true,
-      render: (_, prod) => (
+      render: (_value: unknown, prod) => (
         <Stack gap={1}>
           <Body className="font-weight-bold">{prod.name}</Body>
           <Body size="sm" className="text-muted-foreground">
@@ -98,7 +96,7 @@ export default function ProductionsPage() {
       label: 'Dates',
       accessor: 'startDate',
       sortable: true,
-      render: (_, prod) => (
+      render: (_value: unknown, prod) => (
         <Body size="sm" className="text-muted-foreground">
           {prod.startDate || 'TBD'} - {prod.endDate || 'TBD'}
         </Body>
@@ -109,8 +107,8 @@ export default function ProductionsPage() {
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, prod) => (
-        <Badge variant={STATUS_COLORS[prod.status] || "outline"}>
+      render: (_value: unknown, prod) => (
+        <Badge variant={PRODUCTION_STATUS_COLORS[prod.status] || "outline"}>
           {prod.status.toUpperCase()}
         </Badge>
       ),
@@ -160,6 +158,9 @@ export default function ProductionsPage() {
       emptyMessage="No productions yet"
       emptyAction={canManageProductions ? { label: "New Production", onClick: () => router.push("/productions/new") } : undefined}
       entityType="productions"
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

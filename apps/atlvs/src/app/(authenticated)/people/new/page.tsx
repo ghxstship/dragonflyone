@@ -12,7 +12,8 @@ import { useRouter } from 'next/navigation';
 import { User, Tag, FileText } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
+  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useToast,
+  type FormSection} from '@ghxstship/ui';
 import { useCreatePerson, type PersonType } from '@/hooks/usePeopleQuery';
 
 const PERSON_TYPES: { value: PersonType; label: string; description: string }[] = [
@@ -48,7 +49,7 @@ interface FormData {
 export default function NewPersonPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const createMutation = useCreatePerson();
 
   const canManagePeople = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
@@ -115,19 +116,11 @@ export default function NewPersonPage() {
         initial_type: formData.initial_type,
       });
 
-      addNotification({
-        type: 'success',
-        title: 'Person Created',
-        message: `${formData.first_name} ${formData.last_name} has been added.`,
-      });
+      toast.success('Person Created', `${formData.first_name} ${formData.last_name} has been added.`);
 
       router.push(`/people/${person.id}`);
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Create Person',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Create Person', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsSubmitting(false);
     }

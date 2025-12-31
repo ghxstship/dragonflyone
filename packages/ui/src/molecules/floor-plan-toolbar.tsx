@@ -19,6 +19,7 @@ import {
   Redo,
 } from "lucide-react";
 import clsx from "clsx";
+import { Tooltip } from "../atoms/tooltip.js";
 
 export type FloorPlanTool = "select" | "pan" | "rectangle" | "circle" | "table" | "text";
 
@@ -76,19 +77,20 @@ export function FloorPlanToolbar({
       {/* Drawing Tools */}
       <div className="flex items-center gap-0.5">
         {tools.map((tool) => (
-          <button
-            key={tool.id}
-            onClick={() => onToolChange(tool.id)}
-            className={clsx(
-              "p-2 rounded-button transition-colors",
-              activeTool === tool.id
-                ? "bg-primary text-primary-foreground"
-                : "hover:bg-muted text-muted-foreground hover:text-foreground"
-            )}
-            title={tool.label}
-          >
-            <tool.icon className="h-4 w-4" />
-          </button>
+          <Tooltip key={tool.id} content={tool.label}>
+            <button
+              onClick={() => onToolChange(tool.id)}
+              className={clsx(
+                "p-2 rounded-button transition-colors",
+                activeTool === tool.id
+                  ? "bg-primary text-primary-foreground"
+                  : "hover:bg-muted text-muted-foreground hover:text-foreground"
+              )}
+              aria-label={tool.label}
+            >
+              <tool.icon className="h-4 w-4" />
+            </button>
+          </Tooltip>
         ))}
       </div>
 
@@ -96,110 +98,126 @@ export function FloorPlanToolbar({
 
       {/* Selection Actions */}
       <div className="flex items-center gap-0.5">
-        <button
-          onClick={onDuplicate}
-          disabled={!hasSelection}
-          className={clsx(
-            "p-2 rounded-button transition-colors",
-            hasSelection
-              ? "hover:bg-muted text-muted-foreground hover:text-foreground"
-              : "text-muted-foreground/50 cursor-not-allowed"
-          )}
-          title="Duplicate"
-        >
-          <Copy className="h-4 w-4" />
-        </button>
-        <button
-          onClick={onRotate}
-          disabled={!hasSelection}
-          className={clsx(
-            "p-2 rounded-button transition-colors",
-            hasSelection
-              ? "hover:bg-muted text-muted-foreground hover:text-foreground"
-              : "text-muted-foreground/50 cursor-not-allowed"
-          )}
-          title="Rotate 45°"
-        >
-          <RotateCw className="h-4 w-4" />
-        </button>
-        <button
-          onClick={onToggleLock}
-          disabled={!hasSelection}
-          className={clsx(
-            "p-2 rounded-button transition-colors",
-            hasSelection
-              ? "hover:bg-muted text-muted-foreground hover:text-foreground"
-              : "text-muted-foreground/50 cursor-not-allowed"
-          )}
-          title={isLocked ? "Unlock" : "Lock"}
-        >
-          {isLocked ? <Unlock className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-        </button>
-        <button
-          onClick={onDelete}
-          disabled={!hasSelection}
-          className={clsx(
-            "p-2 rounded-button transition-colors",
-            hasSelection
-              ? "hover:bg-destructive/10 text-destructive"
-              : "text-muted-foreground/50 cursor-not-allowed"
-          )}
-          title="Delete"
-        >
-          <Trash2 className="h-4 w-4" />
-        </button>
+        <Tooltip content="Duplicate">
+          <button
+            onClick={onDuplicate}
+            disabled={!hasSelection}
+            className={clsx(
+              "p-2 rounded-button transition-colors",
+              hasSelection
+                ? "hover:bg-muted text-muted-foreground hover:text-foreground"
+                : "text-muted-foreground/50 cursor-not-allowed"
+            )}
+            aria-label="Duplicate"
+          >
+            <Copy className="h-4 w-4" />
+          </button>
+        </Tooltip>
+        <Tooltip content="Rotate 45°">
+          <button
+            onClick={onRotate}
+            disabled={!hasSelection}
+            className={clsx(
+              "p-2 rounded-button transition-colors",
+              hasSelection
+                ? "hover:bg-muted text-muted-foreground hover:text-foreground"
+                : "text-muted-foreground/50 cursor-not-allowed"
+            )}
+            aria-label="Rotate 45 degrees"
+          >
+            <RotateCw className="h-4 w-4" />
+          </button>
+        </Tooltip>
+        <Tooltip content={isLocked ? "Unlock" : "Lock"}>
+          <button
+            onClick={onToggleLock}
+            disabled={!hasSelection}
+            className={clsx(
+              "p-2 rounded-button transition-colors",
+              hasSelection
+                ? "hover:bg-muted text-muted-foreground hover:text-foreground"
+                : "text-muted-foreground/50 cursor-not-allowed"
+            )}
+            aria-label={isLocked ? "Unlock" : "Lock"}
+          >
+            {isLocked ? <Unlock className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+          </button>
+        </Tooltip>
+        <Tooltip content="Delete">
+          <button
+            onClick={onDelete}
+            disabled={!hasSelection}
+            className={clsx(
+              "p-2 rounded-button transition-colors",
+              hasSelection
+                ? "hover:bg-destructive/10 text-destructive"
+                : "text-muted-foreground/50 cursor-not-allowed"
+            )}
+            aria-label="Delete"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </Tooltip>
       </div>
 
       <div className="w-px h-6 bg-border mx-1" />
 
       {/* Undo/Redo */}
       <div className="flex items-center gap-0.5">
-        <button
-          onClick={onUndo}
-          disabled={!canUndo}
-          className={clsx(
-            "p-2 rounded-button transition-colors",
-            canUndo
-              ? "hover:bg-muted text-muted-foreground hover:text-foreground"
-              : "text-muted-foreground/50 cursor-not-allowed"
-          )}
-          title="Undo"
-        >
-          <Undo className="h-4 w-4" />
-        </button>
-        <button
-          onClick={onRedo}
-          disabled={!canRedo}
-          className={clsx(
-            "p-2 rounded-button transition-colors",
-            canRedo
-              ? "hover:bg-muted text-muted-foreground hover:text-foreground"
-              : "text-muted-foreground/50 cursor-not-allowed"
-          )}
-          title="Redo"
-        >
-          <Redo className="h-4 w-4" />
-        </button>
+        <Tooltip content={<span>Undo <kbd className="ml-1 px-1 py-0.5 bg-black/20 rounded text-xs">Ctrl+Z</kbd></span>}>
+          <button
+            onClick={onUndo}
+            disabled={!canUndo}
+            className={clsx(
+              "p-2 rounded-button transition-colors",
+              canUndo
+                ? "hover:bg-muted text-muted-foreground hover:text-foreground"
+                : "text-muted-foreground/50 cursor-not-allowed"
+            )}
+            aria-label="Undo"
+          >
+            <Undo className="h-4 w-4" />
+          </button>
+        </Tooltip>
+        <Tooltip content={<span>Redo <kbd className="ml-1 px-1 py-0.5 bg-black/20 rounded text-xs">Ctrl+Y</kbd></span>}>
+          <button
+            onClick={onRedo}
+            disabled={!canRedo}
+            className={clsx(
+              "p-2 rounded-button transition-colors",
+              canRedo
+                ? "hover:bg-muted text-muted-foreground hover:text-foreground"
+                : "text-muted-foreground/50 cursor-not-allowed"
+            )}
+            aria-label="Redo"
+          >
+            <Redo className="h-4 w-4" />
+          </button>
+        </Tooltip>
       </div>
 
       <div className="flex-1" />
 
       {/* Save/Export */}
       <div className="flex items-center gap-0.5">
-        <button
-          onClick={onSave}
-          className="p-2 rounded-button hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
-          title="Save"
-        >
-          <Save className="h-4 w-4" />
-        </button>
-        <button
-          onClick={onExport}
-          className="p-2 rounded-button hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
-          title="Export"
-        >
-          <Download className="h-4 w-4" />
-        </button>
+        <Tooltip content={<span>Save <kbd className="ml-1 px-1 py-0.5 bg-black/20 rounded text-xs">Ctrl+S</kbd></span>}>
+          <button
+            onClick={onSave}
+            className="p-2 rounded-button hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Save"
+          >
+            <Save className="h-4 w-4" />
+          </button>
+        </Tooltip>
+        <Tooltip content="Export">
+          <button
+            onClick={onExport}
+            className="p-2 rounded-button hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Export"
+          >
+            <Download className="h-4 w-4" />
+          </button>
+        </Tooltip>
       </div>
     </div>
   );

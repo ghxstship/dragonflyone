@@ -2035,6 +2035,90 @@ Standalone mode (`output: "standalone"`) was disabled in ATLVS and GVTEWAY due t
 
 ---
 
+## P2 - Medium Priority (SSOT Compliance)
+
+### BACK-112: Migrate List Pages to useEntityConfig
+
+| Field | Value |
+|-------|-------|
+| **Status** | Infrastructure Complete - Migration Pending |
+| **Priority** | P2 |
+| **Effort** | XL (8-12 hours) |
+| **App** | All |
+| **Source** | SSOT Compliance Audit - December 31, 2025 |
+
+**Description:**  
+Migrate 73 list pages from local column/filter/formField definitions to use the centralized `useEntityConfig` hook from the entity registry. Infrastructure is complete - types are now compatible between `ListPageColumn`/`ListPageFilter` and entity registry types.
+
+**Infrastructure Completed:**
+- ✅ `ListPageColumn` updated to accept entity registry `ColumnDefinition` types
+- ✅ `ListPageFilter` updated to accept entity registry `FilterDefinition` types
+- ✅ `DataGrid` accessor handling updated for string keys
+- ✅ `useEntityConfig` hook available at `@ghxstship/config`
+- ✅ Migration analysis script: `pnpm migrate:entity-config --dry-run`
+
+**Pages to Migrate:**
+| App | Pages | Status |
+|-----|-------|--------|
+| ATLVS | 24 | Pending |
+| COMPVSS | 43 | Pending |
+| GVTEWAY | 6 | Pending |
+
+**Migration Pattern:**
+```tsx
+// Before (local definitions)
+const columns: ListPageColumn<Event>[] = [...];
+const filters: ListPageFilter[] = [...];
+
+// After (SSOT via useEntityConfig)
+const { columns, filters, formFields } = useEntityConfig({ entityName: 'events' });
+```
+
+**Acceptance Criteria:**
+- [ ] All 73 pages migrated to useEntityConfig
+- [ ] No local column/filter/formField definitions in page files
+- [ ] Build passes with zero errors
+- [ ] All pages render correctly with entity registry data
+
+---
+
+## P2 - Medium Priority (Type Safety)
+
+### BACK-113: Remove 'as unknown as' Type Casts
+
+| Field | Value |
+|-------|-------|
+| **Status** | Audit Complete - Remediation Pending |
+| **Priority** | P2 |
+| **Effort** | XL (8-12 hours) |
+| **App** | All |
+| **Source** | Type Bypass Audit - December 31, 2025 |
+
+**Description:**  
+Remove 228 type bypass patterns (`as unknown as`, `as any`, `UntypedClient`) from hooks by using proper Supabase-generated types.
+
+**Audit Results:**
+| Pattern | Count |
+|---------|-------|
+| `as unknown as` | 162 |
+| `as any` | 43 |
+| `UntypedClient` | 23 |
+
+**Root Cause:**
+Hooks define local interfaces that don't match Supabase-generated types, forcing type casts.
+
+**Solution:**
+Use `Db*` type exports from `@ghxstship/config/supabase-table-types.ts` instead of local interfaces.
+
+**Acceptance Criteria:**
+- [ ] All hooks use `Db*` types from `@ghxstship/config`
+- [ ] Zero `as unknown as` casts in hooks
+- [ ] Zero `as any` casts in hooks
+- [ ] `UntypedClient` functions removed
+- [ ] Build passes with zero errors
+
+---
+
 ## P2 - Medium Priority (Technical Debt)
 
 ### BACK-057: Remove Console Statements from UI Components

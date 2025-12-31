@@ -1,5 +1,25 @@
 # NON-DISCLOSURE AGREEMENT
 
+<!-- IMPORT FORMAT: Copy NDA details table to CSV for import -->
+
+## NDA Details (Importable)
+
+| field | value |
+|-------|-------|
+| nda_number | |
+| effective_date | |
+| project_name | |
+| disclosing_party_name | |
+| disclosing_party_contact | |
+| disclosing_party_email | |
+| receiving_party_name | |
+| receiving_party_contact | |
+| receiving_party_email | |
+| term_years | |
+| confidentiality_years | |
+| governing_state | |
+| status | |
+
 ## Agreement Information
 
 | Field | Details |
@@ -210,3 +230,13 @@ Print Name: _________________________
 Title: _________________________
 
 Date: _________________________
+
+---
+
+<!-- IMPORT INSTRUCTIONS
+To import NDA:
+1. Copy the NDA Details table to a CSV file
+2. Dates must be YYYY-MM-DD format
+3. Valid status: draft | sent | signed | active | expired | terminated
+4. Import via ATLVS > Settings > Data Import > NDAs
+-->

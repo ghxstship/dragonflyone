@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, ClipboardList, Wrench, Trash2, Download } from 'lucide-react';
 // Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body} from '@ghxstship/ui';
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from '@ghxstship/config';
 
 // Roles that can manage equipment (COMPVSS has no SUPER_ADMIN, only ADMIN)
@@ -45,7 +46,7 @@ const columns: ListPageColumn<Equipment>[] = [
     label: 'Category', 
     accessor: (row) => row.type || row.category,
     sortable: true,
-    render: (value) => <Badge>{String(value).toUpperCase()}</Badge>
+    render: (value: unknown) => <Badge>{String(value).toUpperCase()}</Badge>
   },
   { key: 'serial', label: 'Serial #', accessor: (row) => row.serial_number || row.metadata?.serial_number || '—' },
   { key: 'location', label: 'Location', accessor: (row) => row.location || row.metadata?.location || '—' },
@@ -55,7 +56,7 @@ const columns: ListPageColumn<Equipment>[] = [
     label: 'Status', 
     accessor: (row) => row.status || row.state,
     sortable: true,
-    render: (value) => (
+    render: (value: unknown) => (
       <Badge variant={value === 'available' ? 'solid' : 'outline'}>
         {String(value).replace('_', ' ').toUpperCase()}
       </Badge>
@@ -272,6 +273,7 @@ export default function EquipmentPage() {
         onImport={handleImport}
         importTemplates={importTemplates}
         importSampleFields={['name', 'tag', 'category', 'type', 'status', 'location', 'serial_number']}
+        templateDownloadUrl="/templates/production-planning/equipment-checklist-template.csv"
         onExport={createExportHandler({
           filename: "equipment",
           getData: () => equipmentList.map(e => ({
@@ -286,6 +288,9 @@ export default function EquipmentPage() {
         stats={stats}
         emptyMessage="No equipment found"
         emptyAction={canManageEquipment ? { label: 'Add Equipment', onClick: () => setCreateModalOpen(true) } : undefined}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

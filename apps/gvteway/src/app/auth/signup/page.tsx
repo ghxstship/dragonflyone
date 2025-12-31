@@ -18,7 +18,7 @@ import {
   PasswordInput,
   ScrollReveal,
   Stack,
-  useNotifications,
+  useToast,
 } from '@ghxstship/ui';
 
 import { useState } from "react";
@@ -34,7 +34,7 @@ import { useAuthData } from "@/hooks/useAuth";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -89,11 +89,7 @@ export default function SignUpPage() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        addNotification({
-          type: "info",
-          title: "Coming Soon",
-          message: `${provider} sign-up will be available once OAuth is configured`,
-        });
+        toast.info("Coming Soon", `${provider} sign-up will be available once OAuth is configured`);
       }
     } catch {
       setError("OAuth sign-up failed. Please try again.");

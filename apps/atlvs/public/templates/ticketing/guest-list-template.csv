@@ -1,126 +1,27 @@
-GUEST LIST
-Event Name:,[Enter Event Name]
-Event Date:,[Enter Date]
-Venue:,[Enter Venue]
-Will Call Location:,[Enter Location]
-Will Call Hours:,[Enter Hours]
+guest_category,guest_name,plus_one_name,ticket_type,credential,company,is_confirmed,is_checked_in,check_in_time,notes
+artist,,,ga,all_access,,false,false,,
+artist,,,ga,all_access,,false,false,,
+promoter,,,ga,backstage,,false,false,,
+promoter,,,ga,backstage,,false,false,,
+venue,,,ga,general,,false,false,,
+sponsor,,,vip,vip,,false,false,,
+media,,,ga,press,,false,false,,
+contest,,,ga,general,,false,false,,
 
-GUEST LIST SUMMARY
-Category,Allocated,Confirmed,Remaining
-Artist/Management,,,
-Promoter,,,
-Venue,,,
-Sponsors,,,
-Media/Press,,,
-VIP/Industry,,,
-Contest Winners,,,
-TOTAL,,,
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- guest_category: artist | promoter | venue | sponsor | media | vip_industry | contest
+- guest_name: Full name of guest
+- plus_one_name: Name of +1 (if applicable)
+- ticket_type: ga | vip | reserved
+- credential: all_access | backstage | vip | general | press | photo
+- company: Company/outlet name (for sponsors, media, industry)
+- is_confirmed: true | false
+- is_checked_in: true | false
+- check_in_time: Time checked in (HH:MM format)
+- notes: Additional notes
 
-ARTIST/MANAGEMENT GUEST LIST
-#,Guest Name,+1 Name,Ticket Type,Credential,Confirmed,Checked In,Notes
-1,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-2,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-3,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-4,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-5,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-6,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-7,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-8,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-9,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-10,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-
-PROMOTER GUEST LIST
-#,Guest Name,+1 Name,Ticket Type,Credential,Confirmed,Checked In,Notes
-1,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-2,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-3,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-4,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-5,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-
-VENUE GUEST LIST
-#,Guest Name,+1 Name,Ticket Type,Credential,Confirmed,Checked In,Notes
-1,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-2,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-3,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-4,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-5,,,,[ ] AA [ ] BS [ ] GA,[ ],[ ],
-
-SPONSOR GUEST LIST
-Sponsor,Guest Name,+1 Name,Ticket Type,Credential,Confirmed,Checked In,Notes
-,,,,[ ] VIP [ ] GA,[ ],[ ],
-,,,,[ ] VIP [ ] GA,[ ],[ ],
-,,,,[ ] VIP [ ] GA,[ ],[ ],
-,,,,[ ] VIP [ ] GA,[ ],[ ],
-,,,,[ ] VIP [ ] GA,[ ],[ ],
-
-MEDIA/PRESS LIST
-Outlet,Contact Name,+1 Name,Credential,Photo Pass,Confirmed,Checked In,Notes
-,,,[ ] Press,[ ],[ ],[ ],
-,,,[ ] Press,[ ],[ ],[ ],
-,,,[ ] Press,[ ],[ ],[ ],
-,,,[ ] Press,[ ],[ ],[ ],
-,,,[ ] Press,[ ],[ ],[ ],
-
-VIP/INDUSTRY LIST
-Company,Guest Name,+1 Name,Ticket Type,Credential,Confirmed,Checked In,Notes
-,,,,[ ] VIP [ ] GA,[ ],[ ],
-,,,,[ ] VIP [ ] GA,[ ],[ ],
-,,,,[ ] VIP [ ] GA,[ ],[ ],
-,,,,[ ] VIP [ ] GA,[ ],[ ],
-,,,,[ ] VIP [ ] GA,[ ],[ ],
-
-CONTEST WINNERS
-Contest,Winner Name,+1 Name,Prize,Confirmed,Checked In,Notes
-,,,[ ] Tickets [ ] M&G,[ ],[ ],
-,,,[ ] Tickets [ ] M&G,[ ],[ ],
-,,,[ ] Tickets [ ] M&G,[ ],[ ],
-,,,[ ] Tickets [ ] M&G,[ ],[ ],
-,,,[ ] Tickets [ ] M&G,[ ],[ ],
-
-CREDENTIAL KEY
-Code,Description,Access Level
-AA,All Access,Full venue access
-BS,Backstage,Backstage areas only
-VIP,VIP,VIP areas and GA
-GA,General Admission,Public areas only
-Press,Press/Media,Press areas and GA
-Photo,Photo Pass,Photo pit access
-
-WILL CALL INSTRUCTIONS
-1. Guest must present valid photo ID matching name on list
-2. Guest list closes [X] minutes after doors
-3. Unclaimed tickets may be released after [time]
-4. No name changes after [date/time]
-5. +1 must arrive with primary guest
-
-GUEST LIST POLICIES
-Policy,Details
-Deadline for additions,[Date/Time]
-Deadline for changes,[Date/Time]
-Maximum +1 per guest,[Number]
-ID required,Yes - government issued
-Age restrictions,[All ages / 18+ / 21+]
-
-CHECK-IN LOG
-Time,Guest Name,Checked In By,Notes
-,,,
-,,,
-,,,
-,,,
-
-ISSUES/NOTES
-Issue,Resolution,Handled By
-,,,
-,,,
-,,,
-
-FINAL COUNT
-Category,Expected,Checked In,No Show
-Artist/Management,,,,
-Promoter,,,,
-Venue,,,,
-Sponsors,,,,
-Media/Press,,,,
-VIP/Industry,,,,
-Contest Winners,,,,
-TOTAL,,,,
+HOW TO USE:
+1. One row per guest (not including +1)
+2. Delete this instruction section before importing
+3. Import via ATLVS > Settings > Data Import > Guest List

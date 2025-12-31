@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import {
   useTechRehearsalSessions,
@@ -21,6 +23,7 @@ const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
 };
 
 export default function TechRehearsalPage() {
+  const router = useRouter();
   const { data: sessions = [], isLoading, refetch } = useTechRehearsalSessions();
   const { data: notes = [] } = useRehearsalNotes();
   const [selectedSession, setSelectedSession] = useState<TechRehearsalSession | null>(null);
@@ -38,7 +41,7 @@ export default function TechRehearsalPage() {
       label: 'Session',
       accessor: 'name',
       sortable: true,
-      render: (_, s) => (
+      render: (_value: unknown, s) => (
         <Stack gap={1}>
           <Body className="font-display">{s.name}</Body>
           <Badge variant="outline">{s.type}</Badge>
@@ -55,7 +58,7 @@ export default function TechRehearsalPage() {
       key: 'departments',
       label: 'Departments',
       accessor: (s) => s.departments.join(', '),
-      render: (_, s) => (
+      render: (_value: unknown, s) => (
         <Stack direction="horizontal" gap={1} className="flex-wrap">
           {s.departments.slice(0, 2).map(d => <Badge key={d} variant="outline">{d}</Badge>)}
           {s.departments.length > 2 && <Body size="sm">+{s.departments.length - 2}</Body>}
@@ -68,7 +71,7 @@ export default function TechRehearsalPage() {
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
     },
   ];
 
@@ -147,6 +150,9 @@ export default function TechRehearsalPage() {
         stats={stats}
         emptyMessage="No rehearsals scheduled"
         emptyAction={{ label: 'Schedule Rehearsal', onClick: () => setShowAddModal(true) }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

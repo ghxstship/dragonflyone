@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import { FileText, Eye, Download } from "lucide-react";
 import {
-  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler, getSubcategoryNames } from "@ghxstship/config";
 import {
   useTemplates,
@@ -14,6 +16,7 @@ import {
 const categories = getSubcategoryNames('PROF');
 
 export default function TemplatesPage() {
+  const router = useRouter();
   const { data: templates = [], isLoading, error, refetch } = useTemplates();
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -26,7 +29,7 @@ export default function TemplatesPage() {
       label: 'Template',
       accessor: 'name',
       sortable: true,
-      render: (_, t) => (
+      render: (_value: unknown, t) => (
         <Stack gap={1}>
           <Body className="font-display">{t.name}</Body>
           <Stack direction="horizontal" gap={2}>
@@ -41,7 +44,7 @@ export default function TemplatesPage() {
       key: 'version',
       label: 'Version',
       accessor: 'version',
-      render: (_, t) => <Body>v{t.version}</Body>,
+      render: (_value: unknown, t) => <Body>v{t.version}</Body>,
     },
     { key: 'downloads', label: 'Downloads', accessor: 'downloads', sortable: true },
     { key: 'size', label: 'Size', accessor: 'size' },
@@ -110,6 +113,9 @@ export default function TemplatesPage() {
         stats={stats}
         emptyMessage="No templates found"
         emptyAction={{ label: 'Upload Template', onClick: () => setShowUploadModal(true) }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

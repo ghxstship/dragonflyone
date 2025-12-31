@@ -11,12 +11,12 @@ import { useRouter } from "next/navigation";
 import { Mail, ArrowLeft } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Form, AuthPage, useNotifications, Box} from "@ghxstship/ui";
+  Body, Button, Input, Form, AuthPage, useToast, Box} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -31,10 +31,10 @@ export default function ForgotPasswordPage() {
     },
     onSuccess: () => {
       setSubmitted(true);
-      addNotification({ type: "success", title: "Email Sent", message: "Check your inbox for password reset instructions" });
+      toast.success("Email Sent", "Check your inbox for password reset instructions");
     },
     onError: (err: Error) => {
-      addNotification({ type: "error", title: "Error", message: err.message });
+      toast.error("Error", err.message);
     },
   });
 

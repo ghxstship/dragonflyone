@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Plus, Trash2} from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Input, Textarea, CreatePage, useNotifications, Box} from "@ghxstship/ui";
+  Body, Button, Card, Input, Textarea, CreatePage, useToast, Box} from "@ghxstship/ui";
 
 interface LineItem {
   id: string;
@@ -22,7 +22,7 @@ interface LineItem {
 
 export default function NewInvoicePage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [client, setClient] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [notes, setNotes] = useState("");
@@ -55,11 +55,11 @@ export default function NewInvoicePage() {
       return response.json();
     },
     onSuccess: (data) => {
-      addNotification({ type: "success", title: "Invoice Created", message: "Invoice has been created successfully" });
+      toast.success("Invoice Created", "Invoice has been created successfully");
       router.push(`/invoices/${data.id}`);
     },
     onError: (error: Error) => {
-      addNotification({ type: "error", title: "Error", message: error.message });
+      toast.error("Error", error.message);
     },
   });
 

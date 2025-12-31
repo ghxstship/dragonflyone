@@ -1,16 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 import { Camera, Eye, CheckCircle } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import { usePhotoSets, type PhotoSet } from '@/hooks/usePhotoDocumentation';
 
 const phases = ["Load-In", "Build", "Tech Rehearsal", "Show", "Strike", "Load-Out"];
 
 export default function PhotoDocumentationPage() {
+  const router = useRouter();
   const { data: photoSets = [], refetch } = usePhotoSets();
   const [selectedSet, setSelectedSet] = useState<PhotoSet | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -24,7 +27,7 @@ export default function PhotoDocumentationPage() {
       label: 'Project',
       accessor: 'projectName',
       sortable: true,
-      render: (_, s) => (
+      render: (_value: unknown, s) => (
         <Stack gap={1}>
           <Body className="font-display">{s.projectName}</Body>
           {s.description && <Body size="sm" className="text-muted-foreground">{s.description}</Body>}
@@ -36,7 +39,7 @@ export default function PhotoDocumentationPage() {
       label: 'Phase',
       accessor: 'phase',
       sortable: true,
-      render: (_, s) => <Badge variant="outline">{s.phase}</Badge>,
+      render: (_value: unknown, s) => <Badge variant="outline">{s.phase}</Badge>,
     },
     { key: 'photoCount', label: 'Photos', accessor: 'photoCount', sortable: true },
     { key: 'capturedBy', label: 'Captured By', accessor: 'capturedBy' },
@@ -45,13 +48,13 @@ export default function PhotoDocumentationPage() {
       label: 'Date',
       accessor: 'capturedAt',
       sortable: true,
-      render: (_, s) => <Body size="sm">{new Date(s.capturedAt).toLocaleDateString()}</Body>,
+      render: (_value: unknown, s) => <Body size="sm">{new Date(s.capturedAt).toLocaleDateString()}</Body>,
     },
     {
       key: 'approved',
       label: 'Status',
       accessor: (s) => s.approved ? 'Approved' : 'Pending',
-      render: (_, s) => <Badge variant={s.approved ? 'solid' : 'outline'}>{s.approved ? 'Approved' : 'Pending'}</Badge>,
+      render: (_value: unknown, s) => <Badge variant={s.approved ? 'solid' : 'outline'}>{s.approved ? 'Approved' : 'Pending'}</Badge>,
     },
   ];
 
@@ -114,6 +117,9 @@ export default function PhotoDocumentationPage() {
         stats={stats}
         emptyMessage="No photo sets found"
         emptyAction={{ label: 'Upload Photos', onClick: () => setShowUploadModal(true) }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

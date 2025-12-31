@@ -2,4 +2,188 @@
 > gvteway@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway
 > next lint --max-warnings 9999
 
-✔ No ESLint warnings or errors
+
+./src/app/(authenticated)/account/orders/page.tsx
+77:51  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+
+./src/app/(authenticated)/account/page.tsx
+70:32  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+94:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+115:32  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(authenticated)/account/profile/page.tsx
+47:34  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(authenticated)/account/tickets/page.tsx
+126:52  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+142:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+
+./src/app/(authenticated)/chat/page.tsx
+24:3  Warning: 'Stack' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+144:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+154:38  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+185:34  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+199:44  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(authenticated)/community/page.tsx
+31:24  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(authenticated)/messages/page.tsx
+35:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(authenticated)/notifications/page.tsx
+43:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(authenticated)/orders/page.tsx
+30:44  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+82:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+
+./src/app/(authenticated)/rewards/page.tsx
+72:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+74:48  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+125:34  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(authenticated)/settings/api-access/page.tsx
+220:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+234:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+266:24  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+267:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+271:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+295:24  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+299:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(authenticated)/settings/api-keys/page.tsx
+251:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+260:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+290:24  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+291:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+295:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+304:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+328:24  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+332:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(authenticated)/settings/connected-apps/page.tsx
+70:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+139:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+153:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(authenticated)/settings/language/page.tsx
+122:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+133:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+170:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(authenticated)/tickets/page.tsx
+30:45  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+77:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+
+./src/app/(authenticated)/venues/page.tsx
+33:44  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+73:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+
+./src/app/(authenticated)/wallet/page.tsx
+148:32  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+157:32  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+166:32  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+175:32  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(consumer)/calendar/page.tsx
+133:32  Warning: ❌ PROHIBITED: Raw Tailwind grid in className. Use <Grid> component for grid layouts. Import: import { Grid } from '@ghxstship/ui';  no-restricted-syntax
+148:40  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+163:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+168:36  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+190:32  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+214:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(consumer)/cart/page.tsx
+63:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+86:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(consumer)/checkout/page.tsx
+176:34  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+192:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+195:34  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+210:32  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+226:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(consumer)/events/[id]/page.tsx
+52:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+
+./src/app/(consumer)/events/create/page.tsx
+26:22  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+28:24  Warning: ❌ PROHIBITED: Raw Tailwind grid in className. Use <Grid> component for grid layouts. Import: import { Grid } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(consumer)/events/page.tsx
+51:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(consumer)/merch/bundles/page.tsx
+33:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(consumer)/reviews/page.tsx
+37:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(consumer)/search/page.tsx
+42:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(marketing)/support/chat/page.tsx
+27:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/(portal)/surveys/[id]/page.tsx
+48:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/admin/moderation/page.tsx
+41:51  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+51:35  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+
+./src/app/admin/page.tsx
+161:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/admin/pos/page.tsx
+66:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/admin/ticketing/page.tsx
+173:40  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/api/ticket-insurance/route.ts
+37:13  Warning: ❌ PROHIBITED: Raw Tailwind flex. Use <Stack direction='horizontal'> for flex layouts. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/e/[eventId]/chat/page.tsx
+42:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/app/e/[eventId]/tickets/page.tsx
+54:24  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
+
+./src/components/app-layout.tsx
+486:13  Warning: Unexpected console statement.  no-console
+489:13  Warning: Unexpected console statement.  no-console
+495:13  Warning: Unexpected console statement.  no-console
+
+./src/hooks/useArtists.ts
+74:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+100:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+119:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+148:29  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+172:29  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+186:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+206:45  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+
+./src/hooks/useEventTickets.ts
+62:17  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+
+./src/hooks/useEvents.ts
+50:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+80:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+99:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+120:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+141:45  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+158:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+
+./src/hooks/useVenues.ts
+64:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+97:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+116:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+145:29  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+173:29  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+185:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+205:45  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

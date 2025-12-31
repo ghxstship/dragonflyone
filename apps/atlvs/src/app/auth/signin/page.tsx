@@ -11,12 +11,12 @@ import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Checkbox, Label, Form, AuthPage, useNotifications, Box} from "@ghxstship/ui";
+  Body, Button, Input, Checkbox, Label, Form, AuthPage, useToast, Box} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function SignInPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,11 +30,11 @@ export default function SignInPage() {
       return data;
     },
     onSuccess: () => {
-      addNotification({ type: "success", title: "Welcome back!", message: "You have been signed in successfully" });
+      toast.success("Welcome back!", "You have been signed in successfully");
       router.push("/dashboard");
     },
     onError: (error: Error) => {
-      addNotification({ type: "error", title: "Sign In Failed", message: error.message });
+      toast.error("Sign In Failed", error.message);
     },
   });
 

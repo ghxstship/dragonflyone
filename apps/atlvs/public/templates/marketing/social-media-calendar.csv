@@ -1,121 +1,32 @@
-SOCIAL MEDIA CONTENT CALENDAR
-Event Name:,[Enter Event Name]
-Event Date:,[Enter Date]
-Month:,[Enter Month]
-Prepared By:,[Enter Name]
+post_date,platform,content_type,content_pillar,copy,visual_asset,hashtags,link,scheduled_time,status,impressions,reach,engagement,notes
+,,instagram,image,promotional,,,,,draft,0,0,0,
+,,instagram,story,engagement,,,,,draft,0,0,0,
+,,facebook,image,promotional,,,,,draft,0,0,0,
+,,twitter,text,promotional,,,,,draft,0,0,0,
+,,tiktok,video,behind_the_scenes,,,,,draft,0,0,0,
+,,instagram,reel,engagement,,,,,draft,0,0,0,
+,,linkedin,article,promotional,,,,,draft,0,0,0,
 
-CONTENT PILLARS
-Pillar,Description,% of Content
-Promotional,Ticket sales and event info,40%
-Engagement,Questions and interactive content,25%
-Behind the Scenes,Artist and production content,20%
-User Generated,Fan content and reposts,15%
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- post_date: Scheduled post date (YYYY-MM-DD format)
+- platform: instagram | facebook | twitter | tiktok | linkedin | youtube
+- content_type: image | video | story | reel | text | carousel | article
+- content_pillar: promotional | engagement | behind_the_scenes | user_generated
+- copy: Post caption/text
+- visual_asset: Filename or URL of visual asset
+- hashtags: Comma-separated hashtags
+- link: URL to include in post
+- scheduled_time: Time to post (HH:MM format)
+- status: draft | approved | scheduled | posted | failed
+- impressions: Number of impressions (for tracking)
+- reach: Number of unique accounts reached
+- engagement: Likes + comments + shares
+- notes: Additional notes
 
-WEEKLY POSTING SCHEDULE
-Day,Instagram,Facebook,Twitter/X,TikTok,LinkedIn
-Monday,1 post,1 post,2 tweets,1 video,
-Tuesday,1 post + story,1 post,2 tweets,,
-Wednesday,1 post,1 post,2 tweets,1 video,1 post
-Thursday,1 post + story,1 post,2 tweets,,
-Friday,1 post + reel,1 post,3 tweets,1 video,
-Saturday,1 post + story,1 post,2 tweets,1 video,
-Sunday,1 post,1 post,1 tweet,,
-
-CONTENT CALENDAR
-
-WEEK 1
-Date,Platform,Content Type,Copy,Visual,Hashtags,Link,Status,Notes
-,Instagram,Image,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Instagram,Story,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Facebook,Image,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Twitter,Text,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,TikTok,Video,,,,,[ ] Draft [ ] Approved [ ] Posted,
-
-WEEK 2
-Date,Platform,Content Type,Copy,Visual,Hashtags,Link,Status,Notes
-,Instagram,Image,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Instagram,Reel,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Facebook,Image,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Twitter,Text,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,TikTok,Video,,,,,[ ] Draft [ ] Approved [ ] Posted,
-
-WEEK 3
-Date,Platform,Content Type,Copy,Visual,Hashtags,Link,Status,Notes
-,Instagram,Image,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Instagram,Story,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Facebook,Image,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Twitter,Text,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,TikTok,Video,,,,,[ ] Draft [ ] Approved [ ] Posted,
-
-WEEK 4
-Date,Platform,Content Type,Copy,Visual,Hashtags,Link,Status,Notes
-,Instagram,Image,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Instagram,Reel,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Facebook,Image,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,Twitter,Text,,,,,[ ] Draft [ ] Approved [ ] Posted,
-,TikTok,Video,,,,,[ ] Draft [ ] Approved [ ] Posted,
-
-CONTENT IDEAS BY PHASE
-
-ANNOUNCEMENT PHASE
-Content Type,Platform,Description,Visual Needed
-Teaser,All,Cryptic hint about announcement,Dark/mysterious image
-Announcement,All,Official event announcement,Event poster
-Artist spotlight,All,Feature on headliner,Artist photo
-Venue feature,All,Highlight venue,Venue photo
-Ticket info,All,Pricing and on-sale details,Graphic
-
-AWARENESS PHASE
-Content Type,Platform,Description,Visual Needed
-Countdown,All,Days until event,Countdown graphic
-Artist content,All,Music videos and clips,Video clips
-Behind scenes,Instagram/TikTok,Production prep,BTS photos/video
-Fan engagement,All,Questions and polls,Graphic
-Throwback,All,Previous event highlights,Archive photos
-
-CONVERSION PHASE
-Content Type,Platform,Description,Visual Needed
-Urgency,All,Limited tickets remaining,Graphic
-Testimonials,All,Fan quotes and reviews,Quote graphic
-FOMO,All,What you'll miss,Event highlights
-Last chance,All,Final ticket push,Graphic
-Day-of info,All,Event logistics,Info graphic
-
-POST-EVENT
-Content Type,Platform,Description,Visual Needed
-Thank you,All,Gratitude post,Event photo
-Highlights,All,Best moments,Photo carousel
-Video recap,All,Event video,Edited video
-Fan photos,All,UGC reshares,Fan photos
-Survey,Email/Story,Feedback request,Graphic
-
-HASHTAG STRATEGY
-Type,Hashtag,Use
-Primary,#[EventName],All posts
-Secondary,#[VenueName],Venue-related
-Artist,#[ArtistName],Artist content
-Location,#[CityName]Events,Local reach
-Genre,#[Genre]Music,Genre fans
-Brand,#[CompanyName],Brand posts
-
-ENGAGEMENT GUIDELINES
-Action,Response Time,Tone
-Comments,Within 2 hours,Friendly and helpful
-DMs,Within 4 hours,Professional
-Mentions,Within 1 hour,Appreciative
-Negative feedback,Within 1 hour,Empathetic and solution-focused
-Questions,Within 2 hours,Informative
-
-PERFORMANCE TRACKING
-Week,Impressions,Reach,Engagement,Clicks,Followers Gained,Top Post
-1,,,,,,
-2,,,,,,
-3,,,,,,
-4,,,,,,
-
-NOTES
-1. All content must be approved before posting
-2. Use scheduling tools for consistent posting
-3. Monitor comments and respond promptly
-4. Adjust strategy based on performance data
-5. Save all high-performing content for future reference
+HOW TO USE:
+1. One row per social media post
+2. Fill in post details and schedule
+3. Update metrics after posting
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Social Calendar

@@ -40,6 +40,7 @@ import {
   Star,
   Copy,
 } from "lucide-react";
+import { Tooltip } from "../atoms/tooltip.js";
 
 // =============================================================================
 // TYPES
@@ -723,53 +724,59 @@ export function DashboardBuilder({
 
           <div className="flex items-center gap-2">
             {onSetDefault && (
-              <button
-                type="button"
-                onClick={() => onSetDefault(dashboard)}
-                className={clsx(
-                  "p-2 rounded-lg border-2 transition-colors",
-                  dashboard.isDefault
-                    ? "border-warning-500 text-warning-500"
-                    : inverted
-                    ? "border-ink-700 text-ink-400 hover:text-warning-400"
-                    : "border-ink-200 text-ink-500 hover:text-warning-600"
-                )}
-                title={dashboard.isDefault ? "Default dashboard" : "Set as default"}
-              >
-                <Star size={16} fill={dashboard.isDefault ? "currentColor" : "none"} />
-              </button>
+              <Tooltip content={dashboard.isDefault ? "Default dashboard" : "Set as default"} inverted={!inverted}>
+                <button
+                  type="button"
+                  onClick={() => onSetDefault(dashboard)}
+                  className={clsx(
+                    "p-2 rounded-lg border-2 transition-colors",
+                    dashboard.isDefault
+                      ? "border-warning-500 text-warning-500"
+                      : inverted
+                      ? "border-ink-700 text-ink-400 hover:text-warning-400"
+                      : "border-ink-200 text-ink-500 hover:text-warning-600"
+                  )}
+                  aria-label={dashboard.isDefault ? "Default dashboard" : "Set as default"}
+                >
+                  <Star size={16} fill={dashboard.isDefault ? "currentColor" : "none"} />
+                </button>
+              </Tooltip>
             )}
             {onDuplicate && (
-              <button
-                type="button"
-                onClick={() => onDuplicate(dashboard)}
-                className={clsx(
-                  "p-2 rounded-lg border-2 transition-colors",
-                  inverted
-                    ? "border-ink-700 text-ink-400 hover:text-white"
-                    : "border-ink-200 text-ink-500 hover:text-ink-900"
-                )}
-                title="Duplicate dashboard"
-              >
-                <Copy size={16} />
-              </button>
+              <Tooltip content="Duplicate dashboard" inverted={!inverted}>
+                <button
+                  type="button"
+                  onClick={() => onDuplicate(dashboard)}
+                  className={clsx(
+                    "p-2 rounded-lg border-2 transition-colors",
+                    inverted
+                      ? "border-ink-700 text-ink-400 hover:text-white"
+                      : "border-ink-200 text-ink-500 hover:text-ink-900"
+                  )}
+                  aria-label="Duplicate dashboard"
+                >
+                  <Copy size={16} />
+                </button>
+              </Tooltip>
             )}
             {onShare && (
-              <button
-                type="button"
-                onClick={() => onShare(dashboard)}
-                className={clsx(
-                  "p-2 rounded-lg border-2 transition-colors",
-                  dashboard.isPublic
-                    ? "border-success-500 text-success-500"
-                    : inverted
-                    ? "border-ink-700 text-ink-400 hover:text-white"
-                    : "border-ink-200 text-ink-500 hover:text-ink-900"
-                )}
-                title={dashboard.isPublic ? "Shared" : "Share dashboard"}
-              >
-                <Share2 size={16} />
-              </button>
+              <Tooltip content={dashboard.isPublic ? "Shared" : "Share dashboard"} inverted={!inverted}>
+                <button
+                  type="button"
+                  onClick={() => onShare(dashboard)}
+                  className={clsx(
+                    "p-2 rounded-lg border-2 transition-colors",
+                    dashboard.isPublic
+                      ? "border-success-500 text-success-500"
+                      : inverted
+                      ? "border-ink-700 text-ink-400 hover:text-white"
+                      : "border-ink-200 text-ink-500 hover:text-ink-900"
+                  )}
+                  aria-label={dashboard.isPublic ? "Shared" : "Share dashboard"}
+                >
+                  <Share2 size={16} />
+                </button>
+              </Tooltip>
             )}
             {onSave && (
               <button

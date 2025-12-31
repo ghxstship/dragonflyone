@@ -15,7 +15,7 @@ import {
   Badge,
   Modal,
   ProgressBar,
-  useNotifications,
+  useToast,
   DetailPage,
   Section,
   SectionHeader,
@@ -33,7 +33,7 @@ interface Language {
 }
 
 export default function LanguageSettingsPage() {
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const { languages: apiLanguages, isLoading, error, refetch } = useLanguageSettings();
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -52,7 +52,7 @@ export default function LanguageSettingsPage() {
   const confirmLanguageChange = () => {
     if (pendingLanguage) {
       setSelectedLanguage(pendingLanguage.code);
-      addNotification({ type: "success", title: "Language Changed", message: `Language set to ${pendingLanguage.nativeName}` });
+      toast.success("Language Changed", `Language set to ${pendingLanguage.nativeName}`);
     }
     setShowConfirmModal(false);
     setPendingLanguage(null);

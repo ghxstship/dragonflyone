@@ -1,5 +1,24 @@
 # EVENT MARKETING PLAN
 
+<!-- IMPORT FORMAT: Copy plan details table to CSV for import -->
+
+## Plan Details (Importable)
+
+| field | value |
+|-------|-------|
+| plan_id | |
+| event_name | |
+| event_date | |
+| venue_name | |
+| venue_capacity | |
+| ticket_price_min | |
+| ticket_price_max | |
+| target_attendance | |
+| marketing_budget | |
+| target_revenue | |
+| marketing_lead | |
+| status | |
+
 ## Event Overview
 
 | Field | Details |
@@ -262,3 +281,14 @@
 | Marketing Lead | | | |
 | Producer | | | |
 | Finance | | | |
+
+---
+
+<!-- IMPORT INSTRUCTIONS
+To import marketing plan:
+1. Copy the Plan Details table to a CSV file
+2. Dates must be YYYY-MM-DD format
+3. Amounts should be decimal (no $ symbol)
+4. Valid status: draft | approved | active | completed
+5. Import via ATLVS > Settings > Data Import > Marketing Plans
+-->

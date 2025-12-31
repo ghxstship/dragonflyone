@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Download, FileText, Database, Calendar, Users, Clock, List, Settings } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, Input, Select, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Select, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
 
 interface ExportOption {
   id: string;
@@ -29,7 +29,7 @@ const EXPORT_OPTIONS: ExportOption[] = [
 ];
 
 export default function ExportSettingsPage() {
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [selectedExport, setSelectedExport] = useState<string>("all");
   const [selectedFormat, setSelectedFormat] = useState<string>("json");
@@ -47,10 +47,10 @@ export default function ExportSettingsPage() {
       return response.json();
     },
     onSuccess: () => {
-      addNotification({ type: "success", title: "Export Started", message: "You will receive an email when your export is ready" });
+      toast.success("Export Started", "You will receive an email when your export is ready");
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to start export" });
+      toast.error("Error", "Failed to start export");
     },
   });
 

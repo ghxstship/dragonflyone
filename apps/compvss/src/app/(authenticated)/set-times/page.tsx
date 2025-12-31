@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Grid, Stack, Input, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Alert} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Input, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Alert,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import {
   useSetTimes,
@@ -37,7 +38,7 @@ export default function SetTimesPage() {
       label: 'Artist',
       accessor: 'artistName',
       sortable: true,
-      render: (_, s) => (
+      render: (_value: unknown, s) => (
         <Stack gap={1}>
           <Body className="font-display">{s.artistName}</Body>
           <Badge variant="outline">{s.stage}</Badge>
@@ -49,26 +50,26 @@ export default function SetTimesPage() {
       label: 'Scheduled',
       accessor: 'scheduledStart',
       sortable: true,
-      render: (_, s) => <Body>{s.scheduledStart} - {s.scheduledEnd}</Body>,
+      render: (_value: unknown, s) => <Body>{s.scheduledStart} - {s.scheduledEnd}</Body>,
     },
     {
       key: 'actualStart',
       label: 'Actual',
       accessor: (s) => s.actualStart || '--:--',
-      render: (_, s) => <Body>{s.actualStart || "--:--"} - {s.actualEnd || "--:--"}</Body>,
+      render: (_value: unknown, s) => <Body>{s.actualStart || "--:--"} - {s.actualEnd || "--:--"}</Body>,
     },
     {
       key: 'setLength',
       label: 'Length',
       accessor: 'setLength',
-      render: (_, s) => <Body>{s.setLength} min</Body>,
+      render: (_value: unknown, s) => <Body>{s.setLength} min</Body>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
+      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
     },
   ];
 
@@ -139,6 +140,9 @@ export default function SetTimesPage() {
         stats={stats}
         emptyMessage="No sets found"
         emptyAction={{ label: 'Add Set', onClick: () => router.push('/set-times/new') }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

@@ -1,114 +1,28 @@
-TICKET PRICING MATRIX
-Event Name:,[Enter Event Name]
-Event Date:,[Enter Date]
-Venue:,[Enter Venue]
-Capacity:,[Enter Number]
-Prepared By:,[Enter Name]
+ticket_type,tier,face_value,service_fee,facility_fee,total_price,quantity_available,quantity_sold,quantity_comps,quantity_holds,status
+ga,tier_1,0.00,0.00,0.00,0.00,0,0,0,0,active
+ga,tier_2,0.00,0.00,0.00,0.00,0,0,0,0,pending
+ga,tier_3,0.00,0.00,0.00,0.00,0,0,0,0,pending
+ga,door,0.00,0.00,0.00,0.00,0,0,0,0,pending
+vip,standard,0.00,0.00,0.00,0.00,0,0,0,0,active
+reserved,standard,0.00,0.00,0.00,0.00,0,0,0,0,active
+ada,standard,0.00,0.00,0.00,0.00,0,0,0,0,active
 
-PRICING STRATEGY
-Strategy Type,Selected,Notes
-Fixed Pricing,[ ],Same price throughout
-Tiered Pricing,[ ],Price increases as inventory decreases
-Dynamic Pricing,[ ],Prices adjust based on demand
-Early Bird,[ ],Discounted early purchase period
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- ticket_type: ga | vip | reserved | premium | student | senior | group | ada
+- tier: tier_1 | tier_2 | tier_3 | door | standard
+- face_value: Face value (decimal, no $ symbol)
+- service_fee: Service fee per ticket (decimal)
+- facility_fee: Facility fee per ticket (decimal)
+- total_price: Total price (face_value + fees)
+- quantity_available: Total inventory for this type/tier
+- quantity_sold: Number sold
+- quantity_comps: Number comped
+- quantity_holds: Number on hold
+- status: active | pending | sold_out | closed
 
-TICKET TYPES
-Type,Face Value,Fees,Total Price,Quantity Available,Inventory %,Revenue Potential
-General Admission,$,$,$,,,,$
-VIP,$,$,$,,,,$
-Reserved Seating,$,$,$,,,,$
-Premium/Platinum,$,$,$,,,,$
-Student/Senior,$,$,$,,,,$
-Group (10+),$,$,$,,,,$
-TOTAL,,,,,,,$
-
-TIERED PRICING SCHEDULE
-Tier,Price,Start Date,End Date,Quantity,Status
-Tier 1 (Early Bird),$,,,,,[ ] Active
-Tier 2,$,,,,,[ ] Active
-Tier 3,$,,,,,[ ] Active
-Tier 4 (Door),$,,,,,[ ] Active
-
-VIP PACKAGE DETAILS
-Package Name,Price,Includes,Quantity
-VIP Package,$,"Early entry, merch, meet & greet",,
-Premium Package,$,"Front row, VIP lounge, open bar",,
-Ultimate Package,$,"All VIP + backstage tour",,
-
-FEE STRUCTURE
-Fee Type,Amount,Per Ticket,Collected By,Notes
-Service Fee,$,Yes,Ticketing Platform,
-Facility Fee,$,Yes,Venue,
-Order Fee,$,No (per order),Ticketing Platform,
-Delivery Fee,$,No (per order),Ticketing Platform,
-Credit Card Fee,%,Yes,Payment Processor,
-
-REVENUE PROJECTIONS
-Scenario,Tickets Sold,% Capacity,Gross Revenue,Fees,Net Revenue
-Conservative,,50%,$,$,$
-Target,,75%,$,$,$
-Optimistic,,90%,$,$,$
-Sellout,,100%,$,$,$
-
-COMP TICKETS
-Category,Quantity,Value,Approved By
-Artist/Management,,$,
-Promoter,,$,
-Venue,,$,
-Sponsors,,$,
-Media/Press,,$,
-Contest Winners,,$,
-TOTAL COMPS,,$,
-
-HOLDS
-Category,Quantity,Release Date,Notes
-Production Hold,,,
-Artist Hold,,,
-Sponsor Hold,,,
-VIP Hold,,,
-ADA Hold,,,
-TOTAL HOLDS,,,
-
-DISCOUNT CODES
-Code,Discount Type,Amount,Valid From,Valid To,Max Uses,Current Uses,Status
-,Percentage,%,,,,,,[ ] Active
-,Fixed Amount,$,,,,,,[ ] Active
-,BOGO,Buy 1 Get 1,,,,,,[ ] Active
-,Group,% off 10+,,,,,,[ ] Active
-
-PRESALE SCHEDULE
-Presale,Start Date/Time,End Date/Time,Code Required,Allocation
-Artist Presale,,,,
-Venue Presale,,,,
-Sponsor Presale,,,,
-Email List Presale,,,,
-Credit Card Presale,,,,
-General On-Sale,,,,
-
-REFUND POLICY
-Condition,Refund Amount,Deadline,Notes
-Customer Request,0%,N/A,No refunds
-Event Postponed,100% or transfer,,
-Event Cancelled,100%,,
-Artist Change,Case by case,,
-
-ACCESSIBILITY
-Ticket Type,Price,Quantity,Location,Notes
-ADA Seating,$,,,
-ADA + Companion,$,,,
-Sensory Friendly,$,,,
-
-SALES TRACKING
-Date,Tickets Sold (Day),Tickets Sold (Cumulative),Revenue (Day),Revenue (Cumulative),Notes
-,,,,$,$,
-,,,,$,$,
-,,,,$,$,
-,,,,$,$,
-,,,,$,$,
-
-NOTES
-1. All prices include applicable taxes unless noted
-2. Fees are non-refundable
-3. Ticket limits: [X] per customer
-4. Age restrictions: [All ages / 18+ / 21+]
-5. Re-entry policy: [Allowed / Not allowed]
+HOW TO USE:
+1. One row per ticket type/tier combination
+2. Use decimal format for prices (no $ symbol)
+3. Delete this instruction section before importing
+4. Import via ATLVS > Settings > Data Import > Ticket Pricing

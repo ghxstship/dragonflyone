@@ -18,7 +18,7 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-  useNotifications,
+  useToast,
 Box} from "@ghxstship/ui";
 import { CreditCard, Lock, Check, ShoppingCart, ChevronRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
@@ -37,7 +37,7 @@ interface CartItem {
 function CheckoutContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [step, setStep] = useState<"cart" | "payment" | "confirm">("cart");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -131,10 +131,10 @@ function CheckoutContent() {
 
       const data = await response.json();
       if (data.success) { setOrderId(data.orderId); setStep("confirm"); }
-      else addNotification({ type: "error", title: "Payment Failed", message: data.error || "Payment could not be processed" });
+      else toast.error("Payment Failed", data.error || "Payment could not be processed");
     } catch (error) {
       log.error("Payment error:", error instanceof Error ? error : undefined);
-      addNotification({ type: "error", title: "Payment Error", message: "Payment processing failed. Please try again." });
+      toast.error("Payment Error", "Payment processing failed. Please try again.");
     } finally {
       setProcessing(false);
     }

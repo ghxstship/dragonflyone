@@ -2,26 +2,31 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import type { Json } from '@ghxstship/config/supabase-types';
 
-interface Budget {
+export interface Budget {
   id: string;
+  organization_id: string;
   name: string;
-  category?: string;
-  budgeted: number;
-  actual?: number;
-  variance?: number;
-  status?: 'on-track' | 'over' | 'under' | 'at-risk';
-  period?: string;
-  project_id?: string;
+  project_id?: string | null;
+  department_id?: string | null;
+  fiscal_year?: number | null;
+  start_date?: string | null;
+  end_date?: string | null;
+  total_amount: number;
+  currency?: string | null;
+  status?: 'draft' | 'active' | 'closed' | null;
+  notes?: string | null;
+  metadata?: Json;
   created_at: string;
   updated_at: string;
 }
 
 interface BudgetFilters {
-  period?: string;
-  category?: string;
+  fiscal_year?: number;
   status?: string;
   project_id?: string;
+  department_id?: string;
 }
 
 // Fetch all budgets
@@ -34,11 +39,11 @@ export function useBudgets(filters?: BudgetFilters) {
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (filters?.period) {
-        query = query.eq('period', filters.period);
+      if (filters?.fiscal_year) {
+        query = query.eq('fiscal_year', filters.fiscal_year);
       }
-      if (filters?.category) {
-        query = query.eq('category', filters.category);
+      if (filters?.department_id) {
+        query = query.eq('department_id', filters.department_id);
       }
       if (filters?.status) {
         query = query.eq('status', filters.status);

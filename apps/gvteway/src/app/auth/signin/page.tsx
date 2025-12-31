@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useNotifications, AuthPage, SignInForm, Button } from "@ghxstship/ui";
+import { useToast, AuthPage, SignInForm, Button } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
 import NextLink from "next/link";
 import { useAuthData } from "@/hooks/useAuth";
@@ -20,7 +20,7 @@ const LinkWrapper = ({ href, children, className }: { href: string; children: Re
 export default function SignInPage() {
   const router = useRouter();
   const { login } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const { oauthSignIn } = useAuthData();
 
   const handleSubmit = async (email: string, password: string) => {
@@ -34,18 +34,10 @@ export default function SignInPage() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        addNotification({
-          type: "info",
-          title: "Coming Soon",
-          message: `${provider} sign-in will be available once OAuth is configured`,
-        });
+        toast.info("Coming Soon", `${provider} sign-in will be available once OAuth is configured`);
       }
     } catch {
-      addNotification({
-        type: "error",
-        title: "Error",
-        message: "OAuth sign-in failed",
-      });
+      toast.error("Error", "OAuth sign-in failed",);
     }
   };
 

@@ -3,6 +3,7 @@
 import React, { useMemo, useState, useCallback, ReactNode } from "react";
 import clsx from "clsx";
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react";
+import { Tooltip } from "../atoms/tooltip.js";
 
 // =============================================================================
 // TYPES
@@ -484,14 +485,16 @@ export function GanttChart<T>({
                 className="absolute top-12 z-sticky-row"
                 style={{ left }}
               >
-                <div
-                  className="w-4 h-4 rotate-45 border-2"
-                  style={{
-                    backgroundColor: milestone.color || "#f59e0b",
-                    borderColor: inverted ? "#1f2937" : "#ffffff",
-                  }}
-                  title={milestone.title}
-                />
+                <Tooltip content={milestone.title} inverted={!inverted}>
+                  <div
+                    className="w-4 h-4 rotate-45 border-2"
+                    style={{
+                      backgroundColor: milestone.color || "#f59e0b",
+                      borderColor: inverted ? "#1f2937" : "#ffffff",
+                    }}
+                    aria-label={milestone.title}
+                  />
+                </Tooltip>
               </div>
             );
           })}

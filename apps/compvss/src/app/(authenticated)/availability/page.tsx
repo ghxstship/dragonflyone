@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Calendar } from 'lucide-react';
 // Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, Grid, Stack, Body} from '@ghxstship/ui';
+  ListPage, Badge, RecordFormModal, DetailDrawer, Grid, Stack, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from '@ghxstship/config';
 
 import {
@@ -27,12 +29,12 @@ const getStatusVariant = getBadgeVariant;
 const columns: ListPageColumn<AvailabilitySlot>[] = [
   { key: 'user_name', label: 'Crew Member', accessor: 'user_name', sortable: true },
   { key: 'role', label: 'Role', accessor: 'role' },
-  { key: 'department', label: 'Department', accessor: 'department', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'department', label: 'Department', accessor: 'department', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
   { key: 'date', label: 'Date', accessor: (r) => new Date(r.date).toLocaleDateString(), sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v).toUpperCase()}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v).toUpperCase()}</Badge> },
   { key: 'start_time', label: 'Start', accessor: (r) => r.start_time || '-' },
   { key: 'end_time', label: 'End', accessor: (r) => r.end_time || '-' },
-  { key: 'calendar_source', label: 'Source', accessor: 'calendar_source', render: (v) => v === 'google' ? 'Google' : 'Manual' },
+  { key: 'calendar_source', label: 'Source', accessor: 'calendar_source', render: (v: unknown) => v === 'google' ? 'Google' : 'Manual' },
 ];
 
 const filters: ListPageFilter[] = [
@@ -49,6 +51,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function AvailabilityPage() {
+  const router = useRouter();
   const { user, hasRole } = useAuthContext();
   
   // RBAC: Check if user has admin access
@@ -155,6 +158,7 @@ export default function AvailabilityPage() {
           onImport={handleImport}
           importTemplates={importTemplates}
           importSampleFields={['user_name', 'date', 'status', 'start_time', 'end_time']}
+          templateDownloadUrl="/templates/crew-management/availability-tracker.csv"
           onExport={createExportHandler({
             filename: "availability",
             getData: () => availability.map(s => ({
@@ -187,6 +191,9 @@ export default function AvailabilityPage() {
           { id: 'book', label: 'Book Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ] : []}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

@@ -1,13 +1,25 @@
 'use client';
 
+/**
+ * SOPs Page
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
+ */
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, CheckCircle, BookOpen, FolderOpen } from 'lucide-react';
-// Layout provided by route group
 import { useSOPs, useSOPStats, useSOPCategories } from '@/hooks/useSOPs';
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, Grid, Stack, Body} from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+  ListPage, Badge, RecordFormModal, DetailDrawer, Grid, Stack, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection,
+} from "@ghxstship/ui";
+import { 
+  createExportHandler, 
+  createImportHandler, 
+  getImportTemplates,
+  DOCUMENT_STATUS_COLORS,
+} from '@ghxstship/config';
 
 interface SOP {
   id: string;
@@ -22,12 +34,7 @@ interface SOP {
   owner?: { id: string; first_name: string; last_name: string };
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
-  approved: 'success',
-  review: 'warning',
-  draft: 'ghost',
-  archived: 'error',
-};
+const statusColors = DOCUMENT_STATUS_COLORS;
 
 const columns: ListPageColumn<SOP>[] = [
   { 
@@ -41,7 +48,7 @@ const columns: ListPageColumn<SOP>[] = [
     label: 'Category', 
     accessor: (row) => row.category?.name || '—',
     sortable: true,
-    render: (_, row) => row.category ? (
+    render: (_value: unknown, row) => row.category ? (
       <Badge color={row.category.color || '#6b7280'}>
         {row.category.name}
       </Badge>
@@ -59,7 +66,7 @@ const columns: ListPageColumn<SOP>[] = [
     label: 'Status', 
     accessor: 'status', 
     sortable: true,
-    render: (value) => (
+    render: (value: unknown) => (
       <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
@@ -69,7 +76,7 @@ const columns: ListPageColumn<SOP>[] = [
     key: 'requires_acknowledgment', 
     label: 'Acknowledgment', 
     accessor: 'requires_acknowledgment', 
-    render: (value) => value ? (
+    render: (value: unknown) => value ? (
       <Badge variant="info">Required</Badge>
     ) : '—'
   },
@@ -77,7 +84,7 @@ const columns: ListPageColumn<SOP>[] = [
     key: 'requires_training', 
     label: 'Training', 
     accessor: 'requires_training', 
-    render: (value) => value ? (
+    render: (value: unknown) => value ? (
       <Badge variant="warning">Required</Badge>
     ) : '—'
   },
@@ -86,7 +93,7 @@ const columns: ListPageColumn<SOP>[] = [
     label: 'Effective',
     accessor: 'effective_date',
     sortable: true,
-    render: (value) => value ? new Date(String(value)).toLocaleDateString() : '—'
+    render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '—'
   },
 ];
 
@@ -281,6 +288,7 @@ export default function SOPsPage() {
         onImport={handleImport}
         importTemplates={importTemplates}
         importSampleFields={['title', 'description', 'version', 'status']}
+        templateDownloadUrl="/templates/safety-compliance/emergency-action-plan.md"
         onExport={createExportHandler({
           filename: "sops",
           getData: () => (sops || []).map(s => ({

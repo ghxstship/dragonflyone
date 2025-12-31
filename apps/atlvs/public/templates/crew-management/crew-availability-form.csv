@@ -1,90 +1,32 @@
-CREW AVAILABILITY FORM
-Crew Member Name:,[Enter Name]
-Phone:,[Enter Phone]
-Email:,[Enter Email]
-Submitted Date:,[Enter Date]
+employee_number,date,is_available,preferred_shift,start_time,end_time,notes
+,2024-01-01,true,day,06:00,14:00,
+,2024-01-02,true,day,06:00,14:00,
+,2024-01-03,true,swing,14:00,22:00,
+,2024-01-04,true,swing,14:00,22:00,
+,2024-01-05,true,day,06:00,14:00,
+,2024-01-06,false,,,,Not available - personal
+,2024-01-07,false,,,,Not available - personal
 
-AVAILABILITY PERIOD
-Start Date:,[Enter Start Date]
-End Date:,[Enter End Date]
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- employee_number: Your employee ID (must match employees import)
+- date: Date (YYYY-MM-DD format)
+- is_available: true | false
+- preferred_shift: day | swing | night | split | any
+- start_time: Earliest available time (HH:MM in 24-hour format)
+- end_time: Latest available time (HH:MM in 24-hour format)
+- notes: Additional notes or reason if unavailable
 
-WEEKLY AVAILABILITY
-Day,Available,Preferred Shift,Notes
-Monday,[ ] Yes [ ] No,,
-Tuesday,[ ] Yes [ ] No,,
-Wednesday,[ ] Yes [ ] No,,
-Thursday,[ ] Yes [ ] No,,
-Friday,[ ] Yes [ ] No,,
-Saturday,[ ] Yes [ ] No,,
-Sunday,[ ] Yes [ ] No,,
+SHIFT TYPES:
+- day: 06:00-14:00
+- swing: 14:00-22:00
+- night: 22:00-06:00
+- split: Multiple shifts in one day
+- any: Flexible
 
-SHIFT PREFERENCES
-Shift Type,Preference (1-5),Notes
-Day Shift (6am-2pm),,
-Swing Shift (2pm-10pm),,
-Night Shift (10pm-6am),,
-Split Shift,,
-On-Call,,
-
-SPECIFIC DATE AVAILABILITY
-Date,Available,Shift Preference,Notes
-,[ ] Yes [ ] No,,
-,[ ] Yes [ ] No,,
-,[ ] Yes [ ] No,,
-,[ ] Yes [ ] No,,
-,[ ] Yes [ ] No,,
-,[ ] Yes [ ] No,,
-,[ ] Yes [ ] No,,
-,[ ] Yes [ ] No,,
-,[ ] Yes [ ] No,,
-,[ ] Yes [ ] No,,
-
-BLACKOUT DATES (Not Available)
-Start Date,End Date,Reason
-,,,
-,,,
-,,,
-,,,
-
-SKILLS & CERTIFICATIONS
-Skill/Certification,Level (1-5),Expiration Date,Notes
-Audio - FOH,,,,
-Audio - Monitors,,,,
-Lighting - Console,,,,
-Lighting - Rigging,,,,
-Video - Switching,,,,
-Video - Camera,,,,
-Stage - Carpentry,,,,
-Stage - Rigging,,,,
-Forklift Certified,,,,
-Scissor Lift Certified,,,,
-First Aid/CPR,,,,
-OSHA 10/30,,,,
-
-POSITION PREFERENCES
-Position,Preference (1-5),Notes
-Audio Engineer,,
-Lighting Technician,,
-Video Technician,,
-Stagehand,,
-Rigger,,
-Backline Tech,,
-Runner,,
-Loader,,
-
-TRAVEL AVAILABILITY
-Item,Response,Notes
-Willing to travel,[ ] Yes [ ] No,
-Maximum travel distance,,
-Passport valid,[ ] Yes [ ] No,
-Driver's license,[ ] Yes [ ] No,
-Own vehicle,[ ] Yes [ ] No,
-
-ADDITIONAL NOTES
-[Space for additional information]
-
-ACKNOWLEDGMENT
-I confirm that the availability information provided is accurate. I understand that I am responsible for updating this form if my availability changes.
-
-Signature:,
-Date:,
+HOW TO USE:
+1. Enter your employee_number in each row
+2. Add a row for each date in the period
+3. Set is_available to false for blackout dates
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Availability

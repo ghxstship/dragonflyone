@@ -1,6 +1,28 @@
 # [EVENT NAME]
 ## Sponsorship Opportunities
 
+<!-- IMPORT FORMAT: Copy sponsorship packages table to CSV for import -->
+
+## Sponsorship Details (Importable)
+
+| field | value |
+|-------|-------|
+| deck_id | |
+| event_name | |
+| event_date | |
+| venue_name | |
+| venue_capacity | |
+| expected_attendance | |
+| presenting_sponsor_price | |
+| platinum_sponsor_price | |
+| gold_sponsor_price | |
+| silver_sponsor_price | |
+| bronze_sponsor_price | |
+| contact_name | |
+| contact_email | |
+| contact_phone | |
+| status | |
+
 ---
 
 ### [Date] | [Venue] | [City, State]
@@ -255,3 +277,14 @@ We welcome in-kind contributions in the following areas:
 ---
 
 *Thank you for considering a partnership with [Event Name]. We look forward to creating a memorable experience together.*
+
+---
+
+<!-- IMPORT INSTRUCTIONS
+To import sponsor deck:
+1. Copy the Sponsorship Details table to a CSV file
+2. Dates must be YYYY-MM-DD format
+3. Prices should be decimal (no $ symbol)
+4. Valid status: draft | active | closed
+5. Import via ATLVS > Settings > Data Import > Sponsorship
+-->

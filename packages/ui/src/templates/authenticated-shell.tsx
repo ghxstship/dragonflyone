@@ -5,27 +5,19 @@ import clsx from "clsx";
 import { AppSidebar, MobileAppSidebar } from "../organisms/app-sidebar.js";
 import type { SidebarNavSection, SidebarNavItem } from "../organisms/app-sidebar.js";
 import { Dropdown, DropdownItem } from "../molecules/dropdown.js";
-import { Menu, Search, Bell, Settings, ChevronDown, User, LogOut, Building2, Plus, Check, FolderKanban, Users, Briefcase, ArrowLeft } from "lucide-react";
+import { Menu, Search, Bell, Settings, ChevronDown, User, LogOut, Building2, Plus, Check, FolderKanban, Users, Briefcase, ArrowLeft, LifeBuoy } from "lucide-react";
+import { AppNavbar } from "../organisms/app-navbar.js";
+import type { 
+  HeaderNotification, 
+  UserStatus, 
+  ThemeMode, 
+  QuickAction as HeaderQuickAction,
+  BreadcrumbContextItem,
+  ContextOptions,
+} from "../organisms/app-navbar.js";
 
-// =============================================================================
-// TYPES
-// =============================================================================
-
-/** Context item for breadcrumb hierarchy */
-export interface BreadcrumbContextItem {
-  id: string;
-  name: string;
-  type: "organization" | "project" | "team" | "workspace";
-  href?: string;
-}
-
-/** Available items for each context level */
-export interface ContextOptions {
-  organizations?: Array<{ id: string; name: string; current?: boolean }>;
-  projects?: Array<{ id: string; name: string; status?: string; current?: boolean }>;
-  teams?: Array<{ id: string; name: string; current?: boolean }>;
-  workspaces?: Array<{ id: string; name: string; current?: boolean }>;
-}
+// Re-export types for external use
+export type { BreadcrumbContextItem, ContextOptions };
 
 export type AuthenticatedShellProps = {
   children: ReactNode;
@@ -48,9 +40,13 @@ export type AuthenticatedShellProps = {
     name: string;
     email?: string;
     avatar?: string;
+    status?: UserStatus;
+    role?: string;
   };
-  /** Quick action buttons */
+  /** Quick action buttons for sidebar */
   quickActions?: Array<{ label: string; href: string; icon?: string; shortcut?: string }>;
+  /** Header quick actions (contextual) */
+  headerQuickActions?: HeaderQuickAction[];
   /** Favorites items */
   favorites?: SidebarNavItem[];
   /** Spaces/projects */
@@ -65,12 +61,18 @@ export type AuthenticatedShellProps = {
   inverted?: boolean;
   /** Navigation callback */
   onNavigate?: (href: string) => void;
-  /** Search callback */
+  /** Search callback - triggers command palette */
   onSearch?: (query: string) => void;
+  /** Open global search/command palette */
+  onSearchOpen?: () => void;
   /** Settings path */
   settingsPath?: string;
-  /** Notifications */
-  notifications?: Array<{ id: string; title: string; message: string; time: string; read?: boolean }>;
+  /** Help path */
+  helpPath?: string;
+  /** Notifications - enhanced format */
+  notifications?: HeaderNotification[];
+  /** Legacy notifications format - DEPRECATED */
+  legacyNotifications?: Array<{ id: string; title: string; message: string; time: string; read?: boolean }>;
   /** Available workspaces for switching - DEPRECATED: use contextOptions.organizations instead */
   workspaces?: Array<{ id: string; name: string; current?: boolean }>;
   /** Workspace switch callback - DEPRECATED: use onContextSwitch instead */
@@ -81,14 +83,30 @@ export type AuthenticatedShellProps = {
   userRoles?: string[];
   /** Storage key prefix for persisting sidebar state */
   storageKey?: string;
+  /** Current theme */
+  theme?: ThemeMode;
+  /** Theme change callback */
+  onThemeChange?: (theme: ThemeMode) => void;
+  /** User status change callback */
+  onStatusChange?: (status: UserStatus) => void;
+  /** Notification callbacks */
+  onNotificationClick?: (notification: HeaderNotification) => void;
+  onNotificationMarkRead?: (id: string) => void;
+  onNotificationMarkAllRead?: () => void;
+  onNotificationDelete?: (id: string) => void;
+  onNotificationSettings?: () => void;
+  /** Keyboard shortcuts modal callback */
+  onKeyboardShortcuts?: () => void;
+  /** Use enhanced header (default: true) */
+  useEnhancedHeader?: boolean;
   /** Additional className */
   className?: string;
 };
 
 // =============================================================================
-// SEARCH INPUT COMPONENT
+// LEGACY COMPONENTS - Used only when useEnhancedHeader=false
+// These components are superseded by AppNavbar
 // =============================================================================
-
 function SearchInput({ 
   inverted = true,
   onSearch,
@@ -122,10 +140,6 @@ function SearchInput({
     </div>
   );
 }
-
-// =============================================================================
-// USER MENU COMPONENT
-// =============================================================================
 
 function UserMenu({ 
   user, 
@@ -220,10 +234,6 @@ function UserMenu({
   );
 }
 
-// =============================================================================
-// WORKSPACE SELECTOR COMPONENT
-// =============================================================================
-
 function WorkspaceSelector({
   workspaceName,
   workspaces = [],
@@ -301,10 +311,6 @@ function WorkspaceSelector({
   );
 }
 
-// =============================================================================
-// HEADER BREADCRUMB COMPONENT
-// =============================================================================
-
 function BreadcrumbSeparator({ inverted = true }: { inverted?: boolean }) {
   return (
     <span className={clsx("text-lg mx-0.5", inverted ? "text-ink-600" : "text-ink-300")}>
@@ -339,29 +345,39 @@ function BreadcrumbDropdown({
     }
   };
 
-  const getCreatePath = () => {
+  const getCreatePath = (): string => {
     switch (item.type) {
       case "organization":
         return "/organizations/new";
       case "project":
+      case "production":
         return "/projects/new";
+      case "event":
+        return "/events/new";
       case "team":
         return "/teams/new";
       case "workspace":
         return "/workspaces/new";
+      default:
+        return "/";
     }
   };
 
-  const getManagePath = () => {
+  const getManagePath = (): string => {
     switch (item.type) {
       case "organization":
         return "/organizations";
       case "project":
+      case "production":
         return "/projects";
+      case "event":
+        return "/events";
       case "team":
         return "/teams";
       case "workspace":
         return "/workspaces";
+      default:
+        return "/";
     }
   };
 
@@ -471,10 +487,6 @@ function HeaderBreadcrumb({
     </div>
   );
 }
-
-// =============================================================================
-// NOTIFICATIONS PANEL COMPONENT
-// =============================================================================
 
 function NotificationsPanel({
   notifications = [],
@@ -593,6 +605,7 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
       onContextSwitch,
       user,
       quickActions,
+      headerQuickActions = [],
       favorites,
       spaces,
       recentPages,
@@ -601,13 +614,26 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
       inverted = true,
       onNavigate,
       onSearch,
+      onSearchOpen,
       settingsPath = "/settings",
+      helpPath = "/help",
       notifications = [],
+      legacyNotifications = [],
       workspaces = [],
       onWorkspaceSwitch,
       onSignOut,
       userRoles,
       storageKey,
+      theme = "system",
+      onThemeChange,
+      onStatusChange,
+      onNotificationClick,
+      onNotificationMarkRead,
+      onNotificationMarkAllRead,
+      onNotificationDelete,
+      onNotificationSettings,
+      onKeyboardShortcuts,
+      useEnhancedHeader = true,
       className,
     },
     ref
@@ -763,121 +789,165 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          {/* Top Header Bar */}
-          <header className={clsx(
-            "flex items-center justify-between h-14 px-4 border-b-2 shrink-0",
-            inverted ? "bg-ink-950 border-ink-800" : "bg-white border-ink-200"
-          )}>
-            {/* Left: Mobile menu + Back to Dashboard + Breadcrumb context */}
-            <div className="flex items-center gap-1">
-              {/* Mobile menu button */}
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(true)}
-                className={clsx(
-                  "md:hidden p-2 rounded border-2 transition-colors",
-                  inverted 
-                    ? "border-ink-700 text-ink-300 hover:bg-ink-800 hover:text-white" 
-                    : "border-ink-200 text-ink-600 hover:bg-ink-100"
-                )}
-                aria-label="Open menu"
-              >
-                <Menu size={20} />
-              </button>
-              
-              {/* Back to Dashboard link when in nested context */}
-              {isInNestedContext && (
+          {/* Top Header Bar - Enhanced or Legacy */}
+          {useEnhancedHeader ? (
+            <AppNavbar
+              user={user}
+              breadcrumbContext={breadcrumbContext}
+              contextOptions={contextOptions}
+              notifications={notifications}
+              quickActions={headerQuickActions}
+              currentPath={currentPath}
+              dashboardHref={dashboardHref}
+              settingsPath={settingsPath}
+              helpPath={helpPath}
+              inverted={inverted}
+              theme={theme}
+              onNavigate={onNavigate}
+              onSearch={onSearchOpen}
+              onContextSwitch={onContextSwitch}
+              onSignOut={onSignOut}
+              onStatusChange={onStatusChange}
+              onThemeChange={onThemeChange}
+              onNotificationClick={onNotificationClick}
+              onNotificationMarkRead={onNotificationMarkRead}
+              onNotificationMarkAllRead={onNotificationMarkAllRead}
+              onNotificationDelete={onNotificationDelete}
+              onNotificationSettings={onNotificationSettings}
+              onMobileMenuOpen={() => setMobileMenuOpen(true)}
+              onKeyboardShortcuts={onKeyboardShortcuts}
+            />
+          ) : (
+            <header className={clsx(
+              "flex items-center justify-between h-14 px-4 border-b-2 shrink-0",
+              inverted ? "bg-ink-950 border-ink-800" : "bg-white border-ink-200"
+            )}>
+              {/* Left: Mobile menu + Back to Dashboard + Breadcrumb context */}
+              <div className="flex items-center gap-1">
+                {/* Mobile menu button */}
                 <button
                   type="button"
-                  onClick={() => onNavigate?.(dashboardHref)}
+                  onClick={() => setMobileMenuOpen(true)}
                   className={clsx(
-                    "hidden md:flex items-center gap-1 px-2 py-1 rounded text-xs font-medium transition-colors",
+                    "md:hidden p-2 rounded border-2 transition-colors",
+                    inverted 
+                      ? "border-ink-700 text-ink-300 hover:bg-ink-800 hover:text-white" 
+                      : "border-ink-200 text-ink-600 hover:bg-ink-100"
+                  )}
+                  aria-label="Open menu"
+                >
+                  <Menu size={20} />
+                </button>
+                
+                {/* Back to Dashboard link when in nested context */}
+                {isInNestedContext && (
+                  <button
+                    type="button"
+                    onClick={() => onNavigate?.(dashboardHref)}
+                    className={clsx(
+                      "hidden md:flex items-center gap-1 px-2 py-1 rounded text-xs font-medium transition-colors",
+                      inverted 
+                        ? "text-ink-400 hover:text-white hover:bg-ink-800" 
+                        : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
+                    )}
+                    title="Back to Dashboard (Cmd+Shift+D)"
+                  >
+                    <ArrowLeft size={14} />
+                    <span className="hidden lg:inline">Dashboard</span>
+                  </button>
+                )}
+                
+                {/* Breadcrumb context (Organization > Project > Team > Workspace) */}
+                {breadcrumbContext && breadcrumbContext.length > 0 ? (
+                  <div className="hidden sm:block">
+                    <HeaderBreadcrumb
+                      breadcrumbContext={breadcrumbContext}
+                      contextOptions={contextOptions}
+                      inverted={inverted}
+                      onContextSwitch={onContextSwitch}
+                      onNavigate={onNavigate}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    {/* Legacy: Workspace selector dropdown */}
+                    <div className="hidden sm:block">
+                      <WorkspaceSelector
+                        workspaceName={workspaceName}
+                        workspaces={workspaces}
+                        inverted={inverted}
+                        onWorkspaceSwitch={onWorkspaceSwitch}
+                        onNavigate={onNavigate}
+                      />
+                    </div>
+                    
+                    {/* Legacy: Context switcher (production/project) */}
+                    {headerActions && (
+                      <>
+                        <span className={clsx(
+                          "hidden sm:block text-lg mx-1",
+                          inverted ? "text-ink-600" : "text-ink-300"
+                        )}>/</span>
+                        <div className="hidden sm:block">
+                          {headerActions}
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+
+              {/* Right: Help + Notifications + Settings + User */}
+              <div className="flex items-center gap-2">
+                
+                {/* Help */}
+                <button
+                  type="button"
+                  onClick={() => onNavigate?.(helpPath)}
+                  className={clsx(
+                    "p-2 rounded transition-colors",
                     inverted 
                       ? "text-ink-400 hover:text-white hover:bg-ink-800" 
                       : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
                   )}
-                  title="Back to Dashboard (Cmd+Shift+D)"
+                  aria-label="Help"
                 >
-                  <ArrowLeft size={14} />
-                  <span className="hidden lg:inline">Dashboard</span>
+                  <LifeBuoy size={20} />
                 </button>
-              )}
-              
-              {/* Breadcrumb context (Organization > Project > Team > Workspace) */}
-              {breadcrumbContext && breadcrumbContext.length > 0 ? (
-                <div className="hidden sm:block">
-                  <HeaderBreadcrumb
-                    breadcrumbContext={breadcrumbContext}
-                    contextOptions={contextOptions}
-                    inverted={inverted}
-                    onContextSwitch={onContextSwitch}
-                    onNavigate={onNavigate}
-                  />
-                </div>
-              ) : (
-                <>
-                  {/* Legacy: Workspace selector dropdown */}
-                  <div className="hidden sm:block">
-                    <WorkspaceSelector
-                      workspaceName={workspaceName}
-                      workspaces={workspaces}
-                      inverted={inverted}
-                      onWorkspaceSwitch={onWorkspaceSwitch}
-                      onNavigate={onNavigate}
-                    />
-                  </div>
-                  
-                  {/* Legacy: Context switcher (production/project) */}
-                  {headerActions && (
-                    <>
-                      <span className={clsx(
-                        "hidden sm:block text-lg mx-1",
-                        inverted ? "text-ink-600" : "text-ink-300"
-                      )}>/</span>
-                      <div className="hidden sm:block">
-                        {headerActions}
-                      </div>
-                    </>
+                
+                {/* Notifications dropdown */}
+                <NotificationsPanel
+                  notifications={legacyNotifications}
+                  inverted={inverted}
+                  onNavigate={onNavigate}
+                />
+                
+                {/* Settings */}
+                <button
+                  type="button"
+                  onClick={() => onNavigate?.(settingsPath)}
+                  className={clsx(
+                    "hidden sm:block p-2 rounded transition-colors",
+                    inverted 
+                      ? "text-ink-400 hover:text-white hover:bg-ink-800" 
+                      : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
                   )}
-                </>
-              )}
-            </div>
-
-            {/* Right: Notifications + Settings + User */}
-            <div className="flex items-center gap-2">
-              
-              {/* Notifications dropdown */}
-              <NotificationsPanel
-                notifications={notifications}
-                inverted={inverted}
-                onNavigate={onNavigate}
-              />
-              
-              {/* Settings */}
-              <button
-                type="button"
-                onClick={() => onNavigate?.(settingsPath)}
-                className={clsx(
-                  "hidden sm:block p-2 rounded transition-colors",
-                  inverted 
-                    ? "text-ink-400 hover:text-white hover:bg-ink-800" 
-                    : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
-                )}
-                aria-label="Settings"
-              >
-                <Settings size={20} />
-              </button>
-              
-              {/* User menu dropdown */}
-              <UserMenu 
-                user={user} 
-                inverted={inverted}
-                onNavigate={onNavigate}
-                onSignOut={onSignOut}
-                settingsPath={settingsPath}
-              />
-            </div>
-          </header>
+                  aria-label="Settings"
+                >
+                  <Settings size={20} />
+                </button>
+                
+                {/* User menu dropdown */}
+                <UserMenu 
+                  user={user} 
+                  inverted={inverted}
+                  onNavigate={onNavigate}
+                  onSignOut={onSignOut}
+                  settingsPath={settingsPath}
+                />
+              </div>
+            </header>
+          )}
 
           {/* Page Content */}
           <main 

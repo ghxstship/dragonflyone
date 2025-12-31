@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 // Layout provided by route group
 import { useVenues } from "@/hooks/useVenues";
 import {
-  ListPage, Badge, Text} from '@ghxstship/ui';
+  ListPage, Badge, Text,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import { Eye } from "lucide-react";
 
@@ -36,21 +37,21 @@ export default function VenuesPage() {
       label: 'Capacity',
       accessor: 'capacity',
       sortable: true,
-      render: (_, v) => <Text className="font-mono">{v.capacity?.toLocaleString() || '—'}</Text>,
+      render: (_value: unknown, v) => <Text className="font-mono">{v.capacity?.toLocaleString() || '—'}</Text>,
     },
     {
       key: 'type',
       label: 'Type',
       accessor: 'type',
       sortable: true,
-      render: (_, v) => <Badge variant="outline">{v.type || 'Unknown'}</Badge>,
+      render: (_value: unknown, v) => <Badge variant="outline">{v.type || 'Unknown'}</Badge>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, v) => (
+      render: (_value: unknown, v) => (
         <Badge variant={v.status === "active" ? "solid" : "outline"}>
           {v.status === "active" ? "Available" : "Inactive"}
         </Badge>
@@ -112,6 +113,9 @@ export default function VenuesPage() {
       })}
       emptyMessage="No venues found"
       emptyAction={{ label: 'Add Venue', onClick: () => router.push('/venues/new') }}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

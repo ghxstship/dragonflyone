@@ -2,29 +2,29 @@
 
 /**
  * Expenses List Page
- * Uses normalized ListPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors and formatters.
  */
 
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, CheckCircle, XCircle } from 'lucide-react';
-import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  EXPENSE_STATUS_COLORS,
+  formatCurrency,
+  formatDate,
+} from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text, useNotifications} from '@ghxstship/ui';
+  Badge, Body, Box, ListPage, Stack, Text, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction,
+} from "@ghxstship/ui";
 import { useExpenses, useDeleteExpense, type Expense } from '@/hooks/useExpenses';
-
-const STATUS_COLORS: Record<Expense['status'], 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  draft: 'outline',
-  submitted: 'info',
-  approved: 'success',
-  rejected: 'error',
-  paid: 'success',
-  reimbursed: 'success',
-};
 
 export default function ExpensesPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const canManage = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const { data: expenses = [], isLoading, error, refetch } = useExpenses({});
@@ -35,17 +35,14 @@ export default function ExpensesPage() {
     try {
       await deleteMutation.mutateAsync(exp.id);
     } catch (err) {
-      addNotification({ type: 'error', title: 'Delete Failed', message: err instanceof Error ? err.message : 'Failed to delete expense' });
+      toast.error('Delete Failed', err instanceof Error ? err.message : 'Failed to delete expense');
     }
   };
-
-  const formatCurrency = (amount: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
-  const formatDate = (dateStr: string | null | undefined) => dateStr ? new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A';
 
   const columns: ListPageColumn<Expense>[] = [
     {
       key: 'description', label: 'Description', accessor: 'description', sortable: true,
-      render: (_, exp) => (
+      render: (_value: unknown, exp) => (
         <Box>
           <Text className="font-weight-medium">{exp.description}</Text>
           {exp.vendor_name && <Body size="sm" className="text-muted-foreground">{exp.vendor_name}</Body>}
@@ -58,8 +55,8 @@ export default function ExpensesPage() {
     { key: 'category', label: 'Category', accessor: (exp) => exp.category?.name || 'Uncategorized' },
     {
       key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_, exp) => (
-        <Badge variant={STATUS_COLORS[exp.status]}>
+      render: (_value: unknown, exp) => (
+        <Badge variant={EXPENSE_STATUS_COLORS[exp.status] || 'outline'}>
           <Stack direction="horizontal" gap={1} className="items-center">
             {exp.status === 'approved' && <CheckCircle className="h-3 w-3" />}
             {exp.status === 'rejected' && <XCircle className="h-3 w-3" />}
@@ -70,11 +67,11 @@ export default function ExpensesPage() {
     },
     {
       key: 'amount', label: 'Amount', accessor: 'amount', sortable: true,
-      render: (_, exp) => <Text className="font-weight-medium">{formatCurrency(exp.amount)}</Text>,
+      render: (_value: unknown, exp) => <Text className="font-weight-medium">{formatCurrency(exp.amount)}</Text>,
     },
     {
       key: 'expense_date', label: 'Date', accessor: 'expense_date', sortable: true,
-      render: (_, exp) => <Text>{formatDate(exp.expense_date)}</Text>,
+      render: (_value: unknown, exp) => <Text>{formatDate(exp.expense_date)}</Text>,
     },
   ];
 
@@ -117,6 +114,9 @@ export default function ExpensesPage() {
       emptyAction={canManage ? { label: 'Add Expense', onClick: () => router.push('/finance/expenses/new') } : undefined}
       entityType="expenses"
       breadcrumbs={[{ label: 'Finance', href: '/finance' }, { label: 'Expenses' }]}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

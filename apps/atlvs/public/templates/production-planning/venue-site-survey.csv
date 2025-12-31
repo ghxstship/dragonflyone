@@ -1,172 +1,87 @@
-VENUE SITE SURVEY
-Venue Name:,[Enter Venue Name]
-Address:,[Enter Address]
-Survey Date:,[Enter Date]
-Surveyed By:,[Enter Name]
+category,item,value,rating,notes
+OVERVIEW,venue_type,,,arena | theater | club | outdoor | convention | other
+OVERVIEW,capacity_seated,,,
+OVERVIEW,capacity_standing,,,
+OVERVIEW,capacity_mixed,,,
+OVERVIEW,year_built,,,
+OVERVIEW,last_renovation,,,
+OVERVIEW,venue_contact,,,
+OVERVIEW,venue_phone,,,
+OVERVIEW,venue_email,,,
+LOADING,number_of_docks,,,
+LOADING,dock_door_dimensions,,,
+LOADING,dock_height,,,
+LOADING,max_vehicle_length,,,
+LOADING,freight_elevator,,,"true | false"
+LOADING,elevator_dimensions,,,
+LOADING,elevator_weight_limit,,,
+LOADING,distance_to_stage,,,
+LOADING,path_obstructions,,,
+LOADING,overnight_parking,,,"true | false"
+STAGE,stage_width,,,
+STAGE,stage_depth,,,
+STAGE,stage_height,,,
+STAGE,wing_space_sl,,,
+STAGE,wing_space_sr,,,
+STAGE,proscenium_width,,,
+STAGE,proscenium_height,,,
+STAGE,fly_system,,,"true | false"
+STAGE,grid_height,,,
+STAGE,trap_room,,,"true | false"
+STAGE,orchestra_pit,,,"true | false"
+RIGGING,rigging_type,,,points | beam | grid
+RIGGING,number_of_points,,,
+RIGGING,point_capacity,,,
+RIGGING,point_spacing,,,
+RIGGING,trim_height,,,
+RIGGING,house_rigging_available,,,"true | false"
+RIGGING,certified_rigger_required,,,"true | false"
+RIGGING,rigging_plot_available,,,"true | false"
+POWER,house_power_available,,,
+POWER,main_disconnect_location,,,
+POWER,three_phase_available,,,"true | false"
+POWER,voltage,,,
+POWER,amperage_available,,,
+POWER,camlock_connections,,,"true | false"
+POWER,distance_to_stage,,,
+POWER,generator_parking,,,"true | false"
+POWER,tie_in_required,,,"true | false"
+POWER,electrician_required,,,"true | false"
+AUDIO,house_pa,,,"true | false"
+AUDIO,pa_type_brand,,,
+AUDIO,house_console,,,"true | false"
+AUDIO,console_type,,,
+AUDIO,monitor_system,,,
+AUDIO,delay_positions,,,
+AUDIO,noise_ordinance,,,
+AUDIO,curfew_time,,,
+LIGHTING,house_lighting,,,"true | false"
+LIGHTING,fixture_inventory,,,
+LIGHTING,lighting_console_type,,,
+LIGHTING,dimmer_capacity,,,
+LIGHTING,follow_spots,,,
+VIDEO,house_video,,,"true | false"
+VIDEO,screen_positions,,,
+VIDEO,projector_positions,,,
+VIDEO,led_wall_mounting,,,
+VIDEO,camera_positions,,,
+FOH,foh_position,,,
+FOH,foh_dimensions,,,
+FOH,foh_distance_to_stage,,,
+FOH,foh_sight_lines,,,
+FOH,foh_power,,,
 
-VENUE OVERVIEW
-Item,Details,Notes
-Venue Type,(Arena/Theater/Club/Outdoor/Other),
-Capacity (Seated),,
-Capacity (Standing),,
-Capacity (Mixed),,
-Year Built,,
-Last Renovation,,
-Venue Contact,,
-Venue Phone,,
-Venue Email,,
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- category: OVERVIEW | LOADING | STAGE | RIGGING | POWER | AUDIO | LIGHTING | VIDEO | FOH
+- item: Specification item name (snake_case)
+- value: The value/measurement/answer
+- rating: Quality rating 1-5 (optional)
+- notes: Additional notes or valid values hint
 
-LOADING/ACCESS
-Item,Details,Rating (1-5),Notes
-Number of Loading Docks,,,
-Dock Door Dimensions,,,
-Dock Height,,,
-Max Vehicle Length,,,
-Freight Elevator,Yes/No,,
-Elevator Dimensions,,,
-Elevator Weight Limit,,,
-Distance to Stage,,,
-Path Obstructions,,,
-Overnight Parking,Yes/No,,
-
-STAGE SPECIFICATIONS
-Item,Details,Notes
-Stage Width,,
-Stage Depth,,
-Stage Height,,
-Wing Space (SL),,
-Wing Space (SR),,
-Proscenium Width,,
-Proscenium Height,,
-Fly System,Yes/No,
-Grid Height,,
-Trap Room,Yes/No,
-Orchestra Pit,Yes/No,
-Pit Dimensions,,
-
-RIGGING
-Item,Details,Notes
-Rigging Type,(Points/Beam/Grid),
-Number of Points,,
-Point Capacity,,
-Point Spacing,,
-Trim Height,,
-House Rigging Available,Yes/No,
-Rigging Restrictions,,
-Certified Rigger Required,Yes/No,
-Rigging Plot Available,Yes/No,
-
-POWER
-Item,Details,Notes
-House Power Available,,
-Main Disconnect Location,,
-3-Phase Available,Yes/No,
-Voltage,,
-Amperage Available,,
-Cam-Lock Connections,Yes/No,
-Distance to Stage,,
-Generator Parking,Yes/No,
-Tie-In Required,Yes/No,
-Electrician Required,Yes/No,
-
-AUDIO
-Item,Details,Notes
-House PA,Yes/No,
-PA Type/Brand,,
-House Console,Yes/No,
-Console Type,,
-Monitor System,,
-Delay Positions,,
-Audio Restrictions,,
-Noise Ordinance,,
-Curfew Time,,
-
-LIGHTING
-Item,Details,Notes
-House Lighting,Yes/No,
-Fixture Inventory,,
-House Console,Yes/No,
-Console Type,,
-Dimmer Capacity,,
-LED Fixtures,,
-Follow Spots,,
-Spot Positions,,
-
-VIDEO
-Item,Details,Notes
-House Video,Yes/No,
-Screen Positions,,
-Projector Positions,,
-LED Wall Mounting,,
-Camera Positions,,
-Video Tie Lines,,
-
-FRONT OF HOUSE
-Item,Details,Notes
-FOH Position,,
-FOH Dimensions,,
-Distance to Stage,,
-Sight Lines,,
-FOH Power,,
-FOH Access,,
-
-DRESSING ROOMS
-Room,Capacity,Amenities,Condition,Notes
-Dressing Room 1,,,,
-Dressing Room 2,,,,
-Dressing Room 3,,,,
-Green Room,,,,
-Production Office,,,,
-Wardrobe,,,,
-
-CATERING/HOSPITALITY
-Item,Details,Notes
-Catering Kitchen,Yes/No,
-Kitchen Equipment,,
-Dining Area,,
-Dining Capacity,,
-Refrigeration,,
-Ice Machine,,
-Coffee/Water,,
-
-RESTROOMS
-Area,Quantity,Condition,ADA Compliant,Notes
-Public Restrooms,,,,
-Backstage Restrooms,,,,
-Artist Restrooms,,,,
-Crew Restrooms,,,,
-
-SAFETY/EMERGENCY
-Item,Details,Notes
-Fire Exits,,
-Fire Extinguishers,,
-First Aid Location,,
-AED Location,,
-Emergency Contact,,
-Evacuation Plan,,
-Sprinkler System,Yes/No,
-Smoke Detectors,Yes/No,
-
-PARKING
-Item,Details,Notes
-Production Parking,,
-Artist Parking,,
-Crew Parking,,
-Bus Parking,,
-Truck Parking,,
-Public Parking,,
-
-ADDITIONAL NOTES
-Category,Notes
-Venue Strengths,
-Venue Challenges,
-Recommendations,
-Follow-Up Items,
-
-PHOTO LOG
-Photo #,Location,Description,Taken By
-1,,,
-2,,,
-3,,,
-4,,,
-5,,,
+HOW TO USE:
+1. Fill in the value column for each specification
+2. Add ratings where applicable (1=Poor, 5=Excellent)
+3. Add notes for clarification or issues
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Venue Survey

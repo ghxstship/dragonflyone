@@ -4,7 +4,7 @@ import {
   Badge,
   ListPage,
   Text,
-  useNotifications,
+  useToast,
   type ListPageColumn,
   type ListPageAction,
 } from '@ghxstship/ui';
@@ -23,7 +23,7 @@ interface DisplayOrder {
 
 export default function AccountOrdersPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const { data: ordersData, isLoading, error, refetch } = useOrders();
   
   const orders: DisplayOrder[] = (ordersData || []).map(order => ({
@@ -68,9 +68,9 @@ export default function AccountOrdersPage() {
       generator.addParagraph('Thank you for your purchase! If you have any questions about your order, please contact support@gvteway.com');
 
       generator.download(`receipt-${order.id.slice(0, 8)}.pdf`);
-      addNotification({ type: 'success', title: 'Receipt Downloaded', message: 'Your receipt has been downloaded' });
+      toast.success('Receipt Downloaded', 'Your receipt has been downloaded');
     } catch (err) {
-      addNotification({ type: 'error', title: 'Download Failed', message: err instanceof Error ? err.message : 'Failed to generate receipt' });
+      toast.error('Download Failed', err instanceof Error ? err.message : 'Failed to generate receipt');
     }
   };
 
@@ -81,11 +81,11 @@ export default function AccountOrdersPage() {
     { key: 'ticketCount', label: 'Tickets', accessor: 'ticketCount' },
     {
       key: 'total', label: 'Total', accessor: 'total', sortable: true,
-      render: (_, order) => <Text className="text-right">{formatCurrency(order.total)}</Text>,
+      render: (_value: unknown, order) => <Text className="text-right">{formatCurrency(order.total)}</Text>,
     },
     {
       key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_, order) => (
+      render: (_value: unknown, order) => (
         <Badge variant={order.status === 'completed' ? 'success' : order.status === 'pending' ? 'warning' : 'error'}>
           {order.status}
         </Badge>
@@ -115,6 +115,9 @@ export default function AccountOrdersPage() {
       emptyAction={{ label: 'Browse Events', onClick: () => router.push('/browse') }}
       entityType="orders"
       breadcrumbs={[{ label: 'Account', href: '/account' }, { label: 'Orders' }]}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

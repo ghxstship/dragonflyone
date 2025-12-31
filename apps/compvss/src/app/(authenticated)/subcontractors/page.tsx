@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  ListPage, Badge, Stack, Body, Text} from "@ghxstship/ui";
+  ListPage, Badge, Stack, Body, Text,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import { useSubcontractorsData, type Subcontractor } from "@/hooks/useSubcontractors";
 import { Eye } from "lucide-react";
@@ -43,7 +44,7 @@ export default function SubcontractorsPage() {
       label: 'Company',
       accessor: 'company_name',
       sortable: true,
-      render: (_, s) => (
+      render: (_value: unknown, s) => (
         <Stack gap={1}>
           <Body className="font-display">{s.company_name}</Body>
           <Body size="sm" className="text-muted-foreground">{s.email}</Body>
@@ -58,25 +59,25 @@ export default function SubcontractorsPage() {
       label: 'Rating',
       accessor: 'rating',
       sortable: true,
-      render: (_, s) => <Text>{renderRating(s.rating)}</Text>,
+      render: (_value: unknown, s) => <Text>{renderRating(s.rating)}</Text>,
     },
     {
       key: 'projects',
       label: 'Projects',
       accessor: (s) => `${s.active_projects}/${s.total_projects}`,
-      render: (_, s) => <Text className="font-mono">{s.active_projects}/{s.total_projects}</Text>,
+      render: (_value: unknown, s) => <Text className="font-mono">{s.active_projects}/{s.total_projects}</Text>,
     },
     {
       key: 'insurance_status',
       label: 'Insurance',
       accessor: 'insurance_status',
-      render: (_, s) => <Badge variant={getStatusVariant(s.insurance_status)}>{s.insurance_status}</Badge>,
+      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.insurance_status)}>{s.insurance_status}</Badge>,
     },
     {
       key: 'contract_status',
       label: 'Contract',
       accessor: 'contract_status',
-      render: (_, s) => <Badge variant={getStatusVariant(s.contract_status)}>{s.contract_status}</Badge>,
+      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.contract_status)}>{s.contract_status}</Badge>,
     },
   ];
 
@@ -142,6 +143,9 @@ export default function SubcontractorsPage() {
       stats={stats}
       emptyMessage="No subcontractors found"
       emptyAction={{ label: 'Add Subcontractor', onClick: () => router.push('/subcontractors/new') }}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

@@ -1,5 +1,27 @@
 # PROFESSIONAL SERVICES AGREEMENT
 
+<!-- IMPORT FORMAT: Copy contract details table to CSV for import -->
+
+## Contract Details (Importable)
+
+| field | value |
+|-------|-------|
+| contract_number | |
+| contract_date | |
+| project_name | |
+| start_date | |
+| end_date | |
+| client_name | |
+| client_contact | |
+| client_email | |
+| provider_name | |
+| provider_contact | |
+| provider_email | |
+| fee_type | |
+| total_amount | |
+| payment_terms | |
+| status | |
+
 ## Agreement Information
 
 | Field | Details |
@@ -273,3 +295,16 @@ Print Name: _________________________
 Title: _________________________
 
 Date: _________________________
+
+---
+
+<!-- IMPORT INSTRUCTIONS
+To import service agreement:
+1. Copy the Contract Details table to a CSV file
+2. Dates must be YYYY-MM-DD format
+3. Amounts should be decimal (no $ symbol)
+4. Valid fee_type: fixed | hourly | daily | retainer
+5. Valid payment_terms: net_30 | net_15 | net_60 | milestone
+6. Valid status: draft | sent | signed | active | completed | terminated
+7. Import via ATLVS > Settings > Data Import > Service Contracts
+-->

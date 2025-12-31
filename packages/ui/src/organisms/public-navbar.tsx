@@ -7,29 +7,39 @@ import { ContextBreadcrumb } from "../molecules/context-breadcrumb.js";
 import type { ContextLevel } from "../molecules/context-breadcrumb.js";
 
 /**
- * UnifiedHeader - Bold Contemporary Pop Art Adventure
+ * PublicNavbar - Bold Contemporary Pop Art Adventure
+ * 
+ * Top navigation bar for public/marketing pages (non-authenticated).
  * 
  * Features:
  * - Strong 2px bottom border
  * - Bold navigation with hover lift
  * - Primary CTA with hard offset shadow
  * - Clear visual hierarchy
+ * - Context breadcrumb support
+ * 
+ * Use cases:
+ * - Landing pages
+ * - Marketing pages
+ * - Public-facing authenticated pages (e.g., creator dashboard header)
+ * 
+ * For authenticated app shell navigation, use AppNavbar instead.
  */
 
-export type NavItem = {
+export type PublicNavItem = {
   label: string;
   href: string;
   icon?: ReactNode;
   badge?: string | number;
 };
 
-export type UnifiedHeaderProps = Omit<HTMLAttributes<HTMLElement>, 'children'> & {
+export type PublicNavbarProps = Omit<HTMLAttributes<HTMLElement>, 'children'> & {
   /** Application logo */
   logo: ReactNode;
   /** Context levels for breadcrumb navigation */
   contextLevels?: ContextLevel[];
   /** Secondary navigation items (right side) */
-  navItems?: NavItem[];
+  navItems?: PublicNavItem[];
   /** Primary CTA button */
   primaryCta?: { label: string; href: string; onClick?: () => void };
   /** User menu content */
@@ -44,8 +54,8 @@ export type UnifiedHeaderProps = Omit<HTMLAttributes<HTMLElement>, 'children'> &
   actions?: ReactNode;
 };
 
-export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
-  function UnifiedHeader(
+export const PublicNavbar = forwardRef<HTMLElement, PublicNavbarProps>(
+  function PublicNavbar(
     {
       logo,
       contextLevels = [],
@@ -314,4 +324,4 @@ export const UnifiedHeader = forwardRef<HTMLElement, UnifiedHeaderProps>(
   }
 );
 
-export default UnifiedHeader;
+export default PublicNavbar;

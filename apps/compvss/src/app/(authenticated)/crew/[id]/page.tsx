@@ -2,14 +2,18 @@
 
 /**
  * Crew Member Detail Page
- * View and manage individual crew member information
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useParams, useRouter } from 'next/navigation';
 import { 
-  User, Mail, Phone, MapPin, Calendar, Briefcase, Star, Edit, Clock, CheckCircle} from 'lucide-react';
+  User, Mail, Phone, MapPin, Calendar, Briefcase, Star, Edit, Clock, CheckCircle,
+} from 'lucide-react';
 import {
-  DetailPage, Badge, Body, Box, Button, Card, Grid, Stack, Text, Spinner, EmptyState} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Box, Button, Card, Grid, Stack, Text, Spinner, EmptyState,
+} from '@ghxstship/ui';
+import { CREW_STATUS_COLORS } from '@ghxstship/config';
 import { useQuery } from '@tanstack/react-query';
 
 interface CrewMember {
@@ -41,13 +45,7 @@ interface CrewMember {
   }[];
 }
 
-const STATUS_COLORS: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  active: 'success',
-  inactive: 'outline',
-  on_leave: 'warning',
-  completed: 'info',
-  upcoming: 'warning',
-};
+const STATUS_COLORS = CREW_STATUS_COLORS;
 
 const DEMO_CREW_MEMBER: CrewMember = {
   id: '1',

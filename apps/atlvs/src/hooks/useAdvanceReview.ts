@@ -16,6 +16,9 @@ interface AdvancesResponse {
   offset: number;
 }
 
+// Re-export ProductionAdvance as AdvanceRequest for page compatibility
+export type AdvanceRequest = ProductionAdvance;
+
 // List advances for review
 export function useAdvanceReviewQueue(filters?: AdvanceFilters) {
   return useQuery({

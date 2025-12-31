@@ -10,11 +10,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Input, Textarea, CreatePage, useNotifications, Box} from "@ghxstship/ui";
+  Body, Input, Textarea, CreatePage, useToast, Box} from "@ghxstship/ui";
 
 export default function NewBEOPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [eventName, setEventName] = useState("");
   const [client, setClient] = useState("");
   const [date, setDate] = useState("");
@@ -48,11 +48,11 @@ export default function NewBEOPage() {
       return response.json();
     },
     onSuccess: (data) => {
-      addNotification({ type: "success", title: "BEO Created", message: "Banquet Event Order created successfully" });
+      toast.success("BEO Created", "Banquet Event Order created successfully");
       router.push(`/beos/${data.id}`);
     },
     onError: (error: Error) => {
-      addNotification({ type: "error", title: "Error", message: error.message });
+      toast.error("Error", error.message);
     },
   });
 

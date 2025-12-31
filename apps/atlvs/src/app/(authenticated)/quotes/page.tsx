@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Upload } from "lucide-react";
 import {
-  ListPage, Badge, DetailDrawer, Grid, Body} from "@ghxstship/ui";
+  ListPage, Badge, DetailDrawer, Grid, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection} from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 import { useQuotesData, type Quote } from "@/hooks/useQuotes";
 
@@ -22,7 +23,7 @@ const columns: ListPageColumn<Quote>[] = [
   { key: 'project', label: 'Project', accessor: (r) => r.opportunity_name || r.title },
   { key: 'total_amount', label: 'Amount', accessor: (r) => formatCurrency(Number(r.total_amount) || 0), sortable: true },
   { key: 'valid_until', label: 'Valid Until', accessor: (r) => r.valid_until ? new Date(r.valid_until).toLocaleDateString() : '—', sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
 ];
 
 const filters: ListPageFilter[] = [
@@ -115,6 +116,7 @@ export default function QuotesPage() {
         onImport={handleImport}
         importTemplates={importTemplates}
         importSampleFields={['quote_number', 'client_name', 'total_amount', 'status', 'valid_until']}
+        templateDownloadUrl="/templates/financial/invoice-template.md"
         onExport={createExportHandler({
           filename: "quotes",
           getData: () => quotes.map((q: Quote) => ({
@@ -151,6 +153,9 @@ export default function QuotesPage() {
           { id: 'send', label: 'Send Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

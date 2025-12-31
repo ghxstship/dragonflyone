@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Code, Key, Webhook, Copy, Check, List, Terminal} from "lucide-react";
 import {
-  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
 
 interface Endpoint {
   method: "GET" | "POST" | "PUT" | "DELETE";
@@ -39,13 +39,13 @@ const METHOD_COLORS = {
 
 export default function ApiDocsPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedCode(id);
-    addNotification({ type: "success", title: "Copied", message: "Code copied to clipboard" });
+    toast.success("Copied", "Code copied to clipboard");
     setTimeout(() => setCopiedCode(null), 2000);
   };
 

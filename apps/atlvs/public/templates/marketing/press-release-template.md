@@ -1,5 +1,28 @@
 # PRESS RELEASE
 
+<!-- IMPORT FORMAT: Copy press release details table to CSV for import -->
+
+## Press Release Details (Importable)
+
+| field | value |
+|-------|-------|
+| release_id | |
+| headline | |
+| subheadline | |
+| release_date | |
+| embargo_date | |
+| event_name | |
+| event_date | |
+| venue_name | |
+| venue_address | |
+| ticket_price_range | |
+| on_sale_date | |
+| ticket_url | |
+| media_contact_name | |
+| media_contact_email | |
+| media_contact_phone | |
+| status | |
+
 ## [FOR IMMEDIATE RELEASE / EMBARGOED UNTIL [DATE]]
 
 ---
@@ -109,3 +132,13 @@ High-resolution images, logos, and additional press materials available at:
 ---
 
 *This press release template follows AP Style guidelines. Adjust formatting as needed for your organization's standards.*
+
+---
+
+<!-- IMPORT INSTRUCTIONS
+To import press release:
+1. Copy the Press Release Details table to a CSV file
+2. Dates must be YYYY-MM-DD format
+3. Valid status: draft | approved | sent | published
+4. Import via ATLVS > Settings > Data Import > Press Releases
+-->

@@ -10,7 +10,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { 
   Edit2, Send, Mail, DollarSign, Calendar, FileText, Clock, CheckCircle, Download, Printer, CreditCard} from 'lucide-react';
 import {
-  DetailPage, Stack, Grid, Card, Section, SectionHeader, StatCard, Badge, Button, Body, H3, Label, Input, Select, useNotifications, Box} from '@ghxstship/ui';
+  DetailPage, Stack, Grid, Card, Section, SectionHeader, StatCard, Badge, Button, Body, H3, Label, Input, Select, useToast, Box} from '@ghxstship/ui';
 import { useInvoice, useSendInvoice, useRecordPayment } from '@/hooks/useInvoices';
 
 const formatDate = (dateStr: string) => {
@@ -36,7 +36,7 @@ const getStatusVariant = (status: string): 'solid' | 'outline' => {
 export default function InvoiceDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const invoiceId = params.id as string;
 
   const { data: invoice, isLoading, error, refetch } = useInvoice(invoiceId);
@@ -51,9 +51,9 @@ export default function InvoiceDetailPage() {
   const handleSend = async () => {
     try {
       await sendMutation.mutateAsync(invoiceId);
-      addNotification({ type: 'success', title: 'Invoice Sent', message: 'Invoice has been sent to the client' });
+      toast.success('Invoice Sent', 'Invoice has been sent to the client');
     } catch {
-      addNotification({ type: 'error', title: 'Error', message: 'Failed to send invoice' });
+      toast.error('Error', 'Failed to send invoice');
     }
   };
 
@@ -69,9 +69,9 @@ export default function InvoiceDetailPage() {
       setShowPaymentModal(false);
       setPaymentAmount('');
       setPaymentReference('');
-      addNotification({ type: 'success', title: 'Payment Recorded', message: 'Payment has been recorded successfully' });
+      toast.success('Payment Recorded', 'Payment has been recorded successfully');
     } catch {
-      addNotification({ type: 'error', title: 'Error', message: 'Failed to record payment' });
+      toast.error('Error', 'Failed to record payment');
     }
   };
 

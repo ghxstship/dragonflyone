@@ -12,7 +12,8 @@ import { useRouter } from 'next/navigation';
 import { MapPin, Ruler, FileText } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
+  Body, CreatePage, Grid, Input, Select, Stack, Text, Textarea, useToast,
+  type FormSection} from "@ghxstship/ui";
 import { useCreatePlace, type PlaceType, type Place } from '@/hooks/usePlacesQuery';
 
 const PLACE_TYPES: { value: PlaceType; label: string; description: string }[] = [
@@ -50,7 +51,7 @@ interface FormData {
 export default function NewPlacePage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const createMutation = useCreatePlace();
 
   const canManagePlaces = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
@@ -115,19 +116,11 @@ export default function NewPlacePage() {
         notes: formData.notes.trim() || undefined,
       });
 
-      addNotification({
-        type: 'success',
-        title: 'Place Created',
-        message: `${formData.name} has been added.`,
-      });
+      toast.success('Place Created', `${formData.name} has been added.`);
 
       router.push(`/places/${place.id}`);
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Create Place',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Create Place', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsSubmitting(false);
     }

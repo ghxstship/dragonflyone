@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Eye, Check, Pencil } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body} from "@ghxstship/ui";
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useMaintenance, type MaintenanceRecord, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import { DEMO_MAINTENANCE_RECORDS } from '../../../../lib/demo-data';
 
@@ -18,11 +20,11 @@ const getPriorityVariant = (priority: string): "solid" | "outline" | "ghost" => 
 
 const columns: ListPageColumn<MaintenanceRecord>[] = [
   { key: 'assetName', label: 'Asset', accessor: 'assetName', sortable: true },
-  { key: 'category', label: 'Category', accessor: 'category', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
-  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Badge variant={String(v) === "Emergency" ? "solid" : "outline"}>{String(v)}</Badge> },
+  { key: 'category', label: 'Category', accessor: 'category', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v: unknown) => <Badge variant={String(v) === "Emergency" ? "solid" : "outline"}>{String(v)}</Badge> },
   { key: 'description', label: 'Description', accessor: 'description' },
-  { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v) => <Badge variant={getPriorityVariant(String(v))}>{String(v)}</Badge> },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+  { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v: unknown) => <Badge variant={getPriorityVariant(String(v))}>{String(v)}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
   { key: 'scheduledDate', label: 'Scheduled', accessor: 'scheduledDate', sortable: true },
   { key: 'cost', label: 'Cost', accessor: (r) => r.cost ? `$${r.cost.toLocaleString()}` : '—' },
 ];
@@ -43,6 +45,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function AssetMaintenancePage() {
+  const router = useRouter();
   const { hasRole } = useAuthContext();
   const [selectedRecord, setSelectedRecord] = useState<MaintenanceRecord | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -168,8 +171,8 @@ export default function AssetMaintenancePage() {
         onCreate={canManageMaintenance ? () => setCreateModalOpen(true) : undefined}
         entityType="asset-maintenance"
         onImport={canManageMaintenance ? handleImport : undefined}
-
         importTemplates={importTemplates}
+        templateDownloadUrl="/templates/production-planning/equipment-checklist-template.csv"
 
         importSampleFields={['assetName', 'type', 'priority', 'scheduledDate', 'description', 'technician', 'category']}
         onExport={createExportHandler({
@@ -204,6 +207,9 @@ export default function AssetMaintenancePage() {
           { id: 'complete', label: 'Complete Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ] : []}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

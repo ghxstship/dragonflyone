@@ -44,10 +44,10 @@ export interface OptimisticUpdateReturn<TVariables> {
  *   queryKey: ['todos'],
  *   updateFn: (oldData, newTodo) => [...(oldData || []), newTodo],
  *   mutationFn: (newTodo) => api.createTodo(newTodo),
- *   onSuccess: () => addNotification({ type: 'success', message: 'Todo created' }),
+ *   onSuccess: () => toast.success('Todo Created'),
  *   onError: (error, _, rollback) => {
  *     rollback();
- *     addNotification({ type: 'error', message: error.message });
+ *     toast.error('Failed', error.message);
  *   },
  * });
  * ```

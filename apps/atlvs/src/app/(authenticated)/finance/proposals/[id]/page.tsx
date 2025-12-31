@@ -2,26 +2,25 @@
 
 /**
  * Proposal Detail Page
- * Shows detailed information about a specific proposal
- * Uses DetailPage template for consistent layout
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useRouter, useParams } from "next/navigation";
 import {
-  Pencil, FileText, Send, Calendar, DollarSign, User, Building2, Eye, CheckCircle, XCircle, Clock} from "lucide-react";
-import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
+  Pencil, FileText, Send, Calendar, DollarSign, User, Building2, Eye, CheckCircle, XCircle, Clock,
+} from "lucide-react";
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  PROPOSAL_STATUS_COLORS,
+} from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, Grid, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, StatCard, useNotifications, DetailPage, Section, SectionHeader, Box, Stack} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, StatCard, useToast, DetailPage, Section, SectionHeader, Box, Stack,
+} from "@ghxstship/ui";
 import { useProposal, useSendProposal, type ProposalStatus } from "@/hooks/useProposals";
 
-const STATUS_COLORS: Record<ProposalStatus, "success" | "warning" | "error" | "info" | "outline"> = {
-  draft: "outline",
-  sent: "info",
-  viewed: "warning",
-  accepted: "success",
-  declined: "error",
-  expired: "outline",
-};
+const STATUS_COLORS = PROPOSAL_STATUS_COLORS;
 
 export default function ProposalDetailPage() {
   const router = useRouter();
@@ -29,7 +28,7 @@ export default function ProposalDetailPage() {
   const proposalId = params?.id as string;
 
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const canEdit = ATLVS_ADMIN_ROLES.some((role) => hasRole(role));
 
   const { data: proposal, isLoading, error, refetch } = useProposal(proposalId);
@@ -48,9 +47,9 @@ export default function ProposalDetailPage() {
   const handleSend = async () => {
     try {
       await sendMutation.mutateAsync(proposalId);
-      addNotification({ type: "success", title: "Proposal Sent", message: "The proposal has been sent to the client." });
+      toast.success("Proposal Sent", "The proposal has been sent to the client.");
     } catch (err) {
-      addNotification({ type: "error", title: "Failed to Send", message: err instanceof Error ? err.message : "An error occurred" });
+      toast.error("Failed to Send", err instanceof Error ? err.message : "An error occurred");
     }
   };
 

@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { Eye, Pencil } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage, Badge, DetailDrawer, Grid, Stack, Body} from "@ghxstship/ui";
+  ListPage, Badge, DetailDrawer, Grid, Stack, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection} from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 import { useTravelData, type TravelBooking } from "@/hooks/useTravel";
 
@@ -21,7 +22,7 @@ const columns: ListPageColumn<TravelBooking>[] = [
   { key: 'departure_date', label: 'Departure', accessor: (r) => new Date(r.departure_date).toLocaleDateString(), sortable: true },
   { key: 'carrier', label: 'Carrier', accessor: (r) => r.carrier || '—' },
   { key: 'cost', label: 'Cost', accessor: (r) => formatCurrency(r.cost), sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
 ];
 
 const filters: ListPageFilter[] = [
@@ -117,6 +118,7 @@ export default function TravelPage() {
           onImport={handleImport}
           importTemplates={importTemplates}
           importSampleFields={['booking_reference', 'crew_member_name', 'departure_date', 'origin', 'destination', 'cost']}
+          templateDownloadUrl="/templates/advancing/hospitality-requirements.csv"
           onExport={createExportHandler({
             filename: "travel-bookings",
             getData: () => bookings.map((b: TravelBooking) => ({
@@ -158,6 +160,9 @@ export default function TravelPage() {
           { id: 'cancel', label: 'Cancel Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

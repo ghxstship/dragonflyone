@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { Eye, RefreshCw, Pencil, Trash2, Bell, Download } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body} from "@ghxstship/ui";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
 
 const ADMIN_ROLES = [
@@ -37,14 +38,14 @@ const columns: ListPageColumn<Certification>[] = [
   { key: 'id', label: 'ID', accessor: 'id', sortable: true },
   { key: 'crew_member_name', label: 'Crew Member', accessor: 'crew_member_name', sortable: true },
   { key: 'certification_type', label: 'Certification', accessor: 'certification_type', sortable: true },
-  { key: 'issue_date', label: 'Issue Date', accessor: 'issue_date', sortable: true, render: (value) => new Date(String(value)).toLocaleDateString() },
-  { key: 'expiry_date', label: 'Expiry Date', accessor: 'expiry_date', sortable: true, render: (value) => new Date(String(value)).toLocaleDateString() },
+  { key: 'issue_date', label: 'Issue Date', accessor: 'issue_date', sortable: true, render: (value: unknown) => new Date(String(value)).toLocaleDateString() },
+  { key: 'expiry_date', label: 'Expiry Date', accessor: 'expiry_date', sortable: true, render: (value: unknown) => new Date(String(value)).toLocaleDateString() },
   { 
     key: 'status', 
     label: 'Status', 
     accessor: 'status', 
     sortable: true,
-    render: (value) => (
+    render: (value: unknown) => (
       <Badge variant={value === 'active' ? 'solid' : 'outline'}>
         {String(value).replace('_', ' ').toUpperCase()}
       </Badge>
@@ -101,17 +102,28 @@ export default function CertificationsPage() {
   const addCertMutation = useAddCertification();
   const deleteCertMutation = useDeleteCertification();
   
+  // Derive status from expiration_date
+  const getStatus = (expirationDate: string | null): Certification['status'] => {
+    if (!expirationDate) return 'active';
+    const expiry = new Date(expirationDate);
+    const now = new Date();
+    const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+    if (expiry < now) return 'expired';
+    if (expiry < thirtyDaysFromNow) return 'expiring_soon';
+    return 'active';
+  };
+
   // Map API data to local interface
   const certifications: Certification[] = apiCerts.map(c => ({
     id: c.id,
-    crew_member_id: c.crew_member_id,
-    crew_member_name: c.certification_type_id || 'Unknown',
-    certification_type: c.certification_type_id || '',
-    issue_date: c.issued_date || '',
+    crew_member_id: c.employee_id,
+    crew_member_name: c.certification_name || 'Unknown',
+    certification_type: c.certification_type || '',
+    issue_date: c.issue_date || '',
     expiry_date: c.expiration_date || '',
-    status: c.status as Certification['status'],
-    issuing_authority: undefined,
-    certificate_number: c.certificate_number || undefined,
+    status: getStatus(c.expiration_date),
+    issuing_authority: c.issuing_authority || undefined,
+    certificate_number: c.certification_number || undefined,
   }));
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -137,12 +149,14 @@ export default function CertificationsPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     await addCertMutation.mutateAsync({
-      crew_member_id: String(data.crew_member_id || ''),
-      certification_type_id: String(data.certification_type || ''),
-      issued_date: String(data.issue_date || new Date().toISOString().split('T')[0]),
+      employee_id: String(data.crew_member_id || ''),
+      certification_name: String(data.certification_type || ''),
+      certification_type: String(data.certification_type || ''),
+      issue_date: String(data.issue_date || new Date().toISOString().split('T')[0]),
       expiration_date: String(data.expiry_date || ''),
-      status: 'active',
-      certificate_number: data.certificate_number ? String(data.certificate_number) : undefined,
+      certification_number: data.certificate_number ? String(data.certificate_number) : undefined,
+      issuing_authority: data.issuing_authority ? String(data.issuing_authority) : undefined,
+      organization_id: '', // Will be set by RLS or needs to be provided
     });
     refetch();
     setCreateModalOpen(false);
@@ -195,11 +209,12 @@ export default function CertificationsPage() {
     onImport: async (records) => {
       for (const record of records) {
         await addCertMutation.mutateAsync({
-          crew_member_id: String(record.crew_member_id || ''),
-          certification_type_id: String(record.certification_type || ''),
-          issued_date: String(record.issue_date || ''),
+          employee_id: String(record.crew_member_id || ''),
+          certification_name: String(record.certification_type || ''),
+          certification_type: String(record.certification_type || ''),
+          issue_date: String(record.issue_date || ''),
           expiration_date: String(record.expiry_date || ''),
-          status: (record.status as string) || 'active',
+          organization_id: '', // Will be set by RLS or needs to be provided
         });
       }
       refetch();
@@ -256,6 +271,7 @@ export default function CertificationsPage() {
         onImport={handleImport}
         importTemplates={importTemplates}
         importSampleFields={['crew_member_name', 'certification_type', 'issue_date', 'expiry_date', 'status']}
+        templateDownloadUrl="/templates/imports/workforce-certifications-import.csv"
         onExport={createExportHandler({
           filename: "certifications",
           getData: () => certifications.map(c => ({
@@ -272,6 +288,9 @@ export default function CertificationsPage() {
         stats={stats}
         emptyMessage="No certifications found"
         emptyAction={canManageCerts ? { label: 'Add Certification', onClick: () => setCreateModalOpen(true) } : undefined}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

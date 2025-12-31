@@ -11,14 +11,15 @@ import { useRouter } from "next/navigation";
 import { Calendar, Building2, Mail} from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Grid, Input, Select, Stack, Textarea, CreatePage, useNotifications} from "@ghxstship/ui";
+  Body, Grid, Input, Select, Stack, Textarea, CreatePage, useToast,
+  type FormSection} from "@ghxstship/ui";
 
 const COMPANY_SIZES = ["1-10", "11-50", "51-200", "201-500", "500+"];
 const INDUSTRIES = ["Music Festivals", "Corporate Events", "Theater", "Sports", "Experiential Marketing", "Other"];
 
 export default function DemoRequestPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -61,11 +62,11 @@ export default function DemoRequestPage() {
       return response.json();
     },
     onSuccess: () => {
-      addNotification({ type: "success", title: "Request Submitted", message: "We'll be in touch within 24 hours to schedule your demo" });
+      toast.success("Request Submitted", "We'll be in touch within 24 hours to schedule your demo");
       router.push("/demo");
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to submit request. Please try again." });
+      toast.error("Error", "Failed to submit request. Please try again.");
     },
   });
 

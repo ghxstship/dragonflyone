@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  ListPage, Badge, Text, useNotifications} from "@ghxstship/ui";
+  ListPage, Badge, Text, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import { usePermitsData, type Permit } from "@/hooks/usePermits";
 import { Eye, Send } from "lucide-react";
@@ -40,18 +41,18 @@ const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
 
 export default function PermitsPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const { permits, summary, isLoading: loading, error, refetch } = usePermitsData();
 
   const handleSubmitApplication = async (permitId: string) => {
     try {
       const response = await fetch(`/api/permits/${permitId}/submit`, { method: "POST" });
       if (response.ok) {
-        addNotification({ type: "success", title: "Success", message: "Application submitted" });
+        toast.success("Success", "Application submitted");
         refetch();
       }
     } catch {
-      addNotification({ type: "error", title: "Error", message: "Failed to submit application" });
+      toast.error("Error", "Failed to submit application");
     }
   };
 
@@ -61,7 +62,7 @@ export default function PermitsPage() {
       label: 'Permit #',
       accessor: (p) => p.permit_number || '—',
       sortable: true,
-      render: (_, p) => <Text className="font-mono">{p.permit_number || '—'}</Text>,
+      render: (_value: unknown, p) => <Text className="font-mono">{p.permit_number || '—'}</Text>,
     },
     { key: 'permit_type', label: 'Type', accessor: 'permit_type', sortable: true },
     { key: 'project_name', label: 'Project', accessor: 'project_name', sortable: true },
@@ -72,20 +73,20 @@ export default function PermitsPage() {
       label: 'Deadline',
       accessor: 'expiration_date',
       sortable: true,
-      render: (_, p) => <Text className="font-mono">{p.expiration_date ? formatDate(p.expiration_date) : '—'}</Text>,
+      render: (_value: unknown, p) => <Text className="font-mono">{p.expiration_date ? formatDate(p.expiration_date) : '—'}</Text>,
     },
     {
       key: 'fee_amount',
       label: 'Fee',
       accessor: 'fee_amount',
-      render: (_, p) => <Text className="font-mono">{formatCurrency(p.fee_amount)}</Text>,
+      render: (_value: unknown, p) => <Text className="font-mono">{formatCurrency(p.fee_amount)}</Text>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, p) => <Badge variant={getStatusVariant(p.status)}>{p.status}</Badge>,
+      render: (_value: unknown, p) => <Badge variant={getStatusVariant(p.status)}>{p.status}</Badge>,
     },
   ];
 
@@ -166,6 +167,9 @@ export default function PermitsPage() {
       stats={stats}
       emptyMessage="No permits found"
       emptyAction={{ label: 'New Application', onClick: () => router.push('/permits/new') }}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

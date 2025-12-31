@@ -11,7 +11,7 @@ import { Shield, Plus, Edit, Trash2, Check, X, List, Settings } from "lucide-rea
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, StatCard, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, StatCard, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
 
 interface Role {
   id: string;
@@ -45,7 +45,7 @@ const DEMO_ROLES: Role[] = [
 export default function RolesSettingsPage() {
   const queryClient = useQueryClient();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [showCreate, setShowCreate] = useState(false);
   const [editingRole, setEditingRole] = useState<Role | null>(null);
@@ -77,12 +77,12 @@ export default function RolesSettingsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["roles"] });
-      addNotification({ type: "success", title: "Created", message: "Role created successfully" });
+      toast.success("Created", "Role created successfully");
       setShowCreate(false);
       resetForm();
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to create role" });
+      toast.error("Error", "Failed to create role");
     },
   });
 
@@ -94,10 +94,10 @@ export default function RolesSettingsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["roles"] });
-      addNotification({ type: "success", title: "Deleted", message: "Role deleted" });
+      toast.success("Deleted", "Role deleted");
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to delete role" });
+      toast.error("Error", "Failed to delete role");
     },
   });
 

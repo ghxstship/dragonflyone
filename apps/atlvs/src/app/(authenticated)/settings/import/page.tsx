@@ -6,11 +6,11 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useState, useCallback } from "react";
-import { Upload, FileText, Database, Users, Calendar, List, Settings, Check } from "lucide-react";
+import { useState } from "react";
+import { Upload, FileText, Database, Users, Calendar, List, Settings } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, Input, Label, DetailPage, Section, SectionHeader, useNotifications, Box, Stack} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader, useToast, Box, FileUpload} from "@ghxstship/ui";
 
 interface ImportOption {
   id: string;
@@ -22,17 +22,28 @@ interface ImportOption {
 }
 
 const IMPORT_OPTIONS: ImportOption[] = [
-  { id: "projects", label: "Projects", description: "Import projects from CSV or Excel", icon: <FileText className="size-5" />, formats: ["csv", "xlsx"], template: "/templates/projects-import.csv" },
-  { id: "contacts", label: "Contacts", description: "Import contacts and organizations", icon: <Users className="size-5" />, formats: ["csv", "xlsx", "vcf"], template: "/templates/contacts-import.csv" },
-  { id: "events", label: "Events", description: "Import events and schedules", icon: <Calendar className="size-5" />, formats: ["csv", "xlsx", "ics"], template: "/templates/events-import.csv" },
+  { id: "events", label: "Events", description: "Import events and schedules", icon: <Calendar className="size-5" />, formats: ["csv"], template: "/templates/imports/events-import.csv" },
+  { id: "contacts", label: "Contacts", description: "Import contacts and organizations", icon: <Users className="size-5" />, formats: ["csv"], template: "/templates/imports/contacts-import.csv" },
+  { id: "vendors", label: "Vendors", description: "Import vendor records", icon: <FileText className="size-5" />, formats: ["csv"], template: "/templates/imports/vendors-import.csv" },
+  { id: "venues", label: "Venues", description: "Import venue information", icon: <FileText className="size-5" />, formats: ["csv"], template: "/templates/imports/venues-import.csv" },
+  { id: "assets", label: "Assets", description: "Import equipment and assets", icon: <Database className="size-5" />, formats: ["csv"], template: "/templates/imports/assets-import.csv" },
+  { id: "employees", label: "Employees", description: "Import workforce employees", icon: <Users className="size-5" />, formats: ["csv"], template: "/templates/imports/workforce-employees-import.csv" },
+  { id: "roles", label: "Roles", description: "Import workforce roles", icon: <Users className="size-5" />, formats: ["csv"], template: "/templates/imports/workforce-roles-import.csv" },
+  { id: "shifts", label: "Shifts", description: "Import shift schedules", icon: <Calendar className="size-5" />, formats: ["csv"], template: "/templates/imports/workforce-shifts-import.csv" },
+  { id: "time-entries", label: "Time Entries", description: "Import time tracking data", icon: <Calendar className="size-5" />, formats: ["csv"], template: "/templates/imports/workforce-time-entries-import.csv" },
+  { id: "certifications", label: "Certifications", description: "Import crew certifications", icon: <FileText className="size-5" />, formats: ["csv"], template: "/templates/imports/workforce-certifications-import.csv" },
+  { id: "budgets", label: "Budgets", description: "Import budget records", icon: <FileText className="size-5" />, formats: ["csv"], template: "/templates/imports/finance-budgets-import.csv" },
+  { id: "budget-lines", label: "Budget Lines", description: "Import budget line items", icon: <FileText className="size-5" />, formats: ["csv"], template: "/templates/imports/finance-budget-lines-import.csv" },
+  { id: "expenses", label: "Expenses", description: "Import expense records", icon: <FileText className="size-5" />, formats: ["csv"], template: "/templates/imports/finance-expenses-import.csv" },
+  { id: "bills", label: "Bills", description: "Import bill records", icon: <FileText className="size-5" />, formats: ["csv"], template: "/templates/imports/finance-bills-import.csv" },
+  { id: "purchase-orders", label: "Purchase Orders", description: "Import purchase orders", icon: <FileText className="size-5" />, formats: ["csv"], template: "/templates/imports/finance-purchase-orders-import.csv" },
 ];
 
 export default function ImportSettingsPage() {
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
-  const [selectedImport, setSelectedImport] = useState<string>("projects");
+  const [selectedImport, setSelectedImport] = useState<string>("events");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [dragActive, setDragActive] = useState(false);
 
   const importMutation = useMutation({
     mutationFn: async (data: { type: string; file: File }) => {
@@ -44,31 +55,13 @@ export default function ImportSettingsPage() {
       return response.json();
     },
     onSuccess: (data) => {
-      addNotification({ type: "success", title: "Import Complete", message: `Successfully imported ${data.count || 0} records` });
+      toast.success("Import Complete", `Successfully imported ${data.count || 0} records`);
       setSelectedFile(null);
     },
     onError: () => {
-      addNotification({ type: "error", title: "Import Failed", message: "Failed to import data. Please check your file format." });
+      toast.error("Import Failed", "Failed to import data. Please check your file format.");
     },
   });
-
-  const handleDrag = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
-    else if (e.type === "dragleave") setDragActive(false);
-  }, []);
-
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) setSelectedFile(e.dataTransfer.files[0]);
-  }, []);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) setSelectedFile(e.target.files[0]);
-  };
 
   const currentOption = IMPORT_OPTIONS.find((o) => o.id === selectedImport);
 
@@ -107,34 +100,17 @@ export default function ImportSettingsPage() {
 
           <Card className="p-6 mb-6">
             <SectionHeader title="Upload File" />
-            <Box
-              className={`mt-4 border-2 border-dashed rounded-card p-8 text-center transition-colors ${dragActive ? "border-primary bg-primary/10" : "border-grey-700"}`}
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
-              onDrop={handleDrop}
-            >
-              {selectedFile ? (
-                <Box className="flex items-center justify-center gap-3">
-                  <Check className="size-6 text-success" />
-                  <Box>
-                    <Body className="font-weight-medium">{selectedFile.name}</Body>
-                    <Body size="sm" className="text-on-dark-muted">{(selectedFile.size / 1024).toFixed(1)} KB</Body>
-                  </Box>
-                  <Button variant="ghost" size="sm" onClick={() => setSelectedFile(null)}>Remove</Button>
-                </Box>
-              ) : (
-                <>
-                  <Upload className="size-12 text-on-dark-disabled mx-auto mb-4" />
-                  <Body className="font-weight-medium mb-2">Drag and drop your file here</Body>
-                  <Body size="sm" className="text-on-dark-muted mb-4">or click to browse</Body>
-                  <Input type="file" accept={currentOption?.formats.map((f) => `.${f}`).join(",")} onChange={handleFileChange} className="hidden" id="file-upload" />
-                  <Label htmlFor="file-upload">
-                    <Button variant="outline" className="cursor-pointer">Browse Files</Button>
-                  </Label>
-                </>
-              )}
-            </Box>
+            <FileUpload
+              accept={currentOption?.formats.map((f) => `.${f}`).join(",")}
+              onFilesSelect={(files: File[]) => {
+                if (files.length > 0) {
+                  setSelectedFile(files[0]);
+                }
+              }}
+              maxFiles={1}
+              maxSize={10 * 1024 * 1024}
+              className="mt-4"
+            />
             {currentOption && (
               <Box className="mt-4 flex items-center justify-between">
                 <Body size="sm" className="text-on-dark-muted">Need a template? Download our sample file.</Body>

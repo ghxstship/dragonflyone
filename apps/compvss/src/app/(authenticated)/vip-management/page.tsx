@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Stack, Input, Select, Button, Modal, ModalHeader, ModalBody, ModalFooter, Badge, Textarea} from "@ghxstship/ui";
+  ListPage, H3, Body, Stack, Input, Select, Button, Modal, ModalHeader, ModalBody, ModalFooter, Badge, Textarea,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import {
   useVIPGuests,
@@ -21,6 +23,7 @@ const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
 };
 
 export default function VIPManagementPage() {
+  const router = useRouter();
   const { data: vipGuests = [], isLoading, refetch } = useVIPGuests();
   const { data: accessZones = [] } = useAccessZones();
   const [showAddModal, setShowAddModal] = useState(false);
@@ -32,7 +35,7 @@ export default function VIPManagementPage() {
       label: 'Guest',
       accessor: 'name',
       sortable: true,
-      render: (_, g) => (
+      render: (_value: unknown, g) => (
         <Stack gap={1}>
           <Body className="font-display">{g.name}</Body>
           <Body size="sm" className="text-muted-foreground">{g.email}</Body>
@@ -44,13 +47,13 @@ export default function VIPManagementPage() {
       label: 'Pass Type',
       accessor: 'passType',
       sortable: true,
-      render: (_, g) => <Badge variant="outline">{g.passType}</Badge>,
+      render: (_value: unknown, g) => <Badge variant="outline">{g.passType}</Badge>,
     },
     {
       key: 'accessAreas',
       label: 'Access',
       accessor: (g) => g.accessAreas.join(', '),
-      render: (_, g) => (
+      render: (_value: unknown, g) => (
         <Stack direction="horizontal" gap={1}>
           {g.accessAreas.slice(0, 2).map(a => <Badge key={a} variant="outline">{a}</Badge>)}
         </Stack>
@@ -61,7 +64,7 @@ export default function VIPManagementPage() {
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, g) => <Badge variant={getStatusVariant(g.status)}>{g.status}</Badge>,
+      render: (_value: unknown, g) => <Badge variant={getStatusVariant(g.status)}>{g.status}</Badge>,
     },
   ];
 
@@ -129,6 +132,9 @@ export default function VIPManagementPage() {
         stats={stats}
         emptyMessage="No VIP guests found"
         emptyAction={{ label: 'Add Guest', onClick: () => setShowAddModal(true) }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { gvtewayNavigation, gvtewayCreatorNavigation, gvtewayMembershipNavigation } from "../data/gvteway";
-import { AppNavigation, UnifiedHeader, Link } from "@ghxstship/ui";
+import { AppNavigation, PublicNavbar, Link } from "@ghxstship/ui";
 import type { ContextLevel } from "@ghxstship/ui";
 
 // =============================================================================
@@ -72,7 +72,7 @@ export function ConsumerNavigationAuthenticated({
   ];
 
   return (
-    <UnifiedHeader
+    <PublicNavbar
       logo={
         <Link href="/experiences" className="font-display text-h5-md uppercase text-white">
           GVTEWAY
@@ -132,7 +132,7 @@ export function CreatorNavigationAuthenticated({
   ];
 
   return (
-    <UnifiedHeader
+    <PublicNavbar
       logo={
         <Link href="/dashboard" className="font-display text-h5-md uppercase text-white">
           GVTEWAY

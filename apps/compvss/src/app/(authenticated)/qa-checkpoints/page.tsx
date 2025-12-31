@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Grid, Stack, Input, Button, Card, Modal, ModalHeader, ModalBody, ModalFooter, Badge, Alert} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Input, Button, Card, Modal, ModalHeader, ModalBody, ModalFooter, Badge, Alert,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 import {
   useQACheckpoints,
@@ -37,7 +38,7 @@ export default function QACheckpointsPage() {
       label: 'Checkpoint',
       accessor: 'name',
       sortable: true,
-      render: (_, c) => (
+      render: (_value: unknown, c) => (
         <Stack gap={1}>
           <Body className="font-display">{c.name}</Body>
           <Stack direction="horizontal" gap={2}>
@@ -52,14 +53,14 @@ export default function QACheckpointsPage() {
       key: 'items',
       label: 'Items',
       accessor: (c) => `${c.items.filter(i => i.checked).length}/${c.items.length}`,
-      render: (_, c) => <Body>{c.items.filter(i => i.checked).length}/{c.items.length} complete</Body>,
+      render: (_value: unknown, c) => <Body>{c.items.filter(i => i.checked).length}/{c.items.length} complete</Body>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, c) => <Badge variant={getStatusVariant(c.status)}>{c.status}</Badge>,
+      render: (_value: unknown, c) => <Badge variant={getStatusVariant(c.status)}>{c.status}</Badge>,
     },
   ];
 
@@ -130,6 +131,9 @@ export default function QACheckpointsPage() {
         stats={stats}
         emptyMessage="No checkpoints found"
         emptyAction={{ label: 'Add Checkpoint', onClick: () => router.push('/qa-checkpoints/new') }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

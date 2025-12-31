@@ -13,7 +13,7 @@ import {
   Grid,
   StatCard,
   Badge,
-  useNotifications,
+  useToast,
   DetailPage,
   Section,
   SectionHeader,
@@ -22,7 +22,7 @@ import { Link2, Unlink, ExternalLink, Shield, Info } from "lucide-react";
 import { useConnectedAppsData, type ConnectedApp, getProviderInfo } from "@/hooks/useConnectedApps";
 
 export default function ConnectedAppsPage() {
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const {
     apps,
@@ -37,9 +37,9 @@ export default function ConnectedAppsPage() {
     if (confirm(`Are you sure you want to disconnect ${app.app_name}? You may need to reconnect to use its features.`)) {
       try {
         await disconnectApp(app.id);
-        addNotification({ type: "success", title: "Disconnected", message: `${app.app_name} has been disconnected` });
+        toast.success("Disconnected", `${app.app_name} has been disconnected`);
       } catch (err) {
-        addNotification({ type: "error", title: "Error", message: err instanceof Error ? err.message : "Failed to disconnect app" });
+        toast.error("Error", err instanceof Error ? err.message : "Failed to disconnect app");
       }
     }
   };

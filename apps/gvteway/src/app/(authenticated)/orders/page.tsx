@@ -32,7 +32,7 @@ export default function OrdersPage() {
       key: 'id', 
       label: 'Order #', 
       accessor: 'id',
-      render: (value) => <Text className="font-mono">#{String(value).slice(0, 8)}</Text>
+      render: (value: unknown) => <Text className="font-mono">#{String(value).slice(0, 8)}</Text>
     },
     { 
       key: 'event', 
@@ -45,34 +45,34 @@ export default function OrdersPage() {
       label: 'Event Date', 
       accessor: (row) => row.gvteway_events?.event_date,
       sortable: true,
-      render: (value) => value ? new Date(String(value)).toLocaleDateString() : 'TBD'
+      render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : 'TBD'
     },
     { 
       key: 'total_amount', 
       label: 'Amount', 
       accessor: 'total_amount', 
       sortable: true,
-      render: (value) => `$${Number(value || 0).toLocaleString()}`
+      render: (value: unknown) => `$${Number(value || 0).toLocaleString()}`
     },
     { 
       key: 'ticket_count', 
       label: 'Tickets', 
       accessor: 'ticket_count',
-      render: (value) => value ? `${value} ${Number(value) === 1 ? 'ticket' : 'tickets'}` : '-'
+      render: (value: unknown) => value ? `${value} ${Number(value) === 1 ? 'ticket' : 'tickets'}` : '-'
     },
     { 
       key: 'created_at', 
       label: 'Ordered', 
       accessor: 'created_at', 
       sortable: true,
-      render: (value) => new Date(String(value)).toLocaleDateString()
+      render: (value: unknown) => new Date(String(value)).toLocaleDateString()
     },
     { 
       key: 'status', 
       label: 'Status', 
       accessor: 'status', 
       sortable: true,
-      render: (value) => {
+      render: (value: unknown) => {
         const variant = value === 'confirmed' ? 'success' : value === 'pending' ? 'warning' : value === 'cancelled' ? 'error' : 'info';
         return <Badge variant={variant}>{String(value).toUpperCase()}</Badge>;
       }

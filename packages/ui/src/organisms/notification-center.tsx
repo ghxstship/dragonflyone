@@ -1,5 +1,21 @@
 "use client";
 
+/**
+ * @deprecated This entire module is deprecated. Use EnhancedHeader's EnhancedNotificationsPanel instead.
+ * The NotificationCenter and NotificationBell components are superseded by the integrated
+ * notification system in EnhancedHeader which provides:
+ * - Category tabs (All, Mentions, Updates, Alerts)
+ * - Inline mark-as-read and delete actions
+ * - Notification grouping support
+ * - Priority badges
+ * - Source labels and relative timestamps
+ * 
+ * This module will be removed in v2.0.
+ * 
+ * Migration: Use AuthenticatedShell with useEnhancedHeader=true (default) and pass
+ * notifications in the HeaderNotification[] format.
+ */
+
 import React from "react";
 import clsx from "clsx";
 import { 
@@ -15,9 +31,10 @@ import {
   AlertTriangle,
   CheckCircle,
 } from "lucide-react";
+import { Tooltip } from "../atoms/tooltip.js";
 
 // =============================================================================
-// TYPES
+// TYPES (DEPRECATED - Use HeaderNotification from enhanced-header.tsx instead)
 // =============================================================================
 
 export type NotificationType = "info" | "success" | "warning" | "error";
@@ -148,22 +165,26 @@ function NotificationItem({ notification, onClick, onMarkRead, onDelete }: Notif
           {/* Actions */}
           <div className="flex items-center gap-gap-xs flex-shrink-0" onClick={(e) => e.stopPropagation()}>
             {!notification.read && onMarkRead && (
-              <button
-                onClick={onMarkRead}
-                className="p-spacing-1 text-on-dark-muted hover:text-primary-500 bg-transparent border-none cursor-pointer"
-                title="Mark as read"
-              >
-                <Check className="size-4" />
-              </button>
+              <Tooltip content="Mark as read">
+                <button
+                  onClick={onMarkRead}
+                  className="p-spacing-1 text-on-dark-muted hover:text-primary-500 bg-transparent border-none cursor-pointer"
+                  aria-label="Mark as read"
+                >
+                  <Check className="size-4" />
+                </button>
+              </Tooltip>
             )}
             {onDelete && (
-              <button
-                onClick={onDelete}
-                className="p-spacing-1 text-on-dark-muted hover:text-error-500 bg-transparent border-none cursor-pointer"
-                title="Delete"
-              >
-                <Trash2 className="size-4" />
-              </button>
+              <Tooltip content="Delete">
+                <button
+                  onClick={onDelete}
+                  className="p-spacing-1 text-on-dark-muted hover:text-error-500 bg-transparent border-none cursor-pointer"
+                  aria-label="Delete notification"
+                >
+                  <Trash2 className="size-4" />
+                </button>
+              </Tooltip>
             )}
           </div>
         </div>

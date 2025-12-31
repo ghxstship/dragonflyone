@@ -3,7 +3,8 @@
 import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  ListPage, Body, Badge, Stack} from '@ghxstship/ui';
+  ListPage, Body, Badge, Stack,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler, useAuthContext, PlatformRole } from '@ghxstship/config';
 import {
   useBuildStrikeTasks,
@@ -45,7 +46,7 @@ export default function BuildStrikePage() {
       label: 'Task',
       accessor: 'task',
       sortable: true,
-      render: (_, t) => (
+      render: (_value: unknown, t) => (
         <Stack gap={1}>
           <Body className="font-display">{t.task}</Body>
           <Body size="sm" className="text-muted-foreground">{t.area} • {t.assignedTo}</Body>
@@ -57,14 +58,14 @@ export default function BuildStrikePage() {
       label: 'Priority',
       accessor: 'priority',
       sortable: true,
-      render: (_, t) => <Badge variant={t.priority === 'high' ? 'solid' : 'outline'}>{t.priority.toUpperCase()}</Badge>,
+      render: (_value: unknown, t) => <Badge variant={t.priority === 'high' ? 'solid' : 'outline'}>{t.priority.toUpperCase()}</Badge>,
     },
     {
       key: 'status',
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, t) => <Badge variant={getStatusVariant(t.status)}>{t.status.toUpperCase()}</Badge>,
+      render: (_value: unknown, t) => <Badge variant={getStatusVariant(t.status)}>{t.status.toUpperCase()}</Badge>,
     },
     { key: 'area', label: 'Area', accessor: 'area', sortable: true },
     { key: 'assignedTo', label: 'Assigned To', accessor: 'assignedTo' },
@@ -133,6 +134,9 @@ export default function BuildStrikePage() {
       stats={stats}
       emptyMessage="No tasks found"
       emptyAction={canManageTasks ? { label: 'Add Task', onClick: () => router.push('/build-strike/new') } : undefined}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

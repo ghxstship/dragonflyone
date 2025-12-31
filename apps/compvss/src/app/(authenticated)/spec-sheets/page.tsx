@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  ListPage, H3, Body, Grid, Stack, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Table, TableBody, TableRow, TableCell} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Table, TableBody, TableRow, TableCell,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 import { createExportHandler, getSubcategoryNames } from "@ghxstship/config";
 import {
   useSpecSheets,
@@ -25,7 +26,7 @@ export default function SpecSheetsPage() {
       label: 'Name',
       accessor: 'name',
       sortable: true,
-      render: (_, s) => (
+      render: (_value: unknown, s) => (
         <Stack gap={1}>
           <Body className="font-display">{s.name}</Body>
           <Body size="sm" className="text-muted-foreground">{s.manufacturer}</Body>
@@ -37,7 +38,7 @@ export default function SpecSheetsPage() {
       label: 'Category',
       accessor: 'category',
       sortable: true,
-      render: (_, s) => <Badge variant="outline">{s.category}</Badge>,
+      render: (_value: unknown, s) => <Badge variant="outline">{s.category}</Badge>,
     },
     { key: 'model', label: 'Model', accessor: 'model' },
     { key: 'version', label: 'Version', accessor: (s) => `v${s.version}` },
@@ -97,6 +98,9 @@ export default function SpecSheetsPage() {
         stats={stats}
         emptyMessage="No spec sheets found"
         emptyAction={{ label: 'Upload Spec Sheet', onClick: () => router.push('/spec-sheets/upload') }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

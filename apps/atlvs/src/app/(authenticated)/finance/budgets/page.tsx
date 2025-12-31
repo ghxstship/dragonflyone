@@ -2,27 +2,30 @@
 
 /**
  * Budgets List Page
- * Uses normalized ListPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for columns, filters, status colors.
+ * All UI configuration comes from @ghxstship/config/entity-registry.
  */
 
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, TrendingUp, TrendingDown } from 'lucide-react';
-import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  BUDGET_STATUS_COLORS,
+  formatCurrency,
+  formatDate,
+} from '@ghxstship/config';
 import {
-  Badge, Box, ListPage, Text, useNotifications} from '@ghxstship/ui';
+  Badge, ListPage, Text, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction,
+} from "@ghxstship/ui";
 import { useBudgets, useDeleteBudget, type Budget } from '@/hooks/useBudgets';
-
-const STATUS_COLORS: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  draft: 'outline',
-  active: 'success',
-  closed: 'info',
-  over_budget: 'error',
-};
 
 export default function BudgetsPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const canManage = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const { data: budgets = [], isLoading, error, refetch } = useBudgets();
@@ -33,45 +36,26 @@ export default function BudgetsPage() {
     try {
       await deleteMutation.mutateAsync(budget.id);
     } catch (err) {
-      addNotification({ type: 'error', title: 'Delete Failed', message: err instanceof Error ? err.message : 'Failed to delete budget' });
+      toast.error('Delete Failed', err instanceof Error ? err.message : 'Failed to delete budget');
     }
-  };
-
-  const formatCurrency = (amount: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
-  const getUtilization = (budget: Budget) => budget.budgeted ? Math.round(((budget.actual || 0) / budget.budgeted) * 100) : 0;
-  const getVarianceColor = (budget: Budget) => {
-    const variance = (budget.budgeted || 0) - (budget.actual || 0);
-    if (variance < 0) return 'text-error';
-    if (variance < (budget.budgeted || 0) * 0.1) return 'text-warning';
-    return 'text-success';
   };
 
   const columns: ListPageColumn<Budget>[] = [
     { key: 'name', label: 'Budget', accessor: 'name', sortable: true },
-    { key: 'category', label: 'Category', accessor: (b) => b.category || 'N/A' },
+    { key: 'fiscal_year', label: 'Fiscal Year', accessor: (b) => b.fiscal_year?.toString() || 'N/A', sortable: true },
     {
       key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_, budget) => <Badge variant={STATUS_COLORS[budget.status || ''] || 'outline'}>{budget.status || 'draft'}</Badge>,
+      render: (value: unknown) => <Badge variant={BUDGET_STATUS_COLORS[String(value) || ''] || 'outline'}>{String(value) || 'draft'}</Badge>,
     },
     {
-      key: 'budgeted', label: 'Budgeted', accessor: 'budgeted', sortable: true,
-      render: (_, budget) => <Text className="font-weight-medium">{formatCurrency(budget.budgeted || 0)}</Text>,
+      key: 'total_amount', label: 'Total Amount', accessor: 'total_amount', sortable: true,
+      render: (value: unknown) => <Text className="font-weight-medium">{formatCurrency(Number(value) || 0)}</Text>,
     },
     {
-      key: 'actual', label: 'Spent', accessor: 'actual', sortable: true,
-      render: (_, budget) => <Text className={getVarianceColor(budget)}>{formatCurrency(budget.actual || 0)}</Text>,
+      key: 'period', label: 'Period', accessor: (b) => `${formatDate(b.start_date || '')} - ${formatDate(b.end_date || '')}`,
     },
     {
-      key: 'utilization', label: 'Utilization', accessor: (b) => getUtilization(b),
-      render: (_, budget) => {
-        const utilization = getUtilization(budget);
-        return (
-          <Box className="flex items-center gap-2">
-            {utilization > 100 ? <TrendingDown className="h-4 w-4 text-error" /> : <TrendingUp className="h-4 w-4 text-success" />}
-            <Text className={utilization > 100 ? 'text-error' : utilization > 90 ? 'text-warning' : ''}>{utilization}%</Text>
-          </Box>
-        );
-      },
+      key: 'currency', label: 'Currency', accessor: (b) => b.currency || 'USD',
     },
   ];
 
@@ -111,6 +95,9 @@ export default function BudgetsPage() {
       emptyAction={canManage ? { label: 'Create Budget', onClick: () => router.push('/finance/budgets/new') } : undefined}
       entityType="budgets"
       breadcrumbs={[{ label: 'Finance', href: '/finance' }, { label: 'Budgets' }]}
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

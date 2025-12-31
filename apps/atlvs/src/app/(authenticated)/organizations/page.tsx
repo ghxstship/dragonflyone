@@ -2,18 +2,25 @@
 
 /**
  * Unified Organizations Page
- * Consolidates: vendors, sponsors, clients, partners, agencies
- * Single source of truth aligned with legend_organizations table
- * Uses normalized ListPage template from @ghxstship/ui
+ * 
+ * SSOT-compliant: Uses entity registry for status colors.
  */
 
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { 
-  Building2, Mail, Phone, Users, Briefcase, Heart, Handshake, Building, Eye, Pencil, Trash2} from 'lucide-react';
-import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+  Building2, Mail, Phone, Users, Briefcase, Heart, Handshake, Building, Eye, Pencil, Trash2,
+} from 'lucide-react';
+import { 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES,
+  ORGANIZATION_STATUS_COLORS,
+  ORGANIZATION_TYPE_COLORS,
+} from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text, useNotifications} from '@ghxstship/ui';
+  Badge, Body, Box, ListPage, Stack, Text, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction,
+} from "@ghxstship/ui";
 import {
   useOrganizationsQuery,
   useDeleteOrganization,
@@ -32,18 +39,10 @@ const TYPE_CONFIG: Record<OrgType, { label: string; icon: React.ReactNode; color
   other: { label: 'Other', icon: <Building2 className="h-4 w-4" />, color: 'outline' },
 };
 
-const STATUS_COLORS: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  active: 'success',
-  inactive: 'outline',
-  pending: 'warning',
-  archived: 'error',
-  draft: 'outline',
-};
-
 export default function OrganizationsPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const canManageOrgs = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
@@ -62,17 +61,9 @@ export default function OrganizationsPage() {
     
     try {
       await deleteMutation.mutateAsync(org.id);
-      addNotification({
-        type: 'success',
-        title: 'Organization Deleted',
-        message: `${org.name} has been deleted.`,
-      });
+      toast.success('Organization Deleted', `${org.name} has been deleted.`);
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Delete Failed',
-        message: err instanceof Error ? err.message : 'Failed to delete organization',
-      });
+      toast.error('Delete Failed', err instanceof Error ? err.message : 'Failed to delete organization',);
     }
   };
 
@@ -114,7 +105,7 @@ export default function OrganizationsPage() {
       label: 'Organization',
       accessor: 'name',
       sortable: true,
-      render: (_, org) => (
+      render: (_value: unknown, org: Organization) => (
         <Stack direction="horizontal" gap={3} className="items-center">
           <Box className="w-10 h-10 rounded-avatar bg-primary/10 flex items-center justify-center overflow-hidden">
             {org.logo_url ? (
@@ -136,7 +127,7 @@ export default function OrganizationsPage() {
       key: 'email',
       label: 'Contact Info',
       accessor: 'email',
-      render: (_, org) => (
+      render: (_value: unknown, org: Organization) => (
         <Stack gap={1}>
           {org.email && (
             <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground">
@@ -157,8 +148,8 @@ export default function OrganizationsPage() {
       label: 'Type',
       accessor: 'org_type',
       sortable: true,
-      render: (_, org) => (
-        <Badge variant={STATUS_COLORS[TYPE_CONFIG[org.org_type]?.color] || 'outline'} className="capitalize">
+      render: (_value: unknown, org: Organization) => (
+        <Badge variant={ORGANIZATION_TYPE_COLORS[org.org_type] || 'outline'} className="capitalize">
           {org.org_type}
         </Badge>
       ),
@@ -168,14 +159,14 @@ export default function OrganizationsPage() {
       label: 'Status',
       accessor: 'status',
       sortable: true,
-      render: (_, org) => <Badge variant={STATUS_COLORS[org.status] || 'outline'}>{org.status.toUpperCase()}</Badge>,
+      render: (_value: unknown, org) => <Badge variant={ORGANIZATION_STATUS_COLORS[org.status] || 'outline'}>{org.status.toUpperCase()}</Badge>,
     },
     {
       key: 'updated_at',
       label: 'Updated',
       accessor: 'updated_at',
       sortable: true,
-      render: (_, org) => <Text size="sm" className="text-muted-foreground">{formatDate(org.updated_at)}</Text>,
+      render: (_value: unknown, org) => <Text size="sm" className="text-muted-foreground">{formatDate(org.updated_at)}</Text>,
     },
   ];
 
@@ -230,6 +221,9 @@ export default function OrganizationsPage() {
       emptyMessage="No organizations yet"
       emptyAction={canManageOrgs ? { label: 'Add Organization', onClick: () => router.push('/organizations/new') } : undefined}
       entityType="organizations"
+      enableCapabilityDetection
+      onScanAction={(capability, route) => router.push(route)}
+      capabilityBasePath=""
       showFavorite
       showSettings
     />

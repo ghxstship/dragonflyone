@@ -12,7 +12,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { Package, DollarSign, FileText } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body, EditPage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
+  Body, EditPage, Grid, Input, Select, Stack, Text, Textarea, useToast,
+  type FormSection} from "@ghxstship/ui";
 import { useAssets, useUpdateAsset, useDeleteAsset, type Asset } from '@/hooks/useAssets';
 
 const ASSET_CATEGORIES = [
@@ -54,7 +55,7 @@ export default function EditAssetPage() {
   const assetId = params?.id as string;
   
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   
   const { data: assets, isLoading } = useAssets();
   const asset = assets?.find(a => a.id === assetId);
@@ -135,19 +136,11 @@ export default function EditAssetPage() {
         depreciation_rate: formData.depreciation_rate ? parseFloat(formData.depreciation_rate) : undefined,
       });
 
-      addNotification({
-        type: 'success',
-        title: 'Asset Updated',
-        message: `${formData.tag} has been updated.`,
-      });
+      toast.success('Asset Updated', `${formData.tag} has been updated.`);
 
       router.push(`/assets/${assetId}`);
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Update Asset',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Update Asset', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsSubmitting(false);
     }
@@ -159,19 +152,11 @@ export default function EditAssetPage() {
     try {
       await deleteMutation.mutateAsync(assetId);
 
-      addNotification({
-        type: 'success',
-        title: 'Asset Deleted',
-        message: `${asset?.tag} has been removed.`,
-      });
+      toast.success('Asset Deleted', `${asset?.tag} has been removed.`);
 
       router.push('/assets');
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Delete Asset',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Delete Asset', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsDeleting(false);
     }

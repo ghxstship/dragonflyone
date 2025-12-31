@@ -1,89 +1,33 @@
-PROMO CODE TRACKER
-Event Name:,[Enter Event Name]
-Event Date:,[Enter Date]
-Prepared By:,[Enter Name]
-Last Updated:,[Enter Date]
+code,discount_type,discount_amount,valid_from,valid_to,max_uses,uses_remaining,ticket_types,min_purchase,category,status,total_uses,total_discount,notes
+EARLYBIRD,percentage,20,,,500,500,ga,1,marketing,active,0,0.00,Early bird discount
+VIP20,percentage,20,,,100,100,vip,1,marketing,active,0,0.00,VIP discount
+FRIEND10,fixed,10.00,,,0,0,all,1,marketing,active,0,0.00,Friend referral
+GROUP15,percentage,15,,,50,50,all,10,marketing,active,0,0.00,Group discount
+SPONSOR,percentage,25,,,200,200,all,1,partnership,active,0,0.00,Sponsor code
+MEDIA,percentage,100,,,50,50,all,1,comp,active,0,0.00,Media comps
+ARTIST,percentage,100,,,100,100,all,1,comp,active,0,0.00,Artist comps
+STAFF,percentage,100,,,25,25,all,1,comp,active,0,0.00,Staff comps
+INFLUENCER,percentage,50,,,20,20,all,1,influencer,active,0,0.00,Influencer discount
 
-ACTIVE PROMO CODES
-Code,Discount Type,Discount Amount,Valid From,Valid To,Max Uses,Uses Remaining,Ticket Types,Min Purchase,Status,Notes
-EARLYBIRD,Percentage,20%,,,500,500,GA Only,1,[ ] Active,Early bird discount
-VIP20,Percentage,20%,,,100,100,VIP Only,1,[ ] Active,VIP discount
-FRIEND10,Fixed,$10,,,Unlimited,Unlimited,All,1,[ ] Active,Friend referral
-GROUP15,Percentage,15%,,,50,50,All,10,[ ] Active,Group discount
-SPONSOR,Percentage,25%,,,200,200,All,1,[ ] Active,Sponsor code
-MEDIA,Percentage,100%,,,50,50,All,1,[ ] Active,Media comps
-ARTIST,Percentage,100%,,,100,100,All,1,[ ] Active,Artist comps
-STAFF,Percentage,100%,,,25,25,All,1,[ ] Active,Staff comps
-INFLUENCER,Percentage,50%,,,20,20,All,1,[ ] Active,Influencer discount
-BIRTHDAY,Fixed,$5,,,Unlimited,Unlimited,All,1,[ ] Active,Birthday discount
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- code: Promo code (case-insensitive)
+- discount_type: percentage | fixed | bogo
+- discount_amount: Discount value (percentage as integer, fixed as decimal)
+- valid_from: Start date (YYYY-MM-DD format)
+- valid_to: End date (YYYY-MM-DD format)
+- max_uses: Maximum uses (0 = unlimited)
+- uses_remaining: Remaining uses
+- ticket_types: ga | vip | all
+- min_purchase: Minimum quantity required
+- category: marketing | partnership | comp | influencer | loyalty
+- status: active | expired | disabled
+- total_uses: Number of times used
+- total_discount: Total discount given (decimal)
+- notes: Additional notes
 
-EXPIRED CODES
-Code,Discount Type,Discount Amount,Valid From,Valid To,Total Uses,Revenue Impact,Notes
-,,,,,,,
-,,,,,,,
-
-CODE PERFORMANCE
-Code,Total Uses,Total Discount Given,Average Order Value,Conversion Rate,ROI,Notes
-EARLYBIRD,,$,$,%,,
-VIP20,,$,$,%,,
-FRIEND10,,$,$,%,,
-GROUP15,,$,$,%,,
-SPONSOR,,$,$,%,,
-
-CODE CATEGORIES
-Category,Codes,Purpose,Budget Allocation
-Marketing,EARLYBIRD; FRIEND10,Drive early sales,$
-Partnerships,SPONSOR,Partner benefits,$
-Comps,MEDIA; ARTIST; STAFF,Industry/team comps,$
-Influencer,INFLUENCER,Social promotion,$
-Loyalty,BIRTHDAY,Customer retention,$
-
-CODE DISTRIBUTION
-Code,Distribution Channel,Distributed To,Quantity Distributed,Date Distributed,Tracking Link
-EARLYBIRD,Email,Mailing list,10000,,
-VIP20,Social,Instagram followers,,,
-SPONSOR,Direct,Sponsor contacts,200,,
-MEDIA,Email,Press list,50,,
-
-USAGE ANALYTICS
-Date,Code,Uses,Revenue,Average Discount,Notes
-,,,,$,$,
-,,,,$,$,
-,,,,$,$,
-,,,,$,$,
-
-CODE RULES
-Rule,Setting,Notes
-Stackable,[ ] Yes [ ] No,Can codes be combined?
-One per order,[ ] Yes [ ] No,Limit one code per transaction
-One per customer,[ ] Yes [ ] No,Limit one code per customer
-Minimum purchase,$,Minimum order value required
-Maximum discount,$,Cap on discount amount
-
-NEW CODE REQUEST
-Field,Details
-Requested By,
-Code Name,
-Discount Type,Percentage / Fixed / BOGO
-Discount Amount,
-Valid From,
-Valid To,
-Max Uses,
-Ticket Types,
-Purpose,
-Approved By,
-Date Approved,
-
-AUDIT LOG
-Date,Action,Code,Changed By,Notes
-,Created,,,
-,Modified,,,
-,Deactivated,,,
-,Extended,,,
-
-NOTES
-1. All codes are case-insensitive
-2. Codes cannot be applied after purchase
-3. Comp codes require manager approval
-4. Track all code distributions for ROI analysis
-5. Deactivate unused codes after event
+HOW TO USE:
+1. One row per promo code
+2. Use decimal format for fixed amounts (no $ symbol)
+3. Delete this instruction section before importing
+4. Import via ATLVS > Settings > Data Import > Promo Codes

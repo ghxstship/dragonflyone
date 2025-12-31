@@ -1,93 +1,31 @@
-PURCHASE ORDER
-PO Number:,[Auto-generate]
-Date:,[Enter Date]
-Production:,[Enter Production Name]
-Requested By:,[Enter Name]
-Department:,[Enter Department]
+po_number,vendor_name,order_date,delivery_date,description,quantity,unit,unit_price,subtotal,tax_amount,shipping_amount,total_amount,payment_terms,status,notes
+PO-2024-001,PRG Lighting,2024-01-15,2024-01-20,Lighting Package Rental,1,package,15000.00,15000.00,1237.50,500.00,16737.50,net_30,pending,Main stage lighting
+PO-2024-001,PRG Lighting,2024-01-15,2024-01-20,Truss System,4,section,500.00,2000.00,0.00,0.00,0.00,net_30,pending,Included in package
+PO-2024-002,Sound Image,2024-01-15,2024-01-20,PA System Rental,1,package,22000.00,22000.00,1815.00,750.00,24565.00,net_30,pending,Full PA with subs
+PO-2024-003,SGPS Staging,2024-01-16,2024-01-20,Stage Deck 40x32,1,package,8500.00,8500.00,701.25,0.00,9201.25,net_15,approved,Includes risers
+,,,,,,,,,,,,,,,
 
-VENDOR INFORMATION
-Field,Details
-Vendor Name,
-Contact Name,
-Address,
-City/State/ZIP,
-Phone,
-Email,
-Vendor ID,
-Tax ID,
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- po_number: Purchase order number (e.g. PO-2024-001)
+- vendor_name: Vendor company name
+- order_date: Date ordered (YYYY-MM-DD format)
+- delivery_date: Expected delivery date (YYYY-MM-DD format)
+- description: Item/service description
+- quantity: Number of units
+- unit: Unit type (each, package, day, hour, etc.)
+- unit_price: Price per unit (decimal, no currency symbol)
+- subtotal: Line subtotal (quantity x unit_price)
+- tax_amount: Tax amount (for PO total, not per line)
+- shipping_amount: Shipping cost (for PO total, not per line)
+- total_amount: Total including tax and shipping
+- payment_terms: net_30 | net_15 | net_60 | due_on_receipt
+- status: draft | pending | approved | ordered | received | closed | cancelled
+- notes: Additional notes
 
-SHIP TO
-Field,Details
-Company Name,
-Attention,
-Address,
-City/State/ZIP,
-Phone,
-Delivery Instructions,
-
-BILLING INFORMATION
-Field,Details
-Company Name,
-Address,
-City/State/ZIP,
-Billing Contact,
-Email,
-
-ORDER DETAILS
-Line,Item/Description,Quantity,Unit,Unit Price,Total,GL Code,Notes
-1,,,Each,$0.00,$0.00,,
-2,,,Each,$0.00,$0.00,,
-3,,,Each,$0.00,$0.00,,
-4,,,Each,$0.00,$0.00,,
-5,,,Each,$0.00,$0.00,,
-6,,,Each,$0.00,$0.00,,
-7,,,Each,$0.00,$0.00,,
-8,,,Each,$0.00,$0.00,,
-9,,,Each,$0.00,$0.00,,
-10,,,Each,$0.00,$0.00,,
-
-ORDER SUMMARY
-Item,Amount
-Subtotal,$0.00
-Shipping,$0.00
-Tax,$0.00
-TOTAL,$0.00
-
-DELIVERY REQUIREMENTS
-Field,Details
-Required Delivery Date,
-Shipping Method,
-Shipping Account,
-Special Instructions,
-
-PAYMENT TERMS
-Field,Details
-Payment Terms,Net 30
-Payment Method,
-Budget Code,
-Cost Center,
-
-APPROVALS
-Role,Name,Signature,Date,Status
-Requestor,,,, Requested
-Department Head,,,, [ ] Approved [ ] Rejected
-Finance,,,, [ ] Approved [ ] Rejected
-Purchasing,,,, [ ] Approved [ ] Rejected
-
-TERMS AND CONDITIONS
-1. This Purchase Order is subject to the terms and conditions on the reverse side or attached.
-2. Vendor must reference PO number on all invoices and correspondence.
-3. Goods must be delivered by the required date or PO may be cancelled.
-4. All goods are subject to inspection upon receipt.
-5. Invoices must be submitted within 30 days of delivery.
-6. Payment will be made according to stated payment terms.
-7. Any changes to this PO must be approved in writing.
-
-NOTES
-[Additional notes or special instructions]
-
-FOR VENDOR USE
-Field,Details
-Order Confirmation #,
-Expected Ship Date,
-Tracking Number,
+HOW TO USE:
+1. Use same po_number for all line items on one PO
+2. Put tax/shipping/total on first line item only
+3. Use decimal format for amounts (e.g. 1500.00)
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Purchase Orders

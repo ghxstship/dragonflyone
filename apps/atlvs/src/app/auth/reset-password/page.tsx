@@ -11,12 +11,12 @@ import { useRouter } from "next/navigation";
 import { Lock, Eye, EyeOff, Check } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Form, AuthPage, useNotifications, Box} from "@ghxstship/ui";
+  Body, Button, Input, Form, AuthPage, useToast, Box} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -31,10 +31,10 @@ export default function ResetPasswordPage() {
     },
     onSuccess: () => {
       setSuccess(true);
-      addNotification({ type: "success", title: "Password Updated", message: "Your password has been reset successfully" });
+      toast.success("Password Updated", "Your password has been reset successfully");
     },
     onError: (err: Error) => {
-      addNotification({ type: "error", title: "Error", message: err.message });
+      toast.error("Error", err.message);
     },
   });
 

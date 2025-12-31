@@ -11,12 +11,12 @@ import { useRouter } from "next/navigation";
 import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Checkbox, Label, Form, Link, AuthPage, useNotifications, Box} from "@ghxstship/ui";
+  Body, Button, Input, Checkbox, Label, Form, Link, AuthPage, useToast, Box} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -29,11 +29,11 @@ export default function SignUpPage() {
       return data;
     },
     onSuccess: () => {
-      addNotification({ type: "success", title: "Account Created", message: "Please check your email to verify your account" });
+      toast.success("Account Created", "Please check your email to verify your account");
       router.push("/auth/verify-email");
     },
     onError: (error: Error) => {
-      addNotification({ type: "error", title: "Sign Up Failed", message: error.message });
+      toast.error("Sign Up Failed", error.message);
     },
   });
 

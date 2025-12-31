@@ -27,7 +27,11 @@
     "backup:staging": "bash scripts/backup-restore.sh backup staging",
     "backup:production": "bash scripts/backup-restore.sh backup production",
     "restore:staging": "bash scripts/backup-restore.sh restore staging",
-    "restore:production": "bash scripts/backup-restore.sh restore production"
+    "restore:production": "bash scripts/backup-restore.sh restore production",
+    "generate:entity": "ts-node scripts/generate-entity.ts",
+    "check:ssot": "ts-node scripts/check-ssot-compliance.ts",
+    "check:ssot:ci": "ts-node scripts/check-ssot-compliance.ts --ci",
+    "migrate:entity-config": "ts-node scripts/migrate-to-entity-config.ts"
   },
   "dependencies": {
     "@stripe/stripe-js": "^3.1.0",

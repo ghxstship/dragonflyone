@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import { Ruler, Wrench, Building, Scale, FileText, Folder, PenTool, Eye, Download } from "lucide-react";
 import {
-  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea} from "@ghxstship/ui";
+  ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
+  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
 
 import {
   useDrawings,
@@ -27,6 +29,7 @@ const getTypeIcon = (type: string) => {
 };
 
 export default function DrawingsPage() {
+  const router = useRouter();
   const { data: drawings = [], isLoading, error, refetch } = useDrawings();
   const [selectedDrawing, setSelectedDrawing] = useState<Drawing | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -39,7 +42,7 @@ export default function DrawingsPage() {
       label: 'Drawing Name',
       accessor: 'name',
       sortable: true,
-      render: (_, d) => (
+      render: (_value: unknown, d) => (
         <Stack direction="horizontal" gap={3}>
           {getTypeIcon(d.type)}
           <Body className="font-display">{d.name}</Body>
@@ -51,20 +54,20 @@ export default function DrawingsPage() {
       label: 'Category',
       accessor: 'category',
       sortable: true,
-      render: (_, d) => <Badge variant="outline">{d.category}</Badge>,
+      render: (_value: unknown, d) => <Badge variant="outline">{d.category}</Badge>,
     },
     {
       key: 'type',
       label: 'Type',
       accessor: 'type',
       sortable: true,
-      render: (_, d) => <Badge variant="outline">{d.type}</Badge>,
+      render: (_value: unknown, d) => <Badge variant="outline">{d.type}</Badge>,
     },
     {
       key: 'version',
       label: 'Version',
       accessor: 'version',
-      render: (_, d) => <Badge variant="solid">v{d.version}</Badge>,
+      render: (_value: unknown, d) => <Badge variant="solid">v{d.version}</Badge>,
     },
     { key: 'size', label: 'Size', accessor: 'size' },
     {
@@ -72,7 +75,7 @@ export default function DrawingsPage() {
       label: 'Markups',
       accessor: 'markups',
       sortable: true,
-      render: (_, d) => d.markups > 0 ? <Badge variant="outline">{d.markups}</Badge> : <Body size="sm">—</Body>,
+      render: (_value: unknown, d) => d.markups > 0 ? <Badge variant="outline">{d.markups}</Badge> : <Body size="sm">—</Body>,
     },
     { key: 'uploadedBy', label: 'Uploaded By', accessor: 'uploadedBy' },
     { key: 'uploadedAt', label: 'Date', accessor: 'uploadedAt', sortable: true },
@@ -143,6 +146,9 @@ export default function DrawingsPage() {
         stats={stats}
         emptyMessage="No drawings found"
         emptyAction={{ label: 'Upload Drawing', onClick: () => setShowUploadModal(true) }}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

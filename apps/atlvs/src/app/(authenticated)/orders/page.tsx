@@ -1,11 +1,26 @@
 'use client';
 
+/**
+ * Orders Page
+ * 
+ * SSOT-compliant: Uses entity registry for status colors and formatters.
+ */
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Download } from 'lucide-react';
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useNotifications} from '@ghxstship/ui';
-import { createExportHandler, useAuthContext, PlatformRole } from '@ghxstship/config';
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection,
+} from "@ghxstship/ui";
+import { 
+  createExportHandler, 
+  useAuthContext, 
+  PlatformRole,
+  ORDER_STATUS_COLORS,
+  PAYMENT_STATUS_COLORS,
+  formatCurrency,
+} from '@ghxstship/config';
 import { useOrders, useCreateOrder, useDeleteOrder, type Order } from '@/hooks/useOrders';
 
 const ADMIN_ROLES = [
@@ -15,33 +30,16 @@ const ADMIN_ROLES = [
   PlatformRole.LEGEND_DEVELOPER,
 ];
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'outline'> = {
-  pending: 'warning',
-  confirmed: 'info',
-  processing: 'info',
-  completed: 'success',
-  cancelled: 'error',
-  refunded: 'outline',
-};
-
-const paymentColors: Record<string, 'success' | 'warning' | 'error' | 'outline'> = {
-  paid: 'success',
-  pending: 'warning',
-  failed: 'error',
-  refunded: 'outline',
-};
-
-const formatCurrency = (amount: number, currency = 'USD') => {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
-};
+const statusColors = ORDER_STATUS_COLORS;
+const paymentColors = PAYMENT_STATUS_COLORS;
 
 const columns: ListPageColumn<Order>[] = [
   { key: 'order_number', label: 'Order #', accessor: 'order_number', sortable: true },
   { key: 'customer', label: 'Customer', accessor: (r) => r.billing_name || r.platform_users?.full_name || r.billing_email || '—' },
   { key: 'event', label: 'Event', accessor: (r) => r.events?.name || '—' },
   { key: 'total', label: 'Total', accessor: (r) => formatCurrency(r.total_amount, r.currency), sortable: true },
-  { key: 'payment_status', label: 'Payment', accessor: 'payment_status', render: (v) => <Badge variant={paymentColors[String(v)] || 'outline'}>{String(v).toUpperCase()}</Badge> },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={statusColors[String(v)] || 'outline'}>{String(v).toUpperCase()}</Badge> },
+  { key: 'payment_status', label: 'Payment', accessor: 'payment_status', render: (v: unknown) => <Badge variant={paymentColors[String(v)] || 'outline'}>{String(v).toUpperCase()}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={statusColors[String(v)] || 'outline'}>{String(v).toUpperCase()}</Badge> },
   { key: 'created_at', label: 'Date', accessor: (r) => new Date(r.created_at).toLocaleDateString() },
 ];
 
@@ -94,7 +92,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function OrdersPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const { hasRole } = useAuthContext();
   
   // RBAC: Check if user has admin access
@@ -151,9 +149,9 @@ export default function OrdersPage() {
         notes: data.notes ? String(data.notes) : undefined,
       });
       setCreateModalOpen(false);
-      addNotification({ type: 'success', title: 'Order Created', message: `Order "${data.order_number}" has been created.` });
+      toast.success("Order Created", `Order "${data.order_number}" has been created.`);
     } catch (err) {
-      addNotification({ type: 'error', title: 'Failed to Create Order', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
+      toast.error('Failed to Create Order', err instanceof Error ? err.message : 'An unexpected error occurred');
     }
   };
 
@@ -162,10 +160,10 @@ export default function OrdersPage() {
       try {
         await deleteMutation.mutateAsync(orderToDelete.id);
         setDeleteConfirmOpen(false);
-        addNotification({ type: 'success', title: 'Order Deleted', message: `Order "${orderToDelete.order_number}" has been deleted.` });
+        toast.success("Order Deleted", `Order "${orderToDelete.order_number}" has been deleted.`);
         setOrderToDelete(null);
       } catch (err) {
-        addNotification({ type: 'error', title: 'Failed to Delete Order', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
+        toast.error('Failed to Delete Order', err instanceof Error ? err.message : 'An unexpected error occurred');
       }
     }
   };

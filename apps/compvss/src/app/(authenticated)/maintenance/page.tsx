@@ -6,7 +6,8 @@ import { Eye, Pencil, Check } from "lucide-react";
 // Layout provided by route group
 import { useMaintenance } from "@/hooks/useMaintenance";
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Stack, Body} from "@ghxstship/ui";
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Stack, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface MaintenanceItem {
@@ -33,11 +34,11 @@ const formatStatus = (status: string) => status?.replace(/-/g, " ").replace(/\b\
 
 const columns: ListPageColumn<MaintenanceItem>[] = [
   { key: 'equipment_name', label: 'Equipment', accessor: (r) => r.equipment_name || 'N/A', sortable: true },
-  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Badge variant="ghost">{formatStatus(String(v))}</Badge> },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v: unknown) => <Badge variant="ghost">{formatStatus(String(v))}</Badge> },
   { key: 'last_service', label: 'Last Service', accessor: (r) => r.last_service ? new Date(r.last_service).toLocaleDateString() : 'N/A', sortable: true },
   { key: 'next_due', label: 'Next Due', accessor: (r) => r.next_due ? new Date(r.next_due).toLocaleDateString() : 'N/A', sortable: true },
-  { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v) => <Badge variant={getPriorityVariant(String(v))}>{String(v)}</Badge> },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={v === 'completed' ? 'solid' : 'outline'}>{formatStatus(String(v))}</Badge> },
+  { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v: unknown) => <Badge variant={getPriorityVariant(String(v))}>{String(v)}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={v === 'completed' ? 'solid' : 'outline'}>{formatStatus(String(v))}</Badge> },
 ];
 
 const filters: ListPageFilter[] = [
@@ -148,6 +149,7 @@ export default function MaintenancePage() {
           onImport={handleImport}
           importTemplates={importTemplates}
           importSampleFields={['equipment_name', 'type', 'priority', 'status', 'next_due']}
+          templateDownloadUrl="/templates/production-planning/equipment-checklist-template.csv"
           onExport={createExportHandler({
             filename: "maintenance",
             getData: () => items.map(i => ({
@@ -184,6 +186,9 @@ export default function MaintenancePage() {
           { id: 'complete', label: 'Complete Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

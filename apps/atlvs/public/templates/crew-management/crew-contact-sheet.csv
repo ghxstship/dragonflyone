@@ -1,81 +1,34 @@
-CREW CONTACT SHEET
-Production:,[Enter Production Name]
-Date:,[Enter Date]
-Production Manager:,[Enter Name]
+first_name,last_name,role,department,phone,email,emergency_contact_name,emergency_contact_phone,credential_type,radio_channel,notes
+,,,Production,,,,,,CH 1,
+,,,Production,,,,,,CH 1,
+,,,Audio,,,,,,CH 2,
+,,,Audio,,,,,,CH 2,
+,,,Lighting,,,,,,CH 3,
+,,,Lighting,,,,,,CH 3,
+,,,Video,,,,,,CH 3,
+,,,Stage,,,,,,CH 4,
+,,,Backline,,,,,,CH 4,
+,,,Rigging,,,,,,CH 4,
+,,,Security,,,,,,CH 5,
+,,,Catering,,,,,,CH 6,
 
-CREW ROSTER
-Name,Role,Department,Phone,Email,Emergency Contact,Emergency Phone,Credential Type,Notes
-,,,,,,,All Access,
-,,,,,,,All Access,
-,,,,,,,Backstage,
-,,,,,,,Backstage,
-,,,,,,,Stage,
-,,,,,,,Stage,
-,,,,,,,FOH,
-,,,,,,,FOH,
-,,,,,,,Crew,
-,,,,,,,Crew,
+---IMPORT INSTRUCTIONS (delete this section before importing)---
+FIELD DEFINITIONS:
+- first_name: Crew member first name
+- last_name: Crew member last name
+- role: Job title/position
+- department: Production | Audio | Lighting | Video | Stage | Backline | Rigging | Security | Catering | Operations
+- phone: Phone number
+- email: Email address
+- emergency_contact_name: Emergency contact full name
+- emergency_contact_phone: Emergency contact phone
+- credential_type: all_access | backstage | stage | foh | crew | vendor
+- radio_channel: Assigned radio channel (e.g. CH 1)
+- notes: Additional notes
 
-DEPARTMENT HEADS
-Department,Name,Phone,Email,Radio Channel
-Production,,,, CH 1
-Stage,,,, CH 1
-Audio,,,, CH 2
-Lighting,,,, CH 3
-Video,,,, CH 3
-Backline,,,, CH 4
-Rigging,,,, CH 4
-Catering,,,, CH 6
-Security,,,, CH 5
-Operations,,,, CH 6
-
-VENDOR CONTACTS
-Company,Contact Name,Phone,Email,Service,Notes
-,,,,,Audio
-,,,,,Lighting
-,,,,,Video
-,,,,,Staging
-,,,,,Backline
-,,,,,Rigging
-,,,,,Power
-,,,,,Catering
-,,,,,Security
-,,,,,Transportation
-
-VENUE CONTACTS
-Role,Name,Phone,Email,Notes
-Venue Manager,,,,
-Technical Director,,,,
-House Audio,,,,
-House Lighting,,,,
-House Electrician,,,,
-Security Director,,,,
-Catering Manager,,,,
-Box Office Manager,,,,
-Parking Manager,,,,
-
-ARTIST/MANAGEMENT CONTACTS
-Role,Name,Phone,Email,Notes
-Artist Manager,,,,
-Tour Manager,,,,
-Production Manager,,,,
-FOH Engineer,,,,
-Monitor Engineer,,,,
-Lighting Director,,,,
-Tour Accountant,,,,
-Merchandise Manager,,,,
-
-EMERGENCY CONTACTS
-Service,Name,Phone,Address,Notes
-Hospital,,,,Nearest ER
-Police,,,,Local precinct
-Fire Department,,,,
-Poison Control,,,1-800-222-1222,
-Venue Emergency,,,,
-
-NOTES
-1. All contact information is confidential
-2. Do not share outside of production team
-3. Update immediately if any changes occur
-4. Emergency contacts should be called in order listed
-5. Radio channels are primary communication during show
+HOW TO USE:
+1. Fill in crew member details for each row
+2. Add more rows as needed
+3. Assign appropriate credential types
+4. Delete this instruction section before importing
+5. Import via ATLVS > Settings > Data Import > Contacts

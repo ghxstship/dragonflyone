@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthContext, PlatformRole } from '@ghxstship/config';
 import {
-  CreatePage, Field, Input, Textarea, Select, Grid, Stack, useNotifications} from '@ghxstship/ui';
+  CreatePage, Field, Input, Textarea, Select, Grid, Stack, useToast} from '@ghxstship/ui';
 import { Briefcase, Calendar, DollarSign } from 'lucide-react';
 
 // Roles that can create projects
@@ -18,7 +18,7 @@ const ADMIN_ROLES = [
 export default function NewProjectPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   
   const [formData, setFormData] = useState({
     name: '',
@@ -57,18 +57,10 @@ export default function NewProjectPage() {
         throw new Error(data.error || 'Failed to create project');
       }
 
-      addNotification({
-        type: 'success',
-        title: 'Project Created',
-        message: `${formData.name} has been created successfully.`,
-      });
+      toast.success('Project Created', `${formData.name} has been created successfully.`);
       router.push('/dashboard');
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Create Project',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Create Project', err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsSubmitting(false);
     }

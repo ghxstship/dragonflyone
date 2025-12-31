@@ -4,9 +4,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import type { Tables, TablesInsert, TablesUpdate } from '@ghxstship/config';
 
-export type CrewCertification = Tables<'crew_certifications'>;
-export type CrewCertificationInsert = TablesInsert<'crew_certifications'>;
-export type CrewCertificationUpdate = TablesUpdate<'crew_certifications'>;
+export type WorkforceCertification = Tables<'workforce_certifications'>;
+export type WorkforceCertificationInsert = TablesInsert<'workforce_certifications'>;
+export type WorkforceCertificationUpdate = TablesUpdate<'workforce_certifications'>;
+
+// Legacy aliases for backwards compatibility
+export type CrewCertification = WorkforceCertification;
+export type CrewCertificationInsert = WorkforceCertificationInsert;
+export type CrewCertificationUpdate = WorkforceCertificationUpdate;
 
 export const useCertifications = (crewMemberId?: string) => {
   return useQuery({
@@ -18,7 +23,7 @@ export const useCertifications = (crewMemberId?: string) => {
         .order('expiration_date');
 
       if (crewMemberId) {
-        query = query.eq('crew_member_id', crewMemberId);
+        query = query.eq('employee_id', crewMemberId);
       }
 
       const { data, error } = await query;
@@ -32,7 +37,7 @@ export const useAddCertification = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (cert: CrewCertificationInsert) => {
+    mutationFn: async (cert: WorkforceCertificationInsert) => {
       const { data, error } = await supabase
         .from('workforce_certifications')
         .insert(cert)
@@ -51,7 +56,7 @@ export const useUpdateCertification = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, ...updates }: CrewCertificationUpdate & { id: string }) => {
+    mutationFn: async ({ id, ...updates }: WorkforceCertificationUpdate & { id: string }) => {
       const { data, error } = await supabase
         .from('workforce_certifications')
         .update(updates)

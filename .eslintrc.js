@@ -357,12 +357,52 @@ module.exports = {
         "message": "❌ PROHIBITED: Raw Tailwind flex-row. Use <Stack direction='horizontal'> for flex row layouts. Import: import { Stack } from '@ghxstship/ui';"
       },
       {
-        "selector": "Literal[value=/^grid$/]",
-        "message": "❌ PROHIBITED: Raw Tailwind grid. Use <Grid> component for grid layouts. Import: import { Grid } from '@ghxstship/ui';"
+        "selector": "JSXAttribute[name.name='className'] Literal[value=/(?:^|\\s)grid(?:\\s|$)/]",
+        "message": "❌ PROHIBITED: Raw Tailwind grid in className. Use <Grid> component for grid layouts. Import: import { Grid } from '@ghxstship/ui';"
       },
       {
         "selector": "Literal[value=/^grid-cols-[0-9]+$/]",
         "message": "❌ PROHIBITED: Raw Tailwind grid-cols. Use <Grid cols={N}> component. Import: import { Grid } from '@ghxstship/ui';"
+      },
+      
+      // ────────────────────────────────────────────────────────────────
+      // SSOT ENFORCEMENT: Prohibit Local Status Color Definitions
+      // All status colors MUST come from @ghxstship/config entity-registry
+      // ────────────────────────────────────────────────────────────────
+      {
+        "selector": "VariableDeclarator[id.name=/^(STATUS_COLORS|statusColors|PAYMENT_COLORS|paymentColors|TYPE_COLORS|typeColors)$/] > ObjectExpression",
+        "message": "❌ SSOT VIOLATION: Local status/type color definitions are prohibited. Import from @ghxstship/config: import { EVENT_STATUS_COLORS, ORDER_STATUS_COLORS, DOCUMENT_STATUS_COLORS, FINANCIAL_STATUS_COLORS, CREW_STATUS_COLORS, etc. } from '@ghxstship/config';"
+      },
+      {
+        "selector": "VariableDeclarator[id.name=/STATUS_COLORS$/][init.type='ObjectExpression']",
+        "message": "❌ SSOT VIOLATION: Local STATUS_COLORS object definitions are prohibited. Use centralized status colors from @ghxstship/config entity-registry/status-mappings."
+      },
+      
+      // ────────────────────────────────────────────────────────────────
+      // SSOT ENFORCEMENT: Prohibit Local Column Definitions in Pages
+      // Column definitions should come from entity registry
+      // ────────────────────────────────────────────────────────────────
+      {
+        "selector": "VariableDeclarator[id.name=/^(COLUMNS|columns|TABLE_COLUMNS|tableColumns)$/] > ArrayExpression",
+        "message": "⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';"
+      },
+      
+      // ────────────────────────────────────────────────────────────────
+      // SSOT ENFORCEMENT: Prohibit Local Filter Definitions in Pages
+      // Filter definitions should come from entity registry
+      // ────────────────────────────────────────────────────────────────
+      {
+        "selector": "VariableDeclarator[id.name=/^(FILTERS|filters|FILTER_OPTIONS|filterOptions)$/] > ArrayExpression",
+        "message": "⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';"
+      },
+      
+      // ────────────────────────────────────────────────────────────────
+      // 3NF ENFORCEMENT: Prohibit Direct Table Access for Legend Entities
+      // Use query builder for normalized data access
+      // ────────────────────────────────────────────────────────────────
+      {
+        "selector": "CallExpression[callee.property.name='from'] > Literal[value=/^(legend_people|legend_places|legend_organizations|legend_products|legend_events|legend_documents)$/]",
+        "message": "⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';"
       }
     ],
     
@@ -391,7 +431,26 @@ module.exports = {
           "message": "⚠️ In page.tsx files, prefer using normalized templates (ListPage, DetailPage, CreatePage, EditPage, DashboardPage, SettingsHubPage) from @ghxstship/ui instead of building custom layouts with Container/Stack. Templates ensure consistency and reduce code duplication."
         }
       ]
-    }]
+    }],
+    
+    // ════════════════════════════════════════════════════════════════════
+    // SSOT (SINGLE SOURCE OF TRUTH) ENFORCEMENT - ZERO TOLERANCE
+    // ════════════════════════════════════════════════════════════════════
+    // 
+    // ALL UI configurations MUST come from the centralized entity registry:
+    // • Status colors → @ghxstship/config entity-registry/status-mappings
+    // • Column definitions → @ghxstship/config entity-registry
+    // • Filter options → @ghxstship/config entity-registry
+    // • Form fields → @ghxstship/config entity-registry
+    // • Formatters → @ghxstship/config formatters
+    // 
+    // ZERO local hardcoded UI configurations allowed in page files.
+    // ════════════════════════════════════════════════════════════════════
+    
+    // 3NF (Third Normal Form) ENFORCEMENT
+    // All database queries MUST use the Legend 3NF schema query builder
+    // or properly normalized Supabase queries. No denormalized data access.
+    // ════════════════════════════════════════════════════════════════════
   },
   ignorePatterns: [
     "node_modules/",

@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, BarChart3 } from 'lucide-react';
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body, useNotifications} from '@ghxstship/ui';
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body, useToast,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useBudgets } from '@/hooks/useBudgets';
 import {
@@ -22,12 +23,12 @@ const getStatusVariant = getBadgeVariant;
 
 const columns: ListPageColumn<Budget>[] = [
   { key: 'name', label: 'Budget', accessor: 'name', sortable: true },
-  { key: 'category', label: 'Category', accessor: 'category', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'category', label: 'Category', accessor: 'category', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
   { key: 'budgeted', label: 'Budgeted', accessor: (r) => formatCurrency(r.budgeted), sortable: true },
   { key: 'actual', label: 'Actual', accessor: (r) => formatCurrency(r.actual), sortable: true },
   { key: 'variance', label: 'Variance', accessor: (r) => `${r.variance >= 0 ? '+' : ''}${formatCurrency(r.variance)}`, sortable: true },
   { key: 'utilization', label: 'Utilization', accessor: (r) => `${((r.actual / r.budgeted) * 100).toFixed(0)}%` },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v).replace('-', ' ').toUpperCase()}</Badge> },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v).replace('-', ' ').toUpperCase()}</Badge> },
 ];
 
 const filters: ListPageFilter[] = [
@@ -44,7 +45,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function BudgetsPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   const { data: budgetsData, isLoading, error, refetch } = useBudgets({ period: '2024-q4' });
   const budgets = (budgetsData || DEMO_BUDGETS) as Budget[];
   
@@ -80,10 +81,10 @@ export default function BudgetsPage() {
         throw new Error('Failed to create budget');
       }
       setCreateModalOpen(false);
-      addNotification({ type: 'success', title: 'Budget Created', message: 'Budget has been created successfully.' });
+      toast.success('Budget Created', 'Budget has been created successfully.');
       refetch();
     } catch (err) {
-      addNotification({ type: 'error', title: 'Failed to Create Budget', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
+      toast.error('Failed to Create Budget', err instanceof Error ? err.message : 'An unexpected error occurred');
     }
   };
 
@@ -155,10 +156,9 @@ export default function BudgetsPage() {
         entityType="budgets"
 
         onImport={handleImport}
-
         importTemplates={importTemplates}
-
         importSampleFields={['name', 'category', 'budgeted', 'period', 'budgets', 'actual', 'variance']}
+        templateDownloadUrl="/templates/production-planning/production-budget-template.csv"
         onExport={createExportHandler({
           filename: "budgets",
           getData: () => budgets.map(b => ({
@@ -195,6 +195,9 @@ export default function BudgetsPage() {
           { id: 'archive', label: 'Archive Selected', variant: 'default' },
           { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

@@ -11,7 +11,7 @@ import { Users, Mail, Shield, Trash2, Edit, Search, List, UserPlus } from "lucid
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, Select, StatCard, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, useNotifications, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, Select, StatCard, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
 
 interface TeamMember {
   id: string;
@@ -35,7 +35,7 @@ const DEMO_MEMBERS: TeamMember[] = [
 export default function TeamSettingsPage() {
   const queryClient = useQueryClient();
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
 
   const [search, setSearch] = useState("");
   const [showInvite, setShowInvite] = useState(false);
@@ -66,13 +66,13 @@ export default function TeamSettingsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["team-members"] });
-      addNotification({ type: "success", title: "Invite Sent", message: `Invitation sent to ${inviteEmail}` });
+      toast.success("Invite Sent", `Invitation sent to ${inviteEmail}`);
       setShowInvite(false);
       setInviteEmail("");
       setInviteRole("Member");
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to send invitation" });
+      toast.error("Error", "Failed to send invitation");
     },
   });
 
@@ -84,10 +84,10 @@ export default function TeamSettingsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["team-members"] });
-      addNotification({ type: "success", title: "Removed", message: "Team member removed" });
+      toast.success("Removed", "Team member removed");
     },
     onError: () => {
-      addNotification({ type: "error", title: "Error", message: "Failed to remove member" });
+      toast.error("Error", "Failed to remove member");
     },
   });
 

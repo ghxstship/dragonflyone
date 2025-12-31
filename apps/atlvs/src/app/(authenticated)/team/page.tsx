@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Mail, Phone, MoreHorizontal } from "lucide-react";
 import {
-  ListPage, Badge, DetailDrawer, Grid, Body} from "@ghxstship/ui";
+  ListPage, Badge, DetailDrawer, Grid, Body,
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import { useTeamMembers, type TeamMember as APITeamMember } from "@/hooks/useTeamManagement";
 
@@ -80,7 +81,7 @@ const columns: ListPageColumn<DisplayTeamMember>[] = [
     label: "Status", 
     accessor: "status", 
     sortable: true,
-    render: (v) => (
+    render: (v: unknown) => (
       <Badge variant={getStatusVariant(v as DisplayTeamMember["status"])}>
         {String(v).replace("_", " ")}
       </Badge>
@@ -183,6 +184,9 @@ export default function TeamPage() {
         stats={stats}
         emptyMessage="No team members found"
         emptyAction={canManageTeam ? { label: "Add Member", onClick: () => router.push('/team/new') } : undefined}
+        enableCapabilityDetection
+        onScanAction={(capability, route) => router.push(route)}
+        capabilityBasePath=""
         showFavorite
         showSettings
       />

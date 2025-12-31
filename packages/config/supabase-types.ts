@@ -179,6 +179,113 @@ export type Database = {
           },
         ]
       }
+      ad_hoc_vendors: {
+        Row: {
+          id: string
+          organization_id: string
+          name: string
+          contact_name: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          address_line1: string | null
+          address_line2: string | null
+          city: string | null
+          state: string | null
+          postal_code: string | null
+          country: string | null
+          tax_id: string | null
+          payment_terms: string | null
+          notes: string | null
+          promoted_to_vendor_id: string | null
+          promoted_at: string | null
+          promoted_by: string | null
+          is_active: boolean | null
+          metadata: Json | null
+          created_by: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          name: string
+          contact_name?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          state?: string | null
+          postal_code?: string | null
+          country?: string | null
+          tax_id?: string | null
+          payment_terms?: string | null
+          notes?: string | null
+          promoted_to_vendor_id?: string | null
+          promoted_at?: string | null
+          promoted_by?: string | null
+          is_active?: boolean | null
+          metadata?: Json | null
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          name?: string
+          contact_name?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          state?: string | null
+          postal_code?: string | null
+          country?: string | null
+          tax_id?: string | null
+          payment_terms?: string | null
+          notes?: string | null
+          promoted_to_vendor_id?: string | null
+          promoted_at?: string | null
+          promoted_by?: string | null
+          is_active?: boolean | null
+          metadata?: Json | null
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_hoc_vendors_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ad_hoc_vendors_promoted_to_vendor_id_fkey"
+            columns: ["promoted_to_vendor_id"]
+            isOneToOne: false
+            referencedRelation: "legend_organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ad_hoc_vendors_promoted_by_fkey"
+            columns: ["promoted_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ad_hoc_vendors_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       accessibility_features: {
         Row: {
           advance_notice_hours: number | null
@@ -1242,6 +1349,117 @@ export type Database = {
           },
         ]
       }
+      asset_rfid_tags: {
+        Row: {
+          id: string
+          asset_id: string | null
+          tag_id: string
+          tag_type: string | null
+          assigned_at: string | null
+          assigned_by: string | null
+          is_active: boolean | null
+          last_scanned_at: string | null
+          last_scanned_location: string | null
+        }
+        Insert: {
+          id?: string
+          asset_id?: string | null
+          tag_id: string
+          tag_type?: string | null
+          assigned_at?: string | null
+          assigned_by?: string | null
+          is_active?: boolean | null
+          last_scanned_at?: string | null
+          last_scanned_location?: string | null
+        }
+        Update: {
+          id?: string
+          asset_id?: string | null
+          tag_id?: string
+          tag_type?: string | null
+          assigned_at?: string | null
+          assigned_by?: string | null
+          is_active?: boolean | null
+          last_scanned_at?: string | null
+          last_scanned_location?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asset_rfid_tags_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "asset_rfid_tags_assigned_by_fkey"
+            columns: ["assigned_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      asset_scans: {
+        Row: {
+          id: string
+          asset_id: string | null
+          scan_type: string
+          scanned_by: string | null
+          scanned_at: string | null
+          location: string | null
+          device_id: string | null
+          metadata: Json | null
+          barcode: string | null
+          action: string | null
+          notes: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          asset_id?: string | null
+          scan_type?: string
+          scanned_by?: string | null
+          scanned_at?: string | null
+          location?: string | null
+          device_id?: string | null
+          metadata?: Json | null
+          barcode?: string | null
+          action?: string | null
+          notes?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          asset_id?: string | null
+          scan_type?: string
+          scanned_by?: string | null
+          scanned_at?: string | null
+          location?: string | null
+          device_id?: string | null
+          metadata?: Json | null
+          barcode?: string | null
+          action?: string | null
+          notes?: string | null
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asset_scans_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "asset_scans_scanned_by_fkey"
+            columns: ["scanned_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_log: {
         Row: {
           action: string
@@ -2281,6 +2499,7 @@ export type Database = {
           updated_at: string
           vendor_id: string | null
           vendor_name: string | null
+          ad_hoc_vendor_id: string | null
         }
         Insert: {
           attachments?: string[] | null
@@ -2304,6 +2523,7 @@ export type Database = {
           updated_at?: string
           vendor_id?: string | null
           vendor_name?: string | null
+          ad_hoc_vendor_id?: string | null
         }
         Update: {
           attachments?: string[] | null
@@ -2327,8 +2547,16 @@ export type Database = {
           updated_at?: string
           vendor_id?: string | null
           vendor_name?: string | null
+          ad_hoc_vendor_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "bills_ad_hoc_vendor_id_fkey"
+            columns: ["ad_hoc_vendor_id"]
+            isOneToOne: false
+            referencedRelation: "ad_hoc_vendors"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "bills_organization_id_fkey"
             columns: ["organization_id"]
@@ -7116,6 +7344,7 @@ export type Database = {
           updated_at: string
           vendor_id: string | null
           vendor_name: string | null
+          ad_hoc_vendor_id: string | null
         }
         Insert: {
           amount: number
@@ -7142,6 +7371,7 @@ export type Database = {
           updated_at?: string
           vendor_id?: string | null
           vendor_name?: string | null
+          ad_hoc_vendor_id?: string | null
         }
         Update: {
           amount?: number
@@ -7168,8 +7398,16 @@ export type Database = {
           updated_at?: string
           vendor_id?: string | null
           vendor_name?: string | null
+          ad_hoc_vendor_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "finance_expenses_ad_hoc_vendor_id_fkey"
+            columns: ["ad_hoc_vendor_id"]
+            isOneToOne: false
+            referencedRelation: "ad_hoc_vendors"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "finance_expenses_approved_by_fkey"
             columns: ["approved_by"]
@@ -7355,6 +7593,7 @@ export type Database = {
           updated_at: string
           vendor_id: string | null
           vendor_name: string | null
+          ad_hoc_vendor_id: string | null
         }
         Insert: {
           approved_at?: string | null
@@ -7384,6 +7623,7 @@ export type Database = {
           updated_at?: string
           vendor_id?: string | null
           vendor_name?: string | null
+          ad_hoc_vendor_id?: string | null
         }
         Update: {
           approved_at?: string | null
@@ -7413,8 +7653,16 @@ export type Database = {
           updated_at?: string
           vendor_id?: string | null
           vendor_name?: string | null
+          ad_hoc_vendor_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "finance_purchase_orders_ad_hoc_vendor_id_fkey"
+            columns: ["ad_hoc_vendor_id"]
+            isOneToOne: false
+            referencedRelation: "ad_hoc_vendors"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "finance_purchase_orders_approved_by_fkey"
             columns: ["approved_by"]
@@ -14548,6 +14796,325 @@ export type Database = {
           },
         ]
       }
+      rfid_scans: {
+        Row: {
+          id: string
+          event_id: string | null
+          tag_id: string
+          scan_type: string
+          location: string | null
+          reader_id: string | null
+          scanned_at: string | null
+          user_id: string | null
+          ticket_id: string | null
+          metadata: Json | null
+        }
+        Insert: {
+          id?: string
+          event_id?: string | null
+          tag_id: string
+          scan_type: string
+          location?: string | null
+          reader_id?: string | null
+          scanned_at?: string | null
+          user_id?: string | null
+          ticket_id?: string | null
+          metadata?: Json | null
+        }
+        Update: {
+          id?: string
+          event_id?: string | null
+          tag_id?: string
+          scan_type?: string
+          location?: string | null
+          reader_id?: string | null
+          scanned_at?: string | null
+          user_id?: string | null
+          ticket_id?: string | null
+          metadata?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfid_scans_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "legend_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfid_scans_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rfid_transactions: {
+        Row: {
+          id: string
+          wristband_id: string
+          transaction_type: string
+          amount: number
+          balance_after: number
+          vendor_id: string | null
+          terminal_id: string | null
+          description: string | null
+          created_at: string | null
+          payment_method: string | null
+        }
+        Insert: {
+          id?: string
+          wristband_id: string
+          transaction_type: string
+          amount: number
+          balance_after: number
+          vendor_id?: string | null
+          terminal_id?: string | null
+          description?: string | null
+          created_at?: string | null
+          payment_method?: string | null
+        }
+        Update: {
+          id?: string
+          wristband_id?: string
+          transaction_type?: string
+          amount?: number
+          balance_after?: number
+          vendor_id?: string | null
+          terminal_id?: string | null
+          description?: string | null
+          created_at?: string | null
+          payment_method?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfid_transactions_wristband_id_fkey"
+            columns: ["wristband_id"]
+            isOneToOne: false
+            referencedRelation: "rfid_wristbands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rfid_wristbands: {
+        Row: {
+          id: string
+          event_id: string
+          user_id: string | null
+          wristband_id: string
+          status: string | null
+          balance: number | null
+          ticket_id: string | null
+          assigned_at: string | null
+          deactivated_at: string | null
+          created_at: string | null
+          activated_at: string | null
+        }
+        Insert: {
+          id?: string
+          event_id: string
+          user_id?: string | null
+          wristband_id: string
+          status?: string | null
+          balance?: number | null
+          ticket_id?: string | null
+          assigned_at?: string | null
+          deactivated_at?: string | null
+          created_at?: string | null
+          activated_at?: string | null
+        }
+        Update: {
+          id?: string
+          event_id?: string
+          user_id?: string | null
+          wristband_id?: string
+          status?: string | null
+          balance?: number | null
+          ticket_id?: string | null
+          assigned_at?: string | null
+          deactivated_at?: string | null
+          created_at?: string | null
+          activated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfid_wristbands_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "legend_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfid_wristbands_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_scans: {
+        Row: {
+          id: string
+          ticket_id: string | null
+          event_id: string | null
+          scan_type: string
+          scan_result: string
+          scanned_at: string | null
+          scanned_by: string | null
+          location: string | null
+          device_id: string | null
+          notes: string | null
+        }
+        Insert: {
+          id?: string
+          ticket_id?: string | null
+          event_id?: string | null
+          scan_type: string
+          scan_result: string
+          scanned_at?: string | null
+          scanned_by?: string | null
+          location?: string | null
+          device_id?: string | null
+          notes?: string | null
+        }
+        Update: {
+          id?: string
+          ticket_id?: string | null
+          event_id?: string | null
+          scan_type?: string
+          scan_result?: string
+          scanned_at?: string | null
+          scanned_by?: string | null
+          location?: string | null
+          device_id?: string | null
+          notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_scans_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "legend_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_scans_scanned_by_fkey"
+            columns: ["scanned_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_check_ins: {
+        Row: {
+          id: string
+          ticket_id: string
+          event_id: string | null
+          method: string | null
+          location: string | null
+          device_info: Json | null
+          notes: string | null
+          checked_in_at: string | null
+          checked_in_by: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          ticket_id: string
+          event_id?: string | null
+          method?: string | null
+          location?: string | null
+          device_info?: Json | null
+          notes?: string | null
+          checked_in_at?: string | null
+          checked_in_by?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          ticket_id?: string
+          event_id?: string | null
+          method?: string | null
+          location?: string | null
+          device_info?: Json | null
+          notes?: string | null
+          checked_in_at?: string | null
+          checked_in_by?: string | null
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_check_ins_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "legend_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_check_ins_checked_in_by_fkey"
+            columns: ["checked_in_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credential_scans: {
+        Row: {
+          id: string
+          credential_id: string
+          zone_id: string | null
+          scan_type: string
+          scan_result: string
+          scanned_by_id: string | null
+          device_id: string | null
+          location: string | null
+          latitude: number | null
+          longitude: number | null
+          notes: string | null
+          scanned_at: string | null
+        }
+        Insert: {
+          id?: string
+          credential_id: string
+          zone_id?: string | null
+          scan_type: string
+          scan_result: string
+          scanned_by_id?: string | null
+          device_id?: string | null
+          location?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          notes?: string | null
+          scanned_at?: string | null
+        }
+        Update: {
+          id?: string
+          credential_id?: string
+          zone_id?: string | null
+          scan_type?: string
+          scan_result?: string
+          scanned_by_id?: string | null
+          device_id?: string | null
+          location?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          notes?: string | null
+          scanned_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credential_scans_scanned_by_id_fkey"
+            columns: ["scanned_by_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_integrations: {
         Row: {
           access_token_encrypted: string | null
@@ -18023,6 +18590,7 @@ export type Database = {
           title: string
           updated_at: string
           vendor_id: string | null
+          ad_hoc_vendor_id: string | null
         }
         Insert: {
           approved_at?: string | null
@@ -18055,6 +18623,7 @@ export type Database = {
           title: string
           updated_at?: string
           vendor_id?: string | null
+          ad_hoc_vendor_id?: string | null
         }
         Update: {
           approved_at?: string | null
@@ -18087,8 +18656,16 @@ export type Database = {
           title?: string
           updated_at?: string
           vendor_id?: string | null
+          ad_hoc_vendor_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "procurement_requests_ad_hoc_vendor_id_fkey"
+            columns: ["ad_hoc_vendor_id"]
+            isOneToOne: false
+            referencedRelation: "ad_hoc_vendors"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "procurement_requests_approved_by_fkey"
             columns: ["approved_by"]
@@ -31322,6 +31899,8 @@ export type Database = {
         | "transportation"
         | "security"
         | "custom"
+        | "pos"
+        | "ats"
       job_status: "draft" | "open" | "paused" | "closed" | "filled"
       kb_document_type:
         | "sop"
@@ -31780,6 +32359,8 @@ export const Constants = {
         "transportation",
         "security",
         "custom",
+        "pos",
+        "ats",
       ],
       job_status: ["draft", "open", "paused", "closed", "filled"],
       kb_document_type: [

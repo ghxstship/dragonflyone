@@ -12,7 +12,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { Building2, Phone, FileText } from 'lucide-react';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 import {
-  Body, EditPage, Grid, Input, Select, Stack, Text, Textarea, useNotifications} from '@ghxstship/ui';
+  Body, EditPage, Grid, Input, Select, Stack, Text, Textarea, useToast,
+  type FormSection} from "@ghxstship/ui";
 import { 
   useOrganizationQuery, 
   useUpdateOrganization, 
@@ -66,7 +67,7 @@ export default function EditOrganizationPage() {
   const orgId = params?.id as string;
   
   const { hasRole } = useAuthContext();
-  const { addNotification } = useNotifications();
+  const toast = useToast();
   
   const { data: org, isLoading, error } = useOrganizationQuery(orgId);
   const updateMutation = useUpdateOrganization();
@@ -165,19 +166,11 @@ export default function EditOrganizationPage() {
         notes: formData.notes.trim() || undefined,
       });
 
-      addNotification({
-        type: 'success',
-        title: 'Organization Updated',
-        message: `${formData.name} has been updated.`,
-      });
+      toast.success('Organization Updated', `${formData.name} has been updated.`);
 
       router.push(`/organizations/${orgId}`);
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Update Organization',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Update Organization', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsSubmitting(false);
     }
@@ -189,19 +182,11 @@ export default function EditOrganizationPage() {
     try {
       await deleteMutation.mutateAsync(orgId);
 
-      addNotification({
-        type: 'success',
-        title: 'Organization Deleted',
-        message: `${org?.name} has been removed.`,
-      });
+      toast.success('Organization Deleted', `${org?.name} has been removed.`);
 
       router.push('/organizations');
     } catch (err) {
-      addNotification({
-        type: 'error',
-        title: 'Failed to Delete Organization',
-        message: err instanceof Error ? err.message : 'An error occurred',
-      });
+      toast.error('Failed to Delete Organization', err instanceof Error ? err.message : 'An error occurred',);
     } finally {
       setIsDeleting(false);
     }

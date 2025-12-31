@@ -3,24 +3,52 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import clsx from "clsx";
 import { Search, ChevronUp, ChevronDown, MoreVertical, Check, X } from "lucide-react";
+import { Tooltip } from "../atoms/tooltip.js";
+
+/** Status variant for badge colors (SSOT) */
+export type StatusVariant = 'success' | 'warning' | 'error' | 'info' | 'ghost' | 'outline';
 
 export interface DataGridColumn<T> {
   key: string;
   label: string;
-  accessor: keyof T | ((row: T) => React.ReactNode);
+  /** Field accessor - keyof T, string key, or function (compatible with entity registry) */
+  accessor: keyof T | string | ((row: T) => React.ReactNode) | ((row: T) => unknown);
   /** Optional computed value that overrides accessor for rendering and sorting */
   formula?: (row: T) => React.ReactNode;
   sortable?: boolean;
   width?: string;
   minWidth?: string;
+  /** Maximum width (for entity registry compatibility) */
+  maxWidth?: string;
   align?: "left" | "center" | "right";
   render?: (value: unknown, row: T) => React.ReactNode;
   hidden?: boolean;
+  /** Whether column can be hidden by user (for entity registry compatibility) */
+  hideable?: boolean;
+  /** Column group for organization (for entity registry compatibility) */
+  group?: string;
+  /** Cell class name (for entity registry compatibility) */
+  className?: string;
+  /** Header class name (for entity registry compatibility) */
+  headerClassName?: string;
   editable?: boolean;
   editorType?: "text" | "number" | "select" | "date" | "checkbox" | "linked-record";
   editorOptions?: { value: string; label: string }[];
   validate?: (value: unknown, row: T) => string | null;
   linkedOptions?: { value: string; label: string; subtitle?: string }[];
+  /** Data type for automatic formatting (SSOT) - includes avatar/link for entity registry */
+  dataType?: 'string' | 'number' | 'currency' | 'date' | 'datetime' | 'boolean' | 'status' | 'badge' | 'avatar' | 'link';
+  /** Format options for dataType */
+  formatOptions?: {
+    currency?: string;
+    dateFormat?: string;
+    locale?: string;
+    precision?: number;
+    prefix?: string;
+    suffix?: string;
+  };
+  /** Status color mapping for status/badge dataType (SSOT) */
+  statusColors?: Record<string, StatusVariant>;
 }
 
 export interface FilterGroup {
@@ -97,6 +125,8 @@ export interface DataGridProps<T> {
   // Styling
   striped?: boolean;
   compact?: boolean;
+  /** Row density mode - overrides compact if provided */
+  density?: "compact" | "default" | "relaxed";
   className?: string;
   // Inline Editing
   inlineEditing?: boolean;
@@ -109,6 +139,76 @@ export interface DataGridProps<T> {
 }
 
 type SortDirection = "asc" | "desc" | null;
+
+// =============================================================================
+// SSOT CELL VALUE FORMATTING
+// =============================================================================
+
+const STATUS_VARIANT_STYLES: Record<StatusVariant, string> = {
+  success: 'bg-success/10 text-success border-success/20',
+  warning: 'bg-warning/10 text-warning border-warning/20',
+  error: 'bg-error/10 text-error border-error/20',
+  info: 'bg-info/10 text-info border-info/20',
+  ghost: 'bg-muted/50 text-muted-foreground border-muted',
+  outline: 'bg-transparent text-foreground border-border',
+};
+
+function formatCellValue<T>(
+  value: unknown, 
+  column: DataGridColumn<T>
+): React.ReactNode {
+  if (value === null || value === undefined) return '—';
+  
+  const { dataType, formatOptions, statusColors } = column;
+  
+  switch (dataType) {
+    case 'status':
+    case 'badge': {
+      const strValue = String(value);
+      const variant = statusColors?.[strValue] || 'ghost';
+      const styles = STATUS_VARIANT_STYLES[variant] || STATUS_VARIANT_STYLES.ghost;
+      const displayValue = strValue.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      return React.createElement('span', {
+        className: `inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-badge border ${styles}`,
+      }, displayValue);
+    }
+    
+    case 'currency': {
+      const num = typeof value === 'number' ? value : parseFloat(String(value));
+      if (isNaN(num)) return '—';
+      return new Intl.NumberFormat(formatOptions?.locale || 'en-US', {
+        style: 'currency',
+        currency: formatOptions?.currency || 'USD',
+      }).format(num);
+    }
+    
+    case 'date': {
+      const date = new Date(String(value));
+      if (isNaN(date.getTime())) return '—';
+      return date.toLocaleDateString(formatOptions?.locale || 'en-US');
+    }
+    
+    case 'datetime': {
+      const date = new Date(String(value));
+      if (isNaN(date.getTime())) return '—';
+      return date.toLocaleString(formatOptions?.locale || 'en-US');
+    }
+    
+    case 'number': {
+      const num = typeof value === 'number' ? value : parseFloat(String(value));
+      if (isNaN(num)) return '—';
+      return new Intl.NumberFormat(formatOptions?.locale || 'en-US', {
+        maximumFractionDigits: formatOptions?.precision ?? 2,
+      }).format(num);
+    }
+    
+    case 'boolean':
+      return value ? 'Yes' : 'No';
+    
+    default:
+      return String(value);
+  }
+}
 
 export function DataGrid<T>({
   data,
@@ -140,6 +240,7 @@ export function DataGrid<T>({
   emptyMessage = "No data available",
   striped = false,
   compact = false,
+  density,
   className = "",
   inlineEditing = false,
   onCellEdit,
@@ -149,6 +250,19 @@ export function DataGrid<T>({
   conditionalFormatting = [],
   onEditSnapshot,
 }: DataGridProps<T>) {
+  // Compute effective density - density prop takes precedence over compact
+  const effectiveDensity = density || (compact ? "compact" : "default");
+  const isCompact = effectiveDensity === "compact";
+  const isRelaxed = effectiveDensity === "relaxed";
+  
+  // Density-based padding classes
+  const cellPadding = isCompact 
+    ? "px-spacing-2 py-spacing-1" 
+    : isRelaxed 
+      ? "px-spacing-5 py-spacing-4" 
+      : "px-spacing-4 py-spacing-3";
+  const cellTextSize = isCompact ? "text-body-sm" : "text-body-md";
+  
   const [localSearch, setLocalSearch] = useState(searchValue);
   const [columnMenuOpen, setColumnMenuOpen] = useState(false);
   const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(
@@ -183,7 +297,9 @@ export function DataGrid<T>({
     (row: T, column: DataGridColumn<T>): unknown => {
       if (column.formula) return column.formula(row);
       if (typeof column.accessor === "function") return column.accessor(row);
-      return row[column.accessor];
+      // Handle string accessor (for entity registry compatibility)
+      const key = column.accessor as string;
+      return (row as Record<string, unknown>)[key];
     },
     []
   );
@@ -376,7 +492,7 @@ export function DataGrid<T>({
       const editorType = column.editorType || "text";
       const baseInputClass = clsx(
         "w-full bg-surface-primary border-2 border-primary-500 rounded-button outline-none",
-        compact ? "px-spacing-2 py-spacing-1 text-body-sm" : "px-spacing-3 py-spacing-2 text-body-md"
+        cellPadding, cellTextSize
       );
 
       switch (editorType) {
@@ -459,7 +575,7 @@ export function DataGrid<T>({
           );
       }
     },
-    [editValue, compact, handleEditKeyDown]
+    [editValue, cellPadding, cellTextSize, handleEditKeyDown]
   );
 
   return (
@@ -475,7 +591,7 @@ export function DataGrid<T>({
                 placeholder={searchPlaceholder}
                 className={clsx(
                   "w-full pl-spacing-10 bg-surface-primary border-2 border-border-primary text-text-primary outline-none",
-                  compact ? "py-spacing-2 px-spacing-3 text-body-sm" : "py-spacing-3 px-spacing-4 text-body-md"
+                  cellPadding, cellTextSize
                 )}
               />
               <span className="absolute left-spacing-3 top-1/2 -translate-y-1/2 text-on-dark-disabled">
@@ -490,7 +606,7 @@ export function DataGrid<T>({
                 onClick={() => setExpandedFilter(expandedFilter === group.key ? null : group.key)}
                 className={clsx(
                   "font-code text-mono-sm tracking-wide uppercase border-2 border-black cursor-pointer",
-                  compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3",
+                  cellPadding,
                   activeFilters[group.key] ? "bg-surface-inverse text-text-inverse" : "bg-surface-primary text-text-primary"
                 )}
               >
@@ -528,7 +644,7 @@ export function DataGrid<T>({
                 onClick={() => setColumnMenuOpen((o) => !o)}
                 className={clsx(
                   "font-code text-mono-sm tracking-wide uppercase border-2 border-black cursor-pointer",
-                  compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3"
+                  cellPadding
                 )}
               >
                 Columns {columnMenuOpen ? <ChevronUp className="size-3 inline" /> : <ChevronDown className="size-3 inline" />}
@@ -590,11 +706,11 @@ export function DataGrid<T>({
       )}
 
       <div className="border-2 border-border-primary bg-surface-primary overflow-auto" role="region" aria-label="Data table">
-        <table className={clsx("w-full border-collapse font-body", compact ? "text-body-sm" : "text-body-md")} role="grid" aria-rowcount={filteredData.length}>
+        <table className={clsx("w-full border-collapse font-body", cellTextSize)} role="grid" aria-rowcount={filteredData.length}>
           <thead>
             <tr className="bg-black text-white" role="row">
               {selectable && (
-                <th className={clsx("w-12 text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} scope="col">
+                <th className={clsx("w-12 text-center", cellPadding)} scope="col">
                   <input 
                     type="checkbox" 
                     checked={selectedKeys.length === filteredData.length && filteredData.length > 0} 
@@ -619,7 +735,7 @@ export function DataGrid<T>({
                   aria-sort={sortColumn === column.key ? (sortDirection === "asc" ? "ascending" : "descending") : undefined}
                   className={clsx(
                     "font-code text-mono-sm font-weight-normal tracking-widest uppercase select-none",
-                    compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3",
+                    cellPadding,
                     column.sortable ? "cursor-pointer" : "cursor-default",
                     column.align === "center" && "text-center",
                     column.align === "right" && "text-right",
@@ -638,7 +754,7 @@ export function DataGrid<T>({
                   </span>
                 </th>
               ))}
-              {rowActions.length > 0 && <th className={clsx("w-spacing-14", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} scope="col" aria-label="Actions" />}
+              {rowActions.length > 0 && <th className={clsx("w-spacing-14", cellPadding)} scope="col" aria-label="Actions" />}
             </tr>
           </thead>
           <tbody>
@@ -689,7 +805,7 @@ export function DataGrid<T>({
                           )}
                         >
                           {selectable && (
-                            <td className={clsx("text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} role="gridcell" onClick={(e) => e.stopPropagation()}>
+                            <td className={clsx("text-center", cellPadding)} role="gridcell" onClick={(e) => e.stopPropagation()}>
                               <input 
                                 type="checkbox" 
                                 checked={isSelected} 
@@ -702,7 +818,9 @@ export function DataGrid<T>({
                           {visibleColumns.map((column) => {
                             const cellValue = getCellValue(row, column);
                             const isEditing = editingCell?.rowKey === key && editingCell?.columnKey === column.key;
-                            const rendered = column.render ? column.render(cellValue, row) : cellValue;
+                            const rendered = column.render 
+                              ? column.render(cellValue, row) 
+                              : formatCellValue(cellValue, column);
 
                             return (
                               <td
@@ -710,7 +828,7 @@ export function DataGrid<T>({
                                 onDoubleClick={() => handleCellDoubleClick(row, column)}
                                 className={clsx(
                                   "text-text-secondary",
-                                  compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3",
+                                  cellPadding,
                                   column.align === "center" && "text-center",
                                   column.align === "right" && "text-right",
                                   !column.align && "text-left",
@@ -724,26 +842,30 @@ export function DataGrid<T>({
                                       {renderEditor(row, column)}
                                       {editError && <p className="text-error-500 text-body-xs mt-spacing-1">{editError}</p>}
                                     </div>
-                                    <button
-                                      onClick={() => handleEditSave(row, column)}
-                                      disabled={editLoading}
-                                      className="p-spacing-1 text-success-500 hover:bg-success-500/10 rounded-button border-none bg-transparent cursor-pointer"
-                                      title="Save (Enter)"
-                                    >
-                                      {editLoading ? (
-                                        <span className="inline-block w-4 h-4 border-2 border-grey-300 border-t-success-500 rounded-avatar animate-spin" />
-                                      ) : (
-                                        <Check className="size-4" />
-                                      )}
-                                    </button>
-                                    <button
-                                      onClick={handleEditCancel}
-                                      disabled={editLoading}
-                                      className="p-spacing-1 text-error-500 hover:bg-error-500/10 rounded-button border-none bg-transparent cursor-pointer"
-                                      title="Cancel (Escape)"
-                                    >
-                                      <X className="size-4" />
-                                    </button>
+                                    <Tooltip content={<span>Save <kbd className="ml-1 px-1 py-0.5 bg-black/20 rounded text-xs">Enter</kbd></span>}>
+                                      <button
+                                        onClick={() => handleEditSave(row, column)}
+                                        disabled={editLoading}
+                                        className="p-spacing-1 text-success-500 hover:bg-success-500/10 rounded-button border-none bg-transparent cursor-pointer"
+                                        aria-label="Save changes"
+                                      >
+                                        {editLoading ? (
+                                          <span className="inline-block w-4 h-4 border-2 border-grey-300 border-t-success-500 rounded-avatar animate-spin" />
+                                        ) : (
+                                          <Check className="size-4" />
+                                        )}
+                                      </button>
+                                    </Tooltip>
+                                    <Tooltip content={<span>Cancel <kbd className="ml-1 px-1 py-0.5 bg-black/20 rounded text-xs">Esc</kbd></span>}>
+                                      <button
+                                        onClick={handleEditCancel}
+                                        disabled={editLoading}
+                                        className="p-spacing-1 text-error-500 hover:bg-error-500/10 rounded-button border-none bg-transparent cursor-pointer"
+                                        aria-label="Cancel editing"
+                                      >
+                                        <X className="size-4" />
+                                      </button>
+                                    </Tooltip>
                                   </div>
                                 ) : (
                                   rendered as React.ReactNode
@@ -752,7 +874,7 @@ export function DataGrid<T>({
                             );
                           })}
                           {rowActions.length > 0 && (
-                            <td className={clsx("text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} onClick={(e) => e.stopPropagation()}>
+                            <td className={clsx("text-center", cellPadding)} onClick={(e) => e.stopPropagation()}>
                               <RowActionsDropdown row={row} actions={rowActions} onAction={onRowAction} />
                             </td>
                           )}
