@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Download } from 'lucide-react';
 import {
   ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection,
+  type ListPageAction, type ListPageBulkAction, type DetailSection,
 } from "@ghxstship/ui";
 import { 
   createExportHandler, 
@@ -20,6 +20,7 @@ import {
   ORDER_STATUS_COLORS,
   PAYMENT_STATUS_COLORS,
   formatCurrency,
+  useEntityConfig,
 } from '@ghxstship/config';
 import { useOrders, useCreateOrder, useDeleteOrder, type Order } from '@/hooks/useOrders';
 
@@ -33,67 +34,15 @@ const ADMIN_ROLES = [
 const statusColors = ORDER_STATUS_COLORS;
 const paymentColors = PAYMENT_STATUS_COLORS;
 
-const columns: ListPageColumn<Order>[] = [
-  { key: 'order_number', label: 'Order #', accessor: 'order_number', sortable: true },
-  { key: 'customer', label: 'Customer', accessor: (r) => r.billing_name || r.platform_users?.full_name || r.billing_email || '—' },
-  { key: 'event', label: 'Event', accessor: (r) => r.events?.name || '—' },
-  { key: 'total', label: 'Total', accessor: (r) => formatCurrency(r.total_amount, r.currency), sortable: true },
-  { key: 'payment_status', label: 'Payment', accessor: 'payment_status', render: (v: unknown) => <Badge variant={paymentColors[String(v)] || 'outline'}>{String(v).toUpperCase()}</Badge> },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={statusColors[String(v)] || 'outline'}>{String(v).toUpperCase()}</Badge> },
-  { key: 'created_at', label: 'Date', accessor: (r) => new Date(r.created_at).toLocaleDateString() },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [
-    { value: 'pending', label: 'Pending' },
-    { value: 'confirmed', label: 'Confirmed' },
-    { value: 'completed', label: 'Completed' },
-    { value: 'cancelled', label: 'Cancelled' },
-    { value: 'refunded', label: 'Refunded' },
-  ]},
-  { key: 'payment_status', label: 'Payment', options: [
-    { value: 'paid', label: 'Paid' },
-    { value: 'pending', label: 'Pending' },
-    { value: 'failed', label: 'Failed' },
-    { value: 'refunded', label: 'Refunded' },
-  ]},
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'order_number', label: 'Order Number', type: 'text', required: true },
-  { name: 'event_id', label: 'Event ID', type: 'text' },
-  { name: 'billing_name', label: 'Customer Name', type: 'text', required: true },
-  { name: 'billing_email', label: 'Email', type: 'email', required: true },
-  { name: 'billing_phone', label: 'Phone', type: 'text' },
-  { name: 'status', label: 'Status', type: 'select', options: [
-    { value: 'pending', label: 'Pending' },
-    { value: 'confirmed', label: 'Confirmed' },
-    { value: 'processing', label: 'Processing' },
-    { value: 'completed', label: 'Completed' },
-  ]},
-  { name: 'subtotal', label: 'Subtotal', type: 'number', required: true },
-  { name: 'tax', label: 'Tax', type: 'number' },
-  { name: 'fees', label: 'Fees', type: 'number' },
-  { name: 'total_amount', label: 'Total', type: 'number', required: true },
-  { name: 'payment_method', label: 'Payment Method', type: 'select', options: [
-    { value: 'credit_card', label: 'Credit Card' },
-    { value: 'debit_card', label: 'Debit Card' },
-    { value: 'paypal', label: 'PayPal' },
-    { value: 'bank_transfer', label: 'Bank Transfer' },
-    { value: 'cash', label: 'Cash' },
-  ]},
-  { name: 'payment_status', label: 'Payment Status', type: 'select', options: [
-    { value: 'pending', label: 'Pending' },
-    { value: 'paid', label: 'Paid' },
-    { value: 'failed', label: 'Failed' },
-  ]},
-  { name: 'notes', label: 'Notes', type: 'textarea', colSpan: 2 },
-];
+// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function OrdersPage() {
   const router = useRouter();
   const toast = useToast();
   const { hasRole } = useAuthContext();
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<Order>({ entityName: 'orders' });
   
   // RBAC: Check if user has admin access
   const canManageOrders = ADMIN_ROLES.some(role => hasRole(role));

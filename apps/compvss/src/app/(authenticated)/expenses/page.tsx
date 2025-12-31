@@ -6,8 +6,8 @@ import { Eye, Check, X, Trash2, Download } from "lucide-react";
 // Layout provided by route group
 import {
   ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, useToast, Stack, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
+  type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, useEntityConfig } from "@ghxstship/config";
 
 // Roles that can approve/reject/delete expenses
 const ADMIN_ROLES = [
@@ -21,32 +21,15 @@ import { useExpensesData, type Expense } from "@/hooks/useExpenses";
 const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
 const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 
-const columns: ListPageColumn<Expense>[] = [
-  { key: 'expense_number', label: 'Expense #', accessor: 'expense_number', sortable: true },
-  { key: 'crew_member_name', label: 'Crew Member', accessor: 'crew_member_name', sortable: true },
-  { key: 'project_name', label: 'Project', accessor: 'project_name' },
-  { key: 'category', label: 'Category', accessor: 'category', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
-  { key: 'amount', label: 'Amount', accessor: (r) => formatCurrency(r.amount), sortable: true },
-  { key: 'expense_date', label: 'Date', accessor: (r) => formatDate(r.expense_date), sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={v === 'approved' || v === 'paid' ? 'solid' : v === 'pending' ? 'outline' : 'ghost'}>{String(v)}</Badge> },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [{ value: 'pending', label: 'Pending' }, { value: 'approved', label: 'Approved' }, { value: 'rejected', label: 'Rejected' }, { value: 'paid', label: 'Paid' }] },
-  { key: 'category', label: 'Category', options: [{ value: 'travel', label: 'Travel' }, { value: 'per-diem', label: 'Per Diem' }, { value: 'equipment', label: 'Equipment' }, { value: 'supplies', label: 'Supplies' }] },
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'category', label: 'Category', type: 'select', required: true, options: [{ value: 'travel', label: 'Travel' }, { value: 'per-diem', label: 'Per Diem' }, { value: 'equipment', label: 'Equipment' }, { value: 'supplies', label: 'Supplies' }] },
-  { name: 'amount', label: 'Amount', type: 'number', required: true },
-  { name: 'expense_date', label: 'Date', type: 'date', required: true },
-  { name: 'description', label: 'Description', type: 'textarea', required: true, colSpan: 2 },
-];
+// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function ExpensesPage() {
   const router = useRouter();
   const toast = useToast();
   const { hasRole } = useAuthContext();
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<Expense>({ entityName: 'expenses' });
   
   // RBAC: Check if user has admin access for approve/reject/delete operations
   const canManageExpenses = ADMIN_ROLES.some(role => hasRole(role));

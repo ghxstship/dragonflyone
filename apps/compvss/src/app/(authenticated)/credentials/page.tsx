@@ -16,10 +16,11 @@ import {
   createImportHandler, 
   getImportTemplates,
   CREDENTIAL_STATUS_COLORS,
+  useEntityConfig,
 } from '@ghxstship/config';
 import {
   ListPage, Badge, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type DetailSection,
+  type ListPageAction, type ListPageBulkAction, type DetailSection,
 } from "@ghxstship/ui";
 
 interface Credential {
@@ -34,78 +35,7 @@ interface Credential {
 
 const statusColors = CREDENTIAL_STATUS_COLORS;
 
-const columns: ListPageColumn<Credential>[] = [
-  { 
-    key: 'badge_number', 
-    label: 'Badge #', 
-    accessor: 'badge_number', 
-    sortable: true, 
-    width: '120px' 
-  },
-  { 
-    key: 'contact', 
-    label: 'Holder', 
-    accessor: (row) => row.contact ? `${row.contact.first_name} ${row.contact.last_name}` : '—',
-    sortable: true 
-  },
-  { 
-    key: 'credential_type', 
-    label: 'Type', 
-    accessor: (row) => row.credential_type?.name || '—',
-    sortable: true,
-    render: (_value: unknown, row) => row.credential_type ? (
-      <Badge color={row.credential_type.color}>
-        {row.credential_type.code}
-      </Badge>
-    ) : '—'
-  },
-  { 
-    key: 'access_level', 
-    label: 'Level', 
-    accessor: (row) => row.credential_type?.access_level || 0,
-    sortable: true,
-    render: (_value: unknown, row) => `L${row.credential_type?.access_level || 0}`
-  },
-  { 
-    key: 'status', 
-    label: 'Status', 
-    accessor: 'status', 
-    sortable: true,
-    render: (value: unknown) => (
-      <Badge variant={statusColors[String(value)] || 'ghost'}>
-        {String(value).toUpperCase()}
-      </Badge>
-    )
-  },
-  {
-    key: 'issued_at',
-    label: 'Issued',
-    accessor: 'issued_at',
-    sortable: true,
-    render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '—'
-  },
-  {
-    key: 'expires_at',
-    label: 'Expires',
-    accessor: 'expires_at',
-    sortable: true,
-    render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : 'Never'
-  },
-];
-
-const filters: ListPageFilter[] = [
-  { 
-    key: 'status', 
-    label: 'Status', 
-    options: [
-      { value: 'active', label: 'Active' },
-      { value: 'pending', label: 'Pending' },
-      { value: 'suspended', label: 'Suspended' },
-      { value: 'revoked', label: 'Revoked' },
-      { value: 'expired', label: 'Expired' },
-    ]
-  },
-];
+// SSOT: Columns and filters are provided by useEntityConfig
 
 export default function CredentialsPage() {
   const router = useRouter();
@@ -115,6 +45,9 @@ export default function CredentialsPage() {
   const revokeMutation = useRevokeCredential();
   const suspendMutation = useSuspendCredential();
   const reactivateMutation = useReactivateCredential();
+
+  // SSOT: Get columns and filters from entity registry
+  const { columns, filters } = useEntityConfig<Credential>({ entityName: 'credentials' });
   
   const [selectedCredential, setSelectedCredential] = useState<Credential | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);

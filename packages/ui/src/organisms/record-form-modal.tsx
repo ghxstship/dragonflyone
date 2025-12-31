@@ -3,7 +3,17 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import clsx from "clsx";
 
-export type FieldType = "text" | "email" | "password" | "number" | "textarea" | "select" | "multiselect" | "checkbox" | "radio" | "date" | "datetime" | "file" | "url";
+export type FieldType = 
+  | "text" | "textarea" | "number" | "email" | "tel" | "url" | "password"
+  | "date" | "time" | "datetime" | "daterange"
+  | "select" | "multiselect" | "combobox" | "radio" | "checkbox"
+  | "file" | "image" | "avatar"
+  | "currency" | "percentage"
+  | "color" | "rating" | "slider" | "switch" | "toggle"
+  | "rich-text" | "markdown" | "code"
+  | "address" | "phone" | "coordinates"
+  | "relation" | "tags" | "json"
+  | "hidden" | "autocomplete" | "linked-record" | "signature" | "location";
 
 export interface FormFieldOption {
   value: string;
@@ -21,7 +31,8 @@ export interface FormFieldConfig {
   hint?: string;
   defaultValue?: unknown;
   validation?: {
-    pattern?: RegExp;
+    pattern?: RegExp | string;
+    patternMessage?: string;
     minLength?: number;
     maxLength?: number;
     min?: number;
@@ -120,7 +131,10 @@ export function RecordFormModal<T = Record<string, unknown>>({
     if (field.validation) {
       const v = field.validation;
       const strValue = String(value || "");
-      if (v.pattern && !v.pattern.test(strValue)) return `Invalid ${field.label.toLowerCase()} format`;
+      if (v.pattern) {
+        const regex = typeof v.pattern === 'string' ? new RegExp(v.pattern) : v.pattern;
+        if (!regex.test(strValue)) return v.patternMessage || `Invalid ${field.label.toLowerCase()} format`;
+      }
       if (v.minLength && strValue.length < v.minLength) return `${field.label} must be at least ${v.minLength} characters`;
       if (v.maxLength && strValue.length > v.maxLength) return `${field.label} must be at most ${v.maxLength} characters`;
       if (v.min !== undefined && Number(value) < v.min) return `${field.label} must be at least ${v.min}`;

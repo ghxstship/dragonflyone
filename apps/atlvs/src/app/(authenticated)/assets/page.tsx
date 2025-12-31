@@ -6,9 +6,9 @@ import { Eye, Upload, Wrench, Trash2, Download } from "lucide-react";
 // Layout provided by route group
 import {
   ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig,
+  type ListPageAction, type ListPageBulkAction,
   type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES, useEntityConfig } from "@ghxstship/config";
 import { useAssets, useDeleteAsset, type Asset as APIAsset } from "../../../hooks/useAssets";
 
 // Roles that can create/edit/delete assets
@@ -54,37 +54,7 @@ function normalizeAsset(a: APIAsset): Asset {
   };
 }
 
-const columns: ListPageColumn<Asset>[] = [
-  { key: 'name', label: 'Asset', accessor: 'name', sortable: true },
-  { key: 'category', label: 'Category', accessor: 'category', sortable: true, render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
-  { key: 'location', label: 'Location', accessor: 'location' },
-  { key: 'value', label: 'Value', accessor: (r) => `$${(r.value / 1000).toFixed(0)}K`, sortable: true },
-  { key: 'condition', label: 'Condition', accessor: 'condition' },
-  { key: 'utilization', label: 'Utilization', accessor: (r) => `${(r.utilization * 100).toFixed(0)}%`, sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={v === 'Available' ? 'solid' : 'outline'}>{String(v)}</Badge> },
-  { key: 'nextMaintenance', label: 'Next Maint.', accessor: 'nextMaintenance', sortable: true },
-];
-
-// Schema: Aligned with API createAssetSchema - uses 'state' not 'status'
-const filters: ListPageFilter[] = [
-  { key: 'category', label: 'Category', options: [{ value: 'Audio', label: 'Audio' }, { value: 'Lighting', label: 'Lighting' }, { value: 'Video', label: 'Video' }, { value: 'Staging', label: 'Staging' }, { value: 'Rigging', label: 'Rigging' }] },
-  { key: 'state', label: 'Status', options: [
-    { value: 'available', label: 'Available' },
-    { value: 'reserved', label: 'Reserved' },
-    { value: 'deployed', label: 'Deployed' },
-    { value: 'maintenance', label: 'Maintenance' },
-    { value: 'retired', label: 'Retired' },
-  ]},
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'name', label: 'Asset Name', type: 'text', required: true },
-  { name: 'category', label: 'Category', type: 'select', required: true, options: [{ value: 'Audio', label: 'Audio' }, { value: 'Lighting', label: 'Lighting' }, { value: 'Video', label: 'Video' }, { value: 'Staging', label: 'Staging' }, { value: 'Rigging', label: 'Rigging' }] },
-  { name: 'location', label: 'Location', type: 'text', required: true },
-  { name: 'value', label: 'Value ($)', type: 'number', required: true },
-  { name: 'condition', label: 'Condition', type: 'select', options: [{ value: 'Excellent', label: 'Excellent' }, { value: 'Good', label: 'Good' }, { value: 'Fair', label: 'Fair' }, { value: 'Poor', label: 'Poor' }] },
-  { name: 'nextMaintenance', label: 'Next Maintenance', type: 'date' },
-];
+// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function AssetsPage() {
   const router = useRouter();
@@ -92,6 +62,9 @@ export default function AssetsPage() {
   const toast = useToast();
   const { data: apiAssets, isLoading, error, refetch } = useAssets();
   const deleteMutation = useDeleteAsset();
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<Asset>({ entityName: 'assets' });
   
   // Use API data if available, fallback to demo data
   const rawAssets = apiAssets && apiAssets.length > 0 ? apiAssets : DEMO_ASSETS;

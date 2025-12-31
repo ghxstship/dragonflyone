@@ -12,13 +12,14 @@ import { Eye, Pencil, CheckCircle, BookOpen, FolderOpen } from 'lucide-react';
 import { useSOPs, useSOPStats, useSOPCategories } from '@/hooks/useSOPs';
 import {
   ListPage, Badge, RecordFormModal, DetailDrawer, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection,
+  type ListPageAction, type DetailSection,
 } from "@ghxstship/ui";
 import { 
   createExportHandler, 
   createImportHandler, 
   getImportTemplates,
   DOCUMENT_STATUS_COLORS,
+  useEntityConfig,
 } from '@ghxstship/config';
 
 interface SOP {
@@ -36,89 +37,16 @@ interface SOP {
 
 const statusColors = DOCUMENT_STATUS_COLORS;
 
-const columns: ListPageColumn<SOP>[] = [
-  { 
-    key: 'title', 
-    label: 'Title', 
-    accessor: 'title', 
-    sortable: true,
-  },
-  { 
-    key: 'category', 
-    label: 'Category', 
-    accessor: (row) => row.category?.name || '—',
-    sortable: true,
-    render: (_value: unknown, row) => row.category ? (
-      <Badge color={row.category.color || '#6b7280'}>
-        {row.category.name}
-      </Badge>
-    ) : '—'
-  },
-  { 
-    key: 'version', 
-    label: 'Version', 
-    accessor: 'version', 
-    sortable: true,
-    width: '100px',
-  },
-  { 
-    key: 'status', 
-    label: 'Status', 
-    accessor: 'status', 
-    sortable: true,
-    render: (value: unknown) => (
-      <Badge variant={statusColors[String(value)] || 'ghost'}>
-        {String(value).toUpperCase()}
-      </Badge>
-    )
-  },
-  { 
-    key: 'requires_acknowledgment', 
-    label: 'Acknowledgment', 
-    accessor: 'requires_acknowledgment', 
-    render: (value: unknown) => value ? (
-      <Badge variant="info">Required</Badge>
-    ) : '—'
-  },
-  { 
-    key: 'requires_training', 
-    label: 'Training', 
-    accessor: 'requires_training', 
-    render: (value: unknown) => value ? (
-      <Badge variant="warning">Required</Badge>
-    ) : '—'
-  },
-  {
-    key: 'effective_date',
-    label: 'Effective',
-    accessor: 'effective_date',
-    sortable: true,
-    render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '—'
-  },
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'title', label: 'SOP Title', type: 'text', required: true, placeholder: 'e.g., Emergency Evacuation Procedure', colSpan: 2 },
-  { name: 'category_id', label: 'Category', type: 'select', required: true, options: [] }, // Populated dynamically
-  { name: 'version', label: 'Version', type: 'text', required: true, placeholder: '1.0' },
-  { name: 'status', label: 'Status', type: 'select', required: true, options: [
-    { value: 'draft', label: 'Draft' },
-    { value: 'review', label: 'Under Review' },
-    { value: 'approved', label: 'Approved' },
-    { value: 'archived', label: 'Archived' },
-  ]},
-  { name: 'effective_date', label: 'Effective Date', type: 'date' },
-  { name: 'description', label: 'Description', type: 'textarea', colSpan: 2, placeholder: 'Describe this SOP...' },
-  { name: 'requires_acknowledgment', label: 'Requires Acknowledgment', type: 'checkbox' },
-  { name: 'requires_training', label: 'Requires Training', type: 'checkbox' },
-  { name: 'training_duration_minutes', label: 'Training Duration (minutes)', type: 'number', placeholder: '30' },
-];
+// SSOT: Columns and formFields are provided by useEntityConfig
 
 export default function SOPsPage() {
   const router = useRouter();
   const { data: sops, isLoading, error, refetch } = useSOPs();
   const { data: stats } = useSOPStats();
   const { data: categories } = useSOPCategories();
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<SOP>({ entityName: 'sops' });
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedSOP, setSelectedSOP] = useState<SOP | null>(null);
@@ -135,23 +63,7 @@ export default function SOPsPage() {
     return field;
   });
 
-  const filters: ListPageFilter[] = [
-    { 
-      key: 'status', 
-      label: 'Status', 
-      options: [
-        { value: 'draft', label: 'Draft' },
-        { value: 'review', label: 'Under Review' },
-        { value: 'approved', label: 'Approved' },
-        { value: 'archived', label: 'Archived' },
-      ]
-    },
-    { 
-      key: 'category_id', 
-      label: 'Category', 
-      options: categories?.map(c => ({ value: c.id, label: c.name })) || []
-    },
-  ];
+  // SSOT: Filters are provided by useEntityConfig (line 49)
 
   const rowActions: ListPageAction<SOP>[] = [
     { 

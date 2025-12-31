@@ -13,10 +13,11 @@ import {
   useAuthContext, 
   ATLVS_ADMIN_ROLES,
   PLACES_STATUS_COLORS,
+  useEntityConfig,
 } from '@ghxstship/config';
 import {
   Badge, Body, Box as UIBox, ListPage, Stack, Text, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction,
+  type ListPageColumn, type ListPageAction,
 } from "@ghxstship/ui";
 import {
   usePlacesQuery,
@@ -44,6 +45,10 @@ export default function PlacesPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
   const toast = useToast();
+
+  // SSOT: Get filters from entity registry (columns have custom renders)
+  const { filters } = useEntityConfig<Place>({ entityName: 'places' });
+
   const canManagePlaces = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const { data: places = [], isLoading, error, refetch } = usePlacesQuery({});
@@ -125,10 +130,7 @@ export default function PlacesPage() {
     },
   ];
 
-  const filters: ListPageFilter[] = [
-    { key: 'place_type', label: 'Type', options: (Object.keys(TYPE_CONFIG) as PlaceType[]).map((type) => ({ value: type, label: TYPE_CONFIG[type].label })) },
-    { key: 'status', label: 'Status', options: [{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }, { value: 'pending', label: 'Pending' }, { value: 'archived', label: 'Archived' }] },
-  ];
+  // SSOT: Filters are provided by useEntityConfig (line 50)
 
   const rowActions: ListPageAction<Place>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (p) => router.push(`/places/${p.id}`) },

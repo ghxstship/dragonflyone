@@ -10,13 +10,14 @@ import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import { 
   Badge, Body, ListPage, Stack, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction,
+  type ListPageColumn, type ListPageAction,
 } from "@ghxstship/ui";
 import { useProductions, useDeleteProduction, type Production } from "../../../hooks/useProductions";
 import { 
   useAuthContext, 
   ATLVS_ADMIN_ROLES,
   PRODUCTION_STATUS_COLORS,
+  useEntityConfig,
 } from '@ghxstship/config';
 import { atlvsDemoProductions, type ProductionContext } from "@/data/atlvs";
 
@@ -56,6 +57,10 @@ export default function ProductionsPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
   const toast = useToast();
+
+  // SSOT: Get filters from entity registry (columns have custom renders)
+  const { filters } = useEntityConfig<DisplayProduction>({ entityName: 'productions' });
+
   const canManageProductions = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
   
   const { data: apiProductions, isLoading, error, refetch } = useProductions();
@@ -115,20 +120,7 @@ export default function ProductionsPage() {
     },
   ];
 
-  // Define filters
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'active', label: 'Active' },
-        { value: 'planning', label: 'Planning' },
-        { value: 'upcoming', label: 'Upcoming' },
-        { value: 'completed', label: 'Completed' },
-        { value: 'draft', label: 'Draft' },
-      ],
-    },
-  ];
+  // SSOT: Filters are provided by useEntityConfig (line 59)
 
   // Define row actions
   const rowActions: ListPageAction<DisplayProduction>[] = [

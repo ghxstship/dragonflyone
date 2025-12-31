@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { Eye, Pencil, Mail, DollarSign, ClipboardList, Trash2, Download, Bell } from "lucide-react";
 import {
   ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+  type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useEntityConfig } from "@ghxstship/config";
 import { useInvoicesData, type Invoice } from "@/hooks/useInvoices";
 
 const formatCurrency = (amount: number) => 
@@ -15,66 +15,7 @@ const formatCurrency = (amount: number) =>
 const formatDate = (dateString: string) => 
   new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 
-const columns: ListPageColumn<Invoice>[] = [
-  { key: 'invoice_number', label: 'Invoice #', accessor: 'invoice_number', sortable: true },
-  { key: 'client_name', label: 'Client', accessor: 'client_name', sortable: true },
-  { key: 'project_name', label: 'Project', accessor: (row) => row.project_name || '—' },
-  { 
-    key: 'total_amount', 
-    label: 'Amount', 
-    accessor: 'total_amount', 
-    sortable: true,
-    render: (value: unknown) => formatCurrency(Number(value))
-  },
-  { 
-    key: 'due_date', 
-    label: 'Due Date', 
-    accessor: 'due_date', 
-    sortable: true,
-    render: (value: unknown) => formatDate(String(value))
-  },
-  { 
-    key: 'status', 
-    label: 'Status', 
-    accessor: 'status', 
-    sortable: true,
-    render: (value: unknown) => (
-      <Badge variant={value === 'paid' ? 'solid' : value === 'overdue' ? 'solid' : 'outline'}>
-        {String(value).toUpperCase()}
-      </Badge>
-    )
-  },
-];
-
-const filters: ListPageFilter[] = [
-  { 
-    key: 'status', 
-    label: 'Status', 
-    options: [
-      { value: 'draft', label: 'Draft' },
-      { value: 'sent', label: 'Sent' },
-      { value: 'viewed', label: 'Viewed' },
-      { value: 'partial', label: 'Partial' },
-      { value: 'paid', label: 'Paid' },
-      { value: 'overdue', label: 'Overdue' },
-    ]
-  },
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'client_id', label: 'Client', type: 'select', required: true, options: [], colSpan: 2 },
-  { name: 'project_id', label: 'Project', type: 'select', options: [] },
-  { name: 'payment_terms', label: 'Payment Terms', type: 'select', options: [
-    { value: 'net_15', label: 'Net 15' },
-    { value: 'net_30', label: 'Net 30' },
-    { value: 'net_45', label: 'Net 45' },
-    { value: 'net_60', label: 'Net 60' },
-    { value: 'due_on_receipt', label: 'Due on Receipt' },
-  ]},
-  { name: 'issue_date', label: 'Issue Date', type: 'date', required: true },
-  { name: 'due_date', label: 'Due Date', type: 'date', required: true },
-  { name: 'notes', label: 'Notes', type: 'textarea', colSpan: 2 },
-];
+// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function InvoicesPage() {
   const router = useRouter();
@@ -89,6 +30,9 @@ export default function InvoicesPage() {
     sendReminder,
     refetch,
   } = useInvoicesData();
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<Invoice>({ entityName: 'invoices' });
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);

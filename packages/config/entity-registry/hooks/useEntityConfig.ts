@@ -71,7 +71,7 @@ export interface UseEntityConfigOptions {
   includeHiddenColumns?: boolean;
 }
 
-export interface UseEntityConfigResult {
+export interface UseEntityConfigResult<T = Record<string, unknown>> {
   /** Full entity configuration */
   entity: EntityConfig | undefined;
   /** Whether entity exists */
@@ -81,8 +81,8 @@ export interface UseEntityConfigResult {
     singular: string;
     plural: string;
   };
-  /** Processed columns for ListPage */
-  columns: ColumnDefinition[];
+  /** Processed columns for ListPage - typed for the entity */
+  columns: ColumnDefinition<T>[];
   /** Processed filters for ListPage */
   filters: FilterDefinition[];
   /** Processed row actions for ListPage */
@@ -139,8 +139,9 @@ export interface UseEntityConfigResult {
 
 /**
  * Hook for consuming entity configurations in list pages
+ * @template T - The entity type for typed columns
  */
-export function useEntityConfig(options: UseEntityConfigOptions): UseEntityConfigResult {
+export function useEntityConfig<T = Record<string, unknown>>(options: UseEntityConfigOptions): UseEntityConfigResult<T> {
   const {
     entityName,
     userRoles = [],
@@ -298,7 +299,7 @@ export function useEntityConfig(options: UseEntityConfigOptions): UseEntityConfi
       singular: entity?.singular || entityName,
       plural: entity?.plural || entityName,
     },
-    columns,
+    columns: columns as ColumnDefinition<T>[],
     filters,
     rowActions,
     bulkActions,

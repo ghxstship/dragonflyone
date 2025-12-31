@@ -14,10 +14,8 @@ import {
   type DetailSection,
   type ListPageAction,
   type ListPageBulkAction,
-  type ListPageColumn,
-  type ListPageFilter,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, useEntityConfig } from '@ghxstship/config';
 import { useOrders, type Order } from '@/hooks/useOrders';
 
 export default function OrdersPage() {
@@ -27,69 +25,8 @@ export default function OrdersPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cancelConfirmOpen, setCancelConfirmOpen] = useState(false);
 
-  const columns: ListPageColumn<Order>[] = [
-    { 
-      key: 'id', 
-      label: 'Order #', 
-      accessor: 'id',
-      render: (value: unknown) => <Text className="font-mono">#{String(value).slice(0, 8)}</Text>
-    },
-    { 
-      key: 'event', 
-      label: 'Event', 
-      accessor: (row) => row.gvteway_events?.title || 'Event',
-      sortable: true
-    },
-    { 
-      key: 'event_date', 
-      label: 'Event Date', 
-      accessor: (row) => row.gvteway_events?.event_date,
-      sortable: true,
-      render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : 'TBD'
-    },
-    { 
-      key: 'total_amount', 
-      label: 'Amount', 
-      accessor: 'total_amount', 
-      sortable: true,
-      render: (value: unknown) => `$${Number(value || 0).toLocaleString()}`
-    },
-    { 
-      key: 'ticket_count', 
-      label: 'Tickets', 
-      accessor: 'ticket_count',
-      render: (value: unknown) => value ? `${value} ${Number(value) === 1 ? 'ticket' : 'tickets'}` : '-'
-    },
-    { 
-      key: 'created_at', 
-      label: 'Ordered', 
-      accessor: 'created_at', 
-      sortable: true,
-      render: (value: unknown) => new Date(String(value)).toLocaleDateString()
-    },
-    { 
-      key: 'status', 
-      label: 'Status', 
-      accessor: 'status', 
-      sortable: true,
-      render: (value: unknown) => {
-        const variant = value === 'confirmed' ? 'success' : value === 'pending' ? 'warning' : value === 'cancelled' ? 'error' : 'info';
-        return <Badge variant={variant}>{String(value).toUpperCase()}</Badge>;
-      }
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    { 
-      key: 'status', 
-      label: 'Status', 
-      options: [
-        { value: 'confirmed', label: 'Confirmed' },
-        { value: 'pending', label: 'Pending' },
-        { value: 'cancelled', label: 'Cancelled' },
-      ]
-    },
-  ];
+  // SSOT: Get columns and filters from entity registry
+  const { columns, filters } = useEntityConfig<Order>({ entityName: 'orders' });
 
   const rowActions: ListPageAction<Order>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedOrder(row); setDrawerOpen(true); } },

@@ -7,8 +7,8 @@ import { Eye, ClipboardList, Pencil, Trash2, Download } from "lucide-react";
 import { useCrew } from "@/hooks/useCrew";
 import {
   ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
+  type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, useEntityConfig } from "@ghxstship/config";
 
 // Roles that can manage crew (COMPVSS has no SUPER_ADMIN, only ADMIN)
 const ADMIN_ROLES = [
@@ -34,91 +34,15 @@ interface CrewMember {
   certifications?: string[];
 }
 
-const columns: ListPageColumn<CrewMember>[] = [
-  { key: 'id', label: 'ID', accessor: 'id', sortable: true, width: '100px' },
-  { key: 'name', label: 'Name', accessor: 'name', sortable: true },
-  { key: 'role', label: 'Role', accessor: 'role', sortable: true },
-  { key: 'department', label: 'Department', accessor: 'department', sortable: true },
-  { 
-    key: 'availability', 
-    label: 'Status', 
-    accessor: 'availability', 
-    sortable: true,
-    render: (value: unknown) => {
-      // Schema: availability enum 'available' | 'busy' | 'on-leave'
-      const variant = value === 'available' ? 'success' : value === 'busy' ? 'warning' : 'outline';
-      const label = value === 'available' ? 'Available' : value === 'busy' ? 'Busy' : 'On Leave';
-      return <Badge variant={variant}>{label.toUpperCase()}</Badge>;
-    }
-  },
-  { 
-    key: 'rate', 
-    label: 'Day Rate', 
-    accessor: 'rate', 
-    sortable: true,
-    render: (value: unknown) => `$${Number(value).toLocaleString()}/day`
-  },
-  { 
-    key: 'rating', 
-    label: 'Rating', 
-    accessor: 'rating', 
-    sortable: true,
-    render: (value: unknown) => `${value}★`
-  },
-];
-
-const filters: ListPageFilter[] = [
-  { 
-    key: 'department', 
-    label: 'Department', 
-    options: [
-      { value: 'Production', label: 'Production' },
-      { value: 'Technical', label: 'Technical' },
-      { value: 'Lighting', label: 'Lighting' },
-      { value: 'Video', label: 'Video' },
-      { value: 'Audio', label: 'Audio' },
-      { value: 'Rigging', label: 'Rigging' },
-    ]
-  },
-  {
-    key: 'availability',
-    label: 'Availability',
-    // Schema: availability enum from useCrew hook: 'available' | 'busy' | 'on-leave'
-    options: [
-      { value: 'available', label: 'Available' },
-      { value: 'busy', label: 'Busy' },
-      { value: 'on-leave', label: 'On Leave' },
-    ]
-  },
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'name', label: 'Full Name', type: 'text', required: true, colSpan: 2 },
-  { name: 'role', label: 'Role', type: 'text', required: true },
-  { name: 'department', label: 'Department', type: 'select', required: true, options: [
-    { value: 'Production', label: 'Production' },
-    { value: 'Technical', label: 'Technical' },
-    { value: 'Lighting', label: 'Lighting' },
-    { value: 'Video', label: 'Video' },
-    { value: 'Audio', label: 'Audio' },
-    { value: 'Rigging', label: 'Rigging' },
-  ]},
-  { name: 'rate', label: 'Day Rate ($)', type: 'number', required: true },
-  { name: 'availability', label: 'Availability', type: 'select', options: [
-    // Schema: availability enum from useCrew hook: 'available' | 'busy' | 'on-leave'
-    { value: 'available', label: 'Available' },
-    { value: 'busy', label: 'Busy' },
-    { value: 'on-leave', label: 'On Leave' },
-  ]},
-  { name: 'location', label: 'Location', type: 'text' },
-  { name: 'phone', label: 'Phone', type: 'text' },
-  { name: 'email', label: 'Email', type: 'email', colSpan: 2 },
-];
+// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function CrewPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
   const { data: crewData, isLoading, error, refetch } = useCrew();
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<CrewMember>({ entityName: 'crew' });
 
   // RBAC: Check if user has admin access for manage operations
   const canManageCrew = ADMIN_ROLES.some(role => hasRole(role));

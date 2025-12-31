@@ -4,6 +4,30 @@ All notable completed work for the GHXSTSHIP platform.
 
 ## [Unreleased]
 
+### 2025-01-01
+
+#### useEntityConfig Migration Complete
+
+**Entity Registry Integration:**
+- Migrated 47 pages to use `useEntityConfig` hook for SSOT compliance
+- All pages with entity mappings now consume columns, filters, and formFields from the entity registry
+- Added missing status color exports: `PEOPLE_STATUS_COLORS`, `PEOPLE_TYPE_COLORS`, `PLACES_STATUS_COLORS`, `PLACES_TYPE_COLORS`, `ORGANIZATION_STATUS_COLORS`, `ORGANIZATION_TYPE_COLORS`, `PRODUCTION_STATUS_COLORS`
+
+**Pages Migrated:**
+- ATLVS: events, projects, assets, invoices, bills, budgets, orders, assets/maintenance, organizations, people, places, productions
+- COMPVSS: crew, equipment, expenses, incidents, projects, sops, credentials
+- GVTEWAY: orders, tickets
+
+**Migration Strategy:**
+- Pages with simple column definitions: Full migration (columns, filters, formFields from useEntityConfig)
+- Pages with complex custom renders (Image components, nested JSX): Filters from useEntityConfig, custom columns retained
+
+**Build Verification:**
+- Production build: 7 tasks successful, 0 errors
+- All 47 entity-mapped pages now use useEntityConfig
+
+---
+
 ### 2025-12-31
 
 #### SSOT Compliance Infrastructure & Type Compatibility

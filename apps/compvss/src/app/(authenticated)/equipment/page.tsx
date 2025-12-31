@@ -6,8 +6,8 @@ import { Eye, Pencil, ClipboardList, Wrench, Trash2, Download } from 'lucide-rea
 // Layout provided by route group
 import {
   ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from '@ghxstship/config';
+  type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, useEntityConfig } from '@ghxstship/config';
 
 // Roles that can manage equipment (COMPVSS has no SUPER_ADMIN, only ADMIN)
 const ADMIN_ROLES = [
@@ -39,93 +39,15 @@ interface Equipment {
   assigned_to?: string;
 }
 
-const columns: ListPageColumn<Equipment>[] = [
-  { key: 'name', label: 'Name', accessor: (row) => row.name || row.tag, sortable: true },
-  { 
-    key: 'category', 
-    label: 'Category', 
-    accessor: (row) => row.type || row.category,
-    sortable: true,
-    render: (value: unknown) => <Badge>{String(value).toUpperCase()}</Badge>
-  },
-  { key: 'serial', label: 'Serial #', accessor: (row) => row.serial_number || row.metadata?.serial_number || '—' },
-  { key: 'location', label: 'Location', accessor: (row) => row.location || row.metadata?.location || '—' },
-  { key: 'assigned', label: 'Assigned To', accessor: (row) => row.assigned_to || row.projects?.name || '—' },
-  { 
-    key: 'status', 
-    label: 'Status', 
-    accessor: (row) => row.status || row.state,
-    sortable: true,
-    render: (value: unknown) => (
-      <Badge variant={value === 'available' ? 'solid' : 'outline'}>
-        {String(value).replace('_', ' ').toUpperCase()}
-      </Badge>
-    )
-  },
-];
-
-const filters: ListPageFilter[] = [
-  { 
-    key: 'status', 
-    label: 'Status', 
-    // Schema: status enum from API: ['available', 'checked_out', 'maintenance', 'repair', 'retired', 'lost']
-    options: [
-      { value: 'available', label: 'Available' },
-      { value: 'checked_out', label: 'Checked Out' },
-      { value: 'maintenance', label: 'Maintenance' },
-      { value: 'repair', label: 'Repair' },
-      { value: 'retired', label: 'Retired' },
-      { value: 'lost', label: 'Lost' },
-    ]
-  },
-  {
-    key: 'category',
-    label: 'Category',
-    // Schema: category enum from API: ['lighting', 'audio', 'video', 'staging', 'rigging', 'power', 'cables', 'cases', 'other']
-    options: [
-      { value: 'lighting', label: 'Lighting' },
-      { value: 'audio', label: 'Audio' },
-      { value: 'video', label: 'Video' },
-      { value: 'staging', label: 'Staging' },
-      { value: 'rigging', label: 'Rigging' },
-      { value: 'power', label: 'Power' },
-      { value: 'cables', label: 'Cables' },
-      { value: 'cases', label: 'Cases' },
-      { value: 'other', label: 'Other' },
-    ]
-  },
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'name', label: 'Equipment Name', type: 'text', required: true, colSpan: 2 },
-  { name: 'tag', label: 'Asset Tag', type: 'text', required: true },
-  { name: 'serial_number', label: 'Serial Number', type: 'text' },
-  { name: 'category', label: 'Category', type: 'select', required: true, options: [
-    // Schema: category enum from API: ['lighting', 'audio', 'video', 'staging', 'rigging', 'power', 'cables', 'cases', 'other']
-    { value: 'lighting', label: 'Lighting' },
-    { value: 'audio', label: 'Audio' },
-    { value: 'video', label: 'Video' },
-    { value: 'staging', label: 'Staging' },
-    { value: 'rigging', label: 'Rigging' },
-    { value: 'power', label: 'Power' },
-    { value: 'cables', label: 'Cables' },
-    { value: 'cases', label: 'Cases' },
-    { value: 'other', label: 'Other' },
-  ]},
-  { name: 'status', label: 'Status', type: 'select', options: [
-    // Schema: status enum from API: ['available', 'checked_out', 'maintenance', 'repair', 'retired', 'lost']
-    { value: 'available', label: 'Available' },
-    { value: 'checked_out', label: 'Checked Out' },
-    { value: 'maintenance', label: 'Maintenance' },
-    { value: 'repair', label: 'Repair' },
-  ]},
-  { name: 'location', label: 'Location', type: 'text' },
-];
+// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function EquipmentPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
   const { data: equipment, isLoading, error, refetch } = useEquipment({});
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<Equipment>({ entityName: 'equipment' });
 
   // RBAC: Check if user has admin access for manage operations
   const canManageEquipment = ADMIN_ROLES.some(role => hasRole(role));

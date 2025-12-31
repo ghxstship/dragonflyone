@@ -6,8 +6,8 @@ import { Eye, Check, Pencil } from "lucide-react";
 // Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useMaintenance, type MaintenanceRecord, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
+  type ListPageAction, type DetailSection} from "@ghxstship/ui";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useMaintenance, type MaintenanceRecord, useAuthContext, ATLVS_ADMIN_ROLES, useEntityConfig } from "@ghxstship/config";
 import { DEMO_MAINTENANCE_RECORDS } from '../../../../lib/demo-data';
 
 // Roles that can create/edit/delete maintenance records
@@ -18,31 +18,7 @@ const getPriorityVariant = (priority: string): "solid" | "outline" | "ghost" => 
   switch (priority) { case "Critical": return "solid"; case "High": return "outline"; default: return "ghost"; }
 };
 
-const columns: ListPageColumn<MaintenanceRecord>[] = [
-  { key: 'assetName', label: 'Asset', accessor: 'assetName', sortable: true },
-  { key: 'category', label: 'Category', accessor: 'category', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
-  { key: 'type', label: 'Type', accessor: 'type', render: (v: unknown) => <Badge variant={String(v) === "Emergency" ? "solid" : "outline"}>{String(v)}</Badge> },
-  { key: 'description', label: 'Description', accessor: 'description' },
-  { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v: unknown) => <Badge variant={getPriorityVariant(String(v))}>{String(v)}</Badge> },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
-  { key: 'scheduledDate', label: 'Scheduled', accessor: 'scheduledDate', sortable: true },
-  { key: 'cost', label: 'Cost', accessor: (r) => r.cost ? `$${r.cost.toLocaleString()}` : '—' },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [{ value: 'Scheduled', label: 'Scheduled' }, { value: 'In Progress', label: 'In Progress' }, { value: 'Completed', label: 'Completed' }, { value: 'Overdue', label: 'Overdue' }] },
-  { key: 'type', label: 'Type', options: [{ value: 'Preventive', label: 'Preventive' }, { value: 'Corrective', label: 'Corrective' }, { value: 'Emergency', label: 'Emergency' }, { value: 'Inspection', label: 'Inspection' }] },
-  { key: 'priority', label: 'Priority', options: [{ value: 'Critical', label: 'Critical' }, { value: 'High', label: 'High' }, { value: 'Medium', label: 'Medium' }, { value: 'Low', label: 'Low' }] },
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'assetName', label: 'Asset', type: 'text', required: true },
-  { name: 'type', label: 'Type', type: 'select', options: [{ value: 'Preventive', label: 'Preventive' }, { value: 'Corrective', label: 'Corrective' }, { value: 'Inspection', label: 'Inspection' }], required: true },
-  { name: 'priority', label: 'Priority', type: 'select', options: [{ value: 'Low', label: 'Low' }, { value: 'Medium', label: 'Medium' }, { value: 'High', label: 'High' }, { value: 'Critical', label: 'Critical' }], required: true },
-  { name: 'scheduledDate', label: 'Scheduled Date', type: 'date', required: true },
-  { name: 'description', label: 'Description', type: 'textarea', required: true },
-  { name: 'technician', label: 'Technician', type: 'text' },
-];
+// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function AssetMaintenancePage() {
   const router = useRouter();
@@ -50,6 +26,9 @@ export default function AssetMaintenancePage() {
   const [selectedRecord, setSelectedRecord] = useState<MaintenanceRecord | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<MaintenanceRecord>({ entityName: 'assets' });
 
   // RBAC: Check if user has admin access for create/edit/delete operations
   const canManageMaintenance = ATLVS_ADMIN_ROLES.some(role => hasRole(role));

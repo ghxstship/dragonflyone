@@ -40,60 +40,6 @@ Attempted import error: 'PURCHASE_ORDER_STATUS_COLORS' is not exported from '@gh
 Import trace for requested module:
 ./src/app/(authenticated)/finance/purchase-orders/page.tsx
 
-./src/app/(authenticated)/organizations/[id]/page.tsx
-Attempted import error: 'ORGANIZATION_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'ORGANIZATION_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/organizations/[id]/page.tsx
-
-./src/app/(authenticated)/organizations/page.tsx
-Attempted import error: 'ORGANIZATION_TYPE_COLORS' is not exported from '@ghxstship/config' (imported as 'ORGANIZATION_TYPE_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/organizations/page.tsx
-
-./src/app/(authenticated)/organizations/page.tsx
-Attempted import error: 'ORGANIZATION_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'ORGANIZATION_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/organizations/page.tsx
-
-./src/app/(authenticated)/people/[id]/page.tsx
-Attempted import error: 'PEOPLE_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'PEOPLE_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/people/[id]/page.tsx
-
-./src/app/(authenticated)/people/page.tsx
-Attempted import error: 'PEOPLE_TYPE_COLORS' is not exported from '@ghxstship/config' (imported as 'PEOPLE_TYPE_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/people/page.tsx
-
-./src/app/(authenticated)/people/page.tsx
-Attempted import error: 'PEOPLE_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'PEOPLE_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/people/page.tsx
-
-./src/app/(authenticated)/places/[id]/page.tsx
-Attempted import error: 'PLACES_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'PLACES_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/places/[id]/page.tsx
-
-./src/app/(authenticated)/places/page.tsx
-Attempted import error: 'PLACES_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'PLACES_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/places/page.tsx
-
-./src/app/(authenticated)/productions/page.tsx
-Attempted import error: 'PRODUCTION_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'PRODUCTION_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/productions/page.tsx
-
 ./src/app/(authenticated)/finance/budgets/page.tsx
 Attempted import error: 'BUDGET_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'BUDGET_STATUS_COLORS').
 
@@ -124,60 +70,6 @@ Attempted import error: 'PURCHASE_ORDER_STATUS_COLORS' is not exported from '@gh
 Import trace for requested module:
 ./src/app/(authenticated)/finance/purchase-orders/page.tsx
 
-./src/app/(authenticated)/organizations/[id]/page.tsx
-Attempted import error: 'ORGANIZATION_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'ORGANIZATION_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/organizations/[id]/page.tsx
-
-./src/app/(authenticated)/organizations/page.tsx
-Attempted import error: 'ORGANIZATION_TYPE_COLORS' is not exported from '@ghxstship/config' (imported as 'ORGANIZATION_TYPE_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/organizations/page.tsx
-
-./src/app/(authenticated)/organizations/page.tsx
-Attempted import error: 'ORGANIZATION_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'ORGANIZATION_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/organizations/page.tsx
-
-./src/app/(authenticated)/people/[id]/page.tsx
-Attempted import error: 'PEOPLE_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'PEOPLE_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/people/[id]/page.tsx
-
-./src/app/(authenticated)/people/page.tsx
-Attempted import error: 'PEOPLE_TYPE_COLORS' is not exported from '@ghxstship/config' (imported as 'PEOPLE_TYPE_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/people/page.tsx
-
-./src/app/(authenticated)/people/page.tsx
-Attempted import error: 'PEOPLE_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'PEOPLE_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/people/page.tsx
-
-./src/app/(authenticated)/places/[id]/page.tsx
-Attempted import error: 'PLACES_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'PLACES_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/places/[id]/page.tsx
-
-./src/app/(authenticated)/places/page.tsx
-Attempted import error: 'PLACES_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'PLACES_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/places/page.tsx
-
-./src/app/(authenticated)/productions/page.tsx
-Attempted import error: 'PRODUCTION_STATUS_COLORS' is not exported from '@ghxstship/config' (imported as 'PRODUCTION_STATUS_COLORS').
-
-Import trace for requested module:
-./src/app/(authenticated)/productions/page.tsx
-
    Skipping validation of types
    Collecting page data ...
  ⚠ Using edge runtime on a page currently disables static generation for that page
@@ -190,15 +82,15 @@ Import trace for requested module:
    Collecting build traces ...
 
 Route (app)                                       Size     First Load JS
-┌ ƒ /                                             4.03 kB         637 kB
+┌ ƒ /                                             4.03 kB         639 kB
 ├ ○ /_not-found                                   138 B           404 kB
-├ ○ /about                                        2.01 kB         635 kB
-├ ○ /admin/batch-operations                       2.78 kB         636 kB
-├ ○ /admin/users                                  3.24 kB         637 kB
-├ ○ /advancing                                    2.22 kB         635 kB
-├ ○ /advancing/review                             1.47 kB         635 kB
-├ ○ /analytics                                    2.6 kB          636 kB
-├ ○ /analytics/dashboard-builder                  1.92 kB         635 kB
+├ ○ /about                                        2.01 kB         637 kB
+├ ○ /admin/batch-operations                       2.78 kB         638 kB
+├ ○ /admin/users                                  3.24 kB         638 kB
+├ ○ /advancing                                    2.22 kB         637 kB
+├ ○ /advancing/review                             1.47 kB         637 kB
+├ ○ /analytics                                    2.6 kB          638 kB
+├ ○ /analytics/dashboard-builder                  1.92 kB         637 kB
 ├ ƒ /api/account-health                           0 B                0 B
 ├ ƒ /api/accounts-payable                         0 B                0 B
 ├ ƒ /api/accounts-receivable                      0 B                0 B
@@ -783,152 +675,152 @@ Route (app)                                       Size     First Load JS
 ├ ƒ /api/zapier/search                            0 B                0 B
 ├ ƒ /api/zapier/triggers                          0 B                0 B
 ├ ƒ /api/zapier/webhooks                          0 B                0 B
-├ ○ /assets                                       2.99 kB         636 kB
-├ ƒ /assets/[id]                                  2.13 kB         635 kB
-├ ƒ /assets/[id]/edit                             2.39 kB         636 kB
-├ ○ /assets/maintenance                           2.47 kB         636 kB
-├ ○ /assets/new                                   1.99 kB         635 kB
-├ ○ /assets/scan                                  2.66 kB         636 kB
-├ ○ /auth/forgot-password                         1.26 kB         635 kB
-├ ○ /auth/magic-link                              1.27 kB         635 kB
-├ ○ /auth/reset-password                          1.3 kB          635 kB
-├ ○ /auth/signin                                  1.54 kB         635 kB
-├ ○ /auth/signup                                  1.82 kB         635 kB
-├ ○ /auth/verify-email                            911 B           634 kB
-├ ○ /bills                                        2.65 kB         636 kB
-├ ○ /blog                                         2.96 kB         636 kB
-├ ○ /budgets                                      2.35 kB         636 kB
-├ ○ /careers                                      2.73 kB         636 kB
-├ ○ /case-studies                                 2.82 kB         636 kB
-├ ○ /changelog                                    2.6 kB          636 kB
-├ ○ /contact                                      2.73 kB         636 kB
-├ ○ /dashboard                                    7.86 kB         641 kB
-├ ○ /deals                                        2.31 kB         636 kB
-├ ○ /deals/new                                    2.03 kB         635 kB
-├ ○ /demo                                         1.94 kB         635 kB
-├ ○ /demo/request                                 1.81 kB         635 kB
-├ ○ /docs                                         2.28 kB         636 kB
-├ ○ /docs/api                                     1.67 kB         635 kB
-├ ○ /events                                       2.14 kB         635 kB
-├ ƒ /events/[id]                                  2.23 kB         636 kB
-├ ƒ /events/[id]/edit                             2.94 kB         636 kB
-├ ○ /events/new                                   2.46 kB         636 kB
-├ ○ /features                                     1.98 kB         635 kB
-├ ○ /finance                                      2.3 kB          636 kB
-├ ○ /finance/bills                                1.6 kB          635 kB
-├ ○ /finance/budgets                              1.27 kB         635 kB
-├ ○ /finance/expenses                             1.83 kB         635 kB
-├ ○ /finance/invoices                             1.49 kB         635 kB
-├ ○ /finance/proposals                            1.71 kB         635 kB
-├ ƒ /finance/proposals/[id]                       2.18 kB         635 kB
-├ ○ /finance/purchase-orders                      1.84 kB         635 kB
-├ ƒ /generator                                    8.08 kB         641 kB
-├ ○ /guides                                       2.47 kB         636 kB
-├ ○ /guides/getting-started                       1.41 kB         635 kB
-├ ○ /help                                         2.65 kB         636 kB
-├ ○ /help/community                               1.36 kB         635 kB
-├ ○ /help/docs                                    1.29 kB         635 kB
-├ ○ /help/faq                                     1.64 kB         635 kB
-├ ○ /help/getting-started                         1.24 kB         635 kB
-├ ○ /help/releases                                1.42 kB         635 kB
-├ ○ /help/tutorials                               1.63 kB         635 kB
-├ ○ /integrations                                 5 kB            638 kB
-├ ○ /invoices                                     2.83 kB         636 kB
-├ ƒ /invoices/[id]                                2.58 kB         636 kB
-├ ○ /invoices/new                                 1.78 kB         635 kB
-├ ○ /legal                                        1.5 kB          635 kB
-├ ○ /legal/accessibility                          1.7 kB          635 kB
-├ ○ /legal/cookies                                1.86 kB         635 kB
-├ ○ /legal/privacy                                1.81 kB         635 kB
-├ ○ /legal/sub-processors                         1.6 kB          635 kB
-├ ○ /legal/terms                                  1.75 kB         635 kB
-├ ○ /orders                                       2.89 kB         636 kB
-├ ○ /organizations                                2.13 kB         635 kB
-├ ƒ /organizations/[id]                           1.96 kB         635 kB
-├ ƒ /organizations/[id]/edit                      2.81 kB         636 kB
-├ ○ /organizations/new                            2.58 kB         636 kB
-├ ƒ /p/[productionId]/advancing                   1.89 kB         635 kB
-├ ƒ /p/[productionId]/documents                   1.97 kB         635 kB
-├ ƒ /p/[productionId]/overview                    1.92 kB         635 kB
-├ ƒ /p/[productionId]/schedule                    1.81 kB         635 kB
-├ ƒ /p/[productionId]/settings                    1.92 kB         635 kB
-├ ƒ /p/[productionId]/shows                       1.62 kB         635 kB
-├ ƒ /p/[productionId]/team                        1.83 kB         635 kB
-├ ƒ /p/[productionId]/vendors                     1.9 kB          635 kB
-├ ƒ /p/[productionId]/wrap                        1.96 kB         635 kB
-├ ○ /partners                                     2 kB            635 kB
-├ ƒ /pay/[token]                                  1.91 kB         635 kB
-├ ○ /people                                       2.21 kB         635 kB
-├ ƒ /people/[id]                                  1.93 kB         635 kB
-├ ƒ /people/[id]/edit                             2.36 kB         636 kB
-├ ○ /people/new                                   2.26 kB         636 kB
-├ ○ /places                                       2.23 kB         636 kB
-├ ƒ /places/[id]                                  1.98 kB         635 kB
-├ ƒ /places/[id]/edit                             2.77 kB         636 kB
-├ ○ /places/new                                   2.39 kB         636 kB
-├ ○ /portal/artist                                1.53 kB         635 kB
-├ ○ /portal/investor                              1.59 kB         635 kB
-├ ○ /portal/sponsor                               1.42 kB         635 kB
-├ ○ /portal/vendor                                1.53 kB         635 kB
-├ ○ /portals/investor                             1.88 kB         635 kB
-├ ○ /portals/sponsor                              1.8 kB          635 kB
-├ ○ /portals/vendor                               1.8 kB          635 kB
-├ ○ /press                                        2.51 kB         636 kB
-├ ○ /pricing                                      1.88 kB         635 kB
-├ ○ /productions                                  1.65 kB         635 kB
-├ ○ /productions/new                              2.77 kB         636 kB
-├ ○ /products                                     2.35 kB         636 kB
-├ ○ /products/atlvs                               1.92 kB         635 kB
-├ ○ /products/compare                             1.31 kB         635 kB
-├ ○ /products/compvss                             1.53 kB         635 kB
-├ ○ /products/gvteway                             1.53 kB         635 kB
-├ ○ /projects                                     2.77 kB         636 kB
-├ ƒ /projects/[id]                                2.77 kB         636 kB
-├ ○ /projects/new                                 1.8 kB          635 kB
-├ ƒ /proposal/[token]                             1.89 kB         635 kB
-├ ○ /quotes                                       2.5 kB          636 kB
-├ ○ /resources                                    2.34 kB         636 kB
-├ ○ /resources/templates                          1.94 kB         635 kB
-├ ○ /roadmap                                      1.95 kB         635 kB
+├ ○ /assets                                       2.62 kB         638 kB
+├ ƒ /assets/[id]                                  2.13 kB         637 kB
+├ ƒ /assets/[id]/edit                             2.39 kB         638 kB
+├ ○ /assets/maintenance                           2.04 kB         637 kB
+├ ○ /assets/new                                   1.99 kB         637 kB
+├ ○ /assets/scan                                  2.66 kB         638 kB
+├ ○ /auth/forgot-password                         1.26 kB         637 kB
+├ ○ /auth/magic-link                              1.27 kB         637 kB
+├ ○ /auth/reset-password                          1.3 kB          637 kB
+├ ○ /auth/signin                                  1.54 kB         637 kB
+├ ○ /auth/signup                                  1.82 kB         637 kB
+├ ○ /auth/verify-email                            911 B           636 kB
+├ ○ /bills                                        2.23 kB         637 kB
+├ ○ /blog                                         2.96 kB         638 kB
+├ ○ /budgets                                      2.01 kB         637 kB
+├ ○ /careers                                      2.73 kB         638 kB
+├ ○ /case-studies                                 2.82 kB         638 kB
+├ ○ /changelog                                    2.6 kB          638 kB
+├ ○ /contact                                      2.73 kB         638 kB
+├ ○ /dashboard                                    7.86 kB         643 kB
+├ ○ /deals                                        2.31 kB         638 kB
+├ ○ /deals/new                                    2.03 kB         637 kB
+├ ○ /demo                                         1.94 kB         637 kB
+├ ○ /demo/request                                 1.81 kB         637 kB
+├ ○ /docs                                         2.28 kB         638 kB
+├ ○ /docs/api                                     1.67 kB         637 kB
+├ ○ /events                                       1.65 kB         637 kB
+├ ƒ /events/[id]                                  2.23 kB         637 kB
+├ ƒ /events/[id]/edit                             2.94 kB         638 kB
+├ ○ /events/new                                   2.46 kB         638 kB
+├ ○ /features                                     1.98 kB         637 kB
+├ ○ /finance                                      2.3 kB          638 kB
+├ ○ /finance/bills                                1.6 kB          637 kB
+├ ○ /finance/budgets                              1.27 kB         637 kB
+├ ○ /finance/expenses                             1.83 kB         637 kB
+├ ○ /finance/invoices                             1.49 kB         637 kB
+├ ○ /finance/proposals                            1.71 kB         637 kB
+├ ƒ /finance/proposals/[id]                       2.18 kB         637 kB
+├ ○ /finance/purchase-orders                      1.84 kB         637 kB
+├ ƒ /generator                                    8.08 kB         643 kB
+├ ○ /guides                                       2.47 kB         638 kB
+├ ○ /guides/getting-started                       1.41 kB         637 kB
+├ ○ /help                                         2.65 kB         638 kB
+├ ○ /help/community                               1.36 kB         637 kB
+├ ○ /help/docs                                    1.29 kB         637 kB
+├ ○ /help/faq                                     1.64 kB         637 kB
+├ ○ /help/getting-started                         1.24 kB         636 kB
+├ ○ /help/releases                                1.42 kB         637 kB
+├ ○ /help/tutorials                               1.63 kB         637 kB
+├ ○ /integrations                                 5 kB            640 kB
+├ ○ /invoices                                     2.47 kB         638 kB
+├ ƒ /invoices/[id]                                2.58 kB         638 kB
+├ ○ /invoices/new                                 1.78 kB         637 kB
+├ ○ /legal                                        1.5 kB          637 kB
+├ ○ /legal/accessibility                          1.7 kB          637 kB
+├ ○ /legal/cookies                                1.86 kB         637 kB
+├ ○ /legal/privacy                                1.81 kB         637 kB
+├ ○ /legal/sub-processors                         1.6 kB          637 kB
+├ ○ /legal/terms                                  1.75 kB         637 kB
+├ ○ /orders                                       2.38 kB         638 kB
+├ ○ /organizations                                1.92 kB         637 kB
+├ ƒ /organizations/[id]                           1.94 kB         637 kB
+├ ƒ /organizations/[id]/edit                      2.81 kB         638 kB
+├ ○ /organizations/new                            2.58 kB         638 kB
+├ ƒ /p/[productionId]/advancing                   1.89 kB         637 kB
+├ ƒ /p/[productionId]/documents                   1.97 kB         637 kB
+├ ƒ /p/[productionId]/overview                    1.92 kB         637 kB
+├ ƒ /p/[productionId]/schedule                    1.81 kB         637 kB
+├ ƒ /p/[productionId]/settings                    1.92 kB         637 kB
+├ ƒ /p/[productionId]/shows                       1.62 kB         637 kB
+├ ƒ /p/[productionId]/team                        1.83 kB         637 kB
+├ ƒ /p/[productionId]/vendors                     1.9 kB          637 kB
+├ ƒ /p/[productionId]/wrap                        1.96 kB         637 kB
+├ ○ /partners                                     2 kB            637 kB
+├ ƒ /pay/[token]                                  1.91 kB         637 kB
+├ ○ /people                                       2.11 kB         637 kB
+├ ƒ /people/[id]                                  1.92 kB         637 kB
+├ ƒ /people/[id]/edit                             2.36 kB         638 kB
+├ ○ /people/new                                   2.26 kB         638 kB
+├ ○ /places                                       2.13 kB         637 kB
+├ ƒ /places/[id]                                  1.96 kB         637 kB
+├ ƒ /places/[id]/edit                             2.77 kB         638 kB
+├ ○ /places/new                                   2.39 kB         638 kB
+├ ○ /portal/artist                                1.53 kB         637 kB
+├ ○ /portal/investor                              1.59 kB         637 kB
+├ ○ /portal/sponsor                               1.42 kB         637 kB
+├ ○ /portal/vendor                                1.53 kB         637 kB
+├ ○ /portals/investor                             1.88 kB         637 kB
+├ ○ /portals/sponsor                              1.8 kB          637 kB
+├ ○ /portals/vendor                               1.8 kB          637 kB
+├ ○ /press                                        2.51 kB         638 kB
+├ ○ /pricing                                      1.88 kB         637 kB
+├ ○ /productions                                  1.58 kB         637 kB
+├ ○ /productions/new                              2.77 kB         638 kB
+├ ○ /products                                     2.35 kB         638 kB
+├ ○ /products/atlvs                               1.92 kB         637 kB
+├ ○ /products/compare                             1.31 kB         637 kB
+├ ○ /products/compvss                             1.53 kB         637 kB
+├ ○ /products/gvteway                             1.53 kB         637 kB
+├ ○ /projects                                     2.4 kB          638 kB
+├ ƒ /projects/[id]                                2.77 kB         638 kB
+├ ○ /projects/new                                 1.8 kB          637 kB
+├ ƒ /proposal/[token]                             1.89 kB         637 kB
+├ ○ /quotes                                       2.5 kB          638 kB
+├ ○ /resources                                    2.34 kB         638 kB
+├ ○ /resources/templates                          1.94 kB         637 kB
+├ ○ /roadmap                                      1.95 kB         637 kB
 ├ ○ /robots.txt                                   0 B                0 B
-├ ○ /search                                       2.12 kB         635 kB
-├ ○ /security                                     2.31 kB         636 kB
-├ ○ /settings                                     928 B           634 kB
-├ ○ /settings/billing                             2.77 kB         636 kB
-├ ○ /settings/consent-history                     1.78 kB         635 kB
-├ ○ /settings/export                              1.71 kB         635 kB
-├ ○ /settings/import                              1.99 kB         635 kB
-├ ○ /settings/integrations                        2.84 kB         636 kB
-├ ○ /settings/notifications                       1.78 kB         635 kB
-├ ○ /settings/organization                        2.71 kB         636 kB
-├ ○ /settings/privacy                             2.4 kB          636 kB
-├ ○ /settings/roles                               2.5 kB          636 kB
-├ ○ /settings/security                            2.95 kB         636 kB
-├ ○ /settings/team                                2.59 kB         636 kB
+├ ○ /search                                       2.12 kB         637 kB
+├ ○ /security                                     2.31 kB         638 kB
+├ ○ /settings                                     928 B           636 kB
+├ ○ /settings/billing                             2.77 kB         638 kB
+├ ○ /settings/consent-history                     1.78 kB         637 kB
+├ ○ /settings/export                              1.71 kB         637 kB
+├ ○ /settings/import                              1.99 kB         637 kB
+├ ○ /settings/integrations                        2.84 kB         638 kB
+├ ○ /settings/notifications                       1.78 kB         637 kB
+├ ○ /settings/organization                        2.71 kB         638 kB
+├ ○ /settings/privacy                             2.4 kB          638 kB
+├ ○ /settings/roles                               2.5 kB          638 kB
+├ ○ /settings/security                            2.95 kB         638 kB
+├ ○ /settings/team                                2.59 kB         638 kB
 ├ ○ /sitemap.xml                                  0 B                0 B
-├ ○ /solutions                                    2.17 kB         635 kB
-├ ƒ /solutions/[slug]                             2.73 kB         636 kB
-├ ○ /solutions/artists                            1.72 kB         635 kB
-├ ○ /solutions/brand-ambassadors                  1.65 kB         635 kB
-├ ○ /solutions/contractors                        1.66 kB         635 kB
-├ ○ /solutions/destinations                       1.68 kB         635 kB
-├ ○ /solutions/event-staff                        1.66 kB         635 kB
-├ ○ /solutions/independent-contractors            1.67 kB         635 kB
-├ ○ /solutions/investors                          1.65 kB         635 kB
-├ ○ /solutions/producers                          1.69 kB         635 kB
-├ ○ /solutions/production-crews                   1.67 kB         635 kB
-├ ○ /solutions/project-managers                   1.67 kB         635 kB
-├ ○ /solutions/promoters                          1.67 kB         635 kB
-├ ○ /solutions/public-safety                      1.67 kB         635 kB
-├ ○ /solutions/sponsors                           1.64 kB         635 kB
-├ ○ /solutions/subcontractors                     1.64 kB         635 kB
-├ ○ /status                                       2.41 kB         636 kB
-├ ○ /team                                         2.36 kB         636 kB
-├ ○ /verticals/activations                        950 B           634 kB
-├ ○ /verticals/destinations                       936 B           634 kB
-├ ○ /verticals/installations                      943 B           634 kB
-├ ○ /verticals/productions                        933 B           634 kB
-└ ○ /workflows                                    2.33 kB         636 kB
+├ ○ /solutions                                    2.17 kB         637 kB
+├ ƒ /solutions/[slug]                             2.73 kB         638 kB
+├ ○ /solutions/artists                            1.72 kB         637 kB
+├ ○ /solutions/brand-ambassadors                  1.65 kB         637 kB
+├ ○ /solutions/contractors                        1.66 kB         637 kB
+├ ○ /solutions/destinations                       1.68 kB         637 kB
+├ ○ /solutions/event-staff                        1.66 kB         637 kB
+├ ○ /solutions/independent-contractors            1.67 kB         637 kB
+├ ○ /solutions/investors                          1.65 kB         637 kB
+├ ○ /solutions/producers                          1.69 kB         637 kB
+├ ○ /solutions/production-crews                   1.67 kB         637 kB
+├ ○ /solutions/project-managers                   1.67 kB         637 kB
+├ ○ /solutions/promoters                          1.67 kB         637 kB
+├ ○ /solutions/public-safety                      1.67 kB         637 kB
+├ ○ /solutions/sponsors                           1.64 kB         637 kB
+├ ○ /solutions/subcontractors                     1.64 kB         637 kB
+├ ○ /status                                       2.41 kB         638 kB
+├ ○ /team                                         2.36 kB         638 kB
+├ ○ /verticals/activations                        950 B           636 kB
+├ ○ /verticals/destinations                       936 B           636 kB
+├ ○ /verticals/installations                      943 B           636 kB
+├ ○ /verticals/productions                        933 B           636 kB
+└ ○ /workflows                                    2.33 kB         638 kB
 + First Load JS shared by all                     404 kB
   ├ chunks/lib-cd1540ec03da46f6.js                402 kB
   └ other shared chunks (total)                   1.99 kB

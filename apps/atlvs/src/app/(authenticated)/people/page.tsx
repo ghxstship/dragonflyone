@@ -15,10 +15,11 @@ import {
   PEOPLE_STATUS_COLORS,
   PEOPLE_TYPE_COLORS,
   formatDate,
+  useEntityConfig,
 } from '@ghxstship/config';
 import {
   Badge, Body, Box, ListPage, Stack, Text, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction,
+  type ListPageColumn, type ListPageAction,
 } from "@ghxstship/ui";
 import {
   usePeopleQuery,
@@ -41,6 +42,10 @@ export default function PeoplePage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
   const toast = useToast();
+
+  // SSOT: Get filters from entity registry (columns have custom renders)
+  const { filters } = useEntityConfig<Person>({ entityName: 'people' });
+
   const canManagePeople = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const { data: people = [], isLoading, error, refetch } = usePeopleQuery({});
@@ -123,10 +128,7 @@ export default function PeoplePage() {
     },
   ];
 
-  const filters: ListPageFilter[] = [
-    { key: 'primary_type', label: 'Type', options: (Object.keys(TYPE_CONFIG) as PersonType[]).map((type) => ({ value: type, label: TYPE_CONFIG[type].label })) },
-    { key: 'status', label: 'Status', options: [{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }, { value: 'pending', label: 'Pending' }, { value: 'archived', label: 'Archived' }] },
-  ];
+  // SSOT: Filters are provided by useEntityConfig (line 47)
 
   const rowActions: ListPageAction<Person>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (p) => router.push(`/people/${p.id}`) },

@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, BarChart3 } from 'lucide-react';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+  type ListPageAction, type DetailSection} from "@ghxstship/ui";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useEntityConfig } from '@ghxstship/config';
 import { useBudgets } from '@/hooks/useBudgets';
 import {
   DEMO_BUDGETS,
@@ -21,33 +21,16 @@ const formatCurrency = (amount: number) => {
 
 const getStatusVariant = getBadgeVariant;
 
-const columns: ListPageColumn<Budget>[] = [
-  { key: 'name', label: 'Budget', accessor: 'name', sortable: true },
-  { key: 'category', label: 'Category', accessor: 'category', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
-  { key: 'budgeted', label: 'Budgeted', accessor: (r) => formatCurrency(r.budgeted), sortable: true },
-  { key: 'actual', label: 'Actual', accessor: (r) => formatCurrency(r.actual), sortable: true },
-  { key: 'variance', label: 'Variance', accessor: (r) => `${r.variance >= 0 ? '+' : ''}${formatCurrency(r.variance)}`, sortable: true },
-  { key: 'utilization', label: 'Utilization', accessor: (r) => `${((r.actual / r.budgeted) * 100).toFixed(0)}%` },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v).replace('-', ' ').toUpperCase()}</Badge> },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [{ value: 'on-track', label: 'On Track' }, { value: 'over', label: 'Over Budget' }, { value: 'under', label: 'Under Budget' }] },
-  { key: 'category', label: 'Category', options: [{ value: 'Events', label: 'Events' }, { value: 'Operations', label: 'Operations' }, { value: 'Marketing', label: 'Marketing' }, { value: 'Technology', label: 'Technology' }] },
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'name', label: 'Budget Name', type: 'text', required: true },
-  { name: 'category', label: 'Category', type: 'select', required: true, options: [{ value: 'Events', label: 'Events' }, { value: 'Operations', label: 'Operations' }, { value: 'Marketing', label: 'Marketing' }, { value: 'Technology', label: 'Technology' }] },
-  { name: 'budgeted', label: 'Budgeted Amount', type: 'number', required: true },
-  { name: 'period', label: 'Period', type: 'select', options: [{ value: '2024-q4', label: 'Q4 2024' }, { value: '2024-q3', label: 'Q3 2024' }, { value: '2024-annual', label: 'Annual 2024' }] },
-];
+// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function BudgetsPage() {
   const router = useRouter();
   const toast = useToast();
   const { data: budgetsData, isLoading, error, refetch } = useBudgets({ period: '2024-q4' });
   const budgets = (budgetsData || DEMO_BUDGETS) as Budget[];
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<Budget>({ entityName: 'budgets' });
   
   const [selected, setSelected] = useState<Budget | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);

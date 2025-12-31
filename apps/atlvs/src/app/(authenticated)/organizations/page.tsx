@@ -16,10 +16,11 @@ import {
   ATLVS_ADMIN_ROLES,
   ORGANIZATION_STATUS_COLORS,
   ORGANIZATION_TYPE_COLORS,
+  useEntityConfig,
 } from '@ghxstship/config';
 import {
   Badge, Body, Box, ListPage, Stack, Text, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction,
+  type ListPageColumn, type ListPageAction,
 } from "@ghxstship/ui";
 import {
   useOrganizationsQuery,
@@ -43,6 +44,9 @@ export default function OrganizationsPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
   const toast = useToast();
+
+  // SSOT: Get filters from entity registry (columns have custom renders)
+  const { filters } = useEntityConfig<Organization>({ entityName: 'organizations' });
 
   const canManageOrgs = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
@@ -170,27 +174,7 @@ export default function OrganizationsPage() {
     },
   ];
 
-  // Define filters for ListPage (no type property - just key, label, options)
-  const filters: ListPageFilter[] = [
-    {
-      key: 'org_type',
-      label: 'Type',
-      options: (Object.keys(TYPE_CONFIG) as OrgType[]).map((type) => ({
-        value: type,
-        label: TYPE_CONFIG[type].label,
-      })),
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'active', label: 'Active' },
-        { value: 'inactive', label: 'Inactive' },
-        { value: 'pending', label: 'Pending' },
-        { value: 'archived', label: 'Archived' },
-      ],
-    },
-  ];
+  // SSOT: Filters are provided by useEntityConfig (line 49)
 
   // Define row actions for ListPage (variant is 'danger' not 'destructive')
   const rowActions: ListPageAction<Organization>[] = [

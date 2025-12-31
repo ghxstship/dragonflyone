@@ -7,8 +7,8 @@ import { Eye, Pencil, Trash2 } from "lucide-react";
 import { useIncidents } from "@/hooks/useIncidents";
 import {
   ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+  type ListPageAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useEntityConfig } from "@ghxstship/config";
 
 interface Incident {
   id: string;
@@ -22,33 +22,15 @@ interface Incident {
   location?: string;
 }
 
-const columns: ListPageColumn<Incident>[] = [
-  { key: 'id', label: 'ID', accessor: 'id', sortable: true },
-  { key: 'type', label: 'Type', accessor: 'type', render: (v: unknown) => <Badge variant="outline">{String(v).replace('-', ' ')}</Badge> },
-  { key: 'event_name', label: 'Event', accessor: (r) => r.event_name || 'N/A' },
-  { key: 'reporter', label: 'Reporter', accessor: 'reporter' },
-  { key: 'incident_date', label: 'Date', accessor: (r) => r.incident_date || 'N/A', sortable: true },
-  { key: 'severity', label: 'Severity', accessor: 'severity', sortable: true, render: (v: unknown) => <Badge variant={v === 'high' || v === 'critical' ? 'solid' : 'outline'}>{String(v)}</Badge> },
-  { key: 'status', label: 'Status', accessor: (r) => r.status.replace('-', ' '), sortable: true },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [{ value: 'under-review', label: 'Under Review' }, { value: 'closed', label: 'Closed' }] },
-  { key: 'severity', label: 'Severity', options: [{ value: 'low', label: 'Low' }, { value: 'medium', label: 'Medium' }, { value: 'high', label: 'High' }, { value: 'critical', label: 'Critical' }] },
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'type', label: 'Incident Type', type: 'select', required: true, options: [{ value: 'injury', label: 'Injury' }, { value: 'near-miss', label: 'Near Miss' }, { value: 'property-damage', label: 'Property Damage' }, { value: 'equipment-failure', label: 'Equipment Failure' }] },
-  { name: 'severity', label: 'Severity', type: 'select', required: true, options: [{ value: 'low', label: 'Low' }, { value: 'medium', label: 'Medium' }, { value: 'high', label: 'High' }, { value: 'critical', label: 'Critical' }] },
-  { name: 'incident_date', label: 'Date', type: 'date', required: true },
-  { name: 'location', label: 'Location', type: 'text', required: true },
-  { name: 'description', label: 'Description', type: 'textarea', required: true, colSpan: 2 },
-];
+// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function IncidentsPage() {
   const router = useRouter();
   const { data: incidentsData, isLoading, refetch } = useIncidents();
   const incidents = (incidentsData || []) as unknown as Incident[];
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<Incident>({ entityName: 'incidents' });
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);

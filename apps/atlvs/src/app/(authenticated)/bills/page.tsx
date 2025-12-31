@@ -11,72 +11,28 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, DollarSign, CheckCircle, Trash2, Download } from 'lucide-react';
 import {
   ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection,
+  type ListPageAction, type ListPageBulkAction, type DetailSection,
 } from "@ghxstship/ui";
 import { 
   createExportHandler,
   FINANCIAL_STATUS_COLORS,
   formatCurrency,
   formatDate,
+  useEntityConfig,
 } from '@ghxstship/config';
 import { useBillsData, type Bill } from '@/hooks/useBills';
 
 const statusColors = FINANCIAL_STATUS_COLORS;
 
-const columns: ListPageColumn<Bill>[] = [
-  { key: 'bill_number', label: 'Bill #', accessor: 'bill_number', sortable: true },
-  { key: 'vendor', label: 'Vendor', accessor: (r) => r.vendor?.name || '—', sortable: true },
-  { key: 'description', label: 'Description', accessor: 'description' },
-  { key: 'amount', label: 'Amount', accessor: 'amount', sortable: true, render: (v: unknown) => formatCurrency(Number(v)) },
-  { key: 'amount_paid', label: 'Paid', accessor: 'amount_paid', render: (v: unknown) => formatCurrency(Number(v)) },
-  { key: 'due_date', label: 'Due Date', accessor: 'due_date', sortable: true, render: (v: unknown) => formatDate(String(v)) },
-  { 
-    key: 'status', 
-    label: 'Status', 
-    accessor: 'status', 
-    sortable: true,
-    render: (v: unknown) => <Badge variant={statusColors[String(v)] || 'outline'}>{String(v).toUpperCase()}</Badge>
-  },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [
-    { value: 'pending', label: 'Pending' },
-    { value: 'approved', label: 'Approved' },
-    { value: 'partial', label: 'Partial' },
-    { value: 'paid', label: 'Paid' },
-    { value: 'cancelled', label: 'Cancelled' },
-  ]},
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'vendor_id', label: 'Vendor', type: 'select', required: true, options: [], colSpan: 2 },
-  { name: 'description', label: 'Description', type: 'text', required: true, colSpan: 2 },
-  { name: 'amount', label: 'Amount', type: 'number', required: true },
-  { name: 'currency', label: 'Currency', type: 'select', options: [
-    { value: 'USD', label: 'USD' },
-    { value: 'EUR', label: 'EUR' },
-    { value: 'GBP', label: 'GBP' },
-  ]},
-  { name: 'issue_date', label: 'Issue Date', type: 'date', required: true },
-  { name: 'due_date', label: 'Due Date', type: 'date', required: true },
-  { name: 'category', label: 'Category', type: 'select', options: [
-    { value: 'equipment', label: 'Equipment' },
-    { value: 'labor', label: 'Labor' },
-    { value: 'materials', label: 'Materials' },
-    { value: 'services', label: 'Services' },
-    { value: 'venue', label: 'Venue' },
-    { value: 'catering', label: 'Catering' },
-    { value: 'transportation', label: 'Transportation' },
-    { value: 'other', label: 'Other' },
-  ]},
-  { name: 'reference_number', label: 'Reference #', type: 'text' },
-  { name: 'notes', label: 'Notes', type: 'textarea', colSpan: 2 },
-];
+// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function BillsPage() {
   const router = useRouter();
   const toast = useToast();
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<Bill>({ entityName: 'bills' });
+
   const {
     bills,
     summary,

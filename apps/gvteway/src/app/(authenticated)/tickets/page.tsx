@@ -14,10 +14,8 @@ import {
   type DetailSection,
   type ListPageAction,
   type ListPageBulkAction,
-  type ListPageColumn,
-  type ListPageFilter,
 } from '@ghxstship/ui';
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, useEntityConfig } from "@ghxstship/config";
 import { useTickets, type Ticket } from "@/hooks/useTickets";
 
 export default function TicketsPage() {
@@ -27,66 +25,8 @@ export default function TicketsPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cancelConfirmOpen, setCancelConfirmOpen] = useState(false);
 
-  const columns: ListPageColumn<Ticket>[] = [
-    { 
-      key: 'event', 
-      label: 'Event', 
-      accessor: (row) => row.event?.name || row.event?.title || 'Event',
-      sortable: true
-    },
-    { 
-      key: 'ticket_type', 
-      label: 'Type', 
-      accessor: (row) => row.ticket_type?.name || 'General',
-      render: (value: unknown) => <Badge variant="outline">{String(value)}</Badge>
-    },
-    { key: 'seat_number', label: 'Seat', accessor: (row) => row.seat_number || 'GA' },
-    { 
-      key: 'price', 
-      label: 'Price', 
-      accessor: 'price', 
-      sortable: true,
-      render: (value: unknown) => `$${Number(value || 0).toFixed(2)}`
-    },
-    { 
-      key: 'event_date', 
-      label: 'Event Date', 
-      accessor: (row) => row.event?.start_date || row.event?.event_date,
-      sortable: true,
-      render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : 'TBD'
-    },
-    { 
-      key: 'status', 
-      label: 'Status', 
-      accessor: 'status', 
-      sortable: true,
-      render: (value: unknown) => {
-        // Schema: status enum ['valid', 'used', 'cancelled', 'refunded']
-        const variant = value === 'valid' ? 'success' : value === 'used' ? 'info' : value === 'cancelled' ? 'error' : value === 'refunded' ? 'warning' : 'outline';
-        return <Badge variant={variant}>{String(value).toUpperCase()}</Badge>;
-      }
-    },
-    { 
-      key: 'id', 
-      label: 'Ticket ID', 
-      accessor: 'id',
-      render: (value: unknown) => <Text className="font-mono">{String(value).substring(0, 12).toUpperCase()}</Text>
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    { 
-      key: 'status', 
-      label: 'Status', 
-      // Schema: status enum from API validation: ['valid', 'used', 'cancelled', 'refunded']
-      options: [
-        { value: 'valid', label: 'Valid' },
-        { value: 'used', label: 'Used' },
-        { value: 'cancelled', label: 'Cancelled' },
-        { value: 'refunded', label: 'Refunded' },
-      ]
-    },
-  ];
+  // SSOT: Get columns and filters from entity registry
+  const { columns, filters } = useEntityConfig<Ticket>({ entityName: 'tickets' });
 
   const rowActions: ListPageAction<Ticket>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedTicket(row); setDrawerOpen(true); } },

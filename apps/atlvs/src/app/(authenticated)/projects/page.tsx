@@ -6,8 +6,8 @@ import { Eye, Pencil, ClipboardList, Trash2, Archive, Download } from 'lucide-re
 // Layout provided by route group
 import { 
   ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+  type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES, useEntityConfig } from '@ghxstship/config';
 import { useProjects, useCreateProject, useDeleteProject } from '@/hooks/useProjects';
 
 // Roles that can create/edit/delete projects
@@ -26,77 +26,7 @@ interface Project {
   created_at?: string;
 }
 
-const columns: ListPageColumn<Project>[] = [
-  { key: 'code', label: 'Code', accessor: 'code', sortable: true, width: '100px' },
-  { key: 'name', label: 'Project Name', accessor: 'name', sortable: true },
-  { 
-    key: 'status', 
-    label: 'Status', 
-    accessor: 'status', 
-    sortable: true,
-    render: (value: unknown) => <Badge>{String(value || 'Active').toUpperCase()}</Badge>
-  },
-  { key: 'phase', label: 'Phase', accessor: 'phase', sortable: true },
-  { 
-    key: 'budget', 
-    label: 'Budget', 
-    accessor: 'budget', 
-    sortable: true,
-    render: (value: unknown) => value ? `$${Number(value).toLocaleString()}` : '—'
-  },
-  {
-    key: 'start_date',
-    label: 'Start Date',
-    accessor: 'start_date',
-    sortable: true,
-    render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '—'
-  },
-];
-
-const filters: ListPageFilter[] = [
-  { 
-    key: 'status', 
-    label: 'Status', 
-    options: [
-      { value: 'active', label: 'Active' },
-      { value: 'planning', label: 'Planning' },
-      { value: 'on_hold', label: 'On Hold' },
-      { value: 'completed', label: 'Completed' },
-    ]
-  },
-  {
-    key: 'phase',
-    label: 'Phase',
-    // Schema: create type project_phase as enum ('intake','preproduction','in_production','post');
-    options: [
-      { value: 'intake', label: 'Intake' },
-      { value: 'preproduction', label: 'Pre-Production' },
-      { value: 'in_production', label: 'In Production' },
-      { value: 'post', label: 'Post-Production' },
-    ]
-  },
-];
-
-const formFields: FormFieldConfig[] = [
-  { name: 'name', label: 'Project Name', type: 'text', required: true, placeholder: 'Enter project name', colSpan: 2 },
-  { name: 'code', label: 'Project Code', type: 'text', placeholder: 'e.g., PRJ-001' },
-  { name: 'status', label: 'Status', type: 'select', options: [
-    { value: 'planning', label: 'Planning' },
-    { value: 'active', label: 'Active' },
-    { value: 'on_hold', label: 'On Hold' },
-    { value: 'completed', label: 'Completed' },
-  ]},
-  { name: 'phase', label: 'Phase', type: 'select', options: [
-    // Schema: create type project_phase as enum ('intake','preproduction','in_production','post');
-    { value: 'intake', label: 'Intake' },
-    { value: 'preproduction', label: 'Pre-Production' },
-    { value: 'in_production', label: 'In Production' },
-    { value: 'post', label: 'Post-Production' },
-  ]},
-  { name: 'budget', label: 'Budget', type: 'number', placeholder: '0.00' },
-  { name: 'start_date', label: 'Start Date', type: 'date' },
-  { name: 'end_date', label: 'End Date', type: 'date' },
-];
+// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function ProjectsPage() {
   const router = useRouter();
@@ -104,6 +34,9 @@ export default function ProjectsPage() {
   const { data: projects, isLoading, error, refetch } = useProjects();
   const createProjectMutation = useCreateProject();
   const deleteProjectMutation = useDeleteProject();
+
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields, names } = useEntityConfig<Project>({ entityName: 'projects' });
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);

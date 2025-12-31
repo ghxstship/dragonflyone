@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Eye, Edit, Users, Trash2, Download } from 'lucide-react';
 import {
   ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, useAuthContext, PlatformRole } from '@ghxstship/config';
+  type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, useAuthContext, PlatformRole, useEntityConfig } from '@ghxstship/config';
 
 // Roles that can manage projects (COMPVSS has no SUPER_ADMIN, only ADMIN)
 const ADMIN_ROLES = [
@@ -23,105 +23,15 @@ export default function ProjectsPage() {
   const { hasRole } = useAuthContext();
   const { data: projects = [], isLoading, error, refetch } = useProjects({});
 
+  // SSOT: Get columns, filters, and formFields from entity registry
+  const { columns, filters, formFields } = useEntityConfig<Project>({ entityName: 'projects' });
+
   // RBAC: Check if user has admin access for manage operations
   const canManageProjects = ADMIN_ROLES.some(role => hasRole(role));
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
-
-  const columns: ListPageColumn<Project>[] = [
-    { key: 'name', label: 'Name', accessor: 'name', sortable: true },
-    { 
-      key: 'code', 
-      label: 'Code', 
-      accessor: 'code',
-      render: (value: unknown) => <Badge variant="outline">{String(value)}</Badge>
-    },
-    { 
-      key: 'phase', 
-      label: 'Phase', 
-      accessor: 'phase', 
-      sortable: true,
-      render: (value: unknown) => <Badge variant="solid">{String(value)}</Badge>
-    },
-    { 
-      key: 'status', 
-      label: 'Status', 
-      accessor: 'status', 
-      sortable: true,
-      render: (value: unknown) => {
-        const variant = value === 'active' ? 'success' : value === 'planning' ? 'info' : value === 'completed' ? 'outline' : 'warning';
-        return <Badge variant={variant}>{String(value).toUpperCase()}</Badge>;
-      }
-    },
-    { 
-      key: 'budget', 
-      label: 'Budget', 
-      accessor: 'budget', 
-      sortable: true,
-      render: (value: unknown) => `$${Number(value || 0).toLocaleString()}`
-    },
-    { 
-      key: 'crew_count', 
-      label: 'Crew', 
-      accessor: 'crew_count',
-      render: (value: unknown) => value ? `${value} assigned` : '-'
-    },
-    { 
-      key: 'start_date', 
-      label: 'Start Date', 
-      accessor: 'start_date', 
-      sortable: true,
-      render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '-'
-    },
-    { 
-      key: 'event_date', 
-      label: 'Event Date', 
-      accessor: 'event_date', 
-      sortable: true,
-      render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '-'
-    },
-  ];
-
-  // Schema: Aligned with API createProjectSchema phase enum
-  const filters: ListPageFilter[] = [
-    { 
-      key: 'status', 
-      label: 'Status', 
-      options: [
-        { value: 'planning', label: 'Planning' },
-        { value: 'active', label: 'Active' },
-        { value: 'completed', label: 'Completed' },
-      ]
-    },
-    { 
-      key: 'phase', 
-      label: 'Phase', 
-      options: [
-        { value: 'intake', label: 'Intake' },
-        { value: 'preproduction', label: 'Pre-Production' },
-        { value: 'in_production', label: 'In Production' },
-        { value: 'post', label: 'Post-Production' },
-      ]
-    },
-  ];
-
-  // Schema: Aligned with API createProjectSchema phase enum
-  const formFields: FormFieldConfig[] = [
-    { name: 'name', label: 'Project Name', type: 'text', required: true },
-    { name: 'code', label: 'Project Code', type: 'text', required: true },
-    { name: 'phase', label: 'Phase', type: 'select', required: true, options: [
-      { value: 'intake', label: 'Intake' },
-      { value: 'preproduction', label: 'Pre-Production' },
-      { value: 'in_production', label: 'In Production' },
-      { value: 'post', label: 'Post-Production' },
-    ]},
-    { name: 'budget', label: 'Budget ($)', type: 'number' },
-    { name: 'start_date', label: 'Start Date', type: 'date' },
-    { name: 'event_date', label: 'Event Date', type: 'date' },
-    { name: 'description', label: 'Description', type: 'textarea' },
-  ];
 
   const rowActions: ListPageAction<Project>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedProject(row); setDrawerOpen(true); } },
