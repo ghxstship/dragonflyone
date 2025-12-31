@@ -1,0 +1,37 @@
+vendor_code,name,vendor_type,contact_name,email,phone,address,city,state,postal_code,country,website,payment_terms,tax_id,notes
+VND-001,PRG Lighting,lighting,Mike Thompson,mike@prg.com,555-2001,100 Production Way,Los Angeles,CA,90001,USA,www.prg.com,net_30,12-3456789,Preferred lighting vendor
+VND-002,Sound Image,audio,Chris Davis,chris@soundimage.com,555-2002,200 Audio Blvd,Los Angeles,CA,90002,USA,www.soundimage.com,net_30,23-4567890,Full service audio
+VND-003,SGPS Staging,staging,Pat Wilson,pat@sgps.com,555-2003,300 Stage Dr,Los Angeles,CA,90003,USA,www.sgps.com,net_15,34-5678901,Staging and risers
+VND-004,Backline Rentals Inc,backline,Sam Lee,sam@backline.com,555-2004,400 Music Lane,Los Angeles,CA,90004,USA,www.backlinerentals.com,due_on_receipt,45-6789012,Instruments and amps
+VND-005,Local Rigging Co,rigging,Alex Chen,alex@localrigging.com,555-2005,500 Fly Way,Los Angeles,CA,90005,USA,www.localrigging.com,net_30,56-7890123,ETCP certified riggers
+VND-006,Gourmet Catering Co,catering,Emily Brown,emily@gourmetcatering.com,555-2006,600 Food St,Los Angeles,CA,90006,USA,www.gourmetcatering.com,net_15,67-8901234,Full service catering
+VND-007,Elite Security Services,security,David Garcia,david@elitesecurity.com,555-2007,700 Guard Ave,Los Angeles,CA,90007,USA,www.elitesecurity.com,net_30,78-9012345,Licensed security
+VND-008,Metro Transportation,transportation,Karen White,karen@metrotrans.com,555-2008,800 Transit Rd,Los Angeles,CA,90008,USA,www.metrotrans.com,net_30,89-0123456,Buses and shuttles
+VND-009,Print Express,print,Tom Harris,tom@printexpress.com,555-2009,900 Print Blvd,Los Angeles,CA,90009,USA,www.printexpress.com,due_on_receipt,90-1234567,Posters and signage
+VND-010,Video Productions LLC,video,Rachel Kim,rachel@videoprod.com,555-2010,1000 Screen Way,Los Angeles,CA,90010,USA,www.videoproductions.com,net_30,01-2345678,LED and video
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+vendor_code,Yes,Text,Unique per org,Your internal vendor code
+name,Yes,Text,,Vendor company name
+vendor_type,No,Enum,"audio,lighting,video,staging,rigging,backline,catering,security,transportation,print,other",Vendor category
+contact_name,No,Text,,Primary contact name
+email,No,Email,,Contact email
+phone,No,Text,,Contact phone
+address,No,Text,,Street address
+city,No,Text,,City
+state,No,Text,,State/Province
+postal_code,No,Text,,ZIP/Postal code
+country,No,Text,Default USA,Country
+website,No,URL,,Website URL
+payment_terms,No,Text,Default net_30,"net_30,net_15,net_60,due_on_receipt"
+tax_id,No,Text,,Tax ID/EIN for 1099
+notes,No,Text,,Vendor notes
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. vendor_code must be unique within your organization

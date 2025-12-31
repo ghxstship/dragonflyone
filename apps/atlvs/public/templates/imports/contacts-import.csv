@@ -1,0 +1,43 @@
+first_name,last_name,email,phone,company,title,department,address,city,state,postal_code,country,source,lead_status,tags,notes
+John,Smith,john.smith@agency.com,555-1001,Talent Agency Inc,Senior Agent,Booking,,Los Angeles,CA,90001,USA,referral,active,"agent,booking",Primary booking contact
+Sarah,Johnson,sarah.j@venue.com,555-1002,The Amphitheater,Venue Manager,Operations,123 Concert Way,Los Angeles,CA,90001,USA,direct,active,"venue,operations",Main venue contact
+Michael,Williams,m.williams@production.com,555-1003,Pro Audio Services,Owner,Sales,,Los Angeles,CA,90002,USA,trade_show,active,"vendor,audio",Audio vendor contact
+Emily,Brown,emily.b@catering.com,555-1004,Gourmet Catering Co,Event Coordinator,Catering,,Los Angeles,CA,90003,USA,referral,active,"vendor,catering",Preferred caterer
+David,Garcia,d.garcia@security.com,555-1005,Elite Security Services,Operations Manager,Security,,Los Angeles,CA,90004,USA,website,active,"vendor,security",Security provider
+Lisa,Martinez,lisa.m@sponsor.com,555-1006,Major Brand Corp,Marketing Director,Marketing,,New York,NY,10001,USA,cold_outreach,qualified,"sponsor,corporate",Potential sponsor
+James,Anderson,james.a@media.com,555-1007,Entertainment Weekly,Music Editor,Editorial,,New York,NY,10002,USA,pr_outreach,active,"media,press",Press contact
+Jennifer,Taylor,jennifer.t@artist.com,555-1008,Artist Management Group,Tour Manager,Touring,,Nashville,TN,37201,USA,industry,active,"artist,management",Tour manager contact
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+first_name,No,Text,,Contact first name
+last_name,No,Text,,Contact last name
+email,No,Email,,Email address
+phone,No,Text,,Phone number
+company,No,Text,,Company/organization name
+title,No,Text,,Job title
+department,No,Text,,Department
+address,No,Text,,Street address
+city,No,Text,,City
+state,No,Text,,State/Province
+postal_code,No,Text,,ZIP/Postal code
+country,No,Text,Default USA,Country
+source,No,Text,,How contact was acquired
+lead_status,No,Enum,"new,contacted,qualified,active,inactive",Contact status
+tags,No,Text,,Comma-separated tags
+notes,No,Text,,Contact notes
+
+COMMON TAGS
+Category,Tags
+Type,"vendor,venue,artist,agent,sponsor,media,corporate"
+Department,"booking,production,marketing,operations,finance"
+Relationship,"preferred,approved,prospect,inactive"
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. Tags should be comma-separated within quotes
+5. At least one of first_name, last_name, or company should be provided

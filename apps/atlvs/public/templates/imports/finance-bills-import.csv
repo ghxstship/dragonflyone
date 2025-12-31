@@ -1,0 +1,30 @@
+bill_number,vendor_name,bill_date,due_date,subtotal,tax_amount,total_amount,currency,status,paid_amount,notes
+BILL-001,PRG Lighting,2024-07-16,2024-08-15,15000.00,1237.50,16237.50,USD,pending,0.00,Lighting rental invoice
+BILL-002,Sound Image,2024-07-16,2024-08-15,22000.00,1815.00,23815.00,USD,pending,0.00,PA system rental
+BILL-003,SGPS Staging,2024-07-16,2024-07-31,8500.00,701.25,9201.25,USD,approved,0.00,Staging invoice - net 15
+BILL-004,Backline Rentals Inc,2024-07-15,2024-07-15,3200.00,264.00,3464.00,USD,paid,3464.00,Paid on delivery
+BILL-005,Local Rigging Co,2024-07-16,2024-08-15,4500.00,371.25,4871.25,USD,pending,0.00,Rigging services
+BILL-006,Catering Company,2024-07-16,2024-07-31,2500.00,206.25,2706.25,USD,approved,0.00,Crew catering
+,,,,,,,,,,
+,,,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+bill_number,Yes,Text,Unique per org,Vendor invoice/bill number
+vendor_name,No,Text,,Vendor company name
+bill_date,Yes,Date,YYYY-MM-DD,Invoice date
+due_date,No,Date,YYYY-MM-DD,Payment due date
+subtotal,No,Decimal,Default 0,Amount before tax
+tax_amount,No,Decimal,Default 0,Tax amount
+total_amount,No,Decimal,Default 0,Total amount due
+currency,No,Text,Default USD,Currency code
+status,No,Enum,"pending,approved,paid,partial,overdue,cancelled",Bill status
+paid_amount,No,Decimal,Default 0,Amount already paid
+notes,No,Text,,Bill notes
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. total_amount should equal subtotal + tax_amount
+5. For paid bills, paid_amount should equal total_amount

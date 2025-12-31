@@ -1,0 +1,34 @@
+venue_code,name,venue_type,address,city,state,postal_code,country,capacity_seated,capacity_standing,capacity_mixed,phone,email,website,notes
+VEN-001,The Amphitheater,outdoor,123 Concert Way,Los Angeles,CA,90001,USA,3500,5000,4500,555-0100,booking@amphitheater.com,www.amphitheater.com,Outdoor amphitheater with lawn seating
+VEN-002,Grand Ballroom,ballroom,456 Hotel Blvd,Los Angeles,CA,90002,USA,400,600,500,555-0101,events@grandballroom.com,www.grandballroom.com,Hotel ballroom with full catering
+VEN-003,Downtown Arena,arena,789 Sports Dr,Los Angeles,CA,90003,USA,15000,18000,16000,555-0102,booking@downtownarena.com,www.downtownarena.com,Multi-purpose arena
+VEN-004,Historic Theater,theater,321 Main St,Los Angeles,CA,90004,USA,800,0,800,555-0103,info@historictheater.com,www.historictheater.com,Restored 1920s theater - seated only
+VEN-005,Rooftop Venue,rooftop,555 High Rise Ave,Los Angeles,CA,90005,USA,200,1000,600,555-0104,events@rooftopvenue.com,www.rooftopvenue.com,Downtown rooftop with city views
+VEN-006,Club Nightlife,club,777 Party Lane,Los Angeles,CA,90006,USA,0,800,400,555-0105,booking@clubnightlife.com,www.clubnightlife.com,Nightclub with DJ booth and dance floor
+VEN-007,Convention Center,convention,999 Expo Blvd,Los Angeles,CA,90007,USA,5000,10000,7500,555-0106,sales@conventioncenter.com,www.conventioncenter.com,Large convention facility
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+venue_code,Yes,Text,Unique per org,Your internal venue code
+name,Yes,Text,,Venue name
+venue_type,No,Enum,"arena,theater,club,outdoor,ballroom,rooftop,convention,warehouse,other",Venue type
+address,No,Text,,Street address
+city,No,Text,,City
+state,No,Text,,State/Province
+postal_code,No,Text,,ZIP/Postal code
+country,No,Text,Default USA,Country
+capacity_seated,No,Integer,,Seated capacity
+capacity_standing,No,Integer,,Standing capacity
+capacity_mixed,No,Integer,,Mixed seating/standing capacity
+phone,No,Text,,Main phone number
+email,No,Email,,Booking email
+website,No,URL,,Website URL
+notes,No,Text,,Venue notes
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. Import venues before events that reference them

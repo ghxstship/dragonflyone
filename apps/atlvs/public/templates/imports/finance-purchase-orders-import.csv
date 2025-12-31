@@ -1,0 +1,31 @@
+po_number,vendor_name,order_date,expected_delivery_date,subtotal,tax_amount,shipping_amount,total_amount,currency,payment_terms,shipping_address,notes,status
+PO-2024-001,PRG Lighting,2024-07-01,2024-07-14,15000.00,1237.50,500.00,16737.50,USD,net_30,123 Venue St - Loading Dock,Main stage lighting package,approved
+PO-2024-002,Sound Image,2024-07-01,2024-07-14,22000.00,1815.00,750.00,24565.00,USD,net_30,123 Venue St - Loading Dock,PA system rental,approved
+PO-2024-003,SGPS Staging,2024-07-05,2024-07-14,8500.00,701.25,0.00,9201.25,USD,net_15,123 Venue St - Loading Dock,Stage deck and risers,ordered
+PO-2024-004,Backline Rentals Inc,2024-07-10,2024-07-14,3200.00,264.00,150.00,3614.00,USD,due_on_receipt,123 Venue St - Loading Dock,Drum kit and amps,pending_approval
+PO-2024-005,Local Rigging Co,2024-07-08,2024-07-14,4500.00,371.25,0.00,4871.25,USD,net_30,123 Venue St,Rigging points and motors,approved
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+po_number,Yes,Text,Unique per org,Purchase order number
+vendor_name,No,Text,,Vendor company name
+order_date,No,Date,YYYY-MM-DD,Date order was placed
+expected_delivery_date,No,Date,YYYY-MM-DD,Expected delivery date
+subtotal,No,Decimal,Default 0,Subtotal before tax/shipping
+tax_amount,No,Decimal,Default 0,Tax amount
+shipping_amount,No,Decimal,Default 0,Shipping cost
+total_amount,No,Decimal,Default 0,Total amount
+currency,No,Text,Default USD,Currency code
+payment_terms,No,Text,Default net_30,"net_30,net_15,net_60,due_on_receipt"
+shipping_address,No,Text,,Delivery address
+notes,No,Text,,Order notes
+status,No,Enum,"draft,pending_approval,approved,ordered,received,closed,cancelled",PO status
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. All amounts should be positive numbers without currency symbols
+5. total_amount should equal subtotal + tax_amount + shipping_amount

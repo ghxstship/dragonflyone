@@ -1,0 +1,39 @@
+code,name,description,hourly_rate_min,hourly_rate_max,daily_rate,overtime_multiplier,requires_certification,certification_types,skills_required
+STAGEHAND,Stagehand,General stagehand for load in/out and show support,18.00,28.00,200.00,1.5,false,,
+RIGGER,Rigger,Certified rigger for flying systems,35.00,55.00,450.00,1.5,true,"ETCP Rigger,Arena Rigger",rigging;motors;chain
+AUDIO_A1,Audio Engineer A1,Front of house audio engineer,40.00,75.00,600.00,1.5,false,,"mixing;PA systems;RF coordination"
+AUDIO_A2,Audio Engineer A2,Monitor engineer or A1 assistant,30.00,50.00,400.00,1.5,false,,"monitors;IEM;stage audio"
+LD,Lighting Director,Lighting designer and programmer,45.00,85.00,700.00,1.5,false,,"console programming;design;focus"
+LX_TECH,Lighting Technician,Lighting crew member,22.00,35.00,280.00,1.5,false,,"fixtures;cabling;focus"
+VIDEO_ENG,Video Engineer,LED wall and video switching,35.00,60.00,500.00,1.5,false,,"LED;switching;cameras"
+BACKLINE,Backline Technician,Instrument and backline support,25.00,40.00,320.00,1.5,false,,"guitars;drums;keyboards"
+CARPENTER,Scenic Carpenter,Set construction and installation,28.00,45.00,360.00,1.5,false,,"carpentry;scenic;tools"
+LOADER,Loader,Truck loading and unloading,16.00,22.00,160.00,1.5,false,,
+RUNNER,Runner,Production runner with vehicle,15.00,20.00,150.00,1.5,false,,"driving;errands"
+CATERING,Catering Staff,Food service and hospitality,15.00,22.00,160.00,1.5,false,,"food service;hospitality"
+SECURITY,Security Guard,Event security personnel,18.00,28.00,200.00,1.5,true,Guard Card,
+MEDIC,EMT/Medic,Emergency medical technician,25.00,40.00,320.00,1.5,true,"EMT,Paramedic","first aid;emergency response"
+PM,Production Manager,Production management,50.00,100.00,800.00,1.5,false,,"management;budgets;scheduling"
+SM,Stage Manager,Stage management,35.00,60.00,500.00,1.5,false,,"cues;communication;coordination"
+,,,,,,,,,
+,,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+code,Yes,Text,Unique per org,Short code for the role (e.g. RIGGER)
+name,Yes,Text,,Display name for the role
+description,No,Text,,Role description
+hourly_rate_min,No,Decimal,,Minimum hourly rate for this role
+hourly_rate_max,No,Decimal,,Maximum hourly rate for this role
+daily_rate,No,Decimal,,Standard day rate for this role
+overtime_multiplier,No,Decimal,Default 1.5,OT multiplier (1.5 = time and a half)
+requires_certification,No,Boolean,true/false,Whether certification is required
+certification_types,No,Text,,Semicolon-separated list of accepted certs
+skills_required,No,Text,,Semicolon-separated list of required skills
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. Use semicolons to separate multiple values in certification_types and skills_required
+5. Boolean values must be lowercase: true or false

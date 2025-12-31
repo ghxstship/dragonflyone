@@ -1,0 +1,38 @@
+employee_number,certification_type,certification_name,issuing_authority,certification_number,issue_date,expiration_date,notes
+EMP003,ETCP,ETCP Certified Rigger - Arena,ETCP,ETR-12345,2023-01-15,2028-01-15,Arena rigging certification
+EMP003,OSHA,OSHA 30-Hour Construction,OSHA,OSHA-67890,2022-06-01,,Does not expire
+EMP001,AUDIO,Dante Level 3,Audinate,DNT-11111,2023-03-20,,Dante certification
+EMP002,LIFT,Scissor Lift Operator,OSHA,SL-22222,2024-01-10,2027-01-10,Aerial lift certified
+EMP002,LIFT,Forklift Operator,OSHA,FL-33333,2024-01-10,2027-01-10,Forklift certified
+EMP005,SAFETY,First Aid/CPR/AED,American Red Cross,FA-44444,2024-05-15,2026-05-15,Basic first aid
+EMP004,PM,PMP Certification,PMI,PMP-55555,2022-09-01,2025-09-01,Project management
+,,,,,,,,
+,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+employee_number,Yes,Text,,Must match employee_number from employees import
+certification_type,Yes,Text,,Category (e.g. ETCP/OSHA/LIFT/SAFETY/AUDIO)
+certification_name,Yes,Text,,Full name of certification
+issuing_authority,No,Text,,Organization that issued the cert
+certification_number,No,Text,,Certificate/license number
+issue_date,No,Date,YYYY-MM-DD,Date certification was issued
+expiration_date,No,Date,YYYY-MM-DD,Expiration date (blank if no expiration)
+notes,No,Text,,Additional notes
+
+COMMON CERTIFICATION TYPES
+Type,Examples
+ETCP,"ETCP Rigger - Arena, ETCP Rigger - Theatre, ETCP Electrician"
+OSHA,"OSHA 10-Hour, OSHA 30-Hour"
+LIFT,"Forklift, Scissor Lift, Boom Lift, Aerial Work Platform"
+SAFETY,"First Aid/CPR, AED, Fire Safety"
+AUDIO,"Dante, Meyer Sound, L-Acoustics"
+VIDEO,"LED Specialist, Disguise, Notch"
+SECURITY,Guard Card
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. employee_number must match an existing employee
+5. Leave expiration_date blank for certifications that don't expire

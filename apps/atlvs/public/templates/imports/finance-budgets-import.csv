@@ -1,0 +1,25 @@
+name,fiscal_year,start_date,end_date,total_amount,currency,status,notes
+Summer Festival 2024,2024,2024-06-01,2024-08-31,250000.00,USD,active,Main summer festival budget
+Q3 Operations,2024,2024-07-01,2024-09-30,75000.00,USD,active,Quarterly operations budget
+Marketing Campaign,2024,2024-07-01,2024-07-31,15000.00,USD,active,July marketing push
+Equipment Maintenance,2024,2024-01-01,2024-12-31,50000.00,USD,active,Annual equipment maintenance
+Venue Improvements,2024,2024-01-01,2024-12-31,100000.00,USD,draft,Capital improvements
+,,,,,,,,
+,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+name,Yes,Text,,Budget name
+fiscal_year,No,Integer,,Fiscal year (e.g. 2024)
+start_date,No,Date,YYYY-MM-DD,Budget period start
+end_date,No,Date,YYYY-MM-DD,Budget period end
+total_amount,Yes,Decimal,> 0,Total budget amount
+currency,No,Text,Default USD,Currency code
+status,No,Enum,"draft,active,closed",Budget status
+notes,No,Text,,Budget notes
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. Budget line items should be imported separately after budgets

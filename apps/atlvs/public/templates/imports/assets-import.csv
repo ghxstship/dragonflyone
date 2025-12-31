@@ -1,0 +1,47 @@
+tag,name,category,serial_number,barcode,state,purchase_price,current_value,acquired_at,warranty_expires_at,last_maintenance_at,next_maintenance_at,notes
+AUDIO-001,Shure SM58 Microphone,audio,SM58-12345,8001234567890,available,99.00,75.00,2023-01-15,2025-01-15,2024-06-01,2024-12-01,Vocal mic - good condition
+AUDIO-002,Shure SM58 Microphone,audio,SM58-12346,8001234567891,available,99.00,75.00,2023-01-15,2025-01-15,2024-06-01,2024-12-01,Vocal mic - good condition
+AUDIO-003,Sennheiser e906,audio,E906-23456,8001234567892,available,189.00,150.00,2023-03-20,2025-03-20,2024-06-01,2024-12-01,Guitar cab mic
+AUDIO-004,DI Box - Radial J48,audio,J48-34567,8001234567893,deployed,199.00,160.00,2023-02-10,2026-02-10,2024-05-15,2024-11-15,Active DI - currently on tour
+LIGHT-001,Martin MAC Aura XB,lighting,MACXB-45678,8001234567894,available,3500.00,2800.00,2022-06-01,2024-06-01,2024-04-01,2024-10-01,Moving head wash
+LIGHT-002,Martin MAC Aura XB,lighting,MACXB-45679,8001234567895,maintenance,3500.00,2800.00,2022-06-01,2024-06-01,2024-07-01,,Lamp replacement needed
+LIGHT-003,ETC Source Four,lighting,S4-56789,8001234567896,available,450.00,350.00,2021-09-15,,2024-03-01,2024-09-01,750W ellipsoidal
+VIDEO-001,Blackmagic ATEM Mini Pro,video,ATEM-67890,8001234567897,available,595.00,450.00,2023-04-01,2025-04-01,2024-06-01,2024-12-01,4-input switcher
+CASE-001,Road Case - 4x SM58,cases,CASE-78901,8001234567898,available,250.00,200.00,2023-01-15,,,2025-01-15,Holds 4 SM58 mics
+CABLE-001,XLR Cable Bundle (10x 25ft),cables,XLRB-89012,8001234567899,available,150.00,100.00,2023-02-01,,,2024-08-01,10 cables per bundle
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+tag,Yes,Text,Unique per org,Asset tag/ID number
+name,Yes,Text,,Asset name/description
+category,No,Text,,Asset category (audio/lighting/video/staging/cases/cables/etc)
+serial_number,No,Text,,Manufacturer serial number
+barcode,No,Text,,Barcode number
+state,No,Enum,"available,reserved,deployed,maintenance,retired",Current asset state
+purchase_price,No,Decimal,,Original purchase price
+current_value,No,Decimal,,Current/depreciated value
+acquired_at,No,Date,YYYY-MM-DD,Date acquired
+warranty_expires_at,No,Date,YYYY-MM-DD,Warranty expiration
+last_maintenance_at,No,Date,YYYY-MM-DD,Last maintenance date
+next_maintenance_at,No,Date,YYYY-MM-DD,Next scheduled maintenance
+notes,No,Text,,Asset notes
+
+COMMON CATEGORIES
+Category,Examples
+audio,"Microphones, DI boxes, cables, consoles"
+lighting,"Fixtures, consoles, cables, accessories"
+video,"Cameras, switchers, LED panels, projectors"
+staging,"Decks, risers, stairs, skirting"
+rigging,"Motors, chain, shackles, spansets"
+cases,"Road cases, rack cases, soft cases"
+cables,"XLR, power, data, multicore"
+tools,"Hand tools, power tools, test equipment"
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. tag must be unique within your organization
+5. Use consistent category names for filtering

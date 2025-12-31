@@ -1,0 +1,33 @@
+shift_date,start_time,end_time,role_code,headcount_required,hourly_rate,location_name,notes,status
+2024-07-15,06:00,14:00,STAGEHAND,8,22.00,Main Stage,Load in crew,scheduled
+2024-07-15,06:00,14:00,RIGGER,4,45.00,Main Stage,Rigging call,scheduled
+2024-07-15,08:00,16:00,AUDIO_A2,2,35.00,Main Stage,Audio setup,scheduled
+2024-07-15,08:00,16:00,LX_TECH,4,28.00,Main Stage,Lighting focus,scheduled
+2024-07-15,14:00,22:00,STAGEHAND,6,22.00,Main Stage,Show crew,scheduled
+2024-07-15,16:00,00:00,SECURITY,12,22.00,All Areas,Event security,scheduled
+2024-07-15,17:00,23:00,CATERING,4,18.00,Backstage,Hospitality,scheduled
+2024-07-15,22:00,06:00,STAGEHAND,10,22.00,Main Stage,Load out crew,scheduled
+2024-07-15,22:00,06:00,LOADER,6,18.00,Loading Dock,Truck loading,scheduled
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+shift_date,Yes,Date,YYYY-MM-DD,Date of the shift
+start_time,Yes,Time,HH:MM (24hr),Shift start time
+end_time,Yes,Time,HH:MM (24hr),Shift end time
+role_code,No,Text,,Role code from workforce_roles (e.g. RIGGER)
+headcount_required,No,Integer,Default 1,Number of people needed
+hourly_rate,No,Decimal,,Override rate for this shift
+location_name,No,Text,,Location/area name
+notes,No,Text,,Shift notes
+status,No,Enum,"scheduled,confirmed,in_progress,completed,cancelled",Shift status
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. Times must be in 24-hour format (e.g. 14:00 not 2:00 PM)
+5. For overnight shifts, end_time can be less than start_time
+6. role_code must match an existing role in your organization

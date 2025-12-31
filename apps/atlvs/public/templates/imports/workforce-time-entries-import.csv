@@ -1,0 +1,33 @@
+employee_number,work_date,start_time,end_time,hours,break_hours,overtime_hours,hourly_rate,description,location,status
+EMP001,2024-07-15,06:00,14:30,8.0,0.5,0,25.00,Load in - audio setup,Main Stage,pending
+EMP001,2024-07-15,22:00,06:00,8.0,0,0,25.00,Load out - audio strike,Main Stage,pending
+EMP002,2024-07-15,08:00,18:00,9.5,0.5,1.5,22.50,Lighting focus and show,Main Stage,pending
+EMP003,2024-07-15,06:00,16:00,9.5,0.5,1.5,45.00,Rigging - full day,Main Stage,approved
+EMP004,2024-07-15,08:00,20:00,11.5,0.5,3.5,0,Production coordination,Production Office,approved
+EMP005,2024-07-15,10:00,18:00,7.5,0.5,0,20.00,Runner duties,Various,pending
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+employee_number,Yes,Text,,Must match employee_number from employees import
+work_date,Yes,Date,YYYY-MM-DD,Date work was performed
+start_time,No,Time,HH:MM (24hr),Clock in time
+end_time,No,Time,HH:MM (24hr),Clock out time
+hours,Yes,Decimal,0-24,Total hours worked (excluding breaks)
+break_hours,No,Decimal,Default 0,Unpaid break time in hours
+overtime_hours,No,Decimal,Default 0,Hours at overtime rate
+hourly_rate,No,Decimal,,Rate for this entry (overrides employee rate)
+description,No,Text,,Work description
+location,No,Text,,Work location
+status,No,Enum,"pending,approved,rejected",Entry status
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. employee_number must match an existing employee
+5. hours should be total worked hours minus break_hours
+6. overtime_hours are included in total hours (not additional)
+7. If hourly_rate is blank, employee's default rate is used

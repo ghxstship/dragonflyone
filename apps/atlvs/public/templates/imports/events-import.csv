@@ -1,0 +1,34 @@
+event_code,name,event_type,status,start_date,end_date,doors_time,start_time,end_time,venue_name,capacity,ticket_price_min,ticket_price_max,currency,description,notes
+EVT-2024-001,Summer Music Festival,festival,confirmed,2024-07-15,2024-07-15,17:00,18:00,23:00,The Amphitheater,5000,45.00,150.00,USD,Annual summer music festival featuring top artists,Outdoor event - weather contingency in place
+EVT-2024-002,Corporate Gala,corporate,confirmed,2024-08-20,2024-08-20,18:00,19:00,23:00,Grand Ballroom,500,0.00,0.00,USD,Annual company celebration,Private event - invite only
+EVT-2024-003,Rock Concert Series,concert,planning,2024-09-10,2024-09-10,19:00,20:00,23:30,Downtown Arena,12000,35.00,125.00,USD,Rock concert featuring headliner and support,Part of fall concert series
+EVT-2024-004,Charity Fundraiser,fundraiser,confirmed,2024-10-05,2024-10-05,17:30,18:30,22:00,Historic Theater,800,100.00,500.00,USD,Annual charity gala and auction,Black tie event
+EVT-2024-005,New Year's Eve Party,party,planning,2024-12-31,2025-01-01,20:00,21:00,02:00,Rooftop Venue,1000,75.00,200.00,USD,NYE celebration with live entertainment,Overnight event
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+event_code,Yes,Text,Unique per org,Your internal event code
+name,Yes,Text,,Event name
+event_type,No,Enum,"concert,festival,corporate,private,fundraiser,party,conference,other",Type of event
+status,No,Enum,"draft,planning,confirmed,in_progress,completed,cancelled,postponed",Event status
+start_date,Yes,Date,YYYY-MM-DD,Event start date
+end_date,No,Date,YYYY-MM-DD,Event end date (same as start for single-day)
+doors_time,No,Time,HH:MM (24hr),Doors open time
+start_time,No,Time,HH:MM (24hr),Event start time
+end_time,No,Time,HH:MM (24hr),Event end time
+venue_name,No,Text,,Venue name (must match venues import)
+capacity,No,Integer,,Expected/max attendance
+ticket_price_min,No,Decimal,,Lowest ticket price
+ticket_price_max,No,Decimal,,Highest ticket price
+currency,No,Text,Default USD,Currency code
+description,No,Text,,Event description
+notes,No,Text,,Internal notes
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. Import venues first if using venue_name reference
+5. Times must be in 24-hour format

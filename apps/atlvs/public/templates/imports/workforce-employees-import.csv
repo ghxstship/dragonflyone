@@ -1,0 +1,34 @@
+employee_number,first_name,last_name,email,phone,employment_type,status,hire_date,hourly_rate,salary,pay_frequency,emergency_contact_name,emergency_contact_phone,notes
+EMP001,John,Smith,john.smith@example.com,555-0101,full_time,active,2024-01-15,25.00,,biweekly,Jane Smith,555-0102,Audio department lead
+EMP002,Sarah,Johnson,sarah.j@example.com,555-0103,part_time,active,2024-02-01,22.50,,weekly,Mike Johnson,555-0104,Lighting technician
+EMP003,Michael,Williams,m.williams@example.com,555-0105,contractor,active,2024-03-10,35.00,,biweekly,Lisa Williams,555-0106,Freelance rigger
+EMP004,Emily,Brown,emily.b@example.com,555-0107,full_time,active,2023-11-20,,52000,semimonthly,David Brown,555-0108,Production coordinator
+EMP005,David,Garcia,d.garcia@example.com,555-0109,seasonal,active,2024-06-01,20.00,,weekly,Maria Garcia,555-0110,Summer intern
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+employee_number,Yes,Text,Unique per org,Your internal employee ID
+first_name,Yes,Text,,Employee first name
+last_name,Yes,Text,,Employee last name
+email,No,Email,,Work email address
+phone,No,Text,,Phone number
+employment_type,Yes,Enum,"full_time,part_time,contractor,seasonal,intern",Employment classification
+status,Yes,Enum,"active,inactive,terminated,on_leave",Current status
+hire_date,No,Date,YYYY-MM-DD,Date of hire
+hourly_rate,No,Decimal,,Hourly pay rate (leave blank if salaried)
+salary,No,Decimal,,Annual salary (leave blank if hourly)
+pay_frequency,No,Enum,"weekly,biweekly,semimonthly,monthly",How often paid
+emergency_contact_name,No,Text,,Emergency contact full name
+emergency_contact_phone,No,Text,,Emergency contact phone
+notes,No,Text,,Additional notes
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. All dates must be in YYYY-MM-DD format
+5. Employment type and status must match valid values exactly
+6. Either hourly_rate OR salary should be filled - not both

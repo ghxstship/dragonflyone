@@ -1,0 +1,41 @@
+expense_number,category_code,expense_date,amount,currency,vendor_name,description,receipt_required,status
+EXP-2024-001,TRAVEL,2024-07-10,425.50,USD,Delta Airlines,Flight to venue advance,true,submitted
+EXP-2024-002,LODGING,2024-07-14,189.00,USD,Marriott Hotels,Production manager hotel,true,submitted
+EXP-2024-003,MEALS,2024-07-15,156.75,USD,Local Catering Co,Crew lunch buyout,true,approved
+EXP-2024-004,SUPPLIES,2024-07-15,89.99,USD,Home Depot,Gaff tape and supplies,true,approved
+EXP-2024-005,TRANSPORT,2024-07-15,45.00,USD,Uber,Airport transfer,false,pending
+EXP-2024-006,EQUIPMENT,2024-07-12,250.00,USD,Guitar Center,Emergency backline rental,true,approved
+EXP-2024-007,MEALS,2024-07-15,23.50,USD,Starbucks,Production meeting coffee,false,draft
+,,,,,,,,,
+,,,,,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+expense_number,Yes,Text,Unique per org,Your expense reference number
+category_code,No,Text,,Must match expense category code
+expense_date,Yes,Date,YYYY-MM-DD,Date expense was incurred
+amount,Yes,Decimal,> 0,Expense amount
+currency,No,Text,Default USD,Currency code (USD/EUR/GBP/etc)
+vendor_name,No,Text,,Vendor or merchant name
+description,Yes,Text,,Description of expense
+receipt_required,No,Boolean,true/false,Whether receipt is required
+status,No,Enum,"draft,submitted,approved,rejected,paid",Expense status
+
+COMMON CATEGORY CODES
+Code,Description
+TRAVEL,Airfare and travel expenses
+LODGING,Hotels and accommodations
+MEALS,Food and beverages
+TRANSPORT,Ground transportation (taxi/uber/rental)
+SUPPLIES,Production supplies and consumables
+EQUIPMENT,Equipment rental or purchase
+TALENT,Artist-related expenses
+MARKETING,Marketing and promotional expenses
+OFFICE,Office and administrative expenses
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. Amounts must be positive numbers without currency symbols
+5. category_code must match an existing expense category

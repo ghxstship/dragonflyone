@@ -1,0 +1,44 @@
+budget_name,category_code,description,planned_amount,actual_amount,notes
+Summer Festival 2024,TALENT,Headliner guarantee,75000.00,75000.00,Confirmed
+Summer Festival 2024,TALENT,Support acts,25000.00,22500.00,3 support acts
+Summer Festival 2024,PRODUCTION,Sound system,22000.00,24565.00,Upgraded to larger PA
+Summer Festival 2024,PRODUCTION,Lighting,15000.00,16737.50,Full moving head package
+Summer Festival 2024,PRODUCTION,Staging,8500.00,9201.25,40x32 deck with risers
+Summer Festival 2024,PRODUCTION,Rigging,4500.00,4871.25,12 point system
+Summer Festival 2024,PRODUCTION,Backline,3200.00,3614.00,Full backline package
+Summer Festival 2024,PRODUCTION,Crew labor,18000.00,0.00,Estimated 60 crew days
+Summer Festival 2024,VENUE,Venue rental,25000.00,25000.00,Flat fee
+Summer Festival 2024,VENUE,Security,8000.00,0.00,Estimated
+Summer Festival 2024,MARKETING,Digital advertising,5000.00,4200.00,Social and display
+Summer Festival 2024,MARKETING,Print materials,2000.00,1800.00,Posters and flyers
+Summer Festival 2024,OPERATIONS,Box office,3000.00,0.00,Estimated
+Summer Festival 2024,OVERHEAD,Insurance,5000.00,5000.00,Event insurance
+Summer Festival 2024,CONTINGENCY,Contingency,25000.00,0.00,10% contingency
+,,,,,
+,,,,,
+
+FIELD DEFINITIONS
+Field,Required,Type,Valid Values,Description
+budget_name,Yes,Text,,Must match budget name from budgets import
+category_code,No,Text,,Expense category code
+description,Yes,Text,,Line item description
+planned_amount,Yes,Decimal,,Budgeted amount
+actual_amount,No,Decimal,Default 0,Actual spent amount
+notes,No,Text,,Line item notes
+
+COMMON CATEGORY CODES
+Code,Description
+TALENT,Artist fees and related costs
+PRODUCTION,Sound/lighting/video/staging/crew
+VENUE,Venue rental and venue costs
+MARKETING,Advertising and promotion
+OPERATIONS,Box office/security/medical
+OVERHEAD,Insurance/legal/admin
+CONTINGENCY,Reserve funds
+
+IMPORT INSTRUCTIONS
+1. Delete the example rows above before importing
+2. Keep the header row (row 1) intact
+3. Delete this documentation section before importing
+4. budget_name must match an existing budget
+5. Import budgets first, then budget line items
