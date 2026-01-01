@@ -71,169 +71,115 @@ const defaultActionItems: ActionItem[] = [
   },
 ];
 
-// Fetch action items (combines schedule_tasks and meeting_action_items)
+// Fetch action items from saga_instances (3NF workflow table)
 export function useActionItems(filters?: ActionItemFilters) {
   return useQuery({
     queryKey: ['action_items', filters],
     queryFn: async () => {
       const limit = filters?.limit || 50;
       
-      // Fetch high-priority/pending schedule tasks
-      let tasksQuery = supabase
-        .from('projects')
+      // Fetch pending/in-progress saga instances as action items
+      let query = supabase
+        .from('saga_instances')
         .select(`
           id,
           title,
           description,
           priority,
-          status,
+          current_state,
           due_date,
           assigned_to,
-          production_id,
+          saga_type,
+          saga_subtype,
+          subject_entity_id,
+          subject_entity_type,
           created_at,
           updated_at
         `)
-        .in('status', ['pending', 'in_progress'])
+        .in('current_state', ['pending', 'in_progress', 'review'])
         .order('priority', { ascending: false })
         .order('due_date', { ascending: true, nullsFirst: false })
         .limit(limit);
 
       if (filters?.status) {
-        tasksQuery = tasksQuery.eq('status', filters.status);
+        query = query.eq('current_state', filters.status as 'pending' | 'in_progress' | 'review' | 'completed' | 'cancelled');
       }
       if (filters?.priority) {
-        tasksQuery = tasksQuery.eq('priority', filters.priority);
+        // Map 'medium' to 'normal' for saga_priority enum compatibility
+        const priorityValue = filters.priority === 'medium' ? 'normal' : filters.priority;
+        query = query.eq('priority', priorityValue as 'low' | 'normal' | 'high' | 'urgent' | 'critical');
       }
       if (filters?.assignedTo) {
-        tasksQuery = tasksQuery.eq('assigned_to', filters.assignedTo);
+        query = query.eq('assigned_to', filters.assignedTo);
       }
 
-      // Fetch meeting action items
-      let meetingItemsQuery = supabase
-        .from('projects')
-        .select(`
-          id,
-          description,
-          priority,
-          status,
-          due_date,
-          assigned_to,
-          assigned_to_name,
-          created_at,
-          updated_at,
-          meeting_note:meeting_notes(
-            id,
-            title,
-            project_id
-          )
-        `)
-        .in('status', ['pending', 'in_progress'])
-        .order('priority', { ascending: false })
-        .order('due_date', { ascending: true, nullsFirst: false })
-        .limit(limit);
+      const { data, error } = await query;
 
-      if (filters?.status) {
-        meetingItemsQuery = meetingItemsQuery.eq('status', filters.status);
-      }
-      if (filters?.priority) {
-        meetingItemsQuery = meetingItemsQuery.eq('priority', filters.priority);
-      }
-      if (filters?.assignedTo) {
-        meetingItemsQuery = meetingItemsQuery.eq('assigned_to', filters.assignedTo);
-      }
-
-      const [tasksResult, meetingItemsResult] = await Promise.all([
-        tasksQuery,
-        meetingItemsQuery,
-      ]);
-
-      // If both queries fail (tables don't exist), return default items
-      if (tasksResult.error && meetingItemsResult.error) {
-        log.warn('Action items tables not available, using defaults');
+      // If query fails (table doesn't exist), return default items
+      if (error) {
+        log.warn('saga_instances table not available, using defaults', { message: error.message, code: error.code });
         return defaultActionItems.slice(0, limit);
       }
 
-      // Define types for the query results
-      interface TaskResult {
+      // Define type for the query result
+      interface SagaResult {
         id: string;
         title: string;
         description?: string;
-        priority: 'low' | 'medium' | 'high' | 'critical';
-        status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
+        priority: 'low' | 'medium' | 'high' | 'critical' | null;
+        current_state: string;
         due_date?: string;
         assigned_to?: string;
-        production_id?: string;
+        saga_type: string;
+        saga_subtype?: string;
+        subject_entity_id?: string;
+        subject_entity_type?: string;
         created_at: string;
         updated_at: string;
       }
 
-      interface MeetingItemResult {
-        id: string;
-        description: string;
-        priority: 'low' | 'medium' | 'high';
-        status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
-        due_date?: string;
-        assigned_to?: string;
-        assigned_to_name?: string;
-        created_at: string;
-        updated_at: string;
-        meeting_note?: {
-          id: string;
-          title: string;
-          project_id?: string;
-        } | null;
-      }
+      // Map saga state to action item status
+      const stateToStatus = (state: string): 'pending' | 'in_progress' | 'completed' | 'cancelled' => {
+        switch (state) {
+          case 'pending':
+          case 'awaiting_input':
+          case 'awaiting_approval':
+            return 'pending';
+          case 'in_progress':
+            return 'in_progress';
+          case 'completed':
+          case 'approved':
+            return 'completed';
+          case 'cancelled':
+          case 'rejected':
+            return 'cancelled';
+          default:
+            return 'pending';
+        }
+      };
 
-      // Transform schedule tasks to ActionItem format
-      const taskItems: ActionItem[] = (tasksResult.data as TaskResult[] || []).map((task) => ({
-        id: task.id,
-        source: 'task' as const,
-        title: task.title,
-        description: task.description,
-        priority: task.priority,
-        status: task.status,
-        due_date: task.due_date,
-        assigned_to: task.assigned_to,
-        production_id: task.production_id,
-        created_at: task.created_at,
-        updated_at: task.updated_at,
+      // Transform saga instances to ActionItem format
+      const items: ActionItem[] = ((data as SagaResult[]) || []).map((saga) => ({
+        id: saga.id,
+        source: saga.saga_type === 'meeting' ? 'meeting' as const : 'task' as const,
+        title: saga.title,
+        description: saga.description,
+        priority: saga.priority || 'medium',
+        status: stateToStatus(saga.current_state),
+        due_date: saga.due_date,
+        assigned_to: saga.assigned_to,
+        project_id: saga.subject_entity_type === 'project' ? saga.subject_entity_id : undefined,
+        production_id: saga.subject_entity_type === 'production' ? saga.subject_entity_id : undefined,
+        created_at: saga.created_at,
+        updated_at: saga.updated_at,
       }));
-
-      // Transform meeting action items to ActionItem format
-      const meetingItems: ActionItem[] = (meetingItemsResult.data as MeetingItemResult[] || []).map((item) => ({
-        id: item.id,
-        source: 'meeting' as const,
-        title: item.description,
-        description: item.meeting_note?.title ? `From meeting: ${item.meeting_note.title}` : undefined,
-        priority: item.priority,
-        status: item.status,
-        due_date: item.due_date,
-        assigned_to: item.assigned_to,
-        assignee_name: item.assigned_to_name,
-        project_id: item.meeting_note?.project_id,
-        created_at: item.created_at,
-        updated_at: item.updated_at,
-      }));
-
-      // Combine and sort by priority and due date
-      const allItems = [...taskItems, ...meetingItems].sort((a, b) => {
-        const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
-        const priorityDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
-        if (priorityDiff !== 0) return priorityDiff;
-        
-        // Sort by due date (nulls last)
-        if (!a.due_date && !b.due_date) return 0;
-        if (!a.due_date) return 1;
-        if (!b.due_date) return -1;
-        return new Date(a.due_date).getTime() - new Date(b.due_date).getTime();
-      });
 
       // Return defaults if no items found
-      if (allItems.length === 0) {
+      if (items.length === 0) {
         return defaultActionItems.slice(0, limit);
       }
 
-      return allItems.slice(0, limit);
+      return items;
     },
   });
 }
@@ -249,72 +195,71 @@ const defaultStats = {
   inProgress: 1,
 };
 
-// Fetch action item counts by priority
+// Fetch action item counts by priority from saga_instances
 export function useActionItemStats() {
   return useQuery({
     queryKey: ['action_items', 'stats'],
     queryFn: async () => {
-      // Get task counts
-      const { data: tasks, error: tasksError } = await supabase
-        .from('projects')
-        .select('priority, status')
-        .in('status', ['pending', 'in_progress']);
+      const { data, error } = await supabase
+        .from('saga_instances')
+        .select('priority, current_state')
+        .in('current_state', ['pending', 'in_progress', 'review']);
 
-      // Get meeting action item counts
-      const { data: meetingItems, error: meetingError } = await supabase
-        .from('projects')
-        .select('priority, status')
-        .in('status', ['pending', 'in_progress']);
-
-      // If both queries fail, return default stats
-      if (tasksError && meetingError) {
-        log.warn('Action items stats tables not available, using defaults');
+      // If query fails, return default stats
+      if (error) {
+        log.warn('saga_instances stats not available, using defaults');
         return defaultStats;
       }
 
-      const allItems = [...(tasks || []), ...(meetingItems || [])];
-
       // Return defaults if no items
-      if (allItems.length === 0) {
+      if (!data || data.length === 0) {
         return defaultStats;
       }
 
       return {
-        total: allItems.length,
-        critical: allItems.filter(i => i.priority === 'critical').length,
-        high: allItems.filter(i => i.priority === 'high').length,
-        medium: allItems.filter(i => i.priority === 'medium').length,
-        low: allItems.filter(i => i.priority === 'low').length,
-        pending: allItems.filter(i => i.status === 'pending').length,
-        inProgress: allItems.filter(i => i.status === 'in_progress').length,
+        total: data.length,
+        critical: data.filter(i => i.priority === 'critical').length,
+        high: data.filter(i => i.priority === 'high').length,
+        medium: data.filter(i => i.priority === 'normal').length, // saga_priority uses 'normal' instead of 'medium'
+        low: data.filter(i => i.priority === 'low').length,
+        pending: data.filter(i => ['pending', 'review'].includes(i.current_state)).length,
+        inProgress: data.filter(i => i.current_state === 'in_progress').length,
       };
     },
   });
 }
 
-// Update action item status (handles both sources)
+// Update action item status in saga_instances
 export function useUpdateActionItem() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({ 
       id, 
-      source, 
       status 
     }: { 
       id: string; 
-      source: 'task' | 'meeting'; 
       status: string;
     }) => {
-      const table = source === 'task' ? 'schedule_tasks' : 'meeting_action_items';
-      const updateData: Record<string, string> = { status };
+      // Map status to saga state
+      const stateMap: Record<string, string> = {
+        'pending': 'pending',
+        'in_progress': 'in_progress',
+        'completed': 'completed',
+        'cancelled': 'cancelled',
+      };
+      
+      const updateData: Record<string, string | null> = { 
+        current_state: stateMap[status] || status,
+        state_changed_at: new Date().toISOString(),
+      };
       
       if (status === 'completed') {
         updateData.completed_at = new Date().toISOString();
       }
 
       const { data, error } = await supabase
-        .from(table)
+        .from('saga_instances')
         .update(updateData)
         .eq('id', id)
         .select()
@@ -325,8 +270,7 @@ export function useUpdateActionItem() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['action_items'] });
-      queryClient.invalidateQueries({ queryKey: ['schedule_tasks'] });
-      queryClient.invalidateQueries({ queryKey: ['meeting_action_items'] });
+      queryClient.invalidateQueries({ queryKey: ['saga_instances'] });
     },
   });
 }
@@ -336,8 +280,8 @@ export function useCompleteActionItem() {
   const updateMutation = useUpdateActionItem();
 
   return useMutation({
-    mutationFn: async ({ id, source }: { id: string; source: 'task' | 'meeting' }) => {
-      return updateMutation.mutateAsync({ id, source, status: 'completed' });
+    mutationFn: async ({ id }: { id: string }) => {
+      return updateMutation.mutateAsync({ id, status: 'completed' });
     },
   });
 }

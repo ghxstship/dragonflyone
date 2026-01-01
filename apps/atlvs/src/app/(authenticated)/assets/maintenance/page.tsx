@@ -3,22 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Check, Pencil } from "lucide-react";
-// Layout provided by route group
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
+  ListPage, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageAction, type DetailSection} from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useMaintenance, type MaintenanceRecord, useAuthContext, ATLVS_ADMIN_ROLES, useEntityConfig } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES, useEntityConfig } from "@ghxstship/config";
+import { useMaintenance, type MaintenanceRecord } from "@/hooks/useMaintenance";
 import { DEMO_MAINTENANCE_RECORDS } from '../../../../lib/demo-data';
-
-// Roles that can create/edit/delete maintenance records
-
-const getStatusVariant = getBadgeVariant;
-
-const getPriorityVariant = (priority: string): "solid" | "outline" | "ghost" => {
-  switch (priority) { case "Critical": return "solid"; case "High": return "outline"; default: return "ghost"; }
-};
-
-// SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
 export default function AssetMaintenancePage() {
   const router = useRouter();
@@ -27,30 +17,26 @@ export default function AssetMaintenancePage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
 
-  // SSOT: Get columns, filters, and formFields from entity registry
   const { columns, filters, formFields } = useEntityConfig<MaintenanceRecord>({ entityName: 'assets' });
-
-  // RBAC: Check if user has admin access for create/edit/delete operations
   const canManageMaintenance = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
-  // Real API integration with demo fallback
   const { records: apiRecords, isLoading, error, createRecordAsync, updateRecordAsync, deleteRecordsAsync, refetch } = useMaintenance();
-  const records = apiRecords.length > 0 ? apiRecords : (DEMO_MAINTENANCE_RECORDS as MaintenanceRecord[]);
+  const records = apiRecords.length > 0 ? apiRecords : DEMO_MAINTENANCE_RECORDS;
 
-  const scheduledCount = records.filter((r) => r.status === "Scheduled").length;
-  const inProgressCount = records.filter((r) => r.status === "In Progress").length;
-  const overdueCount = records.filter((r) => r.status === "Overdue").length;
+  // Count by event_type since 3NF schema doesn't have status field
+  const preventiveCount = records.filter((r) => r.event_type === 'preventive').length;
+  const correctiveCount = records.filter((r) => r.event_type === 'corrective').length;
+  const emergencyCount = records.filter((r) => r.event_type === 'emergency').length;
   const totalCost = records.reduce((sum, r) => sum + (r.cost || 0), 0);
 
   const handleCreate = async (data: Record<string, unknown>) => {
     try {
       await createRecordAsync({
-        asset_id: String(data.assetId || 'default'),
-        maintenance_type: String(data.type),
-        priority: String(data.priority),
-        scheduled_date: String(data.scheduledDate),
-        description: String(data.description),
-        technician_id: data.technician ? String(data.technician) : undefined,
+        asset_id: String(data.asset_id || 'default'),
+        event_type: String(data.event_type || 'preventive'),
+        event_date: String(data.event_date || new Date().toISOString().split('T')[0]),
+        description: data.description ? String(data.description) : undefined,
+        performed_by: data.performed_by ? String(data.performed_by) : undefined,
       });
       refetch();
       setCreateModalOpen(false);
@@ -61,7 +47,7 @@ export default function AssetMaintenancePage() {
 
   const handleMarkComplete = async (r: MaintenanceRecord) => {
     try {
-      await updateRecordAsync({ id: r.id, updates: { status: 'Completed' } });
+      await updateRecordAsync({ id: r.id, description: `${r.description} [COMPLETED]` });
       refetch();
     } catch {
       // Error handled by React Query
@@ -76,59 +62,46 @@ export default function AssetMaintenancePage() {
   ];
 
   const stats = [
-    { label: 'Scheduled', value: scheduledCount },
-    { label: 'In Progress', value: inProgressCount },
-    { label: 'Overdue', value: overdueCount },
+    { label: 'Preventive', value: preventiveCount },
+    { label: 'Corrective', value: correctiveCount },
+    { label: 'Emergency', value: emergencyCount },
     { label: 'YTD Costs', value: `$${(totalCost / 1000).toFixed(1)}K` },
   ];
 
   const detailSections: DetailSection[] = selectedRecord ? [
     { id: 'overview', title: 'Maintenance Details', content: (
       <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-        <Body size="sm"><strong>Asset:</strong> {selectedRecord.assetName}</Body>
-        <Body size="sm"><strong>Category:</strong> {selectedRecord.category}</Body>
-        <Body size="sm"><strong>Type:</strong> {selectedRecord.type}</Body>
-        <Body size="sm"><strong>Priority:</strong> {selectedRecord.priority}</Body>
-        <Body size="sm"><strong>Status:</strong> {selectedRecord.status}</Body>
-        <Body size="sm"><strong>Scheduled:</strong> {selectedRecord.scheduledDate}</Body>
-        {selectedRecord.technician && <Body size="sm"><strong>Technician:</strong> {selectedRecord.technician}</Body>}
+        <Body size="sm"><strong>Asset ID:</strong> {selectedRecord.asset_id}</Body>
+        <Body size="sm"><strong>Event Type:</strong> {selectedRecord.event_type}</Body>
+        <Body size="sm"><strong>Event Date:</strong> {selectedRecord.event_date}</Body>
+        <Body size="sm"><strong>Next Scheduled:</strong> {selectedRecord.next_scheduled || 'N/A'}</Body>
+        {selectedRecord.performed_by && <Body size="sm"><strong>Performed By:</strong> {selectedRecord.performed_by}</Body>}
+        {selectedRecord.vendor_id && <Body size="sm"><strong>Vendor:</strong> {selectedRecord.vendor_id}</Body>}
         {selectedRecord.cost && <Body size="sm"><strong>Cost:</strong> ${selectedRecord.cost.toLocaleString()}</Body>}
-        {selectedRecord.laborHours && <Body size="sm"><strong>Labor Hours:</strong> {selectedRecord.laborHours}</Body>}
-        {selectedRecord.notes && <Body size="sm" className="col-span-2"><strong>Notes:</strong> {selectedRecord.notes}</Body>}
+        {selectedRecord.description && <Body size="sm" className="col-span-2"><strong>Description:</strong> {selectedRecord.description}</Body>}
       </Grid>
     )},
   ] : [];
 
-  // Import handler for CSV/JSON files
-
-  const handleImport = createImportHandler<Omit<MaintenanceRecord, 'id'>>({
-
+  const handleImport = createImportHandler<Omit<MaintenanceRecord, 'id' | 'created_at'>>({
     entityType: 'asset-maintenance',
-
-    requiredFields: ['assetName', 'type', 'priority'],
-
-    onImport: async (records) => {
-
-      for (const record of records) {
-
-        await fetch('/api/asset-maintenance', {
-
-          method: 'POST',
-
-          headers: { 'Content-Type': 'application/json' },
-
-          body: JSON.stringify({ organization_id: 'default-org', ...record }),
-
+    requiredFields: ['asset_id', 'event_type', 'event_date'],
+    onImport: async (importRecords) => {
+      for (const record of importRecords) {
+        await createRecordAsync({
+          asset_id: record.asset_id,
+          event_type: record.event_type,
+          event_date: record.event_date,
+          description: record.description || undefined,
+          performed_by: record.performed_by || undefined,
+          cost: record.cost || undefined,
+          next_scheduled: record.next_scheduled || undefined,
+          vendor_id: record.vendor_id || undefined,
         });
-
       }
-
-      // Refresh data after import
-      window.location.reload();
+      refetch();
     },
   });
-
-  // Import templates for field mapping
 
   const importTemplates = getImportTemplates('asset-maintenance');
 
@@ -152,20 +125,19 @@ export default function AssetMaintenancePage() {
         onImport={canManageMaintenance ? handleImport : undefined}
         importTemplates={importTemplates}
         templateDownloadUrl="/templates/production-planning/equipment-checklist-template.csv"
-
-        importSampleFields={['assetName', 'type', 'priority', 'scheduledDate', 'description', 'technician', 'category']}
+        importSampleFields={['asset_id', 'event_type', 'event_date', 'description', 'performed_by', 'cost']}
         onExport={createExportHandler({
           filename: "asset-maintenance",
           getData: () => records.map(r => ({
             id: r.id,
-            assetId: r.assetId,
-            assetName: r.assetName,
-            category: r.category,
-            type: r.type,
-            status: r.status,
-            priority: r.priority,
-            scheduledDate: r.scheduledDate,
-            completedDate: r.completedDate || '',
+            asset_id: r.asset_id,
+            event_type: r.event_type,
+            event_date: r.event_date,
+            description: r.description || '',
+            next_scheduled: r.next_scheduled || '',
+            cost: r.cost || '',
+            performed_by: r.performed_by || '',
+            vendor_id: r.vendor_id || '',
           })),
         })}
         stats={stats}
@@ -177,7 +149,10 @@ export default function AssetMaintenancePage() {
             refetch();
           } else if (action === 'complete') {
             for (const id of ids) {
-              await updateRecordAsync({ id, updates: { status: 'Completed' } });
+              const record = records.find(r => r.id === id);
+              if (record) {
+                await updateRecordAsync({ id, description: `${record.description} [COMPLETED]` });
+              }
             }
             refetch();
           }
@@ -197,12 +172,12 @@ export default function AssetMaintenancePage() {
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
           record={selectedRecord}
-          title={(r) => r.assetName}
-          subtitle={(r) => `${r.type} • ${r.status}`}
+          title={(r) => `${r.event_type} - ${r.asset_id}`}
+          subtitle={(r) => r.event_date}
           sections={detailSections}
           actions={[{ id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" /> }, { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> }]}
-          onAction={async (id, r) => {
-            if (id === 'complete') {
+          onAction={async (actionId, r) => {
+            if (actionId === 'complete') {
               await handleMarkComplete(r);
             }
             setDrawerOpen(false);

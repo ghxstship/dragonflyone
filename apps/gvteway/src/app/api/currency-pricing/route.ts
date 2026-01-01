@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
       if (!eventId) return NextResponse.json({ error: 'event_id required' }, { status: 400 });
 
       const { data: tickets } = await supabase
-        .from('ticket_types')
+        .from('legend_products')
         .select('id, name, price')
         .eq('event_id', eventId);
 

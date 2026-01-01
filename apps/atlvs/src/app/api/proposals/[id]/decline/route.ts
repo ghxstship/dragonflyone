@@ -89,7 +89,7 @@ export async function POST(
     // Update associated booking if exists
     if (proposal.booking_id) {
       await supabase
-        .from('bookings')
+        .from('legend_events')
         .update({
           proposal_status: 'declined',
           updated_at: new Date().toISOString(),

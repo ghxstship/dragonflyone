@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
 
     // Update profiles
     const { error: profileError } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .update({
         first_name: validated.firstName,
         last_name: validated.lastName,

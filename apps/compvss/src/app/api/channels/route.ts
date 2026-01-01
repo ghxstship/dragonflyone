@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
 
     // Use communications table which exists in the schema
     let query = supabase
-      .from('communications')
+      .from('chronicle_entries')
       .select('*')
       .order('created_at', { ascending: false });
 

@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     if (action === 'revenue_forecast') {
       // Get historical revenue data
       const { data: historicalRevenue } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('total_amount, paid_at')
         .eq('status', 'paid')
         .gte('paid_at', new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString())

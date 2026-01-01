@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
       const summaries = await Promise.all(
         (projects || []).map(async (project) => {
           const { data: expenses } = await supabase
-            .from('expenses')
+            .from('finance_expenses')
             .select('amount')
             .eq('project_id', project.id);
 
@@ -117,7 +117,7 @@ export async function GET(request: NextRequest) {
 
       // Get expenses by category
       const { data: expenses } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .select('amount, category, description, created_at, vendor_id')
         .eq('project_id', projectId)
         .order('created_at', { ascending: false });
@@ -236,7 +236,7 @@ export async function POST(request: NextRequest) {
 
       for (const config of configs || []) {
         const { data: expenses } = await supabase
-          .from('expenses')
+          .from('finance_expenses')
           .select('amount')
           .eq('project_id', config.project_id);
 
@@ -267,7 +267,7 @@ export async function POST(request: NextRequest) {
             // Send notifications
             const recipients = config.alert_recipients || [user.id];
             for (const recipientId of recipients) {
-              await supabase.from('unified_notifications').insert({
+              await supabase.from('notifications').insert({
                 user_id: recipientId,
                 title: 'Budget Alert',
                 message: `Project "${config.project?.name}" is ${variancePercent.toFixed(1)}% over budget`,

@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
 
     // Fetch revenue data from invoices
     let revenueQuery = supabase
-      .from('invoices')
+      .from('docs_profile_invoice')
       .select('total_amount, client_id, clients(name)')
       .gte('invoice_date', startDate.toISOString())
       .eq('status', 'paid');
@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
 
     // Fetch expense data
     let expenseQuery = supabase
-      .from('expenses')
+      .from('finance_expenses')
       .select('amount, category')
       .gte('expense_date', startDate.toISOString());
 

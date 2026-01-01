@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { data: bookings, error } = await supabase
-      .from('bookings')
+      .from('legend_events')
       .select(`
         id, booking_number, event_name, event_type, event_date, 
         start_time, end_time, status, guest_count_expected,

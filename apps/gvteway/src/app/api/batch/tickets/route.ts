@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { data, error } = await supabase
-      .from('tickets')
+      .from('legend_products')
       .insert(ticketRecords as never)
       .select();
 

@@ -53,7 +53,7 @@ export async function GET(
 
     // Get usage count
     const { count } = await supabase
-      .from('bookings')
+      .from('legend_events')
       .select('*', { count: 'exact', head: true })
       .eq('event_type_id', id);
 
@@ -139,7 +139,7 @@ export async function DELETE(
 
     // Check if event type is in use
     const { count } = await supabase
-      .from('bookings')
+      .from('legend_events')
       .select('*', { count: 'exact', head: true })
       .eq('event_type_id', id);
 

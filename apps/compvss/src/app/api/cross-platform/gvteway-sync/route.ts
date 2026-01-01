@@ -266,7 +266,7 @@ export async function POST(request: NextRequest) {
 
       // Get COMPVSS crew assignments
       const { data: crew } = await supabase
-        .from('crew_assignments')
+        .from('workforce_shift_assignments')
         .select(`
           *,
           user:platform_users(first_name, last_name, email)
@@ -304,7 +304,7 @@ export async function POST(request: NextRequest) {
 
       // Get ticket types
       const { data: ticketTypes } = await supabase
-        .from('ticket_types')
+        .from('legend_products')
         .select('*')
         .eq('event_id', gvteway_event_id);
 

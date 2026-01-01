@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
         .eq('contact_id', access.contact_id)
         .order('created_at', { ascending: false }),
       supabase
-        .from('contracts')
+        .from('docs_profile_contract')
         .select('id, name, status, created_at')
         .eq('contact_id', access.contact_id)
         .order('created_at', { ascending: false }),

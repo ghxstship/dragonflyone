@@ -81,7 +81,7 @@ export const GET = apiRoute(
 
       // Fetch bookings data
       const { data: bookings } = await supabase
-        .from('bookings')
+        .from('legend_events')
         .select('id, event_type, total_amount, created_at')
         .gte('created_at', startDate.toISOString());
 

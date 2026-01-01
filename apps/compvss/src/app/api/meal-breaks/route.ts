@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
       const endDate = searchParams.get('end_date') || new Date().toISOString().split('T')[0];
 
       let complianceQuery = supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select(`
           id,
           employee_id,
@@ -133,7 +133,7 @@ export async function GET(request: NextRequest) {
     // If filtering by date or employee, we need to get timesheet IDs first
     let timesheetIds: string[] = [];
     if ((date || employeeId) && !timesheetId) {
-      let timesheetQuery = supabase.from('timesheets').select('id');
+      let timesheetQuery = supabase.from('workforce_time_entries').select('id');
       if (date) timesheetQuery = timesheetQuery.eq('date', date);
       if (employeeId) timesheetQuery = timesheetQuery.eq('employee_id', employeeId);
       const { data: matchingTimesheets } = await timesheetQuery;

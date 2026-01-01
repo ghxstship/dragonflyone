@@ -64,14 +64,14 @@ export async function GET(request: NextRequest) {
 
     // Fetch pending receivables
     const { data: receivables } = await supabase
-      .from('invoices')
+      .from('docs_profile_invoice')
       .select('*')
       .eq('status', 'pending')
       .gte('due_date', new Date().toISOString());
 
     // Fetch pending payables
     const { data: payables } = await supabase
-      .from('expenses')
+      .from('finance_expenses')
       .select('*')
       .in('status', ['pending', 'approved'])
       .gte('due_date', new Date().toISOString());

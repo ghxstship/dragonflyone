@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status');
 
     let query = supabase
-      .from('crew_assignments')
+      .from('workforce_shift_assignments')
       .select('*, crew:crew_members(id, full_name, email), project:projects(id, name)')
       .order('start_date', { ascending: true });
 
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
     };
 
     const { data, error } = await supabase
-      .from('crew_assignments')
+      .from('workforce_shift_assignments')
       .insert(insertData)
       .select()
       .single();

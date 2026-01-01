@@ -191,7 +191,7 @@ export async function GET(request: NextRequest) {
 
       case 'invoices': {
         let searchQuery = supabase
-          .from('invoices')
+          .from('docs_profile_invoice')
           .select('id, invoice_number, contact_id, total_amount, status, due_date')
           .limit(limit);
 

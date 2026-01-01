@@ -86,16 +86,17 @@ export async function handleDealToProjectHandoff(params: DealToProjectHandoff) {
         throw new Error(`Project creation failed: ${projectError.message}`);
       }
 
-      // Create integration link
+      // Create integration link - using correct schema
       if (newProject) {
         await supabase
           .from('integration_project_links')
           .insert({
             organization_id: deal.organization_id,
-            project_id: newProject.id,
             compvss_project_id: newProject.id,
-            status: 'synced' as const,
-            last_synced_at: new Date().toISOString(),
+            external_system: 'atlvs',
+            external_id: deal.id,
+            sync_status: 'active',
+            last_sync_at: new Date().toISOString(),
           });
 
         return { success: true, projectId: newProject.id, created: true };
@@ -149,11 +150,17 @@ export async function syncProjectToEvent(params: ProjectToEventSync) {
       ...params.eventData,
     };
 
-    // Enqueue sync job for event creation
+    // Get organization ID from project
+    const projectOrg = project as { organization_id: string };
+    
+    // Enqueue sync job for event creation - using correct RPC signature
     const { data: syncJob, error: syncError } = await supabase.rpc('rpc_enqueue_sync_job', {
-      p_org_slug: params.orgSlug,
-      p_source_system: 'compvss',
-      p_target_system: 'gvteway',
+      p_org_id: projectOrg.organization_id,
+      p_job_type: 'create_event',
+      p_entity_type: 'project',
+      p_entity_id: params.projectId,
+      p_external_system: 'gvteway',
+      p_direction: 'outbound',
       p_payload: {
         action: 'create_event',
         project_id: params.projectId,
@@ -165,7 +172,7 @@ export async function syncProjectToEvent(params: ProjectToEventSync) {
       throw new Error(`Sync job creation failed: ${syncError.message}`);
     }
 
-    return { success: true, syncJobId: (syncJob as { id: string })?.id };
+    return { success: true, syncJobId: (syncJob as unknown as string) };
   } catch (error) {
     logger.error('Project to event sync error', error instanceof Error ? error : undefined);
     throw error;
@@ -180,17 +187,34 @@ export async function ingestTicketRevenue(params: TicketRevenueSync) {
   const supabase = getServerSupabase();
 
   try {
+    // Get organization and event IDs first
+    const { data: project } = await supabase
+      .from('projects')
+      .select('id, organization_id')
+      .eq('code', params.projectCode)
+      .single();
+
+    if (!project) {
+      throw new Error(`Project not found: ${params.projectCode}`);
+    }
+
+    // Get event ID from event code
+    const { data: event } = await supabase
+      .from('legend_events')
+      .select('id')
+      .eq('code', params.eventCode)
+      .single();
+
+    // Call RPC with correct signature
     const { data: ingestion, error } = await supabase.rpc('rpc_ingest_ticket_revenue', {
-      p_org_slug: params.orgSlug,
-      p_project_code: params.projectCode,
-      p_event_code: params.eventCode,
-      p_ticket_count: params.ticketCount,
-      p_gross_amount: params.grossAmount,
-      p_currency: params.currency || 'USD',
-      p_source: 'gvteway',
-      p_payload: {
-        synced_at: new Date().toISOString(),
-      },
+      p_org_id: project.organization_id,
+      p_external_system: 'gvteway',
+      p_external_event_id: params.eventCode,
+      p_event_id: event?.id || params.eventCode,
+      p_ingestion_date: new Date().toISOString().split('T')[0],
+      p_ticket_type: 'general',
+      p_tickets_sold: params.ticketCount,
+      p_gross_revenue: params.grossAmount,
     });
 
     if (error) {
@@ -198,12 +222,6 @@ export async function ingestTicketRevenue(params: TicketRevenueSync) {
     }
 
     // Create corresponding ledger entry
-    const { data: project } = await supabase
-      .from('projects')
-      .select('id, organization_id')
-      .eq('code', params.projectCode)
-      .single();
-
     if (project) {
       // Find revenue account
       const { data: revenueAccount } = await supabase
@@ -229,7 +247,7 @@ export async function ingestTicketRevenue(params: TicketRevenueSync) {
       }
     }
 
-    return { success: true, ingestionId: (ingestion as { id: string })?.id };
+    return { success: true, ingestionId: (ingestion as unknown as string) };
   } catch (error) {
     logger.error('Ticket revenue ingestion error', error instanceof Error ? error : undefined);
     throw error;

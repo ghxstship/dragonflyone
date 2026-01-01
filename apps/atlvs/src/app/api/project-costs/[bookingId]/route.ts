@@ -26,7 +26,7 @@ export async function GET(
 
     // Get booking details
     const { data: booking, error: bookingError } = await supabase
-      .from('bookings')
+      .from('legend_events')
       .select('id, booking_number, event_name, estimated_revenue, budget')
       .eq('id', bookingId)
       .single();
@@ -67,7 +67,7 @@ export async function GET(
 
     // Get vendor invoices for this booking
     const { data: invoices, error: invoicesError } = await supabase
-      .from('vendor_invoices')
+      .from('docs_profile_invoice')
       .select('id, invoice_number, total_amount, status, vendor_profile:vendor_profiles(id, name)')
       .eq('booking_id', bookingId);
 

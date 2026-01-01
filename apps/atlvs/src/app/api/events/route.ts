@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 400 });
     }
-    logger.error('Error in POST /api/events:', error instanceof Error ? error : new Error(String(error)));
+    console.error('Error in POST /api/events:', error instanceof Error ? error.message : String(error));
     return NextResponse.json({ error: 'Failed to create event' }, { status: 500 });
   }
 }

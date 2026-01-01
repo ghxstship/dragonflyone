@@ -384,7 +384,7 @@ export async function POST(request: NextRequest) {
       const { project_id, start_date, end_date, labor_rate } = body.data;
 
       const { data: timesheets, error } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select(`
           id,
           employee_id,
@@ -436,7 +436,7 @@ export async function POST(request: NextRequest) {
       const { project_id, start_date, end_date } = body.data;
 
       const { data: expenses, error } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .select('*')
         .eq('project_id', project_id)
         .gte('expense_date', start_date)
@@ -468,7 +468,7 @@ export async function POST(request: NextRequest) {
       // Update expenses with job_cost_id
       for (const cost of costs || []) {
         await supabase
-          .from('expenses')
+          .from('finance_expenses')
           .update({ job_cost_id: cost.id })
           .eq('id', cost.expense_id);
       }

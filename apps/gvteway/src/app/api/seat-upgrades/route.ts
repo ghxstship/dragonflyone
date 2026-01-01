@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
     if (ticketId) {
       // Get available upgrades for a specific ticket
-      const { data: ticket } = await supabase.from('tickets').select(`
+      const { data: ticket } = await supabase.from('legend_products').select(`
         *, event:events(id, name)
       `).eq('id', ticketId).eq('user_id', user.id).single();
 
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
     const { ticket_id, upgrade_offer_id, bid_amount, is_instant_upgrade } = body;
 
     // Verify ticket ownership
-    const { data: ticket } = await supabase.from('tickets').select('*')
+    const { data: ticket } = await supabase.from('legend_products').select('*')
       .eq('id', ticket_id).eq('user_id', user.id).single();
 
     if (!ticket) return NextResponse.json({ error: 'Ticket not found' }, { status: 404 });
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
       // Process instant upgrade
       await supabase.from('seat_upgrade_offers').update({ status: 'sold' }).eq('id', upgrade_offer_id);
       
-      await supabase.from('tickets').update({
+      await supabase.from('legend_products').update({
         seat_info: offer.seat_info, tier_level: offer.tier_level,
         upgraded_from: ticket.seat_info, upgrade_price: bid_amount
       }).eq('id', ticket_id);

@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
     if (action === 'revenue_forecast') {
       // Get historical revenue data
       const { data: invoices } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('total_amount, paid_at, category')
         .eq('status', 'paid')
         .gte('paid_at', new Date(Date.now() - 730 * 24 * 60 * 60 * 1000).toISOString())
@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
 
     if (action === 'expense_forecast') {
       const { data: expenses } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .select('amount, category, expense_date')
         .gte('expense_date', new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString())
         .order('expense_date');
@@ -143,7 +143,7 @@ export async function GET(request: NextRequest) {
     if (action === 'cash_flow') {
       // Get accounts receivable
       const { data: pendingInvoices } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('total_amount, due_date')
         .eq('status', 'pending')
         .gte('due_date', new Date().toISOString());

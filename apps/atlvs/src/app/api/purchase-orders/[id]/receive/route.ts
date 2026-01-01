@@ -42,7 +42,7 @@ export async function POST(
 
     // Check if PO exists
     const { data: po, error: poError } = await supabase
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .select('id, status, organization_id')
       .eq('id', poId)
       .single();
@@ -92,7 +92,7 @@ export async function POST(
     const newStatus = totalReceived > 0 ? 'partial' : po.status;
     
     await supabase
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .update({
         status: newStatus,
         updated_at: new Date().toISOString(),

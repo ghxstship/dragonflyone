@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'spending') {
       const { data: pos } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select('total_amount, vendor_id, category, created_at')
         .gte('created_at', new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString())
         .in('status', ['approved', 'sent', 'received', 'completed']);
@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'revenue') {
       const { data: invoices } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('total_amount, client_id, created_at')
         .gte('created_at', new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString());
 
@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'timesheet') {
       const { data: timesheets } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select('employee_id, hours, date, employee:platform_users(first_name, last_name)')
         .gte('date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
         .eq('status', 'approved');

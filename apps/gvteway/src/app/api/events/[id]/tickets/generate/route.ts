@@ -35,7 +35,7 @@ export const POST = apiRoute(
     }
 
     const { data: ticketType, error: typeError } = await supabaseAdmin
-      .from('ticket_types')
+      .from('legend_products')
       .select('id, name, price')
       .eq('id', data.ticket_type_id)
       .eq('event_id', eventId)
@@ -66,7 +66,7 @@ export const POST = apiRoute(
       }
 
       const { data: insertedTickets, error: insertError } = await supabaseAdmin
-        .from('tickets')
+        .from('legend_products')
         .insert(batchTickets)
         .select('id, ticket_code, status');
 
@@ -85,7 +85,7 @@ export const POST = apiRoute(
     }
 
     await supabaseAdmin
-      .from('ticket_types')
+      .from('legend_products')
       .update({ 
         available: supabaseAdmin.rpc('increment', { x: data.quantity }) 
       })

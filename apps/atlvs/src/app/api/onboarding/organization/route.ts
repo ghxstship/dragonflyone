@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
 
     // Update profile with organization info
     const { error: profileError } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .update({
         metadata: {
           organization_type: validated.type,

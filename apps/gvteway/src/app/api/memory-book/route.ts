@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       const { data: event } = await supabase.from('events').select('*').eq('id', event_id).single();
       const { data: photos } = await supabase.from('user_photos').select('*')
         .eq('user_id', user.id).eq('event_id', event_id);
-      const { data: ticket } = await supabase.from('tickets').select('*')
+      const { data: ticket } = await supabase.from('legend_products').select('*')
         .eq('user_id', user.id).eq('event_id', event_id).single();
       const { data: checkins } = await supabase.from('checkins').select('*')
         .eq('user_id', user.id).eq('event_id', event_id);

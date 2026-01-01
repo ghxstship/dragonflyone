@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
 
     const ticketTypeIds = payload.tickets.map(t => t.ticket_type_id);
     const { data: ticketTypes, error: typesError } = await supabase
-      .from('ticket_types')
+      .from('legend_products')
       .select('*')
       .in('id', ticketTypeIds);
 
@@ -197,13 +197,13 @@ export async function POST(request: NextRequest) {
       }
 
       await supabase
-        .from('ticket_types')
+        .from('legend_products')
         .update({ quantity_reserved: (type?.quantity_reserved || 0) + item.quantity })
         .eq('id', item.ticket_type_id);
     }
 
     const { error: ticketsError } = await supabase
-      .from('tickets')
+      .from('legend_products')
       .insert(ticketsToCreate);
 
     if (ticketsError) {

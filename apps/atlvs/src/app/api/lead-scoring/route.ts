@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const minScore = searchParams.get('min_score');
 
-    let query = supabase.from('leads').select(`
+    let query = supabase.from('contacts').select(`
       *, contact:contacts(id, name, email, company), assigned_to:platform_users(id, first_name, last_name)
     `);
 
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
     const score = calculateLeadScore({ budget_range: validatedData.budget_range, timeline: validatedData.timeline, decision_maker: validatedData.decision_maker, company_size: validatedData.company_size, industry: validatedData.industry });
     const qualification = score >= 80 ? 'hot' : score >= 50 ? 'warm' : 'cold';
 
-    const { data, error } = await supabase.from('leads').insert({
+    const { data, error } = await supabase.from('contacts').insert({
       contact_id: validatedData.contact_id,
       source: validatedData.source,
       budget_range: validatedData.budget_range,
@@ -126,10 +126,10 @@ export async function PATCH(request: NextRequest) {
     if (body.action === 'recalculate') {
       const validatedData = recalculateLeadSchema.parse(body);
       const { id } = validatedData;
-      const { data: lead } = await supabase.from('leads').select('*').eq('id', id).single();
+      const { data: lead } = await supabase.from('contacts').select('*').eq('id', id).single();
       if (lead) {
         const newScore = calculateLeadScore(lead);
-        await supabase.from('leads').update({
+        await supabase.from('contacts').update({
           score: newScore, qualification: newScore >= 80 ? 'hot' : newScore >= 50 ? 'warm' : 'cold'
         }).eq('id', id);
       }
@@ -138,7 +138,7 @@ export async function PATCH(request: NextRequest) {
 
     const validatedData = updateLeadSchema.parse(body);
     const { id, ...updateData } = validatedData;
-    const { error } = await supabase.from('leads').update(updateData).eq('id', id);
+    const { error } = await supabase.from('contacts').update(updateData).eq('id', id);
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ success: true });

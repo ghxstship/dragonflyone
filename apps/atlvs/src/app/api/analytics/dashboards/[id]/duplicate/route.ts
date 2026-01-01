@@ -17,7 +17,7 @@ export const POST = apiRoute(
 
       // Get the dashboard to duplicate
       const { data: original, error: fetchError } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .select('*')
         .eq('id', id)
         .single();
@@ -31,7 +31,7 @@ export const POST = apiRoute(
 
       // Create duplicate with new name
       const { data, error } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .insert({
           organization_id: original.organization_id,
           name: `${original.name} (Copy)`,

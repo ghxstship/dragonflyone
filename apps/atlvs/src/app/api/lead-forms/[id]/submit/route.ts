@@ -173,7 +173,7 @@ export async function POST(
     };
 
     const { data: lead, error: leadError } = await supabase
-      .from('leads')
+      .from('contacts')
       .insert(leadData)
       .select()
       .single();
@@ -200,7 +200,7 @@ export async function POST(
 
         if (existingContact) {
           await supabase
-            .from('leads')
+            .from('contacts')
             .update({ contact_id: existingContact.id })
             .eq('id', lead.id);
         } else {
@@ -220,7 +220,7 @@ export async function POST(
 
           if (newContact) {
             await supabase
-              .from('leads')
+              .from('contacts')
               .update({ contact_id: newContact.id })
               .eq('id', lead.id);
           }

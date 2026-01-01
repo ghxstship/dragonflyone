@@ -363,7 +363,7 @@ export async function POST(request: NextRequest) {
         .eq('role', 'support_agent');
 
       for (const agent of supportAgents || []) {
-        await supabase.from('unified_notifications').insert({
+        await supabase.from('notifications').insert({
           user_id: agent.user_id,
           title: 'New Chat Request',
           message: 'A guest is requesting support assistance',

@@ -362,7 +362,7 @@ export async function POST(request: NextRequest) {
           .eq('user_id', user.id);
 
         // Notify user of tier upgrade
-        await supabase.from('unified_notifications').insert({
+        await supabase.from('notifications').insert({
           user_id: user.id,
           title: 'Tier Upgrade! 🎉',
           message: `Congratulations! You've reached ${newTier.name} status!`,
@@ -456,7 +456,7 @@ export async function POST(request: NextRequest) {
       });
 
       // Notify user
-      await supabase.from('unified_notifications').insert({
+      await supabase.from('notifications').insert({
         user_id,
         title: 'Bonus Points!',
         message: `You've received ${points} bonus points: ${reason}`,

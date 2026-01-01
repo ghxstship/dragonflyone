@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
     if (type === 'pending') {
       // Get pending payroll items
       const { data, error } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select(`
           *,
           employee:profiles(id, full_name, email),
@@ -149,7 +149,7 @@ export async function GET(request: NextRequest) {
     // Default: return payroll summary
     const [runsCount, pendingCount, totalPaid] = await Promise.all([
       supabase.from('payroll_runs').select('id', { count: 'exact', head: true }),
-      supabase.from('timesheets').select('id', { count: 'exact', head: true }).eq('payroll_status', 'pending'),
+      supabase.from('workforce_time_entries').select('id', { count: 'exact', head: true }).eq('payroll_status', 'pending'),
       supabase.from('payroll_runs').select('total_amount').eq('status', 'completed')
     ]);
 
@@ -232,7 +232,7 @@ export async function POST(request: NextRequest) {
 
       // Get timesheet data for employees
       const { data: timesheets, error: tsError } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select('*')
         .in('employee_id', employee_ids || [])
         .gte('week_ending', pay_period_start)

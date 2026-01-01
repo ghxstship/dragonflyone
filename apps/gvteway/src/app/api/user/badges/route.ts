@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
 
     // Get user's activity counts for progress
     const { count: eventCount } = await supabase
-      .from('tickets')
+      .from('legend_products')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', user.id)
       .eq('status', 'used');

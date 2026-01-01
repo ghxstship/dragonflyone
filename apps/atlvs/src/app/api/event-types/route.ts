@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     const eventTypesWithUsage = await Promise.all(
       (data || []).map(async (eventType) => {
         const { count } = await supabase
-          .from('bookings')
+          .from('legend_events')
           .select('*', { count: 'exact', head: true })
           .eq('event_type_id', eventType.id);
         

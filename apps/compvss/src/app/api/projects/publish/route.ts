@@ -70,7 +70,7 @@ export const POST = apiRoute(
           available_quantity: tt.quantity,
         }));
 
-        await supabase.from('ticket_types').insert(ticketInserts);
+        await supabase.from('legend_products').insert(ticketInserts);
       }
 
       await supabase

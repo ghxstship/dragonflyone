@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
         .gte('created_at', rangeStart.toISOString());
 
       const { data: invoices } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('id, total_amount, status')
         .gte('created_at', rangeStart.toISOString());
 
@@ -109,7 +109,7 @@ export async function GET(request: NextRequest) {
 
     if (action === 'kpis') {
       const { data: revenue } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('total_amount')
         .eq('status', 'paid')
         .gte('paid_at', rangeStart.toISOString());

@@ -271,7 +271,7 @@ export async function POST(request: NextRequest) {
       const failedItems = responses?.filter((r: Record<string, unknown>) => r.passed === false) || [];
       if (failedItems.length > 0) {
         // Create notification for safety manager
-        await supabase.from('unified_notifications').insert({
+        await supabase.from('notifications').insert({
           user_id: user.id,
           title: 'Safety Checklist Issues',
           message: `${failedItems.length} items failed in safety checklist`,
@@ -311,7 +311,7 @@ export async function POST(request: NextRequest) {
           .eq('role', 'safety_manager');
 
         for (const manager of safetyManagers || []) {
-          await supabase.from('unified_notifications').insert({
+          await supabase.from('notifications').insert({
             user_id: manager.user_id,
             title: `${validated.severity.toUpperCase()} Incident Reported`,
             message: `${validated.incident_type}: ${validated.description.slice(0, 100)}...`,
@@ -359,7 +359,7 @@ export async function POST(request: NextRequest) {
 
         // Notify attendees
         for (const userId of required_attendees) {
-          await supabase.from('unified_notifications').insert({
+          await supabase.from('notifications').insert({
             user_id: userId,
             title: 'Safety Briefing Scheduled',
             message: `You are required to attend: ${title}`,

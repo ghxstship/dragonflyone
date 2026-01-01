@@ -146,18 +146,26 @@ async function createContact(
   payload: Record<string, unknown>,
   organizationId: string
 ): Promise<ActionResponse> {
-  const { data, error } = await supabase.from("contacts").insert({
+  // Create legend_people record first (3NF compliant)
+  const { data: person, error: personError } = await supabase.from("legend_people").insert({
     organization_id: organizationId,
-    company: payload.company as string,
-    first_name: payload.first_name as string,
-    last_name: payload.last_name as string,
+    name: `${payload.first_name as string} ${payload.last_name as string}`,
     email: payload.email as string,
     phone: payload.phone as string,
+    entity_type: 'contact',
+  }).select().single();
+
+  if (personError) return { success: false, error: personError.message };
+
+  // Create contact profile
+  const { data, error } = await supabase.from("people_profile_contact").insert({
+    person_id: person.id,
+    company: payload.company as string,
     metadata: (payload.metadata as Record<string, unknown>) || {},
   }).select().single();
 
   if (error) return { success: false, error: error.message };
-  return { success: true, result: data };
+  return { success: true, result: { ...person, people_profile_contact: data } };
 }
 
 async function createDeal(

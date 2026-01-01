@@ -245,7 +245,7 @@ export async function POST(request: NextRequest) {
       case 'log_payment': {
         const validated = LogPaymentSchema.parse(data);
         const { data: payment, error } = await supabase
-          .from('payments')
+          .from('chronicle_entries')
           .insert({
             ...validated,
             status: 'completed',
@@ -258,7 +258,7 @@ export async function POST(request: NextRequest) {
 
         // Update invoice status
         await supabase
-          .from('invoices')
+          .from('docs_profile_invoice')
           .update({ status: 'paid', paid_at: new Date().toISOString() })
           .eq('id', validated.invoice_id);
 
@@ -292,7 +292,7 @@ export async function POST(request: NextRequest) {
 
         // Generate PO number
         const { data: lastPo } = await supabase
-          .from('purchase_orders')
+          .from('finance_purchase_orders')
           .select('po_number')
           .order('created_at', { ascending: false })
           .limit(1)
@@ -302,7 +302,7 @@ export async function POST(request: NextRequest) {
         const poNumber = `PO-${String(lastNumber + 1).padStart(6, '0')}`;
 
         const { data: po, error } = await supabase
-          .from('purchase_orders')
+          .from('finance_purchase_orders')
           .insert({
             vendor_id: validated.vendor_id,
             po_number: poNumber,

@@ -68,10 +68,10 @@ async function calculateClientHealth(supabase: SupabaseClient, clientId: string)
   const { data: recentProjects } = await supabase.from('projects').select('id, status')
     .eq('client_id', clientId).gte('created_at', thirtyDaysAgo.toISOString());
 
-  const { data: recentInvoices } = await supabase.from('invoices').select('id, status, amount')
+  const { data: recentInvoices } = await supabase.from('docs_profile_invoice').select('id, status, amount')
     .eq('client_id', clientId).gte('created_at', thirtyDaysAgo.toISOString());
 
-  const { data: communications } = await supabase.from('communications').select('id')
+  const { data: communications } = await supabase.from('chronicle_entries').select('id')
     .eq('contact_id', clientId).gte('created_at', thirtyDaysAgo.toISOString());
 
   const { data: npsScores } = await supabase.from('nps_responses').select('score')

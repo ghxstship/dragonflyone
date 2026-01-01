@@ -21,7 +21,7 @@ export const GET = apiRoute(
     const { id } = context.params;
 
     const { data: po, error } = await supabaseAdmin
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .select(`
         *,
         vendor:vendors(id, name, contact_email),
@@ -57,7 +57,7 @@ export const PATCH = apiRoute(
 
     // Fetch current PO
     const { data: currentPO, error: fetchError } = await supabaseAdmin
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .select('*')
       .eq('id', id)
       .single();
@@ -71,7 +71,7 @@ export const PATCH = apiRoute(
 
     // Update PO
     const { data: updatedPO, error: updateError } = await supabaseAdmin
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .update({
         ...updates,
         updated_at: new Date().toISOString(),
@@ -125,7 +125,7 @@ export const DELETE = apiRoute(
 
     // Check if PO can be deleted (only draft or pending)
     const { data: po, error: fetchError } = await supabaseAdmin
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .select('status')
       .eq('id', id)
       .single();
@@ -153,7 +153,7 @@ export const DELETE = apiRoute(
 
     // Delete PO
     const { error: deleteError } = await supabaseAdmin
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .delete()
       .eq('id', id);
 

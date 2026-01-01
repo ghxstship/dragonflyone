@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
       const { opportunity_id, platform } = validatedData as z.infer<typeof shareSchema>;
 
       // Get opportunity for share URL
-      const { data: opp } = await supabase.from('opportunities').select('title').eq('id', opportunity_id).single();
+      const { data: opp } = await supabase.from('deals').select('title').eq('id', opportunity_id).single();
 
       const shareUrl = `${process.env.NEXT_PUBLIC_APP_URL}/opportunities/${opportunity_id}`;
       const shareText = `Check out this opportunity: ${opp?.title}`;

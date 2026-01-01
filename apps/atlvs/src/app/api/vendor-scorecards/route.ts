@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       const { data: pos } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select('total_amount, status, created_at, expected_delivery')
         .eq('vendor_id', vendorId)
         .gte('created_at', new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString());
@@ -105,7 +105,7 @@ export async function GET(request: NextRequest) {
       const scorecards = [];
       for (const vendor of vendors || []) {
         const { data: pos } = await supabase
-          .from('purchase_orders')
+          .from('finance_purchase_orders')
           .select('total_amount, status')
           .eq('vendor_id', vendor.id)
           .gte('created_at', new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString());

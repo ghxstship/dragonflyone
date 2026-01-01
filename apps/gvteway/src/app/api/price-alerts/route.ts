@@ -99,14 +99,14 @@ export async function POST(request: NextRequest) {
     let currentPrice = 0;
     if (validated.ticket_type_id) {
       const { data: ticketType } = await supabase
-        .from('ticket_types')
+        .from('legend_products')
         .select('price')
         .eq('id', validated.ticket_type_id)
         .single();
       currentPrice = ticketType?.price || 0;
     } else {
       const { data: ticketTypes } = await supabase
-        .from('ticket_types')
+        .from('legend_products')
         .select('price')
         .eq('event_id', validated.event_id)
         .order('price', { ascending: true })

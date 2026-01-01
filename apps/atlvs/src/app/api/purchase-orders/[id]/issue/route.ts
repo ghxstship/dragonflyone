@@ -36,7 +36,7 @@ export async function POST(
 
     // Check if PO exists and is approved
     const { data: po, error: poError } = await supabase
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .select(`
         id, 
         status, 
@@ -63,7 +63,7 @@ export async function POST(
 
     // Update PO status to issued
     const { data: updatedPO, error: updateError } = await supabase
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .update({
         status: 'issued',
         issued_at: new Date().toISOString(),

@@ -6,7 +6,7 @@
  * Uses shared ScannerLayout for consistent UI across apps
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   Smartphone,

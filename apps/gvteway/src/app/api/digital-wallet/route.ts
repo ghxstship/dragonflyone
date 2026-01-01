@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
     if (ticketId) {
       // Get ticket details for wallet pass
-      const { data: ticket, error } = await supabase.from('tickets').select(`
+      const { data: ticket, error } = await supabase.from('legend_products').select(`
         *, event:events(id, name, date, venue, image_url)
       `).eq('id', ticketId).single();
 
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get all user's tickets eligible for wallet
-    const { data: tickets, error } = await supabase.from('tickets').select(`
+    const { data: tickets, error } = await supabase.from('legend_products').select(`
       *, event:events(id, name, date, venue)
     `).eq('user_id', user.id).eq('status', 'active').gte('event.date', new Date().toISOString());
 
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { ticket_id, wallet_type } = body; // 'apple', 'google'
 
-    const { data: ticket, error } = await supabase.from('tickets').select(`
+    const { data: ticket, error } = await supabase.from('legend_products').select(`
       *, event:events(*)
     `).eq('id', ticket_id).eq('user_id', user.id).single();
 

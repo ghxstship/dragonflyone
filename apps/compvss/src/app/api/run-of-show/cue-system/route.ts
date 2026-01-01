@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
     if (action === 'cue_sheet' && rosId) {
       // Get formatted cue sheet
       const { data: cues } = await supabase
-        .from('cues')
+        .from('show_cues')
         .select(`
           *,
           assigned_user:platform_users!assigned_to(first_name, last_name)
@@ -89,13 +89,13 @@ export async function GET(request: NextRequest) {
         .single();
 
       const { data: currentCue } = await supabase
-        .from('cues')
+        .from('show_cues')
         .select('*')
         .eq('id', showStatus?.current_cue_id)
         .single();
 
       const { data: nextCue } = await supabase
-        .from('cues')
+        .from('show_cues')
         .select('*')
         .eq('run_of_show_id', rosId)
         .gt('sort_order', currentCue?.sort_order || 0)
@@ -114,7 +114,7 @@ export async function GET(request: NextRequest) {
 
     if (rosId) {
       let query = supabase
-        .from('cues')
+        .from('show_cues')
         .select(`
           *,
           assigned_user:platform_users!assigned_to(first_name, last_name)
@@ -180,7 +180,7 @@ export async function POST(request: NextRequest) {
 
       // Get next sort order
       const { data: lastCue } = await supabase
-        .from('cues')
+        .from('show_cues')
         .select('sort_order')
         .eq('run_of_show_id', validated.run_of_show_id)
         .order('sort_order', { ascending: false })
@@ -188,7 +188,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       const { data: cue, error } = await supabase
-        .from('cues')
+        .from('show_cues')
         .insert({
           ...validated,
           sort_order: (lastCue?.sort_order || 0) + 1,
@@ -235,7 +235,7 @@ export async function POST(request: NextRequest) {
 
       // Update cue status
       await supabase
-        .from('cues')
+        .from('show_cues')
         .update({
           status: 'executed',
           executed_at: new Date().toISOString(),
@@ -262,13 +262,13 @@ export async function POST(request: NextRequest) {
 
       // Get next cue
       const { data: currentCue } = await supabase
-        .from('cues')
+        .from('show_cues')
         .select('sort_order')
         .eq('id', cue_id)
         .single();
 
       const { data: nextCue } = await supabase
-        .from('cues')
+        .from('show_cues')
         .select('*')
         .eq('run_of_show_id', run_of_show_id)
         .gt('sort_order', currentCue?.sort_order || 0)
@@ -284,7 +284,7 @@ export async function POST(request: NextRequest) {
       const { cue_id } = body;
 
       await supabase
-        .from('cues')
+        .from('show_cues')
         .update({
           status: 'standby',
           standby_at: new Date().toISOString(),
@@ -368,7 +368,7 @@ export async function POST(request: NextRequest) {
       // Update sort order for each cue
       for (let i = 0; i < cue_order.length; i++) {
         await supabase
-          .from('cues')
+          .from('show_cues')
           .update({ sort_order: i + 1 })
           .eq('id', cue_order[i])
           .eq('run_of_show_id', run_of_show_id);
@@ -412,7 +412,7 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json();
 
     const { data: cue, error } = await supabase
-      .from('cues')
+      .from('show_cues')
       .update({
         ...body,
         updated_at: new Date().toISOString(),
@@ -455,7 +455,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { error } = await supabase
-      .from('cues')
+      .from('show_cues')
       .delete()
       .eq('id', cueId);
 

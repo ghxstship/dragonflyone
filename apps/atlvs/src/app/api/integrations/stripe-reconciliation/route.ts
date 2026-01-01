@@ -168,7 +168,7 @@ export async function GET(request: NextRequest) {
 
     // Get ATLVS ledger totals for comparison
     const { data: atlvsRevenue } = await supabase
-      .from('invoices')
+      .from('docs_profile_invoice')
       .select('total_amount')
       .eq('status', 'paid')
       .gte('paid_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString());
@@ -261,7 +261,7 @@ export async function POST(request: NextRequest) {
 
       // Get ATLVS invoices for same period
       let atlvsQuery = supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('*')
         .eq('status', 'paid');
 

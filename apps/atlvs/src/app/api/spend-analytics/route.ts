@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     if (type === 'category') {
       // Spend analysis by category
       const { data: pos, error } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select(`
           total_amount,
           category,
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
     if (type === 'vendor') {
       // Spend analysis by vendor
       const { data: pos, error } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select(`
           total_amount,
           vendor_id,
@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
     if (type === 'trend') {
       // Spend trend over time
       const { data: pos, error } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select('total_amount, created_at, category')
         .gte('created_at', startDate)
         .lte('created_at', endDate)
@@ -178,7 +178,7 @@ export async function GET(request: NextRequest) {
     if (type === 'savings') {
       // Savings analysis
       const { data: pos, error } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select(`
           total_amount,
           original_amount,
@@ -314,7 +314,7 @@ export async function GET(request: NextRequest) {
 
     // Default: return overall summary
     const { data: pos, error } = await supabase
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .select('total_amount, status, created_at')
       .gte('created_at', startDate)
       .lte('created_at', endDate);

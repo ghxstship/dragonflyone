@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'payments') {
       let query = supabase
-        .from('payments')
+        .from('chronicle_entries')
         .select(`
           *,
           bank_account:bank_accounts(id, name, account_number)
@@ -109,7 +109,7 @@ export async function GET(request: NextRequest) {
     if (type === 'pending') {
       // Get pending payments awaiting processing
       const { data: pending, error } = await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .select(`
           *,
           bank_account:bank_accounts(id, name)
@@ -164,7 +164,7 @@ export async function GET(request: NextRequest) {
     if (type === 'methods') {
       // Get payment method statistics
       const { data: payments, error } = await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .select('payment_method, amount, status')
         .gte('payment_date', new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString());
 
@@ -184,7 +184,7 @@ export async function GET(request: NextRequest) {
     if (type === 'history' && payeeId) {
       // Get payment history for a specific payee
       const { data: history, error } = await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .select('*')
         .eq('payee_id', payeeId)
         .order('payment_date', { ascending: false })
@@ -206,9 +206,9 @@ export async function GET(request: NextRequest) {
 
     // Default: return summary
     const [pendingResult, completedResult, failedResult] = await Promise.all([
-      supabase.from('payments').select('amount').eq('status', 'pending'),
-      supabase.from('payments').select('amount').eq('status', 'completed').gte('payment_date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
-      supabase.from('payments').select('amount').eq('status', 'failed').gte('payment_date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
+      supabase.from('chronicle_entries').select('amount').eq('status', 'pending'),
+      supabase.from('chronicle_entries').select('amount').eq('status', 'completed').gte('payment_date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
+      supabase.from('chronicle_entries').select('amount').eq('status', 'failed').gte('payment_date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
     ]);
 
     return NextResponse.json({
@@ -244,11 +244,11 @@ export async function POST(request: NextRequest) {
       const validated = paymentSchema.parse(body.data);
 
       // Generate payment reference
-      const { count } = await supabase.from('payments').select('*', { count: 'exact', head: true });
+      const { count } = await supabase.from('chronicle_entries').select('*', { count: 'exact', head: true });
       const paymentRef = `PAY-${String((count || 0) + 1).padStart(8, '0')}`;
 
       const { data: payment, error } = await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .insert({
           ...validated,
           payment_reference: paymentRef,
@@ -279,7 +279,7 @@ export async function POST(request: NextRequest) {
       };
 
       const { data: payment, error } = await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .update({
           status: 'processing',
           ach_details: achDetails,
@@ -314,7 +314,7 @@ export async function POST(request: NextRequest) {
       };
 
       const { data: payment, error } = await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .update({
           status: 'processing',
           wire_details: wireDetails,
@@ -339,7 +339,7 @@ export async function POST(request: NextRequest) {
 
       // Get next check number
       const { data: lastCheck } = await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .select('check_number')
         .eq('payment_method', 'check')
         .not('check_number', 'is', null)
@@ -358,7 +358,7 @@ export async function POST(request: NextRequest) {
       };
 
       const { data: payment, error } = await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .update({
           status: 'printed',
           check_number: nextCheckNumber,
@@ -394,7 +394,7 @@ export async function POST(request: NextRequest) {
 
       // Assign payments to batch
       await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .update({ batch_id: batch.id })
         .in('id', payment_ids);
 
@@ -406,7 +406,7 @@ export async function POST(request: NextRequest) {
 
       // Get batch payments
       const { data: payments } = await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .select('*')
         .eq('batch_id', batch_id)
         .eq('status', 'pending');
@@ -414,7 +414,7 @@ export async function POST(request: NextRequest) {
       // Process each payment (simplified)
       for (const payment of payments || []) {
         await supabase
-          .from('payments')
+          .from('chronicle_entries')
           .update({ 
             status: 'processing',
             processed_at: new Date().toISOString(),
@@ -441,7 +441,7 @@ export async function POST(request: NextRequest) {
       const { payment_id, reason } = body.data;
 
       const { data: payment, error } = await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .update({
           status: 'voided',
           void_reason: reason,
@@ -493,7 +493,7 @@ export async function PATCH(request: NextRequest) {
 
     if (status) {
       const { data: current } = await supabase
-        .from('payments')
+        .from('chronicle_entries')
         .select('status')
         .eq('id', id)
         .single();
@@ -506,7 +506,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const { data: payment, error } = await supabase
-      .from('payments')
+      .from('chronicle_entries')
       .update({
         status,
         ...updates,

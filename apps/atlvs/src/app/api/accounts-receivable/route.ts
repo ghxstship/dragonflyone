@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'invoices') {
       let query = supabase
-        .from('client_invoices')
+        .from('docs_profile_invoice')
         .select(`
           *,
           client:contacts(id, first_name, last_name, email, organization_id),
@@ -124,7 +124,7 @@ export async function GET(request: NextRequest) {
     if (type === 'aging') {
       // Get AR aging report
       const { data: invoices, error } = await supabase
-        .from('client_invoices')
+        .from('docs_profile_invoice')
         .select(`
           id,
           client_id,
@@ -221,7 +221,7 @@ export async function GET(request: NextRequest) {
 
       // Get invoices needing collection action
       const { data: overdueInvoices } = await supabase
-        .from('client_invoices')
+        .from('docs_profile_invoice')
         .select(`
           *,
           client:contacts(id, first_name, last_name, email),
@@ -282,9 +282,9 @@ export async function GET(request: NextRequest) {
       const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
       
       const [invoicesResult, paymentsResult, overdueResult] = await Promise.all([
-        supabase.from('client_invoices').select('amount, status'),
+        supabase.from('docs_profile_invoice').select('amount, status'),
         supabase.from('client_payments').select('amount, status').gte('payment_date', thirtyDaysAgo),
-        supabase.from('client_invoices').select('amount').in('status', ['sent', 'partial', 'overdue']).lt('due_date', new Date().toISOString()),
+        supabase.from('docs_profile_invoice').select('amount').in('status', ['sent', 'partial', 'overdue']).lt('due_date', new Date().toISOString()),
       ]);
 
       const totalOutstanding = invoicesResult.data?.filter(i => ['sent', 'partial', 'overdue'].includes(i.status)).reduce((sum, i) => sum + i.amount, 0) || 0;
@@ -293,7 +293,7 @@ export async function GET(request: NextRequest) {
 
       // Calculate DSO (Days Sales Outstanding)
       const { data: recentInvoices } = await supabase
-        .from('client_invoices')
+        .from('docs_profile_invoice')
         .select('amount, invoice_date, paid_date')
         .eq('status', 'paid')
         .gte('paid_date', thirtyDaysAgo);
@@ -317,8 +317,8 @@ export async function GET(request: NextRequest) {
 
     // Default: return summary
     const [outstandingResult, overdueResult, collectedResult] = await Promise.all([
-      supabase.from('client_invoices').select('amount').in('status', ['sent', 'partial', 'overdue']),
-      supabase.from('client_invoices').select('amount').in('status', ['sent', 'partial', 'overdue']).lt('due_date', new Date().toISOString()),
+      supabase.from('docs_profile_invoice').select('amount').in('status', ['sent', 'partial', 'overdue']),
+      supabase.from('docs_profile_invoice').select('amount').in('status', ['sent', 'partial', 'overdue']).lt('due_date', new Date().toISOString()),
       supabase.from('client_payments').select('amount').eq('status', 'completed').gte('payment_date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
     ]);
 
@@ -355,12 +355,12 @@ export async function POST(request: NextRequest) {
       // Generate invoice number if not provided
       let invoiceNumber = validated.invoice_number;
       if (!invoiceNumber) {
-        const { count } = await supabase.from('client_invoices').select('*', { count: 'exact', head: true });
+        const { count } = await supabase.from('docs_profile_invoice').select('*', { count: 'exact', head: true });
         invoiceNumber = `INV-${String((count || 0) + 1).padStart(6, '0')}`;
       }
 
       const { data: invoice, error } = await supabase
-        .from('client_invoices')
+        .from('docs_profile_invoice')
         .insert({
           ...validated,
           invoice_number: invoiceNumber,
@@ -381,7 +381,7 @@ export async function POST(request: NextRequest) {
 
       // Get invoice details
       const { data: invoice } = await supabase
-        .from('client_invoices')
+        .from('docs_profile_invoice')
         .select('amount, status')
         .eq('id', validated.invoice_id)
         .single();
@@ -423,7 +423,7 @@ export async function POST(request: NextRequest) {
       const newStatus = newPaidAmount >= invoice.amount ? 'paid' : 'partial';
 
       await supabase
-        .from('client_invoices')
+        .from('docs_profile_invoice')
         .update({ 
           status: newStatus,
           paid_date: newStatus === 'paid' ? new Date().toISOString() : null,
@@ -451,7 +451,7 @@ export async function POST(request: NextRequest) {
       // Update invoice status if escalated
       if (validated.action_type === 'sent_to_collections') {
         await supabase
-          .from('client_invoices')
+          .from('docs_profile_invoice')
           .update({ status: 'collections', updated_at: new Date().toISOString() })
           .eq('id', validated.invoice_id);
       }
@@ -463,7 +463,7 @@ export async function POST(request: NextRequest) {
       const { invoice_id } = body.data;
 
       const { data: invoice, error } = await supabase
-        .from('client_invoices')
+        .from('docs_profile_invoice')
         .update({
           status: 'sent',
           sent_date: new Date().toISOString(),
@@ -522,7 +522,7 @@ export async function PATCH(request: NextRequest) {
     const { id, ...updates } = body;
 
     const { data: invoice, error } = await supabase
-      .from('client_invoices')
+      .from('docs_profile_invoice')
       .update({
         ...updates,
         updated_at: new Date().toISOString(),
@@ -573,7 +573,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { error } = await supabase
-      .from('client_invoices')
+      .from('docs_profile_invoice')
       .update({
         status: 'voided',
         void_reason: reason,

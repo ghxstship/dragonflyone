@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
 
     // Update profile with role selection
     const { error: profileError } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .update({
         metadata: {
           selected_role: validated.role,

@@ -190,9 +190,9 @@ module.exports = {
       ]
     }],
     
-    // Inline styles warning - prefer design system tokens but allow for dynamic values
+    // Inline styles - prefer design system tokens but allow for dynamic values
     // Dynamic values like progress bar widths, chart colors, etc. legitimately need inline styles
-    "react/forbid-component-props": ["warn", {
+    "react/forbid-component-props": ["error", {
       "forbid": [
         {
           "propName": "style",
@@ -201,18 +201,18 @@ module.exports = {
       ]
     }],
     
-    // TypeScript rules
-    "@typescript-eslint/no-unused-vars": ["warn", {
+    // TypeScript rules - ZERO TOLERANCE
+    "@typescript-eslint/no-unused-vars": ["error", {
       "argsIgnorePattern": "^_",
       "varsIgnorePattern": "^_"
     }],
-    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-explicit-any": "error",
     
-    // General code quality
-    "no-console": ["warn", { "allow": ["warn", "error"] }],
-    "prefer-const": "warn",
+    // General code quality - ZERO TOLERANCE
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "prefer-const": "error",
     "no-var": "error",
-    "react/jsx-key": "warn",
+    "react/jsx-key": "error",
     
     // ════════════════════════════════════════════════════════════════════
     // RAW TAILWIND PROHIBITION - BOLD CONTEMPORARY POP ART ENFORCEMENT
@@ -224,10 +224,10 @@ module.exports = {
     // • Radius: Sharp on actions (4px), rounded on containers (8-16px)
     // • Animation: Snappy (100-200ms) with bounce/overshoot
     // 
-    // Set to "warn" during transition period. Raw HTML elements are blocked by react/forbid-elements.
+    // ZERO TOLERANCE - All violations are ERRORS, not warnings.
     // ════════════════════════════════════════════════════════════════════
     "no-restricted-syntax": [
-      "warn",
+      "error",
       
       // ────────────────────────────────────────────────────────────────
       // PROHIBITED: Raw Tailwind Typography
@@ -518,6 +518,19 @@ module.exports = {
             }
           ]
         }]
+      }
+    },
+    {
+      // Generator components legitimately use dynamic inline styles for:
+      // - Color palettes from generated data
+      // - Progress bar widths
+      // - Dynamic indentation based on hierarchy tiers
+      files: [
+        "**/app/generator/**/*.tsx",
+        "**/app/generator/**/*.ts"
+      ],
+      rules: {
+        "react/forbid-component-props": "off"
       }
     },
     {

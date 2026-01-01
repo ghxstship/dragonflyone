@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { error: profileError } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .update({
         preferences: {
           theme: validated.theme,

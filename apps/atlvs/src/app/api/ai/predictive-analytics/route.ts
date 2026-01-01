@@ -177,7 +177,7 @@ export async function GET(request: NextRequest) {
       if (action === 'cash_flow_prediction') {
         // Get receivables
         const { data: receivables } = await supabase
-          .from('invoices')
+          .from('docs_profile_invoice')
           .select('total_amount, due_date, status')
           .eq('status', 'pending')
           .gte('due_date', new Date().toISOString());
@@ -237,7 +237,7 @@ export async function GET(request: NextRequest) {
 
       if (action === 'expense_anomalies') {
         const { data: expenses } = await supabase
-          .from('expenses')
+          .from('finance_expenses')
           .select('id, category, amount, expense_date, description')
           .gte('expense_date', new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString());
 

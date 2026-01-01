@@ -96,7 +96,7 @@ export async function POST(
 
         // Create contract
         const { data: contract, error: contractError } = await supabase
-          .from('contracts')
+          .from('docs_profile_contract')
           .insert({
             contract_number: contractNumber,
             organization_id: quote.organization_id,
@@ -182,7 +182,7 @@ export async function POST(
 
         // Create invoice
         const { data: invoice, error: invoiceError } = await supabase
-          .from('invoices')
+          .from('docs_profile_invoice')
           .insert({
             invoice_number: invoiceNumber,
             organization_id: quote.organization_id,

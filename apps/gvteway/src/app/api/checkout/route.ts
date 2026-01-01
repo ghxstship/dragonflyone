@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     // Process ticket items
     for (const item of validated.items) {
       const { data: ticketType, error: ticketError } = await supabase
-        .from('ticket_types')
+        .from('legend_products')
         .select('*')
         .eq('id', item.ticket_type_id)
         .single();
@@ -225,7 +225,7 @@ export async function POST(request: NextRequest) {
     // Reserve tickets
     for (const item of validated.items) {
       await supabase
-        .from('ticket_types')
+        .from('legend_products')
         .update({
           reserved: supabase.rpc('increment', { x: item.quantity }),
         })

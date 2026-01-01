@@ -111,7 +111,7 @@ export async function signUp(
 
     if (input.inviteCode) {
       const { data: invite } = await supabase
-        .from('contacts')
+        .from('organization_invites')
         .select('id, organization_id, role, expires_at, used_at')
         .eq('invite_code', input.inviteCode)
         .single();
@@ -135,7 +135,7 @@ export async function signUp(
 
       // Mark invite as used
       await supabase
-        .from('contacts')
+        .from('organization_invites')
         .update({ used_at: new Date().toISOString() })
         .eq('id', invite.id);
     }

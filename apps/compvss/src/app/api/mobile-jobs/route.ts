@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
     const skills = searchParams.get('skills')?.split(',');
     const jobType = searchParams.get('type');
 
-    let query = supabase.from('opportunities').select(`
+    let query = supabase.from('deals').select(`
       id, title, company, location, job_type, salary_range, posted_at, deadline,
       skills_required, latitude, longitude
     `).eq('status', 'open');

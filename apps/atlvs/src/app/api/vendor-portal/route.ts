@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
 
     // Get POs with pagination
     const { data: purchaseOrders, count: poCount } = await supabase
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .select('id, po_number, status, total_amount, created_at', { count: 'exact' })
       .eq('vendor_id', vendor.id)
       .order('created_at', { ascending: false })
@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
 
     // Get invoices with pagination
     const { data: invoices, count: invCount } = await supabase
-      .from('vendor_invoices')
+      .from('docs_profile_invoice')
       .select('id, invoice_number, amount, status, submitted_at, due_date', { count: 'exact' })
       .eq('vendor_id', vendor.id)
       .order('submitted_at', { ascending: false })
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
     if (action === 'submit_invoice') {
       const { po_id, invoice_number, amount, invoice_date, due_date, document_url, line_items } = validatedData;
 
-      const { data, error } = await supabase.from('vendor_invoices').insert({
+      const { data, error } = await supabase.from('docs_profile_invoice').insert({
         vendor_id: vendor.id, po_id, invoice_number, amount,
         invoice_date, due_date, document_url, line_items: line_items || [],
         status: 'pending', submitted_at: new Date().toISOString()
@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
     if (action === 'acknowledge_po') {
       const { po_id, estimated_delivery_date, notes } = validatedData;
 
-      await supabase.from('purchase_orders').update({
+      await supabase.from('finance_purchase_orders').update({
         vendor_acknowledged: true, acknowledged_at: new Date().toISOString(),
         estimated_delivery_date, vendor_notes: notes
       }).eq('id', po_id);

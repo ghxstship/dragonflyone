@@ -163,7 +163,7 @@ export async function GET(request: NextRequest) {
       .eq('status', 'open');
 
     const { data: pendingApprovals } = await supabase
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .select('id')
       .eq('status', 'pending_approval');
 
@@ -295,7 +295,7 @@ export async function POST(request: NextRequest) {
             .single();
 
           if (vendor?.contact_user_id) {
-            await supabase.from('unified_notifications').insert({
+            await supabase.from('notifications').insert({
               user_id: vendor.contact_user_id,
               title: 'New RFP Invitation',
               message: `You have been invited to respond to RFP: ${rfp.title}`,
@@ -477,7 +477,7 @@ export async function POST(request: NextRequest) {
 
       // Generate PO number
       const { data: lastPo } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select('po_number')
         .order('created_at', { ascending: false })
         .limit(1)
@@ -487,7 +487,7 @@ export async function POST(request: NextRequest) {
       poData.po_number = `PO-${String(lastNumber + 1).padStart(6, '0')}`;
 
       const { data: po, error } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .insert(poData)
         .select()
         .single();

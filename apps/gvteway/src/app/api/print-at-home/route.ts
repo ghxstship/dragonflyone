@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (!ticketId) return NextResponse.json({ error: 'ticket_id required' }, { status: 400 });
 
     const { data: ticket, error } = await supabase
-      .from('tickets')
+      .from('legend_products')
       .select(`
         id, ticket_type, section, row, seat, qr_code, barcode, price,
         event:events(id, name, start_date, end_date, venue:venues(name, address, city, state)),
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
       const { ticket_id, security_code } = body;
 
       const { data: ticket } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('id, qr_code')
         .eq('id', ticket_id)
         .single();

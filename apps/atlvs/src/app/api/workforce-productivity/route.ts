@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'overview') {
       const { data: timesheets } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select('employee_id, hours, billable_hours, date, project_id')
         .gte('date', startDate.split('T')[0])
         .lte('date', endDate.split('T')[0])
@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'employee') {
       const { data: timesheets } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select('employee_id, hours, billable_hours, date, employee:platform_users(id, first_name, last_name)')
         .gte('date', startDate.split('T')[0])
         .lte('date', endDate.split('T')[0])
@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'department') {
       const { data: timesheets } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select('hours, billable_hours, employee:platform_users(department_id, department:departments(name))')
         .gte('date', startDate.split('T')[0])
         .lte('date', endDate.split('T')[0])
@@ -128,7 +128,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'trends') {
       const { data: timesheets } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select('hours, billable_hours, date')
         .gte('date', startDate.split('T')[0])
         .lte('date', endDate.split('T')[0])

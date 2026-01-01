@@ -86,7 +86,7 @@ export async function GET(request: NextRequest) {
     if (action === 'list') {
       // Get all dashboards for user
       const { data: dashboards } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .select('id, name, description, is_default, is_shared, created_at')
         .or(`created_by.eq.${user.id},is_shared.eq.true`)
         .order('is_default', { ascending: false });
@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
     if (dashboardId) {
       // Get specific dashboard with widgets
       const { data: dashboard } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .select(`
           *,
           widgets:dashboard_widgets(*)
@@ -149,7 +149,7 @@ export async function GET(request: NextRequest) {
 
     // Default: Get default dashboard or first available
     const { data: defaultDashboard } = await supabase
-      .from('analytics_dashboards')
+      .from('dashboard_configs')
       .select('id')
       .eq('created_by', user.id)
       .eq('is_default', true)
@@ -195,14 +195,14 @@ export async function POST(request: NextRequest) {
       // If setting as default, unset other defaults
       if (validated.is_default) {
         await supabase
-          .from('analytics_dashboards')
+          .from('dashboard_configs')
           .update({ is_default: false })
           .eq('created_by', user.id);
       }
 
       // Create dashboard
       const { data: dashboard, error } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .insert({
           name: validated.name,
           description: validated.description,
@@ -261,7 +261,7 @@ export async function POST(request: NextRequest) {
 
       // Get original dashboard
       const { data: original } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .select(`*, widgets:dashboard_widgets(*)`)
         .eq('id', dashboard_id)
         .single();
@@ -272,7 +272,7 @@ export async function POST(request: NextRequest) {
 
       // Create copy
       const { data: copy, error } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .insert({
           name: `${original.name} (Copy)`,
           description: original.description,
@@ -368,14 +368,14 @@ export async function PATCH(request: NextRequest) {
       // If setting as default, unset other defaults
       if (body.is_default) {
         await supabase
-          .from('analytics_dashboards')
+          .from('dashboard_configs')
           .update({ is_default: false })
           .eq('created_by', user.id)
           .neq('id', dashboardId);
       }
 
       const { data: dashboard, error } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .update({
           ...body,
           updated_at: new Date().toISOString(),
@@ -432,7 +432,7 @@ export async function DELETE(request: NextRequest) {
 
     if (dashboardId) {
       const { error } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .delete()
         .eq('id', dashboardId);
 
@@ -480,7 +480,7 @@ async function fetchWidgetData(widget: DashboardWidget, timeRange: string): Prom
   switch (widget.data_source) {
     case 'revenue': {
       const { data } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('total_amount, paid_at, status')
         .eq('status', 'paid')
         .gte('paid_at', startDateStr);
@@ -498,7 +498,7 @@ async function fetchWidgetData(widget: DashboardWidget, timeRange: string): Prom
 
     case 'expenses': {
       const { data } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .select('amount, category, created_at')
         .gte('created_at', startDateStr);
 

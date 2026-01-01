@@ -19,7 +19,7 @@ export async function GET(
     const status = searchParams.get('status');
 
     let query = supabase
-      .from('tickets')
+      .from('legend_products')
       .select(`
         id, barcode, attendee_name, attendee_email, attendee_phone,
         status, checked_in_at,

@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
 
       // Get tickets with owner info
       const { data: tickets } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('id, owner:platform_users(email, phone)')
         .in('id', ticket_ids);
 

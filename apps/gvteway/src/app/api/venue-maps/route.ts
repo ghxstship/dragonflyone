@@ -85,14 +85,14 @@ export async function GET(request: NextRequest) {
 
       // Get sold/reserved seats
       const { data: soldSeats } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('seat_id, section_id, row_id')
         .eq('event_id', eventId)
         .in('status', ['sold', 'reserved', 'held']);
 
       // Get ticket types with pricing
       const { data: ticketTypes } = await supabase
-        .from('ticket_types')
+        .from('legend_products')
         .select('id, name, price, section_ids')
         .eq('event_id', eventId);
 
@@ -123,7 +123,7 @@ export async function GET(request: NextRequest) {
         .eq('section_id', sectionId);
 
       const { data: soldSeats } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('seat_id')
         .eq('event_id', eventId)
         .eq('section_id', sectionId)
@@ -134,7 +134,7 @@ export async function GET(request: NextRequest) {
 
       // Get pricing for section
       const { data: ticketType } = await supabase
-        .from('ticket_types')
+        .from('legend_products')
         .select('price, name')
         .eq('event_id', eventId)
         .contains('section_ids', [sectionId])
@@ -270,7 +270,7 @@ export async function POST(request: NextRequest) {
 
       // Check availability
       const { data: existingTickets } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('seat_id')
         .eq('event_id', event_id)
         .in('seat_id', seat_ids)

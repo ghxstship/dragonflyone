@@ -247,13 +247,13 @@ export async function POST(request: NextRequest) {
 interface InsightResult { insight_type: string; category: string; title: string; description: string; severity: string; metric_name: string; metric_value?: number; comparison_value?: number; change_percent?: number; data_points?: Record<string, unknown> }
 async function analyzeRevenueTrend(): Promise<InsightResult | null> {
   const { data: currentPeriod } = await supabase
-    .from('invoices')
+    .from('docs_profile_invoice')
     .select('total_amount')
     .eq('status', 'paid')
     .gte('created_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString());
 
   const { data: previousPeriod } = await supabase
-    .from('invoices')
+    .from('docs_profile_invoice')
     .select('total_amount')
     .eq('status', 'paid')
     .gte('created_at', new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString())
@@ -317,7 +317,7 @@ async function analyzePipelineHealth(): Promise<InsightResult | null> {
 
 async function analyzeOverdueItems(): Promise<InsightResult | null> {
   const { data: overdueInvoices } = await supabase
-    .from('invoices')
+    .from('docs_profile_invoice')
     .select('id, total_amount')
     .eq('status', 'sent')
     .lt('due_date', new Date().toISOString());

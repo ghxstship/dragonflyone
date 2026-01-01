@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
 
       // Get ticket and check price controls
       const { data: ticket } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('id, event_id, original_price')
         .eq('id', validated.ticket_id)
         .single();
@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
       if (!listing) return NextResponse.json({ error: 'Listing not available' }, { status: 404 });
 
       // Transfer ticket
-      await supabase.from('tickets').update({ owner_id: buyer_id }).eq('id', listing.ticket_id);
+      await supabase.from('legend_products').update({ owner_id: buyer_id }).eq('id', listing.ticket_id);
 
       // Update listing
       await supabase

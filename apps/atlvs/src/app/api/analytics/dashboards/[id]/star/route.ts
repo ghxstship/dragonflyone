@@ -17,7 +17,7 @@ export const POST = apiRoute(
 
       // Get current starred status
       const { data: current, error: fetchError } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .select('is_starred')
         .eq('id', id)
         .single();
@@ -31,7 +31,7 @@ export const POST = apiRoute(
 
       // Toggle starred status
       const { data, error } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .update({ is_starred: !current.is_starred })
         .eq('id', id)
         .select()

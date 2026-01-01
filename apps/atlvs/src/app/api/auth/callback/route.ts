@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
 
     // Check onboarding status
     const { data: profile } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .select('onboarding_completed')
       .eq('id', data.user.id)
       .single();

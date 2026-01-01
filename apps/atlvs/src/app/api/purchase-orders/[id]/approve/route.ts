@@ -38,7 +38,7 @@ export async function POST(
 
     // Fetch current PO
     const { data: po, error: fetchError } = await supabase
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .select(`
         *,
         vendor:vendors(id, name, email),
@@ -92,7 +92,7 @@ export async function POST(
 
     // Update PO status
     const { data: updatedPO, error: updateError } = await supabase
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .update({
         status: 'approved',
         approved_by: userId,

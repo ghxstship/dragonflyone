@@ -170,9 +170,6 @@ export * from './hooks/useAssetScan';
 // Calibration hooks
 export * from './hooks/useCalibration';
 
-// Maintenance hooks
-export * from './hooks/useMaintenance';
-
 // Damage reports hooks
 export * from './hooks/useDamageReports';
 
@@ -215,17 +212,8 @@ export * from './hooks/useInvestors';
 // Sponsors hooks
 export * from './hooks/useSponsors';
 
-// Crew members hooks
-export * from './hooks/useCrewMembers';
-
-// Crew assignments hooks
-export * from './hooks/useCrewAssignments';
-
 // Vendor contracts hooks
 export * from './hooks/useVendorContracts';
-
-// Bookings hooks
-export * from './hooks/useBookings';
 
 // Investor updates hooks
 export * from './hooks/useInvestorUpdates';
@@ -464,6 +452,10 @@ export {
   ORGANIZATION_STATUS_COLORS,
   ORGANIZATION_TYPE_COLORS,
   PRODUCTION_STATUS_COLORS,
+  PROPOSAL_STATUS_COLORS,
+  PURCHASE_ORDER_STATUS_COLORS,
+  BUDGET_STATUS_COLORS,
+  EXPENSE_STATUS_COLORS,
   DEAL_STATUS_COLORS,
   DEAL_STAGE_COLORS,
   PRIORITY_COLORS,

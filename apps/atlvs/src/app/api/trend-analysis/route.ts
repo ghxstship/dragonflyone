@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     if (metric === 'revenue') {
       const { data: invoices } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('total_amount, created_at')
         .eq('status', 'paid')
         .gte('created_at', new Date(Date.now() - comparePeriods * 30 * 24 * 60 * 60 * 1000).toISOString());
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
 
     if (metric === 'expenses') {
       const { data: pos } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select('total_amount, created_at')
         .in('status', ['approved', 'sent', 'received', 'completed'])
         .gte('created_at', new Date(Date.now() - comparePeriods * 30 * 24 * 60 * 60 * 1000).toISOString());

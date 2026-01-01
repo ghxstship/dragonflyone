@@ -317,7 +317,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (post && post.user_id !== user.id) {
-        await supabase.from('unified_notifications').insert({
+        await supabase.from('notifications').insert({
           user_id: post.user_id,
           title: 'New Comment',
           message: 'Someone commented on your post',
@@ -389,7 +389,7 @@ export async function POST(request: NextRequest) {
       });
 
       // Notify
-      await supabase.from('unified_notifications').insert({
+      await supabase.from('notifications').insert({
         user_id: following_id,
         title: 'New Follower',
         message: 'Someone started following you',

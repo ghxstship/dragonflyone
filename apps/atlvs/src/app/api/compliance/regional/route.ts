@@ -310,7 +310,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Notify DPO if configured
-      await supabase.from('unified_notifications').insert({
+      await supabase.from('notifications').insert({
         user_id: user.id, // Should be DPO
         title: 'Data Breach Reported',
         message: `A data breach has been reported: ${description}`,

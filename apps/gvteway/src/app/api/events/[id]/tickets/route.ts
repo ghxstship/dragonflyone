@@ -34,7 +34,7 @@ export async function GET(
     const includeHidden = searchParams.get('include_hidden') === 'true';
 
     let query = supabase
-      .from('ticket_types')
+      .from('legend_products')
       .select('*')
       .eq('event_id', id)
       .eq('is_active', true)
@@ -88,7 +88,7 @@ export async function POST(
     }
 
     const { data, error } = await supabase
-      .from('ticket_types')
+      .from('legend_products')
       .insert({
         ...payload,
         event_id: id,

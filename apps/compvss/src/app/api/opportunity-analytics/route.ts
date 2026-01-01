@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
     const startDate = new Date(now.getTime() - periodDays * 24 * 60 * 60 * 1000).toISOString();
 
     if (opportunityId) {
-      const { data: opportunity } = await supabase.from('opportunities').select(`
+      const { data: opportunity } = await supabase.from('deals').select(`
         id, title, views, applications:job_applications(count)
       `).eq('id', opportunityId).single();
 
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Aggregate analytics
-    const { data: opportunities } = await supabase.from('opportunities').select(`
+    const { data: opportunities } = await supabase.from('deals').select(`
       id, title, views, applications:job_applications(count)
     `).order('views', { ascending: false }).limit(20);
 

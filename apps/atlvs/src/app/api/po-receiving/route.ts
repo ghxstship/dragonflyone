@@ -76,7 +76,7 @@ export async function GET(request: NextRequest) {
     if (type === 'pending') {
       // Get POs pending receiving
       let pendingQuery = supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select(`
           *,
           vendor:vendors(id, name),
@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
     if (type === 'match' && poId) {
       // Get three-way match data for a PO
       const { data: po, error: poError } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select(`
           *,
           items:po_line_items(id, description, quantity, unit_price, total_price, quantity_received)
@@ -137,7 +137,7 @@ export async function GET(request: NextRequest) {
         .eq('purchase_order_id', poId);
 
       const { data: invoices } = await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select(`
           *,
           items:vendor_invoice_items(po_line_id, quantity, unit_price, total_price)
@@ -196,7 +196,7 @@ export async function GET(request: NextRequest) {
     if (type === 'discrepancies') {
       // Get POs with discrepancies
       const { data: pos, error } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select(`
           id,
           po_number,
@@ -214,7 +214,7 @@ export async function GET(request: NextRequest) {
       interface VendorData { name?: string }
       for (const po of pos || []) {
         const { data: invoices } = await supabase
-          .from('vendor_invoices')
+          .from('docs_profile_invoice')
           .select('items:vendor_invoice_items(po_line_id, quantity, total_price)')
           .eq('purchase_order_id', po.id);
 
@@ -359,7 +359,7 @@ export async function POST(request: NextRequest) {
       }
 
       await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .update({ status: newStatus, updated_at: new Date().toISOString() })
         .eq('id', validated.purchase_order_id);
 
@@ -371,7 +371,7 @@ export async function POST(request: NextRequest) {
 
       // Verify all documents exist and match
       const { data: po } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select('id, total_amount')
         .eq('id', validated.purchase_order_id)
         .single();
@@ -383,7 +383,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       const { data: invoice } = await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select('id, total_amount')
         .eq('id', validated.invoice_id)
         .single();
@@ -414,7 +414,7 @@ export async function POST(request: NextRequest) {
       // Update invoice status if matched
       if (match.status === 'matched') {
         await supabase
-          .from('vendor_invoices')
+          .from('docs_profile_invoice')
           .update({ status: 'approved', approved_at: new Date().toISOString() })
           .eq('id', validated.invoice_id);
       }
@@ -427,7 +427,7 @@ export async function POST(request: NextRequest) {
       const { po_id, acknowledged_by, expected_delivery, notes } = body.data;
 
       const { data: po, error } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .update({
           status: 'acknowledged',
           acknowledged_at: new Date().toISOString(),

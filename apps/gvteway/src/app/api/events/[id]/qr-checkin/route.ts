@@ -20,7 +20,7 @@ export const POST = apiRoute(
     const data = checkinSchema.parse(body);
 
     const { data: ticket, error: ticketError } = await supabaseAdmin
-      .from('tickets')
+      .from('legend_products')
       .select(`
         *,
         ticket_type:ticket_types(id, name, event_id),
@@ -90,7 +90,7 @@ export const POST = apiRoute(
 
     if (data.check_in_type === 'entry') {
       await supabaseAdmin
-        .from('tickets')
+        .from('legend_products')
         .update({ status: 'used', used_at: new Date().toISOString() })
         .eq('id', ticket.id);
     }
@@ -130,7 +130,7 @@ export const GET = apiRoute(
     }
 
     const { data: ticket, error } = await supabaseAdmin
-      .from('tickets')
+      .from('legend_products')
       .select(`
         *,
         ticket_type:ticket_types(id, name, event_id),

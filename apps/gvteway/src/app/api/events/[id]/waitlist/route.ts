@@ -70,7 +70,7 @@ export const POST = apiRoute(
     }
 
     const { data: ticketType, error: typeError } = await supabaseAdmin
-      .from('ticket_types')
+      .from('legend_products')
       .select('id, name, available')
       .eq('id', data.ticket_type_id)
       .eq('event_id', eventId)

@@ -25,7 +25,7 @@ export async function GET(request: Request) {
 
     // Get today's crew assignments
     const { data: assignments, error: fetchError } = await supabase
-      .from('crew_assignments')
+      .from('workforce_shift_assignments')
       .select(`
         id,
         crew_member_id,

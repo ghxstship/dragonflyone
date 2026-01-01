@@ -292,7 +292,7 @@ export async function POST(request: NextRequest) {
         }));
 
         await supabase
-          .from('crew_assignments')
+          .from('workforce_shift_assignments')
           .upsert(crewAssignments, { onConflict: 'project_id,user_id' });
       }
 

@@ -27,7 +27,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const { id: bookingId } = await params;
 
     const { data: booking, error: bookingError } = await supabase
-      .from('bookings')
+      .from('legend_events')
       .select('*, client:clients(*), venue:venues(*), spaces:booking_spaces(*)')
       .eq('id', bookingId)
       .single();

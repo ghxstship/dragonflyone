@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'inventory') {
       const { data: ticketTypes } = await supabase
-        .from('ticket_types')
+        .from('legend_products')
         .select('id, name, quantity, sold_count')
         .eq('event_id', eventId);
 
@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
 
       // Get total sold
       const { count: totalSold } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('*', { count: 'exact', head: true })
         .eq('event_id', eventId)
         .eq('status', 'sold');

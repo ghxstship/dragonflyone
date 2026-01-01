@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
 
     // Get profile
     const { data: profile, error } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .select(`
         *,
         membership:user_memberships(tier_id, points_balance, member_since)
@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
         { count: followersCount },
         { count: followingCount },
       ] = await Promise.all([
-        supabase.from('tickets').select('*', { count: 'exact', head: true })
+        supabase.from('legend_products').select('*', { count: 'exact', head: true })
           .eq('user_id', userId).eq('status', 'used'),
         supabase.from('reviews').select('*', { count: 'exact', head: true })
           .eq('user_id', userId),
@@ -152,7 +152,7 @@ export async function PATCH(request: NextRequest) {
     if (validated.preferences !== undefined) updateData.preferences = validated.preferences;
 
     const { data: profile, error } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .update(updateData)
       .eq('id', user.id)
       .select()
@@ -203,7 +203,7 @@ export async function DELETE(request: NextRequest) {
 
     // Soft delete - mark account as deleted
     const { error: profileError } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .update({
         status: 'deleted',
         deleted_at: new Date().toISOString(),

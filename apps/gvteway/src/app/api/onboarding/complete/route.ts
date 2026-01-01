@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { error: profileError } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .update({
         onboarding_completed: true,
         onboarding_step: 4,

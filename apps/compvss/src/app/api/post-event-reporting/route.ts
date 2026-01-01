@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
 
       // Get crew stats
       const { data: crewAssignments } = await supabase
-        .from('crew_assignments')
+        .from('workforce_shift_assignments')
         .select('id, role')
         .eq('project_id', projectId);
 
@@ -89,7 +89,7 @@ export async function GET(request: NextRequest) {
 
       // Get expenses
       const { data: expenses } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .select('amount, category')
         .eq('project_id', projectId);
 
@@ -260,7 +260,7 @@ export async function POST(request: NextRequest) {
 
       // Send feedback requests to crew
       for (const crewId of crew_ids) {
-        await supabase.from('unified_notifications').insert({
+        await supabase.from('notifications').insert({
           user_id: crewId,
           title: 'Feedback Request',
           message: 'Please submit your feedback for the recently completed project',
@@ -290,7 +290,7 @@ export async function POST(request: NextRequest) {
 
       // Get metrics
       const { data: crewAssignments } = await supabase
-        .from('crew_assignments')
+        .from('workforce_shift_assignments')
         .select('*')
         .eq('project_id', project_id);
 
@@ -300,7 +300,7 @@ export async function POST(request: NextRequest) {
         .eq('project_id', project_id);
 
       const { data: expenses } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .select('*')
         .eq('project_id', project_id);
 

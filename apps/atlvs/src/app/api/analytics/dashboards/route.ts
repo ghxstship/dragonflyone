@@ -27,7 +27,7 @@ export const GET = apiRoute(
       const orgId = searchParams.get('organization_id');
 
       let query = supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -76,7 +76,7 @@ export const POST = apiRoute(
       }
 
       const { data, error } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .insert({
           ...validation.data,
           widget_count: 0,

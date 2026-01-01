@@ -105,7 +105,7 @@ export async function GET(request: NextRequest) {
     if (type === 'workflows') {
       // List all workflows
       let query = supabase
-        .from('workflows')
+        .from('saga_instances')
         .select(`
           *,
           triggers:workflow_triggers(*),
@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
     if (type === 'workflow' && workflowId) {
       // Get specific workflow
       const { data, error } = await supabase
-        .from('workflows')
+        .from('saga_instances')
         .select(`
           *,
           triggers:workflow_triggers(*),
@@ -208,8 +208,8 @@ export async function GET(request: NextRequest) {
 
     // Default: return summary
     const [workflowCount, activeCount, executionCount] = await Promise.all([
-      supabase.from('workflows').select('id', { count: 'exact', head: true }),
-      supabase.from('workflows').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+      supabase.from('saga_instances').select('id', { count: 'exact', head: true }),
+      supabase.from('saga_instances').select('id', { count: 'exact', head: true }).eq('status', 'active'),
       supabase.from('workflow_executions').select('id', { count: 'exact', head: true })
     ]);
 
@@ -250,7 +250,7 @@ export async function POST(request: NextRequest) {
 
       // Create workflow
       const { data: workflow, error: wfError } = await supabase
-        .from('workflows')
+        .from('saga_instances')
         .insert({
           name,
           description,
@@ -296,7 +296,7 @@ export async function POST(request: NextRequest) {
       const { workflow_id, name, description, status, triggers, actions: workflowActions } = body;
 
       const { data: workflow, error } = await supabase
-        .from('workflows')
+        .from('saga_instances')
         .update({
           name,
           description,
@@ -342,7 +342,7 @@ export async function POST(request: NextRequest) {
       const { workflow_id } = body;
 
       const { data, error } = await supabase
-        .from('workflows')
+        .from('saga_instances')
         .update({ status: 'active', activated_at: new Date().toISOString() })
         .eq('id', workflow_id)
         .select()
@@ -359,7 +359,7 @@ export async function POST(request: NextRequest) {
       const { workflow_id } = body;
 
       const { data, error } = await supabase
-        .from('workflows')
+        .from('saga_instances')
         .update({ status: 'inactive', deactivated_at: new Date().toISOString() })
         .eq('id', workflow_id)
         .select()
@@ -378,7 +378,7 @@ export async function POST(request: NextRequest) {
 
       // Get workflow
       const { data: workflow } = await supabase
-        .from('workflows')
+        .from('saga_instances')
         .select(`*, actions:workflow_actions(*)`)
         .eq('id', workflow_id)
         .single();
@@ -460,7 +460,7 @@ export async function POST(request: NextRequest) {
       await supabase.from('workflow_executions').delete().eq('workflow_id', workflow_id);
       await supabase.from('workflow_triggers').delete().eq('workflow_id', workflow_id);
       await supabase.from('workflow_actions').delete().eq('workflow_id', workflow_id);
-      await supabase.from('workflows').delete().eq('id', workflow_id);
+      await supabase.from('saga_instances').delete().eq('id', workflow_id);
 
       return NextResponse.json({ success: true });
     }
@@ -470,7 +470,7 @@ export async function POST(request: NextRequest) {
 
       // Get original workflow
       const { data: original } = await supabase
-        .from('workflows')
+        .from('saga_instances')
         .select(`*, triggers:workflow_triggers(*), actions:workflow_actions(*)`)
         .eq('id', workflow_id)
         .single();
@@ -481,7 +481,7 @@ export async function POST(request: NextRequest) {
 
       // Create copy
       const { data: copy, error } = await supabase
-        .from('workflows')
+        .from('saga_instances')
         .insert({
           name: new_name || `${original.name} (Copy)`,
           description: original.description,

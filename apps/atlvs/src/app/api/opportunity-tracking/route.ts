@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     const stage = searchParams.get('stage');
     const ownerId = searchParams.get('owner_id');
 
-    let query = supabase.from('opportunities').select(`
+    let query = supabase.from('deals').select(`
       *, contact:contacts(id, name, company), owner:platform_users(id, first_name, last_name)
     `);
 
@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
     const validatedData = createOpportunitySchema.parse(body);
     const { contact_id, name, value, stage, probability, expected_close_date, source, notes } = validatedData;
 
-    const { data, error } = await supabase.from('opportunities').insert({
+    const { data, error } = await supabase.from('deals').insert({
       contact_id, name, value, stage: stage || 'qualification',
       probability: probability || getStageProbability(stage || 'qualification'),
       expected_close_date, source, notes, owner_id: user.id
@@ -136,7 +136,7 @@ export async function PATCH(request: NextRequest) {
     // Auto-update probability based on stage if not manually set
     const newProbability = probability || (stage ? getStageProbability(stage) : undefined);
 
-    const { error } = await supabase.from('opportunities').update({
+    const { error } = await supabase.from('deals').update({
       ...updateData,
       stage,
       probability: newProbability,

@@ -226,7 +226,7 @@ async function checkStreamAccess(stream: StreamData, user: UserData | undefined 
     case 'ticketed':
       // Check if user has ticket for the event
       const { data: ticket } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('id')
         .eq('user_id', user.id)
         .eq('event_id', stream.event_id)
@@ -247,7 +247,7 @@ async function checkStreamAccess(stream: StreamData, user: UserData | undefined 
     case 'vip':
       // Check if user has VIP ticket or membership
       const { data: vipTicket } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('id, ticket_types!inner(name)')
         .eq('user_id', user.id)
         .eq('event_id', stream.event_id)

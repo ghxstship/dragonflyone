@@ -143,7 +143,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'invoices') {
       let query = supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select(`
           *,
           vendor:vendors(id, name, payment_terms),
@@ -188,7 +188,7 @@ export async function GET(request: NextRequest) {
     if (type === 'pending_match') {
       // Get invoices pending 3-way match
       const { data: invoices, error } = await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select(`
           *,
           vendor:vendors(id, name),
@@ -268,7 +268,7 @@ export async function GET(request: NextRequest) {
     if (type === 'aging') {
       // Get AP aging report
       const { data: invoices, error } = await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select(`
           id,
           vendor_id,
@@ -388,16 +388,16 @@ export async function GET(request: NextRequest) {
     // Default: return AP summary
     const [pendingResult, overdueResult, thisMonthResult, paidResult] = await Promise.all([
       supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select('amount')
         .in('status', ['pending', 'approved']),
       supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select('amount')
         .in('status', ['pending', 'approved'])
         .lt('due_date', new Date().toISOString()),
       supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select('amount')
         .eq('status', 'paid')
         .gte('paid_date', new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()),
@@ -448,7 +448,7 @@ export async function POST(request: NextRequest) {
 
       // Check for duplicate invoice number
       const { data: existing } = await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select('id')
         .eq('vendor_id', validated.vendor_id)
         .eq('invoice_number', validated.invoice_number)
@@ -465,7 +465,7 @@ export async function POST(request: NextRequest) {
       }
 
       const { data: invoice, error } = await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .insert({
           ...validated,
           status: 'pending',
@@ -498,7 +498,7 @@ export async function POST(request: NextRequest) {
 
       // Update PO status
       await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .update({ 
           receipt_status: 'received',
           updated_at: new Date().toISOString(),
@@ -507,7 +507,7 @@ export async function POST(request: NextRequest) {
 
       // Update any linked invoices to ready for match
       await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .update({ 
           receipt_id: receipt.id,
           match_status: 'ready_for_match',
@@ -524,7 +524,7 @@ export async function POST(request: NextRequest) {
 
       // Get invoice details
       const { data: invoice } = await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select('amount, status')
         .eq('id', validated.invoice_id)
         .single();
@@ -566,7 +566,7 @@ export async function POST(request: NextRequest) {
       const newStatus = newPaidAmount >= invoice.amount ? 'paid' : 'partial';
 
       await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .update({ 
           status: newStatus,
           paid_date: newStatus === 'paid' ? new Date().toISOString() : null,
@@ -582,7 +582,7 @@ export async function POST(request: NextRequest) {
 
       // Get invoice with related data
       const { data: invoice } = await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .select(`
           *,
           purchase_order:purchase_orders(*),
@@ -636,7 +636,7 @@ export async function POST(request: NextRequest) {
       const newStatus = matchResult.auto_approve ? 'approved' : 'pending_review';
 
       await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .update({
           match_status: newMatchStatus,
           status: newStatus,
@@ -679,7 +679,7 @@ export async function PATCH(request: NextRequest) {
 
     if (action === 'approve') {
       const { data: invoice, error } = await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .update({
           status: 'approved',
           approved_by: updates.approved_by,
@@ -697,7 +697,7 @@ export async function PATCH(request: NextRequest) {
 
     if (action === 'reject') {
       const { data: invoice, error } = await supabase
-        .from('vendor_invoices')
+        .from('docs_profile_invoice')
         .update({
           status: 'rejected',
           rejection_reason: updates.reason,
@@ -716,7 +716,7 @@ export async function PATCH(request: NextRequest) {
 
     // General update
     const { data: invoice, error } = await supabase
-      .from('vendor_invoices')
+      .from('docs_profile_invoice')
       .update({
         ...updates,
         updated_at: new Date().toISOString(),
@@ -767,7 +767,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { error } = await supabase
-      .from('vendor_invoices')
+      .from('docs_profile_invoice')
       .update({
         status: 'voided',
         void_reason: reason,

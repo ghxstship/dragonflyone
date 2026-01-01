@@ -247,7 +247,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (listing) {
-        await supabase.from('unified_notifications').insert({
+        await supabase.from('notifications').insert({
           user_id: listing.posted_by,
           title: 'New Application',
           message: `Someone applied to your listing: ${listing.title}`,
@@ -306,7 +306,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Notify applicant
-      await supabase.from('unified_notifications').insert({
+      await supabase.from('notifications').insert({
         user_id: application.applicant_id,
         title: 'Application Update',
         message: `Your application status has been updated to: ${status}`,

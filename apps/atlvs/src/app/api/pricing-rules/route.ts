@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
       const { data: { user } } = await supabaseAdmin.auth.getUser(token);
       if (user) {
         const { data: profile } = await supabaseAdmin
-          .from('profiles')
+          .from('platform_users')
           .select('organization_id')
           .eq('id', user.id)
           .single();
@@ -133,7 +133,7 @@ export async function POST(request: NextRequest) {
       if (user) {
         userId = user.id;
         const { data: profile } = await supabaseAdmin
-          .from('profiles')
+          .from('platform_users')
           .select('organization_id')
           .eq('id', user.id)
           .single();

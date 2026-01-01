@@ -68,7 +68,7 @@ export const GET = apiRoute(
     if (ruleError || !rule) {
       // No dynamic pricing, return base price
       const { data: ticketType } = await supabase
-        .from('ticket_types')
+        .from('legend_products')
         .select('price')
         .eq('id', ticket_type_id)
         .single();

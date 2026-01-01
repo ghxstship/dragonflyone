@@ -44,10 +44,10 @@ export async function GET(request: NextRequest) {
     `).eq('project_id', projectId).single();
 
     // Get pending items
-    const { data: pendingInvoices } = await supabase.from('invoices').select('*')
+    const { data: pendingInvoices } = await supabase.from('docs_profile_invoice').select('*')
       .eq('project_id', projectId).eq('status', 'pending');
 
-    const { data: pendingExpenses } = await supabase.from('expenses').select('*')
+    const { data: pendingExpenses } = await supabase.from('finance_expenses').select('*')
       .eq('project_id', projectId).eq('status', 'pending');
 
     return NextResponse.json({
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
     if (action === 'initiate') {
       // Get budget vs actual
       const { data: budget } = await supabase.from('project_budgets').select('*').eq('project_id', project_id);
-      const { data: expenses } = await supabase.from('expenses').select('*').eq('project_id', project_id);
+      const { data: expenses } = await supabase.from('finance_expenses').select('*').eq('project_id', project_id);
 
       const totalBudget = budget?.reduce((s, b) => s + b.amount, 0) || 0;
       const totalActual = expenses?.reduce((s, e) => s + e.amount, 0) || 0;

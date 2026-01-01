@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
 
 async function predictRevenue(months: number) {
   // Get historical revenue data
-  const { data: historicalRevenue } = await supabase.from('invoices').select('amount, created_at')
+  const { data: historicalRevenue } = await supabase.from('docs_profile_invoice').select('amount, created_at')
     .eq('status', 'paid').order('created_at', { ascending: true });
 
   // Group by month

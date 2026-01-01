@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
 
     if (projectId) {
       // Get all emergency contacts for project crew
-      const { data: assignments } = await supabase.from('crew_assignments').select('crew_id').eq('project_id', projectId);
+      const { data: assignments } = await supabase.from('workforce_shift_assignments').select('crew_id').eq('project_id', projectId);
       const crewIds = assignments?.map(a => a.crew_id) || [];
 
       const { data, error } = await supabase.from('emergency_contacts').select(`

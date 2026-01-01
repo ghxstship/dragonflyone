@@ -23,7 +23,7 @@ export const GET = apiRoute(
       const { id } = params;
 
       const { data, error } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .select('*')
         .eq('id', id)
         .single();
@@ -37,7 +37,7 @@ export const GET = apiRoute(
 
       // Increment view count
       await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .update({ view_count: (data.view_count || 0) + 1 })
         .eq('id', id);
 
@@ -72,7 +72,7 @@ export const PATCH = apiRoute(
       }
 
       const { data, error } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .update({ ...validation.data, updated_at: new Date().toISOString() })
         .eq('id', id)
         .select()
@@ -107,7 +107,7 @@ export const DELETE = apiRoute(
       const { id } = params;
 
       const { error } = await supabase
-        .from('analytics_dashboards')
+        .from('dashboard_configs')
         .delete()
         .eq('id', id);
 

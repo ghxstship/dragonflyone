@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
     if (type === 'aging_analysis') {
       // Get aging analysis with bad debt probability
       const { data: invoices, error } = await supabase
-        .from('client_invoices')
+        .from('docs_profile_invoice')
         .select(`
           id,
           invoice_number,
@@ -226,7 +226,7 @@ export async function POST(request: NextRequest) {
 
       // Get invoice details
       const { data: invoice } = await supabase
-        .from('client_invoices')
+        .from('docs_profile_invoice')
         .select('amount, status')
         .eq('id', validated.invoice_id)
         .single();
@@ -250,7 +250,7 @@ export async function POST(request: NextRequest) {
 
       // Update invoice status
       await supabase
-        .from('client_invoices')
+        .from('docs_profile_invoice')
         .update({
           status: 'written_off',
           written_off_amount: validated.write_off_amount,

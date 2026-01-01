@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
     // Update profile with interests
     const { error: profileError } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .update({
         preferences: {
           event_interests: validated.interests,

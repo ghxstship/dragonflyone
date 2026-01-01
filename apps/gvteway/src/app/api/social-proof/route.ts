@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 
     if (widgetType === 'attendee_count') {
       const { count } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('*', { count: 'exact', head: true })
         .eq('event_id', eventId)
         .eq('status', 'sold');
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       const { count: recentPurchases } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('*', { count: 'exact', head: true })
         .eq('event_id', eventId)
         .gte('created_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString());
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
 
     if (widgetType === 'recent_purchases') {
       const { data: purchases } = await supabase
-        .from('tickets')
+        .from('legend_products')
         .select('created_at, ticket_type')
         .eq('event_id', eventId)
         .eq('status', 'sold')

@@ -110,9 +110,9 @@ export default function DashboardPage() {
   // RBAC: Check if user can view dashboard
   const canViewDashboard = VIEW_ROLES.some(role => hasRole(role));
   
-  const { data: projects, isLoading: projectsLoading, error: projectsError, refetch: refetchProjects } = useProjects({ status: 'active' });
+  const { data: projects, isLoading: projectsLoading, error: projectsError } = useProjects({ status: 'active' });
   const { data: actionItems, isLoading: actionItemsLoading } = useActionItems({ limit: 3 });
-  const { data: quickLinks, isLoading: quickLinksLoading } = useUserQuickLinkFavorites('demo-user');
+  const { data: quickLinks, isLoading: quickLinksLoading } = useUserQuickLinkFavorites(user?.id || '');
   const { data: activityData } = useActivityFeed({ limit: 5 });
   
   // Quick link form state
@@ -183,28 +183,27 @@ export default function DashboardPage() {
         title: "Executive Dashboard",
         description: "Real-time status of all projects across GHXSTSHIP verticals",
       }}
-      isLoading={isLoading}
+      loading={isLoading}
       error={projectsError instanceof Error ? projectsError : null}
-      onRetry={() => refetchProjects()}
       actions={
         <Stack direction="horizontal" gap={2}>
           <Button
             onClick={() => setTimeRange("week")}
-            variant={timeRange === "week" ? "solid" : "outlineWhite"}
+            variant={timeRange === "week" ? "solid" : "outline"}
             size="sm"
           >
             Week
           </Button>
           <Button
             onClick={() => setTimeRange("month")}
-            variant={timeRange === "month" ? "solid" : "outlineWhite"}
+            variant={timeRange === "month" ? "solid" : "outline"}
             size="sm"
           >
             Month
           </Button>
           <Button
             onClick={() => setTimeRange("quarter")}
-            variant={timeRange === "quarter" ? "solid" : "outlineWhite"}
+            variant={timeRange === "quarter" ? "solid" : "outline"}
             size="sm"
           >
             Quarter

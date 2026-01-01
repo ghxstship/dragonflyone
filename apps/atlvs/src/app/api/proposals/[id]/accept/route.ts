@@ -77,7 +77,7 @@ export async function POST(
 
     if (proposal.booking_id) {
       await supabase
-        .from('bookings')
+        .from('legend_events')
         .update({ status: 'confirmed' })
         .eq('id', proposal.booking_id);
     }

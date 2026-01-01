@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
     if (action === 'set_opportunity_range') {
       const { opportunity_id, min_salary, max_salary, min_rate, max_rate, show_salary } = validatedData as z.infer<typeof setOpportunityRangeSchema>;
 
-      await supabase.from('opportunities').update({
+      await supabase.from('deals').update({
         min_salary, max_salary, min_rate, max_rate, show_salary
       }).eq('id', opportunity_id);
 

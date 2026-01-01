@@ -158,7 +158,7 @@ export async function GET(request: NextRequest) {
     if (action === 'conflicts') {
       // Detect scheduling conflicts
       const { data: assignments } = await supabase
-        .from('crew_assignments')
+        .from('workforce_shift_assignments')
         .select(`
           id, crew_id, start_time, end_time,
           project:compvss_projects(name)
@@ -218,7 +218,7 @@ export async function GET(request: NextRequest) {
     if (action === 'workload_balance') {
       // Analyze crew workload distribution
       const { data: assignments } = await supabase
-        .from('crew_assignments')
+        .from('workforce_shift_assignments')
         .select(`
           crew_id, start_time, end_time,
           crew:platform_users!crew_id(first_name, last_name)
@@ -343,7 +343,7 @@ export async function POST(request: NextRequest) {
       }));
 
       const { data: created, error } = await supabase
-        .from('crew_assignments')
+        .from('workforce_shift_assignments')
         .insert(assignmentRecords)
         .select();
 
@@ -360,7 +360,7 @@ export async function POST(request: NextRequest) {
 
       // Notify crew members
       for (const assignment of assignments) {
-        await supabase.from('unified_notifications').insert({
+        await supabase.from('notifications').insert({
           user_id: assignment.crew_id,
           title: 'New Shift Assignment',
           message: 'You have been assigned to a new shift',
@@ -381,7 +381,7 @@ export async function POST(request: NextRequest) {
 
       // Get both assignments
       const { data: assignments } = await supabase
-        .from('crew_assignments')
+        .from('workforce_shift_assignments')
         .select('*')
         .in('id', [assignment1_id, assignment2_id]);
 
@@ -391,12 +391,12 @@ export async function POST(request: NextRequest) {
 
       // Swap crew members
       await supabase
-        .from('crew_assignments')
+        .from('workforce_shift_assignments')
         .update({ crew_id: assignments[1].crew_id })
         .eq('id', assignment1_id);
 
       await supabase
-        .from('crew_assignments')
+        .from('workforce_shift_assignments')
         .update({ crew_id: assignments[0].crew_id })
         .eq('id', assignment2_id);
 

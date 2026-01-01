@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     // Fetch user profile
     const { data: profile, error: profileError } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .select('*')
       .eq('id', userId)
       .single();
@@ -90,7 +90,7 @@ export async function PUT(request: NextRequest) {
 
     // Update profile
     const { data: profile, error: profileError } = await supabase
-      .from('profiles')
+      .from('platform_users')
       .update({
         first_name,
         last_name,

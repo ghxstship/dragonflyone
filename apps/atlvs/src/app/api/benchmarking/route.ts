@@ -302,7 +302,7 @@ async function calculateOrgMetrics(period?: string): Promise<Record<string, numb
 
   // Financial metrics
   let revenueQuery = supabase
-    .from('invoices')
+    .from('docs_profile_invoice')
     .select('total_amount')
     .eq('status', 'paid');
   
@@ -315,7 +315,7 @@ async function calculateOrgMetrics(period?: string): Promise<Record<string, numb
   const totalRevenue = revenue?.reduce((sum, i) => sum + (i.total_amount || 0), 0) || 0;
 
   const { data: expenses } = await supabase
-    .from('expenses')
+    .from('finance_expenses')
     .select('amount')
     .eq('status', 'approved');
   

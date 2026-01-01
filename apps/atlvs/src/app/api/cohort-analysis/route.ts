@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
         .gte('created_at', new Date(Date.now() - months * 30 * 24 * 60 * 60 * 1000).toISOString());
 
       const { data: invoices } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('client_id, created_at')
         .eq('status', 'paid')
         .gte('created_at', new Date(Date.now() - months * 30 * 24 * 60 * 60 * 1000).toISOString());
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
         .gte('created_at', new Date(Date.now() - months * 30 * 24 * 60 * 60 * 1000).toISOString());
 
       const { data: invoices } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('client_id, total_amount, created_at')
         .eq('status', 'paid')
         .gte('created_at', new Date(Date.now() - months * 30 * 24 * 60 * 60 * 1000).toISOString());
@@ -159,7 +159,7 @@ export async function GET(request: NextRequest) {
         .eq('type', 'client');
 
       const { data: invoices } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('client_id, total_amount')
         .eq('status', 'paid');
 

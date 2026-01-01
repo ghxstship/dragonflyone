@@ -40,13 +40,13 @@ export async function GET(
         .order('created_at', { ascending: false })
         .limit(limit),
       supabase
-        .from('leads')
+        .from('contacts')
         .select('id, first_name, last_name, status, created_at, updated_at')
         .eq('contact_id', id)
         .order('created_at', { ascending: false })
         .limit(limit),
       supabase
-        .from('bookings')
+        .from('legend_events')
         .select('id, booking_number, event_name, status, created_at')
         .eq('contact_id', id)
         .order('created_at', { ascending: false })

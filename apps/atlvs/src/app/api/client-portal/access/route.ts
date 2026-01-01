@@ -98,7 +98,7 @@ export async function GET(request: NextRequest) {
 
     if (contactIds.length > 0) {
       const { data: bookingCounts } = await supabase
-        .from('bookings')
+        .from('legend_events')
         .select('contact_id')
         .in('contact_id', contactIds);
 

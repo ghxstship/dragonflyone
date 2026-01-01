@@ -215,7 +215,7 @@ export async function POST(request: NextRequest) {
     if (employees && employees.length > 0) {
       // Get timekeeping data for the pay period
       const { data: timesheets } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select('*')
         .in('employee_id', employees.map(e => e.id))
         .gte('work_date', validated.pay_period_start)

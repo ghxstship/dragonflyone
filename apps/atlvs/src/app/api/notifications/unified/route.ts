@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
     const offset = parseInt(searchParams.get('offset') || '0');
 
     let query = supabase
-      .from('unified_notifications')
+      .from('notifications')
       .select('*', { count: 'exact' })
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
@@ -84,7 +84,7 @@ export async function GET(request: NextRequest) {
 
     // Get unread counts by platform
     const { data: unreadCounts } = await supabase
-      .from('unified_notifications')
+      .from('notifications')
       .select('source_platform')
       .eq('user_id', user.id)
       .eq('is_read', false);
@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
       }));
 
       const { data: created, error } = await supabase
-        .from('unified_notifications')
+        .from('notifications')
         .insert(notifications)
         .select();
 
@@ -230,7 +230,7 @@ export async function POST(request: NextRequest) {
       }
 
       const { error } = await supabase
-        .from('unified_notifications')
+        .from('notifications')
         .update({ is_read: true, read_at: new Date().toISOString() })
         .in('id', notification_ids)
         .eq('user_id', user.id);
@@ -244,7 +244,7 @@ export async function POST(request: NextRequest) {
       const { platform } = body;
 
       let query = supabase
-        .from('unified_notifications')
+        .from('notifications')
         .update({ is_read: true, read_at: new Date().toISOString() })
         .eq('user_id', user.id)
         .eq('is_read', false);
@@ -264,7 +264,7 @@ export async function POST(request: NextRequest) {
       const { notification_id } = body;
 
       const { error } = await supabase
-        .from('unified_notifications')
+        .from('notifications')
         .update({ dismissed: true, dismissed_at: new Date().toISOString() })
         .eq('id', notification_id)
         .eq('user_id', user.id);
@@ -330,7 +330,7 @@ export async function DELETE(request: NextRequest) {
 
     if (deleteAll) {
       const { error } = await supabase
-        .from('unified_notifications')
+        .from('notifications')
         .delete()
         .eq('user_id', user.id)
         .eq('is_read', true);
@@ -347,7 +347,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { error } = await supabase
-      .from('unified_notifications')
+      .from('notifications')
       .delete()
       .eq('id', notificationId)
       .eq('user_id', user.id);

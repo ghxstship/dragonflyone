@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 
     // Get tickets for events happening tomorrow
     const { data: tickets, error: fetchError } = await supabase
-      .from('tickets')
+      .from('legend_products')
       .select(`
         id,
         user_id,

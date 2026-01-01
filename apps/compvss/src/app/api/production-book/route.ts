@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     // Gather all production book data
     const { data: project } = await supabase.from('projects').select('*').eq('id', projectId).single();
     const { data: schedule } = await supabase.from('schedules').select('*').eq('project_id', projectId);
-    const { data: crew } = await supabase.from('crew_assignments').select('*, crew:platform_users(*)').eq('project_id', projectId);
+    const { data: crew } = await supabase.from('workforce_shift_assignments').select('*, crew:platform_users(*)').eq('project_id', projectId);
     const { data: equipment } = await supabase.from('equipment_assignments').select('*, equipment:equipment(*)').eq('project_id', projectId);
     const { data: contacts } = await supabase.from('project_contacts').select('*').eq('project_id', projectId);
     const { data: runOfShow } = await supabase.from('run_of_show').select('*').eq('project_id', projectId);

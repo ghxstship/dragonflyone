@@ -221,7 +221,7 @@ export async function GET(request: NextRequest) {
         .gte('period_end', new Date().toISOString());
 
       const { data: expenses } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .select('category, amount, expense_date')
         .gte('expense_date', new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString());
 

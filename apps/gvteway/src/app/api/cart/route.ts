@@ -127,7 +127,7 @@ export async function POST(request: NextRequest) {
 
     // Get ticket type price
     const { data: ticketType } = await supabase
-      .from('ticket_types')
+      .from('legend_products')
       .select('price')
       .eq('id', validated.ticket_type_id)
       .single();

@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
 
     // Get user's tickets with event details (only future events)
     const { data: tickets, error } = await supabase
-      .from('tickets')
+      .from('legend_products')
       .select(`
         id,
         order_id,

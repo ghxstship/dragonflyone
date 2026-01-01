@@ -135,7 +135,7 @@ export async function GET(request: NextRequest) {
       const periodEnd = new Date(parseInt(period.split('-')[0]), parseInt(period.split('-')[1]), 0).toISOString().split('T')[0];
 
       const { data: timesheets, error } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select(`
           employee_id,
           hours,
@@ -220,7 +220,7 @@ export async function GET(request: NextRequest) {
       const date = searchParams.get('date') || new Date().toISOString().split('T')[0];
 
       const { data: timesheets, error } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select(`
           *,
           employee:platform_users(id, first_name, last_name, work_state),

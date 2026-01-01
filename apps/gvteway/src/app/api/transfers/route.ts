@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
 
     // Verify ticket ownership
     const { data: ticket, error: ticketError } = await supabase
-      .from('tickets')
+      .from('legend_products')
       .select('*')
       .eq('id', ticket_id)
       .eq('buyer_id', user.id)

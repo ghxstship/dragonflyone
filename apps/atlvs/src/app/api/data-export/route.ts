@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
       rowCount = data.length;
     } else if (exportType === 'invoices') {
       const { data: invoices } = await supabase
-        .from('invoices')
+        .from('docs_profile_invoice')
         .select('*')
         .gte('created_at', params.start_date || '2000-01-01')
         .lte('created_at', params.end_date || new Date().toISOString())
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
       rowCount = data.length;
     } else if (exportType === 'purchase_orders') {
       const { data: pos } = await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .select('*')
         .gte('created_at', params.start_date || '2000-01-01')
         .lte('created_at', params.end_date || new Date().toISOString())
@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
       rowCount = data.length;
     } else if (exportType === 'timesheets') {
       const { data: timesheets } = await supabase
-        .from('timesheets')
+        .from('workforce_time_entries')
         .select('*')
         .gte('date', params.start_date || '2000-01-01')
         .lte('date', params.end_date || new Date().toISOString())

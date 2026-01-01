@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
       : `id, po_number, status, category, priority, total_amount, created_at, vendor:vendors(id, name), project:projects(id, name)`;
 
     let query = supabase
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .select(selectQuery, { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
@@ -171,7 +171,7 @@ export async function POST(request: NextRequest) {
 
     // Create purchase order
     const { data: purchaseOrder, error: poError } = await supabase
-      .from('purchase_orders')
+      .from('finance_purchase_orders')
       .insert({
         po_number: poNumber,
         organization_id: organizationId,
@@ -244,7 +244,7 @@ export async function POST(request: NextRequest) {
         sum + (item.discount_amount || 0), 0);
 
       await supabase
-        .from('purchase_orders')
+        .from('finance_purchase_orders')
         .update({
           subtotal,
           tax_amount: totalTax,

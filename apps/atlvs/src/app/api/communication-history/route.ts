@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
     if (type === 'contact' && contactId) {
       // Get all communications for a contact
       let query = supabase
-        .from('communications')
+        .from('chronicle_entries')
         .select(`
           *,
           created_by:platform_users(id, first_name, last_name)
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
     if (type === 'deal' && dealId) {
       // Get communications related to a deal
       const { data: communications, error } = await supabase
-        .from('communications')
+        .from('chronicle_entries')
         .select(`
           *,
           contact:contacts(id, first_name, last_name),
@@ -114,7 +114,7 @@ export async function GET(request: NextRequest) {
     if (type === 'timeline' && contactId) {
       // Get communication timeline with activity
       const { data: communications, error } = await supabase
-        .from('communications')
+        .from('chronicle_entries')
         .select(`
           id,
           type,
@@ -168,7 +168,7 @@ export async function GET(request: NextRequest) {
       const periodStart = new Date(Date.now() - parseInt(period) * 24 * 60 * 60 * 1000).toISOString();
 
       const { data: communications, error } = await supabase
-        .from('communications')
+        .from('chronicle_entries')
         .select('type, direction, sentiment, occurred_at')
         .gte('occurred_at', periodStart);
 
@@ -213,7 +213,7 @@ export async function GET(request: NextRequest) {
     if (type === 'follow_ups') {
       // Get pending follow-ups
       const { data: followUps, error } = await supabase
-        .from('communications')
+        .from('chronicle_entries')
         .select(`
           *,
           contact:contacts(id, first_name, last_name, email)
@@ -242,7 +242,7 @@ export async function GET(request: NextRequest) {
 
     // Default: return recent communications
     const { data: communications, error } = await supabase
-      .from('communications')
+      .from('chronicle_entries')
       .select(`
         *,
         contact:contacts(id, first_name, last_name)
@@ -280,7 +280,7 @@ export async function POST(request: NextRequest) {
       const createdBy = body.created_by;
 
       const { data: communication, error } = await supabase
-        .from('communications')
+        .from('chronicle_entries')
         .insert({
           ...validated,
           created_by: createdBy,
@@ -310,7 +310,7 @@ export async function POST(request: NextRequest) {
       const direction = to?.includes(body.user_email) ? 'inbound' : 'outbound';
 
       const { data: communication, error } = await supabase
-        .from('communications')
+        .from('chronicle_entries')
         .insert({
           contact_id,
           type: 'email',
@@ -334,7 +334,7 @@ export async function POST(request: NextRequest) {
       const createdBy = body.created_by;
 
       const { data: communication, error } = await supabase
-        .from('communications')
+        .from('chronicle_entries')
         .insert({
           contact_id,
           type: 'call',
@@ -359,7 +359,7 @@ export async function POST(request: NextRequest) {
       const createdBy = body.created_by;
 
       const { data: communication, error } = await supabase
-        .from('communications')
+        .from('chronicle_entries')
         .insert({
           contact_id,
           type: 'meeting',
@@ -384,7 +384,7 @@ export async function POST(request: NextRequest) {
       const { communication_id, notes } = body.data;
 
       const { data: communication, error } = await supabase
-        .from('communications')
+        .from('chronicle_entries')
         .update({
           follow_up_completed: true,
           follow_up_notes: notes,
@@ -426,7 +426,7 @@ export async function PATCH(request: NextRequest) {
     const { id, ...updates } = body;
 
     const { data: communication, error } = await supabase
-      .from('communications')
+      .from('chronicle_entries')
       .update(updates)
       .eq('id', id)
       .select()
@@ -462,7 +462,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { error } = await supabase
-      .from('communications')
+      .from('chronicle_entries')
       .delete()
       .eq('id', id);
 

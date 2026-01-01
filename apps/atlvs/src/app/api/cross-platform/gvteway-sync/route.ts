@@ -342,7 +342,7 @@ export async function POST(request: NextRequest) {
 
       // Get expenses
       const { data: expenses } = await supabase
-        .from('expenses')
+        .from('finance_expenses')
         .select('amount, category')
         .eq('project_id', atlvs_project_id);
 

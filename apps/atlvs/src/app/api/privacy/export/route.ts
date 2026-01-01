@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
 
     // Get tickets
     const { data: tickets } = await supabase
-      .from('tickets')
+      .from('legend_products')
       .select('id, ticket_type, status, event_id, created_at')
       .eq('user_id', platformUser.id);
     exportData.tickets = tickets || [];
