@@ -3,23 +3,22 @@
 /**
  * Purchase Orders List Page
  * 
- * SSOT-compliant: Uses entity registry for status colors.
+ * SSOT-compliant: Uses entity registry for columns and filters.
  */
 
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, CheckCircle, Truck } from 'lucide-react';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { 
   useAuthContext, 
   ATLVS_ADMIN_ROLES,
-  PURCHASE_ORDER_STATUS_COLORS,
+  getEntityColumns,
+  getEntityFilters,
 } from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction,
+  ListPage, useToast,
+  type ListPageAction,
 } from "@ghxstship/ui";
 import { usePurchaseOrders, useDeletePurchaseOrder, type PurchaseOrder } from '@/hooks/usePurchaseOrders';
-
-const STATUS_COLORS = PURCHASE_ORDER_STATUS_COLORS;
 
 export default function PurchaseOrdersPage() {
   const router = useRouter();
@@ -39,55 +38,8 @@ export default function PurchaseOrdersPage() {
     }
   };
 
-  const formatCurrency = (amount: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
-  const formatDate = (dateStr: string | null | undefined) => dateStr ? new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A';
-
-  const columns: ListPageColumn<PurchaseOrder>[] = [
-    { key: 'po_number', label: 'PO Number', accessor: 'po_number', sortable: true },
-    {
-      key: 'vendor', label: 'Vendor', accessor: (po) => po.vendor?.name || 'Unknown', sortable: true,
-      render: (_value: unknown, po) => (
-        <Box>
-          <Text>{po.vendor?.name || 'Unknown'}</Text>
-          {po.category && <Body size="sm" className="text-muted-foreground">{po.category}</Body>}
-        </Box>
-      ),
-    },
-    {
-      key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_value: unknown, po) => (
-        <Badge variant={STATUS_COLORS[po.status] || 'outline'}>
-          <Stack direction="horizontal" gap={1} className="items-center">
-            {po.status === 'received' && <CheckCircle className="h-3 w-3" />}
-            {po.status === 'ordered' && <Truck className="h-3 w-3" />}
-            {po.status}
-          </Stack>
-        </Badge>
-      ),
-    },
-    {
-      key: 'total_amount', label: 'Amount', accessor: 'total_amount', sortable: true,
-      render: (_value: unknown, po) => <Text className="font-weight-medium">{formatCurrency(po.total_amount || 0)}</Text>,
-    },
-    {
-      key: 'priority', label: 'Priority', accessor: 'priority', sortable: true,
-    },
-    {
-      key: 'created_at', label: 'Created', accessor: 'created_at', sortable: true,
-      render: (_value: unknown, po) => <Text>{formatDate(po.created_at)}</Text>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    { key: 'status', label: 'Status', options: [
-      { value: 'draft', label: 'Draft' },
-      { value: 'pending', label: 'Pending' },
-      { value: 'approved', label: 'Approved' },
-      { value: 'ordered', label: 'Ordered' },
-      { value: 'received', label: 'Received' },
-      { value: 'cancelled', label: 'Cancelled' },
-    ]},
-  ];
+  const columns = getEntityColumns<PurchaseOrder>('purchase-orders');
+  const filters = getEntityFilters('purchase-orders');
 
   const rowActions: ListPageAction<PurchaseOrder>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (po) => router.push(`/finance/purchase-orders/${po.id}`) },

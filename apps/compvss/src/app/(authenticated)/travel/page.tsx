@@ -3,32 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil } from "lucide-react";
-// Layout provided by route group
 import {
-  ListPage, Badge, DetailDrawer, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection} from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+  ListPage, DetailDrawer, Grid, Stack, Body,
+  type ListPageAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import { useTravelData, type TravelBooking } from "@/hooks/useTravel";
 
 const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0 }).format(amount);
-
-const getStatusVariant = getBadgeVariant;
-
-const columns: ListPageColumn<TravelBooking>[] = [
-  { key: 'booking_reference', label: 'Reference', accessor: 'booking_reference', sortable: true },
-  { key: 'crew_member_name', label: 'Crew Member', accessor: 'crew_member_name', sortable: true },
-  { key: 'project_name', label: 'Project', accessor: 'project_name' },
-  { key: 'route', label: 'Route', accessor: (r) => `${r.origin} → ${r.destination}` },
-  { key: 'departure_date', label: 'Departure', accessor: (r) => new Date(r.departure_date).toLocaleDateString(), sortable: true },
-  { key: 'carrier', label: 'Carrier', accessor: (r) => r.carrier || '—' },
-  { key: 'cost', label: 'Cost', accessor: (r) => formatCurrency(r.cost), sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [{ value: 'confirmed', label: 'Confirmed' }, { value: 'pending', label: 'Pending' }, { value: 'cancelled', label: 'Cancelled' }] },
-  { key: 'travel_type', label: 'Type', options: [{ value: 'flight', label: 'Flight' }, { value: 'train', label: 'Train' }, { value: 'bus', label: 'Bus' }] },
-];
 
 export default function TravelPage() {
   const router = useRouter();
@@ -44,6 +25,9 @@ export default function TravelPage() {
 
   const [selectedBooking, setSelectedBooking] = useState<TravelBooking | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const columns = getEntityColumns<TravelBooking>('travel');
+  const filters = getEntityFilters('travel');
 
   const rowActions: ListPageAction<TravelBooking>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedBooking(r); setDrawerOpen(true); } },

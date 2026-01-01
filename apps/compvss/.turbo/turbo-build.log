@@ -27,7 +27,7 @@ Route (app)                              Size     First Load JS
 ├ ○ /advancing                           1.98 kB         619 kB
 ├ ƒ /advancing/[id]                      2.51 kB         619 kB
 ├ ○ /advancing/catalog                   2.56 kB         619 kB
-├ ○ /advancing/new                       2.62 kB         620 kB
+├ ○ /advancing/new                       2.62 kB         619 kB
 ├ ƒ /api/advancing                       0 B                0 B
 ├ ƒ /api/advancing/[id]                  0 B                0 B
 ├ ƒ /api/advancing/[id]/fulfill          0 B                0 B
@@ -249,16 +249,16 @@ Route (app)                              Size     First Load JS
 ├ ○ /auth/forgot-password                1.07 kB         618 kB
 ├ ○ /auth/magic-link                     1.14 kB         618 kB
 ├ ○ /auth/reset-password                 1.17 kB         618 kB
-├ ○ /auth/signin                         667 B           618 kB
+├ ○ /auth/signin                         666 B           617 kB
 ├ ○ /auth/signup                         1.72 kB         619 kB
 ├ ○ /auth/verify-email                   1.15 kB         618 kB
 ├ ○ /availability                        2.75 kB         620 kB
 ├ ○ /background-checks                   2.77 kB         620 kB
-├ ○ /beos                                823 B           618 kB
+├ ○ /beos                                822 B           618 kB
 ├ ƒ /beos/[id]                           2.96 kB         620 kB
 ├ ƒ /beos/[id]/versions                  1.39 kB         618 kB
 ├ ○ /beos/new                            1.39 kB         618 kB
-├ ○ /build-strike                        1.32 kB         618 kB
+├ ○ /build-strike                        1.31 kB         618 kB
 ├ ○ /certifications                      2.96 kB         620 kB
 ├ ○ /credentials                         2.28 kB         619 kB
 ├ ○ /credentials/scan                    2.76 kB         620 kB
@@ -271,7 +271,7 @@ Route (app)                              Size     First Load JS
 ├ ○ /equipment                           2.29 kB         619 kB
 ├ ○ /expenses                            2.78 kB         620 kB
 ├ ○ /incidents                           2.09 kB         619 kB
-├ ○ /integrations                        914 B           618 kB
+├ ○ /integrations                        913 B           618 kB
 ├ ○ /issues                              2.79 kB         620 kB
 ├ ○ /maintenance                         2.25 kB         619 kB
 ├ ○ /notifications                       1.68 kB         619 kB
@@ -280,7 +280,7 @@ Route (app)                              Size     First Load JS
 ├ ƒ /p/[productionId]/documents          1.72 kB         619 kB
 ├ ƒ /p/[productionId]/overview           2.24 kB         619 kB
 ├ ƒ /p/[productionId]/safety             1.79 kB         619 kB
-├ ƒ /p/[productionId]/schedule           1.61 kB         619 kB
+├ ƒ /p/[productionId]/schedule           1.61 kB         618 kB
 ├ ƒ /p/[productionId]/settings           1.77 kB         619 kB
 ├ ƒ /p/[productionId]/settlement         1.78 kB         619 kB
 ├ ƒ /p/[productionId]/vendors            1.82 kB         619 kB
@@ -294,35 +294,35 @@ Route (app)                              Size     First Load JS
 ├ ○ /qa-checkpoints                      1.8 kB          619 kB
 ├ ○ /resources                           2.42 kB         619 kB
 ├ ○ /resources/templates                 1.97 kB         619 kB
-├ ○ /risk-register                       2.09 kB         619 kB
+├ ○ /risk-register                       2.08 kB         619 kB
 ├ ○ /robots.txt                          0 B                0 B
-├ ○ /run-of-show                         1.7 kB          619 kB
-├ ○ /schedule                            952 B           618 kB
-├ ○ /search                              1.12 kB         618 kB
-├ ○ /set-times                           2.02 kB         619 kB
+├ ○ /run-of-show                         1.39 kB         618 kB
+├ ○ /schedule                            951 B           618 kB
+├ ○ /search                              937 B           618 kB
+├ ○ /set-times                           1.78 kB         619 kB
 ├ ○ /settings                            1.24 kB         618 kB
-├ ○ /settlement                          2.54 kB         619 kB
-├ ○ /show-call                           1.51 kB         618 kB
-├ ○ /site-access                         2.11 kB         619 kB
-├ ○ /site-surveys                        1.71 kB         619 kB
+├ ○ /settlement                          2.27 kB         619 kB
+├ ○ /show-call                           1.15 kB         618 kB
+├ ○ /site-access                         1.77 kB         619 kB
+├ ○ /site-surveys                        1.18 kB         618 kB
 ├ ○ /sitemap.xml                         0 B                0 B
-├ ○ /skills                              1.57 kB         618 kB
+├ ○ /skills                              1.2 kB          618 kB
 ├ ○ /sops                                2.05 kB         619 kB
 ├ ƒ /sops/[id]                           2.5 kB          619 kB
-├ ○ /soundcheck                          2.44 kB         619 kB
-├ ○ /spec-sheets                         1.73 kB         619 kB
-├ ○ /stage-management                    1.1 kB          618 kB
-├ ○ /subcontractors                      1.76 kB         619 kB
-├ ○ /tech-rehearsal                      2.37 kB         619 kB
-├ ○ /templates                           2.05 kB         619 kB
-├ ○ /timekeeping                         1.7 kB          619 kB
-├ ○ /travel                              2.41 kB         619 kB
-├ ○ /troubleshooting                     1.54 kB         618 kB
-├ ○ /venues                              973 B           618 kB
-├ ○ /vip-management                      1.9 kB          619 kB
-└ ○ /weather-contingency                 2.34 kB         619 kB
+├ ○ /soundcheck                          2.19 kB         619 kB
+├ ○ /spec-sheets                         1.58 kB         618 kB
+├ ○ /stage-management                    860 B           618 kB
+├ ○ /subcontractors                      1.26 kB         618 kB
+├ ○ /tech-rehearsal                      2.06 kB         619 kB
+├ ○ /templates                           1.88 kB         619 kB
+├ ○ /timekeeping                         1.42 kB         618 kB
+├ ○ /travel                              2.19 kB         619 kB
+├ ○ /troubleshooting                     1.39 kB         618 kB
+├ ○ /venues                              972 B           618 kB
+├ ○ /vip-management                      1.61 kB         618 kB
+└ ○ /weather-contingency                 2.02 kB         619 kB
 + First Load JS shared by all            617 kB
-  ├ chunks/commons-03330b99984191e7.js   225 kB
+  ├ chunks/commons-25906bd48ea8f1c6.js   225 kB
   ├ chunks/lib-3f8b2d6a2b432d7a.js       390 kB
   └ other shared chunks (total)          1.99 kB
 

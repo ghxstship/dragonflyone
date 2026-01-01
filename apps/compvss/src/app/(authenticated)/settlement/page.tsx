@@ -2,24 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// Layout provided by route group
 import {
   ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useSettlements,
   type Settlement,
 } from '@/hooks/useSettlement';
 import { Eye, CheckCircle, Send } from "lucide-react";
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Finalized": return "solid";
-    case "Approved": return "outline";
-    default: return "ghost";
-  }
-};
 
 export default function SettlementPage() {
   const router = useRouter();
@@ -31,68 +22,8 @@ export default function SettlementPage() {
   const totalProfit = settlements.reduce((sum, s) => sum + s.grossProfit, 0);
   const avgMargin = settlements.length > 0 ? (settlements.reduce((sum, s) => sum + s.marginPct, 0) / settlements.length).toFixed(1) : '0';
 
-  const columns: ListPageColumn<Settlement>[] = [
-    {
-      key: 'projectName',
-      label: 'Project',
-      accessor: 'projectName',
-      sortable: true,
-      render: (_value: unknown, s) => (
-        <Stack gap={1}>
-          <Body className="font-display">{s.projectName}</Body>
-          <Body size="sm" className="text-muted-foreground">Event: {s.eventDate}</Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'contractValue',
-      label: 'Contract',
-      accessor: 'contractValue',
-      sortable: true,
-      render: (_value: unknown, s) => <Body className="font-mono">${s.contractValue.toLocaleString()}</Body>,
-    },
-    {
-      key: 'actualCosts',
-      label: 'Costs',
-      accessor: 'actualCosts',
-      sortable: true,
-      render: (_value: unknown, s) => <Body className="font-mono">${s.actualCosts.toLocaleString()}</Body>,
-    },
-    {
-      key: 'grossProfit',
-      label: 'Profit',
-      accessor: 'grossProfit',
-      sortable: true,
-      render: (_value: unknown, s) => <Body className="font-mono">${s.grossProfit.toLocaleString()}</Body>,
-    },
-    {
-      key: 'marginPct',
-      label: 'Margin',
-      accessor: 'marginPct',
-      sortable: true,
-      render: (_value: unknown, s) => <Body>{s.marginPct}%</Body>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Draft', label: 'Draft' },
-        { value: 'Pending Review', label: 'Pending Review' },
-        { value: 'Approved', label: 'Approved' },
-        { value: 'Finalized', label: 'Finalized' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<Settlement>('settlement');
+  const filters = getEntityFilters('settlement');
 
   const rowActions: ListPageAction<Settlement>[] = [
     { id: 'view', label: 'Details', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSettlement(s) },

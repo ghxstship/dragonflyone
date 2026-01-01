@@ -3,23 +3,22 @@
 /**
  * Bills List Page
  * 
- * SSOT-compliant: Uses entity registry for status colors.
+ * SSOT-compliant: Uses entity registry for columns and filters.
  */
 
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, CheckCircle, AlertCircle } from 'lucide-react';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { 
   useAuthContext, 
   ATLVS_ADMIN_ROLES,
-  FINANCIAL_STATUS_COLORS,
+  getEntityColumns,
+  getEntityFilters,
 } from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction,
+  ListPage, useToast,
+  type ListPageAction,
 } from "@ghxstship/ui";
 import { useBills, useDeleteBill, type Bill } from '@/hooks/useBills';
-
-const STATUS_COLORS = FINANCIAL_STATUS_COLORS;
 
 export default function BillsPage() {
   const router = useRouter();
@@ -41,58 +40,8 @@ export default function BillsPage() {
     }
   };
 
-  const formatCurrency = (amount: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
-  const formatDate = (dateStr: string | null | undefined) => dateStr ? new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A';
-
-  const columns: ListPageColumn<Bill>[] = [
-    {
-      key: 'bill_number', label: 'Bill', accessor: 'bill_number', sortable: true,
-      render: (_value: unknown, bill) => (
-        <Box>
-          <Text className="font-weight-medium">{bill.bill_number}</Text>
-          {bill.project?.name && <Body size="sm" className="text-muted-foreground">{bill.project.name}</Body>}
-        </Box>
-      ),
-    },
-    { key: 'vendor', label: 'Vendor', accessor: (bill) => bill.vendor?.name || 'Unknown', sortable: true },
-    {
-      key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_value: unknown, bill) => (
-        <Badge variant={STATUS_COLORS[bill.status] || 'outline'}>
-          <Stack direction="horizontal" gap={1} className="items-center">
-            {bill.status === 'paid' && <CheckCircle className="h-3 w-3" />}
-            {bill.status === 'partial' && <AlertCircle className="h-3 w-3" />}
-            {bill.status}
-          </Stack>
-        </Badge>
-      ),
-    },
-    {
-      key: 'amount', label: 'Amount', accessor: 'amount', sortable: true,
-      render: (_value: unknown, bill) => <Text className="font-weight-medium">{formatCurrency(bill.amount || 0)}</Text>,
-    },
-    {
-      key: 'amount_due', label: 'Due', accessor: (bill) => bill.amount - bill.amount_paid,
-      render: (_value: unknown, bill) => {
-        const amountDue = bill.amount - bill.amount_paid;
-        return <Text className={amountDue > 0 ? 'text-warning' : 'text-success'}>{formatCurrency(amountDue)}</Text>;
-      },
-    },
-    {
-      key: 'due_date', label: 'Due Date', accessor: 'due_date', sortable: true,
-      render: (_value: unknown, bill) => <Text>{formatDate(bill.due_date)}</Text>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    { key: 'status', label: 'Status', options: [
-      { value: 'draft', label: 'Draft' },
-      { value: 'pending', label: 'Pending' },
-      { value: 'approved', label: 'Approved' },
-      { value: 'paid', label: 'Paid' },
-      { value: 'overdue', label: 'Overdue' },
-    ]},
-  ];
+  const columns = getEntityColumns<Bill>('bills');
+  const filters = getEntityFilters('bills');
 
   const rowActions: ListPageAction<Bill>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (bill) => router.push(`/finance/bills/${bill.id}`) },

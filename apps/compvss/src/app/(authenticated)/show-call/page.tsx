@@ -1,11 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-// Layout provided by route group
 import {
-  ListPage, Body, Stack, Badge,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  ListPage,
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import { useShowCallCrew } from '@/hooks/useShowCall';
 import { Eye, Phone, CheckCircle } from "lucide-react";
 
@@ -19,14 +18,6 @@ interface ShowCallCrewMember {
   checkedInAt?: string;
 }
 
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Checked In": case "On Site": return "solid";
-    case "Late": return "outline";
-    default: return "ghost";
-  }
-};
-
 export default function ShowCallPage() {
   const router = useRouter();
   const { data: showCallCrew = [], refetch } = useShowCallCrew();
@@ -36,61 +27,8 @@ export default function ShowCallPage() {
   const noShowCount = showCallCrew.filter(c => c.status === "No Show").length;
   const notDueCount = showCallCrew.filter(c => c.status === "Not Due").length;
 
-  const columns: ListPageColumn<ShowCallCrewMember>[] = [
-    {
-      key: 'name',
-      label: 'Crew Member',
-      accessor: 'name',
-      sortable: true,
-      render: (_value: unknown, c) => (
-        <Stack gap={1}>
-          <Body className="font-display">{c.name}</Body>
-          <Body size="sm" className="text-muted-foreground">{c.role}</Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'department',
-      label: 'Department',
-      accessor: 'department',
-      sortable: true,
-      render: (_value: unknown, c) => <Badge variant="outline">{c.department}</Badge>,
-    },
-    { key: 'callTime', label: 'Call Time', accessor: 'callTime', sortable: true },
-    { key: 'checkedInAt', label: 'Checked In', accessor: (c) => c.checkedInAt || '—' },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, c) => <Badge variant={getStatusVariant(c.status)}>{c.status}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Checked In', label: 'Checked In' },
-        { value: 'On Site', label: 'On Site' },
-        { value: 'Late', label: 'Late' },
-        { value: 'No Show', label: 'No Show' },
-        { value: 'Not Due', label: 'Not Due' },
-      ],
-    },
-    {
-      key: 'department',
-      label: 'Department',
-      options: [
-        { value: 'Audio', label: 'Audio' },
-        { value: 'Lighting', label: 'Lighting' },
-        { value: 'Video', label: 'Video' },
-        { value: 'Staging', label: 'Staging' },
-        { value: 'Rigging', label: 'Rigging' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<ShowCallCrewMember>('show-call');
+  const filters = getEntityFilters('show-call');
 
   const rowActions: ListPageAction<ShowCallCrewMember>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (c) => router.push(`/crew/${c.id}`) },

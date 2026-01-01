@@ -1,15 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-// Layout provided by route group
 import { useCrewSkills } from "@/hooks/useSkills";
 import { useCrew } from "@/hooks/useCrew";
 import {
-  ListPage, Badge, Stack,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { getSubcategoryNames, createExportHandler } from "@ghxstship/config";
-
-const skillCategories = getSubcategoryNames('TECH');
+  ListPage,
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 
 interface CrewSkill {
   id: string;
@@ -32,14 +29,6 @@ interface CrewWithSkills extends CrewMember {
   skillDetails: CrewSkill[];
   level: string;
 }
-
-const getLevelVariant = (level: string): "solid" | "outline" | "ghost" => {
-  switch (level?.toLowerCase()) {
-    case "expert": return "solid";
-    case "advanced": return "outline";
-    default: return "ghost";
-  }
-};
 
 export default function SkillsPage() {
   const router = useRouter();
@@ -72,58 +61,8 @@ export default function SkillsPage() {
   const totalSkills = skills?.length || 0;
   const uniqueSkillNames = new Set((skills || []).map((s: CrewSkill) => s.skill_name));
 
-  const columns: ListPageColumn<CrewWithSkills>[] = [
-    {
-      key: 'name',
-      label: 'Crew Member',
-      accessor: (m) => m.full_name || `${m.first_name || ''} ${m.last_name || ''}`.trim() || 'Unknown',
-      sortable: true,
-    },
-    {
-      key: 'skills',
-      label: 'Skills',
-      accessor: (m) => m.skills.join(', '),
-      render: (_value: unknown, member) => (
-        <Stack gap={2} direction="horizontal" className="flex-wrap">
-          {member.skills.length > 0 ? (
-            member.skills.slice(0, 4).map((skill: string, idx: number) => (
-              <Badge key={idx} variant="outline">{skill}</Badge>
-            ))
-          ) : (
-            <Badge variant="ghost">No skills</Badge>
-          )}
-          {member.skills.length > 4 && (
-            <Badge variant="ghost">+{member.skills.length - 4}</Badge>
-          )}
-        </Stack>
-      ),
-    },
-    {
-      key: 'level',
-      label: 'Level',
-      accessor: 'level',
-      sortable: true,
-      render: (_value: unknown, member) => (
-        <Badge variant={getLevelVariant(member.level)}>
-          {member.level?.charAt(0).toUpperCase() + member.level?.slice(1) || 'N/A'}
-        </Badge>
-      ),
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: (m) => m.status || 'Active',
-      sortable: true,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'skill',
-      label: 'Skill',
-      options: skillCategories.map(skill => ({ value: skill, label: skill })),
-    },
-  ];
+  const columns = getEntityColumns<CrewWithSkills>('skills');
+  const filters = getEntityFilters('skills');
 
   const rowActions: ListPageAction<CrewWithSkills>[] = [
     { id: 'view', label: 'View', onClick: (member) => router.push(`/crew/${member.id}`) },

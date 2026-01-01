@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// Layout provided by route group
 import {
   ListPage, H3, Body, Grid, Stack, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Table, TableBody, TableRow, TableCell,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler, getSubcategoryNames } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getSubcategoryNames, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useSpecSheets,
   type SpecSheet,
@@ -20,39 +19,8 @@ export default function SpecSheetsPage() {
   const { data: specSheets = [], refetch } = useSpecSheets();
   const [selectedSpec, setSelectedSpec] = useState<SpecSheet | null>(null);
 
-  const columns: ListPageColumn<SpecSheet>[] = [
-    {
-      key: 'name',
-      label: 'Name',
-      accessor: 'name',
-      sortable: true,
-      render: (_value: unknown, s) => (
-        <Stack gap={1}>
-          <Body className="font-display">{s.name}</Body>
-          <Body size="sm" className="text-muted-foreground">{s.manufacturer}</Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'category',
-      label: 'Category',
-      accessor: 'category',
-      sortable: true,
-      render: (_value: unknown, s) => <Badge variant="outline">{s.category}</Badge>,
-    },
-    { key: 'model', label: 'Model', accessor: 'model' },
-    { key: 'version', label: 'Version', accessor: (s) => `v${s.version}` },
-    { key: 'fileSize', label: 'Size', accessor: 'fileSize' },
-    { key: 'downloads', label: 'Downloads', accessor: 'downloads', sortable: true },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'category',
-      label: 'Category',
-      options: categories.map(cat => ({ value: cat, label: cat })),
-    },
-  ];
+  const columns = getEntityColumns<SpecSheet>('spec-sheets');
+  const filters = getEntityFilters('spec-sheets');
 
   const rowActions: ListPageAction<SpecSheet>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSpec(s) },

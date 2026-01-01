@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Play } from 'lucide-react';
 import { useWorkflows, useCreateWorkflow, useDeleteWorkflow, useToggleWorkflow } from '../../../hooks/useWorkflows';
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { useAuthContext, PlatformRole } from '@ghxstship/config';
+  ListPage, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
+  type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
+import { useAuthContext, PlatformRole, getEntityColumns, getEntityFilters } from '@ghxstship/config';
 
 const ADMIN_ROLES = [
   PlatformRole.ATLVS_ADMIN,
@@ -31,86 +31,8 @@ interface Workflow {
   executions?: { count: number }[];
 }
 
-const triggerColors: Record<string, 'success' | 'warning' | 'info' | 'solid' | 'outline'> = {
-  manual: 'outline',
-  schedule: 'info',
-  event: 'warning',
-  webhook: 'solid',
-};
-
-const triggerLabels: Record<string, string> = {
-  manual: 'Manual',
-  schedule: 'Scheduled',
-  event: 'Event-based',
-  webhook: 'Webhook',
-};
-
-const columns: ListPageColumn<Workflow>[] = [
-  {
-    key: 'name',
-    label: 'Workflow Name',
-    accessor: 'name',
-    sortable: true,
-  },
-  {
-    key: 'trigger_type',
-    label: 'Trigger',
-    accessor: 'trigger_type',
-    render: (value: unknown) => (
-      <Badge variant={triggerColors[String(value)] || 'outline'}>
-        {triggerLabels[String(value)] || String(value)}
-      </Badge>
-    ),
-  },
-  {
-    key: 'enabled',
-    label: 'Status',
-    accessor: 'enabled',
-    render: (value: unknown) => (
-      <Badge variant={value ? 'success' : 'ghost'}>
-        {value ? 'Enabled' : 'Disabled'}
-      </Badge>
-    ),
-  },
-  {
-    key: 'executions',
-    label: 'Executions',
-    accessor: (row) => row.executions?.[0]?.count || 0,
-  },
-  {
-    key: 'created_by',
-    label: 'Created By',
-    accessor: (row) => row.created_by_user?.full_name || row.created_by_user?.email || '—',
-  },
-  {
-    key: 'created_at',
-    label: 'Created',
-    accessor: 'created_at',
-    sortable: true,
-    render: (value: unknown) => value ? new Date(String(value)).toLocaleDateString() : '—',
-  },
-];
-
-const filters: ListPageFilter[] = [
-  {
-    key: 'status',
-    label: 'Status',
-    options: [
-      { value: 'enabled', label: 'Enabled' },
-      { value: 'disabled', label: 'Disabled' },
-    ],
-  },
-  {
-    key: 'trigger_type',
-    label: 'Trigger Type',
-    options: [
-      { value: 'manual', label: 'Manual' },
-      { value: 'schedule', label: 'Scheduled' },
-      { value: 'event', label: 'Event-based' },
-      { value: 'webhook', label: 'Webhook' },
-    ],
-  },
-];
+const columns = getEntityColumns<Workflow>('workflows');
+const filters = getEntityFilters('workflows');
 
 const formFields: FormFieldConfig[] = [
   { name: 'name', label: 'Workflow Name', type: 'text', required: true, colSpan: 2 },
@@ -221,7 +143,7 @@ export default function WorkflowsPage() {
           content: (
             <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Body size="sm"><strong>Name:</strong> {selectedWorkflow.name}</Body>
-              <Body size="sm"><strong>Trigger:</strong> {triggerLabels[selectedWorkflow.trigger_type] || selectedWorkflow.trigger_type}</Body>
+              <Body size="sm"><strong>Trigger:</strong> {selectedWorkflow.trigger_type}</Body>
               <Body size="sm"><strong>Status:</strong> {selectedWorkflow.enabled ? 'Enabled' : 'Disabled'}</Body>
               <Body size="sm"><strong>Executions:</strong> {selectedWorkflow.executions?.[0]?.count || 0}</Body>
               <Body size="sm"><strong>Created By:</strong> {selectedWorkflow.created_by_user?.full_name || selectedWorkflow.created_by_user?.email || '—'}</Body>

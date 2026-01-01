@@ -3,48 +3,34 @@
 /**
  * Unified People Page
  * 
- * SSOT-compliant: Uses entity registry for status colors and formatters.
+ * SSOT-compliant: Uses entity registry for columns and filters.
  */
 
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { User, Mail, Phone, Users, Briefcase, Music, Heart, UserCheck, Eye, Pencil, Trash2 } from 'lucide-react';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { 
   useAuthContext, 
   ATLVS_ADMIN_ROLES,
-  PEOPLE_STATUS_COLORS,
-  PEOPLE_TYPE_COLORS,
-  formatDate,
-  useEntityConfig,
+  getEntityColumns,
+  getEntityFilters,
 } from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text, useToast,
-  type ListPageColumn, type ListPageAction,
+  ListPage, useToast,
+  type ListPageAction,
 } from "@ghxstship/ui";
 import {
   usePeopleQuery,
   useDeletePerson,
   type Person,
-  type PersonType,
 } from '@/hooks/usePeopleQuery';
-
-const TYPE_CONFIG: Record<PersonType, { label: string; icon: React.ReactNode; color: string }> = {
-  all: { label: 'All People', icon: <Users className="h-4 w-4" />, color: 'outline' },
-  contact: { label: 'Contacts', icon: <User className="h-4 w-4" />, color: 'info' },
-  employee: { label: 'Employees', icon: <Briefcase className="h-4 w-4" />, color: 'success' },
-  crew: { label: 'Crew', icon: <Users className="h-4 w-4" />, color: 'warning' },
-  artist: { label: 'Artists', icon: <Music className="h-4 w-4" />, color: 'error' },
-  volunteer: { label: 'Volunteers', icon: <Heart className="h-4 w-4" />, color: 'info' },
-  candidate: { label: 'Candidates', icon: <UserCheck className="h-4 w-4" />, color: 'outline' },
-};
 
 export default function PeoplePage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
   const toast = useToast();
 
-  // SSOT: Get filters from entity registry (columns have custom renders)
-  const { filters } = useEntityConfig<Person>({ entityName: 'people' });
+  const columns = getEntityColumns<Person>('people');
+  const filters = getEntityFilters('people');
 
   const canManagePeople = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
@@ -74,61 +60,6 @@ export default function PeoplePage() {
     a.click();
     URL.revokeObjectURL(url);
   };
-
-  
-  const columns: ListPageColumn<Person>[] = [
-    {
-      key: 'display_name', label: 'Name', accessor: 'display_name', sortable: true,
-      render: (_value: unknown, person) => (
-        <Stack direction="horizontal" gap={3} className="items-center">
-          <Box className="w-10 h-10 rounded-avatar bg-primary/10 flex items-center justify-center overflow-hidden">
-            {person.avatar_url ? (
-              <Image src={person.avatar_url} alt={person.display_name} width={40} height={40} className="w-full h-full object-cover" />
-            ) : (
-              <Text className="text-primary font-weight-medium">{person.first_name?.charAt(0)}{person.last_name?.charAt(0)}</Text>
-            )}
-          </Box>
-          <Stack gap={0}>
-            <Text className="font-weight-medium">{person.display_name}</Text>
-            {person.preferred_name && <Body size="xs" className="text-muted-foreground">&ldquo;{person.preferred_name}&rdquo;</Body>}
-          </Stack>
-        </Stack>
-      ),
-    },
-    {
-      key: 'email', label: 'Contact', accessor: 'email',
-      render: (_value: unknown, person) => (
-        <Stack gap={1}>
-          {person.email && <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground"><Mail className="h-3 w-3" /><Text size="xs">{person.email}</Text></Stack>}
-          {person.phone && <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground"><Phone className="h-3 w-3" /><Text size="xs">{person.phone}</Text></Stack>}
-        </Stack>
-      ),
-    },
-    { key: 'title', label: 'Title', accessor: 'title', sortable: true },
-    {
-      key: 'primary_type', label: 'Type', accessor: 'primary_type', sortable: true,
-      render: (_value: unknown, person) => (
-        <Stack direction="horizontal" gap={1} className="flex-wrap">
-          {person.person_types.slice(0, 2).map((type) => (
-            <Badge key={type} variant={PEOPLE_TYPE_COLORS[type] || 'outline'} className="text-body-xs">
-              {TYPE_CONFIG[type]?.label.replace('s', '') || type}
-            </Badge>
-          ))}
-          {person.person_types.length > 2 && <Badge variant="outline" className="text-body-xs">+{person.person_types.length - 2}</Badge>}
-        </Stack>
-      ),
-    },
-    {
-      key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_value: unknown, person) => <Badge variant={PEOPLE_STATUS_COLORS[person.status] || 'outline'}>{person.status.toUpperCase()}</Badge>,
-    },
-    {
-      key: 'updated_at', label: 'Updated', accessor: 'updated_at', sortable: true,
-      render: (_value: unknown, person) => <Text size="sm" className="text-muted-foreground">{formatDate(person.updated_at)}</Text>,
-    },
-  ];
-
-  // SSOT: Filters are provided by useEntityConfig (line 47)
 
   const rowActions: ListPageAction<Person>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (p) => router.push(`/people/${p.id}`) },

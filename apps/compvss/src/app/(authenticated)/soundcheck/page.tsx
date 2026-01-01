@@ -2,24 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
   ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useSoundcheckSlots,
   type SoundcheckSlot,
 } from '@/hooks/useSoundcheck';
 import { Eye, Play, CheckCircle } from "lucide-react";
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Completed": return "solid";
-    case "In Progress": return "outline";
-    default: return "ghost";
-  }
-};
 
 export default function SoundcheckPage() {
   const router = useRouter();
@@ -32,63 +23,8 @@ export default function SoundcheckPage() {
   const remaining = soundcheckSlots.filter(s => s.status === "Scheduled" || s.status === "Delayed").length;
   const delayed = soundcheckSlots.filter(s => s.status === "Delayed").length;
 
-  const columns: ListPageColumn<SoundcheckSlot>[] = [
-    {
-      key: 'artistName',
-      label: 'Artist',
-      accessor: 'artistName',
-      sortable: true,
-      render: (_value: unknown, s) => (
-        <Stack gap={1}>
-          <Body className="font-display">{s.artistName}</Body>
-          <Badge variant="outline">{s.stage}</Badge>
-        </Stack>
-      ),
-    },
-    {
-      key: 'scheduledStart',
-      label: 'Scheduled',
-      accessor: 'scheduledStart',
-      sortable: true,
-      render: (_value: unknown, s) => <Body size="sm">{s.scheduledStart} - {s.scheduledEnd}</Body>,
-    },
-    {
-      key: 'actualStart',
-      label: 'Actual',
-      accessor: (s) => s.actualStart || '--:--',
-      render: (_value: unknown, s) => <Body size="sm">{s.actualStart || "--:--"} - {s.actualEnd || "--:--"}</Body>,
-    },
-    { key: 'engineer', label: 'Engineer', accessor: (s) => s.engineer || '-' },
-    { key: 'duration', label: 'Duration', accessor: (s) => `${s.duration} min` },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Scheduled', label: 'Scheduled' },
-        { value: 'In Progress', label: 'In Progress' },
-        { value: 'Completed', label: 'Completed' },
-        { value: 'Delayed', label: 'Delayed' },
-      ],
-    },
-    {
-      key: 'stage',
-      label: 'Stage',
-      options: [
-        { value: 'Main Stage', label: 'Main Stage' },
-        { value: 'Side Stage', label: 'Side Stage' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<SoundcheckSlot>('soundcheck');
+  const filters = getEntityFilters('soundcheck');
 
   const rowActions: ListPageAction<SoundcheckSlot>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSlot(s) },

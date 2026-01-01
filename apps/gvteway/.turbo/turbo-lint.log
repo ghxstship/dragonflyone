@@ -2,17 +2,4 @@
 > gvteway@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway
 > next lint --max-warnings 9999
 
-
-./src/app/(authenticated)/account/orders/page.tsx
-77:51  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/account/tickets/page.tsx
-126:52  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-142:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/admin/moderation/page.tsx
-41:51  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-51:35  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
- ELIFECYCLE  Command failed with exit code 1.
+✔ No ESLint warnings or errors

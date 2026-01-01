@@ -1,65 +1,19 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
-  ListPage, Badge, Body, Stack,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from '@ghxstship/config';
+  ListPage,
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from '@ghxstship/config';
 import { Eye, Layout } from 'lucide-react';
 import { useStages, type Stage } from '@/hooks/useStages';
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  return status === 'Active' ? 'solid' : 'outline';
-};
 
 export default function StageManagementPage() {
   const router = useRouter();
   const { data: stages = [], refetch } = useStages();
 
-  const columns: ListPageColumn<Stage>[] = [
-    {
-      key: 'name',
-      label: 'Stage',
-      accessor: 'name',
-      sortable: true,
-      render: (_value: unknown, s) => (
-        <Stack gap={1}>
-          <Body className="font-display">{s.name}</Body>
-          <Badge variant="outline">{s.type}</Badge>
-        </Stack>
-      ),
-    },
-    { key: 'dimensions', label: 'Dimensions', accessor: 'dimensions' },
-    { key: 'capacity', label: 'Capacity', accessor: (s) => s.capacity.toLocaleString(), sortable: true },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Active', label: 'Active' },
-        { value: 'Inactive', label: 'Inactive' },
-      ],
-    },
-    {
-      key: 'type',
-      label: 'Type',
-      options: [
-        { value: 'Main Stage', label: 'Main Stage' },
-        { value: 'Side Stage', label: 'Side Stage' },
-        { value: 'Outdoor', label: 'Outdoor' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<Stage>('stage-management');
+  const filters = getEntityFilters('stage-management');
 
   const rowActions: ListPageAction<Stage>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (s) => router.push(`/stage-management/${s.id}`) },

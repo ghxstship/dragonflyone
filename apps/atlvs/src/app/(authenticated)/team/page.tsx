@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Mail, Phone, MoreHorizontal } from "lucide-react";
 import {
-  ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
+  ListPage, DetailDrawer, Grid, Body,
+  type ListPageAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, useAuthContext, ATLVS_ADMIN_ROLES, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import { useTeamMembers, type TeamMember as APITeamMember } from "@/hooks/useTeamManagement";
 
 // Demo data for fallback when API returns empty
@@ -57,52 +57,8 @@ const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 };
 
-const getStatusVariant = (status: DisplayTeamMember["status"]): "solid" | "outline" | "ghost" => {
-  switch (status) {
-    case "active": return "solid";
-    case "on_leave": return "outline";
-    case "inactive": return "ghost";
-  }
-};
-
-const columns: ListPageColumn<DisplayTeamMember>[] = [
-  { 
-    key: "name", 
-    label: "Name", 
-    accessor: "name", 
-    sortable: true,
-  },
-  { key: "role", label: "Role", accessor: "role", sortable: true },
-  { key: "department", label: "Department", accessor: "department", sortable: true },
-  { key: "email", label: "Email", accessor: "email" },
-  { key: "hire_date", label: "Hire Date", accessor: (r) => formatDate(r.hire_date), sortable: true },
-  { 
-    key: "status", 
-    label: "Status", 
-    accessor: "status", 
-    sortable: true,
-    render: (v: unknown) => (
-      <Badge variant={getStatusVariant(v as DisplayTeamMember["status"])}>
-        {String(v).replace("_", " ")}
-      </Badge>
-    )
-  },
-];
-
-const filters: ListPageFilter[] = [
-  { key: "status", label: "Status", options: [
-    { value: "active", label: "Active" },
-    { value: "on_leave", label: "On Leave" },
-    { value: "inactive", label: "Inactive" },
-  ]},
-  { key: "department", label: "Department", options: [
-    { value: "Operations", label: "Operations" },
-    { value: "Technical", label: "Technical" },
-    { value: "Events", label: "Events" },
-    { value: "Production", label: "Production" },
-    { value: "Sales", label: "Sales" },
-  ]},
-];
+const columns = getEntityColumns<DisplayTeamMember>('team');
+const filters = getEntityFilters('team');
 
 export default function TeamPage() {
   const router = useRouter();

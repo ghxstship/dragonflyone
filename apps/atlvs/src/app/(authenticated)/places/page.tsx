@@ -3,51 +3,34 @@
 /**
  * Unified Places Page
  * 
- * SSOT-compliant: Uses entity registry for status colors.
+ * SSOT-compliant: Uses entity registry for columns and filters.
  */
 
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { MapPin, Building2, Warehouse, Theater, Grid3X3, DoorOpen, Box as BoxIcon, Map, Briefcase, Eye, Pencil, Trash2, Users, Maximize } from 'lucide-react';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { 
   useAuthContext, 
   ATLVS_ADMIN_ROLES,
-  PLACES_STATUS_COLORS,
-  useEntityConfig,
+  getEntityColumns,
+  getEntityFilters,
 } from '@ghxstship/config';
 import {
-  Badge, Body, Box as UIBox, ListPage, Stack, Text, useToast,
-  type ListPageColumn, type ListPageAction,
+  ListPage, useToast,
+  type ListPageAction,
 } from "@ghxstship/ui";
 import {
   usePlacesQuery,
   useDeletePlace,
   type Place,
-  type PlaceType,
 } from '@/hooks/usePlacesQuery';
-
-const TYPE_CONFIG: Record<PlaceType, { label: string; icon: React.ReactNode }> = {
-  all: { label: 'All Places', icon: <MapPin className="h-4 w-4" /> },
-  venue: { label: 'Venues', icon: <Building2 className="h-4 w-4" /> },
-  warehouse: { label: 'Warehouses', icon: <Warehouse className="h-4 w-4" /> },
-  stage: { label: 'Stages', icon: <Theater className="h-4 w-4" /> },
-  zone: { label: 'Zones', icon: <Grid3X3 className="h-4 w-4" /> },
-  room: { label: 'Rooms', icon: <DoorOpen className="h-4 w-4" /> },
-  space: { label: 'Spaces', icon: <BoxIcon className="h-4 w-4" /> },
-  site: { label: 'Sites', icon: <Map className="h-4 w-4" /> },
-  office: { label: 'Offices', icon: <Briefcase className="h-4 w-4" /> },
-  other: { label: 'Other', icon: <MapPin className="h-4 w-4" /> },
-};
-
-const STATUS_COLORS = PLACES_STATUS_COLORS;
 
 export default function PlacesPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
   const toast = useToast();
 
-  // SSOT: Get filters from entity registry (columns have custom renders)
-  const { filters } = useEntityConfig<Place>({ entityName: 'places' });
+  const columns = getEntityColumns<Place>('places');
+  const filters = getEntityFilters('places');
 
   const canManagePlaces = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
@@ -77,60 +60,6 @@ export default function PlacesPage() {
     a.click();
     URL.revokeObjectURL(url);
   };
-
-  const formatNumber = (num: number | null) => num === null ? '—' : new Intl.NumberFormat('en-US').format(num);
-  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-
-  const columns: ListPageColumn<Place>[] = [
-    {
-      key: 'name', label: 'Place', accessor: 'name', sortable: true,
-      render: (_value: unknown, place) => (
-        <Stack direction="horizontal" gap={3} className="items-center">
-          <UIBox className="w-10 h-10 rounded-avatar bg-primary/10 flex items-center justify-center overflow-hidden">
-            {place.image_url ? (
-              <Image src={place.image_url} alt={place.name} width={40} height={40} className="w-full h-full object-cover" />
-            ) : (
-              TYPE_CONFIG[place.place_type]?.icon || <MapPin className="h-5 w-5 text-primary" />
-            )}
-          </UIBox>
-          <Stack gap={0}>
-            <Text className="font-weight-medium">{place.name}</Text>
-            {place.code && <Body size="xs" className="text-muted-foreground font-mono">{place.code}</Body>}
-          </Stack>
-        </Stack>
-      ),
-    },
-    {
-      key: 'place_type', label: 'Type', accessor: 'place_type', sortable: true,
-      render: (_value: unknown, place) => <Badge variant="outline" className="capitalize">{place.place_type}</Badge>,
-    },
-    {
-      key: 'capacity', label: 'Capacity', accessor: 'capacity', sortable: true,
-      render: (_value: unknown, place) => place.capacity ? (
-        <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground">
-          <Users className="h-3 w-3" /><Text size="sm">{formatNumber(place.capacity)}</Text>
-        </Stack>
-      ) : <Text size="sm" className="text-muted-foreground">—</Text>,
-    },
-    {
-      key: 'square_footage', label: 'Size', accessor: 'square_footage', sortable: true,
-      render: (_value: unknown, place) => place.square_footage ? (
-        <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground">
-          <Maximize className="h-3 w-3" /><Text size="sm">{formatNumber(place.square_footage)} sq ft</Text>
-        </Stack>
-      ) : <Text size="sm" className="text-muted-foreground">—</Text>,
-    },
-    {
-      key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_value: unknown, place) => <Badge variant={STATUS_COLORS[place.status] || 'outline'}>{place.status.toUpperCase()}</Badge>,
-    },
-    {
-      key: 'updated_at', label: 'Updated', accessor: 'updated_at', sortable: true,
-      render: (_value: unknown, place) => <Text size="sm" className="text-muted-foreground">{formatDate(place.updated_at)}</Text>,
-    },
-  ];
-
-  // SSOT: Filters are provided by useEntityConfig (line 50)
 
   const rowActions: ListPageAction<Place>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (p) => router.push(`/places/${p.id}`) },

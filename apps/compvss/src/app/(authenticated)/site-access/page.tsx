@@ -2,25 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
   ListPage, H3, Body, Grid, Stack, Input, Select, Button, Modal, ModalHeader, ModalBody, ModalFooter, Badge,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useAccessPoints,
   useVehiclePasses,
   type VehiclePass,
 } from "@/hooks/useSiteAccess";
 import { Eye, CheckCircle } from "lucide-react";
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Open": case "Active": return "solid";
-    case "Restricted": case "Pending": return "outline";
-    default: return "ghost";
-  }
-};
 
 export default function SiteAccessPage() {
   const router = useRouter();
@@ -33,68 +24,8 @@ export default function SiteAccessPage() {
   const activeVehicles = accessPoints.reduce((sum, p) => sum + (p.currentVehicles || 0), 0);
   const activePasses = vehiclePasses.filter(p => p.status === "Active").length;
 
-  const columns: ListPageColumn<VehiclePass>[] = [
-    {
-      key: 'vehicle',
-      label: 'Vehicle',
-      accessor: 'vehicleType',
-      sortable: true,
-      render: (_value: unknown, p) => (
-        <Stack gap={1}>
-          <Badge variant="outline">{p.vehicleType}</Badge>
-          <Body size="sm" className="text-muted-foreground">{p.licensePlate}</Body>
-        </Stack>
-      ),
-    },
-    { key: 'company', label: 'Company', accessor: 'company', sortable: true },
-    { key: 'driver', label: 'Driver', accessor: 'driver' },
-    {
-      key: 'accessPoints',
-      label: 'Access',
-      accessor: (p) => p.accessPoints.join(', '),
-      render: (_value: unknown, p) => (
-        <Stack direction="horizontal" gap={1}>
-          {p.accessPoints.slice(0, 2).map(ap => <Badge key={ap} variant="outline">{ap}</Badge>)}
-        </Stack>
-      ),
-    },
-    {
-      key: 'validUntil',
-      label: 'Valid Until',
-      accessor: 'validUntil',
-      sortable: true,
-      render: (_value: unknown, p) => <Body size="sm">{new Date(p.validUntil).toLocaleTimeString()}</Body>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, p) => <Badge variant={getStatusVariant(p.status)}>{p.status}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Active', label: 'Active' },
-        { value: 'Pending', label: 'Pending' },
-        { value: 'Expired', label: 'Expired' },
-      ],
-    },
-    {
-      key: 'vehicleType',
-      label: 'Vehicle Type',
-      options: [
-        { value: 'Truck', label: 'Truck' },
-        { value: 'Van', label: 'Van' },
-        { value: 'Car', label: 'Car' },
-        { value: 'Bus', label: 'Bus' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<VehiclePass>('site-access');
+  const filters = getEntityFilters('site-access');
 
   const rowActions: ListPageAction<VehiclePass>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (p) => setSelectedPass(p) },

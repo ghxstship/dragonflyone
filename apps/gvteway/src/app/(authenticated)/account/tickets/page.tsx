@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import {
-  Badge,
   Button,
   Input,
   ListPage,
@@ -10,10 +9,9 @@ import {
   Stack,
   Text,
   useToast,
-  type ListPageColumn,
-  type ListPageFilter,
   type ListPageAction,
 } from '@ghxstship/ui';
+import { getEntityColumns, getEntityFilters } from '@ghxstship/config';
 import { Download, Send, QrCode } from 'lucide-react';
 import { useTickets } from '@/hooks/useTickets';
 import { useRouter } from 'next/navigation';
@@ -123,29 +121,8 @@ export default function AccountTicketsPage() {
     }
   };
 
-  const columns: ListPageColumn<DisplayTicket>[] = [
-    { key: 'eventName', label: 'Event', accessor: 'eventName', sortable: true },
-    { key: 'eventDate', label: 'Date', accessor: 'eventDate', sortable: true },
-    { key: 'venue', label: 'Venue', accessor: 'venue' },
-    { key: 'ticketType', label: 'Ticket Type', accessor: 'ticketType' },
-    { key: 'seat', label: 'Seat', accessor: (t) => t.seat || '—' },
-    {
-      key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_value: unknown, ticket) => (
-        <Badge variant={ticket.status === 'active' ? 'success' : ticket.status === 'used' ? 'info' : 'warning'}>
-          {ticket.status}
-        </Badge>
-      ),
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    { key: 'status', label: 'Status', options: [
-      { value: 'active', label: 'Upcoming' },
-      { value: 'used', label: 'Used' },
-      { value: 'cancelled', label: 'Cancelled' },
-    ]},
-  ];
+  const columns = getEntityColumns<DisplayTicket>('tickets');
+  const filters = getEntityFilters('tickets');
 
   const rowActions: ListPageAction<DisplayTicket>[] = [
     { id: 'view', label: 'View QR', icon: <QrCode className="h-4 w-4" />, onClick: (ticket) => router.push(`/account/tickets/${ticket.id}`) },

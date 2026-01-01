@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import { FileText, Eye, Download } from "lucide-react";
 import {
   ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler, getSubcategoryNames } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getSubcategoryNames, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useTemplates,
   type Template,
@@ -23,50 +22,8 @@ export default function TemplatesPage() {
 
   const totalDownloads = templates.reduce((sum, t) => sum + t.downloads, 0);
 
-  const columns: ListPageColumn<Template>[] = [
-    {
-      key: 'name',
-      label: 'Template',
-      accessor: 'name',
-      sortable: true,
-      render: (_value: unknown, t) => (
-        <Stack gap={1}>
-          <Body className="font-display">{t.name}</Body>
-          <Stack direction="horizontal" gap={2}>
-            <Badge variant="outline">{t.category}</Badge>
-            <Badge variant="outline">{t.fileType}</Badge>
-          </Stack>
-        </Stack>
-      ),
-    },
-    { key: 'description', label: 'Description', accessor: 'description' },
-    {
-      key: 'version',
-      label: 'Version',
-      accessor: 'version',
-      render: (_value: unknown, t) => <Body>v{t.version}</Body>,
-    },
-    { key: 'downloads', label: 'Downloads', accessor: 'downloads', sortable: true },
-    { key: 'size', label: 'Size', accessor: 'size' },
-    { key: 'lastUpdated', label: 'Updated', accessor: 'lastUpdated', sortable: true },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'category',
-      label: 'Category',
-      options: categories.map(cat => ({ value: cat, label: cat })),
-    },
-    {
-      key: 'fileType',
-      label: 'File Type',
-      options: [
-        { value: 'PDF', label: 'PDF' },
-        { value: 'DOCX', label: 'DOCX' },
-        { value: 'XLSX', label: 'XLSX' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<Template>('templates');
+  const filters = getEntityFilters('templates');
 
   const rowActions: ListPageAction<Template>[] = [
     { id: 'preview', label: 'Preview', icon: <Eye className="h-4 w-4" />, onClick: (t) => setSelectedTemplate(t) },

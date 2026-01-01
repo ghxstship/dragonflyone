@@ -2,40 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
   ListPage, H3, Body, Grid, Stack, Select, Button, Card, Badge, Alert, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useWeatherPlans,
   type WeatherPlan,
 } from '@/hooks/useWeatherContingency';
 import { Eye, AlertTriangle } from "lucide-react";
-
-const getRiskVariant = (risk: string): 'solid' | 'outline' | 'ghost' => {
-  switch (risk) {
-    case "Severe": case "High": return "solid";
-    case "Moderate": return "outline";
-    default: return "ghost";
-  }
-};
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Triggered": return "solid";
-    case "Active": return "outline";
-    default: return "ghost";
-  }
-};
-
-const getRiskColor = (risk: string): 'solid' | 'outline' | 'ghost' => {
-  switch (risk) {
-    case "Severe": case "High": return "solid";
-    case "Moderate": return "outline";
-    default: return "ghost";
-  }
-};
 
 const getRiskBg = (risk: string): string => {
   switch (risk) {
@@ -56,71 +31,8 @@ export default function WeatherContingencyPage() {
   const triggeredPlans = weatherPlans.filter(p => p.status === "Triggered").length;
   const highRiskCount = weatherPlans.filter(p => p.riskLevel === "High" || p.riskLevel === "Severe").length;
 
-  const columns: ListPageColumn<WeatherPlan>[] = [
-    {
-      key: 'projectName',
-      label: 'Project',
-      accessor: 'projectName',
-      sortable: true,
-      render: (_value: unknown, p) => (
-        <Stack gap={1}>
-          <Body className="font-display">{p.projectName}</Body>
-          <Stack direction="horizontal" gap={2}>
-            <Badge variant="outline">{p.venueType}</Badge>
-            <Body size="sm" className="text-muted-foreground">{p.venue}</Body>
-          </Stack>
-        </Stack>
-      ),
-    },
-    { key: 'eventDate', label: 'Event Date', accessor: 'eventDate', sortable: true },
-    { key: 'currentConditions', label: 'Conditions', accessor: 'currentConditions' },
-    {
-      key: 'riskLevel',
-      label: 'Risk',
-      accessor: 'riskLevel',
-      sortable: true,
-      render: (_value: unknown, p) => <Badge variant={getRiskVariant(p.riskLevel)}>{p.riskLevel}</Badge>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, p) => <Badge variant={getStatusVariant(p.status)}>{p.status}</Badge>,
-    },
-    { key: 'contingencyPlans', label: 'Actions', accessor: (p) => `${p.contingencyPlans.length} actions` },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Active', label: 'Active' },
-        { value: 'Triggered', label: 'Triggered' },
-        { value: 'Cleared', label: 'Cleared' },
-      ],
-    },
-    {
-      key: 'riskLevel',
-      label: 'Risk Level',
-      options: [
-        { value: 'Low', label: 'Low' },
-        { value: 'Moderate', label: 'Moderate' },
-        { value: 'High', label: 'High' },
-        { value: 'Severe', label: 'Severe' },
-      ],
-    },
-    {
-      key: 'venueType',
-      label: 'Venue Type',
-      options: [
-        { value: 'Outdoor', label: 'Outdoor' },
-        { value: 'Indoor', label: 'Indoor' },
-        { value: 'Hybrid', label: 'Hybrid' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<WeatherPlan>('weather-contingency');
+  const filters = getEntityFilters('weather-contingency');
 
   const rowActions: ListPageAction<WeatherPlan>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (p) => setSelectedPlan(p) },

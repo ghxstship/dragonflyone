@@ -1,12 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-// Layout provided by route group
 import { useTimekeeping, useApproveTimeEntry } from "@/hooks/useTimekeeping";
-import { log, createExportHandler } from '@ghxstship/config';
+import { log, createExportHandler, getEntityColumns, getEntityFilters } from '@ghxstship/config';
 import {
-  ListPage, Badge, Text,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
+  ListPage,
+  type ListPageAction} from "@ghxstship/ui";
 import { Check } from "lucide-react";
 
 interface TimeEntry {
@@ -38,63 +37,8 @@ export default function TimekeepingPage() {
     }
   };
 
-  const columns: ListPageColumn<TimeEntry>[] = [
-    {
-      key: 'id',
-      label: 'ID',
-      accessor: (e) => e.id.substring(0, 8).toUpperCase(),
-      render: (_value: unknown, e) => <Text className="font-mono">{e.id.substring(0, 8).toUpperCase()}</Text>,
-    },
-    {
-      key: 'user',
-      label: 'Crew Member',
-      accessor: (e) => e.user?.full_name || e.user?.email || 'Unknown',
-      sortable: true,
-    },
-    {
-      key: 'project',
-      label: 'Project',
-      accessor: (e) => e.project?.name || 'Unassigned',
-      sortable: true,
-    },
-    {
-      key: 'date',
-      label: 'Date',
-      accessor: 'date',
-      sortable: true,
-      render: (_value: unknown, e) => <Text className="font-mono">{new Date(e.date).toLocaleDateString()}</Text>,
-    },
-    {
-      key: 'hours_regular',
-      label: 'Regular',
-      accessor: 'hours_regular',
-      render: (_value: unknown, e) => <Text className="font-mono">{e.hours_regular}h</Text>,
-    },
-    {
-      key: 'hours_overtime',
-      label: 'Overtime',
-      accessor: 'hours_overtime',
-      render: (_value: unknown, e) => <Text className="font-mono">{e.hours_overtime}h</Text>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, e) => <Badge variant={e.status === "approved" ? "solid" : "outline"}>{e.status}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'pending', label: 'Pending' },
-        { value: 'approved', label: 'Approved' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<TimeEntry>('timekeeping');
+  const filters = getEntityFilters('timekeeping');
 
   const rowActions: ListPageAction<TimeEntry>[] = [
     {

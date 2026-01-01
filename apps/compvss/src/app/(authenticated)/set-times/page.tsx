@@ -2,24 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// Layout provided by route group
 import {
   ListPage, H3, Body, Grid, Stack, Input, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Alert,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useSetTimes,
   type SetTime,
 } from '@/hooks/useSetTimes';
 import { Eye, Play, Square } from "lucide-react";
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Completed": return "solid";
-    case "On Stage": return "outline";
-    default: return "ghost";
-  }
-};
 
 export default function SetTimesPage() {
   const router = useRouter();
@@ -32,67 +23,8 @@ export default function SetTimesPage() {
   const completed = setTimes.filter(s => s.status === "Completed");
   const delayed = setTimes.filter(s => s.status === "Delayed").length;
 
-  const columns: ListPageColumn<SetTime>[] = [
-    {
-      key: 'artistName',
-      label: 'Artist',
-      accessor: 'artistName',
-      sortable: true,
-      render: (_value: unknown, s) => (
-        <Stack gap={1}>
-          <Body className="font-display">{s.artistName}</Body>
-          <Badge variant="outline">{s.stage}</Badge>
-        </Stack>
-      ),
-    },
-    {
-      key: 'scheduledStart',
-      label: 'Scheduled',
-      accessor: 'scheduledStart',
-      sortable: true,
-      render: (_value: unknown, s) => <Body>{s.scheduledStart} - {s.scheduledEnd}</Body>,
-    },
-    {
-      key: 'actualStart',
-      label: 'Actual',
-      accessor: (s) => s.actualStart || '--:--',
-      render: (_value: unknown, s) => <Body>{s.actualStart || "--:--"} - {s.actualEnd || "--:--"}</Body>,
-    },
-    {
-      key: 'setLength',
-      label: 'Length',
-      accessor: 'setLength',
-      render: (_value: unknown, s) => <Body>{s.setLength} min</Body>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Upcoming', label: 'Upcoming' },
-        { value: 'On Stage', label: 'On Stage' },
-        { value: 'Completed', label: 'Completed' },
-        { value: 'Delayed', label: 'Delayed' },
-      ],
-    },
-    {
-      key: 'stage',
-      label: 'Stage',
-      options: [
-        { value: 'Main Stage', label: 'Main Stage' },
-        { value: 'Side Stage', label: 'Side Stage' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<SetTime>('set-times');
+  const filters = getEntityFilters('set-times');
 
   const rowActions: ListPageAction<SetTime>[] = [
     { id: 'view', label: 'Details', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSet(s) },

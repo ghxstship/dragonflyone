@@ -2,25 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
   ListPage, H3, Body, Grid, Stack, Input, Select, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Alert,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useTechRehearsalSessions,
   useRehearsalNotes,
   type TechRehearsalSession,
 } from "@/hooks/useStages";
 import { Eye, Play, FileText } from "lucide-react";
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Completed": return "solid";
-    case "In Progress": return "outline";
-    default: return "ghost";
-  }
-};
 
 export default function TechRehearsalPage() {
   const router = useRouter();
@@ -35,68 +26,8 @@ export default function TechRehearsalPage() {
   const inProgressSession = sessions.find(s => s.status === "In Progress");
   const unresolvedIssues = notes.filter(n => !n.resolved && n.type === "Issue").length;
 
-  const columns: ListPageColumn<TechRehearsalSession>[] = [
-    {
-      key: 'name',
-      label: 'Session',
-      accessor: 'name',
-      sortable: true,
-      render: (_value: unknown, s) => (
-        <Stack gap={1}>
-          <Body className="font-display">{s.name}</Body>
-          <Badge variant="outline">{s.type}</Badge>
-        </Stack>
-      ),
-    },
-    { key: 'date', label: 'Date', accessor: 'date', sortable: true },
-    {
-      key: 'time',
-      label: 'Time',
-      accessor: (s) => `${s.startTime} - ${s.endTime}`,
-    },
-    {
-      key: 'departments',
-      label: 'Departments',
-      accessor: (s) => s.departments.join(', '),
-      render: (_value: unknown, s) => (
-        <Stack direction="horizontal" gap={1} className="flex-wrap">
-          {s.departments.slice(0, 2).map(d => <Badge key={d} variant="outline">{d}</Badge>)}
-          {s.departments.length > 2 && <Body size="sm">+{s.departments.length - 2}</Body>}
-        </Stack>
-      ),
-    },
-    { key: 'location', label: 'Location', accessor: 'location' },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, s) => <Badge variant={getStatusVariant(s.status)}>{s.status}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Scheduled', label: 'Scheduled' },
-        { value: 'In Progress', label: 'In Progress' },
-        { value: 'Completed', label: 'Completed' },
-        { value: 'Cancelled', label: 'Cancelled' },
-      ],
-    },
-    {
-      key: 'type',
-      label: 'Type',
-      options: [
-        { value: 'Full Tech', label: 'Full Tech' },
-        { value: 'Cue-to-Cue', label: 'Cue-to-Cue' },
-        { value: 'Dress Rehearsal', label: 'Dress Rehearsal' },
-        { value: 'Sound Check', label: 'Sound Check' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<TechRehearsalSession>('tech-rehearsal');
+  const filters = getEntityFilters('tech-rehearsal');
 
   const rowActions: ListPageAction<TechRehearsalSession>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSession(s) },

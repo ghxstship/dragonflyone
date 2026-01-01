@@ -37,7 +37,7 @@ const TYPE_CONFIG = {
   security: { icon: <Wrench className="size-5" />, label: "Security", color: "bg-error/20 text-error border-error/30" },
 };
 
-const FILTERS = ["All", "Features", "Improvements", "Bug Fixes", "Security"];
+const CHANGELOG_FILTER_OPTIONS = ["All", "Features", "Improvements", "Bug Fixes", "Security"];
 
 export default function ChangelogPage() {
   const [selectedFilter, setSelectedFilter] = useState("All");
@@ -114,7 +114,7 @@ export default function ChangelogPage() {
 
                 {/* Filters */}
                 <Stack direction="horizontal" gap={2} className="flex-wrap justify-center">
-                  {FILTERS.map((filter) => (
+                  {CHANGELOG_FILTER_OPTIONS.map((filter) => (
                     <Button
                       key={filter}
                       variant={selectedFilter === filter ? "solid" : "outline"}

@@ -2,20 +2,16 @@
 
 import { useState } from "react";
 import { Eye, Check, Trash2, ArrowUp, MessageCircle, Star, FileText, Camera, File } from "lucide-react";
-// Layout provided by route group
 import {
-  Badge,
   Body,
   Card,
   DetailDrawer,
   Grid,
   ListPage,
-  Text,
   type DetailSection,
   type ListPageAction,
-  type ListPageColumn,
-  type ListPageFilter,
 } from '@ghxstship/ui';
+import { getEntityColumns, getEntityFilters } from '@ghxstship/config';
 
 import { useModerationData, type FlaggedContent } from '@/hooks/useModeration';
 
@@ -29,29 +25,8 @@ const getTypeIcon = (type: string) => {
   }
 };
 
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Approved": return 'solid';
-    case "Removed": return 'solid';
-    case "Pending": return 'outline';
-    default: return 'ghost';
-  }
-};
-
-const columns: ListPageColumn<FlaggedContent>[] = [
-  { key: 'type', label: 'Type', accessor: 'type', render: (v: unknown) => <Text>{getTypeIcon(String(v))} {String(v)}</Text> },
-  { key: 'content', label: 'Content', accessor: 'content' },
-  { key: 'author', label: 'Author', accessor: 'author' },
-  { key: 'reason', label: 'Reason', accessor: 'reason', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
-  { key: 'reportedBy', label: 'Reported By', accessor: 'reportedBy' },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
-  { key: 'timestamp', label: 'Time', accessor: 'timestamp', sortable: true },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [{ value: 'Pending', label: 'Pending' }, { value: 'Approved', label: 'Approved' }, { value: 'Removed', label: 'Removed' }, { value: 'Escalated', label: 'Escalated' }] },
-  { key: 'type', label: 'Type', options: [{ value: 'Comment', label: 'Comment' }, { value: 'Review', label: 'Review' }, { value: 'Post', label: 'Post' }, { value: 'Photo', label: 'Photo' }] },
-];
+const columns = getEntityColumns<FlaggedContent>('moderation');
+const filters = getEntityFilters('moderation');
 
 export default function ModerationPage() {
   const [selectedContent, setSelectedContent] = useState<FlaggedContent | null>(null);

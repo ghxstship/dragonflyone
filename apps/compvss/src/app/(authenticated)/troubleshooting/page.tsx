@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
   ListPage, H3, Body, Stack, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler, getSubcategoryNames } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getSubcategoryNames, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useTroubleshootingGuides,
   type TroubleshootingGuide,
@@ -20,38 +19,8 @@ export default function TroubleshootingPage() {
   const { data: guides = [], isLoading, refetch } = useTroubleshootingGuides();
   const [selectedGuide, setSelectedGuide] = useState<TroubleshootingGuide | null>(null);
 
-  const columns: ListPageColumn<TroubleshootingGuide>[] = [
-    {
-      key: 'title',
-      label: 'Guide',
-      accessor: 'title',
-      sortable: true,
-      render: (_value: unknown, g) => (
-        <Stack gap={1}>
-          <Body className="font-display">{g.title}</Body>
-          <Body size="sm" className="text-muted-foreground">{g.symptom}</Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'category',
-      label: 'Category',
-      accessor: 'category',
-      sortable: true,
-      render: (_value: unknown, g) => <Badge variant="outline">{g.category}</Badge>,
-    },
-    { key: 'steps', label: 'Steps', accessor: (g) => `${g.steps.length} steps` },
-    { key: 'views', label: 'Views', accessor: 'views', sortable: true },
-    { key: 'helpful', label: 'Helpful', accessor: (g) => `${g.helpful}%`, sortable: true },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'category',
-      label: 'Category',
-      options: categories.map(c => ({ value: c, label: c })),
-    },
-  ];
+  const columns = getEntityColumns<TroubleshootingGuide>('troubleshooting');
+  const filters = getEntityFilters('troubleshooting');
 
   const rowActions: ListPageAction<TroubleshootingGuide>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (g) => setSelectedGuide(g) },

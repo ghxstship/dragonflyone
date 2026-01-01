@@ -3,8 +3,7 @@
 /**
  * Budgets List Page
  * 
- * SSOT-compliant: Uses entity registry for columns, filters, status colors.
- * All UI configuration comes from @ghxstship/config/entity-registry.
+ * SSOT-compliant: Uses entity registry for columns and filters.
  */
 
 import { useRouter } from 'next/navigation';
@@ -12,13 +11,12 @@ import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { 
   useAuthContext, 
   ATLVS_ADMIN_ROLES,
-  BUDGET_STATUS_COLORS,
-  formatCurrency,
-  formatDate,
+  getEntityColumns,
+  getEntityFilters,
 } from '@ghxstship/config';
 import {
-  Badge, ListPage, Text, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction,
+  ListPage, useToast,
+  type ListPageAction,
 } from "@ghxstship/ui";
 import { useBudgets, useDeleteBudget, type Budget } from '@/hooks/useBudgets';
 
@@ -40,32 +38,8 @@ export default function BudgetsPage() {
     }
   };
 
-  const columns: ListPageColumn<Budget>[] = [
-    { key: 'name', label: 'Budget', accessor: 'name', sortable: true },
-    { key: 'fiscal_year', label: 'Fiscal Year', accessor: (b) => b.fiscal_year?.toString() || 'N/A', sortable: true },
-    {
-      key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (value: unknown) => <Badge variant={BUDGET_STATUS_COLORS[String(value) || ''] || 'outline'}>{String(value) || 'draft'}</Badge>,
-    },
-    {
-      key: 'total_amount', label: 'Total Amount', accessor: 'total_amount', sortable: true,
-      render: (value: unknown) => <Text className="font-weight-medium">{formatCurrency(Number(value) || 0)}</Text>,
-    },
-    {
-      key: 'period', label: 'Period', accessor: (b) => `${formatDate(b.start_date || '')} - ${formatDate(b.end_date || '')}`,
-    },
-    {
-      key: 'currency', label: 'Currency', accessor: (b) => b.currency || 'USD',
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    { key: 'status', label: 'Status', options: [
-      { value: 'draft', label: 'Draft' },
-      { value: 'active', label: 'Active' },
-      { value: 'closed', label: 'Closed' },
-    ]},
-  ];
+  const columns = getEntityColumns<Budget>('budgets');
+  const filters = getEntityFilters('budgets');
 
   const rowActions: ListPageAction<Budget>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (b) => router.push(`/finance/budgets/${b.id}`) },

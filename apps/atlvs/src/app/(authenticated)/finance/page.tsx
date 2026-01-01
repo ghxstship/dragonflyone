@@ -3,13 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye } from "lucide-react";
-// Layout provided by route group
 import {
-  ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
+  ListPage, DetailDrawer, Grid, Body,
+  type ListPageAction, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES, getEntityColumns, getEntityFilters } from '@ghxstship/config';
 
-// Roles that can create/edit/delete financial transactions
 import { useLedgerData, type LedgerTransaction } from "@/hooks/useFinance";
 
 interface Transaction extends LedgerTransaction {
@@ -22,19 +20,8 @@ const formatCurrency = (amount: number) => {
   return `$${amount.toFixed(0)}`;
 };
 
-const columns: ListPageColumn<Transaction>[] = [
-  { key: 'id', label: 'Transaction', accessor: 'id', sortable: true },
-  { key: 'type', label: 'Type', accessor: 'type', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
-  { key: 'entity', label: 'Party', accessor: 'entity' },
-  { key: 'amount', label: 'Amount', accessor: (r) => `$${Math.abs(r.amount).toLocaleString()}`, sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={String(v) === "Paid" ? "solid" : "outline"}>{String(v)}</Badge> },
-  { key: 'date', label: 'Date', accessor: 'date', sortable: true },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'type', label: 'Type', options: [{ value: 'invoice', label: 'Invoices' }, { value: 'expense', label: 'Expenses' }] },
-  { key: 'status', label: 'Status', options: [{ value: 'paid', label: 'Paid' }, { value: 'pending', label: 'Pending' }, { value: 'approved', label: 'Approved' }] },
-];
+const columns = getEntityColumns<Transaction>('finance');
+const filters = getEntityFilters('finance');
 
 export default function FinancePage() {
   const router = useRouter();

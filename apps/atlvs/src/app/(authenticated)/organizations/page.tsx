@@ -3,24 +3,22 @@
 /**
  * Unified Organizations Page
  * 
- * SSOT-compliant: Uses entity registry for status colors.
+ * SSOT-compliant: Uses entity registry for columns and filters.
  */
 
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { 
-  Building2, Mail, Phone, Eye, Pencil, Trash2,
+  Eye, Pencil, Trash2,
 } from 'lucide-react';
 import { 
   useAuthContext, 
   ATLVS_ADMIN_ROLES,
-  ORGANIZATION_STATUS_COLORS,
-  ORGANIZATION_TYPE_COLORS,
-  useEntityConfig,
+  getEntityColumns,
+  getEntityFilters,
 } from '@ghxstship/config';
 import {
-  Badge, Body, Box, ListPage, Stack, Text, useToast,
-  type ListPageColumn, type ListPageAction,
+  ListPage, useToast,
+  type ListPageAction,
 } from "@ghxstship/ui";
 import {
   useOrganizationsQuery,
@@ -33,8 +31,8 @@ export default function OrganizationsPage() {
   const { hasRole } = useAuthContext();
   const toast = useToast();
 
-  // SSOT: Get filters from entity registry (columns have custom renders)
-  const { filters } = useEntityConfig<Organization>({ entityName: 'organizations' });
+  const columns = getEntityColumns<Organization>('organizations');
+  const filters = getEntityFilters('organizations');
 
   const canManageOrgs = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
@@ -82,87 +80,6 @@ export default function OrganizationsPage() {
     URL.revokeObjectURL(url);
   };
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-  };
-
-  // Define columns for ListPage
-  const columns: ListPageColumn<Organization>[] = [
-    {
-      key: 'name',
-      label: 'Organization',
-      accessor: 'name',
-      sortable: true,
-      render: (_value: unknown, org: Organization) => (
-        <Stack direction="horizontal" gap={3} className="items-center">
-          <Box className="w-10 h-10 rounded-avatar bg-primary/10 flex items-center justify-center overflow-hidden">
-            {org.logo_url ? (
-              <Image src={org.logo_url} alt={org.name} width={40} height={40} className="w-full h-full object-cover" />
-            ) : (
-              <Building2 className="h-5 w-5 text-primary" />
-            )}
-          </Box>
-          <Stack gap={0}>
-            <Text className="font-weight-medium">{org.name}</Text>
-            {org.legal_name && org.legal_name !== org.name && (
-              <Body size="xs" className="text-muted-foreground">{org.legal_name}</Body>
-            )}
-          </Stack>
-        </Stack>
-      ),
-    },
-    {
-      key: 'email',
-      label: 'Contact Info',
-      accessor: 'email',
-      render: (_value: unknown, org: Organization) => (
-        <Stack gap={1}>
-          {org.email && (
-            <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground">
-              <Mail className="h-3 w-3" /><Text size="xs">{org.email}</Text>
-            </Stack>
-          )}
-          {org.phone && (
-            <Stack direction="horizontal" gap={1} className="items-center text-muted-foreground">
-              <Phone className="h-3 w-3" /><Text size="xs">{org.phone}</Text>
-            </Stack>
-          )}
-        </Stack>
-      ),
-    },
-    { key: 'industry', label: 'Industry', accessor: 'industry', sortable: true },
-    {
-      key: 'org_type',
-      label: 'Type',
-      accessor: 'org_type',
-      sortable: true,
-      render: (_value: unknown, org: Organization) => (
-        <Badge variant={ORGANIZATION_TYPE_COLORS[org.org_type] || 'outline'} className="capitalize">
-          {org.org_type}
-        </Badge>
-      ),
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, org) => <Badge variant={ORGANIZATION_STATUS_COLORS[org.status] || 'outline'}>{org.status.toUpperCase()}</Badge>,
-    },
-    {
-      key: 'updated_at',
-      label: 'Updated',
-      accessor: 'updated_at',
-      sortable: true,
-      render: (_value: unknown, org) => <Text size="sm" className="text-muted-foreground">{formatDate(org.updated_at)}</Text>,
-    },
-  ];
-
-  // SSOT: Filters are provided by useEntityConfig (line 49)
 
   // Define row actions for ListPage (variant is 'danger' not 'destructive')
   const rowActions: ListPageAction<Organization>[] = [

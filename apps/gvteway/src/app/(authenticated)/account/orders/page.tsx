@@ -1,13 +1,11 @@
 'use client';
 
 import {
-  Badge,
   ListPage,
-  Text,
   useToast,
-  type ListPageColumn,
   type ListPageAction,
 } from '@ghxstship/ui';
+import { getEntityColumns } from '@ghxstship/config';
 import { Eye, Download } from 'lucide-react';
 import { useOrders } from '@/hooks/useOrders';
 import { useRouter } from 'next/navigation';
@@ -74,24 +72,7 @@ export default function AccountOrdersPage() {
     }
   };
 
-  const columns: ListPageColumn<DisplayOrder>[] = [
-    { key: 'id', label: 'Order ID', accessor: 'id', sortable: true },
-    { key: 'date', label: 'Date', accessor: 'date', sortable: true },
-    { key: 'eventName', label: 'Event', accessor: 'eventName', sortable: true },
-    { key: 'ticketCount', label: 'Tickets', accessor: 'ticketCount' },
-    {
-      key: 'total', label: 'Total', accessor: 'total', sortable: true,
-      render: (_value: unknown, order) => <Text className="text-right">{formatCurrency(order.total)}</Text>,
-    },
-    {
-      key: 'status', label: 'Status', accessor: 'status', sortable: true,
-      render: (_value: unknown, order) => (
-        <Badge variant={order.status === 'completed' ? 'success' : order.status === 'pending' ? 'warning' : 'error'}>
-          {order.status}
-        </Badge>
-      ),
-    },
-  ];
+  const columns = getEntityColumns<DisplayOrder>('orders');
 
   const rowActions: ListPageAction<DisplayOrder>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (order) => router.push(`/account/orders/${order.id}`) },

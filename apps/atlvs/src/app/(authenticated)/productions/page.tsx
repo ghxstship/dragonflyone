@@ -3,21 +3,21 @@
 /**
  * Productions List Page
  * 
- * SSOT-compliant: Uses entity registry for status colors.
+ * SSOT-compliant: Uses entity registry for columns and filters.
  */
 
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import { 
-  Badge, Body, ListPage, Stack, useToast,
-  type ListPageColumn, type ListPageAction,
+  ListPage, useToast,
+  type ListPageAction,
 } from "@ghxstship/ui";
 import { useProductions, useDeleteProduction, type Production } from "../../../hooks/useProductions";
 import { 
   useAuthContext, 
   ATLVS_ADMIN_ROLES,
-  PRODUCTION_STATUS_COLORS,
-  useEntityConfig,
+  getEntityColumns,
+  getEntityFilters,
 } from '@ghxstship/config';
 import { atlvsDemoProductions, type ProductionContext } from "@/data/atlvs";
 
@@ -58,8 +58,8 @@ export default function ProductionsPage() {
   const { hasRole } = useAuthContext();
   const toast = useToast();
 
-  // SSOT: Get filters from entity registry (columns have custom renders)
-  const { filters } = useEntityConfig<DisplayProduction>({ entityName: 'productions' });
+  const columns = getEntityColumns<DisplayProduction>('productions');
+  const filters = getEntityFilters('productions');
 
   const canManageProductions = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
   
@@ -80,49 +80,6 @@ export default function ProductionsPage() {
   const rawProductions = apiProductions && apiProductions.length > 0 ? apiProductions : atlvsDemoProductions;
   const productions: DisplayProduction[] = rawProductions.map(normalizeProduction);
 
-  // Define columns for ListPage
-  const columns: ListPageColumn<DisplayProduction>[] = [
-    {
-      key: 'name',
-      label: 'Production',
-      accessor: 'name',
-      sortable: true,
-      render: (_value: unknown, prod) => (
-        <Stack gap={1}>
-          <Body className="font-weight-bold">{prod.name}</Body>
-          <Body size="sm" className="text-muted-foreground">
-            {prod.venue || 'No venue'}
-          </Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'startDate',
-      label: 'Dates',
-      accessor: 'startDate',
-      sortable: true,
-      render: (_value: unknown, prod) => (
-        <Body size="sm" className="text-muted-foreground">
-          {prod.startDate || 'TBD'} - {prod.endDate || 'TBD'}
-        </Body>
-      ),
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, prod) => (
-        <Badge variant={PRODUCTION_STATUS_COLORS[prod.status] || "outline"}>
-          {prod.status.toUpperCase()}
-        </Badge>
-      ),
-    },
-  ];
-
-  // SSOT: Filters are provided by useEntityConfig (line 59)
-
-  // Define row actions
   const rowActions: ListPageAction<DisplayProduction>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (prod) => router.push(`/p/${prod.id}/overview`) },
     ...(canManageProductions ? [

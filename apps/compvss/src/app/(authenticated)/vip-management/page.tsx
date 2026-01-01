@@ -2,25 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
   ListPage, H3, Body, Stack, Input, Select, Button, Modal, ModalHeader, ModalBody, ModalFooter, Badge, Textarea,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useVIPGuests,
   useAccessZones,
   type VIPGuest,
 } from "@/hooks/useVIPManagement";
 import { Eye, CheckCircle } from "lucide-react";
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Checked In": return "solid";
-    case "Approved": case "Pending": return "outline";
-    default: return "ghost";
-  }
-};
 
 export default function VIPManagementPage() {
   const router = useRouter();
@@ -29,66 +20,8 @@ export default function VIPManagementPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedGuest, setSelectedGuest] = useState<VIPGuest | null>(null);
 
-  const columns: ListPageColumn<VIPGuest>[] = [
-    {
-      key: 'name',
-      label: 'Guest',
-      accessor: 'name',
-      sortable: true,
-      render: (_value: unknown, g) => (
-        <Stack gap={1}>
-          <Body className="font-display">{g.name}</Body>
-          <Body size="sm" className="text-muted-foreground">{g.email}</Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'passType',
-      label: 'Pass Type',
-      accessor: 'passType',
-      sortable: true,
-      render: (_value: unknown, g) => <Badge variant="outline">{g.passType}</Badge>,
-    },
-    {
-      key: 'accessAreas',
-      label: 'Access',
-      accessor: (g) => g.accessAreas.join(', '),
-      render: (_value: unknown, g) => (
-        <Stack direction="horizontal" gap={1}>
-          {g.accessAreas.slice(0, 2).map(a => <Badge key={a} variant="outline">{a}</Badge>)}
-        </Stack>
-      ),
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, g) => <Badge variant={getStatusVariant(g.status)}>{g.status}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Checked In', label: 'Checked In' },
-        { value: 'Approved', label: 'Approved' },
-        { value: 'Pending', label: 'Pending' },
-        { value: 'Denied', label: 'Denied' },
-      ],
-    },
-    {
-      key: 'passType',
-      label: 'Pass Type',
-      options: [
-        { value: 'VIP', label: 'VIP' },
-        { value: 'Backstage', label: 'Backstage' },
-        { value: 'All Access', label: 'All Access' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<VIPGuest>('vip-management');
+  const filters = getEntityFilters('vip-management');
 
   const rowActions: ListPageAction<VIPGuest>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (g) => setSelectedGuest(g) },
