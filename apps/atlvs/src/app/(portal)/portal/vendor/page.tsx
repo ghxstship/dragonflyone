@@ -9,7 +9,7 @@
 import { Building2, FileText, DollarSign, Clock, CheckCircle, List, Settings } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Contract {
   id: string;
@@ -65,7 +65,7 @@ export default function VendorPortalPage() {
           </Grid>
 
           <SectionHeader title="Contracts" />
-          <Box className="space-y-4 mt-4">
+          <Stack gap={4} className="mt-4">
             {contracts.map((contract: Contract) => (
               <Card key={contract.id} className="p-6">
                 <Box className="flex items-start justify-between">
@@ -80,7 +80,7 @@ export default function VendorPortalPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

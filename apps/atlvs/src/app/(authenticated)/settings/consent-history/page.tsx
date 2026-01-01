@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { FileText, Check, Clock, List, Shield } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface ConsentRecord {
   id: string;
@@ -116,7 +116,7 @@ export default function ConsentHistoryPage() {
       content: (
         <Section>
           <SectionHeader title="Active Policies" description="View the current versions of our policies" />
-          <Box className="space-y-4 mt-4">
+          <Stack gap={4} className="mt-4">
             {Object.entries(TYPE_LABELS).map(([key, label]) => {
               const consent = consents.find((c: ConsentRecord) => c.type === key);
               return (
@@ -137,7 +137,7 @@ export default function ConsentHistoryPage() {
                 </Card>
               );
             })}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

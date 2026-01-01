@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Calendar, MapPin, Search, Plus, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Badge, Body, Button, Card, Input, DetailPage, Section, Box} from "@ghxstship/ui";
+import { Badge, Body, Button, Card, Input, DetailPage, Section, Box, Stack } from "@ghxstship/ui";
 
 interface Event { id: string; name: string; date: string; venue: string; status: "draft" | "published" | "sold_out"; tickets_sold: number; }
 const DEMO_EVENTS: Event[] = [
@@ -48,7 +48,7 @@ export default function EventsPage() {
             <Button variant="solid" onClick={() => router.push("/events/create")}>Create Event</Button>
           </Card>
         ) : (
-          <Box className="space-y-4">
+          <Stack gap={4}>
             {filteredEvents.map((event: Event) => (
               <Card key={event.id} className="p-6 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/e/${event.id}`)}>
                 <Box className="flex items-start justify-between">
@@ -66,7 +66,7 @@ export default function EventsPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         )}
       </Section>
     ),

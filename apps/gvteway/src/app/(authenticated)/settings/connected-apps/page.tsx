@@ -17,7 +17,9 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-Box} from "@ghxstship/ui";
+  Box,
+  Stack,
+} from "@ghxstship/ui";
 import { Link2, Unlink, ExternalLink, Shield, Info } from "lucide-react";
 import { useConnectedAppsData, type ConnectedApp, getProviderInfo } from "@/hooks/useConnectedApps";
 
@@ -67,7 +69,7 @@ export default function ConnectedAppsPage() {
               </Body>
             </Box>
           ) : (
-            <Box className="space-y-3">
+            <Stack gap={3}>
               {apps.map((app: ConnectedApp) => {
                 const providerInfo = getProviderInfo(app.provider);
                 return (
@@ -118,7 +120,7 @@ export default function ConnectedAppsPage() {
                   </Card>
                 );
               })}
-            </Box>
+            </Stack>
           )}
         </Section>
       ),
@@ -136,21 +138,21 @@ export default function ConnectedAppsPage() {
                 <Shield className="size-6 text-primary flex-shrink-0" />
                 <Body className="font-weight-medium text-white">Security</Body>
               </Box>
-              <Box className="space-y-3">
+              <Stack gap={3}>
                 <Body size="sm" className="text-on-dark-muted">
                   Connected apps have access to specific parts of your GVTEWAY account based on the permissions you granted.
                 </Body>
                 <Body size="sm" className="text-on-dark-muted">
                   You can disconnect any app at any time. Disconnecting an app will revoke its access to your account.
                 </Body>
-              </Box>
+              </Stack>
             </Card>
             <Card className="p-6">
               <Box className="flex items-start gap-3 mb-4">
                 <Info className="size-6 text-primary flex-shrink-0" />
                 <Body className="font-weight-medium text-white">Best Practices</Body>
               </Box>
-              <Box className="space-y-3">
+              <Stack gap={3}>
                 <Body size="sm" className="text-on-dark-muted">
                   Only connect apps from sources you trust.
                 </Body>
@@ -160,7 +162,7 @@ export default function ConnectedAppsPage() {
                 <Body size="sm" className="text-on-dark-muted">
                   Regularly review and remove unused connections.
                 </Body>
-              </Box>
+              </Stack>
             </Card>
           </Grid>
         </Section>

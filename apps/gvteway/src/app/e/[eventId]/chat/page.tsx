@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { MessageSquare, Send, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Body, Button, Card, Input, DetailPage, Section, Box} from "@ghxstship/ui";
+import { Body, Button, Card, Input, DetailPage, Section, Box, Stack } from "@ghxstship/ui";
 
 interface Message { id: string; user: string; text: string; time: string; }
 const DEMO_MESSAGES: Message[] = [
@@ -39,7 +39,7 @@ export default function EventChatPage() {
               </Box>
             </Box>
           ) : (
-            <Box className="space-y-4">
+            <Stack gap={4}>
               {messages.map((msg: Message) => (
                 <Box key={msg.id} className="flex gap-3">
                   <Box className="size-8 bg-primary rounded-avatar flex items-center justify-center text-white text-body-sm">{msg.user[0]}</Box>
@@ -49,7 +49,7 @@ export default function EventChatPage() {
                   </Box>
                 </Box>
               ))}
-            </Box>
+            </Stack>
           )}
         </Card>
         <Box className="flex gap-2">

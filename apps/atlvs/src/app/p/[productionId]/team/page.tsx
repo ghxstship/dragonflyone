@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { Users, Plus, Mail, Phone, Search, List, UserPlus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface TeamMember {
   id: string;
@@ -103,7 +103,7 @@ export default function ProductionTeamPage() {
                     <Badge variant="outline" className="mt-2">{member.department}</Badge>
                   </Box>
                 </Box>
-                <Box className="mt-4 space-y-2">
+                <Stack gap={2} className="mt-4">
                   <Box className="flex items-center gap-2 text-on-dark-muted">
                     <Mail className="size-4" />
                     <Body size="sm">{member.email}</Body>
@@ -112,7 +112,7 @@ export default function ProductionTeamPage() {
                     <Phone className="size-4" />
                     <Body size="sm">{member.phone}</Body>
                   </Box>
-                </Box>
+                </Stack>
               </Card>
             ))}
           </Grid>
@@ -127,7 +127,7 @@ export default function ProductionTeamPage() {
         <Section>
           <SectionHeader title="Invite Team Members" description="Add new members to this production" />
           <Card className="p-6 mt-4 max-w-md">
-            <Box className="space-y-4">
+            <Stack gap={4}>
               <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">Email Address</Body>
                 <Input type="email" placeholder="colleague@example.com" />
@@ -137,7 +137,7 @@ export default function ProductionTeamPage() {
                 <Input placeholder="e.g., Stage Manager" />
               </Box>
               <Button variant="solid" icon={<UserPlus className="size-4" />} iconPosition="left">Send Invitation</Button>
-            </Box>
+            </Stack>
           </Card>
         </Section>
       ),

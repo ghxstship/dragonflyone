@@ -1,16 +1,25 @@
 export const dynamic = 'force-dynamic';
 
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { logger, withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { GeneratedBlueprint } from "../../../generator/types";
 import { z } from 'zod';
 
+const blueprintSchema = z.object({
+  id: z.string(),
+  creativeSeed: z.string(),
+  generatedAt: z.string(),
+  concept: z.unknown(),
+  sensoryDesign: z.unknown(),
+  spatialTemporal: z.unknown(),
+  guestJourney: z.unknown(),
+  documents: z.unknown(),
+  executionTiers: z.unknown(),
+});
+
 const shareBlueprintSchema = z.object({
-  blueprint: z.object({
-    id: z.string(),
-    creativeSeed: z.string(),
-  }).passthrough(),
+  blueprint: blueprintSchema,
 });
 
 export const runtime = "edge";

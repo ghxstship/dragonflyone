@@ -39,6 +39,7 @@ import {
   Section,
   useToast,
   Box,
+  Stack,
 } from "@ghxstship/ui";
 import { TICKET_STATUS_COLORS } from "@ghxstship/config";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -170,10 +171,10 @@ export default function AdminTicketingPage() {
                       <TableCell><Body>{ticket.event_title}</Body></TableCell>
                       <TableCell><Body className="font-weight-medium">{formatCurrency(ticket.price)}</Body></TableCell>
                       <TableCell>
-                        <Box className="space-y-1">
+                        <Stack gap={1}>
                           <Body size="sm">{ticket.sold.toLocaleString()} / {ticket.quantity.toLocaleString()}</Body>
                           <ProgressBar value={(ticket.sold / ticket.quantity) * 100} size="sm" />
-                        </Box>
+                        </Stack>
                       </TableCell>
                       <TableCell><Badge variant={STATUS_COLORS[ticket.status] || "outline"}>{ticket.status.replace("_", " ")}</Badge></TableCell>
                       <TableCell><Body className="font-weight-medium">{formatCurrency(ticket.sold * ticket.price)}</Body></TableCell>

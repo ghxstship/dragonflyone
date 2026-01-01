@@ -39,6 +39,7 @@ import {
   Section,
   SectionHeader,
   Box,
+  Stack,
 } from "@ghxstship/ui";
 import { FINANCIAL_STATUS_COLORS } from "@ghxstship/config";
 import { useWalletData, type PaymentMethod, type Transaction } from "@/hooks/useWalletData";
@@ -145,7 +146,7 @@ export default function WalletPage() {
             <Section border className="mb-6">
               <SectionHeader title="Add New Card" />
               <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mb-4">
-                <Box className="space-y-2">
+                <Stack gap={2}>
                   <Body size="sm" className="text-on-dark-muted">Cardholder Name</Body>
                   <Input
                     id="cardName"
@@ -153,8 +154,8 @@ export default function WalletPage() {
                     value={newCard.name}
                     onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
                   />
-                </Box>
-                <Box className="space-y-2">
+                </Stack>
+                <Stack gap={2}>
                   <Body size="sm" className="text-on-dark-muted">Card Number</Body>
                   <Input
                     id="cardNumber"
@@ -162,8 +163,8 @@ export default function WalletPage() {
                     value={newCard.cardNumber}
                     onChange={(e) => setNewCard({ ...newCard, cardNumber: e.target.value })}
                   />
-                </Box>
-                <Box className="space-y-2">
+                </Stack>
+                <Stack gap={2}>
                   <Body size="sm" className="text-on-dark-muted">Expiry Date</Body>
                   <Input
                     id="expiry"
@@ -171,8 +172,8 @@ export default function WalletPage() {
                     value={newCard.expiry}
                     onChange={(e) => setNewCard({ ...newCard, expiry: e.target.value })}
                   />
-                </Box>
-                <Box className="space-y-2">
+                </Stack>
+                <Stack gap={2}>
                   <Body size="sm" className="text-on-dark-muted">CVV</Body>
                   <Input
                     id="cvv"
@@ -181,7 +182,7 @@ export default function WalletPage() {
                     value={newCard.cvv}
                     onChange={(e) => setNewCard({ ...newCard, cvv: e.target.value })}
                   />
-                </Box>
+                </Stack>
               </Grid>
               <Box className="flex gap-2 justify-end">
                 <Button variant="ghost" onClick={() => setShowAddCard(false)}>

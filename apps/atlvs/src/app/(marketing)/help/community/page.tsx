@@ -8,7 +8,7 @@
 
 import { Users, MessageSquare, Star, Trophy, ExternalLink, List, TrendingUp } from "lucide-react";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 const COMMUNITY_STATS = { members: "5,000+", discussions: "2,500+", solutions: "1,200+" };
 
@@ -41,7 +41,7 @@ export default function CommunityPage() {
 
           <Card className="p-6 mb-6">
             <SectionHeader title="Featured Discussions" />
-            <Box className="space-y-4 mt-4">
+            <Stack gap={4} className="mt-4">
               {FEATURED_DISCUSSIONS.map((discussion) => (
                 <Card key={discussion.id} className="p-4 cursor-pointer hover:border-primary">
                   <Box className="flex items-center justify-between">
@@ -56,7 +56,7 @@ export default function CommunityPage() {
                   </Box>
                 </Card>
               ))}
-            </Box>
+            </Stack>
             <Button variant="outline" className="mt-4" icon={<ExternalLink className="size-4" />} iconPosition="right">
               View All Discussions
             </Button>
@@ -78,7 +78,7 @@ export default function CommunityPage() {
       content: (
         <Section>
           <SectionHeader title="Top Contributors" description="Our most helpful community members" />
-          <Box className="space-y-4 mt-6">
+          <Stack gap={4} className="mt-6">
             {TOP_CONTRIBUTORS.map((contributor, idx) => (
               <Card key={idx} className="p-4">
                 <Box className="flex items-center gap-4">
@@ -96,7 +96,7 @@ export default function CommunityPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

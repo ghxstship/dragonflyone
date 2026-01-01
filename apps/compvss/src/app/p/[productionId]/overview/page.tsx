@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import {
-  DetailPage, Badge, Body, Button, Card, CardBody, EmptyState, H3, Label, Spinner, Stack, StatCard, Box} from '@ghxstship/ui';
+  DetailPage, Badge, Body, Button, Card, CardBody, EmptyState, H3, Label, Spinner, Stack, StatCard, Box, Grid} from '@ghxstship/ui';
 import {
   Calendar, Users, Clock, CheckCircle, AlertTriangle, MapPin, Package, Shield, Radio, Truck} from "lucide-react";
 import { useProject } from "../../../../hooks/useProjects";
@@ -99,7 +99,7 @@ export default function ProductionOverviewPage() {
       </Stack>
 
       {/* Key Metrics */}
-      <Box className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <Grid cols={4} gap={4} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Crew"
           value={`${metrics.crew.checkedIn}/${metrics.crew.total}`}
@@ -128,15 +128,15 @@ export default function ProductionOverviewPage() {
           trend={metrics.safety.incidents === 0 ? "up" : "down"}
           trendValue={`${metrics.safety.openIssues} open issues`}
         />
-      </Box>
+      </Grid>
 
       {/* Quick Actions & Status */}
-      <Box className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
         <Card variant="elevated">
           <CardBody>
             <Stack gap={4}>
               <H3>Quick Actions</H3>
-              <Box className="grid grid-cols-2 gap-3">
+              <Grid cols={2} gap={3}>
                 <Button variant="outline" size="sm" className="justify-start">
                   <Radio size={16} className="mr-2" />
                   Show Call
@@ -161,7 +161,7 @@ export default function ProductionOverviewPage() {
                   <Truck size={16} className="mr-2" />
                   Deliveries
                 </Button>
-              </Box>
+              </Grid>
             </Stack>
           </CardBody>
         </Card>
@@ -227,7 +227,7 @@ export default function ProductionOverviewPage() {
             </Stack>
           </CardBody>
         </Card>
-      </Box>
+      </Grid>
 
       {/* Upcoming Cues */}
       <Card variant="elevated">

@@ -345,7 +345,7 @@ module.exports = {
         "message": "❌ PROHIBITED: Raw Tailwind space-x. Use <Stack direction='horizontal' gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';"
       },
       {
-        "selector": "Literal[value=/^flex$/]",
+        "selector": "JSXAttribute[name.name='className'] Literal[value=/^flex$/]",
         "message": "❌ PROHIBITED: Raw Tailwind flex. Use <Stack direction='horizontal'> for flex layouts. Import: import { Stack } from '@ghxstship/ui';"
       },
       {
@@ -357,12 +357,12 @@ module.exports = {
         "message": "❌ PROHIBITED: Raw Tailwind flex-row. Use <Stack direction='horizontal'> for flex row layouts. Import: import { Stack } from '@ghxstship/ui';"
       },
       {
-        "selector": "JSXAttribute[name.name='className'] Literal[value=/(?:^|\\s)grid(?:\\s|$)/]",
-        "message": "❌ PROHIBITED: Raw Tailwind grid in className. Use <Grid> component for grid layouts. Import: import { Grid } from '@ghxstship/ui';"
+        "selector": "JSXAttribute[name.name='className'] Literal[value=/(?:^|\\s)grid(?!-cols-7)(?:\\s|$)/]",
+        "message": "❌ PROHIBITED: Raw Tailwind grid in className. Use <Grid> component for grid layouts. Import: import { Grid } from '@ghxstship/ui'; (Exception: grid with grid-cols-7 allowed for calendar layouts)"
       },
       {
-        "selector": "Literal[value=/^grid-cols-[0-9]+$/]",
-        "message": "❌ PROHIBITED: Raw Tailwind grid-cols. Use <Grid cols={N}> component. Import: import { Grid } from '@ghxstship/ui';"
+        "selector": "Literal[value=/^grid-cols-(?!7)[0-9]+$/]",
+        "message": "❌ PROHIBITED: Raw Tailwind grid-cols. Use <Grid cols={N}> component. Import: import { Grid } from '@ghxstship/ui'; (Exception: grid-cols-7 allowed for calendar layouts)"
       },
       
       // ────────────────────────────────────────────────────────────────
@@ -398,12 +398,10 @@ module.exports = {
       
       // ────────────────────────────────────────────────────────────────
       // 3NF ENFORCEMENT: Prohibit Direct Table Access for Legend Entities
-      // Use query builder for normalized data access
+      // NOTE: This rule is enforced via overrides below to only apply to
+      // client-side hooks. API routes are the correct place to access
+      // legend_* tables directly with proper authentication/authorization.
       // ────────────────────────────────────────────────────────────────
-      {
-        "selector": "CallExpression[callee.property.name='from'] > Literal[value=/^(legend_people|legend_places|legend_organizations|legend_products|legend_events|legend_documents)$/]",
-        "message": "⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';"
-      }
     ],
     
     // ════════════════════════════════════════════════════════════════════
@@ -543,6 +541,43 @@ module.exports = {
     {
       // Design documentation is exempt
       files: ["docs/**/*.{js,jsx,ts,tsx}"],
+      rules: {
+        "no-restricted-syntax": "off"
+      }
+    },
+    {
+      // Centralized status-mappings.ts is the SSOT for status colors
+      // This file is exempt from the STATUS_COLORS rule since it IS the centralized source
+      files: ["packages/config/entity-registry/status-mappings.ts"],
+      rules: {
+        "no-restricted-syntax": "off"
+      }
+    },
+    {
+      // 3NF ENFORCEMENT: Only applies to client-side hooks
+      // API routes are the CORRECT place to access legend_* tables directly
+      // with proper authentication and authorization
+      files: [
+        "apps/*/src/hooks/**/*.ts",
+        "apps/*/src/hooks/**/*.tsx"
+      ],
+      rules: {
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "CallExpression[callee.property.name='from'] > Literal[value=/^(legend_people|legend_places|legend_organizations|legend_products|legend_events|legend_documents)$/]",
+            "message": "⚠️ 3NF VIOLATION: Direct access to legend_* tables in client-side hooks is prohibited. Use API routes instead: fetch('/api/legend/people') or fetch('/api/legend/places'). API routes handle authentication, authorization, and proper 3NF joins."
+          }
+        ]
+      }
+    },
+    {
+      // Entity registry and config package IS the centralized source of truth
+      // for status colors, columns, filters - exempt from SSOT violation rules
+      files: [
+        "packages/config/**/*.ts",
+        "packages/config/**/*.tsx"
+      ],
       rules: {
         "no-restricted-syntax": "off"
       }

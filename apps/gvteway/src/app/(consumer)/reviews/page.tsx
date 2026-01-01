@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Star, Search, Plus, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Body, Button, Card, Input, DetailPage, Section, Box} from "@ghxstship/ui";
+import { Body, Button, Card, Input, DetailPage, Section, Box, Stack } from "@ghxstship/ui";
 
 interface Review { id: string; event: string; rating: number; text: string; date: string; }
 const DEMO: Review[] = [
@@ -34,7 +34,7 @@ export default function ReviewsPage() {
         {filtered.length === 0 ? (
           <Card className="p-8 text-center"><Star className="size-12 text-on-dark-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No reviews yet</Body><Body className="text-on-dark-muted mb-4">Share your event experiences</Body><Button variant="solid" onClick={() => router.push("/reviews/new")}>Write a Review</Button></Card>
         ) : (
-          <Box className="space-y-4">
+          <Stack gap={4}>
             {filtered.map((review: Review) => (
               <Card key={review.id} className="p-6">
                 <Box className="flex items-start justify-between">
@@ -47,7 +47,7 @@ export default function ReviewsPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         )}
       </Section>
     ),

@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Lock, Eye, EyeOff, Check } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Form, AuthPage, useToast, Box} from "@ghxstship/ui";
+  Body, Button, Input, Form, AuthPage, useToast, Box, Stack } from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function ResetPasswordPage() {
@@ -55,20 +55,20 @@ export default function ResetPasswordPage() {
   if (success) {
     return (
       <AuthPage title="Password Reset Complete" subtitle="Your password has been updated successfully">
-        <Box className="text-center space-y-6">
+        <Stack gap={6} className="text-center">
           <Box className="p-4 bg-success/20 rounded-avatar w-fit mx-auto">
             <Check className="size-8 text-success" />
           </Box>
           <Body className="text-on-dark-muted">You can now sign in with your new password.</Body>
           <Button variant="solid" onClick={() => router.push("/auth/signin")} className="w-full">Sign In</Button>
-        </Box>
+        </Stack>
       </AuthPage>
     );
   }
 
   return (
     <AuthPage title="Reset Password" subtitle="Enter your new password">
-      <Form onSubmit={handleSubmit} className="space-y-4">
+      <Form onSubmit={handleSubmit}>
         <Box>
           <Body size="sm" className="text-on-dark-muted mb-1">New Password</Body>
           <Box className="relative">

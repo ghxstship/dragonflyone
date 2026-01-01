@@ -2,7 +2,7 @@
 
 import { Users, MessageSquare, Calendar, Award, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+import { Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Discussion { id: string; title: string; replies: number; author: string; }
 const DEMO: Discussion[] = [
@@ -28,7 +28,7 @@ export default function CommunityPage() {
           <StatCard label="Top Contributors" value="50" icon={<Award className="size-5" />} />
         </Grid>
         <SectionHeader title="Recent Discussions" />
-        <Box className="space-y-4 mt-4">
+        <Stack gap={4} className="mt-4">
           {discussions.map((d: Discussion) => (
             <Card key={d.id} className="p-4 cursor-pointer hover:border-primary transition-colors">
               <Box className="flex items-center justify-between">
@@ -37,7 +37,7 @@ export default function CommunityPage() {
               </Box>
             </Card>
           ))}
-        </Box>
+        </Stack>
         <Button variant="outline" className="w-full mt-4">View All Discussions</Button>
       </Section>
     ),

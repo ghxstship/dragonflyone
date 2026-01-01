@@ -1,48 +1,20 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-// Layout provided by route group
 import {
-  ListPage, Badge, Text, useToast,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  ListPage, useToast,
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import { usePermitsData, type Permit } from "@/hooks/usePermits";
 import { Eye, Send } from "lucide-react";
-
-const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-};
-
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-};
-
-const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
-  switch (status?.toLowerCase()) {
-    case "approved":
-    case "active":
-      return "solid";
-    case "pending":
-    case "submitted":
-      return "outline";
-    default:
-      return "ghost";
-  }
-};
 
 export default function PermitsPage() {
   const router = useRouter();
   const toast = useToast();
   const { permits, summary, isLoading: loading, error, refetch } = usePermitsData();
+
+  const columns = getEntityColumns<Permit>('permits');
+  const filters = getEntityFilters('permits');
 
   const handleSubmitApplication = async (permitId: string) => {
     try {
@@ -56,65 +28,14 @@ export default function PermitsPage() {
     }
   };
 
-  const columns: ListPageColumn<Permit>[] = [
-    {
-      key: 'permit_number',
-      label: 'Permit #',
-      accessor: (p) => p.permit_number || '—',
-      sortable: true,
-      render: (_value: unknown, p) => <Text className="font-mono">{p.permit_number || '—'}</Text>,
-    },
-    { key: 'permit_type', label: 'Type', accessor: 'permit_type', sortable: true },
-    { key: 'project_name', label: 'Project', accessor: 'project_name', sortable: true },
-    { key: 'venue_name', label: 'Venue', accessor: 'venue_name' },
-    { key: 'jurisdiction', label: 'Jurisdiction', accessor: 'jurisdiction' },
-    {
-      key: 'expiration_date',
-      label: 'Deadline',
-      accessor: 'expiration_date',
-      sortable: true,
-      render: (_value: unknown, p) => <Text className="font-mono">{p.expiration_date ? formatDate(p.expiration_date) : '—'}</Text>,
-    },
-    {
-      key: 'fee_amount',
-      label: 'Fee',
-      accessor: 'fee_amount',
-      render: (_value: unknown, p) => <Text className="font-mono">{formatCurrency(p.fee_amount)}</Text>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, p) => <Badge variant={getStatusVariant(p.status)}>{p.status}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'draft', label: 'Draft' },
-        { value: 'pending', label: 'Pending' },
-        { value: 'approved', label: 'Approved' },
-        { value: 'denied', label: 'Denied' },
-        { value: 'expired', label: 'Expired' },
-      ],
-    },
-    {
-      key: 'permit_type',
-      label: 'Type',
-      options: [
-        { value: 'special_event', label: 'Special Event' },
-        { value: 'noise', label: 'Noise/Sound' },
-        { value: 'fire_safety', label: 'Fire/Safety' },
-        { value: 'street_closure', label: 'Street Closure' },
-        { value: 'alcohol', label: 'Alcohol' },
-        { value: 'food', label: 'Food Service' },
-      ],
-    },
-  ];
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
 
   const rowActions: ListPageAction<Permit>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (p) => router.push(`/permits/${p.id}`) },

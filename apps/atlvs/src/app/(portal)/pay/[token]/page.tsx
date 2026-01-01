@@ -11,7 +11,7 @@ import { CreditCard, CheckCircle, Lock} from "lucide-react";
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Form, Input, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
+  Body, Button, Card, Form, Input, DetailPage, Section, SectionHeader, useToast, Box, Stack } from "@ghxstship/ui";
 
 interface Invoice {
   id: string;
@@ -133,7 +133,7 @@ export default function PaymentPage() {
           </Card>
 
           <SectionHeader title="Payment Details" />
-          <Form onSubmit={handleSubmit} className="space-y-4 mt-4">
+          <Stack gap={4} className="mt-4">
             <Box>
               <Body size="sm" className="mb-1">Cardholder Name *</Body>
               <Input placeholder="John Doe" value={name} onChange={(e) => handleChange("name", e.target.value)} error={!!errors.name} />
@@ -156,6 +156,8 @@ export default function PaymentPage() {
                 {errors.cvc && <Body size="sm" className="text-error mt-1">{errors.cvc}</Body>}
               </Box>
             </Box>
+            </Stack>
+          <Form onSubmit={handleSubmit}>
             <Button type="submit" variant="solid" className="w-full" disabled={processPayment.isPending}>
               {processPayment.isPending ? "Processing..." : `Pay ${formatCurrency(invoice.amount)}`}
             </Button>

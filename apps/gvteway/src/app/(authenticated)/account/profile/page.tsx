@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { User, Mail, Phone, MapPin, Camera, List, Shield } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Body, Button, Card, Input, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+import { Body, Button, Card, Input, Grid, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Profile { id: string; name: string; email: string; phone: string; location: string; }
 const DEMO_PROFILE: Profile = { id: "1", name: "John Smith", email: "john@example.com", phone: "+1 555-1234", location: "Los Angeles, CA" };
@@ -44,9 +44,9 @@ export default function ProfilePage() {
               </Box>
               <Box className="flex-1">
                 {isEditing ? (
-                  <Box className="space-y-4">
+                  <Stack gap={4}>
                     <Box><Body size="sm" className="mb-1">Name</Body><Input value={formData.name || ""} onChange={(e) => setFormData({ ...formData, name: e.target.value })} /></Box>
-                  </Box>
+                  </Stack>
                 ) : (
                   <><Body className="font-weight-bold">{profile.name}</Body><Body className="text-on-dark-muted">{profile.email}</Body></>
                 )}

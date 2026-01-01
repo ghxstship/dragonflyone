@@ -3,11 +3,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, ArrowUp, Check } from 'lucide-react';
-// Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from '@ghxstship/config';
+  ListPage, RecordFormModal, DetailDrawer, Grid, Stack, Body,
+  type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, getEntityColumns, getEntityFilters } from '@ghxstship/config';
 
 const ADMIN_ROLES = [
   PlatformRole.COMPVSS_ADMIN,
@@ -23,31 +22,8 @@ import {
   type Issue,
 } from '@/hooks/useIssues';
 
-const getPriorityVariant = (priority: string): 'solid' | 'outline' | 'ghost' => {
-  switch (priority) {
-    case 'critical': case 'high': return 'solid';
-    case 'medium': return 'outline';
-    default: return 'ghost';
-  }
-};
-
-const getStatusVariant = getBadgeVariant;
-
-const columns: ListPageColumn<Issue>[] = [
-  { key: 'title', label: 'Issue', accessor: 'title', sortable: true },
-  { key: 'category', label: 'Category', accessor: 'category', render: (v: unknown) => <Badge variant="outline">{String(v).toUpperCase()}</Badge> },
-  { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v: unknown) => <Badge variant={getPriorityVariant(String(v))}>{String(v).toUpperCase()}</Badge> },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v).replace('_', ' ').toUpperCase()}</Badge> },
-  { key: 'department', label: 'Department', accessor: 'department' },
-  { key: 'reported_by', label: 'Reported By', accessor: 'reported_by' },
-  { key: 'created_at', label: 'Created', accessor: (r) => new Date(r.created_at).toLocaleTimeString(), sortable: true },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'priority', label: 'Priority', options: [{ value: 'critical', label: 'Critical' }, { value: 'high', label: 'High' }, { value: 'medium', label: 'Medium' }, { value: 'low', label: 'Low' }] },
-  { key: 'category', label: 'Category', options: [{ value: 'technical', label: 'Technical' }, { value: 'safety', label: 'Safety' }, { value: 'logistics', label: 'Logistics' }, { value: 'personnel', label: 'Personnel' }, { value: 'vendor', label: 'Vendor' }] },
-  { key: 'status', label: 'Status', options: [{ value: 'open', label: 'Open' }, { value: 'in_progress', label: 'In Progress' }, { value: 'escalated', label: 'Escalated' }, { value: 'resolved', label: 'Resolved' }] },
-];
+const columns = getEntityColumns<Issue>('issues');
+const filters = getEntityFilters('issues');
 
 const formFields: FormFieldConfig[] = [
   { name: 'title', label: 'Issue Title', type: 'text', required: true, colSpan: 2 },

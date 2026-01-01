@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Send, List } from "lucide-react";
-import { Body, Button, Card, Input, DetailPage, Section, Box} from "@ghxstship/ui";
+import { Body, Button, Card, Input, DetailPage, Section, Box, Stack } from "@ghxstship/ui";
 
 export default function SupportChatPage() {
   const [message, setMessage] = useState("");
@@ -24,7 +24,7 @@ export default function SupportChatPage() {
     content: (
       <Section>
         <Card className="p-4 h-96 overflow-y-auto mb-4">
-          <Box className="space-y-4">
+          <Stack gap={4}>
             {messages.map((msg) => (
               <Box key={msg.id} className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}>
                 <Box className={`max-w-xs p-3 rounded-lg ${msg.isUser ? "bg-primary text-white" : "bg-grey-800"}`}>
@@ -32,7 +32,7 @@ export default function SupportChatPage() {
                 </Box>
               </Box>
             ))}
-          </Box>
+          </Stack>
         </Card>
         <Box className="flex gap-2">
           <Input placeholder="Type your message..." value={message} onChange={(e) => setMessage(e.target.value)} onKeyDown={(e) => e.key === "Enter" && sendMessage()} className="flex-1" />

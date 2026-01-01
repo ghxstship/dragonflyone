@@ -12,6 +12,7 @@ import {
   Body,
   Box,
   Button,
+  Grid,
   Header,
   Link,
   Nav,
@@ -86,7 +87,7 @@ export function CreatorNavigationPublic() {
               {activeMenu === "products" && (
                 <Box className="absolute left-0 top-full pt-2 z-50">
                   <Box className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-md p-6">
-                    <Box className="grid grid-cols-3 gap-6">
+                    <Grid cols={3} gap={6}>
                       {productsNavigation.products.map((product) => {
                         const IconComponent = productIcons[product.icon as keyof typeof productIcons] || Briefcase;
                         return (
@@ -108,7 +109,7 @@ export function CreatorNavigationPublic() {
                           </Link>
                         );
                       })}
-                    </Box>
+                    </Grid>
 
                     <Box className="mt-6 pt-4 border-t border-ink-800">
                       <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">Platform</Text>
@@ -144,7 +145,7 @@ export function CreatorNavigationPublic() {
                 <Box className="absolute left-0 top-full pt-2 z-50">
                   <Box className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-lg p-6">
                     <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-4">Solutions by Role</Text>
-                    <Box className="grid grid-cols-3 gap-x-8 gap-y-4">
+                    <Grid cols={3} className="gap-x-8 gap-y-4">
                       {solutionsNavigation.groups.map((group) => (
                         <Stack key={group.title} gap={2}>
                           <Text className="font-display text-h6-md uppercase text-white">{group.title}</Text>
@@ -161,7 +162,7 @@ export function CreatorNavigationPublic() {
                           </Stack>
                         </Stack>
                       ))}
-                    </Box>
+                    </Grid>
 
                     <Box className="mt-6 pt-4 border-t border-ink-800">
                       <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">By Vertical</Text>
@@ -196,7 +197,7 @@ export function CreatorNavigationPublic() {
               {activeMenu === "resources" && (
                 <Box className="absolute left-0 top-full pt-2 z-50">
                   <Box className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-sm p-6">
-                    <Box className="grid grid-cols-3 gap-8">
+                    <Grid cols={3} gap={8}>
                       {resourcesNavigation.groups.map((group) => (
                         <Stack key={group.title} gap={3}>
                           <Text className="font-display text-h6-md uppercase text-white">{group.title}</Text>
@@ -213,7 +214,7 @@ export function CreatorNavigationPublic() {
                           </Stack>
                         </Stack>
                       ))}
-                    </Box>
+                    </Grid>
 
                     <Box className="mt-6 pt-4 border-t border-ink-800">
                       <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">Featured</Text>

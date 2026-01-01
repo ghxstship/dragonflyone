@@ -7,15 +7,12 @@
  */
 
 import { useRouter } from "next/navigation";
-import { Eye, Calendar, MapPin, Users } from "lucide-react";
+import { Eye, Calendar } from "lucide-react";
 import {
-  Badge,
-  Body,
   ListPage,
   type ListPageAction,
-  type ListPageColumn,
-  type ListPageFilter,
-Box} from "@ghxstship/ui";
+} from "@ghxstship/ui";
+import { getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import { useVenues } from "@/hooks/useVenues";
 
 interface Venue {
@@ -30,65 +27,8 @@ export default function VenuesPage() {
   const router = useRouter();
   const { data: venues = [], isLoading, error, refetch } = useVenues({ status: "active" });
 
-  const columns: ListPageColumn<Venue>[] = [
-    {
-      key: "name",
-      label: "Venue",
-      accessor: "name",
-      sortable: true,
-      render: (value, row) => (
-        <Box>
-          <Body className="font-weight-medium text-white">{String(value)}</Body>
-          <Box className="flex items-center gap-1 mt-1">
-            <MapPin className="size-3 text-on-dark-muted" />
-            <Body size="sm" className="text-on-dark-muted">{row.address || "Location TBD"}</Body>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      key: "capacity",
-      label: "Capacity",
-      accessor: "capacity",
-      sortable: true,
-      render: (value: unknown) => (
-        <Box className="flex items-center gap-2">
-          <Users className="size-4 text-on-dark-muted" />
-          <Body size="sm">{Number(value).toLocaleString()}</Body>
-        </Box>
-      ),
-    },
-    {
-      key: "status",
-      label: "Status",
-      accessor: "status",
-      sortable: true,
-      render: (value: unknown) => {
-        const variant = value === "active" ? "success" : value === "inactive" ? "warning" : "outline";
-        return <Badge variant={variant}>{String(value || "active").toUpperCase()}</Badge>;
-      },
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: "capacity",
-      label: "Capacity",
-      options: [
-        { value: "small", label: "Small (<1,000)" },
-        { value: "medium", label: "Medium (1K-5K)" },
-        { value: "large", label: "Large (5K+)" },
-      ],
-    },
-    {
-      key: "status",
-      label: "Status",
-      options: [
-        { value: "active", label: "Active" },
-        { value: "inactive", label: "Inactive" },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<Venue>('venues');
+  const filters = getEntityFilters('venues');
 
   const rowActions: ListPageAction<Venue>[] = [
     {

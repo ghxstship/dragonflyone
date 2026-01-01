@@ -9,7 +9,7 @@
 import { Award, BarChart3, DollarSign, Eye, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Sponsorship {
   id: string;
@@ -65,7 +65,7 @@ export default function SponsorPortalPage() {
           </Grid>
 
           <SectionHeader title="Sponsorships" />
-          <Box className="space-y-4 mt-4">
+          <Stack gap={4} className="mt-4">
             {sponsorships.map((sponsorship: Sponsorship) => (
               <Card key={sponsorship.id} className="p-6">
                 <Box className="flex items-start justify-between">
@@ -83,7 +83,7 @@ export default function SponsorPortalPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

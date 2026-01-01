@@ -7,8 +7,8 @@
 
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { Badge, ListPage,
-  type ListPageFilter} from "@ghxstship/ui";
+import { ListPage } from "@ghxstship/ui";
+import { getEntityColumns, getEntityFilters } from "@ghxstship/config";
 
 interface BEO {
   id: string;
@@ -26,13 +26,6 @@ const DEMO_BEOS: BEO[] = [
   { id: "3", event_name: "Product Launch", client: "Tech Inc", date: "2025-01-15", status: "draft", total: 35000, guests: 100 },
 ];
 
-const STATUS_CONFIG = {
-  draft: { label: "Draft", variant: "outline" as const },
-  pending: { label: "Pending", variant: "warning" as const },
-  approved: { label: "Approved", variant: "success" as const },
-  completed: { label: "Completed", variant: "info" as const },
-};
-
 export default function BEOsPage() {
   const router = useRouter();
 
@@ -46,41 +39,20 @@ export default function BEOsPage() {
     },
   });
 
-  const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(amount);
-  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-
-  const filterOptions: ListPageFilter[] = [
-    {
-      key: "status",
-      label: "Status",
-      options: [
-        { value: "all", label: "All" },
-        { value: "draft", label: "Draft" },
-        { value: "pending", label: "Pending" },
-        { value: "approved", label: "Approved" },
-        { value: "completed", label: "Completed" },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<BEO>('beos');
+  const filters = getEntityFilters('beos');
 
   return (
     <ListPage
       title="Banquet Event Orders"
       subtitle="Manage your event orders and catering"
       data={beos}
-      columns={[
-        { key: "event_name", label: "Event", accessor: "event_name" },
-        { key: "client", label: "Client", accessor: "client" },
-        { key: "date", label: "Date", accessor: (row: BEO) => formatDate(row.date) },
-        { key: "guests", label: "Guests", accessor: "guests" },
-        { key: "total", label: "Total", accessor: (row: BEO) => formatCurrency(row.total) },
-        { key: "status", label: "Status", accessor: (row: BEO) => <Badge variant={STATUS_CONFIG[row.status].variant}>{STATUS_CONFIG[row.status].label}</Badge> },
-      ]}
+      columns={columns}
       rowKey="id"
       loading={isLoading}
       error={error instanceof Error ? error : null}
       onRetry={refetch}
-      filters={filterOptions}
+      filters={filters}
       onCreate={() => router.push("/beos/new")}
       createLabel="New BEO"
       emptyMessage="No BEOs found"

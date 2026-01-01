@@ -12,7 +12,7 @@ import {
   Edit2, CheckCircle, Send, FileText, Clock, Users, MapPin, Utensils, ListChecks,
 } from "lucide-react";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, Modal, useToast, Box,
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, Modal, useToast, Box, Stack,
   type DetailPageTab,
 } from "@ghxstship/ui";
 import { useBEO, useApproveBEO, useDistributeBEO } from "@/hooks/useBEOs";
@@ -121,7 +121,7 @@ export default function BEODetailPage() {
           {beo.sections && Object.keys(beo.sections).length > 0 && (
             <Section border className="mb-6">
               <SectionHeader title="Event Details" />
-              <Box className="space-y-4">
+              <Stack gap={4}>
                 {Object.entries(beo.sections).map(([sectionKey, sectionData]) => (
                   <Card key={sectionKey} inverted className="p-4">
                     <Body className="text-white font-weight-medium capitalize mb-2">
@@ -136,7 +136,7 @@ export default function BEODetailPage() {
                     </Body>
                   </Card>
                 ))}
-              </Box>
+              </Stack>
             </Section>
           )}
 
@@ -159,7 +159,7 @@ export default function BEODetailPage() {
       content: beo?.sections?.timeline && beo.sections.timeline.length > 0 ? (
         <Section border>
           <SectionHeader title="Event Timeline" />
-          <Box className="space-y-3">
+          <Stack gap={3}>
             {beo.sections.timeline.map((item: { time: string; activity: string; notes?: string }, idx: number) => (
               <Card key={idx} inverted className="p-4">
                 <Box className="flex items-start gap-4">
@@ -173,7 +173,7 @@ export default function BEODetailPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ) : (
         <Section border>
@@ -295,7 +295,7 @@ export default function BEODetailPage() {
         title="Distribute BEO"
       >
         <Body className="mb-4">Select departments to receive this BEO:</Body>
-        <Box className="space-y-2 mb-4">
+        <Stack gap={2} className="mb-4">
           {DEPARTMENTS.map((dept) => {
             const Icon = dept.icon;
             const isSelected = selectedDepartments.includes(dept.id);
@@ -321,7 +321,7 @@ export default function BEODetailPage() {
               </Button>
             );
           })}
-        </Box>
+        </Stack>
         <Box className="flex justify-end gap-2">
           <Button variant="outline" onClick={() => setShowDistributeModal(false)}>Cancel</Button>
           <Button variant="solid" onClick={handleDistribute} disabled={distributeMutation.isPending}>

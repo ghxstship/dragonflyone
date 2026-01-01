@@ -27,7 +27,9 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-Box} from "@ghxstship/ui";
+  Box,
+  Stack,
+} from "@ghxstship/ui";
 import { Key, Plus, Trash2, Copy, CheckCircle, Power, PowerOff, Code, FileText } from "lucide-react";
 import {
   useApiKeysData,
@@ -217,28 +219,28 @@ export default function ApiAccessPage() {
                 <Code className="size-6 text-primary flex-shrink-0" />
                 <Body className="font-weight-medium text-white">Authentication</Body>
               </Box>
-              <Box className="space-y-3">
+              <Stack gap={3}>
                 <Body size="sm" className="text-on-dark-muted">
                   Include your API key in the Authorization header:
                 </Body>
                 <Card className="p-3 bg-grey-800">
                   <Body size="sm" className="font-mono text-white">Authorization: Bearer YOUR_API_KEY</Body>
                 </Card>
-              </Box>
+              </Stack>
             </Card>
             <Card className="p-6">
               <Box className="flex items-start gap-3 mb-4">
                 <FileText className="size-6 text-primary flex-shrink-0" />
                 <Body className="font-weight-medium text-white">Base URL</Body>
               </Box>
-              <Box className="space-y-3">
+              <Stack gap={3}>
                 <Body size="sm" className="text-on-dark-muted">
                   All API requests should be made to:
                 </Body>
                 <Card className="p-3 bg-grey-800">
                   <Body size="sm" className="font-mono text-white">https://api.gvteway.com/v1</Body>
                 </Card>
-              </Box>
+              </Stack>
             </Card>
           </Grid>
         </Section>
@@ -263,12 +265,12 @@ export default function ApiAccessPage() {
       />
 
       <Modal open={showCreateModal} onClose={() => { setShowCreateModal(false); resetForm(); }} title="Create API Key">
-        <Box className="space-y-4">
-          <Box className="space-y-2">
+        <Stack gap={4}>
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Key Name</Body>
             <Input placeholder="e.g., Production Server" value={keyName} onChange={(e) => setKeyName(e.target.value)} />
-          </Box>
-          <Box className="space-y-2">
+          </Stack>
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Permissions</Body>
             <Card className="p-4 max-h-[250px] overflow-y-auto">
               <Grid cols={2} gap={2} className="grid-cols-1 lg:grid-cols-2">
@@ -281,22 +283,22 @@ export default function ApiAccessPage() {
               </Grid>
             </Card>
             <Body size="sm" className="text-on-dark-disabled">{selectedScopes.length} permissions selected</Body>
-          </Box>
+          </Stack>
           <Box className="flex gap-4">
             <Button variant="outline" onClick={() => { setShowCreateModal(false); resetForm(); }}>Cancel</Button>
             <Button variant="solid" onClick={handleCreateKey} disabled={isCreating || !keyName || selectedScopes.length === 0}>
               {isCreating ? "Creating..." : "Create Key"}
             </Button>
           </Box>
-        </Box>
+        </Stack>
       </Modal>
 
       <Modal open={showKeyModal} onClose={() => setShowKeyModal(false)} title="API Key Created">
-        <Box className="space-y-4">
+        <Stack gap={4}>
           <Card className="p-4 bg-warning-900 border-warning-500">
             <Body size="sm" className="text-warning-100">This key will only be shown once. Copy it now and store it securely.</Body>
           </Card>
-          <Box className="space-y-2">
+          <Stack gap={2}>
             <Body size="sm" className="text-on-dark-muted">Your API Key</Body>
             <Box className="flex gap-2">
               <Input value={newKey} readOnly className="font-mono" />
@@ -304,9 +306,9 @@ export default function ApiAccessPage() {
                 {copiedKey ? "Copied" : "Copy"}
               </Button>
             </Box>
-          </Box>
+          </Stack>
           <Button variant="solid" onClick={() => setShowKeyModal(false)}>Done</Button>
-        </Box>
+        </Stack>
       </Modal>
     </>
   );

@@ -17,7 +17,9 @@ import {
   Section,
   SectionHeader,
   StatCard,
-Box} from "@ghxstship/ui";
+  Box,
+  Stack,
+} from "@ghxstship/ui";
 import { Award, Gift, Star, Ticket, Zap, Trophy } from "lucide-react";
 import { useRewardsPageData } from "@/hooks/useRewards";
 
@@ -69,9 +71,9 @@ export default function RewardsPage() {
 
           <SectionHeader title="Membership Tier" description="Your progress through reward tiers" />
           <Card className="p-6 mb-6">
-            <Box className="space-y-4">
+            <Stack gap={4}>
               {tiers.map((tier) => (
-                <Box key={tier.name} className="space-y-2">
+                <Stack key={tier.name} gap={2}>
                   <Box className="flex justify-between">
                     <Body className="font-weight-medium">{tier.name}</Body>
                     <Body size="sm" className="text-on-dark-muted">{tier.minPoints.toLocaleString()} pts</Body>
@@ -84,9 +86,9 @@ export default function RewardsPage() {
                       </Box>
                     )}
                   </Box>
-                </Box>
+                </Stack>
               ))}
-            </Box>
+            </Stack>
           </Card>
 
           <SectionHeader title="Earn Points" description="Ways to earn more points" />
@@ -122,7 +124,7 @@ export default function RewardsPage() {
             <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
               {rewards.map((reward: RewardItem) => (
                 <Card key={reward.id} className={`p-6 ${!reward.available ? "opacity-50" : ""}`}>
-                  <Box className="space-y-4">
+                  <Stack gap={4}>
                     <Box className="flex items-start justify-between">
                       <Badge variant={reward.available ? "outline" : "outline"}>{reward.type}</Badge>
                       <Box className="text-right">
@@ -139,7 +141,7 @@ export default function RewardsPage() {
                     >
                       {userPoints < reward.points ? "Insufficient Points" : reward.available ? "Redeem" : "Locked"}
                     </Button>
-                  </Box>
+                  </Stack>
                 </Card>
               ))}
             </Grid>

@@ -2,24 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
   ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useRisks,
   type Risk,
 } from '@/hooks/useRiskRegister';
 import { Eye, AlertTriangle } from "lucide-react";
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Closed": return "solid";
-    case "Monitoring": return "outline";
-    default: return "ghost";
-  }
-};
 
 export default function RiskRegisterPage() {
   const router = useRouter();
@@ -31,74 +22,8 @@ export default function RiskRegisterPage() {
   const highRisks = risks.filter(r => r.riskScore >= 12 && r.status !== "Closed").length;
   const avgRiskScore = activeRisks.length > 0 ? Math.round(activeRisks.reduce((sum, r) => sum + r.riskScore, 0) / activeRisks.length) : 0;
 
-  const columns: ListPageColumn<Risk>[] = [
-    {
-      key: 'title',
-      label: 'Risk',
-      accessor: 'title',
-      sortable: true,
-      render: (_value: unknown, risk) => (
-        <Stack gap={1}>
-          <Body className="font-display">{risk.title}</Body>
-          <Body size="sm" className="text-muted-foreground">{risk.projectName}</Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'category',
-      label: 'Category',
-      accessor: 'category',
-      sortable: true,
-      render: (_value: unknown, risk) => <Badge variant="outline">{risk.category}</Badge>,
-    },
-    {
-      key: 'probability',
-      label: 'P/I',
-      accessor: (r) => `${r.probability}/${r.impact}`,
-      render: (_value: unknown, risk) => <Body size="sm">P: {risk.probability} / I: {risk.impact}</Body>,
-    },
-    {
-      key: 'riskScore',
-      label: 'Score',
-      accessor: 'riskScore',
-      sortable: true,
-      render: (_value: unknown, risk) => <Badge variant={risk.riskScore >= 12 ? "solid" : "outline"}>{risk.riskScore}</Badge>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, risk) => <Badge variant={getStatusVariant(risk.status)}>{risk.status}</Badge>,
-    },
-    { key: 'owner', label: 'Owner', accessor: 'owner' },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'category',
-      label: 'Category',
-      options: [
-        { value: 'Technical', label: 'Technical' },
-        { value: 'Weather', label: 'Weather' },
-        { value: 'Vendor', label: 'Vendor' },
-        { value: 'Safety', label: 'Safety' },
-        { value: 'Financial', label: 'Financial' },
-        { value: 'Operational', label: 'Operational' },
-        { value: 'Regulatory', label: 'Regulatory' },
-      ],
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Identified', label: 'Identified' },
-        { value: 'Mitigating', label: 'Mitigating' },
-        { value: 'Monitoring', label: 'Monitoring' },
-        { value: 'Closed', label: 'Closed' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<Risk>('risk-register');
+  const filters = getEntityFilters('risk-register');
 
   const rowActions: ListPageAction<Risk>[] = [
     { id: 'view', label: 'Details', icon: <Eye className="h-4 w-4" />, onClick: (risk) => setSelectedRisk(risk) },

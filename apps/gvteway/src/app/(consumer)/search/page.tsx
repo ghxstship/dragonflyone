@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Badge, Body, Button, Card, Input, DetailPage, Section, Box} from "@ghxstship/ui";
+import { Badge, Body, Button, Card, Input, DetailPage, Section, Box, Stack } from "@ghxstship/ui";
 
 interface SearchResult { id: string; type: "event" | "artist" | "venue"; name: string; subtitle: string; }
 const DEMO: SearchResult[] = [
@@ -39,7 +39,7 @@ export default function SearchPage() {
         {filtered.length === 0 ? (
           <Card className="p-8 text-center"><Search className="size-12 text-on-dark-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No results found</Body><Body className="text-on-dark-muted">Try a different search term</Body></Card>
         ) : (
-          <Box className="space-y-2">
+          <Stack gap={2}>
             {filtered.map((result: SearchResult) => (
               <Card key={result.id} className="p-4 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(result.type === "event" ? `/e/${result.id}` : `/${result.type}s/${result.id}`)}>
                 <Box className="flex items-center gap-4">
@@ -48,7 +48,7 @@ export default function SearchPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         )}
       </Section>
     ),

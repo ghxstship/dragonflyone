@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CreditCard, Search, ShoppingCart, Plus, Minus, List } from "lucide-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Body, Button, Card, Input, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+import { Body, Button, Card, Input, Grid, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Product { id: string; name: string; price: number; category: string; }
 const DEMO: Product[] = [
@@ -63,7 +63,7 @@ export default function POSPage() {
             {cartItems.length === 0 ? (
               <Box className="text-center py-8"><ShoppingCart className="size-8 text-on-dark-disabled mx-auto mb-2" /><Body className="text-on-dark-muted">Cart is empty</Body></Box>
             ) : (
-              <Box className="space-y-3 mt-4">
+              <Stack gap={3} className="mt-4">
                 {cartItems.map(([id, qty]) => {
                   const product = products.find((p: Product) => p.id === id);
                   if (!product) return null;
@@ -79,7 +79,7 @@ export default function POSPage() {
                   );
                 })}
                 <Box className="border-t border-grey-800 pt-3 flex justify-between"><Body className="font-weight-bold">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></Box>
-              </Box>
+              </Stack>
             )}
             <Button variant="solid" className="w-full mt-4" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={handleCheckout} disabled={cartItems.length === 0 || processPayment.isPending}>{processPayment.isPending ? "Processing..." : "Charge"}</Button>
           </Card>

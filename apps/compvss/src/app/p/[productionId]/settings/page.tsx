@@ -10,7 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Shield, List, AlertTriangle } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Input, Textarea, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
+  Body, Button, Card, Input, Textarea, DetailPage, Section, SectionHeader, useToast, Box, Stack} from "@ghxstship/ui";
 
 interface ProductionSettings {
   id: string;
@@ -91,7 +91,7 @@ export default function ProductionSettingsPage() {
         <Section>
           <SectionHeader title="General Settings" description="Basic production information" />
           <Card className="p-6 mt-4">
-            <Box className="space-y-4">
+            <Stack gap={4}>
               <Box>
                 <Body size="sm" className="mb-1">Production Name</Body>
                 <Input value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
@@ -103,7 +103,7 @@ export default function ProductionSettingsPage() {
               <Button variant="solid" onClick={() => updateSettings.mutate(formData)} disabled={updateSettings.isPending}>
                 {updateSettings.isPending ? "Saving..." : "Save Changes"}
               </Button>
-            </Box>
+            </Stack>
           </Card>
         </Section>
       ),
@@ -116,7 +116,7 @@ export default function ProductionSettingsPage() {
         <Section>
           <SectionHeader title="Access Control" description="Manage who can access this production" />
           <Card className="p-6 mt-4">
-            <Box className="space-y-4">
+            <Stack gap={4}>
               <Box>
                 <Body size="sm" className="mb-2">Visibility</Body>
                 <Box className="flex gap-2">
@@ -136,7 +136,7 @@ export default function ProductionSettingsPage() {
                   {formData.notifications ? "Enabled" : "Disabled"}
                 </Button>
               </Box>
-            </Box>
+            </Stack>
           </Card>
         </Section>
       ),

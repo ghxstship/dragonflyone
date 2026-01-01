@@ -2,11 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
-  ListPage, Badge, Body, Stack,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler, useAuthContext, PlatformRole } from '@ghxstship/config';
+  ListPage,
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, useAuthContext, PlatformRole, getEntityColumns, getEntityFilters } from '@ghxstship/config';
 import { useSchedule } from '@/hooks/useSchedule';
 import {
   useCues,
@@ -22,14 +21,6 @@ const ADMIN_ROLES = [
   PlatformRole.LEGEND_DEVELOPER,
 ];
 
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case 'complete': return 'solid';
-    case 'ready': return 'outline';
-    default: return 'ghost';
-  }
-};
-
 export default function RunOfShowPage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
@@ -44,57 +35,8 @@ export default function RunOfShowPage() {
     updateCueStatusMutation.mutate({ id, status });
   };
 
-  const columns: ListPageColumn<CueItem>[] = [
-    {
-      key: 'time',
-      label: 'Time',
-      accessor: 'time',
-      sortable: true,
-      render: (_value: unknown, c) => <Body className="font-display font-mono">{c.time}</Body>,
-    },
-    {
-      key: 'cue',
-      label: 'Cue',
-      accessor: 'cue',
-      sortable: true,
-      render: (_value: unknown, c) => (
-        <Stack gap={1}>
-          <Body className="font-display">{c.cue}</Body>
-          <Body size="sm" className="text-muted-foreground">{c.department}</Body>
-        </Stack>
-      ),
-    },
-    { key: 'notes', label: 'Notes', accessor: 'notes' },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, c) => <Badge variant={getStatusVariant(c.status)}>{c.status.toUpperCase()}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'pending', label: 'Pending' },
-        { value: 'ready', label: 'Ready' },
-        { value: 'complete', label: 'Complete' },
-      ],
-    },
-    {
-      key: 'department',
-      label: 'Department',
-      options: [
-        { value: 'Audio', label: 'Audio' },
-        { value: 'Lighting', label: 'Lighting' },
-        { value: 'Video', label: 'Video' },
-        { value: 'Stage', label: 'Stage' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<CueItem>('run-of-show');
+  const filters = getEntityFilters('run-of-show');
 
   const rowActions: ListPageAction<CueItem>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (c) => router.push(`/run-of-show/cues/${c.id}`) },

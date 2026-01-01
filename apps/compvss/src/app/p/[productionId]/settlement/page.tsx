@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { DollarSign, CheckCircle, Clock, FileText, Download, List, Calculator } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, ProgressBar, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, ProgressBar, DetailPage, Section, SectionHeader, Box, Stack} from "@ghxstship/ui";
 
 interface SettlementItem {
   id: string;
@@ -91,7 +91,7 @@ export default function ProductionSettlementPage() {
             ))}
           </Box>
 
-          <Box className="space-y-2">
+          <Stack gap={2}>
             {filteredSettlements.map((item: SettlementItem) => (
               <Card key={item.id} className="p-4">
                 <Box className="flex items-center justify-between">
@@ -111,7 +111,7 @@ export default function ProductionSettlementPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

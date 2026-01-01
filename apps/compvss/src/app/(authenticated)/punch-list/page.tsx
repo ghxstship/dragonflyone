@@ -2,32 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
   ListPage, H3, Body, Grid, Stack, Input, Select, Button, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   usePunchItems,
   type PunchItem,
 } from '@/hooks/usePunchList';
 import { Eye, CheckCircle } from "lucide-react";
-
-const getPriorityVariant = (priority: string): 'solid' | 'outline' | 'ghost' => {
-  switch (priority) {
-    case "Critical": return "solid";
-    case "High": return "outline";
-    default: return "ghost";
-  }
-};
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Verified": return "solid";
-    case "Resolved": return "outline";
-    default: return "ghost";
-  }
-};
 
 export default function PunchListPage() {
   const router = useRouter();
@@ -39,77 +22,8 @@ export default function PunchListPage() {
   const criticalCount = punchItems.filter(i => i.priority === "Critical" && i.status !== "Verified").length;
   const resolvedToday = punchItems.filter(i => i.resolvedDate === new Date().toISOString().split('T')[0]).length;
 
-  const columns: ListPageColumn<PunchItem>[] = [
-    {
-      key: 'title',
-      label: 'Item',
-      accessor: 'title',
-      sortable: true,
-      render: (_value: unknown, item) => (
-        <Stack gap={1}>
-          <Body className="font-display">{item.title}</Body>
-          <Body size="sm" className="text-muted-foreground">{item.location}</Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'department',
-      label: 'Department',
-      accessor: 'department',
-      sortable: true,
-      render: (_value: unknown, item) => <Badge variant="outline">{item.department}</Badge>,
-    },
-    {
-      key: 'priority',
-      label: 'Priority',
-      accessor: 'priority',
-      sortable: true,
-      render: (_value: unknown, item) => <Badge variant={getPriorityVariant(item.priority)}>{item.priority}</Badge>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, item) => <Badge variant={getStatusVariant(item.status)}>{item.status}</Badge>,
-    },
-    { key: 'assignedTo', label: 'Assigned To', accessor: (i) => i.assignedTo || 'Unassigned' },
-    { key: 'reportedBy', label: 'Reported By', accessor: 'reportedBy' },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'department',
-      label: 'Department',
-      options: [
-        { value: 'Audio', label: 'Audio' },
-        { value: 'Lighting', label: 'Lighting' },
-        { value: 'Video', label: 'Video' },
-        { value: 'Staging', label: 'Staging' },
-        { value: 'Rigging', label: 'Rigging' },
-      ],
-    },
-    {
-      key: 'priority',
-      label: 'Priority',
-      options: [
-        { value: 'Critical', label: 'Critical' },
-        { value: 'High', label: 'High' },
-        { value: 'Medium', label: 'Medium' },
-        { value: 'Low', label: 'Low' },
-      ],
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Open', label: 'Open' },
-        { value: 'In Progress', label: 'In Progress' },
-        { value: 'Resolved', label: 'Resolved' },
-        { value: 'Verified', label: 'Verified' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<PunchItem>('punch-list');
+  const filters = getEntityFilters('punch-list');
 
   const rowActions: ListPageAction<PunchItem>[] = [
     { id: 'view', label: 'Details', icon: <Eye className="h-4 w-4" />, onClick: (item) => setSelectedItem(item) },

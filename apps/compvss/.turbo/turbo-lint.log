@@ -3,361 +3,73 @@
 > next lint --max-warnings 9999
 
 
-./src/app/(authenticated)/advancing/catalog/page.tsx
-166:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/app/(authenticated)/availability/page.tsx
-29:53  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-40:35  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/background-checks/page.tsx
-35:52  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-49:35  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/beos/[id]/page.tsx
-124:30  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-162:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-298:24  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/app/(authenticated)/beos/new/page.tsx
-82:24  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-93:26  Warning: ❌ PROHIBITED: Raw Tailwind grid in className. Use <Grid> component for grid layouts. Import: import { Grid } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/app/(authenticated)/beos/page.tsx
-52:43  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/build-strike/page.tsx
-43:43  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-74:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/certifications/page.tsx
-37:50  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-56:35  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/deliveries/page.tsx
-26:45  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-46:35  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/drawings/page.tsx
-39:46  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-84:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/emergency/page.tsx
-30:55  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-60:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/equipment/page.tsx
-8:13  Warning: 'Badge' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-
-./src/app/(authenticated)/expenses/page.tsx
-8:13  Warning: 'Badge' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-
-./src/app/(authenticated)/incidents/page.tsx
-9:13  Warning: 'Badge' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-
-./src/app/(authenticated)/integrations/page.tsx
-32:46  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-69:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/issues/page.tsx
-36:42  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-46:35  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/maintenance/page.tsx
-35:52  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-44:35  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/permits/page.tsx
-59:45  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-93:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/photo-documentation/page.tsx
-24:47  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-61:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/profile/page.tsx
-96:34  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-167:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/app/(authenticated)/projects/page.tsx
-7:13  Warning: 'Badge' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-
-./src/app/(authenticated)/punch-list/page.tsx
-42:48  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-80:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/qa-checkpoints/page.tsx
-35:51  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-67:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/risk-register/page.tsx
-34:43  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-77:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/run-of-show/page.tsx
-47:46  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-77:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/schedule/page.tsx
-43:51  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-87:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/search/page.tsx
-110:51  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-134:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
 ./src/app/(authenticated)/set-times/page.tsx
-35:46  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-76:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+35:46  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+76:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/settlement/page.tsx
-34:49  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-84:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+34:49  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+84:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/show-call/page.tsx
-39:57  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-70:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+39:57  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+70:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/site-access/page.tsx
-36:50  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-77:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+36:50  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+77:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/site-surveys/page.tsx
-37:49  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-78:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+37:49  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+78:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/skills/page.tsx
-75:53  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-120:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+75:53  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+120:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/soundcheck/page.tsx
-35:53  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-72:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+35:53  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+72:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/spec-sheets/page.tsx
-23:48  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-49:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+23:48  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+49:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/stage-management/page.tsx
-20:44  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-44:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+20:44  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+44:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/subcontractors/page.tsx
-41:52  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-84:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+41:52  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+84:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/tech-rehearsal/page.tsx
-38:59  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-78:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+38:59  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+78:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/templates/page.tsx
-26:47  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-54:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+26:47  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+54:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/timekeeping/page.tsx
-41:48  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-88:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+41:48  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+88:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/travel/page.tsx
-17:50  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-28:35  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+17:50  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+28:35  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/troubleshooting/page.tsx
-23:59  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-48:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/(authenticated)/venues/page.tsx
-28:44  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-62:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+23:59  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+48:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/vip-management/page.tsx
-32:47  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-71:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
+32:47  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+71:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 ./src/app/(authenticated)/weather-contingency/page.tsx
-59:50  Warning: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
-94:37  Warning: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
-
-./src/app/p/[productionId]/advancing/page.tsx
-93:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/app/p/[productionId]/crew/page.tsx
-88:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-124:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/app/p/[productionId]/documents/page.tsx
-83:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/app/p/[productionId]/overview/page.tsx
-102:22  Warning: ❌ PROHIBITED: Raw Tailwind grid in className. Use <Grid> component for grid layouts. Import: import { Grid } from '@ghxstship/ui';  no-restricted-syntax
-134:22  Warning: ❌ PROHIBITED: Raw Tailwind grid in className. Use <Grid> component for grid layouts. Import: import { Grid } from '@ghxstship/ui';  no-restricted-syntax
-139:30  Warning: ❌ PROHIBITED: Raw Tailwind grid in className. Use <Grid> component for grid layouts. Import: import { Grid } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/app/p/[productionId]/safety/page.tsx
-93:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/app/p/[productionId]/settings/page.tsx
-94:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-119:28  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/app/p/[productionId]/settlement/page.tsx
-94:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/app/p/[productionId]/wrap/page.tsx
-86:26  Warning: ❌ PROHIBITED: Raw Tailwind space-y. Use <Stack gap={N}> component instead. Import: import { Stack } from '@ghxstship/ui';  no-restricted-syntax
-
-./src/components/app-layout.tsx
-485:13  Warning: Unexpected console statement.  no-console
-488:13  Warning: Unexpected console statement.  no-console
-494:13  Warning: Unexpected console statement.  no-console
-
-./src/hooks/useArtistPortal.ts
-62:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-89:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useArtists.ts
-66:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-93:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-113:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-144:29  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-171:29  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-187:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-208:45  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-223:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useAssignableCrew.ts
-25:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useBackupPlans.ts
-32:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-68:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-107:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-128:45  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useBrandAssets.ts
-32:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-55:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useChannels.ts
-108:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useCredentials.ts
-187:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-449:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useCrew.ts
-36:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-63:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-82:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-103:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-124:44  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useCrewAvailability.ts
-29:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useCrewSocial.ts
-42:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-71:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-139:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-154:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useDrawings.ts
-34:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-73:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-102:45  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useFiles.ts
-40:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-75:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-101:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-129:45  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useKnowledge.ts
-42:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useMentorship.ts
-41:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useMultilingual.ts
-38:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useOfflineContent.ts
-37:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-62:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/usePhotoDocumentation.ts
-30:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-64:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-95:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useRegulations.ts
-27:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useReports.ts
-99:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-137:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-160:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-189:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-213:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-234:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-257:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-283:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-310:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-331:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-352:38  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-353:37  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useSOPs.ts
-103:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-124:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-155:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-167:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-243:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-264:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-285:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-308:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-329:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-350:45  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-443:33  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useSetTimes.ts
-31:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-71:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useSiteAccess.ts
-40:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-135:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useSocialAmplification.ts
-42:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useSoundcheck.ts
-32:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-72:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useStages.ts
-54:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-84:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-119:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-152:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useTemplates.ts
-31:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useVIPManagement.ts
-67:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useVendorCompare.ts
-33:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useVenues.ts
-26:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-52:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-77:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-83:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-103:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
-
-./src/hooks/useWeatherContingency.ts
-39:15  Warning: ⚠️ 3NF WARNING: Direct access to legend_* tables. Consider using the Legend Query Builder for proper 3NF joins. Import: import { createLegendQuery } from '@ghxstship/config';  no-restricted-syntax
+59:50  Error: ⚠️ SSOT WARNING: Consider using getEntityColumns() from @ghxstship/config instead of local column definitions. Import: import { getEntityColumns } from '@ghxstship/config';  no-restricted-syntax
+94:37  Error: ⚠️ SSOT WARNING: Consider using getEntityFilters() from @ghxstship/config instead of local filter definitions. Import: import { getEntityFilters } from '@ghxstship/config';  no-restricted-syntax
 
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+ ELIFECYCLE  Command failed with exit code 1.

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Plus, Minus, ShoppingCart, List } from "lucide-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Body, Button, Card, DetailPage, Section, Box} from "@ghxstship/ui";
+import { Body, Button, Card, DetailPage, Section, Box, Stack } from "@ghxstship/ui";
 
 interface TicketType { id: string; name: string; price: number; available: number; description: string; }
 const DEMO_TICKETS: TicketType[] = [
@@ -51,7 +51,7 @@ export default function EventTicketsPage() {
     id: "tickets", label: "Tickets", icon: <List className="size-4" />,
     content: (
       <Section>
-        <Box className="space-y-4 mb-6">
+        <Stack gap={4} className="mb-6">
           {tickets.map((ticket: TicketType) => (
             <Card key={ticket.id} className="p-6">
               <Box className="flex items-center justify-between">
@@ -71,7 +71,7 @@ export default function EventTicketsPage() {
               </Box>
             </Card>
           ))}
-        </Box>
+        </Stack>
         {hasItems && (
           <Card className="p-6 border-primary">
             <Box className="flex items-center justify-between">

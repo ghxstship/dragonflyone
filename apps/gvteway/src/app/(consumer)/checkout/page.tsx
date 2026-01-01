@@ -19,7 +19,9 @@ import {
   Section,
   SectionHeader,
   useToast,
-Box} from "@ghxstship/ui";
+  Box,
+  Stack,
+} from "@ghxstship/ui";
 import { CreditCard, Lock, Check, ShoppingCart, ChevronRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { log } from "@ghxstship/config";
@@ -173,7 +175,7 @@ function CheckoutContent() {
               <Card className="lg:col-span-2 p-6">
                 <SectionHeader title="Order Summary" />
                 {cartItems.length > 0 ? (
-                  <Box className="space-y-4 mt-4">
+                  <Stack gap={4} className="mt-4">
                     {cartItems.map((item) => (
                       <Box key={item.id} className="flex justify-between border-b border-grey-700 pb-4">
                         <Box>
@@ -184,22 +186,22 @@ function CheckoutContent() {
                         <Body className="font-weight-medium">${(item.price * item.qty).toFixed(2)}</Body>
                       </Box>
                     ))}
-                  </Box>
+                  </Stack>
                 ) : (
                   <Body className="text-on-dark-muted mt-4">Your cart is empty</Body>
                 )}
               </Card>
-              <Box className="space-y-4">
+              <Stack gap={4}>
                 <Card className="p-6">
                   <SectionHeader title="Total" />
-                  <Box className="space-y-3 mt-4">
+                  <Stack gap={3} className="mt-4">
                     <Box className="flex justify-between"><Body className="text-on-dark-muted">Subtotal</Body><Body>${subtotal.toFixed(2)}</Body></Box>
                     <Box className="flex justify-between"><Body className="text-on-dark-muted">Service Fees</Body><Body>${fees.toFixed(2)}</Body></Box>
                     <Box className="flex justify-between border-t border-grey-700 pt-3"><Body className="font-weight-medium">Total</Body><Body className="font-weight-medium">${total.toFixed(2)}</Body></Box>
-                  </Box>
+                  </Stack>
                 </Card>
                 <Button variant="solid" className="w-full" onClick={() => setStep("payment")} icon={<ChevronRight className="size-4" />} iconPosition="right">Proceed to Payment</Button>
-              </Box>
+              </Stack>
             </Grid>
           )}
 
@@ -207,7 +209,7 @@ function CheckoutContent() {
             <Grid cols={3} gap={6} className="grid-cols-1 lg:grid-cols-3">
               <Card className="lg:col-span-2 p-6">
                 <SectionHeader title="Payment Information" />
-                <Box className="space-y-4 mt-4">
+                <Stack gap={4} className="mt-4">
                   <Box><Body size="sm" className="text-on-dark-muted mb-1">Cardholder Name *</Body><Input placeholder="John Smith" value={formData.cardName} onChange={(e) => handleFieldChange("cardName", e.target.value)} onBlur={() => handleFieldBlur("cardName")} />{touched.cardName && errors.cardName && <Body size="sm" className="text-error">{errors.cardName}</Body>}</Box>
                   <Box><Body size="sm" className="text-on-dark-muted mb-1">Card Number *</Body><Input placeholder="4242 4242 4242 4242" value={formData.cardNumber} onChange={(e) => handleFieldChange("cardNumber", e.target.value)} onBlur={() => handleFieldBlur("cardNumber")} />{touched.cardNumber && errors.cardNumber && <Body size="sm" className="text-error">{errors.cardNumber}</Body>}</Box>
                   <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
@@ -221,13 +223,13 @@ function CheckoutContent() {
                     <Box><Body size="sm" className="text-on-dark-muted mb-1">State *</Body><Input placeholder="NY" value={formData.state} onChange={(e) => handleFieldChange("state", e.target.value)} onBlur={() => handleFieldBlur("state")} />{touched.state && errors.state && <Body size="sm" className="text-error">{errors.state}</Body>}</Box>
                   </Grid>
                   <Box><Body size="sm" className="text-on-dark-muted mb-1">ZIP Code *</Body><Input placeholder="10001" value={formData.zip} onChange={(e) => handleFieldChange("zip", e.target.value)} onBlur={() => handleFieldBlur("zip")} />{touched.zip && errors.zip && <Body size="sm" className="text-error">{errors.zip}</Body>}</Box>
-                </Box>
+                </Stack>
               </Card>
-              <Box className="space-y-4">
+              <Stack gap={4}>
                 <Card className="p-6"><SectionHeader title="Total" /><Box className="flex justify-between mt-4"><Body className="font-weight-medium">Total</Body><Body className="font-weight-medium">${total.toFixed(2)}</Body></Box></Card>
                 <Card className="p-4"><Box className="flex items-center gap-2"><Lock className="size-4 text-on-dark-muted" /><Body size="sm" className="text-on-dark-muted">Secure Checkout</Body></Box><Body size="sm" className="text-on-dark-muted mt-2">Your payment information is encrypted and secure</Body></Card>
                 <Button variant="solid" className="w-full" onClick={handlePayment} disabled={processing || !isFormValid()} icon={<CreditCard className="size-4" />} iconPosition="left">{processing ? "Processing..." : "Complete Purchase"}</Button>
-              </Box>
+              </Stack>
             </Grid>
           )}
 

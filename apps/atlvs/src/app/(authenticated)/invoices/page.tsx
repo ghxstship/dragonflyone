@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Mail, DollarSign, ClipboardList, Trash2, Download, Bell } from "lucide-react";
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useToast,
+  ListPage, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useToast,
   type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useEntityConfig } from "@ghxstship/config";
 import { useInvoicesData, type Invoice } from "@/hooks/useInvoices";

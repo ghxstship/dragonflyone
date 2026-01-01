@@ -19,7 +19,9 @@ import {
   Section,
   SectionHeader,
   Link,
-Box} from "@ghxstship/ui";
+  Box,
+  Stack,
+} from "@ghxstship/ui";
 import { useEvents } from "@/hooks/useEvents";
 
 interface CalendarEvent {
@@ -130,6 +132,7 @@ export default function CalendarPage() {
 
                 <Button variant="outline" className="mb-4" onClick={handleToday}>Today</Button>
 
+                {/* eslint-disable-next-line no-restricted-syntax -- Calendar requires 7-column grid which Grid component doesn't support */}
                 <Box className="grid grid-cols-7 gap-1">
                   {dayNames.map((day) => (
                     <Box key={day} className="p-2 text-center">
@@ -145,14 +148,14 @@ export default function CalendarPage() {
                     >
                       <Body className={selectedDate?.toDateString() === day.date.toDateString() ? "text-white" : ""}>{day.date.getDate()}</Body>
                       {day.events.length > 0 && (
-                        <Box className="mt-1 space-y-1">
+                        <Stack gap={1} className="mt-1">
                           {day.events.slice(0, 2).map((event) => (
                             <Badge key={event.id} variant={selectedDate?.toDateString() === day.date.toDateString() ? "outline" : "info"} size="sm" className="truncate block">
                               {event.title || event.name}
                             </Badge>
                           ))}
                           {day.events.length > 2 && <Body size="sm" className="text-on-dark-muted">+{day.events.length - 2} more</Body>}
-                        </Box>
+                        </Stack>
                       )}
                     </Card>
                   ))}
@@ -160,12 +163,12 @@ export default function CalendarPage() {
               </Card>
             </Box>
 
-            <Box className="space-y-6">
+            <Stack gap={6}>
               <Card className="p-6">
                 <SectionHeader title={selectedDate ? selectedDate.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }) : "Select a Date"} />
                 {selectedDate ? (
                   selectedDayEvents.length > 0 ? (
-                    <Box className="space-y-4 mt-4">
+                    <Stack gap={4} className="mt-4">
                       {selectedDayEvents.map((event: CalendarEvent) => (
                         <Card key={event.id} className="p-4 cursor-pointer hover:border-primary" onClick={() => handleEventClick(event.id)}>
                           <Body className="font-weight-medium">{event.title || event.name}</Body>
@@ -176,7 +179,7 @@ export default function CalendarPage() {
                           </Box>
                         </Card>
                       ))}
-                    </Box>
+                    </Stack>
                   ) : (
                     <Body className="text-on-dark-muted mt-4">No events on this date.</Body>
                   )
@@ -187,7 +190,7 @@ export default function CalendarPage() {
 
               <Card className="p-6">
                 <SectionHeader title="Upcoming This Month" />
-                <Box className="space-y-3 mt-4">
+                <Stack gap={3} className="mt-4">
                   {upcomingEvents.map((event: CalendarEvent) => (
                     <Link key={event.id} href={`/events/${event.id}`} className="flex items-center justify-between py-2 border-b border-grey-700">
                       <Box>
@@ -197,9 +200,9 @@ export default function CalendarPage() {
                       <Badge variant="outline">${event.price || 0}</Badge>
                     </Link>
                   ))}
-                </Box>
+                </Stack>
               </Card>
-            </Box>
+            </Stack>
           </Grid>
         </Section>
       ),
@@ -211,7 +214,7 @@ export default function CalendarPage() {
       content: (
         <Section>
           <SectionHeader title="All Events" description="Browse all upcoming events" />
-          <Box className="space-y-4 mt-4">
+          <Stack gap={4} className="mt-4">
             {(events || []).slice(0, 20).map((event: CalendarEvent) => (
               <Card key={event.id} className="p-4 cursor-pointer hover:border-primary" onClick={() => handleEventClick(event.id)}>
                 <Box className="flex items-center justify-between">
@@ -226,7 +229,7 @@ export default function CalendarPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

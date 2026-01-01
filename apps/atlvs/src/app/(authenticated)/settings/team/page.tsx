@@ -11,7 +11,7 @@ import { Users, Mail, Shield, Trash2, Edit, Search, List, UserPlus } from "lucid
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, Select, StatCard, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, Select, StatCard, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, useToast, Box, Stack } from "@ghxstship/ui";
 
 interface TeamMember {
   id: string;
@@ -195,7 +195,7 @@ export default function TeamSettingsPage() {
       content: (
         <Section>
           <SectionHeader title="Role Permissions" description="Configure what each role can access" />
-          <Box className="space-y-4 mt-4">
+          <Stack gap={4} className="mt-4">
             {ROLES.map((role) => (
               <Card key={role} className="p-4">
                 <Box className="flex justify-between items-center">
@@ -212,7 +212,7 @@ export default function TeamSettingsPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },
@@ -232,7 +232,7 @@ export default function TeamSettingsPage() {
       <Modal open={showInvite} onClose={() => setShowInvite(false)}>
         <ModalHeader><Body className="font-weight-bold font-weight-medium">Invite Team Member</Body></ModalHeader>
         <ModalBody>
-          <Box className="space-y-4">
+          <Stack gap={4}>
             <Box>
               <Body size="sm" className="text-on-dark-muted mb-1">Email Address</Body>
               <Input type="email" placeholder="colleague@example.com" value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} />
@@ -243,7 +243,7 @@ export default function TeamSettingsPage() {
                 {ROLES.map((role) => <option key={role} value={role}>{role}</option>)}
               </Select>
             </Box>
-          </Box>
+          </Stack>
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setShowInvite(false)}>Cancel</Button>

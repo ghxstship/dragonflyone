@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { Mail, RefreshCw } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, AuthPage, H2, useToast, Box} from "@ghxstship/ui";
+  Body, Button, AuthPage, H2, useToast, Box, Stack } from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function VerifyEmailPage() {
@@ -34,7 +34,7 @@ export default function VerifyEmailPage() {
 
   return (
     <AuthPage>
-      <Box className="text-center space-y-6">
+      <Stack gap={6} className="text-center">
         <H2>Verify Your Email</H2>
         <Body className="text-on-dark-muted">We&apos;ve sent a verification link to your email address</Body>
         <Box className="p-4 bg-primary/20 rounded-avatar w-fit mx-auto">
@@ -46,7 +46,7 @@ export default function VerifyEmailPage() {
           If you don&apos;t see the email, check your spam folder.
         </Body>
 
-        <Box className="space-y-3">
+        <Stack gap={3}>
           <Button variant="outline" className="w-full" onClick={() => resendMutation.mutate()} disabled={resendMutation.isPending} icon={<RefreshCw className={`size-4 ${resendMutation.isPending ? "animate-spin" : ""}`} />} iconPosition="left">
             {resendMutation.isPending ? "Sending..." : "Resend Verification Email"}
           </Button>
@@ -54,8 +54,8 @@ export default function VerifyEmailPage() {
           <Button variant="ghost" className="w-full" onClick={() => router.push("/auth/signin")}>
             Back to Sign In
           </Button>
-        </Box>
-      </Box>
+        </Stack>
+      </Stack>
     </AuthPage>
   );
 }

@@ -2,18 +2,17 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import { Ruler, Wrench, Building, Scale, FileText, Folder, PenTool, Eye, Download } from "lucide-react";
 import {
   ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
+  type ListPageAction} from "@ghxstship/ui";
 
 import {
   useDrawings,
   type Drawing,
 } from "@/hooks/useDrawings";
 
-import { getSubcategoryNames, createExportHandler } from "@ghxstship/config";
+import { getSubcategoryNames, createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 
 const categories = getSubcategoryNames('TECH').concat(['Site']);
 
@@ -36,69 +35,8 @@ export default function DrawingsPage() {
 
   const totalMarkups = drawings.reduce((s, d) => s + d.markups, 0);
 
-  const columns: ListPageColumn<Drawing>[] = [
-    {
-      key: 'name',
-      label: 'Drawing Name',
-      accessor: 'name',
-      sortable: true,
-      render: (_value: unknown, d) => (
-        <Stack direction="horizontal" gap={3}>
-          {getTypeIcon(d.type)}
-          <Body className="font-display">{d.name}</Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'category',
-      label: 'Category',
-      accessor: 'category',
-      sortable: true,
-      render: (_value: unknown, d) => <Badge variant="outline">{d.category}</Badge>,
-    },
-    {
-      key: 'type',
-      label: 'Type',
-      accessor: 'type',
-      sortable: true,
-      render: (_value: unknown, d) => <Badge variant="outline">{d.type}</Badge>,
-    },
-    {
-      key: 'version',
-      label: 'Version',
-      accessor: 'version',
-      render: (_value: unknown, d) => <Badge variant="solid">v{d.version}</Badge>,
-    },
-    { key: 'size', label: 'Size', accessor: 'size' },
-    {
-      key: 'markups',
-      label: 'Markups',
-      accessor: 'markups',
-      sortable: true,
-      render: (_value: unknown, d) => d.markups > 0 ? <Badge variant="outline">{d.markups}</Badge> : <Body size="sm">—</Body>,
-    },
-    { key: 'uploadedBy', label: 'Uploaded By', accessor: 'uploadedBy' },
-    { key: 'uploadedAt', label: 'Date', accessor: 'uploadedAt', sortable: true },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'category',
-      label: 'Category',
-      options: categories.map(c => ({ value: c, label: c })),
-    },
-    {
-      key: 'type',
-      label: 'Type',
-      options: [
-        { value: 'Vectorworks', label: 'Vectorworks' },
-        { value: 'AutoCAD', label: 'AutoCAD' },
-        { value: 'SketchUp', label: 'SketchUp' },
-        { value: 'CAD', label: 'CAD' },
-        { value: 'PDF', label: 'PDF' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<Drawing>('drawings');
+  const filters = getEntityFilters('drawings');
 
   const rowActions: ListPageAction<Drawing>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (d) => setSelectedDrawing(d) },

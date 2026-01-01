@@ -1,12 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-// Layout provided by route group
 import { useVenues } from "@/hooks/useVenues";
 import {
-  ListPage, Badge, Text,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  ListPage,
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import { Eye } from "lucide-react";
 
 interface Venue {
@@ -25,61 +24,8 @@ export default function VenuesPage() {
 
   const venueList = venues || [];
 
-  const columns: ListPageColumn<Venue>[] = [
-    { key: 'name', label: 'Venue Name', accessor: 'name', sortable: true },
-    {
-      key: 'location',
-      label: 'Location',
-      accessor: (v) => `${v.city || ''}, ${v.state || ''}`.replace(/^, |, $/g, '') || '—',
-    },
-    {
-      key: 'capacity',
-      label: 'Capacity',
-      accessor: 'capacity',
-      sortable: true,
-      render: (_value: unknown, v) => <Text className="font-mono">{v.capacity?.toLocaleString() || '—'}</Text>,
-    },
-    {
-      key: 'type',
-      label: 'Type',
-      accessor: 'type',
-      sortable: true,
-      render: (_value: unknown, v) => <Badge variant="outline">{v.type || 'Unknown'}</Badge>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, v) => (
-        <Badge variant={v.status === "active" ? "solid" : "outline"}>
-          {v.status === "active" ? "Available" : "Inactive"}
-        </Badge>
-      ),
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'active', label: 'Available' },
-        { value: 'inactive', label: 'Inactive' },
-      ],
-    },
-    {
-      key: 'type',
-      label: 'Type',
-      options: [
-        { value: 'arena', label: 'Arena' },
-        { value: 'stadium', label: 'Stadium' },
-        { value: 'theater', label: 'Theater' },
-        { value: 'club', label: 'Club' },
-        { value: 'outdoor', label: 'Outdoor' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<Venue>('venues');
+  const filters = getEntityFilters('venues');
 
   const rowActions: ListPageAction<Venue>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (v) => router.push(`/venues/${v.id}`) },

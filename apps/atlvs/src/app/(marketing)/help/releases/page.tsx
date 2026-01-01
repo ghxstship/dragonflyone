@@ -44,7 +44,7 @@ export default function ReleasesPage() {
       icon: <List className="size-4" />,
       content: (
         <Section>
-          <Box className="space-y-6">
+          <Stack gap={6}>
             {RELEASES.map((release) => {
               const config = TYPE_CONFIG[release.type];
               return (
@@ -71,7 +71,7 @@ export default function ReleasesPage() {
                 </Card>
               );
             })}
-          </Box>
+          </Stack>
         </Section>
       ),
     },
@@ -82,7 +82,7 @@ export default function ReleasesPage() {
       content: (
         <Section>
           <SectionHeader title="Major Releases" description="Significant platform updates" />
-          <Box className="space-y-6 mt-6">
+          <Stack gap={6} className="mt-6">
             {RELEASES.filter((r) => r.type === "major").map((release) => (
               <Card key={release.version} className="p-8 border-primary">
                 <Box className="flex items-center gap-3 mb-4">
@@ -101,7 +101,7 @@ export default function ReleasesPage() {
                 </Stack>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

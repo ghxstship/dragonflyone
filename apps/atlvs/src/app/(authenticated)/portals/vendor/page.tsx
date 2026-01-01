@@ -40,8 +40,6 @@ interface Invoice {
   due_date: string;
 }
 
-const STATUS_COLORS = { ...ORDER_STATUS_COLORS, ...FINANCIAL_STATUS_COLORS };
-
 const DEMO_STATS: VendorStats = {
   activeOrders: 12,
   pendingInvoices: 5,
@@ -203,7 +201,7 @@ export default function VendorPortalPage() {
                       </Stack>
                       <Stack gap={1} className="items-end">
                         <Text className="font-weight-medium">{formatCurrency(order.total)}</Text>
-                        <Badge variant={STATUS_COLORS[order.status] || 'outline'}>
+                        <Badge variant={ORDER_STATUS_COLORS[order.status] || 'outline'}>
                           {order.status}
                         </Badge>
                       </Stack>
@@ -242,7 +240,7 @@ export default function VendorPortalPage() {
                       </Stack>
                       <Stack gap={1} className="items-end">
                         <Text className="font-weight-medium">{formatCurrency(invoice.amount)}</Text>
-                        <Badge variant={STATUS_COLORS[invoice.status] || 'outline'}>
+                        <Badge variant={FINANCIAL_STATUS_COLORS[invoice.status] || 'outline'}>
                           {invoice.status === 'overdue' && <AlertCircle className="h-3 w-3 mr-1" />}
                           {invoice.status === 'paid' && <CheckCircle className="h-3 w-3 mr-1" />}
                           {invoice.status === 'sent' && <Clock className="h-3 w-3 mr-1" />}

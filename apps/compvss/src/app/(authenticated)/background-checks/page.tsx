@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Eye, RefreshCw, Download } from "lucide-react";
-// Layout provided by route group
 import {
-  Badge, Body, DetailDrawer, Grid, ListPage, RecordFormModal, Stack, Text,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
+  DetailDrawer, Grid, ListPage, RecordFormModal, Stack, Body,
+  type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 
 const ADMIN_ROLES = [
   PlatformRole.COMPVSS_ADMIN,
@@ -24,33 +23,14 @@ import {
   type BackgroundCheck,
 } from "@/hooks/useBackgroundChecks";
 
-const getStatusVariant = getBadgeVariant;
+const columns = getEntityColumns<BackgroundCheck>('background-checks');
+const filters = getEntityFilters('background-checks');
 
 const getExpiryLabel = (days?: number) => {
   if (days === undefined) return '—';
   if (days < 0) return `${Math.abs(days)} days ago`;
   return `${days} days`;
 };
-
-const columns: ListPageColumn<BackgroundCheck>[] = [
-  { key: 'crewMemberName', label: 'Crew Member', accessor: 'crewMemberName', sortable: true },
-  { key: 'department', label: 'Department', accessor: 'department', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
-  { key: 'checkType', label: 'Check Type', accessor: 'checkType' },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
-  { key: 'expirationDate', label: 'Expiration', accessor: (r) => r.expirationDate || '—', sortable: true },
-  { key: 'daysUntilExpiry', label: 'Days Left', accessor: (r) => getExpiryLabel(r.daysUntilExpiry), render: (v: unknown, r: BackgroundCheck) => {
-    const days = r.daysUntilExpiry;
-    const colorClass = days === undefined ? '' : days < 0 ? 'text-error-500' : days <= 30 ? 'text-warning-500' : 'text-success-500';
-    return <Text className={colorClass}>{String(v)}</Text>;
-  }},
-  { key: 'provider', label: 'Provider', accessor: 'provider' },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [{ value: 'Cleared', label: 'Cleared' }, { value: 'Pending', label: 'Pending' }, { value: 'In Progress', label: 'In Progress' }, { value: 'Expired', label: 'Expired' }, { value: 'Flagged', label: 'Flagged' }] },
-  { key: 'checkType', label: 'Check Type', options: [{ value: 'Standard', label: 'Standard' }, { value: 'Enhanced', label: 'Enhanced' }, { value: 'Federal', label: 'Federal' }] },
-  { key: 'department', label: 'Department', options: [{ value: 'Audio', label: 'Audio' }, { value: 'Lighting', label: 'Lighting' }, { value: 'Stage', label: 'Stage' }, { value: 'Video', label: 'Video' }, { value: 'Rigging', label: 'Rigging' }] },
-];
 
 const formFields: FormFieldConfig[] = [
   { name: 'crewMemberId', label: 'Crew Member', type: 'select', required: true, options: [{ value: 'CRW-107', label: 'James Wilson' }, { value: 'CRW-108', label: 'Maria Garcia' }], colSpan: 2 },

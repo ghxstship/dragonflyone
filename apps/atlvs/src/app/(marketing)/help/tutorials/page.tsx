@@ -10,7 +10,7 @@ import { useState } from "react";
 
 import { Play, Clock, Star, Search, List, Bookmark } from "lucide-react";
 import {
-  Badge, Body, Button, Card, Grid, Input, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Tutorial {
   id: string;
@@ -96,7 +96,7 @@ export default function TutorialsPage() {
       content: (
         <Section>
           <SectionHeader title="Featured Tutorials" description="Our most popular video guides" />
-          <Box className="space-y-6 mt-6">
+          <Stack gap={6} className="mt-6">
             {TUTORIALS.filter((t) => t.featured).map((tutorial) => (
               <Card key={tutorial.id} className="p-6 cursor-pointer hover:border-primary">
                 <Box className="flex items-start gap-6">
@@ -120,7 +120,7 @@ export default function TutorialsPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

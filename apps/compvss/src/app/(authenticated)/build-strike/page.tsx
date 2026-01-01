@@ -1,11 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
-  ListPage, Body, Badge, Stack,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler, useAuthContext, PlatformRole } from '@ghxstship/config';
+  ListPage,
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, useAuthContext, PlatformRole, getEntityColumns, getEntityFilters } from '@ghxstship/config';
 import {
   useBuildStrikeTasks,
   useUpdateBuildStrikeTaskStatus,
@@ -20,14 +19,6 @@ const ADMIN_ROLES = [
   PlatformRole.LEGEND_DEVELOPER,
 ];
 
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case 'complete': return 'solid';
-    case 'in-progress': return 'outline';
-    default: return 'ghost';
-  }
-};
-
 export default function BuildStrikePage() {
   const router = useRouter();
   const { hasRole } = useAuthContext();
@@ -36,78 +27,32 @@ export default function BuildStrikePage() {
   const { data: tasks = [], isLoading, error, refetch } = useBuildStrikeTasks();
   const updateStatusMutation = useUpdateBuildStrikeTaskStatus();
 
+  const columns = getEntityColumns<Task>('build-strike');
+  const filters = getEntityFilters('build-strike');
+
   const updateTaskStatus = async (id: string, status: Task['status']) => {
     await updateStatusMutation.mutateAsync({ id, status });
   };
 
-  const columns: ListPageColumn<Task>[] = [
-    {
-      key: 'task',
-      label: 'Task',
-      accessor: 'task',
-      sortable: true,
-      render: (_value: unknown, t) => (
-        <Stack gap={1}>
-          <Body className="font-display">{t.task}</Body>
-          <Body size="sm" className="text-muted-foreground">{t.area} • {t.assignedTo}</Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'priority',
-      label: 'Priority',
-      accessor: 'priority',
-      sortable: true,
-      render: (_value: unknown, t) => <Badge variant={t.priority === 'high' ? 'solid' : 'outline'}>{t.priority.toUpperCase()}</Badge>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, t) => <Badge variant={getStatusVariant(t.status)}>{t.status.toUpperCase()}</Badge>,
-    },
-    { key: 'area', label: 'Area', accessor: 'area', sortable: true },
-    { key: 'assignedTo', label: 'Assigned To', accessor: 'assignedTo' },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'pending', label: 'Pending' },
-        { value: 'in-progress', label: 'In Progress' },
-        { value: 'complete', label: 'Complete' },
-      ],
-    },
-    {
-      key: 'priority',
-      label: 'Priority',
-      options: [
-        { value: 'high', label: 'High' },
-        { value: 'medium', label: 'Medium' },
-        { value: 'low', label: 'Low' },
-      ],
-    },
-  ];
-
   const rowActions: ListPageAction<Task>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (t) => router.push(`/build-strike/${t.id}`) },
-    { id: 'start', label: 'Start', icon: <Play className="h-4 w-4" />, onClick: (t) => updateTaskStatus(t.id, 'in-progress'), hidden: (t) => !canManageTasks || t.status !== 'pending' },
-    { id: 'complete', label: 'Complete', icon: <CheckCircle className="h-4 w-4" />, onClick: (t) => updateTaskStatus(t.id, 'complete'), hidden: (t) => !canManageTasks || t.status !== 'in-progress' },
+    ...(canManageTasks ? [
+      { id: 'start', label: 'Start', icon: <Play className="h-4 w-4" />, onClick: (t: Task) => updateTaskStatus(t.id, 'in-progress'), hidden: (t: Task) => t.status !== 'pending' },
+      { id: 'complete', label: 'Complete', icon: <CheckCircle className="h-4 w-4" />, onClick: (t: Task) => updateTaskStatus(t.id, 'complete'), hidden: (t: Task) => t.status !== 'in-progress' },
+    ] : []),
   ];
 
   const stats = [
-    { label: 'Complete', value: tasks.filter(t => t.status === 'complete').length },
-    { label: 'In Progress', value: tasks.filter(t => t.status === 'in-progress').length },
-    { label: 'Pending', value: tasks.filter(t => t.status === 'pending').length },
+    { label: 'Total Tasks', value: tasks.length },
+    { label: 'Pending', value: tasks.filter((t: Task) => t.status === 'pending').length },
+    { label: 'In Progress', value: tasks.filter((t: Task) => t.status === 'in-progress').length },
+    { label: 'Complete', value: tasks.filter((t: Task) => t.status === 'complete').length },
   ];
 
   return (
     <ListPage<Task>
-      title="Build & Strike"
-      subtitle="Build Progress: 45%"
+      title="Build/Strike Schedule"
+      subtitle="Manage build and strike tasks"
       data={tasks}
       columns={columns}
       rowKey="id"
@@ -118,12 +63,11 @@ export default function BuildStrikePage() {
       filters={filters}
       rowActions={rowActions}
       onRowClick={(t) => router.push(`/build-strike/${t.id}`)}
-      createLabel={canManageTasks ? "Add Task" : undefined}
-      onCreate={canManageTasks ? () => router.push('/build-strike/new') : undefined}
       entityType="build-strike"
       onExport={createExportHandler({
-        filename: "build-strike-tasks",
+        filename: "build-strike",
         getData: () => tasks.map((t: Task) => ({
+          id: t.id,
           task: t.task,
           area: t.area,
           assignedTo: t.assignedTo,
@@ -133,7 +77,6 @@ export default function BuildStrikePage() {
       })}
       stats={stats}
       emptyMessage="No tasks found"
-      emptyAction={canManageTasks ? { label: 'Add Task', onClick: () => router.push('/build-strike/new') } : undefined}
       enableCapabilityDetection
       onScanAction={(capability, route) => router.push(route)}
       capabilityBasePath=""

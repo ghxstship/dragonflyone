@@ -2,24 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// Layout provided by route group
 import {
   ListPage, H3, Body, Grid, Stack, Input, Button, Card, Modal, ModalHeader, ModalBody, ModalFooter, Badge, Alert,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useQACheckpoints,
   type QACheckpoint,
 } from '@/hooks/useQACheckpoints';
 import { Eye, CheckCircle } from "lucide-react";
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case "Passed": return "solid";
-    case "In Progress": return "outline";
-    default: return "ghost";
-  }
-};
 
 export default function QACheckpointsPage() {
   const router = useRouter();
@@ -32,60 +23,8 @@ export default function QACheckpointsPage() {
   const failedCount = qaCheckpoints.filter(c => c.status === "Failed").length;
   const criticalPending = qaCheckpoints.filter(c => c.status !== "Passed" && c.items.some(i => i.critical && !i.checked)).length;
 
-  const columns: ListPageColumn<QACheckpoint>[] = [
-    {
-      key: 'name',
-      label: 'Checkpoint',
-      accessor: 'name',
-      sortable: true,
-      render: (_value: unknown, c) => (
-        <Stack gap={1}>
-          <Body className="font-display">{c.name}</Body>
-          <Stack direction="horizontal" gap={2}>
-            <Badge variant="outline">{c.department}</Badge>
-            <Badge variant="outline">{c.phase}</Badge>
-          </Stack>
-        </Stack>
-      ),
-    },
-    { key: 'assignee', label: 'Assignee', accessor: (c) => c.assignee || 'Unassigned' },
-    {
-      key: 'items',
-      label: 'Items',
-      accessor: (c) => `${c.items.filter(i => i.checked).length}/${c.items.length}`,
-      render: (_value: unknown, c) => <Body>{c.items.filter(i => i.checked).length}/{c.items.length} complete</Body>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, c) => <Badge variant={getStatusVariant(c.status)}>{c.status}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'phase',
-      label: 'Phase',
-      options: [
-        { value: 'Load-In', label: 'Load-In' },
-        { value: 'Setup', label: 'Setup' },
-        { value: 'Tech Rehearsal', label: 'Tech Rehearsal' },
-        { value: 'Show Ready', label: 'Show Ready' },
-      ],
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'Passed', label: 'Passed' },
-        { value: 'In Progress', label: 'In Progress' },
-        { value: 'Pending', label: 'Pending' },
-        { value: 'Failed', label: 'Failed' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<QACheckpoint>('qa-checkpoints');
+  const filters = getEntityFilters('qa-checkpoints');
 
   const rowActions: ListPageAction<QACheckpoint>[] = [
     { id: 'view', label: 'Details', icon: <Eye className="h-4 w-4" />, onClick: (c) => setSelectedCheckpoint(c) },

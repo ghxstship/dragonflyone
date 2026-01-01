@@ -11,7 +11,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Save, Trash2, Users, Lock, List, AlertTriangle } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Input, Select, Textarea, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
+  Body, Button, Card, Input, Select, Textarea, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useToast, Box, Stack } from "@ghxstship/ui";
 
 interface ProductionSettings {
   name: string;
@@ -94,7 +94,7 @@ export default function ProductionSettingsPage() {
         <Section>
           <Card className="p-6">
             <SectionHeader title="General Settings" description="Basic production information" />
-            <Box className="space-y-4 mt-4">
+            <Stack gap={4} className="mt-4">
               <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">Production Name</Body>
                 <Input value={formData.name} onChange={(e) => handleChange("name", e.target.value)} placeholder="Enter production name" />
@@ -112,7 +112,7 @@ export default function ProductionSettingsPage() {
                   <option value="archived">Archived</option>
                 </Select>
               </Box>
-            </Box>
+            </Stack>
             <Button variant="solid" className="mt-6" onClick={() => saveMutation.mutate(formData)} disabled={saveMutation.isPending} icon={<Save className="size-4" />} iconPosition="left">
               {saveMutation.isPending ? "Saving..." : "Save Changes"}
             </Button>
@@ -128,7 +128,7 @@ export default function ProductionSettingsPage() {
         <Section>
           <Card className="p-6">
             <SectionHeader title="Access Settings" description="Control who can access this production" />
-            <Box className="space-y-4 mt-4">
+            <Stack gap={4} className="mt-4">
               <Box>
                 <Body size="sm" className="text-on-dark-muted mb-1">Visibility</Body>
                 <Select value={formData.visibility} onChange={(e) => handleChange("visibility", e.target.value)}>
@@ -137,7 +137,7 @@ export default function ProductionSettingsPage() {
                   <option value="organization">Organization - All organization members</option>
                 </Select>
               </Box>
-            </Box>
+            </Stack>
             <Button variant="outline" className="mt-6" onClick={() => router.push(`/p/${productionId}/team`)} icon={<Users className="size-4" />} iconPosition="left">
               Manage Team
             </Button>

@@ -9,7 +9,7 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { 
-  Building2, Mail, Phone, Users, Briefcase, Heart, Handshake, Building, Eye, Pencil, Trash2,
+  Building2, Mail, Phone, Eye, Pencil, Trash2,
 } from 'lucide-react';
 import { 
   useAuthContext, 
@@ -26,19 +26,7 @@ import {
   useOrganizationsQuery,
   useDeleteOrganization,
   type Organization,
-  type OrgType,
 } from '@/hooks/useOrganizationsQuery';
-
-const TYPE_CONFIG: Record<OrgType, { label: string; icon: React.ReactNode; color: string }> = {
-  all: { label: 'All Organizations', icon: <Building2 className="h-4 w-4" />, color: 'outline' },
-  vendor: { label: 'Vendors', icon: <Briefcase className="h-4 w-4" />, color: 'info' },
-  sponsor: { label: 'Sponsors', icon: <Heart className="h-4 w-4" />, color: 'success' },
-  client: { label: 'Clients', icon: <Users className="h-4 w-4" />, color: 'warning' },
-  partner: { label: 'Partners', icon: <Handshake className="h-4 w-4" />, color: 'info' },
-  agency: { label: 'Agencies', icon: <Building className="h-4 w-4" />, color: 'outline' },
-  subsidiary: { label: 'Subsidiaries', icon: <Building2 className="h-4 w-4" />, color: 'outline' },
-  other: { label: 'Other', icon: <Building2 className="h-4 w-4" />, color: 'outline' },
-};
 
 export default function OrganizationsPage() {
   const router = useRouter();

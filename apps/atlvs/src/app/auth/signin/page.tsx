@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Checkbox, Label, Form, AuthPage, useToast, Box} from "@ghxstship/ui";
+  Body, Button, Input, Checkbox, Label, Form, AuthPage, useToast, Box, Grid } from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function SignInPage() {
@@ -58,7 +58,7 @@ export default function SignInPage() {
       subtitle="Welcome back! Sign in to your account"
       footer={{ text: "Don't have an account?", linkText: "Sign up", linkHref: "/auth/signup" }}
     >
-      <Form onSubmit={handleSubmit} className="space-y-4">
+      <Form onSubmit={handleSubmit}>
         <Box>
           <Body size="sm" className="text-on-dark-muted mb-1">Email</Body>
           <Box className="relative">
@@ -97,10 +97,10 @@ export default function SignInPage() {
           <Box className="relative flex justify-center"><Body size="sm" className="bg-grey-900 px-2 text-on-dark-disabled">Or continue with</Body></Box>
         </Box>
 
-        <Box className="grid grid-cols-2 gap-4">
+        <Grid cols={2} gap={4}>
           <Button variant="outline" type="button">Google</Button>
           <Button variant="outline" type="button">Microsoft</Button>
-        </Box>
+        </Grid>
       </Form>
     </AuthPage>
   );

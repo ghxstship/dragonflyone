@@ -33,6 +33,45 @@ import { productionsEntity } from './productions';
 import { dealsEntity } from './deals';
 import { quotesEntity } from './quotes';
 import { advancingEntity } from './advancing';
+import { beosEntity } from './beos';
+import { availabilityEntity } from './availability';
+import { venuesEntity } from './venues';
+import { scheduleEntity } from './schedule';
+import { issuesEntity } from './issues';
+import { maintenanceEntity } from './maintenance';
+import { permitsEntity } from './permits';
+import { deliveriesEntity } from './deliveries';
+import { certificationsEntity } from './certifications';
+import { emergencyEntity } from './emergency';
+import { drawingsEntity } from './drawings';
+import { integrationsEntity } from './integrations';
+import { backgroundChecksEntity } from './background-checks';
+import { buildStrikeEntity } from './build-strike';
+import { photoDocumentationEntity } from './photo-documentation';
+import { punchListEntity } from './punch-list';
+import { qaCheckpointsEntity } from './qa-checkpoints';
+import { riskRegisterEntity } from './risk-register';
+import { runOfShowEntity } from './run-of-show';
+import { setTimesEntity } from './set-times';
+import { settlementEntity } from './settlement';
+import { showCallEntity } from './show-call';
+import { siteAccessEntity } from './site-access';
+import { siteSurveysEntity } from './site-surveys';
+import { skillsEntity } from './skills';
+import { soundcheckEntity } from './soundcheck';
+import { specSheetsEntity } from './spec-sheets';
+import { stageManagementEntity } from './stage-management';
+import { subcontractorsEntity } from './subcontractors';
+import { techRehearsalEntity } from './tech-rehearsal';
+import { templatesEntity } from './templates';
+import { timekeepingEntity } from './timekeeping';
+import { travelEntity } from './travel';
+import { troubleshootingEntity } from './troubleshooting';
+import { vipManagementEntity } from './vip-management';
+import { weatherContingencyEntity } from './weather-contingency';
+import { searchEntity } from './search';
+import { accountOrdersEntity } from './account-orders';
+import { accountTicketsEntity } from './account-tickets';
 
 // Export individual entities
 export { credentialsEntity } from './credentials';
@@ -61,6 +100,45 @@ export { productionsEntity, PRODUCTION_STATUS_COLORS } from './productions';
 export { dealsEntity, DEAL_STATUS_COLORS, DEAL_STAGE_COLORS } from './deals';
 export { quotesEntity, QUOTE_STATUS_COLORS } from './quotes';
 export { advancingEntity, ADVANCING_STATUS_COLORS } from './advancing';
+export { beosEntity } from './beos';
+export { availabilityEntity } from './availability';
+export { venuesEntity } from './venues';
+export { scheduleEntity } from './schedule';
+export { issuesEntity } from './issues';
+export { maintenanceEntity } from './maintenance';
+export { permitsEntity } from './permits';
+export { deliveriesEntity } from './deliveries';
+export { certificationsEntity } from './certifications';
+export { emergencyEntity } from './emergency';
+export { drawingsEntity } from './drawings';
+export { integrationsEntity } from './integrations';
+export { backgroundChecksEntity } from './background-checks';
+export { buildStrikeEntity } from './build-strike';
+export { photoDocumentationEntity } from './photo-documentation';
+export { punchListEntity } from './punch-list';
+export { qaCheckpointsEntity } from './qa-checkpoints';
+export { riskRegisterEntity } from './risk-register';
+export { runOfShowEntity } from './run-of-show';
+export { setTimesEntity } from './set-times';
+export { settlementEntity } from './settlement';
+export { showCallEntity } from './show-call';
+export { siteAccessEntity } from './site-access';
+export { siteSurveysEntity } from './site-surveys';
+export { skillsEntity } from './skills';
+export { soundcheckEntity } from './soundcheck';
+export { specSheetsEntity } from './spec-sheets';
+export { stageManagementEntity } from './stage-management';
+export { subcontractorsEntity } from './subcontractors';
+export { techRehearsalEntity } from './tech-rehearsal';
+export { templatesEntity } from './templates';
+export { timekeepingEntity } from './timekeeping';
+export { travelEntity } from './travel';
+export { troubleshootingEntity } from './troubleshooting';
+export { vipManagementEntity } from './vip-management';
+export { weatherContingencyEntity } from './weather-contingency';
+export { searchEntity } from './search';
+export { accountOrdersEntity } from './account-orders';
+export { accountTicketsEntity } from './account-tickets';
 
 // All entities array
 export const allEntities = [
@@ -90,6 +168,45 @@ export const allEntities = [
   dealsEntity,
   quotesEntity,
   advancingEntity,
+  beosEntity,
+  availabilityEntity,
+  venuesEntity,
+  scheduleEntity,
+  issuesEntity,
+  maintenanceEntity,
+  permitsEntity,
+  deliveriesEntity,
+  certificationsEntity,
+  emergencyEntity,
+  drawingsEntity,
+  integrationsEntity,
+  backgroundChecksEntity,
+  buildStrikeEntity,
+  photoDocumentationEntity,
+  punchListEntity,
+  qaCheckpointsEntity,
+  riskRegisterEntity,
+  runOfShowEntity,
+  setTimesEntity,
+  settlementEntity,
+  showCallEntity,
+  siteAccessEntity,
+  siteSurveysEntity,
+  skillsEntity,
+  soundcheckEntity,
+  specSheetsEntity,
+  stageManagementEntity,
+  subcontractorsEntity,
+  techRehearsalEntity,
+  templatesEntity,
+  timekeepingEntity,
+  travelEntity,
+  troubleshootingEntity,
+  vipManagementEntity,
+  weatherContingencyEntity,
+  searchEntity,
+  accountOrdersEntity,
+  accountTicketsEntity,
 ];
 
 // Register all entities on module load

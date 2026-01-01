@@ -197,6 +197,17 @@ export const CREW_STATUS_COLORS: Record<string, StatusVariant> = {
 };
 
 /**
+ * Availability status colors
+ */
+export const AVAILABILITY_STATUS_COLORS: Record<string, StatusVariant> = {
+  available: 'success',
+  unavailable: 'error',
+  tentative: 'warning',
+  booked: 'info',
+  pending: 'warning',
+};
+
+/**
  * Event status colors
  */
 export const EVENT_STATUS_COLORS: Record<string, StatusVariant> = {
@@ -510,6 +521,298 @@ export const EXPENSE_STATUS_COLORS: Record<string, StatusVariant> = {
   rejected: 'error',
   paid: 'success',
   reimbursed: 'success',
+};
+
+/**
+ * BEO (Banquet Event Order) status colors
+ */
+export const BEO_STATUS_COLORS: Record<string, StatusVariant> = {
+  draft: 'ghost',
+  pending: 'warning',
+  approved: 'info',
+  distributed: 'success',
+  cancelled: 'error',
+};
+
+
+/**
+ * Schedule status colors
+ */
+export const SCHEDULE_STATUS_COLORS: Record<string, StatusVariant> = {
+  scheduled: 'info',
+  confirmed: 'success',
+  tentative: 'warning',
+  cancelled: 'error',
+  completed: 'success',
+};
+
+/**
+ * Permit status colors
+ */
+export const PERMIT_STATUS_COLORS: Record<string, StatusVariant> = {
+  draft: 'ghost',
+  submitted: 'info',
+  pending: 'warning',
+  approved: 'success',
+  denied: 'error',
+  expired: 'error',
+};
+
+/**
+ * Risk status colors
+ */
+export const RISK_STATUS_COLORS: Record<string, StatusVariant> = {
+  identified: 'info',
+  assessed: 'warning',
+  mitigated: 'success',
+  accepted: 'info',
+  closed: 'ghost',
+};
+
+/**
+ * Settlement status colors
+ */
+export const SETTLEMENT_STATUS_COLORS: Record<string, StatusVariant> = {
+  pending: 'warning',
+  approved: 'info',
+  paid: 'success',
+  disputed: 'error',
+};
+
+/**
+ * Survey status colors
+ */
+export const SURVEY_STATUS_COLORS: Record<string, StatusVariant> = {
+  draft: 'ghost',
+  scheduled: 'info',
+  in_progress: 'warning',
+  completed: 'success',
+  cancelled: 'error',
+};
+
+/**
+ * Template status colors
+ */
+export const TEMPLATE_STATUS_COLORS: Record<string, StatusVariant> = {
+  draft: 'ghost',
+  active: 'success',
+  archived: 'ghost',
+};
+
+/**
+ * Timekeeping status colors
+ */
+export const TIMEKEEPING_STATUS_COLORS: Record<string, StatusVariant> = {
+  pending: 'warning',
+  approved: 'success',
+  rejected: 'error',
+  submitted: 'info',
+};
+
+/**
+ * Travel status colors
+ */
+export const TRAVEL_STATUS_COLORS: Record<string, StatusVariant> = {
+  pending: 'warning',
+  booked: 'info',
+  confirmed: 'success',
+  cancelled: 'error',
+  completed: 'success',
+};
+
+/**
+ * VIP status colors
+ */
+export const VIP_STATUS_COLORS: Record<string, StatusVariant> = {
+  pending: 'warning',
+  confirmed: 'success',
+  checked_in: 'success',
+  no_show: 'error',
+};
+
+/**
+ * Weather contingency status colors
+ */
+export const WEATHER_STATUS_COLORS: Record<string, StatusVariant> = {
+  clear: 'success',
+  monitoring: 'info',
+  warning: 'warning',
+  alert: 'error',
+  activated: 'error',
+};
+
+/**
+ * Skill status colors
+ */
+export const SKILL_STATUS_COLORS: Record<string, StatusVariant> = {
+  verified: 'success',
+  pending: 'warning',
+  expired: 'error',
+};
+
+/**
+ * Subcontractor status colors
+ */
+export const SUBCONTRACTOR_STATUS_COLORS: Record<string, StatusVariant> = {
+  active: 'success',
+  pending: 'warning',
+  inactive: 'ghost',
+  suspended: 'error',
+};
+
+/**
+ * Integration status colors
+ */
+export const INTEGRATION_STATUS_COLORS: Record<string, StatusVariant> = {
+  connected: 'success',
+  disconnected: 'error',
+  pending: 'warning',
+  error: 'error',
+};
+
+/**
+ * Drawing status colors
+ */
+export const DRAWING_STATUS_COLORS: Record<string, StatusVariant> = {
+  draft: 'ghost',
+  review: 'warning',
+  approved: 'success',
+  superseded: 'ghost',
+};
+
+/**
+ * QA Checkpoint status colors
+ */
+export const QA_STATUS_COLORS: Record<string, StatusVariant> = {
+  pending: 'warning',
+  passed: 'success',
+  failed: 'error',
+  waived: 'info',
+};
+
+/**
+ * Punch list status colors
+ */
+export const PUNCH_LIST_STATUS_COLORS: Record<string, StatusVariant> = {
+  open: 'warning',
+  in_progress: 'info',
+  completed: 'success',
+  verified: 'success',
+};
+
+/**
+ * Photo documentation status colors
+ */
+export const PHOTO_STATUS_COLORS: Record<string, StatusVariant> = {
+  pending: 'warning',
+  approved: 'success',
+  rejected: 'error',
+};
+
+/**
+ * Spec sheet status colors
+ */
+export const SPEC_SHEET_STATUS_COLORS: Record<string, StatusVariant> = {
+  draft: 'ghost',
+  active: 'success',
+  archived: 'ghost',
+};
+
+/**
+ * Show call status colors
+ */
+export const SHOW_CALL_STATUS_COLORS: Record<string, StatusVariant> = {
+  draft: 'ghost',
+  published: 'success',
+  updated: 'info',
+};
+
+/**
+ * Run of show status colors
+ */
+export const RUN_OF_SHOW_STATUS_COLORS: Record<string, StatusVariant> = {
+  draft: 'ghost',
+  confirmed: 'success',
+  in_progress: 'warning',
+  completed: 'success',
+};
+
+/**
+ * Soundcheck status colors
+ */
+export const SOUNDCHECK_STATUS_COLORS: Record<string, StatusVariant> = {
+  scheduled: 'info',
+  in_progress: 'warning',
+  completed: 'success',
+  cancelled: 'error',
+};
+
+/**
+ * Tech rehearsal status colors
+ */
+export const TECH_REHEARSAL_STATUS_COLORS: Record<string, StatusVariant> = {
+  scheduled: 'info',
+  in_progress: 'warning',
+  completed: 'success',
+  cancelled: 'error',
+};
+
+/**
+ * Set times status colors
+ */
+export const SET_TIMES_STATUS_COLORS: Record<string, StatusVariant> = {
+  draft: 'ghost',
+  confirmed: 'success',
+  updated: 'info',
+};
+
+/**
+ * Stage management status colors
+ */
+export const STAGE_MANAGEMENT_STATUS_COLORS: Record<string, StatusVariant> = {
+  ready: 'success',
+  in_progress: 'warning',
+  issue: 'error',
+};
+
+/**
+ * Site access status colors
+ */
+export const SITE_ACCESS_STATUS_COLORS: Record<string, StatusVariant> = {
+  granted: 'success',
+  pending: 'warning',
+  denied: 'error',
+  expired: 'error',
+};
+
+/**
+ * Build/Strike status colors
+ */
+export const BUILD_STRIKE_STATUS_COLORS: Record<string, StatusVariant> = {
+  scheduled: 'info',
+  in_progress: 'warning',
+  completed: 'success',
+  delayed: 'error',
+};
+
+/**
+ * Background check status colors
+ */
+export const BACKGROUND_CHECK_STATUS_COLORS: Record<string, StatusVariant> = {
+  pending: 'warning',
+  passed: 'success',
+  failed: 'error',
+  expired: 'error',
+};
+
+/**
+ * Troubleshooting status colors
+ */
+export const TROUBLESHOOTING_STATUS_COLORS: Record<string, StatusVariant> = {
+  open: 'warning',
+  investigating: 'info',
+  resolved: 'success',
+  escalated: 'error',
 };
 
 export const ENTITY_STATUS_MAPPINGS: Record<string, Record<string, StatusVariant>> = {

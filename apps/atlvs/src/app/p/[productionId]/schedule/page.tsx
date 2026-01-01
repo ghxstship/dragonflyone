@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { Calendar, Plus, Clock, CheckCircle, AlertCircle, List, LayoutGrid } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Task {
   id: string;
@@ -90,7 +90,7 @@ export default function ProductionSchedulePage() {
             ))}
           </Box>
 
-          <Box className="space-y-4">
+          <Stack gap={4}>
             {filteredTasks.map((task: Task) => {
               const statusConfig = STATUS_CONFIG[task.status];
               const priorityConfig = PRIORITY_CONFIG[task.priority];
@@ -114,7 +114,7 @@ export default function ProductionSchedulePage() {
                 </Card>
               );
             })}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

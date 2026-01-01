@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, RefreshCw, Pencil, Trash2, Bell, Download } from "lucide-react";
-// Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
+  ListPage, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
+  type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 
 const ADMIN_ROLES = [
   PlatformRole.COMPVSS_ADMIN,
@@ -34,47 +33,8 @@ interface Certification {
   certificate_number?: string;
 }
 
-const columns: ListPageColumn<Certification>[] = [
-  { key: 'id', label: 'ID', accessor: 'id', sortable: true },
-  { key: 'crew_member_name', label: 'Crew Member', accessor: 'crew_member_name', sortable: true },
-  { key: 'certification_type', label: 'Certification', accessor: 'certification_type', sortable: true },
-  { key: 'issue_date', label: 'Issue Date', accessor: 'issue_date', sortable: true, render: (value: unknown) => new Date(String(value)).toLocaleDateString() },
-  { key: 'expiry_date', label: 'Expiry Date', accessor: 'expiry_date', sortable: true, render: (value: unknown) => new Date(String(value)).toLocaleDateString() },
-  { 
-    key: 'status', 
-    label: 'Status', 
-    accessor: 'status', 
-    sortable: true,
-    render: (value: unknown) => (
-      <Badge variant={value === 'active' ? 'solid' : 'outline'}>
-        {String(value).replace('_', ' ').toUpperCase()}
-      </Badge>
-    )
-  },
-];
-
-const filters: ListPageFilter[] = [
-  { 
-    key: 'status', 
-    label: 'Status', 
-    options: [
-      { value: 'active', label: 'Active' },
-      { value: 'expiring_soon', label: 'Expiring Soon' },
-      { value: 'expired', label: 'Expired' },
-    ]
-  },
-  {
-    key: 'certification_type',
-    label: 'Type',
-    options: [
-      { value: 'osha', label: 'OSHA Safety' },
-      { value: 'rigging', label: 'Rigging' },
-      { value: 'first_aid', label: 'First Aid/CPR' },
-      { value: 'forklift', label: 'Forklift' },
-      { value: 'electrical', label: 'Electrical' },
-    ]
-  },
-];
+const columns = getEntityColumns<Certification>('certifications');
+const filters = getEntityFilters('certifications');
 
 const formFields: FormFieldConfig[] = [
   { name: 'crew_member_id', label: 'Crew Member', type: 'select', required: true, options: [], colSpan: 2 },

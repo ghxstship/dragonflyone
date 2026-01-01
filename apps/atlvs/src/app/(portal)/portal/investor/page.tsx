@@ -9,7 +9,7 @@
 import { TrendingUp, DollarSign, PieChart, FileText, BarChart3, List, Download } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Investment {
   id: string;
@@ -65,7 +65,7 @@ export default function InvestorPortalPage() {
           </Grid>
 
           <SectionHeader title="Investments" />
-          <Box className="space-y-4 mt-4">
+          <Stack gap={4} className="mt-4">
             {investments.map((investment: Investment) => {
               const roi = (investment.returns / investment.amount) * 100;
               return (
@@ -86,7 +86,7 @@ export default function InvestorPortalPage() {
                 </Card>
               );
             })}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

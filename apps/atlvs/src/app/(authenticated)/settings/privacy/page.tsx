@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Shield, Eye, EyeOff, Download, Trash2, List, FileText } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Modal, ModalBody, ModalFooter, ModalHeader, DetailPage, Section, SectionHeader, useToast, Box, Stack } from "@ghxstship/ui";
 
 interface PrivacySettings {
   profile_visibility: "public" | "team" | "private";
@@ -128,7 +128,7 @@ export default function PrivacySettingsPage() {
 
           <Card className="p-6 mb-6">
             <SectionHeader title="Data & Tracking" description="Control how your data is used" />
-            <Box className="space-y-4 mt-4">
+            <Stack gap={4} className="mt-4">
               {[
                 { key: "activity_tracking" as const, label: "Activity Tracking", description: "Track your activity for personalized recommendations" },
                 { key: "analytics_sharing" as const, label: "Analytics Sharing", description: "Share anonymous usage data to help improve the product" },
@@ -149,7 +149,7 @@ export default function PrivacySettingsPage() {
                   </Button>
                 </Box>
               ))}
-            </Box>
+            </Stack>
           </Card>
 
           <Card className="p-6">

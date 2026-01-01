@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Eye, Check, X, Trash2, Download } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, useToast, Stack, Grid, Body,
+  ListPage, RecordFormModal, DetailDrawer, ConfirmDialog, useToast, Stack, Grid, Body,
   type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, useEntityConfig } from "@ghxstship/config";
 

@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Camera, Eye, CheckCircle } from "lucide-react";
-// Layout provided by route group
 import {
   ListPage, H3, Body, Grid, Stack, Input, Select, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Textarea,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import { usePhotoSets, type PhotoSet } from '@/hooks/usePhotoDocumentation';
 
 const phases = ["Load-In", "Build", "Tech Rehearsal", "Show", "Strike", "Load-Out"];
@@ -21,58 +20,8 @@ export default function PhotoDocumentationPage() {
   const totalPhotos = photoSets.reduce((sum, s) => sum + s.photoCount, 0);
   const pendingApproval = photoSets.filter(s => !s.approved).length;
 
-  const columns: ListPageColumn<PhotoSet>[] = [
-    {
-      key: 'projectName',
-      label: 'Project',
-      accessor: 'projectName',
-      sortable: true,
-      render: (_value: unknown, s) => (
-        <Stack gap={1}>
-          <Body className="font-display">{s.projectName}</Body>
-          {s.description && <Body size="sm" className="text-muted-foreground">{s.description}</Body>}
-        </Stack>
-      ),
-    },
-    {
-      key: 'phase',
-      label: 'Phase',
-      accessor: 'phase',
-      sortable: true,
-      render: (_value: unknown, s) => <Badge variant="outline">{s.phase}</Badge>,
-    },
-    { key: 'photoCount', label: 'Photos', accessor: 'photoCount', sortable: true },
-    { key: 'capturedBy', label: 'Captured By', accessor: 'capturedBy' },
-    {
-      key: 'capturedAt',
-      label: 'Date',
-      accessor: 'capturedAt',
-      sortable: true,
-      render: (_value: unknown, s) => <Body size="sm">{new Date(s.capturedAt).toLocaleDateString()}</Body>,
-    },
-    {
-      key: 'approved',
-      label: 'Status',
-      accessor: (s) => s.approved ? 'Approved' : 'Pending',
-      render: (_value: unknown, s) => <Badge variant={s.approved ? 'solid' : 'outline'}>{s.approved ? 'Approved' : 'Pending'}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'phase',
-      label: 'Phase',
-      options: phases.map(p => ({ value: p, label: p })),
-    },
-    {
-      key: 'approved',
-      label: 'Status',
-      options: [
-        { value: 'true', label: 'Approved' },
-        { value: 'false', label: 'Pending' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<PhotoSet>('photo-documentation');
+  const filters = getEntityFilters('photo-documentation');
 
   const rowActions: ListPageAction<PhotoSet>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (s) => setSelectedSet(s) },

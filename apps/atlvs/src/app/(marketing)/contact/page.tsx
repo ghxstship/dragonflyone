@@ -115,7 +115,7 @@ export default function ContactPage() {
                       <Body className="text-on-dark-muted">Fill out the form and we will get back to you within 24 hours</Body>
                     </Stack>
 
-                    <Form onSubmit={handleSubmit} className="space-y-4">
+                    <Form onSubmit={handleSubmit}>
                       <Box>
                         <Body size="sm" className="text-on-dark-muted mb-2">Name *</Body>
                         <Input

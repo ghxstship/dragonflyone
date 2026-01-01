@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Package, Truck, Trash2, Printer, Download } from "lucide-react";
-// Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from "@ghxstship/config";
+  ListPage, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
+  type ListPageAction, type ListPageBulkAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 
 const ADMIN_ROLES = [
   PlatformRole.COMPVSS_ADMIN,
@@ -23,39 +22,8 @@ import {
   type Delivery,
 } from "@/hooks/useDeliveries";
 
-const columns: ListPageColumn<Delivery>[] = [
-  { key: 'vendor', label: 'Vendor', accessor: 'vendor', sortable: true },
-  { key: 'description', label: 'Description', accessor: 'description' },
-  { key: 'scheduledDate', label: 'Date', accessor: 'scheduledDate', sortable: true },
-  { key: 'scheduledTime', label: 'Time', accessor: 'scheduledTime', sortable: true },
-  { key: 'accessPoint', label: 'Access Point', accessor: 'accessPoint' },
-  { key: 'items', label: 'Items', accessor: (row) => `${row.items.length} items` },
-  { 
-    key: 'status', 
-    label: 'Status', 
-    accessor: 'status', 
-    sortable: true,
-    render: (value: unknown) => (
-      <Badge variant={value === 'Received' ? 'solid' : value === 'Delayed' ? 'solid' : 'outline'}>
-        {String(value)}
-      </Badge>
-    )
-  },
-];
-
-const filters: ListPageFilter[] = [
-  { 
-    key: 'status', 
-    label: 'Status', 
-    options: [
-      { value: 'Scheduled', label: 'Scheduled' },
-      { value: 'In Transit', label: 'In Transit' },
-      { value: 'Arrived', label: 'Arrived' },
-      { value: 'Received', label: 'Received' },
-      { value: 'Delayed', label: 'Delayed' },
-    ]
-  },
-];
+const columns = getEntityColumns<Delivery>('deliveries');
+const filters = getEntityFilters('deliveries');
 
 const formFields: FormFieldConfig[] = [
   { name: 'vendor', label: 'Vendor', type: 'text', required: true },

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { MessageSquare, Send, Search, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { Body, Button, Card, Input, Grid, DetailPage, Section, Box} from "@ghxstship/ui";
+import { Body, Button, Card, Input, Grid, DetailPage, Section, Box, Stack } from "@ghxstship/ui";
 
 interface Conversation { id: string; name: string; lastMessage: string; time: string; unread: boolean; }
 const DEMO: Conversation[] = [
@@ -32,7 +32,7 @@ export default function MessagesPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
               <Input placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
             </Box>
-            <Box className="space-y-2">
+            <Stack gap={2}>
               {filtered.map((conv: Conversation) => (
                 <Card key={conv.id} className={`p-4 cursor-pointer transition-colors ${selected === conv.id ? "border-primary" : ""} ${conv.unread ? "bg-grey-900" : ""}`} onClick={() => setSelected(conv.id)}>
                   <Box className="flex items-start justify-between">
@@ -41,7 +41,7 @@ export default function MessagesPage() {
                   </Box>
                 </Card>
               ))}
-            </Box>
+            </Stack>
           </Box>
           <Card className="lg:col-span-2 p-6 h-96 flex flex-col">
             {selected ? (

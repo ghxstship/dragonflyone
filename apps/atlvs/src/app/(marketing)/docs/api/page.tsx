@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Code, Key, Webhook, Copy, Check, List, Terminal} from "lucide-react";
 import {
-  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader, useToast, Box, Stack } from "@ghxstship/ui";
 
 interface Endpoint {
   method: "GET" | "POST" | "PUT" | "DELETE";
@@ -107,7 +107,7 @@ export default function ApiDocsPage() {
       content: (
         <Section>
           <SectionHeader title="API Endpoints" description="Available REST API endpoints" />
-          <Box className="space-y-2 mt-4">
+          <Stack gap={2} className="mt-4">
             {ENDPOINTS.map((endpoint, idx) => (
               <Card key={idx} className="p-4 cursor-pointer hover:border-primary transition-colors">
                 <Box className="flex items-center gap-4">
@@ -117,7 +117,7 @@ export default function ApiDocsPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
 
           <Card className="p-8 mt-8 text-center">
             <Body className="font-weight-bold font-weight-bold mb-2">Need an API Key?</Body>

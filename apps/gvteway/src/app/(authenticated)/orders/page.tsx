@@ -4,13 +4,11 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Ticket, Download, XCircle } from 'lucide-react';
 import {
-  Badge,
   Body,
   ConfirmDialog,
   DetailDrawer,
   Grid,
   ListPage,
-  Text,
   type DetailSection,
   type ListPageAction,
   type ListPageBulkAction,

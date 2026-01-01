@@ -19,7 +19,9 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-Box} from "@ghxstship/ui";
+  Box,
+  Stack,
+} from "@ghxstship/ui";
 import { Globe, Check, Info } from "lucide-react";
 import { useLanguageSettings } from "@ghxstship/config";
 import { DEMO_LANGUAGES } from "@/lib/demo-data";
@@ -119,25 +121,25 @@ export default function LanguageSettingsPage() {
           <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
             <Card className="p-6">
               <Body className="font-weight-medium text-white mb-4">What gets translated:</Body>
-              <Box className="space-y-2">
+              <Stack gap={2}>
                 {["Navigation and menus", "Buttons and labels", "System messages", "Help content", "Email notifications"].map((item) => (
                   <Box key={item} className="flex items-center gap-2">
                     <Check className="size-4 text-success" />
                     <Body size="sm" className="text-white">{item}</Body>
                   </Box>
                 ))}
-              </Box>
+              </Stack>
             </Card>
             <Card className="p-6">
               <Body className="font-weight-medium text-white mb-4">What stays in original language:</Body>
-              <Box className="space-y-2">
+              <Stack gap={2}>
                 {["Event names and descriptions", "Artist names", "Venue information", "User reviews", "Chat messages"].map((item) => (
                   <Box key={item} className="flex items-center gap-2">
                     <Box className="size-1 rounded-avatar bg-grey-500" />
                     <Body size="sm" className="text-white">{item}</Body>
                   </Box>
                 ))}
-              </Box>
+              </Stack>
             </Card>
           </Grid>
 
@@ -167,7 +169,7 @@ export default function LanguageSettingsPage() {
 
       <Modal open={showConfirmModal} onClose={() => { setShowConfirmModal(false); setPendingLanguage(null); }} title="Change Language">
         {pendingLanguage && (
-          <Box className="space-y-4">
+          <Stack gap={4}>
             <Body>Are you sure you want to change your language to <strong>{pendingLanguage.nativeName}</strong>?</Body>
             <Card className="p-4">
               <Box className="flex items-center justify-between">
@@ -193,7 +195,7 @@ export default function LanguageSettingsPage() {
               <Button variant="outline" onClick={() => { setShowConfirmModal(false); setPendingLanguage(null); }}>Cancel</Button>
               <Button variant="solid" onClick={confirmLanguageChange}>Change Language</Button>
             </Box>
-          </Box>
+          </Stack>
         )}
       </Modal>
     </>

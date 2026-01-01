@@ -4,13 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, QrCode, Send, Trash2, Download } from "lucide-react";
 import {
-  Badge,
   Body,
   ConfirmDialog,
   DetailDrawer,
   Grid,
   ListPage,
-  Text,
   type DetailSection,
   type ListPageAction,
   type ListPageBulkAction,

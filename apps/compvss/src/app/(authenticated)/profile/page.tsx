@@ -10,7 +10,7 @@ import { useState } from "react";
 import { User, Mail, Phone, MapPin, Camera, List, Shield } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Input, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Body, Button, Card, Input, Grid, DetailPage, Section, SectionHeader, Box, Stack} from "@ghxstship/ui";
 
 interface Profile {
   id: string;
@@ -93,7 +93,7 @@ export default function ProfilePage() {
               </Box>
               <Box className="flex-1">
                 {isEditing ? (
-                  <Box className="space-y-4">
+                  <Stack gap={4}>
                     <Box>
                       <Body size="sm" className="mb-1">Name</Body>
                       <Input value={formData.name || ""} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
@@ -102,7 +102,7 @@ export default function ProfilePage() {
                       <Body size="sm" className="mb-1">Role</Body>
                       <Input value={formData.role || ""} onChange={(e) => setFormData({ ...formData, role: e.target.value })} />
                     </Box>
-                  </Box>
+                  </Stack>
                 ) : (
                   <>
                     <Body className="font-weight-bold">{profile.name}</Body>
@@ -164,7 +164,7 @@ export default function ProfilePage() {
         <Section>
           <SectionHeader title="Security Settings" description="Manage your account security" />
           <Card className="p-6 mt-4">
-            <Box className="space-y-6">
+            <Stack gap={6}>
               <Box className="flex items-center justify-between">
                 <Box>
                   <Body className="font-weight-medium">Password</Body>
@@ -179,7 +179,7 @@ export default function ProfilePage() {
                 </Box>
                 <Button variant="outline">Enable</Button>
               </Box>
-            </Box>
+            </Stack>
           </Card>
         </Section>
       ),

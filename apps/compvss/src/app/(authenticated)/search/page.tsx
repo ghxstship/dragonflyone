@@ -4,8 +4,9 @@ import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Eye } from "lucide-react";
 import {
-  ListPage, Badge, ListPageColumn, ListPageFilter, ListPageAction,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
+  ListPage,
+  type ListPageAction} from "@ghxstship/ui";
+import { getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import { useCrew } from "@/hooks/useCrew";
 import { useEquipment } from "@/hooks/useEquipment";
 import { useQuery } from "@tanstack/react-query";
@@ -19,18 +20,6 @@ interface SearchResult {
   subtitle: string;
   href: string;
 }
-
-const getCategoryVariant = (type: SearchCategory): "solid" | "outline" | "ghost" => {
-  switch (type) {
-    case "crew":
-    case "equipment":
-      return "solid";
-    case "projects":
-      return "outline";
-    default:
-      return "ghost";
-  }
-};
 
 export default function SearchPage() {
   const router = useRouter();
@@ -107,43 +96,8 @@ export default function SearchPage() {
     return results;
   }, [crew, equipment, projects, beos]);
 
-  const columns: ListPageColumn<SearchResult>[] = [
-    {
-      key: "type",
-      label: "Type",
-      accessor: "type",
-      render: (value, row) => (
-        <Badge variant={getCategoryVariant(row.type)}>
-          {row.type}
-        </Badge>
-      ),
-    },
-    {
-      key: "title",
-      label: "Name",
-      accessor: "title",
-      sortable: true,
-    },
-    {
-      key: "subtitle",
-      label: "Details",
-      accessor: "subtitle",
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: "type",
-      label: "Category",
-      options: [
-        { value: "all", label: "All Categories" },
-        { value: "crew", label: "Crew" },
-        { value: "equipment", label: "Equipment" },
-        { value: "projects", label: "Projects" },
-        { value: "beos", label: "BEOs" },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<SearchResult>('search');
+  const filters = getEntityFilters('search');
 
   const rowActions: ListPageAction<SearchResult>[] = [
     {

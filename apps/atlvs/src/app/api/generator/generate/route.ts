@@ -1,4 +1,4 @@
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { logger, withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import type { GeneratedBlueprint } from "../../../generator/types";

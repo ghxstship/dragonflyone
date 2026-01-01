@@ -9,7 +9,7 @@
 import { useRouter } from "next/navigation";
 import { Book, Check, ArrowRight, Play, List, FileText } from "lucide-react";
 import {
-  Body, Button, Card, Grid, ProgressBar, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Body, Button, Card, Grid, ProgressBar, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 const STEPS = [
   { id: 1, title: "Create Your Account", description: "Sign up and set up your profile", completed: true },
@@ -42,7 +42,7 @@ export default function GettingStartedPage() {
             <ProgressBar value={progress} size="lg" />
           </Card>
 
-          <Box className="space-y-4">
+          <Stack gap={4}>
             {STEPS.map((step, idx) => (
               <Card key={step.id} className={`p-6 ${step.completed ? "border-success" : ""}`}>
                 <Box className="flex items-start gap-4">
@@ -61,7 +61,7 @@ export default function GettingStartedPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

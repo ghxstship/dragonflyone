@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Plus, Trash2} from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Card, Input, Textarea, CreatePage, useToast, Box} from "@ghxstship/ui";
+  Body, Button, Card, Input, Textarea, CreatePage, useToast, Box, Stack} from "@ghxstship/ui";
 
 interface LineItem {
   id: string;
@@ -96,7 +96,7 @@ export default function NewInvoicePage() {
       id: "details",
       title: "Invoice Details",
       content: (
-        <Box className="space-y-4">
+        <Stack gap={4}>
           <Box>
             <Body size="sm" className="mb-1">Client *</Body>
             <Input placeholder="Select or enter client name" value={client} onChange={(e) => handleChange("client", e.target.value)} error={!!errors.client} />
@@ -108,14 +108,14 @@ export default function NewInvoicePage() {
             {errors.dueDate && <Body size="sm" className="text-error mt-1">{errors.dueDate}</Body>}
           </Box>
           {errors.lineItems && <Body size="sm" className="text-error">{errors.lineItems}</Body>}
-        </Box>
+        </Stack>
       ),
     },
     {
       id: "items",
       title: "Line Items",
       content: (
-        <Box className="space-y-4">
+        <Stack gap={4}>
           {lineItems.map((item) => (
             <Card key={item.id} className="p-4">
               <Box className="flex gap-4 items-end">
@@ -148,7 +148,7 @@ export default function NewInvoicePage() {
               <Body className="font-weight-bold font-weight-bold">${total.toFixed(2)}</Body>
             </Box>
           </Card>
-        </Box>
+        </Stack>
       ),
     },
     {

@@ -1,11 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
-  ListPage, Badge, Text,
-  type ListPageColumn, type ListPageFilter} from "@ghxstship/ui";
-import { createExportHandler } from '@ghxstship/config';
+  ListPage} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from '@ghxstship/config';
 import { useSyncJobs } from '@/hooks/useIntegrations';
 
 interface SyncJob {
@@ -17,75 +15,12 @@ interface SyncJob {
   payload: { action: string };
 }
 
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case 'synced': return 'solid';
-    case 'pending': return 'outline';
-    default: return 'ghost';
-  }
-};
-
 export default function CompvssIntegrationsPage() {
   const router = useRouter();
   const { data: syncJobs = [], isLoading: loading, refetch: fetchSyncJobs } = useSyncJobs();
 
-  const columns: ListPageColumn<SyncJob>[] = [
-    {
-      key: 'source_system',
-      label: 'Source',
-      accessor: 'source_system',
-      sortable: true,
-      render: (_value: unknown, job) => <Text className="font-weight-semibold">{job.source_system.toUpperCase()}</Text>,
-    },
-    {
-      key: 'target_system',
-      label: 'Target',
-      accessor: 'target_system',
-      sortable: true,
-      render: (_value: unknown, job) => <Text>{job.target_system.toUpperCase()}</Text>,
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, job) => <Badge variant={getStatusVariant(job.status)}>{job.status.toUpperCase()}</Badge>,
-    },
-    {
-      key: 'created_at',
-      label: 'Created',
-      accessor: 'created_at',
-      sortable: true,
-      render: (_value: unknown, job) => <Text size="sm">{new Date(job.created_at).toLocaleString()}</Text>,
-    },
-    {
-      key: 'action',
-      label: 'Action',
-      accessor: (job) => job.payload.action,
-      render: (_value: unknown, job) => <Text className="font-mono">{job.payload.action}</Text>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'synced', label: 'Synced' },
-        { value: 'pending', label: 'Pending' },
-        { value: 'failed', label: 'Failed' },
-      ],
-    },
-    {
-      key: 'source_system',
-      label: 'Source',
-      options: [
-        { value: 'atlvs', label: 'ATLVS' },
-        { value: 'compvss', label: 'COMPVSS' },
-        { value: 'gvteway', label: 'GVTEWAY' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<SyncJob>('integrations');
+  const filters = getEntityFilters('integrations');
 
   const stats = [
     { label: 'Projects from ATLVS', value: 24 },

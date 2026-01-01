@@ -30,7 +30,9 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-Box} from "@ghxstship/ui";
+  Box,
+  Stack,
+} from "@ghxstship/ui";
 import { useQuery } from "@tanstack/react-query";
 
 interface AdminStats {
@@ -158,7 +160,7 @@ export default function AdminDashboardPage() {
                   View All
                 </Button>
               </Box>
-              <Box className="space-y-3">
+              <Stack gap={3}>
                 {recentActivity.slice(0, 5).map((item: RecentActivity) => (
                   <Box key={item.id} className="flex items-center gap-3 py-2 border-b border-grey-700 last:border-0">
                     <Box className="p-2 rounded-avatar bg-grey-800">{getActivityIcon(item.type)}</Box>
@@ -173,7 +175,7 @@ export default function AdminDashboardPage() {
                     )}
                   </Box>
                 ))}
-              </Box>
+              </Stack>
             </Card>
           </Grid>
         </Section>

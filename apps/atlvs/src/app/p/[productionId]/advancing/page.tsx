@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { ClipboardCheck, Plus, CheckCircle, Clock, AlertCircle, List, Send } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, ProgressBar, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, ProgressBar, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface AdvanceItem {
   id: string;
@@ -94,7 +94,7 @@ export default function ProductionAdvancingPage() {
             ))}
           </Box>
 
-          <Box className="space-y-2">
+          <Stack gap={2}>
             {filteredAdvances.map((advance: AdvanceItem) => {
               const statusConfig = STATUS_CONFIG[advance.status];
               return (
@@ -117,7 +117,7 @@ export default function ProductionAdvancingPage() {
                 </Card>
               );
             })}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

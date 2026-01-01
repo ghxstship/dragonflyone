@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Bell, Check, CheckCheck, AlertTriangle, List } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Body, Button, Card, DetailPage, Section, Box} from "@ghxstship/ui";
+import { Body, Button, Card, DetailPage, Section, Box, Stack } from "@ghxstship/ui";
 
 interface Notification { id: string; type: "info" | "warning" | "success"; title: string; message: string; read: boolean; created_at: string; }
 const DEMO: Notification[] = [
@@ -40,7 +40,7 @@ export default function NotificationsPage() {
         {filtered.length === 0 ? (
           <Card className="p-8 text-center"><Bell className="size-12 text-on-dark-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No notifications</Body><Body className="text-on-dark-muted">You are all caught up!</Body></Card>
         ) : (
-          <Box className="space-y-2">
+          <Stack gap={2}>
             {filtered.map((n: Notification) => (
               <Card key={n.id} className={`p-4 ${!n.read ? "border-primary" : ""}`}>
                 <Box className="flex items-start gap-4">
@@ -55,7 +55,7 @@ export default function NotificationsPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         )}
       </Section>
     ),

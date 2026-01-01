@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Input, Textarea, CreatePage, useToast, Box} from "@ghxstship/ui";
+  Body, Input, Textarea, CreatePage, useToast, Box, Stack, Grid} from "@ghxstship/ui";
 
 export default function NewBEOPage() {
   const router = useRouter();
@@ -79,7 +79,7 @@ export default function NewBEOPage() {
       id: "event",
       title: "Event Details",
       content: (
-        <Box className="space-y-4">
+        <Stack gap={4}>
           <Box>
             <Body size="sm" className="mb-1">Event Name *</Body>
             <Input placeholder="Corporate Gala 2024" value={eventName} onChange={(e) => handleChange("eventName", e.target.value)} error={!!errors.eventName} />
@@ -90,7 +90,7 @@ export default function NewBEOPage() {
             <Input placeholder="Client name" value={client} onChange={(e) => handleChange("client", e.target.value)} error={!!errors.client} />
             {errors.client && <Body size="sm" className="text-error mt-1">{errors.client}</Body>}
           </Box>
-          <Box className="grid grid-cols-2 gap-4">
+          <Grid cols={2} gap={4}>
             <Box>
               <Body size="sm" className="mb-1">Event Date *</Body>
               <Input type="date" value={date} onChange={(e) => handleChange("date", e.target.value)} error={!!errors.date} />
@@ -101,8 +101,8 @@ export default function NewBEOPage() {
               <Input type="number" min="1" placeholder="100" value={guests} onChange={(e) => handleChange("guests", e.target.value)} error={!!errors.guests} />
               {errors.guests && <Body size="sm" className="text-error mt-1">{errors.guests}</Body>}
             </Box>
-          </Box>
-        </Box>
+          </Grid>
+        </Stack>
       ),
     },
     {

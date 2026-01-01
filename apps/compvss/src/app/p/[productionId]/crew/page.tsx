@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { Users, Search, Plus, Mail, Phone, List, UserPlus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Input, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Input, Grid, StatCard, DetailPage, Section, SectionHeader, Box, Stack} from "@ghxstship/ui";
 
 interface CrewMember {
   id: string;
@@ -85,7 +85,7 @@ export default function ProductionCrewPage() {
             </Box>
           </Box>
 
-          <Box className="space-y-4">
+          <Stack gap={4}>
             {filteredCrew.map((member: CrewMember) => (
               <Card key={member.id} className="p-6">
                 <Box className="flex items-start justify-between">
@@ -109,7 +109,7 @@ export default function ProductionCrewPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },
@@ -121,12 +121,12 @@ export default function ProductionCrewPage() {
         <Section>
           <SectionHeader title="Invite Crew Member" description="Add new members to this production" />
           <Card className="p-6 mt-4">
-            <Box className="space-y-4">
+            <Stack gap={4}>
               <Box><Body size="sm" className="mb-1">Email</Body><Input placeholder="crew@example.com" /></Box>
               <Box><Body size="sm" className="mb-1">Role</Body><Input placeholder="Stage Manager" /></Box>
               <Box><Body size="sm" className="mb-1">Department</Body><Input placeholder="Production" /></Box>
               <Button variant="solid" icon={<UserPlus className="size-4" />} iconPosition="left">Send Invitation</Button>
-            </Box>
+            </Stack>
           </Card>
         </Section>
       ),

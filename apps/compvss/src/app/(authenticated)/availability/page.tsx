@@ -3,11 +3,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Calendar } from 'lucide-react';
-// Layout provided by route group
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole } from '@ghxstship/config';
+  ListPage, RecordFormModal, DetailDrawer, Grid, Stack, Body,
+  type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, getEntityColumns, getEntityFilters } from '@ghxstship/config';
 
 import {
   useAvailability,
@@ -24,23 +23,8 @@ const ADMIN_ROLES = [
   PlatformRole.LEGEND_DEVELOPER,
 ];
 
-const getStatusVariant = getBadgeVariant;
-
-const columns: ListPageColumn<AvailabilitySlot>[] = [
-  { key: 'user_name', label: 'Crew Member', accessor: 'user_name', sortable: true },
-  { key: 'role', label: 'Role', accessor: 'role' },
-  { key: 'department', label: 'Department', accessor: 'department', render: (v: unknown) => <Badge variant="outline">{String(v)}</Badge> },
-  { key: 'date', label: 'Date', accessor: (r) => new Date(r.date).toLocaleDateString(), sortable: true },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={getStatusVariant(String(v))}>{String(v).toUpperCase()}</Badge> },
-  { key: 'start_time', label: 'Start', accessor: (r) => r.start_time || '-' },
-  { key: 'end_time', label: 'End', accessor: (r) => r.end_time || '-' },
-  { key: 'calendar_source', label: 'Source', accessor: 'calendar_source', render: (v: unknown) => v === 'google' ? 'Google' : 'Manual' },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [{ value: 'available', label: 'Available' }, { value: 'unavailable', label: 'Unavailable' }, { value: 'tentative', label: 'Tentative' }, { value: 'booked', label: 'Booked' }] },
-  { key: 'department', label: 'Department', options: [{ value: 'Audio', label: 'Audio' }, { value: 'Lighting', label: 'Lighting' }, { value: 'Stage', label: 'Stage' }, { value: 'Video', label: 'Video' }, { value: 'Rigging', label: 'Rigging' }] },
-];
+const columns = getEntityColumns<AvailabilitySlot>('availability');
+const filters = getEntityFilters('availability');
 
 const formFields: FormFieldConfig[] = [
   { name: 'date', label: 'Date', type: 'date', required: true },

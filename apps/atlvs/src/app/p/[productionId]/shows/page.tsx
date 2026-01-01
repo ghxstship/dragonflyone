@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { Calendar, Plus, Clock, MapPin, Users, List, LayoutGrid } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Show {
   id: string;
@@ -69,7 +69,7 @@ export default function ProductionShowsPage() {
             <StatCard label="Sell-through" value={`${Math.round((totalSold / totalCapacity) * 100)}%`} icon={<Users className="size-5" />} />
           </Grid>
 
-          <Box className="space-y-4">
+          <Stack gap={4}>
             {shows.map((show: Show) => {
               const statusConfig = STATUS_CONFIG[show.status];
               const sellThrough = Math.round((show.tickets_sold / show.capacity) * 100);
@@ -95,7 +95,7 @@ export default function ProductionShowsPage() {
                 </Card>
               );
             })}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

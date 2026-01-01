@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { Book, FileText, Search, ExternalLink, List, Bookmark } from "lucide-react";
 import { useState } from "react";
 import {
-  Body, Button, Card, Grid, Input, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Body, Button, Card, Grid, Input, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 const DOC_CATEGORIES = [
   { id: "basics", title: "Basics", articles: ["Getting Started", "Creating Projects", "Managing Tasks", "Team Collaboration"] },
@@ -45,14 +45,14 @@ export default function HelpDocsPage() {
                   <Book className="size-5 text-primary" />
                   <Body className="font-weight-bold">{category.title}</Body>
                 </Box>
-                <Box className="space-y-2">
+                <Stack gap={2}>
                   {category.articles.map((article, idx) => (
                     <Button key={idx} variant="ghost" className="w-full justify-start" onClick={() => router.push(`/docs/${category.id}/${article.toLowerCase().replace(/\s+/g, "-")}`)}>
                       <FileText className="size-4 mr-2" />
                       {article}
                     </Button>
                   ))}
-                </Box>
+                </Stack>
               </Card>
             ))}
           </Grid>
@@ -66,7 +66,7 @@ export default function HelpDocsPage() {
       content: (
         <Section>
           <SectionHeader title="Most Viewed Articles" />
-          <Box className="space-y-2 mt-4">
+          <Stack gap={2} className="mt-4">
             {DOC_CATEGORIES.flatMap((c) => c.articles).slice(0, 8).map((article, idx) => (
               <Card key={idx} className="p-4 cursor-pointer hover:border-primary">
                 <Box className="flex items-center justify-between">
@@ -78,7 +78,7 @@ export default function HelpDocsPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

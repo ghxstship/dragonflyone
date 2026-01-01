@@ -22,7 +22,7 @@ import {
   Card,
   PageTransition,
 Box} from "@ghxstship/ui";
-import type { SidebarNavSection, Box} from "@ghxstship/ui";
+import type { SidebarNavSection } from "@ghxstship/ui";
 import {
   ConsumerNavigationPublic,
   ConsumerNavigationAuthenticated,
@@ -30,7 +30,7 @@ import {
   CreatorNavigationPublic,
   CreatorNavigationAuthenticated,
 } from "./navigation";
-import type { ContextLevel, BreadcrumbContextItem, ContextOptions, Box, HeaderNotification, HeaderQuickAction } from "@ghxstship/ui";
+import type { ContextLevel, BreadcrumbContextItem, ContextOptions, HeaderNotification, HeaderQuickAction } from "@ghxstship/ui";
 import { gvtewaySidebarNavigation, gvtewayEventNavigation, gvtewayQuickActions, gvtewayBottomNavigation, gvtewayDemoOrganizations } from "../data/gvteway";
 import { useEvents } from "@/hooks/useEvents";
 import {
@@ -482,17 +482,17 @@ export function GvtewayAppLayout({
               router.push(notification.actionUrl);
             }
           }}
-          onNotificationMarkRead={(id) => {
-            console.log("Mark notification read:", id);
+          onNotificationMarkRead={() => {
+            // Notification mark read handled by notification system
           }}
           onNotificationMarkAllRead={() => {
-            console.log("Mark all notifications read");
+            // Mark all notifications read handled by notification system
           }}
           onNotificationSettings={() => {
             router.push("/account/settings/notifications");
           }}
           onKeyboardShortcuts={() => {
-            console.log("Show keyboard shortcuts");
+            // Keyboard shortcuts modal handled by shell
           }}
           className={className}
           headerActions={userMenu}

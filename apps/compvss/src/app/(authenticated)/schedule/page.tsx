@@ -1,34 +1,12 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import {
-  ListPage, Body, Badge, Stack, ProgressBar,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  ListPage,
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import { useSchedulePageData, type ScheduleItem } from "@/hooks/useSchedule";
 import { Eye, Play, CheckCircle } from "lucide-react";
-
-const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
-  switch (status) {
-    case 'completed': return 'solid';
-    case 'in_progress': return 'outline';
-    default: return 'ghost';
-  }
-};
-
-const formatTime = (dateString: string) => {
-  return new Date(dateString).toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-};
-
-const getProgress = (item: ScheduleItem): number => {
-  if (item.status === 'completed') return 100;
-  if (item.status === 'in_progress') return 50;
-  return 0;
-};
 
 export default function SchedulePage() {
   const router = useRouter();
@@ -40,61 +18,8 @@ export default function SchedulePage() {
     refetch,
   } = useSchedulePageData();
 
-  const columns: ListPageColumn<ScheduleItem>[] = [
-    {
-      key: 'title',
-      label: 'Item',
-      accessor: 'title',
-      sortable: true,
-      render: (_value: unknown, item) => (
-        <Stack gap={1}>
-          <Body className="font-display">{item.title}</Body>
-          <Body size="sm" className="text-muted-foreground font-mono">
-            {formatTime(item.start_time)} - {formatTime(item.end_time)}
-          </Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      accessor: 'status',
-      sortable: true,
-      render: (_value: unknown, item) => (
-        <Badge variant={getStatusVariant(item.status)}>
-          {item.status?.replace('_', ' ').toUpperCase()}
-        </Badge>
-      ),
-    },
-    {
-      key: 'assignments',
-      label: 'Crew',
-      accessor: (item) => `${item.assignments?.length || 0} assigned`,
-    },
-    {
-      key: 'progress',
-      label: 'Progress',
-      accessor: (item) => `${getProgress(item)}%`,
-      render: (_value: unknown, item) => (
-        <Stack gap={1}>
-          <ProgressBar value={getProgress(item)} size="sm" />
-          <Body size="sm" className="font-mono">{getProgress(item)}%</Body>
-        </Stack>
-      ),
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'status',
-      label: 'Status',
-      options: [
-        { value: 'scheduled', label: 'Scheduled' },
-        { value: 'in_progress', label: 'In Progress' },
-        { value: 'completed', label: 'Completed' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<ScheduleItem>('schedule');
+  const filters = getEntityFilters('schedule');
 
   const rowActions: ListPageAction<ScheduleItem>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: () => {} },

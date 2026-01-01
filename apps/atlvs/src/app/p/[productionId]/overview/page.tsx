@@ -10,7 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Calendar, Users, FileText, DollarSign, Clock, CheckCircle, List, Activity} from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, ProgressBar, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, ProgressBar, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Production {
   id: string;
@@ -104,7 +104,7 @@ export default function ProductionOverviewPage() {
       content: (
         <Section>
           <SectionHeader title="Recent Activity" description="Latest updates on this production" />
-          <Box className="space-y-4 mt-4">
+          <Stack gap={4} className="mt-4">
             {[
               { action: "Task completed", detail: "Stage setup finalized", time: "2 hours ago", icon: <CheckCircle className="size-4 text-success" /> },
               { action: "Document uploaded", detail: "Vendor contract signed", time: "4 hours ago", icon: <FileText className="size-4 text-info" /> },
@@ -122,7 +122,7 @@ export default function ProductionOverviewPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { CheckCircle, List } from "lucide-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Body, Button, Card, Textarea, DetailPage, Section, Box} from "@ghxstship/ui";
+import { Body, Button, Card, Textarea, DetailPage, Section, Box, Stack } from "@ghxstship/ui";
 
 interface Question { id: string; text: string; type: "rating" | "text"; }
 interface Survey { id: string; title: string; description: string; questions: Question[]; }
@@ -45,7 +45,7 @@ export default function SurveyPage() {
         ) : (
           <>
             <Card className="p-6 mb-6"><Body className="text-on-dark-secondary">{survey.description}</Body></Card>
-            <Box className="space-y-6">
+            <Stack gap={6}>
               {survey.questions.map((q: Question, idx: number) => (
                 <Card key={q.id} className="p-6">
                   <Body className="font-weight-bold mb-4">{idx + 1}. {q.text}</Body>
@@ -56,7 +56,7 @@ export default function SurveyPage() {
                   )}
                 </Card>
               ))}
-            </Box>
+            </Stack>
             <Button variant="solid" className="w-full mt-6" onClick={() => submitSurvey.mutate(answers)} disabled={submitSurvey.isPending}>{submitSurvey.isPending ? "Submitting..." : "Submit Survey"}</Button>
           </>
         )}

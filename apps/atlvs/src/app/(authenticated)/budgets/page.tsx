@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, BarChart3 } from 'lucide-react';
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body, useToast,
+  ListPage, DetailDrawer, RecordFormModal, Grid, Body, useToast,
   type ListPageAction, type DetailSection} from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useEntityConfig } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, useEntityConfig } from '@ghxstship/config';
 import { useBudgets } from '@/hooks/useBudgets';
 import {
   DEMO_BUDGETS,
@@ -18,8 +18,6 @@ const formatCurrency = (amount: number) => {
   if (Math.abs(amount) >= 1000) return `$${(amount / 1000).toFixed(0)}K`;
   return `$${amount.toFixed(0)}`;
 };
-
-const getStatusVariant = getBadgeVariant;
 
 // SSOT: Columns, filters, and formFields are provided by useEntityConfig
 

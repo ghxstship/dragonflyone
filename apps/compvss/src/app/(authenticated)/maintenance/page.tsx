@@ -3,12 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Check } from "lucide-react";
-// Layout provided by route group
 import { useMaintenance } from "@/hooks/useMaintenance";
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+  ListPage, DetailDrawer, RecordFormModal, Grid, Stack, Body,
+  type ListPageAction, type FormFieldConfig, type DetailSection} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 
 interface MaintenanceItem {
   id: string;
@@ -22,29 +21,10 @@ interface MaintenanceItem {
   [key: string]: unknown;
 }
 
-const getPriorityVariant = (priority: string): "solid" | "outline" | "ghost" => {
-  switch (priority?.toLowerCase()) {
-    case "high": case "critical": return "solid";
-    case "medium": return "outline";
-    default: return "ghost";
-  }
-};
-
 const formatStatus = (status: string) => status?.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) || status;
 
-const columns: ListPageColumn<MaintenanceItem>[] = [
-  { key: 'equipment_name', label: 'Equipment', accessor: (r) => r.equipment_name || 'N/A', sortable: true },
-  { key: 'type', label: 'Type', accessor: 'type', render: (v: unknown) => <Badge variant="ghost">{formatStatus(String(v))}</Badge> },
-  { key: 'last_service', label: 'Last Service', accessor: (r) => r.last_service ? new Date(r.last_service).toLocaleDateString() : 'N/A', sortable: true },
-  { key: 'next_due', label: 'Next Due', accessor: (r) => r.next_due ? new Date(r.next_due).toLocaleDateString() : 'N/A', sortable: true },
-  { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v: unknown) => <Badge variant={getPriorityVariant(String(v))}>{String(v)}</Badge> },
-  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v: unknown) => <Badge variant={v === 'completed' ? 'solid' : 'outline'}>{formatStatus(String(v))}</Badge> },
-];
-
-const filters: ListPageFilter[] = [
-  { key: 'status', label: 'Status', options: [{ value: 'pending', label: 'Pending' }, { value: 'in-progress', label: 'In Progress' }, { value: 'scheduled', label: 'Scheduled' }, { value: 'completed', label: 'Completed' }] },
-  { key: 'priority', label: 'Priority', options: [{ value: 'critical', label: 'Critical' }, { value: 'high', label: 'High' }, { value: 'medium', label: 'Medium' }, { value: 'low', label: 'Low' }] },
-];
+const columns = getEntityColumns<MaintenanceItem>('maintenance');
+const filters = getEntityFilters('maintenance');
 
 const formFields: FormFieldConfig[] = [
   { name: 'equipment_name', label: 'Equipment', type: 'text', required: true, colSpan: 2 },

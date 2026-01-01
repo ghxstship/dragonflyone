@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { ShoppingCart, Trash2, Plus, Minus, CreditCard, List } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Body, Button, Card, Grid, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+import { Body, Button, Card, Grid, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface CartItem { id: string; name: string; quantity: number; price: number; type: string; }
 const DEMO_CART: CartItem[] = [
@@ -60,7 +60,7 @@ export default function CartPage() {
           </Card>
         ) : (
           <Grid cols={3} gap={6} className="grid-cols-1 lg:grid-cols-3">
-            <Box className="lg:col-span-2 space-y-4">
+            <Stack gap={4} className="lg:col-span-2">
               {items.map((item: CartItem) => (
                 <Card key={item.id} className="p-4">
                   <Box className="flex items-center justify-between">
@@ -80,14 +80,14 @@ export default function CartPage() {
                   </Box>
                 </Card>
               ))}
-            </Box>
+            </Stack>
             <Card className="p-6 h-fit">
               <SectionHeader title="Order Summary" />
-              <Box className="space-y-3 mt-4">
+              <Stack gap={3} className="mt-4">
                 <Box className="flex justify-between"><Body className="text-on-dark-muted">Subtotal</Body><Body>{formatCurrency(subtotal)}</Body></Box>
                 <Box className="flex justify-between"><Body className="text-on-dark-muted">Service Fees</Body><Body>{formatCurrency(fees)}</Body></Box>
                 <Box className="border-t border-grey-800 pt-3 flex justify-between"><Body className="font-weight-bold">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></Box>
-              </Box>
+              </Stack>
               <Button variant="solid" className="w-full mt-6" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={() => router.push("/checkout")}>Checkout</Button>
             </Card>
           </Grid>

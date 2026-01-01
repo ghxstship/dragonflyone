@@ -141,7 +141,7 @@ export default function ChatPage() {
                 />
               </Box>
 
-              <Box className="space-y-2">
+              <Stack gap={2}>
                 {filteredRooms.length === 0 ? (
                   <Body className="text-on-dark-muted text-center py-4">No rooms found</Body>
                 ) : (
@@ -151,7 +151,7 @@ export default function ChatPage() {
                       className={`cursor-pointer p-3 transition-all ${selectedRoom?.id === room.id ? "ring-2 ring-primary" : "hover:bg-grey-800"}`}
                       onClick={() => setSelectedRoom(room)}
                     >
-                      <Box className="space-y-2">
+                      <Stack gap={2}>
                         <Box className="flex items-center justify-between">
                           <Body className="font-weight-medium text-white">{room.name}</Body>
                           {room.unreadCount > 0 && (
@@ -163,11 +163,11 @@ export default function ChatPage() {
                           <Body size="sm" className="text-on-dark-muted">{room.memberCount} members</Body>
                         </Box>
                         <Body size="sm" className="text-on-dark-muted truncate">{room.lastMessage}</Body>
-                      </Box>
+                      </Stack>
                     </Card>
                   ))
                 )}
-              </Box>
+              </Stack>
             </Section>
 
             {/* Chat Area */}
@@ -182,7 +182,7 @@ export default function ChatPage() {
                     {getTypeBadge(selectedRoom.type)}
                   </Box>
 
-                  <Box className="flex-1 space-y-3 overflow-y-auto mb-4">
+                  <Stack gap={3} className="flex-1 overflow-y-auto mb-4">
                     {messagesLoading ? (
                       <Box className="flex items-center justify-center py-8">
                         <Spinner variant="grey" size="sm" />
@@ -196,18 +196,18 @@ export default function ChatPage() {
                           className={`max-w-[80%] ${message.isOwn ? "ml-auto" : ""}`}
                         >
                           <Card className={`p-3 ${message.isOwn ? "bg-primary" : "bg-grey-800"}`}>
-                            <Box className="space-y-1">
+                            <Stack gap={1}>
                               {!message.isOwn && (
                                 <Body size="sm" className="font-weight-medium text-on-dark-muted">{message.sender}</Body>
                               )}
                               <Body className="text-white">{message.content}</Body>
                               <Body size="sm" className="text-on-dark-disabled">{message.timestamp}</Body>
-                            </Box>
+                            </Stack>
                           </Card>
                         </Box>
                       ))
                     )}
-                  </Box>
+                  </Stack>
 
                   <Box className="flex gap-2 border-t border-grey-700 pt-4">
                     <Input

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Edit, Users, Trash2, Download } from 'lucide-react';
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
+  ListPage, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
   type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
 import { createExportHandler, useAuthContext, PlatformRole, useEntityConfig } from '@ghxstship/config';
 

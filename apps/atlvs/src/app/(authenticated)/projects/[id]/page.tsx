@@ -16,7 +16,7 @@ import {
   PROJECT_STATUS_COLORS,
 } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ProgressBar, useToast, Box,
+  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ProgressBar, useToast, Box, Stack,
   type DetailPageTab,
 } from "@ghxstship/ui";
 import { useProjectDetailData } from "@/hooks/useProjectDetail";
@@ -150,7 +150,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
       content: (
         <Section border>
           <SectionHeader title="Project Milestones" />
-          <Box className="space-y-4">
+          <Stack gap={4}>
             {milestones.map((milestone) => (
               <Card key={milestone.id} inverted className="p-4">
                 <Box className="flex items-center justify-between mb-2">
@@ -165,7 +165,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
                 <ProgressBar value={milestone.progress} variant="inverse" />
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

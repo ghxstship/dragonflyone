@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { useAuthContext, PlatformRole } from "@ghxstship/config";
 import { useAdvancingCatalog } from "@/hooks/useAdvancingCatalog";
 import {
-  Body, Button, Input, Card, Grid, Badge, Select, Field, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Body, Button, Input, Card, Grid, Badge, Select, Field, DetailPage, Section, SectionHeader, Box, Stack} from "@ghxstship/ui";
 import type { ProductionCatalogItem } from "@ghxstship/config/types/advancing";
 import { Search, Package, Filter, X, List, ArrowLeft, Plus } from "lucide-react";
 
@@ -163,7 +163,7 @@ export default function CatalogPage() {
 
             {/* Subcategory Pills */}
             {selectedCategory && subcategories.length > 0 && (
-              <Box className="space-y-2">
+              <Stack gap={2}>
                 <Body size="sm" className="text-on-dark-muted">Subcategories:</Body>
                 <Box className="flex flex-wrap gap-2">
                   <Badge
@@ -184,7 +184,7 @@ export default function CatalogPage() {
                     </Badge>
                   ))}
                 </Box>
-              </Box>
+              </Stack>
             )}
 
             {/* Advanced Filters Panel */}

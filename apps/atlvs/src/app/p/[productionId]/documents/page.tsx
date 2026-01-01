@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { FileText, Plus, Download, Trash2, Search, Folder, Upload, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Document {
   id: string;
@@ -93,7 +93,7 @@ export default function ProductionDocumentsPage() {
             </Box>
           </Card>
 
-          <Box className="space-y-2">
+          <Stack gap={2}>
             {filteredDocuments.map((doc: Document) => (
               <Card key={doc.id} className="p-4">
                 <Box className="flex items-center justify-between">
@@ -112,7 +112,7 @@ export default function ProductionDocumentsPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

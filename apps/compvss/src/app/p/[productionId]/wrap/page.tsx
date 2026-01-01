@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { CheckCircle, Clock, FileText, Download, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, ProgressBar, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, ProgressBar, DetailPage, Section, SectionHeader, Box, Stack} from "@ghxstship/ui";
 
 interface WrapItem {
   id: string;
@@ -83,7 +83,7 @@ export default function ProductionWrapPage() {
             ))}
           </Box>
 
-          <Box className="space-y-2">
+          <Stack gap={2}>
             {filteredItems.map((item: WrapItem) => (
               <Card key={item.id} className="p-4">
                 <Box className="flex items-center justify-between">
@@ -103,7 +103,7 @@ export default function ProductionWrapPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

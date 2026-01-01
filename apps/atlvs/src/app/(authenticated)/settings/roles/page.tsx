@@ -11,7 +11,7 @@ import { Shield, Plus, Edit, Trash2, Check, X, List, Settings } from "lucide-rea
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, StatCard, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, Input, Modal, ModalBody, ModalFooter, ModalHeader, StatCard, DetailPage, Section, SectionHeader, useToast, Box, Stack } from "@ghxstship/ui";
 
 interface Role {
   id: string;
@@ -145,7 +145,7 @@ export default function RolesSettingsPage() {
             </Box>
           )}
 
-          <Box className="space-y-4">
+          <Stack gap={4}>
             {roles.map((role: Role) => (
               <Card key={role.id} className="p-4">
                 <Box className="flex justify-between items-start">
@@ -174,7 +174,7 @@ export default function RolesSettingsPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },
@@ -185,21 +185,21 @@ export default function RolesSettingsPage() {
       content: (
         <Section>
           <SectionHeader title="Available Permissions" description="All permissions that can be assigned to roles" />
-          <Box className="space-y-6 mt-4">
+          <Stack gap={6} className="mt-4">
             {Object.entries(permissionsByCategory).map(([category, perms]) => (
               <Card key={category} className="p-4">
                 <Body className="font-weight-medium mb-3">{category}</Body>
-                <Box className="grid grid-cols-2 gap-2">
+                <Grid cols={2} gap={2}>
                   {perms.map((perm) => (
                     <Box key={perm.id} className="flex items-center gap-2 p-2 bg-grey-800 rounded">
                       <Check className="size-4 text-success" />
                       <Body size="sm">{perm.label}</Body>
                     </Box>
                   ))}
-                </Box>
+                </Grid>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },
@@ -219,7 +219,7 @@ export default function RolesSettingsPage() {
       <Modal open={showCreate} onClose={() => { setShowCreate(false); resetForm(); }} size="lg">
         <ModalHeader><Body className="font-weight-bold font-weight-medium">{editingRole ? "Edit Role" : "Create Role"}</Body></ModalHeader>
         <ModalBody>
-          <Box className="space-y-4">
+          <Stack gap={4}>
             <Box>
               <Body size="sm" className="text-on-dark-muted mb-1">Role Name</Body>
               <Input placeholder="e.g., Project Lead" value={newRoleName} onChange={(e) => setNewRoleName(e.target.value)} />
@@ -230,23 +230,23 @@ export default function RolesSettingsPage() {
             </Box>
             <Box>
               <Body size="sm" className="text-on-dark-muted mb-2">Permissions</Body>
-              <Box className="space-y-4 max-h-64 overflow-y-auto">
+              <Stack gap={4} className="max-h-64 overflow-y-auto">
                 {Object.entries(permissionsByCategory).map(([category, perms]) => (
                   <Box key={category}>
                     <Body size="sm" className="font-weight-medium mb-2">{category}</Body>
-                    <Box className="grid grid-cols-2 gap-2">
+                    <Grid cols={2} gap={2}>
                       {perms.map((perm) => (
                         <Button key={perm.id} variant={selectedPermissions.includes(perm.id) ? "solid" : "outline"} size="sm" onClick={() => togglePermission(perm.id)} className="justify-start">
                           {selectedPermissions.includes(perm.id) ? <Check className="size-3 mr-2" /> : <X className="size-3 mr-2 opacity-50" />}
                           {perm.label}
                         </Button>
                       ))}
-                    </Box>
+                    </Grid>
                   </Box>
                 ))}
-              </Box>
+              </Stack>
             </Box>
-          </Box>
+          </Stack>
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => { setShowCreate(false); resetForm(); }}>Cancel</Button>

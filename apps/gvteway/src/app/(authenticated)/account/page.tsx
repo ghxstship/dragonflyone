@@ -17,7 +17,9 @@ import {
   DetailPage,
   Section,
   SectionHeader,
-Box} from "@ghxstship/ui";
+Box,
+  Stack,
+} from "@ghxstship/ui";
 import {
   Ticket,
   Calendar,
@@ -67,7 +69,7 @@ export default function AccountPage() {
               {upcomingEvents.length === 0 ? (
                 <Body className="text-on-dark-muted py-4">No upcoming events. Browse events to find your next experience!</Body>
               ) : (
-                <Box className="space-y-3">
+                <Stack gap={3}>
                   {upcomingEvents.map((event) => (
                     <Card key={event.id} className="p-4">
                       <Box className="flex items-center justify-between">
@@ -82,7 +84,7 @@ export default function AccountPage() {
                       </Box>
                     </Card>
                   ))}
-                </Box>
+                </Stack>
               )}
               <Link href="/account/tickets" className="block mt-4">
                 <Button variant="ghost" size="sm" icon={<ChevronRight className="size-4" />} iconPosition="right">
@@ -91,7 +93,7 @@ export default function AccountPage() {
               </Link>
             </Section>
 
-            <Box className="space-y-6">
+            <Stack gap={6}>
               <Section border>
                 <SectionHeader title="Quick Actions" />
                 <Grid cols={2} gap={3} className="grid-cols-1 sm:grid-cols-2">
@@ -112,7 +114,7 @@ export default function AccountPage() {
 
               <Section border>
                 <SectionHeader title="Recent Activity" />
-                <Box className="space-y-2">
+                <Stack gap={2}>
                   <Box className="flex items-center justify-between">
                     <Body className="text-white">Purchased 2 tickets</Body>
                     <Body size="sm" className="text-on-dark-muted">2 days ago</Body>
@@ -125,9 +127,9 @@ export default function AccountPage() {
                     <Body className="text-white">Updated payment method</Body>
                     <Body size="sm" className="text-on-dark-muted">1 week ago</Body>
                   </Box>
-                </Box>
+                </Stack>
               </Section>
-            </Box>
+            </Stack>
           </Grid>
         </>
       ),

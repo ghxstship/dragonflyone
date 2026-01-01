@@ -164,7 +164,7 @@ export default function BillingSettingsPage() {
               <Body className="text-on-dark-muted">No invoices yet</Body>
             </Card>
           ) : (
-            <Box className="space-y-2 mt-4">
+            <Stack gap={2} className="mt-4">
               {data.invoices.map((invoice) => (
                 <Card key={invoice.id} className="p-4">
                   <Box className="flex justify-between items-center">
@@ -180,7 +180,7 @@ export default function BillingSettingsPage() {
                   </Box>
                 </Card>
               ))}
-            </Box>
+            </Stack>
           )}
         </Section>
       ),

@@ -37,7 +37,7 @@ import {
   compvssDemoWorkspaces,
   compvssBottomNavigation,
 } from "../data/compvss";
-import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions, Box, HeaderNotification, HeaderQuickAction } from "@ghxstship/ui";
+import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions, HeaderNotification, HeaderQuickAction } from "@ghxstship/ui";
 import {
   useCommandPalette,
   buildNavigationCommands,
@@ -481,17 +481,17 @@ export function CompvssAppLayout({
               router.push(notification.actionUrl);
             }
           }}
-          onNotificationMarkRead={(id) => {
-            console.log("Mark notification read:", id);
+          onNotificationMarkRead={() => {
+            // Notification mark read handled by notification system
           }}
           onNotificationMarkAllRead={() => {
-            console.log("Mark all notifications read");
+            // Mark all notifications read handled by notification system
           }}
           onNotificationSettings={() => {
             router.push("/settings/notifications");
           }}
           onKeyboardShortcuts={() => {
-            console.log("Show keyboard shortcuts");
+            // Keyboard shortcuts modal handled by shell
           }}
           className={className}
           headerActions={userMenu}

@@ -8,7 +8,7 @@
 
 import { Check, ArrowRight, Play, List} from "lucide-react";
 import {
-  Body, Button, Card, Grid, ProgressBar, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Body, Button, Card, Grid, ProgressBar, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 const QUICK_START_STEPS = [
   { id: 1, title: "Sign Up", description: "Create your free account", completed: true },
@@ -37,7 +37,7 @@ export default function HelpGettingStartedPage() {
             <ProgressBar value={progress} size="lg" />
           </Card>
 
-          <Box className="space-y-4">
+          <Stack gap={4}>
             {QUICK_START_STEPS.map((step, idx) => (
               <Card key={step.id} className={`p-6 ${step.completed ? "border-success" : ""}`}>
                 <Box className="flex items-start gap-4">
@@ -54,7 +54,7 @@ export default function HelpGettingStartedPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

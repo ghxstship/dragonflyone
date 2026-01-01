@@ -9,7 +9,7 @@
 import { Music, Calendar, DollarSign, Star, List, Settings } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box} from "@ghxstship/ui";
+  Badge, Body, Button, Card, Grid, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
 interface Booking {
   id: string;
@@ -65,7 +65,7 @@ export default function ArtistPortalPage() {
           </Grid>
 
           <SectionHeader title="Upcoming Bookings" />
-          <Box className="space-y-4 mt-4">
+          <Stack gap={4} className="mt-4">
             {bookings.filter((b: Booking) => b.status !== "completed").map((booking: Booking) => (
               <Card key={booking.id} className="p-6">
                 <Box className="flex items-start justify-between">
@@ -83,7 +83,7 @@ export default function ArtistPortalPage() {
                 </Box>
               </Card>
             ))}
-          </Box>
+          </Stack>
         </Section>
       ),
     },

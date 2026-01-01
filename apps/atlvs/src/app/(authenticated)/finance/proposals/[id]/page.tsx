@@ -18,7 +18,7 @@ import {
 import {
   Badge, Body, Button, Card, Grid, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, StatCard, useToast, DetailPage, Section, SectionHeader, Box, Stack,
 } from "@ghxstship/ui";
-import { useProposal, useSendProposal, type ProposalStatus } from "@/hooks/useProposals";
+import { useProposal, useSendProposal } from "@/hooks/useProposals";
 
 const STATUS_COLORS = PROPOSAL_STATUS_COLORS;
 
@@ -127,7 +127,7 @@ export default function ProposalDetailPage() {
                 </TableBody>
               </Table>
               <Box className="p-6 border-t border-grey-700">
-                <Box className="space-y-2">
+                <Stack gap={2}>
                   <Box className="flex justify-between">
                     <Body>Subtotal</Body>
                     <Body>{formatCurrency(proposal.subtotal)}</Body>
@@ -140,7 +140,7 @@ export default function ProposalDetailPage() {
                     <Body>Total</Body>
                     <Body>{formatCurrency(proposal.total)}</Body>
                   </Box>
-                </Box>
+                </Stack>
               </Box>
             </Card>
           ) : (
@@ -168,7 +168,7 @@ export default function ProposalDetailPage() {
         <Section>
           <SectionHeader title="Activity Timeline" description="Track proposal status changes" />
           <Card className="p-6">
-            <Box className="space-y-4">
+            <Stack gap={4}>
               <Box className="flex items-center gap-3">
                 <FileText className="size-4 text-on-dark-muted" />
                 <Body size="sm">Created on {formatDate(proposal.created_at)}</Body>
@@ -197,7 +197,7 @@ export default function ProposalDetailPage() {
                   </Body>
                 </Box>
               )}
-            </Box>
+            </Stack>
           </Card>
         </Section>
       ),

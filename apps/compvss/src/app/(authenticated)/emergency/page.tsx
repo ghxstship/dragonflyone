@@ -2,22 +2,17 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
 import { Ambulance, Flame, AlertTriangle, Eye, Phone } from "lucide-react";
 import {
   ListPage, H3, Body, Grid, Stack, Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Alert,
-  type ListPageColumn, type ListPageFilter, type ListPageAction} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  type ListPageAction} from "@ghxstship/ui";
+import { createExportHandler, getEntityColumns, getEntityFilters } from "@ghxstship/config";
 import {
   useEmergencyContacts,
   useEmergencyProcedures,
   type EmergencyContact,
   type EmergencyProcedure,
 } from "@/hooks/useEmergency";
-
-const getStatusVariant = (available: boolean): 'solid' | 'outline' => {
-  return available ? 'solid' : 'outline';
-};
 
 export default function EmergencyPage() {
   const router = useRouter();
@@ -27,58 +22,8 @@ export default function EmergencyPage() {
   const [showCallModal, setShowCallModal] = useState(false);
   const [selectedContact, setSelectedContact] = useState<EmergencyContact | null>(null);
 
-  const columns: ListPageColumn<EmergencyContact>[] = [
-    {
-      key: 'name',
-      label: 'Contact',
-      accessor: 'name',
-      sortable: true,
-      render: (_value: unknown, c) => (
-        <Stack gap={1}>
-          <Body className="font-display">{c.name}</Body>
-          <Body size="sm" className="text-muted-foreground">{c.role}</Body>
-        </Stack>
-      ),
-    },
-    {
-      key: 'category',
-      label: 'Category',
-      accessor: 'category',
-      sortable: true,
-      render: (_value: unknown, c) => <Badge variant="outline">{c.category}</Badge>,
-    },
-    { key: 'phone', label: 'Phone', accessor: 'phone' },
-    { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true },
-    {
-      key: 'available',
-      label: 'Status',
-      accessor: (c) => c.available ? 'Available' : 'Unavailable',
-      render: (_value: unknown, c) => <Badge variant={getStatusVariant(c.available)}>{c.available ? 'Available' : 'Unavailable'}</Badge>,
-    },
-  ];
-
-  const filters: ListPageFilter[] = [
-    {
-      key: 'category',
-      label: 'Category',
-      options: [
-        { value: 'Production', label: 'Production' },
-        { value: 'Medical', label: 'Medical' },
-        { value: 'Security', label: 'Security' },
-        { value: 'Fire', label: 'Fire' },
-        { value: 'Police', label: 'Police' },
-        { value: 'Venue', label: 'Venue' },
-      ],
-    },
-    {
-      key: 'available',
-      label: 'Availability',
-      options: [
-        { value: 'true', label: 'Available' },
-        { value: 'false', label: 'Unavailable' },
-      ],
-    },
-  ];
+  const columns = getEntityColumns<EmergencyContact>('emergency');
+  const filters = getEntityFilters('emergency');
 
   const rowActions: ListPageAction<EmergencyContact>[] = [
     { id: 'view', label: 'View', icon: <Eye className="h-4 w-4" />, onClick: (c) => { setSelectedContact(c); setShowCallModal(true); } },
