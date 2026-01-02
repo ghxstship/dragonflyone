@@ -89,8 +89,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = reviewActionSchema.parse(body);
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
 
       const { data, error } = await supabase.from('reviews').insert({
         entity_type, entity_id, rating, title, content,
-        project_id, reviewer_id: user.id
+        project_id, reviewer_id: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
       const { review_id, content } = validatedData as z.infer<typeof respondReviewSchema>;
 
       const { data, error } = await supabase.from('review_responses').insert({
-        review_id, content, responder_id: user.id, responded_at: new Date().toISOString()
+        review_id, content, responder_id: userId, responded_at: new Date().toISOString()
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

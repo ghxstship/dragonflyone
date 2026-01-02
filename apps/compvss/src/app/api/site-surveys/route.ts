@@ -119,12 +119,9 @@ export async function POST(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -179,7 +176,7 @@ export async function POST(request: NextRequest) {
         safety_notes,
         general_notes,
         status: 'draft',
-        conducted_by: user.id,
+        conducted_by: userId,
       })
       .select()
       .single();
@@ -253,12 +250,9 @@ export async function PATCH(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -272,7 +266,7 @@ export async function PATCH(request: NextRequest) {
         .from('site_survey_issues')
         .update({
           ...updateData,
-          resolved_by: updateData.status === 'resolved' ? user.id : null,
+          resolved_by: updateData.status === 'resolved' ? userId : null,
           resolved_at: updateData.status === 'resolved' ? new Date().toISOString() : null,
         })
         .eq('id', issue_id);
@@ -305,7 +299,7 @@ export async function PATCH(request: NextRequest) {
         .update({
           status: 'finalized',
           finalized_at: new Date().toISOString(),
-          finalized_by: user.id,
+          finalized_by: userId,
         })
         .eq('id', survey_id);
 

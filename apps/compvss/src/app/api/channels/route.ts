@@ -87,12 +87,9 @@ export async function POST(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -108,7 +105,7 @@ export async function POST(request: NextRequest) {
         department,
         description,
         project_id,
-        created_by: user.id,
+        created_by: userId,
         is_active: true,
       })
       .select()
@@ -123,7 +120,7 @@ export async function POST(request: NextRequest) {
       .from('channel_members')
       .insert({
         channel_id: channel.id,
-        user_id: user.id,
+        user_id: userId,
         role: 'admin',
       });
 

@@ -50,14 +50,6 @@ export async function GET(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const { searchParams } = new URL(request.url);
     const connectionId = searchParams.get('connection_id');
@@ -201,12 +193,9 @@ export async function POST(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -221,7 +210,7 @@ export async function POST(request: NextRequest) {
         .insert({
           ...validated,
           is_active: true,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -238,7 +227,7 @@ export async function POST(request: NextRequest) {
         .from('crm_field_mappings')
         .insert({
           ...validated,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -260,7 +249,7 @@ export async function POST(request: NextRequest) {
           direction: direction || 'bidirectional',
           status: 'running',
           started_at: new Date().toISOString(),
-          triggered_by: user.id,
+          triggered_by: userId,
         })
         .select()
         .single();
@@ -296,7 +285,7 @@ export async function POST(request: NextRequest) {
           status: 'resolved',
           resolution,
           resolved_data,
-          resolved_by: user.id,
+          resolved_by: userId,
           resolved_at: new Date().toISOString(),
         })
         .eq('id', conflict_id)
@@ -343,9 +332,6 @@ export async function PATCH(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const { searchParams } = new URL(request.url);
     const connectionId = searchParams.get('connection_id');
@@ -387,9 +373,6 @@ export async function DELETE(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);

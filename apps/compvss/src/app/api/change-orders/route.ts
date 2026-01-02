@@ -83,8 +83,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createChangeOrderSchema.parse(body);
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
       project_id, co_number: coNumber, title, description, reason,
       cost_impact, schedule_impact_days, priority: priority || 'medium',
       affected_areas: affected_areas || [], status: 'pending',
-      requested_by: user.id
+      requested_by: userId
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -121,8 +121,8 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = updateChangeOrderSchema.parse(body);
@@ -132,7 +132,7 @@ export async function PATCH(request: NextRequest) {
       const { data: co } = await supabase.from('change_orders').select('project_id, cost_impact').eq('id', id).single();
       
       await supabase.from('change_orders').update({
-        status: 'approved', approved_by: user.id, approved_at: new Date().toISOString()
+        status: 'approved', approved_by: userId, approved_at: new Date().toISOString()
       }).eq('id', id);
 
       // Update project budget if cost impact

@@ -37,8 +37,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { searchParams } = new URL(request.url);
     const conversationId = searchParams.get('conversation_id');
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
     const { data: conversations } = await supabase.from('conversations').select(`
       *, participants:conversation_participants(user:platform_users(id, first_name, last_name)),
       last_message:direct_messages(content, sent_at)
-    `).contains('participant_ids', [user.id]).order('updated_at', { ascending: false });
+    `).contains('participant_ids', [userId]).order('updated_at', { ascending: false });
 
     return NextResponse.json({ conversations });
   } catch (error) {
@@ -75,8 +75,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = directMessageActionSchema.parse(body);
@@ -87,20 +87,20 @@ export async function POST(request: NextRequest) {
 
       // Check for existing conversation
       const { data: existing } = await supabase.from('conversations').select('id')
-        .contains('participant_ids', [user.id, recipient_id]).single();
+        .contains('participant_ids', [userId, recipient_id]).single();
 
       let conversationId = existing?.id;
 
       if (!conversationId) {
         const { data: conv } = await supabase.from('conversations').insert({
-          participant_ids: [user.id, recipient_id]
+          participant_ids: [userId, recipient_id]
         }).select().single();
         conversationId = conv?.id;
       }
 
       if (initial_message) {
         await supabase.from('direct_messages').insert({
-          conversation_id: conversationId, sender_id: user.id, content: initial_message
+          conversation_id: conversationId, sender_id: userId, content: initial_message
         });
       }
 
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
       const { conversation_id, content, attachments } = validatedData as z.infer<typeof sendMessageSchema>;
 
       const { data, error } = await supabase.from('direct_messages').insert({
-        conversation_id, sender_id: user.id, content, attachments: attachments || []
+        conversation_id, sender_id: userId, content, attachments: attachments || []
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

@@ -1,4 +1,4 @@
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole, log as logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/catalog/categories/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
@@ -14,7 +14,7 @@ const ATLVS_ROLES = [
   PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
 ];
 
-export async function GET(_request: NextRequest) {
+export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
     // Authenticate and authorize

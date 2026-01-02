@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
+import { logger } from '@ghxstship/config';
 
 const signInSchema = z.object({
   email: z.string().email(),

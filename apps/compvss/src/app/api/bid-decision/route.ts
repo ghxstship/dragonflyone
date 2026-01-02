@@ -74,8 +74,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = bidActionSchema.parse(body);
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
 
       const { data, error } = await supabase.from('bid_decisions').insert({
         rfp_id, weighted_score: weightedScore, notes, status: 'pending_approval',
-        recommendation: weightedScore >= 70 ? 'bid' : 'no_bid', created_by: user.id
+        recommendation: weightedScore >= 70 ? 'bid' : 'no_bid', created_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
       const { decision_id, approved, comment } = validatedData as z.infer<typeof approveBidSchema>;
 
       await supabase.from('bid_decision_approvals').insert({
-        decision_id, user_id: user.id, approved, comment
+        decision_id, user_id: userId, approved, comment
       });
 
       // Check if all required approvals received

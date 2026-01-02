@@ -69,8 +69,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createTemplateSchema.parse(body);
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
       name, event_type, description, default_timeline: default_timeline || [],
       default_crew_roles: default_crew_roles || [], default_equipment: default_equipment || [],
       checklist_items: checklist_items || [], budget_template: budget_template || {},
-      created_by: user.id, is_public: false
+      created_by: userId, is_public: false
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -101,9 +101,6 @@ export async function PATCH(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = applyTemplateSchema.parse(body);

@@ -40,14 +40,14 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
 
     let query = supabase.from('proposal_templates').select('*')
-      .or(`is_public.eq.true,created_by.eq.${user.id}`);
+      .or(`is_public.eq.true,created_by.eq.${userId}`);
 
     if (category) query = query.eq('category', category);
 
@@ -72,8 +72,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = proposalActionSchema.parse(body);
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
 
       const { data, error } = await supabase.from('proposal_templates').insert({
         name, category, content, sections: sections || [],
-        branding: branding || {}, is_public: false, created_by: user.id
+        branding: branding || {}, is_public: false, created_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
       });
 
       const { data, error } = await supabase.from('proposals').insert({
-        rfp_id, template_id, content, status: 'draft', created_by: user.id
+        rfp_id, template_id, content, status: 'draft', created_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

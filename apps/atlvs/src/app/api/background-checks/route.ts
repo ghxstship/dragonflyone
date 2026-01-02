@@ -95,8 +95,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createCheckSchema.parse(body);
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase.from('background_checks').insert({
       employee_id, check_type, provider, package_level,
       status: 'pending', initiated_at: new Date().toISOString(),
-      expiry_date: expiryDate.toISOString(), initiated_by: user.id
+      expiry_date: expiryDate.toISOString(), initiated_by: userId
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -130,8 +130,8 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = updateCheckSchema.parse(body);
@@ -141,7 +141,7 @@ export async function PATCH(request: NextRequest) {
       const { status, results, notes } = validatedData;
       await supabase.from('background_checks').update({
         status, results, notes, completed_at: status !== 'pending' ? new Date().toISOString() : null,
-        reviewed_by: user.id
+        reviewed_by: userId
       }).eq('id', id);
 
       return NextResponse.json({ success: true });
@@ -161,7 +161,7 @@ export async function PATCH(request: NextRequest) {
         status: 'pending',
         initiated_at: new Date().toISOString(),
         expiry_date: newExpiryDate.toISOString(),
-        initiated_by: user.id,
+        initiated_by: userId,
         previous_check_id: id
       }).select().single();
 

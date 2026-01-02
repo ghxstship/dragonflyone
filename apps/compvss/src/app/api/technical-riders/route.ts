@@ -99,12 +99,9 @@ export async function POST(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -138,7 +135,7 @@ export async function POST(request: NextRequest) {
         input_list_url,
         patch_list_url,
         status: 'draft',
-        created_by: user.id,
+        created_by: userId,
       })
       .select()
       .single();
@@ -199,12 +196,9 @@ export async function PATCH(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -231,7 +225,7 @@ export async function PATCH(request: NextRequest) {
         .from('technical_riders')
         .update({
           status: 'approved',
-          approved_by: user.id,
+          approved_by: userId,
           approved_at: new Date().toISOString(),
         })
         .eq('id', rider_id);

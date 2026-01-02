@@ -69,8 +69,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = showTimingActionSchema.parse(body);
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
     if (action === 'record_doors') {
       const { actual_time } = validatedData as z.infer<typeof recordDoorsSchema>;
       await supabase.from('show_timings').upsert({
-        event_id, timing_type: 'doors', actual_time, recorded_by: user.id
+        event_id, timing_type: 'doors', actual_time, recorded_by: userId
       }, { onConflict: 'event_id,timing_type' });
       return NextResponse.json({ success: true });
     }
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       const { artist_id, set_start, set_end } = validatedData as z.infer<typeof recordSetSchema>;
       await supabase.from('show_timings').insert({
         event_id, timing_type: 'set', artist_id, actual_time: set_start,
-        end_time: set_end, recorded_by: user.id
+        end_time: set_end, recorded_by: userId
       });
       return NextResponse.json({ success: true });
     }
@@ -96,12 +96,12 @@ export async function POST(request: NextRequest) {
     if (action === 'record_curfew') {
       const { actual_time, exceeded } = validatedData as z.infer<typeof recordCurfewSchema>;
       await supabase.from('show_timings').upsert({
-        event_id, timing_type: 'curfew', actual_time, exceeded, recorded_by: user.id
+        event_id, timing_type: 'curfew', actual_time, exceeded, recorded_by: userId
       }, { onConflict: 'event_id,timing_type' });
 
       if (exceeded) {
         await supabase.from('curfew_alerts').insert({
-          event_id, exceeded_at: actual_time, recorded_by: user.id
+          event_id, exceeded_at: actual_time, recorded_by: userId
         });
       }
 

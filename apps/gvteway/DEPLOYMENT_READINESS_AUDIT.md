@@ -386,7 +386,86 @@
 | Sitemap URLs | 80+ | ✅ |
 | Custom hooks | 152 | ✅ |
 
-### M2: KEY FEATURES
+### M2: PAGE INVENTORY (41 Core Pages Audited)
+
+#### Authenticated Routes - Account Management
+| Page | Path | Template | Key Features |
+|------|------|----------|--------------|
+| Account Orders | `/(authenticated)/account/orders/page.tsx` | ListPage | Order history, PDF receipt download, `useOrders` hook |
+| Account Dashboard | `/(authenticated)/account/page.tsx` | DetailPage | Upcoming events, quick actions, recent activity tabs |
+| Account Profile | `/(authenticated)/account/profile/page.tsx` | DetailPage | Profile editing, security settings, `useQuery`/`useMutation` |
+| Account Tickets | `/(authenticated)/account/tickets/page.tsx` | ListPage | QR codes, PDF download, ticket transfer modal |
+
+#### Authenticated Routes - Membership Application
+| Page | Path | Template | Key Features |
+|------|------|----------|--------------|
+| Apply Confirmation | `/(authenticated)/apply/confirmation/page.tsx` | MarketingPage | Post-submission confirmation, next steps, ScrollReveal |
+| Apply Form | `/(authenticated)/apply/page.tsx` | MarketingPage | Multi-step form (personal, interests, tier), `useMembershipApplyData` |
+
+#### Authenticated Routes - Social Features
+| Page | Path | Template | Key Features |
+|------|------|----------|--------------|
+| Chat | `/(authenticated)/chat/page.tsx` | DetailPage | Live event chat, chat rooms, message sending |
+| Community | `/(authenticated)/community/page.tsx` | DetailPage | Discussions, community stats, StatCard metrics |
+| Friends | `/(authenticated)/friends/page.tsx` | DetailPage | Friends list, search, empty state handling |
+| Groups | `/(authenticated)/groups/page.tsx` | DetailPage | Group management, search, create group action |
+| Messages | `/(authenticated)/messages/page.tsx` | DetailPage | Two-column inbox, conversation list, message pane |
+| Notifications | `/(authenticated)/notifications/page.tsx` | DetailPage | All/unread filter, mark as read mutations |
+
+#### Authenticated Routes - Core Features
+| Page | Path | Template | Key Features |
+|------|------|----------|--------------|
+| Dashboard | `/(authenticated)/dashboard/page.tsx` | DetailPage | Role-based views (Admin, Creator, Venue, Artist, Member) |
+| Orders | `/(authenticated)/orders/page.tsx` | ListPage | DetailDrawer, ConfirmDialog, bulk export |
+| Profile | `/(authenticated)/profile/page.tsx` | DetailPage | Profile overview, ticket count, wishlist |
+| Rewards | `/(authenticated)/rewards/page.tsx` | DetailPage | Points, tier progress, reward redemption |
+| Tickets | `/(authenticated)/tickets/page.tsx` | ListPage | DetailDrawer, QR codes, transfer, cancel |
+| Ticket Scanner | `/(authenticated)/tickets/scan/page.tsx` | DetailPage | Event check-in, manual input, scan history |
+| Venues | `/(authenticated)/venues/page.tsx` | ListPage | Venue discovery, `useVenues` hook, stats |
+| Venue Detail | `/(authenticated)/venues/[id]/page.tsx` | DetailPage | Venue info, events, amenities, follow action |
+| Wallet | `/(authenticated)/wallet/page.tsx` | DetailPage | Payment methods, transactions, `useWalletData` |
+
+#### Authenticated Routes - Settings
+| Page | Path | Template | Key Features |
+|------|------|----------|--------------|
+| Settings | `/(authenticated)/settings/page.tsx` | DetailPage | Notifications, preferences, security tabs |
+| API Access | `/(authenticated)/settings/api-access/page.tsx` | DetailPage | API key management, documentation, `useApiKeysData` |
+| API Keys | `/(authenticated)/settings/api-keys/page.tsx` | DetailPage | Key CRUD, expiration, scopes, security tips |
+| Connected Apps | `/(authenticated)/settings/connected-apps/page.tsx` | DetailPage | OAuth apps, disconnect, `useConnectedAppsData` |
+| Language | `/(authenticated)/settings/language/page.tsx` | DetailPage | Language selection, coverage %, confirmation modal |
+| Notifications | `/(authenticated)/settings/notifications/page.tsx` | DetailPage | Channels, types, timing, quiet hours |
+| Privacy | `/(authenticated)/settings/privacy/page.tsx` | DetailPage | Visibility, blocked users, reports |
+| Sessions | `/(authenticated)/settings/sessions/page.tsx` | DetailPage | Active sessions, revoke, security tips |
+| Webhooks | `/(authenticated)/settings/webhooks/page.tsx` | DetailPage | Webhook CRUD, activity log, delivery stats |
+
+#### Consumer Routes - Discovery
+| Page | Path | Template | Key Features |
+|------|------|----------|--------------|
+| Browse | `/(consumer)/browse/page.tsx` | DetailPage | Search, category filter, event grid |
+| Calendar | `/(consumer)/calendar/page.tsx` | DetailPage | Month/week view, date selection, upcoming events |
+| Discover | `/(consumer)/discover/page.tsx` | DetailPage | Categories, trending, recommended, nearby |
+| Collections | `/(consumer)/collections/[id]/page.tsx` | DetailPage | Curated event collections, event grid |
+
+#### Consumer Routes - Events
+| Page | Path | Template | Key Features |
+|------|------|----------|--------------|
+| Events List | `/(consumer)/events/page.tsx` | DetailPage | My events, search, status badges |
+| Event Detail | `/(consumer)/events/[id]/page.tsx` | Custom | Ticket types, pricing, Supabase query |
+| Create Event | `/(consumer)/events/create/page.tsx` | CreatePage | Event form, `useMutation` |
+
+#### Consumer Routes - Checkout
+| Page | Path | Template | Key Features |
+|------|------|----------|--------------|
+| Cart | `/(consumer)/cart/page.tsx` | DetailPage | Cart items, quantity update, order summary |
+| Checkout | `/(consumer)/checkout/page.tsx` | DetailPage | Multi-step (cart, payment, confirm), Supabase |
+| Currency | `/(consumer)/checkout/currency/page.tsx` | DetailPage | Currency selection (USD, EUR, GBP, CAD, AUD) |
+
+#### Root Route
+| Page | Path | Template | Key Features |
+|------|------|----------|--------------|
+| Landing | `/page.tsx` | MarketingPage | Hero, benefits, pricing, testimonials, CTA sections |
+
+### M3: KEY FEATURES
 
 | Feature | Status |
 |---------|--------|

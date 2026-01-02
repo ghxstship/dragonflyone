@@ -54,9 +54,6 @@ export async function GET(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const { searchParams } = new URL(request.url);
     const territoryId = searchParams.get('territory_id');
@@ -180,12 +177,9 @@ export async function POST(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const authUserId = authResult.user?.id;
+    if (!authUserId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -199,7 +193,7 @@ export async function POST(request: NextRequest) {
         .from('territories')
         .insert({
           ...validated,
-          created_by: user.id,
+          created_by: authUserId,
         })
         .select()
         .single();
@@ -247,7 +241,7 @@ export async function POST(request: NextRequest) {
           .from('account_assignments')
           .insert({
             ...validated,
-            created_by: user.id,
+            created_by: authUserId,
           })
           .select()
           .single();
@@ -307,7 +301,7 @@ export async function POST(request: NextRequest) {
           territory_id,
           assigned_to: territory.assigned_to,
           assignment_type: 'primary',
-          created_by: user.id,
+          created_by: authUserId,
         });
       }
 
@@ -317,7 +311,7 @@ export async function POST(request: NextRequest) {
           territory_id,
           assigned_to: territory.assigned_to,
           assignment_type: 'primary',
-          created_by: user.id,
+          created_by: authUserId,
         });
       }
 
@@ -354,9 +348,6 @@ export async function PATCH(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -399,9 +390,6 @@ export async function DELETE(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);

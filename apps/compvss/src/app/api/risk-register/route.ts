@@ -106,8 +106,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createRiskSchema.parse(body);
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
     const { data: risk, error } = await supabase.from('project_risks').insert({
       project_id, title, description, category,
       probability, impact, risk_score: riskScore,
-      owner_id, status: 'open', identified_by: user.id
+      owner_id, status: 'open', identified_by: userId
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -147,9 +147,6 @@ export async function PATCH(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = riskPatchActionSchema.parse(body);

@@ -61,12 +61,12 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ proposal: data });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { data } = await supabase.from('proposal_collaborators').select(`
       proposal:proposals(id, title, status, rfp_id, updated_at)
-    `).eq('user_id', user.id);
+    `).eq('user_id', userId);
 
     return NextResponse.json({ proposals: data?.map(d => d.proposal) });
   } catch (error) {
@@ -86,8 +86,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = proposalActionSchema.parse(body);
@@ -97,13 +97,13 @@ export async function POST(request: NextRequest) {
       const { rfp_id, title, content, collaborators } = validatedData as z.infer<typeof createSchema>;
 
       const { data, error } = await supabase.from('proposals').insert({
-        rfp_id, title, content, status: 'draft', created_by: user.id
+        rfp_id, title, content, status: 'draft', created_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Add creator as owner
-      await supabase.from('proposal_collaborators').insert({ proposal_id: data.id, user_id: user.id, role: 'owner' });
+      await supabase.from('proposal_collaborators').insert({ proposal_id: data.id, user_id: userId, role: 'owner' });
 
       // Add collaborators
       if (collaborators?.length) {
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
 
       // Create initial version
       await supabase.from('proposal_versions').insert({
-        proposal_id: data.id, version_number: 1, content, created_by: user.id
+        proposal_id: data.id, version_number: 1, content, created_by: userId
       });
 
       return NextResponse.json({ proposal: data }, { status: 201 });
@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
       const newVersion = (latest?.version_number || 0) + 1;
 
       const { data, error } = await supabase.from('proposal_versions').insert({
-        proposal_id, version_number: newVersion, content, comment, created_by: user.id
+        proposal_id, version_number: newVersion, content, comment, created_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

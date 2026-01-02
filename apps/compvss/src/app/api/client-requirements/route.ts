@@ -91,8 +91,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createRequirementSchema.parse(body);
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
     const { data: requirement, error } = await supabase.from('client_requirements').insert({
       project_id, scope_summary, deliverables: deliverables || [],
       constraints: constraints || [], assumptions: assumptions || [],
-      exclusions: exclusions || [], status: 'draft', created_by: user.id
+      exclusions: exclusions || [], status: 'draft', created_by: userId
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -136,8 +136,8 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = requirementPatchSchema.parse(body);
@@ -145,7 +145,7 @@ export async function PATCH(request: NextRequest) {
 
     if ('action' in validatedData && validatedData.action === 'approve') {
       await supabase.from('client_requirements').update({
-        status: 'approved', approved_by: user.id, approved_at: new Date().toISOString()
+        status: 'approved', approved_by: userId, approved_at: new Date().toISOString()
       }).eq('id', id);
       return NextResponse.json({ success: true });
     }

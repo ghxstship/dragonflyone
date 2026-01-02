@@ -1,4 +1,4 @@
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole, log as logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/catalog/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';

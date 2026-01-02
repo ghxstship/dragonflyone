@@ -112,8 +112,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createIssueSchema.parse(body);
@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
 
     const { data, error } = await supabase.from('project_issues').insert({
       project_id, title, description, priority: priority || 'medium',
-      category, assigned_to, status: 'open', reported_by: user.id
+      category, assigned_to, status: 'open', reported_by: userId
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -155,8 +155,8 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = issueActionSchema.parse(body);
@@ -168,7 +168,7 @@ export async function PATCH(request: NextRequest) {
       const updateData: IssueUpdate = { status };
       if (status === 'resolved') {
         updateData.resolved_at = new Date().toISOString();
-        updateData.resolved_by = user.id;
+        updateData.resolved_by = userId;
         updateData.resolution = resolution;
       }
       await supabase.from('project_issues').update(updateData).eq('id', id);
@@ -178,7 +178,7 @@ export async function PATCH(request: NextRequest) {
     if (action === 'add_comment') {
       const { comment } = validatedData as z.infer<typeof addCommentSchema>;
       await supabase.from('issue_comments').insert({
-        issue_id: id, user_id: user.id, comment
+        issue_id: id, user_id: userId, comment
       });
       return NextResponse.json({ success: true });
     }

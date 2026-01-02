@@ -75,8 +75,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = pdfActionSchema.parse(body);
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       // Create PDF generation job
       const { data, error } = await supabase.from('generated_pdfs').insert({
         document_id, document_type, title, content, status: 'processing',
-        options: options || {}, requested_by: user.id
+        options: options || {}, requested_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
 
       const jobs = await Promise.all(document_ids.map(async (docId: string) => {
         const { data } = await supabase.from('generated_pdfs').insert({
-          document_id: docId, status: 'queued', options: options || {}, requested_by: user.id
+          document_id: docId, status: 'queued', options: options || {}, requested_by: userId
         }).select().single();
         return data;
       }));
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
 
       const { data, error } = await supabase.from('generated_pdfs').insert({
         document_type: 'report', title, status: 'processing',
-        options: { report_type, filters }, requested_by: user.id
+        options: { report_type, filters }, requested_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

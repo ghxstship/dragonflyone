@@ -53,12 +53,9 @@ export async function GET(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -74,7 +71,7 @@ export async function GET(request: NextRequest) {
     const { data: accounts } = await supabase
       .from('email_accounts')
       .select('*')
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .eq('is_active', true);
 
     // Get email logs
@@ -147,12 +144,9 @@ export async function POST(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -166,7 +160,7 @@ export async function POST(request: NextRequest) {
       const { data: account, error } = await supabase
         .from('email_accounts')
         .insert({
-          user_id: user.id,
+          user_id: userId,
           provider: validated.provider,
           email_address: validated.email_address,
           display_name: validated.display_name,
@@ -208,7 +202,7 @@ export async function POST(request: NextRequest) {
       const { data: emailLog, error } = await supabase
         .from('email_logs')
         .insert({
-          user_id: user.id,
+          user_id: userId,
           contact_id: contactId,
           deal_id: validated.deal_id,
           project_id: validated.project_id,
@@ -274,12 +268,9 @@ export async function DELETE(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -297,7 +288,7 @@ export async function DELETE(request: NextRequest) {
         disconnected_at: new Date().toISOString(),
       })
       .eq('id', accountId)
-      .eq('user_id', user.id);
+      .eq('user_id', userId);
 
     if (error) {
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

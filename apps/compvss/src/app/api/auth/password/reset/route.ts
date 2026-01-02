@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, logger } from '@ghxstship/config';
 import { z } from 'zod';
 
 const resetRequestSchema = z.object({

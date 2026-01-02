@@ -89,8 +89,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createMeetingSchema.parse(body);
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
 
     const { data: meeting, error } = await supabase.from('production_meetings').insert({
       project_id, title, description, scheduled_at, duration_minutes,
-      location, meeting_type, agenda: agenda || [], organizer_id: user.id, status: 'scheduled'
+      location, meeting_type, agenda: agenda || [], organizer_id: userId, status: 'scheduled'
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -139,8 +139,8 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = meetingPatchSchema.parse(body);
@@ -151,7 +151,7 @@ export async function PATCH(request: NextRequest) {
 
       const { data, error } = await supabase.from('meeting_minutes').insert({
         meeting_id: id, content, action_items: action_items || [],
-        decisions: decisions || [], recorded_by: user.id
+        decisions: decisions || [], recorded_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -165,7 +165,7 @@ export async function PATCH(request: NextRequest) {
     if (action === 'respond') {
       const { response } = validatedData as z.infer<typeof respondMeetingSchema>;
       await supabase.from('meeting_attendees').update({ status: response })
-        .eq('meeting_id', id).eq('user_id', user.id);
+        .eq('meeting_id', id).eq('user_id', userId);
       return NextResponse.json({ success: true });
     }
 

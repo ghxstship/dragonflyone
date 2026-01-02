@@ -3,15 +3,3 @@
 > eslint . --ext .ts
 
 Pages directory cannot be found at /Users/julianclarkson/Documents/Dragonflyone/packages/integrations/pages or /Users/julianclarkson/Documents/Dragonflyone/packages/integrations/src/pages. If using a custom path, please configure with the `no-html-link-for-pages` rule in your eslint config file.
-
-/Users/julianclarkson/Documents/Dragonflyone/packages/integrations/tests/integration-validation.test.ts
-   34:5  warning  Unexpected console statement  no-console
-   35:5  warning  Unexpected console statement  no-console
-  195:7  warning  Unexpected console statement  no-console
-  213:9  warning  Unexpected console statement  no-console
-
-/Users/julianclarkson/Documents/Dragonflyone/packages/integrations/tests/zapier-qa.test.ts
-  262:9  warning  Unexpected console statement  no-console
-
-✖ 5 problems (0 errors, 5 warnings)
-

@@ -90,6 +90,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
+    const authHeader = request.headers.get('authorization') || '';
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -164,6 +165,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
+    const authHeader = request.headers.get('authorization') || '';
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 

@@ -8,7 +8,6 @@
 
    Creating an optimized production build ...
    Using tsconfig file: tsconfig.build.json
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Skipping validation of types
    Collecting page data ...
@@ -582,7 +581,7 @@ Route (app)                                       Size     First Load JS
 ├ ○ /finance/proposals                            997 B           643 kB
 ├ ƒ /finance/proposals/[id]                       2.16 kB         644 kB
 ├ ○ /finance/purchase-orders                      1.25 kB         643 kB
-├ ƒ /generator                                    8.55 kB         651 kB
+├ ƒ /generator                                    8.15 kB         650 kB
 ├ ○ /guides                                       2.47 kB         645 kB
 ├ ○ /guides/getting-started                       1.41 kB         643 kB
 ├ ○ /help                                         2.65 kB         645 kB

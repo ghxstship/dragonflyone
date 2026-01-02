@@ -259,6 +259,7 @@ describe.skipIf(!process.env.TEST_API_URL && !process.env.CI)('Zapier Trigger QA
       // Use a test key with low rate limit
       const lowLimitKey = process.env.LOW_RATE_LIMIT_KEY;
       if (!lowLimitKey) {
+        // eslint-disable-next-line no-console
         console.log('Skipping rate limit test - no low limit key');
         return;
       }

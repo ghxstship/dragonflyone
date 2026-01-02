@@ -64,9 +64,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
     const body = await request.json();
     const validatedData = createSoundcheckSchema.parse(body);
     const { event_id, artist_id, start_time, duration_minutes, type } = validatedData;

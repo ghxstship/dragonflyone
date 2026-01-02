@@ -24,6 +24,7 @@ import type { GeneratedBlueprint } from "../types";
 interface ExportCTAProps {
   blueprint: GeneratedBlueprint;
   onReset: () => void;
+  isAuthenticated: boolean;
 }
 
 const BENEFITS = [
@@ -34,14 +35,21 @@ const BENEFITS = [
   "Invite unlimited team members",
 ];
 
-export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
+export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProps) {
   const [shareStatus, setShareStatus] = useState<"idle" | "loading" | "copied">("idle");
   const [pdfLoading, setPdfLoading] = useState(false);
 
   const handleExport = async () => {
-    // Store blueprint in sessionStorage for retrieval after auth
+    // Store blueprint in sessionStorage for retrieval after auth/import
     sessionStorage.setItem("pendingBlueprint", JSON.stringify(blueprint));
-    window.location.href = `/auth/signup?blueprint=${blueprint.id}&redirect=/onboarding/import-blueprint`;
+    
+    if (isAuthenticated) {
+      // User is already authenticated - go directly to import
+      window.location.href = `/onboarding/import-blueprint?blueprint=${blueprint.id}`;
+    } else {
+      // User needs to sign up/sign in first
+      window.location.href = `/auth/signup?blueprint=${blueprint.id}&redirect=/onboarding/import-blueprint`;
+    }
   };
 
   const handleDownloadPDF = async () => {
@@ -119,7 +127,7 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
               onClick={handleExport}
               className="flex w-full items-center justify-center gap-3 border-2 border-white bg-primary px-8 py-5 font-display text-body-md uppercase tracking-label text-white shadow-xl duration-150 hover:-translate-y-1"
             >
-              Launch in ATLVS
+              {isAuthenticated ? "Launch in ATLVS" : "Sign Up & Launch in ATLVS"}
               <ArrowRight className="size-5" />
             </Button>
 

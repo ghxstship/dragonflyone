@@ -8,7 +8,7 @@
 import { useRouter } from 'next/navigation';
 import { 
   Building2, Users, CreditCard, Bell, Shield, Palette, Mail, Globe} from 'lucide-react';
-import { SettingsHubPage} from '@ghxstship/ui';
+import { SettingsHubPage, type SettingsSection } from '@ghxstship/ui';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 
 export default function SettingsPage() {

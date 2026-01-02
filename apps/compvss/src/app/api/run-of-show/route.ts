@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { supabaseAdmin, fromDynamic } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
+import { logger } from '@ghxstship/config';
 
 const createRunOfShowSchema = z.object({
   project_id: z.string().uuid(),

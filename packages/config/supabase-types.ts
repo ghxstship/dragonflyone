@@ -30315,6 +30315,38 @@ export type Database = {
           },
         ]
       }
+      user_bookmarks: {
+        Row: {
+          id: string
+          user_id: string
+          entity_type: string
+          entity_id: string
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          entity_type: string
+          entity_id: string
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          entity_type?: string
+          entity_id?: string
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_bookmarks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       audit_logs: {

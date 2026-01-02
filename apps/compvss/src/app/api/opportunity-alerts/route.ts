@@ -51,10 +51,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const { data, error } = await supabase.from('opportunity_alerts').select('*').eq('user_id', user.id);
+    const { data, error } = await supabase.from('opportunity_alerts').select('*').eq('user_id', userId);
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ alerts: data });
@@ -75,8 +75,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = alertActionSchema.parse(body);
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
       const { name, skills, categories, locations, min_rate, max_rate, frequency } = validatedData as z.infer<typeof createAlertSchema>;
 
       const { data, error } = await supabase.from('opportunity_alerts').insert({
-        user_id: user.id, name, skills: skills || [], categories: categories || [],
+        user_id: userId, name, skills: skills || [], categories: categories || [],
         locations: locations || [], min_rate, max_rate, frequency: frequency || 'daily', active: true
       }).select().single();
 
@@ -97,21 +97,21 @@ export async function POST(request: NextRequest) {
     if (action === 'update') {
       const { alert_id, ...updates } = validatedData as z.infer<typeof updateAlertSchema>;
 
-      await supabase.from('opportunity_alerts').update(updates).eq('id', alert_id).eq('user_id', user.id);
+      await supabase.from('opportunity_alerts').update(updates).eq('id', alert_id).eq('user_id', userId);
       return NextResponse.json({ success: true });
     }
 
     if (action === 'toggle') {
       const { alert_id, active } = validatedData as z.infer<typeof toggleAlertSchema>;
 
-      await supabase.from('opportunity_alerts').update({ active }).eq('id', alert_id).eq('user_id', user.id);
+      await supabase.from('opportunity_alerts').update({ active }).eq('id', alert_id).eq('user_id', userId);
       return NextResponse.json({ success: true });
     }
 
     if (action === 'delete') {
       const { alert_id } = validatedData as z.infer<typeof deleteAlertSchema>;
 
-      await supabase.from('opportunity_alerts').delete().eq('id', alert_id).eq('user_id', user.id);
+      await supabase.from('opportunity_alerts').delete().eq('id', alert_id).eq('user_id', userId);
       return NextResponse.json({ success: true });
     }
 

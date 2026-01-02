@@ -32,14 +32,6 @@ export async function GET(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -205,12 +197,9 @@ export async function POST(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -225,7 +214,7 @@ export async function POST(request: NextRequest) {
         .insert({
           ...validated,
           status: 'draft',
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -242,7 +231,7 @@ export async function POST(request: NextRequest) {
         .from('crew_feedback')
         .insert({
           project_id,
-          user_id: user.id,
+          user_id: userId,
           rating,
           feedback_text,
           categories,
@@ -339,7 +328,7 @@ export async function POST(request: NextRequest) {
             feedback_responses: feedback?.length || 0,
           },
           status: 'draft',
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -357,7 +346,7 @@ export async function POST(request: NextRequest) {
         .update({
           status: 'published',
           published_at: new Date().toISOString(),
-          published_by: user.id,
+          published_by: userId,
         })
         .eq('id', report_id)
         .select()
@@ -413,9 +402,6 @@ export async function PATCH(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);

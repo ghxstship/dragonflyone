@@ -50,9 +50,6 @@ export async function GET(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
@@ -120,12 +117,9 @@ export async function POST(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -144,7 +138,7 @@ export async function POST(request: NextRequest) {
         power_requirements: validated.power_requirements,
         dimensions: validated.dimensions,
         tags: validated.tags,
-        created_by: user.id,
+        created_by: userId,
       })
       .select()
       .single();
@@ -161,7 +155,7 @@ export async function POST(request: NextRequest) {
           name: doc.name,
           url: doc.url,
           type: doc.type,
-          created_by: user.id,
+          created_by: userId,
         }))
       );
     }
@@ -187,12 +181,9 @@ export async function PATCH(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -210,7 +201,7 @@ export async function PATCH(request: NextRequest) {
       .update({
         ...body,
         updated_at: new Date().toISOString(),
-        updated_by: user.id,
+        updated_by: userId,
       })
       .eq('id', specId)
       .select()
@@ -237,9 +228,6 @@ export async function DELETE(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);

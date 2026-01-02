@@ -90,8 +90,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = settlementActionSchema.parse(body);
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
 
       const { data, error } = await supabase.from('event_settlements').insert({
         event_id, total_revenue: revenue, total_expenses: expenses,
-        net_amount: revenue - expenses, status: 'draft', created_by: user.id
+        net_amount: revenue - expenses, status: 'draft', created_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
       const { settlement_id } = validatedData as z.infer<typeof finalizeSettlementSchema>;
 
       await supabase.from('event_settlements').update({
-        status: 'finalized', finalized_by: user.id, finalized_at: new Date().toISOString()
+        status: 'finalized', finalized_by: userId, finalized_at: new Date().toISOString()
       }).eq('id', settlement_id);
 
       return NextResponse.json({ success: true });

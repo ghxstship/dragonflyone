@@ -36,14 +36,6 @@ export async function GET(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const { searchParams } = new URL(request.url);
     const rosId = searchParams.get('run_of_show_id');
@@ -163,12 +155,9 @@ export async function POST(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -193,7 +182,7 @@ export async function POST(request: NextRequest) {
           ...validated,
           sort_order: (lastCue?.sort_order || 0) + 1,
           status: 'pending',
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -213,7 +202,7 @@ export async function POST(request: NextRequest) {
           run_of_show_id,
           status: 'running',
           started_at: new Date().toISOString(),
-          started_by: user.id,
+          started_by: userId,
         }, { onConflict: 'run_of_show_id' })
         .select()
         .single();
@@ -226,7 +215,7 @@ export async function POST(request: NextRequest) {
       await supabase.from('show_logs').insert({
         run_of_show_id,
         event_type: 'show_start',
-        logged_by: user.id,
+        logged_by: userId,
       });
 
       return NextResponse.json({ status });
@@ -239,7 +228,7 @@ export async function POST(request: NextRequest) {
         .update({
           status: 'executed',
           executed_at: new Date().toISOString(),
-          executed_by: user.id,
+          executed_by: userId,
         })
         .eq('id', cue_id);
 
@@ -257,7 +246,7 @@ export async function POST(request: NextRequest) {
         run_of_show_id,
         cue_id,
         event_type: 'cue_go',
-        logged_by: user.id,
+        logged_by: userId,
       });
 
       // Get next cue
@@ -308,7 +297,7 @@ export async function POST(request: NextRequest) {
         run_of_show_id,
         event_type: 'show_hold',
         notes: reason,
-        logged_by: user.id,
+        logged_by: userId,
       });
 
       return NextResponse.json({ success: true });
@@ -327,7 +316,7 @@ export async function POST(request: NextRequest) {
       await supabase.from('show_logs').insert({
         run_of_show_id,
         event_type: 'show_resume',
-        logged_by: user.id,
+        logged_by: userId,
       });
 
       return NextResponse.json({ success: true });
@@ -339,14 +328,14 @@ export async function POST(request: NextRequest) {
         .update({
           status: 'completed',
           ended_at: new Date().toISOString(),
-          ended_by: user.id,
+          ended_by: userId,
         })
         .eq('run_of_show_id', run_of_show_id);
 
       await supabase.from('show_logs').insert({
         run_of_show_id,
         event_type: 'show_end',
-        logged_by: user.id,
+        logged_by: userId,
       });
 
       return NextResponse.json({ success: true });
@@ -358,7 +347,7 @@ export async function POST(request: NextRequest) {
         cue_id,
         event_type: 'note',
         notes: note,
-        logged_by: user.id,
+        logged_by: userId,
       });
 
       return NextResponse.json({ success: true });
@@ -397,9 +386,6 @@ export async function PATCH(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -442,9 +428,6 @@ export async function DELETE(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);

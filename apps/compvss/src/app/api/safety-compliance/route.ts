@@ -45,14 +45,6 @@ export async function GET(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -217,12 +209,9 @@ export async function POST(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -237,7 +226,7 @@ export async function POST(request: NextRequest) {
         .insert({
           ...validated,
           status: 'pending',
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -256,7 +245,7 @@ export async function POST(request: NextRequest) {
           status: 'completed',
           responses,
           notes,
-          completed_by: user.id,
+          completed_by: userId,
           completed_at: new Date().toISOString(),
         })
         .eq('id', checklist_id)
@@ -292,7 +281,7 @@ export async function POST(request: NextRequest) {
         .insert({
           ...validated,
           status: 'reported',
-          reported_by: user.id,
+          reported_by: userId,
           reported_at: new Date().toISOString(),
         })
         .select()
@@ -338,7 +327,7 @@ export async function POST(request: NextRequest) {
           location,
           agenda,
           status: 'scheduled',
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -412,7 +401,7 @@ export async function POST(request: NextRequest) {
           expiration_date,
           issuing_authority,
           status: 'active',
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -444,9 +433,6 @@ export async function PATCH(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);

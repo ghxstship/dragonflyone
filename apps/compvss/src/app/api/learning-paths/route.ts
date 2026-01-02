@@ -68,8 +68,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = learningActionSchema.parse(body);
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
       const { path_id } = validatedData as z.infer<typeof enrollSchema>;
 
       const { data, error } = await supabase.from('path_enrollments').insert({
-        path_id, user_id: user.id, progress_percent: 0, started_at: new Date().toISOString()
+        path_id, user_id: userId, progress_percent: 0, started_at: new Date().toISOString()
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -90,20 +90,20 @@ export async function POST(request: NextRequest) {
       const { path_id, module_id } = validatedData as z.infer<typeof completeModuleSchema>;
 
       await supabase.from('module_completions').insert({
-        path_id, module_id, user_id: user.id, completed_at: new Date().toISOString()
+        path_id, module_id, user_id: userId, completed_at: new Date().toISOString()
       });
 
       // Update progress
       const { data: modules } = await supabase.from('learning_modules').select('id').eq('path_id', path_id);
       const { data: completions } = await supabase.from('module_completions').select('id')
-        .eq('path_id', path_id).eq('user_id', user.id);
+        .eq('path_id', path_id).eq('user_id', userId);
 
       const progress = modules?.length ? Math.round((completions?.length || 0) / modules.length * 100) : 0;
 
       await supabase.from('path_enrollments').update({
         progress_percent: progress,
         completed_at: progress === 100 ? new Date().toISOString() : null
-      }).eq('path_id', path_id).eq('user_id', user.id);
+      }).eq('path_id', path_id).eq('user_id', userId);
 
       return NextResponse.json({ progress });
     }

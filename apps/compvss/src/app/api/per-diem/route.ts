@@ -81,15 +81,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createExpenseSchema.parse(body);
     const { project_id, expense_date, category, amount, description, receipt_url } = validatedData;
 
     const { data, error } = await supabase.from('per_diem_expenses').insert({
-      project_id, crew_id: user.id, expense_date, category, amount, description,
+      project_id, crew_id: userId, expense_date, category, amount, description,
       receipt_url, status: 'pending', submitted_at: new Date().toISOString()
     }).select().single();
 
@@ -112,8 +112,8 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = updateExpenseSchema.parse(body);
@@ -121,7 +121,7 @@ export async function PATCH(request: NextRequest) {
 
     if (action === 'approve') {
       await supabase.from('per_diem_expenses').update({
-        status: 'approved', approved_by: user.id, approved_at: new Date().toISOString()
+        status: 'approved', approved_by: userId, approved_at: new Date().toISOString()
       }).eq('id', id);
     } else if (action === 'reject') {
       await supabase.from('per_diem_expenses').update({

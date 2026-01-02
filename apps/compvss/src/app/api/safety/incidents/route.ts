@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole, logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';

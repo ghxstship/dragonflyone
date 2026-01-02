@@ -70,12 +70,9 @@ export async function GET(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -88,7 +85,7 @@ export async function GET(request: NextRequest) {
       const { data: dashboards } = await supabase
         .from('dashboard_configs')
         .select('id, name, description, is_default, is_shared, created_at')
-        .or(`created_by.eq.${user.id},is_shared.eq.true`)
+        .or(`created_by.eq.${userId},is_shared.eq.true`)
         .order('is_default', { ascending: false });
 
       return NextResponse.json({ dashboards: dashboards || [] });
@@ -151,7 +148,7 @@ export async function GET(request: NextRequest) {
     const { data: defaultDashboard } = await supabase
       .from('dashboard_configs')
       .select('id')
-      .eq('created_by', user.id)
+      .eq('created_by', userId)
       .eq('is_default', true)
       .single();
 
@@ -177,12 +174,9 @@ export async function POST(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -197,7 +191,7 @@ export async function POST(request: NextRequest) {
         await supabase
           .from('dashboard_configs')
           .update({ is_default: false })
-          .eq('created_by', user.id);
+          .eq('created_by', userId);
       }
 
       // Create dashboard
@@ -209,7 +203,7 @@ export async function POST(request: NextRequest) {
           is_default: validated.is_default,
           is_shared: validated.is_shared,
           refresh_interval: validated.refresh_interval,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -279,7 +273,7 @@ export async function POST(request: NextRequest) {
           is_default: false,
           is_shared: false,
           refresh_interval: original.refresh_interval,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -331,12 +325,9 @@ export async function PATCH(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -370,7 +361,7 @@ export async function PATCH(request: NextRequest) {
         await supabase
           .from('dashboard_configs')
           .update({ is_default: false })
-          .eq('created_by', user.id)
+          .eq('created_by', userId)
           .neq('id', dashboardId);
       }
 
@@ -408,9 +399,6 @@ export async function DELETE(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);

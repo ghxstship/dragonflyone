@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
+import { logger } from '@ghxstship/config';
 
 const updateProfileSchema = z.object({
   full_name: z.string().optional(),

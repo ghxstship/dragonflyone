@@ -45,9 +45,6 @@ export async function GET(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const { searchParams } = new URL(request.url);
     const vendorId = searchParams.get('vendor_id');
@@ -204,12 +201,9 @@ export async function POST(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -224,7 +218,7 @@ export async function POST(request: NextRequest) {
         .insert({
           ...validated,
           status: 'active',
-          uploaded_by: user.id,
+          uploaded_by: userId,
         })
         .select()
         .single();
@@ -239,7 +233,7 @@ export async function POST(request: NextRequest) {
         reminderDate.setDate(reminderDate.getDate() - validated.renewal_reminder_days);
 
         await supabase.from('scheduled_notifications').insert({
-          user_id: user.id,
+          user_id: userId,
           type: 'compliance_renewal',
           title: 'Compliance Document Expiring',
           message: `${validated.name} for vendor expires in ${validated.renewal_reminder_days} days`,
@@ -259,7 +253,7 @@ export async function POST(request: NextRequest) {
         .insert({
           ...validated,
           is_active: true,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -292,7 +286,7 @@ export async function POST(request: NextRequest) {
           message,
           due_date,
           status: 'sent',
-          requested_by: user.id,
+          requested_by: userId,
         })
         .select()
         .single();
@@ -328,9 +322,6 @@ export async function PATCH(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -373,9 +364,6 @@ export async function DELETE(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);

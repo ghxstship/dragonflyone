@@ -80,8 +80,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = restorationActionSchema.parse(body);
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
       const { items } = validatedData as z.infer<typeof createChecklistSchema>;
 
       const { data, error } = await supabase.from('site_restorations').insert({
-        project_id, status: 'in_progress', created_by: user.id
+        project_id, status: 'in_progress', created_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
       const { item_id, photos } = validatedData as z.infer<typeof completeItemSchema>;
 
       await supabase.from('restoration_items').update({
-        status: 'completed', completed_by: user.id,
+        status: 'completed', completed_by: userId,
         completed_at: new Date().toISOString(), photos: photos || []
       }).eq('id', item_id);
 
@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
       const { restoration_id, signature_url, notes } = validatedData as z.infer<typeof finalSignoffSchema>;
 
       await supabase.from('site_restorations').update({
-        status: 'completed', signed_off_by: user.id,
+        status: 'completed', signed_off_by: userId,
         signed_off_at: new Date().toISOString(), signature_url, notes
       }).eq('id', restoration_id);
 

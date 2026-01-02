@@ -31,7 +31,9 @@ let serverAvailable = false;
 beforeAll(async () => {
   serverAvailable = await isServerAvailable();
   if (!serverAvailable) {
+    // eslint-disable-next-line no-console
     console.log(`⚠️  Server not available at ${BASE_URL}. Integration tests will be skipped.`);
+    // eslint-disable-next-line no-console
     console.log('   To run these tests, start the server or set TEST_API_URL environment variable.');
   }
 });
@@ -192,6 +194,7 @@ describe.skipIf(!process.env.TEST_API_URL && !process.env.CI)('Integration Perfo
       } while (cursor);
 
       expect(pageCount).toBeGreaterThan(0);
+      // eslint-disable-next-line no-console
       console.log(`Paginated through ${totalRecords} records in ${pageCount} pages`);
     });
   });
@@ -210,6 +213,7 @@ describe.skipIf(!process.env.TEST_API_URL && !process.env.CI)('Integration Perfo
       // This test requires a test API key with low rate limit
       const lowLimitKey = process.env.LOW_RATE_LIMIT_KEY;
       if (!lowLimitKey) {
+        // eslint-disable-next-line no-console
         console.log('Skipping rate limit test - no low limit key configured');
         return;
       }

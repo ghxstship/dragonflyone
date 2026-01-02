@@ -85,8 +85,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = communicationActionSchema.parse(body);
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
       const { data, error } = await supabase.from('candidate_communications').insert({
         application_id, template_id, channel: channel || 'email',
         subject: finalSubject, content: finalContent,
-        status: 'sent', sent_at: new Date().toISOString(), sent_by: user.id
+        status: 'sent', sent_at: new Date().toISOString(), sent_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
 
       const { data, error } = await supabase.from('candidate_communications').insert({
         application_id, template_id, channel: channel || 'email',
-        variables, status: 'scheduled', scheduled_at, created_by: user.id
+        variables, status: 'scheduled', scheduled_at, created_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
       const { template_type, name, subject, content, variables } = validatedData as z.infer<typeof createTemplateSchema>;
 
       const { data, error } = await supabase.from('communication_templates').insert({
-        template_type, name, subject, content, variables: variables || [], created_by: user.id
+        template_type, name, subject, content, variables: variables || [], created_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

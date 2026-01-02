@@ -40,12 +40,9 @@ export async function GET(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -71,7 +68,7 @@ export async function GET(request: NextRequest) {
         deal:deals(id, name, stage),
         project:projects(id, name)
       `, { count: 'exact' })
-      .or(`user_id.eq.${user.id},assigned_to.eq.${user.id}`)
+      .or(`user_id.eq.${userId},assigned_to.eq.${userId}`)
       .order('due_date', { ascending: true, nullsFirst: false })
       .range(offset, offset + limit - 1);
 
@@ -123,7 +120,7 @@ export async function GET(request: NextRequest) {
     const { data: statusCounts } = await supabase
       .from('crm_tasks')
       .select('status')
-      .or(`user_id.eq.${user.id},assigned_to.eq.${user.id}`);
+      .or(`user_id.eq.${userId},assigned_to.eq.${userId}`);
 
     const counts: Record<string, number> = {};
     statusCounts?.forEach(t => {
@@ -134,7 +131,7 @@ export async function GET(request: NextRequest) {
     const { count: overdueCount } = await supabase
       .from('crm_tasks')
       .select('*', { count: 'exact', head: true })
-      .or(`user_id.eq.${user.id},assigned_to.eq.${user.id}`)
+      .or(`user_id.eq.${userId},assigned_to.eq.${userId}`)
       .lt('due_date', new Date().toISOString())
       .neq('status', 'completed')
       .neq('status', 'cancelled');
@@ -164,12 +161,9 @@ export async function POST(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -179,8 +173,8 @@ export async function POST(request: NextRequest) {
     const { data: task, error } = await supabase
       .from('crm_tasks')
       .insert({
-        user_id: user.id,
-        assigned_to: validated.assigned_to || user.id,
+        user_id: userId,
+        assigned_to: validated.assigned_to || userId,
         contact_id: validated.contact_id,
         deal_id: validated.deal_id,
         project_id: validated.project_id,
@@ -203,7 +197,7 @@ export async function POST(request: NextRequest) {
     // Create reminder notification if reminder_at is set
     if (validated.reminder_at) {
       await supabase.from('scheduled_notifications').insert({
-        user_id: validated.assigned_to || user.id,
+        user_id: validated.assigned_to || userId,
         type: 'task_reminder',
         title: 'Task Reminder',
         message: validated.title,
@@ -235,12 +229,9 @@ export async function PATCH(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -256,7 +247,7 @@ export async function PATCH(request: NextRequest) {
     // Handle completion
     if (body.status === 'completed') {
       body.completed_at = new Date().toISOString();
-      body.completed_by = user.id;
+      body.completed_by = userId;
 
       // Check for recurrence
       const { data: existingTask } = await supabase
@@ -285,7 +276,7 @@ export async function PATCH(request: NextRequest) {
         // Only create if before until date
         if (!recurrence.until || nextDueDate <= new Date(recurrence.until)) {
           await supabase.from('crm_tasks').insert({
-            user_id: user.id,
+            user_id: userId,
             assigned_to: existingTask.assigned_to,
             contact_id: existingTask.contact_id,
             deal_id: existingTask.deal_id,
@@ -333,9 +324,6 @@ export async function DELETE(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);

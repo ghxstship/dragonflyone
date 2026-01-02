@@ -76,8 +76,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = interviewActionSchema.parse(body);
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
       const { data, error } = await supabase.from('interviews').insert({
         application_id, opportunity_id, interview_type, scheduled_at,
         duration_minutes: duration_minutes || 60, location, status: 'scheduled',
-        created_by: user.id
+        created_by: userId
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

@@ -176,12 +176,9 @@ export async function POST(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -196,7 +193,7 @@ export async function POST(request: NextRequest) {
         .insert({
           ...validated,
           status: 'active',
-          posted_by: user.id,
+          posted_by: userId,
         })
         .select()
         .single();
@@ -214,7 +211,7 @@ export async function POST(request: NextRequest) {
         .from('marketplace_applications')
         .select('id')
         .eq('listing_id', listing_id)
-        .eq('applicant_id', user.id)
+        .eq('applicant_id', userId)
         .single();
 
       if (existing) {
@@ -225,7 +222,7 @@ export async function POST(request: NextRequest) {
         .from('marketplace_applications')
         .insert({
           listing_id,
-          applicant_id: user.id,
+          applicant_id: userId,
           cover_letter,
           resume_url,
           portfolio_url,
@@ -266,7 +263,7 @@ export async function POST(request: NextRequest) {
       const { data: saved, error } = await supabase
         .from('marketplace_saved')
         .upsert({
-          user_id: user.id,
+          user_id: userId,
           listing_id,
         }, { onConflict: 'user_id,listing_id' })
         .select()
@@ -283,7 +280,7 @@ export async function POST(request: NextRequest) {
       await supabase
         .from('marketplace_saved')
         .delete()
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .eq('listing_id', listing_id);
 
       return NextResponse.json({ success: true });
@@ -341,12 +338,9 @@ export async function PATCH(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -366,7 +360,7 @@ export async function PATCH(request: NextRequest) {
         updated_at: new Date().toISOString(),
       })
       .eq('id', listingId)
-      .eq('posted_by', user.id)
+      .eq('posted_by', userId)
       .select()
       .single();
 
@@ -392,12 +386,9 @@ export async function DELETE(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -415,7 +406,7 @@ export async function DELETE(request: NextRequest) {
         closed_at: new Date().toISOString(),
       })
       .eq('id', listingId)
-      .eq('posted_by', user.id);
+      .eq('posted_by', userId);
 
     if (error) {
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

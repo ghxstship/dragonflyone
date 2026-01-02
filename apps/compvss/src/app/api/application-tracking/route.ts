@@ -28,12 +28,12 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { data, error } = await supabase.from('opportunity_applications').select(`
       *, opportunity:opportunities(id, title, client_name)
-    `).eq('applicant_id', user.id).order('created_at', { ascending: false });
+    `).eq('applicant_id', userId).order('created_at', { ascending: false });
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ applications: data });
@@ -54,15 +54,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createApplicationSchema.parse(body);
     const { opportunity_id, cover_letter, resume_url } = validatedData;
 
     const { data, error } = await supabase.from('opportunity_applications').insert({
-      opportunity_id, applicant_id: user.id, cover_letter, resume_url,
+      opportunity_id, applicant_id: userId, cover_letter, resume_url,
       status: 'pending'
     }).select().single();
 

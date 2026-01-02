@@ -9,7 +9,7 @@ const ATLVS_ROLES = [
   PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
 ];
 
-export async function GET(_request: NextRequest) {
+export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
     // Authenticate and authorize

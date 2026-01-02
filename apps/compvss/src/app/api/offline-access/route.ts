@@ -53,8 +53,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { searchParams } = new URL(request.url);
     const lastSync = searchParams.get('last_sync');
@@ -62,15 +62,15 @@ export async function GET(request: NextRequest) {
     // Get offline-enabled content for user
     const { data: offlineContent } = await supabase.from('offline_content').select(`
       *, content:knowledge_documents(id, title, content, category)
-    `).eq('user_id', user.id).eq('enabled', true);
+    `).eq('user_id', userId).eq('enabled', true);
 
     // Get pending sync items
     const { data: pendingSync } = await supabase.from('offline_sync_queue').select('*')
-      .eq('user_id', user.id).eq('synced', false);
+      .eq('user_id', userId).eq('synced', false);
 
     // Get user's offline preferences
     const { data: preferences } = await supabase.from('offline_preferences').select('*')
-      .eq('user_id', user.id).single();
+      .eq('user_id', userId).single();
 
     return NextResponse.json({
       offline_content: offlineContent,
@@ -96,8 +96,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = offlineActionSchema.parse(body);
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
       const { content_id, content_type } = validatedData as z.infer<typeof enableOfflineSchema>;
 
       const { data, error } = await supabase.from('offline_content').upsert({
-        user_id: user.id, content_id, content_type, enabled: true,
+        user_id: userId, content_id, content_type, enabled: true,
         cached_at: new Date().toISOString()
       }, { onConflict: 'user_id,content_id' }).select().single();
 
@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
       const { content_id } = validatedData as z.infer<typeof disableOfflineSchema>;
 
       await supabase.from('offline_content').update({ enabled: false })
-        .eq('user_id', user.id).eq('content_id', content_id);
+        .eq('user_id', userId).eq('content_id', content_id);
 
       return NextResponse.json({ success: true });
     }
@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
       const { auto_sync, sync_on_wifi_only, max_offline_storage_mb } = validatedData as z.infer<typeof updatePreferencesSchema>;
 
       await supabase.from('offline_preferences').upsert({
-        user_id: user.id, auto_sync, sync_on_wifi_only, max_offline_storage_mb
+        user_id: userId, auto_sync, sync_on_wifi_only, max_offline_storage_mb
       }, { onConflict: 'user_id' });
 
       return NextResponse.json({ success: true });

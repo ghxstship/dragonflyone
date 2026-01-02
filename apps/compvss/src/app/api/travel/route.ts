@@ -89,8 +89,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createBookingSchema.parse(body);
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
       departure_date, departure_location, arrival_date, arrival_location,
       hotel_name, check_in, check_out, room_type,
       vehicle_type, pickup_location, dropoff_location,
-      cost, notes, status: 'confirmed', created_by: user.id
+      cost, notes, status: 'confirmed', created_by: userId
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

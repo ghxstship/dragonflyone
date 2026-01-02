@@ -43,12 +43,9 @@ export async function GET(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -87,7 +84,7 @@ export async function GET(request: NextRequest) {
           *,
           entity:entities(id, name, type)
         `)
-        .eq('user_id', user.id);
+        .eq('user_id', userId);
 
       return NextResponse.json({ access: access || [] });
     }
@@ -226,12 +223,9 @@ export async function POST(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -245,7 +239,7 @@ export async function POST(request: NextRequest) {
         .from('entities')
         .insert({
           ...validated,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -257,9 +251,9 @@ export async function POST(request: NextRequest) {
       // Grant creator admin access
       await supabase.from('entity_user_access').insert({
         entity_id: entity.id,
-        user_id: user.id,
+        user_id: userId,
         role: 'admin',
-        granted_by: user.id,
+        granted_by: userId,
       });
 
       return NextResponse.json({ entity }, { status: 201 });
@@ -272,7 +266,7 @@ export async function POST(request: NextRequest) {
           entity_id,
           user_id,
           role,
-          granted_by: user.id,
+          granted_by: userId,
         }, { onConflict: 'entity_id,user_id' })
         .select()
         .single();
@@ -309,7 +303,7 @@ export async function POST(request: NextRequest) {
           transaction_type,
           reference,
           status: 'pending',
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -326,7 +320,7 @@ export async function POST(request: NextRequest) {
         .from('intercompany_transactions')
         .update({
           status: 'approved',
-          approved_by: user.id,
+          approved_by: userId,
           approved_at: new Date().toISOString(),
         })
         .eq('id', transaction_id)
@@ -357,7 +351,7 @@ export async function POST(request: NextRequest) {
       await supabase
         .from('user_preferences')
         .upsert({
-          user_id: user.id,
+          user_id: userId,
           current_entity_id: entity_id,
         }, { onConflict: 'user_id' });
 
@@ -388,9 +382,6 @@ export async function PATCH(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -433,9 +424,6 @@ export async function DELETE(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);

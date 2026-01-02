@@ -84,8 +84,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createCheckpointSchema.parse(body);
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
 
     const { data, error } = await supabase.from('qa_checkpoints').insert({
       project_id, name, description, department, sequence, criteria: criteria || [],
-      status: 'pending', created_by: user.id
+      status: 'pending', created_by: userId
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -115,8 +115,8 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = checkpointActionSchema.parse(body);
@@ -125,7 +125,7 @@ export async function PATCH(request: NextRequest) {
     if (action === 'sign_off') {
       const { photo_urls } = validatedData as z.infer<typeof signOffSchema>;
       await supabase.from('qa_checkpoints').update({
-        status: 'passed', signed_by: user.id, signed_at: new Date().toISOString(),
+        status: 'passed', signed_by: userId, signed_at: new Date().toISOString(),
         notes, photo_urls: photo_urls || []
       }).eq('id', id);
 
@@ -134,7 +134,7 @@ export async function PATCH(request: NextRequest) {
 
     if (action === 'fail') {
       await supabase.from('qa_checkpoints').update({
-        status: 'failed', notes, issues: issues || [], reviewed_by: user.id
+        status: 'failed', notes, issues: issues || [], reviewed_by: userId
       }).eq('id', id);
 
       return NextResponse.json({ success: true });

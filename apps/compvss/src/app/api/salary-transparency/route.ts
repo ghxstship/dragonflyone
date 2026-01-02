@@ -98,8 +98,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = salaryActionSchema.parse(body);
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
       const { data, error } = await supabase.from('salary_data').insert({
         role_title, company_type, location, experience_level,
         salary_amount, hourly_rate, benefits: benefits || [],
-        year: year || new Date().getFullYear(), submitted_by: user.id, verified: false
+        year: year || new Date().getFullYear(), submitted_by: userId, verified: false
       }).select().single();
 
       if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

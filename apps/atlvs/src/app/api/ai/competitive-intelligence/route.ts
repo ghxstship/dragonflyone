@@ -33,14 +33,6 @@ export async function GET(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
@@ -323,12 +315,9 @@ export async function POST(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -343,7 +332,7 @@ export async function POST(request: NextRequest) {
         .insert({
           ...validated,
           is_active: true,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -365,7 +354,7 @@ export async function POST(request: NextRequest) {
           content,
           source,
           impact,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -406,7 +395,7 @@ export async function POST(request: NextRequest) {
           category,
           description,
           impact_score,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -428,7 +417,7 @@ export async function POST(request: NextRequest) {
           description,
           priority,
           status: 'active',
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();

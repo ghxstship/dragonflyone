@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSupabase } from '@ghxstship/config';
+import { getServerSupabase, logger } from '@ghxstship/config';
 
 export async function GET(request: NextRequest) {
   const supabase = getServerSupabase();const { searchParams } = new URL(request.url);

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole, logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -26,14 +26,9 @@ export async function POST(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const token = authHeader.replace('Bearer ', '');
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-
-    if (authError || !user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -50,7 +45,7 @@ export async function POST(request: NextRequest) {
         onboarding_step: 3,
         updated_at: new Date().toISOString(),
       })
-      .eq('id', user.id);
+      .eq('id', userId);
 
     if (profileError) {
       logger.error('Profile update error:', profileError);

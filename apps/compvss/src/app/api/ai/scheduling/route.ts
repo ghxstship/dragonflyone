@@ -80,14 +80,6 @@ export async function GET(request: NextRequest) {
     }
 
     const supabase = getSupabaseClient();
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
@@ -316,12 +308,9 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = getSupabaseClient();
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -338,7 +327,7 @@ export async function POST(request: NextRequest) {
         shift_id: a.shift_id,
         crew_id: a.crew_id,
         status: 'assigned',
-        assigned_by: user.id,
+        assigned_by: userId,
         assignment_score: a.score,
       }));
 

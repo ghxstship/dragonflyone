@@ -40,15 +40,15 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { searchParams } = new URL(request.url);
     const rfpId = searchParams.get('rfp_id');
 
     let query = supabase.from('bid_submissions').select(`
       *, rfp:rfps(id, title, deadline), attachments:bid_attachments(id, name, url, type)
-    `).eq('submitted_by', user.id);
+    `).eq('submitted_by', userId);
 
     if (rfpId) query = query.eq('rfp_id', rfpId);
 
@@ -73,8 +73,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createBidSchema.parse(body);
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
     const { data: submission, error } = await supabase.from('bid_submissions').insert({
       rfp_id, proposal_summary, total_amount, timeline,
       line_items: line_items || [], status: 'submitted',
-      submitted_by: user.id, submitted_at: new Date().toISOString()
+      submitted_by: userId, submitted_at: new Date().toISOString()
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

@@ -42,9 +42,6 @@ export async function GET(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
@@ -172,12 +169,9 @@ export async function POST(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -206,7 +200,7 @@ export async function POST(request: NextRequest) {
           version: existing.version || 1,
           url: body.previous_url,
           size: body.previous_size,
-          created_by: user.id,
+          created_by: userId,
         });
 
         // Update document
@@ -217,7 +211,7 @@ export async function POST(request: NextRequest) {
             size: validated.size,
             version: newVersion,
             updated_at: new Date().toISOString(),
-            updated_by: user.id,
+            updated_by: userId,
           })
           .eq('id', existing.id)
           .select()
@@ -235,7 +229,7 @@ export async function POST(request: NextRequest) {
           .insert({
             ...validated,
             version: 1,
-            uploaded_by: user.id,
+            uploaded_by: userId,
           })
           .select()
           .single();
@@ -253,7 +247,7 @@ export async function POST(request: NextRequest) {
         .from('project_folders')
         .insert({
           ...validated,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -289,7 +283,7 @@ export async function POST(request: NextRequest) {
           description: originalFile.description,
           tags: originalFile.tags,
           version: 1,
-          uploaded_by: user.id,
+          uploaded_by: userId,
         })
         .select()
         .single();
@@ -361,7 +355,7 @@ export async function PATCH(request: NextRequest) {
         .update({
           ...body,
           updated_at: new Date().toISOString(),
-          updated_by: user.id,
+          updated_by: userId,
         })
         .eq('id', fileId)
         .select()
@@ -407,9 +401,6 @@ export async function DELETE(request: NextRequest) {
     const userRoles = authResult.user?.platformRoles || [];
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);

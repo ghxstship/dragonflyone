@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole, logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -36,19 +36,16 @@ export async function GET(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { data: platformUser } = await supabase
       .from('platform_users')
       .select('id')
-      .eq('auth_user_id', user.id)
+      .eq('auth_user_id', userId)
       .single();
 
     if (!platformUser) {
@@ -135,19 +132,16 @@ export async function POST(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { data: platformUser } = await supabase
       .from('platform_users')
       .select('id, full_name')
-      .eq('auth_user_id', user.id)
+      .eq('auth_user_id', userId)
       .single();
 
     if (!platformUser) {

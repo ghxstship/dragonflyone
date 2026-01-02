@@ -93,8 +93,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createStagingAreaSchema.parse(body);
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
 
     const { data, error } = await supabase.from('staging_areas').insert({
       project_id, venue_id, name, location, capacity, dimensions, access_notes,
-      status: 'available', created_by: user.id
+      status: 'available', created_by: userId
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -124,8 +124,8 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = stagingPatchSchema.parse(body);
@@ -136,7 +136,7 @@ export async function PATCH(request: NextRequest) {
       await supabase.from('staging_areas').update({ status: 'occupied' }).eq('id', id);
 
       const assignments = equipment_ids.map((eqId: string) => ({
-        staging_area_id: id, equipment_id: eqId, department, time_slot, assigned_by: user.id
+        staging_area_id: id, equipment_id: eqId, department, time_slot, assigned_by: userId
       }));
 
       await supabase.from('staging_assignments').insert(assignments);

@@ -87,8 +87,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = createDeliverySchema.parse(body);
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
 
     const { data, error } = await supabase.from('deliveries').insert({
       project_id, vendor_id, po_number, items: items || [], expected_date,
-      delivery_location, notes, status: 'pending', created_by: user.id
+      delivery_location, notes, status: 'pending', created_by: userId
     }).select().single();
 
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -118,8 +118,8 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const userId = authResult.user?.id;
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
     const validatedData = deliveryPatchSchema.parse(body);
@@ -128,7 +128,7 @@ export async function PATCH(request: NextRequest) {
     if (action === 'receive') {
       const { signature_data, received_items, condition_notes, photo_urls } = validatedData as z.infer<typeof receiveDeliverySchema>;
       await supabase.from('deliveries').update({
-        status: 'received', received_by: user.id, received_at: new Date().toISOString(),
+        status: 'received', received_by: userId, received_at: new Date().toISOString(),
         signature_data, received_items: received_items || [], condition_notes,
         photo_urls: photo_urls || []
       }).eq('id', id);

@@ -41,12 +41,9 @@ export async function GET(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -150,7 +147,7 @@ export async function GET(request: NextRequest) {
       const { data: apiKeys } = await supabase
         .from('bi_api_keys')
         .select('id, name, tool, created_at, expires_at, is_active')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .eq('is_active', true);
 
       return NextResponse.json({
@@ -176,12 +173,9 @@ export async function POST(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -195,7 +189,7 @@ export async function POST(request: NextRequest) {
         .from('bi_datasets')
         .insert({
           ...validated,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -215,7 +209,7 @@ export async function POST(request: NextRequest) {
       const { data: keyRecord, error } = await supabase
         .from('bi_api_keys')
         .insert({
-          user_id: user.id,
+          user_id: userId,
           name: validated.name,
           tool: validated.tool,
           key_hash: keyHash,
@@ -366,12 +360,9 @@ export async function DELETE(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

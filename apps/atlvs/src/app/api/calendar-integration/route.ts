@@ -56,12 +56,9 @@ export async function GET(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -79,7 +76,7 @@ export async function GET(request: NextRequest) {
     const { data: accounts } = await supabase
       .from('calendar_accounts')
       .select('id, provider, email_address, calendar_name, sync_direction, is_active, created_at')
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .eq('is_active', true);
 
     // Get meetings
@@ -92,7 +89,7 @@ export async function GET(request: NextRequest) {
         deal:deals(id, name),
         project:projects(id, name)
       `, { count: 'exact' })
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .order('start_time', { ascending: true });
 
     if (startDate) {
@@ -125,7 +122,7 @@ export async function GET(request: NextRequest) {
     const { data: availability } = await supabase
       .from('user_availability')
       .select('id, day_of_week, start_time, end_time, is_available')
-      .eq('user_id', user.id);
+      .eq('user_id', userId);
 
     const totalCount = count || (meetings?.length ?? 0);
     const pagination = {
@@ -159,12 +156,9 @@ export async function POST(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -177,7 +171,7 @@ export async function POST(request: NextRequest) {
       const { data: account, error } = await supabase
         .from('calendar_accounts')
         .insert({
-          user_id: user.id,
+          user_id: userId,
           provider: validated.provider,
           email_address: validated.email_address,
           calendar_name: validated.calendar_name,
@@ -204,7 +198,7 @@ export async function POST(request: NextRequest) {
       const { data: meeting, error } = await supabase
         .from('calendar_meetings')
         .insert({
-          user_id: user.id,
+          user_id: userId,
           title: validated.title,
           description: validated.description,
           start_time: validated.start_time,
@@ -243,12 +237,12 @@ export async function POST(request: NextRequest) {
       // For now, create notification for each attendee
       for (const attendee of validated.attendees) {
         await supabase.from('notifications').insert({
-          user_id: attendee.user_id || user.id,
+          user_id: attendee.user_id || userId,
           type: 'event_reminder',
           title: 'Meeting Invitation',
           message: `You've been invited to: ${validated.title}`,
           link: `/calendar/meetings/${meeting.id}`,
-          metadata: { attendee_email: attendee.email, invited_by: user.id },
+          metadata: { attendee_email: attendee.email, invited_by: userId },
         });
       }
 
@@ -301,12 +295,9 @@ export async function PATCH(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -326,7 +317,7 @@ export async function PATCH(request: NextRequest) {
         updated_at: new Date().toISOString(),
       })
       .eq('id', meetingId)
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .select()
       .single();
 
@@ -352,12 +343,9 @@ export async function DELETE(request: NextRequest) {
     if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    const userId = authResult.user?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -373,7 +361,7 @@ export async function DELETE(request: NextRequest) {
           cancelled_at: new Date().toISOString(),
         })
         .eq('id', meetingId)
-        .eq('user_id', user.id);
+        .eq('user_id', userId);
 
       if (error) {
         return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -388,7 +376,7 @@ export async function DELETE(request: NextRequest) {
           disconnected_at: new Date().toISOString(),
         })
         .eq('id', accountId)
-        .eq('user_id', user.id);
+        .eq('user_id', userId);
 
       if (error) {
         return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
