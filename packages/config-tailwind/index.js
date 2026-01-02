@@ -426,6 +426,10 @@ const shadowTokens = {
   'subtle-sm': '4px 4px 0 0 rgba(0,0,0,0.1)',
   'subtle-md': '4px 4px 0 0 rgba(0,0,0,0.15)',
   'subtle-lg': '6px 6px 0 0 rgba(0,0,0,0.2)',
+  // Dropdown/flyout shadows - industry standard soft shadows for navigation
+  'dropdown': '0 10px 40px -10px rgba(0,0,0,0.3), 0 4px 12px -2px rgba(0,0,0,0.15)',
+  'dropdown-lg': '0 20px 60px -15px rgba(0,0,0,0.35), 0 8px 20px -4px rgba(0,0,0,0.2)',
+  'dropdown-dark': '0 10px 40px -10px rgba(0,0,0,0.5), 0 4px 12px -2px rgba(0,0,0,0.3)',
   // Brand glow shadows (semi-transparent primary color)
   'brand-glow': '4px 4px 0 0 hsl(var(--primary) / 0.4)',
   'brand-glow-hover': '6px 6px 0 0 hsl(var(--primary) / 0.5)',

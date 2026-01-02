@@ -3,6 +3,20 @@
  * Shared navigation types, utilities, and components
  */
 
+// MegaMenu Component System
+export {
+  MegaMenu,
+  MegaMenuRoot,
+  MegaMenuItem,
+  MegaMenuTrigger,
+  MegaMenuContent,
+  MegaMenuLink,
+  MegaMenuIndicator,
+  MegaMenuSection,
+  MegaMenuItemLink,
+  MegaMenuFooter,
+} from './mega-menu.js';
+
 // Types
 export type {
   NavigationContextLevel,

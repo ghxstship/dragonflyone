@@ -179,6 +179,37 @@ export { SettingsRow, SettingsGroup, InfoRow, NumberedStep } from "./molecules/s
 export type { SettingsRowProps, SettingsGroupProps, InfoRowProps, NumberedStepProps } from "./molecules/settings-row.js";
 export { DownloadTemplateButton, ImportButton } from "./molecules/download-template-button.js";
 export type { DownloadTemplateButtonProps, ImportButtonProps } from "./molecules/download-template-button.js";
+// AI Chat Components - Message bubbles, input, conversation items
+export { AIChatMessage, AIChatMessageActions, AIChatTypingIndicator } from "./molecules/ai-chat-message.js";
+export type { AIChatMessageProps, AIChatMessageActionsProps, AIChatTypingIndicatorProps, MessageRole } from "./molecules/ai-chat-message.js";
+export { AIChatInput, AIChatSuggestionChips, AIChatSuggestionChip } from "./molecules/ai-chat-input.js";
+export type { AIChatInputProps, AIChatSuggestionChipsProps, AIChatSuggestionChipProps } from "./molecules/ai-chat-input.js";
+export { AIChatConversationItem, AIChatConversationGroup } from "./molecules/ai-chat-conversation-item.js";
+export type { AIChatConversationItemProps, AIChatConversationGroupProps } from "./molecules/ai-chat-conversation-item.js";
+export { AIChatEmptyState } from "./molecules/ai-chat-empty-state.js";
+export type { AIChatEmptyStateProps } from "./molecules/ai-chat-empty-state.js";
+// Auth Form Components - Specialized inputs for authentication flows
+export {
+  AuthInput,
+  AuthFormField,
+  PasswordInput as AuthPasswordInput,
+  PasswordRequirements,
+  AuthCheckbox,
+  AuthDivider,
+  SocialAuthButton,
+  SocialAuthButtonGroup,
+} from "./molecules/auth-form-field.js";
+export type {
+  AuthInputProps,
+  AuthFormFieldProps,
+  PasswordInputProps as AuthPasswordInputProps,
+  PasswordRequirement,
+  PasswordRequirementsProps,
+  AuthCheckboxProps,
+  AuthDividerProps,
+  SocialAuthButtonProps,
+  SocialAuthButtonGroupProps,
+} from "./molecules/auth-form-field.js";
 
 // =============================================================================
 // ORGANISMS - Complex components
@@ -323,6 +354,26 @@ export { SettingsHubPage, SettingsPageLayout } from "./templates/settings-hub-pa
 export type { SettingsHubPageProps, SettingsPageLayoutProps, SettingsSection, SettingsCategory } from "./templates/settings-hub-page.js";
 export { AuthPage } from "./templates/auth-page.js";
 export type { AuthPageProps } from "./templates/auth-page.js";
+export { AuthSplitLayout } from "./templates/auth-split-layout.js";
+export type { AuthSplitLayoutProps } from "./templates/auth-split-layout.js";
+// AI Chat Layout - Reusable AI agent interface (Claude/ChatGPT/Gemini style)
+export { 
+  AIChatLayout, 
+  AIChatHeader, 
+  AIChatSidebar, 
+  AIChatMain, 
+  AIChatArtifact,
+  AIChatLayoutProvider,
+  useAIChatLayout,
+} from "./templates/ai-chat-layout.js";
+export type { 
+  AIChatLayoutProps, 
+  AIChatHeaderProps, 
+  AIChatSidebarProps, 
+  AIChatMainProps, 
+  AIChatArtifactProps,
+  AIChatLayoutProviderProps,
+} from "./templates/ai-chat-layout.js";
 export { SignInForm } from "./templates/sign-in-form.js";
 export type { SignInFormProps } from "./templates/sign-in-form.js";
 export { MarketingPage } from "./templates/marketing-page.js";
@@ -398,3 +449,8 @@ export * from "./hooks/index.js";
 // MARKETING - Landing page section components (2026 Best Practices)
 // =============================================================================
 export * from "./marketing/index.js";
+
+// =============================================================================
+// NAVIGATION - Navigation utilities and components
+// =============================================================================
+export * from "./navigation/index.js";

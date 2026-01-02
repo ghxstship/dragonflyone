@@ -19,10 +19,11 @@ import {
   Stack,
   Text,
   PublicNavbar,
+  MegaMenu,
 } from '@ghxstship/ui';
 import type { ContextLevel } from "@ghxstship/ui";
 import clsx from "clsx";
-import { ChevronDown, ChevronRight, Briefcase, Users, Ticket } from "lucide-react";
+import { ChevronRight, Briefcase, Users, Ticket } from "lucide-react";
 
 // =============================================================================
 // CREATOR NAVIGATION (ATLVS is B2B - all users are "creators"/business users)
@@ -35,7 +36,6 @@ import { ChevronDown, ChevronRight, Briefcase, Users, Ticket } from "lucide-reac
 export function CreatorNavigationPublic() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
 
   const isActive = (href: string) => 
@@ -49,9 +49,6 @@ export function CreatorNavigationPublic() {
     setIsOpen(false);
     setMobileSubmenu(null);
   };
-
-  const handleMouseEnter = (menu: string) => setActiveMenu(menu);
-  const handleMouseLeave = () => setActiveMenu(null);
 
   const productIcons = {
     command: Briefcase,
@@ -71,177 +68,133 @@ export function CreatorNavigationPublic() {
             ATLVS
           </Link>
 
-          {/* Desktop Navigation with Mega-Menus */}
-          <Nav className="hidden lg:flex items-center gap-1">
+          {/* Desktop Navigation with Mega-Menus - Using Radix UI */}
+          <MegaMenu.Root className="hidden lg:flex">
             {/* Products Dropdown */}
-            <Box
-              className="relative"
-              onMouseEnter={() => handleMouseEnter("products")}
-              onMouseLeave={handleMouseLeave}
-            >
-              <Button variant="ghost" size="sm" inverted className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300 hover:text-white">
-                Products
-                <ChevronDown className={clsx("h-4 w-4 chevron-toggle", activeMenu === "products" && "open")} />
-              </Button>
+            <MegaMenu.Item>
+              <MegaMenu.Trigger inverted>{productsNavigation.label}</MegaMenu.Trigger>
+              <MegaMenu.Content size="lg" inverted>
+                <Grid cols={2} gap={4}>
+                  {productsNavigation.products.map((product) => {
+                    const IconComponent = productIcons[product.icon as keyof typeof productIcons] || Briefcase;
+                    return (
+                      <MegaMenu.ItemLink
+                        key={product.href}
+                        href={product.href}
+                        icon={<IconComponent className="h-5 w-5" />}
+                        description={product.tagline}
+                        inverted
+                      >
+                        {product.label}
+                      </MegaMenu.ItemLink>
+                    );
+                  })}
+                </Grid>
 
-              {activeMenu === "products" && (
-                <Box className="absolute left-0 top-full pt-2 z-50">
-                  <Box className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-md p-6">
-                    <Grid cols={3} gap={6}>
-                      {productsNavigation.products.map((product) => {
-                        const IconComponent = productIcons[product.icon as keyof typeof productIcons] || Briefcase;
-                        return (
-                          <Link
-                            key={product.href}
-                            href={product.href}
-                            className="group p-4 border-2 border-transparent hover:border-ink-700 bg-ink-900/50 hover:bg-ink-900 transition-all"
-                          >
-                            <Stack direction="horizontal" gap={3} className="items-start">
-                              <Box className="p-2 border-2 border-ink-700 bg-ink-800 shrink-0">
-                                <IconComponent className="h-5 w-5 text-brand-pink" />
-                              </Box>
-                              <Stack gap={1}>
-                                <Text className="font-display text-h6-md uppercase text-white">{product.label}</Text>
-                                <Text className="font-mono text-mono-xs uppercase tracking-kicker text-brand-pink">{product.tagline}</Text>
-                                <Body className="text-body-sm text-on-dark-muted mt-1">{product.description}</Body>
-                              </Stack>
-                            </Stack>
-                          </Link>
-                        );
-                      })}
-                    </Grid>
-
-                    <Box className="mt-6 pt-4 border-t border-ink-800">
-                      <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">Platform</Text>
-                      <Stack direction="horizontal" gap={6}>
-                        {productsNavigation.quickLinks.map((link) => (
-                          <Link
-                            key={link.href}
-                            href={link.href}
-                            className="font-mono text-mono-sm nav-link-inverted"
-                          >
-                            {link.label}
-                          </Link>
-                        ))}
-                      </Stack>
-                    </Box>
-                  </Box>
-                </Box>
-              )}
-            </Box>
+                <MegaMenu.Footer inverted>
+                  <MegaMenu.Section title="Platform" inverted>
+                    <Stack direction="horizontal" gap={4}>
+                      {productsNavigation.quickLinks.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className="text-body-sm text-on-dark-muted hover:text-white transition-colors"
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    </Stack>
+                  </MegaMenu.Section>
+                </MegaMenu.Footer>
+              </MegaMenu.Content>
+            </MegaMenu.Item>
 
             {/* Solutions Dropdown */}
-            <Box
-              className="relative"
-              onMouseEnter={() => handleMouseEnter("solutions")}
-              onMouseLeave={handleMouseLeave}
-            >
-              <Button variant="ghost" size="sm" inverted className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300 hover:text-white">
-                Solutions
-                <ChevronDown className={clsx("h-4 w-4 chevron-toggle", activeMenu === "solutions" && "open")} />
-              </Button>
-
-              {activeMenu === "solutions" && (
-                <Box className="absolute left-0 top-full pt-2 z-50">
-                  <Box className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-lg p-6">
-                    <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-4">Solutions by Role</Text>
-                    <Grid cols={3} className="gap-x-8 gap-y-4">
-                      {solutionsNavigation.groups.map((group) => (
-                        <Stack key={group.title} gap={2}>
-                          <Text className="font-display text-h6-md uppercase text-white">{group.title}</Text>
-                          <Stack gap={1}>
-                            {group.items.map((item) => (
-                              <Link
-                                key={item.href}
-                                href={item.href}
-                                className="font-mono text-mono-sm text-on-dark-muted hover:text-white block"
-                              >
-                                {item.label}
-                              </Link>
-                            ))}
-                          </Stack>
-                        </Stack>
-                      ))}
-                    </Grid>
-
-                    <Box className="mt-6 pt-4 border-t border-ink-800">
-                      <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">By Vertical</Text>
-                      <Stack direction="horizontal" gap={6}>
-                        {solutionsNavigation.verticals.map((vertical) => (
+            <MegaMenu.Item>
+              <MegaMenu.Trigger inverted>{solutionsNavigation.label}</MegaMenu.Trigger>
+              <MegaMenu.Content size="xl" inverted>
+                <Text className="text-mono-xs font-weight-medium text-on-dark-disabled uppercase tracking-kicker mb-4">
+                  Solutions by Role
+                </Text>
+                <Grid cols={3} gap={6}>
+                  {solutionsNavigation.groups.map((group) => (
+                    <MegaMenu.Section key={group.title} title={group.title} inverted>
+                      <Stack gap={1}>
+                        {group.items.map((item) => (
                           <Link
-                            key={vertical.href}
-                            href={vertical.href}
-                            className="font-mono text-mono-sm text-on-dark-muted hover:text-white"
+                            key={item.href}
+                            href={item.href}
+                            className="text-body-sm text-on-dark-muted hover:text-white transition-colors"
                           >
-                            {vertical.label}
+                            {item.label}
                           </Link>
                         ))}
                       </Stack>
-                    </Box>
-                  </Box>
-                </Box>
-              )}
-            </Box>
+                    </MegaMenu.Section>
+                  ))}
+                </Grid>
+
+                <MegaMenu.Footer inverted>
+                  <MegaMenu.Section title="By Vertical" inverted>
+                    <Stack direction="horizontal" gap={4}>
+                      {solutionsNavigation.verticals.map((vertical) => (
+                        <Link
+                          key={vertical.href}
+                          href={vertical.href}
+                          className="text-body-sm text-on-dark-muted hover:text-white transition-colors"
+                        >
+                          {vertical.label}
+                        </Link>
+                      ))}
+                    </Stack>
+                  </MegaMenu.Section>
+                </MegaMenu.Footer>
+              </MegaMenu.Content>
+            </MegaMenu.Item>
 
             {/* Resources Dropdown */}
-            <Box
-              className="relative"
-              onMouseEnter={() => handleMouseEnter("resources")}
-              onMouseLeave={handleMouseLeave}
-            >
-              <Button variant="ghost" size="sm" inverted className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300 hover:text-white">
-                Resources
-                <ChevronDown className={clsx("h-4 w-4 chevron-toggle", activeMenu === "resources" && "open")} />
-              </Button>
-
-              {activeMenu === "resources" && (
-                <Box className="absolute left-0 top-full pt-2 z-50">
-                  <Box className="border-2 border-ink-800 bg-ink-950 shadow-xl min-w-dropdown-sm p-6">
-                    <Grid cols={3} gap={8}>
-                      {resourcesNavigation.groups.map((group) => (
-                        <Stack key={group.title} gap={3}>
-                          <Text className="font-display text-h6-md uppercase text-white">{group.title}</Text>
-                          <Stack gap={2}>
-                            {group.items.map((item) => (
-                              <Link
-                                key={item.href}
-                                href={item.href}
-                                className="font-mono text-mono-sm text-on-dark-muted hover:text-white block"
-                              >
-                                {item.label}
-                              </Link>
-                            ))}
-                          </Stack>
-                        </Stack>
-                      ))}
-                    </Grid>
-
-                    <Box className="mt-6 pt-4 border-t border-ink-800">
-                      <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled mb-2">Featured</Text>
-                      <Stack direction="horizontal" gap={6}>
-                        {resourcesNavigation.featured.map((link) => (
+            <MegaMenu.Item>
+              <MegaMenu.Trigger inverted>{resourcesNavigation.label}</MegaMenu.Trigger>
+              <MegaMenu.Content size="lg" inverted>
+                <Grid cols={3} gap={6}>
+                  {resourcesNavigation.groups.map((group) => (
+                    <MegaMenu.Section key={group.title} title={group.title} inverted>
+                      <Stack gap={2}>
+                        {group.items.map((item) => (
                           <Link
-                            key={link.href}
-                            href={link.href}
-                            className="font-mono text-mono-sm text-brand-pink hover:text-white"
+                            key={item.href}
+                            href={item.href}
+                            className="text-body-sm text-on-dark-muted hover:text-white transition-colors"
                           >
-                            {link.label}
+                            {item.label}
                           </Link>
                         ))}
                       </Stack>
-                    </Box>
-                  </Box>
-                </Box>
-              )}
-            </Box>
+                    </MegaMenu.Section>
+                  ))}
+                </Grid>
+
+                <MegaMenu.Footer inverted>
+                  <MegaMenu.Section title="Featured" inverted>
+                    <Stack direction="horizontal" gap={4}>
+                      {resourcesNavigation.featured.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className="text-body-sm font-weight-medium text-brand-pink hover:text-white transition-colors"
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    </Stack>
+                  </MegaMenu.Section>
+                </MegaMenu.Footer>
+              </MegaMenu.Content>
+            </MegaMenu.Item>
 
             {/* Pricing (no dropdown) */}
-            <Link href="/pricing">
-              <Button variant="ghost" size="sm" inverted className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300 hover:text-white">
-                Pricing
-              </Button>
-            </Link>
-          </Nav>
+            <MegaMenu.Link href="/pricing" inverted>Pricing</MegaMenu.Link>
+          </MegaMenu.Root>
 
           {/* Tablet/Simple Navigation (hidden on lg+) */}
           <Nav className="hidden md:flex lg:hidden">
