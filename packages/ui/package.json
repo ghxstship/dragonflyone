@@ -24,7 +24,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@radix-ui/react-navigation-menu": "^1.2.14",
     "clsx": "^2.1.0",
-    "lucide-react": "^0.446.0"
+    "lucide-react": "^0.562.0"
   },
   "peerDependencies": {
     "next": ">=14.0.0",
