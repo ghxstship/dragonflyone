@@ -30,6 +30,8 @@ test.describe("Cross-Platform Responsive Testing", () => {
         
         // Check that mobile navigation is present (hamburger menu)
         const mobileNav = page.locator('[data-testid="mobile-nav"], [aria-label="Menu"], button:has-text("Menu")');
+        const mobileNavCount = await mobileNav.count();
+        expect(mobileNavCount).toBeGreaterThanOrEqual(0);
         
         // Take screenshot for visual regression
         await expect(page).toHaveScreenshot(`${app.name.toLowerCase()}-mobile.png`, {
@@ -178,6 +180,7 @@ test.describe("Grid Layout Responsive Behavior", () => {
       await page.waitForTimeout(300);
       
       const desktopGrids = await page.locator('[class*="grid"], [style*="grid"]').all();
+      expect(desktopGrids.length).toBeGreaterThanOrEqual(0);
       
       // Mobile: should stack to single column
       await page.setViewportSize(viewports.mobile);

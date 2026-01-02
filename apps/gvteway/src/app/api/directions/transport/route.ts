@@ -30,8 +30,15 @@ export async function GET(request: NextRequest) {
       targetVenueId = event?.venue_id;
     }
 
+    // If no venue ID, return default transport options
     if (!targetVenueId) {
-      return NextResponse.json({ error: 'Venue ID required' }, { status: 400 });
+      const defaultOptions = [
+        { id: 'uber', type: 'rideshare', name: 'Uber', description: 'Request a ride', estimated_time: 'Varies', estimated_cost: 'Varies', pickup_location: null },
+        { id: 'lyft', type: 'rideshare', name: 'Lyft', description: 'Request a ride', estimated_time: 'Varies', estimated_cost: 'Varies', pickup_location: null },
+        { id: 'taxi', type: 'taxi', name: 'Taxi', description: 'Hail or call a taxi', estimated_time: 'Varies', estimated_cost: 'Varies', pickup_location: null },
+        { id: 'public_transit', type: 'transit', name: 'Public Transit', description: 'Bus, subway, or train', estimated_time: 'Varies', estimated_cost: '$2-5', pickup_location: null },
+      ];
+      return NextResponse.json({ options: defaultOptions, total: defaultOptions.length });
     }
 
     // Get transport options for venue

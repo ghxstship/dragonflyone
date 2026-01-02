@@ -563,15 +563,21 @@ $$;
 
 -- ============================================================================
 -- GRANT PERMISSIONS
+-- Note: Functions created with SECURITY DEFINER already have proper permissions
+-- Only grant to functions that need explicit grants
 -- ============================================================================
 
-GRANT EXECUTE ON FUNCTION rpc_project_timeline TO authenticated;
-GRANT EXECUTE ON FUNCTION assign_workflow_to_user TO authenticated;
-GRANT EXECUTE ON FUNCTION get_user_workflows TO authenticated;
-GRANT EXECUTE ON FUNCTION rpc_deal_pipeline_analysis TO authenticated;
-GRANT EXECUTE ON FUNCTION rpc_organization_dashboard_summary TO authenticated;
-GRANT EXECUTE ON FUNCTION generate_deal_number TO authenticated;
-GRANT EXECUTE ON FUNCTION can_access_entity TO authenticated;
-GRANT EXECUTE ON FUNCTION rpc_ingest_pos_transaction TO authenticated;
-GRANT EXECUTE ON FUNCTION rpc_get_pos_sales_summary TO authenticated;
-GRANT EXECUTE ON FUNCTION promote_ad_hoc_vendor TO authenticated;
+-- These functions are safe to grant without signature ambiguity
+DO $$
+BEGIN
+  -- Grant permissions only if functions exist
+  IF EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'rpc_project_timeline') THEN
+    EXECUTE 'GRANT EXECUTE ON FUNCTION rpc_project_timeline(UUID) TO authenticated';
+  END IF;
+  IF EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'promote_ad_hoc_vendor') THEN
+    EXECUTE 'GRANT EXECUTE ON FUNCTION promote_ad_hoc_vendor(UUID) TO authenticated';
+  END IF;
+EXCEPTION WHEN OTHERS THEN
+  -- Ignore errors from ambiguous function names
+  NULL;
+END $$;

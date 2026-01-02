@@ -449,6 +449,29 @@ module.exports = {
     // All database queries MUST use the Legend 3NF schema query builder
     // or properly normalized Supabase queries. No denormalized data access.
     // ════════════════════════════════════════════════════════════════════
+    
+    // ════════════════════════════════════════════════════════════════════
+    // SUPABASE MIGRATIONS - 3NF & SSOT ENFORCEMENT
+    // ════════════════════════════════════════════════════════════════════
+    // 
+    // ALL new Supabase migrations MUST be:
+    // 
+    // 3NF (Third Normal Form) COMPLIANT:
+    // • No transitive dependencies
+    // • All non-key attributes depend only on the primary key
+    // • No repeating groups or arrays that should be separate tables
+    // • Proper foreign key relationships
+    // • Junction tables for many-to-many relationships
+    // 
+    // SSOT (Single Source of Truth) COMPLIANT:
+    // • No duplicate data across tables
+    // • Each piece of data stored in exactly one place
+    // • References via foreign keys, not data duplication
+    // • Lookup tables for enumerated values
+    // • No denormalized columns that duplicate data from other tables
+    // 
+    // ZERO TOLERANCE - All violations are ERRORS, not warnings.
+    // ════════════════════════════════════════════════════════════════════
   },
   ignorePatterns: [
     "node_modules/",

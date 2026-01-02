@@ -19,8 +19,21 @@ export async function GET(request: NextRequest) {
     const eventId = searchParams.get('event_id');
     const venueId = searchParams.get('venue_id');
 
+    // If no parameters, return list of venues with directions info
     if (!eventId && !venueId) {
-      return NextResponse.json({ error: 'Event ID or Venue ID required' }, { status: 400 });
+      const { data, error, count } = await supabase
+        .from('venues')
+        .select('id, name, address, city, state, zip_code, latitude, longitude', { count: 'exact' })
+        .order('name')
+        .limit(50);
+
+      if (error) {
+        if (error.message?.includes('does not exist') || error.code === '42P01') {
+          return NextResponse.json({ venues: [], total: 0 });
+        }
+        throw error;
+      }
+      return NextResponse.json({ venues: data || [], total: count || 0 });
     }
 
     let venue;

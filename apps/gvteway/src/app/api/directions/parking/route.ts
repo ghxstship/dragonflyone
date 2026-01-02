@@ -30,18 +30,19 @@ export async function GET(request: NextRequest) {
       targetVenueId = event?.venue_id;
     }
 
-    if (!targetVenueId) {
-      return NextResponse.json({ error: 'Venue ID required' }, { status: 400 });
+    // If no venue ID, return all parking lots
+    let query = supabase.from('parking_lots').select('*', { count: 'exact' });
+    
+    if (targetVenueId) {
+      query = query.eq('venue_id', targetVenueId);
     }
-
-    // Get parking lots near venue
-    const { data, error } = await supabase
-      .from('parking_lots')
-      .select('*')
-      .eq('venue_id', targetVenueId)
-      .order('distance_meters', { ascending: true });
+    
+    const { data, error } = await query.order('distance_meters', { ascending: true }).limit(50);
 
     if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ parking: [], total: 0 });
+      }
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 

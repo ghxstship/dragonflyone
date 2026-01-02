@@ -5,6 +5,32 @@
 
 ---
 
+## ⚠️ CRITICAL RULE: ALL NEW MIGRATIONS MUST BE 3NF & SSOT COMPLIANT
+
+> **ZERO TOLERANCE POLICY** - All new Supabase migrations in `/supabase/migrations/` MUST adhere to:
+
+### 3NF (Third Normal Form) Requirements:
+- ✅ No transitive dependencies
+- ✅ All non-key attributes depend only on the primary key
+- ✅ No repeating groups or arrays that should be separate tables
+- ✅ Proper foreign key relationships with ON DELETE/UPDATE actions
+- ✅ Junction tables for many-to-many relationships
+- ✅ Proper indexing on foreign keys
+
+### SSOT (Single Source of Truth) Requirements:
+- ✅ No duplicate data across tables
+- ✅ Each piece of data stored in exactly one place
+- ✅ References via foreign keys, not data duplication
+- ✅ Lookup tables for enumerated values (use existing `*_types` tables)
+- ✅ No denormalized columns that duplicate data from other tables
+
+### Enforcement:
+- This rule is documented in `.eslintrc.js` under "SUPABASE MIGRATIONS - 3NF & SSOT ENFORCEMENT"
+- This rule is stored in the AI assistant's persistent memory
+- All migrations are subject to code review for 3NF/SSOT compliance
+
+---
+
 ## Executive Summary
 
 The Dragonflyone monorepo has been validated for **100% Third Normal Form (3NF) compliance** across all application layers. No legacy table references remain in the codebase, and all frontend/backend implementations correctly interact with the normalized schema.

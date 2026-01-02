@@ -1,0 +1,1403 @@
+<testsuites id="" name="" tests="203" failures="45" skipped="17" errors="0" time="24.844336">
+<testsuite name="api/asset-catalog.spec.ts" timestamp="2026-01-02T05:27:56.056Z" hostname="chromium" tests="40" failures="4" skipped="17" time="0.683" errors="0">
+<testcase name="Asset Catalog API - Read Operations › GET /api/catalog/organization - should list or require auth" classname="api/asset-catalog.spec.ts" time="0.084">
+</testcase>
+<testcase name="Asset Catalog API - Read Operations › GET /api/catalog/organization - should filter by category" classname="api/asset-catalog.spec.ts" time="0.031">
+</testcase>
+<testcase name="Asset Catalog API - Read Operations › GET /api/catalog/organization - should search by name" classname="api/asset-catalog.spec.ts" time="0.029">
+</testcase>
+<testcase name="Asset Catalog API - Organization Catalog Items CRUD › CREATE - should create new catalog item" classname="api/asset-catalog.spec.ts" time="0.01">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Organization Catalog Items CRUD › READ - should get created item by ID" classname="api/asset-catalog.spec.ts" time="0.002">
+<failure message="asset-catalog.spec.ts:97:7 READ - should get created item by ID" type="FAILURE">
+<![CDATA[  [chromium] › api/asset-catalog.spec.ts:97:7 › Asset Catalog API - Organization Catalog Items CRUD › READ - should get created item by ID 
+
+    Error: CREATE must succeed before READ
+
+    expect(received).toBeTruthy()
+
+    Received: undefined
+
+       97 |   test('READ - should get created item by ID', async ({ request }) => {
+       98 |     // If CREATE was skipped due to auth, this will also skip
+    >  99 |     expect(createdItemId, 'CREATE must succeed before READ').toBeTruthy();
+          |                                                              ^
+      100 |
+      101 |     const response = await request.get(`${ATLVS_BASE_URL}/api/catalog/organization/${createdItemId}`);
+      102 |     
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/asset-catalog.spec.ts:99:62
+]]>
+</failure>
+</testcase>
+<testcase name="Asset Catalog API - Organization Catalog Items CRUD › UPDATE - should update item" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Organization Catalog Items CRUD › LOCK - should lock item" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Organization Catalog Items CRUD › UNLOCK - should unlock item" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Organization Catalog Items CRUD › DELETE - should delete item" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Catalog Visibility Read Operations › GET /api/catalog/visibility - should list or require auth" classname="api/asset-catalog.spec.ts" time="0.062">
+</testcase>
+<testcase name="Asset Catalog API - Catalog Visibility Read Operations › GET /api/catalog/visibility - should filter by scope_type" classname="api/asset-catalog.spec.ts" time="0.026">
+</testcase>
+<testcase name="Asset Catalog API - Catalog Visibility Settings CRUD › CREATE - should create visibility setting" classname="api/asset-catalog.spec.ts" time="0.011">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Catalog Visibility Settings CRUD › READ - should get single setting" classname="api/asset-catalog.spec.ts" time="0.002">
+<failure message="asset-catalog.spec.ts:225:7 READ - should get single setting" type="FAILURE">
+<![CDATA[  [chromium] › api/asset-catalog.spec.ts:225:7 › Asset Catalog API - Catalog Visibility Settings CRUD › READ - should get single setting 
+
+    Error: CREATE must succeed before READ
+
+    expect(received).toBeTruthy()
+
+    Received: undefined
+
+      224 |
+      225 |   test('READ - should get single setting', async ({ request }) => {
+    > 226 |     expect(createdSettingId, 'CREATE must succeed before READ').toBeTruthy();
+          |                                                                 ^
+      227 |
+      228 |     const response = await request.get(`${ATLVS_BASE_URL}/api/catalog/visibility/${createdSettingId}`);
+      229 |     expect(response.status(), `READ should return 200, got ${response.status()}`).toBe(200);
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/asset-catalog.spec.ts:226:65
+]]>
+</failure>
+</testcase>
+<testcase name="Asset Catalog API - Catalog Visibility Settings CRUD › UPDATE - should update setting" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Catalog Visibility Settings CRUD › DELETE - should delete setting" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Permissions Read Operations › GET /api/catalog/permissions - should list or require auth" classname="api/asset-catalog.spec.ts" time="0.058">
+</testcase>
+<testcase name="Asset Catalog API - Permissions Read Operations › GET /api/catalog/permissions - should filter by category" classname="api/asset-catalog.spec.ts" time="0.025">
+</testcase>
+<testcase name="Asset Catalog API - Permissions Read Operations › GET /api/catalog/permissions/check - should check user permission" classname="api/asset-catalog.spec.ts" time="0.049">
+</testcase>
+<testcase name="Asset Catalog API - Permissions CRUD › CREATE - should create permission" classname="api/asset-catalog.spec.ts" time="0.007">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Permissions CRUD › READ - should get single permission" classname="api/asset-catalog.spec.ts" time="0.002">
+<failure message="asset-catalog.spec.ts:329:7 READ - should get single permission" type="FAILURE">
+<![CDATA[  [chromium] › api/asset-catalog.spec.ts:329:7 › Asset Catalog API - Permissions CRUD › READ - should get single permission 
+
+    Error: CREATE must succeed before READ
+
+    expect(received).toBeTruthy()
+
+    Received: undefined
+
+      328 |
+      329 |   test('READ - should get single permission', async ({ request }) => {
+    > 330 |     expect(createdPermissionId, 'CREATE must succeed before READ').toBeTruthy();
+          |                                                                    ^
+      331 |
+      332 |     const response = await request.get(`${ATLVS_BASE_URL}/api/catalog/permissions/${createdPermissionId}`);
+      333 |     expect(response.status(), `READ should return 200, got ${response.status()}`).toBe(200);
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/asset-catalog.spec.ts:330:68
+]]>
+</failure>
+</testcase>
+<testcase name="Asset Catalog API - Permissions CRUD › UPDATE - should update permission" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Permissions CRUD › DELETE - should delete permission" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Effective Catalog › GET /api/catalog/effective - should return effective catalog" classname="api/asset-catalog.spec.ts" time="0.062">
+</testcase>
+<testcase name="Asset Catalog API - Effective Catalog › GET /api/catalog/effective - should filter by category" classname="api/asset-catalog.spec.ts" time="0.024">
+</testcase>
+<testcase name="Asset Catalog API - Effective Catalog › GET /api/catalog/effective - should require organization_id" classname="api/asset-catalog.spec.ts" time="0.025">
+</testcase>
+<testcase name="Asset Catalog API - Advance Templates Read Operations › GET /api/advancing/templates - should list or require auth" classname="api/asset-catalog.spec.ts" time="0.046">
+</testcase>
+<testcase name="Asset Catalog API - Advance Templates Read Operations › GET /api/advancing/templates - should filter by category" classname="api/asset-catalog.spec.ts" time="0.026">
+</testcase>
+<testcase name="Asset Catalog API - Advance Templates Read Operations › GET /api/advancing/templates - should filter by template_type" classname="api/asset-catalog.spec.ts" time="0.024">
+</testcase>
+<testcase name="Asset Catalog API - Advance Templates Read Operations › GET /api/advancing/templates - should search by name" classname="api/asset-catalog.spec.ts" time="0.022">
+</testcase>
+<testcase name="Asset Catalog API - Advance Templates CRUD › CREATE - should create template" classname="api/asset-catalog.spec.ts" time="0.009">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Advance Templates CRUD › READ - should get single template with items" classname="api/asset-catalog.spec.ts" time="0.002">
+<failure message="asset-catalog.spec.ts:494:7 READ - should get single template with items" type="FAILURE">
+<![CDATA[  [chromium] › api/asset-catalog.spec.ts:494:7 › Asset Catalog API - Advance Templates CRUD › READ - should get single template with items 
+
+    Error: CREATE must succeed before READ
+
+    expect(received).toBeTruthy()
+
+    Received: undefined
+
+      493 |
+      494 |   test('READ - should get single template with items', async ({ request }) => {
+    > 495 |     expect(createdTemplateId, 'CREATE must succeed before READ').toBeTruthy();
+          |                                                                  ^
+      496 |
+      497 |     const response = await request.get(`${ATLVS_BASE_URL}/api/advancing/templates/${createdTemplateId}`);
+      498 |     expect(response.status(), `READ should return 200, got ${response.status()}`).toBe(200);
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/asset-catalog.spec.ts:495:66
+]]>
+</failure>
+</testcase>
+<testcase name="Asset Catalog API - Advance Templates CRUD › UPDATE - should update template" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Advance Templates CRUD › ADD ITEM - should add item to template" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Advance Templates CRUD › FAVORITE - should favorite template" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Advance Templates CRUD › UNFAVORITE - should unfavorite template" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Advance Templates CRUD › DELETE - should delete template" classname="api/asset-catalog.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Asset Catalog API - Duplicate Catalog Item › POST /api/catalog/organization/duplicate - should require source_item_id" classname="api/asset-catalog.spec.ts" time="0.021">
+</testcase>
+<testcase name="Asset Catalog API - Duplicate Catalog Item › POST /api/catalog/organization/duplicate - should require organization_id" classname="api/asset-catalog.spec.ts" time="0.009">
+</testcase>
+<testcase name="Asset Catalog API - Create Advance from Template › POST /api/advancing/from-template - should require template_id" classname="api/asset-catalog.spec.ts" time="0.009">
+</testcase>
+<testcase name="Asset Catalog API - Create Advance from Template › POST /api/advancing/from-template - should require organization_id" classname="api/asset-catalog.spec.ts" time="0.006">
+</testcase>
+</testsuite>
+<testsuite name="api/atlvs-api.spec.ts" timestamp="2026-01-02T05:27:56.056Z" hostname="chromium" tests="58" failures="5" skipped="0" time="2.816" errors="0">
+<testcase name="ATLVS API Routes › WF-ATLVS-001: Production Creation APIs › GET /api/projects" classname="api/atlvs-api.spec.ts" time="0.03">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-001: Production Creation APIs › GET /api/productions" classname="api/atlvs-api.spec.ts" time="0.045">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-002: Budget Management APIs › GET /api/budgets" classname="api/atlvs-api.spec.ts" time="0.045">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-002: Budget Management APIs › GET /api/budget-variance" classname="api/atlvs-api.spec.ts" time="0.042">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-003: Vendor Management APIs › GET /api/vendors" classname="api/atlvs-api.spec.ts" time="0.048">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-003: Vendor Management APIs › GET /api/vendor-onboarding" classname="api/atlvs-api.spec.ts" time="0.047">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-003: Vendor Management APIs › GET /api/vendor-scorecards" classname="api/atlvs-api.spec.ts" time="0.044">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-003: Vendor Management APIs › GET /api/vendor-portal" classname="api/atlvs-api.spec.ts" time="0.047">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-004: Sponsor Acquisition APIs › GET /api/sponsors" classname="api/atlvs-api.spec.ts" time="0.052">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-004: Sponsor Acquisition APIs › GET /api/opportunities" classname="api/atlvs-api.spec.ts" time="0.351">
+<failure message="atlvs-api.spec.ts:85:9 GET /api/opportunities" type="FAILURE">
+<![CDATA[  [chromium] › api/atlvs-api.spec.ts:85:9 › ATLVS API Routes › WF-ATLVS-004: Sponsor Acquisition APIs › GET /api/opportunities 
+
+    Error: Endpoint http://localhost:3001/api/opportunities returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-ATLVS-001: Production Creation APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/atlvs-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/atlvs-api.spec.ts:87:7
+]]>
+</failure>
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-005: Investor Relations APIs › GET /api/investors" classname="api/atlvs-api.spec.ts" time="0.068">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-006: Venue Setup APIs › GET /api/venues" classname="api/atlvs-api.spec.ts" time="0.048">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-006: Venue Setup APIs › GET /api/venue-booking" classname="api/atlvs-api.spec.ts" time="0.05">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-007: Asset Inventory APIs › GET /api/assets" classname="api/atlvs-api.spec.ts" time="0.035">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-007: Asset Inventory APIs › GET /api/asset-analytics" classname="api/atlvs-api.spec.ts" time="0.05">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-007: Asset Inventory APIs › GET /api/asset-insurance" classname="api/atlvs-api.spec.ts" time="0.052">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-007: Asset Inventory APIs › GET /api/rental-equipment" classname="api/atlvs-api.spec.ts" time="0.05">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-008: Contract Lifecycle APIs › GET /api/contracts" classname="api/atlvs-api.spec.ts" time="0.024">
+<failure message="atlvs-api.spec.ts:133:9 GET /api/contracts" type="FAILURE">
+<![CDATA[  [chromium] › api/atlvs-api.spec.ts:133:9 › ATLVS API Routes › WF-ATLVS-008: Contract Lifecycle APIs › GET /api/contracts 
+
+    Error: Endpoint http://localhost:3001/api/contracts returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-ATLVS-001: Production Creation APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/atlvs-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/atlvs-api.spec.ts:135:7
+]]>
+</failure>
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-009: Compliance Management APIs › GET /api/compliance" classname="api/atlvs-api.spec.ts" time="0.063">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-010: Expense Management APIs › GET /api/expenses" classname="api/atlvs-api.spec.ts" time="0.026">
+<failure message="atlvs-api.spec.ts:147:9 GET /api/expenses" type="FAILURE">
+<![CDATA[  [chromium] › api/atlvs-api.spec.ts:147:9 › ATLVS API Routes › WF-ATLVS-010: Expense Management APIs › GET /api/expenses 
+
+    Error: Endpoint http://localhost:3001/api/expenses returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-ATLVS-001: Production Creation APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/atlvs-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/atlvs-api.spec.ts:149:7
+]]>
+</failure>
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-011: Invoice Processing APIs › GET /api/invoices" classname="api/atlvs-api.spec.ts" time="0.032">
+<failure message="atlvs-api.spec.ts:154:9 GET /api/invoices" type="FAILURE">
+<![CDATA[  [chromium] › api/atlvs-api.spec.ts:154:9 › ATLVS API Routes › WF-ATLVS-011: Invoice Processing APIs › GET /api/invoices 
+
+    Error: Endpoint http://localhost:3001/api/invoices returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-ATLVS-001: Production Creation APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/atlvs-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/atlvs-api.spec.ts:156:7
+]]>
+</failure>
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-011: Invoice Processing APIs › GET /api/accounts-receivable" classname="api/atlvs-api.spec.ts" time="0.064">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-012: Permit Management APIs › GET /api/permits" classname="api/atlvs-api.spec.ts" time="0.049">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-013: Insurance Management APIs › GET /api/insurance" classname="api/atlvs-api.spec.ts" time="0.053">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-014: Procurement APIs › GET /api/purchase-orders" classname="api/atlvs-api.spec.ts" time="0.049">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-014: Procurement APIs › GET /api/quotes" classname="api/atlvs-api.spec.ts" time="0.052">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-015: RFP Management APIs › GET /api/rfp" classname="api/atlvs-api.spec.ts" time="0.047">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-016: Advancing APIs › GET /api/advances" classname="api/atlvs-api.spec.ts" time="0.034">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-017: Workforce Management APIs › GET /api/employees" classname="api/atlvs-api.spec.ts" time="0.029">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-017: Workforce Management APIs › GET /api/timesheets" classname="api/atlvs-api.spec.ts" time="0.024">
+<failure message="atlvs-api.spec.ts:211:9 GET /api/timesheets" type="FAILURE">
+<![CDATA[  [chromium] › api/atlvs-api.spec.ts:211:9 › ATLVS API Routes › WF-ATLVS-017: Workforce Management APIs › GET /api/timesheets 
+
+    Error: Endpoint http://localhost:3001/api/timesheets returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-ATLVS-001: Production Creation APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/atlvs-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/atlvs-api.spec.ts:213:7
+]]>
+</failure>
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-017: Workforce Management APIs › GET /api/skills-matrix" classname="api/atlvs-api.spec.ts" time="0.048">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-017: Workforce Management APIs › GET /api/commissions" classname="api/atlvs-api.spec.ts" time="0.052">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-018: CRM APIs › GET /api/contacts" classname="api/atlvs-api.spec.ts" time="0.032">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-018: CRM APIs › GET /api/deals" classname="api/atlvs-api.spec.ts" time="0.036">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-018: CRM APIs › GET /api/calendar-integration" classname="api/atlvs-api.spec.ts" time="0.035">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-019: Analytics APIs › GET /api/analytics" classname="api/atlvs-api.spec.ts" time="0.037">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-019: Analytics APIs › GET /api/metrics" classname="api/atlvs-api.spec.ts" time="0.036">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-019: Analytics APIs › GET /api/churn-analysis" classname="api/atlvs-api.spec.ts" time="0.052">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-019: Analytics APIs › GET /api/anomaly-detection" classname="api/atlvs-api.spec.ts" time="0.037">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-020: API &amp; Integration APIs › GET /api/data-export" classname="api/atlvs-api.spec.ts" time="0.051">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-020: API &amp; Integration APIs › GET /api/data-warehouse/connections" classname="api/atlvs-api.spec.ts" time="0.037">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-020: API &amp; Integration APIs › GET /api/data-warehouse/pipelines" classname="api/atlvs-api.spec.ts" time="0.05">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-020: API &amp; Integration APIs › GET /api/data-warehouse/exports" classname="api/atlvs-api.spec.ts" time="0.036">
+</testcase>
+<testcase name="ATLVS API Routes › WF-ATLVS-021: Task Management APIs › GET /api/task-management" classname="api/atlvs-api.spec.ts" time="0.049">
+</testcase>
+<testcase name="ATLVS API Routes › Cross-Platform Sync APIs › GET /api/cross-platform/gvteway-sync" classname="api/atlvs-api.spec.ts" time="0.036">
+</testcase>
+<testcase name="ATLVS API Routes › Cross-Platform Sync APIs › GET /api/cross-platform/compvss-sync" classname="api/atlvs-api.spec.ts" time="0.049">
+</testcase>
+<testcase name="ATLVS API Routes › Finance APIs › GET /api/payment-processing" classname="api/atlvs-api.spec.ts" time="0.036">
+</testcase>
+<testcase name="ATLVS API Routes › Finance APIs › GET /api/currencies" classname="api/atlvs-api.spec.ts" time="0.05">
+</testcase>
+<testcase name="ATLVS API Routes › Finance APIs › GET /api/ledger-accounts" classname="api/atlvs-api.spec.ts" time="0.037">
+</testcase>
+<testcase name="ATLVS API Routes › Finance APIs › GET /api/credit-card-reconciliation" classname="api/atlvs-api.spec.ts" time="0.035">
+</testcase>
+<testcase name="ATLVS API Routes › Finance APIs › GET /api/retainers" classname="api/atlvs-api.spec.ts" time="0.05">
+</testcase>
+<testcase name="ATLVS API Routes › Finance APIs › GET /api/grants" classname="api/atlvs-api.spec.ts" time="0.05">
+</testcase>
+<testcase name="ATLVS API Routes › Organization APIs › GET /api/organizations" classname="api/atlvs-api.spec.ts" time="0.036">
+</testcase>
+<testcase name="ATLVS API Routes › Privacy APIs › GET /api/privacy/consent" classname="api/atlvs-api.spec.ts" time="0.048">
+</testcase>
+<testcase name="ATLVS API Routes › Privacy APIs › GET /api/privacy/dsr" classname="api/atlvs-api.spec.ts" time="0.037">
+</testcase>
+<testcase name="ATLVS API Routes › Enterprise APIs › GET /api/enterprise/white-label" classname="api/atlvs-api.spec.ts" time="0.046">
+</testcase>
+<testcase name="ATLVS API Routes › Enterprise APIs › GET /api/enterprise/data-residency" classname="api/atlvs-api.spec.ts" time="0.036">
+</testcase>
+<testcase name="ATLVS API Routes › Strategic APIs › GET /api/strategic-goals" classname="api/atlvs-api.spec.ts" time="0.032">
+</testcase>
+</testsuite>
+<testsuite name="api/compvss-api.spec.ts" timestamp="2026-01-02T05:27:56.056Z" hostname="chromium" tests="51" failures="10" skipped="0" time="2.889" errors="0">
+<testcase name="COMPVSS API Routes › WF-COMPVSS-001: Production Setup APIs › GET /api/projects" classname="api/compvss-api.spec.ts" time="0.036">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-002: Crew Scheduling APIs › GET /api/crew" classname="api/compvss-api.spec.ts" time="0.285">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-002: Crew Scheduling APIs › GET /api/crew-manifest" classname="api/compvss-api.spec.ts" time="0.33">
+<failure message="compvss-api.spec.ts:46:9 GET /api/crew-manifest" type="FAILURE">
+<![CDATA[  [chromium] › api/compvss-api.spec.ts:46:9 › COMPVSS API Routes › WF-COMPVSS-002: Crew Scheduling APIs › GET /api/crew-manifest 
+
+    Error: Endpoint http://localhost:3002/api/crew-manifest returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-COMPVSS-001: Production Setup APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:48:7
+]]>
+</failure>
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-003: Advancing Management APIs › GET /api/advancing/catalog" classname="api/compvss-api.spec.ts" time="0.038">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-004: Credential System APIs › GET /api/credentials" classname="api/compvss-api.spec.ts" time="0.021">
+<failure message="compvss-api.spec.ts:60:9 GET /api/credentials" type="FAILURE">
+<![CDATA[  [chromium] › api/compvss-api.spec.ts:60:9 › COMPVSS API Routes › WF-COMPVSS-004: Credential System APIs › GET /api/credentials 
+
+    Error: Endpoint http://localhost:3002/api/credentials returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-COMPVSS-001: Production Setup APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:62:7
+]]>
+</failure>
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-004: Credential System APIs › GET /api/credential-badges" classname="api/compvss-api.spec.ts" time="0.056">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-005: Schedule Management APIs › GET /api/schedule" classname="api/compvss-api.spec.ts" time="0.044">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-005: Schedule Management APIs › GET /api/run-of-show" classname="api/compvss-api.spec.ts" time="0.043">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-005: Schedule Management APIs › GET /api/technical-rehearsals" classname="api/compvss-api.spec.ts" time="0.039">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-005: Schedule Management APIs › GET /api/critical-path" classname="api/compvss-api.spec.ts" time="0.04">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-006: Safety &amp; Incident APIs › GET /api/safety" classname="api/compvss-api.spec.ts" time="0.026">
+<failure message="compvss-api.spec.ts:94:9 GET /api/safety" type="FAILURE">
+<![CDATA[  [chromium] › api/compvss-api.spec.ts:94:9 › COMPVSS API Routes › WF-COMPVSS-006: Safety & Incident APIs › GET /api/safety 
+
+    Error: Endpoint http://localhost:3002/api/safety returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-COMPVSS-001: Production Setup APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:96:7
+]]>
+</failure>
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-006: Safety &amp; Incident APIs › GET /api/incidents" classname="api/compvss-api.spec.ts" time="0.052">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-006: Safety &amp; Incident APIs › GET /api/risk-detection" classname="api/compvss-api.spec.ts" time="0.041">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-007: Quality Assurance APIs › GET /api/damage-assessment" classname="api/compvss-api.spec.ts" time="0.044">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-008: Vendor Coordination APIs › GET /api/vendor-hub" classname="api/compvss-api.spec.ts" time="0.05">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-008: Vendor Coordination APIs › GET /api/subcontractor-opportunities" classname="api/compvss-api.spec.ts" time="0.021">
+<failure message="compvss-api.spec.ts:123:9 GET /api/subcontractor-opportunities" type="FAILURE">
+<![CDATA[  [chromium] › api/compvss-api.spec.ts:123:9 › COMPVSS API Routes › WF-COMPVSS-008: Vendor Coordination APIs › GET /api/subcontractor-opportunities 
+
+    Error: Endpoint http://localhost:3002/api/subcontractor-opportunities returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-COMPVSS-001: Production Setup APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:125:7
+]]>
+</failure>
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-009: Load-In Management APIs › GET /api/equipment" classname="api/compvss-api.spec.ts" time="0.055">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-009: Load-In Management APIs › GET /api/equipment-specs" classname="api/compvss-api.spec.ts" time="0.041">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-009: Load-In Management APIs › GET /api/equipment-manuals" classname="api/compvss-api.spec.ts" time="0.044">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-009: Load-In Management APIs › GET /api/equipment-return" classname="api/compvss-api.spec.ts" time="0.038">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-009: Load-In Management APIs › GET /api/staging-areas" classname="api/compvss-api.spec.ts" time="0.041">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-009: Load-In Management APIs › GET /api/rigging-calc" classname="api/compvss-api.spec.ts" time="0.039">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-009: Load-In Management APIs › GET /api/ground-plans" classname="api/compvss-api.spec.ts" time="0.041">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-010: Show Day Operations APIs › GET /api/meal-breaks" classname="api/compvss-api.spec.ts" time="0.038">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-010: Show Day Operations APIs › GET /api/merch-coordination" classname="api/compvss-api.spec.ts" time="0.041">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-012: Production Wrap APIs › GET /api/show-reports" classname="api/compvss-api.spec.ts" time="0.038">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-012: Production Wrap APIs › GET /api/post-show" classname="api/compvss-api.spec.ts" time="0.038">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-013: SOP Management APIs › GET /api/sops" classname="api/compvss-api.spec.ts" time="0.022">
+<failure message="compvss-api.spec.ts:191:9 GET /api/sops" type="FAILURE">
+<![CDATA[  [chromium] › api/compvss-api.spec.ts:191:9 › COMPVSS API Routes › WF-COMPVSS-013: SOP Management APIs › GET /api/sops 
+
+    Error: Endpoint http://localhost:3002/api/sops returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-COMPVSS-001: Production Setup APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:193:7
+]]>
+</failure>
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-013: SOP Management APIs › GET /api/template-library" classname="api/compvss-api.spec.ts" time="0.055">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-014: Opportunity &amp; Bid APIs › GET /api/opportunities" classname="api/compvss-api.spec.ts" time="0.022">
+<failure message="compvss-api.spec.ts:203:9 GET /api/opportunities" type="FAILURE">
+<![CDATA[  [chromium] › api/compvss-api.spec.ts:203:9 › COMPVSS API Routes › WF-COMPVSS-014: Opportunity & Bid APIs › GET /api/opportunities 
+
+    Error: Endpoint http://localhost:3002/api/opportunities returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-COMPVSS-001: Production Setup APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:205:7
+]]>
+</failure>
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-014: Opportunity &amp; Bid APIs › GET /api/win-loss-tracking" classname="api/compvss-api.spec.ts" time="0.058">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-014: Opportunity &amp; Bid APIs › GET /api/mobile-jobs" classname="api/compvss-api.spec.ts" time="0.041">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-014: Opportunity &amp; Bid APIs › GET /api/client-requirements" classname="api/compvss-api.spec.ts" time="0.044">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-014: Opportunity &amp; Bid APIs › GET /api/client-walkthrough" classname="api/compvss-api.spec.ts" time="0.04">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-015: Communication APIs › GET /api/chat/rooms" classname="api/compvss-api.spec.ts" time="0.041">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-015: Communication APIs › GET /api/chat/messages" classname="api/compvss-api.spec.ts" time="0.04">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-015: Communication APIs › GET /api/chat/presence" classname="api/compvss-api.spec.ts" time="0.04">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-015: Communication APIs › GET /api/collaboration/comments" classname="api/compvss-api.spec.ts" time="0.039">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-015: Communication APIs › GET /api/social-sharing" classname="api/compvss-api.spec.ts" time="0.041">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-017: Training &amp; Certification APIs › GET /api/onboarding-workflow" classname="api/compvss-api.spec.ts" time="0.038">
+</testcase>
+<testcase name="COMPVSS API Routes › WF-COMPVSS-017: Training &amp; Certification APIs › GET /api/industry-associations" classname="api/compvss-api.spec.ts" time="0.039">
+</testcase>
+<testcase name="COMPVSS API Routes › Venue &amp; Location APIs › GET /api/venues" classname="api/compvss-api.spec.ts" time="0.037">
+</testcase>
+<testcase name="COMPVSS API Routes › Venue &amp; Location APIs › GET /api/proximity-search" classname="api/compvss-api.spec.ts" time="0.037">
+</testcase>
+<testcase name="COMPVSS API Routes › Cross-Platform Sync APIs › GET /api/cross-platform/gvteway-sync" classname="api/compvss-api.spec.ts" time="0.038">
+</testcase>
+<testcase name="COMPVSS API Routes › Authentication APIs › GET /api/auth/me" classname="api/compvss-api.spec.ts" time="0.04">
+</testcase>
+<testcase name="COMPVSS API Routes › Authentication APIs › POST /api/auth/signin" classname="api/compvss-api.spec.ts" time="0.041">
+<failure message="compvss-api.spec.ts:293:9 POST /api/auth/signin" type="FAILURE">
+<![CDATA[  [chromium] › api/compvss-api.spec.ts:293:9 › COMPVSS API Routes › Authentication APIs › POST /api/auth/signin 
+
+    Error: Endpoint http://localhost:3002/api/auth/signin returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-COMPVSS-001: Production Setup APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:297:7
+]]>
+</failure>
+</testcase>
+<testcase name="COMPVSS API Routes › Authentication APIs › POST /api/auth/signup" classname="api/compvss-api.spec.ts" time="0.06">
+<failure message="compvss-api.spec.ts:300:9 POST /api/auth/signup" type="FAILURE">
+<![CDATA[  [chromium] › api/compvss-api.spec.ts:300:9 › COMPVSS API Routes › Authentication APIs › POST /api/auth/signup 
+
+    Error: Endpoint http://localhost:3002/api/auth/signup returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-COMPVSS-001: Production Setup APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:304:7
+]]>
+</failure>
+</testcase>
+<testcase name="COMPVSS API Routes › Authentication APIs › POST /api/auth/magic-link" classname="api/compvss-api.spec.ts" time="0.351">
+<failure message="compvss-api.spec.ts:307:9 POST /api/auth/magic-link" type="FAILURE">
+<![CDATA[  [chromium] › api/compvss-api.spec.ts:307:9 › COMPVSS API Routes › Authentication APIs › POST /api/auth/magic-link 
+
+    Error: Endpoint http://localhost:3002/api/auth/magic-link returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-COMPVSS-001: Production Setup APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:311:7
+]]>
+</failure>
+</testcase>
+<testcase name="COMPVSS API Routes › Authentication APIs › GET /api/auth/refresh" classname="api/compvss-api.spec.ts" time="0.049">
+<failure message="compvss-api.spec.ts:314:9 GET /api/auth/refresh" type="FAILURE">
+<![CDATA[  [chromium] › api/compvss-api.spec.ts:314:9 › COMPVSS API Routes › Authentication APIs › GET /api/auth/refresh 
+
+    Error: Endpoint http://localhost:3002/api/auth/refresh returned 405. Expected 200/201/204 (success) or 401/403 (auth required). Got 405
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 405
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-COMPVSS-001: Production Setup APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/compvss-api.spec.ts:316:7
+]]>
+</failure>
+</testcase>
+<testcase name="COMPVSS API Routes › Authentication APIs › GET /api/auth/mfa" classname="api/compvss-api.spec.ts" time="0.036">
+</testcase>
+<testcase name="COMPVSS API Routes › Language &amp; Localization APIs › GET /api/language-filter" classname="api/compvss-api.spec.ts" time="0.02">
+</testcase>
+</testsuite>
+<testsuite name="api/gvteway-api.spec.ts" timestamp="2026-01-02T05:27:56.056Z" hostname="chromium" tests="54" failures="26" skipped="0" time="3.01" errors="0">
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-001: Event Discovery APIs › GET /api/events" classname="api/gvteway-api.spec.ts" time="0.311">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-001: Event Discovery APIs › GET /api/similar-events" classname="api/gvteway-api.spec.ts" time="0.022">
+<failure message="gvteway-api.spec.ts:39:9 GET /api/similar-events" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:39:9 › GVTEWAY API Routes › WF-GVTEWAY-001: Event Discovery APIs › GET /api/similar-events 
+
+    Error: Endpoint http://localhost:3000/api/similar-events returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:41:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-001: Event Discovery APIs › GET /api/discover/quiz" classname="api/gvteway-api.spec.ts" time="0.029">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-001: Event Discovery APIs › GET /api/tours" classname="api/gvteway-api.spec.ts" time="0.122">
+<failure message="gvteway-api.spec.ts:49:9 GET /api/tours" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:49:9 › GVTEWAY API Routes › WF-GVTEWAY-001: Event Discovery APIs › GET /api/tours 
+
+    Error: Endpoint http://localhost:3000/api/tours returned 500. Expected 200/201/204 (success) or 401/403 (auth required). Got 500 - server error
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 500
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:51:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-001: Event Discovery APIs › GET /api/voice-search" classname="api/gvteway-api.spec.ts" time="0.028">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/tickets" classname="api/gvteway-api.spec.ts" time="0.071">
+<failure message="gvteway-api.spec.ts:61:9 GET /api/tickets" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:61:9 › GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/tickets 
+
+    Error: Endpoint http://localhost:3000/api/tickets returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:63:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/tickets/enhanced" classname="api/gvteway-api.spec.ts" time="0.033">
+<failure message="gvteway-api.spec.ts:66:9 GET /api/tickets/enhanced" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:66:9 › GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/tickets/enhanced 
+
+    Error: Endpoint http://localhost:3000/api/tickets/enhanced returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:68:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/tickets/addons" classname="api/gvteway-api.spec.ts" time="0.032">
+<failure message="gvteway-api.spec.ts:71:9 GET /api/tickets/addons" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:71:9 › GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/tickets/addons 
+
+    Error: Endpoint http://localhost:3000/api/tickets/addons returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:73:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/tickets/deliveries" classname="api/gvteway-api.spec.ts" time="0.032">
+<failure message="gvteway-api.spec.ts:76:9 GET /api/tickets/deliveries" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:76:9 › GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/tickets/deliveries 
+
+    Error: Endpoint http://localhost:3000/api/tickets/deliveries returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:78:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/payments" classname="api/gvteway-api.spec.ts" time="0.035">
+<failure message="gvteway-api.spec.ts:81:9 GET /api/payments" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:81:9 › GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/payments 
+
+    Error: Endpoint http://localhost:3000/api/payments returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:83:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/split-payment" classname="api/gvteway-api.spec.ts" time="0.033">
+<failure message="gvteway-api.spec.ts:86:9 GET /api/split-payment" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:86:9 › GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/split-payment 
+
+    Error: Endpoint http://localhost:3000/api/split-payment returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:88:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/receipts" classname="api/gvteway-api.spec.ts" time="0.034">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/waitlist" classname="api/gvteway-api.spec.ts" time="0.02">
+<failure message="gvteway-api.spec.ts:96:9 GET /api/waitlist" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:96:9 › GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/waitlist 
+
+    Error: Endpoint http://localhost:3000/api/waitlist returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:98:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/age-restrictions" classname="api/gvteway-api.spec.ts" time="0.053">
+<failure message="gvteway-api.spec.ts:101:9 GET /api/age-restrictions" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:101:9 › GVTEWAY API Routes › WF-GVTEWAY-003: Ticket Purchase APIs › GET /api/age-restrictions 
+
+    Error: Endpoint http://localhost:3000/api/age-restrictions returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:103:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-004: Artist &amp; Venue Discovery APIs › GET /api/artists" classname="api/gvteway-api.spec.ts" time="0.157">
+<failure message="gvteway-api.spec.ts:108:9 GET /api/artists" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:108:9 › GVTEWAY API Routes › WF-GVTEWAY-004: Artist & Venue Discovery APIs › GET /api/artists 
+
+    Error: Endpoint http://localhost:3000/api/artists returned 500. Expected 200/201/204 (success) or 401/403 (auth required). Got 500 - server error
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 500
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:110:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-004: Artist &amp; Venue Discovery APIs › GET /api/venues" classname="api/gvteway-api.spec.ts" time="0.135">
+<failure message="gvteway-api.spec.ts:113:9 GET /api/venues" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:113:9 › GVTEWAY API Routes › WF-GVTEWAY-004: Artist & Venue Discovery APIs › GET /api/venues 
+
+    Error: Endpoint http://localhost:3000/api/venues returned 500. Expected 200/201/204 (success) or 401/403 (auth required). Got 500 - server error
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 500
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:115:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-004: Artist &amp; Venue Discovery APIs › GET /api/directions/venue" classname="api/gvteway-api.spec.ts" time="0.033">
+<failure message="gvteway-api.spec.ts:118:9 GET /api/directions/venue" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:118:9 › GVTEWAY API Routes › WF-GVTEWAY-004: Artist & Venue Discovery APIs › GET /api/directions/venue 
+
+    Error: Endpoint http://localhost:3000/api/directions/venue returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:120:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-004: Artist &amp; Venue Discovery APIs › GET /api/directions/parking" classname="api/gvteway-api.spec.ts" time="0.033">
+<failure message="gvteway-api.spec.ts:123:9 GET /api/directions/parking" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:123:9 › GVTEWAY API Routes › WF-GVTEWAY-004: Artist & Venue Discovery APIs › GET /api/directions/parking 
+
+    Error: Endpoint http://localhost:3000/api/directions/parking returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:125:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-004: Artist &amp; Venue Discovery APIs › GET /api/directions/transport" classname="api/gvteway-api.spec.ts" time="0.029">
+<failure message="gvteway-api.spec.ts:128:9 GET /api/directions/transport" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:128:9 › GVTEWAY API Routes › WF-GVTEWAY-004: Artist & Venue Discovery APIs › GET /api/directions/transport 
+
+    Error: Endpoint http://localhost:3000/api/directions/transport returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:130:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-004: Artist &amp; Venue Discovery APIs › GET /api/directions/route" classname="api/gvteway-api.spec.ts" time="0.029">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-005: Merchandise Shopping APIs › GET /api/gift-cards" classname="api/gvteway-api.spec.ts" time="0.017">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-005: Merchandise Shopping APIs › GET /api/gift-cards/my-cards" classname="api/gvteway-api.spec.ts" time="0.017">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-005: Merchandise Shopping APIs › POST /api/gift-cards/purchase" classname="api/gvteway-api.spec.ts" time="0.017">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-005: Merchandise Shopping APIs › POST /api/gift-cards/redeem" classname="api/gvteway-api.spec.ts" time="0.014">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-006: Help &amp; Support APIs › GET /api/guest-chat" classname="api/gvteway-api.spec.ts" time="0.016">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-009: Ticket Management APIs › GET /api/tickets/track" classname="api/gvteway-api.spec.ts" time="0.022">
+<failure message="gvteway-api.spec.ts:173:9 GET /api/tickets/track" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:173:9 › GVTEWAY API Routes › WF-GVTEWAY-009: Ticket Management APIs › GET /api/tickets/track 
+
+    Error: Endpoint http://localhost:3000/api/tickets/track returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:175:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-009: Ticket Management APIs › GET /api/tickets/transfer" classname="api/gvteway-api.spec.ts" time="0.028">
+<failure message="gvteway-api.spec.ts:178:9 GET /api/tickets/transfer" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:178:9 › GVTEWAY API Routes › WF-GVTEWAY-009: Ticket Management APIs › GET /api/tickets/transfer 
+
+    Error: Endpoint http://localhost:3000/api/tickets/transfer returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:180:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-009: Ticket Management APIs › GET /api/tickets/gift" classname="api/gvteway-api.spec.ts" time="0.032">
+<failure message="gvteway-api.spec.ts:183:9 GET /api/tickets/gift" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:183:9 › GVTEWAY API Routes › WF-GVTEWAY-009: Ticket Management APIs › GET /api/tickets/gift 
+
+    Error: Endpoint http://localhost:3000/api/tickets/gift returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:185:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-009: Ticket Management APIs › GET /api/price-alerts" classname="api/gvteway-api.spec.ts" time="0.029">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-010: Order Management APIs › GET /api/orders" classname="api/gvteway-api.spec.ts" time="0.016">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-014: Community Participation APIs › GET /api/community/groups" classname="api/gvteway-api.spec.ts" time="0.152">
+<failure message="gvteway-api.spec.ts:202:9 GET /api/community/groups" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:202:9 › GVTEWAY API Routes › WF-GVTEWAY-014: Community Participation APIs › GET /api/community/groups 
+
+    Error: Endpoint http://localhost:3000/api/community/groups returned 500. Expected 200/201/204 (success) or 401/403 (auth required). Got 500 - server error
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 500
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:204:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-014: Community Participation APIs › GET /api/ugc/posts" classname="api/gvteway-api.spec.ts" time="0.142">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-014: Community Participation APIs › GET /api/ugc/campaigns" classname="api/gvteway-api.spec.ts" time="0.119">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-014: Community Participation APIs › GET /api/ugc/hashtags" classname="api/gvteway-api.spec.ts" time="0.133">
+<failure message="gvteway-api.spec.ts:217:9 GET /api/ugc/hashtags" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:217:9 › GVTEWAY API Routes › WF-GVTEWAY-014: Community Participation APIs › GET /api/ugc/hashtags 
+
+    Error: Endpoint http://localhost:3000/api/ugc/hashtags returned 500. Expected 200/201/204 (success) or 401/403 (auth required). Got 500 - server error
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 500
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:219:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-014: Community Participation APIs › GET /api/photo-booth" classname="api/gvteway-api.spec.ts" time="0.132">
+<failure message="gvteway-api.spec.ts:222:9 GET /api/photo-booth" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:222:9 › GVTEWAY API Routes › WF-GVTEWAY-014: Community Participation APIs › GET /api/photo-booth 
+
+    Error: Endpoint http://localhost:3000/api/photo-booth returned 500. Expected 200/201/204 (success) or 401/403 (auth required). Got 500 - server error
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 500
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:224:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-014: Community Participation APIs › GET /api/contest-giveaway" classname="api/gvteway-api.spec.ts" time="0.027">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-015: Fan Club &amp; Membership APIs › GET /api/membership" classname="api/gvteway-api.spec.ts" time="0.024">
+<failure message="gvteway-api.spec.ts:234:9 GET /api/membership" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:234:9 › GVTEWAY API Routes › WF-GVTEWAY-015: Fan Club & Membership APIs › GET /api/membership 
+
+    Error: Endpoint http://localhost:3000/api/membership returned 404. Expected 200/201/204 (success) or 401/403 (auth required). Got 404 - endpoint does not exist
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:236:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-015: Fan Club &amp; Membership APIs › GET /api/rewards" classname="api/gvteway-api.spec.ts" time="0.029">
+<failure message="gvteway-api.spec.ts:239:9 GET /api/rewards" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:239:9 › GVTEWAY API Routes › WF-GVTEWAY-015: Fan Club & Membership APIs › GET /api/rewards 
+
+    Error: Endpoint http://localhost:3000/api/rewards returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:241:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-015: Fan Club &amp; Membership APIs › GET /api/loyalty-rewards" classname="api/gvteway-api.spec.ts" time="0.027">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-015: Fan Club &amp; Membership APIs › GET /api/fan-club-access" classname="api/gvteway-api.spec.ts" time="0.018">
+<failure message="gvteway-api.spec.ts:249:9 GET /api/fan-club-access" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:249:9 › GVTEWAY API Routes › WF-GVTEWAY-015: Fan Club & Membership APIs › GET /api/fan-club-access 
+
+    Error: Endpoint http://localhost:3000/api/fan-club-access returned 400. Expected 200/201/204 (success) or 401/403 (auth required). Got 400
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 400
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:251:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-015: Fan Club &amp; Membership APIs › GET /api/fan-chapters" classname="api/gvteway-api.spec.ts" time="0.136">
+<failure message="gvteway-api.spec.ts:254:9 GET /api/fan-chapters" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:254:9 › GVTEWAY API Routes › WF-GVTEWAY-015: Fan Club & Membership APIs › GET /api/fan-chapters 
+
+    Error: Endpoint http://localhost:3000/api/fan-chapters returned 500. Expected 200/201/204 (success) or 401/403 (auth required). Got 500 - server error
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 500
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:256:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-015: Fan Club &amp; Membership APIs › GET /api/fan-mentorship" classname="api/gvteway-api.spec.ts" time="0.032">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-018: Event Matching APIs › GET /api/music-integration" classname="api/gvteway-api.spec.ts" time="0.018">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-023: Marketing Administration APIs › GET /api/ab-testing" classname="api/gvteway-api.spec.ts" time="0.024">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-023: Marketing Administration APIs › GET /api/influencer-affiliates" classname="api/gvteway-api.spec.ts" time="0.133">
+<failure message="gvteway-api.spec.ts:278:9 GET /api/influencer-affiliates" type="FAILURE">
+<![CDATA[  [chromium] › api/gvteway-api.spec.ts:278:9 › GVTEWAY API Routes › WF-GVTEWAY-023: Marketing Administration APIs › GET /api/influencer-affiliates 
+
+    Error: Endpoint http://localhost:3000/api/influencer-affiliates returned 500. Expected 200/201/204 (success) or 401/403 (auth required). Got 500 - server error
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 500
+    Received array: [200, 201, 204, 401, 403]
+
+      28 |       VALID_ENDPOINT_STATUSES,
+      29 |       `Endpoint ${endpoint} returned ${status}. Expected 200/201/204 (success) or 401/403 (auth required). Got ${status === 404 ? '404 - endpoint does not exist' : status === 500 ? '500 - server error' : status}`
+    > 30 |     ).toContain(status);
+         |       ^
+      31 |   }
+      32 |
+      33 |   test.describe('WF-GVTEWAY-001: Event Discovery APIs', () => {
+        at assertValidEndpoint (/Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:30:7)
+        at /Users/julianclarkson/Documents/Dragonflyone/e2e/api/gvteway-api.spec.ts:280:7
+]]>
+</failure>
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-023: Marketing Administration APIs › GET /api/media-kit" classname="api/gvteway-api.spec.ts" time="0.031">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-024: Social Media Management APIs › GET /api/social-listening" classname="api/gvteway-api.spec.ts" time="0.018">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-024: Social Media Management APIs › GET /api/bulk-posting" classname="api/gvteway-api.spec.ts" time="0.025">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-024: Social Media Management APIs › GET /api/tiktok-challenges" classname="api/gvteway-api.spec.ts" time="0.119">
+</testcase>
+<testcase name="GVTEWAY API Routes › WF-GVTEWAY-026: POS &amp; Operations APIs › GET /api/cashless-payments" classname="api/gvteway-api.spec.ts" time="0.11">
+</testcase>
+<testcase name="GVTEWAY API Routes › Messaging APIs › GET /api/messages/conversations" classname="api/gvteway-api.spec.ts" time="0.022">
+</testcase>
+<testcase name="GVTEWAY API Routes › Privacy APIs › GET /api/privacy/cookies" classname="api/gvteway-api.spec.ts" time="0.027">
+</testcase>
+<testcase name="GVTEWAY API Routes › Localization APIs › GET /api/multi-language" classname="api/gvteway-api.spec.ts" time="0.018">
+</testcase>
+<testcase name="GVTEWAY API Routes › Localization APIs › GET /api/multi-language-events" classname="api/gvteway-api.spec.ts" time="0.015">
+</testcase>
+</testsuite>
+</testsuites>

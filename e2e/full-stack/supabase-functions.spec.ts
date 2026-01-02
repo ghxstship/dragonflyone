@@ -287,6 +287,11 @@ test.describe('Cross-Platform Data Sync', () => {
     const response = await request.get(`${COMPVSS_BASE}/api/cross-platform/gvteway-sync`);
     expect([200, 401, 404]).toContain(response.status());
   });
+
+  test('GVTEWAY to ATLVS sync endpoint', async ({ request }) => {
+    const response = await request.get(`${GVTEWAY_BASE}/api/cross-platform/atlvs-sync`);
+    expect([200, 401, 404]).toContain(response.status());
+  });
 });
 
 test.describe('Authentication Layer - All Apps', () => {

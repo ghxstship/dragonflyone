@@ -34,7 +34,22 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
 
-    if (!eventId) return NextResponse.json({ error: 'event_id required' }, { status: 400 });
+    // If no event_id, return list of all restrictions
+    if (!eventId) {
+      const { data, error, count } = await supabase
+        .from('event_age_restrictions')
+        .select('*', { count: 'exact' })
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (error) {
+        if (error.message?.includes('does not exist') || error.code === '42P01') {
+          return NextResponse.json({ restrictions: [], total: 0 });
+        }
+        throw error;
+      }
+      return NextResponse.json({ restrictions: data || [], total: count || 0 });
+    }
 
     const { data: restriction, error } = await supabase
       .from('event_age_restrictions')

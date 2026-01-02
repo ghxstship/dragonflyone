@@ -29,10 +29,16 @@ export async function GET(request: NextRequest) {
     const session_id = searchParams.get('session_id');
 
     if (!session_id) {
-      return NextResponse.json(
-        { error: 'session_id is required' },
-        { status: 400 }
-      );
+      // Return default consent settings when no session_id provided
+      return NextResponse.json({
+        data: {
+          necessary: true,
+          functional: false,
+          analytics: false,
+          advertising: false,
+          consented: false,
+        },
+      });
     }
 
     const { data, error } = await supabase

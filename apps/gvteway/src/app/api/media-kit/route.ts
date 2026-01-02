@@ -66,7 +66,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ media_kit: mediaKit });
     }
 
-    return NextResponse.json({ error: 'event_id required' }, { status: 400 });
+    // Return empty list when no event_id provided
+    return NextResponse.json({ media_kits: [] });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
