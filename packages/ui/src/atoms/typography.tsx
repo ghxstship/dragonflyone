@@ -3,12 +3,14 @@ import clsx from "clsx";
 import type { HTMLAttributes } from "react";
 
 // Display - ANTON (for hero headlines, major impact)
-export const Display = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement> & { size?: "xl" | "lg" | "md" }>(
+export const Display = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement> & { size?: "xl" | "lg" | "md" | "sm" | "xs" }>(
   function Display({ size = "lg", className, children, ...props }, ref) {
     const sizeClasses = {
       xl: "text-display-xl",
       lg: "text-display-lg",
       md: "text-display-md",
+      sm: "text-display-sm",
+      xs: "text-display-xs",
     };
     
     return (

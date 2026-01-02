@@ -31,7 +31,7 @@ function HeroSection() {
     <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
       <Stack gap={6} className="items-center text-center sm:gap-8">
         <Label size="xs" className="text-brand-pink">THE INDUSTRY STANDARD</Label>
-        <Display className="text-white text-display-sm sm:text-display-md lg:text-display-lg">THE PLATFORM FOR LIVE ENTERTAINMENT</Display>
+        <Display size="xs" className="text-white text-display-xs sm:text-display-sm md:text-display-md lg:text-display-lg">THE PLATFORM FOR LIVE ENTERTAINMENT</Display>
         <Body size="md" className="max-w-3xl text-on-dark-secondary sm:text-body-lg">
           Modular. Compatible. Scalable. Built for productions, activations, installations, and destinations of any size.
         </Body>

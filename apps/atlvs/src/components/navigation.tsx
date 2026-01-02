@@ -9,7 +9,6 @@ import {
   resourcesNavigation,
 } from "../data/public-navigation";
 import {
-  Body,
   Box,
   Button,
   Grid,
@@ -23,7 +22,7 @@ import {
 } from '@ghxstship/ui';
 import type { ContextLevel } from "@ghxstship/ui";
 import clsx from "clsx";
-import { ChevronRight, Briefcase, Users, Ticket } from "lucide-react";
+import { ChevronRight, Briefcase, Users, Ticket, Menu, X } from "lucide-react";
 
 // =============================================================================
 // CREATOR NAVIGATION (ATLVS is B2B - all users are "creators"/business users)
@@ -59,12 +58,35 @@ export function CreatorNavigationPublic() {
   return (
     <>
       <Header className="sticky top-0 z-modal border-b border-ink-800 bg-ink-950/90 backdrop-blur">
+        {/* Mobile Header - Simple left logo, right hamburger */}
+        <Stack direction="horizontal" className="flex md:hidden items-center justify-between px-4 py-4">
+          <Link href="/" className="font-display text-h3-md uppercase text-white">
+            ATLVS
+          </Link>
+          <Button
+            variant="outline"
+            size="sm"
+            inverted
+            onClick={handleToggle}
+            aria-label={isOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={isOpen}
+            className="p-2"
+          >
+            {isOpen ? (
+              <X className="w-6 h-6" strokeWidth={2.5} />
+            ) : (
+              <Menu className="w-6 h-6" strokeWidth={2.5} />
+            )}
+          </Button>
+        </Stack>
+
+        {/* Desktop/Tablet Header */}
         <Stack
           direction="horizontal"
-          className="mx-auto max-w-7xl items-center justify-between px-4 py-4 sm:px-4 sm:px-6 lg:px-8"
+          className="hidden md:flex mx-auto max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
         >
           {/* Logo */}
-          <Link href="/" className="font-display text-h3-md uppercase text-white sm:text-h2-md">
+          <Link href="/" className="font-display text-h2-md uppercase text-white">
             ATLVS
           </Link>
 
@@ -220,46 +242,18 @@ export function CreatorNavigationPublic() {
             </Stack>
           </Nav>
 
-          {/* Desktop CTAs + Mobile Toggle */}
+          {/* Desktop CTAs */}
           <Stack direction="horizontal" gap={3} className="items-center">
-            <Link href="/auth/signup" className="hidden md:block">
+            <Link href="/auth/signup">
               <Button variant="solid" size="sm" inverted>
                 Get Started
               </Button>
             </Link>
-            <Link href="/auth/signin" className="hidden md:block">
+            <Link href="/auth/signin">
               <Button variant="outline" size="sm" inverted>
                 Sign In
               </Button>
             </Link>
-
-            {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              inverted
-              className="md:hidden"
-              aria-label={isOpen ? "Close navigation" : "Open navigation"}
-              aria-expanded={isOpen}
-              onClick={handleToggle}
-            >
-              <Body className="sr-only">{isOpen ? "Close navigation" : "Open navigation"}</Body>
-              <Stack className="h-5 w-6 gap-1">
-                {[0, 1, 2].map((idx) => (
-                  <Box
-                    key={idx}
-                    className={clsx(
-                      "block h-0.5 w-full bg-white transition-transform",
-                      isOpen && idx === 1 ? "opacity-0" : "opacity-100",
-                      isOpen && idx !== 1
-                        ? idx === 0
-                          ? "translate-y-2 rotate-45"
-                          : "-translate-y-2 -rotate-45"
-                        : ""
-                    )}
-                  />
-                ))}
-              </Stack>
-            </Button>
           </Stack>
         </Stack>
       </Header>

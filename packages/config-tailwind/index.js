@@ -351,6 +351,8 @@ const fontSizeScale = {
   'display-xl': ['7.5rem', { lineHeight: '0.9', letterSpacing: '-0.02em' }],
   'display-lg': ['5.625rem', { lineHeight: '0.95', letterSpacing: '-0.02em' }],
   'display-md': ['4.5rem', { lineHeight: '1.0', letterSpacing: '-0.02em' }],
+  'display-sm': ['3rem', { lineHeight: '1.0', letterSpacing: '-0.01em' }],
+  'display-xs': ['2.25rem', { lineHeight: '1.05', letterSpacing: '-0.01em' }],
   'h1-lg': ['5rem', { lineHeight: '1.0', letterSpacing: '-0.01em' }],
   'h1-md': ['3.5rem', { lineHeight: '1.0', letterSpacing: '-0.01em' }],
   'h1-sm': ['2.25rem', { lineHeight: '1.1', letterSpacing: '-0.01em' }],
