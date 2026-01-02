@@ -2,16 +2,27 @@
 
 /**
  * Sign In Page
- * User authentication
- * Uses AuthPage template for consistent layout
+ * User authentication with modern split-screen layout
+ * Bold Contemporary Pop Art Adventure Design System
  */
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Sparkles, Shield, Zap } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Checkbox, Label, Form, AuthPage, useToast, Box, Grid } from "@ghxstship/ui";
+  Button,
+  Form,
+  AuthSplitLayout,
+  AuthFormField,
+  AuthPasswordInput,
+  AuthCheckbox,
+  AuthDivider,
+  SocialAuthButtonGroup,
+  useToast,
+  Stack,
+  H1,
+} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function SignInPage() {
@@ -20,8 +31,9 @@ export default function SignInPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [socialLoading, setSocialLoading] = useState<string | undefined>();
 
   const signInMutation = useMutation({
     mutationFn: async ({ email, password }: { email: string; password: string }) => {
@@ -52,56 +64,133 @@ export default function SignInPage() {
     if (validateForm()) signInMutation.mutate({ email, password });
   };
 
+  const handleSocialAuth = async (provider: string) => {
+    setSocialLoading(provider);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: provider as "google" | "azure",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      if (error) throw error;
+    } catch (error) {
+      toast.error("Authentication Failed", (error as Error).message);
+      setSocialLoading(undefined);
+    }
+  };
+
   return (
-    <AuthPage
-      title="Sign In"
-      subtitle="Welcome back! Sign in to your account"
-      footer={{ text: "Don't have an account?", linkText: "Sign up", linkHref: "/auth/signup" }}
+    <AuthSplitLayout
+      title="Welcome Back"
+      subtitle="Sign in to continue to your account"
+      footer={{ text: "Don't have an account?", linkText: "Create one", linkHref: "/auth/signup" }}
+      brandLogo={
+        <H1 className="text-white text-h2-md">ATLVS</H1>
+      }
+      brandTagline="Experience Management, Elevated"
+      brandFeatures={[
+        {
+          icon: <Sparkles className="size-5 text-white" />,
+          title: "AI-Powered Insights",
+          description: "Smart recommendations for every event",
+        },
+        {
+          icon: <Shield className="size-5 text-white" />,
+          title: "Enterprise Security",
+          description: "SOC 2 compliant infrastructure",
+        },
+        {
+          icon: <Zap className="size-5 text-white" />,
+          title: "Real-Time Collaboration",
+          description: "Work together seamlessly",
+        },
+      ]}
+      testimonial={{
+        quote: "ATLVS transformed how we manage our events. The platform is intuitive and powerful.",
+        author: "Sarah Chen",
+        role: "Event Director, TechConf",
+      }}
     >
       <Form onSubmit={handleSubmit}>
-        <Box>
-          <Body size="sm" className="text-on-dark-muted mb-1">Email</Body>
-          <Box className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
-            <Input type="email" placeholder="you@example.com" value={email} onChange={(e) => { setEmail(e.target.value); if (errors.email) setErrors((prev) => ({ ...prev, email: "" })); }} className={`pl-10 ${errors.email ? "border-error" : ""}`} />
-          </Box>
-          {errors.email && <Body size="sm" className="text-error mt-1">{errors.email}</Body>}
-        </Box>
+        <Stack gap={5}>
+          <AuthFormField
+            label="Email"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setEmail(e.target.value);
+              if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
+            }}
+            errorMessage={errors.email}
+            icon={<Mail className="size-5" />}
+            autoComplete="email"
+            required
+          />
 
-        <Box>
-          <Body size="sm" className="text-on-dark-muted mb-1">Password</Body>
-          <Box className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
-            <Input type={showPassword ? "text" : "password"} placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value); if (errors.password) setErrors((prev) => ({ ...prev, password: "" })); }} className={`pl-10 pr-10 ${errors.password ? "border-error" : ""}`} />
-            <Button type="button" variant="ghost" size="sm" onClick={() => setShowPassword(!showPassword)} className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 p-0 min-w-0 text-on-dark-muted hover:text-white" aria-label={showPassword ? "Hide password" : "Show password"}>
-              {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+          <AuthPasswordInput
+            label="Password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setPassword(e.target.value);
+              if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
+            }}
+            errorMessage={errors.password}
+            icon={<Lock className="size-5" />}
+            autoComplete="current-password"
+            required
+          />
+
+          <Stack direction="horizontal" className="items-center justify-between">
+            <AuthCheckbox
+              label="Remember me"
+              checked={rememberMe}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRememberMe(e.target.checked)}
+            />
+            <Button
+              variant="ghost"
+              size="sm"
+              type="button"
+              onClick={() => router.push("/auth/forgot-password")}
+              className="text-primary-400 hover:text-primary-300"
+            >
+              Forgot password?
             </Button>
-          </Box>
-          {errors.password && <Body size="sm" className="text-error mt-1">{errors.password}</Body>}
-        </Box>
+          </Stack>
 
-        <Box className="flex items-center justify-between">
-          <Label className="flex items-center gap-2 cursor-pointer">
-            <Checkbox />
-            <Body size="sm" className="text-on-dark-muted">Remember me</Body>
-          </Label>
-          <Button variant="ghost" size="sm" onClick={() => router.push("/auth/forgot-password")}>Forgot password?</Button>
-        </Box>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            fullWidth
+            isLoading={signInMutation.isPending}
+            loadingText="Signing in..."
+          >
+            Sign In
+          </Button>
 
-        <Button type="submit" variant="solid" className="w-full" disabled={signInMutation.isPending}>
-          {signInMutation.isPending ? "Signing in..." : "Sign In"}
-        </Button>
+          <AuthDivider />
 
-        <Box className="relative my-6">
-          <Box className="absolute inset-0 flex items-center"><Box className="w-full border-t border-grey-700" /></Box>
-          <Box className="relative flex justify-center"><Body size="sm" className="bg-grey-900 px-2 text-on-dark-disabled">Or continue with</Body></Box>
-        </Box>
+          <SocialAuthButtonGroup
+            providers={["google", "microsoft"]}
+            onProviderClick={handleSocialAuth}
+            loadingProvider={socialLoading}
+            direction="vertical"
+          />
 
-        <Grid cols={2} gap={4}>
-          <Button variant="outline" type="button">Google</Button>
-          <Button variant="outline" type="button">Microsoft</Button>
-        </Grid>
+          <Button
+            variant="ghost"
+            size="sm"
+            type="button"
+            onClick={() => router.push("/auth/magic-link")}
+            className="text-on-dark-muted hover:text-white"
+          >
+            Sign in with magic link instead
+          </Button>
+        </Stack>
       </Form>
-    </AuthPage>
+    </AuthSplitLayout>
   );
 }

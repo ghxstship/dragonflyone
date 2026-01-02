@@ -98,7 +98,7 @@ export default function GuidesPage() {
                   {featuredGuides.map((guide) => (
                     <Card
                       key={guide.id}
-                      className="p-8 border-2 border-primary/30 rounded-card cursor-pointer hover:border-primary/50 transition-all group"
+                      className="p-8 border-2 border-primary/30 rounded-card pop-card-atlvs group"
                       onClick={() => router.push(`/guides/${guide.id}`)}
                     >
                       <Stack direction="horizontal" className="justify-between items-center gap-6 flex-wrap">
@@ -181,7 +181,7 @@ export default function GuidesPage() {
                     {filteredGuides.map((guide) => (
                       <Card
                         key={guide.id}
-                        className="p-6 border-2 border-grey-800 rounded-card cursor-pointer hover:border-primary/50 transition-all group"
+                        className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs group"
                         onClick={() => router.push(`/guides/${guide.id}`)}
                       >
                         <Stack gap={4}>

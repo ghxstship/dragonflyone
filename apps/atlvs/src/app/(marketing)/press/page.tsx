@@ -94,7 +94,7 @@ export default function PressPage() {
                   {PRESS_RELEASES.map((release) => (
                     <Card
                       key={release.id}
-                      className="p-6 border-2 border-grey-800 rounded-card cursor-pointer hover:border-primary/50 transition-all group"
+                      className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs group"
                       onClick={() => router.push(`/press/${release.id}`)}
                     >
                       <Stack direction="horizontal" className="justify-between items-start flex-wrap gap-4">
@@ -132,7 +132,7 @@ export default function PressPage() {
 
                 <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
                   {MEDIA_ASSETS.map((asset) => (
-                    <Card key={asset.id} className="p-6 border-2 border-grey-800 rounded-card hover:border-primary/50 transition-all">
+                    <Card key={asset.id} className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs">
                       <Stack direction="horizontal" className="justify-between items-start gap-4">
                         <Stack direction="horizontal" gap={4} className="items-start">
                           <Box className="p-3 bg-primary/20 rounded-card text-primary">

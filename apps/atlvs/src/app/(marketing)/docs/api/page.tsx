@@ -1,16 +1,20 @@
 "use client";
 
 /**
- * API Documentation Page
+ * API Documentation Page - 2026 Landing Page Best Practices
  * API reference and developer docs
- * Uses DetailPage template for consistent layout
+ * Full-width marketing layout with hero and content sections
+ * Bold Contemporary Pop Art Adventure Design System
  */
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Code, Key, Webhook, Copy, Check, List, Terminal} from "lucide-react";
+import { Code, Key, Webhook, Copy, Check, Terminal } from "lucide-react";
 import {
-  Badge, Body, Button, Card, Grid, DetailPage, Section, SectionHeader, useToast, Box, Stack } from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container,
+  Badge, Body, Button, Card, Grid, Stack, Box, useToast,
+  type FeatureItem
+} from "@ghxstship/ui";
 
 interface Endpoint {
   method: "GET" | "POST" | "PUT" | "DELETE";
@@ -37,6 +41,13 @@ const METHOD_COLORS = {
   DELETE: "error",
 } as const;
 
+const API_FEATURES: FeatureItem[] = [
+  { id: "auth", icon: <Key className="size-8" />, title: "Authentication", description: "Secure API key based authentication for all requests." },
+  { id: "rest", icon: <Code className="size-8" />, title: "REST API", description: "Clean RESTful endpoints with JSON responses." },
+  { id: "webhooks", icon: <Webhook className="size-8" />, title: "Webhooks", description: "Real-time event notifications to your systems." },
+  { id: "sdks", icon: <Terminal className="size-8" />, title: "SDKs", description: "Official SDKs for popular programming languages." },
+];
+
 export default function ApiDocsPage() {
   const router = useRouter();
   const toast = useToast();
@@ -53,91 +64,140 @@ export default function ApiDocsPage() {
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json"`;
 
-  const tabs = [
-    {
-      id: "overview",
-      label: "Overview",
-      icon: <List className="size-4" />,
-      content: (
-        <Section>
-          <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mb-6">
-            <Card className="p-6 text-center">
-              <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Key className="size-6" /></Box>
-              <Body className="font-weight-bold">Authentication</Body>
-              <Body size="sm" className="text-on-dark-muted">API key based auth</Body>
-            </Card>
-            <Card className="p-6 text-center">
-              <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Code className="size-6" /></Box>
-              <Body className="font-weight-bold">REST API</Body>
-              <Body size="sm" className="text-on-dark-muted">JSON responses</Body>
-            </Card>
-            <Card className="p-6 text-center">
-              <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4"><Webhook className="size-6" /></Box>
-              <Body className="font-weight-bold">Webhooks</Body>
-              <Body size="sm" className="text-on-dark-muted">Real-time events</Body>
-            </Card>
-          </Grid>
-
-          <Card className="p-6 mb-6">
-            <SectionHeader title="Quick Start" description="Get started with the ATLVS API" />
-            <Box className="mt-4 bg-grey-900 rounded-card p-4 relative">
-              <Button variant="ghost" size="sm" className="absolute top-2 right-2" onClick={() => copyToClipboard(exampleCode, "example")}>
-                {copiedCode === "example" ? <Check className="size-4" /> : <Copy className="size-4" />}
-              </Button>
-              <pre className="font-weight-normal text-on-dark-secondary overflow-x-auto"><code>{exampleCode}</code></pre>
-            </Box>
-          </Card>
-
-          <Card className="p-6">
-            <SectionHeader title="Base URL" />
-            <Box className="mt-4 flex items-center gap-4">
-              <code className="bg-grey-800 px-4 py-2 rounded text-primary">https://api.atlvs.com/v1</code>
-              <Button variant="ghost" size="sm" onClick={() => copyToClipboard("https://api.atlvs.com/v1", "baseurl")}>
-                {copiedCode === "baseurl" ? <Check className="size-4" /> : <Copy className="size-4" />}
-              </Button>
-            </Box>
-          </Card>
-        </Section>
-      ),
-    },
-    {
-      id: "endpoints",
-      label: "Endpoints",
-      icon: <Terminal className="size-4" />,
-      content: (
-        <Section>
-          <SectionHeader title="API Endpoints" description="Available REST API endpoints" />
-          <Stack gap={2} className="mt-4">
-            {ENDPOINTS.map((endpoint, idx) => (
-              <Card key={idx} className="p-4 cursor-pointer hover:border-primary transition-colors">
-                <Box className="flex items-center gap-4">
-                  <Badge variant={METHOD_COLORS[endpoint.method]} className="w-16 justify-center">{endpoint.method}</Badge>
-                  <code className="text-primary flex-1">{endpoint.path}</code>
-                  <Body size="sm" className="text-on-dark-muted">{endpoint.description}</Body>
-                </Box>
-              </Card>
-            ))}
-          </Stack>
-
-          <Card className="p-8 mt-8 text-center">
-            <Body className="font-weight-bold font-weight-bold mb-2">Need an API Key?</Body>
-            <Body className="text-on-dark-muted mb-4">Generate API keys in your account settings</Body>
-            <Button variant="solid" onClick={() => router.push("/settings/integrations")}>Get API Key</Button>
-          </Card>
-        </Section>
-      ),
-    },
-  ];
-
   return (
-    <DetailPage
-      header={{
-        kicker: "Developer",
-        title: "API Reference",
-        description: "Build integrations with the ATLVS API",
-      }}
-      backButton={{ label: "Documentation", href: "/docs" }}
-      tabs={tabs}
+    <MarketingPage
+      sections={[
+        {
+          id: "hero",
+          background: "gradient",
+          pattern: "halftone",
+          patternOpacity: 0.05,
+          content: (
+            <HeroSection
+              kicker="Developer"
+              title="API Reference"
+              description="Build powerful integrations with the ATLVS API. Access production data, automate workflows, and extend platform capabilities."
+              primaryCta={{
+                label: "Get API Key",
+                onClick: () => router.push("/settings/integrations"),
+              }}
+              secondaryCta={{
+                label: "View Documentation",
+                onClick: () => router.push("/docs"),
+              }}
+              background="gradient"
+              pattern="none"
+              fullHeight={false}
+              align="center"
+            />
+          ),
+        },
+        {
+          id: "features",
+          background: "ink",
+          pattern: "grid",
+          patternOpacity: 0.03,
+          content: (
+            <FeatureGrid
+              kicker="Capabilities"
+              title="API Features"
+              description="Everything you need to integrate with ATLVS"
+              features={API_FEATURES}
+              columns={4}
+              variant="bordered"
+              background="ink"
+              align="center"
+            />
+          ),
+        },
+        {
+          id: "quickstart",
+          background: "black",
+          content: (
+            <Container size="lg" className="py-20">
+              <Stack gap={8}>
+                <Stack gap={4} className="text-center items-center">
+                  <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Quick Start</Body>
+                  <Body className="text-white font-weight-bold text-h3-md">Get Started in Minutes</Body>
+                </Stack>
+
+                <Card className="p-6 border-2 border-grey-800 rounded-card">
+                  <Stack gap={4}>
+                    <Stack direction="horizontal" className="justify-between items-center">
+                      <Body className="text-white font-weight-bold">Example Request</Body>
+                      <Button variant="ghost" size="sm" onClick={() => copyToClipboard(exampleCode, "example")}>
+                        {copiedCode === "example" ? <Check className="size-4" /> : <Copy className="size-4" />}
+                      </Button>
+                    </Stack>
+                    <Box className="bg-grey-900 rounded-card p-4">
+                      <pre className="font-weight-normal text-on-dark-secondary overflow-x-auto"><code>{exampleCode}</code></pre>
+                    </Box>
+                  </Stack>
+                </Card>
+
+                <Card className="p-6 border-2 border-grey-800 rounded-card">
+                  <Stack direction="horizontal" className="justify-between items-center">
+                    <Stack gap={1}>
+                      <Body className="text-white font-weight-bold">Base URL</Body>
+                      <code className="text-primary">https://api.atlvs.com/v1</code>
+                    </Stack>
+                    <Button variant="ghost" size="sm" onClick={() => copyToClipboard("https://api.atlvs.com/v1", "baseurl")}>
+                      {copiedCode === "baseurl" ? <Check className="size-4" /> : <Copy className="size-4" />}
+                    </Button>
+                  </Stack>
+                </Card>
+              </Stack>
+            </Container>
+          ),
+        },
+        {
+          id: "endpoints",
+          background: "ink",
+          content: (
+            <Container size="xl" className="py-20">
+              <Stack gap={8}>
+                <Stack gap={4} className="text-center items-center">
+                  <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Reference</Body>
+                  <Body className="text-white font-weight-bold text-h3-md">API Endpoints</Body>
+                  <Body className="text-on-dark-muted max-w-2xl">Available REST API endpoints for managing your production data</Body>
+                </Stack>
+
+                <Grid cols={1} gap={3}>
+                  {ENDPOINTS.map((endpoint, idx) => (
+                    <Card key={idx} className="p-4 border-2 border-grey-800 rounded-card pop-card cursor-pointer">
+                      <Box className="flex items-center gap-4">
+                        <Badge variant={METHOD_COLORS[endpoint.method]} className="w-20 justify-center">{endpoint.method}</Badge>
+                        <code className="text-primary flex-1">{endpoint.path}</code>
+                        <Body size="sm" className="text-on-dark-muted">{endpoint.description}</Body>
+                      </Box>
+                    </Card>
+                  ))}
+                </Grid>
+              </Stack>
+            </Container>
+          ),
+        },
+        {
+          id: "cta",
+          background: "primary",
+          pattern: "halftone",
+          content: (
+            <CTABanner
+              title="Ready to Build?"
+              description="Get your API key and start integrating with ATLVS today."
+              primaryCta={{
+                label: "Get API Key",
+                onClick: () => router.push("/settings/integrations"),
+              }}
+              secondaryCta={{
+                label: "Contact Sales",
+                onClick: () => router.push("/contact"),
+              }}
+              background="primary"
+            />
+          ),
+        },
+      ]}
     />
   );
 }

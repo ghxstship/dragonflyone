@@ -1,36 +1,32 @@
 "use client";
 
+/**
+ * Sign Up Page - GVTEWAY Member Registration
+ * Modern split-screen layout with brand showcase
+ * Bold Contemporary Pop Art Adventure Design System
+ */
+
+import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { Mail, Lock, User, Ticket, Star, Shield } from "lucide-react";
 import {
   Alert,
-  AuthPage,
-  Body,
   Button,
-  Card,
-  Checkbox,
-  Divider,
-  Field,
   Form,
-  Grid,
-  H2,
-  IconBox,
-  Input,
-  Label,
-  PasswordInput,
-  ScrollReveal,
-  Stack,
+  Link,
+  Text,
+  AuthSplitLayout,
+  AuthFormField,
+  AuthPasswordInput,
+  PasswordRequirements,
+  AuthCheckbox,
+  AuthDivider,
+  SocialAuthButtonGroup,
   useToast,
-} from '@ghxstship/ui';
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import NextLink from "next/link";
-import { UserPlus, ArrowRight } from "lucide-react";
+  Stack,
+  H1,
+} from "@ghxstship/ui";
 import { useAuthData } from "@/hooks/useAuth";
-
-// =============================================================================
-// SIGN UP PAGE - Member Registration
-// Bold Contemporary Pop Art Adventure Design System
-// =============================================================================
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -41,34 +37,42 @@ export default function SignUpPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    agreeToTerms: false,
   });
-  const [error, setError] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [socialLoading, setSocialLoading] = useState<string | undefined>();
 
-  const {
-    signUp,
-    isSigningUp: loading,
-    oauthSignIn,
-  } = useAuthData();
+  const { signUp, isSigningUp: loading, oauthSignIn } = useAuthData();
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const passwordRequirements = useMemo(() => [
+    { label: "At least 8 characters", met: formData.password.length >= 8 },
+    { label: "Contains uppercase letter", met: /[A-Z]/.test(formData.password) },
+    { label: "Contains lowercase letter", met: /[a-z]/.test(formData.password) },
+    { label: "Contains a number", met: /[0-9]/.test(formData.password) },
+  ], [formData.password]);
+
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: "" }));
+  };
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
+    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email format";
+    if (!formData.password) newErrors.password = "Password is required";
+    else if (formData.password.length < 8) newErrors.password = "Password must be at least 8 characters";
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Passwords do not match";
+    if (!agreedToTerms) newErrors.terms = "You must agree to the terms";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters");
-      return;
-    }
-
-    if (!formData.agreeToTerms) {
-      setError("You must agree to the terms and conditions");
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
       await signUp({
@@ -79,194 +83,156 @@ export default function SignUpPage() {
       });
       router.push("/auth/verify-email?email=" + encodeURIComponent(formData.email));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Registration failed. Please try again.");
+      toast.error("Registration Failed", err instanceof Error ? err.message : "Please try again");
     }
   };
 
-  const handleOAuthSignUp = async (provider: "google" | "apple") => {
+  const handleSocialAuth = async (provider: string) => {
+    setSocialLoading(provider);
     try {
-      const data = await oauthSignIn(provider);
+      const data = await oauthSignIn(provider as "google" | "apple");
       if (data.url) {
         window.location.href = data.url;
       } else {
         toast.info("Coming Soon", `${provider} sign-up will be available once OAuth is configured`);
+        setSocialLoading(undefined);
       }
     } catch {
-      setError("OAuth sign-up failed. Please try again.");
+      toast.error("Authentication Failed", "OAuth sign-up failed");
+      setSocialLoading(undefined);
     }
   };
 
   return (
-    <AuthPage
-      appName="GVTEWAY"
-      background="black"
-      headerAction={
-        <NextLink href="/auth/signin" className="hidden sm:block">
-          <Button variant="outline" size="sm">
-            Sign In
-          </Button>
-        </NextLink>
-      }
+    <AuthSplitLayout
+      title="Create Your Account"
+      subtitle="Join GVTEWAY to discover unforgettable live experiences"
+      footer={{ text: "Already have an account?", linkText: "Sign in", linkHref: "/auth/signin" }}
+      brandLogo={<H1 className="text-white text-h2-md">GVTEWAY</H1>}
+      brandTagline="Your Gateway to Unforgettable Experiences"
+      brandFeatures={[
+        {
+          icon: <Ticket className="size-5 text-white" />,
+          title: "Exclusive Access",
+          description: "Priority tickets to sold-out events",
+        },
+        {
+          icon: <Star className="size-5 text-white" />,
+          title: "VIP Experiences",
+          description: "Behind-the-scenes and meet & greets",
+        },
+        {
+          icon: <Shield className="size-5 text-white" />,
+          title: "Member Benefits",
+          description: "Special discounts and early access",
+        },
+      ]}
+      formMaxWidth="md"
     >
-          <ScrollReveal animation="slide-up" duration={600}>
-            {/* Auth Card - Pop Art Style */}
-            <Card inverted className="border-2 border-white/20 bg-black p-6 shadow-md sm:p-8">
-              <Stack gap={6} className="sm:gap-8">
-                {/* Header */}
-                <Stack gap={3} className="text-center sm:gap-4">
-                  <IconBox size="lg" variant="warning" inverted className="mx-auto">
-                    <UserPlus className="size-6 text-warning sm:size-8" />
-                  </IconBox>
-                  <H2 className="text-white">CREATE ACCOUNT</H2>
-                  <Body size="sm" className="text-on-dark-muted">
-                    Join GVTEWAY to discover and experience unforgettable live events.
-                  </Body>
-                </Stack>
+      <Form onSubmit={handleSubmit}>
+        <Stack gap={5}>
+          {errors.terms && <Alert variant="error">{errors.terms}</Alert>}
 
-                {/* Error Alert */}
-                {error && <Alert variant="error">{error}</Alert>}
+          <Stack direction="horizontal" gap={4}>
+            <AuthFormField
+              label="First Name"
+              placeholder="John"
+              value={formData.firstName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("firstName", e.target.value)}
+              errorMessage={errors.firstName}
+              icon={<User className="size-5" />}
+              autoComplete="given-name"
+              required
+            />
+            <AuthFormField
+              label="Last Name"
+              placeholder="Doe"
+              value={formData.lastName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("lastName", e.target.value)}
+              errorMessage={errors.lastName}
+              icon={<User className="size-5" />}
+              autoComplete="family-name"
+              required
+            />
+          </Stack>
 
-                {/* Form */}
-                <Form onSubmit={handleSignUp}>
-                  <Stack gap={4} className="sm:gap-6">
-                    {/* Name Fields - Stack on mobile, Grid on desktop */}
-                    <Grid cols={1} gap={4} className="sm:grid-cols-2">
-                      <Field label="First Name" inverted>
-                        <Input
-                          type="text"
-                          value={formData.firstName}
-                          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                          placeholder="John"
-                          required
-                          inverted
-                        />
-                      </Field>
-                      <Field label="Last Name" inverted>
-                        <Input
-                          type="text"
-                          value={formData.lastName}
-                          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                          placeholder="Doe"
-                          required
-                          inverted
-                        />
-                      </Field>
-                    </Grid>
+          <AuthFormField
+            label="Email"
+            type="email"
+            placeholder="you@example.com"
+            value={formData.email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("email", e.target.value)}
+            errorMessage={errors.email}
+            icon={<Mail className="size-5" />}
+            autoComplete="email"
+            required
+          />
 
-                    {/* Email Field */}
-                    <Field label="Email Address" inverted>
-                      <Input
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="your@email.com"
-                        required
-                        inverted
-                      />
-                    </Field>
+          <Stack gap={3}>
+            <AuthPasswordInput
+              label="Password"
+              placeholder="Create a strong password"
+              value={formData.password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("password", e.target.value)}
+              errorMessage={errors.password}
+              icon={<Lock className="size-5" />}
+              autoComplete="new-password"
+              showStrength
+              required
+            />
+            {formData.password && <PasswordRequirements requirements={passwordRequirements} />}
+          </Stack>
 
-                    {/* Password Field */}
-                    <Field label="Password" hint="Minimum 8 characters" inverted>
-                      <PasswordInput
-                        value={formData.password}
-                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        placeholder="Create a strong password"
-                        required
-                        inverted
-                      />
-                    </Field>
+          <AuthPasswordInput
+            label="Confirm Password"
+            placeholder="Confirm your password"
+            value={formData.confirmPassword}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("confirmPassword", e.target.value)}
+            errorMessage={errors.confirmPassword}
+            icon={<Lock className="size-5" />}
+            autoComplete="new-password"
+            required
+          />
 
-                    {/* Confirm Password Field */}
-                    <Field label="Confirm Password" inverted>
-                      <PasswordInput
-                        value={formData.confirmPassword}
-                        onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                        placeholder="Re-enter your password"
-                        required
-                        inverted
-                      />
-                    </Field>
+          <AuthCheckbox
+            label={
+              <Text size="sm" className="text-on-dark-secondary">
+                I agree to the{" "}
+                <Link href="/legal/terms" className="text-primary-400 hover:text-primary-300 underline">
+                  Terms of Service
+                </Link>{" "}
+                and{" "}
+                <Link href="/legal/privacy" className="text-primary-400 hover:text-primary-300 underline">
+                  Privacy Policy
+                </Link>
+              </Text>
+            }
+            checked={agreedToTerms}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAgreedToTerms(e.target.checked)}
+            required
+          />
 
-                    {/* Terms Checkbox */}
-                    <Stack direction="horizontal" gap={3} className="items-start">
-                      <Checkbox
-                        id="terms"
-                        checked={formData.agreeToTerms}
-                        onChange={(e) => setFormData({ ...formData, agreeToTerms: e.target.checked })}
-                        inverted
-                      />
-                      <Label size="xs" className="text-on-dark-muted">
-                        I agree to the{" "}
-                        <NextLink href="/legal/terms" className="text-white underline">
-                          Terms of Service
-                        </NextLink>{" "}
-                        and{" "}
-                        <NextLink href="/legal/privacy" className="text-white underline">
-                          Privacy Policy
-                        </NextLink>
-                      </Label>
-                    </Stack>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            fullWidth
+            isLoading={loading}
+            loadingText="Creating account..."
+          >
+            Create Account
+          </Button>
 
-                    {/* Primary CTA */}
-                    <Button
-                      type="submit"
-                      variant="solid"
-                      size="lg"
-                      fullWidth
-                      disabled={loading}
-                      icon={<ArrowRight className="size-4" />}
-                      iconPosition="right"
-                    >
-                      {loading ? "Creating Account..." : "Create Account"}
-                    </Button>
-                  </Stack>
-                </Form>
+          <AuthDivider />
 
-                {/* Divider */}
-                <Stack direction="horizontal" className="items-center gap-4">
-                  <Divider inverted className="flex-1" />
-                  <Label size="xs" className="text-on-dark-muted whitespace-nowrap">
-                    Or sign up with
-                  </Label>
-                  <Divider inverted className="flex-1" />
-                </Stack>
-
-                {/* OAuth Buttons */}
-                <Stack gap={3}>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    fullWidth
-                    onClick={() => handleOAuthSignUp("google")}
-                    disabled={loading}
-                  >
-                    Sign up with Google
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    fullWidth
-                    onClick={() => handleOAuthSignUp("apple")}
-                    disabled={loading}
-                  >
-                    Sign up with Apple
-                  </Button>
-                </Stack>
-
-                {/* Sign In Link */}
-                <Stack gap={2} className="border-t border-white/10 pt-6 text-center">
-                  <Body size="sm" className="text-on-dark-muted">
-                    Already have an account?
-                  </Body>
-                  <NextLink href="/auth/signin">
-                    <Button variant="ghost" size="sm" inverted>
-                      Sign In
-                    </Button>
-                  </NextLink>
-                </Stack>
-              </Stack>
-            </Card>
-          </ScrollReveal>
-    </AuthPage>
+          <SocialAuthButtonGroup
+            providers={["google", "apple"]}
+            onProviderClick={handleSocialAuth}
+            loadingProvider={socialLoading}
+            direction="vertical"
+          />
+        </Stack>
+      </Form>
+    </AuthSplitLayout>
   );
 }

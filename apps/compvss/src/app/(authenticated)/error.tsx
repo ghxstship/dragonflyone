@@ -1,6 +1,6 @@
 "use client";
 
-import { ErrorPage } from "@ghxstship/ui";
+import { AppErrorPage } from "@/components/error-pages";
 
 export default function AuthenticatedError({
   error,
@@ -9,14 +9,5 @@ export default function AuthenticatedError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  return (
-    <ErrorPage
-      error={error}
-      reset={reset}
-      appName="COMPVSS"
-      background="black"
-      showDashboard={true}
-      dashboardPath="/dashboard"
-    />
-  );
+  return <AppErrorPage error={error} reset={reset} />;
 }

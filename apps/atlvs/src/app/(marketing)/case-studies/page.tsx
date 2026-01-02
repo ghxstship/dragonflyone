@@ -11,7 +11,8 @@ import { useRouter } from "next/navigation";
 import { FileText, Building2, ArrowRight, TrendingUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  MarketingPage, HeroSection, StatsSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Spinner, Box} from "@ghxstship/ui";
+  MarketingPage, HeroSection, StatsSection, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Badge, Spinner, Box,
+  type StatItem} from "@ghxstship/ui";
 
 interface CaseStudy {
   id: string;
@@ -124,7 +125,7 @@ export default function CaseStudiesPage() {
                   {featuredStudies.map((cs: CaseStudy) => (
                     <Card
                       key={cs.id}
-                      className="p-8 border-2 border-primary/30 rounded-card cursor-pointer hover:border-primary/50 transition-all group"
+                      className="p-8 border-2 border-primary/30 rounded-card pop-card-atlvs group"
                       onClick={() => router.push(`/case-studies/${cs.id}`)}
                     >
                       <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
@@ -204,7 +205,7 @@ export default function CaseStudiesPage() {
                     {filteredStudies.map((cs: CaseStudy) => (
                       <Card
                         key={cs.id}
-                        className="p-6 border-2 border-grey-800 rounded-card cursor-pointer hover:border-primary/50 transition-all group"
+                        className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs group"
                         onClick={() => router.push(`/case-studies/${cs.id}`)}
                       >
                         <Stack gap={4}>

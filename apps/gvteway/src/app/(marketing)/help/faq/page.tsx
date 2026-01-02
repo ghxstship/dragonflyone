@@ -1,17 +1,20 @@
 "use client";
 
 /**
- * FAQ Page - GVTEWAY
+ * FAQ Page - GVTEWAY - 2026 Landing Page Best Practices
  * Frequently asked questions for event-goers and consumers
- * Uses DetailPage template for consistent layout
+ * Full-width marketing layout with hero and content sections
+ * Bold Contemporary Pop Art Adventure Design System
  * Content sourced from centralized marketing-content configuration
  */
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { HelpCircle, ChevronDown, ChevronUp, Search, List, Tag } from "lucide-react";
+import { HelpCircle, ChevronDown, ChevronUp, Search, MessageSquare, Phone, Mail } from "lucide-react";
 import {
-  Body, Button, Card, Input, DetailPage, Section, SectionHeader, Box, Stack} from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container,
+  Body, Button, Card, Grid, Input, Stack, Box
+} from "@ghxstship/ui";
 import { getFAQsByPlatform } from "@ghxstship/config/marketing-content";
 
 interface LocalFAQ {
@@ -39,6 +42,12 @@ const PLATFORM_FAQS: LocalFAQ[] = getFAQsByPlatform('gvteway').map(faq => ({
 
 const CATEGORIES = ['All', ...Array.from(new Set(PLATFORM_FAQS.map(f => f.category)))];
 
+const SUPPORT_OPTIONS = [
+  { id: "chat", icon: <MessageSquare className="size-8" />, title: "Live Chat", description: "Chat with our support team in real-time." },
+  { id: "phone", icon: <Phone className="size-8" />, title: "Phone Support", description: "Call us for immediate assistance." },
+  { id: "email", icon: <Mail className="size-8" />, title: "Email Support", description: "Send us a detailed message anytime." },
+];
+
 export default function FAQPage() {
   const router = useRouter();
   const [search, setSearch] = useState("");
@@ -51,98 +60,151 @@ export default function FAQPage() {
     return matchesSearch && matchesCategory;
   });
 
-  const tabs = [
-    {
-      id: "faq",
-      label: "FAQ",
-      icon: <List className="size-4" />,
-      content: (
-        <Section>
-          <Card className="p-4 mb-6">
-            <Box className="flex items-center gap-4 flex-wrap">
-              <Box className="flex-1 min-w-[200px] relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
-                <Input placeholder="Search questions..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-              </Box>
-              <Box className="flex gap-2 flex-wrap">
-                {CATEGORIES.map((cat) => (
-                  <Button key={cat} variant={selectedCategory === cat ? "solid" : "outline"} size="sm" onClick={() => setSelectedCategory(cat)}>
-                    {cat}
-                  </Button>
-                ))}
-              </Box>
-            </Box>
-          </Card>
-
-          {filteredFAQs.length === 0 ? (
-            <Card className="p-8 text-center">
-              <HelpCircle className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="font-weight-medium text-h5-md mb-2">No Questions Found</Body>
-              <Body className="text-on-dark-muted">Try a different search term or category</Body>
-            </Card>
-          ) : (
-            <Stack gap={4}>
-              {filteredFAQs.map((faq) => (
-                <Card key={faq.id} className="overflow-hidden">
-                  <Button variant="ghost" className="w-full p-6 text-left flex items-center justify-between" onClick={() => setExpandedId(expandedId === faq.id ? null : faq.id)}>
-                    <Box className="flex items-center gap-3">
-                      <HelpCircle className="size-5 text-primary" />
-                      <Body className="font-weight-medium">{faq.question}</Body>
-                    </Box>
-                    {expandedId === faq.id ? <ChevronUp className="size-5 text-on-dark-muted" /> : <ChevronDown className="size-5 text-on-dark-muted" />}
-                  </Button>
-                  {expandedId === faq.id && (
-                    <Box className="px-6 pb-6 pt-0">
-                      <Body className="text-on-dark-secondary pl-8">{faq.answer}</Body>
-                    </Box>
-                  )}
-                </Card>
-              ))}
-            </Stack>
-          )}
-        </Section>
-      ),
-    },
-    {
-      id: "categories",
-      label: "By Category",
-      icon: <Tag className="size-4" />,
-      content: (
-        <Section>
-          <SectionHeader title="Browse by Category" description="Find answers organized by topic" />
-          <Stack gap={6} className="mt-6">
-            {CATEGORIES.filter((c) => c !== "All").map((category) => {
-              const categoryFAQs = PLATFORM_FAQS.filter((f) => f.category === category);
-              return (
-                <Card key={category} className="p-6">
-                  <Body className="font-weight-bold text-h5-md mb-4">{category} ({categoryFAQs.length})</Body>
-                  <Stack gap={2}>
-                    {categoryFAQs.map((faq) => (
-                      <Button key={faq.id} variant="ghost" className="w-full justify-start" onClick={() => { setSelectedCategory(category); setExpandedId(faq.id); }}>
-                        <HelpCircle className="size-4 mr-2" />
-                        {faq.question}
+  return (
+    <MarketingPage
+      sections={[
+        {
+          id: "hero",
+          background: "gradient",
+          pattern: "halftone",
+          patternOpacity: 0.05,
+          content: (
+            <HeroSection
+              kicker="Help"
+              title="Frequently Asked Questions"
+              description={`Find answers to ${PLATFORM_FAQS.length} common questions about GVTEWAY.`}
+              primaryCta={{
+                label: "Contact Support",
+                onClick: () => router.push("/support/chat"),
+              }}
+              secondaryCta={{
+                label: "Browse Events",
+                onClick: () => router.push("/events"),
+              }}
+              background="gradient"
+              pattern="none"
+              fullHeight={false}
+              align="center"
+            />
+          ),
+        },
+        {
+          id: "search",
+          background: "ink",
+          content: (
+            <Container size="xl" className="py-12">
+              <Card className="p-6 border-2 border-grey-800 rounded-card">
+                <Stack gap={4}>
+                  <Box className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
+                    <Input placeholder="Search questions..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-12 h-14" />
+                  </Box>
+                  <Box className="flex gap-2 flex-wrap">
+                    {CATEGORIES.map((cat) => (
+                      <Button key={cat} variant={selectedCategory === cat ? "solid" : "outline"} size="sm" onClick={() => setSelectedCategory(cat)}>
+                        {cat}
                       </Button>
                     ))}
-                  </Stack>
-                </Card>
-              );
-            })}
-          </Stack>
-        </Section>
-      ),
-    },
-  ];
+                  </Box>
+                </Stack>
+              </Card>
+            </Container>
+          ),
+        },
+        {
+          id: "faqs",
+          background: "black",
+          content: (
+            <Container size="lg" className="py-20">
+              <Stack gap={8}>
+                <Stack gap={4} className="text-center items-center">
+                  <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Questions</Body>
+                  <Body className="text-white font-weight-bold text-h3-md">
+                    {filteredFAQs.length} {filteredFAQs.length === 1 ? "Result" : "Results"}
+                  </Body>
+                </Stack>
 
-  return (
-    <DetailPage
-      header={{
-        kicker: "Help",
-        title: "Frequently Asked Questions",
-        description: `Find answers to ${PLATFORM_FAQS.length} common questions`,
-      }}
-      backButton={{ label: "Help Center", href: "/help" }}
-      tabs={tabs}
-      actions={<Button variant="outline" onClick={() => router.push("/support/chat")}>Contact Support</Button>}
+                {filteredFAQs.length === 0 ? (
+                  <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
+                    <HelpCircle className="size-16 text-on-dark-disabled mx-auto mb-4" />
+                    <Body className="text-white font-weight-bold mb-2">No Questions Found</Body>
+                    <Body className="text-on-dark-muted mb-4">Try a different search term or category</Body>
+                    <Button variant="outline" onClick={() => { setSearch(""); setSelectedCategory("All"); }}>Clear Filters</Button>
+                  </Card>
+                ) : (
+                  <Stack gap={4}>
+                    {filteredFAQs.map((faq) => (
+                      <Card key={faq.id} className="border-2 border-grey-800 rounded-card overflow-hidden">
+                        <Button variant="ghost" className="w-full p-6 text-left flex items-center justify-between" onClick={() => setExpandedId(expandedId === faq.id ? null : faq.id)}>
+                          <Box className="flex items-center gap-3">
+                            <HelpCircle className="size-5 text-primary flex-shrink-0" />
+                            <Body className="text-white font-weight-medium">{faq.question}</Body>
+                          </Box>
+                          {expandedId === faq.id ? <ChevronUp className="size-5 text-on-dark-muted flex-shrink-0" /> : <ChevronDown className="size-5 text-on-dark-muted flex-shrink-0" />}
+                        </Button>
+                        {expandedId === faq.id && (
+                          <Box className="px-6 pb-6 pt-0">
+                            <Body className="text-on-dark-secondary pl-8">{faq.answer}</Body>
+                          </Box>
+                        )}
+                      </Card>
+                    ))}
+                  </Stack>
+                )}
+              </Stack>
+            </Container>
+          ),
+        },
+        {
+          id: "support",
+          background: "ink",
+          pattern: "grid",
+          patternOpacity: 0.03,
+          content: (
+            <Container size="xl" className="py-20">
+              <Stack gap={8}>
+                <Stack gap={4} className="text-center items-center">
+                  <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Support</Body>
+                  <Body className="text-white font-weight-bold text-h3-md">Still Need Help?</Body>
+                  <Body className="text-on-dark-muted">Our support team is here to assist you</Body>
+                </Stack>
+
+                <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
+                  {SUPPORT_OPTIONS.map((option) => (
+                    <Card key={option.id} className="p-6 border-2 border-grey-800 rounded-card pop-card text-center cursor-pointer" onClick={() => router.push("/support/chat")}>
+                      <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
+                        {option.icon}
+                      </Box>
+                      <Body className="text-white font-weight-bold mb-2">{option.title}</Body>
+                      <Body size="sm" className="text-on-dark-muted">{option.description}</Body>
+                    </Card>
+                  ))}
+                </Grid>
+              </Stack>
+            </Container>
+          ),
+        },
+        {
+          id: "cta",
+          background: "primary",
+          pattern: "halftone",
+          content: (
+            <CTABanner
+              title="Cannot Find Your Answer?"
+              description="Our support team is available 24/7 to help you with any questions."
+              primaryCta={{
+                label: "Contact Support",
+                onClick: () => router.push("/support/chat"),
+              }}
+              secondaryCta={{
+                label: "Browse Events",
+                onClick: () => router.push("/events"),
+              }}
+              background="primary"
+            />
+          ),
+        },
+      ]}
     />
   );
 }

@@ -1,30 +1,29 @@
 "use client";
 
+/**
+ * Verify Email Page - GVTEWAY
+ * Email verification confirmation with clean single-column layout
+ * Bold Contemporary Pop Art Adventure Design System
+ */
+
 import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
 import {
-  H2,
   Body,
+  Box,
   Button,
-  Stack,
-  Card,
-  Label,
-  Spinner,
-  ScrollReveal,
-  AuthPage,
-  IconBox,
+  AuthSplitLayout,
   Alert,
   useToast,
+  Stack,
+  H1,
+  H2,
+  Spinner,
 } from "@ghxstship/ui";
-import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
-import NextLink from "next/link";
-
-// =============================================================================
-// VERIFY EMAIL PAGE - Email Verification Confirmation
-// Bold Contemporary Pop Art Adventure Design System
-// =============================================================================
 
 function VerifyEmailContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
   const [isResending, setIsResending] = useState(false);
@@ -34,7 +33,7 @@ function VerifyEmailContent() {
 
   const handleResendVerification = async () => {
     if (!email) {
-      toast.error("Error", "No email address provided",);
+      toast.error("Error", "No email address provided");
       return;
     }
 
@@ -55,7 +54,7 @@ function VerifyEmailContent() {
       }
 
       setResendSuccess(true);
-      toast.success("Email Sent", "Verification email has been resent",);
+      toast.success("Email Sent", "Verification email has been resent");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to resend verification email";
       setResendError(message);
@@ -66,34 +65,33 @@ function VerifyEmailContent() {
   };
 
   return (
-    <Card inverted className="border-2 border-white/20 bg-black p-6 shadow-md sm:p-8">
-      <Stack gap={6} className="text-center sm:gap-8">
-        {/* Icon */}
-        <IconBox size="lg" variant="warning" inverted className="mx-auto">
-          <Mail className="size-6 text-warning sm:size-8" />
-        </IconBox>
-
-        <Stack gap={3} className="sm:gap-4">
-          <H2 className="text-white">VERIFY YOUR EMAIL</H2>
-          <Body size="sm" className="text-on-dark-muted">
-            We&apos;ve sent a verification email to{" "}
-            {email && <strong className="text-white">{email}</strong>}
-            {!email && "your email address"}. Please click the link in the email to verify
-            your account.
+    <AuthSplitLayout
+      singleColumn
+      brandLogo={<H1 className="text-white text-h2-md">GVTEWAY</H1>}
+    >
+      <Stack gap={8} className="text-center items-center">
+        <Box className="p-6 bg-primary-500/20 rounded-avatar border-2 border-primary-500/30">
+          <Mail className="size-12 text-primary-400" />
+        </Box>
+        
+        <Stack gap={3} className="items-center">
+          <H2 className="text-white">Verify Your Email</H2>
+          <Body className="text-on-dark-secondary max-w-sm">
+            We&apos;ve sent a verification link to{" "}
+            {email ? <strong className="text-white">{email}</strong> : "your email address"}.
+            Please check your inbox and click the link to activate your account.
+          </Body>
+          <Body size="sm" className="text-on-dark-disabled max-w-sm">
+            If you don&apos;t see the email, check your spam folder.
           </Body>
         </Stack>
 
-        {resendError && <Alert variant="error">{resendError}</Alert>}
-        {resendSuccess && <Alert variant="success">Verification email has been resent!</Alert>}
+        {resendError && <Alert variant="error" className="max-w-xs">{resendError}</Alert>}
+        {resendSuccess && <Alert variant="success" className="max-w-xs">Verification email has been resent!</Alert>}
 
-        <Stack gap={3}>
-          <Label size="xs" className="text-on-dark-disabled">
-            Didn&apos;t receive the email?
-          </Label>
-
+        <Stack gap={3} className="w-full max-w-xs">
           <Button
             variant="outline"
-            size="lg"
             fullWidth
             onClick={handleResendVerification}
             disabled={isResending}
@@ -102,45 +100,41 @@ function VerifyEmailContent() {
           >
             {isResending ? "Sending..." : "Resend Verification Email"}
           </Button>
-        </Stack>
 
-        <Stack className="border-t border-white/10 pt-6">
-          <NextLink href="/auth/signin">
-            <Button
-              variant="ghost"
-              size="sm"
-              inverted
-              icon={<ArrowLeft className="size-4" />}
-              iconPosition="left"
-            >
-              Back to Sign In
-            </Button>
-          </NextLink>
+          <Button
+            variant="ghost"
+            fullWidth
+            onClick={() => router.push("/auth/signin")}
+            icon={<ArrowLeft className="size-4" />}
+            iconPosition="left"
+          >
+            Back to Sign In
+          </Button>
         </Stack>
       </Stack>
-    </Card>
+    </AuthSplitLayout>
   );
 }
 
 export default function VerifyEmailPage() {
   return (
-    <AuthPage appName="GVTEWAY" background="black">
-      <ScrollReveal animation="slide-up" duration={600}>
-        <Suspense
-          fallback={
-            <Card inverted className="border-2 border-white/20 bg-black p-8">
-              <Stack gap={6} className="items-center text-center">
-                <Spinner variant="grey" size="lg" />
-                <Body size="sm" className="text-on-dark-muted">
-                  Loading...
-                </Body>
-              </Stack>
-            </Card>
-          }
-        >
-          <VerifyEmailContent />
-        </Suspense>
-      </ScrollReveal>
-    </AuthPage>
+    <Suspense fallback={
+      <AuthSplitLayout
+        singleColumn
+        brandLogo={<H1 className="text-white text-h2-md">GVTEWAY</H1>}
+      >
+        <Stack gap={8} className="text-center items-center">
+          <Box className="p-6 bg-primary-500/20 rounded-avatar border-2 border-primary-500/30">
+            <Mail className="size-12 text-primary-400" />
+          </Box>
+          <Stack gap={3} className="items-center">
+            <H2 className="text-white">Verify Your Email</H2>
+            <Spinner size="md" />
+          </Stack>
+        </Stack>
+      </AuthSplitLayout>
+    }>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }

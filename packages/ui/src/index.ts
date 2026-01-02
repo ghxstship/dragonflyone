@@ -344,6 +344,8 @@ export { DashboardPage } from "./templates/dashboard-page.js";
 export type { DashboardPageProps } from "./templates/dashboard-page.js";
 export { DetailPage } from "./templates/detail-page.js";
 export type { DetailPageProps, DetailPageTab } from "./templates/detail-page.js";
+export { HubPage } from "./templates/hub-page.js";
+export type { HubPageProps, HubPageTab, HubPageStat } from "./templates/hub-page.js";
 export { CreatePage } from "./templates/create-page.js";
 export type { CreatePageProps, FormSection } from "./templates/create-page.js";
 export { EditPage } from "./templates/edit-page.js";
@@ -352,8 +354,9 @@ export { WizardPage } from "./templates/wizard-page.js";
 export type { WizardPageProps, WizardStep, WizardBanner } from "./templates/wizard-page.js";
 export { SettingsHubPage, SettingsPageLayout } from "./templates/settings-hub-page.js";
 export type { SettingsHubPageProps, SettingsPageLayoutProps, SettingsSection, SettingsCategory } from "./templates/settings-hub-page.js";
-export { AuthPage } from "./templates/auth-page.js";
-export type { AuthPageProps } from "./templates/auth-page.js";
+// Legacy AuthPage removed - use AuthSplitLayout instead
+// export { AuthPage } from "./templates/auth-page.js";
+// export type { AuthPageProps } from "./templates/auth-page.js";
 export { AuthSplitLayout } from "./templates/auth-split-layout.js";
 export type { AuthSplitLayoutProps } from "./templates/auth-split-layout.js";
 // AI Chat Layout - Reusable AI agent interface (Claude/ChatGPT/Gemini style)

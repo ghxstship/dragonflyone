@@ -29,28 +29,28 @@ export const runtime = "edge";
 function HeroSection() {
   return (
     <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-      <Stack gap={8} className="items-center text-center">
+      <Stack gap={6} className="items-center text-center sm:gap-8">
         <Label size="xs" className="text-brand-pink">THE INDUSTRY STANDARD</Label>
-        <Display size="lg" className="text-white">THE PLATFORM FOR LIVE ENTERTAINMENT</Display>
-        <Body size="lg" className="max-w-3xl text-on-dark-secondary">
+        <Display className="text-white text-display-sm sm:text-display-md lg:text-display-lg">THE PLATFORM FOR LIVE ENTERTAINMENT</Display>
+        <Body size="md" className="max-w-3xl text-on-dark-secondary sm:text-body-lg">
           Modular. Compatible. Scalable. Built for productions, activations, installations, and destinations of any size.
         </Body>
-        <Stack direction="horizontal" gap={4} className="flex-wrap justify-center">
+        <Stack direction="horizontal" gap={3} className="flex-wrap justify-center sm:gap-4">
           <NextLink href="/products">
-            <Button variant="primary" size="lg">EXPLORE PRODUCTS</Button>
+            <Button variant="primary" size="md" className="sm:size-lg">EXPLORE PRODUCTS</Button>
           </NextLink>
           <NextLink href="/pricing">
-            <Button variant="outline" size="lg">SEE PRICING</Button>
+            <Button variant="outline" size="md" className="sm:size-lg">SEE PRICING</Button>
           </NextLink>
         </Stack>
-        <Stack direction="horizontal" gap={6} className="mt-4 flex-wrap justify-center">
-          <Text size="sm" className="text-on-dark-muted">PRODUCTIONS</Text>
-          <Text size="sm" className="text-on-dark-disabled">·</Text>
-          <Text size="sm" className="text-on-dark-muted">ACTIVATIONS</Text>
-          <Text size="sm" className="text-on-dark-disabled">·</Text>
-          <Text size="sm" className="text-on-dark-muted">INSTALLATIONS</Text>
-          <Text size="sm" className="text-on-dark-disabled">·</Text>
-          <Text size="sm" className="text-on-dark-muted">DESTINATIONS</Text>
+        <Stack direction="horizontal" gap={2} className="mt-2 flex-wrap justify-center sm:gap-6 sm:mt-4">
+          <Text size="xs" className="text-on-dark-muted sm:text-body-sm">PRODUCTIONS</Text>
+          <Text size="xs" className="text-on-dark-disabled sm:text-body-sm">·</Text>
+          <Text size="xs" className="text-on-dark-muted sm:text-body-sm">ACTIVATIONS</Text>
+          <Text size="xs" className="text-on-dark-disabled sm:text-body-sm">·</Text>
+          <Text size="xs" className="text-on-dark-muted sm:text-body-sm">INSTALLATIONS</Text>
+          <Text size="xs" className="text-on-dark-disabled sm:text-body-sm">·</Text>
+          <Text size="xs" className="text-on-dark-muted sm:text-body-sm">DESTINATIONS</Text>
         </Stack>
       </Stack>
     </Container>
@@ -66,7 +66,7 @@ function VerticalsSection() {
       </Stack>
       <Grid cols={4} gap={4} className="mt-8 md:mt-12 md:gap-6">
         {atlvsVerticals.map((vertical) => (
-          <Article key={vertical.id} className="group flex h-full flex-col border-2 border-ink-950 bg-white p-4 pop-card-brand sm:p-6">
+          <Article key={vertical.id} className="group flex h-full flex-col border-2 border-ink-950 bg-white p-4 pop-card-atlvs sm:p-6">
             <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
               {vertical.icon === "Tent" && <Tent className="h-6 w-6 text-ink-950" />}
               {vertical.icon === "Zap" && <Zap className="h-6 w-6 text-ink-950" />}
@@ -123,7 +123,7 @@ function SolutionsSection() {
       <Stack gap={8} className="mt-8 sm:mt-12 sm:gap-16">
         {atlvsPillarsSolution.map((pillar, index) => (
           <Article key={pillar.id} className={`grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
-            <Card className={`border-2 aspect-video border-ink-950 bg-grey-100 shadow-lg ${index % 2 === 1 ? "lg:order-2" : ""}`}>
+            <Card className={`border-2 aspect-video border-ink-950 bg-grey-100 shadow-[4px_4px_0_rgba(0,0,0,0.15)] ${index % 2 === 1 ? "lg:order-2" : ""}`}>
               <Box className="flex h-full items-center justify-center">
                 <Text className="font-mono text-mono-sm uppercase tracking-label text-on-light-muted">{pillar.title} Screenshot</Text>
               </Box>
@@ -189,7 +189,7 @@ function FeatureGridSection() {
         {atlvsFeatureGrid.map((feature) => {
           const IconComponent = iconMap[feature.icon];
           return (
-            <Article key={feature.title} className="border-2 border-ink-950 bg-white p-4 pop-card-brand sm:p-6">
+            <Article key={feature.title} className="border-2 border-ink-950 bg-white p-4 pop-card-atlvs sm:p-6">
               <Box className="mb-4 flex h-10 w-10 items-center justify-center border-2 border-ink-950 bg-grey-100">
                 {IconComponent && <IconComponent className="h-5 w-5 text-ink-950" />}
               </Box>
@@ -214,7 +214,7 @@ function CompvssSection() {
         <Body className="max-w-3xl text-on-dark-secondary sm:text-body-md">{atlvsCompvssSection.description}</Body>
         <Grid cols={3} gap={4} className="mt-6 sm:mt-8 sm:gap-6">
           {atlvsCompvssSection.features.map((feature) => (
-            <Article key={feature.title} className="border-2 border-ink-800 bg-ink-800 p-3 sm:p-4">
+            <Article key={feature.title} className="border-2 border-ink-800 bg-ink-800 p-3 pop-card-compvss sm:p-4">
               <Box className="mb-2 flex h-10 w-10 items-center justify-center border-2 border-grey-600 bg-ink-900">
                 {feature.icon === "HardHat" && <HardHat className="h-5 w-5 text-brand-cyan" />}
                 {feature.icon === "Users" && <Users className="h-5 w-5 text-brand-cyan" />}
@@ -303,12 +303,12 @@ function PricingSection() {
           <Stack gap={4} className="items-center flex-1">
             <Label size="xs" className="text-brand-pink">BUNDLES</Label>
             <H3 className="text-ink-950">FILL THE GAPS</H3>
-            <Display size="md" className="text-ink-950">From $299</Display>
+            <Display size="md" className="text-ink-950">From $249</Display>
             <Body size="sm" className="text-on-light-muted">Two products that work together. Keep what you love.</Body>
             <Stack gap={2} className="w-full text-left flex-1">
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-light-secondary">OPERATIONS — Crews + Tickets</Text></Stack>
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-light-secondary">EXPERIENCE — Business + Tickets</Text></Stack>
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-light-secondary">PRODUCTION — Business + Crews</Text></Stack>
+              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-success" /><Text size="sm" className="text-on-light-secondary">OPERATIONS — Crews + Tickets</Text></Stack>
+              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-warning" /><Text size="sm" className="text-on-light-secondary">EXPERIENCE — Business + Tickets</Text></Stack>
+              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-secondary" /><Text size="sm" className="text-on-light-secondary">PRODUCTION — Business + Crews</Text></Stack>
             </Stack>
             <NextLink href="/pricing#bundles" className="w-full mt-auto"><Button variant="accent" size="md" fullWidth inverted={false}>See Bundles</Button></NextLink>
           </Stack>

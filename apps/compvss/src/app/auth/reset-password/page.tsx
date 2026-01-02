@@ -1,116 +1,162 @@
 "use client";
 
-import { useState } from "react";
+/**
+ * Reset Password Page - COMPVSS
+ * Set new password after reset with clean single-column layout
+ * Bold Contemporary Pop Art Adventure Design System
+ */
+
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Check } from "lucide-react";
+import { Lock, CheckCircle } from "lucide-react";
 import {
-  Alert, AuthPage, Body, Button, Card, Field, Form, H2, Input, Stack} from '@ghxstship/ui';
-import NextLink from "next/link";
+  Body,
+  Box,
+  Button,
+  Form,
+  AuthSplitLayout,
+  AuthPasswordInput,
+  PasswordRequirements,
+  Stack,
+  H1,
+  H2,
+} from "@ghxstship/ui";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const passwordRequirements = useMemo(() => [
+    { label: "At least 8 characters", met: password.length >= 8 },
+    { label: "Contains uppercase letter", met: /[A-Z]/.test(password) },
+    { label: "Contains lowercase letter", met: /[a-z]/.test(password) },
+    { label: "Contains a number", met: /[0-9]/.test(password) },
+  ], [password]);
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    if (!password) newErrors.password = "Password is required";
+    else if (password.length < 8) newErrors.password = "Password must be at least 8 characters";
+    if (password !== confirmPassword) newErrors.confirmPassword = "Passwords do not match";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     setLoading(true);
-    setError("");
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      setLoading(false);
-      return;
-    }
-
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const response = await fetch('/api/auth/password/update', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/auth/password/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
       });
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to reset password');
+        throw new Error(data.error || "Failed to reset password");
       }
 
       setSuccess(true);
-      setTimeout(() => router.push('/auth/signin'), 3000);
+      setTimeout(() => router.push("/auth/signin"), 3000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to reset password. Please try again.');
+      setErrors({ password: err instanceof Error ? err.message : "Failed to reset password" });
     } finally {
       setLoading(false);
     }
   };
 
+  if (success) {
+    return (
+      <AuthSplitLayout
+        singleColumn
+        brandLogo={<H1 className="text-white text-h2-md">COMPVSS</H1>}
+      >
+        <Stack gap={8} className="text-center items-center">
+          <Box className="p-6 bg-success-500/20 rounded-avatar border-2 border-success-500/30">
+            <CheckCircle className="size-12 text-success-500" />
+          </Box>
+          
+          <Stack gap={3} className="items-center">
+            <H2 className="text-white">Password Reset Complete</H2>
+            <Body className="text-on-dark-secondary max-w-sm">
+              Your password has been updated successfully. Redirecting to sign in...
+            </Body>
+          </Stack>
+
+          <Button
+            variant="primary"
+            size="lg"
+            fullWidth
+            onClick={() => router.push("/auth/signin")}
+            className="max-w-xs"
+          >
+            Sign In Now
+          </Button>
+        </Stack>
+      </AuthSplitLayout>
+    );
+  }
+
   return (
-    <AuthPage appName="COMPVSS">
-          <Card variant="elevated" className="p-8">
-            {success ? (
-              <Stack gap={6} className="text-center">
-                <Card className="mx-auto flex size-16 items-center justify-center">
-                  <Check className="size-8" />
-                </Card>
-                <H2 className="text-black">Password Reset</H2>
-                <Body className="text-muted">Your password has been successfully reset. Redirecting to sign in...</Body>
-              </Stack>
-            ) : (
-              <Stack gap={8}>
-                <Stack gap={4} className="text-center">
-                  <H2 className="text-black">New Password</H2>
-                  <Body className="text-muted">Enter your new password below.</Body>
-                </Stack>
+    <AuthSplitLayout
+      title="Reset Your Password"
+      subtitle="Create a new secure password for your account"
+      singleColumn
+      brandLogo={<H1 className="text-white text-h2-md">COMPVSS</H1>}
+    >
+      <Form onSubmit={handleSubmit}>
+        <Stack gap={5}>
+          <Stack gap={3}>
+            <AuthPasswordInput
+              label="New Password"
+              placeholder="Enter new password"
+              value={password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setPassword(e.target.value);
+                if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
+              }}
+              errorMessage={errors.password}
+              icon={<Lock className="size-5" />}
+              autoComplete="new-password"
+              showStrength
+              required
+            />
+            {password && <PasswordRequirements requirements={passwordRequirements} />}
+          </Stack>
 
-                {error && <Alert variant="error">{error}</Alert>}
+          <AuthPasswordInput
+            label="Confirm New Password"
+            placeholder="Confirm new password"
+            value={confirmPassword}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setConfirmPassword(e.target.value);
+              if (errors.confirmPassword) setErrors((prev) => ({ ...prev, confirmPassword: "" }));
+            }}
+            errorMessage={errors.confirmPassword}
+            icon={<Lock className="size-5" />}
+            autoComplete="new-password"
+            required
+          />
 
-                <Form onSubmit={handleSubmit}>
-                  <Stack gap={6}>
-                    <Field label="New Password" hint="Minimum 8 characters">
-                      <Input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Enter new password"
-                        required
-                      />
-                    </Field>
-
-                    <Field label="Confirm Password">
-                      <Input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Re-enter new password"
-                        required
-                      />
-                    </Field>
-
-                    <Button type="submit" variant="solid" size="lg" fullWidth disabled={loading}>
-                      {loading ? "Resetting..." : "Reset Password"}
-                    </Button>
-
-                    <Stack className="text-center">
-                      <NextLink href="/auth/signin">
-                        <Button variant="ghost" size="sm">
-                          Back to Sign In
-                        </Button>
-                      </NextLink>
-                    </Stack>
-                  </Stack>
-                </Form>
-              </Stack>
-            )}
-          </Card>
-    </AuthPage>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            fullWidth
+            isLoading={loading}
+            loadingText="Resetting..."
+          >
+            Reset Password
+          </Button>
+        </Stack>
+      </Form>
+    </AuthSplitLayout>
   );
 }

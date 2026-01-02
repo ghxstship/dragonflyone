@@ -273,7 +273,7 @@ export default function IntegrationsPage() {
                 {FEATURED_PROVIDERS.map((provider) => (
                   <Box
                     key={provider.name}
-                    className="flex items-center gap-3 px-4 py-3 bg-surface border-2 border-border rounded-card hover:border-primary transition-colors"
+                    className="flex items-center gap-3 px-4 py-3 bg-surface border-2 border-border rounded-card pop-card-atlvs"
                   >
                     <Box className="size-10 rounded-button bg-muted flex items-center justify-center font-weight-bold text-body-md">
                       {provider.logo}

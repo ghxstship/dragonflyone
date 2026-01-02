@@ -10,7 +10,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { HelpCircle, Book, MessageSquare, Video, FileText, Search, ArrowRight, Mail, Phone, Headphones } from "lucide-react";
 import {
-  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Input, Box} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Input, Box,
+  type FeatureItem} from "@ghxstship/ui";
 
 const HELP_CATEGORIES: FeatureItem[] = [
   { id: "getting-started", icon: <Book className="size-8" />, title: "Getting Started", description: "Learn the basics of ATLVS with our beginner-friendly guides and tutorials." },
@@ -120,7 +121,7 @@ export default function HelpPage() {
                   {filteredArticles.map((article) => (
                     <Card
                       key={article.id}
-                      className="p-5 border-2 border-grey-800 rounded-card cursor-pointer hover:border-primary/50 transition-all group"
+                      className="p-5 border-2 border-grey-800 rounded-card pop-card-atlvs group"
                       onClick={() => router.push(article.href)}
                     >
                       <Stack direction="horizontal" className="justify-between items-center gap-4">
@@ -165,7 +166,7 @@ export default function HelpPage() {
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
                   {SUPPORT_OPTIONS.map((option) => (
-                    <Card key={option.id} className={`p-6 border-2 rounded-card ${option.available ? "border-grey-800 hover:border-primary/50" : "border-grey-900 opacity-60"} transition-all`}>
+                    <Card key={option.id} className={`p-6 border-2 rounded-card ${option.available ? "border-grey-800 pop-card-atlvs" : "border-grey-900 opacity-60"}`}>
                       <Stack gap={4} className="items-center text-center">
                         <Box className={`p-4 rounded-card ${option.available ? "bg-primary/20 text-primary" : "bg-grey-800 text-on-dark-disabled"}`}>
                           {option.icon}

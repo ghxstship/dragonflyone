@@ -143,7 +143,7 @@ export default function TemplatesPage() {
                       return (
                         <Card
                           key={template.id}
-                          className="p-5 border-2 border-grey-800 rounded-card hover:border-primary/50 transition-all group"
+                          className="p-5 border-2 border-grey-800 rounded-card pop-card-gvteway group"
                         >
                           <Stack gap={4}>
                             <Stack direction="horizontal" className="justify-between items-start">

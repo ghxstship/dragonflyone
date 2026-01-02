@@ -9,7 +9,8 @@
 import { useRouter } from "next/navigation";
 import { Users, DollarSign, Zap, Check } from "lucide-react";
 import {
-  MarketingPage, HeroSection, StatsSection, LogoCloud, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Box} from "@ghxstship/ui";
+  MarketingPage, HeroSection, StatsSection, LogoCloud, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Box,
+  type StatItem, type LogoItem} from "@ghxstship/ui";
 
 const PARTNER_TYPES = [
   {
@@ -111,7 +112,7 @@ export default function PartnersPage() {
                   {PARTNER_TYPES.map((type) => (
                     <Card
                       key={type.id}
-                      className="p-8 border-2 border-grey-800 rounded-card hover:border-primary/50 transition-all group"
+                      className="p-8 border-2 border-grey-800 rounded-card pop-card-atlvs group"
                     >
                       <Stack gap={6}>
                         <Box className="p-4 bg-primary/20 rounded-card text-primary w-fit group-hover:scale-110 transition-transform">

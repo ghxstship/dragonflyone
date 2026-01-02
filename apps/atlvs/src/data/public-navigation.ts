@@ -177,9 +177,9 @@ export const resourcesNavigation = {
       items: [
         { label: 'Contact Support', href: '/contact', description: 'Get help from our team' },
         { label: 'System Status', href: '/status', description: 'Platform availability' },
-        { label: 'Community', href: '/community', description: 'User forums and discussions' },
-        { label: 'Training', href: '/training', description: 'Certification programs' },
-        { label: 'Webinars', href: '/webinars', description: 'Live and recorded sessions' },
+        { label: 'Community', href: '/help/community', description: 'User forums and discussions' },
+        { label: 'Training', href: '/help/training', description: 'Certification programs' },
+        { label: 'Webinars', href: '/help/webinars', description: 'Live and recorded sessions' },
       ],
     },
     {

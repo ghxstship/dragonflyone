@@ -1,16 +1,19 @@
 "use client";
 
 /**
- * Tutorials Page
+ * Tutorials Page - 2026 Landing Page Best Practices
  * Video tutorials and guides
- * Uses DetailPage template for consistent layout
+ * Full-width marketing layout with hero and content sections
+ * Bold Contemporary Pop Art Adventure Design System
  */
 
 import { useState } from "react";
-
-import { Play, Clock, Star, Search, List, Bookmark } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Play, Clock, Star, Search } from "lucide-react";
 import {
-  Badge, Body, Button, Card, Grid, Input, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
+  MarketingPage, HeroSection, CTABanner, Container,
+  Badge, Body, Button, Card, Grid, Input, Stack, Box
+} from "@ghxstship/ui";
 
 interface Tutorial {
   id: string;
@@ -34,7 +37,15 @@ const TUTORIALS: Tutorial[] = [
 const CATEGORIES = ["All", "Getting Started", "Collaboration", "Advanced", "Analytics", "Integrations"];
 const DIFFICULTY_COLORS = { beginner: "success", intermediate: "warning", advanced: "error" } as const;
 
+const STATS = [
+  { value: "6+", label: "Video Tutorials" },
+  { value: "60+", label: "Minutes of Content" },
+  { value: "Free", label: "Access" },
+  { value: "HD", label: "Quality" },
+];
+
 export default function TutorialsPage() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -44,93 +55,175 @@ export default function TutorialsPage() {
     return matchesSearch && matchesCategory;
   });
 
-  const tabs = [
-    {
-      id: "all",
-      label: "All Tutorials",
-      icon: <List className="size-4" />,
-      content: (
-        <Section>
-          <Card className="p-4 mb-6">
-            <Box className="flex items-center gap-4 flex-wrap">
-              <Box className="flex-1 min-w-[200px] relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
-                <Input placeholder="Search tutorials..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-              </Box>
-              <Box className="flex gap-2 flex-wrap">
-                {CATEGORIES.map((cat) => (
-                  <Button key={cat} variant={selectedCategory === cat ? "solid" : "outline"} size="sm" onClick={() => setSelectedCategory(cat)}>
-                    {cat}
-                  </Button>
-                ))}
-              </Box>
-            </Box>
-          </Card>
-
-          <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
-            {filteredTutorials.map((tutorial) => (
-              <Card key={tutorial.id} className="p-6 cursor-pointer hover:border-primary">
-                <Box className="aspect-video bg-grey-800 rounded-card flex items-center justify-center mb-4">
-                  <Play className="size-10 text-on-dark-muted" />
-                </Box>
-                <Box className="flex items-center gap-2 mb-2">
-                  <Badge variant="outline">{tutorial.category}</Badge>
-                  <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
-                </Box>
-                <Body className="font-weight-bold font-weight-medium">{tutorial.title}</Body>
-                <Body size="sm" className="text-on-dark-muted mb-2">{tutorial.description}</Body>
-                <Box className="flex items-center gap-2 text-on-dark-disabled">
-                  <Clock className="size-4" />
-                  <Body size="sm">{tutorial.duration}</Body>
-                </Box>
-              </Card>
-            ))}
-          </Grid>
-        </Section>
-      ),
-    },
-    {
-      id: "featured",
-      label: "Featured",
-      icon: <Bookmark className="size-4" />,
-      content: (
-        <Section>
-          <SectionHeader title="Featured Tutorials" description="Our most popular video guides" />
-          <Stack gap={6} className="mt-6">
-            {TUTORIALS.filter((t) => t.featured).map((tutorial) => (
-              <Card key={tutorial.id} className="p-6 cursor-pointer hover:border-primary">
-                <Box className="flex items-start gap-6">
-                  <Box className="w-48 aspect-video bg-grey-800 rounded-card flex items-center justify-center flex-shrink-0">
-                    <Play className="size-8 text-on-dark-muted" />
-                  </Box>
-                  <Box className="flex-1">
-                    <Box className="flex items-center gap-2 mb-2">
-                      <Star className="size-4 text-warning" />
-                      <Badge variant="outline">{tutorial.category}</Badge>
-                      <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
-                    </Box>
-                    <Body className="font-weight-bold font-weight-medium">{tutorial.title}</Body>
-                    <Body className="text-on-dark-muted mb-2">{tutorial.description}</Body>
-                    <Box className="flex items-center gap-2 text-on-dark-disabled">
-                      <Clock className="size-4" />
-                      <Body size="sm">{tutorial.duration}</Body>
-                    </Box>
-                  </Box>
-                  <Button variant="solid" icon={<Play className="size-4" />} iconPosition="left">Watch</Button>
-                </Box>
-              </Card>
-            ))}
-          </Stack>
-        </Section>
-      ),
-    },
-  ];
+  const featuredTutorials = TUTORIALS.filter((t) => t.featured);
 
   return (
-    <DetailPage
-      header={{ kicker: "Help", title: "Video Tutorials", description: "Learn with step-by-step video guides" }}
-      backButton={{ label: "Help Center", href: "/help" }}
-      tabs={tabs}
+    <MarketingPage
+      sections={[
+        {
+          id: "hero",
+          background: "gradient",
+          pattern: "halftone",
+          patternOpacity: 0.05,
+          content: (
+            <HeroSection
+              kicker="Help"
+              title="Video Tutorials"
+              description="Learn ATLVS with step-by-step video guides. From basics to advanced workflows."
+              primaryCta={{
+                label: "Start Learning",
+                onClick: () => router.push("#tutorials"),
+              }}
+              secondaryCta={{
+                label: "View Documentation",
+                onClick: () => router.push("/docs"),
+              }}
+              background="gradient"
+              pattern="none"
+              fullHeight={false}
+              align="center"
+            />
+          ),
+        },
+        {
+          id: "stats",
+          background: "primary",
+          content: (
+            <Container size="xl" className="py-12">
+              <Grid cols={4} gap={8} className="grid-cols-2 md:grid-cols-4">
+                {STATS.map((stat, idx) => (
+                  <Stack key={idx} gap={1} className="text-center">
+                    <Body className="text-white font-weight-bold text-h3-md">{stat.value}</Body>
+                    <Body className="text-white/80">{stat.label}</Body>
+                  </Stack>
+                ))}
+              </Grid>
+            </Container>
+          ),
+        },
+        {
+          id: "featured",
+          background: "ink",
+          pattern: "grid",
+          patternOpacity: 0.03,
+          content: (
+            <Container size="xl" className="py-20">
+              <Stack gap={8}>
+                <Stack gap={4} className="text-center items-center">
+                  <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Popular</Body>
+                  <Body className="text-white font-weight-bold text-h3-md">Featured Tutorials</Body>
+                  <Body className="text-on-dark-muted">Our most popular video guides</Body>
+                </Stack>
+
+                <Stack gap={6}>
+                  {featuredTutorials.map((tutorial) => (
+                    <Card key={tutorial.id} className="p-6 border-2 border-grey-800 rounded-card pop-card cursor-pointer">
+                      <Box className="flex items-start gap-6 flex-wrap md:flex-nowrap">
+                        <Box className="w-full md:w-48 aspect-video bg-grey-800 rounded-card flex items-center justify-center flex-shrink-0">
+                          <Play className="size-10 text-on-dark-muted" />
+                        </Box>
+                        <Box className="flex-1">
+                          <Box className="flex items-center gap-2 mb-2 flex-wrap">
+                            <Star className="size-4 text-warning" />
+                            <Badge variant="outline">{tutorial.category}</Badge>
+                            <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
+                          </Box>
+                          <Body className="text-white font-weight-bold">{tutorial.title}</Body>
+                          <Body className="text-on-dark-muted mb-2">{tutorial.description}</Body>
+                          <Box className="flex items-center gap-2 text-on-dark-disabled">
+                            <Clock className="size-4" />
+                            <Body size="sm">{tutorial.duration}</Body>
+                          </Box>
+                        </Box>
+                        <Button variant="solid" icon={<Play className="size-4" />} iconPosition="left">Watch</Button>
+                      </Box>
+                    </Card>
+                  ))}
+                </Stack>
+              </Stack>
+            </Container>
+          ),
+        },
+        {
+          id: "tutorials",
+          background: "black",
+          content: (
+            <Container size="xl" className="py-20">
+              <Stack gap={8}>
+                <Stack gap={4} className="text-center items-center">
+                  <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Browse</Body>
+                  <Body className="text-white font-weight-bold text-h3-md">All Tutorials</Body>
+                </Stack>
+
+                <Card className="p-6 border-2 border-grey-800 rounded-card">
+                  <Stack gap={4}>
+                    <Box className="relative">
+                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
+                      <Input placeholder="Search tutorials..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-12 h-14" />
+                    </Box>
+                    <Box className="flex gap-2 flex-wrap">
+                      {CATEGORIES.map((cat) => (
+                        <Button key={cat} variant={selectedCategory === cat ? "solid" : "outline"} size="sm" onClick={() => setSelectedCategory(cat)}>
+                          {cat}
+                        </Button>
+                      ))}
+                    </Box>
+                  </Stack>
+                </Card>
+
+                <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                  {filteredTutorials.map((tutorial) => (
+                    <Card key={tutorial.id} className="p-6 border-2 border-grey-800 rounded-card pop-card cursor-pointer">
+                      <Box className="aspect-video bg-grey-800 rounded-card flex items-center justify-center mb-4">
+                        <Play className="size-10 text-on-dark-muted" />
+                      </Box>
+                      <Box className="flex items-center gap-2 mb-2 flex-wrap">
+                        <Badge variant="outline">{tutorial.category}</Badge>
+                        <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
+                      </Box>
+                      <Body className="text-white font-weight-bold">{tutorial.title}</Body>
+                      <Body size="sm" className="text-on-dark-muted mb-2">{tutorial.description}</Body>
+                      <Box className="flex items-center gap-2 text-on-dark-disabled">
+                        <Clock className="size-4" />
+                        <Body size="sm">{tutorial.duration}</Body>
+                      </Box>
+                    </Card>
+                  ))}
+                </Grid>
+
+                {filteredTutorials.length === 0 && (
+                  <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
+                    <Play className="size-16 text-on-dark-disabled mx-auto mb-4" />
+                    <Body className="text-white font-weight-bold mb-2">No Tutorials Found</Body>
+                    <Body className="text-on-dark-muted mb-4">Try a different search term or category</Body>
+                    <Button variant="outline" onClick={() => { setSearch(""); setSelectedCategory("All"); }}>Clear Filters</Button>
+                  </Card>
+                )}
+              </Stack>
+            </Container>
+          ),
+        },
+        {
+          id: "cta",
+          background: "primary",
+          pattern: "halftone",
+          content: (
+            <CTABanner
+              title="Need More Help?"
+              description="Our support team is available to answer your questions and guide you through ATLVS."
+              primaryCta={{
+                label: "Contact Support",
+                onClick: () => router.push("/contact"),
+              }}
+              secondaryCta={{
+                label: "Help Center",
+                onClick: () => router.push("/help"),
+              }}
+              background="primary"
+            />
+          ),
+        },
+      ]}
     />
   );
 }

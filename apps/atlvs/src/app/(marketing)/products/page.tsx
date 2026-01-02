@@ -9,7 +9,8 @@
 import { useRouter } from "next/navigation";
 import { Zap, Users, Ticket, ArrowRight, Check } from "lucide-react";
 import {
-  MarketingPage, HeroSection, ComparisonTable, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Box} from "@ghxstship/ui";
+  MarketingPage, HeroSection, ComparisonTable, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Box,
+  type ComparisonColumn, type ComparisonRow} from "@ghxstship/ui";
 
 const PRODUCTS = [
   {
@@ -111,7 +112,7 @@ export default function ProductsPage() {
                   {PRODUCTS.map((product) => (
                     <Card
                       key={product.id}
-                      className="p-8 border-2 border-grey-800 rounded-card cursor-pointer hover:border-primary/50 transition-all group"
+                      className="p-8 border-2 border-grey-800 rounded-card pop-card-atlvs group"
                       onClick={() => router.push(product.href)}
                     >
                       <Stack gap={6}>

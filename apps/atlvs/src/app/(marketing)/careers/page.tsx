@@ -11,7 +11,8 @@ import { useRouter } from "next/navigation";
 import { Briefcase, MapPin, Clock, DollarSign, Heart, Users, Zap, Building2, ArrowRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  MarketingPage, HeroSection, FeatureGrid, StatsSection, CTABanner, Container, Stack, Card, Body, H3, Button, Badge, Spinner} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, StatsSection, CTABanner, Container, Stack, Card, Body, H3, Button, Badge, Spinner,
+  type FeatureItem, type StatItem} from "@ghxstship/ui";
 
 interface JobPosting {
   id: string;
@@ -157,7 +158,7 @@ export default function CareersPage() {
                     {filteredJobs.map((job: JobPosting) => (
                       <Card
                         key={job.id}
-                        className="p-6 border-2 border-grey-800 rounded-card cursor-pointer hover:border-primary/50 transition-all group"
+                        className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs group"
                         onClick={() => router.push(`/careers/${job.id}`)}
                       >
                         <Stack direction="horizontal" className="justify-between items-start flex-wrap gap-4">

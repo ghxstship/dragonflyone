@@ -1,30 +1,29 @@
 "use client";
 
+/**
+ * Forgot Password Page - GVTEWAY
+ * Password reset request with clean single-column layout
+ * Bold Contemporary Pop Art Adventure Design System
+ */
+
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Mail, ArrowLeft, CheckCircle } from "lucide-react";
 import {
-  Alert,
-  AuthPage,
   Body,
+  Box,
   Button,
-  Card,
-  Field,
   Form,
-  H2,
-  IconBox,
-  Input,
-  ScrollReveal,
+  AuthSplitLayout,
+  AuthFormField,
   Stack,
-} from '@ghxstship/ui';
-import { Mail, ArrowLeft, ArrowRight } from "lucide-react";
-import NextLink from "next/link";
+  H1,
+  H2,
+} from "@ghxstship/ui";
 import { useAuthData } from "@/hooks/useAuth";
 
-// =============================================================================
-// FORGOT PASSWORD PAGE - Password Reset Request
-// Bold Contemporary Pop Art Adventure Design System
-// =============================================================================
-
 export default function ForgotPasswordPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -33,6 +32,15 @@ export default function ForgotPasswordPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email.trim()) {
+      setError("Email is required");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Invalid email format");
+      return;
+    }
+
     setError("");
 
     try {
@@ -43,107 +51,96 @@ export default function ForgotPasswordPage() {
     }
   };
 
+  if (submitted) {
+    return (
+      <AuthSplitLayout
+        singleColumn
+        brandLogo={<H1 className="text-white text-h2-md">GVTEWAY</H1>}
+      >
+        <Stack gap={8} className="text-center items-center">
+          <Box className="p-6 bg-success-500/20 rounded-avatar border-2 border-success-500/30">
+            <CheckCircle className="size-12 text-success-500" />
+          </Box>
+          
+          <Stack gap={3} className="items-center">
+            <H2 className="text-white">Check Your Email</H2>
+            <Body className="text-on-dark-secondary max-w-sm">
+              If an account exists for <strong className="text-white">{email}</strong>, you will receive an email with instructions to reset your password.
+            </Body>
+          </Stack>
+
+          <Stack gap={3} className="w-full max-w-xs">
+            <Button
+              variant="solid"
+              fullWidth
+              onClick={() => router.push("/auth/signin")}
+              icon={<ArrowLeft className="size-4" />}
+              iconPosition="left"
+            >
+              Back to Sign In
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSubmitted(false)}
+              className="text-on-dark-muted"
+            >
+              Try a different email
+            </Button>
+          </Stack>
+        </Stack>
+      </AuthSplitLayout>
+    );
+  }
+
   return (
-    <AuthPage
-      appName="GVTEWAY"
-      background="black"
-      headerAction={
-        <NextLink href="/auth/signin" className="hidden sm:block">
-          <Button variant="outline" size="sm">
-            Sign In
-          </Button>
-        </NextLink>
-      }
+    <AuthSplitLayout
+      title="Forgot Password?"
+      subtitle="No worries, we'll send you reset instructions"
+      footer={{ text: "Remember your password?", linkText: "Sign in", linkHref: "/auth/signin" }}
+      singleColumn
+      brandLogo={<H1 className="text-white text-h2-md">GVTEWAY</H1>}
     >
-          <ScrollReveal animation="slide-up" duration={600}>
-            {/* Auth Card - Pop Art Style */}
-            <Card inverted className="border-2 border-white/20 bg-black p-6 shadow-md sm:p-8">
-              {submitted ? (
-                /* Success State */
-                <Stack gap={6} className="text-center sm:gap-8">
-                  <IconBox size="lg" variant="success" inverted className="mx-auto">
-                    <Mail className="size-6 text-success sm:size-8" />
-                  </IconBox>
+      <Form onSubmit={handleSubmit}>
+        <Stack gap={5}>
+          <AuthFormField
+            label="Email Address"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setEmail(e.target.value);
+              setError("");
+            }}
+            errorMessage={error}
+            icon={<Mail className="size-5" />}
+            autoComplete="email"
+            required
+          />
 
-                  <Stack gap={3} className="sm:gap-4">
-                    <H2 className="text-white">CHECK YOUR EMAIL</H2>
-                    <Body size="sm" className="text-on-dark-muted">
-                      If an account exists with{" "}
-                      <strong className="text-white">{email}</strong>, you will receive a
-                      password reset link shortly.
-                    </Body>
-                  </Stack>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            fullWidth
+            isLoading={loading}
+            loadingText="Sending..."
+          >
+            Send Reset Link
+          </Button>
 
-                  <NextLink href="/auth/signin" className="w-full">
-                    <Button variant="solid" size="lg" fullWidth>
-                      Back to Sign In
-                    </Button>
-                  </NextLink>
-                </Stack>
-              ) : (
-                /* Form State */
-                <Stack gap={6} className="sm:gap-8">
-                  {/* Header */}
-                  <Stack gap={3} className="text-center sm:gap-4">
-                    <IconBox size="lg" variant="warning" inverted className="mx-auto">
-                      <Mail className="size-6 text-warning sm:size-8" />
-                    </IconBox>
-                    <H2 className="text-white">RESET PASSWORD</H2>
-                    <Body size="sm" className="text-on-dark-muted">
-                      Enter your email address and we&apos;ll send you a link to reset your
-                      password.
-                    </Body>
-                  </Stack>
-
-                  {/* Error Alert */}
-                  {error && <Alert variant="error">{error}</Alert>}
-
-                  {/* Form */}
-                  <Form onSubmit={handleSubmit}>
-                    <Stack gap={4} className="sm:gap-6">
-                      <Field label="Email Address" inverted>
-                        <Input
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="your@email.com"
-                          required
-                          inverted
-                        />
-                      </Field>
-
-                      <Button
-                        type="submit"
-                        variant="solid"
-                        size="lg"
-                        fullWidth
-                        disabled={loading}
-                        icon={<ArrowRight className="size-4" />}
-                        iconPosition="right"
-                      >
-                        {loading ? "Sending..." : "Send Reset Link"}
-                      </Button>
-                    </Stack>
-                  </Form>
-
-                  {/* Back Link */}
-                  <Stack className="border-t border-white/10 pt-6 text-center">
-                    <NextLink href="/auth/signin">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        inverted
-                        icon={<ArrowLeft className="size-4" />}
-                        iconPosition="left"
-                      >
-                        Back to Sign In
-                      </Button>
-                    </NextLink>
-                  </Stack>
-                </Stack>
-              )}
-            </Card>
-          </ScrollReveal>
-    </AuthPage>
+          <Button
+            variant="ghost"
+            fullWidth
+            type="button"
+            onClick={() => router.push("/auth/signin")}
+            icon={<ArrowLeft className="size-4" />}
+            iconPosition="left"
+          >
+            Back to Sign In
+          </Button>
+        </Stack>
+      </Form>
+    </AuthSplitLayout>
   );
 }

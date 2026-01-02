@@ -60,12 +60,12 @@ export function PublicHeader({ className }: PublicHeaderProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
-            inverted={false}
+            inverted
           >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileMenuOpen ? <X className="h-6 w-6 text-white" /> : <Menu className="h-6 w-6 text-white" />}
           </Button>
         </Stack>
       </Container>
@@ -135,12 +135,14 @@ export function PublicHeader({ className }: PublicHeaderProps) {
               </Stack>
 
               {/* Pricing */}
-              <Link
-                href="/pricing"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Body size="sm" className="text-ink-950 font-heading">Pricing</Body>
-              </Link>
+              <Stack gap={2}>
+                <Link
+                  href="/pricing"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Label size="sm" className="text-ink-950">Pricing</Label>
+                </Link>
+              </Stack>
 
               {/* CTAs */}
               <Stack gap={2} className="pt-4 border-t-2 border-ink-950">

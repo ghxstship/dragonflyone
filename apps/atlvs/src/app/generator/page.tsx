@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useCallback, useRef, useEffect } from "react";
 import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   Stack,
@@ -10,13 +11,44 @@ import {
   FullBleedSection,
   Button,
   H2,
+  Badge,
+  AIChatLayout,
+  AIChatHeader,
+  AIChatSidebar,
+  AIChatMain,
+  AIChatArtifact,
+  AIChatMessage,
+  AIChatTypingIndicator,
+  AIChatInput,
+  AIChatSuggestionChips,
+  AIChatSuggestionChip,
+  AIChatConversationGroup,
+  AIChatConversationItem,
 } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
+import {
+  Sparkles,
+  PanelLeftClose,
+  PanelLeftOpen,
+  PanelRightClose,
+  PanelRightOpen,
+  Plus,
+  MessageSquare,
+  User,
+  Bot,
+  Copy,
+  RefreshCw,
+  Send,
+  Loader2,
+  Lightbulb,
+  Palette,
+  DollarSign,
+  Map,
+} from "lucide-react";
 import { GeneratorHero } from "./components/GeneratorHero";
 import { GeneratorProgress } from "./components/GeneratorProgress";
 import { BlueprintPreview } from "./components/BlueprintPreview";
 import { ExportCTA } from "./components/ExportCTA";
-import { ChatInterface } from "./components/ChatInterface";
 import { useExperienceGenerator } from "./hooks/useExperienceGenerator";
 
 export const runtime = "edge";
@@ -25,13 +57,27 @@ export const runtime = "edge";
 // EXPERIENCE GENERATOR PAGE
 // Public page for AI-powered experience blueprint generation
 // Design: Bold Contemporary Pop Art Adventure with ATLVS Miami Pink accent
-// Layout: Split-screen with AI chat on right, blueprint preview on left
+// Layout: AI Chat Layout with sidebar, main chat, and artifact panel
 // Authentication: Only required when saving/exporting the generated blueprint
 // =============================================================================
+
+// Suggestion prompts for the chat
+const SUGGESTION_PROMPTS = [
+  { label: "Adjust Budget", icon: DollarSign, prompt: "Can you adjust the budget breakdown?" },
+  { label: "Sensory Design", icon: Palette, prompt: "Tell me more about the sensory activations" },
+  { label: "Zone Details", icon: Map, prompt: "Explain the zone layout in more detail" },
+  { label: "Creative Ideas", icon: Lightbulb, prompt: "Suggest more creative elements" },
+];
 
 export default function GeneratorPage() {
   const { user } = useAuthContext();
   const isAuthenticated = !!user;
+  
+  // Layout state
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const [artifactCollapsed, setArtifactCollapsed] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const {
     creativeSeed,
@@ -45,6 +91,39 @@ export default function GeneratorPage() {
     reset,
     sendFollowUp,
   } = useExperienceGenerator();
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // Handle sending a message
+  const handleSendMessage = useCallback((message: string) => {
+    if (message.trim()) {
+      sendFollowUp(message.trim());
+      setInputValue("");
+    }
+  }, [sendFollowUp]);
+
+  // Handle suggestion chip click
+  const handleSuggestionClick = useCallback((prompt: string) => {
+    handleSendMessage(prompt);
+  }, [handleSendMessage]);
+
+  // Copy message to clipboard
+  const handleCopyMessage = useCallback((content: string) => {
+    navigator.clipboard.writeText(content);
+  }, []);
+
+  // Toggle sidebar
+  const toggleSidebar = useCallback(() => {
+    setSidebarCollapsed(prev => !prev);
+  }, []);
+
+  // Toggle artifact panel
+  const toggleArtifact = useCallback(() => {
+    setArtifactCollapsed(prev => !prev);
+  }, []);
 
   // Initial state - show hero with input
   if (!blueprint && !isGenerating && messages.length === 0) {
@@ -97,50 +176,194 @@ export default function GeneratorPage() {
     );
   }
 
-  // Blueprint generated - show split-screen layout with chat
+  // Blueprint generated - show AI Chat Layout
   if (blueprint) {
     return (
-      <AtlvsAppLayout variant="public" background="white" rawContent>
-        {/* Split Screen Layout */}
-        <Box className="flex min-h-screen flex-col lg:flex-row">
-          {/* Left Side - Blueprint Preview (scrollable) */}
-          <Box className="flex-1 overflow-y-auto lg:w-3/5">
-            <BlueprintPreview blueprint={blueprint} />
-            <ExportCTA blueprint={blueprint} onReset={reset} isAuthenticated={isAuthenticated} />
-          </Box>
-
-          {/* Right Side - AI Chat Panel (fixed) */}
-          <Box className="border-l-2 border-ink-950 bg-white lg:w-2/5">
-            <Box className="sticky top-0 flex h-screen flex-col">
-              {/* Chat Header */}
-              <Box className="border-b-2 border-ink-950 bg-grey-50 px-6 py-4">
-                <Stack direction="horizontal" gap={3} className="items-center justify-between">
-                  <Stack gap={1}>
-                    <Text className="font-display text-h6-md uppercase text-ink-950">
-                      AI Experience Designer
-                    </Text>
-                    <Text className="font-mono text-mono-xs text-grey-500">
-                      Ask questions to refine your blueprint
-                    </Text>
-                  </Stack>
-                  <Box className="flex size-3 items-center justify-center rounded-avatar bg-success" title="Online" />
+      <AIChatLayout
+        sidebarCollapsed={sidebarCollapsed}
+        artifactCollapsed={artifactCollapsed}
+        showArtifact={true}
+        header={
+          <AIChatHeader
+            left={
+              <Stack direction="horizontal" gap={3} className="items-center">
+                <Button
+                  onClick={toggleSidebar}
+                  className="flex size-9 items-center justify-center border-2 border-ink-950 bg-white p-0 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
+                  aria-label={sidebarCollapsed ? "Show history" : "Hide history"}
+                >
+                  {sidebarCollapsed ? (
+                    <PanelLeftOpen className="size-4 text-ink-950" />
+                  ) : (
+                    <PanelLeftClose className="size-4 text-ink-950" />
+                  )}
+                </Button>
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Box className="flex size-8 items-center justify-center border-2 border-ink-950 bg-primary">
+                    <Sparkles className="size-4 text-white" />
+                  </Box>
+                  <Text className="font-display text-h6-md uppercase tracking-label text-ink-950">
+                    Experience Generator
+                  </Text>
+                  <Badge className="border-2 border-primary bg-primary/10 px-2 py-0.5 font-mono text-mono-xs uppercase text-primary">
+                    AI
+                  </Badge>
                 </Stack>
+              </Stack>
+            }
+            right={
+              <Stack direction="horizontal" gap={2} className="items-center">
+                <Button
+                  onClick={reset}
+                  className="flex items-center gap-sm border-2 border-ink-950 bg-white px-3 py-2 font-display text-mono-xs uppercase tracking-label text-ink-950 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
+                >
+                  <Plus className="size-4" />
+                  <Text className="hidden sm:inline">New</Text>
+                </Button>
+                <Button
+                  onClick={toggleArtifact}
+                  className="flex size-9 items-center justify-center border-2 border-ink-950 bg-white p-0 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
+                  aria-label={artifactCollapsed ? "Show blueprint" : "Hide blueprint"}
+                >
+                  {artifactCollapsed ? (
+                    <PanelRightOpen className="size-4 text-ink-950" />
+                  ) : (
+                    <PanelRightClose className="size-4 text-ink-950" />
+                  )}
+                </Button>
+              </Stack>
+            }
+          />
+        }
+        sidebar={
+          <AIChatSidebar
+            header={
+              <Text className="font-heading text-h6-sm uppercase tracking-label text-ink-950">
+                Conversation History
+              </Text>
+            }
+          >
+            <AIChatConversationGroup label="Today">
+              <AIChatConversationItem
+                title={blueprint.concept?.name || "Current Blueprint"}
+                preview={creativeSeed}
+                timestamp={new Date()}
+                isActive={true}
+                icon={<MessageSquare className="size-4" />}
+                onSelect={() => {}}
+              />
+            </AIChatConversationGroup>
+          </AIChatSidebar>
+        }
+        main={
+          <AIChatMain
+            messages={
+              <Box className="flex flex-col gap-lg p-6">
+                {messages.map((msg, index) => (
+                  <AIChatMessage
+                    key={index}
+                    role={msg.role as "user" | "assistant"}
+                    avatar={
+                      msg.role === "user" ? (
+                        <User className="size-5" />
+                      ) : (
+                        <Bot className="size-5" />
+                      )
+                    }
+                    timestamp={msg.timestamp}
+                    actions={
+                      msg.role === "assistant" && (
+                        <Stack direction="horizontal" gap={1}>
+                          <Button
+                            onClick={() => handleCopyMessage(msg.content)}
+                            className="flex size-7 items-center justify-center bg-transparent p-0 text-grey-400 hover:text-ink-950"
+                            aria-label="Copy message"
+                          >
+                            <Copy className="size-3.5" />
+                          </Button>
+                          <Button
+                            onClick={() => handleSendMessage("Regenerate the last response")}
+                            className="flex size-7 items-center justify-center bg-transparent p-0 text-grey-400 hover:text-ink-950"
+                            aria-label="Regenerate"
+                          >
+                            <RefreshCw className="size-3.5" />
+                          </Button>
+                        </Stack>
+                      )
+                    }
+                  >
+                    {msg.content}
+                  </AIChatMessage>
+                ))}
+                {isGenerating && (
+                  <AIChatTypingIndicator
+                    avatar={<Bot className="size-5" />}
+                    label="Generating response..."
+                  />
+                )}
+                <Box ref={messagesEndRef} />
               </Box>
-
-              {/* Chat Messages */}
-              <Box className="flex-1 overflow-hidden">
-                <ChatInterface
-                  messages={messages}
-                  isTyping={isGenerating}
-                  onSendMessage={sendFollowUp}
-                  disabled={isGenerating}
+            }
+            input={
+              <Stack gap={4}>
+                <AIChatInput
+                  value={inputValue}
+                  onChange={setInputValue}
+                  onSubmit={handleSendMessage}
                   placeholder="Ask about budget, sensory design, zones..."
+                  disabled={isGenerating}
+                  isLoading={isGenerating}
+                  rightActions={
+                    <Button
+                      type="submit"
+                      disabled={!inputValue.trim() || isGenerating}
+                      className="flex size-9 items-center justify-center border-2 border-ink-950 bg-primary p-0 text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm disabled:opacity-50"
+                      aria-label="Send message"
+                    >
+                      {isGenerating ? (
+                        <Loader2 className="size-4 animate-spin" />
+                      ) : (
+                        <Send className="size-4" />
+                      )}
+                    </Button>
+                  }
+                  suggestions={
+                    <AIChatSuggestionChips>
+                      {SUGGESTION_PROMPTS.map((suggestion) => (
+                        <AIChatSuggestionChip
+                          key={suggestion.label}
+                          label={suggestion.label}
+                          icon={<suggestion.icon className="size-3.5" />}
+                          onSelect={() => handleSuggestionClick(suggestion.prompt)}
+                        />
+                      ))}
+                    </AIChatSuggestionChips>
+                  }
                 />
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-      </AtlvsAppLayout>
+              </Stack>
+            }
+          />
+        }
+        artifact={
+          <AIChatArtifact
+            header={
+              <Stack direction="horizontal" gap={2} className="items-center justify-between">
+                <Text className="font-heading text-h6-sm uppercase tracking-label text-ink-950">
+                  Blueprint Preview
+                </Text>
+                <Badge className="border-2 border-success/30 bg-success/10 px-2 py-0.5 font-mono text-mono-xs text-success">
+                  Generated
+                </Badge>
+              </Stack>
+            }
+            footer={
+              <ExportCTA blueprint={blueprint} onReset={reset} isAuthenticated={isAuthenticated} />
+            }
+          >
+            <BlueprintPreview blueprint={blueprint} />
+          </AIChatArtifact>
+        }
+      />
     );
   }
 

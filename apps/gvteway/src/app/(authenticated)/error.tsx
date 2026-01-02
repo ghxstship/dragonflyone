@@ -1,6 +1,6 @@
 "use client";
 
-import { ErrorPage } from "@ghxstship/ui";
+import { AppErrorPage } from "@/components/error-pages";
 
 export default function AuthenticatedError({
   error,
@@ -9,16 +9,5 @@ export default function AuthenticatedError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  return (
-    <ErrorPage
-      error={error}
-      reset={reset}
-      appName="GVTEWAY"
-      background="black"
-      showDashboard={true}
-      dashboardPath="/dashboard"
-      homePath="/events"
-      supportEmail="support@gvteway.com"
-    />
-  );
+  return <AppErrorPage error={error} reset={reset} />;
 }

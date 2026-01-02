@@ -103,7 +103,7 @@ export default function BlogPage() {
                 </Stack>
 
                 <Card
-                  className="p-8 border-2 border-primary/30 rounded-card cursor-pointer hover:border-primary/50 transition-all group"
+                  className="p-8 border-2 border-primary/30 rounded-card pop-card-atlvs group"
                   onClick={() => router.push(`/blog/${featuredPost.id}`)}
                 >
                   <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
@@ -196,7 +196,7 @@ export default function BlogPage() {
                     {filteredPosts.slice(1).map((post: BlogPost) => (
                       <Card
                         key={post.id}
-                        className="p-6 border-2 border-grey-800 rounded-card cursor-pointer hover:border-primary/50 transition-all group"
+                        className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs group"
                         onClick={() => router.push(`/blog/${post.id}`)}
                       >
                         <Stack gap={4}>

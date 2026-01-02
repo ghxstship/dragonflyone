@@ -144,7 +144,7 @@ export default function ChangelogPage() {
                     {filteredChangelog.map((entry: ChangelogEntry) => {
                       const config = TYPE_CONFIG[entry.type];
                       return (
-                        <Card key={entry.id} className="p-8 border-2 border-grey-800 rounded-card hover:border-grey-700 transition-all">
+                        <Card key={entry.id} className="p-8 border-2 border-grey-800 rounded-card pop-card">
                           <Stack gap={4}>
                             <Stack direction="horizontal" className="justify-between items-start flex-wrap gap-4">
                               <Stack direction="horizontal" gap={3} className="items-center">

@@ -1,18 +1,7 @@
 "use client";
 
-import { CreatorNavigationAuthenticated } from "../components/navigation";
-import { NotFoundPage } from "@ghxstship/ui";
+import { AppNotFoundPage } from "@/components/error-pages";
 
 export default function NotFound() {
-  return (
-    <NotFoundPage
-      navigation={<CreatorNavigationAuthenticated />}
-      background="black"
-      showDashboard={true}
-      dashboardPath="/dashboard"
-      showSearch={true}
-      searchPath="/search"
-      message="The page you are looking for does not exist or has been moved. Return to your dashboard or use search to find what you need."
-    />
-  );
+  return <AppNotFoundPage />;
 }

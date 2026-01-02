@@ -1,12 +1,30 @@
 "use client";
 
+/**
+ * Magic Link Page - COMPVSS
+ * Passwordless authentication with clean single-column layout
+ * Bold Contemporary Pop Art Adventure Design System
+ */
+
 import { useState } from "react";
-import { Mail } from "lucide-react";
+import { Sparkles, ArrowRight, RefreshCw, Mail, ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 import {
-  Alert, AuthPage, Body, Button, Card, Field, Form, H2, Input, Stack} from '@ghxstship/ui';
-import NextLink from "next/link";
+  Alert,
+  Body,
+  Box,
+  Button,
+  Form,
+  AuthSplitLayout,
+  AuthFormField,
+  Stack,
+  H1,
+  H2,
+  Label,
+} from "@ghxstship/ui";
 
 export default function MagicLinkPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -18,83 +36,104 @@ export default function MagicLinkPage() {
     setError("");
 
     try {
-      const response = await fetch('/api/auth/magic-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/auth/magic-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
-      if (!response.ok) throw new Error('Failed to send magic link');
+      if (!response.ok) throw new Error("Failed to send magic link");
       setSubmitted(true);
-    } catch (err) {
-      setError('Failed to send magic link. Please try again.');
+    } catch {
+      setError("Failed to send magic link. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  if (submitted) {
+    return (
+      <AuthSplitLayout
+        singleColumn
+        brandLogo={<H1 className="text-white text-h2-md">COMPVSS</H1>}
+      >
+        <Stack gap={8} className="text-center items-center">
+          <Box className="p-6 bg-primary-500/20 rounded-avatar border-2 border-primary-500/30">
+            <Sparkles className="size-12 text-primary-400" />
+          </Box>
+          
+          <Stack gap={3} className="items-center">
+            <H2 className="text-white">Check Your Email</H2>
+            <Body className="text-on-dark-secondary max-w-sm">
+              We&apos;ve sent a magic link to <strong className="text-white">{email}</strong>. Click the link in the email to sign in.
+            </Body>
+            <Label size="xs" className="text-on-dark-disabled">Link expires in 1 hour</Label>
+          </Stack>
+
+          <Stack gap={3} className="w-full max-w-xs">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSubmitted(false)}
+              icon={<RefreshCw className="size-4" />}
+              iconPosition="left"
+            >
+              Use a different email
+            </Button>
+          </Stack>
+        </Stack>
+      </AuthSplitLayout>
+    );
+  }
+
   return (
-    <AuthPage appName="COMPVSS">
-          <Card variant="elevated" className="p-8">
-            {submitted ? (
-              <Stack gap={6} className="text-center">
-                <Card className="mx-auto flex size-16 items-center justify-center">
-                  <Mail className="size-8" />
-                </Card>
-                <H2 className="text-black">Check Your Email</H2>
-                <Body className="text-muted">
-                  We&apos;ve sent a magic link to <strong className="text-black">{email}</strong>. Click the link in the email to sign in.
-                </Body>
-                <Body size="sm" className="text-muted">Link expires in 1 hour</Body>
-                <Button variant="ghost" onClick={() => setSubmitted(false)}>
-                  Use a different email
-                </Button>
-              </Stack>
-            ) : (
-              <Stack gap={8}>
-                <Stack gap={4} className="text-center">
-                  <H2 className="text-black">Magic Link</H2>
-                  <Body className="text-muted">
-                    Sign in without a password. We&apos;ll email you a magic link.
-                  </Body>
-                </Stack>
+    <AuthSplitLayout
+      title="Magic Link"
+      subtitle="Sign in without a password. We'll email you a secure link."
+      footer={{ text: "Don't have an account?", linkText: "Sign up", linkHref: "/auth/signup" }}
+      singleColumn
+      brandLogo={<H1 className="text-white text-h2-md">COMPVSS</H1>}
+    >
+      <Form onSubmit={handleSubmit}>
+        <Stack gap={5}>
+          {error && <Alert variant="error">{error}</Alert>}
 
-                {error && <Alert variant="error">{error}</Alert>}
+          <AuthFormField
+            label="Email Address"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+            icon={<Mail className="size-5" />}
+            autoComplete="email"
+            required
+          />
 
-                <Form onSubmit={handleSubmit}>
-                  <Stack gap={6}>
-                    <Field label="Email Address">
-                      <Input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="your@email.com"
-                        required
-                      />
-                    </Field>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            fullWidth
+            isLoading={loading}
+            loadingText="Sending..."
+            icon={<ArrowRight className="size-4" />}
+            iconPosition="right"
+          >
+            Send Magic Link
+          </Button>
 
-                    <Button type="submit" variant="solid" size="lg" fullWidth disabled={loading}>
-                      {loading ? "Sending..." : "Send Magic Link"}
-                    </Button>
-
-                    <Stack gap={3} className="text-center">
-                      <NextLink href="/auth/signin">
-                        <Button variant="ghost" size="sm">
-                          Sign in with password instead
-                        </Button>
-                      </NextLink>
-                      <Body size="sm" className="text-muted">
-                        Don&apos;t have an account?{" "}
-                        <NextLink href="/auth/signup">
-                          <Button variant="ghost" size="sm" className="inline">Sign up</Button>
-                        </NextLink>
-                      </Body>
-                    </Stack>
-                  </Stack>
-                </Form>
-              </Stack>
-            )}
-          </Card>
-    </AuthPage>
+          <Button
+            variant="ghost"
+            fullWidth
+            type="button"
+            onClick={() => router.push("/auth/signin")}
+            icon={<ArrowLeft className="size-4" />}
+            iconPosition="left"
+          >
+            Sign in with password instead
+          </Button>
+        </Stack>
+      </Form>
+    </AuthSplitLayout>
   );
 }

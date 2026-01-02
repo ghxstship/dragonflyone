@@ -560,7 +560,10 @@ a {
    Usage:
    - pop-card: Standard neutral shadows
    - pop-card-primary: Neutral resting, PRIMARY color on hover
-   - pop-card-accent: Neutral resting, ACCENT (pink) color on hover
+   - pop-card-atlvs: ATLVS brand (pink) on hover
+   - pop-card-compvss: COMPVSS brand (cyan) on hover
+   - pop-card-gvteway: GVTEWAY brand (yellow) on hover
+   - pop-card-dark: Dark background variant
    ----------------------------------------------------------------------------- */
 
 /* Standard pop-art card hover - neutral black shadow throughout */
@@ -595,36 +598,52 @@ a {
   box-shadow: 2px 2px 0 0 hsl(var(--primary) / 0.7);
 }
 
-/* Accent card - neutral resting, ACCENT (pink) color on hover */
-.pop-card-accent {
+/* ATLVS card - pink brand color on hover */
+.pop-card-atlvs {
   cursor: pointer;
   box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.15);
   transition: transform var(--duration-fast) var(--ease-bounce), 
               box-shadow var(--duration-fast) var(--ease-bounce);
 }
-.pop-card-accent:hover {
+.pop-card-atlvs:hover {
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0 0 hsl(var(--brand-pink));
 }
-.pop-card-accent:active {
+.pop-card-atlvs:active {
   transform: translate(1px, 1px);
   box-shadow: 2px 2px 0 0 hsl(var(--brand-pink) / 0.7);
 }
 
-/* Brand card - alias for primary (backwards compatibility) */
-.pop-card-brand {
+/* COMPVSS card - cyan brand color on hover */
+.pop-card-compvss {
   cursor: pointer;
   box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.15);
   transition: transform var(--duration-fast) var(--ease-bounce), 
               box-shadow var(--duration-fast) var(--ease-bounce);
 }
-.pop-card-brand:hover {
+.pop-card-compvss:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 0 hsl(var(--brand-pink));
+  box-shadow: 6px 6px 0 0 hsl(var(--brand-cyan));
 }
-.pop-card-brand:active {
+.pop-card-compvss:active {
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0 0 hsl(var(--brand-pink) / 0.7);
+  box-shadow: 2px 2px 0 0 hsl(var(--brand-cyan) / 0.7);
+}
+
+/* GVTEWAY card - yellow brand color on hover */
+.pop-card-gvteway {
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.15);
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              box-shadow var(--duration-fast) var(--ease-bounce);
+}
+.pop-card-gvteway:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 hsl(var(--brand-yellow));
+}
+.pop-card-gvteway:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 0 hsl(var(--brand-yellow) / 0.7);
 }
 
 /* Dark background card - neutral shadows */

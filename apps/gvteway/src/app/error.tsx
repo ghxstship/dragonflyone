@@ -1,7 +1,6 @@
 "use client";
 
-import { ConsumerNavigationPublic } from "@/components/navigation";
-import { ErrorPage } from "@ghxstship/ui";
+import { AppErrorPage } from "@/components/error-pages";
 
 export default function Error({
   error,
@@ -10,16 +9,5 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  return (
-    <ErrorPage
-      error={error}
-      reset={reset}
-      navigation={<ConsumerNavigationPublic />}
-      appName="GVTEWAY"
-      background="black"
-      showDashboard={false}
-      homePath="/events"
-      supportEmail="support@gvteway.com"
-    />
-  );
+  return <AppErrorPage error={error} reset={reset} />;
 }

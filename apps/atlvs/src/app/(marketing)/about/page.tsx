@@ -9,7 +9,9 @@
 import { useRouter } from "next/navigation";
 import { Heart, Target, Users, Globe } from "lucide-react";
 import {
-  MarketingPage, HeroSection, StatsSection, TeamSection, FeatureGrid, CTABanner} from "@ghxstship/ui";
+  MarketingPage, HeroSection, StatsSection, TeamSection, FeatureGrid, CTABanner,
+  type StatItem, type TeamMember, type FeatureItem,
+} from "@ghxstship/ui";
 
 const STATS: StatItem[] = [
   { id: "founded", value: 2020, label: "Founded", description: "Building the future of production" },
@@ -20,36 +22,44 @@ const STATS: StatItem[] = [
 
 const TEAM_MEMBERS: TeamMember[] = [
   {
-    id: "alex",
-    name: "Alex Chen",
-    role: "CEO & Founder",
-    bio: "Former production director with 15+ years in live events. Founded ATLVS to solve the challenges he faced firsthand.",
-    avatar: "/team/alex.jpg",
-    social: { linkedin: "https://linkedin.com/in/alexchen", twitter: "https://twitter.com/alexchen" },
+    id: "julian",
+    name: "Julian Clarkson",
+    role: "Founder, CEO",
+    bio: "Visionary entrepreneur building the future of production management. Passionate about empowering creative teams worldwide.",
+    avatar: "/team/julian.jpg",
+    social: { linkedin: "https://linkedin.com/in/julianclarkson", instagram: "https://instagram.com/julianclarkson", bluesky: "https://bsky.app/profile/julianclarkson" },
   },
   {
-    id: "sarah",
-    name: "Sarah Williams",
+    id: "cto",
+    name: "Vacant",
     role: "CTO",
-    bio: "Engineering leader from Spotify and Netflix. Passionate about building scalable systems for creative teams.",
-    avatar: "/team/sarah.jpg",
-    social: { linkedin: "https://linkedin.com/in/sarahwilliams" },
+    bio: "We're looking for a technical visionary to lead our engineering team and drive innovation.",
+    avatar: "/team/vacant.jpg",
+    social: { linkedin: "#", instagram: "#", bluesky: "#" },
   },
   {
-    id: "michael",
-    name: "Michael Brown",
-    role: "Head of Product",
-    bio: "Product veteran from Figma and Notion. Obsessed with creating intuitive experiences for complex workflows.",
-    avatar: "/team/michael.jpg",
-    social: { linkedin: "https://linkedin.com/in/michaelbrown", twitter: "https://twitter.com/michaelbrown" },
+    id: "cfo",
+    name: "Vacant",
+    role: "CFO",
+    bio: "We're seeking a financial leader to guide our growth strategy and fiscal operations.",
+    avatar: "/team/vacant.jpg",
+    social: { linkedin: "#", instagram: "#", bluesky: "#" },
   },
   {
-    id: "emily",
-    name: "Emily Davis",
-    role: "Head of Sales",
-    bio: "Enterprise sales leader with deep experience in the events industry. Connects teams with solutions that work.",
-    avatar: "/team/emily.jpg",
-    social: { linkedin: "https://linkedin.com/in/emilydavis" },
+    id: "cmo",
+    name: "Vacant",
+    role: "CMO",
+    bio: "We're searching for a marketing leader to amplify our brand and connect with production teams globally.",
+    avatar: "/team/vacant.jpg",
+    social: { linkedin: "#", instagram: "#", bluesky: "#" },
+  },
+  {
+    id: "coo",
+    name: "Vacant",
+    role: "COO",
+    bio: "We're looking for an operations leader to scale our processes and deliver excellence.",
+    avatar: "/team/vacant.jpg",
+    social: { linkedin: "#", instagram: "#", bluesky: "#" },
   },
 ];
 

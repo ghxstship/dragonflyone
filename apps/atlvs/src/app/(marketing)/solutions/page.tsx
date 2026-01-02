@@ -97,7 +97,7 @@ export default function SolutionsPage() {
                   {ROLE_SOLUTIONS.map((role) => (
                     <Card
                       key={role.id}
-                      className="p-5 border-2 border-grey-800 rounded-card cursor-pointer hover:border-primary/50 transition-all group"
+                      className="p-5 border-2 border-grey-800 rounded-card pop-card-atlvs group"
                       onClick={() => router.push(role.href)}
                     >
                       <Stack direction="horizontal" className="justify-between items-start gap-4">

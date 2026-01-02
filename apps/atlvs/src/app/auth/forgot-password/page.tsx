@@ -2,16 +2,26 @@
 
 /**
  * Forgot Password Page
- * Password reset request
- * Uses AuthPage template for consistent layout
+ * Password reset request with clean single-column layout
+ * Bold Contemporary Pop Art Adventure Design System
  */
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, ArrowLeft } from "lucide-react";
+import { Mail, ArrowLeft, CheckCircle } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
-  Body, Button, Input, Form, AuthPage, useToast, Box, Stack } from "@ghxstship/ui";
+  Body,
+  Box,
+  Button,
+  Form,
+  AuthSplitLayout,
+  AuthFormField,
+  useToast,
+  Stack,
+  H1,
+  H2,
+} from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
 
 export default function ForgotPasswordPage() {
@@ -23,11 +33,11 @@ export default function ForgotPasswordPage() {
   const [error, setError] = useState("");
 
   const resetMutation = useMutation({
-    mutationFn: async (email: string) => {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    mutationFn: async (emailAddress: string) => {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(emailAddress, {
         redirectTo: `${window.location.origin}/auth/reset-password`,
       });
-      if (error) throw error;
+      if (resetError) throw resetError;
     },
     onSuccess: () => {
       setSubmitted(true);
@@ -54,46 +64,94 @@ export default function ForgotPasswordPage() {
 
   if (submitted) {
     return (
-      <AuthPage title="Check Your Email" subtitle="We've sent password reset instructions to your email">
-        <Stack gap={6} className="text-center">
-          <Box className="p-4 bg-success/20 rounded-avatar w-fit mx-auto">
-            <Mail className="size-8 text-success" />
+      <AuthSplitLayout
+        singleColumn
+        brandLogo={<H1 className="text-white text-h2-md">ATLVS</H1>}
+      >
+        <Stack gap={8} className="text-center items-center">
+          <Box className="p-6 bg-success-500/20 rounded-avatar border-2 border-success-500/30">
+            <CheckCircle className="size-12 text-success-500" />
           </Box>
-          <Body className="text-on-dark-muted">
-            If an account exists for {email}, you will receive an email with instructions to reset your password.
-          </Body>
-          <Button variant="outline" onClick={() => router.push("/auth/signin")} icon={<ArrowLeft className="size-4" />} iconPosition="left">
-            Back to Sign In
-          </Button>
+          
+          <Stack gap={3} className="items-center">
+            <H2 className="text-white">Check Your Email</H2>
+            <Body className="text-on-dark-secondary max-w-sm">
+              If an account exists for <strong className="text-white">{email}</strong>, you will receive an email with instructions to reset your password.
+            </Body>
+          </Stack>
+
+          <Stack gap={3} className="w-full max-w-xs">
+            <Button
+              variant="solid"
+              fullWidth
+              onClick={() => router.push("/auth/signin")}
+              icon={<ArrowLeft className="size-4" />}
+              iconPosition="left"
+            >
+              Back to Sign In
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSubmitted(false)}
+              className="text-on-dark-muted"
+            >
+              Try a different email
+            </Button>
+          </Stack>
         </Stack>
-      </AuthPage>
+      </AuthSplitLayout>
     );
   }
 
   return (
-    <AuthPage
-      title="Forgot Password"
-      subtitle="Enter your email and we'll send you reset instructions"
+    <AuthSplitLayout
+      title="Forgot Password?"
+      subtitle="No worries, we'll send you reset instructions"
       footer={{ text: "Remember your password?", linkText: "Sign in", linkHref: "/auth/signin" }}
+      singleColumn
+      brandLogo={<H1 className="text-white text-h2-md">ATLVS</H1>}
     >
       <Form onSubmit={handleSubmit}>
-        <Box>
-          <Body size="sm" className="text-on-dark-muted mb-1">Email</Body>
-          <Box className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
-            <Input type="email" placeholder="you@example.com" value={email} onChange={(e) => { setEmail(e.target.value); setError(""); }} className={`pl-10 ${error ? "border-error" : ""}`} />
-          </Box>
-          {error && <Body size="sm" className="text-error mt-1">{error}</Body>}
-        </Box>
+        <Stack gap={5}>
+          <AuthFormField
+            label="Email Address"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setEmail(e.target.value);
+              setError("");
+            }}
+            errorMessage={error}
+            icon={<Mail className="size-5" />}
+            autoComplete="email"
+            required
+          />
 
-        <Button type="submit" variant="solid" className="w-full" disabled={resetMutation.isPending}>
-          {resetMutation.isPending ? "Sending..." : "Send Reset Link"}
-        </Button>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            fullWidth
+            isLoading={resetMutation.isPending}
+            loadingText="Sending..."
+          >
+            Send Reset Link
+          </Button>
 
-        <Button variant="ghost" className="w-full" onClick={() => router.push("/auth/signin")} icon={<ArrowLeft className="size-4" />} iconPosition="left">
-          Back to Sign In
-        </Button>
+          <Button
+            variant="ghost"
+            fullWidth
+            type="button"
+            onClick={() => router.push("/auth/signin")}
+            icon={<ArrowLeft className="size-4" />}
+            iconPosition="left"
+          >
+            Back to Sign In
+          </Button>
+        </Stack>
       </Form>
-    </AuthPage>
+    </AuthSplitLayout>
   );
 }

@@ -1,10 +1,31 @@
 "use client";
 
-import { useState } from "react";
+/**
+ * Sign Up Page - COMPVSS Registration
+ * Modern split-screen layout with brand showcase
+ * Bold Contemporary Pop Art Adventure Design System
+ */
+
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { Mail, Lock, User, Users, Calendar, ClipboardList } from "lucide-react";
 import {
-  Alert, AuthPage, Body, Button, Card, Checkbox, Divider, Field, Form, Grid, H2, Input, PasswordInput, Stack, useToast} from '@ghxstship/ui';
-import NextLink from "next/link";
+  Alert,
+  Button,
+  Form,
+  Link,
+  Text,
+  AuthSplitLayout,
+  AuthFormField,
+  AuthPasswordInput,
+  PasswordRequirements,
+  AuthCheckbox,
+  AuthDivider,
+  SocialAuthButtonGroup,
+  useToast,
+  Stack,
+  H1,
+} from "@ghxstship/ui";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -15,36 +36,47 @@ export default function SignUpPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    agreeToTerms: false,
   });
-  const [error, setError] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+  const [socialLoading, setSocialLoading] = useState<string | undefined>();
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const passwordRequirements = useMemo(() => [
+    { label: "At least 8 characters", met: formData.password.length >= 8 },
+    { label: "Contains uppercase letter", met: /[A-Z]/.test(formData.password) },
+    { label: "Contains lowercase letter", met: /[a-z]/.test(formData.password) },
+    { label: "Contains a number", met: /[0-9]/.test(formData.password) },
+  ], [formData.password]);
+
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: "" }));
+  };
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
+    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email format";
+    if (!formData.password) newErrors.password = "Password is required";
+    else if (formData.password.length < 8) newErrors.password = "Password must be at least 8 characters";
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Passwords do not match";
+    if (!agreedToTerms) newErrors.terms = "You must agree to the terms";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters");
-      return;
-    }
-
-    if (!formData.agreeToTerms) {
-      setError("You must agree to the terms and conditions");
-      return;
-    }
+    if (!validateForm()) return;
 
     setLoading(true);
-
     try {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -54,188 +86,163 @@ export default function SignUpPage() {
       });
 
       const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Registration failed");
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Registration failed');
-      }
-
-      router.push('/auth/verify-email?email=' + encodeURIComponent(formData.email));
+      router.push("/auth/verify-email?email=" + encodeURIComponent(formData.email));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
+      toast.error("Registration Failed", err instanceof Error ? err.message : "Please try again");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleOAuthSignUp = async (provider: 'google' | 'apple') => {
-    setLoading(true);
+  const handleSocialAuth = async (provider: string) => {
+    setSocialLoading(provider);
     try {
-      const response = await fetch(`/api/auth/oauth/${provider}`, { method: 'POST' });
+      const response = await fetch(`/api/auth/oauth/${provider}`, { method: "POST" });
       const data = await response.json();
       if (data.url) {
         window.location.href = data.url;
       } else {
-        toast.info('Coming Soon', `${provider} sign-up will be available once OAuth is configured`);
-        setLoading(false);
+        toast.info("Coming Soon", `${provider} sign-up will be available once OAuth is configured`);
+        setSocialLoading(undefined);
       }
-    } catch (err) {
-      setError('OAuth sign-up failed. Please try again.');
-      setLoading(false);
+    } catch {
+      toast.error("Authentication Failed", "OAuth sign-up failed");
+      setSocialLoading(undefined);
     }
   };
 
   return (
-    <AuthPage
-      appName="COMPVSS"
-      headerAction={
-        <NextLink href="/auth/signin" className="hidden sm:block">
-          <Button variant="outline" size="sm">
-            Sign In
-          </Button>
-        </NextLink>
-      }
+    <AuthSplitLayout
+      title="Create Your Account"
+      subtitle="Join COMPVSS to manage your crew and resources"
+      footer={{ text: "Already have an account?", linkText: "Sign in", linkHref: "/auth/signin" }}
+      brandLogo={<H1 className="text-white text-h2-md">COMPVSS</H1>}
+      brandTagline="Everything You Need to Manage Your Crew"
+      brandFeatures={[
+        {
+          icon: <Users className="size-5 text-white" />,
+          title: "Crew Management",
+          description: "Organize and schedule your team effortlessly",
+        },
+        {
+          icon: <Calendar className="size-5 text-white" />,
+          title: "Smart Scheduling",
+          description: "AI-powered shift optimization",
+        },
+        {
+          icon: <ClipboardList className="size-5 text-white" />,
+          title: "Resource Tracking",
+          description: "Real-time inventory and equipment status",
+        },
+      ]}
+      formMaxWidth="md"
     >
-          <Card variant="elevated" className="p-8">
-            <Stack gap={8}>
-              {/* Header */}
-              <Stack gap={4} className="text-center">
-                <H2 className="text-black">Create Account</H2>
-                <Body className="text-muted">
-                  Join COMPVSS to manage your crew and resources.
-                </Body>
-              </Stack>
+      <Form onSubmit={handleSubmit}>
+        <Stack gap={5}>
+          {errors.terms && <Alert variant="error">{errors.terms}</Alert>}
 
-              {/* Error Alert */}
-              {error && <Alert variant="error">{error}</Alert>}
+          <Stack direction="horizontal" gap={4}>
+            <AuthFormField
+              label="First Name"
+              placeholder="John"
+              value={formData.firstName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("firstName", e.target.value)}
+              errorMessage={errors.firstName}
+              icon={<User className="size-5" />}
+              autoComplete="given-name"
+              required
+            />
+            <AuthFormField
+              label="Last Name"
+              placeholder="Doe"
+              value={formData.lastName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("lastName", e.target.value)}
+              errorMessage={errors.lastName}
+              icon={<User className="size-5" />}
+              autoComplete="family-name"
+              required
+            />
+          </Stack>
 
-              {/* Form */}
-              <Form onSubmit={handleSignUp}>
-                <Stack gap={6}>
-                  {/* Name Fields - Grid */}
-                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                    <Field label="First Name">
-                      <Input
-                        type="text"
-                        value={formData.firstName}
-                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                        placeholder="John"
-                        required
-                      />
-                    </Field>
-                    <Field label="Last Name">
-                      <Input
-                        type="text"
-                        value={formData.lastName}
-                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                        placeholder="Doe"
-                        required
-                      />
-                    </Field>
-                  </Grid>
+          <AuthFormField
+            label="Email"
+            type="email"
+            placeholder="you@example.com"
+            value={formData.email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("email", e.target.value)}
+            errorMessage={errors.email}
+            icon={<Mail className="size-5" />}
+            autoComplete="email"
+            required
+          />
 
-                  {/* Email Field */}
-                  <Field label="Email Address">
-                    <Input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="your@email.com"
-                      required
-                    />
-                  </Field>
+          <Stack gap={3}>
+            <AuthPasswordInput
+              label="Password"
+              placeholder="Create a strong password"
+              value={formData.password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("password", e.target.value)}
+              errorMessage={errors.password}
+              icon={<Lock className="size-5" />}
+              autoComplete="new-password"
+              showStrength
+              required
+            />
+            {formData.password && <PasswordRequirements requirements={passwordRequirements} />}
+          </Stack>
 
-                  {/* Password Field */}
-                  <Field label="Password">
-                    <PasswordInput
-                      value={formData.password}
-                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      placeholder="Create a strong password"
-                      required
-                    />
-                  </Field>
+          <AuthPasswordInput
+            label="Confirm Password"
+            placeholder="Confirm your password"
+            value={formData.confirmPassword}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("confirmPassword", e.target.value)}
+            errorMessage={errors.confirmPassword}
+            icon={<Lock className="size-5" />}
+            autoComplete="new-password"
+            required
+          />
 
-                  {/* Confirm Password Field */}
-                  <Field label="Confirm Password">
-                    <PasswordInput
-                      value={formData.confirmPassword}
-                      onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                      placeholder="Re-enter your password"
-                      required
-                    />
-                  </Field>
+          <AuthCheckbox
+            label={
+              <Text size="sm" className="text-on-dark-secondary">
+                I agree to the{" "}
+                <Link href="/legal/terms" className="text-primary-400 hover:text-primary-300 underline">
+                  Terms of Service
+                </Link>{" "}
+                and{" "}
+                <Link href="/legal/privacy" className="text-primary-400 hover:text-primary-300 underline">
+                  Privacy Policy
+                </Link>
+              </Text>
+            }
+            checked={agreedToTerms}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAgreedToTerms(e.target.checked)}
+            required
+          />
 
-                  {/* Terms Checkbox */}
-                  <Stack direction="horizontal" gap={3} className="items-start">
-                    <Checkbox
-                      id="terms"
-                      checked={formData.agreeToTerms}
-                      onChange={(e) => setFormData({ ...formData, agreeToTerms: e.target.checked })}
-                    />
-                    <Body size="sm" className="text-muted">
-                      I agree to the{" "}
-                      <NextLink href="/legal/terms" className="font-weight-medium text-black underline">
-                        Terms of Service
-                      </NextLink>{" "}
-                      and{" "}
-                      <NextLink href="/legal/privacy" className="font-weight-medium text-black underline">
-                        Privacy Policy
-                      </NextLink>
-                    </Body>
-                  </Stack>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            fullWidth
+            isLoading={loading}
+            loadingText="Creating account..."
+          >
+            Create Account
+          </Button>
 
-                  {/* Primary CTA */}
-                  <Button
-                    type="submit"
-                    variant="solid"
-                    size="lg"
-                    fullWidth
-                    disabled={loading}
-                  >
-                    {loading ? "Creating Account..." : "Create Account"}
-                  </Button>
-                </Stack>
-              </Form>
+          <AuthDivider />
 
-              {/* Sign In Link */}
-              <Stack className="text-center">
-                <Body size="sm" className="text-muted">
-                  Already have an account?{" "}
-                  <NextLink href="/auth/signin">
-                    <Button variant="ghost" size="sm" className="inline">Sign in</Button>
-                  </NextLink>
-                </Body>
-              </Stack>
-
-              {/* Divider with text */}
-              <Stack direction="horizontal" className="items-center gap-4">
-                <Divider className="flex-1" />
-                <Body size="sm" className="text-muted">Or</Body>
-                <Divider className="flex-1" />
-              </Stack>
-
-              {/* OAuth Buttons */}
-              <Stack gap={3}>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  fullWidth
-                  onClick={() => handleOAuthSignUp('google')}
-                  disabled={loading}
-                >
-                  Sign up with Google
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  fullWidth
-                  onClick={() => handleOAuthSignUp('apple')}
-                  disabled={loading}
-                >
-                  Sign up with Apple
-                </Button>
-              </Stack>
-            </Stack>
-          </Card>
-    </AuthPage>
+          <SocialAuthButtonGroup
+            providers={["google", "apple"]}
+            onProviderClick={handleSocialAuth}
+            loadingProvider={socialLoading}
+            direction="vertical"
+          />
+        </Stack>
+      </Form>
+    </AuthSplitLayout>
   );
 }

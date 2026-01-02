@@ -10,7 +10,8 @@ import { useRouter } from "next/navigation";
 import { Book, Code, Zap, FileText, Search, ArrowRight, Terminal, Settings, Users } from "lucide-react";
 import { useState } from "react";
 import {
-  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Input, Box} from "@ghxstship/ui";
+  MarketingPage, HeroSection, FeatureGrid, CTABanner, Container, Stack, Grid, Card, Body, H3, Button, Input, Box,
+  type FeatureItem} from "@ghxstship/ui";
 
 interface DocSection {
   id: string;
@@ -130,7 +131,7 @@ export default function DocsPage() {
                 ) : (
                   <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
                     {filteredSections.map((section) => (
-                      <Card key={section.id} className="p-6 border-2 border-grey-800 rounded-card hover:border-grey-700 transition-all">
+                      <Card key={section.id} className="p-6 border-2 border-grey-800 rounded-card pop-card">
                         <Stack gap={4}>
                           <Stack direction="horizontal" gap={4} className="items-start">
                             <Box className="p-3 bg-primary/20 rounded-card text-primary">
@@ -145,7 +146,7 @@ export default function DocsPage() {
                             {section.articles.map((article, idx) => (
                               <Card
                                 key={idx}
-                                className="p-3 border-2 border-grey-800 rounded-card cursor-pointer hover:border-primary/50 hover:bg-grey-900/50 transition-all group"
+                                className="p-3 border-2 border-grey-800 rounded-card pop-card-atlvs group"
                                 onClick={() => router.push(article.href)}
                               >
                                 <Stack direction="horizontal" className="justify-between items-center">

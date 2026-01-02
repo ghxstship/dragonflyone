@@ -28,8 +28,12 @@ export type { DashboardPageProps } from "./dashboard-page.js";
 export { CenteredLayout } from "./centered-layout.js";
 export type { CenteredLayoutProps } from "./centered-layout.js";
 
-export { AuthPage } from "./auth-page.js";
-export type { AuthPageProps } from "./auth-page.js";
+// Legacy AuthPage removed - use AuthSplitLayout instead
+// export { AuthPage } from "./auth-page.js";
+// export type { AuthPageProps } from "./auth-page.js";
+
+export { AuthSplitLayout } from "./auth-split-layout.js";
+export type { AuthSplitLayoutProps } from "./auth-split-layout.js";
 
 export { ErrorContent, ErrorPage } from "./error-page.js";
 export type { ErrorContentProps, ErrorPageProps } from "./error-page.js";
@@ -106,6 +110,9 @@ export type { TableLayoutProps, TableColumn, TableFilter } from "./table-layout.
 
 export { DetailPage } from "./detail-page.js";
 export type { DetailPageProps, DetailPageTab } from "./detail-page.js";
+
+export { HubPage } from "./hub-page.js";
+export type { HubPageProps, HubPageTab, HubPageStat } from "./hub-page.js";
 
 // =============================================================================
 // FORM LAYOUTS
