@@ -72,11 +72,13 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
       inverted: "section-inverted",
     };
 
+    // Background is typically handled by parent FullBleedSection when used in MarketingPage
+    // These backgrounds are for standalone use or when specific colored backgrounds are needed
     const bgStyleClasses = {
       primary: "bg-primary",
       accent: "bg-accent",
       gradient: "bg-primary",
-      solid: "bg-surface-primary",
+      solid: "", // Transparent - let parent handle background
     };
 
     const isLightBg = backgroundStyle === "accent";

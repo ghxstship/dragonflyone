@@ -95,10 +95,12 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
       inverted: "section-inverted",
     };
 
+    // Background is handled by parent FullBleedSection when used in MarketingPage
+    // Only apply background when HeroSection is used standalone
     const bgStyleClasses = {
       solid: "bg-surface-primary",
-      gradient: "bg-surface-primary",
-      image: "bg-surface-primary",
+      gradient: "", // Transparent - let parent handle gradient
+      image: "", // Transparent - background image handled separately
     };
 
     const alignClasses = {

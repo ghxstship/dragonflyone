@@ -344,7 +344,7 @@ function createMarketingSections(router: ReturnType<typeof useRouter>): Marketin
             label: "See Pricing",
             onClick: () => router.push("/pricing"),
           }}
-          background="gradient"
+          backgroundStyle="gradient"
           pattern="none"
           fullHeight={false}
           align="center"
@@ -375,7 +375,7 @@ function createMarketingSections(router: ReturnType<typeof useRouter>): Marketin
             label: "See Pricing",
             onClick: () => router.push("/pricing"),
           }}
-          background="ink"
+          backgroundStyle="solid"
         />
       ),
     },
