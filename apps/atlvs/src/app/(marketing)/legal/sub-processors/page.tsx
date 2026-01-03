@@ -60,7 +60,7 @@ export default function SubProcessorsPage() {
           content: (
             <Container size="2xl" className="py-20">
               <Stack gap={8}>
-                <Card className="p-6 border-2 border-grey-800 rounded-card">
+                <Card className="p-6 border-2 border-border rounded-card">
                   <Box className="flex items-center justify-between flex-wrap gap-4">
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold">Sub-processor List</Body>
@@ -88,7 +88,7 @@ export default function SubProcessorsPage() {
                   </Box>
                 </Card>
 
-                <Card className="p-6 border-2 border-grey-800 rounded-card">
+                <Card className="p-6 border-2 border-border rounded-card">
                   <Stack gap={4}>
                     <H3 className="text-white text-h5-md">About Sub-processors</H3>
                     <Body className="text-on-dark-secondary leading-relaxed">
@@ -99,7 +99,7 @@ export default function SubProcessorsPage() {
                   </Stack>
                 </Card>
 
-                <Card className="overflow-hidden border-2 border-grey-800 rounded-card">
+                <Card className="overflow-hidden border-2 border-border rounded-card">
                   <Table>
                     <TableHeader>
                       <TableRow>

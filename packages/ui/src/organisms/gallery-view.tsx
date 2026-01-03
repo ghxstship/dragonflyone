@@ -221,8 +221,8 @@ function GalleryItemComponent<T>({
         "group relative rounded-lg border-2 overflow-hidden cursor-pointer transition-all",
         "hover:shadow-lg hover:-translate-y-0.5",
         inverted
-          ? "bg-ink-800 border-ink-700 hover:border-ink-600"
-          : "bg-white border-ink-200 hover:border-ink-300"
+          ? "bg-surface-elevated border-border hover:border-border-primary"
+          : "bg-surface-primary border-border hover:border-border-primary"
       )}
     >
       {/* Image container */}
@@ -232,7 +232,7 @@ function GalleryItemComponent<T>({
           <div
             className={clsx(
               "absolute inset-0 animate-pulse",
-              inverted ? "bg-ink-700" : "bg-ink-200"
+              inverted ? "bg-surface-elevated" : "bg-muted"
             )}
           />
         )}
@@ -242,7 +242,7 @@ function GalleryItemComponent<T>({
           <div
             className={clsx(
               "absolute inset-0 flex items-center justify-center",
-              inverted ? "bg-ink-800 text-ink-600" : "bg-ink-100 text-ink-400"
+              inverted ? "bg-surface-elevated text-on-dark-disabled" : "bg-muted text-on-light-disabled"
             )}
           >
             <ImageIcon size={32} />
@@ -280,7 +280,7 @@ function GalleryItemComponent<T>({
             <h4
               className={clsx(
                 "font-semibold text-sm truncate",
-                inverted ? "text-white" : "text-ink-900"
+                inverted ? "text-on-dark-primary" : "text-on-light-primary"
               )}
             >
               {item.title}
@@ -294,7 +294,7 @@ function GalleryItemComponent<T>({
                   key={key}
                   className={clsx(
                     "text-xs flex justify-between",
-                    inverted ? "text-ink-400" : "text-ink-500"
+                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
                   )}
                 >
                   <span className="truncate">{key}</span>
@@ -312,8 +312,8 @@ function GalleryItemComponent<T>({
                   className={clsx(
                     "px-1.5 py-0.5 rounded text-xs",
                     inverted
-                      ? "bg-ink-700 text-ink-300"
-                      : "bg-ink-100 text-ink-600"
+                      ? "bg-surface-elevated text-on-dark-secondary"
+                      : "bg-muted text-on-light-secondary"
                   )}
                 >
                   {tag}
@@ -324,8 +324,8 @@ function GalleryItemComponent<T>({
                   className={clsx(
                     "px-1.5 py-0.5 rounded text-xs",
                     inverted
-                      ? "bg-ink-700 text-ink-400"
-                      : "bg-ink-100 text-ink-500"
+                      ? "bg-surface-elevated text-on-dark-muted"
+                      : "bg-muted text-on-light-muted"
                   )}
                 >
                   +{item.tags.length - 3}
@@ -394,7 +394,7 @@ export function GalleryView<T>({
             className={clsx(
               "rounded-lg animate-pulse",
               SIZE_HEIGHTS[currentSize],
-              inverted ? "bg-ink-800" : "bg-ink-200"
+              inverted ? "bg-surface-elevated" : "bg-muted"
             )}
           />
         ))}
@@ -407,7 +407,7 @@ export function GalleryView<T>({
       <div
         className={clsx(
           "flex flex-col items-center justify-center h-64 rounded-lg border-2 border-dashed",
-          inverted ? "border-ink-700 text-ink-500" : "border-ink-300 text-ink-400",
+          inverted ? "border-border text-on-dark-muted" : "border-border text-on-light-muted",
           className
         )}
       >
@@ -423,13 +423,13 @@ export function GalleryView<T>({
       <div
         className={clsx(
           "flex items-center justify-between mb-4 pb-3 border-b-2",
-          inverted ? "border-ink-800" : "border-ink-200"
+          inverted ? "border-border" : "border-border"
         )}
       >
         <span
           className={clsx(
             "text-sm",
-            inverted ? "text-ink-400" : "text-ink-500"
+            inverted ? "text-on-dark-muted" : "text-on-light-muted"
           )}
         >
           {items.length} item{items.length !== 1 ? "s" : ""}
@@ -440,7 +440,7 @@ export function GalleryView<T>({
           <div
             className={clsx(
               "flex items-center gap-1 p-1 rounded-lg border",
-              inverted ? "border-ink-700 bg-ink-800" : "border-ink-200 bg-ink-50"
+              inverted ? "border-border bg-surface-elevated" : "border-border bg-muted"
             )}
           >
             <button
@@ -450,11 +450,11 @@ export function GalleryView<T>({
                 "p-1.5 rounded transition-colors",
                 currentLayout === "grid"
                   ? inverted
-                    ? "bg-ink-700 text-white"
-                    : "bg-white text-ink-900 shadow-sm"
+                    ? "bg-surface-inverse text-on-dark-primary"
+                    : "bg-surface-primary text-on-light-primary shadow-sm"
                   : inverted
-                  ? "text-ink-500 hover:text-white"
-                  : "text-ink-400 hover:text-ink-900"
+                  ? "text-on-dark-muted hover:text-on-dark-primary"
+                  : "text-on-light-muted hover:text-on-light-primary"
               )}
             >
               <Grid size={16} />
@@ -466,11 +466,11 @@ export function GalleryView<T>({
                 "p-1.5 rounded transition-colors",
                 currentLayout === "list"
                   ? inverted
-                    ? "bg-ink-700 text-white"
-                    : "bg-white text-ink-900 shadow-sm"
+                    ? "bg-surface-inverse text-on-dark-primary"
+                    : "bg-surface-primary text-on-light-primary shadow-sm"
                   : inverted
-                  ? "text-ink-500 hover:text-white"
-                  : "text-ink-400 hover:text-ink-900"
+                  ? "text-on-dark-muted hover:text-on-dark-primary"
+                  : "text-on-light-muted hover:text-on-light-primary"
               )}
             >
               <LayoutGrid size={16} />
@@ -485,8 +485,8 @@ export function GalleryView<T>({
               className={clsx(
                 "px-2 py-1.5 rounded-lg border text-sm",
                 inverted
-                  ? "bg-ink-800 border-ink-700 text-white"
-                  : "bg-white border-ink-200 text-ink-900"
+                  ? "bg-surface-elevated border-border text-on-dark-primary"
+                  : "bg-surface-primary border-border text-on-light-primary"
               )}
             >
               <option value="small">Small</option>

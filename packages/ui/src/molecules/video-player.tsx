@@ -177,7 +177,7 @@ export const VideoPlayer = forwardRef<HTMLDivElement, VideoPlayerProps>(
       <div
         ref={ref}
         className={clsx(
-          "relative bg-black overflow-hidden group",
+          "relative bg-surface-inverse overflow-hidden group",
           aspectRatioClasses[aspectRatio],
           className
         )}
@@ -209,7 +209,7 @@ export const VideoPlayer = forwardRef<HTMLDivElement, VideoPlayerProps>(
             )}
           >
             {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-surface-overlay via-transparent to-transparent pointer-events-none" />
 
             {/* Play/Pause overlay button */}
             <button
@@ -218,9 +218,9 @@ export const VideoPlayer = forwardRef<HTMLDivElement, VideoPlayerProps>(
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {!isPlaying && (
-                <div className="w-spacing-20 h-spacing-20 bg-white flex items-center justify-center">
+                <div className="w-spacing-20 h-spacing-20 bg-surface-primary flex items-center justify-center">
                   <svg
-                    className="w-spacing-8 h-spacing-8 text-black ml-spacing-1"
+                    className="w-spacing-8 h-spacing-8 text-on-light-primary ml-spacing-1"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -234,26 +234,26 @@ export const VideoPlayer = forwardRef<HTMLDivElement, VideoPlayerProps>(
             <div className="relative z-10 p-spacing-4 flex flex-col gap-gap-xs">
               {/* Progress bar */}
               <div
-                className="h-spacing-1 bg-grey-700 cursor-pointer group/progress"
+                className="h-spacing-1 bg-border cursor-pointer group/progress"
                 onClick={handleSeek}
               >
                 <div
-                  className="h-full bg-white transition-all"
+                  className="h-full bg-on-dark-primary transition-all"
                   style={{ width: `${progress}%` }}
                 />
                 <div
-                  className="absolute w-spacing-3 h-spacing-3 bg-white -mt-spacing-1 -ml-spacing-1 opacity-0 group-hover/progress:opacity-100 transition-opacity"
+                  className="absolute w-spacing-3 h-spacing-3 bg-on-dark-primary -mt-spacing-1 -ml-spacing-1 opacity-0 group-hover/progress:opacity-100 transition-opacity"
                   style={{ left: `${progress}%`, top: "50%" }}
                 />
               </div>
 
               {/* Control buttons */}
-              <div className="flex items-center justify-between text-white">
+              <div className="flex items-center justify-between text-on-dark-primary">
                 <div className="flex items-center gap-gap-md">
                   {/* Play/Pause */}
                   <button
                     onClick={togglePlay}
-                    className="w-spacing-10 h-spacing-10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                    className="w-spacing-10 h-spacing-10 flex items-center justify-center hover:bg-surface-overlay transition-colors"
                     aria-label={isPlaying ? "Pause" : "Play"}
                   >
                     {isPlaying ? (
@@ -270,7 +270,7 @@ export const VideoPlayer = forwardRef<HTMLDivElement, VideoPlayerProps>(
                   {/* Mute/Unmute */}
                   <button
                     onClick={toggleMute}
-                    className="w-spacing-10 h-spacing-10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                    className="w-spacing-10 h-spacing-10 flex items-center justify-center hover:bg-surface-overlay transition-colors"
                     aria-label={isMuted ? "Unmute" : "Mute"}
                   >
                     {isMuted ? (
@@ -294,7 +294,7 @@ export const VideoPlayer = forwardRef<HTMLDivElement, VideoPlayerProps>(
                   {/* Fullscreen */}
                   <button
                     onClick={toggleFullscreen}
-                    className="w-spacing-10 h-spacing-10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                    className="w-spacing-10 h-spacing-10 flex items-center justify-center hover:bg-surface-overlay transition-colors"
                     aria-label={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
                   >
                     {isFullscreen ? (

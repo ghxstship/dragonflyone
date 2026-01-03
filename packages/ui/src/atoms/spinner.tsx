@@ -26,7 +26,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
     const variantClasses = {
       black: "border-black border-t-transparent",
       white: "border-white border-t-transparent",
-      grey: "border-grey-400 border-t-transparent",
+      grey: "border-border border-t-transparent",
     };
 
     const gapClasses = {

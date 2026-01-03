@@ -298,7 +298,7 @@ export function CollaboratorsList({
           </Tooltip>
         ))}
         {hiddenCount > 0 && (
-          <div className="size-8 rounded-avatar bg-grey-200 border-2 border-surface-primary flex items-center justify-center text-body-xs font-code text-on-dark-disabled">
+          <div className="size-8 rounded-avatar bg-muted border-2 border-surface-primary flex items-center justify-center text-body-xs font-code text-on-dark-disabled">
             +{hiddenCount}
           </div>
         )}

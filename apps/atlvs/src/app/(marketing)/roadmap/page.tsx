@@ -124,10 +124,10 @@ export default function RoadmapPage() {
                   {ROADMAP_ITEMS.map((item) => {
                     const config = STATUS_CONFIG[item.status];
                     return (
-                      <Card key={item.id} className="p-6 border-2 border-grey-800 rounded-card pop-card">
+                      <Card key={item.id} className="p-6 border-2 border-border rounded-card pop-card">
                         <Stack gap={4}>
                           <Stack direction="horizontal" className="justify-between items-start">
-                            <Box className={`p-3 rounded-card ${item.status === "completed" ? "bg-success/20 text-success" : item.status === "in_progress" ? "bg-primary/20 text-primary" : "bg-grey-800 text-on-dark-muted"}`}>
+                            <Box className={`p-3 rounded-card ${item.status === "completed" ? "bg-success/20 text-success" : item.status === "in_progress" ? "bg-primary/20 text-primary" : "bg-surface-elevated text-on-dark-muted"}`}>
                               {config.icon}
                             </Box>
                             <Stack direction="horizontal" gap={2}>

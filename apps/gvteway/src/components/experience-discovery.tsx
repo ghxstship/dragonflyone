@@ -147,7 +147,7 @@ export function ExperienceDiscovery() {
     <Stack gap={8}>
       <Grid cols={1} gap={6} className="md:grid-cols-2 lg:grid-cols-[2fr_1fr]">
         <Stack gap={4}>
-          <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">Universal Search</Label>
+          <Label className="text-mono-xs uppercase tracking-kicker text-on-light-muted">Universal Search</Label>
           <Input
             type="search"
             placeholder="Search artists, venues, cities, vibes"
@@ -169,7 +169,7 @@ export function ExperienceDiscovery() {
           </Stack>
         </Stack>
         <Stack gap={4}>
-          <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">Alert Preferences</Label>
+          <Label className="text-mono-xs uppercase tracking-kicker text-on-light-muted">Alert Preferences</Label>
           <Stack gap={3}>
             <Input
               placeholder="Name this saved search"
@@ -177,7 +177,7 @@ export function ExperienceDiscovery() {
               onChange={(event) => setNewSavedSearch(event.target.value)}
               className="font-code text-mono-xs uppercase tracking-label"
             />
-            <Stack direction="horizontal" gap={3} className="flex-wrap text-mono-xs uppercase tracking-label text-ink-400">
+            <Stack direction="horizontal" gap={3} className="flex-wrap text-mono-xs uppercase tracking-label text-on-light-disabled">
               {alertCadence.map((cadence) => (
                 <Radio
                   key={cadence.id}
@@ -203,13 +203,13 @@ export function ExperienceDiscovery() {
         <Switch label="New drops" checked={newOnly} onChange={() => setNewOnly((prev) => !prev)} />
       </Grid>
 
-      <Stack direction="horizontal" gap={4} className="flex-col border-2 border-ink-800 p-4 lg:flex-row lg:items-center lg:justify-between">
-        <Stack direction="horizontal" gap={4} className="flex-wrap text-ink-300">
+      <Stack direction="horizontal" gap={4} className="flex-col border-2 border-border p-4 lg:flex-row lg:items-center lg:justify-between">
+        <Stack direction="horizontal" gap={4} className="flex-wrap text-on-dark-secondary">
           <Stat label="Matches" value={stats.matches.toString()} />
           <Stat label="Saved Filters" value={stats.saved.toString()} />
           <Stat label="Friends attending" value={stats.friends.toString()} />
         </Stack>
-        <Stack direction="horizontal" gap={2} className="flex-wrap text-mono-xs uppercase tracking-label text-ink-400">
+        <Stack direction="horizontal" gap={2} className="flex-wrap text-mono-xs uppercase tracking-label text-on-light-disabled">
           {savedSearches.map((search) => (
             <Badge key={search.name} variant="outline">
               {search.name}
@@ -223,18 +223,18 @@ export function ExperienceDiscovery() {
       ) : null}
 
       {isLoading ? (
-        <Body size="sm" className="uppercase tracking-kicker text-ink-400">Loading events…</Body>
+        <Body size="sm" className="uppercase tracking-kicker text-on-light-disabled">Loading events…</Body>
       ) : (
         <Grid cols={3} gap={6} className="md:grid-cols-2 xl:grid-cols-3">
           {events.map((event) => (
             <Article key={event.id} variant="bordered" className="p-6">
-              <Stack direction="horizontal" className="items-center justify-between text-mono-xs uppercase tracking-kicker text-ink-500">
+              <Stack direction="horizontal" className="items-center justify-between text-mono-xs uppercase tracking-kicker text-on-light-muted">
                 <Body>{event.city}</Body>
                 <Body>{new Date(event.startDate).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</Body>
               </Stack>
               <H3 className="mt-3 text-h5-md uppercase text-white">{event.title}</H3>
-              <Body size="sm" className="text-ink-400">{event.headliner}</Body>
-              <Stack direction="horizontal" gap={2} className="mt-4 flex-wrap text-[0.6rem] uppercase tracking-label text-ink-400">
+              <Body size="sm" className="text-on-light-disabled">{event.headliner}</Body>
+              <Stack direction="horizontal" gap={2} className="mt-4 flex-wrap text-[0.6rem] uppercase tracking-label text-on-light-disabled">
                 {event.genres.map((genre: string) => (
                   <Badge key={genre} variant="outline">
                     {genre}
@@ -242,14 +242,14 @@ export function ExperienceDiscovery() {
                 ))}
                 <Badge variant="outline">{event.priceRange}</Badge>
               </Stack>
-              <Stack direction="horizontal" gap={2} className="mt-4 flex-wrap text-mono-xs text-ink-300">
+              <Stack direction="horizontal" gap={2} className="mt-4 flex-wrap text-mono-xs text-on-dark-secondary">
                 {event.experienceTags.map((tag: string) => (
                   <Badge key={tag} variant="outline" className="uppercase tracking-label">
                     {tag}
                   </Badge>
                 ))}
               </Stack>
-              <Stack gap={2} className="mt-4 text-ink-300">
+              <Stack gap={2} className="mt-4 text-on-dark-secondary">
                 <Body>Friends attending: {event.friendsAttending}</Body>
                 <Body>Distance: {event.distanceMiles} mi</Body>
                 <Body>Tour stops: {event.tourStops.join(" · ")}</Body>
@@ -269,7 +269,7 @@ export function ExperienceDiscovery() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <Stack>
-      <Label className="text-mono-xs uppercase tracking-label text-ink-500">{label}</Label>
+      <Label className="text-mono-xs uppercase tracking-label text-on-light-muted">{label}</Label>
       <Display className="font-display text-h4-md text-white">{value}</Display>
     </Stack>
   );

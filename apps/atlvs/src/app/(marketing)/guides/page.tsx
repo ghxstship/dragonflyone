@@ -142,7 +142,7 @@ export default function GuidesPage() {
                 </Stack>
 
                 {/* Search and Filters */}
-                <Card className="p-4 border-2 border-grey-800 rounded-card">
+                <Card className="p-4 border-2 border-border rounded-card">
                   <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
                     <Box className="flex-1 min-w-[200px] relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
@@ -170,7 +170,7 @@ export default function GuidesPage() {
 
                 {/* Guides Grid */}
                 {filteredGuides.length === 0 ? (
-                  <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
+                  <Card className="p-12 text-center border-2 border-border rounded-card">
                     <Book className="size-16 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Guides Found</Body>
                     <Body className="text-on-dark-muted mb-4">Try a different search term or category</Body>
@@ -181,7 +181,7 @@ export default function GuidesPage() {
                     {filteredGuides.map((guide) => (
                       <Card
                         key={guide.id}
-                        className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs group"
+                        className="p-6 border-2 border-border rounded-card pop-card-atlvs group"
                         onClick={() => router.push(`/guides/${guide.id}`)}
                       >
                         <Stack gap={4}>

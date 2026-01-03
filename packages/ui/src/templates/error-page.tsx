@@ -92,7 +92,7 @@ export function ErrorContent({
     }
   };
 
-  const textClass = inverted ? "text-white" : "text-ink-900";
+  const textClass = inverted ? "text-on-dark-primary" : "text-on-light-primary";
   const mutedTextClass = inverted ? "text-on-dark-muted" : "text-on-light-muted";
 
   return (
@@ -131,7 +131,7 @@ export function ErrorContent({
       {error.digest && (
         <div className={clsx(
           "flex items-center justify-center gap-2 px-4 py-2 rounded-badge mx-auto",
-          inverted ? "bg-grey-900" : "bg-grey-100"
+          inverted ? "bg-surface-elevated" : "bg-muted"
         )}>
           <Label size="xs" className={mutedTextClass}>Error ID:</Label>
           <code className={clsx("font-mono text-xs", mutedTextClass)}>{error.digest}</code>
@@ -139,7 +139,7 @@ export function ErrorContent({
             onClick={handleCopyErrorId}
             className={clsx(
               "p-1 rounded transition-colors",
-              inverted ? "hover:bg-grey-800" : "hover:bg-grey-200"
+              inverted ? "hover:bg-surface-elevated" : "hover:bg-muted"
             )}
             aria-label="Copy error ID"
           >
@@ -272,7 +272,7 @@ export const ErrorPage = forwardRef<HTMLDivElement, ErrorPageProps>(
     ref
   ) {
     const bgClass = background === "ink"
-      ? "bg-ink-950"
+      ? "bg-surface-inverse"
       : background === "black"
         ? "bg-black"
         : "bg-white";
@@ -281,7 +281,7 @@ export const ErrorPage = forwardRef<HTMLDivElement, ErrorPageProps>(
     return (
       <Section
         ref={ref}
-        className={clsx("relative min-h-screen overflow-hidden", bgClass, isDark ? "text-white" : "text-ink-900")}
+        className={clsx("relative min-h-screen overflow-hidden", bgClass, isDark ? "text-on-dark-primary" : "text-on-light-primary")}
         noPadding
       >
         {/* Skip to main content link */}

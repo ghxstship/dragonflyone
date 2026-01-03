@@ -105,17 +105,17 @@ export default function BillingSettingsPage() {
               <Button variant="outline" size="sm" onClick={() => setShowChangePlan(true)}>Change Plan</Button>
             </Box>
             <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
-              <Box className="p-3 bg-grey-800 rounded-card">
+              <Box className="p-3 bg-surface-elevated rounded-card">
                 <Body size="sm" className="text-on-dark-muted">Bookings</Body>
                 <Body className="font-weight-medium">{data?.usage.bookings_limit === -1 ? "Unlimited" : `${data?.usage.bookings}/${data?.usage.bookings_limit}`}</Body>
                 {data?.usage.bookings_limit !== -1 && <ProgressBar value={(data?.usage.bookings || 0) / (data?.usage.bookings_limit || 1) * 100} size="sm" className="mt-2" />}
               </Box>
-              <Box className="p-3 bg-grey-800 rounded-card">
+              <Box className="p-3 bg-surface-elevated rounded-card">
                 <Body size="sm" className="text-on-dark-muted">Storage</Body>
                 <Body className="font-weight-medium">{data?.usage.storage_gb}GB / {data?.usage.storage_limit_gb}GB</Body>
                 <ProgressBar value={(data?.usage.storage_gb || 0) / (data?.usage.storage_limit_gb || 1) * 100} size="sm" className="mt-2" />
               </Box>
-              <Box className="p-3 bg-grey-800 rounded-card">
+              <Box className="p-3 bg-surface-elevated rounded-card">
                 <Body size="sm" className="text-on-dark-muted">Team</Body>
                 <Body className="font-weight-medium">{data?.usage.team_members} / {data?.usage.team_limit}</Body>
                 <ProgressBar value={(data?.usage.team_members || 0) / (data?.usage.team_limit || 1) * 100} size="sm" className="mt-2" />
@@ -126,7 +126,7 @@ export default function BillingSettingsPage() {
           <Card className="p-6">
             <SectionHeader title="Payment Method" />
             {data?.payment_method ? (
-              <Box className="flex justify-between items-center p-4 bg-grey-800 rounded-card mt-4">
+              <Box className="flex justify-between items-center p-4 bg-surface-elevated rounded-card mt-4">
                 <Box className="flex items-center gap-3">
                   <CreditCard className="size-8 text-on-dark-muted" />
                   <Box>
@@ -137,7 +137,7 @@ export default function BillingSettingsPage() {
                 <Button variant="ghost" size="sm">Update</Button>
               </Box>
             ) : (
-              <Box className="text-center py-8 bg-grey-800 rounded-card mt-4">
+              <Box className="text-center py-8 bg-surface-elevated rounded-card mt-4">
                 <CreditCard className="size-8 text-on-dark-disabled mx-auto mb-2" />
                 <Body className="text-on-dark-muted">No payment method on file</Body>
                 <Button variant="ghost" size="sm" className="mt-2">Add Payment Method</Button>

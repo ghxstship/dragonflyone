@@ -66,7 +66,7 @@ export const ScrollableTableWrapper = forwardRef<HTMLDivElement, ScrollableTable
         {/* Left scroll indicator */}
         {canScrollLeft && (
           <Box
-            className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-ink-950 to-transparent z-content-overlay"
+            className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-content-overlay"
             aria-hidden="true"
           />
         )}
@@ -74,7 +74,7 @@ export const ScrollableTableWrapper = forwardRef<HTMLDivElement, ScrollableTable
         {/* Right scroll indicator */}
         {canScrollRight && (
           <Box
-            className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-ink-950 to-transparent z-content-overlay"
+            className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-content-overlay"
             aria-hidden="true"
           />
         )}
@@ -90,7 +90,7 @@ export const ScrollableTableWrapper = forwardRef<HTMLDivElement, ScrollableTable
         {/* Mobile scroll hint */}
         {showHint && isScrollable && (
           <Box className="mt-spacing-2 text-center md:hidden">
-            <Box className="inline-flex items-center gap-spacing-2 text-mono-xs uppercase tracking-kicker text-ink-500">
+            <Box className="inline-flex items-center gap-spacing-2 text-mono-xs uppercase tracking-kicker text-muted-foreground">
               <svg 
                 width="16" 
                 height="16" 

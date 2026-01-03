@@ -72,8 +72,8 @@ export const VideoSection = forwardRef<HTMLElement, VideoSectionProps>(
 
     const bgClasses = {
       black: "bg-black text-white",
-      ink: "bg-ink-950 text-white",
-      grey: "bg-grey-900 text-white",
+      ink: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-surface-elevated text-on-dark-primary",
     };
 
     const aspectClasses = {
@@ -115,7 +115,7 @@ export const VideoSection = forwardRef<HTMLElement, VideoSectionProps>(
             {/* Video Container */}
             <div
               className={clsx(
-                "relative rounded-card overflow-hidden border-2 border-grey-800",
+                "relative rounded-card overflow-hidden border-2 border-border",
                 aspectClasses[aspectRatio]
               )}
             >

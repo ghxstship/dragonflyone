@@ -20,7 +20,7 @@ export default createPortalLayout({
   platform: "atlvs",
   authType: "token",
   invalidTokenPath: "/auth/invalid-link",
-  backgroundClass: "bg-ink-950",
+  backgroundClass: "bg-surface-inverse",
   LayoutComponent: AtlvsAppLayout,
   layoutVariant: "portal",
 });

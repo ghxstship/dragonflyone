@@ -112,7 +112,7 @@ export function FloorPlanObjectLibrary({
                       className="w-6 h-6 rounded flex items-center justify-center"
                       style={{ backgroundColor: template.color }}
                     >
-                      <template.icon className="h-3.5 w-3.5 text-white" />
+                      <template.icon className="h-3.5 w-3.5 text-on-dark-primary" />
                     </div>
                     <span className="text-body-xs truncate flex-1">
                       {template.name}

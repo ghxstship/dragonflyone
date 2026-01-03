@@ -144,7 +144,7 @@ function VirtualizedListInner<T>(
       ref={setRefs}
       className={clsx(
         "overflow-auto",
-        inverted ? "bg-ink-950" : "bg-white",
+        inverted ? "bg-surface-inverse" : "bg-surface-primary",
         className
       )}
       style={{ height: containerHeight }}

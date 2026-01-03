@@ -199,7 +199,7 @@ export default function AssetScanPage() {
                 </Button>
               </Stack>
 
-              <Card className="p-4 mt-6 bg-grey-800">
+              <Card className="p-4 mt-6 bg-surface-elevated">
                 <Body size="sm" className="text-on-dark-muted">
                   1. Select scan mode above<br />
                   2. Scan barcode with scanner or enter manually<br />
@@ -297,7 +297,7 @@ export default function AssetScanPage() {
       <Modal open={showActionModal} onClose={() => setShowActionModal(false)} title="Confirm Action">
         {scannedAsset && (
           <Stack gap={6}>
-            <Card className="p-4 bg-grey-800">
+            <Card className="p-4 bg-surface-elevated">
               <Body className="font-mono mb-2">{scannedAsset.barcode}</Body>
               <Body className="font-weight-medium text-body-lg">{scannedAsset.name}</Body>
               <Stack direction="horizontal" gap={2} className="items-center mt-2">

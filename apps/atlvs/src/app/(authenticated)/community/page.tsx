@@ -181,7 +181,7 @@ export default function CommunityPage() {
   const communitySidebar = (
     <Stack gap={6}>
       {/* Categories */}
-      <Card className="p-5 border-2 border-grey-800 rounded-card">
+      <Card className="p-5 border-2 border-border rounded-card">
         <Body className="text-white font-weight-bold mb-4">Categories</Body>
         <Stack gap={2}>
           {CATEGORIES.map((category) => (
@@ -201,7 +201,7 @@ export default function CommunityPage() {
       </Card>
 
       {/* Top Contributors */}
-      <Card className="p-5 border-2 border-grey-800 rounded-card">
+      <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Trophy className="size-5 text-warning" />
           <Body className="text-white font-weight-bold">Top Contributors</Body>
@@ -230,7 +230,7 @@ export default function CommunityPage() {
       </Card>
 
       {/* Trending Tags */}
-      <Card className="p-5 border-2 border-grey-800 rounded-card">
+      <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <TrendingUp className="size-5 text-primary" />
           <Body className="text-white font-weight-bold">Trending Tags</Body>
@@ -240,7 +240,7 @@ export default function CommunityPage() {
             <Badge 
               key={tag} 
               variant="outline" 
-              className="cursor-pointer hover:bg-grey-800"
+              className="cursor-pointer hover:bg-surface-elevated"
             >
               #{tag}
             </Badge>
@@ -286,7 +286,7 @@ export default function CommunityPage() {
               {filteredDiscussions.map((discussion) => (
                 <Card 
                   key={discussion.id} 
-                  className="p-5 border-2 border-grey-800 rounded-card cursor-pointer hover:border-grey-700 transition-colors"
+                  className="p-5 border-2 border-border rounded-card cursor-pointer hover:border-border transition-colors"
                   onClick={() => handleViewDiscussion(discussion.id)}
                 >
                   <Box className="flex gap-4">
@@ -356,7 +356,7 @@ export default function CommunityPage() {
 
           {/* Following Tab */}
           {activeTab === "following" && (
-            <Card className="p-8 border-2 border-grey-800 rounded-card text-center">
+            <Card className="p-8 border-2 border-border rounded-card text-center">
               <Bell className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-white font-weight-bold mb-2">No followed discussions</Body>
               <Body size="sm" className="text-on-dark-muted mb-4">
@@ -370,7 +370,7 @@ export default function CommunityPage() {
 
           {/* My Posts Tab */}
           {activeTab === "my-posts" && (
-            <Card className="p-8 border-2 border-grey-800 rounded-card text-center">
+            <Card className="p-8 border-2 border-border rounded-card text-center">
               <MessageSquare className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-white font-weight-bold mb-2">No posts yet</Body>
               <Body size="sm" className="text-on-dark-muted mb-4">

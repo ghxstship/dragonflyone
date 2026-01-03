@@ -262,9 +262,9 @@ export const TableLayout = forwardRef(function TableLayout<T>(
   const [showFilters, setShowFilters] = useState(false);
   const [showColumnSettings, setShowColumnSettings] = useState(false);
 
-  const bgClass = inverted ? "bg-ink-950 text-white" : "bg-white text-ink-900";
-  const borderClass = inverted ? "border-grey-800" : "border-grey-200";
-  const headerBgClass = inverted ? "bg-ink-900" : "bg-grey-50";
+  const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+  const borderClass = inverted ? "border-border" : "border-border";
+  const headerBgClass = inverted ? "bg-surface-elevated" : "bg-muted";
 
   const activeFilterCount = Object.values(activeFilters).filter(Boolean).length;
 
@@ -345,7 +345,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
           <Stack gap={6} className="items-center text-center max-w-md">
             <AlertTriangle className="size-16 text-error animate-shake" />
             <Stack gap={2} className="items-center">
-              <H2 className={inverted ? "text-white" : "text-ink-900"}>
+              <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
                 Error Loading Data
               </H2>
               <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
@@ -377,7 +377,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
           <Stack gap={6} className="items-center text-center max-w-md">
             <div className={clsx(
               "size-20 rounded-full flex items-center justify-center border-2",
-              inverted ? "border-grey-700 bg-grey-800" : "border-grey-200 bg-grey-100"
+              inverted ? "border-border bg-surface-elevated" : "border-border bg-muted"
             )}>
               <TableIcon className={clsx(
                 "size-10",
@@ -412,8 +412,8 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                 <div className={clsx(
                   "flex items-center gap-2 px-3 py-2 border-2 rounded-button",
                   inverted
-                    ? "bg-ink-900 border-grey-700 focus-within:border-primary"
-                    : "bg-white border-grey-200 focus-within:border-primary"
+                    ? "bg-surface-elevated border-border focus-within:border-primary"
+                    : "bg-surface-primary border-border focus-within:border-primary"
                 )}>
                   <Search className={clsx("size-4", inverted ? "text-on-dark-disabled" : "text-on-light-muted")} />
                   <input
@@ -423,7 +423,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                     placeholder={searchPlaceholder}
                     className={clsx(
                       "bg-transparent outline-none text-sm w-48",
-                      inverted ? "text-white placeholder:text-on-dark-disabled" : "text-ink-900 placeholder:text-on-dark-muted"
+                      inverted ? "text-on-dark-primary placeholder:text-on-dark-disabled" : "text-on-light-primary placeholder:text-on-light-muted"
                     )}
                   />
                   {searchValue && (
@@ -442,8 +442,8 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                     showFilters
                       ? "border-primary bg-primary/10 text-primary"
                       : inverted
-                        ? "border-grey-700 text-on-dark-secondary hover:border-grey-600"
-                        : "border-grey-200 text-on-dark-disabled hover:border-grey-300"
+                        ? "border-border text-on-dark-secondary hover:border-border-primary"
+                        : "border-border text-on-light-disabled hover:border-border-primary"
                   )}
                 >
                   <Filter className="size-4" />
@@ -483,7 +483,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                       {showColumnSettings && (
                         <div className={clsx(
                           "absolute right-0 top-full mt-2 w-48 border-2 rounded-card p-2 z-dropdown",
-                          inverted ? "bg-ink-900 border-grey-700" : "bg-white border-grey-200"
+                          inverted ? "bg-surface-elevated border-border" : "bg-surface-primary border-border"
                         )}>
                           <Body size="sm" className={clsx("px-2 py-1 font-semibold", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
                             Columns
@@ -493,7 +493,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                               key={col.id}
                               className={clsx(
                                 "flex items-center gap-2 px-2 py-1.5 rounded cursor-pointer",
-                                inverted ? "hover:bg-grey-800" : "hover:bg-grey-100"
+                                inverted ? "hover:bg-surface-elevated" : "hover:bg-muted"
                               )}
                             >
                               <input
@@ -540,8 +540,8 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                       className={clsx(
                         "px-3 py-2 border-2 rounded-button text-sm",
                         inverted
-                          ? "bg-ink-800 border-grey-700 text-white"
-                          : "bg-white border-grey-200 text-ink-900"
+                          ? "bg-surface-elevated border-border text-on-dark-primary"
+                          : "bg-surface-primary border-border text-on-light-primary"
                       )}
                     >
                       <option value="">{filter.label}: All</option>
@@ -560,8 +560,8 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                       className={clsx(
                         "px-3 py-2 border-2 rounded-button text-sm",
                         inverted
-                          ? "bg-ink-800 border-grey-700 text-white placeholder:text-on-dark-disabled"
-                          : "bg-white border-grey-200 text-ink-900 placeholder:text-on-dark-muted"
+                          ? "bg-surface-elevated border-border text-on-dark-primary placeholder:text-on-dark-disabled"
+                          : "bg-surface-primary border-border text-on-light-primary placeholder:text-on-light-muted"
                       )}
                     />
                   )}
@@ -656,11 +656,11 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                     onClick={() => onRowClick?.(row)}
                     className={clsx(
                       "transition-colors",
-                      variant === "striped" && rowIndex % 2 === 1 && (inverted ? "bg-ink-900/50" : "bg-grey-50"),
+                      variant === "striped" && rowIndex % 2 === 1 && (inverted ? "bg-surface-elevated/50" : "bg-muted"),
                       variant === "bordered" && clsx("border-b-2", borderClass),
                       isSelected && (inverted ? "bg-primary/10" : "bg-primary/5"),
                       onRowClick && "cursor-pointer",
-                      inverted ? "hover:bg-ink-800" : "hover:bg-grey-50"
+                      inverted ? "hover:bg-surface-elevated" : "hover:bg-muted"
                     )}
                   >
                     {/* Selection checkbox */}
@@ -686,7 +686,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                           }}
                           className={clsx(
                             "p-1 rounded transition-colors",
-                            inverted ? "hover:bg-grey-700" : "hover:bg-grey-200"
+                            inverted ? "hover:bg-surface-elevated" : "hover:bg-muted"
                           )}
                         >
                           {isExpanded ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
@@ -705,7 +705,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                             column.align === "center" && "text-center",
                             column.align === "right" && "text-right",
                             column.sticky && stickyColumn && "sticky left-0 z-10",
-                            column.sticky && stickyColumn && (inverted ? "bg-ink-950" : "bg-white")
+                            column.sticky && stickyColumn && (inverted ? "bg-surface-inverse" : "bg-surface-primary")
                           )}
                           style={{ width: column.width, minWidth: column.minWidth }}
                         >
@@ -722,7 +722,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                         colSpan={displayColumns.length + (selectable !== "none" ? 1 : 0) + 1}
                         className={clsx(
                           "p-4",
-                          inverted ? "bg-ink-900" : "bg-grey-50"
+                          inverted ? "bg-surface-elevated" : "bg-muted"
                         )}
                       >
                         {expandedRowRender(row)}
@@ -752,8 +752,8 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                     className={clsx(
                       "px-2 py-1 border-2 rounded-button text-sm",
                       inverted
-                        ? "bg-ink-800 border-grey-700 text-white"
-                        : "bg-white border-grey-200 text-ink-900"
+                        ? "bg-surface-elevated border-border text-on-dark-primary"
+                        : "bg-surface-primary border-border text-on-light-primary"
                     )}
                   >
                     {pageSizeOptions.map((size) => (

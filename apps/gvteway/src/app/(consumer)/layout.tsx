@@ -19,7 +19,7 @@ import { createConsumerLayout } from "@ghxstship/config/layouts";
  */
 export default createConsumerLayout({
   platform: "gvteway",
-  backgroundClass: "bg-ink-950",
+  backgroundClass: "bg-surface-inverse",
   LayoutComponent: GvtewayAppLayout,
   layoutVariant: "consumer",
   showAuthFeatures: true,

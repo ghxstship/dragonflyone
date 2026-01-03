@@ -66,8 +66,8 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
       "hover:-translate-x-0.5 hover:-translate-y-0.5",
       "active:translate-x-0.5 active:translate-y-0.5",
       inverted
-        ? "border-current text-current hover:bg-white/10"
-        : "border-current text-current hover:bg-black/10"
+        ? "border-current text-current hover:bg-surface-primary/10"
+        : "border-current text-current hover:bg-surface-inverse/10"
     );
 
     return (

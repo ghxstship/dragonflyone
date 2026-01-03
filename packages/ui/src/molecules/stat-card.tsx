@@ -33,8 +33,8 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
           "transition-all duration-100 ease-[var(--ease-bounce)]",
           "hover:-translate-x-0.5 hover:-translate-y-0.5",
           inverted
-            ? "bg-grey-900 border-grey-700 shadow-[4px_4px_0_rgba(255,255,255,0.1)] hover:shadow-[6px_6px_0_rgba(255,255,255,0.15)]"
-            : "bg-white border-black shadow-[4px_4px_0_rgba(0,0,0,0.1)] hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]",
+            ? "bg-surface-inverse border-border shadow-md hover:shadow-lg"
+            : "bg-surface-primary border-border-primary shadow-md hover:shadow-lg",
           className
         )}
         {...props}
@@ -46,7 +46,7 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
         )}
         <div className={clsx(
           "font-display text-4xl md:text-5xl leading-none uppercase tracking-tight",
-          inverted ? "text-white" : "text-black"
+          inverted ? "text-on-dark-primary" : "text-on-light-primary"
         )}>
           {value}
         </div>

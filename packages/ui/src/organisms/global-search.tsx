@@ -223,7 +223,7 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
   if (loading) {
     return (
       <div className="flex items-center justify-center py-spacing-12">
-        <div className="inline-block w-spacing-6 h-spacing-6 border-2 border-grey-300 border-t-primary-500 rounded-avatar animate-spin" />
+        <div className="inline-block w-spacing-6 h-spacing-6 border-2 border-border border-t-primary-500 rounded-avatar animate-spin" />
       </div>
     );
   }
@@ -635,7 +635,7 @@ export function GlobalSearch({
                   "flex items-center gap-gap-xs px-spacing-2 py-spacing-1 rounded-button text-body-xs border-none cursor-pointer transition-colors",
                   showFilters
                     ? "bg-primary-500 text-white"
-                    : "bg-surface-tertiary text-on-dark-disabled hover:bg-grey-200"
+                    : "bg-surface-tertiary text-on-dark-disabled hover:bg-muted"
                 )}
               >
                 <Filter className="size-3" />
@@ -645,7 +645,7 @@ export function GlobalSearch({
             {onSaveSearch && query && (
               <button
                 onClick={() => onSaveSearch("New Search", query, filters)}
-                className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 bg-surface-tertiary text-on-dark-disabled hover:bg-grey-200 rounded-button text-body-xs border-none cursor-pointer transition-colors"
+                className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 bg-surface-tertiary text-on-dark-disabled hover:bg-muted rounded-button text-body-xs border-none cursor-pointer transition-colors"
               >
                 <Star className="size-3" />
                 Save

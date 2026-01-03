@@ -259,7 +259,7 @@ export const HubPage = forwardRef<HTMLDivElement, HubPageProps>(
           )}>
             {/* Tabs */}
             {tabs && tabs.length > 0 && (
-              <Box className="flex items-center gap-2 mb-6 border-b-2 border-grey-800 pb-4 flex-wrap">
+              <Box className="flex items-center gap-2 mb-6 border-b-2 border-border pb-4 flex-wrap">
                 {tabs.map((tab) => (
                   <Button
                     key={tab.id}
@@ -277,8 +277,8 @@ export const HubPage = forwardRef<HTMLDivElement, HubPageProps>(
                           activeTab === tab.id
                             ? "bg-white/20 text-white"
                             : inverted
-                              ? "bg-grey-800 text-on-dark-muted"
-                              : "bg-grey-200 text-on-light-muted"
+                              ? "bg-surface-elevated text-on-dark-muted"
+                              : "bg-muted text-on-light-muted"
                         )}
                       >
                         {tab.count}

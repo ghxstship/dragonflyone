@@ -144,8 +144,8 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
               "absolute z-dropdown mt-2 min-w-48 border-2 rounded-[var(--radius-card)]",
               "animate-pop-in",
               inverted 
-                ? "bg-ink-900 border-grey-600 shadow-[4px_4px_0_rgba(255,255,255,0.15)]" 
-                : "bg-white border-black shadow-[4px_4px_0_rgba(0,0,0,0.15)]",
+                ? "bg-surface-inverse border-border shadow-md" 
+                : "bg-surface-primary border-border-primary shadow-md",
               align === "left" ? "left-0" : "right-0"
             )}
           >
@@ -170,14 +170,14 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
       "first:rounded-t-[var(--radius-card)] last:rounded-b-[var(--radius-card)]",
       inverted 
         ? clsx(
-            "text-on-dark-secondary border-b border-grey-700 last:border-b-0",
-            "hover:bg-grey-800 hover:-translate-x-0.5",
-            "focus:bg-grey-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+            "text-on-dark-secondary border-b border-border last:border-b-0",
+            "hover:bg-surface-elevated hover:-translate-x-0.5",
+            "focus:bg-surface-elevated focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
           )
         : clsx(
-            "text-black border-b border-grey-200 last:border-b-0",
-            "hover:bg-grey-100 hover:-translate-x-0.5",
-            "focus:bg-grey-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+            "text-on-light-primary border-b border-border last:border-b-0",
+            "hover:bg-muted hover:-translate-x-0.5",
+            "focus:bg-muted focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
           ),
       className
     );

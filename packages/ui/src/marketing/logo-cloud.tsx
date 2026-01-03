@@ -56,7 +56,7 @@ export const LogoCloud = forwardRef<HTMLElement, LogoCloudProps>(
     const bgClasses = {
       transparent: "",
       black: "bg-black",
-      ink: "bg-ink-950",
+      ink: "bg-surface-inverse",
     };
 
     const sizeClasses = {

@@ -113,7 +113,7 @@ export default function SecurityPage() {
 
                 <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
                   {CERTIFICATIONS.map((cert) => (
-                    <Card key={cert.id} className="p-6 border-2 border-grey-800 rounded-card hover:border-success/30 transition-all">
+                    <Card key={cert.id} className="p-6 border-2 border-border rounded-card hover:border-success/30 transition-all">
                       <Stack direction="horizontal" gap={4} className="items-start">
                         <Box className="p-3 bg-success/20 rounded-card text-success">
                           {cert.icon}

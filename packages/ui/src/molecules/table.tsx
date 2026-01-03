@@ -35,15 +35,15 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
     return (
       <TableContext.Provider value={{ variant }}>
         <div className={clsx(
-          "w-full overflow-x-auto border-2 rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(0,0,0,0.1)]",
-          isDark ? "border-grey-700" : "border-black"
+          "w-full overflow-x-auto border-2 rounded-[var(--radius-card)] shadow-md",
+          isDark ? "border-border" : "border-border-primary"
         )}>
           <table
             ref={ref}
             className={clsx(
               "w-full text-left text-sm",
-              variant === "striped" && "[&_tbody_tr:nth-child(even)]:bg-grey-50",
-              variant === "dark-striped" && "[&_tbody_tr:nth-child(even)]:bg-grey-800",
+              variant === "striped" && "[&_tbody_tr:nth-child(even)]:bg-muted",
+              variant === "dark-striped" && "[&_tbody_tr:nth-child(even)]:bg-surface-elevated",
               className
             )}
             aria-describedby={describedBy}
@@ -77,8 +77,8 @@ export const TableHeader = forwardRef<HTMLTableSectionElement, HTMLAttributes<HT
         className={clsx(
           "border-b-2",
           isDark 
-            ? "bg-grey-900 text-white border-grey-700" 
-            : "bg-black text-white border-black",
+            ? "bg-surface-inverse text-on-dark-primary border-border" 
+            : "bg-surface-inverse text-on-dark-primary border-border-primary",
           className
         )}
         {...props}
@@ -98,7 +98,7 @@ export const TableBody = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTML
       <tbody 
         ref={ref} 
         className={clsx(
-          isDark ? "bg-grey-900" : "bg-white",
+          isDark ? "bg-surface-inverse" : "bg-surface-primary",
           className
         )} 
         {...props}
@@ -120,11 +120,11 @@ export const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTable
         className={clsx(
           "border-b-2 transition-all duration-100",
           isDark 
-            ? "border-grey-700 hover:bg-grey-800 hover:-translate-x-0.5" 
-            : "border-grey-200 hover:bg-grey-50 hover:-translate-x-0.5",
+            ? "border-border hover:bg-surface-elevated hover:-translate-x-0.5" 
+            : "border-border hover:bg-muted hover:-translate-x-0.5",
           selected && (isDark 
-            ? "bg-grey-800 border-l-4 border-l-white" 
-            : "bg-grey-100 border-l-4 border-l-black"),
+            ? "bg-surface-elevated border-l-4 border-l-on-dark-primary" 
+            : "bg-muted border-l-4 border-l-on-light-primary"),
           className
         )}
         {...props}
@@ -142,7 +142,7 @@ export const TableHead = forwardRef<HTMLTableCellElement, ThHTMLAttributes<HTMLT
         ref={ref}
         className={clsx(
           "px-4 py-3 font-heading text-xs uppercase tracking-wider text-left font-bold",
-          sortable && "cursor-pointer hover:bg-grey-900 transition-colors",
+          sortable && "cursor-pointer hover:bg-surface-elevated transition-colors",
           className
         )}
         {...props}

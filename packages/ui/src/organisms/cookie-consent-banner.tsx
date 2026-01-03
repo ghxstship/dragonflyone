@@ -211,7 +211,7 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
                   <button
                     type="button"
                     onClick={onClose}
-                    className="p-1 border-2 border-grey-300 rounded text-on-dark-disabled hover:border-black hover:text-black transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[2px_2px_0_rgba(0,0,0,0.15)]"
+                    className="p-1 border-2 border-border rounded text-on-dark-disabled hover:border-black hover:text-black transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[2px_2px_0_rgba(0,0,0,0.15)]"
                     aria-label="Close cookie consent banner"
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
@@ -248,13 +248,13 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
 
               {/* Preferences Panel */}
               {showPreferences && (
-                <div className="border-2 border-grey-200 rounded-[var(--radius-card)] p-4 mt-2 bg-grey-50">
+                <div className="border-2 border-border rounded-[var(--radius-card)] p-4 mt-2 bg-muted">
                   <Label size="sm" className="text-on-dark-disabled mb-3 block">COOKIE PREFERENCES</Label>
                   <Stack gap={3}>
                     {cookieCategories.map((category) => (
                       <div 
                         key={category.key}
-                        className="flex items-start justify-between gap-4 pb-3 border-b border-grey-200 last:border-0 last:pb-0"
+                        className="flex items-start justify-between gap-4 pb-3 border-b border-border last:border-0 last:pb-0"
                       >
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
@@ -262,7 +262,7 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
                               {category.label}
                             </Body>
                             {category.required && (
-                              <span className="text-xs px-1.5 py-0.5 bg-grey-200 text-on-dark-disabled rounded font-medium">
+                              <span className="text-xs px-1.5 py-0.5 bg-muted text-on-dark-disabled rounded font-medium">
                                 Required
                               </span>
                             )}

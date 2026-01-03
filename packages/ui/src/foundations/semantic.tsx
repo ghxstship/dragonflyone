@@ -9,7 +9,7 @@ export const Main = forwardRef<HTMLElement, HTMLAttributes<HTMLElement> & { back
       white: "bg-surface-primary text-text-primary",
       black: "bg-surface-inverse text-text-inverse",
       grey: "bg-surface-secondary text-text-primary",
-      ink: "bg-ink-950 text-ink-50",
+      ink: "bg-surface-inverse text-on-dark-primary",
     };
 
     return (
@@ -50,8 +50,8 @@ export const Article = forwardRef<HTMLElement, HTMLAttributes<HTMLElement> & { v
   function Article({ variant = "default", className, children, ...props }, ref) {
     const variantClasses = {
       default: "",
-      card: "border-2 border-ink-800 p-spacing-6",
-      bordered: "border-2 border-ink-800 p-spacing-6 hover:border-ink-600 transition-colors",
+      card: "border-2 border-border p-spacing-6",
+      bordered: "border-2 border-border p-spacing-6 hover:border-border-primary transition-colors",
     };
 
     return (
@@ -129,8 +129,8 @@ export const Box = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement> & {
   function Box({ variant = "default", padding = "none", className, children, ...props }, ref) {
     const variantClasses = {
       default: "",
-      bordered: "border border-ink-800",
-      card: "border-2 border-ink-800 bg-black/60",
+      bordered: "border border-border",
+      card: "border-2 border-border bg-black/60",
       surface: "surface",
     };
 

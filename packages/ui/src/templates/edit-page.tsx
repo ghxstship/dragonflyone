@@ -168,7 +168,7 @@ export const EditPage = forwardRef<HTMLDivElement, EditPageProps>(
     },
     ref
   ) {
-    const bgClass = inverted ? "bg-ink-950" : "bg-white";
+    const bgClass = inverted ? "bg-surface-inverse" : "bg-surface-primary";
 
     // Loading state with skeleton
     if (isLoading) {
@@ -326,7 +326,7 @@ export const EditPage = forwardRef<HTMLDivElement, EditPageProps>(
                           <Body
                             className={clsx(
                               "font-display font-semibold text-h4-desktop",
-                              inverted ? "text-white" : "text-ink-900"
+                              inverted ? "text-on-dark-primary" : "text-on-light-primary"
                             )}
                           >
                             {section.title}

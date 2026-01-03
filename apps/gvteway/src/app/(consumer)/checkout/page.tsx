@@ -177,7 +177,7 @@ function CheckoutContent() {
                 {cartItems.length > 0 ? (
                   <Stack gap={4} className="mt-4">
                     {cartItems.map((item) => (
-                      <Box key={item.id} className="flex justify-between border-b border-grey-700 pb-4">
+                      <Box key={item.id} className="flex justify-between border-b border-border pb-4">
                         <Box>
                           <Body className="font-weight-medium">{item.event_title}</Body>
                           <Body size="sm" className="text-on-dark-muted">{item.ticket_type_name}</Body>
@@ -197,7 +197,7 @@ function CheckoutContent() {
                   <Stack gap={3} className="mt-4">
                     <Box className="flex justify-between"><Body className="text-on-dark-muted">Subtotal</Body><Body>${subtotal.toFixed(2)}</Body></Box>
                     <Box className="flex justify-between"><Body className="text-on-dark-muted">Service Fees</Body><Body>${fees.toFixed(2)}</Body></Box>
-                    <Box className="flex justify-between border-t border-grey-700 pt-3"><Body className="font-weight-medium">Total</Body><Body className="font-weight-medium">${total.toFixed(2)}</Body></Box>
+                    <Box className="flex justify-between border-t border-border pt-3"><Body className="font-weight-medium">Total</Body><Body className="font-weight-medium">${total.toFixed(2)}</Body></Box>
                   </Stack>
                 </Card>
                 <Button variant="solid" className="w-full" onClick={() => setStep("payment")} icon={<ChevronRight className="size-4" />} iconPosition="right">Proceed to Payment</Button>
@@ -216,7 +216,7 @@ function CheckoutContent() {
                     <Box><Body size="sm" className="text-on-dark-muted mb-1">Expiry Date *</Body><Input placeholder="MM/YY" value={formData.expiry} onChange={(e) => handleFieldChange("expiry", e.target.value)} onBlur={() => handleFieldBlur("expiry")} />{touched.expiry && errors.expiry && <Body size="sm" className="text-error">{errors.expiry}</Body>}</Box>
                     <Box><Body size="sm" className="text-on-dark-muted mb-1">CVV *</Body><Input placeholder="123" type="password" value={formData.cvv} onChange={(e) => handleFieldChange("cvv", e.target.value)} onBlur={() => handleFieldBlur("cvv")} />{touched.cvv && errors.cvv && <Body size="sm" className="text-error">{errors.cvv}</Body>}</Box>
                   </Grid>
-                  <Box className="border-t border-grey-700 pt-4"><SectionHeader title="Billing Address" /></Box>
+                  <Box className="border-t border-border pt-4"><SectionHeader title="Billing Address" /></Box>
                   <Box><Body size="sm" className="text-on-dark-muted mb-1">Street Address *</Body><Input placeholder="123 Main St" value={formData.street} onChange={(e) => handleFieldChange("street", e.target.value)} onBlur={() => handleFieldBlur("street")} />{touched.street && errors.street && <Body size="sm" className="text-error">{errors.street}</Body>}</Box>
                   <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
                     <Box><Body size="sm" className="text-on-dark-muted mb-1">City *</Body><Input placeholder="New York" value={formData.city} onChange={(e) => handleFieldChange("city", e.target.value)} onBlur={() => handleFieldBlur("city")} />{touched.city && errors.city && <Body size="sm" className="text-error">{errors.city}</Body>}</Box>

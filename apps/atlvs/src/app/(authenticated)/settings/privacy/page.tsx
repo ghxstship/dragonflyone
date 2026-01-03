@@ -134,7 +134,7 @@ export default function PrivacySettingsPage() {
                 { key: "analytics_sharing" as const, label: "Analytics Sharing", description: "Share anonymous usage data to help improve the product" },
                 { key: "marketing_emails" as const, label: "Marketing Emails", description: "Receive product updates and promotional emails" },
               ].map(({ key, label, description }) => (
-                <Box key={key} className="flex items-center justify-between p-4 bg-grey-800 rounded-card">
+                <Box key={key} className="flex items-center justify-between p-4 bg-surface-elevated rounded-card">
                   <Box>
                     <Body className="font-weight-medium">{label}</Body>
                     <Body size="sm" className="text-on-dark-muted">{description}</Body>
@@ -143,7 +143,7 @@ export default function PrivacySettingsPage() {
                     variant="ghost"
                     onClick={() => toggleSetting(key)}
                     disabled={updateMutation.isPending}
-                    className={`relative w-12 h-6 rounded-avatar transition-colors ${settings[key] ? "bg-primary" : "bg-grey-600"}`}
+                    className={`relative w-12 h-6 rounded-avatar transition-colors ${settings[key] ? "bg-primary" : "bg-muted"}`}
                   >
                     <Box className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-avatar transition-transform ${settings[key] ? "translate-x-6" : "translate-x-0"}`} />
                   </Button>

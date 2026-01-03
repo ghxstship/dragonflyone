@@ -89,7 +89,7 @@ export function MegaMenuTrigger({
         'transition-colors duration-fast',
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
         inverted
-          ? 'text-ink-300 hover:text-white hover:bg-ink-800/50 focus-visible:ring-white'
+          ? 'text-on-dark-secondary hover:text-on-dark-primary hover:bg-surface-elevated/50 focus-visible:ring-on-dark-primary'
           : 'text-foreground/80 hover:text-foreground hover:bg-muted/50 focus-visible:ring-primary',
         className
       )}
@@ -149,7 +149,7 @@ export function MegaMenuContent({
           'backdrop-blur-md',
           contentSizeClasses[size],
           inverted
-            ? 'bg-ink-950/95 border-ink-800'
+            ? 'bg-surface-inverse/95 border-border'
             : 'bg-background/95'
         )}
       >
@@ -209,9 +209,9 @@ export function MegaMenuLink({
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
         inverted
           ? [
-              'text-ink-300 hover:text-white hover:bg-ink-800/50',
-              'focus-visible:ring-white',
-              active && 'text-white bg-ink-800/50',
+              'text-on-dark-secondary hover:text-on-dark-primary hover:bg-surface-elevated/50',
+              'focus-visible:ring-on-dark-primary',
+              active && 'text-on-dark-primary bg-surface-elevated/50',
             ]
           : [
               'text-foreground/80 hover:text-foreground hover:bg-muted/50',
@@ -305,7 +305,7 @@ export function MegaMenuItemLink({
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-inset',
         inverted
           ? [
-              'hover:bg-ink-800/50',
+              'hover:bg-surface-elevated/50',
               'focus-visible:ring-white/50',
             ]
           : [
@@ -320,7 +320,7 @@ export function MegaMenuItemLink({
           className={clsx(
             'shrink-0 p-2 rounded-card',
             inverted
-              ? 'bg-ink-800 text-brand-pink'
+              ? 'bg-surface-elevated text-brand-pink'
               : 'bg-primary/10 text-primary'
           )}
         >
@@ -369,7 +369,7 @@ export function MegaMenuFooter({
     <div
       className={clsx(
         'mt-6 pt-4 border-t',
-        inverted ? 'border-ink-800' : 'border-border',
+        inverted ? 'border-border' : 'border-border',
         className
       )}
     >

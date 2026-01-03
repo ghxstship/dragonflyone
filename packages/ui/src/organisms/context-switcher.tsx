@@ -69,8 +69,8 @@ function StatusBadge({
     past: {
       label: "Past",
       className: inverted
-        ? "bg-ink-700/50 text-ink-400 border-ink-600"
-        : "bg-ink-200 text-ink-500 border-ink-300",
+        ? "bg-surface-elevated/50 text-on-dark-muted border-border"
+        : "bg-muted text-on-light-muted border-border",
     },
     draft: {
       label: "Draft",
@@ -115,20 +115,20 @@ function ProductionItem({
             className={clsx(
               "w-8 h-8 rounded flex items-center justify-center shrink-0 border-2",
               inverted
-                ? "bg-ink-800 border-ink-700"
-                : "bg-ink-100 border-ink-200"
+                ? "bg-surface-elevated border-border"
+                : "bg-muted border-border"
             )}
           >
             <FolderKanban
               size={16}
-              className={inverted ? "text-ink-400" : "text-ink-500"}
+              className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}
             />
           </div>
           <div className="min-w-0">
             <div
               className={clsx(
                 "text-sm font-medium truncate",
-                inverted ? "text-white" : "text-ink-900"
+                inverted ? "text-on-dark-primary" : "text-on-light-primary"
               )}
             >
               {production.name}
@@ -138,7 +138,7 @@ function ProductionItem({
                 <span
                   className={clsx(
                     "flex items-center gap-1 truncate",
-                    inverted ? "text-ink-400" : "text-ink-500"
+                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
                   )}
                 >
                   <MapPin size={10} />
@@ -149,7 +149,7 @@ function ProductionItem({
                 <span
                   className={clsx(
                     "flex items-center gap-1",
-                    inverted ? "text-ink-500" : "text-ink-400"
+                    inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
                   )}
                 >
                   <Calendar size={10} />
@@ -218,19 +218,19 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
         className={clsx(
           "flex items-center gap-2 px-3 py-2 rounded border-2 cursor-pointer transition-all",
           inverted
-            ? "border-ink-700 hover:border-ink-600 text-white hover:bg-ink-800"
-            : "border-ink-200 hover:border-ink-300 text-ink-900 hover:bg-ink-50",
+            ? "border-border hover:border-border-primary text-on-dark-primary hover:bg-surface-elevated"
+            : "border-border hover:border-border-primary text-on-light-primary hover:bg-muted",
           className
         )}
       >
         <FolderKanban
           size={18}
-          className={inverted ? "text-ink-400" : "text-ink-500"}
+          className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}
         />
         <span className="text-sm font-semibold">All Productions</span>
         <ChevronDown
           size={14}
-          className={inverted ? "text-ink-500" : "text-ink-400"}
+          className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"}
         />
       </div>
     );
@@ -242,7 +242,7 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
           "flex items-center gap-2 px-3 py-2 rounded border-2 cursor-pointer transition-all",
           inverted
             ? "border-primary-500/50 bg-primary-500/10 hover:bg-primary-500/20 text-white"
-            : "border-primary-500/50 bg-primary-50 hover:bg-primary-100 text-ink-900",
+            : "border-primary-500/50 bg-primary-50 hover:bg-primary-100 text-on-light-primary",
           className
         )}
       >
@@ -255,8 +255,8 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
           className={clsx(
             "p-1 -ml-1 rounded transition-colors",
             inverted
-              ? "hover:bg-ink-700 text-ink-400 hover:text-white"
-              : "hover:bg-ink-200 text-ink-500 hover:text-ink-900"
+              ? "hover:bg-surface-elevated text-on-dark-muted hover:text-on-dark-primary"
+              : "hover:bg-muted text-on-light-muted hover:text-on-light-primary"
           )}
           aria-label="Back to all productions"
         >
@@ -270,7 +270,7 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
         </div>
         <ChevronDown
           size={14}
-          className={inverted ? "text-ink-500" : "text-ink-400"}
+          className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"}
         />
       </div>
     ) : (
@@ -284,18 +284,18 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
       <div ref={ref}>
         <Dropdown trigger={trigger} align="left" inverted={inverted}>
           {/* Search */}
-          <div className={clsx("p-2 border-b", inverted ? "border-ink-700" : "border-ink-200")}>
+          <div className={clsx("p-2 border-b", inverted ? "border-border" : "border-border")}>
             <div
               className={clsx(
                 "flex items-center gap-2 px-3 py-2 rounded border-2",
                 inverted
-                  ? "bg-ink-900 border-ink-700"
-                  : "bg-white border-ink-200"
+                  ? "bg-surface-inverse border-border"
+                  : "bg-surface-primary border-border"
               )}
             >
               <Search
                 size={14}
-                className={inverted ? "text-ink-500" : "text-ink-400"}
+                className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"}
               />
               <input
                 type="text"
@@ -305,8 +305,8 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
                 className={clsx(
                   "flex-1 bg-transparent text-sm outline-none",
                   inverted
-                    ? "text-white placeholder:text-ink-500"
-                    : "text-ink-900 placeholder:text-ink-400"
+                    ? "text-on-dark-primary placeholder:text-on-dark-muted"
+                    : "text-on-light-primary placeholder:text-on-light-muted"
                 )}
               />
             </div>
@@ -320,7 +320,7 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
                 <div
                   className={clsx(
                     "px-4 py-2 text-xs font-semibold uppercase tracking-wide",
-                    inverted ? "text-ink-400" : "text-ink-500"
+                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
                   )}
                 >
                   Active
@@ -343,7 +343,7 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
                 <div
                   className={clsx(
                     "px-4 py-2 text-xs font-semibold uppercase tracking-wide",
-                    inverted ? "text-ink-400" : "text-ink-500"
+                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
                   )}
                 >
                   Upcoming
@@ -366,7 +366,7 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
                 <div
                   className={clsx(
                     "px-4 py-2 text-xs font-semibold uppercase tracking-wide",
-                    inverted ? "text-ink-400" : "text-ink-500"
+                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
                   )}
                 >
                   Drafts
@@ -389,7 +389,7 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
                 <div
                   className={clsx(
                     "px-4 py-2 text-xs font-semibold uppercase tracking-wide",
-                    inverted ? "text-ink-400" : "text-ink-500"
+                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
                   )}
                 >
                   Past
@@ -411,7 +411,7 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
               <div
                 className={clsx(
                   "px-4 py-8 text-center text-sm",
-                  inverted ? "text-ink-400" : "text-ink-500"
+                  inverted ? "text-on-dark-muted" : "text-on-light-muted"
                 )}
               >
                 {searchQuery
@@ -425,7 +425,7 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
           <div
             className={clsx(
               "border-t",
-              inverted ? "border-ink-700" : "border-ink-200"
+              inverted ? "border-border" : "border-border"
             )}
           >
             <DropdownItem inverted={inverted} onClick={onCreateProduction}>

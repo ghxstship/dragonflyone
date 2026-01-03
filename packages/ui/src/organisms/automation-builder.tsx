@@ -639,7 +639,7 @@ export function AutomationBuilder({
             </span>
             <button
               onClick={handleAddCondition}
-              className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 bg-surface-tertiary hover:bg-grey-200 rounded-button text-body-xs border-none cursor-pointer transition-colors"
+              className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 bg-surface-tertiary hover:bg-muted rounded-button text-body-xs border-none cursor-pointer transition-colors"
             >
               <Plus className="size-3" />
               Add Condition
@@ -726,7 +726,7 @@ export function AutomationBuilder({
             className={clsx(
               "flex items-center gap-gap-xs px-spacing-4 py-spacing-2 rounded-button border-2 font-code text-mono-sm cursor-pointer transition-colors",
               testing || workflow.actions.length === 0
-                ? "bg-grey-100 border-grey-200 text-on-dark-muted cursor-not-allowed"
+                ? "bg-muted border-border text-on-dark-muted cursor-not-allowed"
                 : "bg-surface-secondary border-border-primary text-text-primary hover:bg-surface-tertiary"
             )}
           >
@@ -742,7 +742,7 @@ export function AutomationBuilder({
             className={clsx(
               "flex items-center gap-gap-xs px-spacing-6 py-spacing-2 rounded-button border-2 font-code text-mono-sm cursor-pointer transition-colors",
               workflow.actions.length === 0
-                ? "bg-grey-100 border-grey-200 text-on-dark-muted cursor-not-allowed"
+                ? "bg-muted border-border text-on-dark-muted cursor-not-allowed"
                 : "bg-primary-500 border-primary-600 text-white hover:bg-primary-600"
             )}
           >

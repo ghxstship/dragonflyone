@@ -132,7 +132,7 @@ export const CreatePage = forwardRef<HTMLDivElement, CreatePageProps>(
     },
     ref
   ) {
-    const bgClass = inverted ? "bg-ink-950" : "bg-white";
+    const bgClass = inverted ? "bg-surface-inverse" : "bg-surface-primary";
 
     // Loading state
     if (isLoading) {
@@ -231,7 +231,7 @@ export const CreatePage = forwardRef<HTMLDivElement, CreatePageProps>(
                           <Body
                             className={clsx(
                               "font-display font-semibold text-h4-desktop",
-                              inverted ? "text-white" : "text-ink-900"
+                              inverted ? "text-on-dark-primary" : "text-on-light-primary"
                             )}
                           >
                             {section.title}

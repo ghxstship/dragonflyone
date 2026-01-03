@@ -63,7 +63,7 @@ export default function ATLVSProductPage() {
       {/* Overview Section */}
       <Box className="bg-white">
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-          <Article className="border-2 border-ink-950 bg-grey-100 p-6 sm:p-8 lg:p-12 pop-card-atlvs">
+          <Article className="border-2 border-border bg-muted p-6 sm:p-8 lg:p-12 pop-card-atlvs">
             <Body size="lg" className="text-on-light-secondary leading-relaxed">
               From planning to wrap, ATLVS helps you manage every aspect of your productions in one place. 
               Budgets, schedules, documents, team communication — everything your production needs, unified.
@@ -77,16 +77,16 @@ export default function ATLVSProductPage() {
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
           <Stack gap={4} className="text-center mb-12">
             <Label size="xs" className="text-on-light-muted">CAPABILITIES</Label>
-            <H1 className="text-ink-950">KEY FEATURES</H1>
+            <H1 className="text-on-light-primary">KEY FEATURES</H1>
             <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">Everything you need to manage productions at scale</Body>
           </Stack>
           <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((feature, idx) => (
-              <Article key={idx} className="border-2 border-ink-950 bg-white p-6 pop-card-atlvs">
-                <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
+              <Article key={idx} className="border-2 border-border bg-white p-6 pop-card-atlvs">
+                <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-border bg-muted">
                   <Box className="text-brand-pink">{feature.icon}</Box>
                 </Box>
-                <H3 className="font-display text-h6-md uppercase tracking-label text-ink-950">{feature.title}</H3>
+                <H3 className="font-display text-h6-md uppercase tracking-label text-on-light-primary">{feature.title}</H3>
                 <Body className="mt-2 text-on-light-muted">{feature.description}</Body>
               </Article>
             ))}
@@ -111,7 +111,7 @@ export default function ATLVSProductPage() {
               ))}
             </Stack>
           </Stack>
-          <Card className="border-2 border-ink-800 bg-ink-900 p-8 text-center">
+          <Card className="border-2 border-border bg-surface-inverse p-8 text-center">
             <Stack gap={4} className="items-center">
               <Display className="text-white text-display-sm">Ready to get started?</Display>
               <Body className="text-on-dark-muted">See ATLVS in action with a personalized demo</Body>
@@ -129,15 +129,15 @@ export default function ATLVSProductPage() {
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
           <Stack gap={4} className="text-center mb-12">
             <Label size="xs" className="text-on-light-muted">TESTIMONIALS</Label>
-            <H1 className="text-ink-950">WHAT OUR CUSTOMERS SAY</H1>
+            <H1 className="text-on-light-primary">WHAT OUR CUSTOMERS SAY</H1>
             <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">Hear from production teams using ATLVS</Body>
           </Stack>
           <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
             {TESTIMONIALS.map((testimonial, idx) => (
-              <Article key={idx} className="border-2 border-ink-950 bg-white p-6 pop-card">
+              <Article key={idx} className="border-2 border-border bg-white p-6 pop-card">
                 <Body className="text-on-light-secondary italic mb-4">&ldquo;{testimonial.quote}&rdquo;</Body>
                 <Box>
-                  <Text className="font-weight-medium text-ink-950">{testimonial.author}</Text>
+                  <Text className="font-weight-medium text-on-light-primary">{testimonial.author}</Text>
                   <Text size="sm" className="text-on-light-muted">{testimonial.role}</Text>
                 </Box>
               </Article>

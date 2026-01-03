@@ -19,7 +19,7 @@ export default createAuthenticatedLayout({
   platform: "atlvs",
   loginPath: "/auth/signin",
   unauthorizedPath: "/auth/unauthorized",
-  backgroundClass: "bg-ink-950",
+  backgroundClass: "bg-surface-inverse",
   LayoutComponent: AtlvsAppLayout,
   layoutVariant: "authenticated",
 });

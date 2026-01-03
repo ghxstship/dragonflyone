@@ -63,8 +63,8 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
   ) {
     const bgClasses = {
       black: "bg-black text-white",
-      ink: "bg-ink-950 text-white",
-      grey: "bg-grey-900 text-white",
+      ink: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-surface-elevated text-on-dark-primary",
     };
 
     // Group rows by category
@@ -118,8 +118,8 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
             <table className="w-full border-collapse">
               {/* Header */}
               <thead className="sticky top-0 z-10">
-                <tr className="border-b-2 border-grey-800">
-                  <th className="p-4 text-left bg-ink-950">
+                <tr className="border-b-2 border-border">
+                  <th className="p-4 text-left bg-surface-inverse">
                     <Body className="text-on-dark-muted font-semibold">Feature</Body>
                   </th>
                   {columns.map((col) => (
@@ -129,7 +129,7 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
                         "p-4 text-center min-w-[140px]",
                         col.highlighted
                           ? "bg-primary/10 border-x-2 border-t-2 border-primary"
-                          : "bg-ink-950"
+                          : "bg-surface-inverse"
                       )}
                     >
                       <Stack gap={1} className="items-center">
@@ -161,7 +161,7 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
                       <tr key={`category-${category}`}>
                         <td
                           colSpan={columns.length + 1}
-                          className="p-4 bg-grey-900/50"
+                          className="p-4 bg-surface-elevated/50"
                         >
                           <Body className="text-white font-semibold uppercase tracking-wider text-sm">
                             {category}
@@ -174,7 +174,7 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
                     {categoryRows.map((row, idx) => (
                       <tr
                         key={`${category}-${idx}`}
-                        className="border-b border-grey-800 hover:bg-grey-900/30 transition-colors"
+                        className="border-b border-border hover:bg-surface-elevated/30 transition-colors"
                       >
                         <td className="p-4">
                           <Body className="text-on-dark-secondary">{row.feature}</Body>

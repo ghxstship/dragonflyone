@@ -54,12 +54,12 @@ export const BentoGrid = forwardRef<HTMLElement, BentoGridProps>(
   ) {
     const bgClasses = {
       black: "bg-black text-white",
-      ink: "bg-ink-950 text-white",
-      grey: "bg-grey-900 text-white",
+      ink: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-surface-elevated text-on-dark-primary",
     };
 
     const itemBgClasses = {
-      default: "bg-grey-900/50 border-2 border-grey-800",
+      default: "bg-surface-elevated/50 border-2 border-border",
       primary: "bg-primary/20 border-2 border-primary/30",
       accent: "bg-accent/20 border-2 border-accent/30",
       gradient: "bg-gradient-to-br from-primary/20 to-secondary/20 border-2 border-primary/30",

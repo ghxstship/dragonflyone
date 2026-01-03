@@ -35,7 +35,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(
           {logo ? <div className="mb-6 sm:mb-8">{logo}</div> : null}
           {children ? <div className="grid grid-cols-2 gap-6 mb-6 sm:gap-8 sm:mb-8 md:grid-cols-4">{children}</div> : null}
           {copyright ? (
-            <div className={clsx("pt-8 border-t-2", inverted ? "border-grey-800" : "border-grey-200")}>
+            <div className={clsx("pt-8 border-t-2", inverted ? "border-border" : "border-border")}>
               <p className={clsx(
                 "font-code text-xs uppercase tracking-widest font-bold",
                 inverted ? "text-on-dark-disabled" : "text-on-light-muted"

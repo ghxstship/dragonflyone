@@ -165,7 +165,7 @@ function ExperienceOverviewSection() {
 
       <StaggerChildren staggerDelay={100} animation="slide-up">
         <Grid cols={3} gap={6} className="mx-auto max-w-5xl">
-          <Card inverted className="border-2 border-ink-800 bg-ink-950 p-8 text-center">
+          <Card inverted className="border-2 border-border bg-surface-inverse p-8 text-center">
             <Stack gap={4} className="items-center">
               <Display size="md" className="text-white">52+</Display>
               <H3 size="sm" className="text-white">COUNTRIES</H3>
@@ -174,7 +174,7 @@ function ExperienceOverviewSection() {
               </Body>
             </Stack>
           </Card>
-          <Card inverted className="border-2 border-ink-800 bg-ink-950 p-8 text-center">
+          <Card inverted className="border-2 border-border bg-surface-inverse p-8 text-center">
             <Stack gap={4} className="items-center">
               <Display size="md" className="text-white">200+</Display>
               <H3 size="sm" className="text-white">EXPERIENCES</H3>
@@ -183,7 +183,7 @@ function ExperienceOverviewSection() {
               </Body>
             </Stack>
           </Card>
-          <Card inverted className="border-2 border-ink-800 bg-ink-950 p-8 text-center">
+          <Card inverted className="border-2 border-border bg-surface-inverse p-8 text-center">
             <Stack gap={4} className="items-center">
               <Display size="md" className="text-white">48HR</Display>
               <H3 size="sm" className="text-white">HEAD START</H3>
@@ -212,7 +212,7 @@ function CategoriesSection() {
 
       <StaggerChildren staggerDelay={50} animation="slide-up">
         <Grid cols={6} gap={4} className="auto-rows-[140px] grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-          <Card inverted className="group relative col-span-2 row-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
+          <Card inverted className="group relative col-span-2 row-span-2 flex flex-col justify-end overflow-hidden border-2 border-border p-5">
             <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
@@ -221,7 +221,7 @@ function CategoriesSection() {
             </Stack>
           </Card>
           
-          <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
+          <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-border p-5">
             <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
@@ -230,7 +230,7 @@ function CategoriesSection() {
             </Stack>
           </Card>
           
-          <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
+          <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-border p-5">
             <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
@@ -239,7 +239,7 @@ function CategoriesSection() {
             </Stack>
           </Card>
 
-          <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
+          <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-border p-5">
             <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
@@ -248,7 +248,7 @@ function CategoriesSection() {
             </Stack>
           </Card>
           
-          <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
+          <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-border p-5">
             <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
@@ -257,7 +257,7 @@ function CategoriesSection() {
             </Stack>
           </Card>
 
-          <Card inverted className="group relative row-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
+          <Card inverted className="group relative row-span-2 flex flex-col justify-end overflow-hidden border-2 border-border p-5">
             <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
@@ -266,7 +266,7 @@ function CategoriesSection() {
             </Stack>
           </Card>
           
-          <Card inverted className="group relative col-span-2 row-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
+          <Card inverted className="group relative col-span-2 row-span-2 flex flex-col justify-end overflow-hidden border-2 border-border p-5">
             <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
@@ -275,7 +275,7 @@ function CategoriesSection() {
             </Stack>
           </Card>
           
-          <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
+          <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-border p-5">
             <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
@@ -284,7 +284,7 @@ function CategoriesSection() {
             </Stack>
           </Card>
           
-          <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
+          <Card inverted className="group relative flex flex-col justify-end overflow-hidden border-2 border-border p-5">
             <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
@@ -293,7 +293,7 @@ function CategoriesSection() {
             </Stack>
           </Card>
 
-          <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-ink-800 p-5">
+          <Card inverted className="group relative col-span-2 flex flex-col justify-end overflow-hidden border-2 border-border p-5">
             <Box className="absolute inset-0 bg-cover bg-center pop-image-reveal" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80')" }} />
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
@@ -322,7 +322,7 @@ function BenefitsSection() {
       <StaggerChildren staggerDelay={100} animation="slide-up">
         <Grid cols={2} gap={6} className="mx-auto max-w-4xl">
           {membershipBenefits.map((benefit) => (
-            <Card key={benefit.title} inverted className="border-2 border-ink-800 bg-ink-950 p-8">
+            <Card key={benefit.title} inverted className="border-2 border-border bg-surface-inverse p-8">
               <Stack gap={4}>
                 <IconBox size="md" inverted>
                   <benefit.icon className="size-6 text-accent" />
@@ -353,7 +353,7 @@ function HowItWorksSection() {
       <StaggerChildren staggerDelay={150} animation="slide-up">
         <Grid cols={4} gap={6} className="mx-auto max-w-5xl">
           {getStartedSteps.map((item) => (
-            <Card key={item.step} inverted className="border-2 border-ink-800 bg-ink-950 p-6 text-center">
+            <Card key={item.step} inverted className="border-2 border-border bg-surface-inverse p-6 text-center">
               <Stack gap={4} className="items-center">
                 <Box className="relative">
                   <IconBox size="lg" inverted>
@@ -392,12 +392,12 @@ function PricingSection() {
             <Card
               key={tier.name}
               inverted
-              className={`relative flex h-full flex-col border-2 bg-ink-950 p-8 ${
-                tier.popular ? "border-accent shadow-accent" : "border-ink-800"
+              className={`relative flex h-full flex-col border-2 bg-surface-inverse p-8 ${
+                tier.popular ? "border-accent shadow-accent" : "border-border"
               }`}
             >
               {tier.popular && (
-                <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-white bg-ink-950 px-4 py-1 text-white">
+                <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-white bg-surface-inverse px-4 py-1 text-white">
                   MOST POPULAR
                 </Label>
               )}
@@ -412,7 +412,7 @@ function PricingSection() {
                 
                 <Body size="sm" className="text-on-dark-muted">{tier.description}</Body>
                 
-                <Stack gap={3} className="flex-1 border-t border-ink-800 py-4">
+                <Stack gap={3} className="flex-1 border-t border-border py-4">
                   {tier.features.map((feature) => (
                     <Stack key={feature} direction="horizontal" gap={3} className="items-start">
                       <Check className="mt-0.5 size-4 shrink-0 text-accent" />
@@ -454,7 +454,7 @@ function TestimonialsSection() {
       <StaggerChildren staggerDelay={150} animation="slide-up">
         <Grid cols={3} gap={6} className="mx-auto max-w-5xl">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} inverted className="border-2 border-ink-800 bg-ink-950 p-8">
+            <Card key={index} inverted className="border-2 border-border bg-surface-inverse p-8">
               <Stack gap={6}>
                 <Quote className="size-8 text-accent opacity-50" />
                 <Body className="italic text-on-dark-secondary">

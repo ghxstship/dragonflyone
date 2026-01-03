@@ -153,8 +153,8 @@ export const SOURCE_TYPE_COLORS: Record<CalendarSourceType, string> = {
   crm_deadline: 'bg-red-500',
   venue_booking: 'bg-purple-500',
   venue_hold: 'bg-purple-300',
-  venue_block: 'bg-grey-500',
-  venue_maintenance: 'bg-grey-400',
+  venue_block: 'bg-muted',
+  venue_maintenance: 'bg-muted',
   production_event: 'bg-primary',
   production_rehearsal: 'bg-primary/80',
   production_soundcheck: 'bg-primary/60',
@@ -174,11 +174,11 @@ export const SOURCE_TYPE_COLORS: Record<CalendarSourceType, string> = {
   crew_availability: 'bg-teal-300',
   external_google: 'bg-blue-600',
   external_outlook: 'bg-blue-700',
-  external_apple: 'bg-grey-600',
-  external_ical: 'bg-grey-500',
+  external_apple: 'bg-muted',
+  external_ical: 'bg-muted',
   personal: 'bg-pink-500',
   holiday: 'bg-red-400',
-  other: 'bg-grey-400',
+  other: 'bg-muted',
 };
 
 // Status labels
@@ -195,7 +195,7 @@ export const STATUS_LABELS: Record<CalendarEventStatus, string> = {
 
 // Status colors
 export const STATUS_COLORS: Record<CalendarEventStatus, string> = {
-  draft: 'bg-grey-400',
+  draft: 'bg-muted',
   tentative: 'bg-yellow-400',
   scheduled: 'bg-blue-400',
   confirmed: 'bg-green-500',

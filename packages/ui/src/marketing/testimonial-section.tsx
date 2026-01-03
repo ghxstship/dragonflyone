@@ -82,7 +82,7 @@ function TestimonialCard({
   showRatings?: boolean;
 }) {
   return (
-    <Card className="p-4 sm:p-6 md:p-8 border-2 border-grey-800 rounded-card h-full">
+    <Card className="p-4 sm:p-6 md:p-8 border-2 border-border rounded-card h-full">
       <Stack gap={6} className="h-full">
         {/* Quote Icon */}
         <Quote className="size-10 text-primary/50" />
@@ -138,8 +138,8 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
 
     const bgClasses = {
       black: "bg-black text-white",
-      ink: "bg-ink-950 text-white",
-      grey: "bg-grey-900 text-white",
+      ink: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-surface-elevated text-on-dark-primary",
     };
 
     const colClasses = {
@@ -229,7 +229,7 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
                       onClick={() => setCurrentIndex(idx)}
                       className={clsx(
                         "size-2 rounded-full transition-colors",
-                        idx === currentIndex ? "bg-primary" : "bg-grey-600"
+                        idx === currentIndex ? "bg-primary" : "bg-muted"
                       )}
                       aria-label={`Go to testimonial ${idx + 1}`}
                     />

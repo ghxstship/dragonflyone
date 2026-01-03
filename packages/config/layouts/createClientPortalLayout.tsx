@@ -87,10 +87,10 @@ interface ClientPortalLayoutProps {
  */
 function DefaultLoadingState({ text }: { text: string }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-ink-950">
+    <div className="min-h-screen flex items-center justify-center bg-surface-inverse">
       <div className="flex flex-col items-center gap-4">
-        <div className="animate-spin rounded-avatar h-8 w-8 border-b-2 border-grey-400" />
-        <span className="text-grey-400">{text}</span>
+        <div className="animate-spin rounded-avatar h-8 w-8 border-b-2 border-border" />
+        <span className="text-on-light-disabled">{text}</span>
       </div>
     </div>
   );

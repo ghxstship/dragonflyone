@@ -35,7 +35,7 @@ export const Divider = forwardRef<HTMLHRElement, DividerProps>(
         ref={ref}
         className={clsx(
           "border-0",
-          inverted ? "border-grey-700" : "border-grey-300",
+          inverted ? "border-border" : "border-border",
           orientationClasses[orientation],
           weightClasses[weight],
           className

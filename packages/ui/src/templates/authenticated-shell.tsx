@@ -118,8 +118,8 @@ function SearchInput({
     <div className={clsx(
       "flex items-center gap-2 px-3 py-2 rounded border-2 transition-colors",
       inverted 
-        ? "bg-ink-900 border-ink-700 text-on-dark-secondary focus-within:border-ink-500" 
-        : "bg-white border-ink-200 text-on-light-secondary focus-within:border-ink-400"
+        ? "bg-surface-elevated border-border text-on-dark-secondary focus-within:border-border-primary" 
+        : "bg-surface-primary border-border text-on-light-secondary focus-within:border-border-primary"
     )}>
       <Search size={16} className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} />
       <input
@@ -133,7 +133,7 @@ function SearchInput({
       />
       <kbd className={clsx(
         "hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono rounded",
-        inverted ? "bg-ink-800 text-on-dark-muted" : "bg-ink-100 text-on-light-muted"
+        inverted ? "bg-surface-elevated text-on-dark-muted" : "bg-muted text-on-light-muted"
       )}>
         ⌘K
       </kbd>
@@ -161,22 +161,22 @@ function UserMenu({
       className={clsx(
         "flex items-center gap-2 px-2 py-1.5 rounded transition-colors cursor-pointer",
         inverted 
-          ? "hover:bg-ink-800 text-on-dark-secondary hover:text-white" 
-          : "hover:bg-ink-100 text-on-light-secondary hover:text-on-light-primary"
+          ? "hover:bg-surface-elevated text-on-dark-secondary hover:text-on-dark-primary" 
+          : "hover:bg-muted text-on-light-secondary hover:text-on-light-primary"
       )}
     >
       {user.avatar ? (
         <img 
           src={user.avatar} 
           alt={user.name} 
-          className="w-7 h-7 rounded-full border-2 border-ink-600"
+          className="w-7 h-7 rounded-full border-2 border-border"
         />
       ) : (
         <div className={clsx(
           "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2",
           inverted 
-            ? "bg-ink-700 border-ink-600 text-on-dark-primary" 
-            : "bg-ink-200 border-ink-300 text-on-light-secondary"
+            ? "bg-surface-elevated border-border text-on-dark-primary" 
+            : "bg-muted border-border text-on-light-secondary"
         )}>
           {user.name.charAt(0).toUpperCase()}
         </div>
@@ -192,7 +192,7 @@ function UserMenu({
     <Dropdown trigger={trigger} align="right" inverted={inverted}>
       <div className={clsx(
         "px-4 py-3 border-b",
-        inverted ? "border-ink-700" : "border-ink-200"
+        inverted ? "border-border" : "border-border"
       )}>
         <div className={clsx("text-sm font-medium", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
           {user.name}
@@ -253,8 +253,8 @@ function WorkspaceSelector({
     <div className={clsx(
       "flex items-center gap-2 px-3 py-1.5 rounded border-2 cursor-pointer transition-colors",
       inverted 
-        ? "border-ink-700 hover:border-ink-600 text-on-dark-primary hover:bg-ink-800" 
-        : "border-ink-200 hover:border-ink-300 text-on-light-primary hover:bg-ink-50"
+        ? "border-border hover:border-border-primary text-on-dark-primary hover:bg-surface-elevated" 
+        : "border-border hover:border-border-primary text-on-light-primary hover:bg-muted"
     )}>
       <span className="text-sm font-semibold uppercase tracking-wide">{workspaceName}</span>
       <ChevronDown size={14} className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} />
@@ -286,7 +286,7 @@ function WorkspaceSelector({
               </span>
             </DropdownItem>
           ))}
-          <div className={clsx("border-t", inverted ? "border-ink-700" : "border-ink-200")} />
+          <div className={clsx("border-t", inverted ? "border-border" : "border-border")} />
         </>
       ) : null}
       <DropdownItem
@@ -385,8 +385,8 @@ function BreadcrumbDropdown({
     <div className={clsx(
       "flex items-center gap-1.5 px-2 py-1 rounded border-2 cursor-pointer transition-colors text-sm",
       inverted 
-        ? "border-ink-700 hover:border-ink-600 text-on-dark-primary hover:bg-ink-800" 
-        : "border-ink-200 hover:border-ink-300 text-on-light-primary hover:bg-ink-50"
+        ? "border-border hover:border-border-primary text-on-dark-primary hover:bg-surface-elevated" 
+        : "border-border hover:border-border-primary text-on-light-primary hover:bg-muted"
     )}>
       <span className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>{getIcon()}</span>
       <span className="font-medium max-w-[120px] truncate">{item.name}</span>
@@ -421,7 +421,7 @@ function BreadcrumbDropdown({
               </span>
             </DropdownItem>
           ))}
-          <div className={clsx("border-t my-1", inverted ? "border-ink-700" : "border-ink-200")} />
+          <div className={clsx("border-t my-1", inverted ? "border-border" : "border-border")} />
         </>
       )}
       <DropdownItem inverted={inverted} onClick={() => onNavigate?.(getCreatePath())}>
@@ -504,8 +504,8 @@ function NotificationsPanel({
       className={clsx(
         "p-2 rounded transition-colors relative cursor-pointer",
         inverted 
-          ? "text-on-dark-muted hover:text-white hover:bg-ink-800" 
-          : "text-on-light-muted hover:text-on-light-primary hover:bg-ink-100"
+          ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" 
+          : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
       )}
       aria-label="Notifications"
     >
@@ -520,7 +520,7 @@ function NotificationsPanel({
     <Dropdown trigger={trigger} align="right" inverted={inverted}>
       <div className={clsx(
         "px-4 py-3 border-b flex items-center justify-between",
-        inverted ? "border-ink-700" : "border-ink-200"
+        inverted ? "border-border" : "border-border"
       )}>
         <span className={clsx("text-sm font-semibold", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
           Notifications
@@ -575,7 +575,7 @@ function NotificationsPanel({
           No notifications
         </div>
       )}
-      <div className={clsx("border-t", inverted ? "border-ink-700" : "border-ink-200")} />
+      <div className={clsx("border-t", inverted ? "border-border" : "border-border")} />
       <DropdownItem
         inverted={inverted}
         onClick={() => onNavigate?.("/notifications")}
@@ -696,14 +696,14 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
           <img 
             src={user.avatar} 
             alt={user.name} 
-            className="w-8 h-8 rounded-full border-2 border-ink-600"
+            className="w-8 h-8 rounded-full border-2 border-border"
           />
         ) : (
           <div className={clsx(
             "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2",
             inverted 
-              ? "bg-ink-700 border-ink-600 text-white" 
-              : "bg-ink-200 border-ink-300 text-on-light-secondary"
+              ? "bg-surface-elevated border-border text-on-dark-primary" 
+              : "bg-muted border-border text-on-light-secondary"
           )}>
             {user.name.charAt(0).toUpperCase()}
           </div>
@@ -728,7 +728,7 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
         ref={ref}
         className={clsx(
           "flex h-screen overflow-hidden",
-          inverted ? "bg-ink-950 text-on-dark-primary" : "bg-ink-50 text-on-light-primary",
+          inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-secondary text-on-light-primary",
           className
         )}
       >
@@ -820,7 +820,7 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
           ) : (
             <header className={clsx(
               "flex items-center justify-between h-14 px-4 border-b-2 shrink-0",
-              inverted ? "bg-ink-950 border-ink-800" : "bg-white border-ink-200"
+              inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border"
             )}>
               {/* Left: Mobile menu + Back to Dashboard + Breadcrumb context */}
               <div className="flex items-center gap-1">
@@ -831,8 +831,8 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
                   className={clsx(
                     "md:hidden p-2 rounded border-2 transition-colors",
                     inverted 
-                      ? "border-ink-700 text-on-dark-secondary hover:bg-ink-800 hover:text-white" 
-                      : "border-ink-200 text-on-light-secondary hover:bg-ink-100"
+                      ? "border-border text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary" 
+                      : "border-border text-on-light-secondary hover:bg-muted"
                   )}
                   aria-label="Open menu"
                 >
@@ -847,8 +847,8 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
                     className={clsx(
                       "hidden md:flex items-center gap-1 px-2 py-1 rounded text-xs font-medium transition-colors",
                       inverted 
-                        ? "text-on-dark-muted hover:text-white hover:bg-ink-800" 
-                        : "text-on-light-muted hover:text-on-light-primary hover:bg-ink-100"
+                        ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" 
+                        : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
                     )}
                     title="Back to Dashboard (Cmd+Shift+D)"
                   >
@@ -907,8 +907,8 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
                   className={clsx(
                     "p-2 rounded transition-colors",
                     inverted 
-                      ? "text-on-dark-muted hover:text-white hover:bg-ink-800" 
-                      : "text-on-light-muted hover:text-on-light-primary hover:bg-ink-100"
+                      ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" 
+                      : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
                   )}
                   aria-label="Help"
                 >
@@ -929,8 +929,8 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
                   className={clsx(
                     "hidden sm:block p-2 rounded transition-colors",
                     inverted 
-                      ? "text-on-dark-muted hover:text-white hover:bg-ink-800" 
-                      : "text-on-light-muted hover:text-on-light-primary hover:bg-ink-100"
+                      ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" 
+                      : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
                   )}
                   aria-label="Settings"
                 >
@@ -955,7 +955,7 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
             tabIndex={-1}
             className={clsx(
               "flex-1 overflow-auto",
-              inverted ? "bg-ink-950" : "bg-ink-50"
+              inverted ? "bg-surface-inverse" : "bg-surface-secondary"
             )}
           >
             {children}

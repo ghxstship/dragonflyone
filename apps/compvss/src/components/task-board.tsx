@@ -48,12 +48,12 @@ export function TaskBoard({ tasks, onUpdateTask }: TaskBoardProps) {
               {columnTasks.map(task => (
                 <Stack
                   key={task.id}
-                  className={`cursor-pointer border-2 p-spacing-4 hover:border-black transition-colors ${getPriorityBorder(task.priority)} ${selectedTask?.id === task.id ? 'border-black bg-ink-100' : 'border-ink-300'}`}
+                  className={`cursor-pointer border-2 p-spacing-4 hover:border-black transition-colors ${getPriorityBorder(task.priority)} ${selectedTask?.id === task.id ? 'border-black bg-muted' : 'border-border'}`}
                   onClick={() => setSelectedTask(selectedTask?.id === task.id ? null : task)}
                   gap={2}
                 >
                   <H4>{task.title}</H4>
-                  <Body size="sm" className="text-ink-600">
+                  <Body size="sm" className="text-on-light-secondary">
                     Assigned to: {task.assignee}
                   </Body>
                   <Stack direction="horizontal" gap={2} className="items-center">

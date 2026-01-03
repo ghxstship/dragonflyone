@@ -124,7 +124,7 @@ export default function SessionsPage() {
               <Card className="p-4 mb-6">
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack direction="horizontal" gap={4} className="items-center">
-                    <Box className="p-3 bg-grey-700 rounded-card">
+                    <Box className="p-3 bg-border rounded-card">
                       {getDeviceIcon(currentSession.device_type)}
                     </Box>
                     <Stack gap={0}>
@@ -168,7 +168,7 @@ export default function SessionsPage() {
                     <TableRow key={session.id}>
                       <TableCell>
                         <Stack direction="horizontal" gap={3} className="items-center">
-                          <Box className="p-2 bg-grey-700 rounded">
+                          <Box className="p-2 bg-border rounded">
                             {getDeviceIcon(session.device_type)}
                           </Box>
                           <Stack gap={0}>

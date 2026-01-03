@@ -203,9 +203,9 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
     const setBottomCollapsed = onBottomPanelCollapse ?? setInternalBottomCollapsed;
     const setZoom = onZoomChange ?? setInternalZoom;
 
-    const bgClass = inverted ? "bg-ink-950 text-white" : "bg-white text-ink-900";
-    const borderClass = inverted ? "border-grey-800" : "border-grey-200";
-    const panelBgClass = inverted ? "bg-ink-900" : "bg-grey-50";
+    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+    const borderClass = inverted ? "border-border" : "border-border";
+    const panelBgClass = inverted ? "bg-surface-elevated" : "bg-muted";
 
     const handleZoomIn = useCallback(() => {
       setZoom(Math.min(zoom + 0.1, maxZoom));
@@ -274,7 +274,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <AlertTriangle className="size-16 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={inverted ? "text-white" : "text-ink-900"}>
+                <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
                   Error Loading Canvas
                 </H2>
                 <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
@@ -307,7 +307,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
               "absolute left-0 top-1/2 -translate-y-1/2 z-panel p-2 border-2 rounded-r-card transition-colors",
               borderClass,
               panelBgClass,
-              inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+              inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
             )}
           >
             <ChevronRight className="size-5" />
@@ -337,7 +337,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                 onClick={() => setLeftCollapsed(true)}
                 className={clsx(
                   "p-1 rounded transition-colors",
-                  inverted ? "hover:bg-ink-800" : "hover:bg-grey-200"
+                  inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                 )}
               >
                 <PanelLeftClose className="size-4" />
@@ -365,7 +365,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
               "absolute right-0 top-1/2 -translate-y-1/2 z-panel p-2 border-2 rounded-l-card transition-colors",
               borderClass,
               panelBgClass,
-              inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+              inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
             )}
           >
             <ChevronLeft className="size-5" />
@@ -395,7 +395,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                 onClick={() => setRightCollapsed(true)}
                 className={clsx(
                   "p-1 rounded transition-colors",
-                  inverted ? "hover:bg-ink-800" : "hover:bg-grey-200"
+                  inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                 )}
               >
                 <PanelRightClose className="size-4" />
@@ -422,7 +422,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
               "absolute bottom-0 left-1/2 -translate-x-1/2 z-panel px-4 py-2 border-2 border-b-0 rounded-t-card transition-colors",
               borderClass,
               panelBgClass,
-              inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+              inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
             )}
           >
             <Stack direction="horizontal" gap={2} className="items-center">
@@ -453,7 +453,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                 onClick={() => setBottomCollapsed(true)}
                 className={clsx(
                   "p-1 rounded transition-colors",
-                  inverted ? "hover:bg-ink-800" : "hover:bg-grey-200"
+                  inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                 )}
               >
                 <ChevronLeft className="size-4 rotate-90" />
@@ -488,7 +488,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                           disabled={zoom <= minZoom}
                           className={clsx(
                             "p-2 rounded transition-colors disabled:opacity-50",
-                            inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                            inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                           )}
                           aria-label="Zoom out"
                         >
@@ -500,7 +500,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                           onClick={handleZoomReset}
                           className={clsx(
                             "px-2 py-1 rounded text-sm font-mono min-w-[60px] text-center transition-colors",
-                            inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                            inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                           )}
                           aria-label="Reset zoom"
                         >
@@ -513,7 +513,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                           disabled={zoom >= maxZoom}
                           className={clsx(
                             "p-2 rounded transition-colors disabled:opacity-50",
-                            inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                            inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                           )}
                           aria-label="Zoom in"
                         >
@@ -525,7 +525,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                           onClick={handleZoomFit}
                           className={clsx(
                             "p-2 rounded transition-colors",
-                            inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                            inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                           )}
                           aria-label="Fit to view"
                         >
@@ -542,7 +542,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                           "p-2 rounded transition-colors",
                           isPanning
                             ? "bg-primary text-white"
-                            : inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                            : inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                         )}
                         aria-label="Pan mode"
                       >
@@ -557,7 +557,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                         "p-2 rounded transition-colors",
                         grid !== "none"
                           ? "bg-primary/20 text-primary"
-                          : inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                          : inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                       )}
                       aria-label="Toggle grid"
                     >
@@ -604,7 +604,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                     <Stack gap={6} className="items-center text-center max-w-md">
                       <div className={clsx(
                         "size-20 rounded-full flex items-center justify-center border-2",
-                        inverted ? "border-grey-700 bg-grey-800" : "border-grey-200 bg-grey-100"
+                        inverted ? "border-border bg-surface-elevated" : "border-border bg-muted"
                       )}>
                         <Layers className={clsx(
                           "size-10",
@@ -666,7 +666,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                     disabled={zoom <= minZoom}
                     className={clsx(
                       "p-1.5 rounded transition-colors disabled:opacity-50",
-                      inverted ? "hover:bg-ink-800" : "hover:bg-grey-200"
+                      inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                     )}
                   >
                     <ZoomOut className="size-4" />
@@ -679,7 +679,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                     disabled={zoom >= maxZoom}
                     className={clsx(
                       "p-1.5 rounded transition-colors disabled:opacity-50",
-                      inverted ? "hover:bg-ink-800" : "hover:bg-grey-200"
+                      inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                     )}
                   >
                     <ZoomIn className="size-4" />

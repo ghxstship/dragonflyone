@@ -104,7 +104,7 @@ export default function CommunityPage() {
                 </Stack>
                 <Grid cols={4} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                   {COMMUNITY_FEATURES.map((feature) => (
-                    <Card key={feature.id} className="p-6 border-2 border-grey-800 rounded-card pop-card text-center">
+                    <Card key={feature.id} className="p-6 border-2 border-border rounded-card pop-card text-center">
                       <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                         {feature.icon}
                       </Box>
@@ -130,7 +130,7 @@ export default function CommunityPage() {
 
                 <Stack gap={4}>
                   {FEATURED_DISCUSSIONS.map((discussion) => (
-                    <Card key={discussion.id} className="p-6 border-2 border-grey-800 rounded-card pop-card cursor-pointer">
+                    <Card key={discussion.id} className="p-6 border-2 border-border rounded-card pop-card cursor-pointer">
                       <Box className="flex items-center justify-between">
                         <Box>
                           <Body className="text-white font-weight-medium">{discussion.title}</Body>
@@ -168,7 +168,7 @@ export default function CommunityPage() {
 
                 <Stack gap={4}>
                   {TOP_CONTRIBUTORS.map((contributor, idx) => (
-                    <Card key={idx} className="p-5 border-2 border-grey-800 rounded-card">
+                    <Card key={idx} className="p-5 border-2 border-border rounded-card">
                       <Box className="flex items-center gap-4">
                         <Box className="size-12 rounded-avatar bg-primary flex items-center justify-center text-white font-weight-bold text-h5-md">
                           #{idx + 1}

@@ -68,8 +68,8 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
   ) {
     const bgClasses = {
       black: "bg-black text-white",
-      ink: "bg-ink-950 text-white",
-      grey: "bg-grey-900 text-white",
+      ink: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-surface-elevated text-on-dark-primary",
     };
 
     const colClasses = {
@@ -79,9 +79,9 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
     };
 
     const cardVariantClasses = {
-      bordered: "border-2 border-grey-800 hover:border-primary/50 transition-colors",
-      surface: "bg-grey-900/50 hover:bg-grey-800/50 transition-colors",
-      ghost: "hover:bg-grey-900/30 transition-colors",
+      bordered: "border-2 border-border hover:border-primary/50 transition-colors",
+      surface: "bg-surface-elevated/50 hover:bg-surface-elevated transition-colors",
+      ghost: "hover:bg-surface-elevated/30 transition-colors",
     };
 
     const patternStyles = {

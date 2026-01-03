@@ -78,7 +78,7 @@ function getStatusColor(status?: PresenceUser["status"]): string {
     case "away":
       return "bg-warning-500";
     case "offline":
-      return "bg-grey-400";
+      return "bg-muted-foreground";
     default:
       return "bg-success-500";
   }
@@ -117,7 +117,7 @@ function PresenceAvatar({
         className={clsx(
           "relative flex items-center justify-center rounded-full border-2 font-semibold transition-transform hover:scale-110 hover:z-content-overlay",
           sizeClasses[size],
-          inverted ? "border-ink-900" : "border-white",
+          inverted ? "border-surface-inverse" : "border-surface-primary",
           onClick ? "cursor-pointer" : "cursor-default"
         )}
         style={{
@@ -144,7 +144,7 @@ function PresenceAvatar({
             "absolute bottom-0 right-0 rounded-full border-2",
             statusSizeClasses[size],
             getStatusColor(user.status),
-            inverted ? "border-ink-900" : "border-white"
+            inverted ? "border-surface-inverse" : "border-surface-primary"
           )}
           aria-hidden="true"
         />
@@ -155,12 +155,12 @@ function PresenceAvatar({
         <div
           className={clsx(
             "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded text-xs whitespace-nowrap z-tooltip pointer-events-none",
-            inverted ? "bg-white text-ink-900" : "bg-ink-900 text-white"
+            inverted ? "bg-surface-primary text-on-light-primary" : "bg-surface-inverse text-on-dark-primary"
           )}
         >
           <div className="font-semibold">{user.name}</div>
           {user.status && (
-            <div className={clsx("text-[10px]", inverted ? "text-ink-500" : "text-ink-400")}>
+            <div className={clsx("text-[10px]", inverted ? "text-on-light-muted" : "text-on-dark-muted")}>
               {user.status === "online" ? "Online" : user.status === "away" ? "Away" : "Offline"}
             </div>
           )}
@@ -168,7 +168,7 @@ function PresenceAvatar({
           <div
             className={clsx(
               "absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent",
-              inverted ? "border-t-white" : "border-t-ink-900"
+              inverted ? "border-t-surface-primary" : "border-t-surface-inverse"
             )}
           />
         </div>
@@ -205,8 +205,8 @@ function OverflowIndicator({
           "flex items-center justify-center rounded-full border-2 font-semibold",
           sizeClasses[size],
           inverted
-            ? "bg-ink-700 border-ink-900 text-ink-300"
-            : "bg-ink-200 border-white text-ink-600"
+            ? "bg-surface-elevated border-surface-inverse text-on-dark-secondary"
+            : "bg-muted border-surface-primary text-on-light-muted"
         )}
       >
         +{count}
@@ -217,7 +217,7 @@ function OverflowIndicator({
         <div
           className={clsx(
             "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded text-xs z-tooltip pointer-events-none min-w-max",
-            inverted ? "bg-white text-ink-900" : "bg-ink-900 text-white"
+            inverted ? "bg-surface-primary text-on-light-primary" : "bg-surface-inverse text-on-dark-primary"
           )}
         >
           <div className="font-semibold mb-1">{count} more viewing</div>
@@ -235,7 +235,7 @@ function OverflowIndicator({
           <div
             className={clsx(
               "absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent",
-              inverted ? "border-t-white" : "border-t-ink-900"
+              inverted ? "border-t-surface-primary" : "border-t-surface-inverse"
             )}
           />
         </div>
@@ -302,7 +302,7 @@ export function PresenceAvatars({
       <span
         className={clsx(
           "ml-3 text-sm font-medium",
-          inverted ? "text-ink-400" : "text-ink-500"
+          inverted ? "text-on-dark-muted" : "text-on-light-muted"
         )}
       >
         {users.length} viewing

@@ -185,7 +185,7 @@ export default function DeliveriesPage() {
       content: (
         <Stack gap={2}>
           {selectedDelivery.items.map((item, idx) => (
-            <Stack key={idx} gap={1} className="py-2 border-b border-ink-700">
+            <Stack key={idx} gap={1} className="py-2 border-b border-border">
               <Body className="font-display">{item.name}</Body>
               <Body>Qty: {item.quantity} {item.received !== undefined && `(Received: ${item.received})`}</Body>
             </Stack>

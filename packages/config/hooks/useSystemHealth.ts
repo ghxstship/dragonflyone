@@ -93,7 +93,7 @@ export function getHealthStatusColor(status: SystemHealthMetrics['databaseStatus
     case 'down':
       return 'text-error';
     default:
-      return 'text-grey-500';
+      return 'text-on-light-muted';
   }
 }
 

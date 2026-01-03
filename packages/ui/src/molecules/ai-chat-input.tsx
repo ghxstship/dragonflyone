@@ -108,8 +108,8 @@ export const AIChatSuggestionChip = forwardRef<HTMLButtonElement, AIChatSuggesti
           "transition-all duration-100 hover:-translate-y-0.5",
           "focus:outline-none focus:ring-2 focus:ring-offset-2",
           inverted
-            ? "border-grey-600 bg-grey-800 text-grey-300 hover:border-grey-500 hover:text-white focus:ring-white focus:ring-offset-ink-950"
-            : "border-grey-300 bg-white text-grey-600 hover:border-ink-950 hover:text-ink-950 focus:ring-ink-950 focus:ring-offset-white",
+            ? "border-border bg-surface-elevated text-on-dark-muted hover:border-on-dark-muted hover:text-on-dark-primary focus:ring-ring focus:ring-offset-background"
+            : "border-border bg-surface-primary text-on-light-muted hover:border-border-primary hover:text-on-light-primary focus:ring-ring focus:ring-offset-background",
           className
         )}
         {...props}
@@ -206,13 +206,13 @@ export const AIChatInput = forwardRef<HTMLFormElement, AIChatInputProps>(
             "flex items-end gap-sm border-2 p-2 transition-all duration-100 rounded-radius-card",
             isFocused && !isDisabled
               ? inverted
-                ? "border-white shadow-sm"
-                : "border-ink-950 shadow-md"
+                ? "border-on-dark-primary shadow-sm"
+                : "border-border-primary shadow-md"
               : inverted
-                ? "border-grey-700"
-                : "border-grey-300",
+                ? "border-border"
+                : "border-border",
             isDisabled && "opacity-50 cursor-not-allowed",
-            inverted ? "bg-ink-900" : "bg-white"
+            inverted ? "bg-surface-inverse" : "bg-surface-primary"
           )}
         >
           {/* Left Actions */}
@@ -233,9 +233,9 @@ export const AIChatInput = forwardRef<HTMLFormElement, AIChatInputProps>(
             rows={1}
             className={clsx(
               "flex-1 resize-none bg-transparent font-body text-body-md leading-relaxed",
-              "placeholder:text-grey-400 focus:outline-none",
+              "placeholder:text-muted-foreground focus:outline-none",
               "disabled:cursor-not-allowed",
-              inverted ? "text-white" : "text-ink-950"
+              inverted ? "text-on-dark-primary" : "text-on-light-primary"
             )}
             aria-label="Message input"
           />
@@ -256,8 +256,8 @@ export const AIChatInput = forwardRef<HTMLFormElement, AIChatInputProps>(
                 isOverLimit
                   ? "text-error"
                   : inverted
-                    ? "text-grey-500"
-                    : "text-grey-400"
+                    ? "text-on-dark-muted"
+                    : "text-muted-foreground"
               )}
             >
               {charCount}
@@ -269,7 +269,7 @@ export const AIChatInput = forwardRef<HTMLFormElement, AIChatInputProps>(
           <span
             className={clsx(
               "font-mono text-mono-xs",
-              inverted ? "text-grey-600" : "text-grey-400"
+              inverted ? "text-on-dark-disabled" : "text-muted-foreground"
             )}
           >
             Press Enter to send

@@ -88,7 +88,7 @@ export function BEOSection({ section, variant = "full", showHeader = true }: BEO
         return items.length > 0 ? (
           <Stack gap={2}>
             {items.map((item, i) => (
-              <Stack key={i} direction="horizontal" gap={4} className="items-start py-2 border-b border-ink-800 last:border-0">
+              <Stack key={i} direction="horizontal" gap={4} className="items-start py-2 border-b border-border last:border-0">
                 <Body className="text-primary font-mono text-body-sm min-w-[60px]">{item.time}</Body>
                 <Body size="sm" className="text-on-dark-secondary flex-1">{item.description}</Body>
                 {item.department && (
@@ -174,7 +174,7 @@ export function BEOSection({ section, variant = "full", showHeader = true }: BEO
   }
 
   return (
-    <Card inverted className="border-2 border-ink-800">
+    <Card inverted className="border-2 border-border">
       {showHeader && (
         <CardHeader>
           <Stack direction="horizontal" gap={3} className="items-center">

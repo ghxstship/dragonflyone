@@ -59,7 +59,7 @@ export const AIChatMessageActions = forwardRef<HTMLDivElement, AIChatMessageActi
         ref={ref}
         className={clsx(
           "flex items-center gap-xs opacity-0 transition-opacity group-hover:opacity-100",
-          inverted ? "text-grey-400" : "text-grey-500",
+          inverted ? "text-on-dark-muted" : "text-muted-foreground",
           className
         )}
         {...props}
@@ -91,8 +91,8 @@ export const AIChatTypingIndicator = forwardRef<HTMLDivElement, AIChatTypingIndi
             className={clsx(
               "flex size-10 shrink-0 items-center justify-center border-2",
               inverted
-                ? "border-grey-700 bg-grey-800 text-white"
-                : "border-ink-950 bg-accent text-ink-950"
+                ? "border-border bg-surface-elevated text-on-dark-primary"
+                : "border-border-primary bg-accent text-on-light-primary"
             )}
           >
             {avatar}
@@ -104,8 +104,8 @@ export const AIChatTypingIndicator = forwardRef<HTMLDivElement, AIChatTypingIndi
           className={clsx(
             "flex items-center gap-sm border-2 p-4 rounded-radius-card",
             inverted
-              ? "border-grey-700 bg-grey-800"
-              : "border-ink-950 bg-white shadow-sm"
+              ? "border-border bg-surface-elevated"
+              : "border-border-primary bg-surface-primary shadow-sm"
           )}
         >
           {/* Animated Dots */}
@@ -113,21 +113,21 @@ export const AIChatTypingIndicator = forwardRef<HTMLDivElement, AIChatTypingIndi
             <span
               className={clsx(
                 "size-2 rounded-full animate-bounce",
-                inverted ? "bg-grey-400" : "bg-grey-500"
+                inverted ? "bg-muted-foreground" : "bg-muted-foreground"
               )}
               style={{ animationDelay: "0ms" }}
             />
             <span
               className={clsx(
                 "size-2 rounded-full animate-bounce",
-                inverted ? "bg-grey-400" : "bg-grey-500"
+                inverted ? "bg-muted-foreground" : "bg-muted-foreground"
               )}
               style={{ animationDelay: "150ms" }}
             />
             <span
               className={clsx(
                 "size-2 rounded-full animate-bounce",
-                inverted ? "bg-grey-400" : "bg-grey-500"
+                inverted ? "bg-muted-foreground" : "bg-muted-foreground"
               )}
               style={{ animationDelay: "300ms" }}
             />
@@ -137,7 +137,7 @@ export const AIChatTypingIndicator = forwardRef<HTMLDivElement, AIChatTypingIndi
           <span
             className={clsx(
               "font-body text-body-sm",
-              inverted ? "text-grey-400" : "text-grey-500"
+              inverted ? "text-on-dark-muted" : "text-muted-foreground"
             )}
           >
             {label}
@@ -191,8 +191,8 @@ export const AIChatMessage = forwardRef<HTMLDivElement, AIChatMessageProps>(
             className={clsx(
               "px-4 py-2 font-mono text-mono-xs rounded-radius-badge",
               inverted
-                ? "bg-grey-800 text-grey-400"
-                : "bg-grey-100 text-grey-600"
+                ? "bg-surface-elevated text-on-dark-muted"
+                : "bg-muted text-on-light-muted"
             )}
           >
             {children}
@@ -218,11 +218,11 @@ export const AIChatMessage = forwardRef<HTMLDivElement, AIChatMessageProps>(
               "flex size-10 shrink-0 items-center justify-center border-2",
               isUser
                 ? inverted
-                  ? "border-grey-600 bg-primary text-white"
-                  : "border-ink-950 bg-primary text-white"
+                  ? "border-border bg-primary text-on-dark-primary"
+                  : "border-border-primary bg-primary text-on-dark-primary"
                 : inverted
-                  ? "border-grey-700 bg-grey-800 text-white"
-                  : "border-ink-950 bg-accent text-ink-950"
+                  ? "border-border bg-surface-elevated text-on-dark-primary"
+                  : "border-border-primary bg-accent text-on-light-primary"
             )}
           >
             {avatar}
@@ -242,11 +242,11 @@ export const AIChatMessage = forwardRef<HTMLDivElement, AIChatMessageProps>(
               "border-2 p-4 rounded-radius-card",
               isUser
                 ? inverted
-                  ? "border-primary/50 bg-primary/20 text-white"
-                  : "border-primary/30 bg-primary/10 text-ink-950"
+                  ? "border-primary/50 bg-primary/20 text-on-dark-primary"
+                  : "border-primary/30 bg-primary/10 text-on-light-primary"
                 : inverted
-                  ? "border-grey-700 bg-grey-800 text-white"
-                  : "border-ink-950 bg-white text-ink-950 shadow-sm",
+                  ? "border-border bg-surface-elevated text-on-dark-primary"
+                  : "border-border-primary bg-surface-primary text-on-light-primary shadow-sm",
               isStreaming && "animate-pulse"
             )}
           >
@@ -265,7 +265,7 @@ export const AIChatMessage = forwardRef<HTMLDivElement, AIChatMessageProps>(
               <span
                 className={clsx(
                   "font-mono text-mono-xs",
-                  inverted ? "text-grey-500" : "text-grey-400"
+                  inverted ? "text-on-dark-muted" : "text-muted-foreground"
                 )}
               >
                 {formattedTime}

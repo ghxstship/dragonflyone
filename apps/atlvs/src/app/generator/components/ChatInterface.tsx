@@ -120,8 +120,8 @@ function MessageBubble({ message }: { message: ChatMessage }) {
     >
       {/* Avatar */}
       <Box
-        className={`flex size-10 shrink-0 items-center justify-center border-2 border-ink-950 ${
-          isUser ? "bg-primary text-white" : "bg-accent text-ink-950"
+        className={`flex size-10 shrink-0 items-center justify-center border-2 border-border ${
+          isUser ? "bg-primary text-white" : "bg-accent text-on-light-primary"
         }`}
       >
         {isUser ? <User className="size-5" /> : <Bot className="size-5" />}
@@ -129,16 +129,16 @@ function MessageBubble({ message }: { message: ChatMessage }) {
       
       {/* Message Content */}
       <Card
-        className={`max-w-[80%] border-2 border-ink-950 p-4 shadow-sm ${
+        className={`max-w-[80%] border-2 border-border p-4 shadow-sm ${
           isUser
-            ? "bg-primary/10 text-ink-950"
-            : "bg-white text-ink-950"
+            ? "bg-primary/10 text-on-light-primary"
+            : "bg-white text-on-light-primary"
         }`}
       >
         {isStreaming && message.content === "..." ? (
           <Box className="flex items-center gap-2">
             <Loader2 className="size-4 animate-spin text-primary" />
-            <Text className="text-body-sm text-grey-500">Thinking...</Text>
+            <Text className="text-body-sm text-on-light-muted">Thinking...</Text>
           </Box>
         ) : (
           <Stack gap={1}>
@@ -147,7 +147,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
         )}
         
         {/* Timestamp */}
-        <Text className="mt-2 font-mono text-mono-xs text-grey-400">
+        <Text className="mt-2 font-mono text-mono-xs text-on-light-disabled">
           {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
         </Text>
       </Card>
@@ -158,17 +158,17 @@ function MessageBubble({ message }: { message: ChatMessage }) {
 function TypingIndicator() {
   return (
     <Box className="flex gap-3 animate-slide-up">
-      <Box className="flex size-10 shrink-0 items-center justify-center border-2 border-ink-950 bg-accent text-ink-950">
+      <Box className="flex size-10 shrink-0 items-center justify-center border-2 border-border bg-accent text-on-light-primary">
         <Bot className="size-5" />
       </Box>
-      <Card className="border-2 border-ink-950 bg-white p-4 shadow-sm">
+      <Card className="border-2 border-border bg-white p-4 shadow-sm">
         <Stack direction="horizontal" gap={2} className="items-center">
           <Stack direction="horizontal" gap={1}>
-            <Box className="size-2 animate-bounce rounded-avatar bg-grey-400" />
-            <Box className="size-2 animate-bounce rounded-avatar bg-grey-400 delay-150" />
-            <Box className="size-2 animate-bounce rounded-avatar bg-grey-400 delay-300" />
+            <Box className="size-2 animate-bounce rounded-avatar bg-muted" />
+            <Box className="size-2 animate-bounce rounded-avatar bg-muted delay-150" />
+            <Box className="size-2 animate-bounce rounded-avatar bg-muted delay-300" />
           </Stack>
-          <Text className="text-body-sm text-grey-500">AI is thinking...</Text>
+          <Text className="text-body-sm text-on-light-muted">AI is thinking...</Text>
         </Stack>
       </Card>
     </Box>
@@ -213,13 +213,13 @@ export function ChatInterface({
         <Stack gap={4}>
           {messages.length === 0 ? (
             <Box className="flex flex-col items-center justify-center py-12 text-center">
-              <Box className="mb-4 flex size-16 items-center justify-center border-2 border-ink-950 bg-accent/20">
+              <Box className="mb-4 flex size-16 items-center justify-center border-2 border-border bg-accent/20">
                 <Sparkles className="size-8 text-accent" />
               </Box>
-              <Text className="font-display text-h5-md uppercase text-ink-950">
+              <Text className="font-display text-h5-md uppercase text-on-light-primary">
                 Experience Generator
               </Text>
-              <Body className="mt-2 max-w-sm text-grey-500">
+              <Body className="mt-2 max-w-sm text-on-light-muted">
                 Enter a creative concept above to generate a complete production blueprint. 
                 Then ask follow-up questions to refine your experience.
               </Body>
@@ -237,7 +237,7 @@ export function ChatInterface({
       </Box>
 
       {/* Input Area - Fixed at bottom */}
-      <Box className="border-t-2 border-ink-950 bg-grey-50 p-4">
+      <Box className="border-t-2 border-border bg-muted p-4">
         <Form onSubmit={handleSubmit}>
           <Stack direction="horizontal" gap={3}>
             <Input
@@ -248,12 +248,12 @@ export function ChatInterface({
               onKeyDown={handleKeyDown}
               placeholder={placeholder}
               disabled={disabled || messages.length === 0}
-              className="flex-1 border-2 border-ink-950 bg-white px-4 py-3 text-body-md shadow-sm placeholder:text-grey-400 focus:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex-1 border-2 border-border bg-white px-4 py-3 text-body-md shadow-sm placeholder:text-on-light-disabled focus:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
             />
             <Button
               type="submit"
               disabled={disabled || !inputValue.trim() || messages.length === 0}
-              className="flex items-center justify-center gap-2 border-2 border-ink-950 bg-primary px-6 py-3 text-white shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+              className="flex items-center justify-center gap-2 border-2 border-border bg-primary px-6 py-3 text-white shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
             >
               {disabled ? (
                 <Loader2 className="size-5 animate-spin" />
@@ -265,7 +265,7 @@ export function ChatInterface({
         </Form>
         
         {messages.length > 0 && (
-          <Text className="mt-2 text-center font-mono text-mono-xs text-grey-400">
+          <Text className="mt-2 text-center font-mono text-mono-xs text-on-light-disabled">
             Ask about budget tiers, sensory design, zones, or guest journey
           </Text>
         )}

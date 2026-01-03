@@ -124,8 +124,8 @@ export function RowActions<T = unknown>({
       "flex items-center justify-center border-none cursor-pointer transition-colors duration-fast",
       config.trigger,
       isOpen
-        ? inverted ? "bg-grey-800" : "bg-grey-100"
-        : inverted ? "bg-transparent hover:bg-grey-800" : "bg-transparent hover:bg-grey-100"
+        ? inverted ? "bg-surface-elevated" : "bg-muted"
+        : inverted ? "bg-transparent hover:bg-surface-elevated" : "bg-transparent hover:bg-muted"
     );
 
     if (triggerVariant === "dots") {
@@ -173,7 +173,7 @@ export function RowActions<T = unknown>({
         }}
         className={clsx(
           baseClasses,
-          "px-spacing-3 font-code tracking-wide uppercase border border-grey-300",
+          "px-spacing-3 font-code tracking-wide uppercase border border-border",
           size === "sm" ? "text-mono-xs" : "text-mono-sm"
         )}
         aria-expanded={isOpen}
@@ -200,7 +200,7 @@ export function RowActions<T = unknown>({
           role="menu"
           className={clsx(
             "absolute top-full mt-spacing-1 min-w-container-sm border-2 shadow-hard z-dropdown",
-            inverted ? "bg-ink-900 border-grey-600" : "bg-white border-black",
+            inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border-primary",
             align === "right" ? "right-0" : "left-0"
           )}
         >
@@ -211,7 +211,7 @@ export function RowActions<T = unknown>({
             return (
               <React.Fragment key={action.id}>
                 {action.divider && index > 0 && (
-                  <div className={clsx("h-px my-spacing-1", inverted ? "bg-grey-700" : "bg-grey-200")} />
+                  <div className={clsx("h-px my-spacing-1", inverted ? "bg-border" : "bg-border")} />
                 )}
                 <button
                   type="button"
@@ -220,14 +220,14 @@ export function RowActions<T = unknown>({
                   disabled={isDisabled}
                   className={clsx(
                     "flex items-center justify-between w-full text-left border-none border-b transition-colors duration-fast",
-                    inverted ? "bg-ink-900 border-grey-700" : "bg-white border-grey-200",
+                    inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border",
                     config.item,
                     action.variant === "danger"
                       ? inverted ? "text-on-dark-muted" : "text-on-light-muted"
                       : inverted ? "text-on-dark-secondary" : "text-on-light-muted",
                     isDisabled
                       ? "cursor-not-allowed opacity-50"
-                      : inverted ? "cursor-pointer hover:bg-grey-800" : "cursor-pointer hover:bg-grey-100"
+                      : inverted ? "cursor-pointer hover:bg-surface-elevated" : "cursor-pointer hover:bg-muted"
                   )}
                 >
                   <span className="flex items-center gap-gap-xs">

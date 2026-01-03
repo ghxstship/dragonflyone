@@ -176,7 +176,7 @@ export default function TrainingPage() {
   const trainingSidebar = (
     <Stack gap={6}>
       {/* Categories */}
-      <Card className="p-5 border-2 border-grey-800 rounded-card">
+      <Card className="p-5 border-2 border-border rounded-card">
         <Body className="text-white font-weight-bold mb-4">Categories</Body>
         <Stack gap={2}>
           {CATEGORIES.map((category) => (
@@ -196,7 +196,7 @@ export default function TrainingPage() {
       </Card>
 
       {/* Learning Path */}
-      <Card className="p-5 border-2 border-grey-800 rounded-card">
+      <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Star className="size-5 text-warning" />
           <Body className="text-white font-weight-bold">Recommended Path</Body>
@@ -204,7 +204,7 @@ export default function TrainingPage() {
         <Stack gap={3}>
           {["ATLVS Fundamentals", "Financial Management", "Team Collaboration", "Advanced Analytics"].map((course, idx) => (
             <Box key={idx} className="flex items-center gap-3">
-              <Box className={`size-6 rounded-full flex items-center justify-center text-xs font-bold ${idx === 0 ? 'bg-success text-white' : idx === 1 ? 'bg-primary text-white' : 'bg-grey-700 text-on-dark-disabled'}`}>
+              <Box className={`size-6 rounded-full flex items-center justify-center text-xs font-bold ${idx === 0 ? 'bg-success text-white' : idx === 1 ? 'bg-primary text-white' : 'bg-border text-on-dark-disabled'}`}>
                 {idx + 1}
               </Box>
               <Body size="sm" className={idx < 2 ? "text-white" : "text-on-dark-disabled"}>
@@ -217,17 +217,17 @@ export default function TrainingPage() {
       </Card>
 
       {/* Upcoming Live Sessions */}
-      <Card className="p-5 border-2 border-grey-800 rounded-card">
+      <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Video className="size-5 text-primary" />
           <Body className="text-white font-weight-bold">Live Sessions</Body>
         </Box>
         <Stack gap={3}>
-          <Box className="p-3 bg-grey-900 rounded-card">
+          <Box className="p-3 bg-surface-elevated rounded-card">
             <Body size="sm" className="text-white font-weight-medium">Production Planning Workshop</Body>
             <Body size="xs" className="text-on-dark-muted">Jan 15, 2026 at 2:00 PM EST</Body>
           </Box>
-          <Box className="p-3 bg-grey-900 rounded-card">
+          <Box className="p-3 bg-surface-elevated rounded-card">
             <Body size="sm" className="text-white font-weight-medium">Q&A: Financial Best Practices</Body>
             <Body size="xs" className="text-on-dark-muted">Jan 22, 2026 at 11:00 AM EST</Body>
           </Box>
@@ -275,11 +275,11 @@ export default function TrainingPage() {
               {filteredCourses.map((course) => (
                 <Card 
                   key={course.id} 
-                  className="p-5 border-2 border-grey-800 rounded-card cursor-pointer hover:border-grey-700 transition-colors"
+                  className="p-5 border-2 border-border rounded-card cursor-pointer hover:border-border transition-colors"
                   onClick={() => course.locked ? null : handleViewCourse(course.id)}
                 >
                   <Box className="flex gap-4">
-                    <Box className={`p-4 rounded-card shrink-0 ${course.locked ? 'bg-grey-800' : 'bg-primary/20'}`}>
+                    <Box className={`p-4 rounded-card shrink-0 ${course.locked ? 'bg-surface-elevated' : 'bg-primary/20'}`}>
                       {course.locked ? (
                         <Lock className="size-8 text-on-dark-disabled" />
                       ) : (
@@ -358,7 +358,7 @@ export default function TrainingPage() {
                     {inProgressCourses.map((course) => (
                       <Card 
                         key={course.id} 
-                        className="p-5 border-2 border-grey-800 rounded-card cursor-pointer hover:border-grey-700"
+                        className="p-5 border-2 border-border rounded-card cursor-pointer hover:border-border"
                         onClick={() => handleViewCourse(course.id)}
                       >
                         <Box className="flex items-center gap-4">
@@ -395,7 +395,7 @@ export default function TrainingPage() {
                     {completedCourses.map((course) => (
                       <Card 
                         key={course.id} 
-                        className="p-5 border-2 border-grey-800 rounded-card"
+                        className="p-5 border-2 border-border rounded-card"
                       >
                         <Box className="flex items-center gap-4">
                           <Box className="p-3 bg-success/20 rounded-card">
@@ -416,7 +416,7 @@ export default function TrainingPage() {
               )}
 
               {enrolledCourses.length === 0 && (
-                <Card className="p-8 border-2 border-grey-800 rounded-card text-center">
+                <Card className="p-8 border-2 border-border rounded-card text-center">
                   <BookOpen className="size-12 text-on-dark-disabled mx-auto mb-4" />
                   <Body className="text-white font-weight-bold mb-2">No courses enrolled</Body>
                   <Body size="sm" className="text-on-dark-muted mb-4">
@@ -435,7 +435,7 @@ export default function TrainingPage() {
             <Stack gap={4}>
               {DEMO_CERTIFICATES.length > 0 ? (
                 DEMO_CERTIFICATES.map((cert) => (
-                  <Card key={cert.id} className="p-6 border-2 border-grey-800 rounded-card">
+                  <Card key={cert.id} className="p-6 border-2 border-border rounded-card">
                     <Box className="flex items-center gap-4">
                       <Box className="p-4 bg-warning/20 rounded-card">
                         <Award className="size-10 text-warning" />
@@ -461,7 +461,7 @@ export default function TrainingPage() {
                   </Card>
                 ))
               ) : (
-                <Card className="p-8 border-2 border-grey-800 rounded-card text-center">
+                <Card className="p-8 border-2 border-border rounded-card text-center">
                   <Award className="size-12 text-on-dark-disabled mx-auto mb-4" />
                   <Body className="text-white font-weight-bold mb-2">No certificates yet</Body>
                   <Body size="sm" className="text-on-dark-muted mb-4">

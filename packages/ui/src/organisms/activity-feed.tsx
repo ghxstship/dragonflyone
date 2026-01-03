@@ -108,8 +108,8 @@ const activityColors: Record<ActivityType, string> = {
   status_changed: "bg-warning-500",
   assigned: "bg-info-500",
   completed: "bg-success-500",
-  automation: "bg-grey-500",
-  system: "bg-grey-400",
+  automation: "bg-muted",
+  system: "bg-muted",
 };
 
 const activityLabels: Record<ActivityType, string> = {
@@ -369,7 +369,7 @@ export function ActivityFeed({
       <div className="flex flex-col">
         {loading && activities.length === 0 ? (
           <div className="flex items-center justify-center py-spacing-12">
-            <div className="inline-block w-spacing-6 h-spacing-6 border-2 border-grey-300 border-t-primary-500 rounded-avatar animate-spin" />
+            <div className="inline-block w-spacing-6 h-spacing-6 border-2 border-border border-t-primary-500 rounded-avatar animate-spin" />
           </div>
         ) : filteredActivities.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-spacing-12 text-center">

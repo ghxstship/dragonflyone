@@ -38,7 +38,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
             "peer-disabled:opacity-50 peer-disabled:cursor-not-allowed",
             // Unchecked state
             inverted
-              ? "border-grey-500 bg-transparent shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
+              ? "border-border bg-transparent shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
               : "border-black bg-transparent shadow-[2px_2px_0_rgba(0,0,0,0.1)]",
             // Checked state
             inverted
@@ -56,7 +56,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
             "peer-checked:translate-x-5",
             // Unchecked state
             inverted
-              ? "bg-grey-400 border-2 border-grey-500"
+              ? "bg-muted border-2 border-border"
               : "bg-black border-2 border-black",
             // Checked state
             inverted

@@ -128,10 +128,10 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
       ? background === "black"
         ? "bg-black text-white"
         : background === "ink"
-          ? "bg-ink-950 text-white"
-          : "bg-white text-black"
+          ? "bg-surface-inverse text-on-dark-primary"
+          : "bg-surface-primary text-on-light-primary"
       : isDark
-        ? "bg-ink-950 text-white"
+        ? "bg-surface-inverse text-on-dark-primary"
         : "bg-white text-black";
 
     // Render state content
@@ -144,7 +144,7 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
       <Stack gap={6} className="items-center text-center">
         {icon}
         <Stack gap={2} className="items-center">
-          <H2 className={isDark ? "text-white" : "text-ink-900"}>{title}</H2>
+          <H2 className={isDark ? "text-on-dark-primary" : "text-on-light-primary"}>{title}</H2>
           <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>{message}</Body>
         </Stack>
         {action}
@@ -185,7 +185,7 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
         <Stack gap={6}>
           {(title || subtitle) && (
             <Stack gap={2} className="text-center">
-              {title && <H2 className={isDark ? "text-white" : "text-ink-900"}>{title}</H2>}
+              {title && <H2 className={isDark ? "text-on-dark-primary" : "text-on-light-primary"}>{title}</H2>}
               {subtitle && <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>{subtitle}</Body>}
             </Stack>
           )}
@@ -223,7 +223,7 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
           <header
             className={clsx(
               "sticky top-0 z-sticky-header border-b-2 backdrop-blur",
-              isDark ? "border-grey-800 bg-ink-950/90" : "border-grey-200 bg-white/90"
+              isDark ? "border-border bg-surface-inverse/90" : "border-border bg-surface-primary/90"
             )}
           >
             <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 lg:px-8">
@@ -232,7 +232,7 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
                 className={clsx(
                   "font-display text-xl uppercase tracking-tight transition-transform hover:-translate-y-0.5",
                   "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded",
-                  isDark ? "text-white" : "text-ink-900"
+                  isDark ? "text-on-dark-primary" : "text-on-light-primary"
                 )}
               >
                 {appName}
@@ -260,7 +260,7 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
         <footer
           className={clsx(
             "border-t-2 py-6",
-            isDark ? "border-grey-800 bg-ink-950" : "border-grey-200 bg-white"
+            isDark ? "border-border bg-surface-inverse" : "border-border bg-surface-primary"
           )}
         >
           <Container className="px-4 text-center sm:px-6">

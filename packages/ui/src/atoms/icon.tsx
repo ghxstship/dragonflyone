@@ -258,8 +258,8 @@ export const IconBox = forwardRef<HTMLDivElement, IconBoxProps>(
 
     const variantClasses = {
       default: inverted 
-        ? "border-ink-700 bg-ink-900" 
-        : "border-ink-200 bg-ink-50",
+        ? "border-border bg-surface-inverse" 
+        : "border-border bg-muted",
       success: inverted 
         ? "border-success/30 bg-success/10" 
         : "border-success bg-success/10",

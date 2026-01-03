@@ -96,7 +96,7 @@ export default function ProductionSettlementPage() {
               <Card key={item.id} className="p-4">
                 <Box className="flex items-center justify-between">
                   <Box className="flex items-center gap-4">
-                    <Box className={`p-2 rounded-card ${item.status === "paid" ? "bg-success/20" : item.status === "approved" ? "bg-info/20" : "bg-grey-800"}`}>
+                    <Box className={`p-2 rounded-card ${item.status === "paid" ? "bg-success/20" : item.status === "approved" ? "bg-info/20" : "bg-surface-elevated"}`}>
                       <DollarSign className="size-4" />
                     </Box>
                     <Box>

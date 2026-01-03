@@ -84,7 +84,7 @@ export const SettingsHubPage = forwardRef<HTMLDivElement, SettingsHubPageProps>(
     },
     ref
   ) {
-    const bgClass = inverted ? "bg-ink-950" : "bg-white";
+    const bgClass = inverted ? "bg-surface-inverse" : "bg-surface-primary";
 
     const handleCategoryClick = (category: SettingsCategory) => {
       if (category.disabled) return;
@@ -172,7 +172,7 @@ function SettingsCategoryCard({
             <div
               className={clsx(
                 "shrink-0 rounded-card p-3",
-                inverted ? "bg-ink-800" : "bg-grey-100"
+                inverted ? "bg-surface-elevated" : "bg-muted"
               )}
             >
               <div
@@ -190,7 +190,7 @@ function SettingsCategoryCard({
               <Body
                 className={clsx(
                   "font-display font-semibold",
-                  inverted ? "text-white" : "text-ink-900"
+                  inverted ? "text-on-dark-primary" : "text-on-light-primary"
                 )}
               >
                 {category.title}
@@ -293,7 +293,7 @@ export const SettingsPageLayout = forwardRef<
   },
   ref
 ) {
-  const bgClass = inverted ? "bg-ink-950" : "bg-white";
+  const bgClass = inverted ? "bg-surface-inverse" : "bg-surface-primary";
 
   return (
     <div ref={ref} className={clsx("min-h-screen", bgClass, className)}>

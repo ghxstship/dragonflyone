@@ -112,7 +112,7 @@ export default function ProductsPage() {
                   {PRODUCTS.map((product) => (
                     <Card
                       key={product.id}
-                      className="p-8 border-2 border-grey-800 rounded-card pop-card-atlvs group"
+                      className="p-8 border-2 border-border rounded-card pop-card-atlvs group"
                       onClick={() => router.push(product.href)}
                     >
                       <Stack gap={6}>

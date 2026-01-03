@@ -36,7 +36,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               "disabled:opacity-50 disabled:cursor-not-allowed",
               // Unchecked state
               inverted
-                ? "border-grey-500 bg-transparent shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
+                ? "border-border bg-transparent shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
                 : "border-black bg-transparent shadow-[2px_2px_0_rgba(0,0,0,0.1)]",
               // Checked state
               inverted

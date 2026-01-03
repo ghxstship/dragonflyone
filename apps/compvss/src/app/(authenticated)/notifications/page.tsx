@@ -103,7 +103,7 @@ export default function NotificationsPage() {
                 return (
                   <Card key={notification.id} className={`p-4 ${!notification.read ? "border-primary" : ""}`}>
                     <Box className="flex items-start gap-4">
-                      <Box className={`p-2 rounded-card ${notification.type === "warning" ? "bg-warning/20" : notification.type === "success" ? "bg-success/20" : notification.type === "error" ? "bg-error/20" : "bg-grey-800"}`}>
+                      <Box className={`p-2 rounded-card ${notification.type === "warning" ? "bg-warning/20" : notification.type === "success" ? "bg-success/20" : notification.type === "error" ? "bg-error/20" : "bg-surface-elevated"}`}>
                         {config.icon}
                       </Box>
                       <Box className="flex-1">

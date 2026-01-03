@@ -50,9 +50,9 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       if (variant === "primary") {
         return clsx(
           inverted
-            ? "bg-ink-900 border-2 border-ink-700 text-white"
-            : "bg-white border-2 border-black text-black",
-          "shadow-[4px_4px_0_rgba(0,0,0,0.2)]"
+            ? "bg-surface-inverse border-2 border-border text-on-dark-primary"
+            : "bg-surface-primary border-2 border-border-primary text-on-light-primary",
+          "shadow-md"
         );
       }
 
@@ -60,9 +60,9 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       if (variant === "accent") {
         return clsx(
           inverted
-            ? "bg-ink-900 border-2 border-ink-700 text-white"
-            : "bg-white border-2 border-black text-black",
-          "shadow-[4px_4px_0_rgba(0,0,0,0.2)]"
+            ? "bg-surface-inverse border-2 border-border text-on-dark-primary"
+            : "bg-surface-primary border-2 border-border-primary text-on-light-primary",
+          "shadow-md"
         );
       }
 
@@ -71,18 +71,18 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         switch (variant) {
           case "default":
             return clsx(
-              "bg-ink-900 border-2 border-ink-700 text-white",
-              "shadow-[4px_4px_0_rgba(0,0,0,0.3)]"
+              "bg-surface-inverse border-2 border-border text-on-dark-primary",
+              "shadow-md"
             );
           case "outlined":
             return clsx(
-              "bg-transparent border-2 border-ink-600 text-white",
-              "shadow-[4px_4px_0_rgba(0,0,0,0.2)]"
+              "bg-transparent border-2 border-border text-on-dark-primary",
+              "shadow-md"
             );
           case "elevated":
             return clsx(
-              "bg-ink-900 border-2 border-ink-600 text-white",
-              "shadow-[6px_6px_0_rgba(0,0,0,0.4)]"
+              "bg-surface-inverse border-2 border-border text-on-dark-primary",
+              "shadow-lg"
             );
           default:
             return "";
@@ -92,18 +92,18 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         switch (variant) {
           case "default":
             return clsx(
-              "bg-white border-2 border-black text-black",
-              "shadow-[4px_4px_0_rgba(0,0,0,0.15)]"
+              "bg-surface-primary border-2 border-border-primary text-on-light-primary",
+              "shadow-md"
             );
           case "outlined":
             return clsx(
-              "bg-transparent border-2 border-black text-black",
-              "shadow-[4px_4px_0_rgba(0,0,0,0.1)]"
+              "bg-transparent border-2 border-border-primary text-on-light-primary",
+              "shadow-md"
             );
           case "elevated":
             return clsx(
-              "bg-white border-2 border-grey-300 text-black",
-              "shadow-[6px_6px_0_rgba(0,0,0,0.2)]"
+              "bg-surface-primary border-2 border-border text-on-light-primary",
+              "shadow-lg"
             );
           default:
             return "";
@@ -118,10 +118,10 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           "hover:-translate-x-0.5 hover:-translate-y-0.5",
           // Accent color shadow on hover for primary/accent variants
           variant === "primary"
-            ? "hover:shadow-[6px_6px_0_hsl(var(--primary))] active:shadow-[2px_2px_0_hsl(var(--primary)/0.7)]"
+            ? "hover:shadow-primary active:shadow-sm"
             : variant === "accent"
-              ? "hover:shadow-[6px_6px_0_hsl(var(--brand-pink))] active:shadow-[2px_2px_0_hsl(var(--brand-pink)/0.7)]"
-              : "hover:shadow-[6px_6px_0_rgba(0,0,0,0.25)] active:shadow-[2px_2px_0_rgba(0,0,0,0.15)]",
+              ? "hover:shadow-accent active:shadow-sm"
+              : "hover:shadow-lg active:shadow-sm",
           "active:translate-x-0.5 active:translate-y-0.5"
         )
       : "";
@@ -163,7 +163,7 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
         ref={ref}
         className={clsx(
           "pb-4 mb-4 border-b-2",
-          inverted ? "text-white border-grey-700" : "text-black border-grey-200",
+          inverted ? "text-on-dark-primary border-border" : "text-on-light-primary border-border",
           className
         )}
         {...props}
@@ -188,7 +188,7 @@ export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
         ref={ref}
         className={clsx(
           "font-heading text-lg uppercase tracking-wider font-bold",
-          inverted ? "text-white" : "text-black",
+          inverted ? "text-on-dark-primary" : "text-on-light-primary",
           className
         )}
         {...props}
@@ -257,7 +257,7 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
         ref={ref}
         className={clsx(
           "mt-4 pt-4 border-t-2",
-          inverted ? "border-grey-700" : "border-grey-200",
+          inverted ? "border-border" : "border-border",
           className
         )}
         {...props}

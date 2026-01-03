@@ -175,9 +175,9 @@ export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
         onTouchEnd={enableSwipe ? handleTouchEnd : undefined}
         className={clsx(
           "flex gap-1 touch-pan-y",
-          variant === "line" && (inverted ? "border-b-2 border-grey-700" : "border-b-2 border-grey-200"),
-          variant === "enclosed" && (inverted ? "border-2 border-grey-600 rounded-[var(--radius-card)]" : "border-2 border-black rounded-[var(--radius-card)]"),
-          variant === "pop" && (inverted ? "border-2 border-white rounded-[var(--radius-card)] shadow-[4px_4px_0_hsl(var(--primary))]" : "border-2 border-black rounded-[var(--radius-card)] shadow-[4px_4px_0_hsl(var(--primary))]"),
+          variant === "line" && (inverted ? "border-b-2 border-border" : "border-b-2 border-border"),
+          variant === "enclosed" && (inverted ? "border-2 border-border rounded-[var(--radius-card)]" : "border-2 border-border-primary rounded-[var(--radius-card)]"),
+          variant === "pop" && (inverted ? "border-2 border-on-dark-primary rounded-[var(--radius-card)] shadow-primary" : "border-2 border-border-primary rounded-[var(--radius-card)] shadow-primary"),
           className
         )}
         {...props}
@@ -203,28 +203,28 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
     const getLineClasses = () => {
       if (inverted) {
         return active
-          ? "border-b-2 border-white text-white -mb-0.5"
-          : "text-on-dark-muted hover:text-white border-b-2 border-transparent -mb-0.5";
+          ? "border-b-2 border-on-dark-primary text-on-dark-primary -mb-0.5"
+          : "text-on-dark-muted hover:text-on-dark-primary border-b-2 border-transparent -mb-0.5";
       }
       return active
-        ? "border-b-2 border-black text-black -mb-0.5"
-        : "text-on-dark-disabled hover:text-black border-b-2 border-transparent -mb-0.5";
+        ? "border-b-2 border-on-light-primary text-on-light-primary -mb-0.5"
+        : "text-on-dark-disabled hover:text-on-light-primary border-b-2 border-transparent -mb-0.5";
     };
 
     const getEnclosedClasses = () => {
       if (inverted) {
         return clsx(
           active
-            ? "bg-white text-black"
-            : "bg-transparent text-on-dark-secondary hover:bg-grey-800 hover:text-white",
-          "border-r-2 border-grey-600 last:border-r-0"
+            ? "bg-surface-primary text-on-light-primary"
+            : "bg-transparent text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary",
+          "border-r-2 border-border last:border-r-0"
         );
       }
       return clsx(
         active
-          ? "bg-black text-white"
-          : "bg-white text-black hover:bg-grey-100",
-        "border-r-2 border-black last:border-r-0"
+          ? "bg-surface-inverse text-on-dark-primary"
+          : "bg-surface-primary text-on-light-primary hover:bg-muted",
+        "border-r-2 border-border-primary last:border-r-0"
       );
     };
 
@@ -232,15 +232,15 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
       if (inverted) {
         return clsx(
           active
-            ? "bg-white text-black"
-            : "bg-transparent text-on-dark-secondary hover:bg-grey-800 hover:text-white",
+            ? "bg-surface-primary text-on-light-primary"
+            : "bg-transparent text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary",
           "first:rounded-l-[calc(var(--radius-card)-2px)] last:rounded-r-[calc(var(--radius-card)-2px)]"
         );
       }
       return clsx(
         active
-          ? "bg-black text-white"
-          : "bg-white text-black hover:bg-grey-100",
+          ? "bg-surface-inverse text-on-dark-primary"
+          : "bg-surface-primary text-on-light-primary hover:bg-muted",
         "first:rounded-l-[calc(var(--radius-card)-2px)] last:rounded-r-[calc(var(--radius-card)-2px)]"
       );
     };
@@ -254,7 +254,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
           "px-4 py-2 font-heading uppercase text-xs tracking-wider font-bold leading-none",
           "transition-all duration-100 ease-[var(--ease-bounce)]",
           "focus:outline-none focus:ring-2 focus:ring-offset-2",
-          inverted ? "focus:ring-white focus:ring-offset-ink-950" : "focus:ring-black focus:ring-offset-white",
+          inverted ? "focus:ring-ring focus:ring-offset-background" : "focus:ring-ring focus:ring-offset-background",
           variant === "line" && getLineClasses(),
           variant === "enclosed" && getEnclosedClasses(),
           variant === "pop" && getPopClasses(),

@@ -125,7 +125,7 @@ export default function ResourcesPage() {
                   {LEARNING_PATHS.map((path) => (
                     <Card
                       key={path.id}
-                      className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs group"
+                      className="p-6 border-2 border-border rounded-card pop-card-atlvs group"
                       onClick={() => router.push(`/guides/${path.id}`)}
                     >
                       <Stack gap={4}>
@@ -165,10 +165,10 @@ export default function ResourcesPage() {
 
                 <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
                   {FEATURED_RESOURCES.map((resource) => (
-                    <Card key={resource.id} className="p-5 border-2 border-grey-800 rounded-card pop-card">
+                    <Card key={resource.id} className="p-5 border-2 border-border rounded-card pop-card">
                       <Stack direction="horizontal" className="justify-between items-start gap-4">
                         <Stack direction="horizontal" gap={4} className="items-start">
-                          <Box className="p-2 bg-grey-800 rounded-card">
+                          <Box className="p-2 bg-surface-elevated rounded-card">
                             <FileText className="size-5 text-on-dark-muted" />
                           </Box>
                           <Stack gap={1}>

@@ -29,7 +29,7 @@ export default function EventMapPage() {
     id: "map", label: "Map", icon: <List className="size-4" />,
     content: (
       <Section>
-        <Card className="h-64 bg-grey-800 flex items-center justify-center mb-6">
+        <Card className="h-64 bg-surface-elevated flex items-center justify-center mb-6">
           <Box className="text-center">
             <Map className="size-12 text-on-dark-disabled mx-auto mb-4" />
             <Body className="text-on-dark-muted">Interactive map coming soon</Body>

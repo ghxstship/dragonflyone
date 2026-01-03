@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import clsx from "clsx";
-import { colors, ink } from "../tokens.js";
+import { colors } from "../tokens.js";
 
 export interface Seat {
   id: string;
@@ -129,7 +129,7 @@ export function SeatingChart({
       {/* Stage */}
       {showStage && (
         <div
-          className="w-full bg-grey-900 text-white font-heading text-center tracking-mega uppercase"
+          className="w-full bg-surface-elevated text-white font-heading text-center tracking-mega uppercase"
           style={{ padding: `${1 * zoom}rem ${2 * zoom}rem`, fontSize: `calc(1.125rem * ${zoom})` }}
         >
           {stageLabel}
@@ -247,7 +247,7 @@ export function SeatingChart({
 
       {/* Legend */}
       {showLegend && (
-        <div className="flex justify-center gap-gap-lg flex-wrap p-spacing-4 border-t border-grey-200">
+        <div className="flex justify-center gap-gap-lg flex-wrap p-spacing-4 border-t border-border">
           {(Object.keys(statusColors) as Array<keyof typeof statusColors>).map((status) => (
             <div key={status} className="flex items-center gap-gap-xs">
               <div
@@ -267,7 +267,7 @@ export function SeatingChart({
 
       {/* Selection Summary */}
       {selectedSeats.length > 0 && (
-        <div className="flex justify-between items-center px-spacing-5 py-spacing-4 bg-grey-100 border-2 border-black">
+        <div className="flex justify-between items-center px-spacing-5 py-spacing-4 bg-muted border-2 border-black">
           <div className="font-code text-mono-sm text-on-dark-disabled tracking-wide">
             {selectedSeats.length} SEAT{selectedSeats.length !== 1 ? "S" : ""} SELECTED
             {maxSelection && ` (MAX ${maxSelection})`}

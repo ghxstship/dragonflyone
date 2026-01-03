@@ -128,7 +128,7 @@ export function BEOBuilder({ initialSections = [], onSave, isLoading }: BEOBuild
           <Card
             key={section.id}
             inverted
-            className={`border-2 ${draggedIndex === index ? "border-primary" : "border-ink-800"}`}
+            className={`border-2 ${draggedIndex === index ? "border-primary" : "border-border"}`}
             draggable
             onDragStart={() => handleDragStart(index)}
             onDragOver={(e) => handleDragOver(e, index)}
@@ -167,7 +167,7 @@ export function BEOBuilder({ initialSections = [], onSave, isLoading }: BEOBuild
       </Stack>
 
       {sections.length === 0 && (
-        <Card inverted className="border-2 border-dashed border-ink-700 p-8">
+        <Card inverted className="border-2 border-dashed border-border p-8">
           <Stack gap={4} className="items-center justify-center">
             <Plus className="size-8 text-on-dark-disabled" />
             <Body className="text-on-dark-muted">Add sections to build your BEO</Body>

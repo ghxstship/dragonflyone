@@ -100,7 +100,7 @@ export function ConfirmDialog({
       <div
         className={clsx(
           "absolute inset-0 animate-fade-in",
-          inverted ? "bg-white/20" : "bg-black/60"
+          inverted ? "bg-surface-overlay" : "bg-surface-overlay"
         )}
         onClick={loading ? undefined : onCancel}
         aria-hidden="true"
@@ -112,8 +112,8 @@ export function ConfirmDialog({
         "border-4 rounded-[var(--radius-modal)]",
         "animate-pop-in",
         inverted
-          ? "bg-ink-900 border-white text-white shadow-[6px_6px_0_rgba(255,255,255,0.25)]"
-          : "bg-white border-black text-black shadow-[6px_6px_0_rgba(0,0,0,0.2)]"
+          ? "bg-surface-inverse border-on-dark-primary text-on-dark-primary shadow-lg"
+          : "bg-surface-primary border-border-primary text-on-light-primary shadow-lg"
       )}>
         {/* Icon and Title */}
         <div className="flex items-center gap-3 mb-4">
@@ -143,8 +143,8 @@ export function ConfirmDialog({
           <div className={clsx(
             "font-code text-sm p-3 mb-6 border-2 rounded-[var(--radius-badge)]",
             inverted
-              ? "text-on-dark-muted bg-grey-800 border-grey-700"
-              : "text-on-dark-disabled bg-grey-100 border-grey-200"
+              ? "text-on-dark-muted bg-surface-elevated border-border"
+              : "text-on-dark-disabled bg-muted border-border"
           )}>
             {details}
           </div>
@@ -163,8 +163,8 @@ export function ConfirmDialog({
               "hover:-translate-x-0.5 hover:-translate-y-0.5",
               "active:translate-x-0 active:translate-y-0",
               inverted
-                ? "bg-transparent text-on-dark-secondary border-grey-500 hover:bg-grey-800 hover:shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
-                : "bg-white text-black border-black hover:bg-grey-100 hover:shadow-[2px_2px_0_rgba(0,0,0,0.1)]",
+                ? "bg-transparent text-on-dark-secondary border-border hover:bg-surface-elevated hover:shadow-sm"
+                : "bg-surface-primary text-on-light-primary border-border-primary hover:bg-muted hover:shadow-sm",
               loading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
             )}
           >
@@ -182,15 +182,15 @@ export function ConfirmDialog({
               "hover:-translate-x-0.5 hover:-translate-y-0.5",
               "active:translate-x-0 active:translate-y-0",
               inverted
-                ? "bg-white text-black border-white shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))]"
-                : "bg-black text-white border-black shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))]",
+                ? "bg-surface-primary text-on-light-primary border-on-dark-primary shadow-primary hover:shadow-primary"
+                : "bg-surface-inverse text-on-dark-primary border-border-primary shadow-primary hover:shadow-primary",
               loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"
             )}
           >
             {loading && (
               <span className={clsx(
                 "inline-block w-3 h-3 border-2 rounded-full animate-spin",
-                inverted ? "border-grey-400 border-t-black" : "border-grey-300 border-t-white"
+                inverted ? "border-border border-t-on-light-primary" : "border-border border-t-on-dark-primary"
               )} />
             )}
             {confirmLabel}

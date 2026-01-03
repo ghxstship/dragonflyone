@@ -698,7 +698,7 @@ export const DEMO_EXCLUSIVE_WINDOWS: DemoExclusiveWindow[] = [
 export const DEMO_FAN_CLUB_TIERS: DemoFanClubTier[] = [
   { name: 'Platinum', members: 245, benefits: ['48-hour early access', 'Meet & greet priority', 'Exclusive merch', 'VIP lounge access'], accessWindow: '48 hours', color: 'bg-purple-100 border-purple-500' },
   { name: 'Gold', members: 1250, benefits: ['24-hour early access', 'Priority entry', 'Member discounts', 'Exclusive content'], accessWindow: '24 hours', color: 'bg-warning-100 border-warning-500' },
-  { name: 'Silver', members: 4520, benefits: ['12-hour early access', 'Member discounts', 'Newsletter'], accessWindow: '12 hours', color: 'bg-ink-100 border-ink-400' },
+  { name: 'Silver', members: 4520, benefits: ['12-hour early access', 'Member discounts', 'Newsletter'], accessWindow: '12 hours', color: 'bg-muted border-border' },
 ];
 
 // =============================================================================

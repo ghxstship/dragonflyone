@@ -19,7 +19,7 @@ export default createAuthenticatedLayout({
   platform: "compvss",
   loginPath: "/auth/signin",
   unauthorizedPath: "/auth/unauthorized",
-  backgroundClass: "bg-ink-950",
+  backgroundClass: "bg-surface-inverse",
   LayoutComponent: CompvssAppLayout,
   layoutVariant: "authenticated",
 });

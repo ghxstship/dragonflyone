@@ -38,7 +38,7 @@ export const FormWizard = forwardRef<HTMLDivElement, FormWizardProps>(
                 <div
                   className={clsx(
                     "h-spacing-1 transition-colors",
-                    index <= currentStep ? "bg-black" : "bg-grey-300"
+                    index <= currentStep ? "bg-black" : "bg-muted"
                   )}
                 />
               </div>

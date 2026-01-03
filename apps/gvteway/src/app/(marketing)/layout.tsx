@@ -14,7 +14,7 @@ import { createMarketingLayout } from "@ghxstship/config/layouts";
  */
 export default createMarketingLayout({
   platform: "gvteway",
-  backgroundClass: "bg-ink-950",
+  backgroundClass: "bg-surface-inverse",
   LayoutComponent: GvtewayAppLayout,
   layoutVariant: "consumer-public",
   background: "black",

@@ -343,12 +343,12 @@ function SavedFiltersDropdown({
   const hasActiveFilters = Object.keys(activeFilters).length > 0;
 
   const buttonClass = inverted
-    ? "bg-transparent text-on-dark-muted border-2 border-grey-700 hover:border-grey-500 transition-all duration-100 rounded-[var(--radius-button)]"
-    : "bg-transparent text-on-dark-disabled border-2 border-grey-300 hover:border-grey-500 transition-all duration-100 rounded-[var(--radius-button)]";
+    ? "bg-transparent text-on-dark-muted border-2 border-border hover:border-border-primary transition-all duration-100 rounded-[var(--radius-button)]"
+    : "bg-transparent text-on-light-disabled border-2 border-border hover:border-border-primary transition-all duration-100 rounded-[var(--radius-button)]";
 
   const dropdownClass = inverted
-    ? "bg-grey-900 border-2 border-grey-700 shadow-lg"
-    : "bg-white border-2 border-grey-200 shadow-lg";
+    ? "bg-surface-elevated border-2 border-border shadow-lg"
+    : "bg-surface-primary border-2 border-border shadow-lg";
 
   return (
     <div ref={dropdownRef} className="relative">
@@ -376,7 +376,7 @@ function SavedFiltersDropdown({
                   }}
                   className={clsx(
                     "px-spacing-4 py-spacing-3 cursor-pointer flex items-center justify-between group",
-                    inverted ? "hover:bg-grey-800" : "hover:bg-grey-50"
+                    inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                   )}
                 >
                   <span className="font-body text-body-sm">{preset.name}</span>
@@ -386,7 +386,7 @@ function SavedFiltersDropdown({
                       onClick={(e) => handleDelete(preset.id, e)}
                       className={clsx(
                         "opacity-0 group-hover:opacity-100 p-1 rounded transition-opacity",
-                        inverted ? "hover:bg-grey-700 text-on-dark-disabled" : "hover:bg-grey-200 text-on-dark-muted"
+                        inverted ? "hover:bg-surface-elevated text-on-dark-disabled" : "hover:bg-muted text-on-light-muted"
                       )}
                     >
                       <Trash2 className="size-3" />
@@ -404,7 +404,7 @@ function SavedFiltersDropdown({
           {/* Divider */}
           {onSave && (
             <>
-              <div className={clsx("border-t", inverted ? "border-grey-700" : "border-grey-200")} />
+              <div className={clsx("border-t", inverted ? "border-border" : "border-border")} />
 
               {/* Save New Filter */}
               {showSaveInput ? (
@@ -417,8 +417,8 @@ function SavedFiltersDropdown({
                     className={clsx(
                       "flex-1 px-spacing-2 py-spacing-1 font-body text-body-sm border rounded outline-none",
                       inverted
-                        ? "bg-grey-800 text-white border-grey-600 focus:border-grey-500"
-                        : "bg-white text-black border-grey-300 focus:border-grey-400"
+                        ? "bg-surface-elevated text-on-dark-primary border-border focus:border-border-primary"
+                        : "bg-surface-primary text-on-light-primary border-border focus:border-border-primary"
                     )}
                     onKeyDown={(e) => e.key === "Enter" && handleSave()}
                     autoFocus
@@ -430,8 +430,8 @@ function SavedFiltersDropdown({
                     className={clsx(
                       "px-spacing-2 py-spacing-1 rounded font-code text-mono-xs",
                       inverted
-                        ? "bg-white text-black hover:bg-grey-200 disabled:opacity-50"
-                        : "bg-black text-white hover:bg-grey-800 disabled:opacity-50"
+                        ? "bg-surface-primary text-on-light-primary hover:bg-muted disabled:opacity-50"
+                        : "bg-surface-inverse text-on-dark-primary hover:bg-surface-elevated disabled:opacity-50"
                     )}
                   >
                     {isSaving ? "..." : "Save"}
@@ -446,8 +446,8 @@ function SavedFiltersDropdown({
                     "w-full px-spacing-4 py-spacing-3 font-code text-mono-sm flex items-center gap-gap-xs",
                     hasActiveFilters
                       ? inverted
-                        ? "hover:bg-grey-800 text-white"
-                        : "hover:bg-grey-50 text-black"
+                        ? "hover:bg-surface-elevated text-on-dark-primary"
+                        : "hover:bg-muted text-on-light-primary"
                       : inverted
                         ? "text-on-dark-disabled cursor-not-allowed"
                         : "text-on-dark-muted cursor-not-allowed"
@@ -500,7 +500,7 @@ function SortableColumnItem({ column, isVisible, onToggle, inverted }: SortableC
       style={style}
       className={clsx(
         "flex items-center gap-2 px-3 py-2 rounded-button",
-        inverted ? "hover:bg-grey-800" : "hover:bg-grey-100",
+        inverted ? "hover:bg-surface-elevated" : "hover:bg-muted",
         isDragging && "z-50"
       )}
     >
@@ -615,12 +615,12 @@ function TableSettingsPopover<T>({
   };
 
   const buttonClass = inverted
-    ? "p-2 border-2 border-grey-700 text-on-dark-muted hover:border-grey-500 hover:text-white rounded-button transition-all duration-100"
-    : "p-2 border-2 border-grey-300 text-on-light-muted hover:border-grey-400 hover:text-on-light-primary rounded-button transition-all duration-100";
+    ? "p-2 border-2 border-border text-on-dark-muted hover:border-border-primary hover:text-on-dark-primary rounded-button transition-all duration-100"
+    : "p-2 border-2 border-border text-on-light-muted hover:border-border-primary hover:text-on-light-primary rounded-button transition-all duration-100";
 
   const dropdownClass = inverted
-    ? "bg-grey-900 border-2 border-grey-700"
-    : "bg-white border-2 border-grey-200";
+    ? "bg-surface-elevated border-2 border-border"
+    : "bg-surface-primary border-2 border-border";
 
   return (
     <div ref={popoverRef} className="relative">
@@ -642,7 +642,7 @@ function TableSettingsPopover<T>({
           role="dialog"
           aria-label="Table settings"
         >
-          <div className={clsx("px-4 py-3 border-b", inverted ? "border-grey-700" : "border-grey-200")}>
+          <div className={clsx("px-4 py-3 border-b", inverted ? "border-border" : "border-border")}>
             <div className="flex items-center justify-between">
               <span className={clsx("font-heading text-body-md font-semibold", inverted ? "text-white" : "text-on-light-primary")}>
                 Table Settings
@@ -652,7 +652,7 @@ function TableSettingsPopover<T>({
                 onClick={() => setIsOpen(false)}
                 className={clsx(
                   "p-1 rounded-button",
-                  inverted ? "hover:bg-grey-800 text-on-dark-muted" : "hover:bg-grey-100 text-on-light-muted"
+                  inverted ? "hover:bg-surface-elevated text-on-dark-muted" : "hover:bg-muted text-on-light-muted"
                 )}
               >
                 <X className="size-4" />
@@ -661,7 +661,7 @@ function TableSettingsPopover<T>({
           </div>
 
           {onDensityChange && (
-            <div className={clsx("px-4 py-3 border-b", inverted ? "border-grey-700" : "border-grey-200")}>
+            <div className={clsx("px-4 py-3 border-b", inverted ? "border-border" : "border-border")}>
               <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
                 Row Density
               </span>
@@ -678,8 +678,8 @@ function TableSettingsPopover<T>({
                           ? "border-white bg-white text-black"
                           : "border-black bg-black text-white"
                         : inverted
-                          ? "border-grey-700 text-on-dark-muted hover:border-grey-500"
-                          : "border-grey-200 text-on-light-muted hover:border-grey-400"
+                          ? "border-border text-on-dark-muted hover:border-border-primary"
+                          : "border-border text-on-light-muted hover:border-border-primary"
                     )}
                   >
                     {mode}
@@ -1296,14 +1296,14 @@ export function ListPage<T>({
 
   // Theme-aware classes - Bold Contemporary Pop Art Adventure
   const bgClass = inverted ? "bg-black text-white" : "bg-white text-black";
-  const _borderClass = inverted ? "border-grey-700" : "border-grey-300";
+  const _borderClass = inverted ? "border-border" : "border-border";
   const mutedTextClass = inverted ? "text-on-dark-muted" : "text-on-light-muted";
   const primaryBtnClass = inverted
     ? "bg-white text-black border-2 border-white shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
     : "bg-black text-white border-2 border-black shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]";
   const secondaryBtnClass = inverted
-    ? "bg-transparent text-on-dark-muted border-2 border-grey-700 hover:border-grey-500 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
-    : "bg-transparent text-on-dark-disabled border-2 border-grey-300 hover:border-grey-500 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]";
+    ? "bg-transparent text-on-dark-muted border-2 border-border hover:border-border-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
+    : "bg-transparent text-on-light-disabled border-2 border-border hover:border-border-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]";
 
   // Error state
   if (error) {
@@ -1337,7 +1337,7 @@ export function ListPage<T>({
             <div 
               className={clsx(
                 "w-spacing-12 h-spacing-12 border-3 rounded-full animate-spin mx-auto mb-spacing-4",
-                inverted ? "border-grey-700 border-t-white" : "border-grey-300 border-t-black"
+                inverted ? "border-border border-t-on-dark-primary" : "border-border border-t-on-light-primary"
               )} 
               role="progressbar"
               aria-label="Loading content"
@@ -1407,7 +1407,7 @@ export function ListPage<T>({
         {stats.length > 0 && (
           <section aria-label="Statistics" className={clsx("grid gap-gap-md mb-spacing-8", stats.length <= 2 ? "grid-cols-2" : stats.length === 3 ? "grid-cols-3" : "grid-cols-4")}>
             {stats.map((stat, idx) => (
-              <div key={idx} className={clsx("p-spacing-6 border", inverted ? "border-grey-800 bg-black" : "border-grey-200 bg-white")} role="group" aria-label={stat.label}>
+              <div key={idx} className={clsx("p-spacing-6 border", inverted ? "border-border bg-surface-inverse" : "border-border bg-surface-primary")} role="group" aria-label={stat.label}>
                 <div className="font-display text-h2-sm" aria-live="polite">{stat.value}</div>
                 <div className={clsx("font-code text-mono-sm uppercase tracking-widest", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>{stat.label}</div>
               </div>
@@ -1430,15 +1430,15 @@ export function ListPage<T>({
               className={clsx(
                 "w-full py-spacing-3 px-spacing-4 pl-spacing-10 pr-16 font-body text-body-md border outline-none rounded-button",
                 inverted
-                  ? "bg-black text-white border-grey-700 focus:border-grey-500"
-                  : "bg-white text-black border-grey-300 focus:border-grey-500"
+                  ? "bg-surface-inverse text-on-dark-primary border-border focus:border-border-primary"
+                  : "bg-surface-primary text-on-light-primary border-border focus:border-border-primary"
               )}
             />
             <Search className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2 size-4", inverted ? "text-on-dark-disabled" : "text-on-light-muted")} aria-hidden="true" />
             <kbd
               className={clsx(
                 "absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 rounded text-xs font-mono",
-                inverted ? "bg-grey-800 text-on-dark-disabled" : "bg-grey-100 text-on-light-muted"
+                inverted ? "bg-surface-elevated text-on-dark-disabled" : "bg-muted text-on-light-muted"
               )}
             >
               ⌘K
@@ -1454,7 +1454,7 @@ export function ListPage<T>({
                 aria-label={`Filter by ${filter.label}`}
                 className={clsx(
                   "px-spacing-4 py-spacing-3 font-body text-body-md border",
-                  inverted ? "bg-black text-white border-grey-700" : "bg-white text-black border-grey-300"
+                  inverted ? "bg-surface-inverse text-on-dark-primary border-border" : "bg-surface-primary text-on-light-primary border-border"
                 )}
               >
                 <option value="All">{filter.label}: All</option>
@@ -1491,7 +1491,7 @@ export function ListPage<T>({
             {/* View Toggle - Auto-detected from columns */}
             {effectiveViews.length > 1 && (
               <div 
-                className={clsx("flex items-center gap-1 border rounded-lg p-1", inverted ? "border-grey-700 bg-grey-900" : "border-grey-200 bg-grey-50")}
+                className={clsx("flex items-center gap-1 border rounded-lg p-1", inverted ? "border-border bg-surface-elevated" : "border-border bg-muted")}
                 role="tablist"
                 aria-label="View options"
               >
@@ -1521,11 +1521,11 @@ export function ListPage<T>({
                           "p-2 rounded transition-colors",
                           isActive
                             ? inverted
-                              ? "bg-grey-700 text-white"
-                              : "bg-white text-on-light-primary shadow-sm"
+                              ? "bg-surface-elevated text-on-dark-primary"
+                              : "bg-surface-primary text-on-light-primary shadow-sm"
                             : inverted
-                              ? "text-on-dark-disabled hover:text-white hover:bg-grey-800"
-                              : "text-on-dark-muted hover:text-on-light-primary hover:bg-grey-100"
+                              ? "text-on-dark-disabled hover:text-on-dark-primary hover:bg-surface-elevated"
+                              : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
                         )}
                       >
                         <ViewIcon size={16} aria-hidden="true" />
@@ -1546,8 +1546,8 @@ export function ListPage<T>({
                   className={clsx(
                     "p-2 border-2 rounded-button transition-all duration-100",
                     inverted
-                      ? "border-grey-700 text-on-dark-muted hover:border-grey-500 hover:text-white"
-                      : "border-grey-300 text-on-light-muted hover:border-grey-400 hover:text-on-light-primary",
+                      ? "border-border text-on-dark-muted hover:border-border-primary hover:text-on-dark-primary"
+                      : "border-border text-on-light-muted hover:border-border-primary hover:text-on-light-primary",
                     isRefreshing && "animate-spin"
                   )}
                   aria-label="Refresh data"
@@ -1661,8 +1661,8 @@ export function ListPage<T>({
                   className={clsx(
                     "p-4 rounded-lg border-2 cursor-pointer transition-all hover:shadow-md",
                     inverted
-                      ? "bg-grey-900 border-grey-800 hover:border-grey-700"
-                      : "bg-white border-grey-200 hover:border-grey-300"
+                      ? "bg-surface-elevated border-border hover:border-border-primary"
+                      : "bg-surface-primary border-border hover:border-border-primary"
                   )}
                 >
                   <div className={clsx("font-semibold text-sm mb-2", inverted ? "text-white" : "text-on-light-primary")}>

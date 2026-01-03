@@ -80,10 +80,10 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
     ...props 
   }, ref) {
     const bgClasses: Record<string, string> = {
-      white: "bg-ink-50 text-ink-950",
-      black: "bg-ink-950 text-ink-50",
-      grey: "bg-ink-100 text-ink-950",
-      ink: "bg-ink-950 text-ink-50",
+      white: "bg-surface-primary text-on-light-primary",
+      black: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-muted text-on-light-primary",
+      ink: "bg-surface-inverse text-on-dark-primary",
     };
 
     const alignClasses = {
@@ -158,7 +158,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
         className={clsx(
           bgClass,
           !noPadding && !border && "py-10 sm:py-12 md:py-16 lg:py-24",
-          border && "border-2 border-grey-800 p-6 rounded-[var(--radius-card)]",
+          border && "border-2 border-border p-6 rounded-[var(--radius-card)]",
           className
         )}
         {...props}

@@ -45,26 +45,26 @@ function VerticalsSection() {
   return (
     <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
       <Stack gap={4} className="text-center">
-        <H1 className="text-ink-950">NATIVE TO YOUR WORLD.</H1>
+        <H1 className="text-on-light-primary">NATIVE TO YOUR WORLD.</H1>
         <Body className="text-on-light-muted">Four verticals. One platform. Infinite possibilities.</Body>
       </Stack>
       <Grid cols={4} gap={4} className="mt-8 md:mt-12 md:gap-6">
         {atlvsVerticals.map((vertical) => (
-          <Article key={vertical.id} className="group flex h-full flex-col border-2 border-ink-950 bg-white p-4 pop-card-atlvs sm:p-6">
-            <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-              {vertical.icon === "Tent" && <Tent className="h-6 w-6 text-ink-950" />}
-              {vertical.icon === "Zap" && <Zap className="h-6 w-6 text-ink-950" />}
-              {vertical.icon === "Palette" && <Palette className="h-6 w-6 text-ink-950" />}
-              {vertical.icon === "MapPin" && <MapPin className="h-6 w-6 text-ink-950" />}
+          <Article key={vertical.id} className="group flex h-full flex-col border-2 border-border bg-white p-4 pop-card-atlvs sm:p-6">
+            <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-border bg-muted">
+              {vertical.icon === "Tent" && <Tent className="h-6 w-6 text-on-light-primary" />}
+              {vertical.icon === "Zap" && <Zap className="h-6 w-6 text-on-light-primary" />}
+              {vertical.icon === "Palette" && <Palette className="h-6 w-6 text-on-light-primary" />}
+              {vertical.icon === "MapPin" && <MapPin className="h-6 w-6 text-on-light-primary" />}
             </Box>
-            <H3 className="font-display text-h5-md uppercase tracking-label text-ink-950">{vertical.title}</H3>
+            <H3 className="font-display text-h5-md uppercase tracking-label text-on-light-primary">{vertical.title}</H3>
             <Body className="mt-3 flex-1 text-on-light-muted">{vertical.description}</Body>
             <Stack gap={1} className="mt-4">
               {vertical.features.map((feature) => (
                 <Text key={feature} className="font-mono text-mono-xs uppercase tracking-label text-on-light-muted">{feature}</Text>
               ))}
             </Stack>
-            <NextLink href={vertical.href} className="mt-6 inline-block font-mono text-mono-xs uppercase tracking-label text-brand-pink transition-colors hover:text-ink-950">
+            <NextLink href={vertical.href} className="mt-6 inline-block font-mono text-mono-xs uppercase tracking-label text-brand-pink transition-colors hover:text-on-light-primary">
               Learn More →
             </NextLink>
           </Article>
@@ -82,8 +82,8 @@ function ProblemSection() {
       </H1>
       <Grid cols={3} gap={4} className="mt-8 md:mt-12 md:gap-6">
         {atlvsProblemSection.problems.map((problem) => (
-          <Article key={problem.title} className="border-2 border-ink-800 bg-ink-900 p-4 pop-card-dark sm:p-6">
-            <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-grey-600 bg-ink-800">
+          <Article key={problem.title} className="border-2 border-border bg-surface-inverse p-4 pop-card-dark sm:p-6">
+            <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-border bg-surface-elevated">
               {problem.icon === "chaos" && <BarChart3 className="h-6 w-6 text-on-dark-muted" />}
               {problem.icon === "silos" && <Link2 className="h-6 w-6 text-on-dark-muted" />}
               {problem.icon === "clock" && <Clock className="h-6 w-6 text-on-dark-muted" />}
@@ -103,17 +103,17 @@ function ProblemSection() {
 function SolutionsSection() {
   return (
     <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
-      <H1 className="text-center text-ink-950">FOUR PILLARS. ONE PLATFORM.</H1>
+      <H1 className="text-center text-on-light-primary">FOUR PILLARS. ONE PLATFORM.</H1>
       <Stack gap={8} className="mt-8 sm:mt-12 sm:gap-16">
         {atlvsPillarsSolution.map((pillar, index) => (
           <Article key={pillar.id} className={`grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
-            <Card className={`border-2 aspect-video border-ink-950 bg-grey-100 shadow-[4px_4px_0_rgba(0,0,0,0.15)] ${index % 2 === 1 ? "lg:order-2" : ""}`}>
+            <Card className={`border-2 aspect-video border-border bg-muted shadow-[4px_4px_0_rgba(0,0,0,0.15)] ${index % 2 === 1 ? "lg:order-2" : ""}`}>
               <Box className="flex h-full items-center justify-center">
                 <Text className="font-mono text-mono-sm uppercase tracking-label text-on-light-muted">{pillar.title} Screenshot</Text>
               </Box>
             </Card>
             <Stack gap={6} className={index % 2 === 1 ? "lg:order-1" : ""}>
-              <H3 className="font-display text-h3-md uppercase tracking-label text-ink-950">{pillar.title}</H3>
+              <H3 className="font-display text-h3-md uppercase tracking-label text-on-light-primary">{pillar.title}</H3>
               <Body className="text-body-md text-on-light-muted">{pillar.description}</Body>
               <Stack gap={2}>
                 {pillar.features.map((feature) => (
@@ -168,16 +168,16 @@ function FeatureGridSection() {
 
   return (
     <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
-      <H1 className="text-center text-ink-950">THE TOOLKIT WITHOUT MISSING TOOLS</H1>
+      <H1 className="text-center text-on-light-primary">THE TOOLKIT WITHOUT MISSING TOOLS</H1>
       <Grid cols={3} gap={4} className="mt-8 md:mt-12 md:gap-6">
         {atlvsFeatureGrid.map((feature) => {
           const IconComponent = iconMap[feature.icon];
           return (
-            <Article key={feature.title} className="border-2 border-ink-950 bg-white p-4 pop-card-atlvs sm:p-6">
-              <Box className="mb-4 flex h-10 w-10 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                {IconComponent && <IconComponent className="h-5 w-5 text-ink-950" />}
+            <Article key={feature.title} className="border-2 border-border bg-white p-4 pop-card-atlvs sm:p-6">
+              <Box className="mb-4 flex h-10 w-10 items-center justify-center border-2 border-border bg-muted">
+                {IconComponent && <IconComponent className="h-5 w-5 text-on-light-primary" />}
               </Box>
-              <H3 className="font-display text-h6-md uppercase tracking-label text-ink-950">{feature.title}</H3>
+              <H3 className="font-display text-h6-md uppercase tracking-label text-on-light-primary">{feature.title}</H3>
               <Body className="mt-2 text-on-light-muted">{feature.description}</Body>
             </Article>
           );
@@ -190,16 +190,16 @@ function FeatureGridSection() {
 function CompvssSection() {
   return (
     <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
-      <Box className="border-2 border-ink-950 bg-ink-950 p-4 sm:p-8 lg:p-12">
+      <Box className="border-2 border-border bg-surface-inverse p-4 sm:p-8 lg:p-12">
         <Label className="font-mono text-mono-xs uppercase tracking-label text-brand-cyan">{atlvsCompvssSection.kicker}</Label>
         <Display className="mt-4 font-display text-display-sm uppercase text-white md:text-display-md">{atlvsCompvssSection.title}</Display>
         <Body className="mt-4 text-body-md text-on-dark-muted sm:text-body-lg">{atlvsCompvssSection.subtitle}</Body>
-        <Box className="my-6 h-px bg-grey-700 sm:my-8" />
+        <Box className="my-6 h-px bg-border sm:my-8" />
         <Body className="max-w-3xl text-on-dark-secondary sm:text-body-md">{atlvsCompvssSection.description}</Body>
         <Grid cols={3} gap={4} className="mt-6 sm:mt-8 sm:gap-6">
           {atlvsCompvssSection.features.map((feature) => (
-            <Article key={feature.title} className="border-2 border-ink-800 bg-ink-800 p-3 pop-card-compvss sm:p-4">
-              <Box className="mb-2 flex h-10 w-10 items-center justify-center border-2 border-grey-600 bg-ink-900">
+            <Article key={feature.title} className="border-2 border-border bg-surface-elevated p-3 pop-card-compvss sm:p-4">
+              <Box className="mb-2 flex h-10 w-10 items-center justify-center border-2 border-border bg-surface-inverse">
                 {feature.icon === "HardHat" && <HardHat className="h-5 w-5 text-brand-cyan" />}
                 {feature.icon === "Users" && <Users className="h-5 w-5 text-brand-cyan" />}
                 {feature.icon === "Building" && <Building className="h-5 w-5 text-brand-cyan" />}
@@ -238,8 +238,8 @@ function CompvssSection() {
 function SocialProofSection() {
   return (
     <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
-      <H1 className="text-center text-ink-950">{atlvsSocialProof.headline}</H1>
-      <Article className="border-2 mx-auto mt-8 max-w-4xl border-ink-950 bg-white p-4 shadow-lg sm:mt-12 sm:p-8 lg:p-12">
+      <H1 className="text-center text-on-light-primary">{atlvsSocialProof.headline}</H1>
+      <Article className="border-2 mx-auto mt-8 max-w-4xl border-border bg-white p-4 shadow-lg sm:mt-12 sm:p-8 lg:p-12">
         <Body className="text-center text-body-md text-on-light-secondary italic sm:text-body-lg">&ldquo;{atlvsSocialProof.testimonial.quote}&rdquo;</Body>
         <Text className="mt-4 block text-center font-mono text-mono-xs uppercase tracking-label text-on-light-muted sm:mt-6 sm:text-mono-sm">
           — {atlvsSocialProof.testimonial.author}, {atlvsSocialProof.testimonial.company}
@@ -248,7 +248,7 @@ function SocialProofSection() {
       <Grid cols={4} gap={4} className="mt-8 md:mt-12 md:gap-6">
         {atlvsSocialProof.stats.map((stat) => (
           <Stack key={stat.label} className="text-center">
-            <Display className="font-display text-display-sm uppercase text-ink-950">{stat.value}</Display>
+            <Display className="font-display text-display-sm uppercase text-on-light-primary">{stat.value}</Display>
             <Text className="mt-2 font-mono text-mono-xs uppercase tracking-label text-on-light-muted">{stat.label}</Text>
           </Stack>
         ))}
@@ -262,16 +262,16 @@ function PricingSection() {
     <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
       <Stack gap={4} className="mb-12 text-center">
         <Label size="xs" className="text-on-light-muted">PRICING</Label>
-        <H1 className="text-ink-950">MODULAR BY DESIGN</H1>
+        <H1 className="text-on-light-primary">MODULAR BY DESIGN</H1>
         <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">Seven tiers. Three products. Use what you need. Keep what you have.</Body>
       </Stack>
 
       <Grid cols={3} gap={6}>
-        <Card className="border-2 border-ink-950 bg-white p-6 text-center h-full flex flex-col">
+        <Card className="border-2 border-border bg-white p-6 text-center h-full flex flex-col">
           <Stack gap={4} className="items-center flex-1">
             <Label size="xs" className="text-on-light-muted">SINGLE PRODUCTS</Label>
-            <H3 className="text-ink-950">BYO EVERYTHING ELSE</H3>
-            <Display size="md" className="text-ink-950">From $0</Display>
+            <H3 className="text-on-light-primary">BYO EVERYTHING ELSE</H3>
+            <Display size="md" className="text-on-light-primary">From $0</Display>
             <Body size="sm" className="text-on-light-muted">Use one product. Keep your existing tools for everything else.</Body>
             <Stack gap={2} className="w-full text-left flex-1">
               <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-yellow" /><Text size="sm" className="text-on-light-secondary">GVTEWAY — Ticketing</Text></Stack>
@@ -286,8 +286,8 @@ function PricingSection() {
           <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-3 py-1 text-white">MOST POPULAR</Label>
           <Stack gap={4} className="items-center flex-1">
             <Label size="xs" className="text-brand-pink">BUNDLES</Label>
-            <H3 className="text-ink-950">FILL THE GAPS</H3>
-            <Display size="md" className="text-ink-950">From $249</Display>
+            <H3 className="text-on-light-primary">FILL THE GAPS</H3>
+            <Display size="md" className="text-on-light-primary">From $249</Display>
             <Body size="sm" className="text-on-light-muted">Two products that work together. Keep what you love.</Body>
             <Stack gap={2} className="w-full text-left flex-1">
               <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-success" /><Text size="sm" className="text-on-light-secondary">OPERATIONS — Crews + Tickets</Text></Stack>

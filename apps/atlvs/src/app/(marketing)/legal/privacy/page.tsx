@@ -52,7 +52,7 @@ export default function PrivacyPolicyPage() {
           content: (
             <Container size="2xl" className="py-20">
               <Stack gap={8}>
-                <Card className="p-6 border-2 border-grey-800 rounded-card">
+                <Card className="p-6 border-2 border-border rounded-card">
                   <Box className="flex items-center justify-between flex-wrap gap-4">
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold">Privacy Policy</Body>
@@ -82,7 +82,7 @@ export default function PrivacyPolicyPage() {
 
                 <Stack gap={6}>
                   {SECTIONS.map((section) => (
-                    <Card key={section.id} className="p-6 border-2 border-grey-800 rounded-card">
+                    <Card key={section.id} className="p-6 border-2 border-border rounded-card">
                       <Stack gap={4}>
                         <H3 className="text-white text-h5-md">{section.title}</H3>
                         <Body className="text-on-dark-secondary leading-relaxed">{section.content}</Body>

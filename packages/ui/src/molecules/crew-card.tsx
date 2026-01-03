@@ -37,10 +37,10 @@ export interface CrewCardProps {
 }
 
 const statusConfig = {
-  available: { label: "AVAILABLE", bgClass: "bg-black", textClass: "text-white" },
-  assigned: { label: "ASSIGNED", bgClass: "bg-grey-700", textClass: "text-white" },
-  unavailable: { label: "UNAVAILABLE", bgClass: "bg-grey-400", textClass: "text-black" },
-  "on-call": { label: "ON CALL", bgClass: "bg-grey-800", textClass: "text-white" },
+  available: { label: "AVAILABLE", bgClass: "bg-surface-inverse", textClass: "text-on-dark-primary" },
+  assigned: { label: "ASSIGNED", bgClass: "bg-surface-elevated", textClass: "text-on-dark-primary" },
+  unavailable: { label: "UNAVAILABLE", bgClass: "bg-muted", textClass: "text-on-light-primary" },
+  "on-call": { label: "ON CALL", bgClass: "bg-surface-elevated", textClass: "text-on-dark-primary" },
 };
 
 function getInitials(name: string): string {
@@ -53,7 +53,7 @@ function getInitials(name: string): string {
 }
 
 export function CrewCard({
-  id,
+  id: _id,
   name,
   role,
   department,
@@ -80,8 +80,8 @@ export function CrewCard({
       className={clsx(
         "flex border-2 overflow-hidden transition-all duration-100 ease-[var(--ease-bounce)] rounded-[var(--radius-card)]",
         inverted
-          ? "bg-ink-900 border-grey-700 text-white shadow-[4px_4px_0_rgba(255,255,255,0.1)]"
-          : "bg-white border-black text-black shadow-[4px_4px_0_rgba(0,0,0,0.1)]",
+          ? "bg-surface-inverse border-border text-on-dark-primary shadow-md"
+          : "bg-surface-primary border-border-primary text-on-light-primary shadow-md",
         isCompact ? "flex-row" : "flex-col",
         onClick && "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]",
         className
@@ -93,7 +93,7 @@ export function CrewCard({
       {/* Avatar Section */}
       <div
         className={clsx(
-          "relative bg-grey-800 flex items-center justify-center flex-shrink-0 overflow-hidden",
+          "relative bg-surface-elevated flex items-center justify-center flex-shrink-0 overflow-hidden",
           isCompact ? "w-spacing-20 h-spacing-20" : "w-full",
           !isCompact && avatarHeightClass
         )}
@@ -108,7 +108,7 @@ export function CrewCard({
         ) : (
           <span
             className={clsx(
-              "font-heading text-white",
+              "font-heading text-on-dark-primary",
               isCompact ? "text-h4-md" : "text-h2-md"
             )}
           >
@@ -142,7 +142,7 @@ export function CrewCard({
           <h3
             className={clsx(
               "font-heading uppercase tracking-wide leading-snug",
-              inverted ? "text-white" : "text-black",
+              inverted ? "text-on-dark-primary" : "text-on-light-primary",
               isCompact ? "text-h5-md" : "text-h4-md"
             )}
           >
@@ -172,7 +172,7 @@ export function CrewCard({
             className={clsx(
               "font-code text-mono-xs tracking-widest mt-auto",
               status === "available"
-                ? inverted ? "text-white" : "text-black"
+                ? inverted ? "text-on-dark-primary" : "text-on-light-primary"
                 : inverted ? "text-on-dark-muted" : "text-on-light-muted"
             )}
           >
@@ -184,7 +184,7 @@ export function CrewCard({
         {currentAssignment && !isCompact && (
           <div className={clsx(
             "font-code text-mono-sm tracking-wide p-spacing-2 mt-spacing-2",
-            inverted ? "text-on-dark-secondary bg-grey-800" : "text-on-dark-disabled bg-grey-100"
+            inverted ? "text-on-dark-secondary bg-surface-elevated" : "text-on-dark-disabled bg-muted"
           )}>
             ASSIGNED: {currentAssignment}
           </div>
@@ -198,7 +198,7 @@ export function CrewCard({
                 key={index}
                 className={clsx(
                   "font-code text-mono-xs tracking-wide px-spacing-2 py-spacing-1 border",
-                  inverted ? "text-on-dark-secondary border-grey-600" : "text-on-dark-disabled border-grey-300"
+                  inverted ? "text-on-dark-secondary border-border" : "text-on-dark-disabled border-border"
                 )}
               >
                 {skill}
@@ -214,7 +214,7 @@ export function CrewCard({
 
         {/* Contact Info (Detailed only) */}
         {isDetailed && (email || phone) && (
-          <div className={clsx("flex flex-col gap-gap-xs mt-auto pt-spacing-3 border-t", inverted ? "border-grey-700" : "border-grey-200")}>
+          <div className={clsx("flex flex-col gap-gap-xs mt-auto pt-spacing-3 border-t", inverted ? "border-border" : "border-border")}>
             {email && (
               <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
                 {email}
@@ -242,8 +242,8 @@ export function CrewCard({
                 className={clsx(
                   "w-spacing-3 h-spacing-3",
                   star <= rating
-                    ? inverted ? "bg-white" : "bg-black"
-                    : inverted ? "bg-grey-600" : "bg-grey-300"
+                    ? inverted ? "bg-on-dark-primary" : "bg-on-light-primary"
+                    : inverted ? "bg-muted" : "bg-muted"
                 )}
               />
             ))}

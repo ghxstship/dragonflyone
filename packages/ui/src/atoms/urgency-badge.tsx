@@ -22,7 +22,7 @@ const urgencyConfig = {
   "low-stock": {
     label: "LOW STOCK",
     withCount: (count: number) => `ONLY ${count} LEFT`,
-    bgClass: "bg-grey-900",
+    bgClass: "bg-surface-inverse",
     textClass: "text-white",
     pulse: true,
   },
@@ -43,7 +43,7 @@ const urgencyConfig = {
   "limited": {
     label: "LIMITED",
     withCount: (count: number) => `LIMITED TO ${count}`,
-    bgClass: "bg-grey-800",
+    bgClass: "bg-surface-elevated",
     textClass: "text-white",
     pulse: false,
   },
@@ -104,7 +104,7 @@ export function UrgencyBadge({
         sizeClasses[size],
         type === "new" 
           ? (inverted ? "border-white shadow-[2px_2px_0_rgba(255,255,255,0.2)]" : "border-black shadow-[2px_2px_0_rgba(0,0,0,0.15)]")
-          : (inverted ? "border-grey-700 shadow-[2px_2px_0_rgba(255,255,255,0.1)]" : "border-grey-800 shadow-[2px_2px_0_rgba(0,0,0,0.1)]"),
+          : (inverted ? "border-border shadow-[2px_2px_0_rgba(255,255,255,0.1)]" : "border-border shadow-[2px_2px_0_rgba(0,0,0,0.1)]"),
         shouldPulse && "animate-pulse",
         className
       )}

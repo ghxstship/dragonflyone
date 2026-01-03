@@ -194,7 +194,7 @@ export function BEODietary({ requirements, onChange, readOnly = false }: BEODiet
                 <Select
                   value={newSeverity}
                   onChange={(e) => setNewSeverity(e.target.value as DietaryRequirement["severity"])}
-                  className="px-3 py-2 bg-ink-800 border-2 border-ink-700 rounded-button text-body-sm text-on-dark-secondary"
+                  className="px-3 py-2 bg-surface-elevated border-2 border-border rounded-button text-body-sm text-on-dark-secondary"
                 >
                   <option value="preference">Preference</option>
                   <option value="intolerance">Intolerance</option>
@@ -219,7 +219,7 @@ export function BEODietary({ requirements, onChange, readOnly = false }: BEODiet
         </Card>
       )}
 
-      <Card inverted className="border-2 border-ink-800">
+      <Card inverted className="border-2 border-border">
         <CardBody>
           {requirements.length > 0 ? (
             <Stack gap={2}>

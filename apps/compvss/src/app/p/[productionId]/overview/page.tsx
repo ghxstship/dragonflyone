@@ -244,13 +244,13 @@ export default function ProductionOverviewPage() {
               ].map((cue, index) => (
                 <Box
                   key={index}
-                  className="flex items-center gap-3 border-b border-ink-200 py-3 last:border-0"
+                  className="flex items-center gap-3 border-b border-border py-3 last:border-0"
                 >
-                  <Box className="flex size-8 items-center justify-center rounded bg-ink-100">
+                  <Box className="flex size-8 items-center justify-center rounded bg-muted">
                     {cue.status === "in-progress" ? (
                       <Clock size={16} className="text-primary-600" />
                     ) : (
-                      <CheckCircle size={16} className="text-ink-400" />
+                      <CheckCircle size={16} className="text-on-light-disabled" />
                     )}
                   </Box>
                   <Box className="flex-1">

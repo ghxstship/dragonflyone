@@ -173,7 +173,7 @@ export const WizardPage = forwardRef<HTMLDivElement, WizardPageProps>(
     },
     ref
   ) {
-    const bgClass = inverted ? "bg-ink-950" : "bg-white";
+    const bgClass = inverted ? "bg-surface-inverse" : "bg-surface-primary";
     const isFirstStep = currentStep === 0;
     const isLastStep = currentStep === steps.length - 1;
     const currentStepData = steps[currentStep];
@@ -279,7 +279,7 @@ export const WizardPage = forwardRef<HTMLDivElement, WizardPageProps>(
                         <Body
                           className={clsx(
                             "font-semibold",
-                            inverted ? "text-white" : "text-ink-900"
+                            inverted ? "text-on-dark-primary" : "text-on-light-primary"
                           )}
                         >
                           {banner.title}

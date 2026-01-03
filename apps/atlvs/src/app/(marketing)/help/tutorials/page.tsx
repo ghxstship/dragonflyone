@@ -117,9 +117,9 @@ export default function TutorialsPage() {
 
                 <Stack gap={6}>
                   {featuredTutorials.map((tutorial) => (
-                    <Card key={tutorial.id} className="p-6 border-2 border-grey-800 rounded-card pop-card cursor-pointer">
+                    <Card key={tutorial.id} className="p-6 border-2 border-border rounded-card pop-card cursor-pointer">
                       <Box className="flex items-start gap-6 flex-wrap md:flex-nowrap">
-                        <Box className="w-full md:w-48 aspect-video bg-grey-800 rounded-card flex items-center justify-center flex-shrink-0">
+                        <Box className="w-full md:w-48 aspect-video bg-surface-elevated rounded-card flex items-center justify-center flex-shrink-0">
                           <Play className="size-10 text-on-dark-muted" />
                         </Box>
                         <Box className="flex-1">
@@ -155,7 +155,7 @@ export default function TutorialsPage() {
                   <Body className="text-white font-weight-bold text-h3-md">All Tutorials</Body>
                 </Stack>
 
-                <Card className="p-6 border-2 border-grey-800 rounded-card">
+                <Card className="p-6 border-2 border-border rounded-card">
                   <Stack gap={4}>
                     <Box className="relative">
                       <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
@@ -173,8 +173,8 @@ export default function TutorialsPage() {
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                   {filteredTutorials.map((tutorial) => (
-                    <Card key={tutorial.id} className="p-6 border-2 border-grey-800 rounded-card pop-card cursor-pointer">
-                      <Box className="aspect-video bg-grey-800 rounded-card flex items-center justify-center mb-4">
+                    <Card key={tutorial.id} className="p-6 border-2 border-border rounded-card pop-card cursor-pointer">
+                      <Box className="aspect-video bg-surface-elevated rounded-card flex items-center justify-center mb-4">
                         <Play className="size-10 text-on-dark-muted" />
                       </Box>
                       <Box className="flex items-center gap-2 mb-2 flex-wrap">
@@ -192,7 +192,7 @@ export default function TutorialsPage() {
                 </Grid>
 
                 {filteredTutorials.length === 0 && (
-                  <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
+                  <Card className="p-12 text-center border-2 border-border rounded-card">
                     <Play className="size-16 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-bold mb-2">No Tutorials Found</Body>
                     <Body className="text-on-dark-muted mb-4">Try a different search term or category</Body>

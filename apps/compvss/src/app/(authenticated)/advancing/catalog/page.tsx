@@ -189,7 +189,7 @@ export default function CatalogPage() {
 
             {/* Advanced Filters Panel */}
             {showFilters && (
-              <Box className="mt-4 pt-4 border-t border-grey-700">
+              <Box className="mt-4 pt-4 border-t border-border">
                 <Grid cols={3} gap={4} className="grid-cols-1 sm:grid-cols-3">
                   <Field label="View Mode">
                     <Select value={viewMode} onChange={(e) => setViewMode(e.target.value as "grid" | "list")}>

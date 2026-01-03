@@ -32,7 +32,7 @@ export function EventCard({
       onClick={() => router.push(`/events/${id}`)}
     >
       {image && (
-        <Figure className="relative aspect-video w-full overflow-hidden bg-ink-200">
+        <Figure className="relative aspect-video w-full overflow-hidden bg-muted">
           <Image
             src={image}
             alt={title}
@@ -50,7 +50,7 @@ export function EventCard({
         <H3 className="text-h6-md font-weight-bold uppercase">{title}</H3>
         <Stack gap={2}>
           <Body className="font-mono">{date}</Body>
-          <Body className="text-ink-600">{venue}</Body>
+          <Body className="text-on-light-secondary">{venue}</Body>
           <Body className="font-weight-bold">From ${price}</Body>
         </Stack>
         <Button variant="solid" className="w-full mt-2">

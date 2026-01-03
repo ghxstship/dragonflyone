@@ -100,7 +100,7 @@ export default function ProductionVendorsPage() {
               <Card key={vendor.id} className="p-6">
                 <Box className="flex items-start justify-between">
                   <Box className="flex items-start gap-4">
-                    <Box className="p-3 bg-grey-800 rounded-card"><Building2 className="size-6 text-on-dark-muted" /></Box>
+                    <Box className="p-3 bg-surface-elevated rounded-card"><Building2 className="size-6 text-on-dark-muted" /></Box>
                     <Box>
                       <Body className="font-weight-bold font-weight-medium">{vendor.name}</Body>
                       <Body size="sm" className="text-on-dark-muted">{vendor.contact_name}</Body>

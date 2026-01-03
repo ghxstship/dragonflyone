@@ -277,7 +277,7 @@ export function BulkEditModal<T>({
             type="button"
             onClick={handleSubmit}
             disabled={loading || enabledFields.size === 0}
-            className="flex items-center gap-gap-xs px-spacing-4 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer hover:bg-grey-900 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex items-center gap-gap-xs px-spacing-4 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer hover:bg-surface-elevated disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? (
               <>

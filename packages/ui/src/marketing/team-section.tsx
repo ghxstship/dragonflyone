@@ -68,8 +68,8 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
   ) {
     const bgClasses = {
       black: "bg-black text-white",
-      ink: "bg-ink-950 text-white",
-      grey: "bg-grey-900 text-white",
+      ink: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-surface-elevated text-on-dark-primary",
     };
 
     const colClasses = {
@@ -101,7 +101,7 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
             {members.map((member) => (
               <Card
                 key={member.id}
-                className="p-6 border-2 border-grey-800 rounded-card text-center group hover:border-primary/50 transition-colors"
+                className="p-6 border-2 border-border rounded-card text-center group hover:border-primary/50 transition-colors"
               >
                 <Stack gap={4} className="items-center">
                   {/* Avatar */}

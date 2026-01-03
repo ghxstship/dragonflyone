@@ -142,17 +142,17 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       inverted ? "placeholder:text-on-dark-disabled" : "placeholder:text-on-dark-muted",
       error
         ? inverted
-          ? "border-error-500 bg-ink-900 text-white"
+          ? "border-error-500 bg-surface-inverse text-on-dark-primary"
           : "border-error-500 bg-white text-black"
         : inverted
           ? clsx(
-              "border-grey-700 bg-ink-900 text-white border-l-0",
-              "hover:border-grey-600",
+              "border-border bg-surface-inverse text-on-dark-primary border-l-0",
+              "hover:border-border-primary",
               "focus:border-[var(--color-primary-400)]"
             )
           : clsx(
-              "border-grey-300 bg-white text-black border-l-0",
-              "hover:border-grey-400",
+              "border-border bg-surface-primary text-on-light-primary border-l-0",
+              "hover:border-border-primary",
               "focus:border-[var(--color-primary-500)]"
             ),
       "flex-1 min-w-0"
@@ -167,16 +167,16 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       "select-none",
       error
         ? inverted
-          ? "border-error-500 bg-ink-900 text-white"
+          ? "border-error-500 bg-surface-inverse text-on-dark-primary"
           : "border-error-500 bg-white text-black"
         : inverted
           ? clsx(
-              "border-grey-700 bg-ink-800 text-white",
-              "hover:bg-ink-700"
+              "border-border bg-surface-elevated text-on-dark-primary",
+              "hover:bg-surface-inverse"
             )
           : clsx(
-              "border-grey-300 bg-grey-50 text-black",
-              "hover:bg-grey-100"
+              "border-border bg-muted text-on-light-primary",
+              "hover:bg-surface-primary"
             )
     );
 
@@ -186,8 +186,8 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       "border-2 rounded-[var(--radius-card)]",
       "shadow-lg",
       inverted
-        ? "border-grey-700 bg-ink-900"
-        : "border-grey-300 bg-white"
+        ? "border-border bg-surface-inverse"
+        : "border-border bg-surface-primary"
     );
 
     return (
@@ -228,10 +228,10 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                       "w-full px-3 py-2 flex items-center gap-3 text-left",
                       "transition-colors",
                       inverted
-                        ? "hover:bg-ink-800 text-white"
-                        : "hover:bg-grey-100 text-black",
+                        ? "hover:bg-surface-elevated text-on-dark-primary"
+                        : "hover:bg-muted text-on-light-primary",
                       selectedCountryCode === country.code && country.country === selectedCountry.country &&
-                        (inverted ? "bg-ink-800" : "bg-grey-100")
+                        (inverted ? "bg-surface-elevated" : "bg-muted")
                     )}
                     onClick={() => handleCountryChange(country.code)}
                   >

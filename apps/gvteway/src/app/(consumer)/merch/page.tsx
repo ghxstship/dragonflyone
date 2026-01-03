@@ -37,7 +37,7 @@ export default function MerchPage() {
         <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4">
           {filtered.map((product: Product) => (
             <Card key={product.id} className="overflow-hidden cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/merch/${product.id}`)}>
-              <Box className="h-40 bg-grey-800 flex items-center justify-center"><ShoppingBag className="size-8 text-on-dark-disabled" /></Box>
+              <Box className="h-40 bg-surface-elevated flex items-center justify-center"><ShoppingBag className="size-8 text-on-dark-disabled" /></Box>
               <Box className="p-4">
                 <Badge variant="outline" className="mb-2">{product.category}</Badge>
                 <Body className="font-weight-bold">{product.name}</Body>

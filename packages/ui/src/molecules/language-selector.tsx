@@ -51,7 +51,7 @@ export function LanguageSelector({
       <div ref={dropdownRef} className={`relative inline-block ${className}`}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-sm font-mono uppercase tracking-widest hover:bg-grey-100 transition-colors"
+          className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-sm font-mono uppercase tracking-widest hover:bg-muted transition-colors"
           aria-label="Select language"
         >
           <span>{currentLang.flag}</span>
@@ -65,8 +65,8 @@ export function LanguageSelector({
               <button
                 key={lang.code}
                 onClick={() => handleSelect(lang.code)}
-                className={`w-full flex items-center gap-gap-xs px-spacing-3 py-spacing-2 text-left hover:bg-grey-100 transition-colors ${
-                  lang.code === currentLanguage ? 'bg-grey-100 font-weight-bold' : ''
+                className={`w-full flex items-center gap-gap-xs px-spacing-3 py-spacing-2 text-left hover:bg-muted transition-colors ${
+                  lang.code === currentLanguage ? 'bg-muted font-weight-bold' : ''
                 }`}
               >
                 <span>{lang.flag}</span>
@@ -98,8 +98,8 @@ export function LanguageSelector({
               <button
                 key={lang.code}
                 onClick={() => handleSelect(lang.code)}
-                className={`w-full flex items-center gap-gap-sm px-spacing-3 py-spacing-2 text-left hover:bg-grey-100 transition-colors ${
-                  lang.code === currentLanguage ? 'bg-grey-100' : ''
+                className={`w-full flex items-center gap-gap-sm px-spacing-3 py-spacing-2 text-left hover:bg-muted transition-colors ${
+                  lang.code === currentLanguage ? 'bg-muted' : ''
                 }`}
               >
                 <span className="text-body-lg">{lang.flag}</span>
@@ -134,8 +134,8 @@ export function LanguageSelector({
             <button
               key={lang.code}
               onClick={() => handleSelect(lang.code)}
-              className={`w-full flex items-center gap-gap-sm px-spacing-4 py-spacing-3 text-left hover:bg-grey-100 transition-colors border-b border-grey-200 last:border-b-0 ${
-                lang.code === currentLanguage ? 'bg-grey-100' : ''
+              className={`w-full flex items-center gap-gap-sm px-spacing-4 py-spacing-3 text-left hover:bg-muted transition-colors border-b border-border last:border-b-0 ${
+                lang.code === currentLanguage ? 'bg-muted' : ''
               }`}
             >
               <span className="text-body-lg">{lang.flag}</span>
@@ -144,7 +144,7 @@ export function LanguageSelector({
                 <div className="font-body text-mono-xs text-on-dark-disabled">{lang.nativeName}</div>
               </div>
               {lang.code === currentLanguage && (
-                <span className="text-black font-weight-bold">✓</span>
+                <span className="text-on-light-primary font-weight-bold">✓</span>
               )}
             </button>
           ))}

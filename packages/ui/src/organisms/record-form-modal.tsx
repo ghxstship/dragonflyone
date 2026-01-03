@@ -192,7 +192,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
     const error = errors[field.name];
     const baseInputClasses = clsx(
       "w-full border-2 bg-surface-elevated px-spacing-4 py-spacing-3 font-body text-body-md text-text-primary outline-none transition-colors duration-fast",
-      error ? "border-error-500" : "border-grey-600 hover:border-grey-500 focus:border-indigo-500"
+      error ? "border-error-500" : "border-border hover:border-border focus:border-indigo-500"
     );
 
     return (
@@ -296,13 +296,13 @@ export function RecordFormModal<T = Record<string, unknown>>({
 
         {/* Step indicator */}
         {isMultiStep && (
-          <div className="flex px-spacing-6 py-spacing-4 border-b border-grey-200 gap-gap-xs">
+          <div className="flex px-spacing-6 py-spacing-4 border-b border-border gap-gap-xs">
             {steps.map((step, idx) => (
               <div key={step.id} className="flex-1 flex items-center gap-gap-xs">
                 <div
                   className={clsx(
                     "w-spacing-6 h-spacing-6 rounded-full flex items-center justify-center font-code text-mono-xs",
-                    idx <= currentStep ? "bg-black text-white" : "bg-grey-200 text-on-dark-disabled"
+                    idx <= currentStep ? "bg-black text-white" : "bg-muted text-on-dark-disabled"
                   )}
                 >
                   {idx + 1}
@@ -328,7 +328,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
         </form>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-spacing-6 py-spacing-4 border-t-2 border-grey-200">
+        <div className="flex items-center justify-between px-spacing-6 py-spacing-4 border-t-2 border-border">
           <div>
             {isMultiStep && currentStep > 0 && (
               <button
@@ -348,7 +348,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
               disabled={submitting}
               className={clsx(
                 "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-surface-primary text-text-primary border-2 border-border-primary",
-                submitting ? "cursor-not-allowed" : "cursor-pointer hover:bg-grey-100"
+                submitting ? "cursor-not-allowed" : "cursor-pointer hover:bg-muted"
               )}
             >
               {cancelLabel}
@@ -357,7 +357,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-black text-white border-2 border-black cursor-pointer hover:bg-grey-900"
+                className="px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-black text-white border-2 border-black cursor-pointer hover:bg-surface-elevated"
               >
                 Next
               </button>
@@ -368,10 +368,10 @@ export function RecordFormModal<T = Record<string, unknown>>({
                 disabled={submitting || loading}
                 className={clsx(
                   "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-black text-white border-2 border-black flex items-center gap-gap-xs",
-                  submitting ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:bg-grey-900"
+                  submitting ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:bg-surface-elevated"
                 )}
               >
-                {submitting && <span className="inline-block w-spacing-3 h-spacing-3 border-2 border-grey-500 border-t-white rounded-full animate-spin" />}
+                {submitting && <span className="inline-block w-spacing-3 h-spacing-3 border-2 border-border border-t-white rounded-full animate-spin" />}
                 {submitText}
               </button>
             )}

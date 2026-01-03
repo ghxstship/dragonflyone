@@ -65,7 +65,7 @@ const eisenhowerConfig: Record<EisenhowerQuadrant, {
     label: 'Eliminate',
     action: 'Remove',
     icon: Trash2,
-    borderColor: 'border-grey-600',
+    borderColor: 'border-border',
     actionColor: 'text-on-dark-secondary',
   },
 };
@@ -289,7 +289,7 @@ export default function DashboardPage() {
           />
           <Stack gap={3}>
             {recentActivity.map((activity) => (
-              <Card key={activity.id} inverted className="border-2 border-ink-800 p-5 transition-colors hover:border-grey-500" role="article" aria-label={`${activity.action}: ${activity.detail}`}>
+              <Card key={activity.id} inverted className="border-2 border-border p-5 transition-colors hover:border-border" role="article" aria-label={`${activity.action}: ${activity.detail}`}>
                 <Stack gap={1}>
                   <H3 className="text-white">{activity.action}</H3>
                   <Body size="sm" className="text-on-dark-secondary">{activity.detail}</Body>
@@ -310,7 +310,7 @@ export default function DashboardPage() {
             />
             <Stack gap={3}>
               {quickLinksLoading ? (
-                <Card inverted className="border-2 border-ink-800 p-4">
+                <Card inverted className="border-2 border-border p-4">
                   <Body className="text-on-dark-secondary">Loading quick links...</Body>
                 </Card>
               ) : quickLinks && quickLinks.length > 0 ? (
@@ -393,7 +393,7 @@ export default function DashboardPage() {
             <SectionHeader kicker="Eisenhower Matrix" title="Action Items" />
             <Stack gap={3}>
               {actionItemsLoading ? (
-                <Card inverted className="border-2 border-ink-800 p-4">
+                <Card inverted className="border-2 border-border p-4">
                   <Body className="text-on-dark-secondary">Loading action items...</Body>
                 </Card>
               ) : actionItems && actionItems.length > 0 ? (
@@ -454,7 +454,7 @@ export default function DashboardPage() {
                   );
                 })
               ) : (
-                <Card inverted className="border-2 border-ink-800 p-4">
+                <Card inverted className="border-2 border-border p-4">
                   <Body className="text-on-dark-secondary">No pending action items</Body>
                 </Card>
               )}

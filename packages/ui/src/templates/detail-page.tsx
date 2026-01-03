@@ -160,7 +160,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
       }
     }, [onTabChange]);
 
-    const bgClass = inverted ? "bg-ink-950 text-white" : "bg-white text-black";
+    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
 
     // Render state content
     const renderStateContent = (
@@ -173,7 +173,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
         <Stack gap={6} className="items-center text-center max-w-md">
           {icon}
           <Stack gap={2} className="items-center">
-            <H2 className={inverted ? "text-white" : "text-ink-900"}>{title}</H2>
+            <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>{title}</H2>
             <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>{message}</Body>
           </Stack>
           {action}
@@ -414,7 +414,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
                 {tab.badge !== undefined && (
                   <span className={clsx(
                     "px-1.5 py-0.5 text-xs rounded-badge font-medium",
-                    inverted ? "bg-grey-700 text-on-dark-secondary" : "bg-grey-200 text-on-dark-disabled"
+                    inverted ? "bg-surface-elevated text-on-dark-secondary" : "bg-muted text-on-light-disabled"
                   )}>
                     {tab.badge}
                   </span>

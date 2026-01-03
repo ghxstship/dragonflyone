@@ -620,7 +620,7 @@ export function DataGrid<T>({
                       key={option.value}
                       onClick={() => onFilterChange?.(group.key, option.value)}
                       className={clsx(
-                        "block w-full px-spacing-4 py-spacing-3 font-body text-body-sm border-none border-b border-grey-200 cursor-pointer text-left hover:bg-grey-100",
+                        "block w-full px-spacing-4 py-spacing-3 font-body text-body-sm border-none border-b border-border cursor-pointer text-left hover:bg-muted",
                         activeFilters[group.key] === option.value ? "bg-surface-secondary" : "bg-surface-primary"
                       )}
                     >
@@ -693,8 +693,8 @@ export function DataGrid<T>({
                 onClick={() => onBulkAction?.(action.id, selectedKeys)}
                 disabled={action.disabled}
                 className={clsx(
-                  "px-spacing-3 py-spacing-2 font-code text-mono-sm border border-grey-600",
-                  action.variant === "danger" ? "bg-white text-black" : "bg-grey-800 text-white",
+                  "px-spacing-3 py-spacing-2 font-code text-mono-sm border border-border",
+                  action.variant === "danger" ? "bg-white text-black" : "bg-surface-elevated text-white",
                   action.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
                 )}
               >
@@ -762,7 +762,7 @@ export function DataGrid<T>({
               <tr role="row">
                 <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-spacing-12 text-center">
                   <div 
-                    className="inline-block w-spacing-6 h-spacing-6 border-2 border-grey-300 border-t-black rounded-full animate-spin" 
+                    className="inline-block w-spacing-6 h-spacing-6 border-2 border-border border-t-black rounded-full animate-spin" 
                     role="progressbar"
                     aria-label="Loading data"
                   />
@@ -778,7 +778,7 @@ export function DataGrid<T>({
               groupedData.map(({ group, rows }) => (
                 <React.Fragment key={group ?? "default"}>
                   {groupBy && (
-                    <tr className="bg-grey-900 text-white">
+                    <tr className="bg-surface-elevated text-white">
                       <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="px-spacing-4 py-spacing-3">
                         <button
                           onClick={() => toggleGroup(group)}
@@ -799,9 +799,9 @@ export function DataGrid<T>({
                           key={key}
                           onClick={() => onRowClick?.(row)}
                           className={clsx(
-                            "border-b border-grey-200 transition-colors duration-fast",
+                            "border-b border-border transition-colors duration-fast",
                             isSelected ? "bg-surface-secondary" : striped && index % 2 === 1 ? "bg-surface-secondary" : "bg-surface-primary",
-                            onRowClick && "cursor-pointer hover:bg-grey-100"
+                            onRowClick && "cursor-pointer hover:bg-muted"
                           )}
                         >
                           {selectable && (
@@ -850,7 +850,7 @@ export function DataGrid<T>({
                                         aria-label="Save changes"
                                       >
                                         {editLoading ? (
-                                          <span className="inline-block w-4 h-4 border-2 border-grey-300 border-t-success-500 rounded-avatar animate-spin" />
+                                          <span className="inline-block w-4 h-4 border-2 border-border border-t-success-500 rounded-avatar animate-spin" />
                                         ) : (
                                           <Check className="size-4" />
                                         )}
@@ -900,7 +900,7 @@ export function DataGrid<T>({
               aria-label="Go to previous page"
               className={clsx(
                 "px-spacing-4 py-spacing-2 border-2 border-border-primary bg-surface-primary text-text-primary",
-                pagination.page === 1 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-grey-100"
+                pagination.page === 1 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-muted"
               )}
             >
               Previous
@@ -911,7 +911,7 @@ export function DataGrid<T>({
               aria-label="Go to next page"
               className={clsx(
                 "px-spacing-4 py-spacing-2 border-2 border-border-primary bg-surface-primary text-text-primary",
-                pagination.page * pagination.pageSize >= pagination.total ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-grey-100"
+                pagination.page * pagination.pageSize >= pagination.total ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-muted"
               )}
             >
               Next

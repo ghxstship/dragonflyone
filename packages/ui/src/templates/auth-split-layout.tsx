@@ -126,11 +126,11 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
         case "gradient":
           return "bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-800";
         case "pattern":
-          return "bg-ink-900 bg-halftone";
+          return "bg-surface-inverse bg-halftone";
         case "solid":
           return "bg-primary-600";
         case "image":
-          return "bg-ink-900";
+          return "bg-surface-inverse";
         default:
           return "bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-800";
       }
@@ -329,13 +329,13 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
         {/* Form Panel */}
         <div
           className={clsx(
-            "flex flex-col w-full bg-ink-950",
+            "flex flex-col w-full bg-surface-inverse",
             !singleColumn && "lg:w-1/2 xl:w-[45%]"
           )}
         >
           {/* Mobile Header - Only shown on mobile when not single column */}
           {!singleColumn && (
-            <header className="lg:hidden sticky top-0 z-sticky-header border-b-2 border-grey-800 bg-ink-950/95 backdrop-blur">
+            <header className="lg:hidden sticky top-0 z-sticky-header border-b-2 border-border bg-surface-inverse/95 backdrop-blur">
               <div className="flex items-center justify-between px-4 py-4">
                 {brandLogo || (
                   <span className="font-display text-lg uppercase tracking-tight text-white">
@@ -360,7 +360,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
           </main>
 
           {/* Footer */}
-          <footer className="border-t-2 border-grey-800 bg-ink-950 py-6">
+          <footer className="border-t-2 border-border bg-surface-inverse py-6">
             <Container className="px-4 text-center sm:px-6">
               <Stack gap={4}>
                 {footerLinks.length > 0 && (
@@ -370,7 +370,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
                         <a
                           key={link.href}
                           href={link.href}
-                          className="text-xs uppercase tracking-wide text-on-dark-muted hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-ink-950 rounded px-1"
+                          className="text-xs uppercase tracking-wide text-on-dark-muted hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface-inverse rounded px-1"
                         >
                           {link.label}
                         </a>

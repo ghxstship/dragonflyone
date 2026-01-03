@@ -175,8 +175,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
           "border-b-2",
           sticky && "sticky top-0 z-sticky-header",
           inverted 
-            ? "bg-ink-950 border-ink-800" 
-            : "bg-white border-ink-200",
+            ? "bg-surface-inverse border-border" 
+            : "bg-surface-primary border-border",
           className
         )}
       >
@@ -186,7 +186,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
             aria-label="Breadcrumb"
             className={clsx(
               "flex items-center gap-1 px-6 py-2 text-sm border-b",
-              inverted ? "border-ink-800/50" : "border-ink-100"
+              inverted ? "border-border/50" : "border-border"
             )}
           >
             <ol className="flex items-center gap-1">
@@ -195,11 +195,11 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                 {index > 0 && (
                   <ChevronRight 
                     size={14} 
-                    className={inverted ? "text-ink-600" : "text-ink-400"} 
+                    className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} 
                   />
                 )}
                 {crumb.icon && (
-                  <span className={inverted ? "text-ink-400" : "text-ink-500"}>
+                  <span className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
                     {crumb.icon}
                   </span>
                 )}
@@ -209,14 +209,14 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                     className={clsx(
                       "hover:underline transition-colors",
                       inverted 
-                        ? "text-ink-400 hover:text-white" 
-                        : "text-ink-500 hover:text-ink-900"
+                        ? "text-on-dark-muted hover:text-on-dark-primary" 
+                        : "text-on-light-muted hover:text-on-light-primary"
                     )}
                   >
                     {crumb.label}
                   </a>
                 ) : (
-                  <span className={inverted ? "text-ink-300" : "text-ink-700"} aria-current={index === breadcrumbs.length - 1 ? "page" : undefined}>
+                  <span className={inverted ? "text-on-dark-secondary" : "text-on-light-secondary"} aria-current={index === breadcrumbs.length - 1 ? "page" : undefined}>
                     {crumb.label}
                   </span>
                 )}
@@ -233,14 +233,14 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
             <div className="min-w-0">
               <h1 className={clsx(
                 "font-display text-xl font-bold tracking-tight truncate",
-                inverted ? "text-white" : "text-ink-900"
+                inverted ? "text-on-dark-primary" : "text-on-light-primary"
               )}>
                 {title}
               </h1>
               {subtitle && (
                 <p className={clsx(
                   "text-sm mt-0.5 truncate",
-                  inverted ? "text-ink-400" : "text-ink-500"
+                  inverted ? "text-on-dark-muted" : "text-on-light-muted"
                 )}>
                   {subtitle}
                 </p>
@@ -258,8 +258,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                     isFavorited
                       ? "text-accent-500"
                       : inverted 
-                        ? "text-ink-500 hover:text-ink-300" 
-                        : "text-ink-400 hover:text-ink-600"
+                        ? "text-on-dark-muted hover:text-on-dark-secondary" 
+                        : "text-on-light-muted hover:text-on-light-secondary"
                   )}
                   aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
                 >
@@ -273,8 +273,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                   className={clsx(
                     "p-1.5 rounded transition-colors",
                     inverted 
-                      ? "text-ink-500 hover:text-ink-300" 
-                      : "text-ink-400 hover:text-ink-600"
+                      ? "text-on-dark-disabled hover:text-on-dark-secondary" 
+                      : "text-on-light-disabled hover:text-on-light-secondary"
                   )}
                   aria-label="Share"
                 >
@@ -288,8 +288,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                   className={clsx(
                     "p-1.5 rounded transition-colors",
                     inverted 
-                      ? "text-ink-500 hover:text-ink-300" 
-                      : "text-ink-400 hover:text-ink-600"
+                      ? "text-on-dark-disabled hover:text-on-dark-secondary" 
+                      : "text-on-light-disabled hover:text-on-light-secondary"
                   )}
                   aria-label="Settings"
                 >
@@ -310,10 +310,10 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                   <div className={clsx(
                     "flex items-center gap-2 px-3 py-1.5 rounded border-2",
                     inverted 
-                      ? "bg-ink-900 border-ink-700" 
-                      : "bg-white border-ink-200"
+                      ? "bg-surface-inverse border-border" 
+                      : "bg-surface-primary border-border"
                   )}>
-                    <Search size={16} className={inverted ? "text-ink-500" : "text-ink-400"} />
+                    <Search size={16} className={inverted ? "text-on-dark-muted" : "text-on-light-muted"} />
                     <input
                       type="text"
                       value={searchValue}
@@ -321,14 +321,14 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                       placeholder={searchPlaceholder}
                       className={clsx(
                         "w-48 bg-transparent text-sm outline-none",
-                        inverted ? "text-white placeholder:text-ink-500" : "text-ink-900 placeholder:text-ink-400"
+                        inverted ? "text-on-dark-primary placeholder:text-on-dark-muted" : "text-on-light-primary placeholder:text-on-light-muted"
                       )}
                       autoFocus
                     />
                     <button
                       type="button"
                       onClick={() => { setShowSearch(false); onSearchChange?.(""); }}
-                      className={inverted ? "text-ink-500 hover:text-ink-300" : "text-ink-400 hover:text-ink-600"}
+                      className={inverted ? "text-on-dark-muted hover:text-on-dark-secondary" : "text-on-light-muted hover:text-on-light-secondary"}
                       aria-label="Clear search"
                     >
                       <X size={16} />
@@ -341,8 +341,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                     className={clsx(
                       "p-2 rounded border-2 transition-colors",
                       inverted 
-                        ? "border-ink-700 text-ink-400 hover:text-white hover:border-ink-600" 
-                        : "border-ink-200 text-ink-500 hover:text-ink-700 hover:border-ink-300"
+                        ? "border-border text-on-dark-muted hover:text-on-dark-primary hover:border-border-primary" 
+                        : "border-border text-on-light-muted hover:text-on-light-secondary hover:border-border-primary"
                     )}
                     aria-label="Search"
                   >
@@ -365,8 +365,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                       ? "border-primary-500 bg-primary-500/10 text-primary-400" 
                       : "border-primary-500 bg-primary-50 text-primary-600"
                     : inverted 
-                      ? "border-ink-700 text-ink-400 hover:text-white hover:border-ink-600" 
-                      : "border-ink-200 text-ink-500 hover:text-ink-700 hover:border-ink-300"
+                      ? "border-border text-on-dark-muted hover:text-on-dark-primary hover:border-border-primary" 
+                      : "border-border text-on-light-muted hover:text-on-light-primary hover:border-border-primary"
                 )}
               >
                 <Filter size={16} aria-hidden="true" />
@@ -390,8 +390,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                 className={clsx(
                   "p-2 rounded border-2 transition-colors",
                   inverted 
-                    ? "border-ink-700 text-ink-400 hover:text-white hover:border-ink-600" 
-                    : "border-ink-200 text-ink-500 hover:text-ink-700 hover:border-ink-300"
+                    ? "border-border text-on-dark-muted hover:text-on-dark-primary hover:border-border-primary" 
+                    : "border-border text-on-light-muted hover:text-on-light-primary hover:border-border-primary"
                 )}
                 aria-label="Sort"
               >
@@ -403,7 +403,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
             {views && views.length > 0 && (
               <div className={clsx(
                 "flex items-center rounded border-2 overflow-hidden",
-                inverted ? "border-ink-700" : "border-ink-200"
+                inverted ? "border-border" : "border-border"
               )}>
                 {views.map((view) => {
                   const Icon = viewIcons[view.icon];
@@ -417,11 +417,11 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                         "p-2 transition-colors",
                         isActive
                           ? inverted 
-                            ? "bg-ink-700 text-white" 
-                            : "bg-ink-100 text-ink-900"
+                            ? "bg-surface-elevated text-on-dark-primary" 
+                            : "bg-muted text-on-light-primary"
                           : inverted 
-                            ? "text-ink-500 hover:text-white hover:bg-ink-800" 
-                            : "text-ink-400 hover:text-ink-700 hover:bg-ink-50"
+                            ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" 
+                            : "text-on-light-muted hover:text-on-light-secondary hover:bg-muted"
                       )}
                       aria-label={view.label}
                       title={view.label}
@@ -442,8 +442,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                   className={clsx(
                     "p-2 rounded border-2 transition-colors",
                     inverted 
-                      ? "border-ink-700 text-ink-400 hover:text-white hover:border-ink-600" 
-                      : "border-ink-200 text-ink-500 hover:text-ink-700 hover:border-ink-300"
+                      ? "border-border text-on-dark-muted hover:text-on-dark-primary hover:border-border-primary" 
+                      : "border-border text-on-light-muted hover:text-on-light-primary hover:border-border-primary"
                   )}
                   aria-label="More actions"
                 >
@@ -458,8 +458,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                     <div className={clsx(
                       "absolute right-0 top-full mt-1 min-w-[160px] rounded border-2 shadow-lg z-dropdown",
                       inverted 
-                        ? "bg-ink-900 border-ink-700" 
-                        : "bg-white border-ink-200"
+                        ? "bg-surface-inverse border-border" 
+                        : "bg-surface-primary border-border"
                     )}>
                       {secondaryActions.map((action) => (
                         <button
@@ -471,8 +471,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                             action.variant === "danger"
                               ? "text-error-500 hover:bg-error-500/10"
                               : inverted 
-                                ? "text-ink-300 hover:bg-ink-800 hover:text-white" 
-                                : "text-ink-700 hover:bg-ink-50"
+                                ? "text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary" 
+                                : "text-on-light-secondary hover:bg-muted"
                           )}
                         >
                           {action.icon}
@@ -494,8 +494,8 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                   "flex items-center gap-2 px-4 py-2 rounded border-2 text-sm font-semibold uppercase tracking-wide transition-all",
                   "shadow-[3px_3px_0] hover:shadow-[4px_4px_0] hover:-translate-x-0.5 hover:-translate-y-0.5",
                   inverted 
-                    ? "bg-white text-ink-900 border-white shadow-primary-500 hover:shadow-primary-400" 
-                    : "bg-ink-900 text-white border-ink-900 shadow-primary-500 hover:shadow-primary-400"
+                    ? "bg-surface-primary text-on-light-primary border-surface-primary shadow-primary-500 hover:shadow-primary-400" 
+                    : "bg-surface-inverse text-on-dark-primary border-surface-inverse shadow-primary-500 hover:shadow-primary-400"
                 )}
               >
                 {primaryAction.icon || <Plus size={18} />}
@@ -512,7 +512,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
             aria-label="Page sections"
             className={clsx(
               "flex items-center gap-1 px-6 overflow-x-auto",
-              inverted ? "border-t border-ink-800/50" : "border-t border-ink-100"
+              inverted ? "border-t border-border/50" : "border-t border-border"
             )}
           >
             {tabs.map((tab) => {
@@ -531,10 +531,10 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                     isActive
                       ? inverted 
                         ? "border-primary-500 text-white" 
-                        : "border-primary-500 text-ink-900"
+                        : "border-primary-500 text-on-light-primary"
                       : inverted 
-                        ? "border-transparent text-ink-400 hover:text-ink-200" 
-                        : "border-transparent text-ink-500 hover:text-ink-700"
+                        ? "border-transparent text-on-dark-muted hover:text-on-dark-secondary" 
+                        : "border-transparent text-on-light-muted hover:text-on-light-secondary"
                   )}
                 >
                   {tab.icon && <span aria-hidden="true">{tab.icon}</span>}
@@ -544,7 +544,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                       "px-1.5 py-0.5 text-xs rounded",
                       isActive
                         ? inverted ? "bg-primary-500/20 text-primary-400" : "bg-primary-100 text-primary-600"
-                        : inverted ? "bg-ink-800 text-ink-400" : "bg-ink-100 text-ink-500"
+                        : inverted ? "bg-surface-elevated text-on-dark-muted" : "bg-muted text-on-light-muted"
                     )}>
                       {tab.count}
                     </span>

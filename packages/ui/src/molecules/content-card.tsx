@@ -49,7 +49,7 @@ export const ContentCard = forwardRef<HTMLElement, ContentCardProps>(
     ref
   ) {
     const variantClasses = {
-      bordered: "border-2 border-ink-800 rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(255,255,255,0.1)]",
+      bordered: "border-2 border-border rounded-[var(--radius-card)] shadow-md",
       surface: "surface rounded-[var(--radius-card)]",
       ghost: "",
     };
@@ -73,14 +73,14 @@ export const ContentCard = forwardRef<HTMLElement, ContentCardProps>(
         {kicker && <Kicker className="mb-spacing-4">{kicker}</Kicker>}
         <H3 size="sm">{title}</H3>
         {description && (
-          <Body size="sm" className="mt-spacing-2 text-ink-300">{description}</Body>
+          <Body size="sm" className="mt-spacing-2 text-on-dark-secondary">{description}</Body>
         )}
         {bullets && bullets.length > 0 && (
-          <List className="mt-spacing-4 space-y-spacing-2 text-body-sm text-ink-200">
+          <List className="mt-spacing-4 space-y-spacing-2 text-body-sm text-on-dark-muted">
             {bullets.map((bullet) => (
               <ListItem key={bullet} className="flex gap-gap-xs">
                 {typeof bulletPrefix === "string" ? (
-                  <Text className="text-ink-500">{bulletPrefix}</Text>
+                  <Text className="text-on-dark-disabled">{bulletPrefix}</Text>
                 ) : (
                   bulletPrefix
                 )}
@@ -114,7 +114,7 @@ export const FeatureCard = forwardRef<HTMLElement, FeatureCardProps>(
             {metrics.map((metric) => (
               <Stack key={metric.label}>
                 <Kicker size="sm" variant="muted">{metric.label}</Kicker>
-                <Body className="font-display text-h3-md text-ink-50">{metric.value}</Body>
+                <Body className="font-display text-h3-md text-on-dark-primary">{metric.value}</Body>
               </Stack>
             ))}
           </Stack>

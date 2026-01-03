@@ -85,7 +85,7 @@ export default function ProductComparePage() {
             <Container size="2xl" className="py-16">
               <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
                 {PRODUCTS.map((product) => (
-                  <Card key={product.id} className="p-6 border-2 border-grey-800 rounded-card pop-card text-center cursor-pointer" onClick={() => router.push(`/products/${product.id}`)}>
+                  <Card key={product.id} className="p-6 border-2 border-border rounded-card pop-card text-center cursor-pointer" onClick={() => router.push(`/products/${product.id}`)}>
                     <Box className="p-4 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                       {product.icon}
                     </Box>
@@ -109,7 +109,7 @@ export default function ProductComparePage() {
                   <Body className="text-on-dark-muted">See which features are included in each product</Body>
                 </Stack>
 
-                <Card className="border-2 border-grey-800 rounded-card overflow-hidden">
+                <Card className="border-2 border-border rounded-card overflow-hidden">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -128,7 +128,7 @@ export default function ProductComparePage() {
                       {FEATURES.map((category) => (
                         <>
                           <TableRow key={category.category}>
-                            <TableCell colSpan={4} className="bg-grey-800">
+                            <TableCell colSpan={4} className="bg-surface-elevated">
                               <Body className="text-white font-weight-bold">{category.category}</Body>
                             </TableCell>
                           </TableRow>

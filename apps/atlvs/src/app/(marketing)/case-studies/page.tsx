@@ -65,7 +65,7 @@ export default function CaseStudiesPage() {
       Theater: "bg-secondary/20 text-secondary border-secondary/30",
       Sports: "bg-success/20 text-success border-success/30",
     };
-    return colors[industry] || "bg-grey-800 text-on-dark-muted border-grey-700";
+    return colors[industry] || "bg-surface-elevated text-on-dark-muted border-border";
   };
 
   return (
@@ -129,7 +129,7 @@ export default function CaseStudiesPage() {
                       onClick={() => router.push(`/case-studies/${cs.id}`)}
                     >
                       <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
-                        <Box className="aspect-video bg-grey-800 rounded-card overflow-hidden">
+                        <Box className="aspect-video bg-surface-elevated rounded-card overflow-hidden">
                           <Box className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                             <Building2 className="size-16 text-on-dark-disabled" />
                           </Box>
@@ -144,7 +144,7 @@ export default function CaseStudiesPage() {
                           <Body className="text-on-dark-muted">{cs.summary}</Body>
                           <Grid cols={3} gap={4} className="grid-cols-3 mt-2">
                             {cs.results.map((result, idx) => (
-                              <Stack key={idx} gap={0} className="text-center p-3 bg-grey-900/50 rounded-card">
+                              <Stack key={idx} gap={0} className="text-center p-3 bg-surface-elevated/50 rounded-card">
                                 <Body className="text-primary font-weight-bold">{result.value}</Body>
                                 <Body size="sm" className="text-on-dark-disabled">{result.metric}</Body>
                               </Stack>
@@ -194,7 +194,7 @@ export default function CaseStudiesPage() {
                     <Body className="text-on-dark-muted mt-4">Loading case studies...</Body>
                   </Stack>
                 ) : filteredStudies.length === 0 ? (
-                  <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
+                  <Card className="p-12 text-center border-2 border-border rounded-card">
                     <FileText className="size-16 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Case Studies Found</Body>
                     <Body className="text-on-dark-muted mb-4">Check back soon for more success stories in this industry</Body>
@@ -205,7 +205,7 @@ export default function CaseStudiesPage() {
                     {filteredStudies.map((cs: CaseStudy) => (
                       <Card
                         key={cs.id}
-                        className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs group"
+                        className="p-6 border-2 border-border rounded-card pop-card-atlvs group"
                         onClick={() => router.push(`/case-studies/${cs.id}`)}
                       >
                         <Stack gap={4}>

@@ -37,15 +37,15 @@ export default function SettingsPage() {
       }
     >
       <Stack gap={10}>
-        <Card className="p-spacing-6 border-2 border-ink-800 bg-transparent">
+        <Card className="p-spacing-6 border-2 border-border bg-transparent">
             <Stack gap={6}>
               <H2>Alert Preferences</H2>
               <Stack gap={4}>
-                <Card className="p-spacing-4 border-2 border-ink-800 bg-transparent">
+                <Card className="p-spacing-4 border-2 border-border bg-transparent">
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Crew Alerts</Body>
-                      <Body size="sm" className=" text-ink-400">Get notified about crew availability changes</Body>
+                      <Body size="sm" className=" text-on-light-disabled">Get notified about crew availability changes</Body>
                     </Stack>
                     <Switch
                       checked={notifications.crewAlerts}
@@ -53,11 +53,11 @@ export default function SettingsPage() {
                     />
                   </Stack>
                 </Card>
-                <Card className="p-spacing-4 border-2 border-ink-800 bg-transparent">
+                <Card className="p-spacing-4 border-2 border-border bg-transparent">
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Equipment Alerts</Body>
-                      <Body size="sm" className=" text-ink-400">Maintenance and availability notifications</Body>
+                      <Body size="sm" className=" text-on-light-disabled">Maintenance and availability notifications</Body>
                     </Stack>
                     <Switch
                       checked={notifications.equipmentAlerts}
@@ -65,11 +65,11 @@ export default function SettingsPage() {
                     />
                   </Stack>
                 </Card>
-                <Card className="p-spacing-4 border-2 border-ink-800 bg-transparent">
+                <Card className="p-spacing-4 border-2 border-border bg-transparent">
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Schedule Changes</Body>
-                      <Body size="sm" className=" text-ink-400">Project timeline and schedule updates</Body>
+                      <Body size="sm" className=" text-on-light-disabled">Project timeline and schedule updates</Body>
                     </Stack>
                     <Switch
                       checked={notifications.scheduleChanges}
@@ -77,11 +77,11 @@ export default function SettingsPage() {
                     />
                   </Stack>
                 </Card>
-                <Card className="p-spacing-4 border-2 border-ink-800 bg-transparent">
+                <Card className="p-spacing-4 border-2 border-border bg-transparent">
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Weather Alerts</Body>
-                      <Body size="sm" className=" text-ink-400">Critical weather warnings for events</Body>
+                      <Body size="sm" className=" text-on-light-disabled">Critical weather warnings for events</Body>
                     </Stack>
                     <Switch
                       checked={notifications.weatherAlerts}
@@ -93,7 +93,7 @@ export default function SettingsPage() {
             </Stack>
           </Card>
 
-          <Card className="p-spacing-6 border-2 border-ink-800 bg-transparent">
+          <Card className="p-spacing-6 border-2 border-border bg-transparent">
             <Stack gap={6}>
               <H2>Radio Configuration</H2>
               <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
@@ -117,20 +117,20 @@ export default function SettingsPage() {
             </Stack>
           </Card>
 
-          <Card className="p-spacing-6 border-2 border-ink-800 bg-transparent">
+          <Card className="p-spacing-6 border-2 border-border bg-transparent">
             <Stack gap={6}>
               <H2>Safety Settings</H2>
               <Stack gap={4}>
                 <Button variant="outline" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/emergency-contacts')}>
                   <Stack gap={1}>
                     <Body className="font-heading uppercase tracking-label">Emergency Contacts</Body>
-                    <Body size="sm" className=" text-ink-400">Manage emergency contact list</Body>
+                    <Body size="sm" className=" text-on-light-disabled">Manage emergency contact list</Body>
                   </Stack>
                 </Button>
                 <Button variant="outline" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/incident-reporting')}>
                   <Stack gap={1}>
                     <Body className="font-heading uppercase tracking-label">Incident Reporting</Body>
-                    <Body size="sm" className=" text-ink-400">Configure incident notification settings</Body>
+                    <Body size="sm" className=" text-on-light-disabled">Configure incident notification settings</Body>
                   </Stack>
                 </Button>
               </Stack>

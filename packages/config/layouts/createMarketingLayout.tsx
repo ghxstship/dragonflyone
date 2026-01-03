@@ -42,7 +42,7 @@ interface MarketingLayoutProps {
  * 
  * export default createMarketingLayout({
  *   platform: "atlvs",
- *   backgroundClass: "bg-ink-950",
+ *   backgroundClass: "bg-surface-inverse",
  *   LayoutComponent: AtlvsAppLayout,
  *   layoutVariant: "public",
  *   background: "black",

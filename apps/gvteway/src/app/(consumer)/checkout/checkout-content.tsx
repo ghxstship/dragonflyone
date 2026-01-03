@@ -87,10 +87,10 @@ export default function CheckoutContent() {
           <Stack gap={2} direction="horizontal" className="justify-between">
             {['cart', 'payment', 'confirm'].map((s, idx) => (
               <Stack key={s} gap={2} direction="horizontal" className="flex-1 items-center">
-                <Card className={`flex items-center justify-center w-10 h-10 rounded-avatar border-2 ${step === s ? 'bg-black text-white border-black' : 'border-ink-300 text-ink-600'}`}>
+                <Card className={`flex items-center justify-center w-10 h-10 rounded-avatar border-2 ${step === s ? 'bg-black text-white border-black' : 'border-border text-on-light-secondary'}`}>
                   <Body>{idx + 1}</Body>
                 </Card>
-                {idx < 2 && <Card className={`flex-1 h-0.5 ${step !== 'cart' && idx === 0 || step === 'confirm' && idx === 1 ? 'bg-black' : 'bg-ink-300'} mx-2`} />}
+                {idx < 2 && <Card className={`flex-1 h-0.5 ${step !== 'cart' && idx === 0 || step === 'confirm' && idx === 1 ? 'bg-black' : 'bg-muted'} mx-2`} />}
               </Stack>
             ))}
           </Stack>
@@ -103,17 +103,17 @@ export default function CheckoutContent() {
                   <H2 className="mb-4">ORDER SUMMARY</H2>
                   {cartItems.length > 0 ? (
                     cartItems.map((item: CartItem) => (
-                      <Stack key={item.id} gap={4} direction="horizontal" className="justify-between items-start py-4 border-b border-ink-200">
+                      <Stack key={item.id} gap={4} direction="horizontal" className="justify-between items-start py-4 border-b border-border">
                         <Stack gap={1} className="flex-1">
                           <H3>{item.event_title}</H3>
-                          <Body className="text-ink-600">{item.ticket_type_name}</Body>
-                          <Body size="sm" className=" text-ink-500">Qty: {item.qty}</Body>
+                          <Body className="text-on-light-secondary">{item.ticket_type_name}</Body>
+                          <Body size="sm" className=" text-on-light-muted">Qty: {item.qty}</Body>
                         </Stack>
                         <Body className="font-weight-bold">${(item.price * item.qty).toFixed(2)}</Body>
                       </Stack>
                     ))
                   ) : (
-                    <Body className="text-ink-500">Your cart is empty</Body>
+                    <Body className="text-on-light-muted">Your cart is empty</Body>
                   )}
                 </Card>
               </Card>
@@ -177,7 +177,7 @@ export default function CheckoutContent() {
                         onChange={(e) => setFormData({...formData, cvv: e.target.value})}
                       />
                   </Grid>
-                  <Stack gap={4} className="pt-4 border-t border-ink-200">
+                  <Stack gap={4} className="pt-4 border-t border-border">
                     <H3>BILLING ADDRESS</H3>
                     <Stack gap={4}>
                         <Input 
@@ -219,12 +219,12 @@ export default function CheckoutContent() {
                     </Stack>
                   </Stack>
                 </Card>
-                <Card className="p-6 bg-ink-100">
+                <Card className="p-6 bg-muted">
                   <Stack gap={2} direction="horizontal" className="items-center mb-2">
                     <Lock className="w-4 h-4" />
                     <Body className="font-weight-bold">SECURE CHECKOUT</Body>
                   </Stack>
-                  <Body className="text-mono-xs text-ink-600">Your payment information is encrypted and secure</Body>
+                  <Body className="text-mono-xs text-on-light-secondary">Your payment information is encrypted and secure</Body>
                 </Card>
                 <Button 
                   className="w-full mt-4" 
@@ -245,8 +245,8 @@ export default function CheckoutContent() {
                 <Check className="w-8 h-8 text-white" />
               </Card>
               <Display size="md" className="mb-2">ORDER CONFIRMED!</Display>
-              <Body className="text-ink-600 mb-6">Order #{orderId || 'PROCESSING'}</Body>
-              <Card className="p-6 bg-ink-50 mb-6">
+              <Body className="text-on-light-secondary mb-6">Order #{orderId || 'PROCESSING'}</Body>
+              <Card className="p-6 bg-muted mb-6">
                 <Body className="mb-4">Tickets have been sent to:</Body>
                 <Body className="font-weight-bold">user@example.com</Body>
               </Card>

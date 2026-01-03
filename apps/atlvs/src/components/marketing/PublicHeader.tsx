@@ -30,13 +30,13 @@ export function PublicHeader({ className }: PublicHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <Header variant="page" className={clsx('sticky top-0 z-header bg-surface-primary/95 backdrop-blur supports-[backdrop-filter]:bg-surface-primary/60 border-b-2 border-ink-950', className)}>
+    <Header variant="page" className={clsx('sticky top-0 z-header bg-surface-primary/95 backdrop-blur supports-[backdrop-filter]:bg-surface-primary/60 border-b-2 border-border', className)}>
       <Container size="xl" className="px-container-sm">
         <Stack direction="horizontal" gap={4} className="items-center justify-between h-16">
           {/* Logo */}
           <Link href="/">
             <Stack direction="horizontal" gap={2} className="items-center">
-              <Box className="w-8 h-8 bg-ink-950 rounded-card flex items-center justify-center">
+              <Box className="w-8 h-8 bg-surface-inverse rounded-card flex items-center justify-center">
                 <Text className="text-white font-heading text-body-sm">A</Text>
               </Box>
               <Text className="font-heading text-h4-md tracking-label">ATLVS</Text>
@@ -72,12 +72,12 @@ export function PublicHeader({ className }: PublicHeaderProps) {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <Box className="lg:hidden border-t-2 border-ink-950 bg-surface-primary">
+        <Box className="lg:hidden border-t-2 border-border bg-surface-primary">
           <Container size="xl" className="px-container-sm py-container-sm">
             <Stack gap={4}>
               {/* Products */}
               <Stack gap={2}>
-                <Label size="sm" className="text-ink-950">Products</Label>
+                <Label size="sm" className="text-on-light-primary">Products</Label>
                 <Stack gap={1} className="pl-4">
                   {productsNavigation.products.map((product) => (
                     <Link
@@ -85,7 +85,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
                       href={product.href}
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <Body size="sm" className="text-on-light-muted hover:text-ink-950 transition-colors py-1">{product.label}</Body>
+                      <Body size="sm" className="text-on-light-muted hover:text-on-light-primary transition-colors py-1">{product.label}</Body>
                     </Link>
                   ))}
                 </Stack>
@@ -93,7 +93,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
 
               {/* Solutions */}
               <Stack gap={2}>
-                <Label size="sm" className="text-ink-950">Solutions</Label>
+                <Label size="sm" className="text-on-light-primary">Solutions</Label>
                 <Stack gap={1} className="pl-4">
                   {solutionsNavigation.groups.slice(0, 3).map((group) => (
                     <Stack key={group.title} gap={1}>
@@ -104,7 +104,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
                           href={item.href}
                           onClick={() => setMobileMenuOpen(false)}
                         >
-                          <Body size="sm" className="text-on-light-muted hover:text-ink-950 transition-colors py-1">{item.label}</Body>
+                          <Body size="sm" className="text-on-light-muted hover:text-on-light-primary transition-colors py-1">{item.label}</Body>
                         </Link>
                       ))}
                     </Stack>
@@ -120,7 +120,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
 
               {/* Resources */}
               <Stack gap={2}>
-                <Label size="sm" className="text-ink-950">Resources</Label>
+                <Label size="sm" className="text-on-light-primary">Resources</Label>
                 <Stack gap={1} className="pl-4">
                   {resourcesNavigation.groups.map((group) => (
                     <Link
@@ -128,7 +128,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
                       href={group.items[0].href}
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <Body size="sm" className="text-on-light-muted hover:text-ink-950 transition-colors py-1">{group.title}</Body>
+                      <Body size="sm" className="text-on-light-muted hover:text-on-light-primary transition-colors py-1">{group.title}</Body>
                     </Link>
                   ))}
                 </Stack>
@@ -140,12 +140,12 @@ export function PublicHeader({ className }: PublicHeaderProps) {
                   href="/pricing"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Label size="sm" className="text-ink-950">Pricing</Label>
+                  <Label size="sm" className="text-on-light-primary">Pricing</Label>
                 </Link>
               </Stack>
 
               {/* CTAs */}
-              <Stack gap={2} className="pt-4 border-t-2 border-ink-950">
+              <Stack gap={2} className="pt-4 border-t-2 border-border">
                 <Link href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="primary" size="md" fullWidth inverted={false}>Get Started</Button>
                 </Link>

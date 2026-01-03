@@ -43,7 +43,7 @@ export default function GiftCardsPage() {
           </Card>
           <Card className="p-6 h-fit">
             <Box className="text-center mb-6"><Gift className="size-16 text-primary mx-auto mb-4" /><Body className="font-weight-bold">GVTEWAY Gift Card</Body><Body className="text-on-dark-muted mt-2">The perfect gift for any event lover</Body></Box>
-            <Box className="border-t border-grey-800 pt-6">
+            <Box className="border-t border-border pt-6">
               <Box className="flex justify-between mb-4"><Body className="text-on-dark-muted">Amount</Body><Body className="font-weight-bold">{formatCurrency(selectedAmount || 0)}</Body></Box>
               <Button variant="solid" className="w-full" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={() => purchaseGiftCard.mutate({ amount: selectedAmount, recipientEmail, message })} disabled={!selectedAmount || !recipientEmail || purchaseGiftCard.isPending}>{purchaseGiftCard.isPending ? "Processing..." : "Purchase Gift Card"}</Button>
             </Box>

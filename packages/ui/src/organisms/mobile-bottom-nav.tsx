@@ -113,9 +113,9 @@ function QuickActionsSheet({ open, onClose, actions, onSelect, inverted }: Quick
         className={clsx(
           "fixed left-0 right-0 bottom-0 z-modal pb-20 safe-area-inset-bottom",
           "animate-slide-up-bounce",
-          inverted ? "bg-ink-900" : "bg-white",
+          inverted ? "bg-surface-inverse" : "bg-surface-primary",
           "rounded-t-2xl border-t-2",
-          inverted ? "border-ink-700" : "border-ink-200"
+          inverted ? "border-border" : "border-border"
         )}
         role="dialog"
         aria-modal="true"
@@ -124,14 +124,14 @@ function QuickActionsSheet({ open, onClose, actions, onSelect, inverted }: Quick
         <div className="flex justify-center py-3">
           <div className={clsx(
             "w-12 h-1 rounded-full",
-            inverted ? "bg-ink-600" : "bg-ink-300"
+            inverted ? "bg-muted-foreground" : "bg-muted-foreground"
           )} />
         </div>
         
         <div className="px-4 pb-4">
           <h3 className={clsx(
             "text-sm font-semibold mb-4 px-2",
-            inverted ? "text-ink-300" : "text-ink-600"
+            inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
           )}>
             Quick Actions
           </h3>
@@ -191,8 +191,8 @@ function NavItemButton({ item, isActive, inverted, onNavigate, compact }: NavIte
             ? "text-primary-400"
             : "text-primary-600"
           : inverted
-          ? "text-ink-400 hover:text-ink-200 active:text-ink-100"
-          : "text-ink-500 hover:text-ink-700 active:text-ink-800"
+          ? "text-on-dark-muted hover:text-on-dark-secondary active:text-on-dark-primary"
+          : "text-on-light-muted hover:text-on-light-secondary active:text-on-light-primary"
       )}
       aria-current={isActive ? "page" : undefined}
     >
@@ -311,8 +311,8 @@ export const MobileBottomNav = forwardRef<HTMLElement, MobileBottomNavProps>(
             "fixed bottom-0 left-0 right-0 z-fixed md:hidden",
             "border-t-2 safe-area-inset-bottom",
             inverted
-              ? "bg-ink-950 border-ink-800"
-              : "bg-white border-ink-200",
+              ? "bg-surface-inverse border-border"
+              : "bg-surface-primary border-border",
             className
           )}
           role="navigation"

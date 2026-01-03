@@ -104,7 +104,7 @@ export default function HelpPage() {
                   {SUPPORT_OPTIONS.map((option) => (
                     <Card 
                       key={option.id} 
-                      className="p-6 border-2 border-grey-800 rounded-card pop-card text-center cursor-pointer"
+                      className="p-6 border-2 border-border rounded-card pop-card text-center cursor-pointer"
                       onClick={() => {
                         if (option.id === "faq") router.push("/help/faq");
                         else if (option.id === "chat") router.push("/support/chat");
@@ -145,7 +145,7 @@ export default function HelpPage() {
           background: "ink",
           content: (
             <Container size="2xl" className="py-20">
-              <Card className="p-8 border-2 border-grey-800 rounded-card">
+              <Card className="p-8 border-2 border-border rounded-card">
                 <Box className="flex items-center justify-between flex-wrap gap-6">
                   <Box className="flex items-center gap-4">
                     <Box className="p-4 bg-primary/20 rounded-card">

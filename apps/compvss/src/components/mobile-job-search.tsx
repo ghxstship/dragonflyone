@@ -152,10 +152,10 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
   return (
     <Section className="min-h-screen bg-white pb-20">
       {/* Fixed Search Header */}
-      <Stack className="sticky top-0 z-10 bg-white border-b border-ink-200 p-spacing-4">
+      <Stack className="sticky top-0 z-10 bg-white border-b border-border p-spacing-4">
         <Stack direction="horizontal" gap={2} className="items-center">
           <Stack className="flex-1 relative">
-            <Search className="absolute left-spacing-3 top-1/2 -translate-y-1/2 w-spacing-5 h-spacing-5 text-ink-500" />
+            <Search className="absolute left-spacing-3 top-1/2 -translate-y-1/2 w-spacing-5 h-spacing-5 text-on-light-muted" />
             <Input
               placeholder="Search jobs, skills, companies..."
               value={searchQuery}
@@ -188,7 +188,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
 
         {/* Expandable Filters */}
         {showFilters && (
-          <Stack gap={4} className="mt-spacing-4 pt-spacing-4 border-t border-ink-200">
+          <Stack gap={4} className="mt-spacing-4 pt-spacing-4 border-t border-border">
             <Field label="Job Type">
               <Select value={jobType} onChange={(e) => setJobType(e.target.value)}>
                 {JOB_TYPES.map((type) => (
@@ -239,7 +239,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
         ) : filteredJobs.length === 0 ? (
           <Card className="p-spacing-8 text-center">
             <Stack gap={4} className="items-center">
-              <Briefcase className="w-spacing-12 h-spacing-12 text-ink-500" />
+              <Briefcase className="w-spacing-12 h-spacing-12 text-on-light-muted" />
               <H3>No Opportunities Found</H3>
               <Body variant="muted">Try adjusting your filters or search term</Body>
               <Button variant="outline" onClick={clearFilters}>Clear Filters</Button>
@@ -250,7 +250,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
             {filteredJobs.map((job) => (
               <Card 
                 key={job.id} 
-                className="p-spacing-4 active:bg-ink-50 transition-colors"
+                className="p-spacing-4 active:bg-muted transition-colors"
                 onClick={() => router.push(`/opportunities/${job.type}/${job.id}`)}
               >
                 <Stack gap={3}>
@@ -269,7 +269,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
                         e.stopPropagation();
                         toggleSaveJob(job.id);
                       }}
-                      className={savedJobs.includes(job.id) ? 'text-black' : 'text-ink-500'}
+                      className={savedJobs.includes(job.id) ? 'text-black' : 'text-on-light-muted'}
                     >
                       {savedJobs.includes(job.id) ? '★' : '☆'}
                     </Button>
@@ -288,20 +288,20 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
                   {/* Details */}
                   <Stack gap={2}>
                     <Stack direction="horizontal" gap={2} className="items-center">
-                      <MapPin className="w-spacing-4 h-spacing-4 text-ink-500" />
+                      <MapPin className="w-spacing-4 h-spacing-4 text-on-light-muted" />
                       <Body size="sm">{job.location}</Body>
                     </Stack>
                     
                     {(job.salary || job.rate) && (
                       <Stack direction="horizontal" gap={2} className="items-center">
-                        <DollarSign className="w-spacing-4 h-spacing-4 text-ink-500" />
+                        <DollarSign className="w-spacing-4 h-spacing-4 text-on-light-muted" />
                         <Body size="sm">{job.salary || job.rate}</Body>
                       </Stack>
                     )}
 
                     {job.date && (
                       <Stack direction="horizontal" gap={2} className="items-center">
-                        <Clock className="w-spacing-4 h-spacing-4 text-ink-500" />
+                        <Clock className="w-spacing-4 h-spacing-4 text-on-light-muted" />
                         <Body size="sm">
                           {new Date(job.date).toLocaleDateString()}
                           {job.duration && ` • ${job.duration}`}
@@ -347,7 +347,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
       {/* Fixed Bottom Navigation for Mobile */}
       <Stack 
         direction="horizontal" 
-        className="fixed bottom-0 left-0 right-0 bg-white border-t border-ink-200 p-spacing-2 justify-around"
+        className="fixed bottom-0 left-0 right-0 bg-white border-t border-border p-spacing-2 justify-around"
       >
         <Button
           variant="ghost"

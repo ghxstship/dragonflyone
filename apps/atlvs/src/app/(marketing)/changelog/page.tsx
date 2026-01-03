@@ -133,7 +133,7 @@ export default function ChangelogPage() {
                     <Body className="text-on-dark-muted mt-4">Loading changelog...</Body>
                   </Stack>
                 ) : filteredChangelog.length === 0 ? (
-                  <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
+                  <Card className="p-12 text-center border-2 border-border rounded-card">
                     <Zap className="size-16 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Updates Found</Body>
                     <Body className="text-on-dark-muted mb-4">Check back soon for new releases</Body>
@@ -144,7 +144,7 @@ export default function ChangelogPage() {
                     {filteredChangelog.map((entry: ChangelogEntry) => {
                       const config = TYPE_CONFIG[entry.type];
                       return (
-                        <Card key={entry.id} className="p-8 border-2 border-grey-800 rounded-card pop-card">
+                        <Card key={entry.id} className="p-8 border-2 border-border rounded-card pop-card">
                           <Stack gap={4}>
                             <Stack direction="horizontal" className="justify-between items-start flex-wrap gap-4">
                               <Stack direction="horizontal" gap={3} className="items-center">

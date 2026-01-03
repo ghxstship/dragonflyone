@@ -142,7 +142,7 @@ export default function NewInvoicePage() {
             </Card>
           ))}
           <Button variant="outline" onClick={addLineItem} icon={<Plus className="size-4" />} iconPosition="left">Add Line Item</Button>
-          <Card className="p-4 bg-grey-800">
+          <Card className="p-4 bg-surface-elevated">
             <Box className="flex justify-between items-center">
               <Body className="font-weight-bold">Total</Body>
               <Body className="font-weight-bold font-weight-bold">${total.toFixed(2)}</Body>

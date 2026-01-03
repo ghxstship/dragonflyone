@@ -31,7 +31,7 @@ export default function CollectionPage() {
         <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
           {collection.events.map((event: Event) => (
             <Card key={event.id} className="overflow-hidden cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/e/${event.id}`)}>
-              <Box className="h-32 bg-grey-800 flex items-center justify-center"><Calendar className="size-8 text-on-dark-disabled" /></Box>
+              <Box className="h-32 bg-surface-elevated flex items-center justify-center"><Calendar className="size-8 text-on-dark-disabled" /></Box>
               <Box className="p-4">
                 <Body className="font-weight-bold">{event.name}</Body>
                 <Box className="flex items-center gap-2 mt-2 text-on-dark-muted"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></Box>

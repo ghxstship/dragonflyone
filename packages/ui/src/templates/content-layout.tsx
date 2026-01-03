@@ -103,7 +103,7 @@ export const MainContent = forwardRef<HTMLDivElement, MainContentProps>(
         className={clsx(
           "flex-1 overflow-auto",
           paddingClasses[padding],
-          inverted ? "bg-ink-950" : "bg-ink-50",
+          inverted ? "bg-surface-inverse" : "bg-surface-secondary",
           className
         )}
       >
@@ -139,7 +139,7 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
           "shrink-0 overflow-auto transition-all duration-200 relative",
           collapsed ? "w-0 opacity-0 overflow-hidden" : sideWidthClasses[sideWidth],
           showDivider && !collapsed && (sidePosition === "left" ? "border-r-2" : "border-l-2"),
-          inverted ? "border-ink-800 bg-ink-900" : "border-ink-200 bg-white"
+          inverted ? "border-border bg-surface-elevated" : "border-border bg-surface-primary"
         )}
         aria-hidden={collapsed}
       >
@@ -150,7 +150,7 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
             className={clsx(
               "absolute top-2 p-1 rounded transition-colors",
               sidePosition === "left" ? "right-2" : "left-2",
-              inverted ? "hover:bg-ink-800 text-ink-400" : "hover:bg-ink-100 text-ink-500"
+              inverted ? "hover:bg-surface-elevated text-on-dark-muted" : "hover:bg-muted text-on-light-muted"
             )}
             aria-label={collapsed ? "Expand panel" : "Collapse panel"}
           >
@@ -179,12 +179,12 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
         className={clsx(
           "shrink-0 flex items-center justify-center w-6 transition-colors",
           showDivider && (sidePosition === "left" ? "border-r-2" : "border-l-2"),
-          inverted ? "border-ink-800 bg-ink-900 hover:bg-ink-800" : "border-ink-200 bg-white hover:bg-ink-50"
+          inverted ? "border-border bg-surface-elevated hover:bg-surface-inverse" : "border-border bg-surface-primary hover:bg-muted"
         )}
         aria-label="Expand panel"
       >
         <svg
-          className="size-4 text-ink-400"
+          className="size-4 text-on-dark-muted"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -205,7 +205,7 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
         className={clsx("flex h-full overflow-hidden", className)}
       >
         {sidePosition === "left" && (collapsed ? collapsedToggle : sidePanel)}
-        <div className={clsx("flex-1 overflow-auto", inverted ? "bg-ink-950" : "bg-ink-50")}>
+        <div className={clsx("flex-1 overflow-auto", inverted ? "bg-surface-inverse" : "bg-surface-secondary")}>
           {main}
         </div>
         {sidePosition === "right" && (collapsed ? collapsedToggle : sidePanel)}
@@ -238,14 +238,14 @@ export const PanelLayout = forwardRef<HTMLDivElement, PanelLayoutProps>(
             key={section.id}
             className={clsx(
               "rounded border-2",
-              inverted ? "border-ink-800 bg-ink-900" : "border-ink-200 bg-white"
+              inverted ? "border-border bg-surface-elevated" : "border-border bg-surface-primary"
             )}
           >
             {section.title && (
               <div
                 className={clsx(
                   "px-4 py-3 border-b-2 font-semibold text-sm uppercase tracking-wide",
-                  inverted ? "border-ink-800 text-ink-300" : "border-ink-200 text-ink-600"
+                  inverted ? "border-border text-on-dark-secondary" : "border-border text-on-light-secondary"
                 )}
               >
                 {section.title}
@@ -275,7 +275,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
           "flex items-center gap-2 px-4 py-2 border-2",
           position === "top" ? "border-b-2 border-t-0 border-x-0" : "border-t-2 border-b-0 border-x-0",
           sticky && (position === "top" ? "sticky top-0 z-sticky-header" : "sticky bottom-0 z-sticky-header"),
-          inverted ? "bg-ink-900 border-ink-800" : "bg-white border-ink-200",
+          inverted ? "bg-surface-elevated border-border" : "bg-surface-primary border-border",
           className
         )}
       >
@@ -317,7 +317,7 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
         ref={ref}
         className={clsx(
           "rounded border-2",
-          inverted ? "border-ink-800 bg-ink-900/50" : "border-ink-200 bg-white",
+          inverted ? "border-border bg-surface-elevated/50" : "border-border bg-surface-primary",
           className
         )}
       >
@@ -325,7 +325,7 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
           <div
             className={clsx(
               "flex items-center justify-between px-5 py-4 border-b-2",
-              inverted ? "border-ink-800" : "border-ink-200"
+              inverted ? "border-border" : "border-border"
             )}
           >
             <div>
@@ -333,7 +333,7 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
                 <h3
                   className={clsx(
                     "font-semibold text-base",
-                    inverted ? "text-white" : "text-ink-900"
+                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
                   )}
                 >
                   {title}
@@ -343,7 +343,7 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
                 <p
                   className={clsx(
                     "text-sm mt-0.5",
-                    inverted ? "text-ink-400" : "text-ink-500"
+                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
                   )}
                 >
                   {subtitle}
@@ -391,14 +391,14 @@ export const KanbanLayout = forwardRef<HTMLDivElement, KanbanLayoutProps>(
             key={column.id}
             className={clsx(
               "flex-shrink-0 w-72 rounded border-2",
-              inverted ? "border-ink-800 bg-ink-900" : "border-ink-200 bg-white"
+              inverted ? "border-border bg-surface-elevated" : "border-border bg-surface-primary"
             )}
           >
             {/* Column Header */}
             <div
               className={clsx(
                 "flex items-center justify-between px-3 py-2 border-b-2",
-                inverted ? "border-ink-800" : "border-ink-200"
+                inverted ? "border-border" : "border-border"
               )}
             >
               <div className="flex items-center gap-2">
@@ -411,7 +411,7 @@ export const KanbanLayout = forwardRef<HTMLDivElement, KanbanLayoutProps>(
                 <span
                   className={clsx(
                     "font-semibold text-sm",
-                    inverted ? "text-white" : "text-ink-900"
+                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
                   )}
                 >
                   {column.title}
@@ -420,7 +420,7 @@ export const KanbanLayout = forwardRef<HTMLDivElement, KanbanLayoutProps>(
                   <span
                     className={clsx(
                       "px-1.5 py-0.5 text-xs rounded",
-                      inverted ? "bg-ink-800 text-ink-400" : "bg-ink-100 text-ink-500"
+                      inverted ? "bg-surface-elevated text-on-dark-muted" : "bg-muted text-on-light-muted"
                     )}
                   >
                     {column.count}
@@ -466,7 +466,7 @@ export interface KanbanCardProps {
 }
 
 const priorityColors = {
-  low: "bg-ink-500",
+  low: "bg-muted-foreground",
   medium: "bg-accent-500",
   high: "bg-warning-500",
   urgent: "bg-error-500",
@@ -496,8 +496,8 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
           "rounded border-2 p-3 transition-all cursor-pointer",
           "hover:shadow-[3px_3px_0] hover:-translate-x-0.5 hover:-translate-y-0.5",
           inverted
-            ? "border-ink-700 bg-ink-800 hover:border-ink-600 shadow-primary-500/30"
-            : "border-ink-200 bg-white hover:border-ink-300 shadow-primary-500/20",
+            ? "border-border bg-surface-elevated hover:border-border-primary shadow-primary-500/30"
+            : "border-border bg-surface-primary hover:border-border-primary shadow-primary-500/20",
           className
         )}
       >
@@ -511,7 +511,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
           <h4
             className={clsx(
               "font-medium text-sm mb-1",
-              inverted ? "text-white" : "text-ink-900"
+              inverted ? "text-on-dark-primary" : "text-on-light-primary"
             )}
           >
             {title}
@@ -523,7 +523,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
           <p
             className={clsx(
               "text-xs mb-2",
-              inverted ? "text-ink-400" : "text-ink-500"
+              inverted ? "text-on-dark-muted" : "text-on-light-muted"
             )}
           >
             {subtitle}
@@ -541,7 +541,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
                 key={index}
                 className={clsx(
                   "px-1.5 py-0.5 text-[10px] rounded font-medium",
-                  inverted ? "bg-ink-700 text-ink-300" : "bg-ink-100 text-ink-600"
+                  inverted ? "bg-surface-elevated text-on-dark-secondary" : "bg-muted text-on-light-secondary"
                 )}
                 style={tag.color ? { backgroundColor: tag.color, color: "white" } : undefined}
               >
@@ -553,7 +553,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
 
         {/* Footer: Assignee + Due Date */}
         {(assignee || dueDate) && (
-          <div className="flex items-center justify-between mt-3 pt-2 border-t border-ink-700">
+          <div className="flex items-center justify-between mt-3 pt-2 border-t border-border">
             {assignee && (
               <div className="flex items-center gap-1.5">
                 {assignee.avatar ? (
@@ -566,7 +566,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
                   <div
                     className={clsx(
                       "w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold",
-                      inverted ? "bg-ink-600 text-white" : "bg-ink-200 text-ink-700"
+                      inverted ? "bg-surface-elevated text-on-dark-primary" : "bg-muted text-on-light-secondary"
                     )}
                   >
                     {assignee.name.charAt(0).toUpperCase()}
@@ -575,7 +575,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
                 <span
                   className={clsx(
                     "text-xs",
-                    inverted ? "text-ink-400" : "text-ink-500"
+                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
                   )}
                 >
                   {assignee.name}
@@ -586,7 +586,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
               <span
                 className={clsx(
                   "text-xs",
-                  inverted ? "text-ink-500" : "text-ink-400"
+                  inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
                 )}
               >
                 {dueDate}

@@ -161,7 +161,7 @@ export function SignatureCapture({
 
       {/* Canvas */}
       <div className="p-4">
-        <div className="relative border-2 border-border rounded-card overflow-hidden bg-white">
+        <div className="relative border-2 border-border rounded-card overflow-hidden bg-surface-primary">
           <canvas
             ref={canvasRef}
             width={width}

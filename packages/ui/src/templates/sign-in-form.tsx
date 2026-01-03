@@ -161,7 +161,7 @@ export const SignInForm = forwardRef<HTMLDivElement, SignInFormProps>(
                     "mx-auto flex size-12 items-center justify-center border-2 sm:size-16",
                     inverted
                       ? "border-white/20 bg-white/5"
-                      : "border-black/10 bg-grey-100"
+                      : "border-black/10 bg-muted"
                   )}
                 >
                   <Lock

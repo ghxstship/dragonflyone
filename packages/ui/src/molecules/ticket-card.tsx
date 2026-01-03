@@ -35,11 +35,11 @@ export interface TicketCardProps {
 }
 
 const statusConfig = {
-  valid: { label: "VALID", bgClass: "bg-black", textClass: "text-white" },
-  used: { label: "USED", bgClass: "bg-grey-500", textClass: "text-white" },
-  transferred: { label: "TRANSFERRED", bgClass: "bg-grey-600", textClass: "text-white" },
-  refunded: { label: "REFUNDED", bgClass: "bg-grey-400", textClass: "text-black" },
-  expired: { label: "EXPIRED", bgClass: "bg-grey-300", textClass: "text-on-light-muted" },
+  valid: { label: "VALID", bgClass: "bg-surface-inverse", textClass: "text-on-dark-primary" },
+  used: { label: "USED", bgClass: "bg-muted-foreground", textClass: "text-on-dark-primary" },
+  transferred: { label: "TRANSFERRED", bgClass: "bg-muted-foreground", textClass: "text-on-dark-primary" },
+  refunded: { label: "REFUNDED", bgClass: "bg-muted", textClass: "text-on-light-primary" },
+  expired: { label: "EXPIRED", bgClass: "bg-muted", textClass: "text-on-light-muted" },
 };
 
 function formatDate(date: Date | string): string {
@@ -74,8 +74,8 @@ export function TicketCard({
   return (
     <article
       className={clsx(
-        "flex flex-col bg-white border-2 border-black rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(0,0,0,0.1)] overflow-hidden transition-all duration-100 ease-[var(--ease-bounce)]",
-        onClick && "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]",
+        "flex flex-col bg-surface-primary border-2 border-border-primary rounded-[var(--radius-card)] shadow-md overflow-hidden transition-all duration-100 ease-[var(--ease-bounce)]",
+        onClick && "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lg",
         !isActive && "opacity-70",
         className
       )}
@@ -84,7 +84,7 @@ export function TicketCard({
       tabIndex={onClick ? 0 : undefined}
     >
       {/* Header with Status */}
-      <div className="flex justify-between items-center px-spacing-5 py-spacing-4 border-b border-grey-200">
+      <div className="flex justify-between items-center px-spacing-5 py-spacing-4 border-b border-border">
         <div className="font-code text-mono-sm text-on-dark-disabled tracking-widest">
           {ticketType}
         </div>
@@ -103,12 +103,12 @@ export function TicketCard({
       <div className="p-spacing-5 flex gap-gap-lg">
         {/* Event Info */}
         <div className="flex-1 flex flex-col gap-gap-sm">
-          <h3 className="font-heading text-h4-md text-black uppercase tracking-wide leading-snug">
+          <h3 className="font-heading text-h4-md text-on-light-primary uppercase tracking-wide leading-snug">
             {eventTitle}
           </h3>
 
           <div className="flex flex-col gap-gap-xs">
-            <div className="font-code text-mono-sm text-black tracking-wide">
+            <div className="font-code text-mono-sm text-on-light-primary tracking-wide">
               {formatDate(date)}
               {time && ` // ${time}`}
             </div>
@@ -131,7 +131,7 @@ export function TicketCard({
 
         {/* QR Code */}
         {showQR && qrCode && isActive && (
-          <div className="w-spacing-24 h-spacing-24 bg-white border border-grey-300 flex items-center justify-center flex-shrink-0">
+          <div className="w-spacing-24 h-spacing-24 bg-surface-primary border border-border flex items-center justify-center flex-shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={qrCode}
@@ -143,7 +143,7 @@ export function TicketCard({
       </div>
 
       {/* Footer with Order Info */}
-      <div className="flex justify-between items-center px-spacing-5 py-spacing-3 bg-grey-100 border-t border-grey-200">
+      <div className="flex justify-between items-center px-spacing-5 py-spacing-3 bg-muted border-t border-border">
         <div className="font-code text-mono-xs text-on-dark-disabled tracking-widest">
           {orderNumber && `ORDER #${orderNumber}`}
         </div>
@@ -154,9 +154,9 @@ export function TicketCard({
 
       {/* Perforated Edge Effect - keeping inline style for complex gradient */}
       <div
-        className="h-spacing-2 border-t border-dashed border-grey-300"
+        className="h-spacing-2 border-t border-dashed border-border"
         style={{
-          background: `repeating-linear-gradient(90deg, white 0px, white 8px, transparent 8px, transparent 16px)`,
+          background: `repeating-linear-gradient(90deg, hsl(var(--background)) 0px, hsl(var(--background)) 8px, transparent 8px, transparent 16px)`,
         }}
       />
     </article>

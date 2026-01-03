@@ -40,7 +40,7 @@ export default function ProfilePage() {
             <Box className="flex items-start gap-6 mb-6">
               <Box className="size-24 bg-primary rounded-avatar flex items-center justify-center relative">
                 <User className="size-12 text-white" />
-                <Button variant="ghost" size="sm" className="absolute -bottom-1 -right-1 bg-grey-800 rounded-avatar p-2"><Camera className="size-4" /></Button>
+                <Button variant="ghost" size="sm" className="absolute -bottom-1 -right-1 bg-surface-elevated rounded-avatar p-2"><Camera className="size-4" /></Button>
               </Box>
               <Box className="flex-1">
                 {isEditing ? (
@@ -53,7 +53,7 @@ export default function ProfilePage() {
               </Box>
               {!isEditing && <Button variant="outline" onClick={() => { setFormData(profile); setIsEditing(true); }}>Edit</Button>}
             </Box>
-            <Box className="border-t border-grey-800 pt-6">
+            <Box className="border-t border-border pt-6">
               <SectionHeader title="Contact" />
               <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
                 <Box><Body size="sm" className="text-on-dark-muted mb-1">Email</Body>{isEditing ? <Input value={formData.email || ""} onChange={(e) => setFormData({ ...formData, email: e.target.value })} /> : <Box className="flex items-center gap-2"><Mail className="size-4 text-on-dark-muted" /><Body>{profile.email}</Body></Box>}</Box>
@@ -61,7 +61,7 @@ export default function ProfilePage() {
                 <Box><Body size="sm" className="text-on-dark-muted mb-1">Location</Body>{isEditing ? <Input value={formData.location || ""} onChange={(e) => setFormData({ ...formData, location: e.target.value })} /> : <Box className="flex items-center gap-2"><MapPin className="size-4 text-on-dark-muted" /><Body>{profile.location}</Body></Box>}</Box>
               </Grid>
             </Box>
-            {isEditing && <Box className="flex gap-4 mt-6 pt-6 border-t border-grey-800"><Button variant="solid" onClick={() => updateProfile.mutate(formData)} disabled={updateProfile.isPending}>{updateProfile.isPending ? "Saving..." : "Save"}</Button><Button variant="outline" onClick={() => setIsEditing(false)}>Cancel</Button></Box>}
+            {isEditing && <Box className="flex gap-4 mt-6 pt-6 border-t border-border"><Button variant="solid" onClick={() => updateProfile.mutate(formData)} disabled={updateProfile.isPending}>{updateProfile.isPending ? "Saving..." : "Save"}</Button><Button variant="outline" onClick={() => setIsEditing(false)}>Cancel</Button></Box>}
           </Card>
         </Section>
       ),

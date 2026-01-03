@@ -126,7 +126,7 @@ export default function ProposalDetailPage() {
                   ))}
                 </TableBody>
               </Table>
-              <Box className="p-6 border-t border-grey-700">
+              <Box className="p-6 border-t border-border">
                 <Stack gap={2}>
                   <Box className="flex justify-between">
                     <Body>Subtotal</Body>

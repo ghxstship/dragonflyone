@@ -17,7 +17,7 @@ const getRiskBg = (risk: string): string => {
     case "Severe": return "bg-error/10";
     case "High": return "bg-warning/10";
     case "Moderate": return "bg-info/10";
-    default: return "bg-grey-100";
+    default: return "bg-muted";
   }
 };
 

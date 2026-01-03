@@ -41,15 +41,15 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
         return clsx(
           base,
           inverted
-            ? "bg-ink-900 border-white shadow-[3px_3px_0_hsl(var(--primary))]"
-            : "bg-grey-100 border-black shadow-[3px_3px_0_hsl(var(--primary))]"
+            ? "bg-surface-inverse border-on-dark-primary shadow-[3px_3px_0_hsl(var(--primary))]"
+            : "bg-muted border-on-light-primary shadow-[3px_3px_0_hsl(var(--primary))]"
         );
       }
       
       if (inverted) {
         switch (variant) {
-          case "default": return clsx(base, "bg-grey-800 border-grey-600 shadow-[2px_2px_0_rgba(255,255,255,0.1)]");
-          case "inverse": return clsx(base, "bg-grey-200 border-grey-400 shadow-[2px_2px_0_rgba(255,255,255,0.1)]");
+          case "default": return clsx(base, "bg-surface-elevated border-border shadow-[2px_2px_0_rgba(255,255,255,0.1)]");
+          case "inverse": return clsx(base, "bg-muted border-border shadow-[2px_2px_0_rgba(255,255,255,0.1)]");
           case "success": return clsx(base, "bg-success-900 border-success-500 shadow-[2px_2px_0_rgba(34,197,94,0.2)]");
           case "warning": return clsx(base, "bg-warning-900 border-warning-500 shadow-[2px_2px_0_rgba(245,158,11,0.2)]");
           case "error": return clsx(base, "bg-error-900 border-error-500 shadow-[2px_2px_0_rgba(239,68,68,0.2)]");
@@ -58,8 +58,8 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
         }
       } else {
         switch (variant) {
-          case "default": return clsx(base, "bg-grey-200 border-grey-300 shadow-[2px_2px_0_rgba(0,0,0,0.08)]");
-          case "inverse": return clsx(base, "bg-grey-900 border-grey-700 shadow-[2px_2px_0_rgba(0,0,0,0.08)]");
+          case "default": return clsx(base, "bg-muted border-border shadow-[2px_2px_0_rgba(0,0,0,0.08)]");
+          case "inverse": return clsx(base, "bg-surface-inverse border-border shadow-[2px_2px_0_rgba(0,0,0,0.08)]");
           case "success": return clsx(base, "bg-success-100 border-success-300 shadow-[2px_2px_0_rgba(34,197,94,0.15)]");
           case "warning": return clsx(base, "bg-warning-100 border-warning-300 shadow-[2px_2px_0_rgba(245,158,11,0.15)]");
           case "error": return clsx(base, "bg-error-100 border-error-300 shadow-[2px_2px_0_rgba(239,68,68,0.15)]");

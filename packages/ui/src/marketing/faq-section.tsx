@@ -50,7 +50,7 @@ function FAQAccordionItem({
   onToggle: () => void;
 }) {
   return (
-    <div className="border-b border-grey-800 last:border-b-0">
+    <div className="border-b border-border last:border-b-0">
       <button
         onClick={onToggle}
         className="w-full py-6 flex items-center justify-between text-left group"
@@ -98,8 +98,8 @@ export const FAQSection = forwardRef<HTMLElement, FAQSectionProps>(
 
     const bgClasses = {
       black: "bg-black text-white",
-      ink: "bg-ink-950 text-white",
-      grey: "bg-grey-900 text-white",
+      ink: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-surface-elevated text-on-dark-primary",
     };
 
     const toggleItem = (id: string) => {

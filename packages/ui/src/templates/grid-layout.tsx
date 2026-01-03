@@ -165,8 +165,8 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
   ) {
     const [showFilters, setShowFilters] = useState(filters === "left");
     
-    const bgClass = inverted ? "bg-ink-950 text-white" : "bg-white text-ink-900";
-    const borderClass = inverted ? "border-grey-800" : "border-grey-200";
+    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+    const borderClass = inverted ? "border-border" : "border-border";
 
     const activeFilterCount = Object.values(activeFilters).filter(Boolean).length;
 
@@ -201,7 +201,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <AlertTriangle className="size-16 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={inverted ? "text-white" : "text-ink-900"}>
+                <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
                   Error Loading Items
                 </H2>
                 <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
@@ -233,7 +233,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <div className={clsx(
                 "size-20 rounded-full flex items-center justify-center border-2",
-                inverted ? "border-grey-700 bg-grey-800" : "border-grey-200 bg-grey-100"
+                inverted ? "border-border bg-surface-elevated" : "border-border bg-muted"
               )}>
                 <LayoutGrid className={clsx(
                   "size-10",
@@ -260,7 +260,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
         "w-64 shrink-0 border-r-2 p-4 transition-all",
         showFilters ? "block" : "hidden lg:block",
         borderClass,
-        inverted ? "bg-ink-900" : "bg-grey-50"
+        inverted ? "bg-surface-elevated" : "bg-muted"
       )}>
         <Stack gap={4}>
           <Stack direction="horizontal" className="items-center justify-between">
@@ -297,8 +297,8 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                 className={clsx(
                   "w-full px-3 py-2 border-2 rounded-button text-sm transition-colors",
                   inverted
-                    ? "bg-ink-800 border-grey-700 text-white focus:border-primary"
-                    : "bg-white border-grey-200 text-ink-900 focus:border-primary"
+                    ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary"
+                    : "bg-surface-primary border-border text-on-light-primary focus:border-primary"
                 )}
               >
                 <option value="">All</option>
@@ -341,8 +341,8 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                     className={clsx(
                       "lg:hidden flex items-center gap-2 px-3 py-2 border-2 rounded-button text-sm transition-colors",
                       inverted
-                        ? "border-grey-700 text-on-dark-secondary hover:border-grey-600"
-                        : "border-grey-200 text-on-dark-disabled hover:border-grey-300"
+                        ? "border-border text-on-dark-secondary hover:border-border-primary"
+                        : "border-border text-on-light-disabled hover:border-border-primary"
                     )}
                   >
                     <Filter className="size-4" />
@@ -365,7 +365,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                       onClick={handleClearSelection}
                       className={clsx(
                         "p-1 rounded transition-colors",
-                        inverted ? "hover:bg-grey-800" : "hover:bg-grey-100"
+                        inverted ? "hover:bg-surface-elevated" : "hover:bg-muted"
                       )}
                     >
                       <X className="size-4" />
@@ -389,8 +389,8 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                   className={clsx(
                     "px-3 py-2 border-2 rounded-button text-sm transition-colors",
                     inverted
-                      ? "bg-ink-800 border-grey-700 text-white focus:border-primary"
-                      : "bg-white border-grey-200 text-ink-900 focus:border-primary"
+                      ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary"
+                      : "bg-surface-primary border-border text-on-light-primary focus:border-primary"
                   )}
                 >
                   <option value="">{filter.label}: All</option>

@@ -173,16 +173,16 @@ export const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
           "focus:outline-none focus:ring-2 focus:ring-offset-2",
           inverted
             ? [
-                "bg-grey-900 text-white placeholder:text-on-dark-disabled",
+                "bg-surface-inverse text-on-dark-primary placeholder:text-on-dark-disabled",
                 error
                   ? "border-error-500 focus:ring-error-500"
-                  : "border-grey-700 focus:border-white focus:ring-white",
+                  : "border-border focus:border-on-dark-primary focus:ring-on-dark-primary",
               ]
             : [
-                "bg-white text-black placeholder:text-on-dark-muted",
+                "bg-surface-primary text-on-light-primary placeholder:text-on-light-muted",
                 error
                   ? "border-error-500 focus:ring-error-500"
-                  : "border-grey-300 focus:border-black focus:ring-black",
+                  : "border-border focus:border-on-light-primary focus:ring-on-light-primary",
               ],
           "disabled:opacity-50 disabled:cursor-not-allowed",
           className

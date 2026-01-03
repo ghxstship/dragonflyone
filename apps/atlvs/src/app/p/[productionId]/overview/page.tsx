@@ -113,7 +113,7 @@ export default function ProductionOverviewPage() {
             ].map((activity, idx) => (
               <Card key={idx} className="p-4">
                 <Box className="flex items-center gap-4">
-                  <Box className="p-2 bg-grey-800 rounded-card">{activity.icon}</Box>
+                  <Box className="p-2 bg-surface-elevated rounded-card">{activity.icon}</Box>
                   <Box className="flex-1">
                     <Body className="font-weight-medium">{activity.action}</Body>
                     <Body size="sm" className="text-on-dark-muted">{activity.detail}</Body>

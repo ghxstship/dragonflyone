@@ -186,7 +186,7 @@ export default function DashboardPage() {
                     <Body className="text-white">Summer Music Festival</Body>
                     <Label size="xs" className="text-on-dark-muted">June 15, 2024 • 342 tickets sold</Label>
                   </Box>
-                  <Box className="border-l-4 border-grey-700 pl-4">
+                  <Box className="border-l-4 border-border pl-4">
                     <Body className="text-white">Rock Concert Series</Body>
                     <Label size="xs" className="text-on-dark-muted">July 20, 2024 • 156 tickets sold</Label>
                   </Box>
@@ -213,7 +213,7 @@ export default function DashboardPage() {
 
             <Card inverted className="p-4">
               <Body className="text-white font-weight-medium mb-3">Your Venues</Body>
-              <Card inverted className="p-4 cursor-pointer hover:bg-grey-800" onClick={() => router.push("/venues/main-stage")}>
+              <Card inverted className="p-4 cursor-pointer hover:bg-surface-elevated" onClick={() => router.push("/venues/main-stage")}>
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack gap={0}>
                     <Body className="text-white">Main Stage Theater</Body>
@@ -317,7 +317,7 @@ export default function DashboardPage() {
                     <Body className="text-white">Electronic Night</Body>
                     <Label size="xs" className="text-on-dark-muted">Based on your preferences</Label>
                   </Box>
-                  <Box className="border-l-4 border-grey-700 pl-4">
+                  <Box className="border-l-4 border-border pl-4">
                     <Body className="text-white">Jazz in the Park</Body>
                     <Label size="xs" className="text-on-dark-muted">Nearby • This Weekend</Label>
                   </Box>

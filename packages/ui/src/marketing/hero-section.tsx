@@ -83,7 +83,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
   ) {
     const bgClasses = {
       black: "bg-black",
-      ink: "bg-ink-950",
+      ink: "bg-surface-inverse",
       gradient: "bg-gradient-to-br from-ink-950 via-ink-900 to-primary/20",
       image: "bg-black",
     };

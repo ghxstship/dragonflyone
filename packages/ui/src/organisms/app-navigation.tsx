@@ -69,10 +69,10 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
     const isActive = (href: string) => 
       pathname === href || pathname.startsWith(href + "/");
 
-    const bgClass = colorScheme === "black" ? "bg-black/90" : "bg-ink-950/90";
-    const borderClass = colorScheme === "black" ? "border-grey-800" : "border-ink-800";
-    const textClass = colorScheme === "black" ? "text-on-dark-secondary" : "text-ink-300";
-    const overlayBgClass = colorScheme === "black" ? "bg-black/95" : "bg-ink-950/95";
+    const bgClass = colorScheme === "black" ? "bg-black/90" : "bg-surface-inverse/90";
+    const borderClass = colorScheme === "black" ? "border-border" : "border-border";
+    const textClass = colorScheme === "black" ? "text-on-dark-secondary" : "text-on-dark-secondary";
+    const overlayBgClass = colorScheme === "black" ? "bg-black/95" : "bg-surface-inverse/95";
 
     return (
       <>

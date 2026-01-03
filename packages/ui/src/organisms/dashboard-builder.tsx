@@ -189,8 +189,8 @@ function SortableWidget({
         SIZE_CLASSES[widget.size],
         isDragging && "opacity-50 z-popover",
         inverted
-          ? "bg-ink-800 border-ink-700"
-          : "bg-white border-ink-200",
+          ? "bg-surface-elevated border-border"
+          : "bg-surface-primary border-border",
         editMode && "hover:border-primary-500"
       )}
     >
@@ -198,7 +198,7 @@ function SortableWidget({
       <div
         className={clsx(
           "flex items-center justify-between px-4 py-2 border-b-2",
-          inverted ? "border-ink-700" : "border-ink-200"
+          inverted ? "border-border" : "border-border"
         )}
       >
         <div className="flex items-center gap-2">
@@ -210,8 +210,8 @@ function SortableWidget({
               className={clsx(
                 "p-1 cursor-grab active:cursor-grabbing rounded",
                 inverted
-                  ? "text-ink-400 hover:text-white hover:bg-ink-700"
-                  : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
+                  ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-inverse"
+                  : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
               )}
             >
               <Move size={14} />
@@ -220,7 +220,7 @@ function SortableWidget({
           <h3
             className={clsx(
               "font-semibold text-sm",
-              inverted ? "text-white" : "text-ink-900"
+              inverted ? "text-on-dark-primary" : "text-on-light-primary"
             )}
           >
             {widget.title}
@@ -235,8 +235,8 @@ function SortableWidget({
               className={clsx(
                 "p-1 rounded transition-colors",
                 inverted
-                  ? "text-ink-400 hover:text-white hover:bg-ink-700"
-                  : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
+                  ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-inverse"
+                  : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
               )}
             >
               <Settings size={14} />
@@ -247,8 +247,8 @@ function SortableWidget({
               className={clsx(
                 "p-1 rounded transition-colors",
                 inverted
-                  ? "text-ink-400 hover:text-error-400 hover:bg-ink-700"
-                  : "text-ink-500 hover:text-error-600 hover:bg-ink-100"
+                  ? "text-on-dark-muted hover:text-error-400 hover:bg-surface-inverse"
+                  : "text-on-light-muted hover:text-error-600 hover:bg-muted"
               )}
             >
               <Trash2 size={14} />
@@ -265,7 +265,7 @@ function SortableWidget({
           <div
             className={clsx(
               "flex items-center justify-center h-full text-sm",
-              inverted ? "text-ink-500" : "text-ink-400"
+              inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
             )}
           >
             {widget.type.replace("_", " ")}
@@ -294,7 +294,7 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
     <div
       className={clsx(
         "fixed inset-y-0 right-0 w-80 z-sidebar-backdrop border-l-2 shadow-xl overflow-y-auto",
-        inverted ? "bg-ink-900 border-ink-700" : "bg-white border-ink-200"
+        inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border"
       )}
     >
       <div className="p-4">
@@ -302,7 +302,7 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
           <h2
             className={clsx(
               "font-semibold text-lg",
-              inverted ? "text-white" : "text-ink-900"
+              inverted ? "text-on-dark-primary" : "text-on-light-primary"
             )}
           >
             Add Widget
@@ -313,8 +313,8 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
             className={clsx(
               "p-1 rounded transition-colors",
               inverted
-                ? "text-ink-400 hover:text-white hover:bg-ink-800"
-                : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
+                ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
+                : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
             )}
           >
             <X size={20} />
@@ -333,14 +333,14 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
               className={clsx(
                 "w-full flex items-start gap-3 p-3 rounded-lg border-2 text-left transition-all",
                 inverted
-                  ? "bg-ink-800 border-ink-700 hover:border-primary-500"
-                  : "bg-ink-50 border-ink-200 hover:border-primary-500"
+                  ? "bg-surface-elevated border-border hover:border-primary-500"
+                  : "bg-muted border-border hover:border-primary-500"
               )}
             >
               <span
                 className={clsx(
                   "p-2 rounded-lg",
-                  inverted ? "bg-ink-700 text-primary-400" : "bg-ink-200 text-primary-600"
+                  inverted ? "bg-surface-inverse text-primary-400" : "bg-muted text-primary-600"
                 )}
               >
                 {item.icon}
@@ -349,7 +349,7 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
                 <div
                   className={clsx(
                     "font-medium text-sm",
-                    inverted ? "text-white" : "text-ink-900"
+                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
                   )}
                 >
                   {item.label}
@@ -357,7 +357,7 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
                 <div
                   className={clsx(
                     "text-xs",
-                    inverted ? "text-ink-500" : "text-ink-400"
+                    inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
                   )}
                 >
                   {item.description}
@@ -420,13 +420,13 @@ function WidgetSettings({
       <div
         className={clsx(
           "relative w-full max-w-md rounded-xl border-2 shadow-xl p-6",
-          inverted ? "bg-ink-900 border-ink-700" : "bg-white border-ink-200"
+          inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border"
         )}
       >
         <h2
           className={clsx(
             "font-semibold text-lg mb-4",
-            inverted ? "text-white" : "text-ink-900"
+            inverted ? "text-on-dark-primary" : "text-on-light-primary"
           )}
         >
           Widget Settings
@@ -438,7 +438,7 @@ function WidgetSettings({
             <label
               className={clsx(
                 "block text-sm font-medium mb-1",
-                inverted ? "text-ink-300" : "text-ink-700"
+                inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
               )}
             >
               Title
@@ -450,8 +450,8 @@ function WidgetSettings({
               className={clsx(
                 "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
                 inverted
-                  ? "bg-ink-800 border-ink-700 text-white focus:border-primary-500"
-                  : "bg-white border-ink-200 text-ink-900 focus:border-primary-500"
+                  ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
+                  : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
               )}
             />
           </div>
@@ -461,7 +461,7 @@ function WidgetSettings({
             <label
               className={clsx(
                 "block text-sm font-medium mb-1",
-                inverted ? "text-ink-300" : "text-ink-700"
+                inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
               )}
             >
               Size
@@ -472,8 +472,8 @@ function WidgetSettings({
               className={clsx(
                 "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
                 inverted
-                  ? "bg-ink-800 border-ink-700 text-white focus:border-primary-500"
-                  : "bg-white border-ink-200 text-ink-900 focus:border-primary-500"
+                  ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
+                  : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
               )}
             >
               <option value="small">Small (1x1)</option>
@@ -488,7 +488,7 @@ function WidgetSettings({
             <label
               className={clsx(
                 "block text-sm font-medium mb-1",
-                inverted ? "text-ink-300" : "text-ink-700"
+                inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
               )}
             >
               Data Source
@@ -499,8 +499,8 @@ function WidgetSettings({
               className={clsx(
                 "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
                 inverted
-                  ? "bg-ink-800 border-ink-700 text-white focus:border-primary-500"
-                  : "bg-white border-ink-200 text-ink-900 focus:border-primary-500"
+                  ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
+                  : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
               )}
             >
               <option value="">Select data source...</option>
@@ -517,7 +517,7 @@ function WidgetSettings({
             <label
               className={clsx(
                 "block text-sm font-medium mb-1",
-                inverted ? "text-ink-300" : "text-ink-700"
+                inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
               )}
             >
               Auto-refresh (seconds, 0 = disabled)
@@ -530,8 +530,8 @@ function WidgetSettings({
               className={clsx(
                 "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
                 inverted
-                  ? "bg-ink-800 border-ink-700 text-white focus:border-primary-500"
-                  : "bg-white border-ink-200 text-ink-900 focus:border-primary-500"
+                  ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
+                  : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
               )}
             />
           </div>
@@ -545,8 +545,8 @@ function WidgetSettings({
             className={clsx(
               "px-4 py-2 rounded-lg border-2 font-medium transition-colors",
               inverted
-                ? "border-ink-700 text-ink-300 hover:bg-ink-800"
-                : "border-ink-200 text-ink-600 hover:bg-ink-50"
+                ? "border-border text-on-dark-secondary hover:bg-surface-elevated"
+                : "border-border text-on-light-muted hover:bg-muted"
             )}
           >
             Cancel
@@ -687,14 +687,14 @@ export function DashboardBuilder({
       <div
         className={clsx(
           "flex items-center justify-center min-h-[400px]",
-          inverted ? "bg-ink-900" : "bg-white",
+          inverted ? "bg-surface-inverse" : "bg-surface-primary",
           className
         )}
       >
         <div
           className={clsx(
             "w-8 h-8 border-3 rounded-full animate-spin",
-            inverted ? "border-ink-700 border-t-white" : "border-ink-200 border-t-ink-900"
+            inverted ? "border-border border-t-on-dark-primary" : "border-border border-t-on-light-primary"
           )}
         />
       </div>
@@ -708,7 +708,7 @@ export function DashboardBuilder({
         <div
           className={clsx(
             "flex items-center justify-between p-4 border-b-2 mb-4",
-            inverted ? "border-ink-800" : "border-ink-200"
+            inverted ? "border-border" : "border-border"
           )}
         >
           <div className="flex items-center gap-2">
@@ -733,8 +733,8 @@ export function DashboardBuilder({
                     dashboard.isDefault
                       ? "border-warning-500 text-warning-500"
                       : inverted
-                      ? "border-ink-700 text-ink-400 hover:text-warning-400"
-                      : "border-ink-200 text-ink-500 hover:text-warning-600"
+                      ? "border-border text-on-dark-muted hover:text-warning-400"
+                      : "border-border text-on-light-muted hover:text-warning-600"
                   )}
                   aria-label={dashboard.isDefault ? "Default dashboard" : "Set as default"}
                 >
@@ -750,8 +750,8 @@ export function DashboardBuilder({
                   className={clsx(
                     "p-2 rounded-lg border-2 transition-colors",
                     inverted
-                      ? "border-ink-700 text-ink-400 hover:text-white"
-                      : "border-ink-200 text-ink-500 hover:text-ink-900"
+                      ? "border-border text-on-dark-muted hover:text-on-dark-primary"
+                      : "border-border text-on-light-muted hover:text-on-light-primary"
                   )}
                   aria-label="Duplicate dashboard"
                 >
@@ -769,8 +769,8 @@ export function DashboardBuilder({
                     dashboard.isPublic
                       ? "border-success-500 text-success-500"
                       : inverted
-                      ? "border-ink-700 text-ink-400 hover:text-white"
-                      : "border-ink-200 text-ink-500 hover:text-ink-900"
+                      ? "border-border text-on-dark-muted hover:text-on-dark-primary"
+                      : "border-border text-on-light-muted hover:text-on-light-primary"
                   )}
                   aria-label={dashboard.isPublic ? "Shared" : "Share dashboard"}
                 >
@@ -807,14 +807,14 @@ export function DashboardBuilder({
           <div
             className={clsx(
               "grid grid-cols-4 gap-4 p-4",
-              inverted ? "bg-ink-900" : "bg-ink-50"
+              inverted ? "bg-surface-inverse" : "bg-muted"
             )}
           >
             {dashboard.widgets.length === 0 ? (
               <div
                 className={clsx(
                   "col-span-4 flex flex-col items-center justify-center py-16 rounded-lg border-2 border-dashed",
-                  inverted ? "border-ink-700 text-ink-500" : "border-ink-300 text-ink-400"
+                  inverted ? "border-border text-on-dark-disabled" : "border-border text-on-light-disabled"
                 )}
               >
                 <p className="text-lg font-medium mb-2">No widgets yet</p>
@@ -854,8 +854,8 @@ export function DashboardBuilder({
                 "p-4 rounded-lg border-2 shadow-xl",
                 SIZE_CLASSES[activeWidget.size],
                 inverted
-                  ? "bg-ink-800 border-primary-500"
-                  : "bg-white border-primary-500"
+                  ? "bg-surface-elevated border-primary-500"
+                  : "bg-surface-primary border-primary-500"
               )}
             >
               <div className="font-semibold text-sm">{activeWidget.title}</div>

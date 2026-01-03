@@ -80,10 +80,10 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
       ? background === "black"
         ? "bg-black text-white"
         : background === "ink"
-          ? "bg-ink-950 text-white"
-          : "bg-white text-black"
+          ? "bg-surface-inverse text-on-dark-primary"
+          : "bg-surface-primary text-on-light-primary"
       : inverted
-        ? "bg-ink-950 text-white"
+        ? "bg-surface-inverse text-on-dark-primary"
         : "bg-white text-black";
 
     const isDark = background === "black" || background === "ink" || inverted;
@@ -135,7 +135,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <AlertTriangle className="size-16 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={isDark ? "text-white" : "text-ink-900"}>
+                <H2 className={isDark ? "text-on-dark-primary" : "text-on-light-primary"}>
                   Something Went Wrong
                 </H2>
                 <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
@@ -173,7 +173,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <WifiOff className="size-16 text-warning" />
               <Stack gap={2} className="items-center">
-                <H2 className={isDark ? "text-white" : "text-ink-900"}>
+                <H2 className={isDark ? "text-on-dark-primary" : "text-on-light-primary"}>
                   You&apos;re Offline
                 </H2>
                 <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
@@ -209,7 +209,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <ShieldX className="size-16 text-error" />
               <Stack gap={2} className="items-center">
-                <H2 className={isDark ? "text-white" : "text-ink-900"}>
+                <H2 className={isDark ? "text-on-dark-primary" : "text-on-light-primary"}>
                   Access Denied
                 </H2>
                 <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
@@ -247,11 +247,11 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <div className={clsx(
                 "size-20 rounded-full flex items-center justify-center border-2",
-                isDark ? "border-grey-700 bg-grey-800" : "border-grey-200 bg-grey-100"
+                isDark ? "border-border bg-surface-elevated" : "border-border bg-muted"
               )}>
                 <div className={clsx(
                   "size-10 rounded-full",
-                  isDark ? "bg-grey-700" : "bg-grey-200"
+                  isDark ? "bg-surface-elevated" : "bg-muted"
                 )} />
               </div>
               <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>

@@ -112,7 +112,7 @@ export default function PartnersPage() {
                   {PARTNER_TYPES.map((type) => (
                     <Card
                       key={type.id}
-                      className="p-8 border-2 border-grey-800 rounded-card pop-card-atlvs group"
+                      className="p-8 border-2 border-border rounded-card pop-card-atlvs group"
                     >
                       <Stack gap={6}>
                         <Box className="p-4 bg-primary/20 rounded-card text-primary w-fit group-hover:scale-110 transition-transform">

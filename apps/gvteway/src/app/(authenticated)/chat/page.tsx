@@ -148,7 +148,7 @@ export default function ChatPage() {
                   filteredRooms.map((room) => (
                     <Card
                       key={room.id}
-                      className={`cursor-pointer p-3 transition-all ${selectedRoom?.id === room.id ? "ring-2 ring-primary" : "hover:bg-grey-800"}`}
+                      className={`cursor-pointer p-3 transition-all ${selectedRoom?.id === room.id ? "ring-2 ring-primary" : "hover:bg-surface-elevated"}`}
                       onClick={() => setSelectedRoom(room)}
                     >
                       <Stack gap={2}>
@@ -174,7 +174,7 @@ export default function ChatPage() {
             <Section border className="lg:col-span-2">
               {selectedRoom ? (
                 <Box className="flex flex-col min-h-96">
-                  <Box className="flex items-center justify-between border-b border-grey-700 pb-4 mb-4">
+                  <Box className="flex items-center justify-between border-b border-border pb-4 mb-4">
                     <Box>
                       <Body className="font-weight-medium text-white">{selectedRoom.name}</Body>
                       <Body size="sm" className="text-on-dark-muted">{selectedRoom.memberCount} members</Body>
@@ -195,7 +195,7 @@ export default function ChatPage() {
                           key={message.id}
                           className={`max-w-[80%] ${message.isOwn ? "ml-auto" : ""}`}
                         >
-                          <Card className={`p-3 ${message.isOwn ? "bg-primary" : "bg-grey-800"}`}>
+                          <Card className={`p-3 ${message.isOwn ? "bg-primary" : "bg-surface-elevated"}`}>
                             <Stack gap={1}>
                               {!message.isOwn && (
                                 <Body size="sm" className="font-weight-medium text-on-dark-muted">{message.sender}</Body>
@@ -209,7 +209,7 @@ export default function ChatPage() {
                     )}
                   </Stack>
 
-                  <Box className="flex gap-2 border-t border-grey-700 pt-4">
+                  <Box className="flex gap-2 border-t border-border pt-4">
                     <Input
                       placeholder="Type a message..."
                       value={newMessage}

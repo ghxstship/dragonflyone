@@ -47,7 +47,7 @@ function ExperienceGeneratorSection() {
                 <Sparkles className="size-5 text-primary" />
                 <Label size="xs" className="text-primary">{experienceGenerator.subtitle.toUpperCase()}</Label>
               </Stack>
-              <H2 className="text-ink-950">{experienceGenerator.name}</H2>
+              <H2 className="text-on-light-primary">{experienceGenerator.name}</H2>
             </Stack>
             <Display className="text-primary text-display-md">{experienceGenerator.price}</Display>
             <Body className="text-on-light-secondary">{experienceGenerator.description}</Body>
@@ -63,7 +63,7 @@ function ExperienceGeneratorSection() {
           <Stack gap={6} className="items-center text-center">
             <Box className="p-6 border-2 border-primary bg-white shadow-md">
               <Sparkles className="size-16 text-primary mx-auto mb-4" />
-              <H3 className="text-ink-950 mb-2">Start Creating Now</H3>
+              <H3 className="text-on-light-primary mb-2">Start Creating Now</H3>
               <Body size="sm" className="text-on-light-muted mb-4">No account needed. Just enter an idea.</Body>
             </Box>
             <Button variant="primary" size="lg" onClick={() => router.push(experienceGenerator.cta.href)} icon={<Sparkles className="size-5" />}>
@@ -85,20 +85,20 @@ function SingleProductsSection() {
     <Container size="2xl" className="py-16 md:py-24">
       <Stack gap={4} className="text-center mb-12">
         <Label size="xs" className="text-on-light-muted">{singleProducts.category}</Label>
-        <H1 className="text-ink-950">{singleProducts.tagline}</H1>
+        <H1 className="text-on-light-primary">{singleProducts.tagline}</H1>
         <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">{singleProducts.description}</Body>
       </Stack>
       <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
         {singleProducts.products.map((product: { id: string; color: string; subtitle: string; name: string; price: string; period: string; description: string; features: string[]; cta: { href: string; label: string } }) => (
-          <Article key={product.id} className={`border-2 border-ink-950 bg-white p-6 pop-card-${product.color === "brand-yellow" ? "yellow" : product.color === "brand-cyan" ? "cyan" : "brand"}`}>
+          <Article key={product.id} className={`border-2 border-border bg-white p-6 pop-card-${product.color === "brand-yellow" ? "yellow" : product.color === "brand-cyan" ? "cyan" : "brand"}`}>
             <Stack gap={4}>
               <Stack direction="horizontal" gap={2} className="items-center">
                 <Box className={`text-${product.color}`}>{PRODUCT_ICONS[product.id.replace("-single", "") as keyof typeof PRODUCT_ICONS]}</Box>
                 <Label size="xs" className={`text-${product.color}`}>{product.subtitle.toUpperCase()}</Label>
               </Stack>
-              <H3 className="font-display text-h4-md uppercase tracking-label text-ink-950">{product.name}</H3>
+              <H3 className="font-display text-h4-md uppercase tracking-label text-on-light-primary">{product.name}</H3>
               <Stack direction="horizontal" gap={1} className="items-baseline">
-                <Display className="text-ink-950 text-display-sm">{product.price}</Display>
+                <Display className="text-on-light-primary text-display-sm">{product.price}</Display>
                 <Text size="sm" className="text-on-light-muted">{product.period}</Text>
               </Stack>
               <Body size="sm" className="text-on-light-muted">{product.description}</Body>
@@ -135,14 +135,14 @@ function BundlesSection() {
     <Container size="2xl" className="py-16 md:py-24">
       <Stack gap={4} className="text-center mb-12">
         <Label size="xs" className="text-brand-pink">{bundles.category}</Label>
-        <H1 className="text-ink-950">{bundles.tagline}</H1>
+        <H1 className="text-on-light-primary">{bundles.tagline}</H1>
         <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">{bundles.description}</Body>
       </Stack>
       <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
         {bundles.products.map((bundle: { id: string; color: string; subtitle: string; name: string; price: string; period: string; description: string; features: string[]; cta: { href: string; label: string } }) => (
           <Article 
             key={bundle.id} 
-            className={`border-2 ${bundle.id === "experience" ? "border-brand-pink" : "border-ink-950"} bg-white p-6 pop-card relative`}
+            className={`border-2 ${bundle.id === "experience" ? "border-brand-pink" : "border-border"} bg-white p-6 pop-card relative`}
           >
             {bundle.id === "experience" && (
               <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-3 py-1 text-white">MOST POPULAR</Label>
@@ -152,9 +152,9 @@ function BundlesSection() {
                 <Box className={`size-3 rounded-full bg-${bundle.color}`} />
                 <Label size="xs" className="text-on-light-muted">{bundle.subtitle.toUpperCase()}</Label>
               </Stack>
-              <H3 className="font-display text-h4-md uppercase tracking-label text-ink-950">{bundle.name}</H3>
+              <H3 className="font-display text-h4-md uppercase tracking-label text-on-light-primary">{bundle.name}</H3>
               <Stack direction="horizontal" gap={1} className="items-baseline">
-                <Display className="text-ink-950 text-display-sm">{bundle.price}</Display>
+                <Display className="text-on-light-primary text-display-sm">{bundle.price}</Display>
                 <Text size="sm" className="text-on-light-muted">{bundle.period}</Text>
               </Stack>
               <Body size="sm" className="text-on-light-muted">{bundle.description}</Body>
@@ -244,18 +244,18 @@ function FAQSection() {
     <Container size="2xl" className="py-16 md:py-24">
       <Stack gap={4} className="text-center mb-12">
         <Label size="xs" className="text-on-light-muted">FAQ</Label>
-        <H1 className="text-ink-950">FREQUENTLY ASKED QUESTIONS</H1>
+        <H1 className="text-on-light-primary">FREQUENTLY ASKED QUESTIONS</H1>
         <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">Everything you need to know about our pricing</Body>
       </Stack>
       <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
         {FAQS.map((faq) => (
-          <Article key={faq.id} className="border-2 border-ink-950 bg-white p-6 pop-card">
-            <H3 className="font-display text-h6-md uppercase tracking-label text-ink-950 mb-3">{faq.question}</H3>
+          <Article key={faq.id} className="border-2 border-border bg-white p-6 pop-card">
+            <H3 className="font-display text-h6-md uppercase tracking-label text-on-light-primary mb-3">{faq.question}</H3>
             <Body className="text-on-light-muted">{faq.answer}</Body>
           </Article>
         ))}
       </Grid>
-      <Box className="mt-12 pt-6 border-t-2 border-ink-200">
+      <Box className="mt-12 pt-6 border-t-2 border-border">
         <Body size="sm" className="text-center text-on-light-muted">{atlvsPricing.footnote}</Body>
       </Box>
     </Container>

@@ -147,7 +147,7 @@ export default function CareersPage() {
                     <Body className="text-on-dark-muted mt-4">Loading positions...</Body>
                   </Stack>
                 ) : filteredJobs.length === 0 ? (
-                  <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
+                  <Card className="p-12 text-center border-2 border-border rounded-card">
                     <Briefcase className="size-16 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Open Positions</Body>
                     <Body className="text-on-dark-muted mb-4">Check back soon for new opportunities in this department</Body>
@@ -158,7 +158,7 @@ export default function CareersPage() {
                     {filteredJobs.map((job: JobPosting) => (
                       <Card
                         key={job.id}
-                        className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs group"
+                        className="p-6 border-2 border-border rounded-card pop-card-atlvs group"
                         onClick={() => router.push(`/careers/${job.id}`)}
                       >
                         <Stack direction="horizontal" className="justify-between items-start flex-wrap gap-4">

@@ -72,9 +72,9 @@ export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
 
     // WCAG AA compliant description colors based on background context
     const descriptionColorClasses = {
-      "on-dark": "text-ink-300",   // 12.6:1 contrast on ink-950
-      "on-light": "text-ink-600",  // 5.7:1 contrast on ink-50
-      "on-mid": "text-ink-200",    // 5.3:1 contrast on ink-500
+      "on-dark": "text-on-dark-secondary",
+      "on-light": "text-on-light-secondary",
+      "on-mid": "text-on-dark-muted"
     };
 
     const descriptionClasses = clsx(
@@ -92,7 +92,7 @@ export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
         {kicker && <Kicker colorScheme={colorScheme}>{kicker}</Kicker>}
         {title && (
           typeof title === "string" ? (
-            <H2 className={clsx(titleSizeClasses[titleSize], colorScheme === "on-dark" ? "text-white" : "text-black")}>{title}</H2>
+            <H2 className={clsx(titleSizeClasses[titleSize], colorScheme === "on-dark" ? "text-on-dark-primary" : "text-on-light-primary")}>{title}</H2>
           ) : (
             title
           )

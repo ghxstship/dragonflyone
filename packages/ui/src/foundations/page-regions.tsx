@@ -207,7 +207,7 @@ export const PageFooter = forwardRef<HTMLElement, PageFooterProps>(
         ref={ref}
         className={clsx(
           "border-t-2 py-8",
-          inverted ? "border-grey-800" : "border-grey-200",
+          inverted ? "border-border" : "border-border",
           className
         )}
         {...props}
@@ -331,8 +331,8 @@ export const FullBleedSection = forwardRef<HTMLElement, FullBleedSectionProps>(
     const bgClasses: Record<string, string> = {
       black: "bg-black text-white",
       white: "bg-white text-black",
-      grey: "bg-grey-100 text-black",
-      ink: "bg-ink-950 text-white",
+      grey: "bg-muted text-on-light-primary",
+      ink: "bg-surface-inverse text-on-dark-primary",
       primary: "bg-primary text-white",
       accent: "bg-accent text-black",
       gradient: "bg-gradient-to-br from-ink-950 via-ink-900 to-primary/20 text-white",
@@ -431,8 +431,8 @@ export const ContentRegion = forwardRef<HTMLDivElement, ContentRegionProps>(
 
     const borderClasses = bordered
       ? inverted
-        ? "border-2 border-grey-800 rounded-[var(--radius-card)] p-6"
-        : "border-2 border-grey-200 rounded-[var(--radius-card)] p-6"
+        ? "border-2 border-border rounded-[var(--radius-card)] p-6"
+        : "border-2 border-border rounded-[var(--radius-card)] p-6"
       : "";
 
     return (

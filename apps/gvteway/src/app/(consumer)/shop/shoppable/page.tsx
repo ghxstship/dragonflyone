@@ -27,7 +27,7 @@ export default function ShoppablePage() {
         <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
           {items.map((item: ShoppableItem) => (
             <Card key={item.id} className="overflow-hidden">
-              <Box className="h-40 bg-grey-800 flex items-center justify-center relative">
+              <Box className="h-40 bg-surface-elevated flex items-center justify-center relative">
                 <Play className="size-12 text-on-dark-disabled" />
                 <Box className="absolute top-2 right-2 bg-black/50 px-2 py-1 rounded-badge">{item.type}</Box>
               </Box>

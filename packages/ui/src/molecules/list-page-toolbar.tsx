@@ -133,7 +133,7 @@ function SortableColumnItem({ column, onToggle, inverted }: SortableColumnItemPr
       style={style}
       className={clsx(
         "flex items-center gap-2 px-3 py-2 rounded-button",
-        inverted ? "hover:bg-grey-800" : "hover:bg-grey-100",
+        inverted ? "hover:bg-surface-elevated" : "hover:bg-muted",
         isDragging && "z-50"
       )}
     >
@@ -159,7 +159,7 @@ function SortableColumnItem({ column, onToggle, inverted }: SortableColumnItemPr
           disabled={column.locked}
           className="cursor-pointer accent-primary"
         />
-        <span className={clsx("font-body text-body-sm", inverted ? "text-white" : "text-on-light-primary")}>
+        <span className={clsx("font-body text-body-sm", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
           {column.label}
         </span>
       </label>
@@ -216,8 +216,8 @@ function TableSettingsPopover({
   };
 
   const dropdownClass = inverted
-    ? "bg-grey-900 border-2 border-grey-700"
-    : "bg-white border-2 border-grey-200";
+    ? "bg-surface-inverse border-2 border-border"
+    : "bg-surface-primary border-2 border-border";
 
   return (
     <div
@@ -228,9 +228,9 @@ function TableSettingsPopover({
       role="dialog"
       aria-label="Table settings"
     >
-      <div className={clsx("px-4 py-3 border-b", inverted ? "border-grey-700" : "border-grey-200")}>
+      <div className={clsx("px-4 py-3 border-b", inverted ? "border-border" : "border-border")}>
         <div className="flex items-center justify-between">
-          <span className={clsx("font-heading text-body-md font-semibold", inverted ? "text-white" : "text-on-light-primary")}>
+          <span className={clsx("font-heading text-body-md font-semibold", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
             Table Settings
           </span>
           <button
@@ -238,7 +238,7 @@ function TableSettingsPopover({
             onClick={onClose}
             className={clsx(
               "p-1 rounded-button",
-              inverted ? "hover:bg-grey-800 text-on-dark-muted" : "hover:bg-grey-100 text-on-light-muted"
+              inverted ? "hover:bg-surface-elevated text-on-dark-muted" : "hover:bg-muted text-on-light-muted"
             )}
           >
             <X className="size-4" />
@@ -246,7 +246,7 @@ function TableSettingsPopover({
         </div>
       </div>
 
-      <div className={clsx("px-4 py-3 border-b", inverted ? "border-grey-700" : "border-grey-200")}>
+      <div className={clsx("px-4 py-3 border-b", inverted ? "border-border" : "border-border")}>
         <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
           Row Density
         </span>
@@ -260,11 +260,11 @@ function TableSettingsPopover({
                 "flex-1 px-3 py-2 rounded-button border-2 font-code text-mono-sm capitalize transition-all",
                 density === mode
                   ? inverted
-                    ? "border-white bg-white text-black"
-                    : "border-black bg-black text-white"
+                    ? "border-on-dark-primary bg-surface-primary text-on-light-primary"
+                    : "border-border-primary bg-surface-inverse text-on-dark-primary"
                   : inverted
-                    ? "border-grey-700 text-on-dark-muted hover:border-grey-500"
-                    : "border-grey-200 text-on-light-muted hover:border-grey-400"
+                    ? "border-border text-on-dark-muted hover:border-on-dark-muted"
+                    : "border-border text-on-light-muted hover:border-border-primary"
               )}
             >
               {mode}
@@ -283,7 +283,7 @@ function TableSettingsPopover({
             onClick={handleResetColumns}
             className={clsx(
               "font-code text-mono-xs underline",
-              inverted ? "text-on-dark-muted hover:text-white" : "text-on-light-muted hover:text-on-light-primary"
+              inverted ? "text-on-dark-muted hover:text-on-dark-primary" : "text-on-light-muted hover:text-on-light-primary"
             )}
           >
             Reset
@@ -337,12 +337,12 @@ function OverflowMenu({ items, inverted }: OverflowMenuProps) {
   if (items.length === 0) return null;
 
   const buttonClass = inverted
-    ? "bg-transparent text-on-dark-muted border-2 border-grey-700 hover:border-grey-500"
-    : "bg-transparent text-on-light-muted border-2 border-grey-300 hover:border-grey-400";
+    ? "bg-transparent text-on-dark-muted border-2 border-border hover:border-on-dark-muted"
+    : "bg-transparent text-on-light-muted border-2 border-border hover:border-border-primary";
 
   const dropdownClass = inverted
-    ? "bg-grey-900 border-2 border-grey-700"
-    : "bg-white border-2 border-grey-200";
+    ? "bg-surface-inverse border-2 border-border"
+    : "bg-surface-primary border-2 border-border";
 
   return (
     <div ref={menuRef} className="relative">
@@ -378,8 +378,8 @@ function OverflowMenu({ items, inverted }: OverflowMenuProps) {
               className={clsx(
                 "w-full px-4 py-3 flex items-center gap-3 text-left font-body text-body-sm",
                 inverted
-                  ? "hover:bg-grey-800 text-white"
-                  : "hover:bg-grey-50 text-on-light-primary"
+                  ? "hover:bg-surface-elevated text-on-dark-primary"
+                  : "hover:bg-muted text-on-light-primary"
               )}
             >
               {item.icon}
@@ -462,16 +462,16 @@ export function ListPageToolbar({
   }, [onRefresh, onCreate]);
 
   const primaryBtnClass = inverted
-    ? "bg-white text-black border-2 border-white shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button"
-    : "bg-black text-white border-2 border-black shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button";
+    ? "bg-surface-primary text-on-light-primary border-2 border-on-dark-primary shadow-primary hover:shadow-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button"
+    : "bg-surface-inverse text-on-dark-primary border-2 border-border-primary shadow-primary hover:shadow-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button";
 
   const secondaryBtnClass = inverted
-    ? "bg-transparent text-on-dark-muted border-2 border-grey-700 hover:border-grey-500 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button"
-    : "bg-transparent text-on-light-muted border-2 border-grey-300 hover:border-grey-400 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button";
+    ? "bg-transparent text-on-dark-muted border-2 border-border hover:border-on-dark-muted hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button"
+    : "bg-transparent text-on-light-muted border-2 border-border hover:border-border-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button";
 
   const iconBtnClass = inverted
-    ? "p-2 bg-transparent text-on-dark-muted border-2 border-grey-700 hover:border-grey-500 transition-all duration-100 rounded-button"
-    : "p-2 bg-transparent text-on-light-muted border-2 border-grey-300 hover:border-grey-400 transition-all duration-100 rounded-button";
+    ? "p-2 bg-transparent text-on-dark-muted border-2 border-border hover:border-on-dark-muted transition-all duration-100 rounded-button"
+    : "p-2 bg-transparent text-on-light-muted border-2 border-border hover:border-border-primary transition-all duration-100 rounded-button";
 
   const overflowItems: Array<{ id: string; label: string; icon?: React.ReactNode; onClick: () => void }> = [];
   
@@ -515,8 +515,8 @@ export function ListPageToolbar({
             className={clsx(
               "w-full py-3 px-4 pl-10 pr-16 font-body text-body-md border-2 outline-none rounded-button",
               inverted
-                ? "bg-grey-900 text-white border-grey-700 focus:border-grey-500 placeholder:text-on-dark-disabled"
-                : "bg-white text-black border-grey-200 focus:border-grey-400 placeholder:text-on-light-muted"
+                ? "bg-surface-inverse text-on-dark-primary border-border focus:border-on-dark-muted placeholder:text-on-dark-disabled"
+                : "bg-surface-primary text-on-light-primary border-border focus:border-border-primary placeholder:text-on-light-muted"
             )}
           />
           <Search
@@ -528,7 +528,7 @@ export function ListPageToolbar({
           <kbd
             className={clsx(
               "absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 rounded text-xs font-mono",
-              inverted ? "bg-grey-800 text-on-dark-disabled" : "bg-grey-100 text-on-light-muted"
+              inverted ? "bg-surface-elevated text-on-dark-disabled" : "bg-muted text-on-light-muted"
             )}
           >
             ⌘K
@@ -559,7 +559,7 @@ export function ListPageToolbar({
               <div
                 className={clsx(
                   "absolute left-0 top-full mt-2 min-w-64 rounded-card shadow-lg z-dropdown p-4",
-                  inverted ? "bg-grey-900 border-2 border-grey-700" : "bg-white border-2 border-grey-200"
+                  inverted ? "bg-surface-inverse border-2 border-border" : "bg-surface-primary border-2 border-border"
                 )}
               >
                 {filters.map((filter) => (
@@ -580,8 +580,8 @@ export function ListPageToolbar({
                       className={clsx(
                         "w-full px-3 py-2 font-body text-body-sm border-2 rounded-button outline-none",
                         inverted
-                          ? "bg-grey-800 text-white border-grey-600 focus:border-grey-500"
-                          : "bg-white text-black border-grey-200 focus:border-grey-400"
+                          ? "bg-surface-elevated text-on-dark-primary border-border focus:border-on-dark-muted"
+                          : "bg-surface-primary text-on-light-primary border-border focus:border-border-primary"
                       )}
                     >
                       <option value="">All</option>
@@ -603,8 +603,8 @@ export function ListPageToolbar({
                     className={clsx(
                       "w-full mt-2 px-3 py-2 font-code text-mono-sm rounded-button border-2",
                       inverted
-                        ? "border-grey-600 text-on-dark-muted hover:border-grey-500"
-                        : "border-grey-200 text-on-light-muted hover:border-grey-400"
+                        ? "border-border text-on-dark-muted hover:border-on-dark-muted"
+                        : "border-border text-on-light-muted hover:border-border-primary"
                     )}
                   >
                     Clear All Filters
@@ -622,7 +622,7 @@ export function ListPageToolbar({
             <div
               className={clsx(
                 "flex items-center gap-1 border-2 rounded-lg p-1",
-                inverted ? "border-grey-700 bg-grey-900" : "border-grey-200 bg-grey-50"
+                inverted ? "border-border bg-surface-inverse" : "border-border bg-muted"
               )}
               role="tablist"
               aria-label="View options"
@@ -642,11 +642,11 @@ export function ListPageToolbar({
                         "p-2 rounded transition-colors",
                         isActive
                           ? inverted
-                            ? "bg-grey-700 text-white"
-                            : "bg-white text-on-light-primary shadow-sm"
+                            ? "bg-surface-elevated text-on-dark-primary"
+                            : "bg-surface-primary text-on-light-primary shadow-sm"
                           : inverted
-                            ? "text-on-dark-disabled hover:text-white hover:bg-grey-800"
-                            : "text-on-light-muted hover:text-on-light-primary hover:bg-grey-100"
+                            ? "text-on-dark-disabled hover:text-on-dark-primary hover:bg-surface-elevated"
+                            : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
                       )}
                     >
                       <ViewIcon size={16} />
@@ -658,7 +658,7 @@ export function ListPageToolbar({
           )}
 
           {onRefresh && (
-            <Tooltip content={<span>Refresh <kbd className="ml-1 px-1 py-0.5 bg-black/20 rounded text-xs">R</kbd></span>} inverted={!inverted}>
+            <Tooltip content={<span>Refresh <kbd className="ml-1 px-1 py-0.5 bg-surface-overlay rounded text-xs">R</kbd></span>} inverted={!inverted}>
               <button
                 type="button"
                 onClick={onRefresh}
@@ -737,7 +737,7 @@ export function ListPageToolbar({
           ))}
 
           {onCreate && (
-            <Tooltip content={<span>Create <kbd className="ml-1 px-1 py-0.5 bg-black/20 rounded text-xs">⌘N</kbd></span>} inverted={!inverted}>
+            <Tooltip content={<span>Create <kbd className="ml-1 px-1 py-0.5 bg-surface-overlay rounded text-xs">⌘N</kbd></span>} inverted={!inverted}>
               <button
                 type="button"
                 onClick={onCreate}

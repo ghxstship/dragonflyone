@@ -41,8 +41,8 @@ function DefaultLoadingState({ text, backgroundClass }: { text: string; backgrou
   return (
     <div className={`min-h-screen flex items-center justify-center ${backgroundClass}`}>
       <div className="flex flex-col items-center gap-4">
-        <div className="animate-spin rounded-avatar h-8 w-8 border-b-2 border-grey-400" />
-        <span className="text-grey-400">{text}</span>
+        <div className="animate-spin rounded-avatar h-8 w-8 border-b-2 border-border" />
+        <span className="text-on-light-disabled">{text}</span>
       </div>
     </div>
   );
@@ -65,7 +65,7 @@ function DefaultLoadingState({ text, backgroundClass }: { text: string; backgrou
  *   platform: "atlvs",
  *   loginPath: "/auth/signin",
  *   unauthorizedPath: "/auth/unauthorized",
- *   backgroundClass: "bg-ink-950",
+ *   backgroundClass: "bg-surface-inverse",
  *   LayoutComponent: AtlvsAppLayout,
  *   layoutVariant: "authenticated",
  * });

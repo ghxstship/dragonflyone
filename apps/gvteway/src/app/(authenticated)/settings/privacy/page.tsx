@@ -168,7 +168,7 @@ export default function PrivacySettingsPage() {
                 </Select>
               </Stack>
 
-              <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-grey-700">
+              <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-border">
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Show Activity</Body>
                   <Body size="sm" className="text-on-dark-muted">Let others see your recent activity</Body>
@@ -179,7 +179,7 @@ export default function PrivacySettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-grey-700">
+              <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-border">
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Show Events Attended</Body>
                   <Body size="sm" className="text-on-dark-muted">Display events on your profile</Body>
@@ -190,7 +190,7 @@ export default function PrivacySettingsPage() {
                 />
               </Stack>
 
-              <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-grey-700">
+              <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-border">
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Show Reviews</Body>
                   <Body size="sm" className="text-on-dark-muted">Display your reviews publicly</Body>
@@ -223,7 +223,7 @@ export default function PrivacySettingsPage() {
                 <Card key={blocked.id} className="p-4">
                   <Stack direction="horizontal" className="items-center justify-between">
                     <Stack direction="horizontal" gap={3} className="items-center">
-                      <Box className="w-10 h-10 bg-grey-700 rounded-avatar flex items-center justify-center">
+                      <Box className="w-10 h-10 bg-border rounded-avatar flex items-center justify-center">
                         {blocked.user_avatar ? (
                           <Image
                             src={blocked.user_avatar}
@@ -298,7 +298,7 @@ export default function PrivacySettingsPage() {
             </Stack>
           )}
 
-          <Card className="p-6 mt-6 bg-grey-800">
+          <Card className="p-6 mt-6 bg-surface-elevated">
             <Stack direction="horizontal" gap={3} className="items-start">
               <HelpCircle className="size-6 text-on-dark-muted flex-shrink-0" />
               <Stack gap={2}>

@@ -111,8 +111,8 @@ function SortableCard<T>({
         "p-4 rounded-lg border-2 cursor-grab active:cursor-grabbing transition-all duration-100",
         isDragging && "opacity-50 shadow-lg scale-105",
         inverted
-          ? "bg-ink-800 border-ink-700 hover:border-ink-600"
-          : "bg-white border-ink-200 hover:border-ink-300",
+          ? "bg-surface-elevated border-border hover:border-border-primary"
+          : "bg-surface-primary border-border hover:border-border-primary",
         "hover:shadow-md"
       )}
     >
@@ -159,15 +159,15 @@ function KanbanColumnComponent<T>({
       className={clsx(
         "flex flex-col min-w-[280px] max-w-[320px] rounded-lg border-2",
         inverted
-          ? "bg-ink-900 border-ink-800"
-          : "bg-ink-50 border-ink-200"
+          ? "bg-surface-inverse border-border"
+          : "bg-muted border-border"
       )}
     >
       {/* Column Header */}
       <div
         className={clsx(
           "flex items-center justify-between p-3 border-b-2",
-          inverted ? "border-ink-800" : "border-ink-200"
+          inverted ? "border-border" : "border-border"
         )}
       >
         <button
@@ -176,15 +176,15 @@ function KanbanColumnComponent<T>({
           className="flex items-center gap-2 flex-1"
         >
           {isCollapsed ? (
-            <ChevronRight size={16} className={inverted ? "text-ink-400" : "text-ink-500"} />
+            <ChevronRight size={16} className={inverted ? "text-on-dark-muted" : "text-on-light-muted"} />
           ) : (
-            <ChevronDown size={16} className={inverted ? "text-ink-400" : "text-ink-500"} />
+            <ChevronDown size={16} className={inverted ? "text-on-dark-muted" : "text-on-light-muted"} />
           )}
           <span
             className="w-3 h-3 rounded-full"
             style={{ backgroundColor: column.color || "#6366f1" }}
           />
-          <span className={clsx("font-semibold text-sm", inverted ? "text-white" : "text-ink-900")}>
+          <span className={clsx("font-semibold text-sm", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
             {column.title}
           </span>
           <span
@@ -193,8 +193,8 @@ function KanbanColumnComponent<T>({
               isOverLimit
                 ? "bg-error-100 text-error-700"
                 : inverted
-                ? "bg-ink-800 text-ink-400"
-                : "bg-ink-200 text-ink-600"
+                ? "bg-surface-elevated text-on-dark-muted"
+                : "bg-muted text-on-light-secondary"
             )}
           >
             {items.length}
@@ -210,8 +210,8 @@ function KanbanColumnComponent<T>({
               className={clsx(
                 "p-1 rounded transition-colors",
                 inverted
-                  ? "text-ink-400 hover:text-white hover:bg-ink-800"
-                  : "text-ink-500 hover:text-ink-900 hover:bg-ink-200"
+                  ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
+                  : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
               )}
             >
               <Plus size={16} />
@@ -222,8 +222,8 @@ function KanbanColumnComponent<T>({
             className={clsx(
               "p-1 rounded transition-colors",
               inverted
-                ? "text-ink-400 hover:text-white hover:bg-ink-800"
-                : "text-ink-500 hover:text-ink-900 hover:bg-ink-200"
+                ? "text-on-light-disabled hover:text-white hover:bg-surface-elevated"
+                : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
             )}
           >
             <MoreHorizontal size={16} />
@@ -243,8 +243,8 @@ function KanbanColumnComponent<T>({
                 className={clsx(
                   "p-4 text-center text-sm rounded-lg border-2 border-dashed",
                   inverted
-                    ? "text-ink-500 border-ink-700"
-                    : "text-ink-400 border-ink-300"
+                    ? "text-on-dark-disabled border-border"
+                    : "text-on-light-disabled border-border"
                 )}
               >
                 {emptyMessage}
@@ -398,7 +398,7 @@ export function KanbanBoard<T>({
             key={column.id}
             className={clsx(
               "min-w-[280px] h-[400px] rounded-lg animate-pulse",
-              inverted ? "bg-ink-800" : "bg-ink-200"
+              inverted ? "bg-surface-elevated" : "bg-muted"
             )}
           />
         ))}
@@ -440,8 +440,8 @@ export function KanbanBoard<T>({
             className={clsx(
               "p-4 rounded-lg border-2 shadow-xl",
               inverted
-                ? "bg-ink-800 border-primary-500"
-                : "bg-white border-primary-500"
+                ? "bg-surface-elevated border-primary-500"
+                : "bg-surface-primary border-primary-500"
             )}
           >
             {cardRender(activeItem)}

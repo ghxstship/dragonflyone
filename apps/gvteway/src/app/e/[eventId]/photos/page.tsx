@@ -39,7 +39,7 @@ export default function EventPhotosPage() {
         <Grid cols={3} gap={4} className="grid-cols-2 md:grid-cols-3 mt-4">
           {photos.map((photo: Photo) => (
             <Card key={photo.id} className="overflow-hidden">
-              <Box className="h-40 bg-grey-800 flex items-center justify-center"><Camera className="size-8 text-on-dark-disabled" /></Box>
+              <Box className="h-40 bg-surface-elevated flex items-center justify-center"><Camera className="size-8 text-on-dark-disabled" /></Box>
               <Box className="p-3 flex items-center justify-between">
                 <Body size="sm" className="text-on-dark-muted">@{photo.user}</Body>
                 <Box className="flex items-center gap-1 text-on-dark-muted"><Heart className="size-4" /><Body size="sm">{photo.likes}</Body></Box>

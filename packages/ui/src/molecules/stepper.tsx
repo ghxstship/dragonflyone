@@ -119,9 +119,9 @@ export function Stepper({
                 className={clsx(
                   "rounded-full flex items-center justify-center font-code font-weight-normal tracking-wide border-2 flex-shrink-0 p-spacing-0 transition-all duration-100 ease-[var(--ease-bounce)]",
                   config.indicator,
-                  status === "completed" && "bg-black text-white border-black shadow-[2px_2px_0_hsl(var(--primary))]",
-                  status === "current" && "bg-white text-black border-black shadow-[3px_3px_0_hsl(var(--primary))]",
-                  status === "upcoming" && "bg-grey-200 text-on-dark-disabled border-grey-300 shadow-[2px_2px_0_rgba(0,0,0,0.08)]",
+                  status === "completed" && "bg-surface-inverse text-on-dark-primary border-border-primary shadow-primary",
+                  status === "current" && "bg-surface-primary text-on-light-primary border-border-primary shadow-primary",
+                  status === "upcoming" && "bg-muted text-on-dark-disabled border-border shadow-xs",
                   clickable ? "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5" : "cursor-default"
                 )}
                 aria-label={`Step ${index + 1}: ${step.label}`}
@@ -143,8 +143,8 @@ export function Stepper({
                     "flex-1 transition-colors duration-base",
                     isHorizontal ? clsx(config.lineH, "min-w-spacing-6 mx-spacing-2") : clsx(config.lineW, "min-h-spacing-6 my-spacing-2"),
                     status === "completed" || (status === "current" && completedSteps.includes(index))
-                      ? "bg-black"
-                      : "bg-grey-300"
+                      ? "bg-foreground"
+                      : "bg-border"
                   )}
                 />
               )}
@@ -160,7 +160,7 @@ export function Stepper({
                 className={clsx(
                   "font-code tracking-wide uppercase",
                   config.label,
-                  status === "upcoming" ? "text-on-dark-disabled" : "text-black",
+                  status === "upcoming" ? "text-on-dark-disabled" : "text-on-light-primary",
                   status === "current" && "font-weight-bold"
                 )}
               >

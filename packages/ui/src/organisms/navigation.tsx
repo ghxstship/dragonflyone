@@ -31,7 +31,7 @@ export const Navigation = forwardRef<HTMLElement, NavigationProps>(
           className={clsx(
             "w-full border-b-2 transition-colors",
             fixed && "fixed top-0 left-0 right-0 z-fixed",
-            inverted ? "bg-black border-grey-800" : "bg-white border-black",
+            inverted ? "bg-black border-border" : "bg-white border-black",
             className
           )}
           {...props}
@@ -63,7 +63,7 @@ export const Navigation = forwardRef<HTMLElement, NavigationProps>(
                   "transition-all duration-100 ease-[var(--ease-bounce)]",
                   "hover:-translate-x-0.5 hover:-translate-y-0.5",
                   inverted 
-                    ? "text-white border-grey-700 hover:border-grey-500 shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:shadow-[3px_3px_0_rgba(255,255,255,0.15)]" 
+                    ? "text-white border-border hover:border-border shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:shadow-[3px_3px_0_rgba(255,255,255,0.15)]" 
                     : "text-black border-black shadow-[2px_2px_0_rgba(0,0,0,0.1)] hover:shadow-[3px_3px_0_rgba(0,0,0,0.15)]"
                 )}
                 onClick={() => setMobileOpen(!mobileOpen)}

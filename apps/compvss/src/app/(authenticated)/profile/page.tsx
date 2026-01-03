@@ -87,7 +87,7 @@ export default function ProfilePage() {
             <Box className="flex items-start gap-6 mb-6">
               <Box className="size-24 bg-primary rounded-avatar flex items-center justify-center relative">
                 <User className="size-12 text-white" />
-                <Button variant="ghost" size="sm" className="absolute -bottom-1 -right-1 bg-grey-800 rounded-avatar p-2">
+                <Button variant="ghost" size="sm" className="absolute -bottom-1 -right-1 bg-surface-elevated rounded-avatar p-2">
                   <Camera className="size-4" />
                 </Button>
               </Box>
@@ -114,7 +114,7 @@ export default function ProfilePage() {
               {!isEditing && <Button variant="outline" onClick={handleEdit}>Edit Profile</Button>}
             </Box>
 
-            <Box className="border-t border-grey-800 pt-6">
+            <Box className="border-t border-border pt-6">
               <SectionHeader title="Contact Information" />
               <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
                 <Box>
@@ -145,7 +145,7 @@ export default function ProfilePage() {
             </Box>
 
             {isEditing && (
-              <Box className="flex gap-4 mt-6 pt-6 border-t border-grey-800">
+              <Box className="flex gap-4 mt-6 pt-6 border-t border-border">
                 <Button variant="solid" onClick={handleSave} disabled={updateProfile.isPending}>
                   {updateProfile.isPending ? "Saving..." : "Save Changes"}
                 </Button>

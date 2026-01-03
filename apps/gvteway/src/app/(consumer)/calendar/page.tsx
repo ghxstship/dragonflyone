@@ -192,7 +192,7 @@ export default function CalendarPage() {
                 <SectionHeader title="Upcoming This Month" />
                 <Stack gap={3} className="mt-4">
                   {upcomingEvents.map((event: CalendarEvent) => (
-                    <Link key={event.id} href={`/events/${event.id}`} className="flex items-center justify-between py-2 border-b border-grey-700">
+                    <Link key={event.id} href={`/events/${event.id}`} className="flex items-center justify-between py-2 border-b border-border">
                       <Box>
                         <Body className="font-weight-medium">{event.title || event.name}</Body>
                         <Body size="sm" className="text-on-dark-muted">{new Date(event.date || event.start_date || "").toLocaleDateString()}</Body>

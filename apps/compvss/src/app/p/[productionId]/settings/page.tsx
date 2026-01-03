@@ -127,7 +127,7 @@ export default function ProductionSettingsPage() {
                   ))}
                 </Box>
               </Box>
-              <Box className="flex items-center justify-between pt-4 border-t border-grey-800">
+              <Box className="flex items-center justify-between pt-4 border-t border-border">
                 <Box>
                   <Body className="font-weight-medium">Email Notifications</Body>
                   <Body size="sm" className="text-on-dark-muted">Receive updates about this production</Body>

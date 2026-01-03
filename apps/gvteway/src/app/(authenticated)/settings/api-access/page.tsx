@@ -223,7 +223,7 @@ export default function ApiAccessPage() {
                 <Body size="sm" className="text-on-dark-muted">
                   Include your API key in the Authorization header:
                 </Body>
-                <Card className="p-3 bg-grey-800">
+                <Card className="p-3 bg-surface-elevated">
                   <Body size="sm" className="font-mono text-white">Authorization: Bearer YOUR_API_KEY</Body>
                 </Card>
               </Stack>
@@ -237,7 +237,7 @@ export default function ApiAccessPage() {
                 <Body size="sm" className="text-on-dark-muted">
                   All API requests should be made to:
                 </Body>
-                <Card className="p-3 bg-grey-800">
+                <Card className="p-3 bg-surface-elevated">
                   <Body size="sm" className="font-mono text-white">https://api.gvteway.com/v1</Body>
                 </Card>
               </Stack>

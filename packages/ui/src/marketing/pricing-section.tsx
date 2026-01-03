@@ -85,8 +85,8 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
 
     const bgClasses = {
       black: "bg-black text-white",
-      ink: "bg-ink-950 text-white",
-      grey: "bg-grey-900 text-white",
+      ink: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-surface-elevated text-on-dark-primary",
     };
 
     const formatPrice = (price: number, currency = "USD") => {
@@ -117,7 +117,7 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
 
             {/* Billing Toggle */}
             {showBillingToggle && (
-              <div className="mt-6 bg-grey-800 p-1 rounded-card inline-flex">
+              <div className="mt-6 bg-surface-elevated p-1 rounded-card inline-flex">
                 <Button
                   variant={billing === "monthly" ? "solid" : "ghost"}
                   size="sm"
@@ -160,7 +160,7 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
                   "p-4 sm:p-6 md:p-8 rounded-card relative",
                   plan.highlighted
                     ? "border-2 border-primary ring-2 ring-primary/20"
-                    : "border-2 border-grey-800"
+                    : "border-2 border-border"
                 )}
               >
                 {/* Badge */}

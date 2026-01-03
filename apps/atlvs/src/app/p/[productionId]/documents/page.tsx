@@ -98,7 +98,7 @@ export default function ProductionDocumentsPage() {
               <Card key={doc.id} className="p-4">
                 <Box className="flex items-center justify-between">
                   <Box className="flex items-center gap-4">
-                    <Box className="p-2 bg-grey-800 rounded-card">{getFileIcon(doc.type)}</Box>
+                    <Box className="p-2 bg-surface-elevated rounded-card">{getFileIcon(doc.type)}</Box>
                     <Box>
                       <Body className="font-weight-medium">{doc.name}</Body>
                       <Body size="sm" className="text-on-dark-muted">{doc.uploaded_by} • {formatDate(doc.uploaded_at)} • {doc.size}</Body>

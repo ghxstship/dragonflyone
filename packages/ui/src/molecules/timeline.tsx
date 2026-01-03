@@ -36,18 +36,18 @@ export interface TimelineProps {
 
 // Status config for light mode
 const statusConfigLight = {
-  completed: { bgClass: "bg-black", borderClass: "border-black", textClass: "text-white", shadowClass: "shadow-[2px_2px_0_hsl(var(--primary))]" },
-  current: { bgClass: "bg-white", borderClass: "border-black", textClass: "text-black", shadowClass: "shadow-[3px_3px_0_hsl(var(--primary))]" },
-  upcoming: { bgClass: "bg-grey-200", borderClass: "border-grey-300", textClass: "text-on-light-muted", shadowClass: "shadow-[2px_2px_0_rgba(0,0,0,0.08)]" },
-  error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-white", shadowClass: "shadow-[2px_2px_0_rgba(239,68,68,0.3)]" },
+  completed: { bgClass: "bg-surface-inverse", borderClass: "border-border-primary", textClass: "text-on-dark-primary", shadowClass: "shadow-primary" },
+  current: { bgClass: "bg-surface-primary", borderClass: "border-border-primary", textClass: "text-on-light-primary", shadowClass: "shadow-primary" },
+  upcoming: { bgClass: "bg-muted", borderClass: "border-border", textClass: "text-on-light-muted", shadowClass: "shadow-xs" },
+  error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-on-dark-primary", shadowClass: "shadow-error" },
 };
 
 // Status config for dark/inverted mode
 const statusConfigDark = {
-  completed: { bgClass: "bg-white", borderClass: "border-white", textClass: "text-black", shadowClass: "shadow-[2px_2px_0_hsl(var(--primary))]" },
-  current: { bgClass: "bg-ink-900", borderClass: "border-white", textClass: "text-white", shadowClass: "shadow-[3px_3px_0_hsl(var(--primary))]" },
-  upcoming: { bgClass: "bg-grey-800", borderClass: "border-grey-600", textClass: "text-on-light-muted", shadowClass: "shadow-[2px_2px_0_rgba(255,255,255,0.1)]" },
-  error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-white", shadowClass: "shadow-[2px_2px_0_rgba(239,68,68,0.3)]" },
+  completed: { bgClass: "bg-surface-primary", borderClass: "border-on-dark-primary", textClass: "text-on-light-primary", shadowClass: "shadow-primary" },
+  current: { bgClass: "bg-surface-inverse", borderClass: "border-on-dark-primary", textClass: "text-on-dark-primary", shadowClass: "shadow-primary" },
+  upcoming: { bgClass: "bg-surface-elevated", borderClass: "border-border", textClass: "text-on-light-muted", shadowClass: "shadow-xs" },
+  error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-on-dark-primary", shadowClass: "shadow-error" },
 };
 
 function formatTimestamp(timestamp: Date | string): string {
@@ -154,8 +154,8 @@ export function Timeline({
                     "flex-1",
                     isVertical ? "min-h-6 w-0.5" : "h-0.5 min-w-6",
                     item.status === "completed"
-                      ? inverted ? "bg-white" : "bg-black"
-                      : inverted ? "bg-grey-700" : "bg-grey-300"
+                      ? inverted ? "bg-on-dark-primary" : "bg-on-light-primary"
+                      : inverted ? "bg-border" : "bg-border"
                   )}
                 />
               )}
@@ -174,7 +174,7 @@ export function Timeline({
                   className={clsx(
                     "font-heading uppercase leading-relaxed tracking-wide",
                     compact ? "text-sm" : "text-base",
-                    inverted ? "text-white" : "text-black"
+                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
                   )}
                 >
                   {item.title}
@@ -213,7 +213,7 @@ export function Timeline({
                   ) : (
                     <div className={clsx(
                       "flex h-5 w-5 items-center justify-center rounded-full font-code text-[10px]",
-                      inverted ? "bg-grey-600 text-white" : "bg-grey-700 text-white"
+                      inverted ? "bg-muted-foreground text-on-dark-primary" : "bg-muted-foreground text-on-dark-primary"
                     )}>
                       {getInitials(item.user.name)}
                     </div>
@@ -235,7 +235,7 @@ export function Timeline({
                       key={key}
                       className={clsx(
                         "px-1 py-0.5 font-code text-xs tracking-wide",
-                        inverted ? "bg-grey-800 text-on-dark-muted" : "bg-grey-100 text-on-dark-disabled"
+                        inverted ? "bg-surface-elevated text-on-dark-muted" : "bg-muted text-on-dark-disabled"
                       )}
                     >
                       {key}: {value}

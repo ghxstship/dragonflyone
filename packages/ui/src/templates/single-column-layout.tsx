@@ -78,8 +78,8 @@ const widthClasses = {
 const heroColorClasses = {
   primary: "bg-primary text-white",
   secondary: "bg-secondary text-white",
-  accent: "bg-accent text-ink-900",
-  ink: "bg-ink-900 text-white",
+  accent: "bg-accent text-on-light-primary",
+  ink: "bg-surface-inverse text-on-dark-primary",
 };
 
 /**
@@ -135,8 +135,8 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
     const [showScrollButton, setShowScrollButton] = useState(false);
     const [activeSection, setActiveSection] = useState<string | null>(null);
 
-    const bgClass = inverted ? "bg-ink-950 text-white" : "bg-white text-ink-900";
-    const borderClass = inverted ? "border-grey-800" : "border-grey-200";
+    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+    const borderClass = inverted ? "border-border" : "border-border";
 
     // Scroll to top visibility
     useEffect(() => {
@@ -194,7 +194,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
               header === "fixed" && "fixed top-0 left-0 right-0 z-sticky-header",
               header === "sticky" && "sticky top-0 z-sticky-header",
               borderClass,
-              inverted ? "bg-ink-950/90" : "bg-white/90"
+              inverted ? "bg-surface-inverse/90" : "bg-surface-primary/90"
             )}>
               {headerContent}
             </header>
@@ -221,7 +221,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
               header === "fixed" && "fixed top-0 left-0 right-0 z-sticky-header",
               header === "sticky" && "sticky top-0 z-sticky-header",
               borderClass,
-              inverted ? "bg-ink-950/90" : "bg-white/90"
+              inverted ? "bg-surface-inverse/90" : "bg-surface-primary/90"
             )}>
               {headerContent}
             </header>
@@ -230,7 +230,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
             <Stack gap={6} className="items-center text-center max-w-md">
               <AlertTriangle className="size-16 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={inverted ? "text-white" : "text-ink-900"}>
+                <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
                   Error Loading Content
                 </H2>
                 <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
@@ -258,7 +258,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
               header === "fixed" && "fixed top-0 left-0 right-0 z-sticky-header",
               header === "sticky" && "sticky top-0 z-sticky-header",
               borderClass,
-              inverted ? "bg-ink-950/90" : "bg-white/90"
+              inverted ? "bg-surface-inverse/90" : "bg-surface-primary/90"
             )}>
               {headerContent}
             </header>
@@ -267,11 +267,11 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
             <Stack gap={6} className="items-center text-center max-w-md">
               <div className={clsx(
                 "size-20 rounded-full flex items-center justify-center border-2",
-                inverted ? "border-grey-700 bg-grey-800" : "border-grey-200 bg-grey-100"
+                inverted ? "border-border bg-surface-elevated" : "border-border bg-muted"
               )}>
                 <div className={clsx(
                   "size-10 rounded-full",
-                  inverted ? "bg-grey-700" : "bg-grey-200"
+                  inverted ? "bg-surface-elevated" : "bg-muted"
                 )} />
               </div>
               <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
@@ -297,7 +297,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
         <nav className={clsx(
           "sticky top-24 p-4 border-2 rounded-card",
           borderClass,
-          inverted ? "bg-ink-900" : "bg-grey-50"
+          inverted ? "bg-surface-elevated" : "bg-muted"
         )}>
           <Body className={clsx(
             "font-semibold mb-4 uppercase text-xs tracking-wider",
@@ -319,8 +319,8 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
                       ? "bg-primary/20 text-primary border-l-2 border-primary"
                       : "bg-primary/10 text-primary border-l-2 border-primary"
                     : inverted
-                      ? "text-on-dark-muted hover:text-white hover:bg-grey-800"
-                      : "text-on-dark-disabled hover:text-ink-900 hover:bg-grey-100"
+                      ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
+                      : "text-on-light-disabled hover:text-on-light-primary hover:bg-muted"
                 )}
               >
                 {item.label}
@@ -340,7 +340,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
             header === "fixed" && "fixed top-0 left-0 right-0",
             header === "sticky" && "sticky top-0",
             borderClass,
-            inverted ? "bg-ink-950/90" : "bg-white/90"
+            inverted ? "bg-surface-inverse/90" : "bg-surface-primary/90"
           )}>
             {headerContent}
           </header>
@@ -411,7 +411,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
             footer === "fixed" && "fixed bottom-0 left-0 right-0 z-sticky-header",
             footer === "sticky" && "sticky bottom-0 z-sticky-header",
             borderClass,
-            inverted ? "bg-ink-950" : "bg-white"
+            inverted ? "bg-surface-inverse" : "bg-surface-primary"
           )}>
             {footerContent}
           </footer>
@@ -425,8 +425,8 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
               "fixed bottom-6 right-6 z-tooltip p-3 rounded-full border-2 transition-all",
               "hover:-translate-y-1 hover:shadow-lg",
               inverted
-                ? "bg-ink-800 border-grey-700 text-white hover:bg-ink-700"
-                : "bg-white border-grey-200 text-ink-900 hover:bg-grey-50"
+                ? "bg-surface-elevated border-border text-on-dark-primary hover:bg-surface-inverse"
+                : "bg-surface-primary border-border text-on-light-primary hover:bg-muted"
             )}
             aria-label="Scroll to top"
           >

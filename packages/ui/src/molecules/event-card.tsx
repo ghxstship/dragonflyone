@@ -35,10 +35,10 @@ export interface EventCardProps {
 }
 
 const statusConfig = {
-  "on-sale": { label: "ON SALE", bgClass: "bg-black", textClass: "text-white" },
-  "sold-out": { label: "SOLD OUT", bgClass: "bg-grey-600", textClass: "text-white" },
-  "coming-soon": { label: "COMING SOON", bgClass: "bg-grey-800", textClass: "text-white" },
-  "cancelled": { label: "CANCELLED", bgClass: "bg-grey-500", textClass: "text-white" },
+  "on-sale": { label: "ON SALE", bgClass: "bg-surface-inverse", textClass: "text-on-dark-primary" },
+  "sold-out": { label: "SOLD OUT", bgClass: "bg-muted", textClass: "text-on-dark-primary" },
+  "coming-soon": { label: "COMING SOON", bgClass: "bg-surface-elevated", textClass: "text-on-dark-primary" },
+  "cancelled": { label: "CANCELLED", bgClass: "bg-muted", textClass: "text-on-dark-primary" },
 };
 
 function formatDate(date: Date | string): { day: string; month: string; weekday: string } {
@@ -77,11 +77,12 @@ export function EventCard({
 
   return (
     <article
+      data-event-id={id}
       className={clsx(
         "flex border-2 overflow-hidden transition-all duration-100 ease-[var(--ease-bounce)] rounded-[var(--radius-card)]",
         inverted
-          ? "bg-ink-900 border-grey-700 text-white shadow-[4px_4px_0_rgba(255,255,255,0.1)]"
-          : "bg-white border-black text-black shadow-[4px_4px_0_rgba(0,0,0,0.1)]",
+          ? "bg-surface-inverse border-border text-on-dark-primary shadow-md"
+          : "bg-surface-primary border-border-primary text-on-light-primary shadow-md",
         isFeatured || !isCompact ? "flex-col" : "flex-row",
         onClick && "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]",
         className
@@ -93,7 +94,7 @@ export function EventCard({
       {/* Image Section */}
       <div
         className={clsx(
-          "relative bg-grey-200 flex-shrink-0 overflow-hidden",
+          "relative bg-muted flex-shrink-0 overflow-hidden",
           isCompact ? "w-spacing-28" : "w-full",
           imageHeightClass
         )}
@@ -115,9 +116,9 @@ export function EventCard({
         {!isCompact && (
           <div className={clsx(
             "absolute top-spacing-4 left-spacing-4 border-2 px-spacing-3 py-spacing-2 text-center min-w-spacing-14",
-            inverted ? "bg-ink-900 border-grey-600" : "bg-white border-black"
+            inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border-primary"
           )}>
-            <div className={clsx("font-heading text-h3-md leading-none", inverted ? "text-white" : "text-black")}>
+            <div className={clsx("font-heading text-h3-md leading-none", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
               {dateInfo.day}
             </div>
             <div className={clsx("font-code text-mono-xs tracking-widest mt-spacing-1", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
@@ -142,11 +143,11 @@ export function EventCard({
         {showUrgency && status === "on-sale" && (
           <div
             className={clsx(
-              "absolute bg-black text-white font-code text-mono-xs tracking-widest px-spacing-2 py-spacing-1 flex items-center gap-gap-xs",
+              "absolute bg-surface-inverse text-on-dark-primary font-code text-mono-xs tracking-widest px-spacing-2 py-spacing-1 flex items-center gap-gap-xs",
               isCompact ? "bottom-spacing-2 left-spacing-2" : "bottom-spacing-4 left-spacing-4"
             )}
           >
-            <span className="w-spacing-1 h-spacing-1 bg-white rounded-full animate-pulse" />
+            <span className="w-spacing-1 h-spacing-1 bg-on-dark-primary rounded-full animate-pulse" />
             {ticketsRemaining <= 10 ? "ALMOST GONE" : `${ticketsRemaining} LEFT`}
           </div>
         )}
@@ -170,7 +171,7 @@ export function EventCard({
         <h3
           className={clsx(
             "font-heading uppercase tracking-wide leading-snug",
-            inverted ? "text-white" : "text-black",
+            inverted ? "text-on-dark-primary" : "text-on-light-primary",
             isFeatured ? "text-h2-md" : isCompact ? "text-h5-md" : "text-h4-md"
           )}
         >
@@ -200,7 +201,7 @@ export function EventCard({
 
         {/* Price */}
         {price && !isCompact && (
-          <div className={clsx("font-heading text-h5-md mt-auto pt-spacing-2", inverted ? "text-white" : "text-black")}>
+          <div className={clsx("font-heading text-h5-md mt-auto pt-spacing-2", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
             {price}
           </div>
         )}

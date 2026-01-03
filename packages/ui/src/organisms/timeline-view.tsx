@@ -54,7 +54,7 @@ export interface TimelineViewProps<T> {
 // =============================================================================
 
 const STATUS_COLORS = {
-  pending: "bg-ink-400",
+  pending: "bg-muted-foreground",
   in_progress: "bg-warning-500",
   completed: "bg-success-500",
 };
@@ -142,7 +142,7 @@ function TimelineItemComponent<T>({
         <div
           className={clsx(
             "flex items-center justify-center w-8 h-8 rounded-full border-2",
-            inverted ? "border-ink-700 bg-ink-800" : "border-ink-200 bg-white"
+            inverted ? "border-border bg-surface-elevated" : "border-border bg-surface-primary"
           )}
         >
           {item.icon || (
@@ -159,7 +159,7 @@ function TimelineItemComponent<T>({
           <div
             className={clsx(
               "w-0.5 flex-1 min-h-[40px]",
-              inverted ? "bg-ink-700" : "bg-ink-200"
+              inverted ? "bg-border" : "bg-border"
             )}
           />
         )}
@@ -180,8 +180,8 @@ function TimelineItemComponent<T>({
             className={clsx(
               "p-4 rounded-lg border-2 transition-all",
               inverted
-                ? "bg-ink-800 border-ink-700 hover:border-ink-600"
-                : "bg-white border-ink-200 hover:border-ink-300"
+                ? "bg-surface-elevated border-border hover:border-border-primary"
+                : "bg-surface-primary border-border hover:border-border-primary"
             )}
           >
             <div className="flex items-start justify-between gap-4">
@@ -189,7 +189,7 @@ function TimelineItemComponent<T>({
                 <h4
                   className={clsx(
                     "font-semibold text-sm",
-                    inverted ? "text-white" : "text-ink-900"
+                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
                   )}
                 >
                   {item.title}
@@ -198,7 +198,7 @@ function TimelineItemComponent<T>({
                   <p
                     className={clsx(
                       "text-sm mt-1",
-                      inverted ? "text-ink-400" : "text-ink-500"
+                      inverted ? "text-on-dark-muted" : "text-on-light-muted"
                     )}
                   >
                     {item.description}
@@ -209,7 +209,7 @@ function TimelineItemComponent<T>({
               <time
                 className={clsx(
                   "text-xs whitespace-nowrap",
-                  inverted ? "text-ink-500" : "text-ink-400"
+                  inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
                 )}
               >
                 {item.date.toLocaleTimeString("en-US", {
@@ -227,7 +227,7 @@ function TimelineItemComponent<T>({
                     "inline-flex items-center px-2 py-0.5 rounded text-xs font-medium",
                     item.status === "completed" && "bg-success-100 text-success-700",
                     item.status === "in_progress" && "bg-warning-100 text-warning-700",
-                    item.status === "pending" && (inverted ? "bg-ink-700 text-ink-300" : "bg-ink-100 text-ink-600")
+                    item.status === "pending" && (inverted ? "bg-surface-elevated text-on-dark-secondary" : "bg-muted text-on-light-secondary")
                   )}
                 >
                   {item.status.replace("_", " ")}
@@ -298,7 +298,7 @@ export function TimelineView<T>({
         <div
           className={clsx(
             "w-8 h-8 border-3 rounded-full animate-spin",
-            inverted ? "border-ink-700 border-t-white" : "border-ink-200 border-t-ink-900"
+            inverted ? "border-border border-t-on-dark-primary" : "border-border border-t-on-light-primary"
           )}
         />
       </div>
@@ -310,7 +310,7 @@ export function TimelineView<T>({
       <div
         className={clsx(
           "flex items-center justify-center h-64 rounded-lg border-2 border-dashed",
-          inverted ? "border-ink-700 text-ink-500" : "border-ink-300 text-ink-400",
+          inverted ? "border-border text-on-dark-disabled" : "border-border text-on-light-disabled",
           className
         )}
       >
@@ -328,13 +328,13 @@ export function TimelineView<T>({
             <div
               className={clsx(
                 "sticky top-0 z-sticky-header py-2 mb-4",
-                inverted ? "bg-ink-900" : "bg-white"
+                inverted ? "bg-surface-inverse" : "bg-surface-primary"
               )}
             >
               <h3
                 className={clsx(
                   "font-semibold text-sm uppercase tracking-wider",
-                  inverted ? "text-ink-400" : "text-ink-500"
+                  inverted ? "text-on-dark-muted" : "text-on-light-muted"
                 )}
               >
                 {group.label}

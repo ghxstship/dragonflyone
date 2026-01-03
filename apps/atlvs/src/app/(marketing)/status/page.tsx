@@ -133,7 +133,7 @@ export default function StatusPage() {
                     {services.map((service: ServiceStatus) => {
                       const config = STATUS_CONFIG[service.status];
                       return (
-                        <Card key={service.id} className="p-5 border-2 border-grey-800 rounded-card pop-card">
+                        <Card key={service.id} className="p-5 border-2 border-border rounded-card pop-card">
                           <Stack direction="horizontal" className="justify-between items-center flex-wrap gap-4">
                             <Stack direction="horizontal" gap={4} className="items-center">
                               {config.icon}

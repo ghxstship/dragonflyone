@@ -106,7 +106,7 @@ export default function BEOVersionsPage() {
               className={`border-2 cursor-pointer transition-colors ${
                 selectedVersions.includes(version.version) 
                   ? "border-primary" 
-                  : "border-ink-800 hover:border-ink-600"
+                  : "border-border hover:border-border"
               }`}
               onClick={() => handleVersionSelect(version.version)}
             >

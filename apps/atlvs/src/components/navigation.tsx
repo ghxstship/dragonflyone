@@ -60,7 +60,7 @@ export function CreatorNavigationPublic() {
 
   return (
     <>
-      <Header className="sticky top-0 z-modal border-b border-ink-800 bg-ink-950/90 backdrop-blur">
+      <Header className="sticky top-0 z-modal border-b border-border bg-surface-inverse/90 backdrop-blur">
         {/* Mobile Header - Simple left logo, right hamburger */}
         <Stack direction="horizontal" className="flex md:hidden items-center justify-between px-4 py-4">
           <Link href="/" className="font-display text-h3-md uppercase text-white">
@@ -226,7 +226,7 @@ export function CreatorNavigationPublic() {
             <Stack
               direction="horizontal"
               gap={6}
-              className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300"
+              className="font-mono text-mono-sm uppercase tracking-kicker text-on-dark-secondary"
             >
               {atlvsLandingNavigation.map((item) => (
                 <Link
@@ -263,11 +263,11 @@ export function CreatorNavigationPublic() {
 
       {/* Mobile Navigation Overlay */}
       {isOpen && (
-        <Stack className="fixed inset-0 z-modal-backdrop bg-ink-950/95 p-4 animate-in fade-in sm:p-6 md:hidden overflow-y-auto">
+        <Stack className="fixed inset-0 z-modal-backdrop bg-surface-inverse/95 p-4 animate-in fade-in sm:p-6 md:hidden overflow-y-auto">
           <Stack className="min-h-full justify-between pt-20 pb-8">
             <Stack gap={4}>
               {/* Products */}
-              <Box className="border-b border-ink-800 pb-4">
+              <Box className="border-b border-border pb-4">
                 <Button
                   variant="ghost"
                   inverted
@@ -296,7 +296,7 @@ export function CreatorNavigationPublic() {
               </Box>
 
               {/* Solutions */}
-              <Box className="border-b border-ink-800 pb-4">
+              <Box className="border-b border-border pb-4">
                 <Button
                   variant="ghost"
                   inverted
@@ -331,7 +331,7 @@ export function CreatorNavigationPublic() {
               </Box>
 
               {/* Resources */}
-              <Box className="border-b border-ink-800 pb-4">
+              <Box className="border-b border-border pb-4">
                 <Button
                   variant="ghost"
                   inverted
@@ -369,7 +369,7 @@ export function CreatorNavigationPublic() {
               <Link
                 href="/pricing"
                 onClick={handleClose}
-                className={clsx("block border-b border-ink-800 pb-4 text-white", mobileNavTypography)}
+                className={clsx("block border-b border-border pb-4 text-white", mobileNavTypography)}
               >
                 Pricing
               </Link>

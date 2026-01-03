@@ -102,7 +102,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
     },
     ref
   ) {
-    const bgClass = inverted ? "bg-ink-950 text-white" : "bg-white text-ink-900";
+    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
     
     // Loading state
     if (loading) {
@@ -118,7 +118,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
           {header && (
             <header className={clsx(
               "sticky top-0 z-modal border-b-2 backdrop-blur",
-              inverted ? "border-grey-800 bg-ink-950/90" : "border-grey-200 bg-white/90"
+              inverted ? "border-border bg-surface-inverse/90" : "border-border bg-surface-primary/90"
             )}>
               {header}
             </header>
@@ -150,7 +150,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
           {header && (
             <header className={clsx(
               "sticky top-0 z-modal border-b-2 backdrop-blur",
-              inverted ? "border-grey-800 bg-ink-950/90" : "border-grey-200 bg-white/90"
+              inverted ? "border-border bg-surface-inverse/90" : "border-border bg-surface-primary/90"
             )}>
               {header}
             </header>
@@ -159,7 +159,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
             <Stack gap={6} className={clsx("items-center text-center", widthClasses[width])}>
               <AlertTriangle className="size-16 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={inverted ? "text-white" : "text-ink-900"}>
+                <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
                   Something Went Wrong
                 </H2>
                 <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
@@ -192,7 +192,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
           {header && (
             <header className={clsx(
               "sticky top-0 z-modal border-b-2 backdrop-blur",
-              inverted ? "border-grey-800 bg-ink-950/90" : "border-grey-200 bg-white/90"
+              inverted ? "border-border bg-surface-inverse/90" : "border-border bg-surface-primary/90"
             )}>
               {header}
             </header>
@@ -201,11 +201,11 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
             <Stack gap={6} className={clsx("items-center text-center", widthClasses[width])}>
               <div className={clsx(
                 "size-20 rounded-full flex items-center justify-center border-2",
-                inverted ? "border-grey-700 bg-grey-800" : "border-grey-200 bg-grey-100"
+                inverted ? "border-border bg-surface-elevated" : "border-border bg-muted"
               )}>
                 <div className={clsx(
                   "size-10 rounded-full",
-                  inverted ? "bg-grey-700" : "bg-grey-200"
+                  inverted ? "bg-surface-elevated" : "bg-muted"
                 )} />
               </div>
               <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
@@ -242,7 +242,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
           {header && (
             <header className={clsx(
               "sticky top-0 z-modal border-b-2 backdrop-blur",
-              inverted ? "border-grey-800 bg-ink-950/90" : "border-grey-200 bg-white/90"
+              inverted ? "border-border bg-surface-inverse/90" : "border-border bg-surface-primary/90"
             )}>
               {header}
             </header>
@@ -316,7 +316,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
         {header && (
           <header className={clsx(
             "sticky top-0 z-modal border-b-2 backdrop-blur",
-            inverted ? "border-grey-800 bg-ink-950/90" : "border-grey-200 bg-white/90"
+            inverted ? "border-border bg-surface-inverse/90" : "border-border bg-surface-primary/90"
           )}>
             {header}
           </header>

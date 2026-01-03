@@ -55,7 +55,7 @@ export default function BrowsePage() {
         <GridLayout cols={3} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {filteredEvents.map((event: Event) => (
             <Card key={event.id} className="overflow-hidden cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/e/${event.id}`)}>
-              <Box className="h-40 bg-grey-800 flex items-center justify-center"><Calendar className="size-12 text-on-dark-disabled" /></Box>
+              <Box className="h-40 bg-surface-elevated flex items-center justify-center"><Calendar className="size-12 text-on-dark-disabled" /></Box>
               <Box className="p-4">
                 <Badge variant="outline" className="mb-2">{event.category}</Badge>
                 <Body className="font-weight-bold">{event.name}</Body>

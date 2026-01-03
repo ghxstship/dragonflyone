@@ -6,22 +6,22 @@ export type ServiceCardProps = HTMLAttributes<HTMLDivElement> & {
   icon: ReactNode;
   title: string;
   description: string;
-  background?: "white" | "black" | "grey";
+  background?: "default" | "inverted" | "muted";
 };
 
 export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
-  function ServiceCard({ icon, title, description, background = "white", className, ...props }, ref) {
+  function ServiceCard({ icon, title, description, background = "default", className, ...props }, ref) {
     const bgClasses = {
-      white: "bg-white text-black border-black",
-      black: "bg-black text-white border-white",
-      grey: "bg-grey-100 text-black border-black",
+      default: "bg-surface-primary text-on-light-primary border-border-primary",
+      inverted: "bg-surface-inverse text-on-dark-primary border-border-inverse",
+      muted: "bg-muted text-on-light-primary border-border-primary",
     };
 
     return (
       <div
         ref={ref}
         className={clsx(
-          "p-spacing-6 border-2 rounded-[var(--radius-card)] shadow-[4px_4px_0_rgba(0,0,0,0.1)] hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 ease-[var(--ease-bounce)] group",
+          "p-spacing-6 border-2 rounded-[var(--radius-card)] shadow-md hover:shadow-lg hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 ease-[var(--ease-bounce)] group",
           bgClasses[background],
           className
         )}

@@ -108,14 +108,14 @@ export function StatsDashboard({
             "transition-all duration-100 ease-[var(--ease-bounce)]",
             compact ? "p-4 gap-2" : "p-6 gap-3",
             inverted
-              ? "bg-grey-900 border-grey-700 shadow-[4px_4px_0_rgba(255,255,255,0.1)]"
+              ? "bg-surface-elevated border-border shadow-[4px_4px_0_rgba(255,255,255,0.1)]"
               : "bg-white border-black shadow-[4px_4px_0_rgba(0,0,0,0.1)]",
             onStatClick && clsx(
               "cursor-pointer",
               "hover:-translate-x-0.5 hover:-translate-y-0.5",
               inverted
-                ? "hover:bg-grey-800 hover:shadow-[6px_6px_0_rgba(255,255,255,0.15)]"
-                : "hover:bg-grey-50 hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]"
+                ? "hover:bg-surface-elevated hover:shadow-[6px_6px_0_rgba(255,255,255,0.15)]"
+                : "hover:bg-muted hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]"
             )
           )}
         >
@@ -229,13 +229,13 @@ export function StatCard({
         "p-6 border-2 rounded-[var(--radius-card)]",
         "transition-all duration-100 ease-[var(--ease-bounce)]",
         inverted
-          ? "bg-grey-900 border-grey-700 shadow-[4px_4px_0_rgba(255,255,255,0.1)]"
+          ? "bg-surface-elevated border-border shadow-[4px_4px_0_rgba(255,255,255,0.1)]"
           : "bg-white border-black shadow-[4px_4px_0_rgba(0,0,0,0.1)]",
         onClick && clsx(
           "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5",
           inverted
-            ? "hover:bg-grey-800 hover:shadow-[6px_6px_0_rgba(255,255,255,0.15)]"
-            : "hover:bg-grey-50 hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]"
+            ? "hover:bg-surface-elevated hover:shadow-[6px_6px_0_rgba(255,255,255,0.15)]"
+            : "hover:bg-muted hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]"
         ),
         className
       )}

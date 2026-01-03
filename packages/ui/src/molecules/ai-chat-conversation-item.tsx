@@ -52,7 +52,7 @@ export const AIChatConversationGroup = forwardRef<HTMLDivElement, AIChatConversa
         <span
           className={clsx(
             "px-2 py-1 font-mono text-mono-xs uppercase tracking-kicker",
-            inverted ? "text-grey-500" : "text-grey-400"
+            inverted ? "text-on-dark-disabled" : "text-on-light-muted"
           )}
         >
           {label}
@@ -101,11 +101,11 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
           "focus:outline-none focus:ring-2 focus:ring-inset",
           isActive
             ? inverted
-              ? "bg-grey-700 focus:ring-white"
-              : "bg-grey-200 focus:ring-ink-950"
+              ? "bg-surface-elevated focus:ring-on-dark-primary"
+              : "bg-muted focus:ring-on-light-primary"
             : inverted
-              ? "hover:bg-grey-800 focus:ring-white"
-              : "hover:bg-grey-100 focus:ring-ink-950",
+              ? "hover:bg-surface-elevated focus:ring-on-dark-primary"
+              : "hover:bg-muted focus:ring-on-light-primary",
           className
         )}
         aria-current={isActive ? "page" : undefined}
@@ -118,7 +118,7 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
             <span
               className={clsx(
                 "shrink-0",
-                inverted ? "text-grey-400" : "text-grey-500"
+                inverted ? "text-on-dark-muted" : "text-on-light-muted"
               )}
             >
               {icon}
@@ -131,11 +131,11 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
               "flex-1 truncate font-heading text-h6-sm uppercase",
               isActive
                 ? inverted
-                  ? "text-white"
-                  : "text-ink-950"
+                  ? "text-on-dark-primary"
+                  : "text-on-light-primary"
                 : inverted
-                  ? "text-grey-200"
-                  : "text-ink-800"
+                  ? "text-on-dark-secondary"
+                  : "text-on-light-secondary"
             )}
           >
             {title}
@@ -146,7 +146,7 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
             <span
               className={clsx(
                 "shrink-0 font-mono text-mono-xs",
-                inverted ? "text-grey-500" : "text-grey-400"
+                inverted ? "text-on-dark-disabled" : "text-on-light-muted"
               )}
             >
               {formattedTime}
@@ -159,7 +159,7 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
           <span
             className={clsx(
               "line-clamp-2 font-body text-body-xs",
-              inverted ? "text-grey-400" : "text-grey-500"
+              inverted ? "text-on-dark-muted" : "text-on-light-muted"
             )}
           >
             {preview}
@@ -171,7 +171,7 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
           <div
             className={clsx(
               "absolute right-2 top-2 flex items-center gap-xs opacity-0 transition-opacity group-hover:opacity-100",
-              inverted ? "bg-grey-700" : "bg-grey-200"
+              inverted ? "bg-surface-elevated" : "bg-muted"
             )}
           >
             {actions}

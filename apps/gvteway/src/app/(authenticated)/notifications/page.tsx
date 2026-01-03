@@ -11,7 +11,7 @@ const DEMO: Notification[] = [
   { id: "2", type: "success", title: "Order shipped", message: "Your merch order is on its way", read: true, created_at: "2024-12-14T15:00:00Z" },
 ];
 
-const TYPE_CONFIG = { info: { icon: <Bell className="size-5" />, bg: "bg-grey-800" }, warning: { icon: <AlertTriangle className="size-5" />, bg: "bg-warning/20" }, success: { icon: <Check className="size-5" />, bg: "bg-success/20" } };
+const TYPE_CONFIG = { info: { icon: <Bell className="size-5" />, bg: "bg-surface-elevated" }, warning: { icon: <AlertTriangle className="size-5" />, bg: "bg-warning/20" }, success: { icon: <Check className="size-5" />, bg: "bg-success/20" } };
 
 export default function NotificationsPage() {
   const queryClient = useQueryClient();

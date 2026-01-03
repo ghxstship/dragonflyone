@@ -174,7 +174,7 @@ const statusConfig: Record<UserStatus, { label: string; color: string; icon: Rea
   online: { label: "Online", color: "bg-success-500", icon: <Circle className="size-2 fill-current" /> },
   away: { label: "Away", color: "bg-warning-500", icon: <Clock className="size-3" /> },
   dnd: { label: "Do Not Disturb", color: "bg-error-500", icon: <EyeOff className="size-3" /> },
-  invisible: { label: "Invisible", color: "bg-ink-500", icon: <Eye className="size-3" /> },
+  invisible: { label: "Invisible", color: "bg-muted-foreground", icon: <Eye className="size-3" /> },
 };
 
 const notificationIcons: Record<NotificationType, ReactNode> = {
@@ -242,8 +242,8 @@ function GlobalSearchTrigger({ inverted = true, onClick }: GlobalSearchTriggerPr
         "flex items-center gap-2 px-4 py-2 rounded-button border-2 transition-all duration-100",
         "min-w-[200px] md:min-w-[280px] lg:min-w-[360px]",
         inverted
-          ? "bg-ink-900 border-ink-700 text-on-dark-muted hover:border-ink-600 hover:bg-ink-800"
-          : "bg-white border-ink-200 text-on-light-muted hover:border-ink-300 hover:bg-ink-50"
+          ? "bg-surface-inverse border-border text-on-dark-muted hover:border-border-primary hover:bg-surface-elevated"
+          : "bg-surface-primary border-border text-on-light-muted hover:border-border-primary hover:bg-muted"
       )}
       aria-label="Open search (Cmd+K)"
     >
@@ -252,8 +252,8 @@ function GlobalSearchTrigger({ inverted = true, onClick }: GlobalSearchTriggerPr
       <kbd className={clsx(
         "hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono rounded border",
         inverted 
-          ? "bg-ink-800 border-ink-700 text-on-dark-disabled" 
-          : "bg-ink-100 border-ink-200 text-on-light-disabled"
+          ? "bg-surface-elevated border-border text-on-dark-disabled" 
+          : "bg-muted border-border text-on-light-disabled"
       )}>
         ⌘K
       </kbd>
@@ -302,8 +302,8 @@ function ContextualQuickActions({ actions, currentPath, inverted = true, onNavig
             className={clsx(
               "flex items-center gap-1.5 px-2.5 py-1.5 rounded-button border-2 text-xs font-medium transition-all duration-100",
               inverted
-                ? "border-ink-700 bg-ink-800 text-on-dark-secondary hover:border-primary-500 hover:text-white hover:bg-ink-700"
-                : "border-ink-200 bg-white text-on-light-secondary hover:border-primary-500 hover:text-primary-600"
+                ? "border-border bg-surface-elevated text-on-dark-secondary hover:border-primary-500 hover:text-on-dark-primary hover:bg-surface-inverse"
+                : "border-border bg-surface-primary text-on-light-secondary hover:border-primary-500 hover:text-primary-600"
             )}
           >
             {action.icon}
@@ -383,8 +383,8 @@ function EnhancedNotificationsPanel({
       className={clsx(
         "relative p-2 rounded-button border-2 transition-all duration-100",
         inverted
-          ? "border-transparent text-on-dark-muted hover:text-white hover:bg-ink-800 hover:border-ink-700"
-          : "border-transparent text-on-light-muted hover:text-on-light-primary hover:bg-ink-100 hover:border-ink-200"
+          ? "border-transparent text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated hover:border-border"
+          : "border-transparent text-on-light-muted hover:text-on-light-primary hover:bg-muted hover:border-border"
       )}
       aria-label="Notifications"
       aria-expanded={isOpen}
@@ -392,7 +392,7 @@ function EnhancedNotificationsPanel({
     >
       <Bell size={20} />
       {unreadCount > 0 && (
-        <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center px-1 bg-error-500 text-white text-[10px] font-bold rounded-full border-2 border-ink-950">
+        <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center px-1 bg-error-500 text-white text-[10px] font-bold rounded-full border-2 border-surface-inverse">
           {unreadCount > 99 ? "99+" : unreadCount}
         </span>
       )}
@@ -411,14 +411,14 @@ function EnhancedNotificationsPanel({
           className={clsx(
             "absolute right-0 top-full mt-2 w-[380px] max-h-[80vh] border-2 rounded-card overflow-hidden animate-pop-in z-dropdown",
             inverted
-              ? "bg-ink-900 border-ink-700 shadow-[4px_4px_0_rgba(255,255,255,0.1)]"
-              : "bg-white border-ink-200 shadow-[4px_4px_0_rgba(0,0,0,0.1)]"
+              ? "bg-surface-inverse border-border shadow-hard"
+              : "bg-surface-primary border-border shadow-hard"
           )}
         >
           {/* Header */}
           <div className={clsx(
             "flex items-center justify-between px-4 py-3 border-b-2",
-            inverted ? "bg-ink-950 border-ink-700" : "bg-ink-50 border-ink-200"
+            inverted ? "bg-surface-inverse border-border" : "bg-muted border-border"
           )}>
             <div className="flex items-center gap-2">
               <Bell size={18} className={inverted ? "text-on-dark-primary" : "text-on-light-primary"} />
@@ -462,7 +462,7 @@ function EnhancedNotificationsPanel({
           {/* Category Tabs */}
           <div className={clsx(
             "flex items-center gap-1 px-2 py-2 border-b-2 overflow-x-auto",
-            inverted ? "border-ink-700" : "border-ink-200"
+            inverted ? "border-border" : "border-border"
           )}>
             {categories.map((cat) => (
               <button
@@ -474,8 +474,8 @@ function EnhancedNotificationsPanel({
                   activeCategory === cat.id
                     ? "bg-primary-500 text-white"
                     : inverted
-                      ? "text-on-dark-muted hover:text-white hover:bg-ink-800"
-                      : "text-on-light-muted hover:text-on-light-primary hover:bg-ink-100"
+                      ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
+                      : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
                 )}
               >
                 {cat.label}
@@ -483,8 +483,8 @@ function EnhancedNotificationsPanel({
                   <span className={clsx(
                     "px-1 py-0.5 text-[9px] rounded",
                     activeCategory === cat.id
-                      ? "bg-white/20"
-                      : inverted ? "bg-ink-700" : "bg-ink-200"
+                      ? "bg-surface-primary/20"
+                      : inverted ? "bg-surface-elevated" : "bg-muted"
                   )}>
                     {cat.count}
                   </span>
@@ -497,7 +497,7 @@ function EnhancedNotificationsPanel({
           {filteredNotifications.length > 0 && (
             <div className={clsx(
               "flex items-center justify-between px-3 py-1.5 border-b",
-              inverted ? "border-ink-800" : "border-ink-100"
+              inverted ? "border-border" : "border-border"
             )}>
               {onMarkAllRead && unreadCount > 0 && (
                 <button
@@ -537,14 +537,14 @@ function EnhancedNotificationsPanel({
                     key={groupId}
                     className={clsx(
                       "border-b last:border-b-0 transition-colors",
-                      inverted ? "border-ink-800" : "border-ink-100",
+                      inverted ? "border-border" : "border-border",
                       !firstNotif.read && (inverted ? "bg-primary-500/5" : "bg-primary-50")
                     )}
                   >
                     <div
                       className={clsx(
                         "flex items-start gap-3 p-3 cursor-pointer transition-colors",
-                        inverted ? "hover:bg-ink-800" : "hover:bg-ink-50"
+                        inverted ? "hover:bg-surface-elevated" : "hover:bg-muted"
                       )}
                       onClick={() => onNotificationClick?.(firstNotif)}
                     >
@@ -563,7 +563,7 @@ function EnhancedNotificationsPanel({
                             "text-sm line-clamp-2",
                             firstNotif.read
                               ? inverted ? "text-on-dark-muted" : "text-on-light-muted"
-                              : inverted ? "text-white font-medium" : "text-ink-900 font-medium"
+                              : inverted ? "text-on-dark-primary font-medium" : "text-on-light-primary font-medium"
                           )}>
                             {firstNotif.title}
                             {isGrouped && (
@@ -619,13 +619,13 @@ function EnhancedNotificationsPanel({
                         )}
 
                         <div className="flex items-center gap-2 mt-1.5">
-                          <span className={clsx("text-[10px]", inverted ? "text-ink-600" : "text-ink-400")}>
+                          <span className={clsx("text-[10px]", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
                             {formatRelativeTime(firstNotif.timestamp)}
                           </span>
                           {firstNotif.source && (
                             <span className={clsx(
                               "text-[10px] px-1 py-0.5 rounded",
-                              inverted ? "bg-ink-800 text-ink-400" : "bg-ink-100 text-ink-500"
+                              inverted ? "bg-surface-elevated text-on-dark-muted" : "bg-muted text-on-light-muted"
                             )}>
                               {firstNotif.source}
                             </span>
@@ -664,7 +664,7 @@ function EnhancedNotificationsPanel({
           {filteredNotifications.length > 0 && (
             <div className={clsx(
               "px-3 py-2 border-t-2 text-center",
-              inverted ? "border-ink-700" : "border-ink-200"
+              inverted ? "border-border" : "border-border"
             )}>
               <button
                 type="button"
@@ -718,8 +718,8 @@ function EnhancedUserMenu({
       className={clsx(
         "flex items-center gap-2 px-2 py-1.5 rounded-button border-2 transition-all cursor-pointer",
         inverted
-          ? "border-transparent hover:border-ink-700 hover:bg-ink-800 text-on-dark-secondary hover:text-white"
-          : "border-transparent hover:border-ink-200 hover:bg-ink-50 text-on-light-secondary hover:text-on-light-primary"
+          ? "border-transparent hover:border-border hover:bg-surface-elevated text-on-dark-secondary hover:text-on-dark-primary"
+          : "border-transparent hover:border-border hover:bg-muted text-on-light-secondary hover:text-on-light-primary"
       )}
     >
       <div className="relative">
@@ -727,14 +727,14 @@ function EnhancedUserMenu({
           <img
             src={user.avatar}
             alt={user.name}
-            className="size-7 rounded-full border-2 border-ink-600 object-cover"
+            className="size-7 rounded-full border-2 border-border object-cover"
           />
         ) : (
           <div className={clsx(
             "size-7 rounded-full flex items-center justify-center text-xs font-bold border-2",
             inverted
-              ? "bg-ink-700 border-ink-600 text-on-dark-primary"
-              : "bg-ink-200 border-ink-300 text-on-light-secondary"
+              ? "bg-surface-elevated border-border text-on-dark-primary"
+              : "bg-muted border-border text-on-light-secondary"
           )}>
             {user.name.charAt(0).toUpperCase()}
           </div>
@@ -742,7 +742,7 @@ function EnhancedUserMenu({
         {/* Status indicator */}
         <div className={clsx(
           "absolute -bottom-0.5 -right-0.5 size-3 rounded-full border-2",
-          inverted ? "border-ink-950" : "border-white",
+          inverted ? "border-surface-inverse" : "border-surface-primary",
           statusConfig[currentStatus].color
         )} />
       </div>
@@ -758,7 +758,7 @@ function EnhancedUserMenu({
       {/* User Info */}
       <div className={clsx(
         "px-4 py-3 border-b-2",
-        inverted ? "border-ink-700" : "border-ink-200"
+        inverted ? "border-border" : "border-border"
       )}>
         <div className={clsx("text-sm font-medium", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
           {user.name}
@@ -771,7 +771,7 @@ function EnhancedUserMenu({
         {user.role && (
           <div className={clsx(
             "inline-block mt-2 px-2 py-0.5 text-[10px] font-medium rounded",
-            inverted ? "bg-ink-800 text-on-dark-secondary" : "bg-ink-100 text-on-light-secondary"
+            inverted ? "bg-surface-elevated text-on-dark-secondary" : "bg-muted text-on-light-secondary"
           )}>
             {user.role}
           </div>
@@ -780,7 +780,7 @@ function EnhancedUserMenu({
 
       {/* Status Selector */}
       {onStatusChange && (
-        <div className={clsx("px-2 py-2 border-b-2", inverted ? "border-ink-700" : "border-ink-200")}>
+        <div className={clsx("px-2 py-2 border-b-2", inverted ? "border-border" : "border-border")}>
           <div className={clsx("px-2 py-1 text-[10px] uppercase tracking-wider font-semibold", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
             Status
           </div>
@@ -795,8 +795,8 @@ function EnhancedUserMenu({
                   currentStatus === status
                     ? "bg-primary-500 text-white"
                     : inverted
-                      ? "text-on-dark-secondary hover:bg-ink-800"
-                      : "text-on-light-secondary hover:bg-ink-100"
+                      ? "text-on-dark-secondary hover:bg-surface-elevated"
+                      : "text-on-light-secondary hover:bg-muted"
                 )}
               >
                 <span className={clsx("size-2 rounded-full", statusConfig[status].color)} />
@@ -809,7 +809,7 @@ function EnhancedUserMenu({
 
       {/* Theme Selector */}
       {onThemeChange && (
-        <div className={clsx("px-2 py-2 border-b-2", inverted ? "border-ink-700" : "border-ink-200")}>
+        <div className={clsx("px-2 py-2 border-b-2", inverted ? "border-border" : "border-border")}>
           <div className={clsx("px-2 py-1 text-[10px] uppercase tracking-wider font-semibold", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
             Theme
           </div>
@@ -828,8 +828,8 @@ function EnhancedUserMenu({
                   theme === t.id
                     ? "bg-primary-500 text-white"
                     : inverted
-                      ? "text-on-dark-secondary hover:bg-ink-800"
-                      : "text-on-light-secondary hover:bg-ink-100"
+                      ? "text-on-dark-secondary hover:bg-surface-elevated"
+                      : "text-on-light-secondary hover:bg-muted"
                 )}
               >
                 {t.icon}
@@ -862,7 +862,7 @@ function EnhancedUserMenu({
             </span>
             <kbd className={clsx(
               "text-[10px] px-1 py-0.5 rounded",
-              inverted ? "bg-ink-800 text-on-dark-disabled" : "bg-ink-100 text-on-light-disabled"
+              inverted ? "bg-surface-elevated text-on-dark-disabled" : "bg-muted text-on-light-disabled"
             )}>
               ?
             </kbd>
@@ -928,8 +928,8 @@ function BreadcrumbDropdown({ item, options = [], inverted = true, onSelect, onN
     <div className={clsx(
       "flex items-center gap-1.5 px-2 py-1 rounded-button border-2 cursor-pointer transition-all text-sm",
       inverted
-        ? "border-ink-700 hover:border-ink-600 text-on-dark-primary hover:bg-ink-800"
-        : "border-ink-200 hover:border-ink-300 text-on-light-primary hover:bg-ink-50"
+        ? "border-border hover:border-border-primary text-on-dark-primary hover:bg-surface-elevated"
+        : "border-border hover:border-border-primary text-on-light-primary hover:bg-muted"
     )}>
       <span className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>{getIcon()}</span>
       <span className="font-medium max-w-[120px] truncate">{item.name}</span>
@@ -966,7 +966,7 @@ function BreadcrumbDropdown({ item, options = [], inverted = true, onSelect, onN
               </span>
             </DropdownItem>
           ))}
-          <div className={clsx("border-t my-1", inverted ? "border-ink-700" : "border-ink-200")} />
+          <div className={clsx("border-t my-1", inverted ? "border-border" : "border-border")} />
         </>
       )}
       <DropdownItem inverted={inverted} onClick={() => onNavigate?.(getCreatePath())}>
@@ -1067,7 +1067,7 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
         ref={ref}
         className={clsx(
           "flex items-center justify-between h-14 px-4 border-b-2 shrink-0",
-          inverted ? "bg-ink-950 border-ink-800" : "bg-white border-ink-200",
+          inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border",
           className
         )}
       >
@@ -1081,8 +1081,8 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
               className={clsx(
                 "md:hidden p-2 rounded-button border-2 transition-colors",
                 inverted
-                  ? "border-ink-700 text-on-dark-secondary hover:bg-ink-800 hover:text-white"
-                  : "border-ink-200 text-on-light-secondary hover:bg-ink-100"
+                  ? "border-border text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary"
+                  : "border-border text-on-light-secondary hover:bg-muted"
               )}
               aria-label="Open menu"
             >
@@ -1099,8 +1099,8 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
                 className={clsx(
                   "hidden md:flex items-center gap-1 px-2 py-1 rounded-button text-xs font-medium transition-colors",
                   inverted
-                    ? "text-on-dark-muted hover:text-white hover:bg-ink-800"
-                    : "text-on-light-muted hover:text-on-light-primary hover:bg-ink-100"
+                    ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
+                    : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
                 )}
               >
                 <ArrowLeft size={14} />
@@ -1138,7 +1138,7 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
 
           {/* Divider */}
           {quickActions.length > 0 && (
-            <div className={clsx("hidden lg:block w-px h-6 mx-2", inverted ? "bg-ink-700" : "bg-ink-200")} />
+            <div className={clsx("hidden lg:block w-px h-6 mx-2", inverted ? "bg-surface-elevated" : "bg-muted")} />
           )}
 
           {/* Notifications */}
@@ -1161,8 +1161,8 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
               className={clsx(
                 "p-2 rounded-button border-2 transition-all duration-100",
                 inverted
-                  ? "border-transparent text-ink-400 hover:text-white hover:bg-ink-800 hover:border-ink-700"
-                  : "border-transparent text-ink-500 hover:text-ink-900 hover:bg-ink-100 hover:border-ink-200"
+                  ? "border-transparent text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated hover:border-border"
+                  : "border-transparent text-on-light-muted hover:text-on-light-primary hover:bg-muted hover:border-border"
               )}
               aria-label="Help"
             >
@@ -1178,8 +1178,8 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
               className={clsx(
                 "hidden sm:block p-2 rounded-button border-2 transition-all duration-100",
                 inverted
-                  ? "border-transparent text-ink-400 hover:text-white hover:bg-ink-800 hover:border-ink-700"
-                  : "border-transparent text-ink-500 hover:text-ink-900 hover:bg-ink-100 hover:border-ink-200"
+                  ? "border-transparent text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated hover:border-border"
+                  : "border-transparent text-on-light-muted hover:text-on-light-primary hover:bg-muted hover:border-border"
               )}
               aria-label="Settings"
             >

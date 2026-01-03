@@ -88,7 +88,7 @@ export default function ProductionWrapPage() {
               <Card key={item.id} className="p-4">
                 <Box className="flex items-center justify-between">
                   <Box className="flex items-center gap-4">
-                    <Box className={`p-2 rounded-card ${item.status === "completed" ? "bg-success/20" : "bg-grey-800"}`}>
+                    <Box className={`p-2 rounded-card ${item.status === "completed" ? "bg-success/20" : "bg-surface-elevated"}`}>
                       {item.status === "completed" ? <CheckCircle className="size-4 text-success" /> : <Clock className="size-4 text-on-dark-muted" />}
                     </Box>
                     <Box>

@@ -85,7 +85,7 @@ export default function ProductionSchedulePage() {
               <Card key={item.id} className="p-6">
                 <Box className="flex items-start justify-between">
                   <Box className="flex items-start gap-4">
-                    <Box className="p-3 bg-grey-800 rounded-card">
+                    <Box className="p-3 bg-surface-elevated rounded-card">
                       <Calendar className="size-6 text-primary" />
                     </Box>
                     <Box>

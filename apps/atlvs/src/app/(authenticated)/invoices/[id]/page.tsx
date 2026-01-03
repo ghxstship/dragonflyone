@@ -157,7 +157,7 @@ export default function InvoiceDetailPage() {
           />
           {invoice.amount_paid > 0 ? (
             <Stack gap={3}>
-              <Card inverted className="border-2 border-ink-800 p-4">
+              <Card inverted className="border-2 border-border p-4">
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack gap={1}>
                     <Body className="text-white">Payment Received</Body>
@@ -168,7 +168,7 @@ export default function InvoiceDetailPage() {
               </Card>
             </Stack>
           ) : (
-            <Card inverted className="border-2 border-ink-800 p-8 text-center">
+            <Card inverted className="border-2 border-border p-8 text-center">
               <Stack gap={3} className="items-center">
                 <CreditCard className="size-8 text-on-dark-disabled" />
                 <Body className="text-on-dark-muted">No payments recorded yet</Body>
@@ -200,7 +200,7 @@ export default function InvoiceDetailPage() {
             description="Timeline of all invoice activity"
           />
           <Stack gap={3}>
-            <Card inverted className="border-2 border-ink-800 p-4">
+            <Card inverted className="border-2 border-border p-4">
               <Stack direction="horizontal" className="items-start gap-4">
                 <FileText className="mt-1 size-4 text-primary" />
                 <Stack gap={1} className="flex-1">
@@ -210,7 +210,7 @@ export default function InvoiceDetailPage() {
               </Stack>
             </Card>
             {invoice.status !== 'draft' && (
-              <Card inverted className="border-2 border-ink-800 p-4">
+              <Card inverted className="border-2 border-border p-4">
                 <Stack direction="horizontal" className="items-start gap-4">
                   <Send className="mt-1 size-4 text-info" />
                   <Stack gap={1} className="flex-1">
@@ -221,7 +221,7 @@ export default function InvoiceDetailPage() {
               </Card>
             )}
             {invoice.amount_paid > 0 && (
-              <Card inverted className="border-2 border-ink-800 p-4">
+              <Card inverted className="border-2 border-border p-4">
                 <Stack direction="horizontal" className="items-start gap-4">
                   <CheckCircle className="mt-1 size-4 text-success" />
                   <Stack gap={1} className="flex-1">
@@ -335,7 +335,7 @@ export default function InvoiceDetailPage() {
 
       {showPaymentModal && invoice && (
         <Box className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <Card inverted className="w-full max-w-md border-2 border-ink-700 p-6">
+          <Card inverted className="w-full max-w-md border-2 border-border p-6">
             <Stack gap={6}>
               <H3 className="text-white">Record Payment</H3>
               

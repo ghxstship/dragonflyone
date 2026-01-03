@@ -23,12 +23,12 @@ export function ApiErrorBoundary({ children, onRetry }: ApiErrorBoundaryProps) {
 
   const fallback = (
     <div className="flex min-h-panel-sm items-center justify-center p-spacing-6">
-      <div className="w-full max-w-md space-y-spacing-4 border-2 border-warning-500 bg-ink-900 p-spacing-6">
+      <div className="w-full max-w-md space-y-spacing-4 border-2 border-warning-500 bg-surface-elevated p-spacing-6">
         <div className="space-y-spacing-2">
           <h2 className="font-display text-h4-md text-white">
             Connection Error
           </h2>
-          <p className="text-body-sm text-ink-300">
+          <p className="text-body-sm text-on-dark-secondary">
             We&apos;re having trouble connecting to our servers. Please check your internet connection and try again.
           </p>
         </div>

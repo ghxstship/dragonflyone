@@ -163,7 +163,7 @@ export const StatsSection = forwardRef<HTMLElement, StatsSectionProps>(
 
     const bgClasses = {
       black: "bg-black",
-      ink: "bg-ink-950",
+      ink: "bg-surface-inverse",
       primary: "bg-primary",
       accent: "bg-accent",
     };

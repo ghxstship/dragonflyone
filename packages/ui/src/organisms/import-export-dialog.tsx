@@ -259,7 +259,7 @@ export function ImportExportDialog({
                               value={fieldMapping[field] || ""}
                               onChange={(e) => setFieldMapping(prev => ({ ...prev, [field]: e.target.value }))}
                               placeholder="Database field"
-                              className="flex-1 p-spacing-2 font-code text-mono-sm border border-grey-300"
+                              className="flex-1 p-spacing-2 font-code text-mono-sm border border-border"
                             />
                           </div>
                         ))}
@@ -305,7 +305,7 @@ export function ImportExportDialog({
                       <button type="button" onClick={deselectAllColumns} className="font-code text-mono-xs text-on-dark-disabled bg-transparent border-none cursor-pointer underline">None</button>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-gap-xs max-h-container-sm overflow-auto p-spacing-2 border border-grey-200">
+                  <div className="grid grid-cols-2 gap-gap-xs max-h-container-sm overflow-auto p-spacing-2 border border-border">
                     {columns.map(col => (
                       <label key={col.key} className="flex items-center gap-gap-xs cursor-pointer">
                         <input type="checkbox" checked={selectedColumns.has(col.key)} onChange={() => toggleColumn(col.key)} className="w-spacing-4 h-spacing-4" />
@@ -326,14 +326,14 @@ export function ImportExportDialog({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-gap-sm px-spacing-6 py-spacing-4 border-t-2 border-grey-200">
+        <div className="flex items-center justify-end gap-gap-sm px-spacing-6 py-spacing-4 border-t-2 border-border">
           <button
             type="button"
             onClick={onClose}
             disabled={processing}
             className={clsx(
               "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-surface-primary text-text-primary border-2 border-border-primary",
-              processing ? "cursor-not-allowed" : "cursor-pointer hover:bg-grey-100"
+              processing ? "cursor-not-allowed" : "cursor-pointer hover:bg-muted"
             )}
           >
             Cancel
@@ -346,10 +346,10 @@ export function ImportExportDialog({
               "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-black text-white border-2 border-black flex items-center gap-gap-xs",
               processing || (mode === "import" && !selectedFile) || (mode === "export" && selectedColumns.size === 0)
                 ? "cursor-not-allowed opacity-50"
-                : "cursor-pointer hover:bg-grey-900"
+                : "cursor-pointer hover:bg-surface-elevated"
             )}
           >
-            {processing && <span className="inline-block w-spacing-3 h-spacing-3 border-2 border-grey-500 border-t-white rounded-full animate-spin" />}
+            {processing && <span className="inline-block w-spacing-3 h-spacing-3 border-2 border-border border-t-white rounded-full animate-spin" />}
             {mode === "import" ? "Import" : "Export"}
           </button>
         </div>

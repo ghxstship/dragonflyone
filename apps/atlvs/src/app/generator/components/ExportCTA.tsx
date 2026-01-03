@@ -117,7 +117,7 @@ export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProp
               <Text as="span" className="text-accent">{blueprint.concept.name}</Text>{" "}
               to life?
             </H2>
-            <Body className="text-body-lg text-grey-400">
+            <Body className="text-body-lg text-on-light-disabled">
               Launch your production in ATLVS and get instant access to all the
               tools you need to execute this experience.
             </Body>
@@ -136,7 +136,7 @@ export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProp
               <Button
                 onClick={handleDownloadPDF}
                 disabled={pdfLoading}
-                className="flex flex-1 items-center justify-center gap-2 border-2 border-grey-600 bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-grey-400 transition-colors hover:border-white hover:text-white disabled:opacity-50"
+                className="flex flex-1 items-center justify-center gap-2 border-2 border-border bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-on-light-disabled transition-colors hover:border-white hover:text-white disabled:opacity-50"
               >
                 {pdfLoading ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
                 {pdfLoading ? "Generating..." : "Download PDF"}
@@ -144,14 +144,14 @@ export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProp
               <Button
                 onClick={handleShare}
                 disabled={shareStatus === "loading"}
-                className="flex flex-1 items-center justify-center gap-2 border-2 border-grey-600 bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-grey-400 transition-colors hover:border-white hover:text-white disabled:opacity-50"
+                className="flex flex-1 items-center justify-center gap-2 border-2 border-border bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-on-light-disabled transition-colors hover:border-white hover:text-white disabled:opacity-50"
               >
                 {shareStatus === "loading" ? <Loader2 className="size-4 animate-spin" /> : shareStatus === "copied" ? <Check className="size-4" /> : <Share2 className="size-4" />}
                 {shareStatus === "copied" ? "Link Copied!" : shareStatus === "loading" ? "Sharing..." : "Share Blueprint"}
               </Button>
               <Button
                 onClick={onReset}
-                className="flex flex-1 items-center justify-center gap-2 border-2 border-grey-600 bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-grey-400 transition-colors hover:border-white hover:text-white"
+                className="flex flex-1 items-center justify-center gap-2 border-2 border-border bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-on-light-disabled transition-colors hover:border-white hover:text-white"
               >
                 <RotateCcw className="size-4" />
                 Start Over
@@ -160,8 +160,8 @@ export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProp
           </Stack>
 
           {/* Right: Benefits Card */}
-          <Card className="border-2 border-grey-700 bg-grey-900 p-8">
-            <Text className="mb-6 font-mono text-mono-sm uppercase tracking-kicker text-grey-500">
+          <Card className="border-2 border-border bg-surface-elevated p-8">
+            <Text className="mb-6 font-mono text-mono-sm uppercase tracking-kicker text-on-light-muted">
               What you will get
             </Text>
             <Stack gap={4}>
@@ -170,14 +170,14 @@ export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProp
                   <Box className="flex size-6 shrink-0 items-center justify-center border-2 border-success bg-success/20">
                     <Check className="size-4 text-success" />
                   </Box>
-                  <Text className="text-body-md text-grey-300">{benefit}</Text>
+                  <Text className="text-body-md text-on-dark-muted">{benefit}</Text>
                 </Stack>
               ))}
             </Stack>
 
             {/* Social Proof */}
-            <Box className="mt-8 border-t-2 border-grey-700 pt-6">
-              <Text className="font-mono text-mono-xs text-grey-500">
+            <Box className="mt-8 border-t-2 border-border pt-6">
+              <Text className="font-mono text-mono-xs text-on-light-muted">
                 Join 500+ producers who started with the Experience Generator
               </Text>
             </Box>

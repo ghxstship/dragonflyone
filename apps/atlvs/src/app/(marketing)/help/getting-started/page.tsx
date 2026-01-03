@@ -75,7 +75,7 @@ export default function HelpGettingStartedPage() {
           background: "ink",
           content: (
             <Container size="2xl" className="py-16">
-              <Card className="p-8 border-2 border-grey-800 rounded-card">
+              <Card className="p-8 border-2 border-border rounded-card">
                 <Stack gap={6}>
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
@@ -103,9 +103,9 @@ export default function HelpGettingStartedPage() {
 
                 <Stack gap={4}>
                   {QUICK_START_STEPS.map((step, idx) => (
-                    <Card key={step.id} className={`p-6 border-2 rounded-card ${step.completed ? "border-success" : "border-grey-800"}`}>
+                    <Card key={step.id} className={`p-6 border-2 rounded-card ${step.completed ? "border-success" : "border-border"}`}>
                       <Box className="flex items-start gap-4">
-                        <Box className={`size-12 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-grey-800 text-on-dark-muted"}`}>
+                        <Box className={`size-12 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-surface-elevated text-on-dark-muted"}`}>
                           {step.completed ? <Check className="size-6" /> : <Body className="font-weight-bold text-h5-md">{step.id}</Body>}
                         </Box>
                         <Box className="flex-1">
@@ -139,8 +139,8 @@ export default function HelpGettingStartedPage() {
 
                 <Grid cols={4} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                   {VIDEO_TUTORIALS.map((video, idx) => (
-                    <Card key={idx} className="p-6 border-2 border-grey-800 rounded-card pop-card cursor-pointer">
-                      <Box className="aspect-video bg-grey-800 rounded-card flex items-center justify-center mb-4">
+                    <Card key={idx} className="p-6 border-2 border-border rounded-card pop-card cursor-pointer">
+                      <Box className="aspect-video bg-surface-elevated rounded-card flex items-center justify-center mb-4">
                         <Play className="size-10 text-on-dark-muted" />
                       </Box>
                       <Body className="text-white font-weight-medium">{video.title}</Body>

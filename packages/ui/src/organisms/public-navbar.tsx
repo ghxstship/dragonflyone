@@ -94,8 +94,8 @@ export const PublicNavbar = forwardRef<HTMLElement, PublicNavbarProps>(
           className={clsx(
             "sticky top-0 z-modal border-b-2",
             inverted
-              ? "border-ink-800 bg-ink-950"
-              : "border-grey-200 bg-white",
+              ? "border-border bg-surface-inverse"
+              : "border-border bg-surface-primary",
             className
           )}
           {...props}
@@ -151,12 +151,12 @@ export const PublicNavbar = forwardRef<HTMLElement, PublicNavbarProps>(
                           : inverted
                             ? clsx(
                                 "text-on-dark-muted border-transparent",
-                                "hover:text-white hover:bg-grey-800 hover:border-grey-700",
+                                "hover:text-on-dark-primary hover:bg-surface-elevated hover:border-border",
                                 "hover:-translate-x-0.5 hover:-translate-y-0.5"
                               )
                             : clsx(
                                 "text-on-dark-disabled border-transparent",
-                                "hover:text-black hover:bg-grey-100 hover:border-grey-200",
+                                "hover:text-on-light-primary hover:bg-muted hover:border-border",
                                 "hover:-translate-x-0.5 hover:-translate-y-0.5"
                               )
                       )}
@@ -166,7 +166,7 @@ export const PublicNavbar = forwardRef<HTMLElement, PublicNavbarProps>(
                       {item.badge && (
                         <span className={clsx(
                           "px-1.5 py-0.5 text-xs font-mono rounded-[var(--radius-badge)] border",
-                          inverted ? "bg-grey-700 text-on-dark-secondary border-grey-600" : "bg-grey-200 text-on-dark-disabled border-grey-300"
+                          inverted ? "bg-surface-elevated text-on-dark-secondary border-border" : "bg-muted text-on-light-disabled border-border"
                         )}>
                           {item.badge}
                         </span>
@@ -211,8 +211,8 @@ export const PublicNavbar = forwardRef<HTMLElement, PublicNavbarProps>(
                     "transition-all duration-100",
                     "hover:-translate-x-0.5 hover:-translate-y-0.5",
                     inverted
-                      ? "text-on-dark-muted border-grey-700 hover:text-white hover:bg-grey-800 hover:shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
-                      : "text-on-dark-disabled border-grey-300 hover:text-black hover:bg-grey-100 hover:shadow-[2px_2px_0_rgba(0,0,0,0.1)]"
+                      ? "text-on-dark-muted border-border hover:text-on-dark-primary hover:bg-surface-elevated hover:shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
+                      : "text-on-light-disabled border-border hover:text-on-light-primary hover:bg-muted hover:shadow-[2px_2px_0_rgba(0,0,0,0.1)]"
                   )}
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   aria-expanded={mobileMenuOpen}
@@ -241,7 +241,7 @@ export const PublicNavbar = forwardRef<HTMLElement, PublicNavbarProps>(
           <div
             className={clsx(
               "fixed inset-0 z-modal-backdrop animate-fade-in md:hidden",
-              inverted ? "bg-ink-950/95" : "bg-white/95"
+              inverted ? "bg-surface-inverse/95" : "bg-surface-primary/95"
             )}
           >
             <div className="flex flex-col h-full pt-20 px-6 pb-6">
@@ -249,7 +249,7 @@ export const PublicNavbar = forwardRef<HTMLElement, PublicNavbarProps>(
               {contextLevels.length > 0 && (
                 <div className={clsx(
                   "mb-4 border-b-2 pb-4",
-                  inverted ? "border-ink-800" : "border-grey-200"
+                  inverted ? "border-border" : "border-border"
                 )}>
                   <ContextBreadcrumb
                     levels={contextLevels}
@@ -276,8 +276,8 @@ export const PublicNavbar = forwardRef<HTMLElement, PublicNavbarProps>(
                           ? "bg-white text-black border-white shadow-[3px_3px_0_hsl(var(--primary))]"
                           : "bg-black text-white border-black shadow-[3px_3px_0_hsl(var(--primary))]"
                         : inverted
-                          ? "text-on-dark-muted border-grey-700 hover:text-white hover:bg-grey-800"
-                          : "text-on-dark-disabled border-grey-200 hover:text-black hover:bg-grey-100"
+                          ? "text-on-dark-muted border-border hover:text-on-dark-primary hover:bg-surface-elevated"
+                          : "text-on-light-disabled border-border hover:text-on-light-primary hover:bg-muted"
                     )}
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
@@ -286,7 +286,7 @@ export const PublicNavbar = forwardRef<HTMLElement, PublicNavbarProps>(
                     {item.badge && (
                       <span className={clsx(
                         "ml-auto px-2 py-0.5 text-sm font-mono rounded-[var(--radius-badge)] border",
-                        inverted ? "bg-grey-700 text-on-dark-secondary border-grey-600" : "bg-grey-200 text-on-dark-disabled border-grey-300"
+                        inverted ? "bg-surface-elevated text-on-dark-secondary border-border" : "bg-muted text-on-light-disabled border-border"
                       )}>
                         {item.badge}
                       </span>

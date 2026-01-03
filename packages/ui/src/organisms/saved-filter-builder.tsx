@@ -400,7 +400,7 @@ export function SavedFilterBuilder({
                 type="button"
                 onClick={handleSaveFilter}
                 disabled={!filterName.trim() || saving}
-                className="px-spacing-4 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer hover:bg-grey-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-spacing-4 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer hover:bg-surface-elevated disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? "Saving..." : "Save"}
               </button>
@@ -443,7 +443,7 @@ function FilterGroupComponent({
     <div
       className={clsx(
         "p-spacing-4 border-2 rounded-card",
-        depth === 0 ? "border-border-primary bg-surface-primary" : "border-grey-300 bg-surface-secondary"
+        depth === 0 ? "border-border-primary bg-surface-primary" : "border-border bg-surface-secondary"
       )}
     >
       {/* Logic toggle */}

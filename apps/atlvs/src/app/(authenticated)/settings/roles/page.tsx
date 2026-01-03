@@ -191,7 +191,7 @@ export default function RolesSettingsPage() {
                 <Body className="font-weight-medium mb-3">{category}</Body>
                 <Grid cols={2} gap={2}>
                   {perms.map((perm) => (
-                    <Box key={perm.id} className="flex items-center gap-2 p-2 bg-grey-800 rounded">
+                    <Box key={perm.id} className="flex items-center gap-2 p-2 bg-surface-elevated rounded">
                       <Check className="size-4 text-success" />
                       <Body size="sm">{perm.label}</Body>
                     </Box>

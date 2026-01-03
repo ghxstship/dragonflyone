@@ -78,7 +78,7 @@ export default function DocsPage() {
           background: "ink",
           content: (
             <Container size="2xl" className="py-12">
-              <Card className="p-6 border-2 border-grey-800 rounded-card">
+              <Card className="p-6 border-2 border-border rounded-card">
                 <Box className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
                   <Input
@@ -122,7 +122,7 @@ export default function DocsPage() {
                 </Stack>
 
                 {filteredSections.length === 0 ? (
-                  <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
+                  <Card className="p-12 text-center border-2 border-border rounded-card">
                     <Book className="size-16 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Results Found</Body>
                     <Body className="text-on-dark-muted mb-4">Try a different search term</Body>
@@ -131,7 +131,7 @@ export default function DocsPage() {
                 ) : (
                   <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
                     {filteredSections.map((section) => (
-                      <Card key={section.id} className="p-6 border-2 border-grey-800 rounded-card pop-card">
+                      <Card key={section.id} className="p-6 border-2 border-border rounded-card pop-card">
                         <Stack gap={4}>
                           <Stack direction="horizontal" gap={4} className="items-start">
                             <Box className="p-3 bg-primary/20 rounded-card text-primary">
@@ -146,7 +146,7 @@ export default function DocsPage() {
                             {section.articles.map((article, idx) => (
                               <Card
                                 key={idx}
-                                className="p-3 border-2 border-grey-800 rounded-card pop-card-atlvs group"
+                                className="p-3 border-2 border-border rounded-card pop-card-atlvs group"
                                 onClick={() => router.push(article.href)}
                               >
                                 <Stack direction="horizontal" className="justify-between items-center">

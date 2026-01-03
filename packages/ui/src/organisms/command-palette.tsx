@@ -59,8 +59,8 @@ function ShortcutKey({ children, inverted = true }: { children: ReactNode; inver
       className={clsx(
         "inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[10px] font-mono font-medium rounded border-2",
         inverted
-          ? "bg-ink-800 border-ink-700 text-ink-300"
-          : "bg-ink-100 border-ink-200 text-ink-600"
+          ? "bg-surface-elevated border-border text-on-dark-secondary"
+          : "bg-muted border-border text-on-light-secondary"
       )}
     >
       {children}
@@ -225,8 +225,8 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
           className={clsx(
             "fixed left-1/2 top-[20%] z-modal w-full max-w-xl -translate-x-1/2 overflow-hidden rounded-xl border-2 shadow-xl",
             inverted
-              ? "bg-ink-900 border-ink-700"
-              : "bg-white border-ink-200",
+              ? "bg-surface-inverse border-border"
+              : "bg-surface-primary border-border",
             className
           )}
           role="dialog"
@@ -237,12 +237,12 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
           <div
             className={clsx(
               "flex items-center gap-3 px-4 py-3 border-b-2",
-              inverted ? "border-ink-700" : "border-ink-200"
+              inverted ? "border-border" : "border-border"
             )}
           >
             <Search
               size={20}
-              className={inverted ? "text-ink-400" : "text-ink-500"}
+              className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}
             />
             <input
               type="text"
@@ -251,8 +251,8 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
               onKeyDown={handleKeyDown}
               placeholder={placeholder}
               className={clsx(
-                "flex-1 bg-transparent text-base outline-none placeholder:text-ink-500",
-                inverted ? "text-white" : "text-ink-900"
+                "flex-1 bg-transparent text-base outline-none placeholder:text-on-dark-muted",
+                inverted ? "text-on-dark-primary" : "text-on-light-primary"
               )}
               autoFocus
             />
@@ -262,8 +262,8 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
               className={clsx(
                 "p-1 rounded transition-colors",
                 inverted
-                  ? "text-ink-400 hover:text-white hover:bg-ink-800"
-                  : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
+                  ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
+                  : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
               )}
             >
               <X size={16} />
@@ -276,7 +276,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
               <div
                 className={clsx(
                   "px-4 py-8 text-center text-sm",
-                  inverted ? "text-ink-400" : "text-ink-500"
+                  inverted ? "text-on-dark-muted" : "text-on-light-muted"
                 )}
               >
                 No results found for &quot;{query}&quot;
@@ -287,7 +287,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                   <div
                     className={clsx(
                       "px-3 py-1.5 text-xs font-semibold uppercase tracking-wide",
-                      inverted ? "text-ink-500" : "text-ink-400"
+                      inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
                     )}
                   >
                     {category}
@@ -306,11 +306,11 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                           "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors",
                           isSelected
                             ? inverted
-                              ? "bg-ink-800 text-white"
-                              : "bg-ink-100 text-ink-900"
+                              ? "bg-surface-elevated text-on-dark-primary"
+                              : "bg-muted text-on-light-primary"
                             : inverted
-                            ? "text-ink-300 hover:bg-ink-800 hover:text-white"
-                            : "text-ink-600 hover:bg-ink-50 hover:text-ink-900"
+                            ? "text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary"
+                            : "text-on-light-secondary hover:bg-muted hover:text-on-light-primary"
                         )}
                       >
                         {item.icon && (
@@ -322,8 +322,8 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                                   ? "text-primary-400"
                                   : "text-primary-600"
                                 : inverted
-                                ? "text-ink-500"
-                                : "text-ink-400"
+                                ? "text-on-dark-disabled"
+                                : "text-on-light-disabled"
                             )}
                           >
                             {item.icon}
@@ -336,7 +336,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                               isSelected
                                 ? inverted
                                   ? "text-white"
-                                  : "text-ink-900"
+                                  : "text-on-light-primary"
                                 : ""
                             )}
                           >
@@ -346,7 +346,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                             <div
                               className={clsx(
                                 "text-xs truncate",
-                                inverted ? "text-ink-500" : "text-ink-400"
+                                inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
                               )}
                             >
                               {item.description}
@@ -362,7 +362,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                           <ArrowRight
                             size={14}
                             className={
-                              inverted ? "text-ink-500" : "text-ink-400"
+                              inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
                             }
                           />
                         )}
@@ -379,8 +379,8 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
             className={clsx(
               "flex items-center justify-between px-4 py-2 border-t-2 text-xs",
               inverted
-                ? "border-ink-700 text-ink-500"
-                : "border-ink-200 text-ink-400"
+                ? "border-border text-on-dark-disabled"
+                : "border-border text-on-light-disabled"
             )}
           >
             <div className="flex items-center gap-4">

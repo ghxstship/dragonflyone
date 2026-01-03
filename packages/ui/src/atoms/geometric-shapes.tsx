@@ -32,14 +32,14 @@ const fillClasses = {
   black: "bg-black",
   white: "bg-white",
   transparent: "bg-transparent",
-  grey: "bg-grey-500",
+  grey: "bg-muted",
 };
 
 const strokeClasses = {
   black: "border-black",
   white: "border-white",
   transparent: "border-transparent",
-  grey: "border-grey-500",
+  grey: "border-border",
 };
 
 const animationClasses = {

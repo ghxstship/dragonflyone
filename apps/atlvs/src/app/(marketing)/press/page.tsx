@@ -45,7 +45,7 @@ export default function PressPage() {
       Product: "bg-primary/20 text-primary border-primary/30",
       Partnership: "bg-secondary/20 text-secondary border-secondary/30",
     };
-    return colors[category] || "bg-grey-800 text-on-dark-muted border-grey-700";
+    return colors[category] || "bg-surface-elevated text-on-dark-muted border-border";
   };
 
   return (
@@ -94,7 +94,7 @@ export default function PressPage() {
                   {PRESS_RELEASES.map((release) => (
                     <Card
                       key={release.id}
-                      className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs group"
+                      className="p-6 border-2 border-border rounded-card pop-card-atlvs group"
                       onClick={() => router.push(`/press/${release.id}`)}
                     >
                       <Stack direction="horizontal" className="justify-between items-start flex-wrap gap-4">
@@ -132,7 +132,7 @@ export default function PressPage() {
 
                 <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
                   {MEDIA_ASSETS.map((asset) => (
-                    <Card key={asset.id} className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs">
+                    <Card key={asset.id} className="p-6 border-2 border-border rounded-card pop-card-atlvs">
                       <Stack direction="horizontal" className="justify-between items-start gap-4">
                         <Stack direction="horizontal" gap={4} className="items-start">
                           <Box className="p-3 bg-primary/20 rounded-card text-primary">
@@ -163,7 +163,7 @@ export default function PressPage() {
           background: "ink",
           content: (
             <Container size="2xl" className="py-20">
-              <Card className="p-12 border-2 border-grey-800 rounded-card">
+              <Card className="p-12 border-2 border-border rounded-card">
                 <Stack direction="horizontal" className="justify-between items-center flex-wrap gap-8">
                   <Stack direction="horizontal" gap={6} className="items-center">
                     <Box className="p-4 bg-primary/20 rounded-card">

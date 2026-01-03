@@ -119,7 +119,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
   return (
     <>
       <Stack gap={8}>
-          <Card className="relative h-96 overflow-hidden border-2 border-ink-800">
+          <Card className="relative h-96 overflow-hidden border-2 border-border">
             <Image 
               src={displayEvent.image_url || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200"} 
               alt={displayEvent.title} 
@@ -132,10 +132,10 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
             <Stack gap={6} className="lg:col-span-2">
               <Stack>
                 <Stack className="mb-4">
-                  <Link href="/events" className="text-ink-400 hover:text-white">← Back to Events</Link>
+                  <Link href="/events" className="text-on-light-disabled hover:text-white">← Back to Events</Link>
                 </Stack>
                 <H2 className="text-white">{displayEvent.title}</H2>
-                <Stack direction="horizontal" gap={4} className="mt-4 items-center text-ink-400">
+                <Stack direction="horizontal" gap={4} className="mt-4 items-center text-on-light-disabled">
                   <Body>{displayEvent.venue}</Body>
                   <Body>•</Body>
                   <Body>{displayEvent.city}, {displayEvent.state}</Body>
@@ -144,20 +144,20 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                 </Stack>
               </Stack>
 
-              <Card className="border-2 border-ink-800 p-6">
+              <Card className="border-2 border-border p-6">
                 <H3 className="mb-4 text-white">About</H3>
-                <Body className="text-ink-300">{displayEvent.description}</Body>
+                <Body className="text-on-dark-secondary">{displayEvent.description}</Body>
               </Card>
 
-              <Card className="border-2 border-ink-800 p-6">
+              <Card className="border-2 border-border p-6">
                 <H3 className="mb-4 text-white">Event Info</H3>
                 <Stack gap={3}>
                   <Stack>
-                    <Label className="text-ink-500">Capacity</Label>
+                    <Label className="text-on-light-muted">Capacity</Label>
                     <Body className="text-white">{displayEvent.capacity} attendees</Body>
                   </Stack>
                   <Stack>
-                    <Label className="text-ink-500">Genre</Label>
+                    <Label className="text-on-light-muted">Genre</Label>
                     <Badge>{displayEvent.genre}</Badge>
                   </Stack>
                 </Stack>
@@ -165,38 +165,38 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
             </Stack>
 
             <Stack gap={6}>
-              <Card className="border-2 border-ink-800 p-6">
+              <Card className="border-2 border-border p-6">
                 <H3 className="mb-4 text-white">Event Details</H3>
                 <Stack gap={3} className="">
                   <Stack>
-                    <Label className="text-ink-500">Date</Label>
+                    <Label className="text-on-light-muted">Date</Label>
                     <Body className="mt-1 text-white">{new Date(displayEvent.event_date).toLocaleDateString()}</Body>
                   </Stack>
                   <Stack>
-                    <Label className="text-ink-500">Time</Label>
+                    <Label className="text-on-light-muted">Time</Label>
                     <Body className="mt-1 text-white">{displayEvent.event_time || 'TBA'}</Body>
                   </Stack>
                   <Stack>
-                    <Label className="text-ink-500">Venue</Label>
+                    <Label className="text-on-light-muted">Venue</Label>
                     <Body className="mt-1 text-white">{displayEvent.venue}</Body>
-                    <Body className="mt-1 text-ink-400">{displayEvent.city}, {displayEvent.state}</Body>
+                    <Body className="mt-1 text-on-light-disabled">{displayEvent.city}, {displayEvent.state}</Body>
                   </Stack>
                 </Stack>
               </Card>
 
-              <Card className="border-2 border-ink-800 p-6">
+              <Card className="border-2 border-border p-6">
                 <H3 className="mb-4 text-white">Tickets</H3>
                 <Stack gap={4}>
                   {event.ticket_types && event.ticket_types.length > 0 ? (
                     event.ticket_types.filter(t => t.is_active !== false).map((tier) => {
                       const availableQty = getAvailableQuantity(tier);
                       return (
-                        <Card key={tier.id} className={`border-2 p-4 ${selectedTicket === tier.id ? 'border-primary ring-2 ring-primary' : 'border-ink-700'}`}>
+                        <Card key={tier.id} className={`border-2 p-4 ${selectedTicket === tier.id ? 'border-primary ring-2 ring-primary' : 'border-border'}`}>
                           <Stack direction="horizontal" className="items-start justify-between">
                             <Stack>
                               <Label className="text-white">{tier.name}</Label>
                               <Body className="mt-1 font-mono text-h5-md text-white">${tier.price}</Body>
-                              <Body className="mt-1 text-mono-xs text-ink-400">{availableQty} remaining</Body>
+                              <Body className="mt-1 text-mono-xs text-on-light-disabled">{availableQty} remaining</Body>
                             </Stack>
                             {availableQty > 0 ? (
                               <Badge variant="solid">Available</Badge>
@@ -217,7 +217,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                       );
                     })
                   ) : (
-                    <Body className="text-ink-400">No tickets available</Body>
+                    <Body className="text-on-light-disabled">No tickets available</Body>
                   )}
                 </Stack>
               </Card>

@@ -168,7 +168,7 @@ export default function WebinarsPage() {
                 </Stack>
                 <Grid cols={4} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                   {WEBINAR_FEATURES.map((feature) => (
-                    <Card key={feature.id} className="p-6 border-2 border-grey-800 rounded-card pop-card text-center">
+                    <Card key={feature.id} className="p-6 border-2 border-border rounded-card pop-card text-center">
                       <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                         {feature.icon}
                       </Box>
@@ -195,7 +195,7 @@ export default function WebinarsPage() {
 
                 <Stack gap={4}>
                   {UPCOMING_WEBINARS.map((webinar) => (
-                    <Card key={webinar.id} className="p-6 border-2 border-grey-800 rounded-card pop-card">
+                    <Card key={webinar.id} className="p-6 border-2 border-border rounded-card pop-card">
                       <Box className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                         <Box className="flex items-start gap-4">
                           <Box className="p-3 bg-primary/20 rounded-card shrink-0">
@@ -253,9 +253,9 @@ export default function WebinarsPage() {
 
                 <Grid cols={4} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                   {FEATURED_RECORDINGS.map((recording) => (
-                    <Card key={recording.id} className="p-5 border-2 border-grey-800 rounded-card pop-card cursor-pointer group">
+                    <Card key={recording.id} className="p-5 border-2 border-border rounded-card pop-card cursor-pointer group">
                       <Stack gap={3}>
-                        <Box className="relative aspect-video bg-grey-900 rounded-card flex items-center justify-center">
+                        <Box className="relative aspect-video bg-surface-elevated rounded-card flex items-center justify-center">
                           <Box className="p-3 bg-primary/20 rounded-avatar group-hover:bg-primary/40 transition-colors">
                             <Play className="size-8 text-primary" />
                           </Box>
@@ -295,7 +295,7 @@ export default function WebinarsPage() {
 
                 <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4">
                   {WEBINAR_TOPICS.map((topic, idx) => (
-                    <Box key={idx} className="flex items-center gap-2 p-3 border-2 border-grey-800 rounded-card">
+                    <Box key={idx} className="flex items-center gap-2 p-3 border-2 border-border rounded-card">
                       <CheckCircle className="size-5 text-success shrink-0" />
                       <Body size="sm" className="text-white">{topic}</Body>
                     </Box>

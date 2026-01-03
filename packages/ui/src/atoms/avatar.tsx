@@ -36,7 +36,7 @@ const sizeClasses = {
 
 const statusColorClasses = {
   online: "bg-success-500",
-  offline: "bg-grey-500",
+  offline: "bg-muted",
   away: "bg-warning-500",
   busy: "bg-error-500",
 };
@@ -75,7 +75,7 @@ export function Avatar({
         "transition-all duration-100 ease-[var(--ease-bounce)]",
         config.container,
         shape === "circle" ? "rounded-full" : "rounded-[var(--radius-badge)]",
-        showFallback && (inverted ? "bg-grey-200" : "bg-grey-800"),
+        showFallback && (inverted ? "bg-muted" : "bg-surface-elevated"),
         // Bold border with shadow
         bordered && clsx(
           "border-2",
@@ -195,7 +195,7 @@ export function AvatarGroup({
         <div
           className={clsx(
             "flex items-center justify-center rounded-full font-code",
-            inverted ? "bg-grey-300 border-2 border-black text-black" : "bg-grey-700 border-2 border-white text-white",
+            inverted ? "bg-muted border-2 border-on-light-primary text-on-light-primary" : "bg-surface-elevated border-2 border-on-dark-primary text-on-dark-primary",
             config.container,
             config.text,
             groupOverlapClasses[size]

@@ -112,7 +112,7 @@ export default function SOPDetailPage() {
   if (isLoading) {
     return (
       <>
-        <Section className="min-h-screen bg-grey-100 py-8">
+        <Section className="min-h-screen bg-muted py-8">
           <Container>
             <Body>Loading...</Body>
           </Container>
@@ -124,7 +124,7 @@ export default function SOPDetailPage() {
   if (!sop) {
     return (
       <>
-        <Section className="min-h-screen bg-grey-100 py-8">
+        <Section className="min-h-screen bg-muted py-8">
           <Container>
             <Body>SOP not found</Body>
           </Container>
@@ -135,7 +135,7 @@ export default function SOPDetailPage() {
 
   return (
     <>
-      <Section className="min-h-screen bg-grey-100 py-8">
+      <Section className="min-h-screen bg-muted py-8">
         <Container>
           <Stack gap={6}>
             {/* Header */}
@@ -194,7 +194,7 @@ export default function SOPDetailPage() {
             <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Main Content - Steps */}
               <Box className="col-span-2">
-                <Card className="border-2 border-grey-200 p-6">
+                <Card className="border-2 border-border p-6">
                   <Stack gap={4}>
                     <Stack direction="horizontal" gap={4} className="items-center justify-between">
                       <H3>Procedure Steps</H3>
@@ -217,12 +217,12 @@ export default function SOPDetailPage() {
                         {sop.steps.map((step) => (
                           <Card
                             key={step.id}
-                            className={`border-2 p-4 ${step.is_critical ? 'border-error bg-error/5' : 'border-grey-200'}`}
+                            className={`border-2 p-4 ${step.is_critical ? 'border-error bg-error/5' : 'border-border'}`}
                           >
                             <Stack gap={3}>
                               <Stack direction="horizontal" gap={3} className="items-start justify-between">
                                 <Stack direction="horizontal" gap={3} className="items-center">
-                                  <Box className="flex size-8 items-center justify-center rounded-button border-2 border-grey-300 bg-grey-100 font-weight-bold">
+                                  <Box className="flex size-8 items-center justify-center rounded-button border-2 border-border bg-muted font-weight-bold">
                                     {step.step_number}
                                   </Box>
                                   <Stack gap={0}>
@@ -278,7 +278,7 @@ export default function SOPDetailPage() {
                         ))}
                       </Stack>
                     ) : (
-                      <Box className="rounded-card border-2 border-dashed border-grey-300 p-8 text-center">
+                      <Box className="rounded-card border-2 border-dashed border-border p-8 text-center">
                         <Body className="text-on-dark-disabled">No steps defined yet. Add the first step to get started.</Body>
                       </Box>
                     )}
@@ -289,7 +289,7 @@ export default function SOPDetailPage() {
               {/* Sidebar */}
               <Stack gap={4}>
                 {/* SOP Details */}
-                <Card className="border-2 border-grey-200 p-6">
+                <Card className="border-2 border-border p-6">
                   <Stack gap={4}>
                     <H3>Details</H3>
                     <Stack gap={3}>
@@ -314,7 +314,7 @@ export default function SOPDetailPage() {
                 </Card>
 
                 {/* Requirements */}
-                <Card className="border-2 border-grey-200 p-6">
+                <Card className="border-2 border-border p-6">
                   <Stack gap={4}>
                     <H3>Requirements</H3>
                     <Stack gap={3}>
@@ -342,7 +342,7 @@ export default function SOPDetailPage() {
 
                 {/* Description */}
                 {sop.description && (
-                  <Card className="border-2 border-grey-200 p-6">
+                  <Card className="border-2 border-border p-6">
                     <Stack gap={2}>
                       <H3>Description</H3>
                       <Body className="text-on-dark-disabled">{sop.description}</Body>

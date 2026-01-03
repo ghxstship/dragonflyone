@@ -162,8 +162,8 @@ export default function AdminDashboardPage() {
               </Box>
               <Stack gap={3}>
                 {recentActivity.slice(0, 5).map((item: RecentActivity) => (
-                  <Box key={item.id} className="flex items-center gap-3 py-2 border-b border-grey-700 last:border-0">
-                    <Box className="p-2 rounded-avatar bg-grey-800">{getActivityIcon(item.type)}</Box>
+                  <Box key={item.id} className="flex items-center gap-3 py-2 border-b border-border last:border-0">
+                    <Box className="p-2 rounded-avatar bg-surface-elevated">{getActivityIcon(item.type)}</Box>
                     <Box className="flex-1">
                       <Body size="sm">{item.description}</Body>
                       <Body size="sm" className="text-on-dark-muted">{formatTime(item.timestamp)}</Body>

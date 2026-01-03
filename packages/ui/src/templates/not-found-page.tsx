@@ -66,7 +66,7 @@ export function NotFoundContent({
   searchPath = "/search",
   actions,
 }: NotFoundContentProps) {
-  const textClass = inverted ? "text-white" : "text-ink-900";
+  const textClass = inverted ? "text-on-dark-primary" : "text-on-light-primary";
   const mutedTextClass = inverted ? "text-on-dark-muted" : "text-on-light-muted";
 
   return (
@@ -78,8 +78,8 @@ export function NotFoundContent({
           "text-[8rem] sm:text-[10rem] md:text-[14rem] font-display font-black leading-none",
           "text-transparent bg-clip-text",
           inverted
-            ? "bg-gradient-to-br from-white via-grey-200 to-grey-400"
-            : "bg-gradient-to-br from-ink-900 via-ink-700 to-ink-500",
+            ? "bg-gradient-to-br from-on-dark-primary via-on-dark-secondary to-on-dark-muted"
+            : "bg-gradient-to-br from-on-light-primary via-on-light-secondary to-on-light-muted",
           "drop-shadow-[8px_8px_0_rgba(0,0,0,0.2)]"
         )}
         aria-hidden="true"
@@ -195,7 +195,7 @@ export const NotFoundPage = forwardRef<HTMLDivElement, NotFoundPageProps>(
   ) {
     const bgClass =
       background === "ink"
-        ? "bg-ink-950"
+        ? "bg-surface-inverse"
         : background === "black"
           ? "bg-black"
           : "bg-white";
@@ -207,7 +207,7 @@ export const NotFoundPage = forwardRef<HTMLDivElement, NotFoundPageProps>(
         className={clsx(
           "relative min-h-screen overflow-hidden",
           bgClass,
-          isDark ? "text-white" : "text-ink-900"
+          isDark ? "text-on-dark-primary" : "text-on-light-primary"
         )}
         noPadding
       >

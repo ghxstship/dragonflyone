@@ -249,7 +249,7 @@ export default function CredentialScanPage() {
                 </Button>
               </Stack>
 
-              <Card className="p-4 mt-6 bg-grey-800">
+              <Card className="p-4 mt-6 bg-surface-elevated">
                 <Body size="sm" className="text-on-dark-muted">
                   1. Optionally select a zone to verify specific access
                   <br />
@@ -361,7 +361,7 @@ export default function CredentialScanPage() {
       >
         {scannedCredential && (
           <Stack gap={6}>
-            <Card className="p-4 bg-grey-800">
+            <Card className="p-4 bg-surface-elevated">
               <Stack direction="horizontal" gap={3} className="items-center mb-4">
                 {scannedCredential.valid ? (
                   <CheckCircle className="size-8 text-success-500" />

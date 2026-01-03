@@ -66,8 +66,8 @@ export const IntegrationGrid = forwardRef<HTMLElement, IntegrationGridProps>(
   ) {
     const bgClasses = {
       black: "bg-black text-white",
-      ink: "bg-ink-950 text-white",
-      grey: "bg-grey-900 text-white",
+      ink: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-surface-elevated text-on-dark-primary",
     };
 
     const colClasses = {
@@ -123,7 +123,7 @@ export const IntegrationGrid = forwardRef<HTMLElement, IntegrationGridProps>(
                 <Badge
                   key={category}
                   variant="outline"
-                  className="cursor-pointer hover:bg-grey-800"
+                  className="cursor-pointer hover:bg-surface-elevated"
                 >
                   {category}
                 </Badge>
@@ -137,7 +137,7 @@ export const IntegrationGrid = forwardRef<HTMLElement, IntegrationGridProps>(
               <Card
                 key={integration.id}
                 className={clsx(
-                  "p-6 border-2 border-grey-800 rounded-card group",
+                  "p-6 border-2 border-border rounded-card group",
                   "hover:border-primary/50 transition-all duration-300",
                   onIntegrationClick && "cursor-pointer"
                 )}
@@ -147,7 +147,7 @@ export const IntegrationGrid = forwardRef<HTMLElement, IntegrationGridProps>(
                   {/* Header */}
                   <Stack direction="horizontal" gap={4} className="items-start justify-between">
                     {/* Logo/Icon */}
-                    <div className="p-3 bg-grey-800 rounded-card">
+                    <div className="p-3 bg-surface-elevated rounded-card">
                       {integration.icon || (
                         integration.logo ? (
                           <img
@@ -156,7 +156,7 @@ export const IntegrationGrid = forwardRef<HTMLElement, IntegrationGridProps>(
                             className="size-8 object-contain"
                           />
                         ) : (
-                          <div className="size-8 bg-grey-700 rounded" />
+                          <div className="size-8 bg-muted rounded" />
                         )
                       )}
                     </div>

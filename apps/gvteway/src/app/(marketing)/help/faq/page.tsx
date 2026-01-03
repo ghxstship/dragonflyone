@@ -93,7 +93,7 @@ export default function FAQPage() {
           background: "ink",
           content: (
             <Container size="2xl" className="py-12">
-              <Card className="p-6 border-2 border-grey-800 rounded-card">
+              <Card className="p-6 border-2 border-border rounded-card">
                 <Stack gap={4}>
                   <Box className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
@@ -125,7 +125,7 @@ export default function FAQPage() {
                 </Stack>
 
                 {filteredFAQs.length === 0 ? (
-                  <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
+                  <Card className="p-12 text-center border-2 border-border rounded-card">
                     <HelpCircle className="size-16 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-bold mb-2">No Questions Found</Body>
                     <Body className="text-on-dark-muted mb-4">Try a different search term or category</Body>
@@ -134,7 +134,7 @@ export default function FAQPage() {
                 ) : (
                   <Stack gap={4}>
                     {filteredFAQs.map((faq) => (
-                      <Card key={faq.id} className="border-2 border-grey-800 rounded-card overflow-hidden">
+                      <Card key={faq.id} className="border-2 border-border rounded-card overflow-hidden">
                         <Button variant="ghost" className="w-full p-6 text-left flex items-center justify-between" onClick={() => setExpandedId(expandedId === faq.id ? null : faq.id)}>
                           <Box className="flex items-center gap-3">
                             <HelpCircle className="size-5 text-primary flex-shrink-0" />
@@ -171,7 +171,7 @@ export default function FAQPage() {
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
                   {SUPPORT_OPTIONS.map((option) => (
-                    <Card key={option.id} className="p-6 border-2 border-grey-800 rounded-card pop-card text-center cursor-pointer" onClick={() => router.push("/support/chat")}>
+                    <Card key={option.id} className="p-6 border-2 border-border rounded-card pop-card text-center cursor-pointer" onClick={() => router.push("/support/chat")}>
                       <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                         {option.icon}
                       </Box>

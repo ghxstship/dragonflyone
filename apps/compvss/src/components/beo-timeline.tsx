@@ -93,7 +93,7 @@ export function BEOTimeline({ items, onChange, readOnly = false }: BEOTimelinePr
         )}
       </Stack>
 
-      <Card inverted className="border-2 border-ink-800">
+      <Card inverted className="border-2 border-border">
         <CardBody>
           {items.length > 0 ? (
             <Stack gap={2}>
@@ -105,7 +105,7 @@ export function BEOTimeline({ items, onChange, readOnly = false }: BEOTimelinePr
                   onDragOver={(e) => handleDragOver(e, index)}
                   onDragEnd={handleDragEnd}
                   className={`flex items-start gap-4 p-3 rounded-button border-2 transition-colors ${
-                    draggedIndex === index ? "border-primary bg-ink-800" : "border-ink-700 hover:border-ink-600"
+                    draggedIndex === index ? "border-primary bg-surface-elevated" : "border-border hover:border-border"
                   } ${item.is_critical ? "border-l-4 border-l-warning" : ""}`}
                 >
                   {!readOnly && (
@@ -135,7 +135,7 @@ export function BEOTimeline({ items, onChange, readOnly = false }: BEOTimelinePr
                         <Select
                           value={item.department || "Service"}
                           onChange={(e) => updateItem(item.id, { department: e.target.value })}
-                          className="px-2 py-1 bg-ink-800 border-2 border-ink-700 rounded-button text-body-sm text-on-dark-secondary"
+                          className="px-2 py-1 bg-surface-elevated border-2 border-border rounded-button text-body-sm text-on-dark-secondary"
                         >
                           {DEPARTMENTS.map((dept) => (
                             <option key={dept} value={dept}>{dept}</option>

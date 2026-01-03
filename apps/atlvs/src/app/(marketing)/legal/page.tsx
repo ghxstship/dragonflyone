@@ -62,7 +62,7 @@ export default function LegalPage() {
                   {LEGAL_DOCS.map((doc) => (
                     <Card 
                       key={doc.id} 
-                      className="p-6 border-2 border-grey-800 rounded-card cursor-pointer hover:border-primary transition-colors group"
+                      className="p-6 border-2 border-border rounded-card cursor-pointer hover:border-primary transition-colors group"
                       onClick={() => router.push(doc.href)}
                     >
                       <Stack gap={4}>

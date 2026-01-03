@@ -51,7 +51,7 @@ function ConfirmationContent() {
             </Stack>
 
             {/* What Happens Next */}
-            <Card inverted className="w-full border-2 border-ink-800 bg-ink-950 p-6 text-left">
+            <Card inverted className="w-full border-2 border-border bg-surface-inverse p-6 text-left">
               <Stack gap={6}>
                 <H2 size="sm" className="text-white">WHAT HAPPENS NEXT</H2>
                 

@@ -62,7 +62,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
       primary: "bg-primary text-white",
       accent: "bg-accent text-black",
       gradient: "bg-gradient-to-r from-primary to-secondary text-white",
-      ink: "bg-ink-900 text-white",
+      ink: "bg-surface-inverse text-on-dark-primary",
     };
 
     const patternStyles = {

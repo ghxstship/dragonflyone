@@ -152,7 +152,7 @@ export function NotificationToast({
       </div>
       {/* Progress bar */}
       {showProgress && duration > 0 && (
-        <div className="h-1 bg-black/20">
+        <div className="h-1 bg-surface-overlay">
           <div
             className={clsx("h-full transition-all duration-100", getProgressBarColor())}
             style={{ width: `${progress}%` }}

@@ -124,8 +124,8 @@ export const DashboardPage = forwardRef<HTMLDivElement, DashboardPageProps>(
     const sidebarCollapsed = controlledCollapsed ?? internalCollapsed;
     const setSidebarCollapsed = onSidebarCollapse ?? setInternalCollapsed;
 
-    const bgClass = inverted ? "bg-ink-950 text-white" : "bg-white text-black";
-    const borderClass = inverted ? "border-grey-800" : "border-grey-200";
+    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+    const borderClass = inverted ? "border-border" : "border-border";
 
     // Close mobile menu on route change
     useEffect(() => {
@@ -154,7 +154,7 @@ export const DashboardPage = forwardRef<HTMLDivElement, DashboardPageProps>(
         <Stack gap={6} className="items-center text-center max-w-md">
           {icon}
           <Stack gap={2} className="items-center">
-            <H2 className={inverted ? "text-white" : "text-ink-900"}>{title}</H2>
+            <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>{title}</H2>
             <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>{message}</Body>
           </Stack>
           {action}
@@ -206,11 +206,11 @@ export const DashboardPage = forwardRef<HTMLDivElement, DashboardPageProps>(
       mainContent = renderStateContent(
         <div className={clsx(
           "size-20 rounded-full flex items-center justify-center border-2",
-          inverted ? "border-grey-700 bg-grey-800" : "border-grey-200 bg-grey-100"
+          inverted ? "border-border bg-surface-elevated" : "border-border bg-muted"
         )}>
           <div className={clsx(
             "size-10 rounded-full",
-            inverted ? "bg-grey-700" : "bg-grey-200"
+            inverted ? "bg-surface-elevated" : "bg-muted"
           )} />
         </div>,
         "No Data",
@@ -278,8 +278,8 @@ export const DashboardPage = forwardRef<HTMLDivElement, DashboardPageProps>(
                 "hover:-translate-x-0.5 hover:-translate-y-0.5",
                 "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
                 inverted
-                  ? "border-grey-700 text-white hover:shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:bg-grey-800"
-                  : "border-grey-300 text-black hover:shadow-[2px_2px_0_rgba(0,0,0,0.1)] hover:bg-grey-100"
+                  ? "border-border text-on-dark-primary hover:shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:bg-surface-elevated"
+                  : "border-border text-on-light-primary hover:shadow-[2px_2px_0_rgba(0,0,0,0.1)] hover:bg-muted"
               )}
               aria-label="Open navigation menu"
               aria-expanded={mobileMenuOpen}

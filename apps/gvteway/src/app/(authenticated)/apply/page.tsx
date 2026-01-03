@@ -210,7 +210,7 @@ function InterestsStep({ formData, setFormData, error }: StepProps) {
               className={`cursor-pointer border-2 p-4 text-center transition-all ${
                 isSelected
                   ? "border-accent bg-accent/10"
-                  : "border-ink-800 bg-ink-950 hover:border-ink-600"
+                  : "border-border bg-surface-inverse hover:border-border"
               }`}
               onClick={() => toggleInterest(interest.id)}
             >
@@ -261,15 +261,15 @@ function TierSelectionStep({ formData, setFormData, error }: StepProps) {
                 isSelected
                   ? "border-accent bg-accent/10"
                   : tier.popular
-                    ? "border-accent/50 bg-ink-950"
-                    : "border-ink-800 bg-ink-950 hover:border-ink-600"
+                    ? "border-accent/50 bg-surface-inverse"
+                    : "border-border bg-surface-inverse hover:border-border"
               }`}
               onClick={() => setFormData({ ...formData, selectedTier: tier.name })}
             >
               {tier.popular && (
                 <Label
                   size="xs"
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-accent bg-ink-950 px-3 py-1 text-accent"
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-accent bg-surface-inverse px-3 py-1 text-accent"
                 >
                   MOST POPULAR
                 </Label>
@@ -286,7 +286,7 @@ function TierSelectionStep({ formData, setFormData, error }: StepProps) {
 
                 <Body size="sm" className="text-on-dark-muted">{tier.description}</Body>
 
-                <Stack gap={2} className="border-t border-ink-800 pt-4">
+                <Stack gap={2} className="border-t border-border pt-4">
                   {tier.features.slice(0, 4).map((feature) => (
                     <Stack key={feature} direction="horizontal" gap={2} className="items-start">
                       <Check className="mt-0.5 size-3 shrink-0 text-accent" />
@@ -351,7 +351,7 @@ function FinalStep({ formData, setFormData, error, agreeToTerms, setAgreeToTerms
       </Field>
 
       {/* Application Summary */}
-      <Card inverted className="border-2 border-ink-800 bg-ink-900 p-6">
+      <Card inverted className="border-2 border-border bg-surface-inverse p-6">
         <Stack gap={4}>
           <Label size="sm" className="text-on-dark-muted">APPLICATION SUMMARY</Label>
           <Grid cols={2} gap={4}>
@@ -530,7 +530,7 @@ function ApplicationForm() {
                 <Box
                   key={i}
                   className={`h-2 w-12 transition-colors ${
-                    i + 1 <= step ? "bg-accent" : "bg-ink-800"
+                    i + 1 <= step ? "bg-accent" : "bg-surface-elevated"
                   }`}
                 />
               ))}

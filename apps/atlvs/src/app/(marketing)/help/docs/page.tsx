@@ -71,7 +71,7 @@ export default function HelpDocsPage() {
           background: "ink",
           content: (
             <Container size="2xl" className="py-12">
-              <Card className="p-6 border-2 border-grey-800 rounded-card">
+              <Card className="p-6 border-2 border-border rounded-card">
                 <Box className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
                   <Input placeholder="Search documentation..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-12 h-14" />
@@ -93,7 +93,7 @@ export default function HelpDocsPage() {
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
                   {filteredCategories.map((category) => (
-                    <Card key={category.id} className="p-6 border-2 border-grey-800 rounded-card pop-card">
+                    <Card key={category.id} className="p-6 border-2 border-border rounded-card pop-card">
                       <Stack gap={4}>
                         <Stack direction="horizontal" gap={3} className="items-center">
                           <Box className="p-3 bg-primary/20 rounded-card text-primary">
@@ -132,7 +132,7 @@ export default function HelpDocsPage() {
 
                 <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
                   {POPULAR_ARTICLES.map((article, idx) => (
-                    <Card key={idx} className="p-5 border-2 border-grey-800 rounded-card pop-card cursor-pointer">
+                    <Card key={idx} className="p-5 border-2 border-border rounded-card pop-card cursor-pointer">
                       <Box className="flex items-center justify-between">
                         <Box className="flex items-center gap-3">
                           <Bookmark className="size-5 text-primary" />

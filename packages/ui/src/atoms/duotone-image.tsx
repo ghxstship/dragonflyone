@@ -104,7 +104,7 @@ export const DuotoneImage = forwardRef<HTMLImageElement, DuotoneImageProps>(
     return (
       <div
         className={clsx(
-          'relative overflow-hidden bg-grey-200',
+          'relative overflow-hidden bg-muted',
           aspectRatioClasses[aspectRatio],
           className
         )}
@@ -114,7 +114,7 @@ export const DuotoneImage = forwardRef<HTMLImageElement, DuotoneImageProps>(
         {showPlaceholder && isLoading && !hasError && (
           <div className="absolute inset-0 flex items-center justify-center">
             {placeholderType === 'geometric' && (
-              <div className="w-full h-full bg-grey-200 flex items-center justify-center">
+              <div className="w-full h-full bg-muted flex items-center justify-center">
                 <div className="w-spacing-16 h-spacing-16 border-4 border-black" />
               </div>
             )}
@@ -124,14 +124,14 @@ export const DuotoneImage = forwardRef<HTMLImageElement, DuotoneImageProps>(
               />
             )}
             {placeholderType === 'solid' && (
-              <div className="w-full h-full bg-grey-300" />
+              <div className="w-full h-full bg-muted" />
             )}
           </div>
         )}
 
         {/* Error state */}
         {hasError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-grey-200">
+          <div className="absolute inset-0 flex items-center justify-center bg-muted">
             <div className="text-center">
               <div className="w-spacing-12 h-spacing-12 mx-auto mb-spacing-2 border-2 border-black flex items-center justify-center">
                 <svg className="w-spacing-6 h-spacing-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

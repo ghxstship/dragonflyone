@@ -73,7 +73,7 @@ export default function HelpPage() {
           background: "ink",
           content: (
             <Container size="2xl" className="py-12">
-              <Card className="p-6 border-2 border-grey-800 rounded-card">
+              <Card className="p-6 border-2 border-border rounded-card">
                 <Box className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
                   <Input
@@ -121,12 +121,12 @@ export default function HelpPage() {
                   {filteredArticles.map((article) => (
                     <Card
                       key={article.id}
-                      className="p-5 border-2 border-grey-800 rounded-card pop-card-atlvs group"
+                      className="p-5 border-2 border-border rounded-card pop-card-atlvs group"
                       onClick={() => router.push(article.href)}
                     >
                       <Stack direction="horizontal" className="justify-between items-center gap-4">
                         <Stack direction="horizontal" gap={4} className="items-center">
-                          <Box className="p-2 bg-grey-800 rounded-card group-hover:bg-primary/20 transition-all">
+                          <Box className="p-2 bg-surface-elevated rounded-card group-hover:bg-primary/20 transition-all">
                             <FileText className="size-5 text-on-dark-muted group-hover:text-primary transition-colors" />
                           </Box>
                           <Stack gap={0}>
@@ -141,7 +141,7 @@ export default function HelpPage() {
                 </Grid>
 
                 {search && filteredArticles.length === 0 && (
-                  <Card className="p-8 text-center border-2 border-grey-800 rounded-card">
+                  <Card className="p-8 text-center border-2 border-border rounded-card">
                     <HelpCircle className="size-12 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Articles Found</Body>
                     <Body className="text-on-dark-muted mb-4">Try a different search term or browse by category</Body>
@@ -166,9 +166,9 @@ export default function HelpPage() {
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
                   {SUPPORT_OPTIONS.map((option) => (
-                    <Card key={option.id} className={`p-6 border-2 rounded-card ${option.available ? "border-grey-800 pop-card-atlvs" : "border-grey-900 opacity-60"}`}>
+                    <Card key={option.id} className={`p-6 border-2 rounded-card ${option.available ? "border-border pop-card-atlvs" : "border-border opacity-60"}`}>
                       <Stack gap={4} className="items-center text-center">
-                        <Box className={`p-4 rounded-card ${option.available ? "bg-primary/20 text-primary" : "bg-grey-800 text-on-dark-disabled"}`}>
+                        <Box className={`p-4 rounded-card ${option.available ? "bg-primary/20 text-primary" : "bg-surface-elevated text-on-dark-disabled"}`}>
                           {option.icon}
                         </Box>
                         <Stack gap={2} className="items-center">

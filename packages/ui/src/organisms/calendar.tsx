@@ -150,21 +150,21 @@ export function Calendar({
 
   // Navigation button classes
   const navButtonClasses = inverted
-    ? "w-10 h-10 flex items-center justify-center border-2 border-grey-600 bg-transparent text-white rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(255,255,255,0.1)] cursor-pointer font-heading text-lg transition-all duration-100 ease-[var(--ease-bounce)] hover:bg-white hover:text-black hover:border-white hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)]"
-    : "w-10 h-10 flex items-center justify-center border-2 border-black bg-transparent text-black rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(0,0,0,0.08)] cursor-pointer font-heading text-lg transition-all duration-100 ease-[var(--ease-bounce)] hover:bg-grey-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(0,0,0,0.12)]";
+    ? "w-10 h-10 flex items-center justify-center border-2 border-border bg-transparent text-white rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(255,255,255,0.1)] cursor-pointer font-heading text-lg transition-all duration-100 ease-[var(--ease-bounce)] hover:bg-white hover:text-black hover:border-white hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)]"
+    : "w-10 h-10 flex items-center justify-center border-2 border-black bg-transparent text-black rounded-[var(--radius-button)] shadow-[2px_2px_0_rgba(0,0,0,0.08)] cursor-pointer font-heading text-lg transition-all duration-100 ease-[var(--ease-bounce)] hover:bg-muted hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(0,0,0,0.12)]";
 
   return (
     <div className={clsx(
       "overflow-hidden border-2 rounded-[var(--radius-card)]",
       inverted
-        ? "bg-ink-900 text-white border-grey-600 shadow-[4px_4px_0_rgba(255,255,255,0.15)]"
+        ? "bg-surface-inverse text-on-dark-primary border-border shadow-[4px_4px_0_rgba(255,255,255,0.15)]"
         : "bg-white text-black border-black shadow-[4px_4px_0_rgba(0,0,0,0.15)]",
       className
     )}>
       {/* Header */}
       <div className={clsx(
         "flex items-center justify-between px-5 py-4 border-b-2",
-        inverted ? "border-grey-700" : "border-grey-200"
+        inverted ? "border-border" : "border-border"
       )}>
         <button
           onClick={() => navigateMonth(-1)}
@@ -200,7 +200,7 @@ export function Calendar({
 
       {/* Days of Week Header */}
       <div
-        className={clsx("grid border-b-2", inverted ? "border-grey-700" : "border-grey-200")}
+        className={clsx("grid border-b-2", inverted ? "border-border" : "border-border")}
         style={{ gridTemplateColumns: showWeekNumbers ? "40px repeat(7, 1fr)" : "repeat(7, 1fr)" }}
       >
         {showWeekNumbers && (
@@ -231,7 +231,7 @@ export function Calendar({
             key={weekIndex}
             className={clsx(
               "grid",
-              weekIndex < weeks.length - 1 && (inverted ? "border-b border-grey-800" : "border-b border-grey-100")
+              weekIndex < weeks.length - 1 && (inverted ? "border-b border-border" : "border-b border-border")
             )}
             style={{ gridTemplateColumns: showWeekNumbers ? "40px repeat(7, 1fr)" : "repeat(7, 1fr)" }}
           >
@@ -250,7 +250,7 @@ export function Calendar({
                     key={`empty-${dayIndex}`}
                     className={clsx(
                       "min-h-[72px] p-2",
-                      inverted ? "bg-ink-950" : "bg-grey-100"
+                      inverted ? "bg-surface-inverse" : "bg-muted"
                     )}
                   />
                 );
@@ -273,9 +273,9 @@ export function Calendar({
                         ? "bg-white shadow-[inset_0_0_0_2px_hsl(var(--primary))]"
                         : "bg-black shadow-[inset_0_0_0_2px_hsl(var(--primary))]"
                       : isToday
-                        ? inverted ? "bg-grey-800" : "bg-grey-100"
-                        : inverted ? "bg-ink-900 hover:bg-grey-800" : "bg-white hover:bg-grey-50",
-                    dayIndex < 6 && (inverted ? "border-r border-grey-800" : "border-r border-grey-100"),
+                        ? inverted ? "bg-surface-elevated" : "bg-muted"
+                        : inverted ? "bg-surface-inverse hover:bg-surface-elevated" : "bg-surface-primary hover:bg-muted",
+                    dayIndex < 6 && (inverted ? "border-r border-border" : "border-r border-border"),
                     isDisabled ? "cursor-not-allowed opacity-40" : "cursor-pointer"
                   )}
                 >
@@ -322,15 +322,15 @@ export function Calendar({
       {/* Footer */}
       <div className={clsx(
         "flex justify-center border-t-2 py-3",
-        inverted ? "border-grey-700" : "border-grey-200"
+        inverted ? "border-border" : "border-border"
       )}>
         <button
           onClick={goToToday}
           className={clsx(
             "cursor-pointer border-2 rounded-[var(--radius-button)] px-4 py-2 font-code text-sm uppercase tracking-widest transition-all duration-100 ease-[var(--ease-bounce)]",
             inverted
-              ? "border-grey-500 bg-transparent text-on-dark-secondary shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:border-white hover:bg-white hover:text-black hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)]"
-              : "border-black bg-transparent text-black shadow-[2px_2px_0_rgba(0,0,0,0.1)] hover:bg-grey-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(0,0,0,0.15)]"
+              ? "border-border bg-transparent text-on-dark-secondary shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:border-white hover:bg-white hover:text-black hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)]"
+              : "border-black bg-transparent text-black shadow-[2px_2px_0_rgba(0,0,0,0.1)] hover:bg-muted hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(0,0,0,0.15)]"
           )}
         >
           TODAY

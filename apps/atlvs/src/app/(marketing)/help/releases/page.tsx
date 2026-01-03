@@ -108,7 +108,7 @@ export default function ReleasesPage() {
                   {RELEASES.map((release) => {
                     const config = TYPE_CONFIG[release.type];
                     return (
-                      <Card key={release.version} className="p-6 border-2 border-grey-800 rounded-card">
+                      <Card key={release.version} className="p-6 border-2 border-border rounded-card">
                         <Box className="flex items-start justify-between mb-4">
                           <Box className="flex items-center gap-3 flex-wrap">
                             <Badge variant="outline" className="font-weight-medium px-3 py-1">v{release.version}</Badge>
@@ -179,7 +179,7 @@ export default function ReleasesPage() {
           patternOpacity: 0.03,
           content: (
             <Container size="2xl" className="py-20">
-              <Card className="p-12 border-2 border-grey-800 rounded-card text-center">
+              <Card className="p-12 border-2 border-border rounded-card text-center">
                 <Bell className="size-16 text-primary mx-auto mb-6" />
                 <Body className="text-white font-weight-bold text-h3-md mb-4">Stay Updated</Body>
                 <Body className="text-on-dark-muted mb-6 max-w-xl mx-auto">Subscribe to our newsletter to receive release notes and product updates directly in your inbox.</Body>

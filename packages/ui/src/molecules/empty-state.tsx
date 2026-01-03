@@ -35,8 +35,8 @@ export function EmptyState({ icon, title, description, action, secondaryAction, 
       "flex flex-col items-center justify-center p-16 text-center",
       "border-2 border-dashed rounded-[var(--radius-card)]",
       inverted 
-        ? "border-grey-600 bg-grey-900/50" 
-        : "border-grey-400 bg-grey-50"
+        ? "border-border bg-surface-inverse/50" 
+        : "border-border bg-muted"
     )}>
       {icon && (
         <div className={clsx(
@@ -73,8 +73,8 @@ export function EmptyState({ icon, title, description, action, secondaryAction, 
                 className={clsx(
                   "px-3 py-1 rounded-full text-xs font-medium",
                   inverted 
-                    ? "bg-grey-800 text-on-dark-secondary" 
-                    : "bg-grey-200 text-on-dark-disabled"
+                    ? "bg-surface-elevated text-on-dark-secondary" 
+                    : "bg-muted text-on-dark-disabled"
                 )}
               >
                 {suggestion}

@@ -8,7 +8,11 @@ export type BreadcrumbProps = HTMLAttributes<HTMLElement> & {
 };
 
 export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
-  function Breadcrumb({ separator = "/", inverted = true, className, children, ...props }, ref) {
+  function Breadcrumb({ separator: _separator = "/", inverted: _inverted = true, className, children, ...props }, ref) {
+    // Note: separator and inverted are passed via props spread to children or used for context
+    // They are destructured here to prevent them from being passed to the nav element
+    void _separator;
+    void _inverted;
     return (
       <nav
         ref={ref}
@@ -32,9 +36,9 @@ export type BreadcrumbItemProps = HTMLAttributes<HTMLLIElement> & {
 
 export const BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
   function BreadcrumbItem({ href, active, inverted = true, className, children, ...props }, ref) {
-    const activeColor = inverted ? "text-white" : "text-black";
+    const activeColor = inverted ? "text-on-dark-primary" : "text-on-light-primary";
     const inactiveColor = inverted ? "text-on-dark-muted" : "text-on-light-muted";
-    const hoverColor = inverted ? "hover:text-white" : "hover:text-black";
+    const hoverColor = inverted ? "hover:text-on-dark-primary" : "hover:text-on-light-primary";
 
     return (
       <>

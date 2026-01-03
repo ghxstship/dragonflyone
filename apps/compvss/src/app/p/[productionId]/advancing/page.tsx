@@ -97,7 +97,7 @@ export default function ProductionAdvancingPage() {
                 <Card key={item.id} className="p-4">
                   <Box className="flex items-center justify-between">
                     <Box className="flex items-center gap-4">
-                      <Box className={`p-2 rounded-card ${item.status === "confirmed" ? "bg-success/20" : item.status === "sent" ? "bg-info/20" : "bg-grey-800"}`}>
+                      <Box className={`p-2 rounded-card ${item.status === "confirmed" ? "bg-success/20" : item.status === "sent" ? "bg-info/20" : "bg-surface-elevated"}`}>
                         {config.icon}
                       </Box>
                       <Box>

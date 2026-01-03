@@ -163,7 +163,7 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
                 <Shield className="size-6 text-primary-600" />
               </div>
               <div>
-                <H2 className="text-ink-950">Privacy Preference Center</H2>
+                <H2 className="text-on-light-primary">Privacy Preference Center</H2>
                 <Body size="sm" className="text-on-dark-disabled">
                   Manage how your data is collected and used
                 </Body>
@@ -180,7 +180,7 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
           <Card className="border-2 border-primary-200 bg-primary-50">
             <CardBody>
               <Stack gap={4}>
-                <H3 className="text-ink-950">{regionInfo.name}</H3>
+                <H3 className="text-on-light-primary">{regionInfo.name}</H3>
                 <Body size="sm" className="text-on-dark-disabled">
                   Under applicable privacy laws, you have the following rights:
                 </Body>
@@ -198,7 +198,7 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
 
           {/* Consent Categories */}
           <Stack gap={4}>
-            <H3 className="text-ink-950">Data Collection Preferences</H3>
+            <H3 className="text-on-light-primary">Data Collection Preferences</H3>
             <Body size="sm" className="text-on-dark-disabled">
               Choose which types of data processing you consent to. Required items cannot be disabled 
               as they are necessary for the service to function.
@@ -206,18 +206,18 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
 
             <Stack gap={3}>
               {consents.map((consent) => (
-                <Card key={consent.id} className="border-2 border-grey-200">
+                <Card key={consent.id} className="border-2 border-border">
                   <CardBody>
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-start gap-3">
-                        <div className="flex size-10 items-center justify-center border-2 border-grey-200 bg-grey-100 rounded-card shrink-0">
+                        <div className="flex size-10 items-center justify-center border-2 border-border bg-muted rounded-card shrink-0">
                           {consent.icon}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <Label size="sm" className="text-ink-950">{consent.name}</Label>
+                            <Label size="sm" className="text-on-light-primary">{consent.name}</Label>
                             {consent.required && (
-                              <span className="px-2 py-0.5 bg-grey-200 text-on-dark-disabled rounded-badge text-xs">
+                              <span className="px-2 py-0.5 bg-muted text-on-dark-disabled rounded-badge text-xs">
                                 Required
                               </span>
                             )}
@@ -240,7 +240,7 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
             </Stack>
 
             {/* Save Button */}
-            <div className="flex items-center justify-between pt-4 border-t border-grey-200">
+            <div className="flex items-center justify-between pt-4 border-t border-border">
               <Body size="sm" className="text-on-dark-disabled">
                 {hasChanges ? "You have unsaved changes" : "All changes saved"}
               </Body>
@@ -264,7 +264,7 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
 
           {/* Data Actions */}
           <Stack gap={4}>
-            <H3 className="text-ink-950">Your Data</H3>
+            <H3 className="text-on-light-primary">Your Data</H3>
             <Body size="sm" className="text-on-dark-disabled">
               Exercise your data rights with the actions below.
             </Body>
@@ -272,7 +272,7 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
             <div className="grid gap-3 sm:grid-cols-2">
               {/* Export Data */}
               {onExportData && (
-                <Card className="border-2 border-grey-200 hover:border-primary-300 transition-colors cursor-pointer">
+                <Card className="border-2 border-border hover:border-primary-300 transition-colors cursor-pointer">
                   <CardBody>
                     <button
                       onClick={handleExport}
@@ -291,7 +291,7 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
                             )}
                           </div>
                           <div>
-                            <Label size="sm" className="text-ink-950">Export My Data</Label>
+                            <Label size="sm" className="text-on-light-primary">Export My Data</Label>
                             <Body size="xs" className="text-on-dark-disabled">
                               Download a copy of your data
                             </Body>
@@ -306,16 +306,16 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
 
               {/* View History */}
               {onViewHistory && (
-                <Card className="border-2 border-grey-200 hover:border-primary-300 transition-colors cursor-pointer">
+                <Card className="border-2 border-border hover:border-primary-300 transition-colors cursor-pointer">
                   <CardBody>
                     <button onClick={onViewHistory} className="w-full text-left">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="flex size-10 items-center justify-center border-2 border-grey-200 bg-grey-100 rounded-card">
+                          <div className="flex size-10 items-center justify-center border-2 border-border bg-muted rounded-card">
                             <History className="size-5 text-on-dark-disabled" />
                           </div>
                           <div>
-                            <Label size="sm" className="text-ink-950">Consent History</Label>
+                            <Label size="sm" className="text-on-light-primary">Consent History</Label>
                             <Body size="xs" className="text-on-dark-disabled">
                               View your consent changes
                             </Body>
@@ -355,10 +355,10 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
           </Stack>
 
           {/* Contact Information */}
-          <Card className="border-2 border-grey-200 bg-grey-50">
+          <Card className="border-2 border-border bg-muted/50">
             <CardBody>
               <Stack gap={3}>
-                <H3 className="text-ink-950">Questions About Your Privacy?</H3>
+                <H3 className="text-on-light-primary">Questions About Your Privacy?</H3>
                 <Body size="sm" className="text-on-dark-disabled">
                   If you have questions about how we handle your data or want to exercise your rights, 
                   please contact our Data Protection Officer:

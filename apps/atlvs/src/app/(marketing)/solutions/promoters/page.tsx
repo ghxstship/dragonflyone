@@ -117,7 +117,7 @@ export default function PromotersSolutionPage() {
 
                 <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
                   {BENEFITS.map((benefit, idx) => (
-                    <Card key={idx} className="p-5 border-2 border-grey-800 rounded-card">
+                    <Card key={idx} className="p-5 border-2 border-border rounded-card">
                       <Stack direction="horizontal" gap={3} className="items-center">
                         <Check className="size-5 text-success flex-shrink-0" />
                         <Body className="text-white">{benefit}</Body>

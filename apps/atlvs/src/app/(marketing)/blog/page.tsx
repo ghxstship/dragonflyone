@@ -65,7 +65,7 @@ export default function BlogPage() {
       "Case Study": "bg-accent/20 text-accent border-accent/30",
       Product: "bg-secondary/20 text-secondary border-secondary/30",
     };
-    return colors[category] || "bg-grey-800 text-on-dark-muted border-grey-700";
+    return colors[category] || "bg-surface-elevated text-on-dark-muted border-border";
   };
 
   const featuredPost = posts[0];
@@ -107,7 +107,7 @@ export default function BlogPage() {
                   onClick={() => router.push(`/blog/${featuredPost.id}`)}
                 >
                   <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
-                    <Box className="aspect-video bg-grey-800 rounded-card overflow-hidden">
+                    <Box className="aspect-video bg-surface-elevated rounded-card overflow-hidden">
                       <Box className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                         <FileText className="size-16 text-on-dark-disabled" />
                       </Box>
@@ -152,7 +152,7 @@ export default function BlogPage() {
                 </Stack>
 
                 {/* Search and Filters */}
-                <Card className="p-4 border-2 border-grey-800 rounded-card">
+                <Card className="p-4 border-2 border-border rounded-card">
                   <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
                     <Box className="flex-1 min-w-[200px] relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
@@ -185,7 +185,7 @@ export default function BlogPage() {
                     <Body className="text-on-dark-muted mt-4">Loading articles...</Body>
                   </Stack>
                 ) : filteredPosts.length === 0 ? (
-                  <Card className="p-12 text-center border-2 border-grey-800 rounded-card">
+                  <Card className="p-12 text-center border-2 border-border rounded-card">
                     <FileText className="size-16 text-on-dark-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Articles Found</Body>
                     <Body className="text-on-dark-muted mb-4">{search ? "Try a different search term" : "Check back soon for new content"}</Body>
@@ -196,12 +196,12 @@ export default function BlogPage() {
                     {filteredPosts.slice(1).map((post: BlogPost) => (
                       <Card
                         key={post.id}
-                        className="p-6 border-2 border-grey-800 rounded-card pop-card-atlvs group"
+                        className="p-6 border-2 border-border rounded-card pop-card-atlvs group"
                         onClick={() => router.push(`/blog/${post.id}`)}
                       >
                         <Stack gap={4}>
-                          <Box className="aspect-video bg-grey-800 rounded-card overflow-hidden">
-                            <Box className="w-full h-full bg-gradient-to-br from-grey-700 to-grey-800 flex items-center justify-center group-hover:from-primary/20 group-hover:to-secondary/20 transition-all">
+                          <Box className="aspect-video bg-surface-elevated rounded-card overflow-hidden">
+                            <Box className="w-full h-full bg-gradient-to-br from-surface-elevated to-surface-inverse flex items-center justify-center group-hover:from-primary/20 group-hover:to-secondary/20 transition-all">
                               <FileText className="size-8 text-on-dark-disabled" />
                             </Box>
                           </Box>

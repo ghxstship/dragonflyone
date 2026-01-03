@@ -41,7 +41,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       }
       if (variant === "pop") {
         return inverted
-          ? "bg-ink-950 text-white border-2 border-white shadow-[2px_2px_0_hsl(var(--primary))]"
+          ? "bg-surface-inverse text-on-dark-primary border-2 border-on-dark-primary shadow-[2px_2px_0_hsl(var(--primary))]"
           : "bg-white text-black border-2 border-black shadow-[2px_2px_0_hsl(var(--primary))]";
       }
 
@@ -51,9 +51,9 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
           case "solid":
             return "bg-white text-black border-2 border-white";
           case "outline":
-            return "border-2 border-grey-500 text-on-dark-secondary bg-transparent";
+            return "border-2 border-border text-on-dark-secondary bg-transparent";
           case "ghost":
-            return "text-on-dark-secondary bg-grey-800 border-2 border-transparent";
+            return "text-on-dark-secondary bg-surface-elevated border-2 border-transparent";
           default:
             return "";
         }
@@ -64,7 +64,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
           case "outline":
             return "border-2 border-black text-black bg-white";
           case "ghost":
-            return "text-black bg-grey-100 border-2 border-transparent";
+            return "text-on-light-primary bg-muted border-2 border-transparent";
           default:
             return "";
         }

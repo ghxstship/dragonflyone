@@ -86,7 +86,7 @@ export function QuickAddFab({
             }}
           >
             <span 
-              className="flex items-center justify-center size-8 rounded-avatar text-white"
+              className="flex items-center justify-center size-8 rounded-avatar text-on-dark-primary"
               style={{ backgroundColor: action.color || "var(--color-primary-500)" }}
             >
               {action.icon}
@@ -106,7 +106,7 @@ export function QuickAddFab({
           "hover:shadow-xl hover:scale-105 active:scale-95",
           expanded
             ? "bg-surface-inverse border-border-primary text-text-inverse rotate-45"
-            : "bg-primary-500 border-primary-600 text-white rotate-0"
+            : "bg-primary-500 border-primary-600 text-on-dark-primary rotate-0"
         )}
       >
         {expanded ? <X className="size-6" /> : <Plus className="size-6" />}
@@ -115,7 +115,7 @@ export function QuickAddFab({
       {/* Backdrop when expanded */}
       {expanded && (
         <div 
-          className="fixed inset-0 bg-black/20 -z-10"
+          className="fixed inset-0 bg-surface-overlay -z-10"
           onClick={handleToggle}
         />
       )}

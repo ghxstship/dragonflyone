@@ -217,7 +217,7 @@ export function DetailDrawer<T = unknown>({
               <button
                 type="button"
                 onClick={() => onEdit(record)}
-                className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer transition-colors duration-fast hover:bg-grey-900"
+                className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer transition-colors duration-fast hover:bg-surface-elevated"
               >
                 <Pencil className="size-4" /> Edit
               </button>
@@ -232,7 +232,7 @@ export function DetailDrawer<T = unknown>({
                 className={clsx(
                   "flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase border-2 border-black transition-colors duration-fast",
                   action.variant === "primary"
-                    ? "bg-black text-white hover:bg-grey-900"
+                    ? "bg-black text-white hover:bg-surface-elevated"
                     : action.variant === "danger"
                     ? "bg-surface-primary text-text-secondary hover:bg-surface-secondary"
                     : "bg-surface-primary text-text-primary hover:bg-surface-secondary",
@@ -274,7 +274,7 @@ export function DetailDrawer<T = unknown>({
             <div className="flex-1 overflow-auto p-spacing-6">
               {loading ? (
                 <div className="flex items-center justify-center h-spacing-48">
-                  <div className="w-spacing-8 h-spacing-8 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
+                  <div className="w-spacing-8 h-spacing-8 border-2 border-border border-t-black rounded-full animate-spin" />
                 </div>
               ) : record ? (
                 <>
@@ -302,7 +302,7 @@ export function DetailDrawer<T = unknown>({
           <div className="flex-1 overflow-auto p-spacing-6">
             {loading ? (
               <div className="flex items-center justify-center h-spacing-48">
-                <div className="w-spacing-8 h-spacing-8 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
+                <div className="w-spacing-8 h-spacing-8 border-2 border-border border-t-black rounded-full animate-spin" />
               </div>
             ) : record ? (
               <>
@@ -336,7 +336,7 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
   const [collapsed, setCollapsed] = React.useState(section.defaultCollapsed ?? false);
 
   return (
-    <div className="mb-spacing-6 border-b border-grey-200 pb-spacing-6">
+    <div className="mb-spacing-6 border-b border-border pb-spacing-6">
       <div
         className={clsx(
           "flex items-center justify-between",

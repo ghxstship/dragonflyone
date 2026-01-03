@@ -25,7 +25,7 @@ export default function CurrencyPage() {
             <Card key={currency.code} className={`p-4 cursor-pointer transition-colors ${selected === currency.code ? "border-primary" : ""}`} onClick={() => setSelected(currency.code)}>
               <Box className="flex items-center justify-between">
                 <Box className="flex items-center gap-3">
-                  <Box className="size-10 bg-grey-800 rounded-avatar flex items-center justify-center font-weight-bold">{currency.symbol}</Box>
+                  <Box className="size-10 bg-surface-elevated rounded-avatar flex items-center justify-center font-weight-bold">{currency.symbol}</Box>
                   <Box><Body className="font-weight-bold">{currency.code}</Body><Body size="sm" className="text-on-dark-muted">{currency.name}</Body></Box>
                 </Box>
                 {selected === currency.code && <Check className="size-5 text-primary" />}

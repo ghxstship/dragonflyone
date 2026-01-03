@@ -101,7 +101,7 @@ export function PriceDisplay({
           className={clsx(
             "font-heading tracking-tight",
             config.price,
-            inverted ? "text-white" : "text-black"
+            inverted ? "text-on-dark-primary" : "text-on-light-primary"
           )}
         >
           {formatPrice(price, currency, currencySymbol)}
@@ -140,7 +140,7 @@ export function PriceDisplay({
           className={clsx(
             "inline-flex self-start font-code tracking-widest px-spacing-1 py-spacing-0.5",
             config.label,
-            inverted ? "text-black bg-white" : "text-white bg-black"
+            inverted ? "text-on-light-primary bg-surface-primary" : "text-on-dark-primary bg-surface-inverse"
           )}
         >
           SAVE {calculatedDiscount}%
@@ -193,7 +193,7 @@ export function PriceRange({
         className={clsx(
           "font-heading",
           config.price,
-          inverted ? "text-white" : "text-black"
+          inverted ? "text-on-dark-primary" : "text-on-light-primary"
         )}
       >
         {formatPrice(minPrice, "USD", currencySymbol)}
@@ -211,7 +211,7 @@ export function PriceRange({
         className={clsx(
           "font-heading",
           config.price,
-          inverted ? "text-white" : "text-black"
+          inverted ? "text-on-dark-primary" : "text-on-light-primary"
         )}
       >
         {formatPrice(maxPrice, "USD", currencySymbol)}

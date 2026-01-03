@@ -56,14 +56,14 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
   ) {
     const bgClasses = {
       black: "bg-black text-white",
-      ink: "bg-ink-950 text-white",
-      grey: "bg-grey-900 text-white",
+      ink: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-surface-elevated text-on-dark-primary",
     };
 
     const statusColors = {
       completed: "bg-success",
       "in-progress": "bg-primary",
-      upcoming: "bg-grey-600",
+      upcoming: "bg-muted",
     };
 
     const statusBadgeVariants = {
@@ -95,7 +95,7 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
           {orientation === "vertical" && (
             <div className="relative">
               {/* Timeline Line */}
-              <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-grey-800 -translate-x-1/2" />
+              <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-border -translate-x-1/2" />
 
               {/* Timeline Items */}
               <div className="space-y-12">
@@ -144,7 +144,7 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
                     {/* Timeline Dot */}
                     <div
                       className={clsx(
-                        "absolute left-4 md:left-1/2 -translate-x-1/2 size-4 rounded-full border-4 border-ink-950",
+                        "absolute left-4 md:left-1/2 -translate-x-1/2 size-4 rounded-full border-4 border-surface-inverse",
                         statusColors[item.status || "upcoming"]
                       )}
                     />
@@ -165,13 +165,13 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
                   <div key={item.id} className="relative flex flex-col items-center w-64">
                     {/* Timeline Line */}
                     {idx < items.length - 1 && (
-                      <div className="absolute top-3 left-1/2 w-full h-0.5 bg-grey-800" />
+                      <div className="absolute top-3 left-1/2 w-full h-0.5 bg-border" />
                     )}
 
                     {/* Timeline Dot */}
                     <div
                       className={clsx(
-                        "relative z-10 size-6 rounded-full border-4 border-ink-950 mb-4",
+                        "relative z-10 size-6 rounded-full border-4 border-surface-inverse mb-4",
                         statusColors[item.status || "upcoming"]
                       )}
                     />

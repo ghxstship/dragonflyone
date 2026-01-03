@@ -63,13 +63,13 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
       <Container className="mx-auto max-w-screen-2xl px-6 lg:px-8">
         {/* Blueprint Header */}
         <Stack gap={4} className="mb-12 text-center">
-          <Text className="font-mono text-mono-sm uppercase tracking-kicker text-grey-500">
+          <Text className="font-mono text-mono-sm uppercase tracking-kicker text-on-light-muted">
             Generated Blueprint
           </Text>
-          <H2 className="font-display text-display-sm uppercase tracking-display text-ink-950">
+          <H2 className="font-display text-display-sm uppercase tracking-display text-on-light-primary">
             {blueprint.concept.name}
           </H2>
-          <Body className="mx-auto max-w-2xl text-body-lg text-grey-600">
+          <Body className="mx-auto max-w-2xl text-body-lg text-on-light-secondary">
             {blueprint.concept.tagline}
           </Body>
         </Stack>
@@ -79,7 +79,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
           <TabsList
             variant="line"
             inverted={false}
-            className="mb-8 flex flex-wrap justify-center gap-2 border-b-2 border-ink-950 pb-4"
+            className="mb-8 flex flex-wrap justify-center gap-2 border-b-2 border-border pb-4"
             onTabChange={setActiveTab}
           >
             {TAB_ITEMS.map((tab, index) => (
@@ -91,8 +91,8 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                 onClick={() => setActiveTab(index)}
                 className={`border-2 px-4 py-2 font-mono text-mono-sm uppercase tracking-label transition-colors ${
                   activeTab === index
-                    ? "border-ink-950 bg-ink-950 text-white"
-                    : "border-grey-300 bg-white text-grey-600 hover:border-ink-950"
+                    ? "border-border bg-surface-inverse text-white"
+                    : "border-border bg-white text-on-light-secondary hover:border-border"
                 }`}
               >
                 {tab.label}
@@ -103,23 +103,23 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
           {/* Concept Tab */}
           <TabPanel active={activeTab === 0} inverted={false}>
             <Grid cols={2} gap={8}>
-              <Card className="border-2 border-ink-950 p-6 shadow-md">
+              <Card className="border-2 border-border p-6 shadow-md">
                 <Stack direction="horizontal" gap={3} className="mb-4 items-center">
-                  <Palette className="size-6 text-ink-950" />
-                  <H3 className="font-display text-h5-md uppercase text-ink-950">
+                  <Palette className="size-6 text-on-light-primary" />
+                  <H3 className="font-display text-h5-md uppercase text-on-light-primary">
                     Visual Identity
                   </H3>
                 </Stack>
                 <Stack gap={4}>
                   <Box>
-                    <Text className="mb-2 font-mono text-mono-xs uppercase text-grey-400">
+                    <Text className="mb-2 font-mono text-mono-xs uppercase text-on-light-disabled">
                       Color Palette
                     </Text>
                     <Stack direction="horizontal" gap={2}>
                       {blueprint.concept.visualIdentity.colorPalette.map((color, i) => (
                         <Box
                           key={i}
-                          className="size-10 border-2 border-ink-950"
+                          className="size-10 border-2 border-border"
                           style={{ backgroundColor: color }}
                           title={color}
                         />
@@ -127,22 +127,22 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                     </Stack>
                   </Box>
                   <Box>
-                    <Text className="mb-2 font-mono text-mono-xs uppercase text-grey-400">
+                    <Text className="mb-2 font-mono text-mono-xs uppercase text-on-light-disabled">
                       Typography
                     </Text>
-                    <Text className="text-body-md text-grey-600">
+                    <Text className="text-body-md text-on-light-secondary">
                       {blueprint.concept.visualIdentity.typography}
                     </Text>
                   </Box>
                   <Box>
-                    <Text className="mb-2 font-mono text-mono-xs uppercase text-grey-400">
+                    <Text className="mb-2 font-mono text-mono-xs uppercase text-on-light-disabled">
                       Mood Keywords
                     </Text>
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       {blueprint.concept.visualIdentity.moodKeywords.map((keyword, i) => (
                         <Text
                           key={i}
-                          className="border-2 border-grey-300 bg-grey-100 px-3 py-1 font-mono text-mono-xs text-grey-600"
+                          className="border-2 border-border bg-muted px-3 py-1 font-mono text-mono-xs text-on-light-secondary"
                         >
                           {keyword}
                         </Text>
@@ -152,18 +152,18 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                 </Stack>
               </Card>
 
-              <Card className="border-2 border-ink-950 p-6 shadow-md">
-                <H3 className="mb-4 font-display text-h5-md uppercase text-ink-950">
+              <Card className="border-2 border-border p-6 shadow-md">
+                <H3 className="mb-4 font-display text-h5-md uppercase text-on-light-primary">
                   Narrative
                 </H3>
-                <Body className="mb-6 leading-body text-body-md text-grey-600">
+                <Body className="mb-6 leading-body text-body-md text-on-light-secondary">
                   {blueprint.concept.narrative}
                 </Body>
-                <Box className="border-t-2 border-grey-200 pt-4">
-                  <Text className="mb-2 font-mono text-mono-xs uppercase text-grey-400">
+                <Box className="border-t-2 border-border pt-4">
+                  <Text className="mb-2 font-mono text-mono-xs uppercase text-on-light-disabled">
                     Target Transformation
                   </Text>
-                  <Body className="text-body-md italic text-ink-950">
+                  <Body className="text-body-md italic text-on-light-primary">
                     &ldquo;{blueprint.concept.targetTransformation}&rdquo;
                   </Body>
                 </Box>
@@ -177,41 +177,41 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
               {Object.entries(blueprint.sensoryDesign).map(([sense, activation]) => {
                 const IconComponent = SENSE_ICONS[sense as keyof typeof SENSE_ICONS];
                 return (
-                  <Card key={sense} className="border-2 border-ink-950 p-6 shadow-md">
+                  <Card key={sense} className="border-2 border-border p-6 shadow-md">
                     <Stack direction="horizontal" gap={3} className="mb-4 items-center">
-                      <Box className="flex size-10 items-center justify-center border-2 border-ink-950 bg-primary/10">
+                      <Box className="flex size-10 items-center justify-center border-2 border-border bg-primary/10">
                         <IconComponent className="size-5 text-primary" />
                       </Box>
-                      <H3 className="font-display text-h5-md uppercase text-ink-950">
+                      <H3 className="font-display text-h5-md uppercase text-on-light-primary">
                         {sense}
                       </H3>
                     </Stack>
                     <Stack gap={3}>
                       <Box>
-                        <Text className="mb-1 font-mono text-mono-xs uppercase text-grey-400">
+                        <Text className="mb-1 font-mono text-mono-xs uppercase text-on-light-disabled">
                           Primary
                         </Text>
-                        <Text className="text-body-md font-weight-medium text-ink-950">
+                        <Text className="text-body-md font-weight-medium text-on-light-primary">
                           {activation.primary}
                         </Text>
                       </Box>
                       <Box>
-                        <Text className="mb-1 font-mono text-mono-xs uppercase text-grey-400">
+                        <Text className="mb-1 font-mono text-mono-xs uppercase text-on-light-disabled">
                           Secondary
                         </Text>
                         <Stack gap={1}>
                           {activation.secondary.map((item, i) => (
-                            <Text key={i} className="text-body-sm text-grey-600">
+                            <Text key={i} className="text-body-sm text-on-light-secondary">
                               {item}
                             </Text>
                           ))}
                         </Stack>
                       </Box>
                       <Box>
-                        <Text className="mb-1 font-mono text-mono-xs uppercase text-grey-400">
+                        <Text className="mb-1 font-mono text-mono-xs uppercase text-on-light-disabled">
                           Accessibility
                         </Text>
-                        <Text className="text-body-sm text-grey-500">
+                        <Text className="text-body-sm text-on-light-muted">
                           {activation.accessibility}
                         </Text>
                       </Box>
@@ -226,10 +226,10 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
           <TabPanel active={activeTab === 2} inverted={false}>
             <Stack gap={8}>
               {/* XYZ Levels */}
-              <Card className="border-2 border-ink-950 p-6 shadow-md">
+              <Card className="border-2 border-border p-6 shadow-md">
                 <Stack direction="horizontal" gap={3} className="mb-6 items-center">
-                  <Map className="size-6 text-ink-950" />
-                  <H3 className="font-display text-h5-md uppercase text-ink-950">
+                  <Map className="size-6 text-on-light-primary" />
+                  <H3 className="font-display text-h5-md uppercase text-on-light-primary">
                     XYZ Foundation
                   </H3>
                 </Stack>
@@ -243,23 +243,23 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                     };
                     return (
                       <Box key={axis} className="text-center">
-                        <Text className="mb-2 font-mono text-mono-xs uppercase text-grey-400">
+                        <Text className="mb-2 font-mono text-mono-xs uppercase text-on-light-disabled">
                           {axis.toUpperCase()}-Axis: {labels[axis as keyof typeof labels]}
                         </Text>
                         <Stack direction="horizontal" gap={1} className="mb-2 justify-center">
                           {[1, 2, 3, 4, 5].map((level) => (
                             <Box
                               key={level}
-                              className={`size-8 border-2 border-ink-950 ${
-                                level <= data.level ? "bg-primary" : "bg-grey-100"
+                              className={`size-8 border-2 border-border ${
+                                level <= data.level ? "bg-primary" : "bg-muted"
                               }`}
                             />
                           ))}
                         </Stack>
-                        <Text className="font-mono text-mono-sm text-grey-600">
+                        <Text className="font-mono text-mono-sm text-on-light-secondary">
                           Level {data.level}/5
                         </Text>
-                        <Text className="mt-2 text-body-sm text-grey-500">
+                        <Text className="mt-2 text-body-sm text-on-light-muted">
                           {data.description}
                         </Text>
                       </Box>
@@ -269,23 +269,23 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
               </Card>
 
               {/* Zones */}
-              <Card className="border-2 border-ink-950 p-6 shadow-md">
-                <H3 className="mb-4 font-display text-h5-md uppercase text-ink-950">
+              <Card className="border-2 border-border p-6 shadow-md">
+                <H3 className="mb-4 font-display text-h5-md uppercase text-on-light-primary">
                   Zones ({blueprint.spatialTemporal.zones.length})
                 </H3>
                 <Grid cols={3} gap={4}>
                   {blueprint.spatialTemporal.zones.map((zone, i) => (
                     <Box
                       key={i}
-                      className="border-2 border-grey-300 bg-white p-4"
+                      className="border-2 border-border bg-white p-4"
                     >
-                      <Text className="font-display text-h6-md uppercase text-ink-950">
+                      <Text className="font-display text-h6-md uppercase text-on-light-primary">
                         {zone.name}
                       </Text>
-                      <Text className="mt-1 text-body-sm text-grey-600">
+                      <Text className="mt-1 text-body-sm text-on-light-secondary">
                         {zone.description}
                       </Text>
-                      <Text className="mt-2 font-mono text-mono-xs text-grey-500">
+                      <Text className="mt-2 font-mono text-mono-xs text-on-light-muted">
                         {zone.code} | Level {zone.accessLevel} | Cap: {zone.capacity}
                       </Text>
                     </Box>
@@ -299,38 +299,38 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
           <TabPanel active={activeTab === 3} inverted={false}>
             <Stack gap={4}>
               {Object.entries(blueprint.guestJourney).map(([key, phase], index) => (
-                <Card key={key} className="border-2 border-ink-950 p-6 shadow-md">
+                <Card key={key} className="border-2 border-border p-6 shadow-md">
                   <Stack direction="horizontal" gap={4} className="items-start">
-                    <Box className="flex size-12 shrink-0 items-center justify-center border-2 border-ink-950 bg-grey-100 font-display text-h4-md text-ink-950">
+                    <Box className="flex size-12 shrink-0 items-center justify-center border-2 border-border bg-muted font-display text-h4-md text-on-light-primary">
                       {index + 1}
                     </Box>
                     <Box className="flex-1">
-                      <H3 className="mb-2 font-display text-h5-md uppercase text-ink-950">
+                      <H3 className="mb-2 font-display text-h5-md uppercase text-on-light-primary">
                         {phase.name}
                       </H3>
-                      <Text className="mb-4 font-mono text-mono-sm italic text-grey-500">
+                      <Text className="mb-4 font-mono text-mono-sm italic text-on-light-muted">
                         Emotional State: {phase.emotionalState}
                       </Text>
                       <Grid cols={2} gap={4}>
                         <Box>
-                          <Text className="mb-2 font-mono text-mono-xs uppercase text-grey-400">
+                          <Text className="mb-2 font-mono text-mono-xs uppercase text-on-light-disabled">
                             Touchpoints
                           </Text>
                           <Stack gap={1}>
                             {phase.touchpoints.map((tp, i) => (
-                              <Text key={i} className="text-body-sm text-grey-600">
+                              <Text key={i} className="text-body-sm text-on-light-secondary">
                                 {tp}
                               </Text>
                             ))}
                           </Stack>
                         </Box>
                         <Box>
-                          <Text className="mb-2 font-mono text-mono-xs uppercase text-grey-400">
+                          <Text className="mb-2 font-mono text-mono-xs uppercase text-on-light-disabled">
                             Technology
                           </Text>
                           <Stack gap={1}>
                             {phase.technology.map((tech, i) => (
-                              <Text key={i} className="text-body-sm text-grey-600">
+                              <Text key={i} className="text-body-sm text-on-light-secondary">
                                 {tech}
                               </Text>
                             ))}
@@ -347,22 +347,22 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
           {/* Documents Tab */}
           <TabPanel active={activeTab === 4} inverted={false}>
             <Grid cols={2} gap={8}>
-              <Card className="border-2 border-ink-950 p-6 shadow-md">
+              <Card className="border-2 border-border p-6 shadow-md">
                 <Stack direction="horizontal" gap={3} className="mb-4 items-center">
-                  <FileText className="size-6 text-ink-950" />
-                  <H3 className="font-display text-h5-md uppercase text-ink-950">
+                  <FileText className="size-6 text-on-light-primary" />
+                  <H3 className="font-display text-h5-md uppercase text-on-light-primary">
                     One-Page Overview
                   </H3>
                 </Stack>
-                <Body className="leading-body text-body-sm text-grey-600">
+                <Body className="leading-body text-body-sm text-on-light-secondary">
                   {blueprint.documents.onePageOverview}
                 </Body>
               </Card>
 
-              <Card className="border-2 border-ink-950 p-6 shadow-md">
+              <Card className="border-2 border-border p-6 shadow-md">
                 <Stack direction="horizontal" gap={3} className="mb-4 items-center">
-                  <Users className="size-6 text-ink-950" />
-                  <H3 className="font-display text-h5-md uppercase text-ink-950">
+                  <Users className="size-6 text-on-light-primary" />
+                  <H3 className="font-display text-h5-md uppercase text-on-light-primary">
                     Organization Structure
                   </H3>
                 </Stack>
@@ -370,24 +370,24 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                   {blueprint.documents.orgChartPreview.slice(0, 6).map((node, i) => (
                     <Stack key={i} direction="horizontal" gap={2} className="items-center">
                       <Box
-                        className="size-3 border-2 border-ink-950"
+                        className="size-3 border-2 border-border"
                         style={{ marginLeft: `${(node.tier - 1) * 16}px` }}
                       />
-                      <Text className="font-mono text-mono-sm text-grey-600">
+                      <Text className="font-mono text-mono-sm text-on-light-secondary">
                         {node.title}
                       </Text>
                     </Stack>
                   ))}
                   {blueprint.documents.orgChartPreview.length > 6 && (
-                    <Text className="font-mono text-mono-xs text-grey-400">
+                    <Text className="font-mono text-mono-xs text-on-light-disabled">
                       +{blueprint.documents.orgChartPreview.length - 6} more roles...
                     </Text>
                   )}
                 </Stack>
               </Card>
 
-              <Card className="border-2 border-ink-950 p-6 shadow-md">
-                <H3 className="mb-4 font-display text-h5-md uppercase text-ink-950">
+              <Card className="border-2 border-border p-6 shadow-md">
+                <H3 className="mb-4 font-display text-h5-md uppercase text-on-light-primary">
                   Schedule Phases
                 </H3>
                 <Stack gap={2}>
@@ -395,12 +395,12 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                     <Stack
                       key={i}
                       direction="horizontal"
-                      className="items-center justify-between border-b-2 border-grey-200 pb-2"
+                      className="items-center justify-between border-b-2 border-border pb-2"
                     >
-                      <Text className="font-mono text-mono-sm text-ink-950">
+                      <Text className="font-mono text-mono-sm text-on-light-primary">
                         {phase.name}
                       </Text>
-                      <Text className="font-mono text-mono-xs text-grey-500">
+                      <Text className="font-mono text-mono-xs text-on-light-muted">
                         {phase.duration}
                       </Text>
                     </Stack>
@@ -408,8 +408,8 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                 </Stack>
               </Card>
 
-              <Card className="border-2 border-ink-950 p-6 shadow-md">
-                <H3 className="mb-4 font-display text-h5-md uppercase text-ink-950">
+              <Card className="border-2 border-border p-6 shadow-md">
+                <H3 className="mb-4 font-display text-h5-md uppercase text-on-light-primary">
                   Credential Types
                 </H3>
                 <Grid cols={2} gap={2}>
@@ -418,13 +418,13 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                       key={i}
                       direction="horizontal"
                       gap={2}
-                      className="items-center border-2 border-grey-200 p-2"
+                      className="items-center border-2 border-border p-2"
                     >
                       <Box
-                        className="size-4 border-2 border-ink-950"
+                        className="size-4 border-2 border-border"
                         style={{ backgroundColor: cred.color }}
                       />
-                      <Text className="font-mono text-mono-xs text-grey-600">
+                      <Text className="font-mono text-mono-xs text-on-light-secondary">
                         {cred.code}: {cred.name}
                       </Text>
                     </Stack>

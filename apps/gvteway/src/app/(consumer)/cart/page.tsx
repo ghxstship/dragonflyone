@@ -86,7 +86,7 @@ export default function CartPage() {
               <Stack gap={3} className="mt-4">
                 <Box className="flex justify-between"><Body className="text-on-dark-muted">Subtotal</Body><Body>{formatCurrency(subtotal)}</Body></Box>
                 <Box className="flex justify-between"><Body className="text-on-dark-muted">Service Fees</Body><Body>{formatCurrency(fees)}</Body></Box>
-                <Box className="border-t border-grey-800 pt-3 flex justify-between"><Body className="font-weight-bold">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></Box>
+                <Box className="border-t border-border pt-3 flex justify-between"><Body className="font-weight-bold">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></Box>
               </Stack>
               <Button variant="solid" className="w-full mt-6" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={() => router.push("/checkout")}>Checkout</Button>
             </Card>

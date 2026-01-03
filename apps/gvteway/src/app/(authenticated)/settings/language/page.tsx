@@ -135,7 +135,7 @@ export default function LanguageSettingsPage() {
               <Stack gap={2}>
                 {["Event names and descriptions", "Artist names", "Venue information", "User reviews", "Chat messages"].map((item) => (
                   <Box key={item} className="flex items-center gap-2">
-                    <Box className="size-1 rounded-avatar bg-grey-500" />
+                    <Box className="size-1 rounded-avatar bg-muted0" />
                     <Body size="sm" className="text-white">{item}</Body>
                   </Box>
                 ))}

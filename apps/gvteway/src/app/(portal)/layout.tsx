@@ -20,7 +20,7 @@ export default createPortalLayout({
   platform: "gvteway",
   authType: "public",
   invalidTokenPath: "/",
-  backgroundClass: "bg-ink-950",
+  backgroundClass: "bg-surface-inverse",
   LayoutComponent: GvtewayAppLayout,
   layoutVariant: "portal",
 });

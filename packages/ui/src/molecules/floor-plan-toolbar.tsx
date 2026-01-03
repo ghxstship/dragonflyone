@@ -164,7 +164,7 @@ export function FloorPlanToolbar({
 
       {/* Undo/Redo */}
       <div className="flex items-center gap-0.5">
-        <Tooltip content={<span>Undo <kbd className="ml-1 px-1 py-0.5 bg-black/20 rounded text-xs">Ctrl+Z</kbd></span>}>
+        <Tooltip content={<span>Undo <kbd className="ml-1 px-1 py-0.5 bg-surface-overlay rounded text-xs">Ctrl+Z</kbd></span>}>
           <button
             onClick={onUndo}
             disabled={!canUndo}
@@ -179,7 +179,7 @@ export function FloorPlanToolbar({
             <Undo className="h-4 w-4" />
           </button>
         </Tooltip>
-        <Tooltip content={<span>Redo <kbd className="ml-1 px-1 py-0.5 bg-black/20 rounded text-xs">Ctrl+Y</kbd></span>}>
+        <Tooltip content={<span>Redo <kbd className="ml-1 px-1 py-0.5 bg-surface-overlay rounded text-xs">Ctrl+Y</kbd></span>}>
           <button
             onClick={onRedo}
             disabled={!canRedo}
@@ -200,7 +200,7 @@ export function FloorPlanToolbar({
 
       {/* Save/Export */}
       <div className="flex items-center gap-0.5">
-        <Tooltip content={<span>Save <kbd className="ml-1 px-1 py-0.5 bg-black/20 rounded text-xs">Ctrl+S</kbd></span>}>
+        <Tooltip content={<span>Save <kbd className="ml-1 px-1 py-0.5 bg-surface-overlay rounded text-xs">Ctrl+S</kbd></span>}>
           <button
             onClick={onSave}
             className="p-2 rounded-button hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"

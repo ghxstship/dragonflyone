@@ -72,8 +72,8 @@ export default function SupportChatPage() {
           background: "ink",
           content: (
             <Container size="2xl" className="py-16">
-              <Card className="border-2 border-grey-800 rounded-card overflow-hidden">
-                <Box className="p-4 border-b border-grey-800 bg-grey-900">
+              <Card className="border-2 border-border rounded-card overflow-hidden">
+                <Box className="p-4 border-b border-border bg-surface-elevated">
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <Box className="size-3 rounded-full bg-success animate-pulse" />
                     <Body className="text-white font-weight-bold">Support Agent Online</Body>
@@ -83,14 +83,14 @@ export default function SupportChatPage() {
                   <Stack gap={4}>
                     {messages.map((msg) => (
                       <Box key={msg.id} className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}>
-                        <Box className={`max-w-xs p-4 rounded-card ${msg.isUser ? "bg-primary text-white" : "bg-grey-800"}`}>
+                        <Box className={`max-w-xs p-4 rounded-card ${msg.isUser ? "bg-primary text-white" : "bg-surface-elevated"}`}>
                           <Body size="sm" className={msg.isUser ? "text-white" : "text-on-dark-secondary"}>{msg.text}</Body>
                         </Box>
                       </Box>
                     ))}
                   </Stack>
                 </Box>
-                <Box className="p-4 border-t border-grey-800 bg-grey-900">
+                <Box className="p-4 border-t border-border bg-surface-elevated">
                   <Box className="flex gap-3">
                     <Input 
                       placeholder="Type your message..." 
@@ -120,7 +120,7 @@ export default function SupportChatPage() {
 
                 <Grid cols={4} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                   {SUPPORT_FEATURES.map((feature) => (
-                    <Card key={feature.id} className="p-6 border-2 border-grey-800 rounded-card pop-card text-center">
+                    <Card key={feature.id} className="p-6 border-2 border-border rounded-card pop-card text-center">
                       <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                         {feature.icon}
                       </Box>

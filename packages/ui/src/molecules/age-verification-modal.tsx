@@ -154,12 +154,12 @@ export const AgeVerificationModal = forwardRef<HTMLDivElement, AgeVerificationMo
       >
         <Stack gap={6} className="text-center">
           {/* Age badge */}
-          <div className="mx-auto flex size-20 items-center justify-center border-4 border-black bg-brand-amber shadow-[4px_4px_0_rgba(0,0,0,0.2)]">
-            <span className="font-heading text-3xl font-bold text-black">{minimumAge}+</span>
+          <div className="mx-auto flex size-20 items-center justify-center border-4 border-border-primary bg-brand-amber shadow-hard">
+            <span className="font-heading text-3xl font-bold text-on-light-primary">{minimumAge}+</span>
           </div>
 
           {/* Title */}
-          <H2 className="text-ink-950">{title || defaultTitle}</H2>
+          <H2 className="text-foreground">{title || defaultTitle}</H2>
 
           {/* Description */}
           <Body className="text-on-dark-disabled">

@@ -97,8 +97,8 @@ export const AIChatHeader = forwardRef<HTMLDivElement, AIChatHeaderProps>(
         className={clsx(
           "flex h-14 shrink-0 items-center justify-between border-b-2 px-4",
           inverted
-            ? "border-grey-800 bg-ink-900"
-            : "border-ink-950 bg-white",
+            ? "border-border bg-surface-elevated"
+            : "border-border bg-surface-primary",
           className
         )}
         {...props}
@@ -127,7 +127,7 @@ export const AIChatSidebar = forwardRef<HTMLElement, AIChatSidebarProps>(
         ref={ref}
         className={clsx(
           "flex h-full flex-col",
-          inverted ? "bg-ink-900" : "bg-grey-50",
+          inverted ? "bg-surface-elevated" : "bg-muted",
           className
         )}
         {...props}
@@ -137,7 +137,7 @@ export const AIChatSidebar = forwardRef<HTMLElement, AIChatSidebarProps>(
           <div
             className={clsx(
               "shrink-0 border-b-2 p-4",
-              inverted ? "border-grey-800" : "border-grey-200"
+              inverted ? "border-border" : "border-border"
             )}
           >
             {header}
@@ -152,7 +152,7 @@ export const AIChatSidebar = forwardRef<HTMLElement, AIChatSidebarProps>(
           <div
             className={clsx(
               "shrink-0 border-t-2 p-4",
-              inverted ? "border-grey-800" : "border-grey-200"
+              inverted ? "border-border" : "border-border"
             )}
           >
             {footer}
@@ -177,7 +177,7 @@ export const AIChatMain = forwardRef<HTMLDivElement, AIChatMainProps>(
         ref={ref}
         className={clsx(
           "flex h-full flex-col",
-          inverted ? "bg-ink-950" : "bg-white",
+          inverted ? "bg-surface-inverse" : "bg-surface-primary",
           className
         )}
         {...props}
@@ -191,7 +191,7 @@ export const AIChatMain = forwardRef<HTMLDivElement, AIChatMainProps>(
         <div
           className={clsx(
             "shrink-0 border-t-2 p-4",
-            inverted ? "border-grey-800 bg-ink-900" : "border-grey-200 bg-grey-50"
+            inverted ? "border-border bg-surface-elevated" : "border-border bg-muted"
           )}
         >
           {input}
@@ -212,7 +212,7 @@ export const AIChatArtifact = forwardRef<HTMLElement, AIChatArtifactProps>(
         ref={ref}
         className={clsx(
           "flex h-full flex-col",
-          inverted ? "bg-ink-900" : "bg-white",
+          inverted ? "bg-surface-elevated" : "bg-surface-primary",
           className
         )}
         {...props}
@@ -222,7 +222,7 @@ export const AIChatArtifact = forwardRef<HTMLElement, AIChatArtifactProps>(
           <div
             className={clsx(
               "shrink-0 border-b-2 p-4",
-              inverted ? "border-grey-800" : "border-grey-200"
+              inverted ? "border-border" : "border-border"
             )}
           >
             {header}
@@ -237,7 +237,7 @@ export const AIChatArtifact = forwardRef<HTMLElement, AIChatArtifactProps>(
           <div
             className={clsx(
               "shrink-0 border-t-2 p-4",
-              inverted ? "border-grey-800" : "border-grey-200"
+              inverted ? "border-border" : "border-border"
             )}
           >
             {footer}
@@ -273,7 +273,7 @@ export const AIChatLayout = forwardRef<HTMLDivElement, AIChatLayoutProps>(
         ref={ref}
         className={clsx(
           "flex h-screen flex-col",
-          inverted ? "bg-ink-950" : "bg-white",
+          inverted ? "bg-surface-inverse" : "bg-surface-primary",
           className
         )}
       >
@@ -287,7 +287,7 @@ export const AIChatLayout = forwardRef<HTMLDivElement, AIChatLayoutProps>(
             <div
               className={clsx(
                 "shrink-0 overflow-hidden border-r-2 transition-all duration-200",
-                inverted ? "border-grey-800" : "border-ink-950",
+                inverted ? "border-border" : "border-border",
                 sidebarCollapsed ? "w-0" : "w-64 lg:w-72"
               )}
               aria-hidden={sidebarCollapsed}
@@ -304,7 +304,7 @@ export const AIChatLayout = forwardRef<HTMLDivElement, AIChatLayoutProps>(
             <div
               className={clsx(
                 "shrink-0 overflow-hidden border-l-2 transition-all duration-200",
-                inverted ? "border-grey-800" : "border-ink-950",
+                inverted ? "border-border" : "border-border",
                 artifactCollapsed ? "w-0" : "w-80 lg:w-96 xl:w-96"
               )}
               aria-hidden={artifactCollapsed}

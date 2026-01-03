@@ -96,7 +96,7 @@ export default function DashboardBuilderPage() {
   const builderContent = (
 
       <Grid cols={4} gap={6} className="sm:grid-cols-1 lg:grid-cols-4">
-        <Card inverted className="border-2 border-ink-800 p-4 col-span-1">
+        <Card inverted className="border-2 border-border p-4 col-span-1">
           <Stack gap={4}>
             <Stack direction="horizontal" className="justify-between items-center">
               <H3 className="text-white">Dashboards</H3>
@@ -114,7 +114,7 @@ export default function DashboardBuilderPage() {
                   className={`p-3 rounded-card text-left transition-all ${
                     selectedDashboard?.id === dashboard.id 
                       ? "bg-primary/20 border-2 border-primary" 
-                      : "bg-ink-900/50 border-2 border-transparent hover:border-ink-700"
+                      : "bg-surface-inverse/50 border-2 border-transparent hover:border-border"
                   }`}
                 >
                   <Body size="sm" className="text-white">{dashboard.name}</Body>
@@ -129,7 +129,7 @@ export default function DashboardBuilderPage() {
         <Box className="col-span-3">
           {selectedDashboard ? (
             <Stack gap={4}>
-              <Card inverted className="border-2 border-ink-800 p-4">
+              <Card inverted className="border-2 border-border p-4">
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Box>
                     <H3 className="text-white">{selectedDashboard.name}</H3>
@@ -151,14 +151,14 @@ export default function DashboardBuilderPage() {
                   <Card 
                     key={widget.id} 
                     inverted 
-                    className={`border-2 border-ink-800 p-4 ${widget.size === "large" ? "col-span-2" : ""}`}
+                    className={`border-2 border-border p-4 ${widget.size === "large" ? "col-span-2" : ""}`}
                   >
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Body size="sm" className="text-on-dark-muted">{widget.title}</Body>
                         <Badge variant="outline" className="capitalize">{widget.type}</Badge>
                       </Stack>
-                      <Box className="h-32 bg-ink-900/50 rounded-card flex items-center justify-center">
+                      <Box className="h-32 bg-surface-inverse/50 rounded-card flex items-center justify-center">
                         {widget.type === "chart" && <BarChart3 className="size-12 text-on-dark-disabled" />}
                         {widget.type === "line" && <LineChart className="size-12 text-on-dark-disabled" />}
                         {widget.type === "pie" && <PieChart className="size-12 text-on-dark-disabled" />}
@@ -171,14 +171,14 @@ export default function DashboardBuilderPage() {
               </Grid>
 
               {canManageDashboards && (
-                <Card inverted className="border-2 border-dashed border-ink-700 p-6">
+                <Card inverted className="border-2 border-dashed border-border p-6">
                   <Stack gap={4} className="items-center">
                     <Body className="text-on-dark-muted">Add a new widget</Body>
                     <Stack direction="horizontal" gap={3} className="flex-wrap justify-center">
                       {widgetTypes.map((wt) => (
                         <Button
                           key={wt.type}
-                          className="p-3 rounded-card bg-ink-900/50 border-2 border-ink-700 hover:border-primary transition-colors flex flex-col items-center gap-2"
+                          className="p-3 rounded-card bg-surface-inverse/50 border-2 border-border hover:border-primary transition-colors flex flex-col items-center gap-2"
                         >
                           <Text className="text-on-dark-muted">{wt.icon}</Text>
                           <Body size="sm" className="text-on-dark-muted">{wt.label}</Body>
@@ -190,7 +190,7 @@ export default function DashboardBuilderPage() {
               )}
             </Stack>
           ) : (
-            <Card inverted className="border-2 border-ink-800 p-8">
+            <Card inverted className="border-2 border-border p-8">
               <Stack gap={4} className="items-center justify-center py-12">
                 <LayoutGrid className="size-12 text-on-dark-disabled" />
                 <Body className="text-on-dark-muted">Select a dashboard to edit</Body>

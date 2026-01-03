@@ -154,7 +154,7 @@ export function ContactWizard() {
     <Card className="p-8">
       <Stack gap={8}>
         <Stack gap={4}>
-          <Label className="font-code text-mono-xs uppercase tracking-display text-ink-400">Multi-Step Wizard</Label>
+          <Label className="font-code text-mono-xs uppercase tracking-display text-on-light-disabled">Multi-Step Wizard</Label>
           <Grid cols={3} gap={3} className="sm:grid-cols-2 lg:grid-cols-3">
             {wizardSteps.map((item, index) => (
               <Button
@@ -174,13 +174,13 @@ export function ContactWizard() {
           <Stack gap={6}>
             <Stack>
               <H3 className="text-h5-md uppercase">{step.title}</H3>
-              <Body className="mt-2 text-ink-300">{step.description}</Body>
+              <Body className="mt-2 text-on-dark-secondary">{step.description}</Body>
             </Stack>
 
             <Stack gap={4}>
               {step.fields.map((field) => (
                 <Stack key={field.id} gap={2}>
-                  <Label className="text-mono-xs uppercase tracking-kicker text-ink-400">
+                  <Label className="text-mono-xs uppercase tracking-kicker text-on-light-disabled">
                     {field.label}
                   </Label>
                   {field.type === "textarea" ? (
@@ -198,9 +198,9 @@ export function ContactWizard() {
                       onChange={(event) => handleChange(field.id, event.target.value)}
                     />
                   )}
-                  <Body className="text-micro uppercase tracking-kicker text-ink-500">
+                  <Body className="text-micro uppercase tracking-kicker text-on-light-muted">
                     {errors[field.id] ? (
-                      <Body className="text-ink-50">{errors[field.id]}</Body>
+                      <Body className="text-error">{errors[field.id]}</Body>
                     ) : (
                       field.hint
                     )}
@@ -216,7 +216,7 @@ export function ContactWizard() {
             ) : null}
 
             <Stack direction="horizontal" gap={4} className="flex-col md:flex-row md:items-center md:justify-between">
-              <Body className="text-mono-xs uppercase tracking-kicker text-ink-500">
+              <Body className="text-mono-xs uppercase tracking-kicker text-on-light-muted">
                 Step {activeStep + 1} of {wizardSteps.length}
               </Body>
               <Stack direction="horizontal" gap={3}>

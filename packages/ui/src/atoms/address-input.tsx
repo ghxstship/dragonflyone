@@ -244,7 +244,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
       error
         ? inverted
           ? clsx(
-              "border-error-500 bg-ink-900 text-white",
+              "border-error-500 bg-surface-inverse text-on-dark-primary",
               "shadow-[2px_2px_0_rgba(239,68,68,0.3)]"
             )
           : clsx(
@@ -253,15 +253,15 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
             )
         : inverted
           ? clsx(
-              "border-grey-700 bg-ink-900 text-white",
+              "border-border bg-surface-inverse text-on-dark-primary",
               "shadow-[2px_2px_0_rgba(255,255,255,0.1)]",
-              "hover:border-grey-600",
+              "hover:border-border-primary",
               "focus:border-[var(--color-primary-400)] focus:-translate-x-px focus:-translate-y-px focus:shadow-[3px_3px_0_var(--color-primary-300)]"
             )
           : clsx(
-              "border-grey-300 bg-white text-black",
+              "border-border bg-surface-primary text-on-light-primary",
               "shadow-[2px_2px_0_rgba(0,0,0,0.08)]",
-              "hover:border-grey-400",
+              "hover:border-border-primary",
               "focus:border-[var(--color-primary-500)] focus:-translate-x-px focus:-translate-y-px focus:shadow-[3px_3px_0_var(--color-primary-200)]"
             )
     );
@@ -285,7 +285,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
               <div
                 className={clsx(
                   "size-4 animate-spin rounded-full border-2 border-t-transparent",
-                  inverted ? "border-grey-500" : "border-grey-400"
+                  inverted ? "border-border" : "border-border"
                 )}
               />
             </div>

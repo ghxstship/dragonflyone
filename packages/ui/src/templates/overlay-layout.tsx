@@ -161,9 +161,9 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
     const overlayRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
 
-    const bgClass = inverted ? "bg-ink-900" : "bg-white";
-    const borderClass = inverted ? "border-grey-800" : "border-grey-200";
-    const textClass = inverted ? "text-white" : "text-ink-900";
+    const bgClass = inverted ? "bg-surface-elevated" : "bg-surface-primary";
+    const borderClass = inverted ? "border-border" : "border-border";
+    const textClass = inverted ? "text-on-dark-primary" : "text-on-light-primary";
 
     // Handle escape key
     useEffect(() => {
@@ -301,7 +301,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-sm">
               <AlertTriangle className="size-12 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={inverted ? "text-white" : "text-ink-900"}>
+                <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
                   Error
                 </H2>
                 <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
@@ -338,7 +338,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
                 onClick={onBack}
                 className={clsx(
                   "p-1 rounded transition-colors",
-                  inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                  inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
                 )}
               >
                 <ChevronLeft className="size-5" />
@@ -360,7 +360,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
               onClick={onClose}
               className={clsx(
                 "p-2 rounded transition-colors",
-                inverted ? "hover:bg-ink-800" : "hover:bg-grey-100"
+                inverted ? "hover:bg-surface-inverse" : "hover:bg-muted"
               )}
               aria-label="Close"
             >
@@ -503,7 +503,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
             <div className="flex justify-center py-2">
               <div className={clsx(
                 "w-12 h-1 rounded-full",
-                inverted ? "bg-grey-700" : "bg-grey-300"
+                inverted ? "bg-surface-elevated" : "bg-muted"
               )} />
             </div>
             {renderHeader()}

@@ -143,17 +143,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
           return clsx(
             "bg-white text-black border-white",
             "shadow-[4px_4px_0_rgba(0,0,0,0.25)]",
-            "hover:bg-grey-100 hover:shadow-[6px_6px_0_rgba(0,0,0,0.3)]",
+            "hover:bg-muted hover:shadow-[6px_6px_0_rgba(0,0,0,0.3)]",
             "active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
-            "focus-visible:ring-white focus-visible:ring-offset-ink-950"
+            "focus-visible:ring-white focus-visible:ring-offset-surface-inverse"
           );
         case "outline":
           return clsx(
             "border-white text-white bg-transparent",
             "shadow-[3px_3px_0_rgba(0,0,0,0.2)]",
             "hover:bg-white hover:text-black hover:shadow-[5px_5px_0_rgba(0,0,0,0.25)]",
-            "active:bg-grey-100 active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
-            "focus-visible:ring-white focus-visible:ring-offset-ink-950"
+            "active:bg-muted active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
+            "focus-visible:ring-white focus-visible:ring-offset-surface-inverse"
           );
         case "ghost":
           return clsx(
@@ -171,7 +171,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
           return clsx(
             "bg-black text-white border-black",
             "shadow-[4px_4px_0_rgba(0,0,0,0.25)]",
-            "hover:bg-grey-900 hover:shadow-[6px_6px_0_rgba(0,0,0,0.3)]",
+            "hover:bg-surface-inverse hover:shadow-[6px_6px_0_rgba(0,0,0,0.3)]",
             "active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
             "focus-visible:ring-black focus-visible:ring-offset-white"
           );
@@ -180,7 +180,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
             "border-black text-black bg-transparent",
             "shadow-[3px_3px_0_rgba(0,0,0,0.15)]",
             "hover:bg-black hover:text-white hover:shadow-[5px_5px_0_rgba(0,0,0,0.25)]",
-            "active:bg-grey-900 active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
+            "active:bg-surface-inverse active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
             "focus-visible:ring-black focus-visible:ring-offset-white"
           );
         case "ghost":

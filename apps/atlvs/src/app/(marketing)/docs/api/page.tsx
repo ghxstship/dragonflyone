@@ -121,7 +121,7 @@ export default function ApiDocsPage() {
                   <Body className="text-white font-weight-bold text-h3-md">Get Started in Minutes</Body>
                 </Stack>
 
-                <Card className="p-6 border-2 border-grey-800 rounded-card">
+                <Card className="p-6 border-2 border-border rounded-card">
                   <Stack gap={4}>
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Body className="text-white font-weight-bold">Example Request</Body>
@@ -129,13 +129,13 @@ export default function ApiDocsPage() {
                         {copiedCode === "example" ? <Check className="size-4" /> : <Copy className="size-4" />}
                       </Button>
                     </Stack>
-                    <Box className="bg-grey-900 rounded-card p-4">
+                    <Box className="bg-surface-elevated rounded-card p-4">
                       <pre className="font-weight-normal text-on-dark-secondary overflow-x-auto"><code>{exampleCode}</code></pre>
                     </Box>
                   </Stack>
                 </Card>
 
-                <Card className="p-6 border-2 border-grey-800 rounded-card">
+                <Card className="p-6 border-2 border-border rounded-card">
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold">Base URL</Body>
@@ -164,7 +164,7 @@ export default function ApiDocsPage() {
 
                 <Grid cols={1} gap={3}>
                   {ENDPOINTS.map((endpoint, idx) => (
-                    <Card key={idx} className="p-4 border-2 border-grey-800 rounded-card pop-card cursor-pointer">
+                    <Card key={idx} className="p-4 border-2 border-border rounded-card pop-card cursor-pointer">
                       <Box className="flex items-center gap-4">
                         <Badge variant={METHOD_COLORS[endpoint.method]} className="w-20 justify-center">{endpoint.method}</Badge>
                         <code className="text-primary flex-1">{endpoint.path}</code>

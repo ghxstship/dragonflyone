@@ -64,7 +64,7 @@ export const SettingsRow = forwardRef<HTMLDivElement, SettingsRowProps>(
         direction="horizontal"
         className={clsx(
           "items-center justify-between py-3",
-          bordered && "border-b border-grey-700",
+          bordered && "border-b border-border",
           disabled && "opacity-50",
           className
         )}
@@ -76,7 +76,7 @@ export const SettingsRow = forwardRef<HTMLDivElement, SettingsRowProps>(
             </span>
           )}
           <Stack gap={0}>
-            <Body className={clsx("font-weight-medium", inverted ? "text-white" : "text-ink-900")}>
+            <Body className={clsx("font-weight-medium", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
               {label}
             </Body>
             {description && (
@@ -134,7 +134,7 @@ export const SettingsGroup = forwardRef<HTMLDivElement, SettingsGroupProps>(
         {(title || description) && (
           <Stack gap={1}>
             {title && (
-              <Body className={clsx("font-weight-medium", inverted ? "text-white" : "text-ink-900")}>
+              <Body className={clsx("font-weight-medium", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
                 {title}
               </Body>
             )}
@@ -200,7 +200,7 @@ export const InfoRow = forwardRef<HTMLDivElement, InfoRowProps>(
             {label}
           </Body>
         </Stack>
-        <Body className={inverted ? "text-white" : "text-ink-900"}>{value}</Body>
+        <Body className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>{value}</Body>
       </Stack>
     );
   }
@@ -249,7 +249,7 @@ export const NumberedStep = forwardRef<HTMLDivElement, NumberedStepProps>(
           <Body size="sm" className="text-white font-weight-medium">{number}</Body>
         </div>
         <Stack gap={0}>
-          <Body className={clsx("font-weight-medium", inverted ? "text-white" : "text-ink-900")}>
+          <Body className={clsx("font-weight-medium", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
             {title}
           </Body>
           {description && (

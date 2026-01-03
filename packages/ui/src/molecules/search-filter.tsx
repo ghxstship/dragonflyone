@@ -157,8 +157,8 @@ export function SearchFilter({
             className={clsx(
               "w-full font-body border-2 outline-none transition-colors duration-fast",
               inverted
-                ? "bg-ink-900 text-white border-grey-700 focus:border-grey-500"
-                : "bg-white text-black border-black focus:border-grey-700",
+                ? "bg-surface-inverse text-on-dark-primary border-border focus:border-on-dark-muted"
+                : "bg-surface-primary text-on-light-primary border-border-primary focus:border-border",
               compact ? "py-spacing-2 px-spacing-3 pl-spacing-10 text-body-sm" : "py-spacing-3 px-spacing-4 pl-spacing-12 text-body-md"
             )}
           />
@@ -202,18 +202,18 @@ export function SearchFilter({
                   onClick={() => setExpandedFilter(isExpanded ? null : group.key)}
                   className={clsx(
                     "flex items-center gap-gap-xs font-code tracking-wide uppercase border-2 cursor-pointer transition-colors duration-fast whitespace-nowrap",
-                    inverted ? "border-grey-600" : "border-black",
+                    inverted ? "border-border" : "border-border-primary",
                     compact ? "px-spacing-3 py-spacing-2 text-mono-sm" : "px-spacing-4 py-spacing-3 text-mono-md",
                     groupActiveCount > 0
-                      ? inverted ? "bg-white text-black" : "bg-black text-white"
-                      : inverted ? "bg-transparent text-on-dark-secondary hover:bg-grey-800" : "bg-white text-black hover:bg-grey-100"
+                      ? inverted ? "bg-surface-primary text-on-light-primary" : "bg-surface-inverse text-on-dark-primary"
+                      : inverted ? "bg-transparent text-on-dark-secondary hover:bg-surface-elevated" : "bg-surface-primary text-on-light-primary hover:bg-muted"
                   )}
                 >
                   {group.label}
                   {showCounts && groupActiveCount > 0 && (
                     <span className={clsx(
                       "px-spacing-1 py-spacing-0.5 text-mono-xs font-weight-bold",
-                      inverted ? "bg-black text-white" : "bg-white text-black"
+                      inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary"
                     )}>
                       {groupActiveCount}
                     </span>
@@ -225,7 +225,7 @@ export function SearchFilter({
                 {isExpanded && (
                   <div className={clsx(
                     "absolute top-full left-0 mt-spacing-1 min-w-container-sm max-h-container-lg overflow-y-auto border-2 z-dropdown",
-                    inverted ? "bg-ink-900 border-grey-600" : "bg-white border-black"
+                    inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border-primary"
                   )}>
                     {group.options.map((option) => {
                       const isActive = isOptionActive(group.key, option.value);
@@ -239,8 +239,8 @@ export function SearchFilter({
                           className={clsx(
                             "flex justify-between items-center w-full px-spacing-4 py-spacing-3 font-body text-body-sm border-none border-b cursor-pointer text-left transition-colors duration-fast",
                             inverted
-                              ? clsx("text-on-dark-secondary border-grey-700", isActive ? "bg-grey-800" : "hover:bg-grey-800")
-                              : clsx("text-black border-grey-200", isActive ? "bg-grey-100" : "bg-white hover:bg-grey-50")
+                              ? clsx("text-on-dark-secondary border-border", isActive ? "bg-surface-elevated" : "hover:bg-surface-elevated")
+                              : clsx("text-on-light-primary border-border", isActive ? "bg-muted" : "bg-surface-primary hover:bg-muted")
                           )}
                         >
                           <span className="flex items-center gap-gap-xs">
@@ -249,8 +249,8 @@ export function SearchFilter({
                                 className={clsx(
                                   "w-spacing-4 h-spacing-4 border-2 flex items-center justify-center text-micro",
                                   inverted
-                                    ? clsx("border-grey-500", isActive ? "bg-white text-black" : "bg-transparent")
-                                    : clsx("border-black", isActive ? "bg-black text-white" : "bg-white")
+                                    ? clsx("border-border", isActive ? "bg-surface-primary text-on-light-primary" : "bg-transparent")
+                                    : clsx("border-border-primary", isActive ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary")
                                 )}
                               >
                                 {isActive && <Check className="size-3" />}
@@ -296,8 +296,8 @@ export function SearchFilter({
                   className={clsx(
                     "flex items-center gap-gap-xs px-spacing-2 py-spacing-1 font-code text-mono-xs tracking-wide border cursor-pointer transition-colors duration-fast",
                     inverted
-                      ? "bg-grey-800 text-on-dark-secondary border-grey-600 hover:bg-grey-700"
-                      : "bg-grey-100 text-on-dark-disabled border-grey-300 hover:bg-grey-200"
+                      ? "bg-surface-elevated text-on-dark-secondary border-border hover:bg-surface-inverse"
+                      : "bg-muted text-on-dark-disabled border-border hover:bg-muted"
                   )}
                 >
                   {option.label}
@@ -311,7 +311,7 @@ export function SearchFilter({
             onClick={onClearAll}
             className={clsx(
               "px-spacing-2 py-spacing-1 font-code text-mono-xs tracking-wide bg-transparent border-none cursor-pointer underline",
-              inverted ? "text-on-dark-muted hover:text-white" : "text-on-dark-disabled hover:text-black"
+              inverted ? "text-on-dark-muted hover:text-on-dark-primary" : "text-on-dark-disabled hover:text-on-light-primary"
             )}
           >
             CLEAR ALL

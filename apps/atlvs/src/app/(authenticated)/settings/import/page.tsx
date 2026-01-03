@@ -81,7 +81,7 @@ export default function ImportSettingsPage() {
                 onClick={() => setSelectedImport(option.id)}
               >
                 <Box className="flex items-start gap-3">
-                  <Box className={`p-2 rounded-card ${selectedImport === option.id ? "bg-primary text-white" : "bg-grey-800 text-on-dark-muted"}`}>
+                  <Box className={`p-2 rounded-card ${selectedImport === option.id ? "bg-primary text-white" : "bg-surface-elevated text-on-dark-muted"}`}>
                     {option.icon}
                   </Box>
                   <Box className="flex-1">

@@ -126,7 +126,7 @@ export default function TemplatesPage() {
             <Container size="2xl" className="py-12">
               <Stack gap={8}>
                 {filteredTemplates.length === 0 ? (
-                  <Card className="p-12 text-center border-2 border-grey-800">
+                  <Card className="p-12 text-center border-2 border-border">
                     <Stack gap={4} className="items-center">
                       <Filter className="size-12 text-on-dark-muted" />
                       <Body className="text-on-dark-muted">No templates match your search criteria.</Body>
@@ -143,11 +143,11 @@ export default function TemplatesPage() {
                       return (
                         <Card
                           key={template.id}
-                          className="p-5 border-2 border-grey-800 rounded-card pop-card-gvteway group"
+                          className="p-5 border-2 border-border rounded-card pop-card-gvteway group"
                         >
                           <Stack gap={4}>
                             <Stack direction="horizontal" className="justify-between items-start">
-                              <Box className="p-2 bg-grey-800 rounded-card group-hover:bg-primary/20 transition-colors">
+                              <Box className="p-2 bg-surface-elevated rounded-card group-hover:bg-primary/20 transition-colors">
                                 <FileText className="size-5 text-on-dark-muted group-hover:text-primary transition-colors" />
                               </Box>
                               <Stack direction="horizontal" gap={2}>

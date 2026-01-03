@@ -188,7 +188,7 @@ export default function WebinarsPage() {
   const webinarsSidebar = (
     <Stack gap={6}>
       {/* Categories */}
-      <Card className="p-5 border-2 border-grey-800 rounded-card">
+      <Card className="p-5 border-2 border-border rounded-card">
         <Body className="text-white font-weight-bold mb-4">Categories</Body>
         <Stack gap={2}>
           {CATEGORIES.map((category) => (
@@ -208,7 +208,7 @@ export default function WebinarsPage() {
       </Card>
 
       {/* Featured Hosts */}
-      <Card className="p-5 border-2 border-grey-800 rounded-card">
+      <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Users className="size-5 text-primary" />
           <Body className="text-white font-weight-bold">Featured Hosts</Body>
@@ -231,14 +231,14 @@ export default function WebinarsPage() {
       </Card>
 
       {/* Upcoming Schedule */}
-      <Card className="p-5 border-2 border-grey-800 rounded-card">
+      <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Calendar className="size-5 text-warning" />
           <Body className="text-white font-weight-bold">This Week</Body>
         </Box>
         <Stack gap={3}>
           {DEMO_WEBINARS.filter(w => !w.isRecorded).slice(0, 3).map((webinar) => (
-            <Box key={webinar.id} className="p-3 bg-grey-900 rounded-card cursor-pointer hover:bg-grey-800" onClick={() => handleViewWebinar(webinar.id)}>
+            <Box key={webinar.id} className="p-3 bg-surface-elevated rounded-card cursor-pointer hover:bg-surface-elevated" onClick={() => handleViewWebinar(webinar.id)}>
               <Body size="sm" className="text-white font-weight-medium line-clamp-1">{webinar.title}</Body>
               <Body size="xs" className="text-on-dark-muted">{formatDate(webinar.date)} at {webinar.time}</Body>
             </Box>
@@ -302,7 +302,7 @@ export default function WebinarsPage() {
               return (
                 <Card 
                   key={webinar.id} 
-                  className="p-5 border-2 border-grey-800 rounded-card cursor-pointer hover:border-grey-700 transition-colors"
+                  className="p-5 border-2 border-border rounded-card cursor-pointer hover:border-border transition-colors"
                   onClick={() => handleViewWebinar(webinar.id)}
                 >
                   <Box className="flex gap-4">
@@ -375,7 +375,7 @@ export default function WebinarsPage() {
               );
             })
           ) : (
-            <Card className="p-8 border-2 border-grey-800 rounded-card text-center">
+            <Card className="p-8 border-2 border-border rounded-card text-center">
               <Calendar className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-white font-weight-bold mb-2">No upcoming webinars</Body>
               <Body size="sm" className="text-on-dark-muted mb-4">
@@ -395,7 +395,7 @@ export default function WebinarsPage() {
               return (
                 <Card 
                   key={webinar.id} 
-                  className="p-5 border-2 border-grey-800 rounded-card cursor-pointer hover:border-grey-700"
+                  className="p-5 border-2 border-border rounded-card cursor-pointer hover:border-border"
                   onClick={() => handleViewWebinar(webinar.id)}
                 >
                   <Box className="flex items-center gap-4">
@@ -429,7 +429,7 @@ export default function WebinarsPage() {
               );
             })
           ) : (
-            <Card className="p-8 border-2 border-grey-800 rounded-card text-center">
+            <Card className="p-8 border-2 border-border rounded-card text-center">
               <Bell className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-white font-weight-bold mb-2">No registrations yet</Body>
               <Body size="sm" className="text-on-dark-muted mb-4">
@@ -450,7 +450,7 @@ export default function WebinarsPage() {
             recordedWebinars.map((webinar) => (
               <Card 
                 key={webinar.id} 
-                className="p-5 border-2 border-grey-800 rounded-card cursor-pointer hover:border-grey-700"
+                className="p-5 border-2 border-border rounded-card cursor-pointer hover:border-border"
                 onClick={() => handleViewWebinar(webinar.id)}
               >
                 <Box className="flex gap-4">
@@ -501,7 +501,7 @@ export default function WebinarsPage() {
               </Card>
             ))
           ) : (
-            <Card className="p-8 border-2 border-grey-800 rounded-card text-center">
+            <Card className="p-8 border-2 border-border rounded-card text-center">
               <Video className="size-12 text-on-dark-disabled mx-auto mb-4" />
               <Body className="text-white font-weight-bold mb-2">No recordings available</Body>
               <Body size="sm" className="text-on-dark-muted mb-4">

@@ -75,13 +75,13 @@ const eventColors: Record<AuditEventType, string> = {
   create: "bg-success-500 text-white",
   update: "bg-primary-500 text-white",
   delete: "bg-error-500 text-white",
-  view: "bg-grey-400 text-white",
+  view: "bg-muted text-white",
   comment: "bg-secondary-500 text-white",
   attachment: "bg-accent-500 text-black",
   link: "bg-info-500 text-white",
   assign: "bg-warning-500 text-black",
   status_change: "bg-primary-600 text-white",
-  custom: "bg-grey-600 text-white",
+  custom: "bg-muted text-white",
 };
 
 function defaultFormatTimestamp(timestamp: string | Date): string {
@@ -125,7 +125,7 @@ export function AuditTimeline({
   if (loading) {
     return (
       <div className={clsx("flex items-center justify-center py-spacing-12", className)}>
-        <div className="w-spacing-6 h-spacing-6 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
+        <div className="w-spacing-6 h-spacing-6 border-2 border-border border-t-black rounded-full animate-spin" />
       </div>
     );
   }
@@ -144,7 +144,7 @@ export function AuditTimeline({
       style={{ maxHeight, overflowY: maxHeight ? "auto" : undefined }}
     >
       {/* Timeline line */}
-      <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-grey-200" aria-hidden="true" />
+      <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-muted" aria-hidden="true" />
 
       <ul className="space-y-spacing-4" role="list" aria-label="Activity timeline">
         {events.map((event, index) => (
@@ -220,7 +220,7 @@ export function AuditTimeline({
             {/* Connector to next item */}
             {index < events.length - 1 && (
               <div
-                className="absolute left-4 top-8 bottom-0 w-0.5 bg-grey-200"
+                className="absolute left-4 top-8 bottom-0 w-0.5 bg-muted"
                 aria-hidden="true"
               />
             )}

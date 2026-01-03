@@ -188,15 +188,15 @@ export default function CompvssDashboardPage() {
           <Card inverted className="p-4">
             <Body className="text-white font-weight-medium mb-3">Crew Status Today</Body>
             <Stack gap={2}>
-              <Stack direction="horizontal" className="justify-between border-b border-grey-700 pb-2">
+              <Stack direction="horizontal" className="justify-between border-b border-border pb-2">
                 <Body size="sm" className="text-on-dark-muted">Total Crew</Body>
                 <Body size="sm" className="text-white">{stats.totalCrew}</Body>
               </Stack>
-              <Stack direction="horizontal" className="justify-between border-b border-grey-700 pb-2">
+              <Stack direction="horizontal" className="justify-between border-b border-border pb-2">
                 <Body size="sm" className="text-on-dark-muted">Available</Body>
                 <Body size="sm" className="text-white">{stats.activeCrew}</Body>
               </Stack>
-              <Stack direction="horizontal" className="justify-between border-b border-grey-700 pb-2">
+              <Stack direction="horizontal" className="justify-between border-b border-border pb-2">
                 <Body size="sm" className="text-on-dark-muted">Equipment Available</Body>
                 <Body size="sm" className="text-white">{stats.availableEquipment}</Body>
               </Stack>

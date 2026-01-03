@@ -76,7 +76,7 @@ export default function ConnectedAppsPage() {
                   <Card key={app.id} className="p-4">
                     <Box className="flex items-start justify-between">
                       <Box className="flex items-center gap-4">
-                        <Box className="w-12 h-12 bg-grey-700 rounded-card flex items-center justify-center">
+                        <Box className="w-12 h-12 bg-border rounded-card flex items-center justify-center">
                           <Link2 className="size-6 text-on-dark-muted" />
                         </Box>
                         <Box>

@@ -200,7 +200,7 @@ export function FileUpload({
         className={clsx(
           "border-2 border-dashed text-center transition-colors duration-base",
           compact ? "p-spacing-6" : "p-spacing-10",
-          isDragging ? "border-black bg-grey-100" : disabled ? "border-grey-300" : "border-grey-500 bg-white hover:border-black hover:bg-grey-50",
+          isDragging ? "border-border-primary bg-muted" : disabled ? "border-border" : "border-border bg-surface-primary hover:border-border-primary hover:bg-muted",
           disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
         )}
       >
@@ -222,7 +222,7 @@ export function FileUpload({
         {/* Label */}
         <div
           className={clsx(
-            "font-code text-black tracking-widest mb-spacing-2",
+            "font-code text-on-light-primary tracking-widest mb-spacing-2",
             compact ? "text-mono-sm" : "text-mono-md"
           )}
         >
@@ -252,7 +252,7 @@ export function FileUpload({
               key={file.id}
               className={clsx(
                 "flex items-center gap-gap-sm px-spacing-4 py-spacing-3 border",
-                file.status === "error" ? "bg-grey-100 border-grey-400" : "bg-white border-grey-200"
+                file.status === "error" ? "bg-muted border-border" : "bg-surface-primary border-border"
               )}
             >
               {/* File icon */}
@@ -260,7 +260,7 @@ export function FileUpload({
 
               {/* File info */}
               <div className="flex-1 min-w-0">
-                <div className="font-body text-body-sm text-black overflow-hidden text-ellipsis whitespace-nowrap">
+                <div className="font-body text-body-sm text-on-light-primary overflow-hidden text-ellipsis whitespace-nowrap">
                   {file.name}
                 </div>
                 <div
@@ -276,9 +276,9 @@ export function FileUpload({
 
                 {/* Progress bar */}
                 {file.status === "uploading" && file.progress !== undefined && (
-                  <div className="h-spacing-1 bg-grey-200 mt-spacing-1">
+                  <div className="h-spacing-1 bg-muted mt-spacing-1">
                     <div
-                      className="h-full bg-black transition-all duration-fast"
+                      className="h-full bg-surface-inverse transition-all duration-fast"
                       style={{ width: `${file.progress}%` }}
                     />
                   </div>
@@ -293,7 +293,7 @@ export function FileUpload({
               ) : (
                 <button
                   onClick={() => onFileRemove?.(file.id)}
-                  className="w-icon-lg h-icon-lg bg-transparent border-none cursor-pointer text-on-dark-disabled text-mono-sm flex items-center justify-center transition-colors duration-fast hover:text-black"
+                  className="w-icon-lg h-icon-lg bg-transparent border-none cursor-pointer text-on-dark-disabled text-mono-sm flex items-center justify-center transition-colors duration-fast hover:text-on-light-primary"
                   aria-label={`Remove ${file.name}`}
                 >
                   <X className="size-4" />

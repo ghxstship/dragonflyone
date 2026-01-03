@@ -147,7 +147,7 @@ export default function DemoPage() {
                   </Stack>
                 </Stack>
 
-                <Card className="p-8 border-2 border-grey-800 rounded-card">
+                <Card className="p-8 border-2 border-border rounded-card">
                   <Stack gap={6} className="text-center">
                     <Stack gap={2}>
                       <Body className="text-primary font-weight-semibold">Average Demo Duration</Body>

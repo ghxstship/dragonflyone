@@ -161,11 +161,11 @@ export default function GeneratorPage() {
               <Box className="flex size-16 items-center justify-center border-2 border-error bg-error/10">
                 <Text className="text-h3-md text-error">!</Text>
               </Box>
-              <H2 className="text-ink-950">Something went wrong</H2>
-              <Body className="text-grey-600">{error}</Body>
+              <H2 className="text-on-light-primary">Something went wrong</H2>
+              <Body className="text-on-light-secondary">{error}</Body>
               <Button
                 onClick={reset}
-                className="border-2 border-ink-950 bg-white px-8 py-4 font-display uppercase tracking-label shadow-sm"
+                className="border-2 border-border bg-white px-8 py-4 font-display uppercase tracking-label shadow-sm"
               >
                 Try Again
               </Button>
@@ -189,20 +189,20 @@ export default function GeneratorPage() {
               <Stack direction="horizontal" gap={3} className="items-center">
                 <Button
                   onClick={toggleSidebar}
-                  className="flex size-9 items-center justify-center border-2 border-ink-950 bg-white p-0 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
+                  className="flex size-9 items-center justify-center border-2 border-border bg-white p-0 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
                   aria-label={sidebarCollapsed ? "Show history" : "Hide history"}
                 >
                   {sidebarCollapsed ? (
-                    <PanelLeftOpen className="size-4 text-ink-950" />
+                    <PanelLeftOpen className="size-4 text-on-light-primary" />
                   ) : (
-                    <PanelLeftClose className="size-4 text-ink-950" />
+                    <PanelLeftClose className="size-4 text-on-light-primary" />
                   )}
                 </Button>
                 <Stack direction="horizontal" gap={2} className="items-center">
-                  <Box className="flex size-8 items-center justify-center border-2 border-ink-950 bg-primary">
+                  <Box className="flex size-8 items-center justify-center border-2 border-border bg-primary">
                     <Sparkles className="size-4 text-white" />
                   </Box>
-                  <Text className="font-display text-h6-md uppercase tracking-label text-ink-950">
+                  <Text className="font-display text-h6-md uppercase tracking-label text-on-light-primary">
                     Experience Generator
                   </Text>
                   <Badge className="border-2 border-primary bg-primary/10 px-2 py-0.5 font-mono text-mono-xs uppercase text-primary">
@@ -215,20 +215,20 @@ export default function GeneratorPage() {
               <Stack direction="horizontal" gap={2} className="items-center">
                 <Button
                   onClick={reset}
-                  className="flex items-center gap-sm border-2 border-ink-950 bg-white px-3 py-2 font-display text-mono-xs uppercase tracking-label text-ink-950 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
+                  className="flex items-center gap-sm border-2 border-border bg-white px-3 py-2 font-display text-mono-xs uppercase tracking-label text-on-light-primary transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
                 >
                   <Plus className="size-4" />
                   <Text className="hidden sm:inline">New</Text>
                 </Button>
                 <Button
                   onClick={toggleArtifact}
-                  className="flex size-9 items-center justify-center border-2 border-ink-950 bg-white p-0 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
+                  className="flex size-9 items-center justify-center border-2 border-border bg-white p-0 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
                   aria-label={artifactCollapsed ? "Show blueprint" : "Hide blueprint"}
                 >
                   {artifactCollapsed ? (
-                    <PanelRightOpen className="size-4 text-ink-950" />
+                    <PanelRightOpen className="size-4 text-on-light-primary" />
                   ) : (
-                    <PanelRightClose className="size-4 text-ink-950" />
+                    <PanelRightClose className="size-4 text-on-light-primary" />
                   )}
                 </Button>
               </Stack>
@@ -238,7 +238,7 @@ export default function GeneratorPage() {
         sidebar={
           <AIChatSidebar
             header={
-              <Text className="font-heading text-h6-sm uppercase tracking-label text-ink-950">
+              <Text className="font-heading text-h6-sm uppercase tracking-label text-on-light-primary">
                 Conversation History
               </Text>
             }
@@ -276,14 +276,14 @@ export default function GeneratorPage() {
                         <Stack direction="horizontal" gap={1}>
                           <Button
                             onClick={() => handleCopyMessage(msg.content)}
-                            className="flex size-7 items-center justify-center bg-transparent p-0 text-grey-400 hover:text-ink-950"
+                            className="flex size-7 items-center justify-center bg-transparent p-0 text-on-light-disabled hover:text-on-light-primary"
                             aria-label="Copy message"
                           >
                             <Copy className="size-3.5" />
                           </Button>
                           <Button
                             onClick={() => handleSendMessage("Regenerate the last response")}
-                            className="flex size-7 items-center justify-center bg-transparent p-0 text-grey-400 hover:text-ink-950"
+                            className="flex size-7 items-center justify-center bg-transparent p-0 text-on-light-disabled hover:text-on-light-primary"
                             aria-label="Regenerate"
                           >
                             <RefreshCw className="size-3.5" />
@@ -317,7 +317,7 @@ export default function GeneratorPage() {
                     <Button
                       type="submit"
                       disabled={!inputValue.trim() || isGenerating}
-                      className="flex size-9 items-center justify-center border-2 border-ink-950 bg-primary p-0 text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm disabled:opacity-50"
+                      className="flex size-9 items-center justify-center border-2 border-border bg-primary p-0 text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm disabled:opacity-50"
                       aria-label="Send message"
                     >
                       {isGenerating ? (
@@ -348,7 +348,7 @@ export default function GeneratorPage() {
           <AIChatArtifact
             header={
               <Stack direction="horizontal" gap={2} className="items-center justify-between">
-                <Text className="font-heading text-h6-sm uppercase tracking-label text-ink-950">
+                <Text className="font-heading text-h6-sm uppercase tracking-label text-on-light-primary">
                   Blueprint Preview
                 </Text>
                 <Badge className="border-2 border-success/30 bg-success/10 px-2 py-0.5 font-mono text-mono-xs text-success">
