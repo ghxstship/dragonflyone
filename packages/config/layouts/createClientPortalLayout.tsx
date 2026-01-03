@@ -90,7 +90,7 @@ function DefaultLoadingState({ text }: { text: string }) {
     <div className="min-h-screen flex items-center justify-center bg-surface-inverse">
       <div className="flex flex-col items-center gap-4">
         <div className="animate-spin rounded-avatar h-8 w-8 border-b-2 border-border" />
-        <span className="text-on-light-disabled">{text}</span>
+        <span className="text-text-disabled">{text}</span>
       </div>
     </div>
   );

@@ -178,7 +178,7 @@ function SettingsCategoryCard({
               <div
                 className={clsx(
                   "size-6",
-                  inverted ? "text-on-dark-secondary" : "text-on-light-muted"
+                  inverted ? "text-text-secondary" : "text-text-muted"
                 )}
               >
                 {category.icon}
@@ -190,7 +190,7 @@ function SettingsCategoryCard({
               <Body
                 className={clsx(
                   "font-display font-semibold",
-                  inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                  inverted ? "text-text-primary" : "text-text-primary"
                 )}
               >
                 {category.title}
@@ -211,7 +211,7 @@ function SettingsCategoryCard({
             {category.description && (
               <Label
                 size="sm"
-                className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}
+                className={inverted ? "text-text-muted" : "text-text-muted"}
               >
                 {category.description}
               </Label>
@@ -222,7 +222,7 @@ function SettingsCategoryCard({
           <ChevronRight
             className={clsx(
               "size-5 shrink-0",
-              inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+              inverted ? "text-text-disabled" : "text-text-muted"
             )}
           />
         )}

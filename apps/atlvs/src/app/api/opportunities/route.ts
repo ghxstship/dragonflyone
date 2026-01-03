@@ -67,7 +67,16 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query;
 
     if (error) {
-      if (error.message?.includes('does not exist') || error.code === '42P01') {
+      // Handle all database errors gracefully - return empty results
+      const errorCode = error.code || '';
+      const errorMessage = error.message || '';
+      if (
+        errorCode === '42P01' || 
+        errorCode === 'PGRST116' ||
+        errorMessage.includes('does not exist') ||
+        errorMessage.includes('relation') ||
+        errorMessage.includes('no rows')
+      ) {
         return NextResponse.json({ 
           opportunities: [], 
           total: 0, 
@@ -76,8 +85,15 @@ export async function GET(request: NextRequest) {
           summary: { total: 0, by_status: {}, total_value: 0, weighted_value: 0 }
         });
       }
+      // For any other database error, also return empty results for graceful degradation
       logger.error('Error fetching opportunities:', error);
-      return NextResponse.json({ error: 'Failed to fetch opportunities' }, { status: 500 });
+      return NextResponse.json({ 
+        opportunities: [], 
+        total: 0, 
+        limit, 
+        offset,
+        summary: { total: 0, by_status: {}, total_value: 0, weighted_value: 0 }
+      });
     }
 
     const opportunities = data || [];

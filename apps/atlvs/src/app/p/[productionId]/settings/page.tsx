@@ -96,15 +96,15 @@ export default function ProductionSettingsPage() {
             <SectionHeader title="General Settings" description="Basic production information" />
             <Stack gap={4} className="mt-4">
               <Box>
-                <Body size="sm" className="text-on-dark-muted mb-1">Production Name</Body>
+                <Body size="sm" className="text-text-muted mb-1">Production Name</Body>
                 <Input value={formData.name} onChange={(e) => handleChange("name", e.target.value)} placeholder="Enter production name" />
               </Box>
               <Box>
-                <Body size="sm" className="text-on-dark-muted mb-1">Description</Body>
+                <Body size="sm" className="text-text-muted mb-1">Description</Body>
                 <Textarea value={formData.description} onChange={(e) => handleChange("description", e.target.value)} placeholder="Enter description" rows={3} />
               </Box>
               <Box>
-                <Body size="sm" className="text-on-dark-muted mb-1">Status</Body>
+                <Body size="sm" className="text-text-muted mb-1">Status</Body>
                 <Select value={formData.status} onChange={(e) => handleChange("status", e.target.value)}>
                   <option value="planning">Planning</option>
                   <option value="active">Active</option>
@@ -130,7 +130,7 @@ export default function ProductionSettingsPage() {
             <SectionHeader title="Access Settings" description="Control who can access this production" />
             <Stack gap={4} className="mt-4">
               <Box>
-                <Body size="sm" className="text-on-dark-muted mb-1">Visibility</Body>
+                <Body size="sm" className="text-text-muted mb-1">Visibility</Body>
                 <Select value={formData.visibility} onChange={(e) => handleChange("visibility", e.target.value)}>
                   <option value="private">Private - Only invited members</option>
                   <option value="team">Team - All team members</option>
@@ -155,7 +155,7 @@ export default function ProductionSettingsPage() {
             <SectionHeader title="Danger Zone" description="Irreversible actions" />
             <Box className="mt-4 p-4 bg-error/10 rounded-card">
               <Body className="font-weight-medium mb-2">Delete Production</Body>
-              <Body size="sm" className="text-on-dark-muted mb-4">Once you delete a production, there is no going back. Please be certain.</Body>
+              <Body size="sm" className="text-text-muted mb-4">Once you delete a production, there is no going back. Please be certain.</Body>
               <Button variant="outline" className="border-error text-error" onClick={() => setShowDeleteModal(true)} icon={<Trash2 className="size-4" />} iconPosition="left">
                 Delete Production
               </Button>
@@ -184,7 +184,7 @@ export default function ProductionSettingsPage() {
       <Modal open={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
         <ModalHeader><Body className="font-weight-bold font-weight-medium">Delete Production</Body></ModalHeader>
         <ModalBody>
-          <Body className="text-on-dark-muted">Are you sure you want to delete this production? This action cannot be undone and all associated data will be permanently removed.</Body>
+          <Body className="text-text-muted">Are you sure you want to delete this production? This action cannot be undone and all associated data will be permanently removed.</Body>
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setShowDeleteModal(false)}>Cancel</Button>

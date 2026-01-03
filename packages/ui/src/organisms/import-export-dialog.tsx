@@ -146,7 +146,7 @@ export function ImportExportDialog({
         onClick={onClose}
         disabled={processing}
         className={clsx(
-          "px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-primary text-on-light-primary border-2 border-border",
+          "px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-primary text-text-primary border-2 border-border",
           processing ? "cursor-not-allowed" : "cursor-pointer hover:bg-muted"
         )}
       >
@@ -157,7 +157,7 @@ export function ImportExportDialog({
         onClick={mode === "import" ? handleImport : handleExport}
         disabled={processing || loading || (mode === "import" && !selectedFile) || (mode === "export" && selectedColumns.size === 0)}
         className={clsx(
-          "px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-inverse text-on-dark-primary border-2 border-border flex items-center gap-2",
+          "px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-inverse text-text-primary border-2 border-border flex items-center gap-2",
           processing || (mode === "import" && !selectedFile) || (mode === "export" && selectedColumns.size === 0)
             ? "cursor-not-allowed opacity-50"
             : "cursor-pointer hover:bg-surface-elevated"
@@ -215,11 +215,11 @@ export function ImportExportDialog({
                 onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
                 className="hidden"
               />
-              <div className="text-4xl mb-4"><Upload className="size-10 mx-auto text-on-light-muted" /></div>
+              <div className="text-4xl mb-4"><Upload className="size-10 mx-auto text-text-muted" /></div>
               <div className="font-mono text-base tracking-widest mb-2">
                 DROP FILE HERE OR CLICK TO UPLOAD
               </div>
-              <div className="font-body text-sm text-on-light-muted">
+              <div className="font-body text-sm text-text-muted">
                 Supported formats: {acceptedFormats.replace(/\./g, "").toUpperCase()}
               </div>
               {templateDownloadUrl && (
@@ -241,7 +241,7 @@ export function ImportExportDialog({
           {importStep === "mapping" && selectedFile && (
             <div>
               <div className="mb-6 p-4 bg-muted border-2 border-border rounded-card">
-                <div className="font-mono text-sm text-on-light-muted">Selected file:</div>
+                <div className="font-mono text-sm text-text-muted">Selected file:</div>
                 <div className="font-body text-base font-semibold">{selectedFile.name}</div>
               </div>
 
@@ -274,7 +274,7 @@ export function ImportExportDialog({
                     {sampleFields.map(field => (
                       <div key={field} className="flex items-center gap-3">
                         <span className="flex-1 font-mono text-sm">{field}</span>
-                        <ArrowRight className="size-4 text-on-light-muted" />
+                        <ArrowRight className="size-4 text-text-muted" />
                         <input
                           type="text"
                           value={fieldMapping[field] || ""}
@@ -305,7 +305,7 @@ export function ImportExportDialog({
                   onClick={() => setSelectedFormat(format)}
                   className={clsx(
                     "px-4 py-2 font-mono text-sm tracking-wide uppercase border-2 border-border cursor-pointer",
-                    selectedFormat === format ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary hover:bg-muted"
+                    selectedFormat === format ? "bg-surface-inverse text-text-primary" : "bg-surface-primary text-text-primary hover:bg-muted"
                   )}
                 >
                   {format}
@@ -322,8 +322,8 @@ export function ImportExportDialog({
                   Select Columns ({selectedColumns.size}/{columns.length})
                 </div>
                 <div className="flex gap-2">
-                  <button type="button" onClick={selectAllColumns} className="font-mono text-xs text-on-light-muted bg-transparent border-none cursor-pointer underline">All</button>
-                  <button type="button" onClick={deselectAllColumns} className="font-mono text-xs text-on-light-muted bg-transparent border-none cursor-pointer underline">None</button>
+                  <button type="button" onClick={selectAllColumns} className="font-mono text-xs text-text-muted bg-transparent border-none cursor-pointer underline">All</button>
+                  <button type="button" onClick={deselectAllColumns} className="font-mono text-xs text-text-muted bg-transparent border-none cursor-pointer underline">None</button>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-2 max-h-64 overflow-auto p-2 border-2 border-border rounded-card">
@@ -338,7 +338,7 @@ export function ImportExportDialog({
           )}
 
           {totalRecords !== undefined && (
-            <div className="mt-4 font-mono text-sm text-on-light-muted">
+            <div className="mt-4 font-mono text-sm text-text-muted">
               {totalRecords.toLocaleString()} records will be exported
             </div>
           )}

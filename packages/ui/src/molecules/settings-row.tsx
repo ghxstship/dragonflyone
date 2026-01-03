@@ -71,16 +71,16 @@ export const SettingsRow = forwardRef<HTMLDivElement, SettingsRowProps>(
       >
         <Stack direction="horizontal" gap={3} className="items-center">
           {icon && (
-            <span className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+            <span className={inverted ? "text-text-muted" : "text-text-muted"}>
               {icon}
             </span>
           )}
           <Stack gap={0}>
-            <Body className={clsx("font-weight-medium", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+            <Body className={clsx("font-weight-medium", inverted ? "text-text-primary" : "text-text-primary")}>
               {label}
             </Body>
             {description && (
-              <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body size="sm" className={inverted ? "text-text-muted" : "text-text-muted"}>
                 {description}
               </Body>
             )}
@@ -134,12 +134,12 @@ export const SettingsGroup = forwardRef<HTMLDivElement, SettingsGroupProps>(
         {(title || description) && (
           <Stack gap={1}>
             {title && (
-              <Body className={clsx("font-weight-medium", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+              <Body className={clsx("font-weight-medium", inverted ? "text-text-primary" : "text-text-primary")}>
                 {title}
               </Body>
             )}
             {description && (
-              <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body size="sm" className={inverted ? "text-text-muted" : "text-text-muted"}>
                 {description}
               </Body>
             )}
@@ -192,15 +192,15 @@ export const InfoRow = forwardRef<HTMLDivElement, InfoRowProps>(
       <Stack ref={ref} gap={1} className={className}>
         <Stack direction="horizontal" gap={2} className="items-center">
           {icon && (
-            <span className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"}>
+            <span className={inverted ? "text-text-disabled" : "text-text-disabled"}>
               {icon}
             </span>
           )}
-          <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+          <Body size="sm" className={inverted ? "text-text-muted" : "text-text-muted"}>
             {label}
           </Body>
         </Stack>
-        <Body className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>{value}</Body>
+        <Body className={inverted ? "text-text-primary" : "text-text-primary"}>{value}</Body>
       </Stack>
     );
   }
@@ -249,11 +249,11 @@ export const NumberedStep = forwardRef<HTMLDivElement, NumberedStepProps>(
           <Body size="sm" className="text-white font-weight-medium">{number}</Body>
         </div>
         <Stack gap={0}>
-          <Body className={clsx("font-weight-medium", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+          <Body className={clsx("font-weight-medium", inverted ? "text-text-primary" : "text-text-primary")}>
             {title}
           </Body>
           {description && (
-            <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+            <Body size="sm" className={inverted ? "text-text-muted" : "text-text-muted"}>
               {description}
             </Body>
           )}

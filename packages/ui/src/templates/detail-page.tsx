@@ -160,7 +160,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
       }
     }, [onTabChange]);
 
-    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+    const bgClass = inverted ? "bg-surface-inverse text-text-primary" : "bg-surface-primary text-text-primary";
 
     // Render state content
     const renderStateContent = (
@@ -173,8 +173,8 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
         <Stack gap={6} className="items-center text-center max-w-md">
           {icon}
           <Stack gap={2} className="items-center">
-            <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>{title}</H2>
-            <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>{message}</Body>
+            <H2 className={inverted ? "text-text-primary" : "text-text-primary"}>{title}</H2>
+            <Body className={inverted ? "text-text-muted" : "text-text-muted"}>{message}</Body>
           </Stack>
           {action}
         </Stack>
@@ -293,7 +293,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
                 </div>
               )}
               {renderStateContent(
-                <FileQuestion className="size-16 text-on-dark-disabled" />,
+                <FileQuestion className="size-16 text-text-disabled" />,
                 "Not Found",
                 notFoundMessage,
                 notFoundAction && (
@@ -414,7 +414,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
                 {tab.badge !== undefined && (
                   <span className={clsx(
                     "px-1.5 py-0.5 text-xs rounded-badge font-medium",
-                    inverted ? "bg-surface-elevated text-on-dark-secondary" : "bg-muted text-on-light-disabled"
+                    inverted ? "bg-surface-elevated text-text-secondary" : "bg-muted text-text-disabled"
                   )}>
                     {tab.badge}
                   </span>

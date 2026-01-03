@@ -50,8 +50,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       if (variant === "primary") {
         return clsx(
           inverted
-            ? "bg-surface-inverse border-2 border-border text-on-dark-primary"
-            : "bg-surface-primary border-2 border-border-primary text-on-light-primary",
+            ? "bg-surface-inverse border-2 border-border text-text-primary"
+            : "bg-surface-primary border-2 border-border-primary text-text-primary",
           "shadow-md"
         );
       }
@@ -60,8 +60,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       if (variant === "accent") {
         return clsx(
           inverted
-            ? "bg-surface-inverse border-2 border-border text-on-dark-primary"
-            : "bg-surface-primary border-2 border-border-primary text-on-light-primary",
+            ? "bg-surface-inverse border-2 border-border text-text-primary"
+            : "bg-surface-primary border-2 border-border-primary text-text-primary",
           "shadow-md"
         );
       }
@@ -71,17 +71,17 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         switch (variant) {
           case "default":
             return clsx(
-              "bg-surface-inverse border-2 border-border text-on-dark-primary",
+              "bg-surface-inverse border-2 border-border text-text-primary",
               "shadow-md"
             );
           case "outlined":
             return clsx(
-              "bg-transparent border-2 border-border text-on-dark-primary",
+              "bg-transparent border-2 border-border text-text-primary",
               "shadow-md"
             );
           case "elevated":
             return clsx(
-              "bg-surface-inverse border-2 border-border text-on-dark-primary",
+              "bg-surface-inverse border-2 border-border text-text-primary",
               "shadow-lg"
             );
           default:
@@ -92,17 +92,17 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         switch (variant) {
           case "default":
             return clsx(
-              "bg-surface-primary border-2 border-border-primary text-on-light-primary",
+              "bg-surface-primary border-2 border-border-primary text-text-primary",
               "shadow-md"
             );
           case "outlined":
             return clsx(
-              "bg-transparent border-2 border-border-primary text-on-light-primary",
+              "bg-transparent border-2 border-border-primary text-text-primary",
               "shadow-md"
             );
           case "elevated":
             return clsx(
-              "bg-surface-primary border-2 border-border text-on-light-primary",
+              "bg-surface-primary border-2 border-border text-text-primary",
               "shadow-lg"
             );
           default:
@@ -163,7 +163,7 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
         ref={ref}
         className={clsx(
           "pb-4 mb-4 border-b-2",
-          inverted ? "text-on-dark-primary border-border" : "text-on-light-primary border-border",
+          inverted ? "text-text-primary border-border" : "text-text-primary border-border",
           className
         )}
         {...props}
@@ -188,7 +188,7 @@ export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
         ref={ref}
         className={clsx(
           "font-heading text-lg uppercase tracking-wider font-bold",
-          inverted ? "text-on-dark-primary" : "text-on-light-primary",
+          inverted ? "text-text-primary" : "text-text-primary",
           className
         )}
         {...props}
@@ -213,7 +213,7 @@ export const CardDescription = forwardRef<HTMLParagraphElement, CardDescriptionP
         ref={ref}
         className={clsx(
           "text-sm mt-1",
-          inverted ? "text-on-dark-muted" : "text-on-light-muted",
+          inverted ? "text-text-muted" : "text-text-muted",
           className
         )}
         {...props}
@@ -235,7 +235,7 @@ export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
         ref={ref}
         className={clsx(
           "mb-4",
-          inverted ? "text-on-dark-secondary" : "text-on-light-muted",
+          inverted ? "text-text-secondary" : "text-text-muted",
           className
         )}
         {...props}

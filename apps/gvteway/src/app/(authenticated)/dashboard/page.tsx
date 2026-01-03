@@ -120,15 +120,15 @@ export default function DashboardPage() {
                 <Body className="text-white font-weight-medium mb-3">System Health</Body>
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
-                    <Body size="sm" className="text-on-dark-muted">API Response</Body>
+                    <Body size="sm" className="text-text-muted">API Response</Body>
                     <Body size="sm" className="text-white">{healthData?.apiResponseTime || 45}ms</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
-                    <Body size="sm" className="text-on-dark-muted">Database</Body>
+                    <Body size="sm" className="text-text-muted">Database</Body>
                     <Body size="sm" className="text-success">{getHealthStatusLabel(healthData?.databaseStatus || "healthy")}</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
-                    <Body size="sm" className="text-on-dark-muted">Cache Hit</Body>
+                    <Body size="sm" className="text-text-muted">Cache Hit</Body>
                     <Body size="sm" className="text-white">{healthData?.cacheHitRate || 94}%</Body>
                   </Stack>
                 </Stack>
@@ -138,7 +138,7 @@ export default function DashboardPage() {
                 <Body className="text-white font-weight-medium mb-3">Recent Activity</Body>
                 <Stack gap={2}>
                   {(activityData || fallbackActivity).map((activity) => (
-                    <Body key={activity.id} size="sm" className="text-on-dark-muted">
+                    <Body key={activity.id} size="sm" className="text-text-muted">
                       {activity.action}: {activity.detail}
                     </Body>
                   ))}
@@ -184,11 +184,11 @@ export default function DashboardPage() {
                 <Stack gap={3}>
                   <Box className="border-l-4 border-primary pl-4">
                     <Body className="text-white">Summer Music Festival</Body>
-                    <Label size="xs" className="text-on-dark-muted">June 15, 2024 • 342 tickets sold</Label>
+                    <Label size="xs" className="text-text-muted">June 15, 2024 • 342 tickets sold</Label>
                   </Box>
                   <Box className="border-l-4 border-border pl-4">
                     <Body className="text-white">Rock Concert Series</Body>
-                    <Label size="xs" className="text-on-dark-muted">July 20, 2024 • 156 tickets sold</Label>
+                    <Label size="xs" className="text-text-muted">July 20, 2024 • 156 tickets sold</Label>
                   </Box>
                 </Stack>
               </Card>
@@ -217,7 +217,7 @@ export default function DashboardPage() {
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack gap={0}>
                     <Body className="text-white">Main Stage Theater</Body>
-                    <Label size="xs" className="text-on-dark-muted">Capacity: 2,000 • Next Event: 3 days</Label>
+                    <Label size="xs" className="text-text-muted">Capacity: 2,000 • Next Event: 3 days</Label>
                   </Stack>
                   <Button variant="outline" inverted size="sm" icon={<Building2 className="size-4" />} iconPosition="left">
                     Manage
@@ -263,15 +263,15 @@ export default function DashboardPage() {
                 <Body className="text-white font-weight-medium mb-3">Fan Engagement</Body>
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
-                    <Body size="sm" className="text-on-dark-muted">New Followers (7d)</Body>
+                    <Body size="sm" className="text-text-muted">New Followers (7d)</Body>
                     <Body size="sm" className="text-white">+342</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
-                    <Body size="sm" className="text-on-dark-muted">Avg. Engagement</Body>
+                    <Body size="sm" className="text-text-muted">Avg. Engagement</Body>
                     <Body size="sm" className="text-white">8.4%</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
-                    <Body size="sm" className="text-on-dark-muted">Messages</Body>
+                    <Body size="sm" className="text-text-muted">Messages</Body>
                     <Body size="sm" className="text-white">23 unread</Body>
                   </Stack>
                 </Stack>
@@ -315,11 +315,11 @@ export default function DashboardPage() {
                 <Stack gap={3}>
                   <Box className="border-l-4 border-primary pl-4">
                     <Body className="text-white">Electronic Night</Body>
-                    <Label size="xs" className="text-on-dark-muted">Based on your preferences</Label>
+                    <Label size="xs" className="text-text-muted">Based on your preferences</Label>
                   </Box>
                   <Box className="border-l-4 border-border pl-4">
                     <Body className="text-white">Jazz in the Park</Body>
-                    <Label size="xs" className="text-on-dark-muted">Nearby • This Weekend</Label>
+                    <Label size="xs" className="text-text-muted">Nearby • This Weekend</Label>
                   </Box>
                 </Stack>
               </Card>

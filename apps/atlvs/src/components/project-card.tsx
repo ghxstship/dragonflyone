@@ -18,7 +18,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <Stack direction="horizontal" className="items-start justify-between">
           <Stack>
             <H3 className="text-white">{project.name}</H3>
-            <Body className="mt-spacing-1 text-on-light-disabled">{project.client}</Body>
+            <Body className="mt-spacing-1 text-text-disabled">{project.client}</Body>
           </Stack>
           <Badge
             variant={project.health === "On Track" ? "solid" : "outline"}
@@ -29,7 +29,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <Stack className="mt-spacing-4">
           <ProgressBar value={project.progress} variant="inverse" />
         </Stack>
-        <Label className="mt-spacing-2 text-mono-xs text-on-light-muted">{project.progress}% complete</Label>
+        <Label className="mt-spacing-2 text-mono-xs text-text-muted">{project.progress}% complete</Label>
       </Article>
     </Link>
   );

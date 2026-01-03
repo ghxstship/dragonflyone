@@ -38,7 +38,7 @@ export function GeneratorProgress({
         <Stack gap={8} className="w-full max-w-xl text-center">
           {/* Creative Seed Display */}
           <Box className="border-2 border-border bg-muted px-6 py-4 shadow-md">
-            <Text className="font-display text-h3-md uppercase tracking-label text-on-light-primary">
+            <Text className="font-display text-h3-md uppercase tracking-label text-text-primary">
               {creativeSeed}
             </Text>
           </Box>
@@ -51,7 +51,7 @@ export function GeneratorProgress({
                 style={{ width: `${progress.percentage}%` }}
               />
             </Box>
-            <Text className="mt-2 font-mono text-mono-sm text-on-light-muted">
+            <Text className="mt-2 font-mono text-mono-sm text-text-muted">
               {progress.percentage}% complete
             </Text>
           </Box>
@@ -59,7 +59,7 @@ export function GeneratorProgress({
           {/* Current Step */}
           <Stack direction="horizontal" gap={3} className="items-center justify-center">
             <Loader2 className="size-5 animate-spin text-primary" />
-            <Body className="text-body-md text-on-light-secondary">
+            <Body className="text-body-md text-text-secondary">
               {progress.currentStep}...
             </Body>
           </Stack>
@@ -71,7 +71,7 @@ export function GeneratorProgress({
                 <Box className="flex size-6 items-center justify-center border-2 border-success bg-success/10">
                   <Check className="size-4 text-success" />
                 </Box>
-                <Text className="font-mono text-mono-sm text-on-light-muted line-through">
+                <Text className="font-mono text-mono-sm text-text-muted line-through">
                   {step}
                 </Text>
               </Stack>
@@ -80,16 +80,16 @@ export function GeneratorProgress({
               <Box className="flex size-6 items-center justify-center border-2 border-primary bg-primary/10">
                 <Loader2 className="size-4 animate-spin text-primary" />
               </Box>
-              <Text className="font-mono text-mono-sm text-on-light-primary">
+              <Text className="font-mono text-mono-sm text-text-primary">
                 {progress.currentStep}
               </Text>
             </Stack>
             {Array.from({ length: progress.totalSteps - progress.step }).map((_, index) => (
               <Stack key={`pending-${index}`} direction="horizontal" gap={3} className="items-center">
                 <Box className="flex size-6 items-center justify-center border-2 border-border bg-muted">
-                  <Circle className="size-4 text-on-dark-muted" />
+                  <Circle className="size-4 text-text-muted" />
                 </Box>
-                <Text className="font-mono text-mono-sm text-on-light-disabled">
+                <Text className="font-mono text-mono-sm text-text-disabled">
                   Pending...
                 </Text>
               </Stack>

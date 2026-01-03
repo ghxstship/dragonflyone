@@ -71,7 +71,7 @@ export default function ArtistPortalPage() {
                 <Box className="flex items-start justify-between">
                   <Box>
                     <Body className="font-weight-bold font-weight-medium">{booking.event}</Body>
-                    <Box className="flex items-center gap-4 mt-2 text-on-dark-muted">
+                    <Box className="flex items-center gap-4 mt-2 text-text-muted">
                       <Box className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(booking.date)}</Body></Box>
                       <Body size="sm">{booking.venue}</Body>
                     </Box>
@@ -101,7 +101,7 @@ export default function ArtistPortalPage() {
               </Box>
               <Box>
                 <Body className="font-weight-bold font-weight-bold">Artist Name</Body>
-                <Body className="text-on-dark-muted">Genre: Pop, Electronic</Body>
+                <Body className="text-text-muted">Genre: Pop, Electronic</Body>
                 <Badge variant="success" className="mt-2">Verified</Badge>
               </Box>
             </Box>

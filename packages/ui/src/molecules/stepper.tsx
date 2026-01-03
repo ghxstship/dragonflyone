@@ -119,9 +119,9 @@ export function Stepper({
                 className={clsx(
                   "rounded-full flex items-center justify-center font-code font-weight-normal tracking-wide border-2 flex-shrink-0 p-spacing-0 transition-all duration-100 ease-[var(--ease-bounce)]",
                   config.indicator,
-                  status === "completed" && "bg-surface-inverse text-on-dark-primary border-border-primary shadow-primary",
-                  status === "current" && "bg-surface-primary text-on-light-primary border-border-primary shadow-primary",
-                  status === "upcoming" && "bg-muted text-on-dark-disabled border-border shadow-xs",
+                  status === "completed" && "bg-surface-inverse text-text-primary border-border-primary shadow-primary",
+                  status === "current" && "bg-surface-primary text-text-primary border-border-primary shadow-primary",
+                  status === "upcoming" && "bg-muted text-text-disabled border-border shadow-xs",
                   clickable ? "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5" : "cursor-default"
                 )}
                 aria-label={`Step ${index + 1}: ${step.label}`}
@@ -160,14 +160,14 @@ export function Stepper({
                 className={clsx(
                   "font-code tracking-wide uppercase",
                   config.label,
-                  status === "upcoming" ? "text-on-dark-disabled" : "text-on-light-primary",
+                  status === "upcoming" ? "text-text-disabled" : "text-text-primary",
                   status === "current" && "font-weight-bold"
                 )}
               >
                 {step.label}
               </div>
               {step.description && (
-                <div className="font-body text-body-sm text-on-dark-disabled mt-spacing-1">
+                <div className="font-body text-body-sm text-text-disabled mt-spacing-1">
                   {step.description}
                 </div>
               )}

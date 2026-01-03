@@ -47,25 +47,25 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           error
             ? inverted
               ? clsx(
-                  "border-error-500 bg-surface-inverse text-on-dark-primary",
+                  "border-error-500 bg-surface-inverse text-text-primary",
                   "shadow-xs",
                   "focus:border-error-400 focus:shadow-sm"
                 )
               : clsx(
-                  "border-error-500 bg-surface-inverse text-on-light-primary",
+                  "border-error-500 bg-surface-inverse text-text-primary",
                   "shadow-xs",
                   "focus:border-error-600 focus:shadow-sm"
                 )
             // Normal state
             : inverted
               ? clsx(
-                  "border-border bg-surface-inverse text-on-dark-primary",
+                  "border-border bg-surface-inverse text-text-primary",
                   "shadow-xs",
                   "hover:border-border-primary",
                   "focus:border-primary-400 focus:-translate-x-px focus:-translate-y-px focus:shadow-sm"
                 )
               : clsx(
-                  "border-border bg-surface-primary text-on-light-primary",
+                  "border-border bg-surface-primary text-text-primary",
                   "shadow-xs",
                   "hover:border-border-primary",
                   "focus:border-primary-500 focus:-translate-x-px focus:-translate-y-px focus:shadow-sm"
@@ -130,7 +130,7 @@ export const SelectGroup = forwardRef<HTMLSelectElement, SelectGroupProps>(
           {children}
         </Select>
         {hint && !errorMessage && (
-          <p id={hintId} className="text-sm text-on-dark-disabled">
+          <p id={hintId} className="text-sm text-text-disabled">
             {hint}
           </p>
         )}

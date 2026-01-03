@@ -85,7 +85,7 @@ export default function ProposalPage() {
             <Box className="flex justify-between items-start">
               <Box>
                 <Body className="font-weight-bold font-weight-bold">{proposal.title}</Body>
-                <Body className="text-on-dark-muted">Prepared for {proposal.client}</Body>
+                <Body className="text-text-muted">Prepared for {proposal.client}</Body>
               </Box>
               <Badge variant={STATUS_CONFIG[proposal.status].variant}>{STATUS_CONFIG[proposal.status].label}</Badge>
             </Box>
@@ -95,24 +95,24 @@ export default function ProposalPage() {
             <Card className="p-4 text-center">
               <DollarSign className="size-6 text-primary mx-auto mb-2" />
               <Body className="font-weight-bold font-weight-bold">{formatCurrency(proposal.amount)}</Body>
-              <Body size="sm" className="text-on-dark-muted">Total Investment</Body>
+              <Body size="sm" className="text-text-muted">Total Investment</Body>
             </Card>
             <Card className="p-4 text-center">
               <Calendar className="size-6 text-primary mx-auto mb-2" />
               <Body className="font-weight-bold">{formatDate(proposal.validUntil)}</Body>
-              <Body size="sm" className="text-on-dark-muted">Valid Until</Body>
+              <Body size="sm" className="text-text-muted">Valid Until</Body>
             </Card>
             <Card className="p-4 text-center">
               <Clock className="size-6 text-primary mx-auto mb-2" />
               <Body className="font-weight-bold">30 Days</Body>
-              <Body size="sm" className="text-on-dark-muted">Payment Terms</Body>
+              <Body size="sm" className="text-text-muted">Payment Terms</Body>
             </Card>
           </Grid>
 
           {proposal.sections.map((section: { title: string; content: string }, idx: number) => (
             <Card key={idx} className="p-6 mb-4">
               <Body className="font-weight-bold font-weight-medium mb-2">{section.title}</Body>
-              <Body className="text-on-dark-secondary">{section.content}</Body>
+              <Body className="text-text-secondary">{section.content}</Body>
             </Card>
           ))}
 
@@ -136,7 +136,7 @@ export default function ProposalPage() {
                 <CheckCircle className="size-8 text-success" />
                 <Box>
                   <Body className="font-weight-bold font-weight-medium">Proposal Accepted</Body>
-                  <Body className="text-on-dark-muted">Thank you! We will be in touch shortly to begin the project.</Body>
+                  <Body className="text-text-muted">Thank you! We will be in touch shortly to begin the project.</Body>
                 </Box>
               </Box>
             </Card>
@@ -154,7 +154,7 @@ export default function ProposalPage() {
           <Card className="p-8 text-center mt-4">
             <MessageSquare className="size-12 text-primary mx-auto mb-4" />
             <Body className="font-weight-medium font-weight-medium mb-2">Need clarification?</Body>
-            <Body className="text-on-dark-muted mb-4">We are happy to answer any questions about this proposal</Body>
+            <Body className="text-text-muted mb-4">We are happy to answer any questions about this proposal</Body>
             <Button variant="outline">Contact Us</Button>
           </Card>
         </Section>

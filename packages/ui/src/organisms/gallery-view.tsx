@@ -242,7 +242,7 @@ function GalleryItemComponent<T>({
           <div
             className={clsx(
               "absolute inset-0 flex items-center justify-center",
-              inverted ? "bg-surface-elevated text-on-dark-disabled" : "bg-muted text-on-light-disabled"
+              inverted ? "bg-surface-elevated text-text-disabled" : "bg-muted text-text-disabled"
             )}
           >
             <ImageIcon size={32} />
@@ -280,7 +280,7 @@ function GalleryItemComponent<T>({
             <h4
               className={clsx(
                 "font-semibold text-sm truncate",
-                inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                inverted ? "text-text-primary" : "text-text-primary"
               )}
             >
               {item.title}
@@ -294,7 +294,7 @@ function GalleryItemComponent<T>({
                   key={key}
                   className={clsx(
                     "text-xs flex justify-between",
-                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                    inverted ? "text-text-muted" : "text-text-muted"
                   )}
                 >
                   <span className="truncate">{key}</span>
@@ -312,8 +312,8 @@ function GalleryItemComponent<T>({
                   className={clsx(
                     "px-1.5 py-0.5 rounded text-xs",
                     inverted
-                      ? "bg-surface-elevated text-on-dark-secondary"
-                      : "bg-muted text-on-light-secondary"
+                      ? "bg-surface-elevated text-text-secondary"
+                      : "bg-muted text-text-secondary"
                   )}
                 >
                   {tag}
@@ -324,8 +324,8 @@ function GalleryItemComponent<T>({
                   className={clsx(
                     "px-1.5 py-0.5 rounded text-xs",
                     inverted
-                      ? "bg-surface-elevated text-on-dark-muted"
-                      : "bg-muted text-on-light-muted"
+                      ? "bg-surface-elevated text-text-muted"
+                      : "bg-muted text-text-muted"
                   )}
                 >
                   +{item.tags.length - 3}
@@ -407,7 +407,7 @@ export function GalleryView<T>({
       <div
         className={clsx(
           "flex flex-col items-center justify-center h-64 rounded-lg border-2 border-dashed",
-          inverted ? "border-border text-on-dark-muted" : "border-border text-on-light-muted",
+          inverted ? "border-border text-text-muted" : "border-border text-text-muted",
           className
         )}
       >
@@ -429,7 +429,7 @@ export function GalleryView<T>({
         <span
           className={clsx(
             "text-sm",
-            inverted ? "text-on-dark-muted" : "text-on-light-muted"
+            inverted ? "text-text-muted" : "text-text-muted"
           )}
         >
           {items.length} item{items.length !== 1 ? "s" : ""}
@@ -450,11 +450,11 @@ export function GalleryView<T>({
                 "p-1.5 rounded transition-colors",
                 currentLayout === "grid"
                   ? inverted
-                    ? "bg-surface-inverse text-on-dark-primary"
-                    : "bg-surface-primary text-on-light-primary shadow-sm"
+                    ? "bg-surface-inverse text-text-primary"
+                    : "bg-surface-primary text-text-primary shadow-sm"
                   : inverted
-                  ? "text-on-dark-muted hover:text-on-dark-primary"
-                  : "text-on-light-muted hover:text-on-light-primary"
+                  ? "text-text-muted hover:text-text-primary"
+                  : "text-text-muted hover:text-text-primary"
               )}
             >
               <Grid size={16} />
@@ -466,11 +466,11 @@ export function GalleryView<T>({
                 "p-1.5 rounded transition-colors",
                 currentLayout === "list"
                   ? inverted
-                    ? "bg-surface-inverse text-on-dark-primary"
-                    : "bg-surface-primary text-on-light-primary shadow-sm"
+                    ? "bg-surface-inverse text-text-primary"
+                    : "bg-surface-primary text-text-primary shadow-sm"
                   : inverted
-                  ? "text-on-dark-muted hover:text-on-dark-primary"
-                  : "text-on-light-muted hover:text-on-light-primary"
+                  ? "text-text-muted hover:text-text-primary"
+                  : "text-text-muted hover:text-text-primary"
               )}
             >
               <LayoutGrid size={16} />
@@ -485,8 +485,8 @@ export function GalleryView<T>({
               className={clsx(
                 "px-2 py-1.5 rounded-lg border text-sm",
                 inverted
-                  ? "bg-surface-elevated border-border text-on-dark-primary"
-                  : "bg-surface-primary border-border text-on-light-primary"
+                  ? "bg-surface-elevated border-border text-text-primary"
+                  : "bg-surface-primary border-border text-text-primary"
               )}
             >
               <option value="small">Small</option>

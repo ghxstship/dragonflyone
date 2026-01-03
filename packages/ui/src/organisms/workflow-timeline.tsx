@@ -55,17 +55,17 @@ export const WorkflowTimeline = forwardRef<HTMLDivElement, WorkflowTimelineProps
       <Grid ref={ref} gap={gap} className={className} {...props}>
         {stages.map((stage) => (
           <article key={stage.label} className={cardClasses}>
-            <Text className="font-display text-h3-md text-on-dark-disabled">{stage.label}</Text>
+            <Text className="font-display text-h3-md text-text-disabled">{stage.label}</Text>
             <Stack gap={3} className="flex-1">
               <Stack>
                 <H3 size="sm">{stage.title}</H3>
-                <Body size="sm" className="mt-spacing-2 text-on-dark-secondary">{stage.description}</Body>
+                <Body size="sm" className="mt-spacing-2 text-text-secondary">{stage.description}</Body>
               </Stack>
               {stage.tags && stage.tags.length > 0 && (
                 <Stack
                   direction="horizontal"
                   gap={2}
-                  className="flex-wrap text-mono-xs uppercase tracking-kicker text-on-dark-muted"
+                  className="flex-wrap text-mono-xs uppercase tracking-kicker text-text-muted"
                 >
                   {stage.tags.map((tag) => (
                     <Badge key={tag}>{tag}</Badge>

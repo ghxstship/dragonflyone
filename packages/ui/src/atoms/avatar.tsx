@@ -101,7 +101,7 @@ export function Avatar({
         <span
           className={clsx(
             "font-code font-bold uppercase select-none",
-            inverted ? "text-on-light-primary" : "text-on-dark-primary",
+            inverted ? "text-text-primary" : "text-text-primary",
             config.text
           )}
         >
@@ -191,7 +191,7 @@ export function AvatarGroup({
         <div
           className={clsx(
             "flex items-center justify-center rounded-[var(--radius-circle)] font-code",
-            inverted ? "bg-muted border-2 border-on-light-primary text-on-light-primary" : "bg-surface-elevated border-2 border-on-dark-primary text-on-dark-primary",
+            inverted ? "bg-muted border-2 border-on-light-primary text-text-primary" : "bg-surface-elevated border-2 border-on-dark-primary text-text-primary",
             config.container,
             config.text,
             groupOverlapClasses[size]

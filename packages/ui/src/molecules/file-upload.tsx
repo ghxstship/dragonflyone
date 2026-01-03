@@ -222,7 +222,7 @@ export function FileUpload({
         {/* Label */}
         <div
           className={clsx(
-            "font-code text-on-light-primary tracking-widest mb-spacing-2",
+            "font-code text-text-primary tracking-widest mb-spacing-2",
             compact ? "text-mono-sm" : "text-mono-md"
           )}
         >
@@ -231,13 +231,13 @@ export function FileUpload({
 
         {/* Helper text */}
         {helperText && (
-          <div className="font-body text-body-sm text-on-dark-disabled">
+          <div className="font-body text-body-sm text-text-disabled">
             {helperText}
           </div>
         )}
 
         {/* Constraints info */}
-        <div className="font-code text-mono-xs text-on-dark-disabled mt-spacing-3 flex justify-center gap-gap-md flex-wrap">
+        <div className="font-code text-mono-xs text-text-disabled mt-spacing-3 flex justify-center gap-gap-md flex-wrap">
           {accept && <span>FORMATS: {accept.replace(/,/g, ", ")}</span>}
           {maxSize && <span>MAX: {formatFileSize(maxSize)}</span>}
           {maxFiles && <span>LIMIT: {maxFiles} FILES</span>}
@@ -260,13 +260,13 @@ export function FileUpload({
 
               {/* File info */}
               <div className="flex-1 min-w-0">
-                <div className="font-body text-body-sm text-on-light-primary overflow-hidden text-ellipsis whitespace-nowrap">
+                <div className="font-body text-body-sm text-text-primary overflow-hidden text-ellipsis whitespace-nowrap">
                   {file.name}
                 </div>
                 <div
                   className={clsx(
                     "font-code text-mono-xs",
-                    file.status === "error" ? "text-on-dark-disabled" : "text-on-light-muted"
+                    file.status === "error" ? "text-text-disabled" : "text-text-muted"
                   )}
                 >
                   {file.status === "error"
@@ -287,13 +287,13 @@ export function FileUpload({
 
               {/* Status / Remove button */}
               {file.status === "uploading" ? (
-                <span className="font-code text-mono-xs text-on-dark-disabled">
+                <span className="font-code text-mono-xs text-text-disabled">
                   {file.progress}%
                 </span>
               ) : (
                 <button
                   onClick={() => onFileRemove?.(file.id)}
-                  className="w-icon-lg h-icon-lg bg-transparent border-none cursor-pointer text-on-dark-disabled text-mono-sm flex items-center justify-center transition-colors duration-fast hover:text-on-light-primary"
+                  className="w-icon-lg h-icon-lg bg-transparent border-none cursor-pointer text-text-disabled text-mono-sm flex items-center justify-center transition-colors duration-fast hover:text-text-primary"
                   aria-label={`Remove ${file.name}`}
                 >
                   <X className="size-4" />

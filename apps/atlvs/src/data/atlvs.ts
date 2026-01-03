@@ -1603,6 +1603,217 @@ export const atlvsCompvssSection = {
   cta: { label: "LEARN MORE ABOUT COMPVSS →", href: "/compvss" },
 };
 
+// =============================================================================
+// LANDING PAGE HERO SECTION
+// =============================================================================
+export const atlvsHeroSection = {
+  kicker: "THE OPERATING SYSTEM FOR LIVE",
+  title: "STOP FIGHTING YOUR TOOLS",
+  subtitle: "Start shipping shows",
+  description:
+    "The unified platform for productions, activations, installations, and destinations. One system. Every department. Zero spreadsheet chaos.",
+  primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
+  secondaryCta: { label: "WATCH DEMO", href: "/demo" },
+  stats: [
+    { id: "productions", value: 2400, suffix: "+", label: "Productions Managed" },
+    { id: "attendees", value: 50, suffix: "M+", label: "Attendees Served" },
+    { id: "budgets", value: 2.1, prefix: "$", suffix: "B", label: "Budgets Tracked" },
+    { id: "uptime", value: 99.9, suffix: "%", label: "Uptime SLA" },
+  ],
+  trustedBy: "Trusted by production teams at Live Nation, AEG, Insomniac, C3 Presents, and 2,400+ productions worldwide",
+};
+
+// =============================================================================
+// EXPERIENCE GENERATOR SECTION
+// AI-powered production blueprint generator
+// =============================================================================
+export const atlvsGeneratorSection = {
+  kicker: "AI-POWERED PRODUCTION DESIGN",
+  title: "EXPERIENCE GENERATOR",
+  subtitle: "From a single word to a complete production blueprint",
+  description:
+    "Describe your vision in plain language. Our AI transforms it into a comprehensive production blueprint with zones, budgets, schedules, and operational documents — ready to execute or import directly into ATLVS.",
+  features: [
+    {
+      icon: "Eye",
+      title: "5 SENSES FRAMEWORK",
+      description: "Design experiences across sight, sound, touch, taste, and smell for total immersion.",
+    },
+    {
+      icon: "Compass",
+      title: "XYZ SPATIAL FOUNDATION",
+      description: "Map your experience in 3D space with zones, pathways, and capacity planning.",
+    },
+    {
+      icon: "ArrowRightLeft",
+      title: "URL→IRL LIFECYCLE",
+      description: "Bridge digital discovery to physical experience with integrated touchpoints.",
+    },
+    {
+      icon: "LayoutGrid",
+      title: "ZONE ARCHITECTURE",
+      description: "Auto-generate venue layouts, flow patterns, and capacity calculations.",
+    },
+    {
+      icon: "Calculator",
+      title: "BUDGET MODELING",
+      description: "Instant cost estimates across 26 departments with scenario planning.",
+    },
+    {
+      icon: "FileText",
+      title: "DOCUMENT GENERATION",
+      description: "Production schedules, call sheets, and run-of-show docs in seconds.",
+    },
+    {
+      icon: "Database",
+      title: "DATA-DRIVEN OPS",
+      description: "KPI frameworks, success metrics, and post-event analysis templates.",
+    },
+    {
+      icon: "Building2",
+      title: "26 DEPARTMENTS",
+      description: "Complete coverage from talent to catering to security to sustainability.",
+    },
+    {
+      icon: "Download",
+      title: "EXPORT ANYWHERE",
+      description: "PDF, CSV, or one-click import to ATLVS for immediate execution.",
+    },
+  ],
+  note: "Free to generate • Save with any ATLVS plan",
+  cta: { label: "TRY THE GENERATOR →", href: "/generator" },
+  demoPrompt: "A 3-day music festival for 50,000 attendees in the desert with sustainability focus",
+};
+
+// =============================================================================
+// GVTEWAY SECTION
+// Consumer membership and experience platform
+// =============================================================================
+export const atlvsGvtewaySection = {
+  kicker: "THE OTHER SIDE OF THE VELVET ROPE",
+  title: "GVTEWAY",
+  subtitle: "Turn attendees into superfans",
+  description:
+    "ATLVS runs your operations. GVTEWAY delivers the guest experience. Priority access, curated experiences, exclusive perks — a white-label membership platform that turns one-time attendees into lifelong advocates.",
+  features: [
+    {
+      icon: "Ticket",
+      title: "PRIORITY ACCESS",
+      description: "Early tickets, presales, and exclusive allocations before the general public.",
+    },
+    {
+      icon: "Globe",
+      title: "GLOBAL DISCOVERY",
+      description: "Curated experiences across your entire portfolio, personalized to each member.",
+    },
+    {
+      icon: "Headphones",
+      title: "CONCIERGE SERVICE",
+      description: "White-glove support for your most valuable guests. Real humans, real fast.",
+    },
+    {
+      icon: "Users",
+      title: "COMMUNITY",
+      description: "Connect superfans with each other. Forums, meetups, and exclusive content.",
+    },
+    {
+      icon: "Gift",
+      title: "MEMBER PERKS",
+      description: "Merch drops, backstage access, artist meet-and-greets, and surprise upgrades.",
+    },
+    {
+      icon: "BarChart3",
+      title: "FAN INSIGHTS",
+      description: "Understand your audience like never before. Preferences, behavior, lifetime value.",
+    },
+    {
+      icon: "DollarSign",
+      title: "RECURRING REVENUE",
+      description: "Subscription tiers that generate predictable income between events.",
+    },
+    {
+      icon: "Heart",
+      title: "LOYALTY PROGRAMS",
+      description: "Points, tiers, and rewards that keep fans coming back show after show.",
+    },
+    {
+      icon: "RefreshCw",
+      title: "ATLVS SYNC",
+      description: "Guest data flows back to operations. CRM, ticketing, and hospitality unified.",
+    },
+  ],
+  note: "White-label available for your brand",
+  cta: { label: "EXPLORE GVTEWAY →", href: "/gvteway" },
+};
+
+// =============================================================================
+// UPDATED SOCIAL PROOF SECTION
+// Stats + Testimonials for design system components
+// =============================================================================
+export const atlvsStatsSection = {
+  kicker: "THE NUMBERS DON'T LIE",
+  title: "TRUSTED BY THE INDUSTRY",
+  description: "From indie shows to global festivals, production teams choose ATLVS.",
+  stats: [
+    { id: "productions", value: 2400, suffix: "+", label: "Productions Managed", description: "Across 47 countries" },
+    { id: "attendees", value: 50, suffix: "M+", label: "Attendees Served", description: "And counting" },
+    { id: "budgets", value: 2.1, prefix: "$", suffix: "B", label: "Budgets Tracked", description: "Zero spreadsheets" },
+    { id: "uptime", value: 99.9, suffix: "%", label: "Uptime SLA", description: "Show must go on" },
+  ],
+};
+
+export const atlvsTestimonials = {
+  kicker: "DON'T JUST TAKE OUR WORD FOR IT",
+  title: "WHAT PRODUCTION TEAMS SAY",
+  testimonials: [
+    {
+      id: "testimonial-1",
+      quote:
+        "ATLVS transformed how we manage our festival portfolio. What used to take 3 production managers and endless spreadsheets now runs from a single dashboard. We shipped 12 festivals last year with half the coordination overhead.",
+      author: {
+        name: "Sarah Chen",
+        role: "VP Production",
+        company: "Major Festival Company",
+      },
+      rating: 5,
+      featured: true,
+    },
+    {
+      id: "testimonial-2",
+      quote:
+        "The advancing module alone saved us 200 hours last season. No more chasing riders, no more version confusion. Everything's in one place and everyone knows where to look.",
+      author: {
+        name: "Marcus Johnson",
+        role: "Production Director",
+        company: "Touring Production Company",
+      },
+      rating: 5,
+    },
+    {
+      id: "testimonial-3",
+      quote:
+        "We went from 6 different tools to one. Budget tracking, crew scheduling, vendor management — it's all connected. The ROI was obvious within the first month.",
+      author: {
+        name: "Elena Rodriguez",
+        role: "Operations Manager",
+        company: "Brand Activation Agency",
+      },
+      rating: 5,
+    },
+  ],
+};
+
+// =============================================================================
+// CTA SECTION DATA
+// =============================================================================
+export const atlvsCtaSection = {
+  title: "READY TO STOP FIGHTING YOUR TOOLS?",
+  description: "Join 2,400+ productions that traded chaos for clarity. Start free, scale forever.",
+  primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
+  secondaryCta: { label: "SCHEDULE DEMO", href: "/demo" },
+  footnote: "No credit card required • 14-day free trial • Cancel anytime",
+};
+
 // Social proof for landing page
 export const atlvsSocialProof = {
   headline: "DON'T JUST TAKE OUR WORD FOR IT",

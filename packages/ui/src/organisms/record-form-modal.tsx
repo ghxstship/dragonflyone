@@ -190,7 +190,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
     const value = formData[field.name];
     const error = errors[field.name];
     const baseInputClasses = clsx(
-      "w-full border-2 bg-surface-elevated px-4 py-3 font-body text-base text-on-light-primary outline-none transition-colors duration-100",
+      "w-full border-2 bg-surface-elevated px-4 py-3 font-body text-base text-text-primary outline-none transition-colors duration-100",
       error ? "border-error" : "border-border hover:border-border focus:border-primary-500"
     );
 
@@ -260,7 +260,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
         )}
 
         {field.hint && !error && (
-          <span className="block mt-1 font-mono text-xs text-on-light-muted">{field.hint}</span>
+          <span className="block mt-1 font-mono text-xs text-text-muted">{field.hint}</span>
         )}
         {error && (
           <span className="block mt-1 font-mono text-xs text-error uppercase">{error}</span>
@@ -277,7 +277,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
           <div
             className={clsx(
               "w-6 h-6 rounded-full flex items-center justify-center font-mono text-xs",
-              idx <= currentStep ? "bg-surface-inverse text-on-dark-primary" : "bg-muted text-on-light-muted"
+              idx <= currentStep ? "bg-surface-inverse text-text-primary" : "bg-muted text-text-muted"
             )}
           >
             {idx + 1}
@@ -285,7 +285,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
           <span
             className={clsx(
               "font-mono text-xs uppercase",
-              idx === currentStep ? "text-on-light-primary" : "text-on-light-muted"
+              idx === currentStep ? "text-text-primary" : "text-text-muted"
             )}
           >
             {step.title}
@@ -304,7 +304,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
             type="button"
             onClick={handlePrev}
             disabled={submitting}
-            className="px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-primary text-on-light-primary border-2 border-border cursor-pointer hover:bg-muted disabled:opacity-50"
+            className="px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-primary text-text-primary border-2 border-border cursor-pointer hover:bg-muted disabled:opacity-50"
           >
             Previous
           </button>
@@ -316,7 +316,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
           onClick={onClose}
           disabled={submitting}
           className={clsx(
-            "px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-primary text-on-light-primary border-2 border-border",
+            "px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-primary text-text-primary border-2 border-border",
             submitting ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-muted"
           )}
         >
@@ -326,7 +326,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
           <button
             type="button"
             onClick={handleNext}
-            className="px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-inverse text-on-dark-primary border-2 border-border cursor-pointer hover:bg-surface-elevated"
+            className="px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-inverse text-text-primary border-2 border-border cursor-pointer hover:bg-surface-elevated"
           >
             Next
           </button>
@@ -336,7 +336,7 @@ export function RecordFormModal<T = Record<string, unknown>>({
             form="record-form"
             disabled={submitting || loading}
             className={clsx(
-              "px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-inverse text-on-dark-primary border-2 border-border flex items-center gap-2",
+              "px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-inverse text-text-primary border-2 border-border flex items-center gap-2",
               submitting || loading ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:bg-surface-elevated"
             )}
           >

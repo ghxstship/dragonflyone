@@ -99,25 +99,25 @@ export default function EventDetailPage() {
             <SectionHeader title="Event Details" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Date & Time</Body>
+                <Body size="xs" className="text-text-muted mb-1">Date & Time</Body>
                 <Body className="text-white">
                   {formatDate(event.start_date)}
                   {event.start_time && ` at ${event.start_time}`}
                 </Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">End</Body>
+                <Body size="xs" className="text-text-muted mb-1">End</Body>
                 <Body className="text-white">
                   {event.end_date ? formatDate(event.end_date) : formatDate(event.start_date)}
                   {event.end_time && ` at ${event.end_time}`}
                 </Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Category</Body>
+                <Body size="xs" className="text-text-muted mb-1">Category</Body>
                 <Body className="text-white">{event.category || "Not specified"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Price Range</Body>
+                <Body size="xs" className="text-text-muted mb-1">Price Range</Body>
                 <Body className="text-white">
                   {event.min_price !== undefined && event.max_price !== undefined
                     ? `${formatCurrency(event.min_price)} - ${formatCurrency(event.max_price)}`
@@ -134,11 +134,11 @@ export default function EventDetailPage() {
             <SectionHeader title="Venue Information" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Venue</Body>
+                <Body size="xs" className="text-text-muted mb-1">Venue</Body>
                 <Body className="text-white">{event.venue_name || "TBD"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Location</Body>
+                <Body size="xs" className="text-text-muted mb-1">Location</Body>
                 <Body className="text-white">
                   {[event.venue_city, event.venue_state, event.venue_country]
                     .filter(Boolean)
@@ -147,7 +147,7 @@ export default function EventDetailPage() {
               </Card>
               {event.venue_address && (
                 <Card inverted className="p-4 md:col-span-2">
-                  <Body size="xs" className="text-on-dark-muted mb-1">Address</Body>
+                  <Body size="xs" className="text-text-muted mb-1">Address</Body>
                   <Body className="text-white">{event.venue_address}</Body>
                 </Card>
               )}
@@ -180,7 +180,7 @@ export default function EventDetailPage() {
           <Section border>
             <SectionHeader title="Production" />
             <Card inverted className="p-4">
-              <Body className="text-on-dark-muted mb-4">
+              <Body className="text-text-muted mb-4">
                 Access the full production context including schedules, crew assignments, and run-of-show.
               </Body>
               <Button
@@ -205,7 +205,7 @@ export default function EventDetailPage() {
         <Section border>
           <SectionHeader title="Event Schedule" />
           <Card inverted className="p-6">
-            <Body className="text-on-dark-muted">Schedule details will be displayed here.</Body>
+            <Body className="text-text-muted">Schedule details will be displayed here.</Body>
           </Card>
         </Section>
       ),
@@ -218,7 +218,7 @@ export default function EventDetailPage() {
         <Section border>
           <SectionHeader title="Event Team" />
           <Card inverted className="p-6">
-            <Body className="text-on-dark-muted">Team assignments will be displayed here.</Body>
+            <Body className="text-text-muted">Team assignments will be displayed here.</Body>
           </Card>
         </Section>
       ),
@@ -231,7 +231,7 @@ export default function EventDetailPage() {
         <Section border>
           <SectionHeader title="Event Documents" />
           <Card inverted className="p-6">
-            <Body className="text-on-dark-muted">Documents will be displayed here.</Body>
+            <Body className="text-text-muted">Documents will be displayed here.</Body>
           </Card>
         </Section>
       ),

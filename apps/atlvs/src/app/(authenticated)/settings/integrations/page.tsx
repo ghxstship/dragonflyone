@@ -155,9 +155,9 @@ export default function IntegrationsSettingsPage() {
                     <Box className="font-weight-bold">{integration.icon}</Box>
                     <Box>
                       <Body className="font-weight-medium">{integration.name}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{integration.description}</Body>
+                      <Body size="sm" className="text-text-muted">{integration.description}</Body>
                       {integration.connected && integration.connected_at && (
-                        <Body size="sm" className="text-on-dark-disabled mt-1">Connected {formatDate(integration.connected_at)}</Body>
+                        <Body size="sm" className="text-text-disabled mt-1">Connected {formatDate(integration.connected_at)}</Body>
                       )}
                     </Box>
                   </Box>
@@ -192,9 +192,9 @@ export default function IntegrationsSettingsPage() {
         <Section>
           <SectionHeader title="API Access" description="Manage API keys for custom integrations" />
           <Card className="p-8 text-center mt-4">
-            <Key className="size-12 text-on-dark-disabled mx-auto mb-4" />
+            <Key className="size-12 text-text-disabled mx-auto mb-4" />
             <Body className="font-weight-medium font-weight-medium mb-2">No API Keys</Body>
-            <Body className="text-on-dark-muted mb-4">Create API keys for custom integrations</Body>
+            <Body className="text-text-muted mb-4">Create API keys for custom integrations</Body>
             {canManageIntegrations && <Button variant="solid">Generate API Key</Button>}
           </Card>
         </Section>
@@ -220,13 +220,13 @@ export default function IntegrationsSettingsPage() {
             <Box className="font-weight-bold">{showConnect?.icon}</Box>
             <Box>
               <Body className="font-weight-medium">{showConnect?.name}</Body>
-              <Body size="sm" className="text-on-dark-muted">{showConnect?.description}</Body>
+              <Body size="sm" className="text-text-muted">{showConnect?.description}</Body>
             </Box>
           </Box>
           <Box>
-            <Body size="sm" className="text-on-dark-muted mb-1">API Key</Body>
+            <Body size="sm" className="text-text-muted mb-1">API Key</Body>
             <Input type="password" placeholder="Enter your API key" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
-            <Body size="sm" className="text-on-dark-disabled mt-2">You can find your API key in your {showConnect?.name} account settings.</Body>
+            <Body size="sm" className="text-text-disabled mt-2">You can find your API key in your {showConnect?.name} account settings.</Body>
           </Box>
         </ModalBody>
         <ModalFooter>

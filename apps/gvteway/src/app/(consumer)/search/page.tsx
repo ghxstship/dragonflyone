@@ -31,20 +31,20 @@ export default function SearchPage() {
     content: (
       <Section>
         <Box className="flex gap-4 items-center mb-6">
-          <Box className="relative flex-1"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" /><Input placeholder="Search events, artists, venues..." value={query} onChange={(e) => setQuery(e.target.value)} className="pl-10" /></Box>
+          <Box className="relative flex-1"><Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-muted" /><Input placeholder="Search events, artists, venues..." value={query} onChange={(e) => setQuery(e.target.value)} className="pl-10" /></Box>
           <Box className="flex gap-2">
             {["all", "event", "artist", "venue"].map((t) => <Button key={t} variant={type === t ? "solid" : "outline"} size="sm" onClick={() => setType(t)}>{t === "all" ? "All" : t.charAt(0).toUpperCase() + t.slice(1) + "s"}</Button>)}
           </Box>
         </Box>
         {filtered.length === 0 ? (
-          <Card className="p-8 text-center"><Search className="size-12 text-on-dark-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No results found</Body><Body className="text-on-dark-muted">Try a different search term</Body></Card>
+          <Card className="p-8 text-center"><Search className="size-12 text-text-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No results found</Body><Body className="text-text-muted">Try a different search term</Body></Card>
         ) : (
           <Stack gap={2}>
             {filtered.map((result: SearchResult) => (
               <Card key={result.id} className="p-4 cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(result.type === "event" ? `/e/${result.id}` : `/${result.type}s/${result.id}`)}>
                 <Box className="flex items-center gap-4">
                   <Badge variant="outline">{result.type}</Badge>
-                  <Box><Body className="font-weight-bold">{result.name}</Body><Body size="sm" className="text-on-dark-muted">{result.subtitle}</Body></Box>
+                  <Box><Body className="font-weight-bold">{result.name}</Body><Body size="sm" className="text-text-muted">{result.subtitle}</Body></Box>
                 </Box>
               </Card>
             ))}

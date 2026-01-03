@@ -19,65 +19,67 @@ const COMPVSS_ADMIN_ROLES = [
   PlatformRole.LEGEND_ADMIN,
 ];
 
+// Schema for crew manifest entries - uses 3NF crew_manifest table from 0052 migration
 const manifestEntrySchema = z.object({
+  organization_id: z.string().uuid(),
   event_id: z.string().uuid(),
-  crew_member_id: z.string().uuid(),
-  role_id: z.string().uuid().optional(),
-  department_id: z.string().uuid().optional(),
-  shift_start: z.string().datetime(),
-  shift_end: z.string().datetime(),
-  check_in_location: z.string().optional(),
+  person_id: z.string().uuid(),
+  role: z.string().min(1),
+  department: z.string().optional(),
+  position_title: z.string().optional(),
+  call_time: z.string().datetime(),
+  end_time: z.string().datetime().optional(),
+  work_area: z.string().optional(),
+  rate_type: z.enum(['hourly', 'daily', 'flat', 'overtime']).default('hourly'),
+  rate_amount: z.number().min(0).optional(),
   notes: z.string().optional(),
 });
 
-// GET /api/crew-manifest - List crew manifest entries
+// GET /api/crew-manifest - List crew manifest entries from crew_manifest (3NF table)
 export async function GET(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     
     const eventId = searchParams.get('event_id');
-    const departmentId = searchParams.get('department_id');
-    const date = searchParams.get('date');
+    const department = searchParams.get('department');
+    const status = searchParams.get('status');
     const limit = Math.min(parseInt(searchParams.get('limit') || '100'), 500);
     const offset = parseInt(searchParams.get('offset') || '0');
 
-    // Query crew_members with event assignments
+    // Query crew_manifest - the 3NF table for crew assignments
     let query = supabase
-      .from('crew_members')
+      .from('crew_manifest')
       .select(`
         *,
-        role:crew_roles(id, name, description),
-        department:departments(id, name),
-        skills:crew_member_skills(
-          skill:skills(id, name, category)
-        ),
-        certifications:crew_member_certifications(
-          certification:certifications(id, name, issuing_authority, expiry_date)
-        )
+        person:legend_people!person_id(id, display_name, avatar_url, email, phone),
+        event:legend_events!event_id(id, name, start_datetime),
+        supervisor:legend_people!reporting_to(id, display_name)
       `, { count: 'exact' })
-      .eq('status', 'active')
-      .order('last_name', { ascending: true })
+      .order('call_time', { ascending: true })
       .range(offset, offset + limit - 1);
 
-    if (departmentId) {
-      query = query.eq('department_id', departmentId);
+    if (eventId) {
+      query = query.eq('event_id', eventId);
+    }
+    if (department) {
+      query = query.eq('department', department);
+    }
+    if (status) {
+      query = query.eq('status', status);
     }
 
     const { data, error, count } = await query;
 
     if (error) {
-      if (error.message?.includes('does not exist') || error.code === '42P01') {
-        return NextResponse.json({ 
-          manifest: [], 
-          total: 0, 
-          limit, 
-          offset,
-          summary: { total_crew: 0, by_department: {}, by_role: {} }
-        });
-      }
       logger.error('Error fetching crew manifest:', error);
-      return NextResponse.json({ error: 'Failed to fetch crew manifest' }, { status: 500 });
+      return NextResponse.json({ 
+        manifest: [], 
+        total: 0, 
+        limit, 
+        offset,
+        summary: { total_crew: 0, by_department: {}, by_role: {}, by_status: {} }
+      });
     }
 
     const manifest = data || [];
@@ -86,28 +88,37 @@ export async function GET(request: NextRequest) {
     const summary = {
       total_crew: count || 0,
       by_department: manifest.reduce((acc, m) => {
-        const dept = (m.department as { name?: string } | null)?.name || 'Unassigned';
+        const dept = m.department || 'Unassigned';
         acc[dept] = (acc[dept] || 0) + 1;
         return acc;
       }, {} as Record<string, number>),
       by_role: manifest.reduce((acc, m) => {
-        const role = (m.role as { name?: string } | null)?.name || 'Unassigned';
+        const role = m.role || 'Unassigned';
         acc[role] = (acc[role] || 0) + 1;
         return acc;
       }, {} as Record<string, number>),
-      active_certifications: manifest.filter(m => 
-        Array.isArray(m.certifications) && m.certifications.length > 0
-      ).length,
+      by_status: manifest.reduce((acc, m) => {
+        const st = m.status || 'scheduled';
+        acc[st] = (acc[st] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>),
+      checked_in: manifest.filter(m => m.status === 'checked_in').length,
     };
 
-    return NextResponse.json({ manifest, total: count, limit, offset, summary, event_id: eventId, date });
+    return NextResponse.json({ manifest, total: count, limit, offset, summary, event_id: eventId });
   } catch (error) {
     logger.error('Error in GET /api/crew-manifest:', error instanceof Error ? error : undefined);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ 
+      manifest: [], 
+      total: 0, 
+      limit: 100, 
+      offset: 0,
+      summary: { total_crew: 0, by_department: {}, by_role: {}, by_status: {} }
+    });
   }
 }
 
-// POST /api/crew-manifest - Add crew member to manifest
+// POST /api/crew-manifest - Add crew member to manifest using crew_manifest (3NF table)
 export async function POST(request: NextRequest) {
   try {
     const authResult = await withAuth(request);
@@ -122,19 +133,28 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validated = manifestEntrySchema.parse(body);
 
-    // For now, update the crew member's assignment
+    // Insert into crew_manifest (3NF table)
     const { data: entry, error } = await supabase
-      .from('crew_members')
-      .update({
-        department_id: validated.department_id,
-        role_id: validated.role_id,
-        updated_at: new Date().toISOString(),
+      .from('crew_manifest')
+      .insert({
+        organization_id: validated.organization_id,
+        event_id: validated.event_id,
+        person_id: validated.person_id,
+        role: validated.role,
+        department: validated.department,
+        position_title: validated.position_title,
+        call_time: validated.call_time,
+        end_time: validated.end_time,
+        work_area: validated.work_area,
+        rate_type: validated.rate_type,
+        rate_amount: validated.rate_amount,
+        notes: validated.notes,
+        status: 'scheduled',
+        created_by: authResult.user?.id,
       })
-      .eq('id', validated.crew_member_id)
       .select(`
         *,
-        role:crew_roles(id, name),
-        department:departments(id, name)
+        person:legend_people!person_id(id, display_name, avatar_url)
       `)
       .single();
 
@@ -143,7 +163,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to add to manifest', details: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ entry, event_id: validated.event_id }, { status: 201 });
+    return NextResponse.json({ entry }, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation error', details: error.errors }, { status: 400 });
@@ -153,7 +173,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// PATCH /api/crew-manifest - Update manifest entry
+// PATCH /api/crew-manifest - Update manifest entry using crew_manifest (3NF table)
 export async function PATCH(request: NextRequest) {
   try {
     const authResult = await withAuth(request);
@@ -166,20 +186,20 @@ export async function PATCH(request: NextRequest) {
 
     const supabase = getSupabaseClient();
     const body = await request.json();
-    const { crew_member_id, action, updates } = body;
+    const { manifest_id, action, updates } = body;
 
-    if (!crew_member_id) {
-      return NextResponse.json({ error: 'crew_member_id is required' }, { status: 400 });
+    if (!manifest_id) {
+      return NextResponse.json({ error: 'manifest_id is required' }, { status: 400 });
     }
 
     if (action === 'check_in') {
       const { data, error } = await supabase
-        .from('crew_members')
+        .from('crew_manifest')
         .update({
-          metadata: { checked_in_at: new Date().toISOString(), check_in_location: body.location },
-          updated_at: new Date().toISOString(),
+          status: 'checked_in',
+          checked_in_at: new Date().toISOString(),
         })
-        .eq('id', crew_member_id)
+        .eq('id', manifest_id)
         .select()
         .single();
 
@@ -190,11 +210,29 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ success: true, entry: data, message: 'Crew member checked in' });
     }
 
+    if (action === 'check_out') {
+      const { data, error } = await supabase
+        .from('crew_manifest')
+        .update({
+          status: 'checked_out',
+          checked_out_at: new Date().toISOString(),
+        })
+        .eq('id', manifest_id)
+        .select()
+        .single();
+
+      if (error) {
+        return NextResponse.json({ error: 'Failed to check out' }, { status: 500 });
+      }
+
+      return NextResponse.json({ success: true, entry: data, message: 'Crew member checked out' });
+    }
+
     if (updates) {
       const { data, error } = await supabase
-        .from('crew_members')
+        .from('crew_manifest')
         .update({ ...updates, updated_at: new Date().toISOString() })
-        .eq('id', crew_member_id)
+        .eq('id', manifest_id)
         .select()
         .single();
 
@@ -212,7 +250,7 @@ export async function PATCH(request: NextRequest) {
   }
 }
 
-// DELETE /api/crew-manifest - Remove from manifest
+// DELETE /api/crew-manifest - Remove from manifest using crew_manifest (3NF table)
 export async function DELETE(request: NextRequest) {
   try {
     const authResult = await withAuth(request);
@@ -225,17 +263,17 @@ export async function DELETE(request: NextRequest) {
 
     const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
-    const crewMemberId = searchParams.get('crew_member_id');
+    const manifestId = searchParams.get('id');
 
-    if (!crewMemberId) {
-      return NextResponse.json({ error: 'crew_member_id required' }, { status: 400 });
+    if (!manifestId) {
+      return NextResponse.json({ error: 'id required' }, { status: 400 });
     }
 
-    // Set crew member to inactive for the event
+    // Set status to cancelled instead of deleting
     const { error } = await supabase
-      .from('crew_members')
-      .update({ status: 'inactive', updated_at: new Date().toISOString() })
-      .eq('id', crewMemberId);
+      .from('crew_manifest')
+      .update({ status: 'cancelled', updated_at: new Date().toISOString() })
+      .eq('id', manifestId);
 
     if (error) {
       return NextResponse.json({ error: 'Failed to remove from manifest' }, { status: 500 });

@@ -157,19 +157,19 @@ export default function CredentialsPage() {
       content: (
         <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
-            <Body className="text-on-dark-disabled">Name</Body>
+            <Body className="text-text-disabled">Name</Body>
             <Body>{selectedCredential.contact ? `${selectedCredential.contact.first_name} ${selectedCredential.contact.last_name}` : '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-on-dark-disabled">Email</Body>
+            <Body className="text-text-disabled">Email</Body>
             <Body>{selectedCredential.contact?.email || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-on-dark-disabled">Phone</Body>
+            <Body className="text-text-disabled">Phone</Body>
             <Body>{selectedCredential.contact?.phone || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-on-dark-disabled">Badge Number</Body>
+            <Body className="text-text-disabled">Badge Number</Body>
             <Body className="font-mono">{selectedCredential.badge_number}</Body>
           </Stack>
         </Grid>
@@ -181,21 +181,21 @@ export default function CredentialsPage() {
       content: (
         <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
-            <Body className="text-on-dark-disabled">Credential Type</Body>
+            <Body className="text-text-disabled">Credential Type</Body>
             <Body>{selectedCredential.credential_type?.name || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-on-dark-disabled">Access Level</Body>
+            <Body className="text-text-disabled">Access Level</Body>
             <Body>Level {selectedCredential.credential_type?.access_level || 0}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-on-dark-disabled">Status</Body>
+            <Body className="text-text-disabled">Status</Body>
             <Badge variant={statusColors[selectedCredential.status] || 'ghost'}>
               {selectedCredential.status.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-on-dark-disabled">Expires</Body>
+            <Body className="text-text-disabled">Expires</Body>
             <Body>{selectedCredential.expires_at ? new Date(selectedCredential.expires_at).toLocaleDateString() : 'Never'}</Body>
           </Stack>
         </Grid>

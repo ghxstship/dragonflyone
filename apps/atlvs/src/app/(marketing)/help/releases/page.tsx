@@ -114,7 +114,7 @@ export default function ReleasesPage() {
                             <Badge variant="outline" className="font-weight-medium px-3 py-1">v{release.version}</Badge>
                             <Badge variant={config.variant}>{config.icon} {config.label}</Badge>
                           </Box>
-                          <Box className="flex items-center gap-2 text-on-dark-disabled">
+                          <Box className="flex items-center gap-2 text-text-disabled">
                             <Calendar className="size-4" />
                             <Body size="sm">{formatDate(release.date)}</Body>
                           </Box>
@@ -124,7 +124,7 @@ export default function ReleasesPage() {
                           {release.highlights.map((highlight, idx) => (
                             <Stack key={idx} direction="horizontal" gap={2} className="items-center">
                               <Box className="size-1.5 rounded-avatar bg-primary" />
-                              <Body className="text-on-dark-secondary">{highlight}</Body>
+                              <Body className="text-text-secondary">{highlight}</Body>
                             </Stack>
                           ))}
                         </Stack>
@@ -145,7 +145,7 @@ export default function ReleasesPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Highlights</Body>
                   <Body className="text-white font-weight-bold text-h3-md">Major Releases</Body>
-                  <Body className="text-on-dark-muted">Significant platform updates and new features</Body>
+                  <Body className="text-text-muted">Significant platform updates and new features</Body>
                 </Stack>
 
                 <Stack gap={6}>
@@ -154,7 +154,7 @@ export default function ReleasesPage() {
                       <Box className="flex items-center gap-3 mb-4">
                         <Sparkles className="size-6 text-primary" />
                         <Badge variant="outline" className="font-weight-medium px-3 py-1">v{release.version}</Badge>
-                        <Body size="sm" className="text-on-dark-disabled">{formatDate(release.date)}</Body>
+                        <Body size="sm" className="text-text-disabled">{formatDate(release.date)}</Body>
                       </Box>
                       <Body className="text-white font-weight-bold text-h4-md mb-4">{release.title}</Body>
                       <Stack gap={3}>
@@ -182,7 +182,7 @@ export default function ReleasesPage() {
               <Card className="p-12 border-2 border-border rounded-card text-center">
                 <Bell className="size-16 text-primary mx-auto mb-6" />
                 <Body className="text-white font-weight-bold text-h3-md mb-4">Stay Updated</Body>
-                <Body className="text-on-dark-muted mb-6 max-w-xl mx-auto">Subscribe to our newsletter to receive release notes and product updates directly in your inbox.</Body>
+                <Body className="text-text-muted mb-6 max-w-xl mx-auto">Subscribe to our newsletter to receive release notes and product updates directly in your inbox.</Body>
                 <Button variant="solid" onClick={() => router.push("/contact")}>Subscribe to Updates</Button>
               </Card>
             </Container>

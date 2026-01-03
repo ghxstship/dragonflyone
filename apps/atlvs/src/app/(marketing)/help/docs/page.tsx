@@ -73,7 +73,7 @@ export default function HelpDocsPage() {
             <Container size="2xl" className="py-12">
               <Card className="p-6 border-2 border-border rounded-card">
                 <Box className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-text-muted" />
                   <Input placeholder="Search documentation..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-12 h-14" />
                 </Box>
               </Card>
@@ -138,7 +138,7 @@ export default function HelpDocsPage() {
                           <Bookmark className="size-5 text-primary" />
                           <Body className="text-white">{article}</Body>
                         </Box>
-                        <ExternalLink className="size-4 text-on-dark-disabled" />
+                        <ExternalLink className="size-4 text-text-disabled" />
                       </Box>
                     </Card>
                   ))}

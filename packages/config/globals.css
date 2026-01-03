@@ -56,8 +56,8 @@
   
   /* Brand Accent Colors - Fixed values for cross-app consistency */
   --brand-pink: 333 100% 43%;    /* #FF006E - Brand Pink */
-  --brand-cyan: 195 100% 50%;    /* #00BFFF - Brand Cyan */
-  --brand-yellow: 38 92% 50%;    /* #F59E0B - Brand Yellow/Amber */
+  --brand-cyan: 195 100% 50%;    /* #00BFFF - Brand Cyan (GVTEWAY) */
+  --brand-yellow: 38 92% 50%;    /* #F59E0B - Brand Yellow/Amber (COMPVSS) */
 
   /* ═══════════════════════════════════════════════════════════════════════════
      SEMANTIC SURFACE COLORS - Dark mode default (GHXSTSHIP aesthetic)
@@ -594,8 +594,8 @@ a {
    - pop-card: Standard neutral shadows
    - pop-card-primary: Neutral resting, PRIMARY color on hover
    - pop-card-atlvs: ATLVS brand (pink) on hover
-   - pop-card-compvss: COMPVSS brand (cyan) on hover
-   - pop-card-gvteway: GVTEWAY brand (yellow) on hover
+   - pop-card-compvss: COMPVSS brand (yellow) on hover
+   - pop-card-gvteway: GVTEWAY brand (cyan) on hover
    - pop-card-dark: Dark background variant
    ----------------------------------------------------------------------------- */
 
@@ -647,7 +647,7 @@ a {
   box-shadow: 2px 2px 0 0 hsl(var(--brand-pink) / 0.7);
 }
 
-/* COMPVSS card - cyan brand color on hover */
+/* COMPVSS card - yellow brand color on hover */
 .pop-card-compvss {
   cursor: pointer;
   box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.15);
@@ -656,14 +656,14 @@ a {
 }
 .pop-card-compvss:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 0 hsl(var(--brand-cyan));
+  box-shadow: 6px 6px 0 0 hsl(var(--brand-yellow));
 }
 .pop-card-compvss:active {
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0 0 hsl(var(--brand-cyan) / 0.7);
+  box-shadow: 2px 2px 0 0 hsl(var(--brand-yellow) / 0.7);
 }
 
-/* GVTEWAY card - yellow brand color on hover */
+/* GVTEWAY card - cyan brand color on hover */
 .pop-card-gvteway {
   cursor: pointer;
   box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.15);
@@ -672,11 +672,11 @@ a {
 }
 .pop-card-gvteway:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 0 hsl(var(--brand-yellow));
+  box-shadow: 6px 6px 0 0 hsl(var(--brand-cyan));
 }
 .pop-card-gvteway:active {
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0 0 hsl(var(--brand-yellow) / 0.7);
+  box-shadow: 2px 2px 0 0 hsl(var(--brand-cyan) / 0.7);
 }
 
 /* Dark background card - neutral shadows */

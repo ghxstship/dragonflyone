@@ -108,7 +108,7 @@ export default function SecurityPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Compliance</Body>
                   <H3 className="text-white">Certifications & Standards</H3>
-                  <Body className="text-on-dark-muted max-w-2xl">We maintain rigorous compliance with industry standards and undergo regular third-party audits.</Body>
+                  <Body className="text-text-muted max-w-2xl">We maintain rigorous compliance with industry standards and undergo regular third-party audits.</Body>
                 </Stack>
 
                 <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
@@ -123,7 +123,7 @@ export default function SecurityPage() {
                             <Body className="text-white font-weight-bold">{cert.name}</Body>
                             <Badge className="bg-success/20 text-success border-success/30">Certified</Badge>
                           </Stack>
-                          <Body className="text-on-dark-muted">{cert.description}</Body>
+                          <Body className="text-text-muted">{cert.description}</Body>
                         </Stack>
                       </Stack>
                     </Card>
@@ -146,7 +146,7 @@ export default function SecurityPage() {
                     </Box>
                     <Stack gap={2}>
                       <Body className="text-white font-weight-bold text-h5-md">Security Whitepaper</Body>
-                      <Body className="text-on-dark-muted">Download our comprehensive security documentation detailing our practices, architecture, and compliance measures.</Body>
+                      <Body className="text-text-muted">Download our comprehensive security documentation detailing our practices, architecture, and compliance measures.</Body>
                     </Stack>
                   </Stack>
                   <Button variant="solid" size="lg" icon={<Download className="size-5" />} iconPosition="left">

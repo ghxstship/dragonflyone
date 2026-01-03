@@ -73,7 +73,7 @@ export default function SponsorPortalPage() {
                     <Body className="font-weight-bold font-weight-medium">{sponsorship.event}</Body>
                     <Box className="flex items-center gap-2 mt-2">
                       <Badge variant="outline">{sponsorship.tier}</Badge>
-                      <Body size="sm" className="text-on-dark-muted">{formatNumber(sponsorship.impressions)} impressions</Body>
+                      <Body size="sm" className="text-text-muted">{formatNumber(sponsorship.impressions)} impressions</Body>
                     </Box>
                   </Box>
                   <Box className="text-right">
@@ -95,9 +95,9 @@ export default function SponsorPortalPage() {
         <Section>
           <SectionHeader title="Sponsorship Analytics" description="Track your sponsorship performance" />
           <Card className="p-8 text-center mt-4">
-            <BarChart3 className="size-12 text-on-dark-disabled mx-auto mb-4" />
+            <BarChart3 className="size-12 text-text-disabled mx-auto mb-4" />
             <Body className="font-weight-medium font-weight-medium mb-2">Analytics Dashboard</Body>
-            <Body className="text-on-dark-muted">Detailed analytics coming soon</Body>
+            <Body className="text-text-muted">Detailed analytics coming soon</Body>
           </Card>
         </Section>
       ),

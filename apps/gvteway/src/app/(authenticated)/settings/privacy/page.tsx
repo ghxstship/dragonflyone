@@ -145,7 +145,7 @@ export default function PrivacySettingsPage() {
           <Card className="p-6">
             <Stack gap={6}>
               <Stack gap={2}>
-                <Body size="sm" className="text-on-dark-muted">Profile Visibility</Body>
+                <Body size="sm" className="text-text-muted">Profile Visibility</Body>
                 <Select
                   value={settings.profile_visibility}
                   onChange={(e) => setSettings({ ...settings, profile_visibility: e.target.value })}
@@ -157,7 +157,7 @@ export default function PrivacySettingsPage() {
               </Stack>
 
               <Stack gap={2}>
-                <Body size="sm" className="text-on-dark-muted">Who Can Message You</Body>
+                <Body size="sm" className="text-text-muted">Who Can Message You</Body>
                 <Select
                   value={settings.allow_messages}
                   onChange={(e) => setSettings({ ...settings, allow_messages: e.target.value })}
@@ -171,7 +171,7 @@ export default function PrivacySettingsPage() {
               <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-border">
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Show Activity</Body>
-                  <Body size="sm" className="text-on-dark-muted">Let others see your recent activity</Body>
+                  <Body size="sm" className="text-text-muted">Let others see your recent activity</Body>
                 </Stack>
                 <Switch
                   checked={settings.show_activity}
@@ -182,7 +182,7 @@ export default function PrivacySettingsPage() {
               <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-border">
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Show Events Attended</Body>
-                  <Body size="sm" className="text-on-dark-muted">Display events on your profile</Body>
+                  <Body size="sm" className="text-text-muted">Display events on your profile</Body>
                 </Stack>
                 <Switch
                   checked={settings.show_events_attended}
@@ -193,7 +193,7 @@ export default function PrivacySettingsPage() {
               <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-border">
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Show Reviews</Body>
-                  <Body size="sm" className="text-on-dark-muted">Display your reviews publicly</Body>
+                  <Body size="sm" className="text-text-muted">Display your reviews publicly</Body>
                 </Stack>
                 <Switch
                   checked={settings.show_reviews}
@@ -238,7 +238,7 @@ export default function PrivacySettingsPage() {
                       </Box>
                       <Stack gap={0}>
                         <Body className="font-weight-medium text-white">{blocked.user_name}</Body>
-                        <Body size="sm" className="text-on-dark-muted">
+                        <Body size="sm" className="text-text-muted">
                           Blocked {new Date(blocked.blocked_at).toLocaleDateString()}
                         </Body>
                       </Stack>
@@ -257,8 +257,8 @@ export default function PrivacySettingsPage() {
             </Stack>
           ) : (
             <Stack className="text-center py-12 items-center">
-              <UserX className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="text-on-dark-muted">No blocked users</Body>
+              <UserX className="size-12 text-text-disabled mx-auto mb-4" />
+              <Body className="text-text-muted">No blocked users</Body>
             </Stack>
           )}
         </Section>
@@ -284,8 +284,8 @@ export default function PrivacySettingsPage() {
                     <Body className="font-weight-medium text-white">{report.reported_user_name}</Body>
                     {getStatusBadge(report.status)}
                   </Stack>
-                  <Body size="sm" className="text-on-dark-muted">{report.reason}</Body>
-                  <Body size="sm" className="text-on-dark-disabled mt-2">
+                  <Body size="sm" className="text-text-muted">{report.reason}</Body>
+                  <Body size="sm" className="text-text-disabled mt-2">
                     {new Date(report.created_at).toLocaleDateString()}
                   </Body>
                 </Card>
@@ -293,17 +293,17 @@ export default function PrivacySettingsPage() {
             </Stack>
           ) : (
             <Stack className="text-center py-12 items-center">
-              <Flag className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="text-on-dark-muted">No reports submitted</Body>
+              <Flag className="size-12 text-text-disabled mx-auto mb-4" />
+              <Body className="text-text-muted">No reports submitted</Body>
             </Stack>
           )}
 
           <Card className="p-6 mt-6 bg-surface-elevated">
             <Stack direction="horizontal" gap={3} className="items-start">
-              <HelpCircle className="size-6 text-on-dark-muted flex-shrink-0" />
+              <HelpCircle className="size-6 text-text-muted flex-shrink-0" />
               <Stack gap={2}>
                 <Body className="font-weight-medium text-white mb-2">Need Help?</Body>
-                <Body size="sm" className="text-on-dark-muted mb-4">
+                <Body size="sm" className="text-text-muted mb-4">
                   If you are experiencing harassment or safety concerns, please contact our support team.
                 </Body>
                 <Button variant="outline" onClick={() => router.push("/support/chat")}>
@@ -342,11 +342,11 @@ export default function PrivacySettingsPage() {
         title="Block User"
       >
         <Stack gap={4}>
-          <Body className="text-on-dark-muted">
+          <Body className="text-text-muted">
             Blocked users cannot message you or see your activity.
           </Body>
           <Stack gap={2}>
-            <Body size="sm" className="text-on-dark-muted">Username or User ID</Body>
+            <Body size="sm" className="text-text-muted">Username or User ID</Body>
             <Input
               value={blockUserId}
               onChange={(e) => setBlockUserId(e.target.value)}
@@ -371,7 +371,7 @@ export default function PrivacySettingsPage() {
       >
         <Stack gap={4}>
           <Stack gap={2}>
-            <Body size="sm" className="text-on-dark-muted">Username or User ID</Body>
+            <Body size="sm" className="text-text-muted">Username or User ID</Body>
             <Input
               value={reportUserId}
               onChange={(e) => setReportUserId(e.target.value)}
@@ -380,7 +380,7 @@ export default function PrivacySettingsPage() {
           </Stack>
 
           <Stack gap={2}>
-            <Body size="sm" className="text-on-dark-muted">Reason</Body>
+            <Body size="sm" className="text-text-muted">Reason</Body>
             <Select
               value={reportReason}
               onChange={(e) => setReportReason(e.target.value)}
@@ -396,7 +396,7 @@ export default function PrivacySettingsPage() {
           </Stack>
 
           <Stack gap={2}>
-            <Body size="sm" className="text-on-dark-muted">Details</Body>
+            <Body size="sm" className="text-text-muted">Details</Body>
             <Textarea
               value={reportDetails}
               onChange={(e) => setReportDetails(e.target.value)}

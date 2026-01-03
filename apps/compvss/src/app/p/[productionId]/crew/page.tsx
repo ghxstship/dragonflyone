@@ -73,7 +73,7 @@ export default function ProductionCrewPage() {
 
           <Box className="flex gap-4 items-center mb-6">
             <Box className="relative flex-1 max-w-sm">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-muted" />
               <Input placeholder="Search crew..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
             </Box>
             <Box className="flex gap-2">
@@ -95,8 +95,8 @@ export default function ProductionCrewPage() {
                     </Box>
                     <Box>
                       <Body className="font-weight-bold">{member.name}</Body>
-                      <Body className="text-on-dark-muted">{member.role}</Body>
-                      <Box className="flex items-center gap-4 mt-2 text-on-dark-muted">
+                      <Body className="text-text-muted">{member.role}</Body>
+                      <Box className="flex items-center gap-4 mt-2 text-text-muted">
                         <Box className="flex items-center gap-1"><Mail className="size-4" /><Body size="sm">{member.email}</Body></Box>
                         <Box className="flex items-center gap-1"><Phone className="size-4" /><Body size="sm">{member.phone}</Body></Box>
                       </Box>

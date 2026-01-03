@@ -155,12 +155,12 @@ function PresenceAvatar({
         <div
           className={clsx(
             "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded text-xs whitespace-nowrap z-tooltip pointer-events-none",
-            inverted ? "bg-surface-primary text-on-light-primary" : "bg-surface-inverse text-on-dark-primary"
+            inverted ? "bg-surface-primary text-text-primary" : "bg-surface-inverse text-text-primary"
           )}
         >
           <div className="font-semibold">{user.name}</div>
           {user.status && (
-            <div className={clsx("text-[10px]", inverted ? "text-on-light-muted" : "text-on-dark-muted")}>
+            <div className={clsx("text-[10px]", inverted ? "text-text-muted" : "text-text-muted")}>
               {user.status === "online" ? "Online" : user.status === "away" ? "Away" : "Offline"}
             </div>
           )}
@@ -205,8 +205,8 @@ function OverflowIndicator({
           "flex items-center justify-center rounded-full border-2 font-semibold",
           sizeClasses[size],
           inverted
-            ? "bg-surface-elevated border-surface-inverse text-on-dark-secondary"
-            : "bg-muted border-surface-primary text-on-light-muted"
+            ? "bg-surface-elevated border-surface-inverse text-text-secondary"
+            : "bg-muted border-surface-primary text-text-muted"
         )}
       >
         +{count}
@@ -217,7 +217,7 @@ function OverflowIndicator({
         <div
           className={clsx(
             "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded text-xs z-tooltip pointer-events-none min-w-max",
-            inverted ? "bg-surface-primary text-on-light-primary" : "bg-surface-inverse text-on-dark-primary"
+            inverted ? "bg-surface-primary text-text-primary" : "bg-surface-inverse text-text-primary"
           )}
         >
           <div className="font-semibold mb-1">{count} more viewing</div>
@@ -302,7 +302,7 @@ export function PresenceAvatars({
       <span
         className={clsx(
           "ml-3 text-sm font-medium",
-          inverted ? "text-on-dark-muted" : "text-on-light-muted"
+          inverted ? "text-text-muted" : "text-text-muted"
         )}
       >
         {users.length} viewing

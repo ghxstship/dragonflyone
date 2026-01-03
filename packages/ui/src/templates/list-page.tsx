@@ -343,8 +343,8 @@ function SavedFiltersDropdown({
   const hasActiveFilters = Object.keys(activeFilters).length > 0;
 
   const buttonClass = inverted
-    ? "bg-transparent text-on-dark-muted border-2 border-border hover:border-border-primary transition-all duration-100 rounded-[var(--radius-button)]"
-    : "bg-transparent text-on-light-disabled border-2 border-border hover:border-border-primary transition-all duration-100 rounded-[var(--radius-button)]";
+    ? "bg-transparent text-text-muted border-2 border-border hover:border-border-primary transition-all duration-100 rounded-[var(--radius-button)]"
+    : "bg-transparent text-text-disabled border-2 border-border hover:border-border-primary transition-all duration-100 rounded-[var(--radius-button)]";
 
   const dropdownClass = inverted
     ? "bg-surface-elevated border-2 border-border shadow-lg"
@@ -386,7 +386,7 @@ function SavedFiltersDropdown({
                       onClick={(e) => handleDelete(preset.id, e)}
                       className={clsx(
                         "opacity-0 group-hover:opacity-100 p-1 rounded transition-opacity",
-                        inverted ? "hover:bg-surface-elevated text-on-dark-disabled" : "hover:bg-muted text-on-light-muted"
+                        inverted ? "hover:bg-surface-elevated text-text-disabled" : "hover:bg-muted text-text-muted"
                       )}
                     >
                       <Trash2 className="size-3" />
@@ -396,7 +396,7 @@ function SavedFiltersDropdown({
               ))}
             </div>
           ) : (
-            <div className={clsx("px-spacing-4 py-spacing-3 text-center", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
+            <div className={clsx("px-spacing-4 py-spacing-3 text-center", inverted ? "text-text-disabled" : "text-text-muted")}>
               <span className="font-body text-body-sm">No saved filters</span>
             </div>
           )}
@@ -417,8 +417,8 @@ function SavedFiltersDropdown({
                     className={clsx(
                       "flex-1 px-spacing-2 py-spacing-1 font-body text-body-sm border rounded outline-none",
                       inverted
-                        ? "bg-surface-elevated text-on-dark-primary border-border focus:border-border-primary"
-                        : "bg-surface-primary text-on-light-primary border-border focus:border-border-primary"
+                        ? "bg-surface-elevated text-text-primary border-border focus:border-border-primary"
+                        : "bg-surface-primary text-text-primary border-border focus:border-border-primary"
                     )}
                     onKeyDown={(e) => e.key === "Enter" && handleSave()}
                     autoFocus
@@ -430,8 +430,8 @@ function SavedFiltersDropdown({
                     className={clsx(
                       "px-spacing-2 py-spacing-1 rounded font-code text-mono-xs",
                       inverted
-                        ? "bg-surface-primary text-on-light-primary hover:bg-muted disabled:opacity-50"
-                        : "bg-surface-inverse text-on-dark-primary hover:bg-surface-elevated disabled:opacity-50"
+                        ? "bg-surface-primary text-text-primary hover:bg-muted disabled:opacity-50"
+                        : "bg-surface-inverse text-text-primary hover:bg-surface-elevated disabled:opacity-50"
                     )}
                   >
                     {isSaving ? "..." : "Save"}
@@ -446,11 +446,11 @@ function SavedFiltersDropdown({
                     "w-full px-spacing-4 py-spacing-3 font-code text-mono-sm flex items-center gap-gap-xs",
                     hasActiveFilters
                       ? inverted
-                        ? "hover:bg-surface-elevated text-on-dark-primary"
-                        : "hover:bg-muted text-on-light-primary"
+                        ? "hover:bg-surface-elevated text-text-primary"
+                        : "hover:bg-muted text-text-primary"
                       : inverted
-                        ? "text-on-dark-disabled cursor-not-allowed"
-                        : "text-on-dark-muted cursor-not-allowed"
+                        ? "text-text-disabled cursor-not-allowed"
+                        : "text-text-muted cursor-not-allowed"
                   )}
                 >
                   <Save className="size-4" />
@@ -508,7 +508,7 @@ function SortableColumnItem({ column, isVisible, onToggle, inverted }: SortableC
         type="button"
         className={clsx(
           "cursor-grab p-0.5 rounded",
-          inverted ? "text-on-dark-disabled hover:text-on-dark-muted" : "text-on-light-muted hover:text-on-light-primary"
+          inverted ? "text-text-disabled hover:text-text-muted" : "text-text-muted hover:text-text-primary"
         )}
         {...attributes}
         {...listeners}
@@ -522,7 +522,7 @@ function SortableColumnItem({ column, isVisible, onToggle, inverted }: SortableC
           onChange={() => onToggle(column.key)}
           className="cursor-pointer accent-primary"
         />
-        <span className={clsx("font-body text-body-sm", inverted ? "text-white" : "text-on-light-primary")}>
+        <span className={clsx("font-body text-body-sm", inverted ? "text-white" : "text-text-primary")}>
           {column.label}
         </span>
       </label>
@@ -615,8 +615,8 @@ function TableSettingsPopover<T>({
   };
 
   const buttonClass = inverted
-    ? "p-2 border-2 border-border text-on-dark-muted hover:border-border-primary hover:text-on-dark-primary rounded-button transition-all duration-100"
-    : "p-2 border-2 border-border text-on-light-muted hover:border-border-primary hover:text-on-light-primary rounded-button transition-all duration-100";
+    ? "p-2 border-2 border-border text-text-muted hover:border-border-primary hover:text-text-primary rounded-button transition-all duration-100"
+    : "p-2 border-2 border-border text-text-muted hover:border-border-primary hover:text-text-primary rounded-button transition-all duration-100";
 
   const dropdownClass = inverted
     ? "bg-surface-elevated border-2 border-border"
@@ -644,7 +644,7 @@ function TableSettingsPopover<T>({
         >
           <div className={clsx("px-4 py-3 border-b", inverted ? "border-border" : "border-border")}>
             <div className="flex items-center justify-between">
-              <span className={clsx("font-heading text-body-md font-semibold", inverted ? "text-white" : "text-on-light-primary")}>
+              <span className={clsx("font-heading text-body-md font-semibold", inverted ? "text-white" : "text-text-primary")}>
                 Table Settings
               </span>
               <button
@@ -652,7 +652,7 @@ function TableSettingsPopover<T>({
                 onClick={() => setIsOpen(false)}
                 className={clsx(
                   "p-1 rounded-button",
-                  inverted ? "hover:bg-surface-elevated text-on-dark-muted" : "hover:bg-muted text-on-light-muted"
+                  inverted ? "hover:bg-surface-elevated text-text-muted" : "hover:bg-muted text-text-muted"
                 )}
               >
                 <X className="size-4" />
@@ -662,7 +662,7 @@ function TableSettingsPopover<T>({
 
           {onDensityChange && (
             <div className={clsx("px-4 py-3 border-b", inverted ? "border-border" : "border-border")}>
-              <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
+              <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-text-disabled" : "text-text-muted")}>
                 Row Density
               </span>
               <div className="flex gap-2 mt-2">
@@ -678,8 +678,8 @@ function TableSettingsPopover<T>({
                           ? "border-white bg-white text-black"
                           : "border-black bg-black text-white"
                         : inverted
-                          ? "border-border text-on-dark-muted hover:border-border-primary"
-                          : "border-border text-on-light-muted hover:border-border-primary"
+                          ? "border-border text-text-muted hover:border-border-primary"
+                          : "border-border text-text-muted hover:border-border-primary"
                     )}
                   >
                     {mode}
@@ -692,7 +692,7 @@ function TableSettingsPopover<T>({
           {(onHiddenColumnsChange || onColumnOrderChange) && (
             <div className="px-4 py-3">
               <div className="flex items-center justify-between mb-2">
-                <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
+                <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-text-disabled" : "text-text-muted")}>
                   Columns
                 </span>
                 <button
@@ -700,7 +700,7 @@ function TableSettingsPopover<T>({
                   onClick={handleResetColumns}
                   className={clsx(
                     "font-code text-mono-xs underline",
-                    inverted ? "text-on-dark-muted hover:text-white" : "text-on-light-muted hover:text-on-light-primary"
+                    inverted ? "text-text-muted hover:text-white" : "text-text-muted hover:text-text-primary"
                   )}
                 >
                   Reset
@@ -1297,13 +1297,13 @@ export function ListPage<T>({
   // Theme-aware classes - Bold Contemporary Pop Art Adventure
   const bgClass = inverted ? "bg-black text-white" : "bg-white text-black";
   const _borderClass = inverted ? "border-border" : "border-border";
-  const mutedTextClass = inverted ? "text-on-dark-muted" : "text-on-light-muted";
+  const mutedTextClass = inverted ? "text-text-muted" : "text-text-muted";
   const primaryBtnClass = inverted
     ? "bg-white text-black border-2 border-white shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
     : "bg-black text-white border-2 border-black shadow-[3px_3px_0_hsl(var(--primary))] hover:shadow-[4px_4px_0_hsl(var(--primary))] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]";
   const secondaryBtnClass = inverted
-    ? "bg-transparent text-on-dark-muted border-2 border-border hover:border-border-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
-    : "bg-transparent text-on-light-disabled border-2 border-border hover:border-border-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]";
+    ? "bg-transparent text-text-muted border-2 border-border hover:border-border-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]"
+    : "bg-transparent text-text-disabled border-2 border-border hover:border-border-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-[var(--radius-button)]";
 
   // Error state
   if (error) {
@@ -1409,7 +1409,7 @@ export function ListPage<T>({
             {stats.map((stat, idx) => (
               <div key={idx} className={clsx("p-spacing-6 border", inverted ? "border-border bg-surface-inverse" : "border-border bg-surface-primary")} role="group" aria-label={stat.label}>
                 <div className="font-display text-h2-sm" aria-live="polite">{stat.value}</div>
-                <div className={clsx("font-code text-mono-sm uppercase tracking-widest", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>{stat.label}</div>
+                <div className={clsx("font-code text-mono-sm uppercase tracking-widest", inverted ? "text-text-disabled" : "text-text-muted")}>{stat.label}</div>
               </div>
             ))}
           </section>
@@ -1430,15 +1430,15 @@ export function ListPage<T>({
               className={clsx(
                 "w-full py-spacing-3 px-spacing-4 pl-spacing-10 pr-16 font-body text-body-md border outline-none rounded-button",
                 inverted
-                  ? "bg-surface-inverse text-on-dark-primary border-border focus:border-border-primary"
-                  : "bg-surface-primary text-on-light-primary border-border focus:border-border-primary"
+                  ? "bg-surface-inverse text-text-primary border-border focus:border-border-primary"
+                  : "bg-surface-primary text-text-primary border-border focus:border-border-primary"
               )}
             />
-            <Search className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2 size-4", inverted ? "text-on-dark-disabled" : "text-on-light-muted")} aria-hidden="true" />
+            <Search className={clsx("absolute left-spacing-3 top-1/2 -translate-y-1/2 size-4", inverted ? "text-text-disabled" : "text-text-muted")} aria-hidden="true" />
             <kbd
               className={clsx(
                 "absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 rounded text-xs font-mono",
-                inverted ? "bg-surface-elevated text-on-dark-disabled" : "bg-muted text-on-light-muted"
+                inverted ? "bg-surface-elevated text-text-disabled" : "bg-muted text-text-muted"
               )}
             >
               ⌘K
@@ -1454,7 +1454,7 @@ export function ListPage<T>({
                 aria-label={`Filter by ${filter.label}`}
                 className={clsx(
                   "px-spacing-4 py-spacing-3 font-body text-body-md border",
-                  inverted ? "bg-surface-inverse text-on-dark-primary border-border" : "bg-surface-primary text-on-light-primary border-border"
+                  inverted ? "bg-surface-inverse text-text-primary border-border" : "bg-surface-primary text-text-primary border-border"
                 )}
               >
                 <option value="All">{filter.label}: All</option>
@@ -1521,11 +1521,11 @@ export function ListPage<T>({
                           "p-2 rounded transition-colors",
                           isActive
                             ? inverted
-                              ? "bg-surface-elevated text-on-dark-primary"
-                              : "bg-surface-primary text-on-light-primary shadow-sm"
+                              ? "bg-surface-elevated text-text-primary"
+                              : "bg-surface-primary text-text-primary shadow-sm"
                             : inverted
-                              ? "text-on-dark-disabled hover:text-on-dark-primary hover:bg-surface-elevated"
-                              : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                              ? "text-text-disabled hover:text-text-primary hover:bg-surface-elevated"
+                              : "text-text-muted hover:text-text-primary hover:bg-muted"
                         )}
                       >
                         <ViewIcon size={16} aria-hidden="true" />
@@ -1546,8 +1546,8 @@ export function ListPage<T>({
                   className={clsx(
                     "p-2 border-2 rounded-button transition-all duration-100",
                     inverted
-                      ? "border-border text-on-dark-muted hover:border-border-primary hover:text-on-dark-primary"
-                      : "border-border text-on-light-muted hover:border-border-primary hover:text-on-light-primary",
+                      ? "border-border text-text-muted hover:border-border-primary hover:text-text-primary"
+                      : "border-border text-text-muted hover:border-border-primary hover:text-text-primary",
                     isRefreshing && "animate-spin"
                   )}
                   aria-label="Refresh data"
@@ -1606,7 +1606,7 @@ export function ListPage<T>({
 
         {/* Results count */}
         <div 
-          className={clsx("mb-spacing-4 font-code text-mono-sm", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}
+          className={clsx("mb-spacing-4 font-code text-mono-sm", inverted ? "text-text-disabled" : "text-text-muted")}
           role="status"
           aria-live="polite"
           aria-atomic="true"
@@ -1622,7 +1622,7 @@ export function ListPage<T>({
             groupBy={effectiveKanbanGroupBy}
             rowKey={rowKey}
             cardRender={kanbanCardRender || ((item) => (
-              <div className={clsx("text-sm", inverted ? "text-white" : "text-on-light-primary")}>
+              <div className={clsx("text-sm", inverted ? "text-white" : "text-text-primary")}>
                 {String(item[columns[0]?.key as keyof T] || "Item")}
               </div>
             ))}
@@ -1665,11 +1665,11 @@ export function ListPage<T>({
                       : "bg-surface-primary border-border hover:border-border-primary"
                   )}
                 >
-                  <div className={clsx("font-semibold text-sm mb-2", inverted ? "text-white" : "text-on-light-primary")}>
+                  <div className={clsx("font-semibold text-sm mb-2", inverted ? "text-white" : "text-text-primary")}>
                     {String(item[columns[0]?.key as keyof T] || "Item")}
                   </div>
                   {columns.slice(1, 3).map((col) => (
-                    <div key={col.key} className={clsx("text-xs", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+                    <div key={col.key} className={clsx("text-xs", inverted ? "text-text-muted" : "text-text-muted")}>
                       {col.label}: {String(item[col.key as keyof T] || "-")}
                     </div>
                   ))}

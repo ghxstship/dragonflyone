@@ -31,8 +31,8 @@ export default function EventMapPage() {
       <Section>
         <Card className="h-64 bg-surface-elevated flex items-center justify-center mb-6">
           <Box className="text-center">
-            <Map className="size-12 text-on-dark-disabled mx-auto mb-4" />
-            <Body className="text-on-dark-muted">Interactive map coming soon</Body>
+            <Map className="size-12 text-text-disabled mx-auto mb-4" />
+            <Body className="text-text-muted">Interactive map coming soon</Body>
           </Box>
         </Card>
         <SectionHeader title="Locations" description="Key points of interest" />
@@ -43,8 +43,8 @@ export default function EventMapPage() {
                 <MapPin className="size-5 text-primary mt-1" />
                 <Box>
                   <Body className="font-weight-bold">{loc.name}</Body>
-                  <Body size="sm" className="text-on-dark-muted">{loc.type}</Body>
-                  <Body size="sm" className="text-on-dark-disabled mt-1">{loc.description}</Body>
+                  <Body size="sm" className="text-text-muted">{loc.type}</Body>
+                  <Body size="sm" className="text-text-disabled mt-1">{loc.description}</Body>
                 </Box>
               </Box>
             </Card>

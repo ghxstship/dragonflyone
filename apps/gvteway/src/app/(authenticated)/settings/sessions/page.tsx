@@ -129,12 +129,12 @@ export default function SessionsPage() {
                     </Box>
                     <Stack gap={0}>
                       <Body className="font-weight-medium text-white">{currentSession.device_name || "Unknown Device"}</Body>
-                      <Body size="sm" className="text-on-dark-muted">
+                      <Body size="sm" className="text-text-muted">
                         {currentSession.browser || "Unknown Browser"} on {currentSession.os || "Unknown OS"}
                       </Body>
                       <Stack direction="horizontal" gap={2} className="items-center mt-1">
-                        <Globe className="size-3 text-on-dark-disabled" />
-                        <Body size="sm" className="text-on-dark-disabled">
+                        <Globe className="size-3 text-text-disabled" />
+                        <Body size="sm" className="text-text-disabled">
                           {currentSession.location || currentSession.ip_address || "Unknown location"}
                         </Body>
                       </Stack>
@@ -149,8 +149,8 @@ export default function SessionsPage() {
           <SectionHeader title="Other Sessions" description="Devices where you are also signed in" />
           {otherSessions.length === 0 ? (
             <Stack className="text-center py-12 items-center">
-              <Monitor className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="text-on-dark-muted">No other active sessions</Body>
+              <Monitor className="size-12 text-text-disabled mx-auto mb-4" />
+              <Body className="text-text-muted">No other active sessions</Body>
             </Stack>
           ) : (
             <Card className="overflow-hidden">
@@ -173,7 +173,7 @@ export default function SessionsPage() {
                           </Box>
                           <Stack gap={0}>
                             <Body className="font-weight-medium text-white">{session.device_name || "Unknown Device"}</Body>
-                            <Body size="sm" className="text-on-dark-muted">
+                            <Body size="sm" className="text-text-muted">
                               {session.browser || "Unknown"} on {session.os || "Unknown"}
                             </Body>
                           </Stack>
@@ -183,7 +183,7 @@ export default function SessionsPage() {
                         <Body size="sm" className="text-white">{session.location || session.ip_address || "Unknown"}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-on-dark-muted">{formatTimeAgo(session.last_active_at)}</Body>
+                        <Body size="sm" className="text-text-muted">{formatTimeAgo(session.last_active_at)}</Body>
                       </TableCell>
                       <TableCell>
                         <Button
@@ -218,7 +218,7 @@ export default function SessionsPage() {
                 </Box>
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Review unrecognized sessions</Body>
-                  <Body size="sm" className="text-on-dark-muted">If you see a session you do not recognize, revoke it immediately</Body>
+                  <Body size="sm" className="text-text-muted">If you see a session you do not recognize, revoke it immediately</Body>
                 </Stack>
               </Stack>
               <Stack direction="horizontal" gap={3} className="items-start">
@@ -227,7 +227,7 @@ export default function SessionsPage() {
                 </Box>
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Sign out from shared devices</Body>
-                  <Body size="sm" className="text-on-dark-muted">Always sign out from public or shared devices when done</Body>
+                  <Body size="sm" className="text-text-muted">Always sign out from public or shared devices when done</Body>
                 </Stack>
               </Stack>
               <Stack direction="horizontal" gap={3} className="items-start">
@@ -236,7 +236,7 @@ export default function SessionsPage() {
                 </Box>
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Enable two-factor authentication</Body>
-                  <Body size="sm" className="text-on-dark-muted">Add an extra layer of security to your account</Body>
+                  <Body size="sm" className="text-text-muted">Add an extra layer of security to your account</Body>
                 </Stack>
               </Stack>
             </Stack>

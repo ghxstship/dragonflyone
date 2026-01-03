@@ -127,8 +127,8 @@ export const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
           "hover:-translate-y-0.5",
           active && "border-b-2",
           inverted 
-            ? clsx("text-white", active ? "border-white" : "hover:text-on-dark-secondary") 
-            : clsx("text-black", active ? "border-black" : "hover:text-on-dark-disabled"),
+            ? clsx("text-white", active ? "border-white" : "hover:text-text-secondary") 
+            : clsx("text-black", active ? "border-black" : "hover:text-text-disabled"),
           className
         )}
         {...props}

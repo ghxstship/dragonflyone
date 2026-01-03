@@ -105,7 +105,7 @@ function defaultFormatTimestamp(timestamp: string | Date): string {
 }
 
 function defaultFormatValue(value: unknown): React.ReactNode {
-  if (value === null || value === undefined) return <span className="text-on-dark-muted italic">empty</span>;
+  if (value === null || value === undefined) return <span className="text-text-muted italic">empty</span>;
   if (typeof value === "boolean") return value ? "Yes" : "No";
   if (typeof value === "object") return JSON.stringify(value);
   return String(value);
@@ -132,7 +132,7 @@ export function AuditTimeline({
 
   if (events.length === 0) {
     return (
-      <div className={clsx("text-center py-spacing-12 text-on-dark-disabled font-code text-mono-sm", className)}>
+      <div className={clsx("text-center py-spacing-12 text-text-disabled font-code text-mono-sm", className)}>
         {emptyMessage}
       </div>
     );
@@ -187,13 +187,13 @@ export function AuditTimeline({
                           key={changeIndex}
                           className="flex items-center gap-gap-xs text-body-xs text-text-secondary"
                         >
-                          <span className="font-code text-mono-xs text-on-dark-disabled">
+                          <span className="font-code text-mono-xs text-text-disabled">
                             {change.fieldLabel || change.field}:
                           </span>
-                          <span className="line-through text-on-dark-muted">
+                          <span className="line-through text-text-muted">
                             {formatValue(change.previousValue, change.field)}
                           </span>
-                          <ArrowRight className="size-3 text-on-dark-muted" />
+                          <ArrowRight className="size-3 text-text-muted" />
                           <span className="text-text-primary">
                             {formatValue(change.newValue, change.field)}
                           </span>
@@ -210,7 +210,7 @@ export function AuditTimeline({
                       ? event.timestamp
                       : event.timestamp.toISOString()
                   }
-                  className="font-code text-mono-xs text-on-dark-disabled whitespace-nowrap"
+                  className="font-code text-mono-xs text-text-disabled whitespace-nowrap"
                 >
                   {formatTimestamp(event.timestamp)}
                 </time>

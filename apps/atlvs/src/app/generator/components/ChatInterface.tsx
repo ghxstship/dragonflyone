@@ -121,7 +121,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
       {/* Avatar */}
       <Box
         className={`flex size-10 shrink-0 items-center justify-center border-2 border-border ${
-          isUser ? "bg-primary text-white" : "bg-accent text-on-light-primary"
+          isUser ? "bg-primary text-white" : "bg-accent text-text-primary"
         }`}
       >
         {isUser ? <User className="size-5" /> : <Bot className="size-5" />}
@@ -131,14 +131,14 @@ function MessageBubble({ message }: { message: ChatMessage }) {
       <Card
         className={`max-w-[80%] border-2 border-border p-4 shadow-sm ${
           isUser
-            ? "bg-primary/10 text-on-light-primary"
-            : "bg-white text-on-light-primary"
+            ? "bg-primary/10 text-text-primary"
+            : "bg-white text-text-primary"
         }`}
       >
         {isStreaming && message.content === "..." ? (
           <Box className="flex items-center gap-2">
             <Loader2 className="size-4 animate-spin text-primary" />
-            <Text className="text-body-sm text-on-light-muted">Thinking...</Text>
+            <Text className="text-body-sm text-text-muted">Thinking...</Text>
           </Box>
         ) : (
           <Stack gap={1}>
@@ -147,7 +147,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
         )}
         
         {/* Timestamp */}
-        <Text className="mt-2 font-mono text-mono-xs text-on-light-disabled">
+        <Text className="mt-2 font-mono text-mono-xs text-text-disabled">
           {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
         </Text>
       </Card>
@@ -158,7 +158,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
 function TypingIndicator() {
   return (
     <Box className="flex gap-3 animate-slide-up">
-      <Box className="flex size-10 shrink-0 items-center justify-center border-2 border-border bg-accent text-on-light-primary">
+      <Box className="flex size-10 shrink-0 items-center justify-center border-2 border-border bg-accent text-text-primary">
         <Bot className="size-5" />
       </Box>
       <Card className="border-2 border-border bg-white p-4 shadow-sm">
@@ -168,7 +168,7 @@ function TypingIndicator() {
             <Box className="size-2 animate-bounce rounded-avatar bg-muted delay-150" />
             <Box className="size-2 animate-bounce rounded-avatar bg-muted delay-300" />
           </Stack>
-          <Text className="text-body-sm text-on-light-muted">AI is thinking...</Text>
+          <Text className="text-body-sm text-text-muted">AI is thinking...</Text>
         </Stack>
       </Card>
     </Box>
@@ -216,10 +216,10 @@ export function ChatInterface({
               <Box className="mb-4 flex size-16 items-center justify-center border-2 border-border bg-accent/20">
                 <Sparkles className="size-8 text-accent" />
               </Box>
-              <Text className="font-display text-h5-md uppercase text-on-light-primary">
+              <Text className="font-display text-h5-md uppercase text-text-primary">
                 Experience Generator
               </Text>
-              <Body className="mt-2 max-w-sm text-on-light-muted">
+              <Body className="mt-2 max-w-sm text-text-muted">
                 Enter a creative concept above to generate a complete production blueprint. 
                 Then ask follow-up questions to refine your experience.
               </Body>
@@ -248,7 +248,7 @@ export function ChatInterface({
               onKeyDown={handleKeyDown}
               placeholder={placeholder}
               disabled={disabled || messages.length === 0}
-              className="flex-1 border-2 border-border bg-white px-4 py-3 text-body-md shadow-sm placeholder:text-on-light-disabled focus:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex-1 border-2 border-border bg-white px-4 py-3 text-body-md shadow-sm placeholder:text-text-disabled focus:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
             />
             <Button
               type="submit"
@@ -265,7 +265,7 @@ export function ChatInterface({
         </Form>
         
         {messages.length > 0 && (
-          <Text className="mt-2 text-center font-mono text-mono-xs text-on-light-disabled">
+          <Text className="mt-2 text-center font-mono text-mono-xs text-text-disabled">
             Ask about budget tiers, sensory design, zones, or guest journey
           </Text>
         )}

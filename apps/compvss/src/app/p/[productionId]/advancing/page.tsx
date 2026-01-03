@@ -102,7 +102,7 @@ export default function ProductionAdvancingPage() {
                       </Box>
                       <Box>
                         <Body className="font-weight-medium">{item.item}</Body>
-                        <Body size="sm" className="text-on-dark-muted">To: {item.recipient}</Body>
+                        <Body size="sm" className="text-text-muted">To: {item.recipient}</Body>
                       </Box>
                     </Box>
                     <Box className="flex items-center gap-2">
@@ -127,7 +127,7 @@ export default function ProductionAdvancingPage() {
           <Card className="p-8 text-center mt-4">
             <Mail className="size-12 text-primary mx-auto mb-4" />
             <Body className="font-weight-medium mb-2">Ready to Send</Body>
-            <Body className="text-on-dark-muted mb-4">Send advance package to all pending recipients</Body>
+            <Body className="text-text-muted mb-4">Send advance package to all pending recipients</Body>
             <Button variant="solid" icon={<Send className="size-4" />} iconPosition="left">Send Advance</Button>
           </Card>
         </Section>

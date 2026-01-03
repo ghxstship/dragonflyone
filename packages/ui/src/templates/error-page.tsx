@@ -92,8 +92,8 @@ export function ErrorContent({
     }
   };
 
-  const textClass = inverted ? "text-on-dark-primary" : "text-on-light-primary";
-  const mutedTextClass = inverted ? "text-on-dark-muted" : "text-on-light-muted";
+  const textClass = inverted ? "text-text-primary" : "text-text-primary";
+  const mutedTextClass = inverted ? "text-text-muted" : "text-text-muted";
 
   return (
     <Stack gap={8} className="mx-auto max-w-2xl min-h-[60vh] flex flex-col justify-center py-8">
@@ -281,7 +281,7 @@ export const ErrorPage = forwardRef<HTMLDivElement, ErrorPageProps>(
     return (
       <Section
         ref={ref}
-        className={clsx("relative min-h-screen overflow-hidden", bgClass, isDark ? "text-on-dark-primary" : "text-on-light-primary")}
+        className={clsx("relative min-h-screen overflow-hidden", bgClass, isDark ? "text-text-primary" : "text-text-primary")}
         noPadding
       >
         {/* Skip to main content link */}

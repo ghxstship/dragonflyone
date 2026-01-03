@@ -136,21 +136,21 @@ export default function SOPsPage() {
       content: (
         <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
-            <Body size="sm" className=" text-on-dark-disabled">Category</Body>
+            <Body size="sm" className=" text-text-disabled">Category</Body>
             <Body>{selectedSOP.category?.name || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body size="sm" className=" text-on-dark-disabled">Version</Body>
+            <Body size="sm" className=" text-text-disabled">Version</Body>
             <Body>{selectedSOP.version}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body size="sm" className=" text-on-dark-disabled">Status</Body>
+            <Body size="sm" className=" text-text-disabled">Status</Body>
             <Badge variant={statusColors[selectedSOP.status] || 'ghost'}>
               {selectedSOP.status.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body size="sm" className=" text-on-dark-disabled">Effective Date</Body>
+            <Body size="sm" className=" text-text-disabled">Effective Date</Body>
             <Body>{selectedSOP.effective_date ? new Date(selectedSOP.effective_date).toLocaleDateString() : '—'}</Body>
           </Stack>
         </Grid>
@@ -162,11 +162,11 @@ export default function SOPsPage() {
       content: (
         <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
-            <Body size="sm" className=" text-on-dark-disabled">Acknowledgment</Body>
+            <Body size="sm" className=" text-text-disabled">Acknowledgment</Body>
             <Body>{selectedSOP.requires_acknowledgment ? 'Required' : 'Not Required'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body size="sm" className=" text-on-dark-disabled">Training</Body>
+            <Body size="sm" className=" text-text-disabled">Training</Body>
             <Body>{selectedSOP.requires_training ? 'Required' : 'Not Required'}</Body>
           </Stack>
         </Grid>

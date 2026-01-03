@@ -71,7 +71,7 @@ export const AppNavigation = forwardRef<HTMLElement, AppNavigationProps>(
 
     const bgClass = colorScheme === "black" ? "bg-black/90" : "bg-surface-inverse/90";
     const borderClass = colorScheme === "black" ? "border-border" : "border-border";
-    const textClass = colorScheme === "black" ? "text-on-dark-secondary" : "text-on-dark-secondary";
+    const textClass = colorScheme === "black" ? "text-text-secondary" : "text-text-secondary";
     const overlayBgClass = colorScheme === "black" ? "bg-black" : "bg-surface-inverse";
 
     return (

@@ -66,7 +66,7 @@ export default function ForgotPasswordPage() {
           
           <Stack gap={3} className="items-center">
             <H2 className="text-white">Check Your Email</H2>
-            <Body className="text-on-dark-secondary max-w-sm">
+            <Body className="text-text-secondary max-w-sm">
               If an account exists for <strong className="text-white">{email}</strong>, you will receive an email with instructions to reset your password.
             </Body>
           </Stack>
@@ -85,7 +85,7 @@ export default function ForgotPasswordPage() {
               variant="ghost"
               size="sm"
               onClick={() => setSubmitted(false)}
-              className="text-on-dark-muted"
+              className="text-text-muted"
             >
               Try a different email
             </Button>

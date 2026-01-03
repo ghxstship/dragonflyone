@@ -59,10 +59,10 @@ export default function MagicLinkPage() {
           
           <Stack gap={3} className="items-center">
             <H2 className="text-white">Check Your Email</H2>
-            <Body className="text-on-dark-secondary max-w-sm">
+            <Body className="text-text-secondary max-w-sm">
               We&apos;ve sent a magic link to <strong className="text-white">{email}</strong>. Click the link in the email to sign in.
             </Body>
-            <Label size="xs" className="text-on-dark-disabled">Link expires in 1 hour</Label>
+            <Label size="xs" className="text-text-disabled">Link expires in 1 hour</Label>
           </Stack>
 
           <Stack gap={3} className="w-full max-w-xs">

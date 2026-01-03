@@ -1,0 +1,93 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5] [cursor=pointer]:
+      - /url: "#main-content"
+    - generic [ref=e6]:
+      - generic [ref=e9]:
+        - heading "ATLVS" [level=1] [ref=e11]
+        - generic [ref=e12]:
+          - heading "Experience Management, Elevated" [level=1] [ref=e13]
+          - generic [ref=e14]:
+            - generic [ref=e15]:
+              - img [ref=e17]
+              - generic [ref=e22]:
+                - paragraph [ref=e23]: AI-Powered Insights
+                - paragraph [ref=e24]: Smart recommendations for every event
+            - generic [ref=e25]:
+              - img [ref=e27]
+              - generic [ref=e29]:
+                - paragraph [ref=e30]: Enterprise Security
+                - paragraph [ref=e31]: SOC 2 compliant infrastructure
+            - generic [ref=e32]:
+              - img [ref=e34]
+              - generic [ref=e36]:
+                - paragraph [ref=e37]: Real-Time Collaboration
+                - paragraph [ref=e38]: Work together seamlessly
+        - generic [ref=e40]:
+          - paragraph [ref=e41]: “ATLVS transformed how we manage our events. The platform is intuitive and powerful.”
+          - generic [ref=e43]:
+            - paragraph [ref=e44]: Sarah Chen
+            - paragraph [ref=e45]: Event Director, TechConf
+      - generic [ref=e46]:
+        - banner [ref=e47]:
+          - heading "ATLVS" [level=1] [ref=e49]
+        - main "Authentication content" [ref=e50]:
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - heading "Welcome Back" [level=1] [ref=e54]
+              - paragraph [ref=e55]: Sign in to continue to your account
+            - generic [ref=e58]:
+              - generic [ref=e59]:
+                - generic [ref=e60]: Email*
+                - generic [ref=e61]:
+                  - img [ref=e63]
+                  - textbox "Email*" [ref=e66]:
+                    - /placeholder: you@example.com
+              - generic [ref=e68]:
+                - generic [ref=e69]: Password*
+                - generic [ref=e70]:
+                  - img [ref=e72]
+                  - textbox "Password*" [ref=e75]:
+                    - /placeholder: Enter your password
+                  - button "Show password" [ref=e77]:
+                    - img [ref=e78]
+              - generic [ref=e81]:
+                - generic [ref=e82]:
+                  - generic [ref=e83]:
+                    - checkbox "Remember me" [ref=e84]
+                    - img [ref=e85]
+                  - paragraph [ref=e87]: Remember me
+                - button "Forgot password?" [ref=e88]
+              - button "Sign In" [ref=e89]
+              - paragraph [ref=e91]: Or continue with
+              - generic [ref=e92]:
+                - button "Continue with Google" [ref=e93]:
+                  - img [ref=e94]
+                  - text: Continue with Google
+                - button "Continue with Microsoft" [ref=e99]:
+                  - img [ref=e100]
+                  - text: Continue with Microsoft
+              - button "Sign in with magic link instead" [ref=e105]
+            - paragraph [ref=e107]:
+              - text: Don't have an account?
+              - link "Create one" [ref=e108] [cursor=pointer]:
+                - /url: /auth/signup
+    - contentinfo [ref=e109]:
+      - generic [ref=e111]:
+        - navigation "Footer navigation" [ref=e112]:
+          - generic [ref=e113]:
+            - link "Privacy" [ref=e114] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e115] [cursor=pointer]:
+              - /url: /legal/terms
+            - link "Help" [ref=e116] [cursor=pointer]:
+              - /url: /help
+        - text: © 2026 GHXSTSHIP INDUSTRIES
+```

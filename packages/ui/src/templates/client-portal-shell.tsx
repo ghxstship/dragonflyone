@@ -144,10 +144,10 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
     },
     ref
   ) {
-    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-muted text-on-light-primary";
+    const bgClass = inverted ? "bg-surface-inverse text-text-primary" : "bg-muted text-text-primary";
     const headerBgClass = inverted ? "bg-surface-elevated border-border" : "bg-surface-primary border-border";
     const cardBgClass = inverted ? "bg-surface-elevated border-border" : "bg-surface-primary border-border";
-    const mutedTextClass = inverted ? "text-on-dark-muted" : "text-on-light-muted";
+    const mutedTextClass = inverted ? "text-text-muted" : "text-text-muted";
 
     // Close mobile menu on escape key
     useEffect(() => {
@@ -171,7 +171,7 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
         <Stack gap={6} className="items-center text-center max-w-md">
           {icon}
           <Stack gap={2} className="items-center">
-            <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>{title}</H2>
+            <H2 className={inverted ? "text-text-primary" : "text-text-primary"}>{title}</H2>
             <Body className={mutedTextClass}>{message}</Body>
           </Stack>
           {action}
@@ -255,7 +255,7 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                   </div>
                 )}
                 <div>
-                  <p className={clsx("text-sm font-semibold", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+                  <p className={clsx("text-sm font-semibold", inverted ? "text-text-primary" : "text-text-primary")}>
                     {organizationName}
                   </p>
                   <p className={clsx("text-xs", mutedTextClass)}>Client Portal</p>
@@ -265,7 +265,7 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
               {/* User Menu */}
               <div className="flex items-center gap-4">
                 <div className="text-right hidden sm:block">
-                  <p className={clsx("text-sm font-medium", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+                  <p className={clsx("text-sm font-medium", inverted ? "text-text-primary" : "text-text-primary")}>
                     {clientName}
                   </p>
                   {clientEmail && (
@@ -283,8 +283,8 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                   className={clsx(
                     "p-2 rounded-button transition-colors",
                     inverted
-                      ? "hover:bg-surface-elevated text-on-dark-muted hover:text-on-dark-primary"
-                      : "hover:bg-muted text-on-light-disabled hover:text-on-light-primary"
+                      ? "hover:bg-surface-elevated text-text-muted hover:text-text-primary"
+                      : "hover:bg-muted text-text-disabled hover:text-text-primary"
                   )}
                   title="Sign Out"
                   aria-label="Sign out"
@@ -317,8 +317,8 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                           activeRoute === item.id
                             ? "bg-primary/10 text-primary"
                             : inverted
-                              ? "hover:bg-surface-elevated text-on-dark-muted hover:text-on-dark-primary"
-                              : "hover:bg-muted text-on-light-disabled hover:text-on-light-primary"
+                              ? "hover:bg-surface-elevated text-text-muted hover:text-text-primary"
+                              : "hover:bg-muted text-text-disabled hover:text-text-primary"
                         )}
                         aria-current={activeRoute === item.id ? "page" : undefined}
                       >
@@ -327,7 +327,7 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                         {item.badge !== undefined && (
                           <span className={clsx(
                             "px-1.5 py-0.5 text-xs rounded-badge font-medium",
-                            inverted ? "bg-surface-elevated text-on-dark-secondary" : "bg-muted text-on-light-disabled"
+                            inverted ? "bg-surface-elevated text-text-secondary" : "bg-muted text-text-disabled"
                           )}>
                             {item.badge}
                           </span>
@@ -369,7 +369,7 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                         "px-1.5 py-0.5 text-xs rounded-badge font-medium",
                         activeRoute === item.id
                           ? "bg-white/20 text-white"
-                          : inverted ? "bg-surface-elevated text-on-dark-secondary" : "bg-muted text-on-light-disabled"
+                          : inverted ? "bg-surface-elevated text-text-secondary" : "bg-muted text-text-disabled"
                       )}>
                         {item.badge}
                       </span>
@@ -407,8 +407,8 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                     className={clsx(
                       "text-xs transition-colors",
                       inverted
-                        ? "text-on-dark-muted hover:text-white"
-                        : "text-on-light-disabled hover:text-on-light-primary"
+                        ? "text-text-muted hover:text-white"
+                        : "text-text-disabled hover:text-text-primary"
                     )}
                   >
                     {link.label}

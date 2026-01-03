@@ -208,7 +208,7 @@ export default function SignUpPage() {
 
           <AuthCheckbox
             label={
-              <Text size="sm" className="text-on-dark-secondary">
+              <Text size="sm" className="text-text-secondary">
                 I agree to the{" "}
                 <Link href="/legal/terms" className="text-primary-400 hover:text-primary-300 underline">
                   Terms of Service

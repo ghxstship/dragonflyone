@@ -115,7 +115,7 @@ interface SearchInputProps {
 function SearchInput({ value, onChange, onClear, placeholder, inputRef }: SearchInputProps) {
   return (
     <div className="relative">
-      <Search className="absolute left-spacing-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
+      <Search className="absolute left-spacing-4 top-1/2 -translate-y-1/2 size-5 text-text-muted" />
       <input
         ref={inputRef}
         type="text"
@@ -125,7 +125,7 @@ function SearchInput({ value, onChange, onClear, placeholder, inputRef }: Search
         className={clsx(
           "w-full pl-spacing-12 pr-spacing-10 py-spacing-4",
           "bg-surface-primary border-b-2 border-border-primary",
-          "text-body-lg text-text-primary placeholder:text-on-dark-muted",
+          "text-body-lg text-text-primary placeholder:text-text-muted",
           "outline-none focus:border-primary-500 transition-colors"
         )}
         autoFocus
@@ -133,7 +133,7 @@ function SearchInput({ value, onChange, onClear, placeholder, inputRef }: Search
       {value && (
         <button
           onClick={onClear}
-          className="absolute right-spacing-4 top-1/2 -translate-y-1/2 p-spacing-1 text-on-dark-muted hover:text-on-dark-disabled bg-transparent border-none cursor-pointer"
+          className="absolute right-spacing-4 top-1/2 -translate-y-1/2 p-spacing-1 text-text-muted hover:text-text-disabled bg-transparent border-none cursor-pointer"
         >
           <X className="size-4" />
         </button>
@@ -159,7 +159,7 @@ function FacetFilters({ facets, activeFilters, onFilterToggle, onClearFilters }:
   return (
     <div className="border-r-2 border-border-primary p-spacing-4 w-container-sm overflow-y-auto">
       <div className="flex items-center justify-between mb-spacing-4">
-        <span className="font-code text-mono-sm text-on-dark-disabled uppercase tracking-wider">Filters</span>
+        <span className="font-code text-mono-sm text-text-disabled uppercase tracking-wider">Filters</span>
         {activeFilters.length > 0 && (
           <button
             onClick={onClearFilters}
@@ -172,7 +172,7 @@ function FacetFilters({ facets, activeFilters, onFilterToggle, onClearFilters }:
       
       {facets.map((facet) => (
         <div key={facet.field} className="mb-spacing-4">
-          <p className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider mb-spacing-2">
+          <p className="font-code text-mono-xs text-text-disabled uppercase tracking-wider mb-spacing-2">
             {facet.label}
           </p>
           <div className="flex flex-col gap-gap-xs">
@@ -194,7 +194,7 @@ function FacetFilters({ facets, activeFilters, onFilterToggle, onClearFilters }:
                   <span className="text-body-sm">{item.label}</span>
                   <span className={clsx(
                     "text-body-xs font-code",
-                    isActive ? "text-white/70" : "text-on-light-muted"
+                    isActive ? "text-white/70" : "text-text-muted"
                   )}>
                     {item.count}
                   </span>
@@ -232,9 +232,9 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
   if (query && results.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-spacing-12 text-center">
-        <Search className="size-12 text-on-dark-secondary mb-spacing-4" />
-        <p className="text-body-md text-on-dark-disabled">No results found for &quot;{query}&quot;</p>
-        <p className="text-body-sm text-on-dark-muted mt-spacing-2">Try different keywords or filters</p>
+        <Search className="size-12 text-text-secondary mb-spacing-4" />
+        <p className="text-body-md text-text-disabled">No results found for &quot;{query}&quot;</p>
+        <p className="text-body-sm text-text-muted mt-spacing-2">Try different keywords or filters</p>
       </div>
     );
   }
@@ -259,10 +259,10 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
       {Object.entries(groupedResults).map(([entityType, items]) => (
         <div key={entityType}>
           <div className="px-spacing-4 py-spacing-2 bg-surface-secondary border-b border-border-secondary">
-            <span className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider flex items-center gap-gap-xs">
+            <span className="font-code text-mono-xs text-text-disabled uppercase tracking-wider flex items-center gap-gap-xs">
               {entityIcons[entityType] || <FileText className="size-3" />}
               {entityType}
-              <span className="text-on-dark-muted">({items.length})</span>
+              <span className="text-text-muted">({items.length})</span>
             </span>
           </div>
           {items.map((result) => {
@@ -295,7 +295,7 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
                   {result.description && (
                     <p className={clsx(
                       "text-body-sm truncate",
-                      isSelected ? "text-white/70" : "text-on-light-muted"
+                      isSelected ? "text-white/70" : "text-text-muted"
                     )}>
                       {result.description}
                     </p>
@@ -303,7 +303,7 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
                 </div>
                 <ChevronRight className={clsx(
                   "size-4",
-                  isSelected ? "text-white/70" : "text-on-light-muted"
+                  isSelected ? "text-white/70" : "text-text-muted"
                 )} />
               </button>
             );
@@ -337,7 +337,7 @@ function SearchSuggestions({
     <div className="p-spacing-4">
       {savedSearches.length > 0 && (
         <div className="mb-spacing-6">
-          <p className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider mb-spacing-2 flex items-center gap-gap-xs">
+          <p className="font-code text-mono-xs text-text-disabled uppercase tracking-wider mb-spacing-2 flex items-center gap-gap-xs">
             <Star className="size-3" />
             Saved Searches
           </p>
@@ -359,13 +359,13 @@ function SearchSuggestions({
       {recentSearches.length > 0 && (
         <div>
           <div className="flex items-center justify-between mb-spacing-2">
-            <p className="font-code text-mono-xs text-on-dark-disabled uppercase tracking-wider flex items-center gap-gap-xs">
+            <p className="font-code text-mono-xs text-text-disabled uppercase tracking-wider flex items-center gap-gap-xs">
               <Clock className="size-3" />
               Recent Searches
             </p>
             <button
               onClick={onClearHistory}
-              className="text-body-xs text-on-dark-disabled hover:text-on-dark-disabled bg-transparent border-none cursor-pointer"
+              className="text-body-xs text-text-disabled hover:text-text-disabled bg-transparent border-none cursor-pointer"
             >
               Clear
             </button>
@@ -377,7 +377,7 @@ function SearchSuggestions({
                 onClick={() => onSelectRecent(query)}
                 className="flex items-center gap-gap-sm px-spacing-3 py-spacing-2 bg-surface-secondary hover:bg-surface-tertiary rounded-button text-left border-none cursor-pointer transition-colors"
               >
-                <Clock className="size-4 text-on-dark-muted" />
+                <Clock className="size-4 text-text-muted" />
                 <span className="text-body-sm text-text-primary">{query}</span>
               </button>
             ))}
@@ -387,9 +387,9 @@ function SearchSuggestions({
       
       {savedSearches.length === 0 && recentSearches.length === 0 && (
         <div className="flex flex-col items-center justify-center py-spacing-8 text-center">
-          <Search className="size-10 text-on-dark-secondary mb-spacing-4" />
-          <p className="text-body-md text-on-dark-disabled">Start typing to search</p>
-          <p className="text-body-sm text-on-dark-muted mt-spacing-1">
+          <Search className="size-10 text-text-secondary mb-spacing-4" />
+          <p className="text-body-md text-text-disabled">Start typing to search</p>
+          <p className="text-body-sm text-text-muted mt-spacing-1">
             Search across projects, contacts, events, and more
           </p>
         </div>
@@ -552,7 +552,7 @@ export function GlobalSearch({
       {/* Active Filters */}
       {filters.length > 0 && (
         <div className="flex items-center gap-1 px-4 py-2 bg-muted border-b border-border overflow-x-auto">
-          <Filter className="size-4 text-on-light-muted flex-shrink-0" />
+          <Filter className="size-4 text-text-muted flex-shrink-0" />
           {filters.map((filter, index) => (
             <span
               key={index}
@@ -575,7 +575,7 @@ export function GlobalSearch({
   // Footer with keyboard hints
   const footerContent = (
     <div className="flex items-center justify-between">
-      <div className="flex items-center gap-4 text-xs text-on-light-muted">
+      <div className="flex items-center gap-4 text-xs text-text-muted">
         <span className="flex items-center gap-1">
           <kbd className="px-1 py-px bg-muted rounded-badge font-mono">↑↓</kbd>
           Navigate
@@ -597,7 +597,7 @@ export function GlobalSearch({
               "flex items-center gap-1 px-2 py-1 rounded-button text-xs border-none cursor-pointer transition-colors",
               showFilters
                 ? "bg-primary-500 text-white"
-                : "bg-muted text-on-light-muted hover:bg-surface-elevated"
+                : "bg-muted text-text-muted hover:bg-surface-elevated"
             )}
           >
             <Filter className="size-3" />
@@ -607,7 +607,7 @@ export function GlobalSearch({
         {onSaveSearch && query && (
           <button
             onClick={() => onSaveSearch("New Search", query, filters)}
-            className="flex items-center gap-1 px-2 py-1 bg-muted text-on-light-muted hover:bg-surface-elevated rounded-button text-xs border-none cursor-pointer transition-colors"
+            className="flex items-center gap-1 px-2 py-1 bg-muted text-text-muted hover:bg-surface-elevated rounded-button text-xs border-none cursor-pointer transition-colors"
           >
             <Star className="size-3" />
             Save

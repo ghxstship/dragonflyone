@@ -127,7 +127,7 @@ export default function RoadmapPage() {
                       <Card key={item.id} className="p-6 border-2 border-border rounded-card pop-card">
                         <Stack gap={4}>
                           <Stack direction="horizontal" className="justify-between items-start">
-                            <Box className={`p-3 rounded-card ${item.status === "completed" ? "bg-success/20 text-success" : item.status === "in_progress" ? "bg-primary/20 text-primary" : "bg-surface-elevated text-on-dark-muted"}`}>
+                            <Box className={`p-3 rounded-card ${item.status === "completed" ? "bg-success/20 text-success" : item.status === "in_progress" ? "bg-primary/20 text-primary" : "bg-surface-elevated text-text-muted"}`}>
                               {config.icon}
                             </Box>
                             <Stack direction="horizontal" gap={2}>
@@ -137,7 +137,7 @@ export default function RoadmapPage() {
                           </Stack>
                           <Stack gap={2}>
                             <Body className="text-white font-weight-bold">{item.title}</Body>
-                            <Body className="text-on-dark-muted">{item.description}</Body>
+                            <Body className="text-text-muted">{item.description}</Body>
                           </Stack>
                           <Badge variant="outline" className="w-fit">{item.category}</Badge>
                         </Stack>

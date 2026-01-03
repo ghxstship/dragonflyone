@@ -1,0 +1,124 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e6]:
+      - generic [ref=e7]:
+        - link "GVTEWAY" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=e9]:
+          - generic [ref=e10]:
+            - link "Events" [ref=e11] [cursor=pointer]:
+              - /url: /events
+            - link "Artists" [ref=e12] [cursor=pointer]:
+              - /url: /artists
+            - link "Venues" [ref=e13] [cursor=pointer]:
+              - /url: /venues
+            - link "Community" [ref=e14] [cursor=pointer]:
+              - /url: /community
+        - generic [ref=e15]:
+          - link "Create" [ref=e16] [cursor=pointer]:
+            - /url: /creators
+            - button "Create" [ref=e17]
+          - link "Sign In" [ref=e18] [cursor=pointer]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e19]
+          - button "Open navigation" [ref=e20]:
+            - paragraph [ref=e22]: Open navigation
+    - main [ref=e23]:
+      - generic [ref=e28]:
+        - link "Skip to main content" [ref=e29] [cursor=pointer]:
+          - /url: "#main-content"
+        - main "Page content" [ref=e30]:
+          - generic [ref=e36]:
+            - text: Support
+            - heading "Live Chat" [level=1] [ref=e37]
+            - paragraph [ref=e39]: Chat with our support team in real-time. We are here to help you with any questions.
+            - generic [ref=e40]:
+              - button "Browse FAQ" [ref=e41]:
+                - text: Browse FAQ
+                - img [ref=e43]
+              - button "Help Center" [ref=e46]
+          - generic [ref=e50]:
+            - paragraph [ref=e53]: Support Agent Online
+            - paragraph [ref=e58]: Hi! How can I help you today?
+            - generic [ref=e60]:
+              - textbox "Type your message..." [ref=e61]
+              - button "Send" [disabled] [ref=e62]:
+                - text: Send
+                - img [ref=e64]
+          - generic [ref=e70]:
+            - generic [ref=e71]:
+              - paragraph [ref=e72]: Support Options
+              - paragraph [ref=e73]: Other Ways to Reach Us
+              - paragraph [ref=e74]: Choose the support channel that works best for you
+            - generic [ref=e75]:
+              - generic [ref=e76]:
+                - img [ref=e78]
+                - paragraph [ref=e80]: Live Chat
+                - paragraph [ref=e81]: Get instant help from our support team.
+              - generic [ref=e82]:
+                - img [ref=e84]
+                - paragraph [ref=e86]: Phone Support
+                - paragraph [ref=e87]: Call us at 1-800-GVTEWAY.
+              - generic [ref=e88]:
+                - img [ref=e90]
+                - paragraph [ref=e93]: Email Support
+                - paragraph [ref=e94]: Send us a message anytime.
+              - generic [ref=e95]:
+                - img [ref=e97]
+                - paragraph [ref=e100]: 24/7 Available
+                - paragraph [ref=e101]: We are here around the clock.
+          - generic [ref=e106]:
+            - heading "Need More Help?" [level=2] [ref=e107]
+            - paragraph [ref=e108]: Browse our FAQ or help center for more information.
+            - generic [ref=e109]:
+              - button "Browse FAQ" [ref=e110]:
+                - text: Browse FAQ
+                - img [ref=e112]
+              - button "Help Center" [ref=e115]
+    - contentinfo [ref=e116]:
+      - generic [ref=e117]:
+        - heading "GVTEWAY" [level=1] [ref=e119]
+        - generic [ref=e120]:
+          - generic [ref=e121]:
+            - heading "Discover" [level=3] [ref=e122]
+            - link "Browse Events" [ref=e123] [cursor=pointer]:
+              - /url: /events
+            - link "Find Venues" [ref=e124] [cursor=pointer]:
+              - /url: /venues
+            - link "Artists" [ref=e125] [cursor=pointer]:
+              - /url: /artists
+          - generic [ref=e126]:
+            - heading "Membership" [level=3] [ref=e127]
+            - link "Join" [ref=e128] [cursor=pointer]:
+              - /url: /membership
+            - link "Experiences" [ref=e129] [cursor=pointer]:
+              - /url: /experiences
+            - link "Community" [ref=e130] [cursor=pointer]:
+              - /url: /community
+          - generic [ref=e131]:
+            - heading "Support" [level=3] [ref=e132]
+            - link "Help Center" [ref=e133] [cursor=pointer]:
+              - /url: /help
+            - link "Contact" [ref=e134] [cursor=pointer]:
+              - /url: /help#contact
+            - link "FAQ" [ref=e135] [cursor=pointer]:
+              - /url: /help#faq
+          - generic [ref=e136]:
+            - heading "Legal" [level=3] [ref=e137]
+            - link "Privacy" [ref=e138] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e139] [cursor=pointer]:
+              - /url: /legal/terms
+            - link "Accessibility" [ref=e140] [cursor=pointer]:
+              - /url: /accessibility
+        - paragraph [ref=e142]: © 2026 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+```

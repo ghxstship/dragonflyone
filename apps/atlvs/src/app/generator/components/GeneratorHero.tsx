@@ -57,17 +57,17 @@ export function GeneratorHero({
       <Container className="relative mx-auto flex min-h-screen max-w-container-4xl flex-col items-center justify-center px-6 py-16 lg:px-8 lg:py-24">
         <Stack gap={8} className="w-full max-w-2xl text-center">
           {/* Kicker */}
-          <Label className="font-mono text-mono-sm uppercase tracking-kicker text-on-light-muted">
+          <Label className="font-mono text-mono-sm uppercase tracking-kicker text-text-muted">
             AI-Powered Experience Design
           </Label>
 
           {/* Headline */}
-          <Display className="font-display text-display-md uppercase leading-none tracking-display text-on-light-primary md:text-display-lg">
+          <Display className="font-display text-display-md uppercase leading-none tracking-display text-text-primary md:text-display-lg">
             Transform Any Idea Into a Production Blueprint
           </Display>
 
           {/* Description */}
-          <Body className="mx-auto max-w-xl text-body-lg text-on-light-secondary">
+          <Body className="mx-auto max-w-xl text-body-lg text-text-secondary">
             Enter a single creative concept and watch as AI generates a complete
             immersive experience blueprint, ready to launch in ATLVS.
           </Body>
@@ -81,7 +81,7 @@ export function GeneratorHero({
                   value={creativeSeed}
                   onChange={(e) => onCreativeSeedChange(e.target.value)}
                   placeholder="Enter your creative concept..."
-                  className="w-full border-2 border-border bg-white px-6 py-5 text-center font-display text-h4-md uppercase tracking-label shadow-md placeholder:text-on-light-disabled focus:shadow-lg focus:outline-none"
+                  className="w-full border-2 border-border bg-white px-6 py-5 text-center font-display text-h4-md uppercase tracking-label shadow-md placeholder:text-text-disabled focus:shadow-lg focus:outline-none"
                   disabled={isGenerating}
                 />
               </Box>
@@ -98,7 +98,7 @@ export function GeneratorHero({
 
           {/* Example Seeds */}
           <Box className="pt-4">
-            <Text className="mb-3 font-mono text-mono-xs uppercase tracking-kicker text-on-light-disabled">
+            <Text className="mb-3 font-mono text-mono-xs uppercase tracking-kicker text-text-disabled">
               Try one of these
             </Text>
             <Stack direction="horizontal" gap={2} className="flex-wrap justify-center">
@@ -107,7 +107,7 @@ export function GeneratorHero({
                   key={seed}
                   type="button"
                   onClick={() => onCreativeSeedChange(seed)}
-                  className="border-2 border-border bg-white px-4 py-2 font-mono text-mono-xs uppercase tracking-label text-on-light-secondary transition-colors hover:border-border hover:text-on-light-primary"
+                  className="border-2 border-border bg-white px-4 py-2 font-mono text-mono-xs uppercase tracking-label text-text-secondary transition-colors hover:border-border hover:text-text-primary"
                 >
                   {seed}
                 </Button>
@@ -118,7 +118,7 @@ export function GeneratorHero({
 
         {/* Scroll Indicator */}
         <Box className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-light-disabled">
+          <Text className="font-mono text-mono-xs uppercase tracking-kicker text-text-disabled">
             Powered by ATLVS
           </Text>
         </Box>

@@ -118,22 +118,22 @@ function SearchInput({
     <div className={clsx(
       "flex items-center gap-2 px-3 py-2 rounded border-2 transition-colors",
       inverted 
-        ? "bg-surface-elevated border-border text-on-dark-secondary focus-within:border-border-primary" 
-        : "bg-surface-primary border-border text-on-light-secondary focus-within:border-border-primary"
+        ? "bg-surface-elevated border-border text-text-secondary focus-within:border-border-primary" 
+        : "bg-surface-primary border-border text-text-secondary focus-within:border-border-primary"
     )}>
-      <Search size={16} className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} />
+      <Search size={16} className={inverted ? "text-text-disabled" : "text-text-disabled"} />
       <input
         type="text"
         placeholder="Search..."
         className={clsx(
-          "flex-1 bg-transparent text-sm outline-none placeholder:text-on-dark-disabled",
-          inverted ? "text-on-dark-primary" : "text-on-light-primary"
+          "flex-1 bg-transparent text-sm outline-none placeholder:text-text-disabled",
+          inverted ? "text-text-primary" : "text-text-primary"
         )}
         onChange={(e) => onSearch?.(e.target.value)}
       />
       <kbd className={clsx(
         "hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono rounded",
-        inverted ? "bg-surface-elevated text-on-dark-muted" : "bg-muted text-on-light-muted"
+        inverted ? "bg-surface-elevated text-text-muted" : "bg-muted text-text-muted"
       )}>
         ⌘K
       </kbd>
@@ -161,8 +161,8 @@ function UserMenu({
       className={clsx(
         "flex items-center gap-2 px-2 py-1.5 rounded transition-colors cursor-pointer",
         inverted 
-          ? "hover:bg-surface-elevated text-on-dark-secondary hover:text-on-dark-primary" 
-          : "hover:bg-muted text-on-light-secondary hover:text-on-light-primary"
+          ? "hover:bg-surface-elevated text-text-secondary hover:text-text-primary" 
+          : "hover:bg-muted text-text-secondary hover:text-text-primary"
       )}
     >
       {user.avatar ? (
@@ -175,8 +175,8 @@ function UserMenu({
         <div className={clsx(
           "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2",
           inverted 
-            ? "bg-surface-elevated border-border text-on-dark-primary" 
-            : "bg-muted border-border text-on-light-secondary"
+            ? "bg-surface-elevated border-border text-text-primary" 
+            : "bg-muted border-border text-text-secondary"
         )}>
           {user.name.charAt(0).toUpperCase()}
         </div>
@@ -184,7 +184,7 @@ function UserMenu({
       <span className="hidden md:block text-sm font-medium truncate max-w-[120px]">
         {user.name}
       </span>
-      <ChevronDown size={14} className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} />
+      <ChevronDown size={14} className={inverted ? "text-text-disabled" : "text-text-disabled"} />
     </div>
   );
   
@@ -194,11 +194,11 @@ function UserMenu({
         "px-4 py-3 border-b",
         inverted ? "border-border" : "border-border"
       )}>
-        <div className={clsx("text-sm font-medium", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+        <div className={clsx("text-sm font-medium", inverted ? "text-text-primary" : "text-text-primary")}>
           {user.name}
         </div>
         {user.email && (
-          <div className={clsx("text-xs", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+          <div className={clsx("text-xs", inverted ? "text-text-muted" : "text-text-muted")}>
             {user.email}
           </div>
         )}
@@ -253,11 +253,11 @@ function WorkspaceSelector({
     <div className={clsx(
       "flex items-center gap-2 px-3 py-1.5 rounded border-2 cursor-pointer transition-colors",
       inverted 
-        ? "border-border hover:border-border-primary text-on-dark-primary hover:bg-surface-elevated" 
-        : "border-border hover:border-border-primary text-on-light-primary hover:bg-muted"
+        ? "border-border hover:border-border-primary text-text-primary hover:bg-surface-elevated" 
+        : "border-border hover:border-border-primary text-text-primary hover:bg-muted"
     )}>
       <span className="text-sm font-semibold uppercase tracking-wide">{workspaceName}</span>
-      <ChevronDown size={14} className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} />
+      <ChevronDown size={14} className={inverted ? "text-text-disabled" : "text-text-disabled"} />
     </div>
   );
 
@@ -267,7 +267,7 @@ function WorkspaceSelector({
         <>
           <div className={clsx(
             "px-4 py-2 text-xs font-semibold uppercase tracking-wide",
-            inverted ? "text-on-dark-muted" : "text-on-light-muted"
+            inverted ? "text-text-muted" : "text-text-muted"
           )}>
             Workspaces
           </div>
@@ -313,7 +313,7 @@ function WorkspaceSelector({
 
 function BreadcrumbSeparator({ inverted = true }: { inverted?: boolean }) {
   return (
-    <span className={clsx("text-lg mx-0.5", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
+    <span className={clsx("text-lg mx-0.5", inverted ? "text-text-disabled" : "text-text-disabled")}>
       /
     </span>
   );
@@ -385,12 +385,12 @@ function BreadcrumbDropdown({
     <div className={clsx(
       "flex items-center gap-1.5 px-2 py-1 rounded border-2 cursor-pointer transition-colors text-sm",
       inverted 
-        ? "border-border hover:border-border-primary text-on-dark-primary hover:bg-surface-elevated" 
-        : "border-border hover:border-border-primary text-on-light-primary hover:bg-muted"
+        ? "border-border hover:border-border-primary text-text-primary hover:bg-surface-elevated" 
+        : "border-border hover:border-border-primary text-text-primary hover:bg-muted"
     )}>
-      <span className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>{getIcon()}</span>
+      <span className={inverted ? "text-text-muted" : "text-text-muted"}>{getIcon()}</span>
       <span className="font-medium max-w-[120px] truncate">{item.name}</span>
-      <ChevronDown size={12} className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} />
+      <ChevronDown size={12} className={inverted ? "text-text-disabled" : "text-text-disabled"} />
     </div>
   );
 
@@ -400,7 +400,7 @@ function BreadcrumbDropdown({
         <>
           <div className={clsx(
             "px-4 py-2 text-xs font-semibold uppercase tracking-wide",
-            inverted ? "text-on-dark-muted" : "text-on-light-muted"
+            inverted ? "text-text-muted" : "text-text-muted"
           )}>
             {item.type === "organization" ? "Organizations" : 
              item.type === "project" ? "Projects" :
@@ -504,8 +504,8 @@ function NotificationsPanel({
       className={clsx(
         "p-2 rounded transition-colors relative cursor-pointer",
         inverted 
-          ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" 
-          : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+          ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" 
+          : "text-text-muted hover:text-text-primary hover:bg-muted"
       )}
       aria-label="Notifications"
     >
@@ -522,7 +522,7 @@ function NotificationsPanel({
         "px-4 py-3 border-b flex items-center justify-between",
         inverted ? "border-border" : "border-border"
       )}>
-        <span className={clsx("text-sm font-semibold", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+        <span className={clsx("text-sm font-semibold", inverted ? "text-text-primary" : "text-text-primary")}>
           Notifications
         </span>
         {unreadCount > 0 && (
@@ -546,20 +546,20 @@ function NotificationsPanel({
                   )}
                   <span className={clsx(
                     "text-sm font-medium truncate",
-                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                    inverted ? "text-text-primary" : "text-text-primary"
                   )}>
                     {notification.title}
                   </span>
                 </div>
                 <span className={clsx(
                   "text-xs truncate",
-                  inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                  inverted ? "text-text-muted" : "text-text-muted"
                 )}>
                   {notification.message}
                 </span>
                 <span className={clsx(
                   "text-xs",
-                  inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                  inverted ? "text-text-disabled" : "text-text-disabled"
                 )}>
                   {notification.time}
                 </span>
@@ -570,7 +570,7 @@ function NotificationsPanel({
       ) : (
         <div className={clsx(
           "px-4 py-8 text-center text-sm",
-          inverted ? "text-on-dark-muted" : "text-on-light-muted"
+          inverted ? "text-text-muted" : "text-text-muted"
         )}>
           No notifications
         </div>
@@ -702,19 +702,19 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
           <div className={clsx(
             "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2",
             inverted 
-              ? "bg-surface-elevated border-border text-on-dark-primary" 
-              : "bg-muted border-border text-on-light-secondary"
+              ? "bg-surface-elevated border-border text-text-primary" 
+              : "bg-muted border-border text-text-secondary"
           )}>
             {user.name.charAt(0).toUpperCase()}
           </div>
         )}
         {!sidebarCollapsed && (
           <div className="flex-1 min-w-0">
-            <div className={clsx("text-sm font-medium truncate", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+            <div className={clsx("text-sm font-medium truncate", inverted ? "text-text-primary" : "text-text-primary")}>
               {user.name}
             </div>
             {user.email && (
-              <div className={clsx("text-xs truncate", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+              <div className={clsx("text-xs truncate", inverted ? "text-text-muted" : "text-text-muted")}>
                 {user.email}
               </div>
             )}
@@ -728,7 +728,7 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
         ref={ref}
         className={clsx(
           "flex h-screen overflow-hidden",
-          inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-secondary text-on-light-primary",
+          inverted ? "bg-surface-inverse text-text-primary" : "bg-surface-secondary text-text-primary",
           className
         )}
       >
@@ -831,8 +831,8 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
                   className={clsx(
                     "md:hidden p-2 rounded border-2 transition-colors",
                     inverted 
-                      ? "border-border text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary" 
-                      : "border-border text-on-light-secondary hover:bg-muted"
+                      ? "border-border text-text-secondary hover:bg-surface-elevated hover:text-text-primary" 
+                      : "border-border text-text-secondary hover:bg-muted"
                   )}
                   aria-label="Open menu"
                 >
@@ -847,8 +847,8 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
                     className={clsx(
                       "hidden md:flex items-center gap-1 px-2 py-1 rounded text-xs font-medium transition-colors",
                       inverted 
-                        ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" 
-                        : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                        ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" 
+                        : "text-text-muted hover:text-text-primary hover:bg-muted"
                     )}
                     title="Back to Dashboard (Cmd+Shift+D)"
                   >
@@ -886,7 +886,7 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
                       <>
                         <span className={clsx(
                           "hidden sm:block text-lg mx-1",
-                          inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                          inverted ? "text-text-disabled" : "text-text-disabled"
                         )}>/</span>
                         <div className="hidden sm:block">
                           {headerActions}
@@ -907,8 +907,8 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
                   className={clsx(
                     "p-2 rounded transition-colors",
                     inverted 
-                      ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" 
-                      : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                      ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" 
+                      : "text-text-muted hover:text-text-primary hover:bg-muted"
                   )}
                   aria-label="Help"
                 >
@@ -929,8 +929,8 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
                   className={clsx(
                     "hidden sm:block p-2 rounded transition-colors",
                     inverted 
-                      ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" 
-                      : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                      ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" 
+                      : "text-text-muted hover:text-text-primary hover:bg-muted"
                   )}
                   aria-label="Settings"
                 >

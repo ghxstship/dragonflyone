@@ -173,13 +173,13 @@ export const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
           "focus:outline-none focus:ring-2 focus:ring-offset-2",
           inverted
             ? [
-                "bg-surface-inverse text-on-dark-primary placeholder:text-on-dark-disabled",
+                "bg-surface-inverse text-text-primary placeholder:text-text-disabled",
                 error
                   ? "border-error-500 focus:ring-error-500"
                   : "border-border focus:border-on-dark-primary focus:ring-on-dark-primary",
               ]
             : [
-                "bg-surface-primary text-on-light-primary placeholder:text-on-light-muted",
+                "bg-surface-primary text-text-primary placeholder:text-text-muted",
                 error
                   ? "border-error-500 focus:ring-error-500"
                   : "border-border focus:border-on-light-primary focus:ring-on-light-primary",

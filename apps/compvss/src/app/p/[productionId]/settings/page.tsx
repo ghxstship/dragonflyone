@@ -130,7 +130,7 @@ export default function ProductionSettingsPage() {
               <Box className="flex items-center justify-between pt-4 border-t border-border">
                 <Box>
                   <Body className="font-weight-medium">Email Notifications</Body>
-                  <Body size="sm" className="text-on-dark-muted">Receive updates about this production</Body>
+                  <Body size="sm" className="text-text-muted">Receive updates about this production</Body>
                 </Box>
                 <Button variant={formData.notifications ? "solid" : "outline"} size="sm" onClick={() => setFormData({ ...formData, notifications: !formData.notifications })}>
                   {formData.notifications ? "Enabled" : "Disabled"}
@@ -152,7 +152,7 @@ export default function ProductionSettingsPage() {
             <Box className="flex items-center justify-between">
               <Box>
                 <Body className="font-weight-bold text-error">Delete Production</Body>
-                <Body size="sm" className="text-on-dark-muted">This action cannot be undone</Body>
+                <Body size="sm" className="text-text-muted">This action cannot be undone</Body>
               </Box>
               <Button variant="outline" className="border-error text-error" onClick={() => setShowDeleteModal(true)}>Delete</Button>
             </Box>

@@ -96,8 +96,8 @@ export function ConfirmDialog({
           "hover:-translate-x-0.5 hover:-translate-y-0.5",
           "active:translate-x-0 active:translate-y-0",
           inverted
-            ? "bg-transparent text-on-dark-secondary border-border hover:bg-surface-elevated hover:shadow-sm"
-            : "bg-surface-primary text-on-light-primary border-border-primary hover:bg-muted hover:shadow-sm",
+            ? "bg-transparent text-text-secondary border-border hover:bg-surface-elevated hover:shadow-sm"
+            : "bg-surface-primary text-text-primary border-border-primary hover:bg-muted hover:shadow-sm",
           loading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
         )}
       >
@@ -115,8 +115,8 @@ export function ConfirmDialog({
           "hover:-translate-x-0.5 hover:-translate-y-0.5",
           "active:translate-x-0 active:translate-y-0",
           inverted
-            ? "bg-surface-primary text-on-light-primary border-on-dark-primary shadow-primary hover:shadow-primary"
-            : "bg-surface-inverse text-on-dark-primary border-border-primary shadow-primary hover:shadow-primary",
+            ? "bg-surface-primary text-text-primary border-on-dark-primary shadow-primary hover:shadow-primary"
+            : "bg-surface-inverse text-text-primary border-border-primary shadow-primary hover:shadow-primary",
           loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"
         )}
       >
@@ -141,7 +141,7 @@ export function ConfirmDialog({
         id="confirm-dialog-title"
         className={clsx(
           "font-heading text-lg tracking-wider uppercase font-bold",
-          inverted ? "text-on-dark-primary" : "text-on-light-primary"
+          inverted ? "text-text-primary" : "text-text-primary"
         )}
       >
         {title}
@@ -176,7 +176,7 @@ export function ConfirmDialog({
         id="confirm-dialog-description"
         className={clsx(
           "font-body text-base leading-relaxed",
-          inverted ? "text-on-dark-secondary" : "text-on-light-muted",
+          inverted ? "text-text-secondary" : "text-text-muted",
           details ? "mb-3" : ""
         )}
       >
@@ -188,8 +188,8 @@ export function ConfirmDialog({
         <div className={clsx(
           "font-code text-sm p-3 mt-4 border-2 rounded-[var(--radius-badge)]",
           inverted
-            ? "text-on-dark-muted bg-surface-elevated border-border"
-            : "text-on-dark-disabled bg-muted border-border"
+            ? "text-text-muted bg-surface-elevated border-border"
+            : "text-text-disabled bg-muted border-border"
         )}>
           {details}
         </div>

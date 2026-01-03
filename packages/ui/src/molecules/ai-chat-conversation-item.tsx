@@ -52,7 +52,7 @@ export const AIChatConversationGroup = forwardRef<HTMLDivElement, AIChatConversa
         <span
           className={clsx(
             "px-2 py-1 font-mono text-mono-xs uppercase tracking-kicker",
-            inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+            inverted ? "text-text-disabled" : "text-text-muted"
           )}
         >
           {label}
@@ -118,7 +118,7 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
             <span
               className={clsx(
                 "shrink-0",
-                inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                inverted ? "text-text-muted" : "text-text-muted"
               )}
             >
               {icon}
@@ -131,11 +131,11 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
               "flex-1 truncate font-heading text-h6-sm uppercase",
               isActive
                 ? inverted
-                  ? "text-on-dark-primary"
-                  : "text-on-light-primary"
+                  ? "text-text-primary"
+                  : "text-text-primary"
                 : inverted
-                  ? "text-on-dark-secondary"
-                  : "text-on-light-secondary"
+                  ? "text-text-secondary"
+                  : "text-text-secondary"
             )}
           >
             {title}
@@ -146,7 +146,7 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
             <span
               className={clsx(
                 "shrink-0 font-mono text-mono-xs",
-                inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+                inverted ? "text-text-disabled" : "text-text-muted"
               )}
             >
               {formattedTime}
@@ -159,7 +159,7 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
           <span
             className={clsx(
               "line-clamp-2 font-body text-body-xs",
-              inverted ? "text-on-dark-muted" : "text-on-light-muted"
+              inverted ? "text-text-muted" : "text-text-muted"
             )}
           >
             {preview}

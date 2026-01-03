@@ -281,7 +281,7 @@ export function SavedFilterBuilder({
     <div className={clsx("space-y-spacing-4", className)}>
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-gap-sm">
-        <h3 className="font-code text-mono-md tracking-widest uppercase text-on-dark-disabled">
+        <h3 className="font-code text-mono-md tracking-widest uppercase text-text-disabled">
           Filters
         </h3>
 
@@ -311,14 +311,14 @@ export function SavedFilterBuilder({
                       >
                         {filter.name}
                         {filter.isDefault && (
-                          <span className="ml-spacing-2 text-mono-xs text-on-dark-disabled">(default)</span>
+                          <span className="ml-spacing-2 text-mono-xs text-text-disabled">(default)</span>
                         )}
                       </button>
                       {onDeleteFilter && (
                         <button
                           type="button"
                           onClick={() => onDeleteFilter(filter.id)}
-                          className="p-spacing-1 text-on-dark-disabled hover:text-error-500 bg-transparent border-none cursor-pointer"
+                          className="p-spacing-1 text-text-disabled hover:text-error-500 bg-transparent border-none cursor-pointer"
                           aria-label="Delete filter"
                         >
                           <Trash2 className="size-3" />
@@ -346,7 +346,7 @@ export function SavedFilterBuilder({
             <button
               type="button"
               onClick={handleClearFilter}
-              className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-surface-primary text-on-dark-disabled border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
+              className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-surface-primary text-text-disabled border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
             >
               <X className="size-3" />
               Clear
@@ -390,7 +390,7 @@ export function SavedFilterBuilder({
               type="button"
               onClick={() => setSaveDialogOpen(false)}
               disabled={saving}
-              className="px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-primary text-on-light-primary border-2 border-border cursor-pointer hover:bg-muted disabled:opacity-50"
+              className="px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-primary text-text-primary border-2 border-border cursor-pointer hover:bg-muted disabled:opacity-50"
             >
               Cancel
             </button>
@@ -398,7 +398,7 @@ export function SavedFilterBuilder({
               type="button"
               onClick={handleSaveFilter}
               disabled={!filterName.trim() || saving}
-              className="px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-inverse text-on-dark-primary border-2 border-border cursor-pointer hover:bg-surface-elevated disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-inverse text-text-primary border-2 border-border cursor-pointer hover:bg-surface-elevated disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save"}
             </button>
@@ -410,7 +410,7 @@ export function SavedFilterBuilder({
           value={filterName}
           onChange={(e) => setFilterName(e.target.value)}
           placeholder="Filter name..."
-          className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-on-light-primary outline-none focus:border-primary-500"
+          className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-text-primary outline-none focus:border-primary-500"
           autoFocus
         />
       </OverlayLayout>
@@ -466,7 +466,7 @@ function FilterGroupComponent({
         >
           {group.logic}
         </button>
-        <span className="font-body text-body-xs text-on-dark-disabled">
+        <span className="font-body text-body-xs text-text-disabled">
           {group.logic === "AND" ? "All conditions must match" : "Any condition can match"}
         </span>
 
@@ -474,7 +474,7 @@ function FilterGroupComponent({
           <button
             type="button"
             onClick={() => onRemoveGroup(parentId, group.id)}
-            className="ml-auto p-spacing-1 text-on-dark-disabled hover:text-error-500 bg-transparent border-none cursor-pointer"
+            className="ml-auto p-spacing-1 text-text-disabled hover:text-error-500 bg-transparent border-none cursor-pointer"
             aria-label="Remove group"
           >
             <Trash2 className="size-4" />
@@ -533,7 +533,7 @@ function FilterGroupComponent({
           <button
             type="button"
             onClick={() => onAddGroup(group.id, depth)}
-            className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-xs tracking-wide uppercase bg-surface-primary text-on-dark-disabled border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
+            className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-xs tracking-wide uppercase bg-surface-primary text-text-disabled border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
           >
             <Plus className="size-3" />
             Add Group
@@ -651,7 +651,7 @@ function FilterConditionRow({
       <button
         type="button"
         onClick={() => onRemove(groupId, condition.id)}
-        className="p-spacing-1 text-on-dark-disabled hover:text-error-500 bg-transparent border-none cursor-pointer"
+        className="p-spacing-1 text-text-disabled hover:text-error-500 bg-transparent border-none cursor-pointer"
         aria-label="Remove condition"
       >
         <Trash2 className="size-4" />

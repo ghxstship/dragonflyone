@@ -45,7 +45,7 @@ export default function SettingsPage() {
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Crew Alerts</Body>
-                      <Body size="sm" className=" text-on-light-disabled">Get notified about crew availability changes</Body>
+                      <Body size="sm" className=" text-text-disabled">Get notified about crew availability changes</Body>
                     </Stack>
                     <Switch
                       checked={notifications.crewAlerts}
@@ -57,7 +57,7 @@ export default function SettingsPage() {
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Equipment Alerts</Body>
-                      <Body size="sm" className=" text-on-light-disabled">Maintenance and availability notifications</Body>
+                      <Body size="sm" className=" text-text-disabled">Maintenance and availability notifications</Body>
                     </Stack>
                     <Switch
                       checked={notifications.equipmentAlerts}
@@ -69,7 +69,7 @@ export default function SettingsPage() {
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Schedule Changes</Body>
-                      <Body size="sm" className=" text-on-light-disabled">Project timeline and schedule updates</Body>
+                      <Body size="sm" className=" text-text-disabled">Project timeline and schedule updates</Body>
                     </Stack>
                     <Switch
                       checked={notifications.scheduleChanges}
@@ -81,7 +81,7 @@ export default function SettingsPage() {
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Weather Alerts</Body>
-                      <Body size="sm" className=" text-on-light-disabled">Critical weather warnings for events</Body>
+                      <Body size="sm" className=" text-text-disabled">Critical weather warnings for events</Body>
                     </Stack>
                     <Switch
                       checked={notifications.weatherAlerts}
@@ -124,13 +124,13 @@ export default function SettingsPage() {
                 <Button variant="outline" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/emergency-contacts')}>
                   <Stack gap={1}>
                     <Body className="font-heading uppercase tracking-label">Emergency Contacts</Body>
-                    <Body size="sm" className=" text-on-light-disabled">Manage emergency contact list</Body>
+                    <Body size="sm" className=" text-text-disabled">Manage emergency contact list</Body>
                   </Stack>
                 </Button>
                 <Button variant="outline" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/incident-reporting')}>
                   <Stack gap={1}>
                     <Body className="font-heading uppercase tracking-label">Incident Reporting</Body>
-                    <Body size="sm" className=" text-on-light-disabled">Configure incident notification settings</Body>
+                    <Body size="sm" className=" text-text-disabled">Configure incident notification settings</Body>
                   </Stack>
                 </Button>
               </Stack>

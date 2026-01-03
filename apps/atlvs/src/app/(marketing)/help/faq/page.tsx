@@ -101,7 +101,7 @@ export default function FAQPage() {
               <Card className="p-6 border-2 border-border rounded-card">
                 <Stack gap={4}>
                   <Box className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-text-muted" />
                     <Input placeholder="Search questions..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-12 h-14" />
                   </Box>
                   <Box className="flex gap-2 flex-wrap">
@@ -131,9 +131,9 @@ export default function FAQPage() {
 
                 {filteredFAQs.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
-                    <HelpCircle className="size-16 text-on-dark-disabled mx-auto mb-4" />
+                    <HelpCircle className="size-16 text-text-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-bold mb-2">No Questions Found</Body>
-                    <Body className="text-on-dark-muted mb-4">Try a different search term or category</Body>
+                    <Body className="text-text-muted mb-4">Try a different search term or category</Body>
                     <Button variant="outline" onClick={() => { setSearch(""); setSelectedCategory("All"); }}>Clear Filters</Button>
                   </Card>
                 ) : (
@@ -145,11 +145,11 @@ export default function FAQPage() {
                             <HelpCircle className="size-5 text-primary flex-shrink-0" />
                             <Body className="text-white font-weight-medium">{faq.question}</Body>
                           </Box>
-                          {expandedId === faq.id ? <ChevronUp className="size-5 text-on-dark-muted flex-shrink-0" /> : <ChevronDown className="size-5 text-on-dark-muted flex-shrink-0" />}
+                          {expandedId === faq.id ? <ChevronUp className="size-5 text-text-muted flex-shrink-0" /> : <ChevronDown className="size-5 text-text-muted flex-shrink-0" />}
                         </Button>
                         {expandedId === faq.id && (
                           <Box className="px-6 pb-6 pt-0">
-                            <Body className="text-on-dark-secondary pl-8">{faq.answer}</Body>
+                            <Body className="text-text-secondary pl-8">{faq.answer}</Body>
                           </Box>
                         )}
                       </Card>
@@ -171,7 +171,7 @@ export default function FAQPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Support</Body>
                   <Body className="text-white font-weight-bold text-h3-md">Still Need Help?</Body>
-                  <Body className="text-on-dark-muted">Our support team is here to assist you</Body>
+                  <Body className="text-text-muted">Our support team is here to assist you</Body>
                 </Stack>
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
@@ -181,7 +181,7 @@ export default function FAQPage() {
                         {option.icon}
                       </Box>
                       <Body className="text-white font-weight-bold mb-2">{option.title}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{option.description}</Body>
+                      <Body size="sm" className="text-text-muted">{option.description}</Body>
                     </Card>
                   ))}
                 </Grid>

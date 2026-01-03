@@ -1,0 +1,95 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5] [cursor=pointer]:
+      - /url: "#main-content"
+    - generic [ref=e6]:
+      - generic [ref=e10]:
+        - heading "GVTEWAY" [level=1] [ref=e12]
+        - generic [ref=e13]:
+          - heading "Your Gateway to Unforgettable Experiences" [level=1] [ref=e14]
+          - generic [ref=e15]:
+            - generic [ref=e16]:
+              - img [ref=e18]
+              - generic [ref=e23]:
+                - paragraph [ref=e24]: Exclusive Access
+                - paragraph [ref=e25]: Priority tickets to sold-out events
+            - generic [ref=e26]:
+              - img [ref=e28]
+              - generic [ref=e30]:
+                - paragraph [ref=e31]: VIP Experiences
+                - paragraph [ref=e32]: Behind-the-scenes and meet & greets
+            - generic [ref=e33]:
+              - img [ref=e35]
+              - generic [ref=e37]:
+                - paragraph [ref=e38]: Member Benefits
+                - paragraph [ref=e39]: Special discounts and early access
+        - generic [ref=e41]:
+          - paragraph [ref=e42]: “GVTEWAY gave me access to experiences I never thought possible.”
+          - generic [ref=e44]:
+            - paragraph [ref=e45]: Sarah Chen
+            - paragraph [ref=e46]: Premium Member
+      - main "Authentication content" [ref=e50]:
+        - generic [ref=e52]:
+          - generic [ref=e53]:
+            - heading "Member Sign In" [level=1] [ref=e54]
+            - paragraph [ref=e55]: Access your exclusive experiences and member benefits
+          - generic [ref=e58]:
+            - generic [ref=e59]:
+              - generic [ref=e60]: Email*
+              - generic [ref=e61]:
+                - generic:
+                  - img
+                - textbox "Email*" [ref=e62]:
+                  - /placeholder: you@example.com
+            - generic [ref=e64]:
+              - generic [ref=e65]: Password*
+              - generic [ref=e66]:
+                - generic:
+                  - img
+                - textbox "Password*" [ref=e67]:
+                  - /placeholder: Enter your password
+                - button "Show password" [ref=e69] [cursor=pointer]:
+                  - img [ref=e70]
+            - generic [ref=e73]:
+              - generic [ref=e74] [cursor=pointer]:
+                - generic [ref=e75]:
+                  - checkbox "Remember me" [ref=e76]
+                  - img [ref=e78]
+                - paragraph [ref=e80]: Remember me
+              - button "Forgot password?" [ref=e81] [cursor=pointer]:
+                - generic [ref=e82]: Forgot password?
+            - button "Sign In" [ref=e83] [cursor=pointer]:
+              - generic [ref=e84]: Sign In
+            - paragraph [ref=e87]: Or continue with
+            - generic [ref=e89]:
+              - button "Continue with Google" [ref=e90] [cursor=pointer]:
+                - img [ref=e91]
+                - generic [ref=e96]: Continue with Google
+              - button "Continue with Apple" [ref=e97] [cursor=pointer]:
+                - img [ref=e98]
+                - generic [ref=e100]: Continue with Apple
+            - button "Sign in with magic link instead" [ref=e101] [cursor=pointer]:
+              - generic [ref=e102]: Sign in with magic link instead
+          - paragraph [ref=e104]:
+            - text: Not a member yet?
+            - link "Apply for Membership" [ref=e105] [cursor=pointer]:
+              - /url: /apply
+    - contentinfo [ref=e106]:
+      - generic [ref=e108]:
+        - navigation "Footer navigation" [ref=e109]:
+          - generic [ref=e110]:
+            - link "Privacy" [ref=e111] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e112] [cursor=pointer]:
+              - /url: /legal/terms
+            - link "Help" [ref=e113] [cursor=pointer]:
+              - /url: /help
+        - generic [ref=e114]: © 2026 GHXSTSHIP INDUSTRIES
+```

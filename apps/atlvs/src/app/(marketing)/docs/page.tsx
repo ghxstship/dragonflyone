@@ -80,7 +80,7 @@ export default function DocsPage() {
             <Container size="2xl" className="py-12">
               <Card className="p-6 border-2 border-border rounded-card">
                 <Box className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-text-muted" />
                   <Input
                     placeholder="Search documentation..."
                     value={search}
@@ -123,9 +123,9 @@ export default function DocsPage() {
 
                 {filteredSections.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
-                    <Book className="size-16 text-on-dark-disabled mx-auto mb-4" />
+                    <Book className="size-16 text-text-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Results Found</Body>
-                    <Body className="text-on-dark-muted mb-4">Try a different search term</Body>
+                    <Body className="text-text-muted mb-4">Try a different search term</Body>
                     <Button variant="outline" onClick={() => setSearch("")}>Clear Search</Button>
                   </Card>
                 ) : (
@@ -139,7 +139,7 @@ export default function DocsPage() {
                             </Box>
                             <Stack gap={1}>
                               <Body className="text-white font-weight-bold">{section.title}</Body>
-                              <Body size="sm" className="text-on-dark-muted">{section.description}</Body>
+                              <Body size="sm" className="text-text-muted">{section.description}</Body>
                             </Stack>
                           </Stack>
                           <Stack gap={2}>
@@ -151,10 +151,10 @@ export default function DocsPage() {
                               >
                                 <Stack direction="horizontal" className="justify-between items-center">
                                   <Stack direction="horizontal" gap={2} className="items-center">
-                                    <FileText className="size-4 text-on-dark-disabled group-hover:text-primary transition-colors" />
-                                    <Body size="sm" className="text-on-dark-secondary group-hover:text-white transition-colors">{article.title}</Body>
+                                    <FileText className="size-4 text-text-disabled group-hover:text-primary transition-colors" />
+                                    <Body size="sm" className="text-text-secondary group-hover:text-white transition-colors">{article.title}</Body>
                                   </Stack>
-                                  <ArrowRight className="size-4 text-on-dark-disabled group-hover:text-primary transition-colors" />
+                                  <ArrowRight className="size-4 text-text-disabled group-hover:text-primary transition-colors" />
                                 </Stack>
                               </Card>
                             ))}

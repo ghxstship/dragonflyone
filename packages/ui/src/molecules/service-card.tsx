@@ -12,9 +12,9 @@ export type ServiceCardProps = HTMLAttributes<HTMLDivElement> & {
 export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
   function ServiceCard({ icon, title, description, background = "default", className, ...props }, ref) {
     const bgClasses = {
-      default: "bg-surface-primary text-on-light-primary border-border-primary",
-      inverted: "bg-surface-inverse text-on-dark-primary border-border-inverse",
-      muted: "bg-muted text-on-light-primary border-border-primary",
+      default: "bg-surface-primary text-text-primary border-border-primary",
+      inverted: "bg-surface-inverse text-text-primary border-border-inverse",
+      muted: "bg-muted text-text-primary border-border-primary",
     };
 
     return (

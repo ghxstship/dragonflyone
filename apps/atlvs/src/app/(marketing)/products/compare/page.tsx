@@ -90,7 +90,7 @@ export default function ProductComparePage() {
                       {product.icon}
                     </Box>
                     <Body className="text-white font-weight-bold text-h4-md mb-2">{product.name}</Body>
-                    <Body className="text-on-dark-muted">{product.description}</Body>
+                    <Body className="text-text-muted">{product.description}</Body>
                   </Card>
                 ))}
               </Grid>
@@ -106,7 +106,7 @@ export default function ProductComparePage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Features</Body>
                   <Body className="text-white font-weight-bold text-h3-md">Feature Comparison</Body>
-                  <Body className="text-on-dark-muted">See which features are included in each product</Body>
+                  <Body className="text-text-muted">See which features are included in each product</Body>
                 </Stack>
 
                 <Card className="border-2 border-border rounded-card overflow-hidden">
@@ -134,10 +134,10 @@ export default function ProductComparePage() {
                           </TableRow>
                           {category.features.map((feature) => (
                             <TableRow key={feature.name}>
-                              <TableCell><Body className="text-on-dark-secondary">{feature.name}</Body></TableCell>
-                              <TableCell className="text-center">{feature.atlvs ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-on-dark-disabled mx-auto" />}</TableCell>
-                              <TableCell className="text-center">{feature.compvss ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-on-dark-disabled mx-auto" />}</TableCell>
-                              <TableCell className="text-center">{feature.gvteway ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-on-dark-disabled mx-auto" />}</TableCell>
+                              <TableCell><Body className="text-text-secondary">{feature.name}</Body></TableCell>
+                              <TableCell className="text-center">{feature.atlvs ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-text-disabled mx-auto" />}</TableCell>
+                              <TableCell className="text-center">{feature.compvss ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-text-disabled mx-auto" />}</TableCell>
+                              <TableCell className="text-center">{feature.gvteway ? <Check className="size-5 text-success mx-auto" /> : <X className="size-5 text-text-disabled mx-auto" />}</TableCell>
                             </TableRow>
                           ))}
                         </>
@@ -159,7 +159,7 @@ export default function ProductComparePage() {
               <Card className="p-12 border-2 border-primary rounded-card text-center">
                 <Body className="text-primary uppercase tracking-kicker font-weight-semibold mb-4">Best Value</Body>
                 <Body className="text-white font-weight-bold text-h3-md mb-4">Complete Suite Bundle</Body>
-                <Body className="text-on-dark-muted mb-8 max-w-xl mx-auto">Get all three products bundled together for the best value. Perfect for organizations that need end-to-end event management.</Body>
+                <Body className="text-text-muted mb-8 max-w-xl mx-auto">Get all three products bundled together for the best value. Perfect for organizations that need end-to-end event management.</Body>
                 <Stack direction="horizontal" gap={4} className="justify-center flex-wrap">
                   <Button variant="solid" onClick={() => router.push("/demo")}>Request Demo</Button>
                   <Button variant="outline" onClick={() => router.push("/pricing")}>View Pricing</Button>

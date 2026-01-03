@@ -47,7 +47,7 @@ export function TicketCard({
           <Stack gap={1}>
             <H3>{eventTitle}</H3>
             <Body size="sm" className="font-mono">{new Date(eventDate).toLocaleDateString()}</Body>
-            <Body size="sm" className="text-on-light-secondary">{venue}</Body>
+            <Body size="sm" className="text-text-secondary">{venue}</Body>
           </Stack>
           <StatusBadge status={getStatusVariant(status)} size="sm">
             {status}
@@ -63,7 +63,7 @@ export function TicketCard({
           <Body size="sm">
             <Label className="font-weight-bold">Quantity:</Label> {quantity}
           </Body>
-          <Body className="text-mono-xs text-on-light-muted">ID: {id}</Body>
+          <Body className="text-mono-xs text-text-muted">ID: {id}</Body>
         </Stack>
 
         {qrCode && status === 'valid' && (

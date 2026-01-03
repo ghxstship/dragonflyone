@@ -57,7 +57,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
         {label ? (
           <span className={clsx(
             "font-body text-sm select-none",
-            inverted ? "text-on-dark-secondary" : "text-on-light-muted"
+            inverted ? "text-text-secondary" : "text-text-muted"
           )}>
             {label}
           </span>

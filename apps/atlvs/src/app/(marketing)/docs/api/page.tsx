@@ -130,7 +130,7 @@ export default function ApiDocsPage() {
                       </Button>
                     </Stack>
                     <Box className="bg-surface-elevated rounded-card p-4">
-                      <pre className="font-weight-normal text-on-dark-secondary overflow-x-auto"><code>{exampleCode}</code></pre>
+                      <pre className="font-weight-normal text-text-secondary overflow-x-auto"><code>{exampleCode}</code></pre>
                     </Box>
                   </Stack>
                 </Card>
@@ -159,7 +159,7 @@ export default function ApiDocsPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Reference</Body>
                   <Body className="text-white font-weight-bold text-h3-md">API Endpoints</Body>
-                  <Body className="text-on-dark-muted max-w-2xl">Available REST API endpoints for managing your production data</Body>
+                  <Body className="text-text-muted max-w-2xl">Available REST API endpoints for managing your production data</Body>
                 </Stack>
 
                 <Grid cols={1} gap={3}>
@@ -168,7 +168,7 @@ export default function ApiDocsPage() {
                       <Box className="flex items-center gap-4">
                         <Badge variant={METHOD_COLORS[endpoint.method]} className="w-20 justify-center">{endpoint.method}</Badge>
                         <code className="text-primary flex-1">{endpoint.path}</code>
-                        <Body size="sm" className="text-on-dark-muted">{endpoint.description}</Body>
+                        <Body size="sm" className="text-text-muted">{endpoint.description}</Body>
                       </Box>
                     </Card>
                   ))}

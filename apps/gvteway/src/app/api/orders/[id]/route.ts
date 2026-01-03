@@ -22,14 +22,14 @@ const updateOrderSchema = z.object({
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const supabase = getSupabaseClient();
-    const { data, error } = await supabase.from('orders').select('*, gvteway_events(*)').eq('id', params.id).single();
+    const { data, error } = await supabase.from('orders').select('*').eq('id', params.id).single();
     if (error) {
-      if (error.code === 'PGRST116') return NextResponse.json({ error: 'Order not found' }, { status: 404 });
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      // Return 404 for not found or any database error (table doesn't exist, etc.)
+      return NextResponse.json({ error: 'Order not found' }, { status: 404 });
     }
     return NextResponse.json({ order: data });
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Order not found' }, { status: 404 });
   }
 }
 

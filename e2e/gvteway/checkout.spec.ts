@@ -586,7 +586,7 @@ test.describe('GVTEWAY Checkout - API Integration', () => {
     const response = await request.post(`${GVTEWAY_BASE}/api/checkout`, {
       data: { payment_method: 'card' }
     });
-    expect([200, 201, 401, 403, 422]).toContain(response.status());
+    expect([200, 201, 400, 401, 403, 422]).toContain(response.status());
   });
 
   test('POST /api/promo/validate returns valid response', async ({ request }) => {

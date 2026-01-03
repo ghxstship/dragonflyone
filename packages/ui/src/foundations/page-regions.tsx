@@ -61,9 +61,9 @@ export const MarketingPageHeader = forwardRef<HTMLElement, MarketingPageHeaderPr
 
     const textClasses = inverted
       ? {
-          kicker: "text-on-light-muted",
+          kicker: "text-text-muted",
           title: "text-white",
-          description: "text-on-light-secondary",
+          description: "text-text-secondary",
         }
       : {
           kicker: "text-muted",
@@ -331,8 +331,8 @@ export const FullBleedSection = forwardRef<HTMLElement, FullBleedSectionProps>(
     const bgClasses: Record<string, string> = {
       black: "bg-black text-white",
       white: "bg-white text-black",
-      grey: "bg-muted text-on-light-primary",
-      ink: "bg-surface-inverse text-on-dark-primary",
+      grey: "bg-muted text-text-primary",
+      ink: "bg-surface-inverse text-text-primary",
       primary: "bg-primary text-white",
       accent: "bg-accent text-black",
       gradient: "bg-gradient-to-br from-ink-950 via-ink-900 to-primary/20 text-white",

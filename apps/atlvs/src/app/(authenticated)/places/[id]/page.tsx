@@ -81,19 +81,19 @@ export default function PlaceDetailPage() {
             <SectionHeader title="Place Details" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Code</Body>
+                <Body size="xs" className="text-text-muted mb-1">Code</Body>
                 <Body className="text-white">{place.code || "Not assigned"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Status</Body>
+                <Body size="xs" className="text-text-muted mb-1">Status</Body>
                 <Body className="text-white">{place.status}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Capacity</Body>
+                <Body size="xs" className="text-text-muted mb-1">Capacity</Body>
                 <Body className="text-white">{place.capacity?.toString() || "Not specified"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Square Footage</Body>
+                <Body size="xs" className="text-text-muted mb-1">Square Footage</Body>
                 <Body className="text-white">{place.square_footage ? `${place.square_footage.toLocaleString()} sq ft` : "Not specified"}</Body>
               </Card>
             </Grid>
@@ -105,11 +105,11 @@ export default function PlaceDetailPage() {
               <SectionHeader title="Location Coordinates" />
               <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
                 <Card inverted className="p-4">
-                  <Body size="xs" className="text-on-dark-muted mb-1">Latitude</Body>
+                  <Body size="xs" className="text-text-muted mb-1">Latitude</Body>
                   <Body className="text-white">{place.latitude?.toString() || "Not set"}</Body>
                 </Card>
                 <Card inverted className="p-4">
-                  <Body size="xs" className="text-on-dark-muted mb-1">Longitude</Body>
+                  <Body size="xs" className="text-text-muted mb-1">Longitude</Body>
                   <Body className="text-white">{place.longitude?.toString() || "Not set"}</Body>
                 </Card>
               </Grid>
@@ -121,7 +121,7 @@ export default function PlaceDetailPage() {
             <Section border className="mb-6">
               <SectionHeader title="Parent Location" />
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Parent Place</Body>
+                <Body size="xs" className="text-text-muted mb-1">Parent Place</Body>
                 <Body className="text-white">{place.parent_place.name}</Body>
               </Card>
             </Section>
@@ -169,7 +169,7 @@ export default function PlaceDetailPage() {
         <Section border>
           <SectionHeader title="Events at this Place" />
           <Card inverted className="p-6">
-            <Body className="text-on-dark-muted">Events hosted at this location will be displayed here.</Body>
+            <Body className="text-text-muted">Events hosted at this location will be displayed here.</Body>
           </Card>
         </Section>
       ),
@@ -182,7 +182,7 @@ export default function PlaceDetailPage() {
         <Section border>
           <SectionHeader title="Location Map" />
           <Card inverted className="p-6">
-            <Body className="text-on-dark-muted">Interactive map will be displayed here.</Body>
+            <Body className="text-text-muted">Interactive map will be displayed here.</Body>
           </Card>
         </Section>
       ),
@@ -195,7 +195,7 @@ export default function PlaceDetailPage() {
         <Section border>
           <SectionHeader title="Documents" />
           <Card inverted className="p-6">
-            <Body className="text-on-dark-muted">Documents will be displayed here.</Body>
+            <Body className="text-text-muted">Documents will be displayed here.</Body>
           </Card>
         </Section>
       ),

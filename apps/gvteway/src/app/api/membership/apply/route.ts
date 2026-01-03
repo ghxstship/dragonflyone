@@ -25,7 +25,15 @@ const membershipApplicationSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     // Parse and validate request body
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid or missing request body' },
+        { status: 400 }
+      );
+    }
     const validationResult = membershipApplicationSchema.safeParse(body);
 
     if (!validationResult.success) {

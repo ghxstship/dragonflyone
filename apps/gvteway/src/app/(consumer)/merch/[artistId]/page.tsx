@@ -29,10 +29,10 @@ export default function ArtistMerchPage() {
         <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
           {products.map((product: Product) => (
             <Card key={product.id} className="overflow-hidden">
-              <Box className="h-48 bg-surface-elevated flex items-center justify-center"><ShoppingBag className="size-12 text-on-dark-disabled" /></Box>
+              <Box className="h-48 bg-surface-elevated flex items-center justify-center"><ShoppingBag className="size-12 text-text-disabled" /></Box>
               <Box className="p-4">
                 <Body className="font-weight-bold">{product.name}</Body>
-                <Body size="sm" className="text-on-dark-muted mt-1">{product.description}</Body>
+                <Body size="sm" className="text-text-muted mt-1">{product.description}</Body>
                 <Box className="flex gap-2 mt-3">{product.sizes.map((s) => <Badge key={s} variant="outline">{s}</Badge>)}</Box>
                 <Box className="flex items-center justify-between mt-4">
                   <Body className="font-weight-bold">{formatCurrency(product.price)}</Body>

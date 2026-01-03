@@ -1,0 +1,131 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e6]:
+      - generic [ref=e7]:
+        - link "ATLVS" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - button "Open navigation" [ref=e9]:
+          - img [ref=e11]
+      - generic [ref=e15]:
+        - link "ATLVS" [ref=e16] [cursor=pointer]:
+          - /url: /
+        - navigation "Main" [ref=e17]:
+          - list [ref=e19]:
+            - listitem [ref=e20]:
+              - button "Products" [ref=e21]:
+                - text: Products
+                - img [ref=e22]
+            - listitem [ref=e24]:
+              - button "Solutions" [ref=e25]:
+                - text: Solutions
+                - img [ref=e26]
+            - listitem [ref=e28]:
+              - button "Resources" [ref=e29]:
+                - text: Resources
+                - img [ref=e30]
+            - link "Pricing" [ref=e32] [cursor=pointer]:
+              - /url: /pricing
+        - navigation [ref=e33]:
+          - generic [ref=e34]:
+            - link "Features" [ref=e35] [cursor=pointer]:
+              - /url: "#features"
+            - link "Solutions" [ref=e36] [cursor=pointer]:
+              - /url: "#solutions"
+            - link "Pricing" [ref=e37] [cursor=pointer]:
+              - /url: "#pricing"
+            - link "About" [ref=e38] [cursor=pointer]:
+              - /url: "#about"
+        - generic [ref=e39]:
+          - link "Get Started" [ref=e40] [cursor=pointer]:
+            - /url: /auth/signup
+            - button "Get Started" [ref=e41]
+          - link "Sign In" [ref=e42] [cursor=pointer]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e43]
+    - main [ref=e44]:
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - text: AI-Powered Experience Design
+          - heading "Transform Any Idea Into a Production Blueprint" [level=1] [ref=e49]
+          - paragraph [ref=e50]: Enter a single creative concept and watch as AI generates a complete immersive experience blueprint, ready to launch in ATLVS.
+          - generic [ref=e52]:
+            - textbox "Enter your creative concept..." [ref=e54]
+            - button "Generate Blueprint" [disabled] [ref=e55]:
+              - generic [ref=e56]:
+                - img [ref=e57]
+                - text: Generate Blueprint
+          - generic [ref=e62]:
+            - text: Try one of these
+            - generic [ref=e63]:
+              - button "METAMORPHOSIS" [ref=e64]
+              - button "NEON" [ref=e65]
+              - button "SANCTUARY" [ref=e66]
+              - button "PULSE" [ref=e67]
+              - button "ODYSSEY" [ref=e68]
+              - button "BLOOM" [ref=e69]
+        - generic [ref=e70]: Powered by ATLVS
+    - contentinfo [ref=e71]:
+      - generic [ref=e72]:
+        - heading "ATLVS" [level=1] [ref=e74]
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - heading "Product" [level=3] [ref=e77]
+            - link "Features" [ref=e78] [cursor=pointer]:
+              - /url: /features
+            - link "Pricing" [ref=e79] [cursor=pointer]:
+              - /url: /pricing
+            - link "Integrations" [ref=e80] [cursor=pointer]:
+              - /url: /integrations
+            - link "Security" [ref=e81] [cursor=pointer]:
+              - /url: /security
+            - link "What's New" [ref=e82] [cursor=pointer]:
+              - /url: /changelog
+          - generic [ref=e83]:
+            - heading "Resources" [level=3] [ref=e84]
+            - link "Help Center" [ref=e85] [cursor=pointer]:
+              - /url: /help
+            - link "API Docs" [ref=e86] [cursor=pointer]:
+              - /url: /docs/api
+            - link "Blog" [ref=e87] [cursor=pointer]:
+              - /url: /blog
+            - link "Guides" [ref=e88] [cursor=pointer]:
+              - /url: /guides
+            - link "Case Studies" [ref=e89] [cursor=pointer]:
+              - /url: /case-studies
+            - link "Templates" [ref=e90] [cursor=pointer]:
+              - /url: /templates
+          - generic [ref=e91]:
+            - heading "Company" [level=3] [ref=e92]
+            - link "About" [ref=e93] [cursor=pointer]:
+              - /url: /about
+            - link "Careers" [ref=e94] [cursor=pointer]:
+              - /url: /careers
+            - link "Press" [ref=e95] [cursor=pointer]:
+              - /url: /press
+            - link "Partners" [ref=e96] [cursor=pointer]:
+              - /url: /partners
+            - link "Contact" [ref=e97] [cursor=pointer]:
+              - /url: /contact
+          - generic [ref=e98]:
+            - heading "Legal" [level=3] [ref=e99]
+            - link "Privacy" [ref=e100] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e101] [cursor=pointer]:
+              - /url: /legal/terms
+            - link "Cookies" [ref=e102] [cursor=pointer]:
+              - /url: /legal/cookies
+            - link "Accessibility" [ref=e103] [cursor=pointer]:
+              - /url: /legal/accessibility
+            - link "Status" [ref=e104] [cursor=pointer]:
+              - /url: /status
+        - paragraph [ref=e106]: © 2026 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+```

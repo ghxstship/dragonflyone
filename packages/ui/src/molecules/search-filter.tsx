@@ -157,15 +157,15 @@ export function SearchFilter({
             className={clsx(
               "w-full font-body border-2 outline-none transition-colors duration-fast",
               inverted
-                ? "bg-surface-inverse text-on-dark-primary border-border focus:border-on-dark-muted"
-                : "bg-surface-primary text-on-light-primary border-border-primary focus:border-border",
+                ? "bg-surface-inverse text-text-primary border-border focus:border-on-dark-muted"
+                : "bg-surface-primary text-text-primary border-border-primary focus:border-border",
               compact ? "py-spacing-2 px-spacing-3 pl-spacing-10 text-body-sm" : "py-spacing-3 px-spacing-4 pl-spacing-12 text-body-md"
             )}
           />
           {/* Search Icon */}
           <span
             className={clsx(
-              "absolute top-1/2 -translate-y-1/2 text-on-dark-disabled",
+              "absolute top-1/2 -translate-y-1/2 text-text-disabled",
               compact ? "left-spacing-3 text-body-sm" : "left-spacing-4 text-body-md"
             )}
           >
@@ -176,7 +176,7 @@ export function SearchFilter({
             <button
               onClick={() => handleSearchChange("")}
               className={clsx(
-                "absolute top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-on-dark-disabled p-spacing-1 hover:text-on-dark-disabled",
+                "absolute top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-text-disabled p-spacing-1 hover:text-text-disabled",
                 compact ? "right-spacing-2 text-body-sm" : "right-spacing-3 text-body-md"
               )}
               aria-label="Clear search"
@@ -205,15 +205,15 @@ export function SearchFilter({
                     inverted ? "border-border" : "border-border-primary",
                     compact ? "px-spacing-3 py-spacing-2 text-mono-sm" : "px-spacing-4 py-spacing-3 text-mono-md",
                     groupActiveCount > 0
-                      ? inverted ? "bg-surface-primary text-on-light-primary" : "bg-surface-inverse text-on-dark-primary"
-                      : inverted ? "bg-transparent text-on-dark-secondary hover:bg-surface-elevated" : "bg-surface-primary text-on-light-primary hover:bg-muted"
+                      ? inverted ? "bg-surface-primary text-text-primary" : "bg-surface-inverse text-text-primary"
+                      : inverted ? "bg-transparent text-text-secondary hover:bg-surface-elevated" : "bg-surface-primary text-text-primary hover:bg-muted"
                   )}
                 >
                   {group.label}
                   {showCounts && groupActiveCount > 0 && (
                     <span className={clsx(
                       "px-spacing-1 py-spacing-0.5 text-mono-xs font-weight-bold",
-                      inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary"
+                      inverted ? "bg-surface-inverse text-text-primary" : "bg-surface-primary text-text-primary"
                     )}>
                       {groupActiveCount}
                     </span>
@@ -239,8 +239,8 @@ export function SearchFilter({
                           className={clsx(
                             "flex justify-between items-center w-full px-spacing-4 py-spacing-3 font-body text-body-sm border-none border-b cursor-pointer text-left transition-colors duration-fast",
                             inverted
-                              ? clsx("text-on-dark-secondary border-border", isActive ? "bg-surface-elevated" : "hover:bg-surface-elevated")
-                              : clsx("text-on-light-primary border-border", isActive ? "bg-muted" : "bg-surface-primary hover:bg-muted")
+                              ? clsx("text-text-secondary border-border", isActive ? "bg-surface-elevated" : "hover:bg-surface-elevated")
+                              : clsx("text-text-primary border-border", isActive ? "bg-muted" : "bg-surface-primary hover:bg-muted")
                           )}
                         >
                           <span className="flex items-center gap-gap-xs">
@@ -249,8 +249,8 @@ export function SearchFilter({
                                 className={clsx(
                                   "w-spacing-4 h-spacing-4 border-2 flex items-center justify-center text-micro",
                                   inverted
-                                    ? clsx("border-border", isActive ? "bg-surface-primary text-on-light-primary" : "bg-transparent")
-                                    : clsx("border-border-primary", isActive ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary")
+                                    ? clsx("border-border", isActive ? "bg-surface-primary text-text-primary" : "bg-transparent")
+                                    : clsx("border-border-primary", isActive ? "bg-surface-inverse text-text-primary" : "bg-surface-primary")
                                 )}
                               >
                                 {isActive && <Check className="size-3" />}
@@ -259,7 +259,7 @@ export function SearchFilter({
                             {option.label}
                           </span>
                           {showCounts && option.count !== undefined && (
-                            <span className={clsx("font-code text-mono-xs", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+                            <span className={clsx("font-code text-mono-xs", inverted ? "text-text-muted" : "text-text-muted")}>
                               {option.count}
                             </span>
                           )}
@@ -277,7 +277,7 @@ export function SearchFilter({
       {/* Active Filters Summary */}
       {activeCount > 0 && (
         <div className="flex items-center gap-gap-xs flex-wrap">
-          <span className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+          <span className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-text-muted" : "text-text-muted")}>
             ACTIVE FILTERS:
           </span>
 
@@ -296,8 +296,8 @@ export function SearchFilter({
                   className={clsx(
                     "flex items-center gap-gap-xs px-spacing-2 py-spacing-1 font-code text-mono-xs tracking-wide border cursor-pointer transition-colors duration-fast",
                     inverted
-                      ? "bg-surface-elevated text-on-dark-secondary border-border hover:bg-surface-inverse"
-                      : "bg-muted text-on-dark-disabled border-border hover:bg-muted"
+                      ? "bg-surface-elevated text-text-secondary border-border hover:bg-surface-inverse"
+                      : "bg-muted text-text-disabled border-border hover:bg-muted"
                   )}
                 >
                   {option.label}
@@ -311,7 +311,7 @@ export function SearchFilter({
             onClick={onClearAll}
             className={clsx(
               "px-spacing-2 py-spacing-1 font-code text-mono-xs tracking-wide bg-transparent border-none cursor-pointer underline",
-              inverted ? "text-on-dark-muted hover:text-on-dark-primary" : "text-on-dark-disabled hover:text-on-light-primary"
+              inverted ? "text-text-muted hover:text-text-primary" : "text-text-disabled hover:text-text-primary"
             )}
           >
             CLEAR ALL

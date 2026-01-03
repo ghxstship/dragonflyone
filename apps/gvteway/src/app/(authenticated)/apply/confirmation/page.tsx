@@ -45,7 +45,7 @@ function ConfirmationContent() {
             {/* Header */}
             <Stack gap={4}>
               <H1 size="md" className="text-white">APPLICATION RECEIVED</H1>
-              <Body size="lg" className="text-on-dark-secondary">
+              <Body size="lg" className="text-text-secondary">
                 Welcome to the waitlist. We are excited to review your application.
               </Body>
             </Stack>
@@ -62,7 +62,7 @@ function ConfirmationContent() {
                     </IconBox>
                     <Stack gap={1}>
                       <Label size="sm" className="text-white">Check Your Email</Label>
-                      <Body size="sm" className="text-on-dark-muted">
+                      <Body size="sm" className="text-text-muted">
                         We have sent a confirmation to your email address with your application details.
                       </Body>
                     </Stack>
@@ -74,7 +74,7 @@ function ConfirmationContent() {
                     </IconBox>
                     <Stack gap={1}>
                       <Label size="sm" className="text-white">Review Period</Label>
-                      <Body size="sm" className="text-on-dark-muted">
+                      <Body size="sm" className="text-text-muted">
                         Our team reviews applications within 24-48 hours. We will notify you of our decision.
                       </Body>
                     </Stack>
@@ -86,7 +86,7 @@ function ConfirmationContent() {
                     </IconBox>
                     <Stack gap={1}>
                       <Label size="sm" className="text-white">Get Started</Label>
-                      <Body size="sm" className="text-on-dark-muted">
+                      <Body size="sm" className="text-text-muted">
                         Once approved, you will receive instructions to complete your membership setup and start exploring.
                       </Body>
                     </Stack>
@@ -97,7 +97,7 @@ function ConfirmationContent() {
 
             {/* Status Note */}
             <Stack gap={2} className="text-center">
-              <Label size="xs" className="tracking-label text-on-dark-disabled">
+              <Label size="xs" className="tracking-label text-text-disabled">
                 APPLICATION STATUS
               </Label>
               <Stack direction="horizontal" gap={2} className="items-center justify-center">
@@ -134,7 +134,7 @@ function ConfirmationContent() {
             </Stack>
 
             {/* Support Note */}
-            <Body size="sm" className="text-on-dark-disabled">
+            <Body size="sm" className="text-text-disabled">
               Questions? Contact us at{" "}
               <NextLink href="mailto:membership@gvteway.com" className="text-white underline">
                 membership@gvteway.com

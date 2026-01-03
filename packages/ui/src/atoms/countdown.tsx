@@ -110,7 +110,7 @@ export function Countdown({
           className={clsx(
             "font-code uppercase tracking-widest",
             config.label,
-            inverted ? "text-on-dark-muted" : "text-on-light-muted"
+            inverted ? "text-text-muted" : "text-text-muted"
           )}
         >
           {label}

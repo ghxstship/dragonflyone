@@ -127,7 +127,7 @@ export function BulkEditModal<T>({
         type="button"
         onClick={handleClose}
         disabled={loading}
-        className="px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-primary text-on-light-primary border-2 border-border cursor-pointer hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+        className="px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-primary text-text-primary border-2 border-border cursor-pointer hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
       >
         Cancel
       </button>
@@ -135,7 +135,7 @@ export function BulkEditModal<T>({
         type="button"
         onClick={handleSubmit}
         disabled={loading || enabledFields.size === 0}
-        className="flex items-center gap-2 px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-inverse text-on-dark-primary border-2 border-border cursor-pointer hover:bg-surface-elevated disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex items-center gap-2 px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-inverse text-text-primary border-2 border-border cursor-pointer hover:bg-surface-elevated disabled:cursor-not-allowed disabled:opacity-50"
       >
         {loading ? (
           <>
@@ -171,14 +171,14 @@ export function BulkEditModal<T>({
     >
       {/* Description */}
       {description && (
-        <p className="font-body text-sm text-on-light-muted mb-4">
+        <p className="font-body text-sm text-text-muted mb-4">
           {description}
         </p>
       )}
 
       {/* Selected items summary */}
       <div className="mb-6 p-4 bg-muted border-2 border-border rounded-card">
-        <p className="font-mono text-sm text-on-light-muted mb-2">
+        <p className="font-mono text-sm text-text-muted mb-2">
           {selectedItems.length} item{selectedItems.length !== 1 ? "s" : ""} selected:
         </p>
         <div className="flex flex-wrap gap-1 max-h-24 overflow-auto">
@@ -191,7 +191,7 @@ export function BulkEditModal<T>({
             </span>
           ))}
           {selectedItems.length > 10 && (
-            <span className="px-2 py-1 text-on-light-muted font-mono text-xs">
+            <span className="px-2 py-1 text-text-muted font-mono text-xs">
               +{selectedItems.length - 10} more
             </span>
           )}
@@ -200,7 +200,7 @@ export function BulkEditModal<T>({
 
       {/* Fields */}
       <div className="space-y-4">
-        <p className="font-mono text-sm tracking-wide uppercase text-on-light-muted">
+        <p className="font-mono text-sm tracking-wide uppercase text-text-muted">
           Select fields to update:
         </p>
 
@@ -232,7 +232,7 @@ export function BulkEditModal<T>({
                     <select
                       value={String(values[field.key] ?? "")}
                       onChange={(e) => handleValueChange(field.key, e.target.value)}
-                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-on-light-primary outline-none focus:border-primary-500"
+                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-text-primary outline-none focus:border-primary-500"
                     >
                       <option value="">{field.placeholder || "Select..."}</option>
                       {field.options?.map((opt) => (
@@ -257,14 +257,14 @@ export function BulkEditModal<T>({
                       value={values[field.key] === undefined ? "" : String(values[field.key])}
                       onChange={(e) => handleValueChange(field.key, e.target.valueAsNumber || null)}
                       placeholder={field.placeholder}
-                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-on-light-primary outline-none focus:border-primary-500"
+                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-text-primary outline-none focus:border-primary-500"
                     />
                   ) : field.type === "date" ? (
                     <input
                       type="date"
                       value={String(values[field.key] ?? "")}
                       onChange={(e) => handleValueChange(field.key, e.target.value)}
-                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-on-light-primary outline-none focus:border-primary-500"
+                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-text-primary outline-none focus:border-primary-500"
                     />
                   ) : (
                     <input
@@ -272,7 +272,7 @@ export function BulkEditModal<T>({
                       value={String(values[field.key] ?? "")}
                       onChange={(e) => handleValueChange(field.key, e.target.value)}
                       placeholder={field.placeholder}
-                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-on-light-primary outline-none focus:border-primary-500"
+                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-text-primary outline-none focus:border-primary-500"
                     />
                   )}
                 </div>

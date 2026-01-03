@@ -1,0 +1,68 @@
+# Page snapshot
+
+```yaml
+- generic [active]:
+  - img [ref=e3]
+  - alert [ref=e6]
+  - dialog "Server Error" [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - navigation [ref=e13]:
+          - button "previous" [disabled] [ref=e14]:
+            - img "previous" [ref=e15]
+          - button "next" [disabled] [ref=e17]:
+            - img "next" [ref=e18]
+          - generic [ref=e20]: 1 of 1 error
+          - generic [ref=e21]:
+            - text: Next.js (14.2.35) is outdated
+            - link "(learn more)" [ref=e23] [cursor=pointer]:
+              - /url: https://nextjs.org/docs/messages/version-staleness
+        - heading "Server Error" [level=1] [ref=e24]
+        - paragraph [ref=e25]: "Error: Cannot find module './78649.js' Require stack: - /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/webpack-runtime.js - /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/pages/_document.js - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/require.js - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/load-components.js - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/build/utils.js - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/dev/hot-middleware.js - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/dev/hot-reloader-webpack.js - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/router-server.js - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/start-server.js"
+        - generic [ref=e26]: This error happened while generating the page. Any console logs will be displayed in the terminal window.
+      - generic [ref=e27]:
+        - heading "Call Stack" [level=2] [ref=e28]
+        - group [ref=e29]:
+          - generic "Next.js" [ref=e30] [cursor=pointer]:
+            - img [ref=e31]
+            - img [ref=e33]
+            - text: Next.js
+        - generic [ref=e38]:
+          - heading "TracingChannel.traceSync" [level=3] [ref=e39]
+          - generic [ref=e41]: node:diagnostics_channel (322:14)
+        - group [ref=e42]:
+          - generic "Next.js" [ref=e43] [cursor=pointer]:
+            - img [ref=e44]
+            - img [ref=e46]
+            - text: Next.js
+        - generic [ref=e51]:
+          - heading "Array.reduce" [level=3] [ref=e52]
+          - generic [ref=e54]: <anonymous>
+        - group [ref=e55]:
+          - generic "Next.js" [ref=e56] [cursor=pointer]:
+            - img [ref=e57]
+            - img [ref=e59]
+            - text: Next.js
+        - generic [ref=e64]:
+          - heading "Array.map" [level=3] [ref=e65]
+          - generic [ref=e67]: <anonymous>
+        - group [ref=e68]:
+          - generic "Next.js" [ref=e69] [cursor=pointer]:
+            - img [ref=e70]
+            - img [ref=e72]
+            - text: Next.js
+        - generic [ref=e77]:
+          - heading "<unknown>" [level=3] [ref=e78]
+          - generic [ref=e80]: file:/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/pages/_document.js (1:344)
+        - generic [ref=e81]:
+          - heading "Object.<anonymous>" [level=3] [ref=e82]
+          - generic [ref=e84]: file:/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/pages/_document.js (1:388)
+        - generic [ref=e85]:
+          - heading "TracingChannel.traceSync" [level=3] [ref=e86]
+          - generic [ref=e88]: node:diagnostics_channel (322:14)
+        - group [ref=e89]:
+          - generic "Next.js" [ref=e90] [cursor=pointer]:
+            - img [ref=e91]
+            - img [ref=e93]
+            - text: Next.js
+```

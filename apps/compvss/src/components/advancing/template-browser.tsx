@@ -167,7 +167,7 @@ export function TemplateBrowser({ onSelectTemplate, projectId, organizationId }:
                       <Box>
                         <Body>{template.name}</Body>
                         {template.description && (
-                          <Body className="text-on-dark-muted">{template.description}</Body>
+                          <Body className="text-text-muted">{template.description}</Body>
                         )}
                       </Box>
                     </TableCell>

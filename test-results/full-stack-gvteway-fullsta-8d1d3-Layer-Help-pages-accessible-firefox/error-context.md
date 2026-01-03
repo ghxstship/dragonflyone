@@ -1,0 +1,157 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e6]:
+      - generic [ref=e7]:
+        - link "GVTEWAY" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=e9]:
+          - generic [ref=e10]:
+            - link "Events" [ref=e11] [cursor=pointer]:
+              - /url: /events
+            - link "Artists" [ref=e12] [cursor=pointer]:
+              - /url: /artists
+            - link "Venues" [ref=e13] [cursor=pointer]:
+              - /url: /venues
+            - link "Community" [ref=e14] [cursor=pointer]:
+              - /url: /community
+        - generic [ref=e15]:
+          - link "Create" [ref=e16] [cursor=pointer]:
+            - /url: /creators
+            - button "Create" [ref=e17]
+          - link "Sign In" [ref=e18] [cursor=pointer]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e19]
+          - button "Open navigation" [ref=e20]:
+            - paragraph [ref=e22]: Open navigation
+    - main [ref=e23]:
+      - generic [ref=e28]:
+        - link "Skip to main content" [ref=e29] [cursor=pointer]:
+          - /url: "#main-content"
+        - main "Page content" [ref=e30]:
+          - generic [ref=e36]:
+            - text: Support
+            - heading "Help Center" [level=1] [ref=e37]
+            - paragraph [ref=e39]: Get the help you need. Find answers, chat with support, or browse our documentation.
+            - generic [ref=e40]:
+              - button "Contact Support" [ref=e41]:
+                - text: Contact Support
+                - img [ref=e43]
+              - button "Browse FAQ" [ref=e46]
+          - generic [ref=e50]:
+            - generic [ref=e51]:
+              - paragraph [ref=e52]: 24/7
+              - paragraph [ref=e53]: Support
+            - generic [ref=e54]:
+              - paragraph [ref=e55]: <5min
+              - paragraph [ref=e56]: Response Time
+            - generic [ref=e57]:
+              - paragraph [ref=e58]: 98%
+              - paragraph [ref=e59]: Satisfaction
+            - generic [ref=e60]:
+              - paragraph [ref=e61]: 35+
+              - paragraph [ref=e62]: FAQ Articles
+          - generic [ref=e66]:
+            - generic [ref=e67]:
+              - paragraph [ref=e68]: Support
+              - paragraph [ref=e69]: How Can We Help?
+              - paragraph [ref=e70]: Choose the support option that works best for you
+            - generic [ref=e71]:
+              - button "FAQ 35 answers to common questions about tickets and events." [ref=e72]:
+                - img [ref=e74]
+                - paragraph [ref=e78]: FAQ
+                - paragraph [ref=e79]: 35 answers to common questions about tickets and events.
+              - button "Live Chat Chat with our support team in real-time for quick help." [ref=e80]:
+                - img [ref=e82]
+                - paragraph [ref=e84]: Live Chat
+                - paragraph [ref=e85]: Chat with our support team in real-time for quick help.
+              - button "Documentation Browse our comprehensive help articles and guides." [ref=e86]:
+                - img [ref=e88]
+                - paragraph [ref=e94]: Documentation
+                - paragraph [ref=e95]: Browse our comprehensive help articles and guides.
+              - button "Phone Support Call us at 1-800-GVTEWAY for immediate assistance." [ref=e96]:
+                - img [ref=e98]
+                - paragraph [ref=e100]: Phone Support
+                - paragraph [ref=e101]: Call us at 1-800-GVTEWAY for immediate assistance.
+          - generic [ref=e105]:
+            - generic [ref=e106]:
+              - text: Why Choose Us
+              - heading "Support You Can Trust" [level=2] [ref=e107]
+              - paragraph [ref=e108]: We are committed to providing the best support experience
+            - generic [ref=e109]:
+              - button "Fast Response Get answers quickly with our responsive support team." [ref=e110]:
+                - generic [ref=e111]:
+                  - img [ref=e113]
+                  - heading "Fast Response" [level=3] [ref=e115]
+                  - paragraph [ref=e116]: Get answers quickly with our responsive support team.
+              - button "Always Available Support available 24/7, whenever you need help." [ref=e117]:
+                - generic [ref=e118]:
+                  - img [ref=e120]
+                  - heading "Always Available" [level=3] [ref=e123]
+                  - paragraph [ref=e124]: Support available 24/7, whenever you need help.
+              - button "Secure Support Your data and privacy are always protected." [ref=e125]:
+                - generic [ref=e126]:
+                  - img [ref=e128]
+                  - heading "Secure Support" [level=3] [ref=e130]
+                  - paragraph [ref=e131]: Your data and privacy are always protected.
+          - generic [ref=e136]:
+            - generic [ref=e137]:
+              - img [ref=e139]
+              - generic [ref=e141]:
+                - paragraph [ref=e142]: Need Immediate Help?
+                - paragraph [ref=e143]: Call us at 1-800-GVTEWAY
+            - button "Call Now" [ref=e144]
+          - generic [ref=e149]:
+            - heading "Ready to Get Started?" [level=2] [ref=e150]
+            - paragraph [ref=e151]: Browse events, buy tickets, and enjoy amazing experiences with GVTEWAY.
+            - generic [ref=e152]:
+              - button "Browse Events" [ref=e153]:
+                - text: Browse Events
+                - img [ref=e155]
+              - button "Contact Support" [ref=e158]
+    - contentinfo [ref=e159]:
+      - generic [ref=e160]:
+        - heading "GVTEWAY" [level=1] [ref=e162]
+        - generic [ref=e163]:
+          - generic [ref=e164]:
+            - heading "Discover" [level=3] [ref=e165]
+            - link "Browse Events" [ref=e166] [cursor=pointer]:
+              - /url: /events
+            - link "Find Venues" [ref=e167] [cursor=pointer]:
+              - /url: /venues
+            - link "Artists" [ref=e168] [cursor=pointer]:
+              - /url: /artists
+          - generic [ref=e169]:
+            - heading "Membership" [level=3] [ref=e170]
+            - link "Join" [ref=e171] [cursor=pointer]:
+              - /url: /membership
+            - link "Experiences" [ref=e172] [cursor=pointer]:
+              - /url: /experiences
+            - link "Community" [ref=e173] [cursor=pointer]:
+              - /url: /community
+          - generic [ref=e174]:
+            - heading "Support" [level=3] [ref=e175]
+            - link "Help Center" [ref=e176] [cursor=pointer]:
+              - /url: /help
+            - link "Contact" [ref=e177] [cursor=pointer]:
+              - /url: /help#contact
+            - link "FAQ" [ref=e178] [cursor=pointer]:
+              - /url: /help#faq
+          - generic [ref=e179]:
+            - heading "Legal" [level=3] [ref=e180]
+            - link "Privacy" [ref=e181] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e182] [cursor=pointer]:
+              - /url: /legal/terms
+            - link "Accessibility" [ref=e183] [cursor=pointer]:
+              - /url: /accessibility
+        - paragraph [ref=e185]: © 2026 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+```

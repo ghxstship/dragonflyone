@@ -41,21 +41,21 @@ export function EmptyState({ icon, title, description, action, secondaryAction, 
       {icon && (
         <div className={clsx(
           "mb-6 text-4xl",
-          inverted ? "text-on-dark-muted" : "text-on-light-muted"
+          inverted ? "text-text-muted" : "text-text-muted"
         )}>
           {icon}
         </div>
       )}
       <H3 className={clsx(
         "uppercase tracking-wider",
-        inverted ? "text-on-dark-secondary" : "text-on-light-muted"
+        inverted ? "text-text-secondary" : "text-text-muted"
       )}>
         {title}
       </H3>
       {description && (
         <Body className={clsx(
           "mt-4 max-w-md",
-          inverted ? "text-on-dark-muted" : "text-on-light-muted"
+          inverted ? "text-text-muted" : "text-text-muted"
         )}>
           {description}
         </Body>
@@ -63,7 +63,7 @@ export function EmptyState({ icon, title, description, action, secondaryAction, 
       {suggestions && suggestions.length > 0 && (
         <div className={clsx(
           "mt-6 text-sm",
-          inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+          inverted ? "text-text-disabled" : "text-text-muted"
         )}>
           <span className="font-mono uppercase tracking-wider text-xs">Try searching for:</span>
           <div className="mt-2 flex flex-wrap justify-center gap-2">
@@ -73,8 +73,8 @@ export function EmptyState({ icon, title, description, action, secondaryAction, 
                 className={clsx(
                   "px-3 py-1 rounded-full text-xs font-medium",
                   inverted 
-                    ? "bg-surface-elevated text-on-dark-secondary" 
-                    : "bg-muted text-on-dark-disabled"
+                    ? "bg-surface-elevated text-text-secondary" 
+                    : "bg-muted text-text-disabled"
                 )}
               >
                 {suggestion}

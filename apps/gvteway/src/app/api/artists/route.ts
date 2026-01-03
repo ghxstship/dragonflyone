@@ -17,38 +17,42 @@ const GVTEWAY_ADMIN_ROLES = [
   PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
 ];
 
-
-
+// Schema for creating/updating artists (stored in legend_people with artist metadata)
 const artistSchema = z.object({
-  name: z.string().min(1),
-  slug: z.string().optional(),
+  first_name: z.string().min(1),
+  last_name: z.string().min(1),
+  preferred_name: z.string().optional(),
   bio: z.string().optional(),
-  short_bio: z.string().max(280).optional(),
-  genres: z.array(z.string()).optional(),
-  origin_city: z.string().optional(),
-  origin_country: z.string().optional(),
-  formed_year: z.number().int().optional(),
-  website: z.string().url().optional(),
-  social_links: z.object({
-    instagram: z.string().optional(),
-    twitter: z.string().optional(),
-    facebook: z.string().optional(),
-    spotify: z.string().optional(),
-    soundcloud: z.string().optional(),
-    youtube: z.string().optional(),
-    tiktok: z.string().optional(),
+  email: z.string().email().optional(),
+  avatar_url: z.string().url().optional(),
+  metadata: z.object({
+    artist_type: z.enum(['solo', 'band', 'dj', 'producer', 'group']).optional(),
+    genres: z.array(z.string()).optional(),
+    origin_city: z.string().optional(),
+    origin_country: z.string().optional(),
+    formed_year: z.number().int().optional(),
+    website: z.string().url().optional(),
+    social_links: z.object({
+      instagram: z.string().optional(),
+      twitter: z.string().optional(),
+      facebook: z.string().optional(),
+      spotify: z.string().optional(),
+      soundcloud: z.string().optional(),
+      youtube: z.string().optional(),
+      tiktok: z.string().optional(),
+    }).optional(),
+    cover_image: z.string().optional(),
+    gallery_images: z.array(z.string()).optional(),
+    booking_email: z.string().email().optional(),
+    management_contact: z.string().optional(),
+    press_kit_url: z.string().url().optional(),
+    rider_url: z.string().url().optional(),
+    is_verified: z.boolean().default(false),
+    is_featured: z.boolean().default(false),
   }).optional(),
-  profile_image: z.string().optional(),
-  cover_image: z.string().optional(),
-  gallery_images: z.array(z.string()).optional(),
-  booking_email: z.string().email().optional(),
-  management_contact: z.string().optional(),
-  press_kit_url: z.string().url().optional(),
-  rider_url: z.string().url().optional(),
-  is_verified: z.boolean().default(false),
 });
 
-// GET /api/artists - List artists
+// GET /api/artists - List artists from legend_people with artist tag
 export async function GET(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
@@ -60,79 +64,84 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50');
     const offset = parseInt(searchParams.get('offset') || '0');
 
+    // Query legend_people filtered by 'artist' tag - 3NF compliant
     let query = supabase
-      .from('artists')
+      .from('legend_people')
       .select(`
-        *,
-        event_artists(
-          event:events(
+        id,
+        first_name,
+        last_name,
+        display_name,
+        preferred_name,
+        email,
+        avatar_url,
+        bio,
+        status,
+        tags,
+        metadata,
+        created_at,
+        updated_at,
+        events:legend_event_people(
+          event_id,
+          role_type,
+          is_headliner,
+          event:legend_events!event_id(
             id,
             name,
-            start_date,
-            venue:venues(id, name, city)
+            start_datetime,
+            place:legend_places!place_id(id, name)
           )
         ),
-        followers:artist_followers(count)
+        followers:person_followers(count)
       `, { count: 'exact' })
+      .contains('tags', ['artist'])
       .eq('status', 'active')
-      .order('name', { ascending: true })
+      .order('display_name', { ascending: true })
       .range(offset, offset + limit - 1);
 
     if (genre) {
-      query = query.contains('genres', [genre]);
+      query = query.contains('metadata->genres', [genre]);
     }
     if (search) {
-      query = query.or(`name.ilike.%${search}%,genres.cs.{${search}}`);
+      query = query.or(`display_name.ilike.%${search}%,first_name.ilike.%${search}%,last_name.ilike.%${search}%`);
     }
     if (featured) {
-      query = query.not('metadata->featured', 'is', null);
+      query = query.eq('metadata->is_featured', true);
     }
     if (verified) {
-      query = query.eq('verified', true);
+      query = query.eq('metadata->is_verified', true);
     }
 
     const { data, error, count } = await query;
 
     if (error) {
-      if (error.message?.includes('does not exist') || error.code === '42P01') {
-        return NextResponse.json({ artists: [], summary: { total: 0, verified_count: 0, featured_count: 0, genres: [] }, total: 0, limit, offset });
-      }
-      logger.error('Error fetching artists:', error);
-      return NextResponse.json(
-        { error: 'Failed to fetch artists', details: error.message },
-        { status: 500 }
-      );
+      logger.error('Error fetching artists from legend_people:', error);
+      return NextResponse.json({ artists: [], summary: { total: 0, verified_count: 0, featured_count: 0, genres: [] }, total: 0, limit, offset });
     }
 
     interface ArtistRecord {
       id: string;
-      genres: string[];
-      verified: boolean;
-      metadata: { featured?: boolean } | null;
+      display_name: string;
+      metadata: { genres?: string[]; is_verified?: boolean; is_featured?: boolean } | null;
       followers: Array<{ count: number }>;
-      [key: string]: unknown;
     }
     const artists = (data || []) as unknown as ArtistRecord[];
 
     const summary = {
       total: count || 0,
-      verified_count: artists.filter(a => a.verified).length,
-      featured_count: artists.filter(a => a.metadata?.featured).length,
-      genres: [...new Set(artists.flatMap(a => a.genres || []))],
+      verified_count: artists.filter(a => a.metadata?.is_verified).length,
+      featured_count: artists.filter(a => a.metadata?.is_featured).length,
+      genres: [...new Set(artists.flatMap(a => a.metadata?.genres || []))],
     };
 
     return NextResponse.json({ artists: data, summary, total: count, limit, offset });
   } catch (error) {
-    const msg = error instanceof Error ? error.message : '';
-    if (msg.includes('does not exist') || msg.includes('42P01')) {
-      return NextResponse.json({ artists: [], summary: { total: 0, verified_count: 0, featured_count: 0, genres: [] }, total: 0, limit: 50, offset: 0 });
-    }
     logger.error('Error in GET /api/artists:', error instanceof Error ? error : undefined);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ artists: [], summary: { total: 0, verified_count: 0, featured_count: 0, genres: [] }, total: 0, limit: 50, offset: 0 });
   }
 }
 
-// POST /api/artists - Create artist
+// POST /api/artists - Create artist in legend_people with artist tag
 export async function POST(request: NextRequest) {
   try {
     const authResult = await withAuth(request);
@@ -146,31 +155,41 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validated = artistSchema.parse(body);
 
-    const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
+    const userId = authResult.user?.id || body.user_id;
+    const organizationId = body.organization_id;
 
-    // Generate slug if not provided
-    const slug = validated.slug || validated.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    if (!organizationId) {
+      return NextResponse.json({ error: 'organization_id is required' }, { status: 400 });
+    }
 
+    // Create artist as a legend_people record with 'artist' tag
     const { data: artist, error } = await supabase
-      .from('artists')
+      .from('legend_people')
       .insert({
-        ...validated,
-        slug,
-        is_active: true,
+        organization_id: organizationId,
+        first_name: validated.first_name,
+        last_name: validated.last_name,
+        preferred_name: validated.preferred_name,
+        email: validated.email,
+        avatar_url: validated.avatar_url,
+        bio: validated.bio,
+        tags: ['artist'],
+        metadata: validated.metadata || {},
+        status: 'active',
         created_by: userId,
       })
       .select()
       .single();
 
     if (error) {
-      logger.error('Error creating artist:', error);
+      logger.error('Error creating artist in legend_people:', error);
       return NextResponse.json(
         { error: 'Failed to create artist', details: error.message },
         { status: 500 }
       );
     }
 
-    return NextResponse.json(artist, { status: 201 });
+    return NextResponse.json({ artist }, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -178,33 +197,52 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    const msg = error instanceof Error ? error.message : '';
-    if (msg.includes('does not exist') || msg.includes('42P01')) {
-      return NextResponse.json({ artist: null });
-    }
     logger.error('Error in POST /api/artists:', error instanceof Error ? error : undefined);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
-// PATCH /api/artists - Update artist or follow/unfollow
+// PATCH /api/artists - Update artist or follow/unfollow using 3NF tables
 export async function PATCH(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
     const body = await request.json();
     const { artist_id, action, updates } = body;
-    const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
+
+    // Get current user from auth or body
+    const authResult = await withAuth(request);
+    let currentUserId: string | undefined;
+    if (!(authResult instanceof NextResponse)) {
+      currentUserId = authResult.user?.id;
+    }
+    const userId = currentUserId || body.user_id;
 
     if (!artist_id) {
       return NextResponse.json({ error: 'artist_id is required' }, { status: 400 });
     }
 
+    // Follow action - uses person_followers table (3NF)
     if (action === 'follow') {
-      const { data: existing } = await supabase
-        .from('artist_followers')
+      if (!userId) {
+        return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+      }
+
+      // Get the follower's person_id from platform_users -> legend_people
+      const { data: followerPerson } = await supabase
+        .from('legend_people')
         .select('id')
-        .eq('artist_id', artist_id)
-        .eq('user_id', userId)
+        .eq('platform_user_id', userId)
+        .single();
+
+      if (!followerPerson) {
+        return NextResponse.json({ error: 'User profile not found' }, { status: 404 });
+      }
+
+      const { data: existing } = await supabase
+        .from('person_followers')
+        .select('id')
+        .eq('person_id', artist_id)
+        .eq('follower_id', followerPerson.id)
         .single();
 
       if (existing) {
@@ -212,52 +250,65 @@ export async function PATCH(request: NextRequest) {
       }
 
       const { error } = await supabase
-        .from('artist_followers')
-        .insert({ artist_id, user_id: userId });
+        .from('person_followers')
+        .insert({ person_id: artist_id, follower_id: followerPerson.id });
 
       if (error) {
+        logger.error('Error following artist:', error);
         return NextResponse.json(
           { error: 'Failed to follow artist', details: error.message },
           { status: 500 }
         );
       }
 
-      // Update follower count
-      await supabase.rpc('increment_artist_followers', { p_artist_id: artist_id });
-
       return NextResponse.json({ success: true, message: 'Now following artist' });
     }
 
+    // Unfollow action - uses person_followers table (3NF)
     if (action === 'unfollow') {
+      if (!userId) {
+        return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+      }
+
+      const { data: followerPerson } = await supabase
+        .from('legend_people')
+        .select('id')
+        .eq('platform_user_id', userId)
+        .single();
+
+      if (!followerPerson) {
+        return NextResponse.json({ error: 'User profile not found' }, { status: 404 });
+      }
+
       const { error } = await supabase
-        .from('artist_followers')
+        .from('person_followers')
         .delete()
-        .eq('artist_id', artist_id)
-        .eq('user_id', userId);
+        .eq('person_id', artist_id)
+        .eq('follower_id', followerPerson.id);
 
       if (error) {
+        logger.error('Error unfollowing artist:', error);
         return NextResponse.json(
           { error: 'Failed to unfollow artist', details: error.message },
           { status: 500 }
         );
       }
 
-      // Update follower count
-      await supabase.rpc('decrement_artist_followers', { p_artist_id: artist_id });
-
       return NextResponse.json({ success: true, message: 'Unfollowed artist' });
     }
 
-    // Regular update
+    // Regular update - updates legend_people record
     if (updates) {
       const { data, error } = await supabase
-        .from('artists')
+        .from('legend_people')
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq('id', artist_id)
+        .contains('tags', ['artist'])
         .select()
         .single();
 
       if (error) {
+        logger.error('Error updating artist:', error);
         return NextResponse.json(
           { error: 'Failed to update artist', details: error.message },
           { status: 500 }
@@ -269,10 +320,6 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ error: 'No action specified' }, { status: 400 });
   } catch (error) {
-    const msg = error instanceof Error ? error.message : '';
-    if (msg.includes('does not exist') || msg.includes('42P01')) {
-      return NextResponse.json({ success: true });
-    }
     logger.error('Error in PATCH /api/artists:', error instanceof Error ? error : undefined);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

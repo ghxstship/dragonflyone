@@ -4,7 +4,7 @@
  * Monochromatic palette with stark contrast
  * 
  * NOTE: These tokens are synchronized with @ghxstship/config-tailwind
- * For Tailwind usage, prefer the utility classes (e.g., `text-on-light-muted`, `shadow-hard`)
+ * For Tailwind usage, prefer the utility classes (e.g., `text-text-muted`, `shadow-hard`)
  * Use these exports for programmatic access in JavaScript/TypeScript
  */
 

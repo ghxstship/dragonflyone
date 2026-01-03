@@ -47,15 +47,15 @@ function ExperienceGeneratorSection() {
                 <Sparkles className="size-5 text-primary" />
                 <Label size="xs" className="text-primary">{experienceGenerator.subtitle.toUpperCase()}</Label>
               </Stack>
-              <H2 className="text-on-light-primary">{experienceGenerator.name}</H2>
+              <H2 className="text-text-primary">{experienceGenerator.name}</H2>
             </Stack>
             <Display className="text-primary text-display-md">{experienceGenerator.price}</Display>
-            <Body className="text-on-light-secondary">{experienceGenerator.description}</Body>
+            <Body className="text-text-secondary">{experienceGenerator.description}</Body>
             <Stack gap={3}>
               {experienceGenerator.features.map((feature: string, idx: number) => (
                 <Stack key={idx} direction="horizontal" gap={3} className="items-center">
                   <Check className="size-5 text-primary flex-shrink-0" />
-                  <Body className="text-on-light-secondary">{feature}</Body>
+                  <Body className="text-text-secondary">{feature}</Body>
                 </Stack>
               ))}
             </Stack>
@@ -63,8 +63,8 @@ function ExperienceGeneratorSection() {
           <Stack gap={6} className="items-center text-center">
             <Box className="p-6 border-2 border-primary bg-white shadow-md">
               <Sparkles className="size-16 text-primary mx-auto mb-4" />
-              <H3 className="text-on-light-primary mb-2">Start Creating Now</H3>
-              <Body size="sm" className="text-on-light-muted mb-4">No account needed. Just enter an idea.</Body>
+              <H3 className="text-text-primary mb-2">Start Creating Now</H3>
+              <Body size="sm" className="text-text-muted mb-4">No account needed. Just enter an idea.</Body>
             </Box>
             <Button variant="primary" size="lg" onClick={() => router.push(experienceGenerator.cta.href)} icon={<Sparkles className="size-5" />}>
               {experienceGenerator.cta.label}
@@ -84,9 +84,9 @@ function SingleProductsSection() {
   return (
     <Container size="2xl" className="py-16 md:py-24">
       <Stack gap={4} className="text-center mb-12">
-        <Label size="xs" className="text-on-light-muted">{singleProducts.category}</Label>
-        <H1 className="text-on-light-primary">{singleProducts.tagline}</H1>
-        <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">{singleProducts.description}</Body>
+        <Label size="xs" className="text-text-muted">{singleProducts.category}</Label>
+        <H1 className="text-text-primary">{singleProducts.tagline}</H1>
+        <Body size="lg" className="text-text-muted max-w-2xl mx-auto">{singleProducts.description}</Body>
       </Stack>
       <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
         {singleProducts.products.map((product: { id: string; color: string; subtitle: string; name: string; price: string; period: string; description: string; features: string[]; cta: { href: string; label: string } }) => (
@@ -97,17 +97,17 @@ function SingleProductsSection() {
                 <Box className={`text-${product.color}`}>{PRODUCT_ICONS[product.id.replace("-single", "") as keyof typeof PRODUCT_ICONS]}</Box>
                 <Label size="xs" className={`text-${product.color}`}>{product.subtitle.toUpperCase()}</Label>
               </Stack>
-              <H3 className="font-display text-h4-md uppercase tracking-label text-on-light-primary">{product.name}</H3>
+              <H3 className="font-display text-h4-md uppercase tracking-label text-text-primary">{product.name}</H3>
               <Stack direction="horizontal" gap={1} className="items-baseline">
-                <Display className="text-on-light-primary text-display-sm">{product.price}</Display>
-                <Text size="sm" className="text-on-light-muted">{product.period}</Text>
+                <Display className="text-text-primary text-display-sm">{product.price}</Display>
+                <Text size="sm" className="text-text-muted">{product.period}</Text>
               </Stack>
-              <Body size="sm" className="text-on-light-muted">{product.description}</Body>
+              <Body size="sm" className="text-text-muted">{product.description}</Body>
               <Stack gap={2}>
                 {product.features.map((feature: string, idx: number) => (
                   <Stack key={idx} direction="horizontal" gap={2} className="items-center">
                     <Check className={`size-4 text-${product.color} flex-shrink-0`} />
-                    <Text size="sm" className="text-on-light-secondary">{feature}</Text>
+                    <Text size="sm" className="text-text-secondary">{feature}</Text>
                   </Stack>
                 ))}
               </Stack>
@@ -138,8 +138,8 @@ function BundlesSection() {
     <Container size="2xl" className="py-16 md:py-24">
       <Stack gap={4} className="text-center mb-12">
         <Label size="xs" className="text-brand-pink">{bundles.category}</Label>
-        <H1 className="text-on-light-primary">{bundles.tagline}</H1>
-        <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">{bundles.description}</Body>
+        <H1 className="text-text-primary">{bundles.tagline}</H1>
+        <Body size="lg" className="text-text-muted max-w-2xl mx-auto">{bundles.description}</Body>
       </Stack>
       <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
         {bundles.products.map((bundle: { id: string; color: string; subtitle: string; name: string; price: string; period: string; description: string; features: string[]; cta: { href: string; label: string } }) => (
@@ -154,19 +154,19 @@ function BundlesSection() {
             <Stack gap={4} className="flex-1">
               <Stack direction="horizontal" gap={2} className="items-center">
                 <Box className={`size-3 rounded-full bg-${bundle.color}`} />
-                <Label size="xs" className="text-on-light-muted">{bundle.subtitle.toUpperCase()}</Label>
+                <Label size="xs" className="text-text-muted">{bundle.subtitle.toUpperCase()}</Label>
               </Stack>
-              <H3 className="font-display text-h4-md uppercase tracking-label text-on-light-primary">{bundle.name}</H3>
+              <H3 className="font-display text-h4-md uppercase tracking-label text-text-primary">{bundle.name}</H3>
               <Stack direction="horizontal" gap={1} className="items-baseline">
-                <Display className="text-on-light-primary text-display-sm">{bundle.price}</Display>
-                <Text size="sm" className="text-on-light-muted">{bundle.period}</Text>
+                <Display className="text-text-primary text-display-sm">{bundle.price}</Display>
+                <Text size="sm" className="text-text-muted">{bundle.period}</Text>
               </Stack>
-              <Body size="sm" className="text-on-light-muted">{bundle.description}</Body>
+              <Body size="sm" className="text-text-muted">{bundle.description}</Body>
               <Stack gap={2}>
                 {bundle.features.map((feature: string, idx: number) => (
                   <Stack key={idx} direction="horizontal" gap={2} className="items-center">
                     <Check className={`size-4 text-${bundle.color} flex-shrink-0`} />
-                    <Text size="sm" className="text-on-light-secondary">{feature}</Text>
+                    <Text size="sm" className="text-text-secondary">{feature}</Text>
                   </Stack>
                 ))}
               </Stack>
@@ -199,37 +199,37 @@ function FullStackSection() {
         <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
           <Stack gap={6}>
             <Stack gap={2}>
-              <Label size="xs" className="text-on-dark-muted">{fullStack.category}</Label>
+              <Label size="xs" className="text-text-muted">{fullStack.category}</Label>
               <H2 className="text-white">{fullStack.tagline}</H2>
             </Stack>
             <Stack direction="horizontal" gap={2} className="items-baseline">
               <Display className="text-white">{fullStack.price}</Display>
-              <Text className="text-on-dark-muted">{fullStack.period}</Text>
+              <Text className="text-text-muted">{fullStack.period}</Text>
             </Stack>
-            <Body className="text-on-dark-secondary">{fullStack.description}</Body>
+            <Body className="text-text-secondary">{fullStack.description}</Body>
             <Stack gap={3}>
               {fullStack.features.map((feature: string, idx: number) => (
                 <Stack key={idx} direction="horizontal" gap={3} className="items-center">
                   <Check className="size-5 text-brand-pink flex-shrink-0" />
-                  <Body className="text-on-dark-secondary">{feature}</Body>
+                  <Body className="text-text-secondary">{feature}</Body>
                 </Stack>
               ))}
             </Stack>
           </Stack>
           <Stack gap={6} className="items-center text-center lg:items-end lg:text-right">
             <Stack gap={2}>
-              <Text className="text-on-dark-muted">Includes all three products:</Text>
+              <Text className="text-text-muted">Includes all three products:</Text>
               <Stack direction="horizontal" gap={4} className="justify-center lg:justify-end">
                 <Stack direction="horizontal" gap={2} className="items-center">
                   <Box className="text-brand-pink">{PRODUCT_ICONS.atlvs}</Box>
                   <Text className="text-white">ATLVS</Text>
                 </Stack>
                 <Stack direction="horizontal" gap={2} className="items-center">
-                  <Box className="text-brand-cyan">{PRODUCT_ICONS.compvss}</Box>
+                  <Box className="text-brand-yellow">{PRODUCT_ICONS.compvss}</Box>
                   <Text className="text-white">COMPVSS</Text>
                 </Stack>
                 <Stack direction="horizontal" gap={2} className="items-center">
-                  <Box className="text-brand-yellow">{PRODUCT_ICONS.gvteway}</Box>
+                  <Box className="text-brand-cyan">{PRODUCT_ICONS.gvteway}</Box>
                   <Text className="text-white">GVTEWAY</Text>
                 </Stack>
               </Stack>
@@ -249,20 +249,20 @@ function FAQSection() {
   return (
     <Container size="2xl" className="py-16 md:py-24">
       <Stack gap={4} className="text-center mb-12">
-        <Label size="xs" className="text-on-light-muted">FAQ</Label>
-        <H1 className="text-on-light-primary">FREQUENTLY ASKED QUESTIONS</H1>
-        <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">Everything you need to know about our pricing</Body>
+        <Label size="xs" className="text-text-muted">FAQ</Label>
+        <H1 className="text-text-primary">FREQUENTLY ASKED QUESTIONS</H1>
+        <Body size="lg" className="text-text-muted max-w-2xl mx-auto">Everything you need to know about our pricing</Body>
       </Stack>
       <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
         {FAQS.map((faq) => (
           <Article key={faq.id} className="border-2 border-border bg-white p-6 pop-card">
-            <H3 className="font-display text-h6-md uppercase tracking-label text-on-light-primary mb-3">{faq.question}</H3>
-            <Body className="text-on-light-muted">{faq.answer}</Body>
+            <H3 className="font-display text-h6-md uppercase tracking-label text-text-primary mb-3">{faq.question}</H3>
+            <Body className="text-text-muted">{faq.answer}</Body>
           </Article>
         ))}
       </Grid>
       <Box className="mt-12 pt-6 border-t-2 border-border">
-        <Body size="sm" className="text-center text-on-light-muted">{atlvsPricing.footnote}</Body>
+        <Body size="sm" className="text-center text-text-muted">{atlvsPricing.footnote}</Body>
       </Box>
     </Container>
   );

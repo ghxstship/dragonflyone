@@ -128,7 +128,7 @@ export const HubPage = forwardRef<HTMLDivElement, HubPageProps>(
         >
           <Stack gap={4} className="items-center text-center">
             <Spinner size="lg" variant={inverted ? "white" : "grey"} />
-            <Body className={inverted ? "text-on-dark-secondary" : "text-on-light-secondary"}>
+            <Body className={inverted ? "text-text-secondary" : "text-text-secondary"}>
               {loadingMessage}
             </Body>
           </Stack>
@@ -154,7 +154,7 @@ export const HubPage = forwardRef<HTMLDivElement, HubPageProps>(
             <H2 className={inverted ? "text-white" : "text-black"}>
               Something went wrong
             </H2>
-            <Body className={inverted ? "text-on-dark-secondary" : "text-on-light-secondary"}>
+            <Body className={inverted ? "text-text-secondary" : "text-text-secondary"}>
               {error.message || "An unexpected error occurred. Please try again."}
             </Body>
             {onRetry && (
@@ -185,7 +185,7 @@ export const HubPage = forwardRef<HTMLDivElement, HubPageProps>(
             <H2 className={inverted ? "text-white" : "text-black"}>
               You&apos;re offline
             </H2>
-            <Body className={inverted ? "text-on-dark-secondary" : "text-on-light-secondary"}>
+            <Body className={inverted ? "text-text-secondary" : "text-text-secondary"}>
               Please check your internet connection and try again.
             </Body>
           </Stack>
@@ -277,8 +277,8 @@ export const HubPage = forwardRef<HTMLDivElement, HubPageProps>(
                           activeTab === tab.id
                             ? "bg-white/20 text-white"
                             : inverted
-                              ? "bg-surface-elevated text-on-dark-muted"
-                              : "bg-muted text-on-light-muted"
+                              ? "bg-surface-elevated text-text-muted"
+                              : "bg-muted text-text-muted"
                         )}
                       >
                         {tab.count}

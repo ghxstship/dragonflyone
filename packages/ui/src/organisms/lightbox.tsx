@@ -157,7 +157,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
 
     // Header with counter
     const headerContent = showCounter && images.length > 1 ? (
-      <div className="absolute top-4 left-4 z-10 px-4 py-2 bg-surface-primary text-on-light-primary font-mono text-sm">
+      <div className="absolute top-4 left-4 z-10 px-4 py-2 bg-surface-primary text-text-primary font-mono text-sm">
         {activeIndex + 1} / {images.length}
       </div>
     ) : null;
@@ -193,7 +193,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
           {showNavigation && images.length > 1 && (
             <button
               onClick={goToPrev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center bg-surface-primary text-on-light-primary hover:bg-muted transition-colors"
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center bg-surface-primary text-text-primary hover:bg-muted transition-colors"
               aria-label="Previous image"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,7 +206,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
           {showNavigation && images.length > 1 && (
             <button
               onClick={goToNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center bg-surface-primary text-on-light-primary hover:bg-muted transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center bg-surface-primary text-text-primary hover:bg-muted transition-colors"
               aria-label="Next image"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -248,7 +248,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
                   </h3>
                 )}
                 {currentImage.caption && (
-                  <p className="mt-2 font-body text-on-dark-muted max-w-lg">
+                  <p className="mt-2 font-body text-text-muted max-w-lg">
                     {currentImage.caption}
                   </p>
                 )}

@@ -140,7 +140,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             "relative w-full border-4 rounded-[var(--radius-modal)]",
             "animate-pop-in",
             inverted
-              ? "bg-surface-inverse border-white text-on-dark-primary shadow-[8px_8px_0_rgba(255,255,255,0.25)]"
+              ? "bg-surface-inverse border-white text-text-primary shadow-[8px_8px_0_rgba(255,255,255,0.25)]"
               : "bg-white border-black text-black shadow-[8px_8px_0_rgba(0,0,0,0.2)]",
             sizeClasses[size],
             className
@@ -169,8 +169,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                     "hover:-translate-x-0.5 hover:-translate-y-0.5",
                     "active:translate-x-0 active:translate-y-0",
                     inverted 
-                      ? "border-border text-on-dark-secondary hover:border-white hover:text-white hover:shadow-[2px_2px_0_rgba(255,255,255,0.2)]" 
-                      : "border-border text-on-dark-disabled hover:border-black hover:text-black hover:shadow-[2px_2px_0_rgba(0,0,0,0.15)]"
+                      ? "border-border text-text-secondary hover:border-white hover:text-white hover:shadow-[2px_2px_0_rgba(255,255,255,0.2)]" 
+                      : "border-border text-text-disabled hover:border-black hover:text-black hover:shadow-[2px_2px_0_rgba(0,0,0,0.15)]"
                   )}
                   aria-label="Close modal"
                 >
@@ -181,7 +181,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               ) : null}
             </div>
           ) : null}
-          <div className={clsx("p-6", inverted ? "text-on-dark-secondary" : "text-on-light-muted")}>{children}</div>
+          <div className={clsx("p-6", inverted ? "text-text-secondary" : "text-text-muted")}>{children}</div>
         </div>
       </div>
     );
@@ -209,7 +209,7 @@ export type ModalBodyProps = HTMLAttributes<HTMLDivElement> & {
 export const ModalBody = forwardRef<HTMLDivElement, ModalBodyProps>(
   function ModalBody({ inverted = true, className, children, ...props }, ref) {
     return (
-      <div ref={ref} className={clsx(inverted ? "text-on-dark-secondary" : "text-on-light-muted", className)} {...props}>
+      <div ref={ref} className={clsx(inverted ? "text-text-secondary" : "text-text-muted", className)} {...props}>
         {children}
       </div>
     );

@@ -122,7 +122,7 @@ export default function ResourcesPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Learning Paths</Body>
                   <H3 className="text-white">Structured Learning</H3>
-                  <Body className="text-on-dark-muted max-w-2xl">Follow our curated learning paths to master COMPVSS at your own pace.</Body>
+                  <Body className="text-text-muted max-w-2xl">Follow our curated learning paths to master COMPVSS at your own pace.</Body>
                 </Stack>
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
@@ -138,9 +138,9 @@ export default function ResourcesPage() {
                         </Box>
                         <Stack gap={2}>
                           <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{path.title}</Body>
-                          <Body className="text-on-dark-muted">{path.description}</Body>
+                          <Body className="text-text-muted">{path.description}</Body>
                         </Stack>
-                        <Stack direction="horizontal" gap={4} className="text-on-dark-disabled">
+                        <Stack direction="horizontal" gap={4} className="text-text-disabled">
                           <Body size="sm">{path.articles} articles</Body>
                           <Body size="sm">{path.duration}</Body>
                         </Stack>
@@ -164,7 +164,7 @@ export default function ResourcesPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Downloads</Body>
                   <H3 className="text-white">Featured Resources</H3>
-                  <Body className="text-on-dark-muted max-w-2xl">Popular templates and guides downloaded by thousands of production professionals.</Body>
+                  <Body className="text-text-muted max-w-2xl">Popular templates and guides downloaded by thousands of production professionals.</Body>
                 </Stack>
 
                 <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
@@ -173,15 +173,15 @@ export default function ResourcesPage() {
                       <Stack direction="horizontal" className="justify-between items-start gap-4">
                         <Stack direction="horizontal" gap={4} className="items-start">
                           <Box className="p-2 bg-surface-elevated rounded-card">
-                            <FileText className="size-5 text-on-dark-muted" />
+                            <FileText className="size-5 text-text-muted" />
                           </Box>
                           <Stack gap={1}>
                             <Body className="text-white font-weight-bold">{resource.title}</Body>
-                            <Body size="sm" className="text-on-dark-muted">{resource.description}</Body>
+                            <Body size="sm" className="text-text-muted">{resource.description}</Body>
                             <Stack direction="horizontal" gap={2} className="mt-2">
                               <Badge variant="outline">{resource.type}</Badge>
                               <Badge variant="outline">{resource.format}</Badge>
-                              <Body size="sm" className="text-on-dark-disabled">{resource.downloads.toLocaleString()} downloads</Body>
+                              <Body size="sm" className="text-text-disabled">{resource.downloads.toLocaleString()} downloads</Body>
                             </Stack>
                           </Stack>
                         </Stack>

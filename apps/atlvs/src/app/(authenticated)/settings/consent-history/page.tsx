@@ -71,9 +71,9 @@ export default function ConsentHistoryPage() {
 
           {consents.length === 0 ? (
             <Card className="p-8 text-center">
-              <FileText className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <FileText className="size-12 text-text-disabled mx-auto mb-4" />
               <Body className="font-weight-medium text-body-lg mb-2">No Consent Records</Body>
-              <Body className="text-on-dark-muted">Your consent history will appear here</Body>
+              <Body className="text-text-muted">Your consent history will appear here</Body>
             </Card>
           ) : (
             <Card className="overflow-hidden">
@@ -91,14 +91,14 @@ export default function ConsentHistoryPage() {
                     <TableRow key={consent.id}>
                       <TableCell>
                         <Box className="flex items-center gap-2">
-                          <FileText className="size-4 text-on-dark-muted" />
+                          <FileText className="size-4 text-text-muted" />
                           <Body className="font-weight-medium">{TYPE_LABELS[consent.type] || consent.type}</Body>
                         </Box>
                       </TableCell>
                       <TableCell><Badge variant="outline">v{consent.version}</Badge></TableCell>
                       <TableCell><Body size="sm">{formatDate(consent.accepted_at)}</Body></TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-on-dark-muted">{consent.ip_address} • {consent.user_agent}</Body>
+                        <Body size="sm" className="text-text-muted">{consent.ip_address} • {consent.user_agent}</Body>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -123,10 +123,10 @@ export default function ConsentHistoryPage() {
                 <Card key={key} className="p-4">
                   <Box className="flex justify-between items-center">
                     <Box className="flex items-center gap-3">
-                      <FileText className="size-5 text-on-dark-muted" />
+                      <FileText className="size-5 text-text-muted" />
                       <Box>
                         <Body className="font-weight-medium">{label}</Body>
-                        {consent && <Body size="sm" className="text-on-dark-muted">Accepted v{consent.version} on {formatDate(consent.accepted_at)}</Body>}
+                        {consent && <Body size="sm" className="text-text-muted">Accepted v{consent.version} on {formatDate(consent.accepted_at)}</Body>}
                       </Box>
                     </Box>
                     <Box className="flex items-center gap-2">

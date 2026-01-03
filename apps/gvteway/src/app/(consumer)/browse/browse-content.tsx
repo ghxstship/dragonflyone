@@ -145,7 +145,7 @@ export default function BrowseContent() {
           <Stack direction="horizontal" className="justify-between items-center">
             <Stack>
               <Display>BROWSE EVENTS</Display>
-              <Body className="text-on-light-secondary mt-2">
+              <Body className="text-text-secondary mt-2">
                 {filteredEvents.length} events found
               </Body>
             </Stack>
@@ -316,7 +316,7 @@ export default function BrowseContent() {
         ) : (
           <Card className="p-12 text-center">
             <H3 className="mb-4">NO EVENTS FOUND</H3>
-            <Body className="text-on-light-secondary mb-6">
+            <Body className="text-text-secondary mb-6">
               Try adjusting your filters or search terms to find more events.
             </Body>
             <Button variant="outline" onClick={handleClearFilters}>

@@ -65,7 +65,7 @@ export default function BlogPage() {
       "Case Study": "bg-accent/20 text-accent border-accent/30",
       Product: "bg-secondary/20 text-secondary border-secondary/30",
     };
-    return colors[category] || "bg-surface-elevated text-on-dark-muted border-border";
+    return colors[category] || "bg-surface-elevated text-text-muted border-border";
   };
 
   const featuredPost = posts[0];
@@ -109,14 +109,14 @@ export default function BlogPage() {
                   <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
                     <Box className="aspect-video bg-surface-elevated rounded-card overflow-hidden">
                       <Box className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                        <FileText className="size-16 text-on-dark-disabled" />
+                        <FileText className="size-16 text-text-disabled" />
                       </Box>
                     </Box>
                     <Stack gap={4}>
                       <Badge className={getCategoryColor(featuredPost.category)}>{featuredPost.category}</Badge>
                       <Body className="text-white font-weight-bold text-h4-md group-hover:text-primary transition-colors">{featuredPost.title}</Body>
-                      <Body className="text-on-dark-muted">{featuredPost.excerpt}</Body>
-                      <Stack direction="horizontal" gap={4} className="items-center text-on-dark-disabled">
+                      <Body className="text-text-muted">{featuredPost.excerpt}</Body>
+                      <Stack direction="horizontal" gap={4} className="items-center text-text-disabled">
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <User className="size-4" />
                           <Body size="sm">{featuredPost.author}</Body>
@@ -155,7 +155,7 @@ export default function BlogPage() {
                 <Card className="p-4 border-2 border-border rounded-card">
                   <Stack direction="horizontal" gap={4} className="flex-wrap items-center">
                     <Box className="flex-1 min-w-[200px] relative">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-muted" />
                       <Input
                         placeholder="Search articles..."
                         value={search}
@@ -182,13 +182,13 @@ export default function BlogPage() {
                 {isLoading ? (
                   <Stack className="items-center py-12">
                     <Spinner size="lg" />
-                    <Body className="text-on-dark-muted mt-4">Loading articles...</Body>
+                    <Body className="text-text-muted mt-4">Loading articles...</Body>
                   </Stack>
                 ) : filteredPosts.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
-                    <FileText className="size-16 text-on-dark-disabled mx-auto mb-4" />
+                    <FileText className="size-16 text-text-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Articles Found</Body>
-                    <Body className="text-on-dark-muted mb-4">{search ? "Try a different search term" : "Check back soon for new content"}</Body>
+                    <Body className="text-text-muted mb-4">{search ? "Try a different search term" : "Check back soon for new content"}</Body>
                     {search && <Button variant="outline" onClick={() => setSearch("")}>Clear Search</Button>}
                   </Card>
                 ) : (
@@ -202,13 +202,13 @@ export default function BlogPage() {
                         <Stack gap={4}>
                           <Box className="aspect-video bg-surface-elevated rounded-card overflow-hidden">
                             <Box className="w-full h-full bg-gradient-to-br from-surface-elevated to-surface-inverse flex items-center justify-center group-hover:from-primary/20 group-hover:to-secondary/20 transition-all">
-                              <FileText className="size-8 text-on-dark-disabled" />
+                              <FileText className="size-8 text-text-disabled" />
                             </Box>
                           </Box>
                           <Badge className={getCategoryColor(post.category)}>{post.category}</Badge>
                           <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{post.title}</Body>
-                          <Body size="sm" className="text-on-dark-muted line-clamp-2">{post.excerpt}</Body>
-                          <Stack direction="horizontal" gap={4} className="items-center text-on-dark-disabled mt-auto">
+                          <Body size="sm" className="text-text-muted line-clamp-2">{post.excerpt}</Body>
+                          <Stack direction="horizontal" gap={4} className="items-center text-text-disabled mt-auto">
                             <Stack direction="horizontal" gap={1} className="items-center">
                               <User className="size-3" />
                               <Body size="sm">{post.author}</Body>

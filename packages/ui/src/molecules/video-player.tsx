@@ -220,7 +220,7 @@ export const VideoPlayer = forwardRef<HTMLDivElement, VideoPlayerProps>(
               {!isPlaying && (
                 <div className="w-spacing-20 h-spacing-20 bg-surface-primary flex items-center justify-center">
                   <svg
-                    className="w-spacing-8 h-spacing-8 text-on-light-primary ml-spacing-1"
+                    className="w-spacing-8 h-spacing-8 text-text-primary ml-spacing-1"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -248,7 +248,7 @@ export const VideoPlayer = forwardRef<HTMLDivElement, VideoPlayerProps>(
               </div>
 
               {/* Control buttons */}
-              <div className="flex items-center justify-between text-on-dark-primary">
+              <div className="flex items-center justify-between text-text-primary">
                 <div className="flex items-center gap-gap-md">
                   {/* Play/Pause */}
                   <button

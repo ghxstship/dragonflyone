@@ -1,0 +1,72 @@
+# Page snapshot
+
+```yaml
+- generic [active]:
+  - alert [ref=e1]
+  - dialog "Server Error" [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - navigation [ref=e8]:
+          - button "previous" [disabled] [ref=e9]:
+            - img "previous" [ref=e10]
+          - button "next" [disabled] [ref=e12]:
+            - img "next" [ref=e13]
+          - generic [ref=e15]: 1 of 1 error
+          - generic [ref=e16]:
+            - text: Next.js (14.2.35) is outdated
+            - link "(learn more)" [ref=e18] [cursor=pointer]:
+              - /url: https://nextjs.org/docs/messages/version-staleness
+        - heading "Server Error" [level=1] [ref=e19]
+        - paragraph [ref=e20]: "Error: ENOENT: no such file or directory, open '/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/src/middleware.js'"
+        - generic [ref=e21]: This error happened while generating the page. Any console logs will be displayed in the terminal window.
+      - generic [ref=e22]:
+        - heading "Call Stack" [level=2] [ref=e23]
+        - generic [ref=e24]:
+          - heading "readFileSync" [level=3] [ref=e25]
+          - generic [ref=e27]: node:fs (442:20)
+        - generic [ref=e28]:
+          - heading "evaluateInContext" [level=3] [ref=e29]
+          - generic [ref=e31]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/web/sandbox/context.js (396:50)
+        - generic [ref=e32]:
+          - heading "getRuntimeContext" [level=3] [ref=e33]
+          - generic [ref=e35]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/web/sandbox/sandbox.js (72:9)
+        - generic [ref=e36]:
+          - heading "async runWithTaggedErrors" [level=3] [ref=e37]
+          - generic [ref=e39]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/web/sandbox/sandbox.js (78:21)
+        - generic [ref=e40]:
+          - heading "async DevServer.runMiddleware" [level=3] [ref=e41]
+          - generic [ref=e43]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/next-server.js (1068:24)
+        - generic [ref=e44]:
+          - heading "async DevServer.runMiddleware" [level=3] [ref=e45]
+          - generic [ref=e47]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/dev/next-dev-server.js (268:28)
+        - generic [ref=e48]:
+          - heading "async NextNodeServer.handleCatchallMiddlewareRequest" [level=3] [ref=e49]
+          - generic [ref=e51]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/next-server.js (322:26)
+        - generic [ref=e52]:
+          - heading "async DevServer.handleRequestImpl" [level=3] [ref=e53]
+          - generic [ref=e55]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/base-server.js (824:28)
+        - generic [ref=e56]:
+          - heading "async" [level=3] [ref=e57]
+          - generic [ref=e59]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/dev/next-dev-server.js (339:20)
+        - generic [ref=e60]:
+          - heading "async Span.traceAsyncFn" [level=3] [ref=e61]
+          - generic [ref=e63]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/trace/trace.js (154:20)
+        - generic [ref=e64]:
+          - heading "async DevServer.handleRequest" [level=3] [ref=e65]
+          - generic [ref=e67]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/dev/next-dev-server.js (336:24)
+        - generic [ref=e68]:
+          - heading "async handleRoute" [level=3] [ref=e69]
+          - generic [ref=e71]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/router-utils/resolve-routes.js (313:33)
+        - generic [ref=e72]:
+          - heading "async resolveRoutes" [level=3] [ref=e73]
+          - generic [ref=e75]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/router-utils/resolve-routes.js (552:28)
+        - generic [ref=e76]:
+          - heading "async handleRequest" [level=3] [ref=e77]
+          - generic [ref=e79]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/router-server.js (219:96)
+        - generic [ref=e80]:
+          - heading "async requestHandlerImpl" [level=3] [ref=e81]
+          - generic [ref=e83]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/router-server.js (383:13)
+        - generic [ref=e84]:
+          - heading "async Server.requestListener" [level=3] [ref=e85]
+          - generic [ref=e87]: file:/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/start-server.js (141:13)
+```

@@ -102,7 +102,7 @@ export default function ProductionSafetyPage() {
                       </Box>
                       <Box>
                         <Body className="font-weight-medium">{item.item}</Body>
-                        {item.notes && <Body size="sm" className="text-on-dark-muted">{item.notes}</Body>}
+                        {item.notes && <Body size="sm" className="text-text-muted">{item.notes}</Body>}
                       </Box>
                     </Box>
                     <Box className="flex items-center gap-2">
@@ -129,7 +129,7 @@ export default function ProductionSafetyPage() {
               <Card key={doc} className="p-4">
                 <Box className="flex items-center justify-between">
                   <Box className="flex items-center gap-3">
-                    <FileText className="size-5 text-on-dark-muted" />
+                    <FileText className="size-5 text-text-muted" />
                     <Body className="font-weight-medium">{doc}</Body>
                   </Box>
                   <Button variant="outline" size="sm">Upload</Button>

@@ -33,18 +33,18 @@ export const Kicker = forwardRef<HTMLSpanElement, KickerProps>(
     // WCAG AA compliant color mappings based on background context
     const colorSchemeClasses = {
       "on-dark": {
-        default: "text-on-light-muted",
-        muted: "text-on-light-muted",
-        accent: "text-on-light-secondary",
+        default: "text-text-muted",
+        muted: "text-text-muted",
+        accent: "text-text-secondary",
       },
       "on-light": {
-        default: "text-on-light-muted",
-        muted: "text-on-light-muted",
-        accent: "text-on-light-muted",
+        default: "text-text-muted",
+        muted: "text-text-muted",
+        accent: "text-text-muted",
       },
       "on-mid": {
         default: "text-white",
-        muted: "text-on-light-secondary",
+        muted: "text-text-secondary",
         accent: "text-white",
       },
     };

@@ -78,7 +78,7 @@ export function OfflineIndicator({
     return (
       <div className={`inline-flex items-center gap-gap-xs ${className}`}>
         {isOffline ? (
-          <span className="inline-flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-xs uppercase tracking-widest bg-muted text-on-dark-disabled border border-border">
+          <span className="inline-flex items-center gap-gap-xs px-spacing-2 py-spacing-1 text-mono-xs uppercase tracking-widest bg-muted text-text-disabled border border-border">
             <WifiOff className="h-spacing-3 w-spacing-3" />
             Offline
           </span>
@@ -105,11 +105,11 @@ export function OfflineIndicator({
     return (
       <div className={`fixed bottom-spacing-4 right-spacing-4 z-popover ${className}`}>
         {isOffline && (
-          <div className="flex items-center gap-gap-sm px-spacing-4 py-spacing-3 bg-surface-inverse text-on-dark-primary border-2 border-border-primary shadow-hard">
-            <WifiOff className="h-spacing-5 w-spacing-5 text-on-dark-disabled" />
+          <div className="flex items-center gap-gap-sm px-spacing-4 py-spacing-3 bg-surface-inverse text-text-primary border-2 border-border-primary shadow-hard">
+            <WifiOff className="h-spacing-5 w-spacing-5 text-text-disabled" />
             <div>
               <div className="font-heading text-mono-sm uppercase tracking-widest">Offline Mode</div>
-              <div className="text-mono-xs text-on-dark-disabled">Changes will sync when online</div>
+              <div className="text-mono-xs text-text-disabled">Changes will sync when online</div>
             </div>
           </div>
         )}
@@ -151,7 +151,7 @@ export function OfflineIndicator({
   return (
     <div className={`w-full ${className}`}>
       {isOffline && (
-        <div className="flex items-center justify-center gap-gap-sm px-spacing-4 py-spacing-2 bg-surface-inverse text-on-dark-primary">
+        <div className="flex items-center justify-center gap-gap-sm px-spacing-4 py-spacing-2 bg-surface-inverse text-text-primary">
           <WifiOff className="h-spacing-4 w-spacing-4" />
           <span className="font-heading text-mono-sm uppercase tracking-widest">
             You&apos;re offline - Changes will sync automatically

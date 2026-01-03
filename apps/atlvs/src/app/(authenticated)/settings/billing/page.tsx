@@ -71,9 +71,9 @@ export default function BillingSettingsPage() {
           content: (
             <Section>
               <Card className="p-8 text-center">
-                <CreditCard className="size-12 text-on-dark-disabled mx-auto mb-4" />
+                <CreditCard className="size-12 text-text-disabled mx-auto mb-4" />
                 <Body className="font-weight-medium text-body-lg mb-2">Permission Required</Body>
-                <Body className="text-on-dark-muted mb-4">This action requires ATLVS Admin or higher role. Current user: {user?.email || "Unknown"}</Body>
+                <Body className="text-text-muted mb-4">This action requires ATLVS Admin or higher role. Current user: {user?.email || "Unknown"}</Body>
                 <Button variant="outline" onClick={() => router.push("/settings")}>Back to Settings</Button>
               </Card>
             </Section>
@@ -100,23 +100,23 @@ export default function BillingSettingsPage() {
             <Box className="flex justify-between items-start mb-4">
               <Box>
                 <Body className="font-weight-bold text-body-lg">{data?.plan.name} Plan</Body>
-                <Body className="text-on-dark-muted">{formatCurrency(data?.plan.price || 0)}/{data?.plan.interval}</Body>
+                <Body className="text-text-muted">{formatCurrency(data?.plan.price || 0)}/{data?.plan.interval}</Body>
               </Box>
               <Button variant="outline" size="sm" onClick={() => setShowChangePlan(true)}>Change Plan</Button>
             </Box>
             <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
               <Box className="p-3 bg-surface-elevated rounded-card">
-                <Body size="sm" className="text-on-dark-muted">Bookings</Body>
+                <Body size="sm" className="text-text-muted">Bookings</Body>
                 <Body className="font-weight-medium">{data?.usage.bookings_limit === -1 ? "Unlimited" : `${data?.usage.bookings}/${data?.usage.bookings_limit}`}</Body>
                 {data?.usage.bookings_limit !== -1 && <ProgressBar value={(data?.usage.bookings || 0) / (data?.usage.bookings_limit || 1) * 100} size="sm" className="mt-2" />}
               </Box>
               <Box className="p-3 bg-surface-elevated rounded-card">
-                <Body size="sm" className="text-on-dark-muted">Storage</Body>
+                <Body size="sm" className="text-text-muted">Storage</Body>
                 <Body className="font-weight-medium">{data?.usage.storage_gb}GB / {data?.usage.storage_limit_gb}GB</Body>
                 <ProgressBar value={(data?.usage.storage_gb || 0) / (data?.usage.storage_limit_gb || 1) * 100} size="sm" className="mt-2" />
               </Box>
               <Box className="p-3 bg-surface-elevated rounded-card">
-                <Body size="sm" className="text-on-dark-muted">Team</Body>
+                <Body size="sm" className="text-text-muted">Team</Body>
                 <Body className="font-weight-medium">{data?.usage.team_members} / {data?.usage.team_limit}</Body>
                 <ProgressBar value={(data?.usage.team_members || 0) / (data?.usage.team_limit || 1) * 100} size="sm" className="mt-2" />
               </Box>
@@ -128,22 +128,22 @@ export default function BillingSettingsPage() {
             {data?.payment_method ? (
               <Box className="flex justify-between items-center p-4 bg-surface-elevated rounded-card mt-4">
                 <Box className="flex items-center gap-3">
-                  <CreditCard className="size-8 text-on-dark-muted" />
+                  <CreditCard className="size-8 text-text-muted" />
                   <Box>
                     <Body className="font-weight-medium">•••• •••• •••• {data.payment_method.last4}</Body>
-                    <Body size="sm" className="text-on-dark-muted">Expires {data.payment_method.exp_month}/{data.payment_method.exp_year}</Body>
+                    <Body size="sm" className="text-text-muted">Expires {data.payment_method.exp_month}/{data.payment_method.exp_year}</Body>
                   </Box>
                 </Box>
                 <Button variant="ghost" size="sm">Update</Button>
               </Box>
             ) : (
               <Box className="text-center py-8 bg-surface-elevated rounded-card mt-4">
-                <CreditCard className="size-8 text-on-dark-disabled mx-auto mb-2" />
-                <Body className="text-on-dark-muted">No payment method on file</Body>
+                <CreditCard className="size-8 text-text-disabled mx-auto mb-2" />
+                <Body className="text-text-muted">No payment method on file</Body>
                 <Button variant="ghost" size="sm" className="mt-2">Add Payment Method</Button>
               </Box>
             )}
-            <Box className="flex items-center gap-2 mt-4 text-on-dark-muted">
+            <Box className="flex items-center gap-2 mt-4 text-text-muted">
               <Calendar className="size-4" />
               <Body size="sm">Next billing date: {data?.next_billing_date ? formatDate(data.next_billing_date) : "N/A"}</Body>
             </Box>
@@ -160,8 +160,8 @@ export default function BillingSettingsPage() {
           <SectionHeader title="Billing History" description="View and download past invoices" />
           {!data?.invoices || data.invoices.length === 0 ? (
             <Card className="p-8 text-center mt-4">
-              <DollarSign className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="text-on-dark-muted">No invoices yet</Body>
+              <DollarSign className="size-12 text-text-disabled mx-auto mb-4" />
+              <Body className="text-text-muted">No invoices yet</Body>
             </Card>
           ) : (
             <Stack gap={2} className="mt-4">
@@ -170,7 +170,7 @@ export default function BillingSettingsPage() {
                   <Box className="flex justify-between items-center">
                     <Box>
                       <Body className="font-weight-medium">{formatDate(invoice.date)}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{invoice.id}</Body>
+                      <Body size="sm" className="text-text-muted">{invoice.id}</Body>
                     </Box>
                     <Box className="flex items-center gap-4">
                       <Badge variant={invoice.status === "paid" ? "success" : invoice.status === "pending" ? "warning" : "error"}>{invoice.status}</Badge>
@@ -206,10 +206,10 @@ export default function BillingSettingsPage() {
               <Card key={plan.id} className={`p-4 ${plan.popular ? "border-primary" : ""}`}>
                 {plan.popular && <Badge variant="info" className="mb-2">Most Popular</Badge>}
                 <Body className="font-weight-bold">{plan.name}</Body>
-                <Stack direction="horizontal" className="items-baseline"><Body className="text-h3-md font-weight-bold">{formatCurrency(plan.price)}</Body><Body size="sm" className="text-on-dark-muted">/mo</Body></Stack>
+                <Stack direction="horizontal" className="items-baseline"><Body className="text-h3-md font-weight-bold">{formatCurrency(plan.price)}</Body><Body size="sm" className="text-text-muted">/mo</Body></Stack>
                 <Stack gap={2} className="mt-4">
                   {plan.features.map((feature, i) => (
-                    <Stack key={i} direction="horizontal" gap={2} className="items-center text-body-sm text-on-dark-muted"><Check className="size-3 text-success" />{feature}</Stack>
+                    <Stack key={i} direction="horizontal" gap={2} className="items-center text-body-sm text-text-muted"><Check className="size-3 text-success" />{feature}</Stack>
                   ))}
                 </Stack>
                 <Button variant={data?.plan.name === plan.name ? "ghost" : "solid"} size="sm" className="w-full mt-4" disabled={data?.plan.name === plan.name}>

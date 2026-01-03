@@ -73,7 +73,7 @@ export default function InvestorPortalPage() {
                   <Box className="flex items-start justify-between">
                     <Box>
                       <Body className="font-weight-bold font-weight-medium">{investment.production}</Body>
-                      <Body size="sm" className="text-on-dark-muted mt-1">Invested {formatDate(investment.date)}</Body>
+                      <Body size="sm" className="text-text-muted mt-1">Invested {formatDate(investment.date)}</Body>
                     </Box>
                     <Box className="text-right">
                       <Body className="font-weight-bold">{formatCurrency(investment.amount)}</Body>
@@ -101,13 +101,13 @@ export default function InvestorPortalPage() {
             <Card className="p-6">
               <FileText className="size-8 text-primary mb-4" />
               <Body className="font-weight-bold mb-2">Portfolio Summary</Body>
-              <Body size="sm" className="text-on-dark-muted mb-4">Overview of all your investments and returns</Body>
+              <Body size="sm" className="text-text-muted mb-4">Overview of all your investments and returns</Body>
               <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download PDF</Button>
             </Card>
             <Card className="p-6">
               <BarChart3 className="size-8 text-primary mb-4" />
               <Body className="font-weight-bold mb-2">Performance Report</Body>
-              <Body size="sm" className="text-on-dark-muted mb-4">Detailed performance metrics and analysis</Body>
+              <Body size="sm" className="text-text-muted mb-4">Detailed performance metrics and analysis</Body>
               <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download PDF</Button>
             </Card>
           </Grid>

@@ -76,15 +76,15 @@ export default function SupportChatPage() {
                 <Box className="p-4 border-b border-border bg-surface-elevated">
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <Box className="size-3 rounded-[var(--radius-circle)] bg-success animate-pulse" />
-                    <Body className="text-on-dark-primary font-weight-bold">Support Agent Online</Body>
+                    <Body className="text-text-primary font-weight-bold">Support Agent Online</Body>
                   </Stack>
                 </Box>
                 <Box className="p-4 h-96 overflow-y-auto">
                   <Stack gap={4}>
                     {messages.map((msg) => (
                       <Box key={msg.id} className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}>
-                        <Box className={`max-w-xs p-4 rounded-card ${msg.isUser ? "bg-primary text-on-dark-primary" : "bg-surface-elevated"}`}>
-                          <Body size="sm" className={msg.isUser ? "text-on-dark-primary" : "text-on-dark-secondary"}>{msg.text}</Body>
+                        <Box className={`max-w-xs p-4 rounded-card ${msg.isUser ? "bg-primary text-text-primary" : "bg-surface-elevated"}`}>
+                          <Body size="sm" className={msg.isUser ? "text-text-primary" : "text-text-secondary"}>{msg.text}</Body>
                         </Box>
                       </Box>
                     ))}
@@ -115,7 +115,7 @@ export default function SupportChatPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Support Options</Body>
                   <Body className="text-white font-weight-bold text-h3-md">Other Ways to Reach Us</Body>
-                  <Body className="text-on-dark-muted">Choose the support channel that works best for you</Body>
+                  <Body className="text-text-muted">Choose the support channel that works best for you</Body>
                 </Stack>
 
                 <Grid cols={4} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -125,7 +125,7 @@ export default function SupportChatPage() {
                         {feature.icon}
                       </Box>
                       <Body className="text-white font-weight-bold mb-2">{feature.title}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{feature.description}</Body>
+                      <Body size="sm" className="text-text-muted">{feature.description}</Body>
                     </Card>
                   ))}
                 </Grid>

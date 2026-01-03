@@ -82,7 +82,7 @@ export default function ProductionVendorsPage() {
           <Card className="p-4 mb-6">
             <Box className="flex items-center gap-4 flex-wrap">
               <Box className="flex-1 min-w-[200px] relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-muted" />
                 <Input placeholder="Search vendors..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
               </Box>
               <Box className="flex gap-2 flex-wrap">
@@ -100,13 +100,13 @@ export default function ProductionVendorsPage() {
               <Card key={vendor.id} className="p-6">
                 <Box className="flex items-start justify-between">
                   <Box className="flex items-start gap-4">
-                    <Box className="p-3 bg-surface-elevated rounded-card"><Building2 className="size-6 text-on-dark-muted" /></Box>
+                    <Box className="p-3 bg-surface-elevated rounded-card"><Building2 className="size-6 text-text-muted" /></Box>
                     <Box>
                       <Body className="font-weight-bold font-weight-medium">{vendor.name}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{vendor.contact_name}</Body>
+                      <Body size="sm" className="text-text-muted">{vendor.contact_name}</Body>
                       <Box className="flex items-center gap-4 mt-2">
-                        <Box className="flex items-center gap-1 text-on-dark-muted"><Mail className="size-4" /><Body size="sm">{vendor.email}</Body></Box>
-                        <Box className="flex items-center gap-1 text-on-dark-muted"><Phone className="size-4" /><Body size="sm">{vendor.phone}</Body></Box>
+                        <Box className="flex items-center gap-1 text-text-muted"><Mail className="size-4" /><Body size="sm">{vendor.email}</Body></Box>
+                        <Box className="flex items-center gap-1 text-text-muted"><Phone className="size-4" /><Body size="sm">{vendor.phone}</Body></Box>
                       </Box>
                     </Box>
                   </Box>

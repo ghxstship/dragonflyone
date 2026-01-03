@@ -156,7 +156,7 @@ function NotificationItem({ notification, onClick, onMarkRead, onDelete }: Notif
               {notification.title}
             </p>
             {notification.message && (
-              <p className="text-body-xs text-on-dark-disabled mt-spacing-1 line-clamp-2">
+              <p className="text-body-xs text-text-disabled mt-spacing-1 line-clamp-2">
                 {notification.message}
               </p>
             )}
@@ -168,7 +168,7 @@ function NotificationItem({ notification, onClick, onMarkRead, onDelete }: Notif
               <Tooltip content="Mark as read">
                 <button
                   onClick={onMarkRead}
-                  className="p-spacing-1 text-on-dark-muted hover:text-primary-500 bg-transparent border-none cursor-pointer"
+                  className="p-spacing-1 text-text-muted hover:text-primary-500 bg-transparent border-none cursor-pointer"
                   aria-label="Mark as read"
                 >
                   <Check className="size-4" />
@@ -179,7 +179,7 @@ function NotificationItem({ notification, onClick, onMarkRead, onDelete }: Notif
               <Tooltip content="Delete">
                 <button
                   onClick={onDelete}
-                  className="p-spacing-1 text-on-dark-muted hover:text-error-500 bg-transparent border-none cursor-pointer"
+                  className="p-spacing-1 text-text-muted hover:text-error-500 bg-transparent border-none cursor-pointer"
                   aria-label="Delete notification"
                 >
                   <Trash2 className="size-4" />
@@ -190,7 +190,7 @@ function NotificationItem({ notification, onClick, onMarkRead, onDelete }: Notif
         </div>
         
         <div className="flex items-center gap-gap-sm mt-spacing-2">
-          <span className="text-body-xs text-on-dark-muted">
+          <span className="text-body-xs text-text-muted">
             {formatRelativeTime(notification.timestamp)}
           </span>
           {notification.priority === "urgent" && (
@@ -238,7 +238,7 @@ export function NotificationBell({ unreadCount, onClick, className }: Notificati
     <button
       onClick={onClick}
       className={clsx(
-        "relative p-spacing-2 text-on-dark-disabled hover:text-text-primary bg-transparent border-none cursor-pointer transition-colors",
+        "relative p-spacing-2 text-text-disabled hover:text-text-primary bg-transparent border-none cursor-pointer transition-colors",
         className
       )}
     >
@@ -313,14 +313,14 @@ export function NotificationCenter({
             {onSettings && (
               <button
                 onClick={onSettings}
-                className="p-spacing-1 text-on-dark-muted hover:text-white bg-transparent border-none cursor-pointer"
+                className="p-spacing-1 text-text-muted hover:text-white bg-transparent border-none cursor-pointer"
               >
                 <Settings className="size-4" />
               </button>
             )}
             <button
               onClick={() => onOpenChange?.(false)}
-              className="p-spacing-1 text-on-dark-muted hover:text-white bg-transparent border-none cursor-pointer"
+              className="p-spacing-1 text-text-muted hover:text-white bg-transparent border-none cursor-pointer"
             >
               <X className="size-5" />
             </button>
@@ -342,7 +342,7 @@ export function NotificationCenter({
             {onClearAll && (
               <button
                 onClick={onClearAll}
-                className="flex items-center gap-gap-xs text-body-xs text-on-dark-disabled hover:text-error-500 bg-transparent border-none cursor-pointer ml-auto"
+                className="flex items-center gap-gap-xs text-body-xs text-text-disabled hover:text-error-500 bg-transparent border-none cursor-pointer ml-auto"
               >
                 <Trash2 className="size-4" />
                 Clear all
@@ -355,9 +355,9 @@ export function NotificationCenter({
         <div className="overflow-y-auto max-h-[calc(80vh-120px)]">
           {notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-spacing-12 text-center">
-              <Bell className="size-12 text-on-dark-secondary mb-spacing-4" />
-              <p className="text-body-md text-on-dark-disabled">No notifications</p>
-              <p className="text-body-sm text-on-dark-muted mt-spacing-1">
+              <Bell className="size-12 text-text-secondary mb-spacing-4" />
+              <p className="text-body-md text-text-disabled">No notifications</p>
+              <p className="text-body-sm text-text-muted mt-spacing-1">
                 You&apos;re all caught up!
               </p>
             </div>

@@ -39,12 +39,12 @@ export default function SurveyPage() {
           <Card className="p-8 text-center">
             <CheckCircle className="size-16 text-success mx-auto mb-4" />
             <Body className="font-weight-bold mb-2">Thank You!</Body>
-            <Body className="text-on-dark-muted mb-4">Your feedback has been submitted</Body>
+            <Body className="text-text-muted mb-4">Your feedback has been submitted</Body>
             <Button variant="solid" onClick={() => router.push("/")}>Back to Home</Button>
           </Card>
         ) : (
           <>
-            <Card className="p-6 mb-6"><Body className="text-on-dark-secondary">{survey.description}</Body></Card>
+            <Card className="p-6 mb-6"><Body className="text-text-secondary">{survey.description}</Body></Card>
             <Stack gap={6}>
               {survey.questions.map((q: Question, idx: number) => (
                 <Card key={q.id} className="p-6">

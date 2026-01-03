@@ -59,8 +59,8 @@ const getTypeColor = (type: string) => {
     case "contract": return "text-success";
     case "vendor": return "text-warning";
     case "space": return "text-accent";
-    case "document": return "text-on-dark-muted";
-    default: return "text-on-dark-muted";
+    case "document": return "text-text-muted";
+    default: return "text-text-muted";
   }
 };
 
@@ -121,7 +121,7 @@ export default function SearchPage() {
         <Section>
           <Card className="p-6 mb-6">
             <Box className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-text-muted" />
               <Input placeholder="Search contacts, bookings, invoices, vendors..." value={query} onChange={(e) => setQuery(e.target.value)} className="pl-12 h-12 text-body-lg" />
             </Box>
           </Card>
@@ -138,7 +138,7 @@ export default function SearchPage() {
           {isLoading && query.length >= 2 && (
             <Card className="p-8 text-center">
               <Spinner className="mx-auto mb-4" />
-              <Body className="text-on-dark-muted">Searching...</Body>
+              <Body className="text-text-muted">Searching...</Body>
             </Card>
           )}
 
@@ -154,12 +154,12 @@ export default function SearchPage() {
           {/* Results */}
           {!isLoading && !error && (
             <>
-              <Body className="text-on-dark-muted mb-4">{filteredResults.length} result{filteredResults.length !== 1 ? "s" : ""} found{query && ` for "${query}"`}</Body>
+              <Body className="text-text-muted mb-4">{filteredResults.length} result{filteredResults.length !== 1 ? "s" : ""} found{query && ` for "${query}"`}</Body>
 
               {filteredResults.length === 0 ? (
                 <Card className="p-8 text-center">
-                  <Search className="size-12 text-on-dark-disabled mx-auto mb-4" />
-                  <Body className="text-on-dark-muted">
+                  <Search className="size-12 text-text-disabled mx-auto mb-4" />
+                  <Body className="text-text-muted">
                     {query.length < 2 
                       ? "Enter at least 2 characters to search" 
                       : `No results found for "${query}". Try a different search term.`}
@@ -175,11 +175,11 @@ export default function SearchPage() {
                           <Badge variant="outline" className="capitalize">{result.type}</Badge>
                         </Box>
                         {result.metadata && Object.entries(result.metadata).map(([key, value]) => (
-                          <Badge key={key} variant="outline" className="text-on-dark-muted">{String(value)}</Badge>
+                          <Badge key={key} variant="outline" className="text-text-muted">{String(value)}</Badge>
                         ))}
                       </Box>
                       <Body className="font-weight-medium">{result.title}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{result.description}</Body>
+                      <Body size="sm" className="text-text-muted">{result.description}</Body>
                     </Card>
                   ))}
                 </Grid>

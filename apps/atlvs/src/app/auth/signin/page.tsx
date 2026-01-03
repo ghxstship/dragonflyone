@@ -187,7 +187,7 @@ export default function SignInPage() {
             size="sm"
             type="button"
             onClick={() => router.push("/auth/magic-link")}
-            className="text-on-dark-muted hover:text-white"
+            className="text-text-muted hover:text-white"
           >
             Sign in with magic link instead
           </Button>

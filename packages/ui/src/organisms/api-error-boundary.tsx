@@ -28,7 +28,7 @@ export function ApiErrorBoundary({ children, onRetry }: ApiErrorBoundaryProps) {
           <h2 className="font-display text-h4-md text-white">
             Connection Error
           </h2>
-          <p className="text-body-sm text-on-dark-secondary">
+          <p className="text-body-sm text-text-secondary">
             We&apos;re having trouble connecting to our servers. Please check your internet connection and try again.
           </p>
         </div>

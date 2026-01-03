@@ -84,16 +84,16 @@ export default function ProposalDetailPage() {
           <Card className="p-6 mb-6">
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <Box className="flex items-center gap-3">
-                <User className="size-5 text-on-dark-muted" />
+                <User className="size-5 text-text-muted" />
                 <Box>
-                  <Body size="sm" className="text-on-dark-muted">Contact</Body>
+                  <Body size="sm" className="text-text-muted">Contact</Body>
                   <Body>{proposal.contact?.first_name} {proposal.contact?.last_name}</Body>
                 </Box>
               </Box>
               <Box className="flex items-center gap-3">
-                <Building2 className="size-5 text-on-dark-muted" />
+                <Building2 className="size-5 text-text-muted" />
                 <Box>
-                  <Body size="sm" className="text-on-dark-muted">Company</Body>
+                  <Body size="sm" className="text-text-muted">Company</Body>
                   <Body>{proposal.contact?.company || "N/A"}</Body>
                 </Box>
               </Box>
@@ -117,7 +117,7 @@ export default function ProposalDetailPage() {
                     <TableRow key={item.id}>
                       <TableCell>
                         <Body>{item.description}</Body>
-                        {item.category && <Body size="sm" className="text-on-dark-muted">{item.category}</Body>}
+                        {item.category && <Body size="sm" className="text-text-muted">{item.category}</Body>}
                       </TableCell>
                       <TableCell className="text-right">{item.quantity}</TableCell>
                       <TableCell className="text-right">{formatCurrency(item.unit_price)}</TableCell>
@@ -145,7 +145,7 @@ export default function ProposalDetailPage() {
             </Card>
           ) : (
             <Card className="p-6 mb-6">
-              <Body className="text-on-dark-muted">No line items added yet.</Body>
+              <Body className="text-text-muted">No line items added yet.</Body>
             </Card>
           )}
 
@@ -170,7 +170,7 @@ export default function ProposalDetailPage() {
           <Card className="p-6">
             <Stack gap={4}>
               <Box className="flex items-center gap-3">
-                <FileText className="size-4 text-on-dark-muted" />
+                <FileText className="size-4 text-text-muted" />
                 <Body size="sm">Created on {formatDate(proposal.created_at)}</Body>
               </Box>
               {proposal.sent_at && (

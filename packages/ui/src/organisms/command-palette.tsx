@@ -60,8 +60,8 @@ function ShortcutKey({ children, inverted = true }: { children: ReactNode; inver
       className={clsx(
         "inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[10px] font-mono font-medium rounded border-2",
         inverted
-          ? "bg-surface-elevated border-border text-on-dark-secondary"
-          : "bg-muted border-border text-on-light-secondary"
+          ? "bg-surface-elevated border-border text-text-secondary"
+          : "bg-muted border-border text-text-secondary"
       )}
     >
       {children}
@@ -217,7 +217,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       >
         <Search
           size={20}
-          className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}
+          className={inverted ? "text-text-muted" : "text-text-muted"}
         />
         <input
           type="text"
@@ -226,8 +226,8 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           className={clsx(
-            "flex-1 bg-transparent text-base outline-none placeholder:text-on-dark-muted",
-            inverted ? "text-on-dark-primary" : "text-on-light-primary"
+            "flex-1 bg-transparent text-base outline-none placeholder:text-text-muted",
+            inverted ? "text-text-primary" : "text-text-primary"
           )}
           autoFocus
         />
@@ -237,8 +237,8 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
           className={clsx(
             "p-1 rounded transition-colors",
             inverted
-              ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
-              : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+              ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated"
+              : "text-text-muted hover:text-text-primary hover:bg-muted"
           )}
         >
           <X size={16} />
@@ -251,7 +251,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       <div
         className={clsx(
           "flex items-center justify-between px-4 py-2 text-xs",
-          inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+          inverted ? "text-text-disabled" : "text-text-disabled"
         )}
       >
         <div className="flex items-center gap-4">
@@ -311,7 +311,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
             <div
               className={clsx(
                 "px-4 py-8 text-center text-sm",
-                inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                inverted ? "text-text-muted" : "text-text-muted"
               )}
             >
               No results found for &quot;{query}&quot;
@@ -322,7 +322,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                 <div
                   className={clsx(
                     "px-3 py-1.5 text-xs font-semibold uppercase tracking-wide",
-                    inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                    inverted ? "text-text-disabled" : "text-text-disabled"
                   )}
                 >
                   {category}
@@ -341,11 +341,11 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                         "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors",
                         isSelected
                           ? inverted
-                            ? "bg-surface-elevated text-on-dark-primary"
-                            : "bg-muted text-on-light-primary"
+                            ? "bg-surface-elevated text-text-primary"
+                            : "bg-muted text-text-primary"
                           : inverted
-                          ? "text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary"
-                          : "text-on-light-secondary hover:bg-muted hover:text-on-light-primary"
+                          ? "text-text-secondary hover:bg-surface-elevated hover:text-text-primary"
+                          : "text-text-secondary hover:bg-muted hover:text-text-primary"
                       )}
                     >
                       {item.icon && (
@@ -357,8 +357,8 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                                 ? "text-primary-400"
                                 : "text-primary-600"
                               : inverted
-                              ? "text-on-dark-disabled"
-                              : "text-on-light-disabled"
+                              ? "text-text-disabled"
+                              : "text-text-disabled"
                           )}
                         >
                           {item.icon}
@@ -371,7 +371,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                             isSelected
                               ? inverted
                                 ? "text-white"
-                                : "text-on-light-primary"
+                                : "text-text-primary"
                               : ""
                           )}
                         >
@@ -381,7 +381,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                           <div
                             className={clsx(
                               "text-xs truncate",
-                              inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                              inverted ? "text-text-disabled" : "text-text-disabled"
                             )}
                           >
                             {item.description}
@@ -397,7 +397,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                         <ArrowRight
                           size={14}
                           className={
-                            inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                            inverted ? "text-text-disabled" : "text-text-disabled"
                           }
                         />
                       )}

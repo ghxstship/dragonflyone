@@ -34,8 +34,8 @@ export default function EventChatPage() {
           {messages.length === 0 ? (
             <Box className="h-full flex items-center justify-center">
               <Box className="text-center">
-                <MessageSquare className="size-12 text-on-dark-disabled mx-auto mb-4" />
-                <Body className="text-on-dark-muted">No messages yet. Start the conversation!</Body>
+                <MessageSquare className="size-12 text-text-disabled mx-auto mb-4" />
+                <Body className="text-text-muted">No messages yet. Start the conversation!</Body>
               </Box>
             </Box>
           ) : (
@@ -44,8 +44,8 @@ export default function EventChatPage() {
                 <Box key={msg.id} className="flex gap-3">
                   <Box className="size-8 bg-primary rounded-avatar flex items-center justify-center text-white text-body-sm">{msg.user[0]}</Box>
                   <Box>
-                    <Box className="flex items-center gap-2"><Body className="font-weight-medium">{msg.user}</Body><Body size="sm" className="text-on-dark-disabled">{msg.time}</Body></Box>
-                    <Body className="text-on-dark-secondary">{msg.text}</Body>
+                    <Box className="flex items-center gap-2"><Body className="font-weight-medium">{msg.user}</Body><Body size="sm" className="text-text-disabled">{msg.time}</Body></Box>
+                    <Body className="text-text-secondary">{msg.text}</Body>
                   </Box>
                 </Box>
               ))}

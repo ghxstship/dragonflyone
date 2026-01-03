@@ -108,8 +108,8 @@ export const AIChatSuggestionChip = forwardRef<HTMLButtonElement, AIChatSuggesti
           "transition-all duration-100 hover:-translate-y-0.5",
           "focus:outline-none focus:ring-2 focus:ring-offset-2",
           inverted
-            ? "border-border bg-surface-elevated text-on-dark-muted hover:border-on-dark-muted hover:text-on-dark-primary focus:ring-ring focus:ring-offset-background"
-            : "border-border bg-surface-primary text-on-light-muted hover:border-border-primary hover:text-on-light-primary focus:ring-ring focus:ring-offset-background",
+            ? "border-border bg-surface-elevated text-text-muted hover:border-on-dark-muted hover:text-text-primary focus:ring-ring focus:ring-offset-background"
+            : "border-border bg-surface-primary text-text-muted hover:border-border-primary hover:text-text-primary focus:ring-ring focus:ring-offset-background",
           className
         )}
         {...props}
@@ -235,7 +235,7 @@ export const AIChatInput = forwardRef<HTMLFormElement, AIChatInputProps>(
               "flex-1 resize-none bg-transparent font-body text-body-md leading-relaxed",
               "placeholder:text-muted-foreground focus:outline-none",
               "disabled:cursor-not-allowed",
-              inverted ? "text-on-dark-primary" : "text-on-light-primary"
+              inverted ? "text-text-primary" : "text-text-primary"
             )}
             aria-label="Message input"
           />
@@ -256,7 +256,7 @@ export const AIChatInput = forwardRef<HTMLFormElement, AIChatInputProps>(
                 isOverLimit
                   ? "text-error"
                   : inverted
-                    ? "text-on-dark-muted"
+                    ? "text-text-muted"
                     : "text-muted-foreground"
               )}
             >
@@ -269,7 +269,7 @@ export const AIChatInput = forwardRef<HTMLFormElement, AIChatInputProps>(
           <span
             className={clsx(
               "font-mono text-mono-xs",
-              inverted ? "text-on-dark-disabled" : "text-muted-foreground"
+              inverted ? "text-text-disabled" : "text-muted-foreground"
             )}
           >
             Press Enter to send

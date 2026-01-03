@@ -109,7 +109,7 @@ export default function CommunityPage() {
                         {feature.icon}
                       </Box>
                       <Body className="text-white font-weight-bold mb-2">{feature.title}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{feature.description}</Body>
+                      <Body size="sm" className="text-text-muted">{feature.description}</Body>
                     </Card>
                   ))}
                 </Grid>
@@ -134,9 +134,9 @@ export default function CommunityPage() {
                       <Box className="flex items-center justify-between">
                         <Box>
                           <Body className="text-white font-weight-medium">{discussion.title}</Body>
-                          <Body size="sm" className="text-on-dark-muted">by {discussion.author}</Body>
+                          <Body size="sm" className="text-text-muted">by {discussion.author}</Body>
                         </Box>
-                        <Box className="flex items-center gap-6 text-on-dark-disabled">
+                        <Box className="flex items-center gap-6 text-text-disabled">
                           <Body size="sm">{discussion.replies} replies</Body>
                           <Body size="sm">{discussion.views} views</Body>
                         </Box>
@@ -163,7 +163,7 @@ export default function CommunityPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Recognition</Body>
                   <Body className="text-white font-weight-bold text-h3-md">Top Contributors</Body>
-                  <Body className="text-on-dark-muted">Our most helpful community members</Body>
+                  <Body className="text-text-muted">Our most helpful community members</Body>
                 </Stack>
 
                 <Stack gap={4}>

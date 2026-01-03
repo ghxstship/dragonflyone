@@ -155,21 +155,21 @@ export const AgeVerificationModal = forwardRef<HTMLDivElement, AgeVerificationMo
         <Stack gap={6} className="text-center">
           {/* Age badge */}
           <div className="mx-auto flex size-20 items-center justify-center border-4 border-border-primary bg-brand-amber shadow-hard">
-            <span className="font-heading text-3xl font-bold text-on-light-primary">{minimumAge}+</span>
+            <span className="font-heading text-3xl font-bold text-text-primary">{minimumAge}+</span>
           </div>
 
           {/* Title */}
           <H2 className="text-foreground">{title || defaultTitle}</H2>
 
           {/* Description */}
-          <Body className="text-on-dark-disabled">
+          <Body className="text-text-disabled">
             {description || defaultDescription}
           </Body>
 
           {requireDateOfBirth ? (
             /* Date of Birth Verification */
             <Stack gap={4}>
-              <Label size="sm" className="text-on-dark-disabled">
+              <Label size="sm" className="text-text-disabled">
                 ENTER YOUR DATE OF BIRTH
               </Label>
               
@@ -230,7 +230,7 @@ export const AgeVerificationModal = forwardRef<HTMLDivElement, AgeVerificationMo
           ) : (
             /* Simple Yes/No Verification */
             <Stack gap={4}>
-              <Body size="sm" className="text-on-dark-disabled">
+              <Body size="sm" className="text-text-disabled">
                 By clicking &quot;Yes&quot;, you confirm that you are {minimumAge} years of age or older.
               </Body>
 
@@ -254,7 +254,7 @@ export const AgeVerificationModal = forwardRef<HTMLDivElement, AgeVerificationMo
           )}
 
           {/* Legal disclaimer */}
-          <Body size="xs" className="text-on-dark-disabled">
+          <Body size="xs" className="text-text-disabled">
             By proceeding, you agree to our{" "}
             <a href="/legal/terms" className="text-primary-600 underline">Terms of Service</a>
             {" "}and confirm that you meet the age requirements.

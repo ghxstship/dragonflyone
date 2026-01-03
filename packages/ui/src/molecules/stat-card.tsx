@@ -40,19 +40,19 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
         {...props}
       >
         {icon && (
-          <div className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+          <div className={inverted ? "text-text-muted" : "text-text-muted"}>
             {icon}
           </div>
         )}
         <div className={clsx(
           "font-display text-4xl md:text-5xl leading-none uppercase tracking-tight",
-          inverted ? "text-on-dark-primary" : "text-on-light-primary"
+          inverted ? "text-text-primary" : "text-text-primary"
         )}>
           {value}
         </div>
         <div className={clsx(
           "font-heading text-sm uppercase tracking-wider",
-          inverted ? "text-on-dark-muted" : "text-on-light-muted"
+          inverted ? "text-text-muted" : "text-text-muted"
         )}>
           {label}
         </div>
@@ -63,7 +63,7 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
                 "font-code text-xs uppercase tracking-widest font-bold",
                 trend === "up" && (inverted ? "text-success-400" : "text-success-600"),
                 trend === "down" && (inverted ? "text-error-400" : "text-error-600"),
-                trend === "neutral" && (inverted ? "text-on-dark-muted" : "text-on-light-muted")
+                trend === "neutral" && (inverted ? "text-text-muted" : "text-text-muted")
               )}
             >
               {trend === "up" ? "↑" : trend === "down" ? "↓" : "→"} {trendValue}

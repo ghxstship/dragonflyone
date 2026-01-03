@@ -51,7 +51,7 @@ export function EventCard({
         <H3 className="text-h6-md font-weight-bold uppercase">{title}</H3>
         <Stack gap={2} className="flex-1">
           <Body className="font-mono">{date}</Body>
-          <Body className="text-on-light-secondary">{venue}</Body>
+          <Body className="text-text-secondary">{venue}</Body>
           <Body className="font-weight-bold">From ${price}</Body>
         </Stack>
         {/* CTA - anchored at bottom */}

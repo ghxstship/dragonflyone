@@ -60,10 +60,10 @@ export function CreatorNavigationPublic() {
 
   return (
     <>
-      <Header className="sticky top-0 z-modal border-b border-border bg-surface-inverse/90 backdrop-blur">
+      <Header className="section-dark sticky top-0 z-modal border-b border-border bg-surface-inverse/90 backdrop-blur">
         {/* Mobile Header - Simple left logo, right hamburger */}
         <Stack direction="horizontal" className="flex md:hidden items-center justify-between px-4 py-4">
-          <Link href="/" className="font-display text-h3-md uppercase text-white">
+          <Link href="/" className="font-display text-h3-md uppercase text-text-primary">
             ATLVS
           </Link>
           <Button
@@ -89,7 +89,7 @@ export function CreatorNavigationPublic() {
           className="hidden md:flex mx-auto max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
         >
           {/* Logo */}
-          <Link href="/" className="font-display text-h2-md uppercase text-white">
+          <Link href="/" className="font-display text-h2-md uppercase text-text-primary">
             ATLVS
           </Link>
 
@@ -123,7 +123,7 @@ export function CreatorNavigationPublic() {
                         <Link
                           key={link.href}
                           href={link.href}
-                          className="text-body-sm text-on-dark-muted hover:text-white transition-colors"
+                          className="text-body-sm text-text-muted hover:text-text-primary transition-colors"
                         >
                           {link.label}
                         </Link>
@@ -138,7 +138,7 @@ export function CreatorNavigationPublic() {
             <MegaMenu.Item value="solutions">
               <MegaMenu.Trigger inverted>{solutionsNavigation.label}</MegaMenu.Trigger>
               <MegaMenu.Content size="xl" inverted>
-                <Text className="text-mono-xs font-weight-medium text-on-dark-disabled uppercase tracking-kicker mb-4">
+                <Text className="text-mono-xs font-weight-medium text-text-disabled uppercase tracking-kicker mb-4">
                   Solutions by Role
                 </Text>
                 <Grid cols={3} gap={6}>
@@ -149,7 +149,7 @@ export function CreatorNavigationPublic() {
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="text-body-sm text-on-dark-muted hover:text-white transition-colors"
+                            className="text-body-sm text-text-muted hover:text-text-primary transition-colors"
                           >
                             {item.label}
                           </Link>
@@ -166,7 +166,7 @@ export function CreatorNavigationPublic() {
                         <Link
                           key={vertical.href}
                           href={vertical.href}
-                          className="text-body-sm text-on-dark-muted hover:text-white transition-colors"
+                          className="text-body-sm text-text-muted hover:text-text-primary transition-colors"
                         >
                           {vertical.label}
                         </Link>
@@ -189,7 +189,7 @@ export function CreatorNavigationPublic() {
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="text-body-sm text-on-dark-muted hover:text-white transition-colors"
+                            className="text-body-sm text-text-muted hover:text-text-primary transition-colors"
                           >
                             {item.label}
                           </Link>
@@ -206,7 +206,7 @@ export function CreatorNavigationPublic() {
                         <Link
                           key={link.href}
                           href={link.href}
-                          className="text-body-sm font-weight-medium text-brand-pink hover:text-white transition-colors"
+                          className="text-body-sm font-weight-medium text-brand-pink hover:text-text-primary transition-colors"
                         >
                           {link.label}
                         </Link>
@@ -226,7 +226,7 @@ export function CreatorNavigationPublic() {
             <Stack
               direction="horizontal"
               gap={6}
-              className="font-mono text-mono-sm uppercase tracking-kicker text-on-dark-secondary"
+              className="font-mono text-mono-sm uppercase tracking-kicker text-text-secondary"
             >
               {atlvsLandingNavigation.map((item) => (
                 <Link
@@ -235,8 +235,8 @@ export function CreatorNavigationPublic() {
                   className={clsx(
                     "transition",
                     isActive(item.href)
-                      ? "border-b-2 border-white text-white"
-                      : "hover:text-white"
+                      ? "border-b-2 border-white text-text-primary"
+                      : "hover:text-text-primary"
                   )}
                 >
                   {item.label}
@@ -263,7 +263,7 @@ export function CreatorNavigationPublic() {
 
       {/* Mobile Navigation Overlay */}
       {isOpen && (
-        <Stack className="fixed inset-0 z-modal-backdrop bg-surface-inverse p-4 animate-in fade-in sm:p-6 md:hidden overflow-y-auto">
+        <Stack className="section-dark fixed inset-0 z-modal-backdrop bg-surface-inverse p-4 animate-in fade-in sm:p-6 md:hidden overflow-y-auto">
           <Stack className="min-h-full justify-between pt-20 pb-8">
             <Stack gap={4}>
               {/* Products */}
@@ -285,10 +285,10 @@ export function CreatorNavigationPublic() {
                         key={product.href}
                         href={product.href}
                         onClick={handleClose}
-                        className="text-body-md text-on-dark-secondary hover:text-white"
+                        className="text-body-md text-text-secondary hover:text-text-primary"
                       >
                         {product.label}
-                        <Text className="font-mono text-mono-xs text-on-dark-disabled ml-2">{product.tagline}</Text>
+                        <Text className="font-mono text-mono-xs text-text-disabled ml-2">{product.tagline}</Text>
                       </Link>
                     ))}
                   </Stack>
@@ -311,14 +311,14 @@ export function CreatorNavigationPublic() {
                   <Stack gap={4} className="mt-4 pl-4">
                     {solutionsNavigation.groups.map((group) => (
                       <Stack key={group.title} gap={2}>
-                        <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled">{group.title}</Text>
+                        <Text className="font-mono text-mono-xs uppercase tracking-kicker text-text-disabled">{group.title}</Text>
                         <Stack gap={1}>
                           {group.items.map((item) => (
                             <Link
                               key={item.href}
                               href={item.href}
                               onClick={handleClose}
-                              className="text-body-sm text-on-dark-secondary hover:text-white"
+                              className="text-body-sm text-text-secondary hover:text-text-primary"
                             >
                               {item.label}
                             </Link>
@@ -346,14 +346,14 @@ export function CreatorNavigationPublic() {
                   <Stack gap={4} className="mt-4 pl-4">
                     {resourcesNavigation.groups.map((group) => (
                       <Stack key={group.title} gap={2}>
-                        <Text className="font-mono text-mono-xs uppercase tracking-kicker text-on-dark-disabled">{group.title}</Text>
+                        <Text className="font-mono text-mono-xs uppercase tracking-kicker text-text-disabled">{group.title}</Text>
                         <Stack gap={1}>
                           {group.items.map((item) => (
                             <Link
                               key={item.href}
                               href={item.href}
                               onClick={handleClose}
-                              className="text-body-sm text-on-dark-secondary hover:text-white"
+                              className="text-body-sm text-text-secondary hover:text-text-primary"
                             >
                               {item.label}
                             </Link>
@@ -369,7 +369,7 @@ export function CreatorNavigationPublic() {
               <Link
                 href="/pricing"
                 onClick={handleClose}
-                className={clsx("block border-b border-border pb-4 text-white", mobileNavTypography)}
+                className={clsx("block border-b border-border pb-4 text-text-primary", mobileNavTypography)}
               >
                 Pricing
               </Link>
@@ -417,7 +417,7 @@ export function CreatorNavigationAuthenticated({
   return (
     <PublicNavbar
       logo={
-        <Link href="/dashboard" className="font-display text-h5-md uppercase text-white">
+        <Link href="/dashboard" className="font-display text-h5-md uppercase text-text-primary">
           ATLVS
         </Link>
       }

@@ -210,7 +210,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
 
     const bgClass = inverted ? "bg-surface-elevated" : "bg-surface-primary";
     const borderClass = inverted ? "border-border" : "border-border";
-    const textClass = inverted ? "text-on-dark-primary" : "text-on-light-primary";
+    const textClass = inverted ? "text-text-primary" : "text-text-primary";
 
     // Handle escape key
     useEffect(() => {
@@ -334,7 +334,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
           <div className="flex-1 flex items-center justify-center p-8">
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -348,10 +348,10 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-sm">
               <AlertTriangle className="size-12 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
+                <H2 className={inverted ? "text-text-primary" : "text-text-primary"}>
                   Error
                 </H2>
-                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -395,7 +395,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
               <Stack gap={1}>
                 <H2 className={clsx("text-lg", textClass)}>{title}</H2>
                 {subtitle && (
-                  <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                  <Body size="sm" className={inverted ? "text-text-muted" : "text-text-muted"}>
                     {subtitle}
                   </Body>
                 )}

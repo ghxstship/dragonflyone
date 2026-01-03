@@ -111,7 +111,7 @@ export function OnboardingWizard({
           <div className="flex items-center justify-between">
             <div>
               <H2>{title}</H2>
-              <Body className="text-on-light-muted">{subtitle}</Body>
+              <Body className="text-text-muted">{subtitle}</Body>
             </div>
             {onExit && (
               <Button variant="ghost" onClick={onExit}>
@@ -126,10 +126,10 @@ export function OnboardingWizard({
       <div className="bg-surface-secondary border-b-2 border-border">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between mb-2">
-            <Label className="text-on-light-muted">
+            <Label className="text-text-muted">
               Step {currentStepIndex + 1} of {steps.length}
             </Label>
-            <Label className="text-on-light-muted">
+            <Label className="text-text-muted">
               {Math.round(progress)}% complete
             </Label>
           </div>
@@ -150,10 +150,10 @@ export function OnboardingWizard({
                   key={step.id}
                   className={`flex items-center gap-2 px-3 py-2 rounded-button border-2 transition-colors ${
                     isCurrent
-                      ? 'bg-primary text-on-dark-primary border-primary'
+                      ? 'bg-primary text-text-primary border-primary'
                       : isCompleted
                       ? 'bg-success/10 text-success border-success/30'
-                      : 'bg-surface-secondary text-on-light-muted border-border'
+                      : 'bg-surface-secondary text-text-muted border-border'
                   }`}
                 >
                   {isCompleted ? (
@@ -181,11 +181,11 @@ export function OnboardingWizard({
               <Stack gap={6}>
                 <div>
                   <H3>{currentStep.title}</H3>
-                  <Body className="text-on-light-muted mt-2">
+                  <Body className="text-text-muted mt-2">
                     {currentStep.description}
                   </Body>
                   {currentStep.isOptional && (
-                    <Label className="text-on-light-disabled mt-1">Optional step</Label>
+                    <Label className="text-text-disabled mt-1">Optional step</Label>
                   )}
                 </div>
 
@@ -250,7 +250,7 @@ export function WelcomeStep({ onComplete }: OnboardingStepProps) {
           <span className="text-4xl">👋</span>
         </div>
         <H3>Welcome to GHXSTSHIP</H3>
-        <Body className="text-on-light-muted mt-2 max-w-md mx-auto">
+        <Body className="text-text-muted mt-2 max-w-md mx-auto">
           We&apos;re excited to have you on board. Let&apos;s get your account set up
           so you can start using all the features available to you.
         </Body>
@@ -307,7 +307,7 @@ export function PreferencesStep({ data, setData, onComplete }: OnboardingStepPro
       <div className="flex items-center justify-between p-4 bg-surface-secondary rounded-card">
         <div>
           <Body className="font-weight-bold">Email Notifications</Body>
-          <Label className="text-on-light-muted">Receive updates about your account</Label>
+          <Label className="text-text-muted">Receive updates about your account</Label>
         </div>
         <button
           onClick={() => setData('notifications', !notifications)}
@@ -332,8 +332,8 @@ export function PreferencesStep({ data, setData, onComplete }: OnboardingStepPro
               onClick={() => setData('theme', t)}
               className={`flex-1 px-4 py-3 rounded-button border-2 capitalize transition-colors ${
                 theme === t
-                  ? 'bg-primary text-on-dark-primary border-primary'
-                  : 'bg-surface-primary text-on-light-primary border-border hover:border-primary'
+                  ? 'bg-primary text-text-primary border-primary'
+                  : 'bg-surface-primary text-text-primary border-border hover:border-primary'
               }`}
             >
               {t}
@@ -359,7 +359,7 @@ export function CompletionStep({ onComplete }: OnboardingStepProps) {
           <Check className="w-12 h-12 text-success" />
         </div>
         <H3>You&apos;re All Set!</H3>
-        <Body className="text-on-light-muted mt-2 max-w-md mx-auto">
+        <Body className="text-text-muted mt-2 max-w-md mx-auto">
           Your account is now configured and ready to use. You can always update
           your settings later from your profile page.
         </Body>

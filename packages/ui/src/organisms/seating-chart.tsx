@@ -155,7 +155,7 @@ export function SeatingChart({
             >
               {/* Section Label */}
               <div
-                className="font-code text-on-dark-disabled tracking-widest uppercase"
+                className="font-code text-text-disabled tracking-widest uppercase"
                 style={{ fontSize: `calc(0.75rem * ${zoom})`, marginBottom: `${0.5 * zoom}rem` }}
               >
                 {section.name}
@@ -170,7 +170,7 @@ export function SeatingChart({
                 >
                   {/* Row Label */}
                   <span
-                    className="font-code text-on-dark-disabled text-right"
+                    className="font-code text-text-disabled text-right"
                     style={{ width: `${seatSize}px`, fontSize: `calc(0.625rem * ${zoom})`, paddingRight: `${4 * zoom}px` }}
                   >
                     {row}
@@ -214,7 +214,7 @@ export function SeatingChart({
 
                   {/* Row Label (right side) */}
                   <span
-                    className="font-code text-on-dark-disabled text-left"
+                    className="font-code text-text-disabled text-left"
                     style={{ width: `${seatSize}px`, fontSize: `calc(0.625rem * ${zoom})`, paddingLeft: `${4 * zoom}px` }}
                   >
                     {row}
@@ -238,7 +238,7 @@ export function SeatingChart({
             </span>
           )}
           {hoveredSeat.priceCategory && (
-            <span className="text-on-dark-muted">
+            <span className="text-text-muted">
               {hoveredSeat.priceCategory}
             </span>
           )}
@@ -257,7 +257,7 @@ export function SeatingChart({
                   border: `2px solid ${status === "selected" ? colors.black : colors.grey[400]}`,
                 }}
               />
-              <span className="font-code text-mono-xs text-on-dark-disabled tracking-wide uppercase">
+              <span className="font-code text-mono-xs text-text-disabled tracking-wide uppercase">
                 {statusLabels[status]}
               </span>
             </div>
@@ -268,7 +268,7 @@ export function SeatingChart({
       {/* Selection Summary */}
       {selectedSeats.length > 0 && (
         <div className="flex justify-between items-center px-spacing-5 py-spacing-4 bg-muted border-2 border-black">
-          <div className="font-code text-mono-sm text-on-dark-disabled tracking-wide">
+          <div className="font-code text-mono-sm text-text-disabled tracking-wide">
             {selectedSeats.length} SEAT{selectedSeats.length !== 1 ? "S" : ""} SELECTED
             {maxSelection && ` (MAX ${maxSelection})`}
           </div>

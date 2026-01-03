@@ -57,8 +57,8 @@ export default function EventTicketsPage() {
               <Box className="flex items-center justify-between">
                 <Box>
                   <Body className="font-weight-bold">{ticket.name}</Body>
-                  <Body size="sm" className="text-on-dark-muted">{ticket.description}</Body>
-                  <Body size="sm" className="text-on-dark-disabled mt-1">{ticket.available} available</Body>
+                  <Body size="sm" className="text-text-muted">{ticket.description}</Body>
+                  <Body size="sm" className="text-text-disabled mt-1">{ticket.available} available</Body>
                 </Box>
                 <Box className="flex items-center gap-6">
                   <Body className="font-weight-bold">{formatCurrency(ticket.price)}</Body>
@@ -75,7 +75,7 @@ export default function EventTicketsPage() {
         {hasItems && (
           <Card className="p-6 border-primary">
             <Box className="flex items-center justify-between">
-              <Box><Body className="text-on-dark-muted">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></Box>
+              <Box><Body className="text-text-muted">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></Box>
               <Button variant="solid" icon={<ShoppingCart className="size-4" />} iconPosition="left" onClick={handleCheckout} disabled={addToCart.isPending}>{addToCart.isPending ? "Adding..." : "Add to Cart"}</Button>
             </Box>
           </Card>

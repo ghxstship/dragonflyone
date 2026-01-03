@@ -123,7 +123,7 @@ export default function CareersPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Open Positions</Body>
                   <H3 className="text-white">Find Your Next Role</H3>
-                  <Body className="text-on-dark-muted max-w-2xl">We are always looking for talented people to join our team. Check out our current openings below.</Body>
+                  <Body className="text-text-muted max-w-2xl">We are always looking for talented people to join our team. Check out our current openings below.</Body>
                 </Stack>
 
                 {/* Department Filters */}
@@ -144,13 +144,13 @@ export default function CareersPage() {
                 {isLoading ? (
                   <Stack className="items-center py-12">
                     <Spinner size="lg" />
-                    <Body className="text-on-dark-muted mt-4">Loading positions...</Body>
+                    <Body className="text-text-muted mt-4">Loading positions...</Body>
                   </Stack>
                 ) : filteredJobs.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
-                    <Briefcase className="size-16 text-on-dark-disabled mx-auto mb-4" />
+                    <Briefcase className="size-16 text-text-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Open Positions</Body>
-                    <Body className="text-on-dark-muted mb-4">Check back soon for new opportunities in this department</Body>
+                    <Body className="text-text-muted mb-4">Check back soon for new opportunities in this department</Body>
                     <Button variant="outline" onClick={() => setSelectedDepartment("All")}>View All Positions</Button>
                   </Card>
                 ) : (
@@ -165,15 +165,15 @@ export default function CareersPage() {
                           <Stack gap={2}>
                             <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{job.title}</Body>
                             <Stack direction="horizontal" gap={4} className="flex-wrap">
-                              <Stack direction="horizontal" gap={1} className="items-center text-on-dark-muted">
+                              <Stack direction="horizontal" gap={1} className="items-center text-text-muted">
                                 <Building2 className="size-4" />
                                 <Body size="sm">{job.department}</Body>
                               </Stack>
-                              <Stack direction="horizontal" gap={1} className="items-center text-on-dark-muted">
+                              <Stack direction="horizontal" gap={1} className="items-center text-text-muted">
                                 <MapPin className="size-4" />
                                 <Body size="sm">{job.location}</Body>
                               </Stack>
-                              <Stack direction="horizontal" gap={1} className="items-center text-on-dark-muted">
+                              <Stack direction="horizontal" gap={1} className="items-center text-text-muted">
                                 <DollarSign className="size-4" />
                                 <Body size="sm">{job.salary_range}</Body>
                               </Stack>
@@ -181,8 +181,8 @@ export default function CareersPage() {
                           </Stack>
                           <Stack direction="horizontal" gap={3} className="items-center">
                             <Badge variant="outline">{job.type}</Badge>
-                            <Body size="sm" className="text-on-dark-disabled">{formatDate(job.posted_at)}</Body>
-                            <ArrowRight className="size-5 text-on-dark-disabled group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                            <Body size="sm" className="text-text-disabled">{formatDate(job.posted_at)}</Body>
+                            <ArrowRight className="size-5 text-text-disabled group-hover:text-primary group-hover:translate-x-1 transition-all" />
                           </Stack>
                         </Stack>
                       </Card>

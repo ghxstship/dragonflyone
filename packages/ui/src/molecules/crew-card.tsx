@@ -37,10 +37,10 @@ export interface CrewCardProps {
 }
 
 const statusConfig = {
-  available: { label: "AVAILABLE", bgClass: "bg-surface-inverse", textClass: "text-on-dark-primary" },
-  assigned: { label: "ASSIGNED", bgClass: "bg-surface-elevated", textClass: "text-on-dark-primary" },
-  unavailable: { label: "UNAVAILABLE", bgClass: "bg-muted", textClass: "text-on-light-primary" },
-  "on-call": { label: "ON CALL", bgClass: "bg-surface-elevated", textClass: "text-on-dark-primary" },
+  available: { label: "AVAILABLE", bgClass: "bg-surface-inverse", textClass: "text-text-primary" },
+  assigned: { label: "ASSIGNED", bgClass: "bg-surface-elevated", textClass: "text-text-primary" },
+  unavailable: { label: "UNAVAILABLE", bgClass: "bg-muted", textClass: "text-text-primary" },
+  "on-call": { label: "ON CALL", bgClass: "bg-surface-elevated", textClass: "text-text-primary" },
 };
 
 function getInitials(name: string): string {
@@ -80,8 +80,8 @@ export function CrewCard({
       className={clsx(
         "flex border-2 overflow-hidden transition-all duration-100 ease-[var(--ease-bounce)] rounded-[var(--radius-card)]",
         inverted
-          ? "bg-surface-inverse border-border text-on-dark-primary shadow-md"
-          : "bg-surface-primary border-border-primary text-on-light-primary shadow-md",
+          ? "bg-surface-inverse border-border text-text-primary shadow-md"
+          : "bg-surface-primary border-border-primary text-text-primary shadow-md",
         isCompact ? "flex-row" : "flex-col",
         onClick && "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]",
         className
@@ -108,7 +108,7 @@ export function CrewCard({
         ) : (
           <span
             className={clsx(
-              "font-heading text-on-dark-primary",
+              "font-heading text-text-primary",
               isCompact ? "text-h4-md" : "text-h2-md"
             )}
           >
@@ -142,7 +142,7 @@ export function CrewCard({
           <h3
             className={clsx(
               "font-heading uppercase tracking-wide leading-snug",
-              inverted ? "text-on-dark-primary" : "text-on-light-primary",
+              inverted ? "text-text-primary" : "text-text-primary",
               isCompact ? "text-h5-md" : "text-h4-md"
             )}
           >
@@ -151,7 +151,7 @@ export function CrewCard({
           <div
             className={clsx(
               "font-body mt-spacing-1",
-              inverted ? "text-on-dark-secondary" : "text-on-light-muted",
+              inverted ? "text-text-secondary" : "text-text-muted",
               isCompact ? "text-body-sm" : "text-body-md"
             )}
           >
@@ -161,7 +161,7 @@ export function CrewCard({
 
         {/* Department */}
         {department && !isCompact && (
-          <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+          <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-text-muted" : "text-text-muted")}>
             {department}
           </div>
         )}
@@ -172,8 +172,8 @@ export function CrewCard({
             className={clsx(
               "font-code text-mono-xs tracking-widest mt-auto",
               status === "available"
-                ? inverted ? "text-on-dark-primary" : "text-on-light-primary"
-                : inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                ? inverted ? "text-text-primary" : "text-text-primary"
+                : inverted ? "text-text-muted" : "text-text-muted"
             )}
           >
             {statusInfo.label}
@@ -184,7 +184,7 @@ export function CrewCard({
         {currentAssignment && !isCompact && (
           <div className={clsx(
             "font-code text-mono-sm tracking-wide p-spacing-2 mt-spacing-2",
-            inverted ? "text-on-dark-secondary bg-surface-elevated" : "text-on-dark-disabled bg-muted"
+            inverted ? "text-text-secondary bg-surface-elevated" : "text-text-disabled bg-muted"
           )}>
             ASSIGNED: {currentAssignment}
           </div>
@@ -198,14 +198,14 @@ export function CrewCard({
                 key={index}
                 className={clsx(
                   "font-code text-mono-xs tracking-wide px-spacing-2 py-spacing-1 border",
-                  inverted ? "text-on-dark-secondary border-border" : "text-on-dark-disabled border-border"
+                  inverted ? "text-text-secondary border-border" : "text-text-disabled border-border"
                 )}
               >
                 {skill}
               </span>
             ))}
             {skills.length > 4 && (
-              <span className={clsx("font-code text-mono-xs tracking-wide px-spacing-2 py-spacing-1", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+              <span className={clsx("font-code text-mono-xs tracking-wide px-spacing-2 py-spacing-1", inverted ? "text-text-muted" : "text-text-muted")}>
                 +{skills.length - 4}
               </span>
             )}
@@ -216,12 +216,12 @@ export function CrewCard({
         {isDetailed && (email || phone) && (
           <div className={clsx("flex flex-col gap-gap-xs mt-auto pt-spacing-3 border-t", inverted ? "border-border" : "border-border")}>
             {email && (
-              <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+              <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-text-muted" : "text-text-muted")}>
                 {email}
               </div>
             )}
             {phone && (
-              <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+              <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-text-muted" : "text-text-muted")}>
                 {phone}
               </div>
             )}
@@ -247,7 +247,7 @@ export function CrewCard({
                 )}
               />
             ))}
-            <span className={clsx("font-code text-mono-xs ml-spacing-2", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+            <span className={clsx("font-code text-mono-xs ml-spacing-2", inverted ? "text-text-muted" : "text-text-muted")}>
               {rating.toFixed(1)}
             </span>
           </div>

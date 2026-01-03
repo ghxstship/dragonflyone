@@ -152,7 +152,7 @@ export function CustomFieldRenderer({
         return (
           <div className="relative">
             {field.type === "currency" && field.currencyCode && (
-              <span className="absolute left-spacing-3 top-1/2 -translate-y-1/2 text-on-dark-disabled font-code text-mono-sm">
+              <span className="absolute left-spacing-3 top-1/2 -translate-y-1/2 text-text-disabled font-code text-mono-sm">
                 {field.currencyCode}
               </span>
             )}
@@ -172,7 +172,7 @@ export function CustomFieldRenderer({
               aria-invalid={!!error}
             />
             {field.type === "percent" && (
-              <span className="absolute right-spacing-3 top-1/2 -translate-y-1/2 text-on-dark-disabled font-code text-mono-sm">
+              <span className="absolute right-spacing-3 top-1/2 -translate-y-1/2 text-text-disabled font-code text-mono-sm">
                 %
               </span>
             )}
@@ -268,7 +268,7 @@ export function CustomFieldRenderer({
       case "formula":
         return (
           <div className={clsx(baseInputClass, "bg-surface-secondary flex items-center gap-gap-xs")}>
-            <Calculator className="size-4 text-on-dark-disabled" />
+            <Calculator className="size-4 text-text-disabled" />
             <span className="font-code text-mono-sm">{String(value ?? "—")}</span>
           </div>
         );
@@ -300,7 +300,7 @@ export function CustomFieldRenderer({
               />
             )}
             {referenceSearching && (
-              <Loader2 className="absolute right-spacing-3 top-1/2 -translate-y-1/2 size-4 animate-spin text-on-dark-disabled" />
+              <Loader2 className="absolute right-spacing-3 top-1/2 -translate-y-1/2 size-4 animate-spin text-text-disabled" />
             )}
           </div>
         );
@@ -338,11 +338,11 @@ export function CustomFieldRenderer({
   return (
     <div className={clsx("space-y-spacing-1", className)}>
       {showLabel && field.type !== "checkbox" && (
-        <label className="flex items-center gap-gap-xs font-code text-mono-sm tracking-wide uppercase text-on-dark-disabled">
+        <label className="flex items-center gap-gap-xs font-code text-mono-sm tracking-wide uppercase text-text-disabled">
           {fieldIcons[field.type]}
           <span>{field.label}</span>
           {field.required && <span className="text-error-500">*</span>}
-          {permission === "readonly" && <Lock className="size-3 text-on-dark-muted" />}
+          {permission === "readonly" && <Lock className="size-3 text-text-muted" />}
           {pendingSync && (
             <span className="flex items-center gap-gap-xs text-warning-500">
               <Loader2 className="size-3 animate-spin" />
@@ -361,7 +361,7 @@ export function CustomFieldRenderer({
       )}
 
       {field.helpText && field.type !== "checkbox" && !error && (
-        <p className="text-on-dark-disabled text-body-xs font-body">{field.helpText}</p>
+        <p className="text-text-disabled text-body-xs font-body">{field.helpText}</p>
       )}
     </div>
   );

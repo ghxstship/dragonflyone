@@ -35,11 +35,11 @@ export interface TicketCardProps {
 }
 
 const statusConfig = {
-  valid: { label: "VALID", bgClass: "bg-surface-inverse", textClass: "text-on-dark-primary" },
-  used: { label: "USED", bgClass: "bg-muted-foreground", textClass: "text-on-dark-primary" },
-  transferred: { label: "TRANSFERRED", bgClass: "bg-muted-foreground", textClass: "text-on-dark-primary" },
-  refunded: { label: "REFUNDED", bgClass: "bg-muted", textClass: "text-on-light-primary" },
-  expired: { label: "EXPIRED", bgClass: "bg-muted", textClass: "text-on-light-muted" },
+  valid: { label: "VALID", bgClass: "bg-surface-inverse", textClass: "text-text-primary" },
+  used: { label: "USED", bgClass: "bg-muted-foreground", textClass: "text-text-primary" },
+  transferred: { label: "TRANSFERRED", bgClass: "bg-muted-foreground", textClass: "text-text-primary" },
+  refunded: { label: "REFUNDED", bgClass: "bg-muted", textClass: "text-text-primary" },
+  expired: { label: "EXPIRED", bgClass: "bg-muted", textClass: "text-text-muted" },
 };
 
 function formatDate(date: Date | string): string {
@@ -85,7 +85,7 @@ export function TicketCard({
     >
       {/* Header with Status */}
       <div className="flex justify-between items-center px-spacing-5 py-spacing-4 border-b border-border">
-        <div className="font-code text-mono-sm text-on-dark-disabled tracking-widest">
+        <div className="font-code text-mono-sm text-text-disabled tracking-widest">
           {ticketType}
         </div>
         <div
@@ -103,27 +103,27 @@ export function TicketCard({
       <div className="p-spacing-5 flex gap-gap-lg">
         {/* Event Info */}
         <div className="flex-1 flex flex-col gap-gap-sm">
-          <h3 className="font-heading text-h4-md text-on-light-primary uppercase tracking-wide leading-snug">
+          <h3 className="font-heading text-h4-md text-text-primary uppercase tracking-wide leading-snug">
             {eventTitle}
           </h3>
 
           <div className="flex flex-col gap-gap-xs">
-            <div className="font-code text-mono-sm text-on-light-primary tracking-wide">
+            <div className="font-code text-mono-sm text-text-primary tracking-wide">
               {formatDate(date)}
               {time && ` // ${time}`}
             </div>
-            <div className="font-body text-body-sm text-on-dark-disabled">
+            <div className="font-body text-body-sm text-text-disabled">
               {venue}
             </div>
             {seatInfo && (
-              <div className="font-code text-mono-sm text-on-dark-disabled tracking-wide">
+              <div className="font-code text-mono-sm text-text-disabled tracking-wide">
                 {seatInfo}
               </div>
             )}
           </div>
 
           {attendeeName && (
-            <div className="font-body text-body-sm text-on-dark-disabled mt-spacing-2">
+            <div className="font-body text-body-sm text-text-disabled mt-spacing-2">
               {attendeeName}
             </div>
           )}
@@ -144,10 +144,10 @@ export function TicketCard({
 
       {/* Footer with Order Info */}
       <div className="flex justify-between items-center px-spacing-5 py-spacing-3 bg-muted border-t border-border">
-        <div className="font-code text-mono-xs text-on-dark-disabled tracking-widest">
+        <div className="font-code text-mono-xs text-text-disabled tracking-widest">
           {orderNumber && `ORDER #${orderNumber}`}
         </div>
-        <div className="font-code text-mono-xs text-on-dark-disabled tracking-widest">
+        <div className="font-code text-mono-xs text-text-disabled tracking-widest">
           ID: {id.slice(0, 8).toUpperCase()}
         </div>
       </div>

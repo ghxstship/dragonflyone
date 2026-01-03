@@ -139,19 +139,19 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       "transition-all duration-100",
       "focus:outline-none",
       "disabled:opacity-50 disabled:cursor-not-allowed",
-      inverted ? "placeholder:text-on-dark-disabled" : "placeholder:text-on-dark-muted",
+      inverted ? "placeholder:text-text-disabled" : "placeholder:text-text-muted",
       error
         ? inverted
-          ? "border-error-500 bg-surface-inverse text-on-dark-primary"
+          ? "border-error-500 bg-surface-inverse text-text-primary"
           : "border-error-500 bg-white text-black"
         : inverted
           ? clsx(
-              "border-border bg-surface-inverse text-on-dark-primary border-l-0",
+              "border-border bg-surface-inverse text-text-primary border-l-0",
               "hover:border-border-primary",
               "focus:border-[var(--color-primary-400)]"
             )
           : clsx(
-              "border-border bg-surface-primary text-on-light-primary border-l-0",
+              "border-border bg-surface-primary text-text-primary border-l-0",
               "hover:border-border-primary",
               "focus:border-[var(--color-primary-500)]"
             ),
@@ -167,15 +167,15 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       "select-none",
       error
         ? inverted
-          ? "border-error-500 bg-surface-inverse text-on-dark-primary"
+          ? "border-error-500 bg-surface-inverse text-text-primary"
           : "border-error-500 bg-white text-black"
         : inverted
           ? clsx(
-              "border-border bg-surface-elevated text-on-dark-primary",
+              "border-border bg-surface-elevated text-text-primary",
               "hover:bg-surface-inverse"
             )
           : clsx(
-              "border-border bg-muted text-on-light-primary",
+              "border-border bg-muted text-text-primary",
               "hover:bg-surface-primary"
             )
     );
@@ -228,8 +228,8 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                       "w-full px-3 py-2 flex items-center gap-3 text-left",
                       "transition-colors",
                       inverted
-                        ? "hover:bg-surface-elevated text-on-dark-primary"
-                        : "hover:bg-muted text-on-light-primary",
+                        ? "hover:bg-surface-elevated text-text-primary"
+                        : "hover:bg-muted text-text-primary",
                       selectedCountryCode === country.code && country.country === selectedCountry.country &&
                         (inverted ? "bg-surface-elevated" : "bg-muted")
                     )}
@@ -237,7 +237,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                   >
                     <span className="text-base">{country.flag}</span>
                     <span className="text-mono-sm font-medium">{country.code}</span>
-                    <span className="text-mono-xs text-on-dark-disabled truncate">{country.name}</span>
+                    <span className="text-mono-xs text-text-disabled truncate">{country.name}</span>
                   </button>
                 ))}
               </div>

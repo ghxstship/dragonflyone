@@ -32,12 +32,12 @@ export default function EventEngagePage() {
         <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 mt-4">
           <Card className="p-6">
             <Body className="font-weight-bold mb-2">Vote for Headliner</Body>
-            <Body size="sm" className="text-on-dark-muted mb-4">Which artist are you most excited to see?</Body>
+            <Body size="sm" className="text-text-muted mb-4">Which artist are you most excited to see?</Body>
             <Button variant="outline" className="w-full">Vote Now</Button>
           </Card>
           <Card className="p-6">
             <Body className="font-weight-bold mb-2">Photo Challenge</Body>
-            <Body size="sm" className="text-on-dark-muted mb-4">Share your best festival outfit</Body>
+            <Body size="sm" className="text-text-muted mb-4">Share your best festival outfit</Body>
             <Button variant="outline" className="w-full">Participate</Button>
           </Card>
         </Grid>

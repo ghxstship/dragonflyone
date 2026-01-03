@@ -35,10 +35,10 @@ export interface EventCardProps {
 }
 
 const statusConfig = {
-  "on-sale": { label: "ON SALE", bgClass: "bg-surface-inverse", textClass: "text-on-dark-primary" },
-  "sold-out": { label: "SOLD OUT", bgClass: "bg-muted", textClass: "text-on-dark-primary" },
-  "coming-soon": { label: "COMING SOON", bgClass: "bg-surface-elevated", textClass: "text-on-dark-primary" },
-  "cancelled": { label: "CANCELLED", bgClass: "bg-muted", textClass: "text-on-dark-primary" },
+  "on-sale": { label: "ON SALE", bgClass: "bg-surface-inverse", textClass: "text-text-primary" },
+  "sold-out": { label: "SOLD OUT", bgClass: "bg-muted", textClass: "text-text-primary" },
+  "coming-soon": { label: "COMING SOON", bgClass: "bg-surface-elevated", textClass: "text-text-primary" },
+  "cancelled": { label: "CANCELLED", bgClass: "bg-muted", textClass: "text-text-primary" },
 };
 
 function formatDate(date: Date | string): { day: string; month: string; weekday: string } {
@@ -81,8 +81,8 @@ export function EventCard({
       className={clsx(
         "flex border-2 overflow-hidden transition-all duration-100 ease-[var(--ease-bounce)] rounded-[var(--radius-card)]",
         inverted
-          ? "bg-surface-inverse border-border text-on-dark-primary shadow-md"
-          : "bg-surface-primary border-border-primary text-on-light-primary shadow-md",
+          ? "bg-surface-inverse border-border text-text-primary shadow-md"
+          : "bg-surface-primary border-border-primary text-text-primary shadow-md",
         isFeatured || !isCompact ? "flex-col" : "flex-row",
         onClick && "cursor-pointer hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(0,0,0,0.15)]",
         className
@@ -118,10 +118,10 @@ export function EventCard({
             "absolute top-spacing-4 left-spacing-4 border-2 px-spacing-3 py-spacing-2 text-center min-w-spacing-14",
             inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border-primary"
           )}>
-            <div className={clsx("font-heading text-h3-md leading-none", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+            <div className={clsx("font-heading text-h3-md leading-none", inverted ? "text-text-primary" : "text-text-primary")}>
               {dateInfo.day}
             </div>
-            <div className={clsx("font-code text-mono-xs tracking-widest mt-spacing-1", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+            <div className={clsx("font-code text-mono-xs tracking-widest mt-spacing-1", inverted ? "text-text-muted" : "text-text-muted")}>
               {dateInfo.month}
             </div>
           </div>
@@ -143,7 +143,7 @@ export function EventCard({
         {showUrgency && status === "on-sale" && (
           <div
             className={clsx(
-              "absolute bg-surface-inverse text-on-dark-primary font-code text-mono-xs tracking-widest px-spacing-2 py-spacing-1 flex items-center gap-gap-xs",
+              "absolute bg-surface-inverse text-text-primary font-code text-mono-xs tracking-widest px-spacing-2 py-spacing-1 flex items-center gap-gap-xs",
               isCompact ? "bottom-spacing-2 left-spacing-2" : "bottom-spacing-4 left-spacing-4"
             )}
           >
@@ -162,7 +162,7 @@ export function EventCard({
       >
         {/* Category */}
         {category && !isCompact && (
-          <span className="font-code text-mono-xs text-on-dark-disabled tracking-widest uppercase">
+          <span className="font-code text-mono-xs text-text-disabled tracking-widest uppercase">
             {category}
           </span>
         )}
@@ -171,7 +171,7 @@ export function EventCard({
         <h3
           className={clsx(
             "font-heading uppercase tracking-wide leading-snug",
-            inverted ? "text-on-dark-primary" : "text-on-light-primary",
+            inverted ? "text-text-primary" : "text-text-primary",
             isFeatured ? "text-h2-md" : isCompact ? "text-h5-md" : "text-h4-md"
           )}
         >
@@ -182,26 +182,26 @@ export function EventCard({
         <div
           className={clsx(
             "font-body",
-            inverted ? "text-on-dark-secondary" : "text-on-light-muted",
+            inverted ? "text-text-secondary" : "text-text-muted",
             isCompact ? "text-body-sm" : "text-body-md"
           )}
         >
           {venue}
         </div>
-        <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+        <div className={clsx("font-code text-mono-sm tracking-wide", inverted ? "text-text-muted" : "text-text-muted")}>
           {location}
         </div>
 
         {/* Compact Date */}
         {isCompact && (
-          <div className={clsx("font-code text-mono-xs tracking-widest mt-auto", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+          <div className={clsx("font-code text-mono-xs tracking-widest mt-auto", inverted ? "text-text-muted" : "text-text-muted")}>
             {dateInfo.weekday} {dateInfo.month} {dateInfo.day}
           </div>
         )}
 
         {/* Price */}
         {price && !isCompact && (
-          <div className={clsx("font-heading text-h5-md mt-auto pt-spacing-2", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+          <div className={clsx("font-heading text-h5-md mt-auto pt-spacing-2", inverted ? "text-text-primary" : "text-text-primary")}>
             {price}
           </div>
         )}

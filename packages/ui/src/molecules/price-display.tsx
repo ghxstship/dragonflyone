@@ -87,7 +87,7 @@ export function PriceDisplay({
           className={clsx(
             "font-code tracking-widest uppercase",
             config.label,
-            inverted ? "text-on-dark-muted" : "text-on-light-muted"
+            inverted ? "text-text-muted" : "text-text-muted"
           )}
         >
           FROM
@@ -101,7 +101,7 @@ export function PriceDisplay({
           className={clsx(
             "font-heading tracking-tight",
             config.price,
-            inverted ? "text-on-dark-primary" : "text-on-light-primary"
+            inverted ? "text-text-primary" : "text-text-primary"
           )}
         >
           {formatPrice(price, currency, currencySymbol)}
@@ -113,7 +113,7 @@ export function PriceDisplay({
             className={clsx(
               "font-code line-through tracking-wide",
               config.original,
-              inverted ? "text-on-dark-muted" : "text-on-light-muted"
+              inverted ? "text-text-muted" : "text-text-muted"
             )}
           >
             {formatPrice(originalPrice, currency, currencySymbol)}
@@ -126,7 +126,7 @@ export function PriceDisplay({
             className={clsx(
               "font-code tracking-wide",
               config.label,
-              inverted ? "text-on-dark-muted" : "text-on-light-muted"
+              inverted ? "text-text-muted" : "text-text-muted"
             )}
           >
             /{perUnit}
@@ -140,7 +140,7 @@ export function PriceDisplay({
           className={clsx(
             "inline-flex self-start font-code tracking-widest px-spacing-1 py-spacing-0.5",
             config.label,
-            inverted ? "text-on-light-primary bg-surface-primary" : "text-on-dark-primary bg-surface-inverse"
+            inverted ? "text-text-primary bg-surface-primary" : "text-text-primary bg-surface-inverse"
           )}
         >
           SAVE {calculatedDiscount}%
@@ -193,7 +193,7 @@ export function PriceRange({
         className={clsx(
           "font-heading",
           config.price,
-          inverted ? "text-on-dark-primary" : "text-on-light-primary"
+          inverted ? "text-text-primary" : "text-text-primary"
         )}
       >
         {formatPrice(minPrice, "USD", currencySymbol)}
@@ -202,7 +202,7 @@ export function PriceRange({
         className={clsx(
           "font-code",
           config.label,
-          inverted ? "text-on-dark-muted" : "text-on-light-muted"
+          inverted ? "text-text-muted" : "text-text-muted"
         )}
       >
         –
@@ -211,7 +211,7 @@ export function PriceRange({
         className={clsx(
           "font-heading",
           config.price,
-          inverted ? "text-on-dark-primary" : "text-on-light-primary"
+          inverted ? "text-text-primary" : "text-text-primary"
         )}
       >
         {formatPrice(maxPrice, "USD", currencySymbol)}

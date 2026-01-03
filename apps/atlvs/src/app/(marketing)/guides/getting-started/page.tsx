@@ -73,7 +73,7 @@ export default function GettingStartedPage() {
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold text-h4-md">Your Progress</Body>
-                      <Body className="text-on-dark-muted">{completedSteps} of {STEPS.length} steps completed</Body>
+                      <Body className="text-text-muted">{completedSteps} of {STEPS.length} steps completed</Body>
                     </Stack>
                     <Body className="text-primary font-weight-bold text-h3-md">{Math.round(progress)}%</Body>
                   </Stack>
@@ -98,12 +98,12 @@ export default function GettingStartedPage() {
                   {STEPS.map((step, idx) => (
                     <Card key={step.id} className={`p-6 border-2 rounded-card ${step.completed ? "border-success" : "border-border"}`}>
                       <Box className="flex items-start gap-4">
-                        <Box className={`size-12 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-surface-elevated text-on-dark-muted"}`}>
+                        <Box className={`size-12 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-surface-elevated text-text-muted"}`}>
                           {step.completed ? <Check className="size-6" /> : <Body className="font-weight-bold text-h5-md">{step.id}</Body>}
                         </Box>
                         <Box className="flex-1">
                           <Body className="text-white font-weight-bold">{step.title}</Body>
-                          <Body className="text-on-dark-muted">{step.description}</Body>
+                          <Body className="text-text-muted">{step.description}</Body>
                         </Box>
                         {!step.completed && (
                           <Button variant={idx === completedSteps ? "solid" : "outline"} size="sm" icon={<ArrowRight className="size-4" />} iconPosition="right">

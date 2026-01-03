@@ -250,7 +250,7 @@ export default function ProductionOverviewPage() {
                     {cue.status === "in-progress" ? (
                       <Clock size={16} className="text-primary-600" />
                     ) : (
-                      <CheckCircle size={16} className="text-on-light-disabled" />
+                      <CheckCircle size={16} className="text-text-disabled" />
                     )}
                   </Box>
                   <Box className="flex-1">

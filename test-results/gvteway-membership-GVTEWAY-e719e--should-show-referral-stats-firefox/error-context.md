@@ -1,0 +1,53 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e6]:
+    - link "Skip to main content" [ref=e7] [cursor=pointer]:
+      - /url: "#main-content"
+    - generic [ref=e9]:
+      - link "GVTEWAY" [ref=e10] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e11]:
+        - generic [ref=e12]:
+          - link "Events" [ref=e13] [cursor=pointer]:
+            - /url: /events
+          - link "Artists" [ref=e14] [cursor=pointer]:
+            - /url: /artists
+          - link "Venues" [ref=e15] [cursor=pointer]:
+            - /url: /venues
+          - link "Community" [ref=e16] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=e17]:
+        - link "Create" [ref=e18] [cursor=pointer]:
+          - /url: /creators
+          - button "Create" [ref=e19]:
+            - generic [ref=e20]: Create
+        - link "Sign In" [ref=e21] [cursor=pointer]:
+          - /url: /auth/signin
+          - button "Sign In" [ref=e22]:
+            - generic [ref=e23]: Sign In
+    - main "Page not found" [ref=e24]:
+      - generic [ref=e26]:
+        - generic [ref=e27]: "404"
+        - generic [ref=e28]:
+          - heading "Page Not Found" [level=1] [ref=e29]
+          - paragraph [ref=e30]: The page you are looking for does not exist or has been moved. Try browsing our events or use search to find what you need.
+        - generic [ref=e31]:
+          - button "Go Home" [ref=e32] [cursor=pointer]:
+            - generic [ref=e33]:
+              - img [ref=e34]
+              - text: Go Home
+          - button "Go Back" [ref=e37] [cursor=pointer]:
+            - generic [ref=e38]:
+              - img [ref=e39]
+              - text: Go Back
+          - button "Search" [ref=e42] [cursor=pointer]:
+            - generic [ref=e43]:
+              - img [ref=e44]
+              - text: Search
+```

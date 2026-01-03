@@ -2,19 +2,105 @@
 
 import { AtlvsAppLayout } from "../components/app-layout";
 import {
-  Stack, Grid, Card, Body, H1, H3, Label, Container, Display, Article, Box, Text, Button, MarketingPage, HeroSection, CTABanner, type MarketingSection} from '@ghxstship/ui';
+  Stack,
+  Grid,
+  Card,
+  Body,
+  H2,
+  H3,
+  Container,
+  Display,
+  Box,
+  Text,
+  Button,
+  Section,
+  MarketingPage,
+  HeroSection,
+  CTABanner,
+  FeatureGrid,
+  StatsSection,
+  TestimonialSection,
+  BentoGrid,
+  type MarketingSection,
+  type FeatureItem,
+  type StatItem,
+  type Testimonial,
+  type BentoItem,
+  Kicker,
+} from "@ghxstship/ui";
 import { useRouter } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
 import NextLink from "next/link";
 import {
-  Tent, Zap, Palette, MapPin, HardHat, Building, Building2, Handshake, BarChart3, Link2, Clock, Calendar, Users, Package, FileText, DollarSign, Shield, Puzzle, Check, FastForward, ClipboardList, MessageSquare, Smartphone, Mic2, Briefcase, Camera, BadgeDollarSign, GraduationCap, Heart, Megaphone, Link as LinkIcon, Target, FileSignature, Truck, Route, Radio, AlertTriangle, IdCard, Receipt, TrendingUp, GitBranch, Sparkles, Lock, Globe, ArrowRight} from "lucide-react";
+  Tent,
+  Zap,
+  Palette,
+  MapPin,
+  HardHat,
+  Building,
+  Building2,
+  Handshake,
+  BarChart3,
+  Link2,
+  Clock,
+  Calendar,
+  Users,
+  Package,
+  FileText,
+  DollarSign,
+  Shield,
+  Puzzle,
+  Check,
+  FastForward,
+  ClipboardList,
+  MessageSquare,
+  Smartphone,
+  Mic2,
+  Briefcase,
+  Camera,
+  BadgeDollarSign,
+  GraduationCap,
+  Heart,
+  Megaphone,
+  Link as LinkIcon,
+  Target,
+  FileSignature,
+  Truck,
+  Route,
+  Radio,
+  AlertTriangle,
+  IdCard,
+  Receipt,
+  TrendingUp,
+  GitBranch,
+  Sparkles,
+  Lock,
+  Globe,
+  ArrowRight,
+  Eye,
+  Compass,
+  ArrowRightLeft,
+  LayoutGrid,
+  Calculator,
+  Database,
+  Download,
+  Ticket,
+  Headphones,
+  Gift,
+  RefreshCw,
+} from "lucide-react";
 import {
   atlvsVerticals,
   atlvsProblemSection,
   atlvsPillarsSolution,
   atlvsFeatureGrid,
   atlvsCompvssSection,
-  atlvsSocialProof,
+  atlvsHeroSection,
+  atlvsGeneratorSection,
+  atlvsGvtewaySection,
+  atlvsStatsSection,
+  atlvsTestimonials,
+  atlvsCtaSection,
 } from "../data/atlvs";
 
 export const runtime = "edge";
@@ -23,307 +109,630 @@ export const runtime = "edge";
 // ATLVS LANDING PAGE
 // Marketing page for ATLVS - Production Management Platform
 // Design: Bold Contemporary Pop Art Adventure with ATLVS Miami Pink accent
-// Uses MarketingPage template from @ghxstship/ui
+// Uses MarketingPage template and design system components from @ghxstship/ui
 // =============================================================================
 
-// Hero section social proof element
+// Icon map for dynamic icon rendering
+const iconMap: Record<string, LucideIcon> = {
+  Tent,
+  Zap,
+  Palette,
+  MapPin,
+  HardHat,
+  Building,
+  Building2,
+  Handshake,
+  BarChart3,
+  Link2,
+  Clock,
+  Calendar,
+  Users,
+  Package,
+  FileText,
+  DollarSign,
+  Shield,
+  Puzzle,
+  Check,
+  FastForward,
+  ClipboardList,
+  MessageSquare,
+  Smartphone,
+  Mic2,
+  Briefcase,
+  Camera,
+  BadgeDollarSign,
+  GraduationCap,
+  Heart,
+  Megaphone,
+  Link: LinkIcon,
+  Target,
+  FileSignature,
+  Truck,
+  Route,
+  Radio,
+  AlertTriangle,
+  IdCard,
+  Receipt,
+  TrendingUp,
+  GitBranch,
+  Sparkles,
+  Lock,
+  Globe,
+  Eye,
+  Compass,
+  ArrowRightLeft,
+  LayoutGrid,
+  Calculator,
+  Database,
+  Download,
+  Ticket,
+  Headphones,
+  Gift,
+  RefreshCw,
+  Box: Package,
+  BarChart: BarChart3,
+  chaos: BarChart3,
+  silos: Link2,
+  clock: Clock,
+};
+
+// Helper to render icon from string name
+function renderIcon(iconName: string, className: string = "h-6 w-6") {
+  const IconComponent = iconMap[iconName];
+  if (!IconComponent) return null;
+  return <IconComponent className={className} />;
+}
+
+// =============================================================================
+// HERO SOCIAL PROOF
+// =============================================================================
 function HeroSocialProof() {
   return (
-    <Stack direction="horizontal" gap={6} className="flex-wrap justify-center">
-      <Text size="sm" className="text-on-dark-disabled">PRODUCTIONS</Text>
-      <Text size="sm" className="text-on-dark-disabled">·</Text>
-      <Text size="sm" className="text-on-dark-disabled">ACTIVATIONS</Text>
-      <Text size="sm" className="text-on-dark-disabled">·</Text>
-      <Text size="sm" className="text-on-dark-disabled">INSTALLATIONS</Text>
-      <Text size="sm" className="text-on-dark-disabled">·</Text>
-      <Text size="sm" className="text-on-dark-disabled">DESTINATIONS</Text>
+    <Stack gap={4} className="items-center">
+      <Stack direction="horizontal" gap={6} className="flex-wrap justify-center">
+        <Text size="sm" className="text-text-disabled">PRODUCTIONS</Text>
+        <Text size="sm" className="text-text-disabled">·</Text>
+        <Text size="sm" className="text-text-disabled">ACTIVATIONS</Text>
+        <Text size="sm" className="text-text-disabled">·</Text>
+        <Text size="sm" className="text-text-disabled">INSTALLATIONS</Text>
+        <Text size="sm" className="text-text-disabled">·</Text>
+        <Text size="sm" className="text-text-disabled">DESTINATIONS</Text>
+      </Stack>
+      <Text size="sm" className="text-text-muted max-w-xl text-center">
+        {atlvsHeroSection.trustedBy}
+      </Text>
     </Stack>
   );
 }
 
+// =============================================================================
+// VERTICALS SECTION - Using BentoGrid
+// =============================================================================
 function VerticalsSection() {
+  const bentoItems: BentoItem[] = atlvsVerticals.map((vertical, index) => ({
+    id: vertical.id,
+    title: vertical.title,
+    description: vertical.description,
+    icon: renderIcon(vertical.icon, "h-6 w-6 text-primary"),
+    size: index === 0 ? "large" : "small",
+    background: index === 0 ? "primary" : "default",
+  }));
+
   return (
-    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
-      <Stack gap={4} className="text-center">
-        <H1 className="text-on-light-primary">NATIVE TO YOUR WORLD.</H1>
-        <Body className="text-on-light-muted">Four verticals. One platform. Infinite possibilities.</Body>
-      </Stack>
-      <Grid cols={4} gap={4} className="mt-8 md:mt-12 md:gap-6">
-        {atlvsVerticals.map((vertical) => (
-          <Article key={vertical.id} className="group flex h-full flex-col border-2 border-border bg-white p-4 pop-card-atlvs sm:p-6">
-            <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-border bg-muted">
-              {vertical.icon === "Tent" && <Tent className="h-6 w-6 text-on-light-primary" />}
-              {vertical.icon === "Zap" && <Zap className="h-6 w-6 text-on-light-primary" />}
-              {vertical.icon === "Palette" && <Palette className="h-6 w-6 text-on-light-primary" />}
-              {vertical.icon === "MapPin" && <MapPin className="h-6 w-6 text-on-light-primary" />}
-            </Box>
-            <H3 className="font-display text-h5-md uppercase tracking-label text-on-light-primary">{vertical.title}</H3>
-            <Body className="mt-3 flex-1 text-on-light-muted">{vertical.description}</Body>
-            <Stack gap={1} className="mt-4">
-              {vertical.features.map((feature) => (
-                <Text key={feature} className="font-mono text-mono-xs uppercase tracking-label text-on-light-muted">{feature}</Text>
-              ))}
-            </Stack>
-            <NextLink href={vertical.href} className="mt-6 inline-block font-mono text-mono-xs uppercase tracking-label text-brand-pink transition-colors hover:text-on-light-primary">
-              Learn More →
-            </NextLink>
-          </Article>
-        ))}
-      </Grid>
-    </Container>
+    <BentoGrid
+      kicker="BUILT FOR HOW YOU ACTUALLY WORK"
+      title="Four Verticals. One Platform."
+      description="Whether you're producing festivals, activating brands, installing art, or running destinations — ATLVS speaks your language."
+      items={bentoItems}
+      sectionVariant="light"
+    />
   );
 }
 
+// =============================================================================
+// PROBLEM SECTION - Using FeatureGrid (inverted)
+// =============================================================================
 function ProblemSection() {
+  const problemFeatures: FeatureItem[] = atlvsProblemSection.problems.map((problem, index) => ({
+    id: `problem-${index}`,
+    icon: renderIcon(problem.icon, "h-6 w-6 text-primary"),
+    title: problem.title,
+    description: problem.description,
+  }));
+
   return (
-    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
-      <H1 className="text-center text-white">
-        {atlvsProblemSection.headline}
-      </H1>
-      <Grid cols={3} gap={4} className="mt-8 md:mt-12 md:gap-6">
-        {atlvsProblemSection.problems.map((problem) => (
-          <Article key={problem.title} className="border-2 border-border bg-surface-inverse p-4 pop-card-dark sm:p-6">
-            <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-border bg-surface-elevated">
-              {problem.icon === "chaos" && <BarChart3 className="h-6 w-6 text-on-dark-muted" />}
-              {problem.icon === "silos" && <Link2 className="h-6 w-6 text-on-dark-muted" />}
-              {problem.icon === "clock" && <Clock className="h-6 w-6 text-on-dark-muted" />}
-            </Box>
-            <H3 className="font-display text-h5-md uppercase tracking-label text-white">{problem.title}</H3>
-            <Body className="mt-3 text-on-dark-muted">{problem.description}</Body>
-          </Article>
-        ))}
-      </Grid>
-      <Body className="mx-auto mt-12 max-w-2xl text-center text-body-lg text-on-dark-secondary">
-        {atlvsProblemSection.tagline}
-      </Body>
-    </Container>
+    <FeatureGrid
+      kicker="THE CHAOS STOPS HERE"
+      title={atlvsProblemSection.headline}
+      description={atlvsProblemSection.tagline}
+      features={problemFeatures}
+      columns={3}
+      variant="bordered"
+      sectionVariant="dark"
+      align="center"
+    />
   );
 }
 
+// =============================================================================
+// SOLUTIONS SECTION - Four Pillars with alternating layout
+// =============================================================================
 function SolutionsSection() {
   return (
-    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
-      <H1 className="text-center text-on-light-primary">FOUR PILLARS. ONE PLATFORM.</H1>
-      <Stack gap={8} className="mt-8 sm:mt-12 sm:gap-16">
-        {atlvsPillarsSolution.map((pillar, index) => (
-          <Article key={pillar.id} className={`grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
-            <Card className={`border-2 aspect-video border-border bg-muted shadow-[4px_4px_0_rgba(0,0,0,0.15)] ${index % 2 === 1 ? "lg:order-2" : ""}`}>
-              <Box className="flex h-full items-center justify-center">
-                <Text className="font-mono text-mono-sm uppercase tracking-label text-on-light-muted">{pillar.title} Screenshot</Text>
-              </Box>
-            </Card>
-            <Stack gap={6} className={index % 2 === 1 ? "lg:order-1" : ""}>
-              <H3 className="font-display text-h3-md uppercase tracking-label text-on-light-primary">{pillar.title}</H3>
-              <Body className="text-body-md text-on-light-muted">{pillar.description}</Body>
-              <Stack gap={2}>
-                {pillar.features.map((feature) => (
-                  <Stack key={feature} direction="horizontal" gap={3} className="items-start">
-                    <Check className="h-4 w-4 flex-shrink-0 text-brand-pink" />
-                    <Text size="sm" className="text-on-light-secondary">{feature}</Text>
-                  </Stack>
-                ))}
+    <Section className="section-light bg-surface-primary py-12 sm:py-16 md:py-24 lg:py-32">
+      <Container size="xl">
+        <Stack gap={4} className="mb-12 text-center items-center">
+          <Kicker>EVERYTHING. CONNECTED. FINALLY.</Kicker>
+          <H2 className="text-text-primary">Four Pillars. One Platform.</H2>
+          <Body size="lg" className="text-text-muted max-w-2xl">
+            Stop duct-taping tools together. Start shipping shows.
+          </Body>
+        </Stack>
+
+        <Stack gap={16}>
+          {atlvsPillarsSolution.map((pillar, index) => (
+            <Box
+              key={pillar.id}
+              className={`grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12 items-center ${
+                index % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
+              }`}
+            >
+              <Card className="aspect-video border-2 border-border bg-surface-elevated overflow-hidden">
+                <Box className="flex h-full items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
+                  <Text className="font-mono text-mono-sm uppercase tracking-label text-text-muted">
+                    {pillar.title} Screenshot
+                  </Text>
+                </Box>
+              </Card>
+
+              <Stack gap={6}>
+                <H3 size="lg" className="text-text-primary">
+                  {pillar.title}
+                </H3>
+                <Body className="text-text-secondary">{pillar.description}</Body>
+                <Stack gap={3}>
+                  {pillar.features.map((feature) => (
+                    <Stack key={feature} direction="horizontal" gap={3} className="items-start">
+                      <Check className="h-5 w-5 flex-shrink-0 text-primary mt-0.5" />
+                      <Body size="sm" className="text-text-secondary">
+                        {feature}
+                      </Body>
+                    </Stack>
+                  ))}
+                </Stack>
+                <Text className="font-mono text-mono-xs uppercase tracking-label text-primary">
+                  Replaces: {pillar.replaces}
+                </Text>
               </Stack>
-              <Text className="font-mono text-mono-xs uppercase tracking-label text-brand-pink">Replaces: {pillar.replaces}</Text>
-            </Stack>
-          </Article>
-        ))}
-      </Stack>
-    </Container>
+            </Box>
+          ))}
+        </Stack>
+      </Container>
+    </Section>
   );
 }
 
+// =============================================================================
+// FEATURE GRID SECTION - 30 Tools
+// =============================================================================
 function FeatureGridSection() {
-  const iconMap: Record<string, LucideIcon> = {
-    Target,
-    FileSignature,
-    Handshake,
-    FastForward,
-    DollarSign,
-    Calendar,
-    Building2,
-    Truck,
-    Route,
-    ClipboardList,
-    Users,
-    Box: Package,
-    FileText,
-    Mic2,
-    Clock,
-    Smartphone,
-    MessageSquare,
-    Shield,
-    Radio,
-    AlertTriangle,
-    IdCard,
-    BarChart: BarChart3,
-    Receipt,
-    TrendingUp,
-    GitBranch,
-    Zap,
-    Sparkles,
-    Puzzle,
-    Lock,
-    Globe,
-  };
+  const features: FeatureItem[] = atlvsFeatureGrid.map((feature, index) => ({
+    id: `feature-${index}`,
+    icon: renderIcon(feature.icon, "h-6 w-6 text-primary"),
+    title: feature.title,
+    description: feature.description,
+  }));
 
   return (
-    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
-      <H1 className="text-center text-on-light-primary">THE TOOLKIT WITHOUT MISSING TOOLS</H1>
-      <Grid cols={3} gap={4} className="mt-8 md:mt-12 md:gap-6">
-        {atlvsFeatureGrid.map((feature) => {
-          const IconComponent = iconMap[feature.icon];
-          return (
-            <Article key={feature.title} className="border-2 border-border bg-white p-4 pop-card-atlvs sm:p-6">
-              <Box className="mb-4 flex h-10 w-10 items-center justify-center border-2 border-border bg-muted">
-                {IconComponent && <IconComponent className="h-5 w-5 text-on-light-primary" />}
-              </Box>
-              <H3 className="font-display text-h6-md uppercase tracking-label text-on-light-primary">{feature.title}</H3>
-              <Body className="mt-2 text-on-light-muted">{feature.description}</Body>
-            </Article>
-          );
-        })}
-      </Grid>
-    </Container>
+    <FeatureGrid
+      kicker="30 TOOLS. ZERO GAPS."
+      title="The Toolkit Without Missing Tools"
+      description="Every capability you need, from first pitch to final wrap. No more 'we'll figure that out later.'"
+      features={features}
+      columns={3}
+      variant="bordered"
+      sectionVariant="light"
+      pattern="grid"
+      align="center"
+    />
   );
 }
 
-function CompvssSection() {
+// =============================================================================
+// EXPERIENCE GENERATOR SECTION - AI-Powered Blueprint Generator
+// =============================================================================
+function GeneratorSection() {
   return (
-    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
-      <Box className="border-2 border-border bg-surface-inverse p-4 sm:p-8 lg:p-12">
-        <Label className="font-mono text-mono-xs uppercase tracking-label text-brand-cyan">{atlvsCompvssSection.kicker}</Label>
-        <Display className="mt-4 font-display text-display-sm uppercase text-white md:text-display-md">{atlvsCompvssSection.title}</Display>
-        <Body className="mt-4 text-body-md text-on-dark-muted sm:text-body-lg">{atlvsCompvssSection.subtitle}</Body>
-        <Box className="my-6 h-px bg-border sm:my-8" />
-        <Body className="max-w-3xl text-on-dark-secondary sm:text-body-md">{atlvsCompvssSection.description}</Body>
-        <Grid cols={3} gap={4} className="mt-6 sm:mt-8 sm:gap-6">
-          {atlvsCompvssSection.features.map((feature) => (
-            <Article key={feature.title} className="border-2 border-border bg-surface-elevated p-3 pop-card-compvss sm:p-4">
-              <Box className="mb-2 flex h-10 w-10 items-center justify-center border-2 border-border bg-surface-inverse">
-                {feature.icon === "HardHat" && <HardHat className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "Users" && <Users className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "Building" && <Building className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "Mic2" && <Mic2 className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "Briefcase" && <Briefcase className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "Camera" && <Camera className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "BadgeDollarSign" && <BadgeDollarSign className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "Handshake" && <Handshake className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "Building2" && <Building2 className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "GraduationCap" && <GraduationCap className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "Heart" && <Heart className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "Megaphone" && <Megaphone className="h-5 w-5 text-brand-cyan" />}
-                {feature.icon === "Link" && <LinkIcon className="h-5 w-5 text-brand-cyan" />}
-              </Box>
-              <H3 className="font-display text-h6-md uppercase tracking-label text-white">{feature.title}</H3>
-              <Body className="mt-2 text-on-dark-muted">{feature.description}</Body>
-            </Article>
+    <Section className="section-dark bg-surface-primary py-12 sm:py-16 md:py-24 lg:py-32">
+      <Container size="xl">
+        <Stack gap={4} className="mb-12 text-center items-center">
+          <Kicker>{atlvsGeneratorSection.kicker}</Kicker>
+          <Display size="md" className="text-text-primary">
+            {atlvsGeneratorSection.title}
+          </Display>
+          <Body size="lg" className="text-text-muted max-w-3xl">
+            {atlvsGeneratorSection.subtitle}
+          </Body>
+        </Stack>
+
+        <Body className="text-text-secondary max-w-3xl mx-auto text-center mb-12">
+          {atlvsGeneratorSection.description}
+        </Body>
+
+        <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {atlvsGeneratorSection.features.map((feature) => (
+            <Card
+              key={feature.title}
+              className="p-6 border-2 border-border rounded-card hover:border-primary/50 transition-colors"
+            >
+              <Stack gap={4}>
+                <Box className="p-3 bg-primary/20 rounded-card w-fit">
+                  {renderIcon(feature.icon, "h-6 w-6 text-primary")}
+                </Box>
+                <H3 size="sm" className="text-text-primary">
+                  {feature.title}
+                </H3>
+                <Body size="sm" className="text-text-muted">
+                  {feature.description}
+                </Body>
+              </Stack>
+            </Card>
           ))}
         </Grid>
-        <Stack gap={4} className="mt-8">
+
+        <Stack gap={4} className="mt-12 items-center">
           <Stack direction="horizontal" gap={2} className="items-center">
-            <Check className="h-4 w-4 text-brand-cyan" />
-            <Text className="font-mono text-mono-xs uppercase tracking-label text-brand-cyan">{atlvsCompvssSection.note}</Text>
+            <Check className="h-4 w-4 text-primary" />
+            <Text className="font-mono text-mono-xs uppercase tracking-label text-primary">
+              {atlvsGeneratorSection.note}
+            </Text>
           </Stack>
-          <NextLink href={atlvsCompvssSection.cta.href}>
-            <Button variant="outline" size="md">
-              {atlvsCompvssSection.cta.label}
+          <NextLink href={atlvsGeneratorSection.cta.href}>
+            <Button variant="solid" size="lg">
+              {atlvsGeneratorSection.cta.label}
             </Button>
           </NextLink>
         </Stack>
-      </Box>
-    </Container>
+      </Container>
+    </Section>
   );
 }
 
-function SocialProofSection() {
+// =============================================================================
+// COMPVSS SECTION - Crew & Vendor Portal
+// =============================================================================
+function CompvssSection() {
   return (
-    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
-      <H1 className="text-center text-on-light-primary">{atlvsSocialProof.headline}</H1>
-      <Article className="border-2 mx-auto mt-8 max-w-4xl border-border bg-white p-4 shadow-lg sm:mt-12 sm:p-8 lg:p-12">
-        <Body className="text-center text-body-md text-on-light-secondary italic sm:text-body-lg">&ldquo;{atlvsSocialProof.testimonial.quote}&rdquo;</Body>
-        <Text className="mt-4 block text-center font-mono text-mono-xs uppercase tracking-label text-on-light-muted sm:mt-6 sm:text-mono-sm">
-          — {atlvsSocialProof.testimonial.author}, {atlvsSocialProof.testimonial.company}
-        </Text>
-      </Article>
-      <Grid cols={4} gap={4} className="mt-8 md:mt-12 md:gap-6">
-        {atlvsSocialProof.stats.map((stat) => (
-          <Stack key={stat.label} className="text-center">
-            <Display className="font-display text-display-sm uppercase text-on-light-primary">{stat.value}</Display>
-            <Text className="mt-2 font-mono text-mono-xs uppercase tracking-label text-on-light-muted">{stat.label}</Text>
+    <Section className="section-light bg-surface-primary py-12 sm:py-16 md:py-24 lg:py-32">
+      <Container size="xl">
+        <Card className="border-2 border-border bg-surface-inverse p-6 sm:p-10 lg:p-16 rounded-card">
+          <Stack gap={4} className="mb-8">
+            <Kicker className="text-brand-yellow">{atlvsCompvssSection.kicker}</Kicker>
+            <Display size="lg" className="text-text-primary">
+              {atlvsCompvssSection.title}
+            </Display>
+            <Body size="lg" className="text-text-muted">
+              {atlvsCompvssSection.subtitle}
+            </Body>
           </Stack>
-        ))}
-      </Grid>
-    </Container>
+
+          <Box className="h-px bg-border my-8" />
+
+          <Body className="text-text-secondary max-w-3xl mb-8">
+            {atlvsCompvssSection.description}
+          </Body>
+
+          <Grid cols={3} gap={4} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {atlvsCompvssSection.features.map((feature) => (
+              <Card
+                key={feature.title}
+                className="p-4 border-2 border-border bg-surface-elevated rounded-card"
+              >
+                <Stack gap={3}>
+                  <Box className="p-2 bg-surface-inverse border-2 border-border w-fit rounded-card">
+                    {renderIcon(feature.icon, "h-5 w-5 text-brand-yellow")}
+                  </Box>
+                  <H3 size="sm" className="text-text-primary uppercase tracking-label">
+                    {feature.title}
+                  </H3>
+                  <Body size="sm" className="text-text-muted">
+                    {feature.description}
+                  </Body>
+                </Stack>
+              </Card>
+            ))}
+          </Grid>
+
+          <Stack gap={4} className="mt-8 items-start">
+            <Stack direction="horizontal" gap={2} className="items-center">
+              <Check className="h-4 w-4 text-brand-yellow" />
+              <Text className="font-mono text-mono-xs uppercase tracking-label text-brand-yellow">
+                {atlvsCompvssSection.note}
+              </Text>
+            </Stack>
+            <NextLink href={atlvsCompvssSection.cta.href}>
+              <Button variant="outline" size="md">
+                {atlvsCompvssSection.cta.label}
+              </Button>
+            </NextLink>
+          </Stack>
+        </Card>
+      </Container>
+    </Section>
   );
 }
 
+// =============================================================================
+// GVTEWAY SECTION - Consumer Membership Platform
+// =============================================================================
+function GvtewaySection() {
+  return (
+    <Section className="section-light bg-surface-primary py-12 sm:py-16 md:py-24 lg:py-32">
+      <Container size="xl">
+        <Card className="border-2 border-border bg-gradient-to-br from-primary/5 to-secondary/5 p-6 sm:p-10 lg:p-16 rounded-card">
+          <Stack gap={4} className="mb-8">
+            <Kicker className="text-brand-cyan">{atlvsGvtewaySection.kicker}</Kicker>
+            <Display size="lg" className="text-text-primary">
+              {atlvsGvtewaySection.title}
+            </Display>
+            <Body size="lg" className="text-text-muted">
+              {atlvsGvtewaySection.subtitle}
+            </Body>
+          </Stack>
+
+          <Box className="h-px bg-border my-8" />
+
+          <Body className="text-text-secondary max-w-3xl mb-8">
+            {atlvsGvtewaySection.description}
+          </Body>
+
+          <Grid cols={3} gap={4} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            {atlvsGvtewaySection.features.map((feature) => (
+              <Card
+                key={feature.title}
+                className="p-4 border-2 border-border bg-white rounded-card hover:border-brand-cyan/50 transition-colors"
+              >
+                <Stack gap={3}>
+                  <Box className="p-2 bg-brand-cyan/10 border-2 border-brand-cyan/20 w-fit rounded-card">
+                    {renderIcon(feature.icon, "h-5 w-5 text-brand-cyan")}
+                  </Box>
+                  <H3 size="sm" className="text-text-primary uppercase tracking-label">
+                    {feature.title}
+                  </H3>
+                  <Body size="sm" className="text-text-muted">
+                    {feature.description}
+                  </Body>
+                </Stack>
+              </Card>
+            ))}
+          </Grid>
+
+          <Stack gap={4} className="mt-8 items-start">
+            <Stack direction="horizontal" gap={2} className="items-center">
+              <Check className="h-4 w-4 text-brand-cyan" />
+              <Text className="font-mono text-mono-xs uppercase tracking-label text-brand-cyan">
+                {atlvsGvtewaySection.note}
+              </Text>
+            </Stack>
+            <NextLink href={atlvsGvtewaySection.cta.href}>
+              <Button variant="outline" size="md">
+                {atlvsGvtewaySection.cta.label}
+              </Button>
+            </NextLink>
+          </Stack>
+        </Card>
+      </Container>
+    </Section>
+  );
+}
+
+// =============================================================================
+// STATS SECTION - Using StatsSection component
+// =============================================================================
+function StatsDisplaySection() {
+  const stats: StatItem[] = atlvsStatsSection.stats.map((stat) => ({
+    id: stat.id,
+    value: stat.value,
+    prefix: stat.prefix,
+    suffix: stat.suffix,
+    label: stat.label,
+    description: stat.description,
+  }));
+
+  return (
+    <StatsSection
+      kicker={atlvsStatsSection.kicker}
+      title={atlvsStatsSection.title}
+      description={atlvsStatsSection.description}
+      stats={stats}
+      columns={4}
+      variant="dark"
+      backgroundStyle="primary"
+      animate={true}
+      align="center"
+    />
+  );
+}
+
+// =============================================================================
+// TESTIMONIALS SECTION - Using TestimonialSection component
+// =============================================================================
+function TestimonialsDisplaySection() {
+  const testimonials: Testimonial[] = atlvsTestimonials.testimonials.map((t) => ({
+    id: t.id,
+    quote: t.quote,
+    author: t.author,
+    rating: t.rating,
+    featured: t.featured,
+  }));
+
+  return (
+    <TestimonialSection
+      kicker={atlvsTestimonials.kicker}
+      title={atlvsTestimonials.title}
+      testimonials={testimonials}
+      variant="grid"
+      columns={3}
+      sectionVariant="light"
+      showRatings={true}
+    />
+  );
+}
+
+// =============================================================================
+// PRICING SECTION - Simplified overview with CTA to full pricing page
+// =============================================================================
 function PricingSection() {
   return (
-    <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-      <Stack gap={4} className="mb-12 text-center">
-        <Label size="xs" className="text-on-light-muted">PRICING</Label>
-        <H1 className="text-on-light-primary">MODULAR BY DESIGN</H1>
-        <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">Seven tiers. Three products. Use what you need. Keep what you have.</Body>
-      </Stack>
+    <Section className="section-light bg-surface-primary py-12 sm:py-16 md:py-24 lg:py-32">
+      <Container size="xl">
+        <Stack gap={4} className="mb-12 text-center items-center">
+          <Kicker>PAY FOR WHAT YOU USE. NOTHING MORE.</Kicker>
+          <H2 className="text-text-primary">Modular By Design</H2>
+          <Body size="lg" className="text-text-muted max-w-2xl">
+            Seven tiers. Three products. Use what you need. Keep what you have.
+          </Body>
+        </Stack>
 
-      <Grid cols={3} gap={6}>
-        <Card className="border-2 border-border bg-white p-6 text-center h-full flex flex-col">
-          <Stack gap={4} className="items-center flex-1">
-            <Label size="xs" className="text-on-light-muted">SINGLE PRODUCTS</Label>
-            <H3 className="text-on-light-primary">BYO EVERYTHING ELSE</H3>
-            <Display size="md" className="text-on-light-primary">From $0</Display>
-            <Body size="sm" className="text-on-light-muted">Use one product. Keep your existing tools for everything else.</Body>
-            <Stack gap={2} className="w-full text-left flex-1">
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-yellow" /><Text size="sm" className="text-on-light-secondary">GVTEWAY — Ticketing</Text></Stack>
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-cyan" /><Text size="sm" className="text-on-light-secondary">COMPVSS — Crews</Text></Stack>
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-light-secondary">ATLVS — Business</Text></Stack>
+        <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
+          <Card className="p-6 border-2 border-border rounded-card text-center h-full flex flex-col">
+            <Stack gap={4} className="items-center flex-1">
+              <Kicker>SINGLE PRODUCTS</Kicker>
+              <H3 className="text-text-primary">BYO Everything Else</H3>
+              <Display size="sm" className="text-text-primary">
+                From $0
+              </Display>
+              <Body size="sm" className="text-text-muted">
+                Use one product. Keep your existing tools for everything else.
+              </Body>
+              <Stack gap={2} className="w-full text-left flex-1">
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Check className="h-4 w-4 text-brand-cyan" />
+                  <Text size="sm" className="text-text-secondary">
+                    GVTEWAY — Ticketing
+                  </Text>
+                </Stack>
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Check className="h-4 w-4 text-brand-yellow" />
+                  <Text size="sm" className="text-text-secondary">
+                    COMPVSS — Crews
+                  </Text>
+                </Stack>
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Check className="h-4 w-4 text-brand-pink" />
+                  <Text size="sm" className="text-text-secondary">
+                    ATLVS — Business
+                  </Text>
+                </Stack>
+              </Stack>
+              <NextLink href="/pricing#single" className="w-full mt-auto">
+                <Button variant="outline" size="md" fullWidth>
+                  See Options
+                </Button>
+              </NextLink>
             </Stack>
-            <NextLink href="/pricing#single" className="w-full mt-auto"><Button variant="outline" size="md" fullWidth inverted={false}>See Options</Button></NextLink>
-          </Stack>
-        </Card>
+          </Card>
 
-        <Card className="border-2 border-brand-pink bg-white p-6 text-center relative h-full flex flex-col">
-          <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-3 py-1 text-white">MOST POPULAR</Label>
-          <Stack gap={4} className="items-center flex-1">
-            <Label size="xs" className="text-brand-pink">BUNDLES</Label>
-            <H3 className="text-on-light-primary">FILL THE GAPS</H3>
-            <Display size="md" className="text-on-light-primary">From $249</Display>
-            <Body size="sm" className="text-on-light-muted">Two products that work together. Keep what you love.</Body>
-            <Stack gap={2} className="w-full text-left flex-1">
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-success" /><Text size="sm" className="text-on-light-secondary">OPERATIONS — Crews + Tickets</Text></Stack>
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-warning" /><Text size="sm" className="text-on-light-secondary">EXPERIENCE — Business + Tickets</Text></Stack>
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-secondary" /><Text size="sm" className="text-on-light-secondary">PRODUCTION — Business + Crews</Text></Stack>
+          <Card className="p-6 border-2 border-primary rounded-card text-center relative h-full flex flex-col ring-2 ring-primary/20">
+            <Box className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary px-3 py-1 rounded-card">
+              <Text size="xs" className="text-white font-weight-semibold uppercase tracking-label">
+                Most Popular
+              </Text>
+            </Box>
+            <Stack gap={4} className="items-center flex-1">
+              <Kicker className="text-primary">BUNDLES</Kicker>
+              <H3 className="text-text-primary">Fill The Gaps</H3>
+              <Display size="sm" className="text-text-primary">
+                From $249
+              </Display>
+              <Body size="sm" className="text-text-muted">
+                Two products that work together. Keep what you love.
+              </Body>
+              <Stack gap={2} className="w-full text-left flex-1">
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Check className="h-4 w-4 text-success" />
+                  <Text size="sm" className="text-text-secondary">
+                    OPERATIONS — Crews + Tickets
+                  </Text>
+                </Stack>
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Check className="h-4 w-4 text-warning" />
+                  <Text size="sm" className="text-text-secondary">
+                    EXPERIENCE — Business + Tickets
+                  </Text>
+                </Stack>
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Check className="h-4 w-4 text-secondary" />
+                  <Text size="sm" className="text-text-secondary">
+                    PRODUCTION — Business + Crews
+                  </Text>
+                </Stack>
+              </Stack>
+              <NextLink href="/pricing#bundles" className="w-full mt-auto">
+                <Button variant="solid" size="md" fullWidth>
+                  See Bundles
+                </Button>
+              </NextLink>
             </Stack>
-            <NextLink href="/pricing#bundles" className="w-full mt-auto"><Button variant="accent" size="md" fullWidth inverted={false}>See Bundles</Button></NextLink>
-          </Stack>
-        </Card>
+          </Card>
 
-        <Card inverted className="border-2 border-white p-6 text-center h-full flex flex-col">
-          <Stack gap={4} className="items-center flex-1">
-            <Label size="xs" className="text-on-dark-muted">FULL STACK</Label>
-            <H3 className="text-white">REPLACE EVERYTHING</H3>
-            <Display size="md" className="text-white">$1,499</Display>
-            <Body size="sm" className="text-on-dark-secondary">All three products. Lowest fees. One platform.</Body>
-            <Stack gap={2} className="w-full text-left flex-1">
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-dark-secondary">ATLVS + COMPVSS + GVTEWAY</Text></Stack>
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-dark-secondary">2.0% transaction fees</Text></Stack>
-              <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-on-dark-secondary">Dedicated CSM + SLA</Text></Stack>
+          <Card inverted className="p-6 border-2 border-white rounded-card text-center h-full flex flex-col">
+            <Stack gap={4} className="items-center flex-1">
+              <Kicker className="text-text-muted">FULL STACK</Kicker>
+              <H3 className="text-text-primary">Replace Everything</H3>
+              <Display size="sm" className="text-text-primary">
+                $1,499
+              </Display>
+              <Body size="sm" className="text-text-secondary">
+                All three products. Lowest fees. One platform.
+              </Body>
+              <Stack gap={2} className="w-full text-left flex-1">
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Check className="h-4 w-4 text-primary" />
+                  <Text size="sm" className="text-text-secondary">
+                    ATLVS + COMPVSS + GVTEWAY
+                  </Text>
+                </Stack>
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Check className="h-4 w-4 text-primary" />
+                  <Text size="sm" className="text-text-secondary">
+                    2.0% transaction fees
+                  </Text>
+                </Stack>
+                <Stack direction="horizontal" gap={2} className="items-center">
+                  <Check className="h-4 w-4 text-primary" />
+                  <Text size="sm" className="text-text-secondary">
+                    Dedicated CSM + SLA
+                  </Text>
+                </Stack>
+              </Stack>
+              <NextLink href="/contact?plan=enterprise" className="w-full mt-auto">
+                <Button variant="outline" size="md" fullWidth>
+                  Go Enterprise
+                </Button>
+              </NextLink>
             </Stack>
-            <NextLink href="/contact?plan=enterprise" className="w-full mt-auto"><Button variant="outline" size="md" fullWidth>Go Enterprise</Button></NextLink>
-          </Stack>
-        </Card>
-      </Grid>
+          </Card>
+        </Grid>
 
-      <Stack gap={4} className="mt-12 text-center">
-        <Body size="sm" className="text-on-light-muted">No per-seat charges. Unlimited users on ATLVS and COMPVSS.</Body>
-        <NextLink href="/pricing"><Button variant="primary" size="md" inverted={false} icon={<ArrowRight />}>See Full Pricing</Button></NextLink>
-      </Stack>
-    </Container>
+        <Stack gap={4} className="mt-12 text-center items-center">
+          <Body size="sm" className="text-text-muted">
+            No per-seat charges. Unlimited users on ATLVS and COMPVSS.
+          </Body>
+          <NextLink href="/pricing">
+            <Button variant="solid" size="md" icon={<ArrowRight className="h-4 w-4" />}>
+              See Full Pricing
+            </Button>
+          </NextLink>
+        </Stack>
+      </Container>
+    </Section>
   );
 }
 
-
-// Marketing sections factory - needs router for navigation
+// =============================================================================
+// MARKETING SECTIONS FACTORY
+// =============================================================================
 function createMarketingSections(router: ReturnType<typeof useRouter>): MarketingSection[] {
   return [
     {
@@ -333,16 +742,16 @@ function createMarketingSections(router: ReturnType<typeof useRouter>): Marketin
       patternOpacity: 0.05,
       content: (
         <HeroSection
-          kicker="The Industry Standard"
-          title="The Platform for Live Entertainment"
-          description="Modular. Compatible. Scalable. Built for productions, activations, installations, and destinations of any size."
+          kicker={atlvsHeroSection.kicker}
+          title={atlvsHeroSection.title}
+          description={atlvsHeroSection.description}
           primaryCta={{
-            label: "Explore Products",
-            onClick: () => router.push("/products"),
+            label: atlvsHeroSection.primaryCta.label,
+            onClick: () => router.push(atlvsHeroSection.primaryCta.href),
           }}
           secondaryCta={{
-            label: "See Pricing",
-            onClick: () => router.push("/pricing"),
+            label: atlvsHeroSection.secondaryCta.label,
+            onClick: () => router.push(atlvsHeroSection.secondaryCta.href),
           }}
           backgroundStyle="gradient"
           pattern="none"
@@ -352,28 +761,77 @@ function createMarketingSections(router: ReturnType<typeof useRouter>): Marketin
         />
       ),
     },
-    { id: "features", background: "white", content: <VerticalsSection /> },
-    { id: "problem", background: "ink", content: <ProblemSection /> },
-    { id: "solutions", background: "white", content: <SolutionsSection /> },
-    { id: "feature-grid", background: "white", pattern: "grid", patternOpacity: 0.03, content: <FeatureGridSection /> },
-    { id: "compvss", background: "white", content: <CompvssSection /> },
-    { id: "about", background: "white", content: <SocialProofSection /> },
-    { id: "pricing", background: "white", pattern: "grid", patternOpacity: 0.03, content: <PricingSection /> },
+    {
+      id: "verticals",
+      background: "white",
+      content: <VerticalsSection />,
+    },
+    {
+      id: "problem",
+      background: "ink",
+      content: <ProblemSection />,
+    },
+    {
+      id: "solutions",
+      background: "white",
+      content: <SolutionsSection />,
+    },
+    {
+      id: "feature-grid",
+      background: "white",
+      pattern: "grid",
+      patternOpacity: 0.03,
+      content: <FeatureGridSection />,
+    },
+    {
+      id: "generator",
+      background: "ink",
+      pattern: "halftone",
+      patternOpacity: 0.05,
+      content: <GeneratorSection />,
+    },
+    {
+      id: "compvss",
+      background: "white",
+      content: <CompvssSection />,
+    },
+    {
+      id: "gvteway",
+      background: "white",
+      content: <GvtewaySection />,
+    },
+    {
+      id: "stats",
+      background: "gradient",
+      content: <StatsDisplaySection />,
+    },
+    {
+      id: "testimonials",
+      background: "white",
+      content: <TestimonialsDisplaySection />,
+    },
+    {
+      id: "pricing",
+      background: "white",
+      pattern: "grid",
+      patternOpacity: 0.03,
+      content: <PricingSection />,
+    },
     {
       id: "cta",
       background: "ink",
       pattern: "stripes",
       content: (
         <CTABanner
-          title="Not Sure Where to Start?"
-          description="Modular by design. Find the tier that fits your stack."
+          title={atlvsCtaSection.title}
+          description={atlvsCtaSection.description}
           primaryCta={{
-            label: "Explore Products",
-            onClick: () => router.push("/products"),
+            label: atlvsCtaSection.primaryCta.label,
+            onClick: () => router.push(atlvsCtaSection.primaryCta.href),
           }}
           secondaryCta={{
-            label: "See Pricing",
-            onClick: () => router.push("/pricing"),
+            label: atlvsCtaSection.secondaryCta.label,
+            onClick: () => router.push(atlvsCtaSection.secondaryCta.href),
           }}
           backgroundStyle="solid"
         />
@@ -382,16 +840,16 @@ function createMarketingSections(router: ReturnType<typeof useRouter>): Marketin
   ];
 }
 
+// =============================================================================
+// PAGE COMPONENT
+// =============================================================================
 export default function Home() {
   const router = useRouter();
   const marketingSections = createMarketingSections(router);
 
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
-      <MarketingPage
-        sections={marketingSections}
-        inverted={false}
-      />
+      <MarketingPage sections={marketingSections} inverted={false} />
     </AtlvsAppLayout>
   );
 }

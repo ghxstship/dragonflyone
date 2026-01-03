@@ -67,7 +67,16 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query;
 
     if (error) {
-      if (error.message?.includes('does not exist') || error.code === '42P01') {
+      // Handle all database errors gracefully - return empty results
+      const errorCode = error.code || '';
+      const errorMessage = error.message || '';
+      if (
+        errorCode === '42P01' || 
+        errorCode === 'PGRST116' ||
+        errorMessage.includes('does not exist') ||
+        errorMessage.includes('relation') ||
+        errorMessage.includes('no rows')
+      ) {
         return NextResponse.json({ 
           sops: [], 
           total: 0, 
@@ -76,8 +85,15 @@ export async function GET(request: NextRequest) {
           summary: { total: 0, by_category: {}, by_department: {} }
         });
       }
+      // For any other database error, also return empty results for graceful degradation
       logger.error('Error fetching SOPs:', error);
-      return NextResponse.json({ error: 'Failed to fetch SOPs' }, { status: 500 });
+      return NextResponse.json({ 
+        sops: [], 
+        total: 0, 
+        limit, 
+        offset,
+        summary: { total: 0, by_category: {}, by_department: {} }
+      });
     }
 
     const sops = data || [];

@@ -121,19 +121,19 @@ export default function AssetDetailPage() {
             <SectionHeader title="Asset Information" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Asset Tag</Body>
+                <Body size="xs" className="text-text-muted mb-1">Asset Tag</Body>
                 <Body className="text-white font-mono">{asset.tag}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Name / Description</Body>
+                <Body size="xs" className="text-text-muted mb-1">Name / Description</Body>
                 <Body className="text-white">{asset.name || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Location</Body>
+                <Body size="xs" className="text-text-muted mb-1">Location</Body>
                 <Body className="text-white">{asset.location || "Not specified"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Category</Body>
+                <Body size="xs" className="text-text-muted mb-1">Category</Body>
                 <Body className="text-white">{CATEGORY_LABELS[asset.category] || asset.category}</Body>
               </Card>
             </Grid>
@@ -144,19 +144,19 @@ export default function AssetDetailPage() {
             <SectionHeader title="Financial Details" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Purchase Price</Body>
+                <Body size="xs" className="text-text-muted mb-1">Purchase Price</Body>
                 <Body className="text-white font-mono">{formatCurrency(asset.purchase_price)}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Purchase Date</Body>
+                <Body size="xs" className="text-text-muted mb-1">Purchase Date</Body>
                 <Body className="text-white">{formatDate(asset.purchase_date || asset.acquired_at)}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Current Value</Body>
+                <Body size="xs" className="text-text-muted mb-1">Current Value</Body>
                 <Body className="text-white font-mono">{formatCurrency(currentValue)}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Depreciation Rate</Body>
+                <Body size="xs" className="text-text-muted mb-1">Depreciation Rate</Body>
                 <Body className="text-white">{asset.depreciation_rate ? `${asset.depreciation_rate}%` : "Not set"}</Body>
               </Card>
             </Grid>
@@ -167,19 +167,19 @@ export default function AssetDetailPage() {
             <SectionHeader title="Assignment" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Assigned To</Body>
+                <Body size="xs" className="text-text-muted mb-1">Assigned To</Body>
                 <Body className="text-white">{asset.assigned_to || "Unassigned"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Project</Body>
+                <Body size="xs" className="text-text-muted mb-1">Project</Body>
                 <Body className="text-white">{asset.project_id || "No project"}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Created</Body>
+                <Body size="xs" className="text-text-muted mb-1">Created</Body>
                 <Body className="text-white">{formatDate(asset.created_at)}</Body>
               </Card>
               <Card inverted className="p-4">
-                <Body size="xs" className="text-on-dark-muted mb-1">Last Updated</Body>
+                <Body size="xs" className="text-text-muted mb-1">Last Updated</Body>
                 <Body className="text-white">{formatDate(asset.updated_at)}</Body>
               </Card>
             </Grid>
@@ -195,7 +195,7 @@ export default function AssetDetailPage() {
         <Section border>
           <SectionHeader title="Asset History" />
           <Card inverted className="p-6">
-            <Body className="text-on-dark-muted">No history records available for this asset.</Body>
+            <Body className="text-text-muted">No history records available for this asset.</Body>
           </Card>
         </Section>
       ),
@@ -208,7 +208,7 @@ export default function AssetDetailPage() {
         <Section border>
           <SectionHeader title="Maintenance Records" />
           <Card inverted className="p-6">
-            <Body className="text-on-dark-muted">No maintenance records available for this asset.</Body>
+            <Body className="text-text-muted">No maintenance records available for this asset.</Body>
           </Card>
         </Section>
       ),

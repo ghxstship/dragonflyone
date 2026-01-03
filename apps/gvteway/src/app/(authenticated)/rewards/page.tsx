@@ -76,7 +76,7 @@ export default function RewardsPage() {
                 <Stack key={tier.name} gap={2}>
                   <Box className="flex justify-between">
                     <Body className="font-weight-medium">{tier.name}</Body>
-                    <Body size="sm" className="text-on-dark-muted">{tier.minPoints.toLocaleString()} pts</Body>
+                    <Body size="sm" className="text-text-muted">{tier.minPoints.toLocaleString()} pts</Body>
                   </Box>
                   <Box className="relative">
                     <ProgressBar value={tier.name === userTier ? 100 : tier.minPoints < userPoints ? 100 : 0} size="lg" />
@@ -97,7 +97,7 @@ export default function RewardsPage() {
               <Card key={idx} className="p-4">
                 <Box className="flex items-center justify-between">
                   <Box className="flex items-center gap-3">
-                    <activity.icon className="size-5 text-on-dark-muted" />
+                    <activity.icon className="size-5 text-text-muted" />
                     <Body className="font-weight-medium">{activity.name}</Body>
                   </Box>
                   <Badge variant="success">+{activity.points} pts</Badge>
@@ -117,8 +117,8 @@ export default function RewardsPage() {
           <SectionHeader title="Available Rewards" description="Redeem your points for exclusive perks" />
           {rewards.length === 0 ? (
             <Box className="text-center py-12">
-              <Gift className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="text-on-dark-muted">No rewards available</Body>
+              <Gift className="size-12 text-text-disabled mx-auto mb-4" />
+              <Body className="text-text-muted">No rewards available</Body>
             </Box>
           ) : (
             <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
@@ -129,7 +129,7 @@ export default function RewardsPage() {
                       <Badge variant={reward.available ? "outline" : "outline"}>{reward.type}</Badge>
                       <Box className="text-right">
                         <Body className="font-weight-medium">{reward.points}</Body>
-                        <Body size="sm" className="text-on-dark-muted">points</Body>
+                        <Body size="sm" className="text-text-muted">points</Body>
                       </Box>
                     </Box>
                     <Body className="font-weight-medium">{reward.name}</Body>

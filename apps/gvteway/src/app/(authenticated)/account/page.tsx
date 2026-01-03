@@ -67,7 +67,7 @@ export default function AccountPage() {
             <Section border>
               <SectionHeader title="Upcoming Events" />
               {upcomingEvents.length === 0 ? (
-                <Body className="text-on-dark-muted py-4">No upcoming events. Browse events to find your next experience!</Body>
+                <Body className="text-text-muted py-4">No upcoming events. Browse events to find your next experience!</Body>
               ) : (
                 <Stack gap={3}>
                   {upcomingEvents.map((event) => (
@@ -75,7 +75,7 @@ export default function AccountPage() {
                       <Box className="flex items-center justify-between">
                         <Box>
                           <Body className="font-weight-medium text-white">{event.name}</Body>
-                          <Body size="sm" className="text-on-dark-muted">{event.date} - {event.venue}</Body>
+                          <Body size="sm" className="text-text-muted">{event.date} - {event.venue}</Body>
                         </Box>
                         <Box className="flex items-center gap-2">
                           <Badge variant="info">{event.ticketCount} tickets</Badge>
@@ -117,15 +117,15 @@ export default function AccountPage() {
                 <Stack gap={2}>
                   <Box className="flex items-center justify-between">
                     <Body className="text-white">Purchased 2 tickets</Body>
-                    <Body size="sm" className="text-on-dark-muted">2 days ago</Body>
+                    <Body size="sm" className="text-text-muted">2 days ago</Body>
                   </Box>
                   <Box className="flex items-center justify-between">
                     <Body className="text-white">Saved New Years Eve Concert</Body>
-                    <Body size="sm" className="text-on-dark-muted">5 days ago</Body>
+                    <Body size="sm" className="text-text-muted">5 days ago</Body>
                   </Box>
                   <Box className="flex items-center justify-between">
                     <Body className="text-white">Updated payment method</Body>
-                    <Body size="sm" className="text-on-dark-muted">1 week ago</Body>
+                    <Body size="sm" className="text-text-muted">1 week ago</Body>
                   </Box>
                 </Stack>
               </Section>
@@ -142,8 +142,8 @@ export default function AccountPage() {
         <Section>
           <SectionHeader title="Your Tickets" description="View and manage your event tickets" />
           <Box className="text-center py-12">
-            <Ticket className="size-12 text-on-dark-disabled mx-auto mb-4" />
-            <Body className="text-on-dark-muted mb-4">View all your tickets in one place</Body>
+            <Ticket className="size-12 text-text-disabled mx-auto mb-4" />
+            <Body className="text-text-muted mb-4">View all your tickets in one place</Body>
             <Button variant="solid" onClick={() => router.push("/account/tickets")}>
               View All Tickets
             </Button>
@@ -159,8 +159,8 @@ export default function AccountPage() {
         <Section>
           <SectionHeader title="Order History" description="View your past orders and purchases" />
           <Box className="text-center py-12">
-            <ShoppingBag className="size-12 text-on-dark-disabled mx-auto mb-4" />
-            <Body className="text-on-dark-muted mb-4">View your complete order history</Body>
+            <ShoppingBag className="size-12 text-text-disabled mx-auto mb-4" />
+            <Body className="text-text-muted mb-4">View your complete order history</Body>
             <Button variant="solid" onClick={() => router.push("/account/orders")}>
               View All Orders
             </Button>

@@ -46,8 +46,8 @@ export const Newsletter = forwardRef<HTMLDivElement, NewsletterProps>(
             className={clsx(
               "flex-1 px-spacing-4 py-spacing-3 font-body border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors",
               inverted
-                ? "bg-transparent border-on-dark-primary text-on-dark-primary placeholder:text-on-dark-muted focus:ring-on-dark-primary"
-                : "bg-surface-primary border-border-primary text-on-light-primary placeholder:text-on-dark-disabled focus:ring-border-primary"
+                ? "bg-transparent border-on-dark-primary text-text-primary placeholder:text-text-muted focus:ring-on-dark-primary"
+                : "bg-surface-primary border-border-primary text-text-primary placeholder:text-text-disabled focus:ring-border-primary"
             )}
             disabled={loading || success}
           />
@@ -57,8 +57,8 @@ export const Newsletter = forwardRef<HTMLDivElement, NewsletterProps>(
             className={clsx(
               "px-spacing-6 py-spacing-3 font-heading uppercase tracking-wider leading-none border-2 transition-all min-w-container-xs",
               inverted
-                ? "border-on-dark-primary bg-transparent text-on-dark-primary hover:bg-surface-primary hover:text-on-light-primary disabled:opacity-50"
-                : "border-border-primary bg-surface-inverse text-on-dark-primary hover:bg-surface-primary hover:text-on-light-primary disabled:opacity-50"
+                ? "border-on-dark-primary bg-transparent text-text-primary hover:bg-surface-primary hover:text-text-primary disabled:opacity-50"
+                : "border-border-primary bg-surface-inverse text-text-primary hover:bg-surface-primary hover:text-text-primary disabled:opacity-50"
             )}
           >
             {success ? "Done!" : loading ? "..." : buttonText}

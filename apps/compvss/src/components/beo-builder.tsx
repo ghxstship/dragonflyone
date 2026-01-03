@@ -137,7 +137,7 @@ export function BEOBuilder({ initialSections = [], onSave, isLoading }: BEOBuild
             <CardHeader>
               <Stack direction="horizontal" gap={4} className="items-center justify-between">
                 <Stack direction="horizontal" gap={3} className="items-center">
-                  <GripVertical className="size-4 text-on-dark-disabled cursor-grab" />
+                  <GripVertical className="size-4 text-text-disabled cursor-grab" />
                   {SECTION_ICONS[section.type]}
                   <Input
                     value={section.title}
@@ -169,8 +169,8 @@ export function BEOBuilder({ initialSections = [], onSave, isLoading }: BEOBuild
       {sections.length === 0 && (
         <Card inverted className="border-2 border-dashed border-border p-8">
           <Stack gap={4} className="items-center justify-center">
-            <Plus className="size-8 text-on-dark-disabled" />
-            <Body className="text-on-dark-muted">Add sections to build your BEO</Body>
+            <Plus className="size-8 text-text-disabled" />
+            <Body className="text-text-muted">Add sections to build your BEO</Body>
           </Stack>
         </Card>
       )}
@@ -239,7 +239,7 @@ function BEOSectionEditor({ section, onUpdate }: BEOSectionEditorProps) {
 
     default:
       return (
-        <Body size="sm" className="text-on-dark-muted">
+        <Body size="sm" className="text-text-muted">
           Section editor for {section.type} - content can be edited in JSON format
         </Body>
       );

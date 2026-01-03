@@ -54,10 +54,10 @@ export default function VerifyEmailPage() {
         
         <Stack gap={3} className="items-center">
           <H2 className="text-white">Verify Your Email</H2>
-          <Body className="text-on-dark-secondary max-w-sm">
+          <Body className="text-text-secondary max-w-sm">
             We&apos;ve sent a verification link to your email address. Please check your inbox and click the link to activate your account.
           </Body>
-          <Body size="sm" className="text-on-dark-disabled max-w-sm">
+          <Body size="sm" className="text-text-disabled max-w-sm">
             If you don&apos;t see the email, check your spam folder.
           </Body>
         </Stack>

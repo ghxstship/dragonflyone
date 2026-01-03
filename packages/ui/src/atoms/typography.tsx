@@ -194,8 +194,8 @@ export const Body = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagrap
 
     // Only apply variant colors when explicitly set - otherwise inherit from parent
     const variantClasses = {
-      muted: "text-on-light-muted",
-      subtle: "text-on-light-muted",
+      muted: "text-text-muted",
+      subtle: "text-text-muted",
       inverted: "text-white",
     };
     

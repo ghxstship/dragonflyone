@@ -53,9 +53,9 @@ export default function CartPage() {
       <Section>
         {items.length === 0 ? (
           <Card className="p-8 text-center">
-            <ShoppingCart className="size-12 text-on-dark-disabled mx-auto mb-4" />
+            <ShoppingCart className="size-12 text-text-disabled mx-auto mb-4" />
             <Body className="font-weight-medium mb-2">Your cart is empty</Body>
-            <Body className="text-on-dark-muted mb-4">Browse events to find tickets</Body>
+            <Body className="text-text-muted mb-4">Browse events to find tickets</Body>
             <Button variant="solid" onClick={() => router.push("/browse")}>Browse Events</Button>
           </Card>
         ) : (
@@ -66,7 +66,7 @@ export default function CartPage() {
                   <Box className="flex items-center justify-between">
                     <Box>
                       <Body className="font-weight-bold">{item.name}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{item.type}</Body>
+                      <Body size="sm" className="text-text-muted">{item.type}</Body>
                     </Box>
                     <Box className="flex items-center gap-4">
                       <Box className="flex items-center gap-2">
@@ -84,8 +84,8 @@ export default function CartPage() {
             <Card className="p-6 h-fit">
               <SectionHeader title="Order Summary" />
               <Stack gap={3} className="mt-4">
-                <Box className="flex justify-between"><Body className="text-on-dark-muted">Subtotal</Body><Body>{formatCurrency(subtotal)}</Body></Box>
-                <Box className="flex justify-between"><Body className="text-on-dark-muted">Service Fees</Body><Body>{formatCurrency(fees)}</Body></Box>
+                <Box className="flex justify-between"><Body className="text-text-muted">Subtotal</Body><Body>{formatCurrency(subtotal)}</Body></Box>
+                <Box className="flex justify-between"><Body className="text-text-muted">Service Fees</Body><Body>{formatCurrency(fees)}</Body></Box>
                 <Box className="border-t border-border pt-3 flex justify-between"><Body className="font-weight-bold">Total</Body><Body className="font-weight-bold">{formatCurrency(total)}</Body></Box>
               </Stack>
               <Button variant="solid" className="w-full mt-6" icon={<CreditCard className="size-4" />} iconPosition="left" onClick={() => router.push("/checkout")}>Checkout</Button>

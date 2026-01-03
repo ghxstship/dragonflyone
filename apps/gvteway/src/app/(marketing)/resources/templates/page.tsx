@@ -107,7 +107,7 @@ export default function TemplatesPage() {
                   })}
                 </Stack>
                 <Box className="relative w-64">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-muted" />
                   <Input
                     placeholder="Search templates..."
                     value={searchQuery}
@@ -128,8 +128,8 @@ export default function TemplatesPage() {
                 {filteredTemplates.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border">
                     <Stack gap={4} className="items-center">
-                      <Filter className="size-12 text-on-dark-muted" />
-                      <Body className="text-on-dark-muted">No templates match your search criteria.</Body>
+                      <Filter className="size-12 text-text-muted" />
+                      <Body className="text-text-muted">No templates match your search criteria.</Body>
                       <Button variant="outline" onClick={() => { setSearchQuery(""); setSelectedCategory("all"); }}>
                         Clear Filters
                       </Button>
@@ -148,7 +148,7 @@ export default function TemplatesPage() {
                           <Stack gap={4}>
                             <Stack direction="horizontal" className="justify-between items-start">
                               <Box className="p-2 bg-surface-elevated rounded-card group-hover:bg-primary/20 transition-colors">
-                                <FileText className="size-5 text-on-dark-muted group-hover:text-primary transition-colors" />
+                                <FileText className="size-5 text-text-muted group-hover:text-primary transition-colors" />
                               </Box>
                               <Stack direction="horizontal" gap={2}>
                                 {template.new && <Badge variant="success">New</Badge>}
@@ -159,7 +159,7 @@ export default function TemplatesPage() {
                               <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">
                                 {template.title}
                               </Body>
-                              <Body size="sm" className="text-on-dark-muted line-clamp-2">
+                              <Body size="sm" className="text-text-muted line-clamp-2">
                                 {template.description}
                               </Body>
                             </Stack>
@@ -169,13 +169,13 @@ export default function TemplatesPage() {
                                 {formatInfo.label}
                               </Badge>
                               {template.fileSize && (
-                                <Body size="sm" className="text-on-dark-disabled">
+                                <Body size="sm" className="text-text-disabled">
                                   {template.fileSize}
                                 </Body>
                               )}
                             </Stack>
                             {template.downloads && (
-                              <Body size="sm" className="text-on-dark-disabled">
+                              <Body size="sm" className="text-text-disabled">
                                 {template.downloads.toLocaleString()} downloads
                               </Body>
                             )}
@@ -208,7 +208,7 @@ export default function TemplatesPage() {
                 <Stack gap={6}>
                   <Stack gap={2} className="text-center">
                     <H3 className="text-white">Import-Ready Templates</H3>
-                    <Body className="text-on-dark-muted max-w-2xl mx-auto">
+                    <Body className="text-text-muted max-w-2xl mx-auto">
                       All templates are dual-purpose: use them as human-readable documents or import directly into GVTEWAY. 
                       Each template includes database-compatible headers and import instructions.
                     </Body>
@@ -216,15 +216,15 @@ export default function TemplatesPage() {
                   <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
                     <Stack gap={2} className="text-center">
                       <Body className="text-primary font-weight-bold">1. Download</Body>
-                      <Body size="sm" className="text-on-dark-muted">Get the template in CSV or Markdown format</Body>
+                      <Body size="sm" className="text-text-muted">Get the template in CSV or Markdown format</Body>
                     </Stack>
                     <Stack gap={2} className="text-center">
                       <Body className="text-primary font-weight-bold">2. Fill In</Body>
-                      <Body size="sm" className="text-on-dark-muted">Add your data following the field definitions</Body>
+                      <Body size="sm" className="text-text-muted">Add your data following the field definitions</Body>
                     </Stack>
                     <Stack gap={2} className="text-center">
                       <Body className="text-primary font-weight-bold">3. Import</Body>
-                      <Body size="sm" className="text-on-dark-muted">Use Settings → Data Import to bulk upload</Body>
+                      <Body size="sm" className="text-text-muted">Use Settings → Data Import to bulk upload</Body>
                     </Stack>
                   </Grid>
                 </Stack>

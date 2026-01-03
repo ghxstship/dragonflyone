@@ -120,7 +120,7 @@ export default function BEOVersionsPage() {
                       <Body className="font-weight-medium text-white">
                         {version.changes_summary || `Version ${version.version}`}
                       </Body>
-                      <Body size="sm" className="text-on-dark-muted">
+                      <Body size="sm" className="text-text-muted">
                         <Clock className="size-3 inline mr-1" />
                         {formatDate(version.created_at)}
                         {version.updated_by && ` by ${version.updated_by.full_name}`}

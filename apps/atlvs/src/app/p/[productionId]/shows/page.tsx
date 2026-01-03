@@ -78,7 +78,7 @@ export default function ProductionShowsPage() {
                   <Box className="flex items-start justify-between">
                     <Box>
                       <Body className="font-weight-bold font-weight-medium">{show.name}</Body>
-                      <Box className="flex items-center gap-4 mt-2 text-on-dark-muted">
+                      <Box className="flex items-center gap-4 mt-2 text-text-muted">
                         <Box className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(show.date)}</Body></Box>
                         <Box className="flex items-center gap-1"><Clock className="size-4" /><Body size="sm">{show.time}</Body></Box>
                         <Box className="flex items-center gap-1"><MapPin className="size-4" /><Body size="sm">{show.venue}</Body></Box>
@@ -88,7 +88,7 @@ export default function ProductionShowsPage() {
                       <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
                       <Box className="mt-2">
                         <Body className="font-weight-bold">{show.tickets_sold.toLocaleString()} / {show.capacity.toLocaleString()}</Body>
-                        <Body size="sm" className="text-on-dark-muted">{sellThrough}% sold</Body>
+                        <Body size="sm" className="text-text-muted">{sellThrough}% sold</Body>
                       </Box>
                     </Box>
                   </Box>
@@ -107,9 +107,9 @@ export default function ProductionShowsPage() {
         <Section>
           <SectionHeader title="Show Calendar" description="View shows on a calendar" />
           <Card className="p-8 text-center mt-4">
-            <Calendar className="size-12 text-on-dark-disabled mx-auto mb-4" />
+            <Calendar className="size-12 text-text-disabled mx-auto mb-4" />
             <Body className="font-weight-medium font-weight-medium mb-2">Calendar View</Body>
-            <Body className="text-on-dark-muted">Calendar visualization coming soon</Body>
+            <Body className="text-text-muted">Calendar visualization coming soon</Body>
           </Card>
         </Section>
       ),

@@ -182,27 +182,27 @@ export function RefundDialog({
         <div className="p-3 bg-muted/30 rounded-card space-y-1">
           {customerName && (
             <p className="text-body-sm">
-              <span className="text-on-light-muted">Customer:</span> {customerName}
+              <span className="text-text-muted">Customer:</span> {customerName}
             </p>
           )}
           <p className="text-body-sm">
-            <span className="text-on-light-muted">Original Amount:</span>{" "}
+            <span className="text-text-muted">Original Amount:</span>{" "}
             {formatCurrency(originalAmount, currency)}
           </p>
           <p className="text-body-sm">
-            <span className="text-on-light-muted">Amount Paid:</span>{" "}
+            <span className="text-text-muted">Amount Paid:</span>{" "}
             {formatCurrency(amountPaid, currency)}
           </p>
           {transactionDate && (
             <p className="text-body-sm">
-              <span className="text-on-light-muted">Date:</span> {transactionDate}
+              <span className="text-text-muted">Date:</span> {transactionDate}
             </p>
           )}
         </div>
 
         {/* Refund Type */}
         <div className="space-y-2">
-          <p className="text-body-xs text-on-light-muted font-semibold">
+          <p className="text-body-xs text-text-muted font-semibold">
             Refund Type
           </p>
           <div className="flex gap-2">
@@ -236,11 +236,11 @@ export function RefundDialog({
         {/* Partial Amount */}
         {refundType === "partial" && (
           <div>
-            <label className="text-body-xs text-on-light-muted font-semibold block mb-1">
+            <label className="text-body-xs text-text-muted font-semibold block mb-1">
               Refund Amount
             </label>
             <div className="relative">
-              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-on-light-muted" />
+              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
               <input
                 type="number"
                 step="0.01"
@@ -253,7 +253,7 @@ export function RefundDialog({
                 disabled={isLoading}
               />
             </div>
-            <p className="text-body-xs text-on-light-muted mt-1">
+            <p className="text-body-xs text-text-muted mt-1">
               Maximum: {formatCurrency(amountPaid, currency)}
             </p>
           </div>
@@ -261,7 +261,7 @@ export function RefundDialog({
 
         {/* Reason */}
         <div>
-          <label className="text-body-xs text-on-light-muted font-semibold block mb-1">
+          <label className="text-body-xs text-text-muted font-semibold block mb-1">
             Reason for Refund *
           </label>
           <select
@@ -281,7 +281,7 @@ export function RefundDialog({
 
         {/* Notes */}
         <div>
-          <label className="text-body-xs text-on-light-muted font-semibold block mb-1">
+          <label className="text-body-xs text-text-muted font-semibold block mb-1">
             Additional Notes
           </label>
           <textarea
@@ -299,7 +299,7 @@ export function RefundDialog({
           <p className="text-body-sm font-semibold">
             Refund Amount: {formatCurrency(refundAmount, currency)}
           </p>
-          <p className="text-body-xs text-on-light-muted mt-1">
+          <p className="text-body-xs text-text-muted mt-1">
             This action cannot be undone. The refund will be processed to the original payment method.
           </p>
         </div>

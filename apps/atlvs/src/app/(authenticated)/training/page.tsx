@@ -177,7 +177,7 @@ export default function TrainingPage() {
     <Stack gap={6}>
       {/* Categories */}
       <Card className="p-5 border-2 border-border rounded-card">
-        <Body className="text-on-dark-primary font-weight-bold mb-4">Categories</Body>
+        <Body className="text-text-primary font-weight-bold mb-4">Categories</Body>
         <Stack gap={2}>
           {CATEGORIES.map((category) => (
             <Button
@@ -199,15 +199,15 @@ export default function TrainingPage() {
       <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Star className="size-5 text-warning" />
-          <Body className="text-on-dark-primary font-weight-bold">Recommended Path</Body>
+          <Body className="text-text-primary font-weight-bold">Recommended Path</Body>
         </Box>
         <Stack gap={3}>
           {["ATLVS Fundamentals", "Financial Management", "Team Collaboration", "Advanced Analytics"].map((course, idx) => (
             <Box key={idx} className="flex items-center gap-3">
-              <Box className={`size-6 rounded-[var(--radius-circle)] flex items-center justify-center text-xs font-bold ${idx === 0 ? 'bg-success text-on-dark-primary' : idx === 1 ? 'bg-primary text-on-dark-primary' : 'bg-border text-on-dark-disabled'}`}>
+              <Box className={`size-6 rounded-[var(--radius-circle)] flex items-center justify-center text-xs font-bold ${idx === 0 ? 'bg-success text-text-primary' : idx === 1 ? 'bg-primary text-text-primary' : 'bg-border text-text-disabled'}`}>
                 {idx + 1}
               </Box>
-              <Body size="sm" className={idx < 2 ? "text-on-dark-primary" : "text-on-dark-disabled"}>
+              <Body size="sm" className={idx < 2 ? "text-text-primary" : "text-text-disabled"}>
                 {course}
               </Body>
               {idx === 0 && <CheckCircle className="size-4 text-success ml-auto" />}
@@ -220,16 +220,16 @@ export default function TrainingPage() {
       <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Video className="size-5 text-primary" />
-          <Body className="text-on-dark-primary font-weight-bold">Live Sessions</Body>
+          <Body className="text-text-primary font-weight-bold">Live Sessions</Body>
         </Box>
         <Stack gap={3}>
           <Box className="p-3 bg-surface-elevated rounded-card">
-            <Body size="sm" className="text-on-dark-primary font-weight-medium">Production Planning Workshop</Body>
-            <Body size="xs" className="text-on-dark-muted">Jan 15, 2026 at 2:00 PM EST</Body>
+            <Body size="sm" className="text-text-primary font-weight-medium">Production Planning Workshop</Body>
+            <Body size="xs" className="text-text-muted">Jan 15, 2026 at 2:00 PM EST</Body>
           </Box>
           <Box className="p-3 bg-surface-elevated rounded-card">
-            <Body size="sm" className="text-on-dark-primary font-weight-medium">Q&A: Financial Best Practices</Body>
-            <Body size="xs" className="text-on-dark-muted">Jan 22, 2026 at 11:00 AM EST</Body>
+            <Body size="sm" className="text-text-primary font-weight-medium">Q&A: Financial Best Practices</Body>
+            <Body size="xs" className="text-text-muted">Jan 22, 2026 at 11:00 AM EST</Body>
           </Box>
         </Stack>
         <Button variant="outline" size="sm" fullWidth className="mt-4">
@@ -288,7 +288,7 @@ export default function TrainingPage() {
                   <Box className="flex gap-4">
                     <Box className={`p-4 rounded-card shrink-0 ${course.locked ? 'bg-surface-elevated' : 'bg-primary/20'}`}>
                       {course.locked ? (
-                        <Lock className="size-8 text-on-dark-disabled" />
+                        <Lock className="size-8 text-text-disabled" />
                       ) : (
                         <GraduationCap className="size-8 text-primary" />
                       )}
@@ -308,16 +308,16 @@ export default function TrainingPage() {
                               <Badge variant="outline" size="sm">Locked</Badge>
                             )}
                           </Box>
-                          <Body className={`font-weight-bold ${course.locked ? 'text-on-dark-disabled' : 'text-on-dark-primary'}`}>
+                          <Body className={`font-weight-bold ${course.locked ? 'text-text-disabled' : 'text-text-primary'}`}>
                             {course.title}
                           </Body>
                         </Box>
                       </Box>
-                      <Body size="sm" className="text-on-dark-muted mb-3 line-clamp-2">
+                      <Body size="sm" className="text-text-muted mb-3 line-clamp-2">
                         {course.description}
                       </Body>
                       <Box className="flex items-center justify-between flex-wrap gap-2">
-                        <Box className="flex items-center gap-4 text-on-dark-disabled">
+                        <Box className="flex items-center gap-4 text-text-disabled">
                           <Box className="flex items-center gap-1">
                             <Clock className="size-4" />
                             <Body size="sm">{course.duration}</Body>
@@ -333,7 +333,7 @@ export default function TrainingPage() {
                               value={(course.completedModules / course.modules) * 100} 
                               className="w-24" 
                             />
-                            <Body size="sm" className="text-on-dark-secondary">
+                            <Body size="sm" className="text-text-secondary">
                               {course.completedModules}/{course.modules}
                             </Body>
                           </Box>
@@ -360,7 +360,7 @@ export default function TrainingPage() {
               {/* In Progress */}
               {inProgressCourses.length > 0 && (
                 <Box>
-                  <Body className="text-on-dark-primary font-weight-bold mb-4">In Progress</Body>
+                  <Body className="text-text-primary font-weight-bold mb-4">In Progress</Body>
                   <Stack gap={4}>
                     {inProgressCourses.map((course) => (
                       <Card 
@@ -373,13 +373,13 @@ export default function TrainingPage() {
                             <Play className="size-6 text-primary" />
                           </Box>
                           <Box className="flex-1">
-                            <Body className="text-on-dark-primary font-weight-medium">{course.title}</Body>
+                            <Body className="text-text-primary font-weight-medium">{course.title}</Body>
                             <Box className="flex items-center gap-2 mt-2">
                               <ProgressBar 
                                 value={(course.completedModules / course.modules) * 100} 
                                 className="flex-1" 
                               />
-                              <Body size="sm" className="text-on-dark-secondary">
+                              <Body size="sm" className="text-text-secondary">
                                 {Math.round((course.completedModules / course.modules) * 100)}%
                               </Body>
                             </Box>
@@ -397,7 +397,7 @@ export default function TrainingPage() {
               {/* Completed */}
               {completedCourses.length > 0 && (
                 <Box>
-                  <Body className="text-on-dark-primary font-weight-bold mb-4">Completed</Body>
+                  <Body className="text-text-primary font-weight-bold mb-4">Completed</Body>
                   <Stack gap={4}>
                     {completedCourses.map((course) => (
                       <Card 
@@ -409,8 +409,8 @@ export default function TrainingPage() {
                             <CheckCircle className="size-6 text-success" />
                           </Box>
                           <Box className="flex-1">
-                            <Body className="text-on-dark-primary font-weight-medium">{course.title}</Body>
-                            <Body size="sm" className="text-on-dark-muted">Completed</Body>
+                            <Body className="text-text-primary font-weight-medium">{course.title}</Body>
+                            <Body size="sm" className="text-text-muted">Completed</Body>
                           </Box>
                           <Button variant="outline" size="sm">
                             Review
@@ -424,9 +424,9 @@ export default function TrainingPage() {
 
               {enrolledCourses.length === 0 && (
                 <Card className="p-8 border-2 border-border rounded-card text-center">
-                  <BookOpen className="size-12 text-on-dark-disabled mx-auto mb-4" />
-                  <Body className="text-on-dark-primary font-weight-bold mb-2">No courses enrolled</Body>
-                  <Body size="sm" className="text-on-dark-muted mb-4">
+                  <BookOpen className="size-12 text-text-disabled mx-auto mb-4" />
+                  <Body className="text-text-primary font-weight-bold mb-2">No courses enrolled</Body>
+                  <Body size="sm" className="text-text-muted mb-4">
                     Start your learning journey by enrolling in a course.
                   </Body>
                   <Button variant="solid" onClick={() => setActiveTab("courses")}>
@@ -448,11 +448,11 @@ export default function TrainingPage() {
                         <Award className="size-10 text-warning" />
                       </Box>
                       <Box className="flex-1">
-                        <Body className="text-on-dark-primary font-weight-bold">{cert.title}</Body>
-                        <Body size="sm" className="text-on-dark-muted">
+                        <Body className="text-text-primary font-weight-bold">{cert.title}</Body>
+                        <Body size="sm" className="text-text-muted">
                           Issued: {formatDate(cert.issuedDate)}
                         </Body>
-                        <Body size="sm" className="text-on-dark-disabled">
+                        <Body size="sm" className="text-text-disabled">
                           Credential ID: {cert.credentialId}
                         </Body>
                       </Box>
@@ -469,9 +469,9 @@ export default function TrainingPage() {
                 ))
               ) : (
                 <Card className="p-8 border-2 border-border rounded-card text-center">
-                  <Award className="size-12 text-on-dark-disabled mx-auto mb-4" />
-                  <Body className="text-on-dark-primary font-weight-bold mb-2">No certificates yet</Body>
-                  <Body size="sm" className="text-on-dark-muted mb-4">
+                  <Award className="size-12 text-text-disabled mx-auto mb-4" />
+                  <Body className="text-text-primary font-weight-bold mb-2">No certificates yet</Body>
+                  <Body size="sm" className="text-text-muted mb-4">
                     Complete courses to earn certificates.
                   </Body>
                   <Button variant="solid" onClick={() => setActiveTab("courses")}>

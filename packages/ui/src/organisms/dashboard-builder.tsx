@@ -211,8 +211,8 @@ function SortableWidget({
               className={clsx(
                 "p-1 cursor-grab active:cursor-grabbing rounded",
                 inverted
-                  ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-inverse"
-                  : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                  ? "text-text-muted hover:text-text-primary hover:bg-surface-inverse"
+                  : "text-text-muted hover:text-text-primary hover:bg-muted"
               )}
             >
               <Move size={14} />
@@ -221,7 +221,7 @@ function SortableWidget({
           <h3
             className={clsx(
               "font-semibold text-sm",
-              inverted ? "text-on-dark-primary" : "text-on-light-primary"
+              inverted ? "text-text-primary" : "text-text-primary"
             )}
           >
             {widget.title}
@@ -236,8 +236,8 @@ function SortableWidget({
               className={clsx(
                 "p-1 rounded transition-colors",
                 inverted
-                  ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-inverse"
-                  : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                  ? "text-text-muted hover:text-text-primary hover:bg-surface-inverse"
+                  : "text-text-muted hover:text-text-primary hover:bg-muted"
               )}
             >
               <Settings size={14} />
@@ -248,8 +248,8 @@ function SortableWidget({
               className={clsx(
                 "p-1 rounded transition-colors",
                 inverted
-                  ? "text-on-dark-muted hover:text-error-400 hover:bg-surface-inverse"
-                  : "text-on-light-muted hover:text-error-600 hover:bg-muted"
+                  ? "text-text-muted hover:text-error-400 hover:bg-surface-inverse"
+                  : "text-text-muted hover:text-error-600 hover:bg-muted"
               )}
             >
               <Trash2 size={14} />
@@ -266,7 +266,7 @@ function SortableWidget({
           <div
             className={clsx(
               "flex items-center justify-center h-full text-sm",
-              inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+              inverted ? "text-text-disabled" : "text-text-disabled"
             )}
           >
             {widget.type.replace("_", " ")}
@@ -303,7 +303,7 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
           <h2
             className={clsx(
               "font-semibold text-lg",
-              inverted ? "text-on-dark-primary" : "text-on-light-primary"
+              inverted ? "text-text-primary" : "text-text-primary"
             )}
           >
             Add Widget
@@ -314,8 +314,8 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
             className={clsx(
               "p-1 rounded transition-colors",
               inverted
-                ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
-                : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated"
+                : "text-text-muted hover:text-text-primary hover:bg-muted"
             )}
           >
             <X size={20} />
@@ -350,7 +350,7 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
                 <div
                   className={clsx(
                     "font-medium text-sm",
-                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                    inverted ? "text-text-primary" : "text-text-primary"
                   )}
                 >
                   {item.label}
@@ -358,7 +358,7 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
                 <div
                   className={clsx(
                     "text-xs",
-                    inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                    inverted ? "text-text-disabled" : "text-text-disabled"
                   )}
                 >
                   {item.description}
@@ -417,8 +417,8 @@ function WidgetSettings({
         className={clsx(
           "px-4 py-2 rounded-lg border-2 font-medium transition-colors",
           inverted
-            ? "border-border text-on-dark-secondary hover:bg-surface-elevated"
-            : "border-border text-on-light-muted hover:bg-muted"
+            ? "border-border text-text-secondary hover:bg-surface-elevated"
+            : "border-border text-text-muted hover:bg-muted"
         )}
       >
         Cancel
@@ -455,7 +455,7 @@ function WidgetSettings({
           <label
             className={clsx(
               "block text-sm font-medium mb-1",
-              inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
+              inverted ? "text-text-secondary" : "text-text-secondary"
             )}
           >
             Title
@@ -467,8 +467,8 @@ function WidgetSettings({
             className={clsx(
               "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
               inverted
-                ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
-                : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
+                ? "bg-surface-elevated border-border text-text-primary focus:border-primary-500"
+                : "bg-surface-primary border-border text-text-primary focus:border-primary-500"
             )}
           />
         </div>
@@ -478,7 +478,7 @@ function WidgetSettings({
           <label
             className={clsx(
               "block text-sm font-medium mb-1",
-              inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
+              inverted ? "text-text-secondary" : "text-text-secondary"
             )}
           >
             Size
@@ -489,8 +489,8 @@ function WidgetSettings({
             className={clsx(
               "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
               inverted
-                ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
-                : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
+                ? "bg-surface-elevated border-border text-text-primary focus:border-primary-500"
+                : "bg-surface-primary border-border text-text-primary focus:border-primary-500"
             )}
           >
             <option value="small">Small (1x1)</option>
@@ -505,7 +505,7 @@ function WidgetSettings({
           <label
             className={clsx(
               "block text-sm font-medium mb-1",
-              inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
+              inverted ? "text-text-secondary" : "text-text-secondary"
             )}
           >
             Data Source
@@ -516,8 +516,8 @@ function WidgetSettings({
             className={clsx(
               "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
               inverted
-                ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
-                : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
+                ? "bg-surface-elevated border-border text-text-primary focus:border-primary-500"
+                : "bg-surface-primary border-border text-text-primary focus:border-primary-500"
             )}
           >
             <option value="">Select data source...</option>
@@ -534,7 +534,7 @@ function WidgetSettings({
           <label
             className={clsx(
               "block text-sm font-medium mb-1",
-              inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
+              inverted ? "text-text-secondary" : "text-text-secondary"
             )}
           >
             Auto-refresh (seconds, 0 = disabled)
@@ -547,8 +547,8 @@ function WidgetSettings({
             className={clsx(
               "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
               inverted
-                ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
-                : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
+                ? "bg-surface-elevated border-border text-text-primary focus:border-primary-500"
+                : "bg-surface-primary border-border text-text-primary focus:border-primary-500"
             )}
           />
         </div>
@@ -726,8 +726,8 @@ export function DashboardBuilder({
                     dashboard.isDefault
                       ? "border-warning-500 text-warning-500"
                       : inverted
-                      ? "border-border text-on-dark-muted hover:text-warning-400"
-                      : "border-border text-on-light-muted hover:text-warning-600"
+                      ? "border-border text-text-muted hover:text-warning-400"
+                      : "border-border text-text-muted hover:text-warning-600"
                   )}
                   aria-label={dashboard.isDefault ? "Default dashboard" : "Set as default"}
                 >
@@ -743,8 +743,8 @@ export function DashboardBuilder({
                   className={clsx(
                     "p-2 rounded-lg border-2 transition-colors",
                     inverted
-                      ? "border-border text-on-dark-muted hover:text-on-dark-primary"
-                      : "border-border text-on-light-muted hover:text-on-light-primary"
+                      ? "border-border text-text-muted hover:text-text-primary"
+                      : "border-border text-text-muted hover:text-text-primary"
                   )}
                   aria-label="Duplicate dashboard"
                 >
@@ -762,8 +762,8 @@ export function DashboardBuilder({
                     dashboard.isPublic
                       ? "border-success-500 text-success-500"
                       : inverted
-                      ? "border-border text-on-dark-muted hover:text-on-dark-primary"
-                      : "border-border text-on-light-muted hover:text-on-light-primary"
+                      ? "border-border text-text-muted hover:text-text-primary"
+                      : "border-border text-text-muted hover:text-text-primary"
                   )}
                   aria-label={dashboard.isPublic ? "Shared" : "Share dashboard"}
                 >
@@ -807,7 +807,7 @@ export function DashboardBuilder({
               <div
                 className={clsx(
                   "col-span-4 flex flex-col items-center justify-center py-16 rounded-lg border-2 border-dashed",
-                  inverted ? "border-border text-on-dark-disabled" : "border-border text-on-light-disabled"
+                  inverted ? "border-border text-text-disabled" : "border-border text-text-disabled"
                 )}
               >
                 <p className="text-lg font-medium mb-2">No widgets yet</p>

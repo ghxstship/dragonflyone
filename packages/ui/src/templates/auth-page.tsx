@@ -128,10 +128,10 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
       ? background === "black"
         ? "bg-black text-white"
         : background === "ink"
-          ? "bg-surface-inverse text-on-dark-primary"
-          : "bg-surface-primary text-on-light-primary"
+          ? "bg-surface-inverse text-text-primary"
+          : "bg-surface-primary text-text-primary"
       : isDark
-        ? "bg-surface-inverse text-on-dark-primary"
+        ? "bg-surface-inverse text-text-primary"
         : "bg-white text-black";
 
     // Render state content
@@ -144,8 +144,8 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
       <Stack gap={6} className="items-center text-center">
         {icon}
         <Stack gap={2} className="items-center">
-          <H2 className={isDark ? "text-on-dark-primary" : "text-on-light-primary"}>{title}</H2>
-          <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>{message}</Body>
+          <H2 className={isDark ? "text-text-primary" : "text-text-primary"}>{title}</H2>
+          <Body className={isDark ? "text-text-muted" : "text-text-muted"}>{message}</Body>
         </Stack>
         {action}
       </Stack>
@@ -185,14 +185,14 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
         <Stack gap={6}>
           {(title || subtitle) && (
             <Stack gap={2} className="text-center">
-              {title && <H2 className={isDark ? "text-on-dark-primary" : "text-on-light-primary"}>{title}</H2>}
-              {subtitle && <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>{subtitle}</Body>}
+              {title && <H2 className={isDark ? "text-text-primary" : "text-text-primary"}>{title}</H2>}
+              {subtitle && <Body className={isDark ? "text-text-muted" : "text-text-muted"}>{subtitle}</Body>}
             </Stack>
           )}
           {children}
           {footerLink && (
             <div className="text-center mt-4">
-              <Body size="sm" className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body size="sm" className={isDark ? "text-text-muted" : "text-text-muted"}>
                 {footerLink.text}{" "}
                 <a href={footerLink.linkHref} className="text-primary hover:underline font-medium">{footerLink.linkText}</a>
               </Body>
@@ -232,7 +232,7 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
                 className={clsx(
                   "font-display text-xl uppercase tracking-tight transition-transform hover:-translate-y-0.5",
                   "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded",
-                  isDark ? "text-on-dark-primary" : "text-on-light-primary"
+                  isDark ? "text-text-primary" : "text-text-primary"
                 )}
               >
                 {appName}
@@ -276,8 +276,8 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
                           "text-xs uppercase tracking-wide transition-colors",
                           "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded px-1",
                           isDark
-                            ? "text-on-dark-muted hover:text-white"
-                            : "text-on-light-muted hover:text-black"
+                            ? "text-text-muted hover:text-white"
+                            : "text-text-muted hover:text-black"
                         )}
                       >
                         {link.label}
@@ -286,7 +286,7 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
                   </Stack>
                 </nav>
               )}
-              <Label size="xxs" className={isDark ? "text-on-dark-disabled" : "text-on-light-muted"}>
+              <Label size="xxs" className={isDark ? "text-text-disabled" : "text-text-muted"}>
                 {copyright}
               </Label>
             </Stack>

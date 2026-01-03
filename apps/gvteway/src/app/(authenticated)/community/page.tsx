@@ -32,8 +32,8 @@ export default function CommunityPage() {
           {discussions.map((d: Discussion) => (
             <Card key={d.id} className="p-4 cursor-pointer hover:border-primary transition-colors">
               <Box className="flex items-center justify-between">
-                <Box><Body className="font-weight-bold">{d.title}</Body><Body size="sm" className="text-on-dark-muted">by {d.author}</Body></Box>
-                <Box className="flex items-center gap-2 text-on-dark-muted"><MessageSquare className="size-4" /><Body size="sm">{d.replies}</Body></Box>
+                <Box><Body className="font-weight-bold">{d.title}</Body><Body size="sm" className="text-text-muted">by {d.author}</Body></Box>
+                <Box className="flex items-center gap-2 text-text-muted"><MessageSquare className="size-4" /><Body size="sm">{d.replies}</Body></Box>
               </Box>
             </Card>
           ))}

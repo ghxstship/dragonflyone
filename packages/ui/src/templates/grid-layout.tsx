@@ -165,7 +165,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
   ) {
     const [showFilters, setShowFilters] = useState(filters === "left");
     
-    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+    const bgClass = inverted ? "bg-surface-inverse text-text-primary" : "bg-surface-primary text-text-primary";
     const borderClass = inverted ? "border-border" : "border-border";
 
     const activeFilterCount = Object.values(activeFilters).filter(Boolean).length;
@@ -183,7 +183,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
           <div className="flex-1 flex items-center justify-center p-8">
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -201,10 +201,10 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <AlertTriangle className="size-16 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
+                <H2 className={inverted ? "text-text-primary" : "text-text-primary"}>
                   Error Loading Items
                 </H2>
-                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -237,10 +237,10 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
               )}>
                 <LayoutGrid className={clsx(
                   "size-10",
-                  inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+                  inverted ? "text-text-disabled" : "text-text-muted"
                 )} />
               </div>
-              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                 {emptyMessage}
               </Body>
               {emptyAction && (
@@ -266,7 +266,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
           <Stack direction="horizontal" className="items-center justify-between">
             <Body className={clsx(
               "font-semibold uppercase text-xs tracking-wider",
-              inverted ? "text-on-dark-muted" : "text-on-light-muted"
+              inverted ? "text-text-muted" : "text-text-muted"
             )}>
               Filters
             </Body>
@@ -287,7 +287,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
             <Stack key={filter.id} gap={2}>
               <Body size="sm" className={clsx(
                 "font-medium",
-                inverted ? "text-on-dark-secondary" : "text-on-light-muted"
+                inverted ? "text-text-secondary" : "text-text-muted"
               )}>
                 {filter.label}
               </Body>
@@ -297,8 +297,8 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                 className={clsx(
                   "w-full px-3 py-2 border-2 rounded-button text-sm transition-colors",
                   inverted
-                    ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary"
-                    : "bg-surface-primary border-border text-on-light-primary focus:border-primary"
+                    ? "bg-surface-elevated border-border text-text-primary focus:border-primary"
+                    : "bg-surface-primary border-border text-text-primary focus:border-primary"
                 )}
               >
                 <option value="">All</option>
@@ -341,8 +341,8 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                     className={clsx(
                       "lg:hidden flex items-center gap-2 px-3 py-2 border-2 rounded-button text-sm transition-colors",
                       inverted
-                        ? "border-border text-on-dark-secondary hover:border-border-primary"
-                        : "border-border text-on-light-disabled hover:border-border-primary"
+                        ? "border-border text-text-secondary hover:border-border-primary"
+                        : "border-border text-text-disabled hover:border-border-primary"
                     )}
                   >
                     <Filter className="size-4" />
@@ -358,7 +358,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                 {/* Selection info */}
                 {selectable && selectedIds.length > 0 && (
                   <Stack direction="horizontal" gap={2} className="items-center">
-                    <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                    <Body size="sm" className={inverted ? "text-text-muted" : "text-text-muted"}>
                       {selectedIds.length} selected
                     </Body>
                     <button
@@ -389,8 +389,8 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                   className={clsx(
                     "px-3 py-2 border-2 rounded-button text-sm transition-colors",
                     inverted
-                      ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary"
-                      : "bg-surface-primary border-border text-on-light-primary focus:border-primary"
+                      ? "bg-surface-elevated border-border text-text-primary focus:border-primary"
+                      : "bg-surface-primary border-border text-text-primary focus:border-primary"
                   )}
                 >
                   <option value="">{filter.label}: All</option>
@@ -438,7 +438,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
             {pagination === "bottom" && totalPages > 1 && (
               <div className={clsx("mt-6 pt-6 border-t-2", borderClass)}>
                 <Stack direction="horizontal" className="items-center justify-between">
-                  <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                  <Body size="sm" className={inverted ? "text-text-muted" : "text-text-muted"}>
                     Page {page} of {totalPages}
                     {totalItems !== undefined && ` (${totalItems} items)`}
                   </Body>
@@ -474,7 +474,7 @@ export const GridLayout = forwardRef<HTMLDivElement, GridLayoutProps>(
                 {isLoadingMore ? (
                   <Stack gap={2} className="items-center">
                     <Spinner size="md" />
-                    <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                    <Body size="sm" className={inverted ? "text-text-muted" : "text-text-muted"}>
                       Loading more...
                     </Body>
                   </Stack>

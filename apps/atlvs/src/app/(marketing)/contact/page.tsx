@@ -198,7 +198,7 @@ export default function ContactPage() {
                   <CardHeader>
                     <Stack gap={2}>
                       <H2 className="text-white">Send us a message</H2>
-                      <Body className="text-on-dark-muted">
+                      <Body className="text-text-muted">
                         Fill out the form below and we will get back to you within 24 hours
                       </Body>
                     </Stack>
@@ -297,7 +297,7 @@ export default function ContactPage() {
                             <Mail className="size-5 text-primary" />
                           </Box>
                           <Stack gap={0}>
-                            <Body size="sm" className="text-on-dark-disabled">
+                            <Body size="sm" className="text-text-disabled">
                               Email
                             </Body>
                             <Body className="text-white font-weight-semibold group-hover:text-primary transition-colors">
@@ -315,7 +315,7 @@ export default function ContactPage() {
                             <Phone className="size-5 text-primary" />
                           </Box>
                           <Stack gap={0}>
-                            <Body size="sm" className="text-on-dark-disabled">
+                            <Body size="sm" className="text-text-disabled">
                               Phone
                             </Body>
                             <Body className="text-white font-weight-semibold group-hover:text-primary transition-colors">
@@ -330,7 +330,7 @@ export default function ContactPage() {
                             <Clock className="size-5 text-primary" />
                           </Box>
                           <Stack gap={0}>
-                            <Body size="sm" className="text-on-dark-disabled">
+                            <Body size="sm" className="text-text-disabled">
                               Business Hours
                             </Body>
                             <Body className="text-white font-weight-semibold">Mon-Fri, 9am-6pm EST</Body>
@@ -343,7 +343,7 @@ export default function ContactPage() {
                             <MapPin className="size-5 text-primary" />
                           </Box>
                           <Stack gap={0}>
-                            <Body size="sm" className="text-on-dark-disabled">
+                            <Body size="sm" className="text-text-disabled">
                               Headquarters
                             </Body>
                             <Body className="text-white font-weight-semibold">Tampa, FL</Body>
@@ -358,7 +358,7 @@ export default function ContactPage() {
                     <Stack gap={2} className="items-center">
                       <Kicker className="text-accent">Average Response Time</Kicker>
                       <H3 className="text-white">Under 24 Hours</H3>
-                      <Body size="sm" className="text-on-dark-muted">
+                      <Body size="sm" className="text-text-muted">
                         During business days
                       </Body>
                     </Stack>
@@ -377,7 +377,7 @@ export default function ContactPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Kicker>Resources</Kicker>
                   <H2 className="text-white">Quick Links</H2>
-                  <Body className="text-on-dark-muted max-w-2xl">
+                  <Body className="text-text-muted max-w-2xl">
                     Find what you need faster with these helpful resources
                   </Body>
                 </Stack>
@@ -404,9 +404,9 @@ export default function ContactPage() {
                               className="items-center justify-between"
                             >
                               <Body className="text-white font-weight-semibold">{link.title}</Body>
-                              <ArrowRight className="size-4 text-on-dark-disabled group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                              <ArrowRight className="size-4 text-text-disabled group-hover:text-primary group-hover:translate-x-1 transition-all" />
                             </Stack>
-                            <Body size="sm" className="text-on-dark-muted">
+                            <Body size="sm" className="text-text-muted">
                               {link.description}
                             </Body>
                           </Stack>

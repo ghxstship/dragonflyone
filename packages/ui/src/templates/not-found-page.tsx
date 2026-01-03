@@ -66,8 +66,8 @@ export function NotFoundContent({
   searchPath = "/search",
   actions,
 }: NotFoundContentProps) {
-  const textClass = inverted ? "text-on-dark-primary" : "text-on-light-primary";
-  const mutedTextClass = inverted ? "text-on-dark-muted" : "text-on-light-muted";
+  const textClass = inverted ? "text-text-primary" : "text-text-primary";
+  const mutedTextClass = inverted ? "text-text-muted" : "text-text-muted";
 
   return (
     <Stack gap={8} className="flex min-h-[60vh] flex-col items-center justify-center text-center py-8">
@@ -207,7 +207,7 @@ export const NotFoundPage = forwardRef<HTMLDivElement, NotFoundPageProps>(
         className={clsx(
           "relative min-h-screen overflow-hidden",
           bgClass,
-          isDark ? "text-on-dark-primary" : "text-on-light-primary"
+          isDark ? "text-text-primary" : "text-text-primary"
         )}
         noPadding
       >

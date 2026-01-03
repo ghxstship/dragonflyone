@@ -176,15 +176,15 @@ function KanbanColumnComponent<T>({
           className="flex items-center gap-2 flex-1"
         >
           {isCollapsed ? (
-            <ChevronRight size={16} className={inverted ? "text-on-dark-muted" : "text-on-light-muted"} />
+            <ChevronRight size={16} className={inverted ? "text-text-muted" : "text-text-muted"} />
           ) : (
-            <ChevronDown size={16} className={inverted ? "text-on-dark-muted" : "text-on-light-muted"} />
+            <ChevronDown size={16} className={inverted ? "text-text-muted" : "text-text-muted"} />
           )}
           <span
             className="w-3 h-3 rounded-full"
             style={{ backgroundColor: column.color || "#6366f1" }}
           />
-          <span className={clsx("font-semibold text-sm", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+          <span className={clsx("font-semibold text-sm", inverted ? "text-text-primary" : "text-text-primary")}>
             {column.title}
           </span>
           <span
@@ -193,8 +193,8 @@ function KanbanColumnComponent<T>({
               isOverLimit
                 ? "bg-error-100 text-error-700"
                 : inverted
-                ? "bg-surface-elevated text-on-dark-muted"
-                : "bg-muted text-on-light-secondary"
+                ? "bg-surface-elevated text-text-muted"
+                : "bg-muted text-text-secondary"
             )}
           >
             {items.length}
@@ -210,8 +210,8 @@ function KanbanColumnComponent<T>({
               className={clsx(
                 "p-1 rounded transition-colors",
                 inverted
-                  ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
-                  : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                  ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated"
+                  : "text-text-muted hover:text-text-primary hover:bg-muted"
               )}
             >
               <Plus size={16} />
@@ -222,8 +222,8 @@ function KanbanColumnComponent<T>({
             className={clsx(
               "p-1 rounded transition-colors",
               inverted
-                ? "text-on-light-disabled hover:text-white hover:bg-surface-elevated"
-                : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                ? "text-text-disabled hover:text-white hover:bg-surface-elevated"
+                : "text-text-muted hover:text-text-primary hover:bg-muted"
             )}
           >
             <MoreHorizontal size={16} />
@@ -243,8 +243,8 @@ function KanbanColumnComponent<T>({
                 className={clsx(
                   "p-4 text-center text-sm rounded-lg border-2 border-dashed",
                   inverted
-                    ? "text-on-dark-disabled border-border"
-                    : "text-on-light-disabled border-border"
+                    ? "text-text-disabled border-border"
+                    : "text-text-disabled border-border"
                 )}
               >
                 {emptyMessage}

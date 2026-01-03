@@ -142,7 +142,7 @@ function SortableColumnItem({ column, onToggle, inverted }: SortableColumnItemPr
           type="button"
           className={clsx(
             "cursor-grab p-0.5 rounded",
-            inverted ? "text-on-dark-disabled hover:text-on-dark-muted" : "text-on-light-muted hover:text-on-light-primary"
+            inverted ? "text-text-disabled hover:text-text-muted" : "text-text-muted hover:text-text-primary"
           )}
           {...attributes}
           {...listeners}
@@ -159,12 +159,12 @@ function SortableColumnItem({ column, onToggle, inverted }: SortableColumnItemPr
           disabled={column.locked}
           className="cursor-pointer accent-primary"
         />
-        <span className={clsx("font-body text-body-sm", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+        <span className={clsx("font-body text-body-sm", inverted ? "text-text-primary" : "text-text-primary")}>
           {column.label}
         </span>
       </label>
       {column.locked && (
-        <span className={clsx("text-xs", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
+        <span className={clsx("text-xs", inverted ? "text-text-disabled" : "text-text-muted")}>
           Locked
         </span>
       )}
@@ -230,7 +230,7 @@ function TableSettingsPopover({
     >
       <div className={clsx("px-4 py-3 border-b", inverted ? "border-border" : "border-border")}>
         <div className="flex items-center justify-between">
-          <span className={clsx("font-heading text-body-md font-semibold", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
+          <span className={clsx("font-heading text-body-md font-semibold", inverted ? "text-text-primary" : "text-text-primary")}>
             Table Settings
           </span>
           <button
@@ -238,7 +238,7 @@ function TableSettingsPopover({
             onClick={onClose}
             className={clsx(
               "p-1 rounded-button",
-              inverted ? "hover:bg-surface-elevated text-on-dark-muted" : "hover:bg-muted text-on-light-muted"
+              inverted ? "hover:bg-surface-elevated text-text-muted" : "hover:bg-muted text-text-muted"
             )}
           >
             <X className="size-4" />
@@ -247,7 +247,7 @@ function TableSettingsPopover({
       </div>
 
       <div className={clsx("px-4 py-3 border-b", inverted ? "border-border" : "border-border")}>
-        <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
+        <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-text-disabled" : "text-text-muted")}>
           Row Density
         </span>
         <div className="flex gap-2 mt-2">
@@ -260,11 +260,11 @@ function TableSettingsPopover({
                 "flex-1 px-3 py-2 rounded-button border-2 font-code text-mono-sm capitalize transition-all",
                 density === mode
                   ? inverted
-                    ? "border-on-dark-primary bg-surface-primary text-on-light-primary"
-                    : "border-border-primary bg-surface-inverse text-on-dark-primary"
+                    ? "border-on-dark-primary bg-surface-primary text-text-primary"
+                    : "border-border-primary bg-surface-inverse text-text-primary"
                   : inverted
-                    ? "border-border text-on-dark-muted hover:border-on-dark-muted"
-                    : "border-border text-on-light-muted hover:border-border-primary"
+                    ? "border-border text-text-muted hover:border-on-dark-muted"
+                    : "border-border text-text-muted hover:border-border-primary"
               )}
             >
               {mode}
@@ -275,7 +275,7 @@ function TableSettingsPopover({
 
       <div className="px-4 py-3">
         <div className="flex items-center justify-between mb-2">
-          <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
+          <span className={clsx("font-code text-mono-xs uppercase tracking-wider", inverted ? "text-text-disabled" : "text-text-muted")}>
             Columns
           </span>
           <button
@@ -283,7 +283,7 @@ function TableSettingsPopover({
             onClick={handleResetColumns}
             className={clsx(
               "font-code text-mono-xs underline",
-              inverted ? "text-on-dark-muted hover:text-on-dark-primary" : "text-on-light-muted hover:text-on-light-primary"
+              inverted ? "text-text-muted hover:text-text-primary" : "text-text-muted hover:text-text-primary"
             )}
           >
             Reset
@@ -337,8 +337,8 @@ function OverflowMenu({ items, inverted }: OverflowMenuProps) {
   if (items.length === 0) return null;
 
   const buttonClass = inverted
-    ? "bg-transparent text-on-dark-muted border-2 border-border hover:border-on-dark-muted"
-    : "bg-transparent text-on-light-muted border-2 border-border hover:border-border-primary";
+    ? "bg-transparent text-text-muted border-2 border-border hover:border-on-dark-muted"
+    : "bg-transparent text-text-muted border-2 border-border hover:border-border-primary";
 
   const dropdownClass = inverted
     ? "bg-surface-inverse border-2 border-border"
@@ -378,8 +378,8 @@ function OverflowMenu({ items, inverted }: OverflowMenuProps) {
               className={clsx(
                 "w-full px-4 py-3 flex items-center gap-3 text-left font-body text-body-sm",
                 inverted
-                  ? "hover:bg-surface-elevated text-on-dark-primary"
-                  : "hover:bg-muted text-on-light-primary"
+                  ? "hover:bg-surface-elevated text-text-primary"
+                  : "hover:bg-muted text-text-primary"
               )}
             >
               {item.icon}
@@ -462,16 +462,16 @@ export function ListPageToolbar({
   }, [onRefresh, onCreate]);
 
   const primaryBtnClass = inverted
-    ? "bg-surface-primary text-on-light-primary border-2 border-on-dark-primary shadow-primary hover:shadow-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button"
-    : "bg-surface-inverse text-on-dark-primary border-2 border-border-primary shadow-primary hover:shadow-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button";
+    ? "bg-surface-primary text-text-primary border-2 border-on-dark-primary shadow-primary hover:shadow-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button"
+    : "bg-surface-inverse text-text-primary border-2 border-border-primary shadow-primary hover:shadow-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button";
 
   const secondaryBtnClass = inverted
-    ? "bg-transparent text-on-dark-muted border-2 border-border hover:border-on-dark-muted hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button"
-    : "bg-transparent text-on-light-muted border-2 border-border hover:border-border-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button";
+    ? "bg-transparent text-text-muted border-2 border-border hover:border-on-dark-muted hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button"
+    : "bg-transparent text-text-muted border-2 border-border hover:border-border-primary hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 rounded-button";
 
   const iconBtnClass = inverted
-    ? "p-2 bg-transparent text-on-dark-muted border-2 border-border hover:border-on-dark-muted transition-all duration-100 rounded-button"
-    : "p-2 bg-transparent text-on-light-muted border-2 border-border hover:border-border-primary transition-all duration-100 rounded-button";
+    ? "p-2 bg-transparent text-text-muted border-2 border-border hover:border-on-dark-muted transition-all duration-100 rounded-button"
+    : "p-2 bg-transparent text-text-muted border-2 border-border hover:border-border-primary transition-all duration-100 rounded-button";
 
   const overflowItems: Array<{ id: string; label: string; icon?: React.ReactNode; onClick: () => void }> = [];
   
@@ -515,20 +515,20 @@ export function ListPageToolbar({
             className={clsx(
               "w-full py-3 px-4 pl-10 pr-16 font-body text-body-md border-2 outline-none rounded-button",
               inverted
-                ? "bg-surface-inverse text-on-dark-primary border-border focus:border-on-dark-muted placeholder:text-on-dark-disabled"
-                : "bg-surface-primary text-on-light-primary border-border focus:border-border-primary placeholder:text-on-light-muted"
+                ? "bg-surface-inverse text-text-primary border-border focus:border-on-dark-muted placeholder:text-text-disabled"
+                : "bg-surface-primary text-text-primary border-border focus:border-border-primary placeholder:text-text-muted"
             )}
           />
           <Search
             className={clsx(
               "absolute left-3 top-1/2 -translate-y-1/2 size-4",
-              inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+              inverted ? "text-text-disabled" : "text-text-muted"
             )}
           />
           <kbd
             className={clsx(
               "absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 rounded text-xs font-mono",
-              inverted ? "bg-surface-elevated text-on-dark-disabled" : "bg-muted text-on-light-muted"
+              inverted ? "bg-surface-elevated text-text-disabled" : "bg-muted text-text-muted"
             )}
           >
             ⌘K
@@ -568,7 +568,7 @@ export function ListPageToolbar({
                       htmlFor={`filter-${filter.key}`}
                       className={clsx(
                         "block font-code text-mono-xs uppercase tracking-wider mb-2",
-                        inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+                        inverted ? "text-text-disabled" : "text-text-muted"
                       )}
                     >
                       {filter.label}
@@ -580,8 +580,8 @@ export function ListPageToolbar({
                       className={clsx(
                         "w-full px-3 py-2 font-body text-body-sm border-2 rounded-button outline-none",
                         inverted
-                          ? "bg-surface-elevated text-on-dark-primary border-border focus:border-on-dark-muted"
-                          : "bg-surface-primary text-on-light-primary border-border focus:border-border-primary"
+                          ? "bg-surface-elevated text-text-primary border-border focus:border-on-dark-muted"
+                          : "bg-surface-primary text-text-primary border-border focus:border-border-primary"
                       )}
                     >
                       <option value="">All</option>
@@ -603,8 +603,8 @@ export function ListPageToolbar({
                     className={clsx(
                       "w-full mt-2 px-3 py-2 font-code text-mono-sm rounded-button border-2",
                       inverted
-                        ? "border-border text-on-dark-muted hover:border-on-dark-muted"
-                        : "border-border text-on-light-muted hover:border-border-primary"
+                        ? "border-border text-text-muted hover:border-on-dark-muted"
+                        : "border-border text-text-muted hover:border-border-primary"
                     )}
                   >
                     Clear All Filters
@@ -642,11 +642,11 @@ export function ListPageToolbar({
                         "p-2 rounded transition-colors",
                         isActive
                           ? inverted
-                            ? "bg-surface-elevated text-on-dark-primary"
-                            : "bg-surface-primary text-on-light-primary shadow-sm"
+                            ? "bg-surface-elevated text-text-primary"
+                            : "bg-surface-primary text-text-primary shadow-sm"
                           : inverted
-                            ? "text-on-dark-disabled hover:text-on-dark-primary hover:bg-surface-elevated"
-                            : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                            ? "text-text-disabled hover:text-text-primary hover:bg-surface-elevated"
+                            : "text-text-muted hover:text-text-primary hover:bg-muted"
                       )}
                     >
                       <ViewIcon size={16} />

@@ -38,12 +38,12 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             "focus:outline-none",
             "disabled:cursor-not-allowed disabled:opacity-50",
             // Placeholder
-            inverted ? "placeholder:text-on-dark-disabled" : "placeholder:text-on-dark-muted",
+            inverted ? "placeholder:text-text-disabled" : "placeholder:text-text-muted",
             // Error state
             error
               ? inverted
                 ? clsx(
-                    "border-error-500 bg-surface-inverse text-on-dark-primary",
+                    "border-error-500 bg-surface-inverse text-text-primary",
                     "shadow-[2px_2px_0_rgba(239,68,68,0.3)]",
                     "focus:border-error-400 focus:shadow-[3px_3px_0_rgba(239,68,68,0.4)]"
                   )
@@ -55,13 +55,13 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
               // Normal state
               : inverted
                 ? clsx(
-                    "border-border bg-surface-inverse text-on-dark-primary",
+                    "border-border bg-surface-inverse text-text-primary",
                     "shadow-[2px_2px_0_rgba(255,255,255,0.1)]",
                     "hover:border-border-primary",
                     "focus:-translate-x-px focus:-translate-y-px focus:border-[var(--color-primary-400)] focus:shadow-[3px_3px_0_var(--color-primary-300)]"
                   )
                 : clsx(
-                    "border-border bg-surface-primary text-on-light-primary",
+                    "border-border bg-surface-primary text-text-primary",
                     "shadow-[2px_2px_0_rgba(0,0,0,0.08)]",
                     "hover:border-border-primary",
                     "focus:-translate-x-px focus:-translate-y-px focus:border-[var(--color-primary-500)] focus:shadow-[3px_3px_0_var(--color-primary-200)]"
@@ -79,8 +79,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             "rounded p-1 transition-colors duration-100",
             "focus:outline-none focus:ring-2 focus:ring-offset-1",
             inverted
-              ? "text-on-dark-muted hover:text-white focus:ring-[var(--color-primary-400)] focus:ring-offset-ink-900"
-              : "text-on-dark-disabled hover:text-black focus:ring-[var(--color-primary-500)] focus:ring-offset-white"
+              ? "text-text-muted hover:text-white focus:ring-[var(--color-primary-400)] focus:ring-offset-ink-900"
+              : "text-text-disabled hover:text-black focus:ring-[var(--color-primary-500)] focus:ring-offset-white"
           )}
           aria-label={showPassword ? "Hide password" : "Show password"}
         >

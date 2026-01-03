@@ -211,7 +211,7 @@ export const WizardPage = forwardRef<HTMLDivElement, WizardPageProps>(
             <Container>
               <Stack gap={6} className="items-center justify-center py-16">
                 <Spinner size="lg" />
-                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                   {loadingText}
                 </Body>
               </Stack>
@@ -279,7 +279,7 @@ export const WizardPage = forwardRef<HTMLDivElement, WizardPageProps>(
                         <Body
                           className={clsx(
                             "font-semibold",
-                            inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                            inverted ? "text-text-primary" : "text-text-primary"
                           )}
                         >
                           {banner.title}
@@ -287,7 +287,7 @@ export const WizardPage = forwardRef<HTMLDivElement, WizardPageProps>(
                         {banner.description && (
                           <Body
                             size="sm"
-                            className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}
+                            className={inverted ? "text-text-muted" : "text-text-muted"}
                           >
                             {banner.description}
                           </Body>

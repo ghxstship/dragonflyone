@@ -71,7 +71,7 @@ export default function VendorPortalPage() {
                 <Box className="flex items-start justify-between">
                   <Box>
                     <Body className="font-weight-bold font-weight-medium">{contract.production}</Body>
-                    <Body size="sm" className="text-on-dark-muted mt-1">{formatDate(contract.start_date)} - {formatDate(contract.end_date)}</Body>
+                    <Body size="sm" className="text-text-muted mt-1">{formatDate(contract.start_date)} - {formatDate(contract.end_date)}</Body>
                   </Box>
                   <Box className="text-right">
                     <Body className="font-weight-bold">{formatCurrency(contract.value)}</Body>
@@ -98,7 +98,7 @@ export default function VendorPortalPage() {
               </Box>
               <Box>
                 <Body className="font-weight-bold font-weight-bold">Vendor Company</Body>
-                <Body className="text-on-dark-muted">Category: Staging & Equipment</Body>
+                <Body className="text-text-muted">Category: Staging & Equipment</Body>
                 <Badge variant="success" className="mt-2">Verified</Badge>
               </Box>
             </Box>

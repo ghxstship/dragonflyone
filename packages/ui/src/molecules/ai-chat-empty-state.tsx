@@ -47,7 +47,7 @@ export const AIChatEmptyState = forwardRef<HTMLDivElement, AIChatEmptyStateProps
               className={clsx(
                 "flex size-16 items-center justify-center border-2",
                 inverted
-                  ? "border-border bg-surface-elevated text-on-dark-primary"
+                  ? "border-border bg-surface-elevated text-text-primary"
                   : "border-border-primary bg-accent/20 text-accent"
               )}
             >
@@ -59,7 +59,7 @@ export const AIChatEmptyState = forwardRef<HTMLDivElement, AIChatEmptyStateProps
           <h2
             className={clsx(
               "font-display text-h3-md uppercase tracking-label",
-              inverted ? "text-on-dark-primary" : "text-on-light-primary"
+              inverted ? "text-text-primary" : "text-text-primary"
             )}
           >
             {title}
@@ -70,7 +70,7 @@ export const AIChatEmptyState = forwardRef<HTMLDivElement, AIChatEmptyStateProps
             <p
               className={clsx(
                 "font-body text-body-md leading-body",
-                inverted ? "text-on-dark-secondary" : "text-on-light-muted"
+                inverted ? "text-text-secondary" : "text-text-muted"
               )}
             >
               {description}

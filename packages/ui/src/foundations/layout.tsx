@@ -80,10 +80,10 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
     ...props 
   }, ref) {
     const bgClasses: Record<string, string> = {
-      white: "bg-surface-primary text-on-light-primary",
-      black: "bg-surface-inverse text-on-dark-primary",
-      grey: "bg-muted text-on-light-primary",
-      ink: "bg-surface-inverse text-on-dark-primary",
+      white: "bg-surface-primary text-text-primary",
+      black: "bg-surface-inverse text-text-primary",
+      grey: "bg-muted text-text-primary",
+      ink: "bg-surface-inverse text-text-primary",
     };
 
     const alignClasses = {
@@ -102,7 +102,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
         {kicker && (
           <span className={clsx(
             "font-mono text-xs uppercase tracking-widest font-bold",
-            isDark ? "text-on-dark-muted" : "text-on-light-muted"
+            isDark ? "text-text-muted" : "text-text-muted"
           )}>
             {kicker}
           </span>
@@ -121,7 +121,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
           typeof description === "string" ? (
             <p className={clsx(
               "font-body text-base md:text-lg",
-              isDark ? "text-on-dark-secondary" : "text-on-light-muted",
+              isDark ? "text-text-secondary" : "text-text-muted",
               align === "center" ? "mx-auto max-w-2xl" : "max-w-3xl"
             )}>
               {description}

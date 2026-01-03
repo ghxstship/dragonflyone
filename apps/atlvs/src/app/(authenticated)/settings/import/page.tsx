@@ -81,12 +81,12 @@ export default function ImportSettingsPage() {
                 onClick={() => setSelectedImport(option.id)}
               >
                 <Box className="flex items-start gap-3">
-                  <Box className={`p-2 rounded-card ${selectedImport === option.id ? "bg-primary text-white" : "bg-surface-elevated text-on-dark-muted"}`}>
+                  <Box className={`p-2 rounded-card ${selectedImport === option.id ? "bg-primary text-white" : "bg-surface-elevated text-text-muted"}`}>
                     {option.icon}
                   </Box>
                   <Box className="flex-1">
                     <Body className="font-weight-medium">{option.label}</Body>
-                    <Body size="sm" className="text-on-dark-muted">{option.description}</Body>
+                    <Body size="sm" className="text-text-muted">{option.description}</Body>
                     <Box className="flex gap-1 mt-2">
                       {option.formats.map((fmt) => (
                         <Badge key={fmt} variant="outline" className="text-body-xs uppercase">{fmt}</Badge>
@@ -113,7 +113,7 @@ export default function ImportSettingsPage() {
             />
             {currentOption && (
               <Box className="mt-4 flex items-center justify-between">
-                <Body size="sm" className="text-on-dark-muted">Need a template? Download our sample file.</Body>
+                <Body size="sm" className="text-text-muted">Need a template? Download our sample file.</Body>
                 <Button variant="ghost" size="sm" onClick={() => window.open(currentOption.template, "_blank")}>Download Template</Button>
               </Box>
             )}
@@ -139,9 +139,9 @@ export default function ImportSettingsPage() {
         <Section>
           <SectionHeader title="Recent Imports" description="Your previous import operations" />
           <Card className="p-8 text-center mt-4">
-            <Database className="size-12 text-on-dark-disabled mx-auto mb-4" />
+            <Database className="size-12 text-text-disabled mx-auto mb-4" />
             <Body className="font-weight-medium text-body-lg mb-2">No Recent Imports</Body>
-            <Body className="text-on-dark-muted">Your import history will appear here</Body>
+            <Body className="text-text-muted">Your import history will appear here</Body>
           </Card>
         </Section>
       ),

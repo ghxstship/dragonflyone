@@ -105,7 +105,7 @@ export default function ProductsPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Our Products</Body>
                   <H3 className="text-white">Choose Your Solution</H3>
-                  <Body className="text-on-dark-muted max-w-2xl">Each product is powerful on its own, but together they create an unmatched production management ecosystem.</Body>
+                  <Body className="text-text-muted max-w-2xl">Each product is powerful on its own, but together they create an unmatched production management ecosystem.</Body>
                 </Stack>
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
@@ -123,14 +123,14 @@ export default function ProductsPage() {
                         <Stack gap={2}>
                           <Body className="text-white font-weight-bold text-h5-md">{product.name}</Body>
                           <Body className="text-primary font-weight-medium">{product.tagline}</Body>
-                          <Body className="text-on-dark-muted">{product.description}</Body>
+                          <Body className="text-text-muted">{product.description}</Body>
                         </Stack>
 
                         <Stack gap={3}>
                           {product.features.map((feature, idx) => (
                             <Stack key={idx} direction="horizontal" gap={3} className="items-center">
                               <Check className="size-4 text-success flex-shrink-0" />
-                              <Body size="sm" className="text-on-dark-secondary">{feature}</Body>
+                              <Body size="sm" className="text-text-secondary">{feature}</Body>
                             </Stack>
                           ))}
                         </Stack>
@@ -175,7 +175,7 @@ export default function ProductsPage() {
                 <Stack gap={6} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Best Value</Body>
                   <H3 className="text-white">Get the Complete GHXSTSHIP Suite</H3>
-                  <Body className="text-on-dark-secondary max-w-2xl">
+                  <Body className="text-text-secondary max-w-2xl">
                     Bundle all three products and save 30%. Perfect for organizations that need end-to-end event management.
                   </Body>
                   <Stack direction="horizontal" gap={4} className="flex-wrap justify-center">

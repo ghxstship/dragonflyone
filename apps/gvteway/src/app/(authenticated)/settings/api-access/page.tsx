@@ -146,8 +146,8 @@ export default function ApiAccessPage() {
 
           {apiKeys.length === 0 ? (
             <Box className="text-center py-12">
-              <Key className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="text-on-dark-muted mb-4">No API keys</Body>
+              <Key className="size-12 text-text-disabled mx-auto mb-4" />
+              <Body className="text-text-muted mb-4">No API keys</Body>
               {canManageApiKeys && (
                 <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create API Key</Button>
               )}
@@ -183,7 +183,7 @@ export default function ApiAccessPage() {
                         <Body size="sm" className="text-white">{key.scopes.length} scopes</Body>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-on-dark-muted">
+                        <Body size="sm" className="text-text-muted">
                           {key.last_used_at ? new Date(key.last_used_at).toLocaleDateString() : "Never"}
                         </Body>
                       </TableCell>
@@ -220,7 +220,7 @@ export default function ApiAccessPage() {
                 <Body className="font-weight-medium text-white">Authentication</Body>
               </Box>
               <Stack gap={3}>
-                <Body size="sm" className="text-on-dark-muted">
+                <Body size="sm" className="text-text-muted">
                   Include your API key in the Authorization header:
                 </Body>
                 <Card className="p-3 bg-surface-elevated">
@@ -234,7 +234,7 @@ export default function ApiAccessPage() {
                 <Body className="font-weight-medium text-white">Base URL</Body>
               </Box>
               <Stack gap={3}>
-                <Body size="sm" className="text-on-dark-muted">
+                <Body size="sm" className="text-text-muted">
                   All API requests should be made to:
                 </Body>
                 <Card className="p-3 bg-surface-elevated">
@@ -267,11 +267,11 @@ export default function ApiAccessPage() {
       <Modal open={showCreateModal} onClose={() => { setShowCreateModal(false); resetForm(); }} title="Create API Key">
         <Stack gap={4}>
           <Stack gap={2}>
-            <Body size="sm" className="text-on-dark-muted">Key Name</Body>
+            <Body size="sm" className="text-text-muted">Key Name</Body>
             <Input placeholder="e.g., Production Server" value={keyName} onChange={(e) => setKeyName(e.target.value)} />
           </Stack>
           <Stack gap={2}>
-            <Body size="sm" className="text-on-dark-muted">Permissions</Body>
+            <Body size="sm" className="text-text-muted">Permissions</Body>
             <Card className="p-4 max-h-[250px] overflow-y-auto">
               <Grid cols={2} gap={2} className="grid-cols-1 lg:grid-cols-2">
                 {ALL_API_SCOPES.map((scope) => (
@@ -282,7 +282,7 @@ export default function ApiAccessPage() {
                 ))}
               </Grid>
             </Card>
-            <Body size="sm" className="text-on-dark-disabled">{selectedScopes.length} permissions selected</Body>
+            <Body size="sm" className="text-text-disabled">{selectedScopes.length} permissions selected</Body>
           </Stack>
           <Box className="flex gap-4">
             <Button variant="outline" onClick={() => { setShowCreateModal(false); resetForm(); }}>Cancel</Button>
@@ -299,7 +299,7 @@ export default function ApiAccessPage() {
             <Body size="sm" className="text-warning-100">This key will only be shown once. Copy it now and store it securely.</Body>
           </Card>
           <Stack gap={2}>
-            <Body size="sm" className="text-on-dark-muted">Your API Key</Body>
+            <Body size="sm" className="text-text-muted">Your API Key</Body>
             <Box className="flex gap-2">
               <Input value={newKey} readOnly className="font-mono" />
               <Button variant="outline" onClick={copyKey} icon={copiedKey ? <CheckCircle className="size-4" /> : <Copy className="size-4" />}>

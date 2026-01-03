@@ -28,43 +28,43 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     const getVariantClasses = () => {
       // Semantic status variants with bold borders
       if (variant === "success") {
-        return "bg-success-500 text-on-dark-primary border-2 border-success-500";
+        return "bg-success-500 text-text-primary border-2 border-success-500";
       }
       if (variant === "warning") {
-        return "bg-warning-500 text-on-dark-primary border-2 border-warning-500";
+        return "bg-warning-500 text-text-primary border-2 border-warning-500";
       }
       if (variant === "error") {
-        return "bg-error-500 text-on-dark-primary border-2 border-error-500";
+        return "bg-error-500 text-text-primary border-2 border-error-500";
       }
       if (variant === "info") {
-        return "bg-info-500 text-on-dark-primary border-2 border-info-500";
+        return "bg-info-500 text-text-primary border-2 border-info-500";
       }
       if (variant === "pop") {
         return inverted
-          ? "bg-surface-inverse text-on-light-primary border-2 border-on-light-primary shadow-primary"
-          : "bg-surface-inverse text-on-light-primary border-2 border-on-light-primary shadow-primary";
+          ? "bg-surface-inverse text-text-primary border-2 border-on-light-primary shadow-primary"
+          : "bg-surface-inverse text-text-primary border-2 border-on-light-primary shadow-primary";
       }
 
       // Theme-aware base variants
       if (inverted) {
         switch (variant) {
           case "solid":
-            return "bg-surface-inverse text-on-light-primary border-2 border-surface-inverse";
+            return "bg-surface-inverse text-text-primary border-2 border-surface-inverse";
           case "outline":
-            return "border-2 border-border text-on-dark-secondary bg-transparent";
+            return "border-2 border-border text-text-secondary bg-transparent";
           case "ghost":
-            return "text-on-dark-secondary bg-surface-elevated border-2 border-transparent";
+            return "text-text-secondary bg-surface-elevated border-2 border-transparent";
           default:
             return "";
         }
       } else {
         switch (variant) {
           case "solid":
-            return "bg-surface-primary text-on-dark-primary border-2 border-surface-primary";
+            return "bg-surface-primary text-text-primary border-2 border-surface-primary";
           case "outline":
-            return "border-2 border-on-light-primary text-on-light-primary bg-surface-inverse";
+            return "border-2 border-on-light-primary text-text-primary bg-surface-inverse";
           case "ghost":
-            return "text-on-light-primary bg-muted border-2 border-transparent";
+            return "text-text-primary bg-muted border-2 border-transparent";
           default:
             return "";
         }

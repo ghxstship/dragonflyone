@@ -23,7 +23,7 @@ export default function NewReviewPage() {
 
   const sections = [
     { id: "event", title: "Event", content: (<Box><Body size="sm" className="mb-1">Event Name</Body><Input placeholder="Summer Festival 2024" value={event} onChange={(e) => setEvent(e.target.value)} required /></Box>) },
-    { id: "rating", title: "Rating", content: (<Box className="flex gap-2">{Array.from({ length: 5 }).map((_, i) => <Button key={i} variant="ghost" size="sm" onClick={() => setRating(i + 1)}><Star className={`size-8 ${i < rating ? "text-warning fill-warning" : "text-on-dark-disabled"}`} /></Button>)}</Box>) },
+    { id: "rating", title: "Rating", content: (<Box className="flex gap-2">{Array.from({ length: 5 }).map((_, i) => <Button key={i} variant="ghost" size="sm" onClick={() => setRating(i + 1)}><Star className={`size-8 ${i < rating ? "text-warning fill-warning" : "text-text-disabled"}`} /></Button>)}</Box>) },
     { id: "review", title: "Review", content: (<Box><Body size="sm" className="mb-1">Your Review</Body><Textarea rows={5} placeholder="Share your experience..." value={text} onChange={(e) => setText(e.target.value)} /></Box>) },
   ];
 

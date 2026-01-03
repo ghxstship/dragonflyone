@@ -38,7 +38,7 @@ export default function NotificationsPage() {
           <Button variant={filter === "unread" ? "solid" : "outline"} size="sm" onClick={() => setFilter("unread")}>Unread ({unreadCount})</Button>
         </Box>
         {filtered.length === 0 ? (
-          <Card className="p-8 text-center"><Bell className="size-12 text-on-dark-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No notifications</Body><Body className="text-on-dark-muted">You are all caught up!</Body></Card>
+          <Card className="p-8 text-center"><Bell className="size-12 text-text-disabled mx-auto mb-4" /><Body className="font-weight-medium mb-2">No notifications</Body><Body className="text-text-muted">You are all caught up!</Body></Card>
         ) : (
           <Stack gap={2}>
             {filtered.map((n: Notification) => (
@@ -47,8 +47,8 @@ export default function NotificationsPage() {
                   <Box className={`p-2 rounded-lg ${TYPE_CONFIG[n.type].bg}`}>{TYPE_CONFIG[n.type].icon}</Box>
                   <Box className="flex-1">
                     <Box className="flex items-start justify-between">
-                      <Box><Body className={`font-weight-medium ${n.read ? "text-on-dark-muted" : ""}`}>{n.title}</Body><Body size="sm" className="text-on-dark-muted">{n.message}</Body></Box>
-                      <Body size="sm" className="text-on-dark-disabled">{formatDate(n.created_at)}</Body>
+                      <Box><Body className={`font-weight-medium ${n.read ? "text-text-muted" : ""}`}>{n.title}</Body><Body size="sm" className="text-text-muted">{n.message}</Body></Box>
+                      <Body size="sm" className="text-text-disabled">{formatDate(n.created_at)}</Body>
                     </Box>
                   </Box>
                   {!n.read && <Button variant="ghost" size="sm" onClick={() => markAsRead.mutate(n.id)}><Check className="size-4" /></Button>}

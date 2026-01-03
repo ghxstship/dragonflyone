@@ -1,0 +1,110 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5] [cursor=pointer]:
+      - /url: "#main-content"
+    - generic [ref=e6]:
+      - generic [ref=e10]:
+        - heading "GVTEWAY" [level=1] [ref=e12]
+        - generic [ref=e13]:
+          - heading "Your Gateway to Unforgettable Experiences" [level=1] [ref=e14]
+          - generic [ref=e15]:
+            - generic [ref=e16]:
+              - img [ref=e18]
+              - generic [ref=e20]:
+                - paragraph [ref=e21]: Exclusive Access
+                - paragraph [ref=e22]: Priority tickets to sold-out events
+            - generic [ref=e23]:
+              - img [ref=e25]
+              - generic [ref=e27]:
+                - paragraph [ref=e28]: VIP Experiences
+                - paragraph [ref=e29]: Behind-the-scenes and meet & greets
+            - generic [ref=e30]:
+              - img [ref=e32]
+              - generic [ref=e34]:
+                - paragraph [ref=e35]: Member Benefits
+                - paragraph [ref=e36]: Special discounts and early access
+        - generic [ref=e38]:
+          - paragraph [ref=e39]: “GVTEWAY gave me access to experiences I never thought possible.”
+          - generic [ref=e41]:
+            - paragraph [ref=e42]: Sarah Chen
+            - paragraph [ref=e43]: Premium Member
+      - main "Authentication content" [ref=e47]:
+        - generic [ref=e49]:
+          - generic [ref=e50]:
+            - heading "Member Sign In" [level=1] [ref=e51]
+            - paragraph [ref=e52]: Access your exclusive experiences and member benefits
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - generic [ref=e57]: Email*
+              - generic [ref=e58]:
+                - generic:
+                  - img
+                - textbox "Email*" [ref=e59]:
+                  - /placeholder: you@example.com
+                  - text: invalid@test.com
+            - generic [ref=e61]:
+              - generic [ref=e62]: Password*
+              - generic [ref=e63]:
+                - generic:
+                  - img
+                - textbox "Password*" [ref=e64]:
+                  - /placeholder: Enter your password
+                  - text: wrongpassword
+                - button "Show password" [ref=e66] [cursor=pointer]:
+                  - img [ref=e67]
+            - generic [ref=e70]:
+              - generic [ref=e71] [cursor=pointer]:
+                - generic [ref=e72]:
+                  - checkbox "Remember me" [ref=e73]
+                  - img [ref=e75]
+                - paragraph [ref=e77]: Remember me
+              - button "Forgot password?" [ref=e78] [cursor=pointer]:
+                - generic [ref=e79]: Forgot password?
+            - button "Sign In" [ref=e80] [cursor=pointer]:
+              - generic [ref=e81]: Sign In
+            - paragraph [ref=e84]: Or continue with
+            - generic [ref=e86]:
+              - button "Continue with Google" [ref=e87] [cursor=pointer]:
+                - img [ref=e88]
+                - generic [ref=e93]: Continue with Google
+              - button "Continue with Apple" [ref=e94] [cursor=pointer]:
+                - img [ref=e95]
+                - generic [ref=e97]: Continue with Apple
+            - button "Sign in with magic link instead" [ref=e98] [cursor=pointer]:
+              - generic [ref=e99]: Sign in with magic link instead
+          - paragraph [ref=e101]:
+            - text: Not a member yet?
+            - link "Apply for Membership" [ref=e102] [cursor=pointer]:
+              - /url: /apply
+    - contentinfo [ref=e103]:
+      - generic [ref=e105]:
+        - navigation "Footer navigation" [ref=e106]:
+          - generic [ref=e107]:
+            - link "Privacy" [ref=e108] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e109] [cursor=pointer]:
+              - /url: /legal/terms
+            - link "Help" [ref=e110] [cursor=pointer]:
+              - /url: /help
+        - generic [ref=e111]: © 2026 GHXSTSHIP INDUSTRIES
+  - alert [ref=e112]:
+    - generic [ref=e114]:
+      - img [ref=e116]
+      - generic [ref=e119]:
+        - paragraph [ref=e120]: Sign In Failed
+        - paragraph [ref=e121]: Invalid login credentials
+      - button "Dismiss notification" [ref=e122] [cursor=pointer]:
+        - img [ref=e123]
+  - generic [ref=e128]:
+    - img [ref=e130]
+    - button "Open Tanstack query devtools" [ref=e178] [cursor=pointer]:
+      - img [ref=e179]
+  - alert [ref=e227]
+```

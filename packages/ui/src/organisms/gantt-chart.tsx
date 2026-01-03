@@ -272,7 +272,7 @@ export function GanttChart<T>({
       <div
         className={clsx(
           "flex items-center justify-center h-64 rounded-lg border-2 border-dashed",
-          inverted ? "bg-surface-inverse border-border text-on-dark-disabled" : "bg-surface-primary border-border text-on-light-disabled",
+          inverted ? "bg-surface-inverse border-border text-text-disabled" : "bg-surface-primary border-border text-text-disabled",
           className
         )}
       >
@@ -296,7 +296,7 @@ export function GanttChart<T>({
             onClick={handlePrevious}
             className={clsx(
               "p-1.5 rounded transition-colors",
-              inverted ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+              inverted ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" : "text-text-muted hover:text-text-primary hover:bg-muted"
             )}
           >
             <ChevronLeft size={18} />
@@ -306,7 +306,7 @@ export function GanttChart<T>({
             onClick={handleNext}
             className={clsx(
               "p-1.5 rounded transition-colors",
-              inverted ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+              inverted ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" : "text-text-muted hover:text-text-primary hover:bg-muted"
             )}
           >
             <ChevronRight size={18} />
@@ -314,7 +314,7 @@ export function GanttChart<T>({
         </div>
 
         <div className="flex items-center gap-2">
-          <span className={clsx("text-sm font-medium", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+          <span className={clsx("text-sm font-medium", inverted ? "text-text-muted" : "text-text-muted")}>
             {currentViewMode.charAt(0).toUpperCase() + currentViewMode.slice(1)} View
           </span>
           <button
@@ -323,7 +323,7 @@ export function GanttChart<T>({
             disabled={currentViewMode === "quarter"}
             className={clsx(
               "p-1.5 rounded transition-colors disabled:opacity-50",
-              inverted ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+              inverted ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" : "text-text-muted hover:text-text-primary hover:bg-muted"
             )}
           >
             <ZoomOut size={18} />
@@ -334,7 +334,7 @@ export function GanttChart<T>({
             disabled={currentViewMode === "day"}
             className={clsx(
               "p-1.5 rounded transition-colors disabled:opacity-50",
-              inverted ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated" : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+              inverted ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" : "text-text-muted hover:text-text-primary hover:bg-muted"
             )}
           >
             <ZoomIn size={18} />
@@ -357,7 +357,7 @@ export function GanttChart<T>({
             <div
               className={clsx(
                 "flex-shrink-0 w-48 px-3 py-2 border-r-2 font-semibold text-sm sticky left-0 z-sticky-header",
-                inverted ? "bg-surface-inverse border-border text-on-dark-primary" : "bg-surface-primary border-border text-on-light-primary"
+                inverted ? "bg-surface-inverse border-border text-text-primary" : "bg-surface-primary border-border text-text-primary"
               )}
             >
               Task
@@ -372,7 +372,7 @@ export function GanttChart<T>({
                   "flex-shrink-0 px-2 py-2 text-center text-xs font-medium border-r",
                   col.isToday && "bg-primary-500/10",
                   col.isWeekend && !col.isToday && (inverted ? "bg-surface-elevated/50" : "bg-muted"),
-                  inverted ? "border-border text-on-dark-muted" : "border-border text-on-light-muted"
+                  inverted ? "border-border text-text-muted" : "border-border text-text-muted"
                 )}
               >
                 {col.label}
@@ -405,7 +405,7 @@ export function GanttChart<T>({
                     <span
                       className={clsx(
                         "text-sm truncate",
-                        inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                        inverted ? "text-text-primary" : "text-text-primary"
                       )}
                     >
                       {task.title}

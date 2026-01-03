@@ -144,7 +144,7 @@ export function DetailDrawer<T = unknown>({
         <button
           type="button"
           onClick={() => onEdit(record)}
-          className="flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase bg-surface-inverse text-on-dark-primary border-2 border-border cursor-pointer transition-colors duration-100 hover:bg-surface-elevated"
+          className="flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase bg-surface-inverse text-text-primary border-2 border-border cursor-pointer transition-colors duration-100 hover:bg-surface-elevated"
         >
           <Pencil className="size-4" /> Edit
         </button>
@@ -159,10 +159,10 @@ export function DetailDrawer<T = unknown>({
           className={clsx(
             "flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase border-2 border-border transition-colors duration-100",
             action.variant === "primary"
-              ? "bg-surface-inverse text-on-dark-primary hover:bg-surface-elevated"
+              ? "bg-surface-inverse text-text-primary hover:bg-surface-elevated"
               : action.variant === "danger"
               ? "bg-surface-primary text-error hover:bg-muted"
-              : "bg-surface-primary text-on-light-primary hover:bg-muted",
+              : "bg-surface-primary text-text-primary hover:bg-muted",
             action.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
           )}
         >
@@ -206,7 +206,7 @@ export function DetailDrawer<T = unknown>({
                 {children}
                 {activityTimeline && (
                   <div className="mt-6 pt-6 border-t-2 border-border">
-                    <h3 className="font-mono text-base tracking-widest uppercase text-on-light-muted mb-4">
+                    <h3 className="font-mono text-base tracking-widest uppercase text-text-muted mb-4">
                       Activity
                     </h3>
                     {activityTimeline}
@@ -214,7 +214,7 @@ export function DetailDrawer<T = unknown>({
                 )}
               </>
             ) : (
-              <div className="text-center p-12 text-on-light-muted font-mono text-base">
+              <div className="text-center p-12 text-text-muted font-mono text-base">
                 Select an item from the list
               </div>
             )}
@@ -237,7 +237,7 @@ export function DetailDrawer<T = unknown>({
             {children}
             {activityTimeline && (
               <div className="mt-6 pt-6 border-t-2 border-border">
-                <h3 className="font-mono text-base tracking-widest uppercase text-on-light-muted mb-4">
+                <h3 className="font-mono text-base tracking-widest uppercase text-text-muted mb-4">
                   Activity
                 </h3>
                 {activityTimeline}
@@ -245,7 +245,7 @@ export function DetailDrawer<T = unknown>({
             )}
           </>
         ) : (
-          <div className="text-center p-12 text-on-light-muted font-mono text-base">
+          <div className="text-center p-12 text-text-muted font-mono text-base">
             No record selected
           </div>
         )}
@@ -300,7 +300,7 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
           collapsed ? "mb-spacing-0" : "mb-spacing-4"
         )}
       >
-        <h3 className="font-code text-mono-md tracking-widest uppercase text-on-dark-disabled">
+        <h3 className="font-code text-mono-md tracking-widest uppercase text-text-disabled">
           {section.title}
         </h3>
 
@@ -308,7 +308,7 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
           <button
             type="button"
             onClick={() => setCollapsed(!collapsed)}
-            className="p-spacing-1 bg-transparent border-none cursor-pointer text-mono-xs text-on-dark-disabled hover:text-on-dark-disabled"
+            className="p-spacing-1 bg-transparent border-none cursor-pointer text-mono-xs text-text-disabled hover:text-text-disabled"
             aria-expanded={!collapsed}
           >
             {collapsed ? <ChevronDown className="size-3" /> : <ChevronUp className="size-3" />}

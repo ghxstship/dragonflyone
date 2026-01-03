@@ -137,7 +137,7 @@ export default function PrivacySettingsPage() {
                 <Box key={key} className="flex items-center justify-between p-4 bg-surface-elevated rounded-card">
                   <Box>
                     <Body className="font-weight-medium">{label}</Body>
-                    <Body size="sm" className="text-on-dark-muted">{description}</Body>
+                    <Body size="sm" className="text-text-muted">{description}</Body>
                   </Box>
                   <Button
                     variant="ghost"
@@ -156,7 +156,7 @@ export default function PrivacySettingsPage() {
             <SectionHeader title="Data Retention" description="How long your data is stored" />
             <Box className="flex items-center gap-4 mt-4">
               <Badge variant="info" className="font-weight-medium px-4 py-2">{settings.data_retention_days} days</Badge>
-              <Body className="text-on-dark-muted">Your data is automatically deleted after this period of inactivity</Body>
+              <Body className="text-text-muted">Your data is automatically deleted after this period of inactivity</Body>
             </Box>
           </Card>
         </Section>
@@ -171,7 +171,7 @@ export default function PrivacySettingsPage() {
           <Card className="p-6 mb-6">
             <SectionHeader title="Export Your Data" description="Download a copy of all your data" />
             <Box className="mt-4">
-              <Body className="text-on-dark-muted mb-4">Request a complete export of your data including projects, contacts, and activity history. You will receive an email with a download link when ready.</Body>
+              <Body className="text-text-muted mb-4">Request a complete export of your data including projects, contacts, and activity history. You will receive an email with a download link when ready.</Body>
               <Button variant="outline" onClick={() => setShowExportConfirm(true)} icon={<Download className="size-4" />} iconPosition="left">
                 Request Data Export
               </Button>
@@ -181,7 +181,7 @@ export default function PrivacySettingsPage() {
           <Card className="p-6 border-error">
             <SectionHeader title="Delete Account" description="Permanently delete your account and all data" />
             <Box className="mt-4">
-              <Body className="text-on-dark-muted mb-4">This action cannot be undone. All your data will be permanently deleted after a 30-day grace period.</Body>
+              <Body className="text-text-muted mb-4">This action cannot be undone. All your data will be permanently deleted after a 30-day grace period.</Body>
               <Button variant="outline" className="border-error text-error" onClick={() => setShowDeleteConfirm(true)} icon={<Trash2 className="size-4" />} iconPosition="left">
                 Delete Account
               </Button>
@@ -206,7 +206,7 @@ export default function PrivacySettingsPage() {
       <Modal open={showExportConfirm} onClose={() => setShowExportConfirm(false)}>
         <ModalHeader><Body className="font-weight-bold font-weight-medium">Export Your Data</Body></ModalHeader>
         <ModalBody>
-          <Body className="text-on-dark-muted">We will prepare a complete export of your data. This may take a few hours. You will receive an email with a download link when ready.</Body>
+          <Body className="text-text-muted">We will prepare a complete export of your data. This may take a few hours. You will receive an email with a download link when ready.</Body>
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setShowExportConfirm(false)}>Cancel</Button>
@@ -219,7 +219,7 @@ export default function PrivacySettingsPage() {
       <Modal open={showDeleteConfirm} onClose={() => setShowDeleteConfirm(false)}>
         <ModalHeader><Body className="font-weight-bold font-weight-medium text-error">Delete Account</Body></ModalHeader>
         <ModalBody>
-          <Body className="text-on-dark-muted mb-4">Are you sure you want to delete your account? This action cannot be undone.</Body>
+          <Body className="text-text-muted mb-4">Are you sure you want to delete your account? This action cannot be undone.</Body>
           <Card className="p-4 bg-error/10 border-error">
             <Body size="sm" className="text-error">All your data will be permanently deleted after a 30-day grace period. You can cancel this request within that time.</Body>
           </Card>

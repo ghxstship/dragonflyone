@@ -53,7 +53,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
               <caption className={clsx(
                 "text-left font-heading text-sm uppercase tracking-wider py-2 px-4",
                 captionHidden && "sr-only",
-                isDark ? "text-on-dark-secondary" : "text-on-light-muted"
+                isDark ? "text-text-secondary" : "text-text-muted"
               )}>
                 {caption}
               </caption>
@@ -77,8 +77,8 @@ export const TableHeader = forwardRef<HTMLTableSectionElement, HTMLAttributes<HT
         className={clsx(
           "border-b-2",
           isDark 
-            ? "bg-surface-inverse text-on-dark-primary border-border" 
-            : "bg-surface-inverse text-on-dark-primary border-border-primary",
+            ? "bg-surface-inverse text-text-primary border-border" 
+            : "bg-surface-inverse text-text-primary border-border-primary",
           className
         )}
         {...props}
@@ -163,7 +163,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TdHTMLAttributes<HTMLT
         ref={ref}
         className={clsx(
           "px-4 py-3 font-body text-sm",
-          isDark ? "text-on-dark-secondary" : "text-on-light-primary",
+          isDark ? "text-text-secondary" : "text-text-primary",
           className
         )}
         {...props}

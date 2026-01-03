@@ -131,7 +131,7 @@ export default function TrainingPage() {
                         {feature.icon}
                       </Box>
                       <Body className="text-white font-weight-bold mb-2">{feature.title}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{feature.description}</Body>
+                      <Body size="sm" className="text-text-muted">{feature.description}</Body>
                     </Card>
                   ))}
                 </Grid>
@@ -148,7 +148,7 @@ export default function TrainingPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Certification Paths</Body>
                   <Body className="text-white font-weight-bold text-h3-md">Choose Your Track</Body>
-                  <Body className="text-on-dark-muted max-w-2xl">Progress through our structured certification program to become an ATLVS expert.</Body>
+                  <Body className="text-text-muted max-w-2xl">Progress through our structured certification program to become an ATLVS expert.</Body>
                 </Stack>
 
                 <Grid cols={3} gap={6} className="grid-cols-1 lg:grid-cols-3">
@@ -163,9 +163,9 @@ export default function TrainingPage() {
                         </Box>
                         <Stack gap={2}>
                           <Body className="text-white font-weight-bold text-h5-md">{track.title}</Body>
-                          <Body size="sm" className="text-on-dark-muted">{track.description}</Body>
+                          <Body size="sm" className="text-text-muted">{track.description}</Body>
                         </Stack>
-                        <Box className="flex items-center gap-4 text-on-dark-disabled">
+                        <Box className="flex items-center gap-4 text-text-disabled">
                           <Box className="flex items-center gap-1">
                             <Clock className="size-4" />
                             <Body size="sm">{track.duration}</Body>
@@ -176,11 +176,11 @@ export default function TrainingPage() {
                           </Box>
                         </Box>
                         <Stack gap={2}>
-                          <Body size="sm" className="text-on-dark-secondary font-weight-medium">Topics covered:</Body>
+                          <Body size="sm" className="text-text-secondary font-weight-medium">Topics covered:</Body>
                           {track.topics.map((topic, idx) => (
                             <Box key={idx} className="flex items-center gap-2">
                               <CheckCircle className="size-4 text-success" />
-                              <Body size="sm" className="text-on-dark-muted">{topic}</Body>
+                              <Body size="sm" className="text-text-muted">{topic}</Body>
                             </Box>
                           ))}
                         </Stack>
@@ -204,7 +204,7 @@ export default function TrainingPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Live Learning</Body>
                   <Body className="text-white font-weight-bold text-h3-md">Upcoming Workshops</Body>
-                  <Body className="text-on-dark-muted">Join live sessions with industry experts</Body>
+                  <Body className="text-text-muted">Join live sessions with industry experts</Body>
                 </Stack>
 
                 <Stack gap={4}>
@@ -217,7 +217,7 @@ export default function TrainingPage() {
                           </Box>
                           <Box>
                             <Body className="text-white font-weight-medium">{workshop.title}</Body>
-                            <Body size="sm" className="text-on-dark-muted">{workshop.date} at {workshop.time}</Body>
+                            <Body size="sm" className="text-text-muted">{workshop.date} at {workshop.time}</Body>
                           </Box>
                         </Box>
                         <Box className="flex items-center gap-4">

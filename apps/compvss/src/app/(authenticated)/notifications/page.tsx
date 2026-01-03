@@ -92,9 +92,9 @@ export default function NotificationsPage() {
 
           {filteredNotifications.length === 0 ? (
             <Card className="p-8 text-center">
-              <Bell className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <Bell className="size-12 text-text-disabled mx-auto mb-4" />
               <Body className="font-weight-medium mb-2">No notifications</Body>
-              <Body className="text-on-dark-muted">You are all caught up!</Body>
+              <Body className="text-text-muted">You are all caught up!</Body>
             </Card>
           ) : (
             <Stack gap={2}>
@@ -109,10 +109,10 @@ export default function NotificationsPage() {
                       <Box className="flex-1">
                         <Box className="flex items-start justify-between">
                           <Box>
-                            <Body className={`font-weight-medium ${!notification.read ? "" : "text-on-dark-muted"}`}>{notification.title}</Body>
-                            <Body size="sm" className="text-on-dark-muted">{notification.message}</Body>
+                            <Body className={`font-weight-medium ${!notification.read ? "" : "text-text-muted"}`}>{notification.title}</Body>
+                            <Body size="sm" className="text-text-muted">{notification.message}</Body>
                           </Box>
-                          <Body size="sm" className="text-on-dark-disabled">{formatDate(notification.created_at)}</Body>
+                          <Body size="sm" className="text-text-disabled">{formatDate(notification.created_at)}</Body>
                         </Box>
                       </Box>
                       {!notification.read && (

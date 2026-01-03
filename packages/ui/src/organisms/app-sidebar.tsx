@@ -413,7 +413,7 @@ function SidebarBadge({
     if (variant === 'new') {
       return (
         <span
-          className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-accent-500 text-on-light-primary flex-shrink-0"
+          className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-accent-500 text-text-primary flex-shrink-0"
           title={tooltip}
         >
           NEW
@@ -426,7 +426,7 @@ function SidebarBadge({
       <span
         className={clsx(
           "px-1.5 py-0.5 text-[10px] font-mono rounded flex-shrink-0",
-          inverted ? "bg-surface-elevated text-on-dark-secondary" : "bg-muted text-on-light-secondary"
+          inverted ? "bg-surface-elevated text-text-secondary" : "bg-muted text-text-secondary"
         )}
         title={tooltip}
       >
@@ -440,7 +440,7 @@ function SidebarBadge({
     <span
       className={clsx(
         "px-1.5 py-0.5 text-[10px] font-mono rounded flex-shrink-0",
-        inverted ? "bg-surface-elevated text-on-dark-secondary" : "bg-muted text-on-light-secondary"
+        inverted ? "bg-surface-elevated text-text-secondary" : "bg-muted text-text-secondary"
       )}
     >
       {badge}
@@ -713,8 +713,8 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
                   ? "bg-primary-500 text-white font-medium"
                   : "bg-primary-500 text-white font-medium"
                 : inverted
-                  ? "text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary"
-                  : "text-on-light-secondary hover:bg-muted hover:text-on-light-primary",
+                  ? "text-text-secondary hover:bg-surface-elevated hover:text-text-primary"
+                  : "text-text-secondary hover:bg-muted hover:text-text-primary",
               item.primary && !active && "font-medium",
               item.disabled && "opacity-50 pointer-events-none"
             )}
@@ -726,7 +726,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
                 name={item.icon} 
                 className={clsx(
                   "flex-shrink-0",
-                  active ? "text-white" : inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                  active ? "text-white" : inverted ? "text-text-muted" : "text-text-muted"
                 )} 
               />
             )}
@@ -736,7 +736,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
                 {item.shortcut && (
                   <kbd className={clsx(
                     "hidden lg:inline-flex text-[10px] font-mono px-1 rounded",
-                    inverted ? "bg-surface-elevated text-on-dark-disabled" : "bg-muted text-on-light-disabled"
+                    inverted ? "bg-surface-elevated text-text-disabled" : "bg-muted text-text-disabled"
                   )}>
                     {item.shortcut}
                   </kbd>
@@ -762,8 +762,8 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
                     ? "text-accent-500 hover:bg-surface-elevated"
                     : "text-accent-500 hover:bg-muted"
                   : inverted
-                    ? "text-on-dark-disabled hover:text-accent-500 hover:bg-surface-elevated"
-                    : "text-on-light-disabled hover:text-accent-500 hover:bg-muted"
+                    ? "text-text-disabled hover:text-accent-500 hover:bg-surface-elevated"
+                    : "text-text-disabled hover:text-accent-500 hover:bg-muted"
               )}
               title={item.pinned ? "Unpin from favorites" : "Pin to favorites"}
               aria-label={item.pinned ? "Unpin from favorites" : "Pin to favorites"}
@@ -797,15 +797,15 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
               collapsed && "justify-center px-2",
               isHovered && (inverted ? "bg-surface-elevated/30" : "bg-muted/30"),
               inverted
-                ? "text-on-dark-disabled hover:text-on-dark-secondary hover:bg-surface-elevated/50"
-                : "text-on-light-disabled hover:text-on-light-secondary hover:bg-muted/50"
+                ? "text-text-disabled hover:text-text-secondary hover:bg-surface-elevated/50"
+                : "text-text-disabled hover:text-text-secondary hover:bg-muted/50"
             )}
           >
             {section.icon && (
               <SidebarIcon 
                 name={section.icon} 
                 size={14}
-                className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} 
+                className={inverted ? "text-text-disabled" : "text-text-disabled"} 
               />
             )}
             {!collapsed && (
@@ -816,7 +816,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
                   size={12}
                   className={clsx(
                     "transition-transform",
-                    inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                    inverted ? "text-text-disabled" : "text-text-disabled"
                   )}
                 />
               </>
@@ -838,7 +838,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
                   <div
                     className={clsx(
                       "px-3 py-1 text-[10px] uppercase tracking-wider font-medium",
-                      inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                      inverted ? "text-text-disabled" : "text-text-disabled"
                     )}
                   >
                     {subsection.label}
@@ -876,8 +876,8 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
           "flex flex-col h-screen border-r-2 transition-all duration-200",
           collapsed ? "w-16" : "w-64",
           inverted
-            ? "bg-surface-inverse border-border text-on-dark-primary"
-            : "bg-surface-primary border-border text-on-light-primary",
+            ? "bg-surface-inverse border-border text-text-primary"
+            : "bg-surface-primary border-border text-text-primary",
           className
         )}
         onKeyDown={handleKeyDown}
@@ -933,15 +933,15 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
                 ? "bg-surface-inverse border-border focus-within:border-border-primary" 
                 : "bg-surface-primary border-border focus-within:border-border-primary"
             )}>
-              <SidebarIcon name="Search" size={14} className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} />
+              <SidebarIcon name="Search" size={14} className={inverted ? "text-text-disabled" : "text-text-disabled"} />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Filter navigation..."
                 className={clsx(
-                  "flex-1 bg-transparent text-sm outline-none placeholder:text-on-dark-disabled",
-                  inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                  "flex-1 bg-transparent text-sm outline-none placeholder:text-text-disabled",
+                  inverted ? "text-text-primary" : "text-text-primary"
                 )}
                 aria-label="Filter navigation"
               />
@@ -951,7 +951,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
                   onClick={() => setSearchQuery("")}
                   className={clsx(
                     "p-0.5 rounded transition-colors",
-                    inverted ? "text-on-dark-disabled hover:text-white" : "text-on-light-disabled hover:text-on-light-secondary"
+                    inverted ? "text-text-disabled hover:text-white" : "text-text-disabled hover:text-text-secondary"
                   )}
                   aria-label="Clear search"
                 >
@@ -962,7 +962,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
             {searchQuery && sectionsToRender.length === 0 && (
               <div className={clsx(
                 "mt-2 text-xs text-center py-2",
-                inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                inverted ? "text-text-disabled" : "text-text-disabled"
               )}>
                 No results for &quot;{searchQuery}&quot;
               </div>
@@ -982,8 +982,8 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
                   className={clsx(
                     "flex items-center gap-1.5 px-2 py-1 text-xs font-medium rounded transition-colors",
                     inverted
-                      ? "bg-surface-elevated text-on-dark-secondary hover:bg-surface-inverse hover:text-on-dark-primary"
-                      : "bg-muted text-on-light-secondary hover:bg-muted hover:text-on-light-primary"
+                      ? "bg-surface-elevated text-text-secondary hover:bg-surface-inverse hover:text-text-primary"
+                      : "bg-muted text-text-secondary hover:bg-muted hover:text-text-primary"
                   )}
                   title={action.shortcut ? `${action.label} (${action.shortcut})` : action.label}
                 >
@@ -998,7 +998,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
         {/* Favorites Section */}
         {favorites && favorites.length > 0 && !collapsed && (
           <div className={clsx("px-2 py-2 border-b-2 flex-shrink-0", inverted ? "border-border" : "border-border")}>
-            <div className={clsx("px-1 py-1 text-[11px] uppercase tracking-wider font-semibold", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
+            <div className={clsx("px-1 py-1 text-[11px] uppercase tracking-wider font-semibold", inverted ? "text-text-disabled" : "text-text-disabled")}>
               Favorites
             </div>
             <div className="space-y-0.5">
@@ -1011,14 +1011,14 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
         {spaces && spaces.length > 0 && !collapsed && (
           <div className={clsx("px-2 py-2 border-b-2 flex-shrink-0", inverted ? "border-border" : "border-border")}>
             <div className="flex items-center justify-between px-1 py-1">
-              <span className={clsx("text-[11px] uppercase tracking-wider font-semibold", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
+              <span className={clsx("text-[11px] uppercase tracking-wider font-semibold", inverted ? "text-text-disabled" : "text-text-disabled")}>
                 Spaces
               </span>
               <button
                 type="button"
                 className={clsx(
                   "p-0.5 rounded transition-colors",
-                  inverted ? "text-on-dark-disabled hover:text-on-dark-secondary hover:bg-surface-elevated" : "text-on-light-disabled hover:text-on-light-secondary hover:bg-muted"
+                  inverted ? "text-text-disabled hover:text-text-secondary hover:bg-surface-elevated" : "text-text-disabled hover:text-text-secondary hover:bg-muted"
                 )}
               >
                 <SidebarIcon name="Plus" size={14} />
@@ -1037,8 +1037,8 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
                         ? "bg-primary-500 text-white"
                         : "bg-primary-500 text-white"
                       : inverted
-                        ? "text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary"
-                        : "text-on-light-secondary hover:bg-muted hover:text-on-light-primary"
+                        ? "text-text-secondary hover:bg-surface-elevated hover:text-text-primary"
+                        : "text-text-secondary hover:bg-muted hover:text-text-primary"
                   )}
                 >
                   <span
@@ -1055,7 +1055,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
         {/* Recent Pages Section */}
         {recentPages && recentPages.length > 0 && !collapsed && (
           <div className={clsx("px-2 py-2 border-b-2 flex-shrink-0", inverted ? "border-border" : "border-border")}>
-            <div className={clsx("px-1 py-1 text-[11px] uppercase tracking-wider font-semibold", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
+            <div className={clsx("px-1 py-1 text-[11px] uppercase tracking-wider font-semibold", inverted ? "text-text-disabled" : "text-text-disabled")}>
               Recent
             </div>
             <div className="space-y-0.5">
@@ -1073,8 +1073,8 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
               className={clsx(
                 "px-2 py-0.5 text-[10px] font-medium rounded transition-colors",
                 inverted
-                  ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
-                  : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                  ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated"
+                  : "text-text-muted hover:text-text-primary hover:bg-muted"
               )}
               title="Expand all sections"
             >
@@ -1086,8 +1086,8 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
               className={clsx(
                 "px-2 py-0.5 text-[10px] font-medium rounded transition-colors",
                 inverted
-                  ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
-                  : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                  ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated"
+                  : "text-text-muted hover:text-text-primary hover:bg-muted"
               )}
               title="Collapse all sections"
             >
@@ -1112,8 +1112,8 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
           className={clsx(
             "flex items-center justify-center h-10 border-t-2 transition-colors flex-shrink-0",
             inverted
-              ? "border-border text-on-dark-disabled hover:text-on-dark-primary hover:bg-surface-elevated"
-              : "border-border text-on-light-disabled hover:text-on-light-primary hover:bg-muted"
+              ? "border-border text-text-disabled hover:text-text-primary hover:bg-surface-elevated"
+              : "border-border text-text-disabled hover:text-text-primary hover:bg-muted"
           )}
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
@@ -1182,8 +1182,8 @@ export const MobileAppSidebar = forwardRef<HTMLElement, MobileAppSidebarProps>(
               className={clsx(
                 "absolute top-3 right-3 z-content-controls p-1.5 rounded transition-colors",
                 inverted
-                  ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
-                  : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                  ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated"
+                  : "text-text-muted hover:text-text-primary hover:bg-muted"
               )}
               aria-label="Close menu"
             >

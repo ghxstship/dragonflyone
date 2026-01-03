@@ -9,7 +9,7 @@ export const Main = forwardRef<HTMLElement, HTMLAttributes<HTMLElement> & { back
       white: "bg-surface-primary text-text-primary",
       black: "bg-surface-inverse text-text-inverse",
       grey: "bg-surface-secondary text-text-primary",
-      ink: "bg-surface-inverse text-on-dark-primary",
+      ink: "bg-surface-inverse text-text-primary",
     };
 
     return (
@@ -112,7 +112,7 @@ export const Figure = forwardRef<HTMLElement, HTMLAttributes<HTMLElement> & { ca
       >
         {children}
         {caption && (
-          <figcaption className="mt-spacing-2 text-mono-sm text-on-dark-disabled font-code">
+          <figcaption className="mt-spacing-2 text-mono-sm text-text-disabled font-code">
             {caption}
           </figcaption>
         )}

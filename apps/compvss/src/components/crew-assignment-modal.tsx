@@ -56,7 +56,7 @@ export function CrewAssignmentModal({
     <Modal open={isOpen} onClose={onClose}>
       <ModalHeader>
         <H2 className="uppercase">Assign Crew to Project</H2>
-        <Body size="sm" className="text-on-light-secondary">Project ID: {projectId}</Body>
+        <Body size="sm" className="text-text-secondary">Project ID: {projectId}</Body>
       </ModalHeader>
 
       <ModalBody>
@@ -68,7 +68,7 @@ export function CrewAssignmentModal({
             >
               <Stack gap={1}>
                 <Body className="font-weight-bold">{crew.name}</Body>
-                <Body size="sm" className="text-on-light-secondary">{crew.role}</Body>
+                <Body size="sm" className="text-text-secondary">{crew.role}</Body>
               </Stack>
               <Checkbox
                 checked={selectedCrew.includes(crew.id)}

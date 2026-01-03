@@ -48,7 +48,7 @@ export function CrewIntelligence() {
           placeholder="Search crew, roles, locations"
           className="w-full"
         />
-        <Stack direction="horizontal" gap={2} className="flex-wrap text-mono-xs uppercase tracking-kicker text-on-light-disabled">
+        <Stack direction="horizontal" gap={2} className="flex-wrap text-mono-xs uppercase tracking-kicker text-text-disabled">
           {compvssCrewSkills.map((skill) => (
             <Button
               key={skill}
@@ -68,16 +68,16 @@ export function CrewIntelligence() {
           <Article key={crew.name} variant="bordered" className="p-spacing-4">
             <Stack direction="horizontal" className="items-start justify-between gap-3">
               <Stack>
-                <Label size="xs" className="uppercase tracking-kicker text-on-light-muted">{crew.role}</Label>
+                <Label size="xs" className="uppercase tracking-kicker text-text-muted">{crew.role}</Label>
                 <H4 className="text-h5-md">{crew.name}</H4>
               </Stack>
-              <Label className="text-mono-xs uppercase tracking-kicker text-on-light-disabled">{crew.availability}</Label>
+              <Label className="text-mono-xs uppercase tracking-kicker text-text-disabled">{crew.availability}</Label>
             </Stack>
-            <Body className="mt-spacing-2 text-on-dark-secondary">{crew.location}</Body>
-            <Link href={`mailto:${crew.contact}`} className="mt-spacing-2 inline-flex text-mono-xs uppercase tracking-kicker text-on-dark-muted">
+            <Body className="mt-spacing-2 text-text-secondary">{crew.location}</Body>
+            <Link href={`mailto:${crew.contact}`} className="mt-spacing-2 inline-flex text-mono-xs uppercase tracking-kicker text-text-muted">
               {crew.contact}
             </Link>
-            <Stack direction="horizontal" gap={2} className="mt-spacing-3 flex-wrap text-mono-xs uppercase tracking-kicker text-on-light-disabled">
+            <Stack direction="horizontal" gap={2} className="mt-spacing-3 flex-wrap text-mono-xs uppercase tracking-kicker text-text-disabled">
               {crew.skills.map((skill) => (
                 <Badge key={`${crew.name}-${skill}`} variant="outline">
                   {skill}
@@ -93,19 +93,19 @@ export function CrewIntelligence() {
         <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           {compvssCrewCallSchedule.map((call) => (
             <Article key={call.id} variant="bordered" className="p-spacing-4">
-              <Label className="text-mono-xs uppercase tracking-kicker text-on-light-muted">{call.department}</Label>
+              <Label className="text-mono-xs uppercase tracking-kicker text-text-muted">{call.department}</Label>
               <H4 className="text-h5-md">{call.location}</H4>
-              <Stack direction="horizontal" gap={6} className="mt-spacing-2 text-on-dark-secondary">
+              <Stack direction="horizontal" gap={6} className="mt-spacing-2 text-text-secondary">
                 <Stack>
-                  <Label className="text-mono-xs uppercase tracking-kicker text-on-light-muted">Date</Label>
+                  <Label className="text-mono-xs uppercase tracking-kicker text-text-muted">Date</Label>
                   <Body>{call.date}</Body>
                 </Stack>
                 <Stack>
-                  <Label className="text-mono-xs uppercase tracking-kicker text-on-light-muted">Call</Label>
+                  <Label className="text-mono-xs uppercase tracking-kicker text-text-muted">Call</Label>
                   <Body>{call.callTime}</Body>
                 </Stack>
               </Stack>
-              <Stack gap={1} className="mt-spacing-3 text-on-dark-muted">
+              <Stack gap={1} className="mt-spacing-3 text-text-muted">
                 {call.crew.map((member) => (
                   <Body key={`${call.id}-${member}`}>• {member}</Body>
                 ))}

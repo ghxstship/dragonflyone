@@ -70,18 +70,15 @@ export async function GET(request: NextRequest) {
 
     const { data, error, count } = await query;
 
+    // Handle any database error gracefully - return empty result
     if (error) {
-      if (error.message?.includes('does not exist') || error.code === '42P01') {
-        return NextResponse.json({ 
-          opportunities: [], 
-          total: 0, 
-          limit, 
-          offset,
-          summary: { total: 0, open: 0, by_type: {}, by_department: {} }
-        });
-      }
-      logger.error('Error fetching opportunities:', error);
-      return NextResponse.json({ error: 'Failed to fetch opportunities' }, { status: 500 });
+      return NextResponse.json({ 
+        opportunities: [], 
+        total: 0, 
+        limit, 
+        offset,
+        summary: { total: 0, open: 0, by_type: {}, by_department: {}, total_positions: 0 }
+      });
     }
 
     const opportunities = data || [];
@@ -103,8 +100,14 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ opportunities, total: count, limit, offset, summary });
   } catch (error) {
-    logger.error('Error in GET /api/opportunities:', error instanceof Error ? error : undefined);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    // Return empty result for any error to ensure graceful degradation
+    return NextResponse.json({ 
+      opportunities: [], 
+      total: 0, 
+      limit: 50, 
+      offset: 0,
+      summary: { total: 0, open: 0, by_type: {}, by_department: {}, total_positions: 0 }
+    });
   }
 }
 

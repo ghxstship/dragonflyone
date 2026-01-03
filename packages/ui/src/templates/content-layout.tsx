@@ -150,7 +150,7 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
             className={clsx(
               "absolute top-2 p-1 rounded transition-colors",
               sidePosition === "left" ? "right-2" : "left-2",
-              inverted ? "hover:bg-surface-elevated text-on-dark-muted" : "hover:bg-muted text-on-light-muted"
+              inverted ? "hover:bg-surface-elevated text-text-muted" : "hover:bg-muted text-text-muted"
             )}
             aria-label={collapsed ? "Expand panel" : "Collapse panel"}
           >
@@ -184,7 +184,7 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
         aria-label="Expand panel"
       >
         <svg
-          className="size-4 text-on-dark-muted"
+          className="size-4 text-text-muted"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -245,7 +245,7 @@ export const PanelLayout = forwardRef<HTMLDivElement, PanelLayoutProps>(
               <div
                 className={clsx(
                   "px-4 py-3 border-b-2 font-semibold text-sm uppercase tracking-wide",
-                  inverted ? "border-border text-on-dark-secondary" : "border-border text-on-light-secondary"
+                  inverted ? "border-border text-text-secondary" : "border-border text-text-secondary"
                 )}
               >
                 {section.title}
@@ -333,7 +333,7 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
                 <h3
                   className={clsx(
                     "font-semibold text-base",
-                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                    inverted ? "text-text-primary" : "text-text-primary"
                   )}
                 >
                   {title}
@@ -343,7 +343,7 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
                 <p
                   className={clsx(
                     "text-sm mt-0.5",
-                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                    inverted ? "text-text-muted" : "text-text-muted"
                   )}
                 >
                   {subtitle}
@@ -411,7 +411,7 @@ export const KanbanLayout = forwardRef<HTMLDivElement, KanbanLayoutProps>(
                 <span
                   className={clsx(
                     "font-semibold text-sm",
-                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                    inverted ? "text-text-primary" : "text-text-primary"
                   )}
                 >
                   {column.title}
@@ -420,7 +420,7 @@ export const KanbanLayout = forwardRef<HTMLDivElement, KanbanLayoutProps>(
                   <span
                     className={clsx(
                       "px-1.5 py-0.5 text-xs rounded",
-                      inverted ? "bg-surface-elevated text-on-dark-muted" : "bg-muted text-on-light-muted"
+                      inverted ? "bg-surface-elevated text-text-muted" : "bg-muted text-text-muted"
                     )}
                   >
                     {column.count}
@@ -511,7 +511,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
           <h4
             className={clsx(
               "font-medium text-sm mb-1",
-              inverted ? "text-on-dark-primary" : "text-on-light-primary"
+              inverted ? "text-text-primary" : "text-text-primary"
             )}
           >
             {title}
@@ -523,7 +523,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
           <p
             className={clsx(
               "text-xs mb-2",
-              inverted ? "text-on-dark-muted" : "text-on-light-muted"
+              inverted ? "text-text-muted" : "text-text-muted"
             )}
           >
             {subtitle}
@@ -541,7 +541,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
                 key={index}
                 className={clsx(
                   "px-1.5 py-0.5 text-[10px] rounded font-medium",
-                  inverted ? "bg-surface-elevated text-on-dark-secondary" : "bg-muted text-on-light-secondary"
+                  inverted ? "bg-surface-elevated text-text-secondary" : "bg-muted text-text-secondary"
                 )}
                 style={tag.color ? { backgroundColor: tag.color, color: "white" } : undefined}
               >
@@ -566,7 +566,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
                   <div
                     className={clsx(
                       "w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold",
-                      inverted ? "bg-surface-elevated text-on-dark-primary" : "bg-muted text-on-light-secondary"
+                      inverted ? "bg-surface-elevated text-text-primary" : "bg-muted text-text-secondary"
                     )}
                   >
                     {assignee.name.charAt(0).toUpperCase()}
@@ -575,7 +575,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
                 <span
                   className={clsx(
                     "text-xs",
-                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                    inverted ? "text-text-muted" : "text-text-muted"
                   )}
                 >
                   {assignee.name}
@@ -586,7 +586,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>(
               <span
                 className={clsx(
                   "text-xs",
-                  inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                  inverted ? "text-text-disabled" : "text-text-disabled"
                 )}
               >
                 {dueDate}

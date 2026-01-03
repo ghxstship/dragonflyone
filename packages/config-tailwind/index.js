@@ -38,32 +38,32 @@ const inkPalette = {
 };
 
 /**
- * Semantic Text Colors - WCAG AA compliant text/background pairings
+ * @deprecated LEGACY - DO NOT USE
+ * Text colors are now handled via CSS variables and section-level theming.
+ * Use text-text-primary, text-text-secondary, text-text-muted, text-text-disabled
+ * combined with section-dark/section-light/section-inverted classes.
  * 
- * Usage:
- * - text-on-dark-*: Use when text appears on dark backgrounds (ink-700 to ink-950)
- * - text-on-light-*: Use when text appears on light backgrounds (ink-50 to ink-200)
- * - text-on-mid-*: Use when text appears on mid-tone backgrounds (ink-400 to ink-600)
+ * Kept for backwards compatibility only - will be removed in next major version.
  */
 const textColorPalette = {
-  // On dark backgrounds (ink-700, ink-800, ink-900, ink-950)
+  // @deprecated - use text-text-primary with section-dark class
   'on-dark': {
-    primary: inkPalette[50],      // #FFFFFF - 21:1 on ink-950
-    secondary: inkPalette[300],   // #D4D4D4 - 12.6:1 on ink-950
-    muted: inkPalette[400],       // #A3A3A3 - 7.4:1 on ink-950
-    disabled: inkPalette[500],    // #737373 - 4.6:1 on ink-950
+    primary: inkPalette[50],
+    secondary: inkPalette[300],
+    muted: inkPalette[400],
+    disabled: inkPalette[500],
   },
-  // On light backgrounds (ink-50, ink-100, ink-200)
+  // @deprecated - use text-text-primary with section-light class
   'on-light': {
-    primary: inkPalette[950],     // #000000 - 21:1 on ink-50
-    secondary: inkPalette[700],   // #404040 - 9.7:1 on ink-50
-    muted: inkPalette[500],       // #737373 - 4.6:1 on ink-50
-    disabled: inkPalette[400],    // #A3A3A3 - 2.7:1 on ink-50 (decorative only)
+    primary: inkPalette[950],
+    secondary: inkPalette[700],
+    muted: inkPalette[500],
+    disabled: inkPalette[400],
   },
-  // On mid-tone backgrounds (ink-400, ink-500, ink-600)
+  // @deprecated - use text-text-primary with appropriate section class
   'on-mid': {
-    primary: inkPalette[50],      // #FFFFFF - 7.4:1 on ink-500
-    secondary: inkPalette[200],   // #E5E5E5 - 5.3:1 on ink-500
+    primary: inkPalette[50],
+    secondary: inkPalette[200],
   },
 };
 
@@ -605,12 +605,10 @@ const baseTailwindConfig = {
         // Semantic interactive state colors (CSS variable-based for theming)
         ...semanticInteractiveColors,
       },
-      // Semantic text colors for WCAG-compliant text/background pairings
-      // Usage: text-on-dark-primary, text-on-light-secondary, text-on-mid-muted, etc.
+      // Semantic text colors (CSS variable-based for section-level theming)
+      // Usage: text-text-primary, text-text-secondary, text-text-muted, etc.
+      // Combined with section-dark/section-light/section-inverted classes
       textColor: {
-        'on-dark': textColorPalette['on-dark'],
-        'on-light': textColorPalette['on-light'],
-        'on-mid': textColorPalette['on-mid'],
         // Semantic text colors (CSS variable-based for theming)
         ...semanticTextColors,
       },

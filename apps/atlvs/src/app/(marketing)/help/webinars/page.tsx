@@ -173,7 +173,7 @@ export default function WebinarsPage() {
                         {feature.icon}
                       </Box>
                       <Body className="text-white font-weight-bold mb-2">{feature.title}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{feature.description}</Body>
+                      <Body size="sm" className="text-text-muted">{feature.description}</Body>
                     </Card>
                   ))}
                 </Grid>
@@ -190,7 +190,7 @@ export default function WebinarsPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Live Sessions</Body>
                   <Body className="text-white font-weight-bold text-h3-md">Upcoming Webinars</Body>
-                  <Body className="text-on-dark-muted">Register now to secure your spot</Body>
+                  <Body className="text-text-muted">Register now to secure your spot</Body>
                 </Stack>
 
                 <Stack gap={4}>
@@ -206,11 +206,11 @@ export default function WebinarsPage() {
                               <Badge variant="outline">{webinar.category}</Badge>
                             </Box>
                             <Body className="text-white font-weight-bold mb-1">{webinar.title}</Body>
-                            <Body size="sm" className="text-on-dark-muted">{webinar.speaker}, {webinar.role}</Body>
+                            <Body size="sm" className="text-text-muted">{webinar.speaker}, {webinar.role}</Body>
                           </Box>
                         </Box>
                         <Box className="flex flex-col sm:flex-row items-start sm:items-center gap-4 lg:gap-6">
-                          <Box className="flex items-center gap-4 text-on-dark-disabled">
+                          <Box className="flex items-center gap-4 text-text-disabled">
                             <Box className="flex items-center gap-1">
                               <Calendar className="size-4" />
                               <Body size="sm">{webinar.date}</Body>
@@ -248,7 +248,7 @@ export default function WebinarsPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">On-Demand</Body>
                   <Body className="text-white font-weight-bold text-h3-md">Featured Recordings</Body>
-                  <Body className="text-on-dark-muted">Watch our most popular sessions anytime</Body>
+                  <Body className="text-text-muted">Watch our most popular sessions anytime</Body>
                 </Stack>
 
                 <Grid cols={4} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
@@ -263,7 +263,7 @@ export default function WebinarsPage() {
                         <Box>
                           <Badge variant="outline" className="mb-2">{recording.category}</Badge>
                           <Body className="text-white font-weight-medium">{recording.title}</Body>
-                          <Box className="flex items-center gap-3 mt-2 text-on-dark-disabled">
+                          <Box className="flex items-center gap-3 mt-2 text-text-disabled">
                             <Body size="sm">{recording.duration}</Body>
                             <Body size="sm">{recording.views.toLocaleString()} views</Body>
                           </Box>

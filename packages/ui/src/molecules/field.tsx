@@ -18,15 +18,15 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(
         {label ? (
           <label className={clsx(
             "font-heading text-h6-sm uppercase tracking-wider",
-            inverted ? "text-on-dark-secondary" : "text-on-light-primary"
+            inverted ? "text-text-secondary" : "text-text-primary"
           )}>
             {label}
-            {required ? <span className={clsx("ml-spacing-1", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>*</span> : null}
+            {required ? <span className={clsx("ml-spacing-1", inverted ? "text-text-primary" : "text-text-primary")}>*</span> : null}
           </label>
         ) : null}
         {children}
         {hint && !error ? (
-          <span className={clsx("font-code text-mono-xs", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>{hint}</span>
+          <span className={clsx("font-code text-mono-xs", inverted ? "text-text-muted" : "text-text-muted")}>{hint}</span>
         ) : null}
         {error ? (
           <span className={clsx(

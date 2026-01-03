@@ -150,8 +150,8 @@ function NavItemButton({ item, isActive, inverted, onNavigate, compact }: NavIte
             ? "text-primary-400"
             : "text-primary-600"
           : inverted
-          ? "text-on-dark-muted hover:text-on-dark-secondary active:text-on-dark-primary"
-          : "text-on-light-muted hover:text-on-light-secondary active:text-on-light-primary"
+          ? "text-text-muted hover:text-text-secondary active:text-text-primary"
+          : "text-text-muted hover:text-text-secondary active:text-text-primary"
       )}
       aria-current={isActive ? "page" : undefined}
     >

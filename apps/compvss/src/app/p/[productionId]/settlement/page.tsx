@@ -101,7 +101,7 @@ export default function ProductionSettlementPage() {
                     </Box>
                     <Box>
                       <Body className="font-weight-medium">{item.description}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{item.category}</Body>
+                      <Body size="sm" className="text-text-muted">{item.category}</Body>
                     </Box>
                   </Box>
                   <Box className="flex items-center gap-4">
@@ -126,13 +126,13 @@ export default function ProductionSettlementPage() {
             <Card className="p-6">
               <FileText className="size-8 text-primary mb-4" />
               <Body className="font-weight-bold mb-2">Settlement Summary</Body>
-              <Body size="sm" className="text-on-dark-muted mb-4">Complete settlement breakdown</Body>
+              <Body size="sm" className="text-text-muted mb-4">Complete settlement breakdown</Body>
               <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download PDF</Button>
             </Card>
             <Card className="p-6">
               <Calculator className="size-8 text-primary mb-4" />
               <Body className="font-weight-bold mb-2">Detailed Breakdown</Body>
-              <Body size="sm" className="text-on-dark-muted mb-4">Line-by-line expense report</Body>
+              <Body size="sm" className="text-text-muted mb-4">Line-by-line expense report</Body>
               <Button variant="outline" icon={<Download className="size-4" />} iconPosition="left">Download XLSX</Button>
             </Card>
           </Grid>

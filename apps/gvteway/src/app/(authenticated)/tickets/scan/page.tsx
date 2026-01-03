@@ -169,7 +169,7 @@ export default function TicketScanPage() {
             <Card className="p-8 text-center mb-6">
               <Stack direction="horizontal" gap={2} className="items-center justify-center">
                 <Loader2 className="size-5 animate-spin" />
-                <Body className="text-on-dark-muted">Loading statistics...</Body>
+                <Body className="text-text-muted">Loading statistics...</Body>
               </Stack>
             </Card>
           ) : statsError ? (
@@ -246,7 +246,7 @@ export default function TicketScanPage() {
               </Stack>
 
               <Card className="p-4 mt-6 bg-surface-elevated">
-                <Body size="sm" className="text-on-dark-muted">
+                <Body size="sm" className="text-text-muted">
                   1. Select the event from the dropdown
                   <br />
                   2. Scan the QR code with a scanner or enter the ticket code manually
@@ -262,7 +262,7 @@ export default function TicketScanPage() {
               <SectionHeader title="Recent Scans" />
               {recentScans.length === 0 ? (
                 <Card className="p-8 text-center">
-                  <Body className="text-on-dark-muted">No scans yet</Body>
+                  <Body className="text-text-muted">No scans yet</Body>
                 </Card>
               ) : (
                 <Stack gap={3}>
@@ -273,14 +273,14 @@ export default function TicketScanPage() {
                           {getScanStatusIcon(scan.status)}
                           <Box>
                             <Body className="font-weight-medium">{scan.attendeeName}</Body>
-                            <Body size="sm" className="font-mono text-on-dark-muted">
+                            <Body size="sm" className="font-mono text-text-muted">
                               {scan.ticketCode}
                             </Body>
                           </Box>
                         </Stack>
                         <Box className="text-right">
                           <Badge variant="outline">{scan.ticketType}</Badge>
-                          <Body size="sm" className="text-on-dark-muted mt-1">
+                          <Body size="sm" className="text-text-muted mt-1">
                             {scan.timestamp.toLocaleTimeString()}
                           </Body>
                         </Box>
@@ -303,7 +303,7 @@ export default function TicketScanPage() {
           <SectionHeader title="Scan History" description="All recorded ticket scans for this session" />
           {recentScans.length === 0 ? (
             <Card className="p-8 text-center">
-              <Body className="text-on-dark-muted">No scan history available</Body>
+              <Body className="text-text-muted">No scan history available</Body>
             </Card>
           ) : (
             <Stack gap={3}>
@@ -314,14 +314,14 @@ export default function TicketScanPage() {
                       {getScanStatusIcon(scan.status)}
                       <Box>
                         <Body className="font-weight-medium">{scan.attendeeName}</Body>
-                        <Body size="sm" className="font-mono text-on-dark-muted">
+                        <Body size="sm" className="font-mono text-text-muted">
                           {scan.ticketCode}
                         </Body>
                       </Box>
                     </Stack>
                     <Box className="text-right">
                       <Badge variant="outline">{scan.ticketType}</Badge>
-                      <Body size="sm" className="text-on-dark-muted mt-1">
+                      <Body size="sm" className="text-text-muted mt-1">
                         <Clock className="size-3 inline mr-1" />
                         {scan.timestamp.toLocaleString()}
                       </Body>
@@ -373,31 +373,31 @@ export default function TicketScanPage() {
                 </Box>
               </Stack>
 
-              <Body className="font-mono text-on-dark-muted">{scannedTicket.ticket_code}</Body>
+              <Body className="font-mono text-text-muted">{scannedTicket.ticket_code}</Body>
             </Card>
 
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <Box>
-                <Body size="sm" className="text-on-dark-muted">
+                <Body size="sm" className="text-text-muted">
                   Event
                 </Body>
                 <Body>{scannedTicket.event_name}</Body>
               </Box>
               <Box>
-                <Body size="sm" className="text-on-dark-muted">
+                <Body size="sm" className="text-text-muted">
                   Ticket Type
                 </Body>
                 <Body>{scannedTicket.ticket_type}</Body>
               </Box>
               <Box>
-                <Body size="sm" className="text-on-dark-muted">
+                <Body size="sm" className="text-text-muted">
                   Email
                 </Body>
                 <Body>{scannedTicket.attendee_email}</Body>
               </Box>
               {scannedTicket.seat_info && (
                 <Box>
-                  <Body size="sm" className="text-on-dark-muted">
+                  <Body size="sm" className="text-text-muted">
                     Seat
                   </Body>
                   <Body>
@@ -408,7 +408,7 @@ export default function TicketScanPage() {
               )}
               {scannedTicket.checked_in_at && (
                 <Box>
-                  <Body size="sm" className="text-on-dark-muted">
+                  <Body size="sm" className="text-text-muted">
                     Checked In At
                   </Body>
                   <Body>{new Date(scannedTicket.checked_in_at).toLocaleString()}</Body>

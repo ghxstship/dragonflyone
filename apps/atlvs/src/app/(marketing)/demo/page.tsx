@@ -117,7 +117,7 @@ export default function DemoPage() {
                   <Stack gap={4}>
                     <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Why Schedule a Demo</Body>
                     <H3 className="text-white">Get a Personalized Walkthrough</H3>
-                    <Body className="text-on-dark-muted">
+                    <Body className="text-text-muted">
                       Our team will walk you through the platform and answer all your questions. 
                       See exactly how ATLVS can solve your specific production challenges.
                     </Body>
@@ -129,7 +129,7 @@ export default function DemoPage() {
                         <Box className="p-1 bg-success/20 rounded-avatar">
                           <Check className="size-4 text-success" />
                         </Box>
-                        <Body className="text-on-dark-secondary">{benefit}</Body>
+                        <Body className="text-text-secondary">{benefit}</Body>
                       </Stack>
                     ))}
                   </Stack>

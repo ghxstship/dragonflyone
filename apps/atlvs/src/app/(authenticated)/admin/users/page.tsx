@@ -190,7 +190,7 @@ export default function AdminUsersPage() {
           </Grid>
 
           <Box className="relative mb-6">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-text-muted" />
             <Input
               type="text"
               placeholder="Search users by email or name..."
@@ -202,8 +202,8 @@ export default function AdminUsersPage() {
 
           {users.length === 0 ? (
             <Box className="text-center py-12">
-              <Users className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="text-on-dark-muted">No users found</Body>
+              <Users className="size-12 text-text-disabled mx-auto mb-4" />
+              <Body className="text-text-muted">No users found</Body>
             </Box>
           ) : (
             <Card className="overflow-hidden">
@@ -222,7 +222,7 @@ export default function AdminUsersPage() {
                       <TableCell>
                         <Box>
                           <Body className="font-weight-medium">{user.full_name || "No name"}</Body>
-                          <Body size="sm" className="text-on-dark-muted">{user.email}</Body>
+                          <Body size="sm" className="text-text-muted">{user.email}</Body>
                         </Box>
                       </TableCell>
                       <TableCell>
@@ -238,7 +238,7 @@ export default function AdminUsersPage() {
                         </Stack>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-on-dark-muted">{formatDate(user.last_sign_in_at)}</Body>
+                        <Body size="sm" className="text-text-muted">{formatDate(user.last_sign_in_at)}</Body>
                       </TableCell>
                       <TableCell>
                         <Button variant="ghost" size="sm" onClick={() => openEditModal(user)}>Edit Roles</Button>
@@ -261,8 +261,8 @@ export default function AdminUsersPage() {
           <SectionHeader title="Permission Audit Log" description="Track all role changes" />
           {auditLogs.length === 0 ? (
             <Box className="text-center py-12">
-              <FileText className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="text-on-dark-muted">No audit logs found</Body>
+              <FileText className="size-12 text-text-disabled mx-auto mb-4" />
+              <Body className="text-text-muted">No audit logs found</Body>
             </Box>
           ) : (
             <Card className="overflow-hidden">
@@ -279,16 +279,16 @@ export default function AdminUsersPage() {
                   {auditLogs.map((entry) => (
                     <TableRow key={entry.id}>
                       <TableCell>
-                        <Body size="sm" className="text-on-dark-muted">{new Date(entry.created_at).toLocaleString()}</Body>
+                        <Body size="sm" className="text-text-muted">{new Date(entry.created_at).toLocaleString()}</Body>
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline" size="sm">{entry.action_type.replace(/_/g, " ")}</Badge>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-on-dark-muted">{entry.target_user_email || "-"}</Body>
+                        <Body size="sm" className="text-text-muted">{entry.target_user_email || "-"}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-on-dark-muted">{entry.performed_by_email || "-"}</Body>
+                        <Body size="sm" className="text-text-muted">{entry.performed_by_email || "-"}</Body>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -326,7 +326,7 @@ export default function AdminUsersPage() {
           <Stack gap={6}>
             {ROLE_GROUPS.map((group) => (
               <Box key={group.name}>
-                <Body size="sm" className="text-on-dark-muted uppercase tracking-label mb-3">{group.name}</Body>
+                <Body size="sm" className="text-text-muted uppercase tracking-label mb-3">{group.name}</Body>
                 <Stack direction="horizontal" className="flex-wrap gap-2">
                   {group.roles.map((role) => {
                     const isSelected = selectedRoles.includes(role);

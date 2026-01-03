@@ -237,7 +237,7 @@ export default function NotificationSettingsPage() {
               {preferences.quiet_hours_enabled && (
                 <Stack direction="horizontal" gap={4} className="pt-4">
                   <Stack gap={2} className="flex-1">
-                    <Body size="sm" className="text-on-dark-muted">Start Time</Body>
+                    <Body size="sm" className="text-text-muted">Start Time</Body>
                     <Select
                       value={preferences.quiet_hours_start}
                       onChange={(e) => setPreferences({ ...preferences, quiet_hours_start: e.target.value })}
@@ -253,7 +253,7 @@ export default function NotificationSettingsPage() {
                     </Select>
                   </Stack>
                   <Stack gap={2} className="flex-1">
-                    <Body size="sm" className="text-on-dark-muted">End Time</Body>
+                    <Body size="sm" className="text-text-muted">End Time</Body>
                     <Select
                       value={preferences.quiet_hours_end}
                       onChange={(e) => setPreferences({ ...preferences, quiet_hours_end: e.target.value })}

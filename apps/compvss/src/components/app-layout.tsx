@@ -404,7 +404,7 @@ export function CompvssAppLayout({
         background={background}
         header={
           <Container className="py-4">
-            <Link href="/" className={`font-display text-h5-md uppercase ${isDark ? "text-white hover:text-on-dark-secondary" : "text-black hover:text-on-dark-disabled"} transition-colors`}>
+            <Link href="/" className={`font-display text-h5-md uppercase ${isDark ? "text-white hover:text-text-secondary" : "text-black hover:text-text-disabled"} transition-colors`}>
               COMPVSS
             </Link>
           </Container>
@@ -442,7 +442,7 @@ export function CompvssAppLayout({
           navigation={getContextualNavigation()}
           currentPath={pathname}
           logo={
-            <Link href="/dashboard" className={`font-display text-h5-md uppercase ${inverted ? "text-white hover:text-on-dark-secondary" : "text-black hover:text-on-dark-disabled"} transition-colors`}>
+            <Link href="/dashboard" className={`font-display text-h5-md uppercase ${inverted ? "text-white hover:text-text-secondary" : "text-black hover:text-text-disabled"} transition-colors`}>
               COMPVSS
             </Link>
           }
@@ -620,7 +620,7 @@ export function CompvssEmptyLayout({
     <CompvssAppLayout variant={variant} background={background}>
       <Stack gap={6} className="flex min-h-[60vh] flex-col items-center justify-center text-center">
         <Display size="md" className={isDark ? "text-white" : "text-black"}>{title}</Display>
-        {description && <Label size="sm" className={`max-w-[28rem] ${isDark ? "text-on-dark-muted" : "text-muted"}`}>{description}</Label>}
+        {description && <Label size="sm" className={`max-w-[28rem] ${isDark ? "text-text-muted" : "text-muted"}`}>{description}</Label>}
         {action}
       </Stack>
     </CompvssAppLayout>

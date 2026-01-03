@@ -90,7 +90,7 @@ export default function SolutionsPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">By Role</Body>
                   <H3 className="text-white">Role-Based Solutions</H3>
-                  <Body className="text-on-dark-muted max-w-2xl">Tools designed for your specific role in the production ecosystem.</Body>
+                  <Body className="text-text-muted max-w-2xl">Tools designed for your specific role in the production ecosystem.</Body>
                 </Stack>
 
                 <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
@@ -107,10 +107,10 @@ export default function SolutionsPage() {
                           </Box>
                           <Stack gap={1}>
                             <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{role.title}</Body>
-                            <Body size="sm" className="text-on-dark-muted">{role.description}</Body>
+                            <Body size="sm" className="text-text-muted">{role.description}</Body>
                           </Stack>
                         </Stack>
-                        <ArrowRight className="size-5 text-on-dark-disabled group-hover:text-primary transition-colors flex-shrink-0" />
+                        <ArrowRight className="size-5 text-text-disabled group-hover:text-primary transition-colors flex-shrink-0" />
                       </Stack>
                     </Card>
                   ))}

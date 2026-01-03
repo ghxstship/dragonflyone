@@ -42,7 +42,7 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
     return (
       <div className="relative w-full">
         {icon && (
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-on-dark-muted pointer-events-none">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none">
             {icon}
           </div>
         )}
@@ -50,7 +50,7 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
           ref={ref}
           className={clsx(
             "w-full font-body rounded-lg border-2 transition-all duration-150",
-            "bg-surface-inverse/50 text-on-dark-primary placeholder:text-on-dark-disabled",
+            "bg-surface-inverse/50 text-text-primary placeholder:text-text-disabled",
             "focus:outline-none focus:ring-0",
             inputSizeClasses[size],
             iconPadding,
@@ -98,7 +98,7 @@ export const AuthFormField = forwardRef<HTMLInputElement, AuthFormFieldProps>(
       <Stack gap={2} className="w-full">
         <label
           htmlFor={fieldId}
-          className="font-code text-mono-sm uppercase tracking-widest text-on-dark-secondary font-medium"
+          className="font-code text-mono-sm uppercase tracking-widest text-text-secondary font-medium"
         >
           {label}
           {required && <span className="text-error-500 ml-1">*</span>}
@@ -118,7 +118,7 @@ export const AuthFormField = forwardRef<HTMLInputElement, AuthFormFieldProps>(
           </div>
         )}
         {hint && !errorMessage && (
-          <Body id={hintId} size="sm" className="text-on-dark-disabled">
+          <Body id={hintId} size="sm" className="text-text-disabled">
             {hint}
           </Body>
         )}
@@ -182,7 +182,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="p-1.5 text-on-dark-muted hover:text-white transition-colors rounded focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="p-1.5 text-text-muted hover:text-white transition-colors rounded focus:outline-none focus:ring-2 focus:ring-primary-500"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
@@ -254,7 +254,7 @@ export const PasswordRequirements = ({ requirements, className }: PasswordRequir
             size="xs"
             className={clsx(
               "transition-colors",
-              req.met ? "text-on-dark-secondary" : "text-on-dark-disabled"
+              req.met ? "text-text-secondary" : "text-text-disabled"
             )}
           >
             {req.label}
@@ -311,7 +311,7 @@ export const AuthCheckbox = forwardRef<HTMLInputElement, AuthCheckboxProps>(
             )}
           />
         </div>
-        <Body size="sm" className="text-on-dark-secondary group-hover:text-on-dark-primary transition-colors">
+        <Body size="sm" className="text-text-secondary group-hover:text-text-primary transition-colors">
           {label}
         </Body>
       </label>
@@ -333,7 +333,7 @@ export const AuthDivider = ({ text = "Or continue with", className }: AuthDivide
   return (
     <div className={clsx("relative flex items-center py-4", className)}>
       <div className="flex-1 border-t-2 border-border" />
-      <Body size="sm" className="px-4 text-on-dark-disabled uppercase tracking-wider">
+      <Body size="sm" className="px-4 text-text-disabled uppercase tracking-wider">
         {text}
       </Body>
       <div className="flex-1 border-t-2 border-border" />
@@ -372,7 +372,7 @@ const providerConfig = {
         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
       </svg>
     ),
-    bgClass: "bg-surface-tertiary hover:bg-surface-muted text-on-dark-primary border-border",
+    bgClass: "bg-surface-tertiary hover:bg-surface-muted text-text-primary border-border",
   },
   microsoft: {
     name: "Microsoft",
@@ -384,7 +384,7 @@ const providerConfig = {
         <path d="M22 22h-9.4v-9.4H22V22z" fill="#FFB900"/>
       </svg>
     ),
-    bgClass: "bg-surface-tertiary hover:bg-surface-muted text-on-dark-primary border-border",
+    bgClass: "bg-surface-tertiary hover:bg-surface-muted text-text-primary border-border",
   },
   apple: {
     name: "Apple",
@@ -393,7 +393,7 @@ const providerConfig = {
         <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
       </svg>
     ),
-    bgClass: "bg-surface-tertiary hover:bg-surface-muted text-on-dark-primary border-border",
+    bgClass: "bg-surface-tertiary hover:bg-surface-muted text-text-primary border-border",
   },
   github: {
     name: "GitHub",
@@ -402,7 +402,7 @@ const providerConfig = {
         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
       </svg>
     ),
-    bgClass: "bg-surface-tertiary hover:bg-surface-muted text-on-dark-primary border-border",
+    bgClass: "bg-surface-tertiary hover:bg-surface-muted text-text-primary border-border",
   },
 };
 

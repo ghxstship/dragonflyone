@@ -90,7 +90,7 @@ export default function ProductionSchedulePage() {
                     </Box>
                     <Box>
                       <Body className="font-weight-bold">{item.title}</Body>
-                      <Box className="flex items-center gap-4 mt-1 text-on-dark-muted">
+                      <Box className="flex items-center gap-4 mt-1 text-text-muted">
                         <Box className="flex items-center gap-1"><Calendar className="size-4" /><Body size="sm">{formatDate(item.date)}</Body></Box>
                         <Box className="flex items-center gap-1"><Clock className="size-4" /><Body size="sm">{item.time}</Body></Box>
                       </Box>
@@ -114,9 +114,9 @@ export default function ProductionSchedulePage() {
       content: (
         <Section>
           <Card className="p-8 text-center">
-            <Calendar className="size-12 text-on-dark-disabled mx-auto mb-4" />
+            <Calendar className="size-12 text-text-disabled mx-auto mb-4" />
             <Body className="font-weight-medium mb-2">Calendar View</Body>
-            <Body className="text-on-dark-muted">Calendar integration coming soon</Body>
+            <Body className="text-text-muted">Calendar integration coming soon</Body>
           </Card>
         </Section>
       ),

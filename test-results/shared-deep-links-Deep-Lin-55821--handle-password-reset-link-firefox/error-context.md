@@ -1,0 +1,46 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5] [cursor=pointer]:
+      - /url: "#main-content"
+    - main "Authentication content" [ref=e8]:
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - heading "Reset Your Password" [level=1] [ref=e12]
+          - paragraph [ref=e13]: Create a new secure password for your account
+        - generic [ref=e16]:
+          - generic [ref=e19]:
+            - generic [ref=e20]: New Password*
+            - generic [ref=e21]:
+              - img [ref=e23]
+              - textbox "New Password*" [ref=e26]:
+                - /placeholder: Enter new password
+              - button "Show password" [ref=e28]:
+                - img [ref=e29]
+          - generic [ref=e33]:
+            - generic [ref=e34]: Confirm New Password*
+            - generic [ref=e35]:
+              - img [ref=e37]
+              - textbox "Confirm New Password*" [ref=e40]:
+                - /placeholder: Confirm new password
+              - button "Show password" [ref=e42]:
+                - img [ref=e43]
+          - button "Reset Password" [ref=e46]
+    - contentinfo [ref=e47]:
+      - generic [ref=e49]:
+        - navigation "Footer navigation" [ref=e50]:
+          - generic [ref=e51]:
+            - link "Privacy" [ref=e52] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e53] [cursor=pointer]:
+              - /url: /legal/terms
+            - link "Help" [ref=e54] [cursor=pointer]:
+              - /url: /help
+        - text: © 2026 GHXSTSHIP INDUSTRIES
+```

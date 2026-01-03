@@ -98,7 +98,7 @@ export const MarketingPage = forwardRef<HTMLDivElement, MarketingPageProps>(
     },
     ref
   ) {
-    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+    const bgClass = inverted ? "bg-surface-inverse text-text-primary" : "bg-surface-primary text-text-primary";
 
     // Render state content
     const renderStateContent = (
@@ -111,8 +111,8 @@ export const MarketingPage = forwardRef<HTMLDivElement, MarketingPageProps>(
         <Stack gap={6} className="items-center text-center max-w-md">
           {icon}
           <Stack gap={2} className="items-center">
-            <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>{title}</H2>
-            <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>{message}</Body>
+            <H2 className={inverted ? "text-text-primary" : "text-text-primary"}>{title}</H2>
+            <Body className={inverted ? "text-text-muted" : "text-text-muted"}>{message}</Body>
           </Stack>
           {action}
         </Stack>

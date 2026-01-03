@@ -56,8 +56,8 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
     const paginationRange = generatePagination();
 
     const navButtonClasses = inverted
-      ? "px-spacing-3 py-spacing-2 border-2 border-border text-on-dark-secondary bg-transparent rounded-[var(--radius-button)] shadow-sm hover:bg-surface-primary hover:text-on-light-primary hover:border-on-dark-primary hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-md active:translate-x-0 active:translate-y-0 active:shadow-xs disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm leading-none"
-      : "px-spacing-3 py-spacing-2 border-2 border-border-primary text-on-light-primary bg-surface-primary rounded-[var(--radius-button)] shadow-sm hover:bg-surface-inverse hover:text-on-dark-primary hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-md active:translate-x-0 active:translate-y-0 active:shadow-xs disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm leading-none";
+      ? "px-spacing-3 py-spacing-2 border-2 border-border text-text-secondary bg-transparent rounded-[var(--radius-button)] shadow-sm hover:bg-surface-primary hover:text-text-primary hover:border-on-dark-primary hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-md active:translate-x-0 active:translate-y-0 active:shadow-xs disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm leading-none"
+      : "px-spacing-3 py-spacing-2 border-2 border-border-primary text-text-primary bg-surface-primary rounded-[var(--radius-button)] shadow-sm hover:bg-surface-inverse hover:text-text-primary hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-md active:translate-x-0 active:translate-y-0 active:shadow-xs disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm leading-none";
 
     return (
       <div
@@ -76,7 +76,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
         {paginationRange.map((pageNumber, index) => {
           if (pageNumber === "...") {
             return (
-              <span key={`dots-${index}`} className={clsx("px-spacing-2", inverted ? "text-on-dark-disabled" : "text-on-light-muted")}>
+              <span key={`dots-${index}`} className={clsx("px-spacing-2", inverted ? "text-text-disabled" : "text-text-muted")}>
                 ...
               </span>
             );
@@ -90,11 +90,11 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
                 "px-spacing-4 py-spacing-2 border-2 rounded-[var(--radius-button)] transition-all duration-100 ease-[var(--ease-bounce)] font-heading uppercase text-mono-sm leading-none min-w-spacing-11",
                 currentPage === pageNumber
                   ? inverted
-                    ? "border-on-dark-primary bg-surface-primary text-on-light-primary shadow-primary"
-                    : "border-border-primary bg-surface-inverse text-on-dark-primary shadow-primary"
+                    ? "border-on-dark-primary bg-surface-primary text-text-primary shadow-primary"
+                    : "border-border-primary bg-surface-inverse text-text-primary shadow-primary"
                   : inverted
-                    ? "border-border bg-transparent text-on-dark-secondary shadow-sm hover:border-on-dark-muted hover:-translate-x-0.5 hover:-translate-y-0.5"
-                    : "border-border bg-surface-primary text-on-light-primary shadow-sm hover:border-border-primary hover:-translate-x-0.5 hover:-translate-y-0.5"
+                    ? "border-border bg-transparent text-text-secondary shadow-sm hover:border-on-dark-muted hover:-translate-x-0.5 hover:-translate-y-0.5"
+                    : "border-border bg-surface-primary text-text-primary shadow-sm hover:border-border-primary hover:-translate-x-0.5 hover:-translate-y-0.5"
               )}
             >
               {pageNumber}

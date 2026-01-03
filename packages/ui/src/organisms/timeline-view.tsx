@@ -189,7 +189,7 @@ function TimelineItemComponent<T>({
                 <h4
                   className={clsx(
                     "font-semibold text-sm",
-                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                    inverted ? "text-text-primary" : "text-text-primary"
                   )}
                 >
                   {item.title}
@@ -198,7 +198,7 @@ function TimelineItemComponent<T>({
                   <p
                     className={clsx(
                       "text-sm mt-1",
-                      inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                      inverted ? "text-text-muted" : "text-text-muted"
                     )}
                   >
                     {item.description}
@@ -209,7 +209,7 @@ function TimelineItemComponent<T>({
               <time
                 className={clsx(
                   "text-xs whitespace-nowrap",
-                  inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                  inverted ? "text-text-disabled" : "text-text-disabled"
                 )}
               >
                 {item.date.toLocaleTimeString("en-US", {
@@ -227,7 +227,7 @@ function TimelineItemComponent<T>({
                     "inline-flex items-center px-2 py-0.5 rounded text-xs font-medium",
                     item.status === "completed" && "bg-success-100 text-success-700",
                     item.status === "in_progress" && "bg-warning-100 text-warning-700",
-                    item.status === "pending" && (inverted ? "bg-surface-elevated text-on-dark-secondary" : "bg-muted text-on-light-secondary")
+                    item.status === "pending" && (inverted ? "bg-surface-elevated text-text-secondary" : "bg-muted text-text-secondary")
                   )}
                 >
                   {item.status.replace("_", " ")}
@@ -310,7 +310,7 @@ export function TimelineView<T>({
       <div
         className={clsx(
           "flex items-center justify-center h-64 rounded-lg border-2 border-dashed",
-          inverted ? "border-border text-on-dark-disabled" : "border-border text-on-light-disabled",
+          inverted ? "border-border text-text-disabled" : "border-border text-text-disabled",
           className
         )}
       >
@@ -334,7 +334,7 @@ export function TimelineView<T>({
               <h3
                 className={clsx(
                   "font-semibold text-sm uppercase tracking-wider",
-                  inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                  inverted ? "text-text-muted" : "text-text-muted"
                 )}
               >
                 {group.label}

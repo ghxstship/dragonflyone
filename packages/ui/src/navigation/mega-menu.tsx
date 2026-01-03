@@ -20,7 +20,7 @@ import clsx from 'clsx';
  * 
  * Design System Compliance:
  * - Typography: text-body-sm, font-weight-medium, text-mono-xs
- * - Colors: text-on-dark-*, bg-surface-inverse, bg-surface-primary
+ * - Colors: text-text-*, bg-surface-inverse, bg-surface-primary
  * - Borders: border-2, border-border (Bold Contemporary style)
  * - Shadows: shadow-hard (Pop Art hard offset)
  * - Spacing: p-spacing-6, gap-spacing-4
@@ -133,16 +133,16 @@ export function MegaMenuTrigger({
         // Color variants
         inverted
           ? [
-              'text-on-dark-secondary',
-              'hover:text-on-dark-primary',
+              'text-text-secondary',
+              'hover:text-text-primary',
               'focus-visible:ring-white',
-              'data-[state=open]:text-on-dark-primary',
+              'data-[state=open]:text-text-primary',
             ]
           : [
-              'text-on-light-secondary',
-              'hover:text-on-light-primary',
+              'text-text-secondary',
+              'hover:text-text-primary',
               'focus-visible:ring-primary',
-              'data-[state=open]:text-on-light-primary',
+              'data-[state=open]:text-text-primary',
             ],
         className
       )}
@@ -253,16 +253,16 @@ export function MegaMenuLink({
         // Color variants
         inverted
           ? [
-              'text-on-dark-secondary',
-              'hover:text-on-dark-primary',
+              'text-text-secondary',
+              'hover:text-text-primary',
               'focus-visible:ring-white',
-              active && 'text-on-dark-primary',
+              active && 'text-text-primary',
             ]
           : [
-              'text-on-light-secondary',
-              'hover:text-on-light-primary',
+              'text-text-secondary',
+              'hover:text-text-primary',
               'focus-visible:ring-primary',
-              active && 'text-on-light-primary',
+              active && 'text-text-primary',
             ],
         className
       )}
@@ -298,7 +298,7 @@ export function MegaMenuSection({
             // Typography (Design System)
             'text-mono-xs font-weight-medium uppercase tracking-kicker',
             // Colors
-            inverted ? 'text-on-dark-disabled' : 'text-on-light-disabled'
+            inverted ? 'text-text-disabled' : 'text-text-disabled'
           )}
         >
           {title}
@@ -380,8 +380,8 @@ export function MegaMenuItemLink({
             'transition-colors duration-fast ease-snap',
             // Colors with hover state
             inverted
-              ? 'text-on-dark-primary group-hover:text-brand-pink'
-              : 'text-on-light-primary group-hover:text-primary'
+              ? 'text-text-primary group-hover:text-brand-pink'
+              : 'text-text-primary group-hover:text-primary'
           )}
         >
           {children}
@@ -390,7 +390,7 @@ export function MegaMenuItemLink({
           <span
             className={clsx(
               'text-body-xs',
-              inverted ? 'text-on-dark-muted' : 'text-on-light-muted'
+              inverted ? 'text-text-muted' : 'text-text-muted'
             )}
           >
             {description}

@@ -203,7 +203,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
     const setBottomCollapsed = onBottomPanelCollapse ?? setInternalBottomCollapsed;
     const setZoom = onZoomChange ?? setInternalZoom;
 
-    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+    const bgClass = inverted ? "bg-surface-inverse text-text-primary" : "bg-surface-primary text-text-primary";
     const borderClass = inverted ? "border-border" : "border-border";
     const panelBgClass = inverted ? "bg-surface-elevated" : "bg-muted";
 
@@ -256,7 +256,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
           <div className="flex-1 flex items-center justify-center">
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -274,10 +274,10 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <AlertTriangle className="size-16 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
+                <H2 className={inverted ? "text-text-primary" : "text-text-primary"}>
                   Error Loading Canvas
                 </H2>
-                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -329,7 +329,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
             "flex items-center justify-between px-4 py-3 border-b-2",
             borderClass
           )}>
-            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-text-muted" : "text-text-muted")}>
               {leftPanelTitle}
             </Body>
             {isCollapsible && (
@@ -387,7 +387,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
             "flex items-center justify-between px-4 py-3 border-b-2",
             borderClass
           )}>
-            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-text-muted" : "text-text-muted")}>
               {rightPanelTitle}
             </Body>
             {isCollapsible && (
@@ -445,7 +445,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
             "flex items-center justify-between px-4 py-2 border-b-2",
             borderClass
           )}>
-            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-text-muted" : "text-text-muted")}>
               {bottomPanelTitle}
             </Body>
             {isCollapsible && (
@@ -608,10 +608,10 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                       )}>
                         <Layers className={clsx(
                           "size-10",
-                          inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+                          inverted ? "text-text-disabled" : "text-text-muted"
                         )} />
                       </div>
-                      <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                      <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                         {emptyMessage}
                       </Body>
                       {emptyAction && (
@@ -646,7 +646,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
                 )}>
                   {minimapContent || (
                     <div className="w-full h-full flex items-center justify-center">
-                      <Body size="sm" className={inverted ? "text-on-dark-disabled" : "text-on-light-muted"}>
+                      <Body size="sm" className={inverted ? "text-text-disabled" : "text-text-muted"}>
                         Minimap
                       </Body>
                     </div>

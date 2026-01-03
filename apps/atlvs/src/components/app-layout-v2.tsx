@@ -105,7 +105,7 @@ export function AtlvsAppLayoutV2({
           navigation={getContextualNavigation()}
           currentPath={pathname}
           logo={
-            <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-on-dark-secondary">
+            <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-text-secondary">
               ATLVS
             </Link>
           }
@@ -246,7 +246,7 @@ export function AtlvsEmptyLayoutV2({
     <AtlvsAppLayoutV2 variant={variant}>
       <Stack gap={6} className="flex min-h-[60vh] flex-col items-center justify-center text-center">
         <Display size="md" className="text-white">{title}</Display>
-        {description && <Label size="sm" className="text-on-dark-muted max-w-md">{description}</Label>}
+        {description && <Label size="sm" className="text-text-muted max-w-md">{description}</Label>}
         {action}
       </Stack>
     </AtlvsAppLayoutV2>

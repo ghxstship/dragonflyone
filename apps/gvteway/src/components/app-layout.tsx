@@ -633,7 +633,7 @@ export function GvtewayEmptyLayout({
     <GvtewayAppLayout variant={variant}>
       <Stack gap={6} className="flex min-h-[60vh] flex-col items-center justify-center text-center">
         <Display size="md" className="text-white">{title}</Display>
-        {description && <Label size="sm" className="text-on-dark-muted max-w-md">{description}</Label>}
+        {description && <Label size="sm" className="text-text-muted max-w-md">{description}</Label>}
         {action}
       </Stack>
     </GvtewayAppLayout>

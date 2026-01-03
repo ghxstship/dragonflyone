@@ -36,18 +36,18 @@ export interface TimelineProps {
 
 // Status config for light mode
 const statusConfigLight = {
-  completed: { bgClass: "bg-surface-inverse", borderClass: "border-border-primary", textClass: "text-on-dark-primary", shadowClass: "shadow-primary" },
-  current: { bgClass: "bg-surface-primary", borderClass: "border-border-primary", textClass: "text-on-light-primary", shadowClass: "shadow-primary" },
-  upcoming: { bgClass: "bg-muted", borderClass: "border-border", textClass: "text-on-light-muted", shadowClass: "shadow-xs" },
-  error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-on-dark-primary", shadowClass: "shadow-error" },
+  completed: { bgClass: "bg-surface-inverse", borderClass: "border-border-primary", textClass: "text-text-primary", shadowClass: "shadow-primary" },
+  current: { bgClass: "bg-surface-primary", borderClass: "border-border-primary", textClass: "text-text-primary", shadowClass: "shadow-primary" },
+  upcoming: { bgClass: "bg-muted", borderClass: "border-border", textClass: "text-text-muted", shadowClass: "shadow-xs" },
+  error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-text-primary", shadowClass: "shadow-error" },
 };
 
 // Status config for dark/inverted mode
 const statusConfigDark = {
-  completed: { bgClass: "bg-surface-primary", borderClass: "border-on-dark-primary", textClass: "text-on-light-primary", shadowClass: "shadow-primary" },
-  current: { bgClass: "bg-surface-inverse", borderClass: "border-on-dark-primary", textClass: "text-on-dark-primary", shadowClass: "shadow-primary" },
-  upcoming: { bgClass: "bg-surface-elevated", borderClass: "border-border", textClass: "text-on-light-muted", shadowClass: "shadow-xs" },
-  error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-on-dark-primary", shadowClass: "shadow-error" },
+  completed: { bgClass: "bg-surface-primary", borderClass: "border-on-dark-primary", textClass: "text-text-primary", shadowClass: "shadow-primary" },
+  current: { bgClass: "bg-surface-inverse", borderClass: "border-on-dark-primary", textClass: "text-text-primary", shadowClass: "shadow-primary" },
+  upcoming: { bgClass: "bg-surface-elevated", borderClass: "border-border", textClass: "text-text-muted", shadowClass: "shadow-xs" },
+  error: { bgClass: "bg-error-500", borderClass: "border-error-500", textClass: "text-text-primary", shadowClass: "shadow-error" },
 };
 
 function formatTimestamp(timestamp: Date | string): string {
@@ -174,14 +174,14 @@ export function Timeline({
                   className={clsx(
                     "font-heading uppercase leading-relaxed tracking-wide",
                     compact ? "text-sm" : "text-base",
-                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                    inverted ? "text-text-primary" : "text-text-primary"
                   )}
                 >
                   {item.title}
                 </h4>
                 <span className={clsx(
                   "whitespace-nowrap font-code text-xs tracking-widest",
-                  inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                  inverted ? "text-text-muted" : "text-text-muted"
                 )}>
                   {formatTimestamp(item.timestamp)}
                 </span>
@@ -193,7 +193,7 @@ export function Timeline({
                   className={clsx(
                     "mb-2 font-body",
                     compact ? "text-sm" : "text-base",
-                    inverted ? "text-on-dark-secondary" : "text-on-light-muted"
+                    inverted ? "text-text-secondary" : "text-text-muted"
                   )}
                 >
                   {item.description}
@@ -213,14 +213,14 @@ export function Timeline({
                   ) : (
                     <div className={clsx(
                       "flex h-5 w-5 items-center justify-center rounded-full font-code text-[10px]",
-                      inverted ? "bg-muted-foreground text-on-dark-primary" : "bg-muted-foreground text-on-dark-primary"
+                      inverted ? "bg-muted-foreground text-text-primary" : "bg-muted-foreground text-text-primary"
                     )}>
                       {getInitials(item.user.name)}
                     </div>
                   )}
                   <span className={clsx(
                     "font-code text-xs",
-                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                    inverted ? "text-text-muted" : "text-text-muted"
                   )}>
                     {item.user.name}
                   </span>
@@ -235,7 +235,7 @@ export function Timeline({
                       key={key}
                       className={clsx(
                         "px-1 py-0.5 font-code text-xs tracking-wide",
-                        inverted ? "bg-surface-elevated text-on-dark-muted" : "bg-muted text-on-dark-disabled"
+                        inverted ? "bg-surface-elevated text-text-muted" : "bg-muted text-text-disabled"
                       )}
                     >
                       {key}: {value}

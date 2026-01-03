@@ -115,7 +115,7 @@ export function ErrorState({
       <H3
         className={clsx(
           "uppercase tracking-wider",
-          inverted ? "text-on-dark-primary" : "text-on-light-primary"
+          inverted ? "text-text-primary" : "text-text-primary"
         )}
       >
         {title}
@@ -125,7 +125,7 @@ export function ErrorState({
       <Body
         className={clsx(
           "mt-4 max-w-md",
-          inverted ? "text-on-dark-muted" : "text-on-light-muted"
+          inverted ? "text-text-muted" : "text-text-muted"
         )}
       >
         {errorMessage}
@@ -137,7 +137,7 @@ export function ErrorState({
           className={clsx(
             "mt-6 w-full max-w-2xl overflow-auto rounded-card p-4 text-left",
             "font-mono text-xs",
-            inverted ? "bg-surface-inverse text-on-dark-muted" : "bg-muted text-on-dark-disabled"
+            inverted ? "bg-surface-inverse text-text-muted" : "bg-muted text-text-disabled"
           )}
         >
           <pre className="whitespace-pre-wrap break-words">{error.stack}</pre>

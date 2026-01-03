@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
+import { logger } from '@ghxstship/config';
 
 function getSupabaseClient() {
   return createClient(
@@ -11,16 +12,17 @@ function getSupabaseClient() {
   );
 }
 
-
-
+// Schema for creating affiliates - uses 3NF tables from 0051 migration
 const affiliateSchema = z.object({
-  name: z.string().min(1),
-  email: z.string().email(),
-  social_handles: z.record(z.string()).optional(),
-  commission_rate: z.number().min(0).max(50),
-  tier: z.enum(['bronze', 'silver', 'gold', 'platinum']).optional(),
+  person_id: z.string().uuid(),
+  organization_id: z.string().uuid(),
+  affiliate_type: z.enum(['influencer', 'ambassador', 'partner', 'affiliate']).default('influencer'),
+  commission_rate: z.number().min(0).max(50).default(10),
+  tier: z.enum(['standard', 'silver', 'gold', 'platinum']).default('standard'),
+  social_links: z.record(z.string()).optional(),
 });
 
+// GET /api/influencer-affiliates - List affiliates from influencer_affiliates (3NF table)
 export async function GET(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
@@ -29,10 +31,14 @@ export async function GET(request: NextRequest) {
     const code = searchParams.get('code');
     const type = searchParams.get('type');
 
+    // Dashboard view for specific affiliate
     if (type === 'dashboard' && affiliateId) {
       const { data: affiliate } = await supabase
-        .from('affiliates')
-        .select('*')
+        .from('influencer_affiliates')
+        .select(`
+          *,
+          person:legend_people!person_id(id, display_name, avatar_url, email)
+        `)
         .eq('id', affiliateId)
         .single();
 
@@ -40,37 +46,54 @@ export async function GET(request: NextRequest) {
         .from('affiliate_conversions')
         .select('*')
         .eq('affiliate_id', affiliateId)
-        .order('converted_at', { ascending: false });
+        .order('created_at', { ascending: false });
 
       const stats = {
         total_clicks: affiliate?.total_clicks || 0,
-        total_conversions: conversions?.length || 0,
-        total_revenue: conversions?.reduce((sum, c) => sum + c.order_amount, 0) || 0,
-        total_commission: conversions?.reduce((sum, c) => sum + c.commission_amount, 0) || 0,
+        total_conversions: affiliate?.total_conversions || 0,
+        total_revenue: affiliate?.total_revenue || 0,
+        total_commission: affiliate?.total_commission || 0,
         conversion_rate: affiliate?.total_clicks > 0 
-          ? ((conversions?.length || 0) / affiliate.total_clicks * 100).toFixed(2) 
+          ? ((affiliate?.total_conversions || 0) / affiliate.total_clicks * 100).toFixed(2) 
           : 0,
       };
 
       return NextResponse.json({ affiliate, conversions, stats });
     }
 
+    // Lookup by affiliate code
     if (code) {
       const { data: affiliate, error } = await supabase
-        .from('affiliates')
-        .select('id, name, code, commission_rate')
-        .eq('code', code)
+        .from('influencer_affiliates')
+        .select(`
+          id,
+          affiliate_code,
+          commission_rate,
+          person:legend_people!person_id(id, display_name)
+        `)
+        .eq('affiliate_code', code)
         .eq('status', 'active')
         .single();
 
-      if (error) throw error;
+      if (error) {
+        logger.error('Error fetching affiliate by code:', error);
+        return NextResponse.json({ affiliate: null });
+      }
       return NextResponse.json({ affiliate });
     }
 
+    // Leaderboard
     if (type === 'leaderboard') {
       const { data: affiliates } = await supabase
-        .from('affiliates')
-        .select('id, name, tier, total_clicks, total_conversions, total_revenue')
+        .from('influencer_affiliates')
+        .select(`
+          id,
+          tier,
+          total_clicks,
+          total_conversions,
+          total_revenue,
+          person:legend_people!person_id(id, display_name, avatar_url)
+        `)
         .eq('status', 'active')
         .order('total_revenue', { ascending: false })
         .limit(20);
@@ -78,18 +101,27 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ leaderboard: affiliates });
     }
 
+    // Default: list all affiliates
     const { data: affiliates, error } = await supabase
-      .from('affiliates')
-      .select('*')
+      .from('influencer_affiliates')
+      .select(`
+        *,
+        person:legend_people!person_id(id, display_name, avatar_url, email)
+      `)
       .order('created_at', { ascending: false });
 
-    if (error) throw error;
-    return NextResponse.json({ affiliates });
+    if (error) {
+      logger.error('Error fetching affiliates:', error);
+      return NextResponse.json({ affiliates: [] });
+    }
+    return NextResponse.json({ affiliates: affiliates || [] });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    logger.error('Error in GET /api/influencer-affiliates:', error instanceof Error ? error : undefined);
+    return NextResponse.json({ affiliates: [] });
   }
 }
 
+// POST /api/influencer-affiliates - Create affiliate or track actions using 3NF tables
 export async function POST(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
@@ -99,124 +131,109 @@ export async function POST(request: NextRequest) {
     if (action === 'create') {
       const validated = affiliateSchema.parse(body.data);
 
-      // Generate unique code
-      const code = `${validated.name.substring(0, 3).toUpperCase()}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+      // Generate unique affiliate code
+      const affiliateCode = `AFF${Date.now().toString(36).toUpperCase()}${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
 
       const { data: affiliate, error } = await supabase
-        .from('affiliates')
+        .from('influencer_affiliates')
         .insert({
-          ...validated,
-          code,
-          status: 'active',
-          total_clicks: 0,
-          total_conversions: 0,
-          total_revenue: 0,
-          created_at: new Date().toISOString(),
+          organization_id: validated.organization_id,
+          person_id: validated.person_id,
+          affiliate_code: affiliateCode,
+          affiliate_type: validated.affiliate_type,
+          commission_rate: validated.commission_rate,
+          tier: validated.tier,
+          social_links: validated.social_links || {},
+          status: 'pending',
         })
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        logger.error('Error creating affiliate:', error);
+        return NextResponse.json({ error: 'Failed to create affiliate', details: error.message }, { status: 500 });
+      }
+
       return NextResponse.json({
         affiliate,
-        tracking_link: `/ref/${code}`,
+        tracking_link: `/ref/${affiliateCode}`,
       }, { status: 201 });
     }
 
     if (action === 'track_click') {
-      const { code, event_id, source } = body.data;
+      const { code, event_id, source_url, landing_url } = body.data;
 
       const { data: affiliate } = await supabase
-        .from('affiliates')
-        .select('id, total_clicks')
-        .eq('code', code)
+        .from('influencer_affiliates')
+        .select('id')
+        .eq('affiliate_code', code)
+        .eq('status', 'active')
         .single();
 
-      if (!affiliate) return NextResponse.json({ error: 'Invalid affiliate code' }, { status: 404 });
+      if (!affiliate) {
+        return NextResponse.json({ error: 'Invalid affiliate code' }, { status: 404 });
+      }
 
-      // Log click
+      // Log click in affiliate_clicks (3NF table)
       await supabase.from('affiliate_clicks').insert({
         affiliate_id: affiliate.id,
         event_id,
-        source,
-        clicked_at: new Date().toISOString(),
-        ip_address: request.headers.get('x-forwarded-for') || 'unknown',
+        source_url,
+        landing_url,
+        ip_address: request.headers.get('x-forwarded-for') || null,
+        user_agent: request.headers.get('user-agent') || null,
+        referrer: request.headers.get('referer') || null,
       });
 
-      // Update total clicks
-      await supabase
-        .from('affiliates')
-        .update({ total_clicks: (affiliate.total_clicks || 0) + 1 })
-        .eq('id', affiliate.id);
+      // Increment total clicks using helper function
+      await supabase.rpc('increment_affiliate_clicks', { p_affiliate_id: affiliate.id });
 
       return NextResponse.json({ tracked: true });
     }
 
     if (action === 'record_conversion') {
-      const { affiliate_code, order_id, order_amount } = body.data;
+      const { affiliate_code, order_id, order_amount, click_id } = body.data;
 
       const { data: affiliate } = await supabase
-        .from('affiliates')
-        .select('id, commission_rate, total_conversions, total_revenue')
-        .eq('code', affiliate_code)
+        .from('influencer_affiliates')
+        .select('id, commission_rate')
+        .eq('affiliate_code', affiliate_code)
         .single();
 
-      if (!affiliate) return NextResponse.json({ error: 'Invalid affiliate code' }, { status: 404 });
+      if (!affiliate) {
+        return NextResponse.json({ error: 'Invalid affiliate code' }, { status: 404 });
+      }
 
       const commissionAmount = order_amount * (affiliate.commission_rate / 100);
 
+      // Record conversion in affiliate_conversions (3NF table)
       const { data: conversion, error } = await supabase
         .from('affiliate_conversions')
         .insert({
           affiliate_id: affiliate.id,
+          click_id,
           order_id,
+          conversion_type: 'sale',
           order_amount,
           commission_amount: commissionAmount,
           status: 'pending',
-          converted_at: new Date().toISOString(),
         })
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        logger.error('Error recording conversion:', error);
+        return NextResponse.json({ error: 'Failed to record conversion' }, { status: 500 });
+      }
 
-      // Update affiliate stats
-      await supabase
-        .from('affiliates')
-        .update({
-          total_conversions: (affiliate.total_conversions || 0) + 1,
-          total_revenue: (affiliate.total_revenue || 0) + order_amount,
-        })
-        .eq('id', affiliate.id);
+      // Update affiliate stats using helper function
+      await supabase.rpc('record_affiliate_conversion', {
+        p_affiliate_id: affiliate.id,
+        p_order_amount: order_amount,
+        p_commission_amount: commissionAmount,
+      });
 
       return NextResponse.json({ conversion }, { status: 201 });
-    }
-
-    if (action === 'payout') {
-      const { affiliate_id, amount, payment_method } = body.data;
-
-      const { data: payout, error } = await supabase
-        .from('affiliate_payouts')
-        .insert({
-          affiliate_id,
-          amount,
-          payment_method,
-          status: 'pending',
-          created_at: new Date().toISOString(),
-        })
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      // Mark conversions as paid
-      await supabase
-        .from('affiliate_conversions')
-        .update({ status: 'paid', payout_id: payout.id })
-        .eq('affiliate_id', affiliate_id)
-        .eq('status', 'pending');
-
-      return NextResponse.json({ payout }, { status: 201 });
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
@@ -224,26 +241,37 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    logger.error('Error in POST /api/influencer-affiliates:', error instanceof Error ? error : undefined);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
+// PATCH /api/influencer-affiliates - Update affiliate using 3NF table
 export async function PATCH(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
     const body = await request.json();
     const { id, ...updates } = body;
 
+    if (!id) {
+      return NextResponse.json({ error: 'id is required' }, { status: 400 });
+    }
+
     const { data: affiliate, error } = await supabase
-      .from('affiliates')
-      .update(updates)
+      .from('influencer_affiliates')
+      .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      logger.error('Error updating affiliate:', error);
+      return NextResponse.json({ error: 'Failed to update affiliate' }, { status: 500 });
+    }
+
     return NextResponse.json({ affiliate });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    logger.error('Error in PATCH /api/influencer-affiliates:', error instanceof Error ? error : undefined);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

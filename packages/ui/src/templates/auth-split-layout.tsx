@@ -146,8 +146,8 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
       <Stack gap={6} className="items-center text-center">
         {icon}
         <Stack gap={2} className="items-center">
-          <H1 className="text-on-dark-primary text-2xl">{stateTitle}</H1>
-          <Body className="text-on-dark-muted">{message}</Body>
+          <H1 className="text-text-primary text-2xl">{stateTitle}</H1>
+          <Body className="text-text-muted">{message}</Body>
         </Stack>
         {action}
       </Stack>
@@ -189,12 +189,12 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
           {(title || subtitle) && (
             <Stack gap={3}>
               {title && (
-                <H1 className="text-on-dark-primary text-3xl md:text-4xl font-display uppercase tracking-tight">
+                <H1 className="text-text-primary text-3xl md:text-4xl font-display uppercase tracking-tight">
                   {title}
                 </H1>
               )}
               {subtitle && (
-                <Body size="lg" className="text-on-dark-secondary">
+                <Body size="lg" className="text-text-secondary">
                   {subtitle}
                 </Body>
               )}
@@ -207,7 +207,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
           {/* Footer Link */}
           {footerLink && (
             <div className="text-center pt-4">
-              <Body size="sm" className="text-on-dark-muted">
+              <Body size="sm" className="text-text-muted">
                 {footerLink.text}{" "}
                 <a
                   href={footerLink.linkHref}
@@ -235,7 +235,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
         {/* Main Brand Content */}
         <Stack gap={8} className="flex-1 justify-center">
           {brandTagline && (
-            <H1 className="text-on-dark-primary text-3xl lg:text-4xl xl:text-5xl font-display uppercase tracking-tight leading-tight">
+            <H1 className="text-text-primary text-3xl lg:text-4xl xl:text-5xl font-display uppercase tracking-tight leading-tight">
               {brandTagline}
             </H1>
           )}
@@ -250,9 +250,9 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
                     </div>
                   )}
                   <Stack gap={1}>
-                    <Body className="text-on-dark-primary font-semibold">{feature.title}</Body>
+                    <Body className="text-text-primary font-semibold">{feature.title}</Body>
                     {feature.description && (
-                      <Body size="sm" className="text-on-dark-secondary">{feature.description}</Body>
+                      <Body size="sm" className="text-text-secondary">{feature.description}</Body>
                     )}
                   </Stack>
                 </div>
@@ -265,7 +265,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
         {testimonial && (
           <div className="flex-shrink-0 p-6 bg-surface-inverse/10 rounded-card border-2 border-surface-inverse/20 backdrop-blur-sm">
             <Stack gap={4}>
-              <Body className="text-on-dark-primary italic leading-relaxed">
+              <Body className="text-text-primary italic leading-relaxed">
                 &ldquo;{testimonial.quote}&rdquo;
               </Body>
               <div className="flex items-center gap-3">
@@ -278,9 +278,9 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
                   />
                 )}
                 <Stack gap={0}>
-                  <Body size="sm" className="text-on-dark-primary font-semibold">{testimonial.author}</Body>
+                  <Body size="sm" className="text-text-primary font-semibold">{testimonial.author}</Body>
                   {testimonial.role && (
-                    <Body size="xs" className="text-on-dark-muted">{testimonial.role}</Body>
+                    <Body size="xs" className="text-text-muted">{testimonial.role}</Body>
                   )}
                 </Stack>
               </div>
@@ -374,7 +374,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
                       <a
                         key={link.href}
                         href={link.href}
-                        className="text-xs uppercase tracking-wide text-on-dark-muted hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface-secondary rounded px-1"
+                        className="text-xs uppercase tracking-wide text-text-muted hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface-secondary rounded px-1"
                       >
                         {link.label}
                       </a>
@@ -382,7 +382,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
                   </Stack>
                 </nav>
               )}
-              <Label size="xxs" className="text-on-dark-disabled">
+              <Label size="xxs" className="text-text-disabled">
                 {copyright}
               </Label>
             </Stack>

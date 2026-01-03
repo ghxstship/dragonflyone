@@ -111,7 +111,7 @@ export default function CatalogPage() {
           <Section border className="mb-6">
             <Box className="flex gap-4 mb-4">
               <Box className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-on-dark-muted" />
+                <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-text-muted" />
                 <Input
                   placeholder="Search catalog items by name, ID, or specification..."
                   value={searchTerm}
@@ -164,7 +164,7 @@ export default function CatalogPage() {
             {/* Subcategory Pills */}
             {selectedCategory && subcategories.length > 0 && (
               <Stack gap={2}>
-                <Body size="sm" className="text-on-dark-muted">Subcategories:</Body>
+                <Body size="sm" className="text-text-muted">Subcategories:</Body>
                 <Box className="flex flex-wrap gap-2">
                   <Badge
                     variant={!selectedSubcategory ? "solid" : "outline"}
@@ -218,8 +218,8 @@ export default function CatalogPage() {
                   >
                     <Box className="flex items-start justify-between mb-3">
                       <Box className="flex items-center gap-2">
-                        <Package className="size-4 text-on-dark-muted" />
-                        <Body size="sm" className="text-on-dark-muted">{item.item_id}</Body>
+                        <Package className="size-4 text-text-muted" />
+                        <Body size="sm" className="text-text-muted">{item.item_id}</Body>
                       </Box>
                       {isSelected(item.id) && <Badge variant="solid">Selected</Badge>}
                     </Box>
@@ -232,11 +232,11 @@ export default function CatalogPage() {
                     </Box>
 
                     {item.specifications && (
-                      <Body size="sm" className="text-on-dark-muted mb-3 line-clamp-2">{item.specifications}</Body>
+                      <Body size="sm" className="text-text-muted mb-3 line-clamp-2">{item.specifications}</Body>
                     )}
 
                     <Box className="flex gap-1">
-                      <Body size="sm" className="text-on-dark-muted">Unit:</Body>
+                      <Body size="sm" className="text-text-muted">Unit:</Body>
                       <Body size="sm" className="text-white">{item.standard_unit}</Body>
                     </Box>
 
@@ -255,8 +255,8 @@ export default function CatalogPage() {
               </Grid>
             ) : (
               <Box className="text-center py-12">
-                <Package className="size-12 text-on-dark-disabled mx-auto mb-4" />
-                <Body className="text-on-dark-muted">No items found. Try adjusting your search or filters.</Body>
+                <Package className="size-12 text-text-disabled mx-auto mb-4" />
+                <Body className="text-text-muted">No items found. Try adjusting your search or filters.</Body>
               </Box>
             )}
           </Section>
@@ -295,8 +295,8 @@ export default function CatalogPage() {
             </Grid>
           ) : (
             <Box className="text-center py-12">
-              <Package className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="text-on-dark-muted">No items selected. Browse the catalog to select items.</Body>
+              <Package className="size-12 text-text-disabled mx-auto mb-4" />
+              <Body className="text-text-muted">No items selected. Browse the catalog to select items.</Body>
             </Box>
           )}
         </Section>

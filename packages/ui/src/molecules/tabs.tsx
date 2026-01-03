@@ -203,27 +203,27 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
     const getLineClasses = () => {
       if (inverted) {
         return active
-          ? "border-b-2 border-on-dark-primary text-on-dark-primary -mb-0.5"
-          : "text-on-dark-muted hover:text-on-dark-primary border-b-2 border-transparent -mb-0.5";
+          ? "border-b-2 border-on-dark-primary text-text-primary -mb-0.5"
+          : "text-text-muted hover:text-text-primary border-b-2 border-transparent -mb-0.5";
       }
       return active
-        ? "border-b-2 border-on-light-primary text-on-light-primary -mb-0.5"
-        : "text-on-dark-disabled hover:text-on-light-primary border-b-2 border-transparent -mb-0.5";
+        ? "border-b-2 border-on-light-primary text-text-primary -mb-0.5"
+        : "text-text-disabled hover:text-text-primary border-b-2 border-transparent -mb-0.5";
     };
 
     const getEnclosedClasses = () => {
       if (inverted) {
         return clsx(
           active
-            ? "bg-surface-primary text-on-light-primary"
-            : "bg-transparent text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary",
+            ? "bg-surface-primary text-text-primary"
+            : "bg-transparent text-text-secondary hover:bg-surface-elevated hover:text-text-primary",
           "border-r-2 border-border last:border-r-0"
         );
       }
       return clsx(
         active
-          ? "bg-surface-inverse text-on-dark-primary"
-          : "bg-surface-primary text-on-light-primary hover:bg-muted",
+          ? "bg-surface-inverse text-text-primary"
+          : "bg-surface-primary text-text-primary hover:bg-muted",
         "border-r-2 border-border-primary last:border-r-0"
       );
     };
@@ -232,15 +232,15 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
       if (inverted) {
         return clsx(
           active
-            ? "bg-surface-primary text-on-light-primary"
-            : "bg-transparent text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary",
+            ? "bg-surface-primary text-text-primary"
+            : "bg-transparent text-text-secondary hover:bg-surface-elevated hover:text-text-primary",
           "first:rounded-l-[calc(var(--radius-card)-2px)] last:rounded-r-[calc(var(--radius-card)-2px)]"
         );
       }
       return clsx(
         active
-          ? "bg-surface-inverse text-on-dark-primary"
-          : "bg-surface-primary text-on-light-primary hover:bg-muted",
+          ? "bg-surface-inverse text-text-primary"
+          : "bg-surface-primary text-text-primary hover:bg-muted",
         "first:rounded-l-[calc(var(--radius-card)-2px)] last:rounded-r-[calc(var(--radius-card)-2px)]"
       );
     };
@@ -283,7 +283,7 @@ export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
         role="tabpanel"
         className={clsx(
           "py-4 animate-fade-in",
-          inverted ? "text-on-dark-secondary" : "text-on-light-muted",
+          inverted ? "text-text-secondary" : "text-text-muted",
           className
         )}
         {...props}

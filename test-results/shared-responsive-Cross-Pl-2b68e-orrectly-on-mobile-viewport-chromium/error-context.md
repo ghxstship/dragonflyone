@@ -1,0 +1,77 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5] [cursor=pointer]:
+      - /url: "#main-content"
+    - generic [ref=e7]:
+      - banner [ref=e8]:
+        - heading "COMPVSS" [level=1] [ref=e10]
+      - main "Authentication content" [ref=e11]:
+        - generic [ref=e13]:
+          - generic [ref=e14]:
+            - heading "Welcome Back" [level=1] [ref=e15]
+            - paragraph [ref=e16]: Sign in to manage your crew and resources
+          - generic [ref=e19]:
+            - generic [ref=e20]:
+              - generic [ref=e21]: Email*
+              - generic [ref=e22]:
+                - generic:
+                  - img
+                - textbox "Email*" [ref=e23]:
+                  - /placeholder: you@example.com
+            - generic [ref=e25]:
+              - generic [ref=e26]: Password*
+              - generic [ref=e27]:
+                - generic:
+                  - img
+                - textbox "Password*" [ref=e28]:
+                  - /placeholder: Enter your password
+                - button "Show password" [ref=e30] [cursor=pointer]:
+                  - img [ref=e31]
+            - generic [ref=e34]:
+              - generic [ref=e35] [cursor=pointer]:
+                - generic [ref=e36]:
+                  - checkbox "Remember me" [ref=e37]
+                  - img [ref=e39]
+                - paragraph [ref=e41]: Remember me
+              - button "Forgot password?" [ref=e42] [cursor=pointer]:
+                - generic [ref=e43]: Forgot password?
+            - button "Sign In" [ref=e44] [cursor=pointer]:
+              - generic [ref=e45]: Sign In
+            - paragraph [ref=e48]: Or continue with
+            - generic [ref=e50]:
+              - button "Continue with Google" [ref=e51] [cursor=pointer]:
+                - img [ref=e52]
+                - generic [ref=e57]: Continue with Google
+              - button "Continue with Apple" [ref=e58] [cursor=pointer]:
+                - img [ref=e59]
+                - generic [ref=e61]: Continue with Apple
+            - button "Sign in with magic link instead" [ref=e62] [cursor=pointer]:
+              - generic [ref=e63]: Sign in with magic link instead
+          - paragraph [ref=e65]:
+            - text: Don't have an account?
+            - link "Get started" [ref=e66] [cursor=pointer]:
+              - /url: /auth/signup
+    - contentinfo [ref=e67]:
+      - generic [ref=e69]:
+        - navigation "Footer navigation" [ref=e70]:
+          - generic [ref=e71]:
+            - link "Privacy" [ref=e72] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e73] [cursor=pointer]:
+              - /url: /legal/terms
+            - link "Help" [ref=e74] [cursor=pointer]:
+              - /url: /help
+        - generic [ref=e75]: © 2026 GHXSTSHIP INDUSTRIES
+  - generic [ref=e76]:
+    - img [ref=e78]
+    - button "Open Tanstack query devtools" [ref=e126] [cursor=pointer]:
+      - img [ref=e127]
+  - alert [ref=e175]
+```

@@ -26,16 +26,16 @@ export default function CollectionPage() {
     id: "collection", label: "Collection", icon: <List className="size-4" />,
     content: (
       <Section>
-        <Card className="p-6 mb-6"><Body className="text-on-dark-secondary">{collection.description}</Body></Card>
+        <Card className="p-6 mb-6"><Body className="text-text-secondary">{collection.description}</Body></Card>
         <SectionHeader title="Events" description={`${collection.events.length} events in this collection`} />
         <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
           {collection.events.map((event: Event) => (
             <Card key={event.id} className="overflow-hidden cursor-pointer hover:border-primary transition-colors" onClick={() => router.push(`/e/${event.id}`)}>
-              <Box className="h-32 bg-surface-elevated flex items-center justify-center"><Calendar className="size-8 text-on-dark-disabled" /></Box>
+              <Box className="h-32 bg-surface-elevated flex items-center justify-center"><Calendar className="size-8 text-text-disabled" /></Box>
               <Box className="p-4">
                 <Body className="font-weight-bold">{event.name}</Body>
-                <Box className="flex items-center gap-2 mt-2 text-on-dark-muted"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></Box>
-                <Box className="flex items-center gap-2 text-on-dark-muted"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></Box>
+                <Box className="flex items-center gap-2 mt-2 text-text-muted"><Calendar className="size-4" /><Body size="sm">{formatDate(event.date)}</Body></Box>
+                <Box className="flex items-center gap-2 text-text-muted"><MapPin className="size-4" /><Body size="sm">{event.venue}</Body></Box>
                 <Body className="font-weight-bold mt-2">From {formatCurrency(event.price)}</Body>
               </Box>
             </Card>

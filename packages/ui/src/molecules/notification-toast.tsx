@@ -116,9 +116,9 @@ export function NotificationToast({
         <div className="flex items-start gap-3">
           <span className="text-xl font-bold">{icons[type]}</span>
           <div className="flex-1 min-w-0">
-            <p className="font-heading text-sm uppercase tracking-wider font-bold text-on-dark-primary">{title}</p>
+            <p className="font-heading text-sm uppercase tracking-wider font-bold text-text-primary">{title}</p>
             {message && (
-              <p className="mt-1 text-sm text-on-dark-secondary">{message}</p>
+              <p className="mt-1 text-sm text-text-secondary">{message}</p>
             )}
             {undoAction && (
               <button
@@ -127,7 +127,7 @@ export function NotificationToast({
                   "mt-2 inline-flex items-center gap-1 text-xs font-medium",
                   "px-2 py-1 rounded border border-on-dark-disabled",
                   "hover:bg-surface-inverse/10 hover:border-on-dark-secondary transition-colors",
-                  "text-on-dark-secondary hover:text-on-dark-primary"
+                  "text-text-secondary hover:text-text-primary"
                 )}
               >
                 <Undo2 className="size-3" />
@@ -142,7 +142,7 @@ export function NotificationToast({
               "transition-all duration-100",
               "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-on-dark-primary hover:shadow-xs",
               "active:translate-x-0 active:translate-y-0",
-              "text-on-dark-muted hover:text-on-dark-primary"
+              "text-text-muted hover:text-text-primary"
             )}
             aria-label="Dismiss notification"
           >

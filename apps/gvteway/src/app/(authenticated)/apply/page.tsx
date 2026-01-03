@@ -96,7 +96,7 @@ function PersonalInfoStep({ formData, setFormData, error }: StepProps) {
           <Crown className="size-6 text-warning sm:size-8" />
         </IconBox>
         <H2 className="text-white">TELL US ABOUT YOURSELF</H2>
-        <Body size="sm" className="text-on-dark-muted">
+        <Body size="sm" className="text-text-muted">
           We keep this short. Promise.
         </Body>
       </Stack>
@@ -192,7 +192,7 @@ function InterestsStep({ formData, setFormData, error }: StepProps) {
           <Sparkles className="size-6 text-warning sm:size-8" />
         </IconBox>
         <H2 className="text-white">WHAT GETS YOU EXCITED?</H2>
-        <Body size="sm" className="text-on-dark-muted">
+        <Body size="sm" className="text-text-muted">
           Select all that apply. This helps us curate your experience.
         </Body>
       </Stack>
@@ -216,9 +216,9 @@ function InterestsStep({ formData, setFormData, error }: StepProps) {
             >
               <Stack gap={3} className="items-center">
                 <IconBox size="md" inverted className={isSelected ? "bg-accent/20" : ""}>
-                  <Icon className={`size-5 ${isSelected ? "text-accent" : "text-on-dark-muted"}`} />
+                  <Icon className={`size-5 ${isSelected ? "text-accent" : "text-text-muted"}`} />
                 </IconBox>
-                <Label size="xs" className={isSelected ? "text-white" : "text-on-dark-muted"}>
+                <Label size="xs" className={isSelected ? "text-white" : "text-text-muted"}>
                   {interest.label}
                 </Label>
                 {isSelected && <Check className="size-4 text-accent" />}
@@ -228,7 +228,7 @@ function InterestsStep({ formData, setFormData, error }: StepProps) {
         })}
       </Grid>
 
-      <Body size="sm" className="text-center text-on-dark-disabled">
+      <Body size="sm" className="text-center text-text-disabled">
         Selected: {formData.interests.length} of {interestCategories.length}
       </Body>
     </Stack>
@@ -243,7 +243,7 @@ function TierSelectionStep({ formData, setFormData, error }: StepProps) {
           <Crown className="size-6 text-warning sm:size-8" />
         </IconBox>
         <H2 className="text-white">CHOOSE YOUR TIER</H2>
-        <Body size="sm" className="text-on-dark-muted">
+        <Body size="sm" className="text-text-muted">
           You can always upgrade later. No pressure.
         </Body>
       </Stack>
@@ -280,17 +280,17 @@ function TierSelectionStep({ formData, setFormData, error }: StepProps) {
                   <H2 size="sm" className="text-white">{tier.name}</H2>
                   <Stack direction="horizontal" gap={1} className="items-baseline">
                     <H1 size="sm" className="text-white">{tier.price}</H1>
-                    <Label size="sm" className="text-on-dark-muted">{tier.period}</Label>
+                    <Label size="sm" className="text-text-muted">{tier.period}</Label>
                   </Stack>
                 </Stack>
 
-                <Body size="sm" className="text-on-dark-muted">{tier.description}</Body>
+                <Body size="sm" className="text-text-muted">{tier.description}</Body>
 
                 <Stack gap={2} className="border-t border-border pt-4">
                   {tier.features.slice(0, 4).map((feature) => (
                     <Stack key={feature} direction="horizontal" gap={2} className="items-start">
                       <Check className="mt-0.5 size-3 shrink-0 text-accent" />
-                      <Label size="xs" className="text-on-dark-secondary">{feature}</Label>
+                      <Label size="xs" className="text-text-secondary">{feature}</Label>
                     </Stack>
                   ))}
                 </Stack>
@@ -323,7 +323,7 @@ function FinalStep({ formData, setFormData, error, agreeToTerms, setAgreeToTerms
           <Check className="size-6 text-success sm:size-8" />
         </IconBox>
         <H2 className="text-white">ALMOST THERE</H2>
-        <Body size="sm" className="text-on-dark-muted">
+        <Body size="sm" className="text-text-muted">
           Just a few final details and you are in the queue.
         </Body>
       </Stack>
@@ -353,27 +353,27 @@ function FinalStep({ formData, setFormData, error, agreeToTerms, setAgreeToTerms
       {/* Application Summary */}
       <Card inverted className="border-2 border-border bg-surface-inverse p-6">
         <Stack gap={4}>
-          <Label size="sm" className="text-on-dark-muted">APPLICATION SUMMARY</Label>
+          <Label size="sm" className="text-text-muted">APPLICATION SUMMARY</Label>
           <Grid cols={2} gap={4}>
             <Stack gap={1}>
-              <Label size="xs" className="text-on-dark-disabled">NAME</Label>
+              <Label size="xs" className="text-text-disabled">NAME</Label>
               <Body size="sm" className="text-white">{formData.firstName} {formData.lastName}</Body>
             </Stack>
             <Stack gap={1}>
-              <Label size="xs" className="text-on-dark-disabled">EMAIL</Label>
+              <Label size="xs" className="text-text-disabled">EMAIL</Label>
               <Body size="sm" className="text-white">{formData.email}</Body>
             </Stack>
             <Stack gap={1}>
-              <Label size="xs" className="text-on-dark-disabled">LOCATION</Label>
+              <Label size="xs" className="text-text-disabled">LOCATION</Label>
               <Body size="sm" className="text-white">{formData.city}, {formData.country}</Body>
             </Stack>
             <Stack gap={1}>
-              <Label size="xs" className="text-on-dark-disabled">SELECTED TIER</Label>
+              <Label size="xs" className="text-text-disabled">SELECTED TIER</Label>
               <Body size="sm" className="text-accent">{formData.selectedTier || "Not selected"}</Body>
             </Stack>
           </Grid>
           <Stack gap={1}>
-            <Label size="xs" className="text-on-dark-disabled">INTERESTS</Label>
+            <Label size="xs" className="text-text-disabled">INTERESTS</Label>
             <Body size="sm" className="text-white">
               {formData.interests.length > 0
                 ? formData.interests
@@ -392,7 +392,7 @@ function FinalStep({ formData, setFormData, error, agreeToTerms, setAgreeToTerms
           onChange={(e) => setAgreeToTerms(e.target.checked)}
           inverted
         />
-        <Label size="xs" className="text-on-dark-muted">
+        <Label size="xs" className="text-text-muted">
           I agree to the{" "}
           <NextLink href="/legal/terms" className="text-white underline">
             Terms of Service
@@ -535,7 +535,7 @@ function ApplicationForm() {
                 />
               ))}
             </Stack>
-            <Label size="xs" className="text-center tracking-label text-on-dark-disabled">
+            <Label size="xs" className="text-center tracking-label text-text-disabled">
               STEP {step} OF {totalSteps}
             </Label>
           </Stack>
@@ -616,7 +616,7 @@ function ApplicationForm() {
 
           {/* Sign In Link */}
           <Stack gap={2} className="mt-8 border-t border-white/10 pt-6 text-center">
-            <Body size="sm" className="text-on-dark-muted">
+            <Body size="sm" className="text-text-muted">
               Already a member?
             </Body>
             <NextLink href="/auth/signin">

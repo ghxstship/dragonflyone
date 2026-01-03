@@ -221,7 +221,7 @@ export default function WebinarsPage() {
                 <Body size="sm" className="text-white truncate">
                   {host.name}
                 </Body>
-                <Body size="xs" className="text-on-dark-disabled">
+                <Body size="xs" className="text-text-disabled">
                   {host.webinars} webinars
                 </Body>
               </Box>
@@ -240,7 +240,7 @@ export default function WebinarsPage() {
           {DEMO_WEBINARS.filter(w => !w.isRecorded).slice(0, 3).map((webinar) => (
             <Box key={webinar.id} className="p-3 bg-surface-elevated rounded-card cursor-pointer hover:bg-surface-elevated" onClick={() => handleViewWebinar(webinar.id)}>
               <Body size="sm" className="text-white font-weight-medium line-clamp-1">{webinar.title}</Body>
-              <Body size="xs" className="text-on-dark-muted">{formatDate(webinar.date)} at {webinar.time}</Body>
+              <Body size="xs" className="text-text-muted">{formatDate(webinar.date)} at {webinar.time}</Body>
             </Box>
           ))}
         </Stack>
@@ -253,7 +253,7 @@ export default function WebinarsPage() {
       {canManage && (
         <Card className="p-5 border-2 border-primary rounded-card bg-primary/10">
           <Body className="text-white font-weight-bold mb-2">Host a Webinar</Body>
-          <Body size="sm" className="text-on-dark-muted mb-4">
+          <Body size="sm" className="text-text-muted mb-4">
             Share your expertise with the community.
           </Body>
           <Button variant="solid" size="sm" fullWidth>
@@ -331,11 +331,11 @@ export default function WebinarsPage() {
                           </Badge>
                         ) : null}
                       </Box>
-                      <Body size="sm" className="text-on-dark-muted mb-3 line-clamp-2">
+                      <Body size="sm" className="text-text-muted mb-3 line-clamp-2">
                         {webinar.description}
                       </Body>
                       <Box className="flex items-center justify-between flex-wrap gap-2">
-                        <Box className="flex items-center gap-4 text-on-dark-disabled">
+                        <Box className="flex items-center gap-4 text-text-disabled">
                           <Box className="flex items-center gap-1">
                             <Calendar className="size-4" />
                             <Body size="sm">{formatDate(webinar.date)}</Body>
@@ -351,7 +351,7 @@ export default function WebinarsPage() {
                         </Box>
                         <Box className="flex items-center gap-2">
                           <Avatar initials={webinar.host.initials} size="xs" />
-                          <Body size="sm" className="text-on-dark-secondary">{webinar.host.name}</Body>
+                          <Body size="sm" className="text-text-secondary">{webinar.host.name}</Body>
                         </Box>
                       </Box>
                       <Box className="flex gap-2 mt-4">
@@ -376,9 +376,9 @@ export default function WebinarsPage() {
             })
           ) : (
             <Card className="p-8 border-2 border-border rounded-card text-center">
-              <Calendar className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <Calendar className="size-12 text-text-disabled mx-auto mb-4" />
               <Body className="text-white font-weight-bold mb-2">No upcoming webinars</Body>
-              <Body size="sm" className="text-on-dark-muted mb-4">
+              <Body size="sm" className="text-text-muted mb-4">
                 Check back soon for new sessions.
               </Body>
             </Card>
@@ -411,7 +411,7 @@ export default function WebinarsPage() {
                         <Badge variant={status.variant} size="sm">{status.label}</Badge>
                       </Box>
                       <Body className="text-white font-weight-medium">{webinar.title}</Body>
-                      <Body size="sm" className="text-on-dark-muted">
+                      <Body size="sm" className="text-text-muted">
                         {formatDate(webinar.date)} at {webinar.time}
                       </Body>
                     </Box>
@@ -430,9 +430,9 @@ export default function WebinarsPage() {
             })
           ) : (
             <Card className="p-8 border-2 border-border rounded-card text-center">
-              <Bell className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <Bell className="size-12 text-text-disabled mx-auto mb-4" />
               <Body className="text-white font-weight-bold mb-2">No registrations yet</Body>
-              <Body size="sm" className="text-on-dark-muted mb-4">
+              <Body size="sm" className="text-text-muted mb-4">
                 Register for upcoming webinars to see them here.
               </Body>
               <Button variant="solid" onClick={() => setActiveTab("upcoming")}>
@@ -469,11 +469,11 @@ export default function WebinarsPage() {
                         </Body>
                       </Box>
                     </Box>
-                    <Body size="sm" className="text-on-dark-muted mb-3 line-clamp-2">
+                    <Body size="sm" className="text-text-muted mb-3 line-clamp-2">
                       {webinar.description}
                     </Body>
                     <Box className="flex items-center justify-between flex-wrap gap-2">
-                      <Box className="flex items-center gap-4 text-on-dark-disabled">
+                      <Box className="flex items-center gap-4 text-text-disabled">
                         <Box className="flex items-center gap-1">
                           <Clock className="size-4" />
                           <Body size="sm">{webinar.duration}</Body>
@@ -485,7 +485,7 @@ export default function WebinarsPage() {
                       </Box>
                       <Box className="flex items-center gap-2">
                         <Avatar initials={webinar.host.initials} size="xs" />
-                        <Body size="sm" className="text-on-dark-secondary">{webinar.host.name}</Body>
+                        <Body size="sm" className="text-text-secondary">{webinar.host.name}</Body>
                       </Box>
                     </Box>
                     <Box className="flex gap-2 mt-4">
@@ -502,9 +502,9 @@ export default function WebinarsPage() {
             ))
           ) : (
             <Card className="p-8 border-2 border-border rounded-card text-center">
-              <Video className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <Video className="size-12 text-text-disabled mx-auto mb-4" />
               <Body className="text-white font-weight-bold mb-2">No recordings available</Body>
-              <Body size="sm" className="text-on-dark-muted mb-4">
+              <Body size="sm" className="text-text-muted mb-4">
                 Recordings will appear here after webinars are completed.
               </Body>
             </Card>

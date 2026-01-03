@@ -435,7 +435,7 @@ export function AtlvsAppLayout({
         background={background}
         header={
           <Container className="py-4">
-            <Link href="/" className="font-display text-h5-md uppercase text-white transition-colors hover:text-on-dark-secondary">
+            <Link href="/" className="font-display text-h5-md uppercase text-white transition-colors hover:text-text-secondary">
               ATLVS
             </Link>
           </Container>
@@ -470,7 +470,7 @@ export function AtlvsAppLayout({
           navigation={getContextualNavigation()}
           currentPath={pathname}
           logo={
-            <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-on-dark-secondary">
+            <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-text-secondary">
               ATLVS
             </Link>
           }
@@ -660,7 +660,7 @@ export function AtlvsEmptyLayout({
     <AtlvsAppLayout variant={variant}>
       <Stack gap={6} className="flex min-h-[60vh] flex-col items-center justify-center text-center">
         <Display size="md" className="text-white">{title}</Display>
-        {description && <Label size="sm" className="text-on-dark-muted max-w-md">{description}</Label>}
+        {description && <Label size="sm" className="text-text-muted max-w-md">{description}</Label>}
         {action}
       </Stack>
     </AtlvsAppLayout>

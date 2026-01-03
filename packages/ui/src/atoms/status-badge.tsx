@@ -36,14 +36,14 @@ export const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(
         ? "bg-info-500 text-white" 
         : "bg-info-50 border-2 border-info-500 text-info-700",
       neutral: filled 
-        ? "bg-muted text-on-light-primary" 
-        : "bg-muted border-2 border-border text-on-light-disabled",
+        ? "bg-muted text-text-primary" 
+        : "bg-muted border-2 border-border text-text-disabled",
       active: filled 
         ? "bg-success-500 text-white" 
         : "bg-success-50 border-2 border-success-500 text-success-700",
       inactive: filled 
-        ? "bg-surface-elevated text-on-dark-primary" 
-        : "bg-muted border-2 border-border text-on-light-disabled",
+        ? "bg-surface-elevated text-text-primary" 
+        : "bg-muted border-2 border-border text-text-disabled",
       pending: filled 
         ? "bg-warning-500 text-white" 
         : "bg-warning-50 border-2 border-warning-400 text-warning-700",
@@ -64,14 +64,14 @@ export const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(
         ? "bg-info-500 text-white" 
         : "bg-info-900 border-2 border-info-400 text-info-300",
       neutral: filled 
-        ? "bg-muted text-on-light-primary" 
-        : "bg-surface-elevated border-2 border-border text-on-dark-secondary",
+        ? "bg-muted text-text-primary" 
+        : "bg-surface-elevated border-2 border-border text-text-secondary",
       active: filled 
         ? "bg-success-500 text-white" 
         : "bg-success-900 border-2 border-success-400 text-success-300",
       inactive: filled 
-        ? "bg-surface-elevated text-on-dark-primary" 
-        : "bg-surface-elevated border-2 border-border text-on-dark-muted",
+        ? "bg-surface-elevated text-text-primary" 
+        : "bg-surface-elevated border-2 border-border text-text-muted",
       pending: filled 
         ? "bg-warning-500 text-black" 
         : "bg-warning-900 border-2 border-warning-400 text-warning-300",

@@ -169,8 +169,8 @@ export default function ApiKeysPage() {
 
           {apiKeys.length === 0 ? (
             <Box className="text-center py-12">
-              <Key className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="text-on-dark-muted mb-4">No API keys created</Body>
+              <Key className="size-12 text-text-disabled mx-auto mb-4" />
+              <Body className="text-text-muted mb-4">No API keys created</Body>
               {canManageApiKeys && (
                 <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create API Key</Button>
               )}
@@ -205,7 +205,7 @@ export default function ApiKeysPage() {
                         <Body size="sm" className="text-white">{apiKey.scopes.length} scopes</Body>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-on-dark-muted">
+                        <Body size="sm" className="text-text-muted">
                           {apiKey.last_used_at ? new Date(apiKey.last_used_at).toLocaleDateString() : "Never"}
                         </Body>
                       </TableCell>
@@ -213,11 +213,11 @@ export default function ApiKeysPage() {
                         <Box className="flex items-center gap-2">
                           {apiKey.expires_at ? (
                             <>
-                              <Body size="sm" className="text-on-dark-muted">{new Date(apiKey.expires_at).toLocaleDateString()}</Body>
+                              <Body size="sm" className="text-text-muted">{new Date(apiKey.expires_at).toLocaleDateString()}</Body>
                               {getExpiryStatus(apiKey.expires_at)}
                             </>
                           ) : (
-                            <Body size="sm" className="text-on-dark-muted">Never</Body>
+                            <Body size="sm" className="text-text-muted">Never</Body>
                           )}
                         </Box>
                       </TableCell>
@@ -251,19 +251,19 @@ export default function ApiKeysPage() {
             <Card className="p-6">
               <Body className="font-weight-medium text-white mb-4">Do:</Body>
               <Stack gap={2}>
-                <Body size="sm" className="text-on-dark-muted">Store API keys securely in environment variables</Body>
-                <Body size="sm" className="text-on-dark-muted">Use the minimum required scopes</Body>
-                <Body size="sm" className="text-on-dark-muted">Set expiration dates for keys</Body>
-                <Body size="sm" className="text-on-dark-muted">Rotate keys regularly</Body>
+                <Body size="sm" className="text-text-muted">Store API keys securely in environment variables</Body>
+                <Body size="sm" className="text-text-muted">Use the minimum required scopes</Body>
+                <Body size="sm" className="text-text-muted">Set expiration dates for keys</Body>
+                <Body size="sm" className="text-text-muted">Rotate keys regularly</Body>
               </Stack>
             </Card>
             <Card className="p-6">
               <Body className="font-weight-medium text-white mb-4">Do Not:</Body>
               <Stack gap={2}>
-                <Body size="sm" className="text-on-dark-muted">Commit API keys to version control</Body>
-                <Body size="sm" className="text-on-dark-muted">Share keys across applications</Body>
-                <Body size="sm" className="text-on-dark-muted">Use production keys in development</Body>
-                <Body size="sm" className="text-on-dark-muted">Expose keys in client-side code</Body>
+                <Body size="sm" className="text-text-muted">Commit API keys to version control</Body>
+                <Body size="sm" className="text-text-muted">Share keys across applications</Body>
+                <Body size="sm" className="text-text-muted">Use production keys in development</Body>
+                <Body size="sm" className="text-text-muted">Expose keys in client-side code</Body>
               </Stack>
             </Card>
           </Grid>
@@ -291,11 +291,11 @@ export default function ApiKeysPage() {
       <Modal open={showCreateModal} onClose={() => { setShowCreateModal(false); resetForm(); }} title="Create API Key">
         <Stack gap={4}>
           <Stack gap={2}>
-            <Body size="sm" className="text-on-dark-muted">Key Name</Body>
+            <Body size="sm" className="text-text-muted">Key Name</Body>
             <Input placeholder="e.g., Production Server" value={keyName} onChange={(e) => setKeyName(e.target.value)} />
           </Stack>
           <Stack gap={2}>
-            <Body size="sm" className="text-on-dark-muted">Expiration</Body>
+            <Body size="sm" className="text-text-muted">Expiration</Body>
             <Select value={expiresIn} onChange={(e) => setExpiresIn(e.target.value)}>
               <option value="never">Never expires</option>
               <option value="30d">30 days</option>
@@ -304,7 +304,7 @@ export default function ApiKeysPage() {
             </Select>
           </Stack>
           <Stack gap={2}>
-            <Body size="sm" className="text-on-dark-muted">Scopes</Body>
+            <Body size="sm" className="text-text-muted">Scopes</Body>
             <Card className="p-4 max-h-[200px] overflow-y-auto">
               <Grid cols={2} gap={2} className="grid-cols-1 lg:grid-cols-2">
                 {ALL_API_SCOPES.map((scope) => (
@@ -315,7 +315,7 @@ export default function ApiKeysPage() {
                 ))}
               </Grid>
             </Card>
-            <Body size="sm" className="text-on-dark-disabled">{selectedScopes.length} scopes selected</Body>
+            <Body size="sm" className="text-text-disabled">{selectedScopes.length} scopes selected</Body>
           </Stack>
           <Box className="flex gap-4">
             <Button variant="outline" onClick={() => { setShowCreateModal(false); resetForm(); }}>Cancel</Button>
@@ -332,14 +332,14 @@ export default function ApiKeysPage() {
             <Body size="sm" className="text-warning-100">This API key will only be shown once. Copy it now and store it securely.</Body>
           </Card>
           <Stack gap={2}>
-            <Body size="sm" className="text-on-dark-muted">Your API Key</Body>
+            <Body size="sm" className="text-text-muted">Your API Key</Body>
             <Box className="flex gap-2">
               <Input value={newKey} readOnly className="font-mono" />
               <Button variant="outline" onClick={copyKey} icon={copiedKey ? <CheckCircle className="size-4" /> : <Copy className="size-4" />}>
                 {copiedKey ? "Copied" : "Copy"}
               </Button>
             </Box>
-            <Body size="sm" className="text-on-dark-disabled">Include this key in your API requests using the Authorization header</Body>
+            <Body size="sm" className="text-text-disabled">Include this key in your API requests using the Authorization header</Body>
           </Stack>
           <Button variant="solid" onClick={() => setShowKeyModal(false)}>Done</Button>
         </Stack>

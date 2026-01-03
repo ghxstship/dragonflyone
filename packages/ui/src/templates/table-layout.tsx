@@ -262,7 +262,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
   const [showFilters, setShowFilters] = useState(false);
   const [showColumnSettings, setShowColumnSettings] = useState(false);
 
-  const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+  const bgClass = inverted ? "bg-surface-inverse text-text-primary" : "bg-surface-primary text-text-primary";
   const borderClass = inverted ? "border-border" : "border-border";
   const headerBgClass = inverted ? "bg-surface-elevated" : "bg-muted";
 
@@ -327,7 +327,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
         <div className="flex-1 flex items-center justify-center p-8">
           <Stack gap={4} className="items-center text-center">
             <Spinner size="lg" />
-            <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+            <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
               {loadingMessage}
             </Body>
           </Stack>
@@ -345,10 +345,10 @@ export const TableLayout = forwardRef(function TableLayout<T>(
           <Stack gap={6} className="items-center text-center max-w-md">
             <AlertTriangle className="size-16 text-error animate-shake" />
             <Stack gap={2} className="items-center">
-              <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
+              <H2 className={inverted ? "text-text-primary" : "text-text-primary"}>
                 Error Loading Data
               </H2>
-              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                 {error.message || "An unexpected error occurred"}
               </Body>
             </Stack>
@@ -381,10 +381,10 @@ export const TableLayout = forwardRef(function TableLayout<T>(
             )}>
               <TableIcon className={clsx(
                 "size-10",
-                inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+                inverted ? "text-text-disabled" : "text-text-muted"
               )} />
             </div>
-            <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+            <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
               {emptyMessage}
             </Body>
             {emptyAction && (
@@ -415,7 +415,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                     ? "bg-surface-elevated border-border focus-within:border-primary"
                     : "bg-surface-primary border-border focus-within:border-primary"
                 )}>
-                  <Search className={clsx("size-4", inverted ? "text-on-dark-disabled" : "text-on-light-muted")} />
+                  <Search className={clsx("size-4", inverted ? "text-text-disabled" : "text-text-muted")} />
                   <input
                     type="text"
                     value={searchValue}
@@ -423,7 +423,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                     placeholder={searchPlaceholder}
                     className={clsx(
                       "bg-transparent outline-none text-sm w-48",
-                      inverted ? "text-on-dark-primary placeholder:text-on-dark-disabled" : "text-on-light-primary placeholder:text-on-light-muted"
+                      inverted ? "text-text-primary placeholder:text-text-disabled" : "text-text-primary placeholder:text-text-muted"
                     )}
                   />
                   {searchValue && (
@@ -442,8 +442,8 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                     showFilters
                       ? "border-primary bg-primary/10 text-primary"
                       : inverted
-                        ? "border-border text-on-dark-secondary hover:border-border-primary"
-                        : "border-border text-on-light-disabled hover:border-border-primary"
+                        ? "border-border text-text-secondary hover:border-border-primary"
+                        : "border-border text-text-disabled hover:border-border-primary"
                   )}
                 >
                   <Filter className="size-4" />
@@ -485,7 +485,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                           "absolute right-0 top-full mt-2 w-48 border-2 rounded-card p-2 z-dropdown",
                           inverted ? "bg-surface-elevated border-border" : "bg-surface-primary border-border"
                         )}>
-                          <Body size="sm" className={clsx("px-2 py-1 font-semibold", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
+                          <Body size="sm" className={clsx("px-2 py-1 font-semibold", inverted ? "text-text-muted" : "text-text-muted")}>
                             Columns
                           </Body>
                           {columns.map((col) => (
@@ -521,7 +521,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
               )}
 
               {selectable !== "none" && selectedKeys.length > 0 && (
-                <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                <Body size="sm" className={inverted ? "text-text-muted" : "text-text-muted"}>
                   {selectedKeys.length} selected
                 </Body>
               )}
@@ -540,8 +540,8 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                       className={clsx(
                         "px-3 py-2 border-2 rounded-button text-sm",
                         inverted
-                          ? "bg-surface-elevated border-border text-on-dark-primary"
-                          : "bg-surface-primary border-border text-on-light-primary"
+                          ? "bg-surface-elevated border-border text-text-primary"
+                          : "bg-surface-primary border-border text-text-primary"
                       )}
                     >
                       <option value="">{filter.label}: All</option>
@@ -560,8 +560,8 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                       className={clsx(
                         "px-3 py-2 border-2 rounded-button text-sm",
                         inverted
-                          ? "bg-surface-elevated border-border text-on-dark-primary placeholder:text-on-dark-disabled"
-                          : "bg-surface-primary border-border text-on-light-primary placeholder:text-on-light-muted"
+                          ? "bg-surface-elevated border-border text-text-primary placeholder:text-text-disabled"
+                          : "bg-surface-primary border-border text-text-primary placeholder:text-text-muted"
                       )}
                     />
                   )}
@@ -622,7 +622,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                     column.align === "right" && "text-right",
                     column.sticky && stickyColumn && "sticky left-0 z-10",
                     column.sticky && stickyColumn && headerBgClass,
-                    inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                    inverted ? "text-text-muted" : "text-text-muted"
                   )}
                   style={{ width: column.width, minWidth: column.minWidth }}
                 >
@@ -743,7 +743,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
             <Stack direction="horizontal" gap={4} className="items-center">
               {onPageSizeChange && (
                 <Stack direction="horizontal" gap={2} className="items-center">
-                  <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                  <Body size="sm" className={inverted ? "text-text-muted" : "text-text-muted"}>
                     Show
                   </Body>
                   <select
@@ -752,8 +752,8 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                     className={clsx(
                       "px-2 py-1 border-2 rounded-button text-sm",
                       inverted
-                        ? "bg-surface-elevated border-border text-on-dark-primary"
-                        : "bg-surface-primary border-border text-on-light-primary"
+                        ? "bg-surface-elevated border-border text-text-primary"
+                        : "bg-surface-primary border-border text-text-primary"
                     )}
                   >
                     {pageSizeOptions.map((size) => (
@@ -764,7 +764,7 @@ export const TableLayout = forwardRef(function TableLayout<T>(
                   </select>
                 </Stack>
               )}
-              <Body size="sm" className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body size="sm" className={inverted ? "text-text-muted" : "text-text-muted"}>
                 Page {page} of {totalPages}
                 {totalItems !== undefined && ` (${totalItems} items)`}
               </Body>

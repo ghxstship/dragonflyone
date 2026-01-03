@@ -97,7 +97,7 @@ export default function HelpPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Support</Body>
                   <Body className="text-white font-weight-bold text-h3-md">How Can We Help?</Body>
-                  <Body className="text-on-dark-muted">Choose the support option that works best for you</Body>
+                  <Body className="text-text-muted">Choose the support option that works best for you</Body>
                 </Stack>
 
                 <Grid cols={4} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -116,7 +116,7 @@ export default function HelpPage() {
                         {option.icon}
                       </Box>
                       <Body className="text-white font-weight-bold mb-2">{option.title}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{option.description}</Body>
+                      <Body size="sm" className="text-text-muted">{option.description}</Body>
                     </Card>
                   ))}
                 </Grid>
@@ -153,7 +153,7 @@ export default function HelpPage() {
                     </Box>
                     <Box>
                       <Body className="text-white font-weight-bold text-h4-md">Need Immediate Help?</Body>
-                      <Body className="text-on-dark-muted">Call us at 1-800-GVTEWAY</Body>
+                      <Body className="text-text-muted">Call us at 1-800-GVTEWAY</Body>
                     </Box>
                   </Box>
                   <Button variant="solid" onClick={() => window.location.href = "tel:1-800-GVTEWAY"}>Call Now</Button>

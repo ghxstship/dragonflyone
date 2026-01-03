@@ -97,7 +97,7 @@ function LockIndicator({ user }: LockIndicatorProps) {
     >
       <div className="flex flex-col items-center gap-gap-xs text-center p-spacing-4">
         <Lock className="size-6 text-warning-500" />
-        <p className="text-body-sm text-on-dark-disabled">
+        <p className="text-body-sm text-text-disabled">
           Locked by <span className="font-code" style={{ color: user.color }}>{user.name}</span>
         </p>
       </div>
@@ -269,7 +269,7 @@ export function CollaboratorsList({
 
   return (
     <div className={clsx("flex items-center gap-gap-xs", className)}>
-      <span className="text-body-sm text-on-dark-disabled">Collaborators:</span>
+      <span className="text-body-sm text-text-disabled">Collaborators:</span>
       <div className="flex -space-x-spacing-2">
         {visibleCollaborators.map((user) => (
           <Tooltip key={user.id} content={user.name}>
@@ -298,7 +298,7 @@ export function CollaboratorsList({
           </Tooltip>
         ))}
         {hiddenCount > 0 && (
-          <div className="size-8 rounded-avatar bg-muted border-2 border-surface-primary flex items-center justify-center text-body-xs font-code text-on-dark-disabled">
+          <div className="size-8 rounded-avatar bg-muted border-2 border-surface-primary flex items-center justify-center text-body-xs font-code text-text-disabled">
             +{hiddenCount}
           </div>
         )}

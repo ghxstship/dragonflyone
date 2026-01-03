@@ -1,0 +1,100 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5] [cursor=pointer]:
+      - /url: "#main-content"
+    - generic [ref=e6]:
+      - generic [ref=e10]:
+        - heading "ATLVS" [level=1] [ref=e12]
+        - generic [ref=e13]:
+          - heading "Experience Management, Elevated" [level=1] [ref=e14]
+          - generic [ref=e15]:
+            - generic [ref=e16]:
+              - img [ref=e18]
+              - generic [ref=e21]:
+                - paragraph [ref=e22]: AI-Powered Insights
+                - paragraph [ref=e23]: Smart recommendations for every event
+            - generic [ref=e24]:
+              - img [ref=e26]
+              - generic [ref=e28]:
+                - paragraph [ref=e29]: Enterprise Security
+                - paragraph [ref=e30]: SOC 2 compliant infrastructure
+            - generic [ref=e31]:
+              - img [ref=e33]
+              - generic [ref=e35]:
+                - paragraph [ref=e36]: Real-Time Collaboration
+                - paragraph [ref=e37]: Work together seamlessly
+        - generic [ref=e39]:
+          - paragraph [ref=e40]: “ATLVS transformed how we manage our events. The platform is intuitive and powerful.”
+          - generic [ref=e42]:
+            - paragraph [ref=e43]: Sarah Chen
+            - paragraph [ref=e44]: Event Director, TechConf
+      - main "Authentication content" [ref=e48]:
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - heading "Welcome Back" [level=1] [ref=e52]
+            - paragraph [ref=e53]: Sign in to continue to your account
+          - generic [ref=e56]:
+            - generic [ref=e57]:
+              - generic [ref=e58]: Email*
+              - generic [ref=e59]:
+                - generic:
+                  - img
+                - textbox "Email*" [ref=e60]:
+                  - /placeholder: you@example.com
+            - generic [ref=e62]:
+              - generic [ref=e63]: Password*
+              - generic [ref=e64]:
+                - generic:
+                  - img
+                - textbox "Password*" [ref=e65]:
+                  - /placeholder: Enter your password
+                - button "Show password" [ref=e67] [cursor=pointer]:
+                  - img [ref=e68]
+            - generic [ref=e71]:
+              - generic [ref=e72] [cursor=pointer]:
+                - generic [ref=e73]:
+                  - checkbox "Remember me" [ref=e74]
+                  - img [ref=e76]
+                - paragraph [ref=e78]: Remember me
+              - button "Forgot password?" [ref=e79] [cursor=pointer]:
+                - generic [ref=e80]: Forgot password?
+            - button "Sign In" [ref=e81] [cursor=pointer]:
+              - generic [ref=e82]: Sign In
+            - paragraph [ref=e85]: Or continue with
+            - generic [ref=e87]:
+              - button "Continue with Google" [ref=e88] [cursor=pointer]:
+                - img [ref=e89]
+                - generic [ref=e94]: Continue with Google
+              - button "Continue with Microsoft" [ref=e95] [cursor=pointer]:
+                - img [ref=e96]
+                - generic [ref=e101]: Continue with Microsoft
+            - button "Sign in with magic link instead" [ref=e102] [cursor=pointer]:
+              - generic [ref=e103]: Sign in with magic link instead
+          - paragraph [ref=e105]:
+            - text: Don't have an account?
+            - link "Create one" [ref=e106] [cursor=pointer]:
+              - /url: /auth/signup
+    - contentinfo [ref=e107]:
+      - generic [ref=e109]:
+        - navigation "Footer navigation" [ref=e110]:
+          - generic [ref=e111]:
+            - link "Privacy" [ref=e112] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e113] [cursor=pointer]:
+              - /url: /legal/terms
+            - link "Help" [ref=e114] [cursor=pointer]:
+              - /url: /help
+        - generic [ref=e115]: © 2026 GHXSTSHIP INDUSTRIES
+  - generic [ref=e116]:
+    - img [ref=e118]
+    - button "Open Tanstack query devtools" [ref=e166] [cursor=pointer]:
+      - img [ref=e167]
+  - alert [ref=e215]
+```

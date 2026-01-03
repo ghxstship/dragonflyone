@@ -157,7 +157,7 @@ export function Calendar({
     <div className={clsx(
       "overflow-hidden border-2 rounded-[var(--radius-card)]",
       inverted
-        ? "bg-surface-inverse text-on-dark-primary border-border shadow-[4px_4px_0_rgba(255,255,255,0.15)]"
+        ? "bg-surface-inverse text-text-primary border-border shadow-[4px_4px_0_rgba(255,255,255,0.15)]"
         : "bg-white text-black border-black shadow-[4px_4px_0_rgba(0,0,0,0.15)]",
       className
     )}>
@@ -183,7 +183,7 @@ export function Calendar({
           </div>
           <div className={clsx(
             "font-code text-sm tracking-widest",
-            inverted ? "text-on-dark-muted" : "text-on-light-muted"
+            inverted ? "text-text-muted" : "text-text-muted"
           )}>
             {viewDate.getFullYear()}
           </div>
@@ -206,7 +206,7 @@ export function Calendar({
         {showWeekNumbers && (
           <div className={clsx(
             "px-2 py-3 text-center font-code text-xs",
-            inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+            inverted ? "text-text-disabled" : "text-text-muted"
           )}>
             WK
           </div>
@@ -216,7 +216,7 @@ export function Calendar({
             key={day}
             className={clsx(
               "px-2 py-3 text-center font-code text-xs tracking-widest",
-              inverted ? "text-on-dark-muted" : "text-on-light-muted"
+              inverted ? "text-text-muted" : "text-text-muted"
             )}
           >
             {day}
@@ -238,7 +238,7 @@ export function Calendar({
             {showWeekNumbers && (
               <div className={clsx(
                 "flex items-center justify-center p-2 text-center font-code text-xs",
-                inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+                inverted ? "text-text-disabled" : "text-text-muted"
               )}>
                 {week[0] ? getWeekNumber(week[0]) : ""}
               </div>
@@ -306,8 +306,8 @@ export function Calendar({
                     <span className={clsx(
                       "font-code text-[10px]",
                       isSelected
-                        ? inverted ? "text-on-dark-disabled" : "text-on-light-muted"
-                        : inverted ? "text-on-dark-disabled" : "text-on-light-muted"
+                        ? inverted ? "text-text-disabled" : "text-text-muted"
+                        : inverted ? "text-text-disabled" : "text-text-muted"
                     )}>
                       +{dayEvents.length - 2} more
                     </span>
@@ -329,7 +329,7 @@ export function Calendar({
           className={clsx(
             "cursor-pointer border-2 rounded-[var(--radius-button)] px-4 py-2 font-code text-sm uppercase tracking-widest transition-all duration-100 ease-[var(--ease-bounce)]",
             inverted
-              ? "border-border bg-transparent text-on-dark-secondary shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:border-white hover:bg-white hover:text-black hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)]"
+              ? "border-border bg-transparent text-text-secondary shadow-[2px_2px_0_rgba(255,255,255,0.1)] hover:border-white hover:bg-white hover:text-black hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(255,255,255,0.2)]"
               : "border-black bg-transparent text-black shadow-[2px_2px_0_rgba(0,0,0,0.1)] hover:bg-muted hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_rgba(0,0,0,0.15)]"
           )}
         >

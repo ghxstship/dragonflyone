@@ -155,7 +155,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
       <Stack className="sticky top-0 z-10 bg-white border-b border-border p-spacing-4">
         <Stack direction="horizontal" gap={2} className="items-center">
           <Stack className="flex-1 relative">
-            <Search className="absolute left-spacing-3 top-1/2 -translate-y-1/2 w-spacing-5 h-spacing-5 text-on-light-muted" />
+            <Search className="absolute left-spacing-3 top-1/2 -translate-y-1/2 w-spacing-5 h-spacing-5 text-text-muted" />
             <Input
               placeholder="Search jobs, skills, companies..."
               value={searchQuery}
@@ -239,7 +239,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
         ) : filteredJobs.length === 0 ? (
           <Card className="p-spacing-8 text-center">
             <Stack gap={4} className="items-center">
-              <Briefcase className="w-spacing-12 h-spacing-12 text-on-light-muted" />
+              <Briefcase className="w-spacing-12 h-spacing-12 text-text-muted" />
               <H3>No Opportunities Found</H3>
               <Body variant="muted">Try adjusting your filters or search term</Body>
               <Button variant="outline" onClick={clearFilters}>Clear Filters</Button>
@@ -269,7 +269,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
                         e.stopPropagation();
                         toggleSaveJob(job.id);
                       }}
-                      className={savedJobs.includes(job.id) ? 'text-black' : 'text-on-light-muted'}
+                      className={savedJobs.includes(job.id) ? 'text-black' : 'text-text-muted'}
                     >
                       {savedJobs.includes(job.id) ? '★' : '☆'}
                     </Button>
@@ -288,20 +288,20 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
                   {/* Details */}
                   <Stack gap={2}>
                     <Stack direction="horizontal" gap={2} className="items-center">
-                      <MapPin className="w-spacing-4 h-spacing-4 text-on-light-muted" />
+                      <MapPin className="w-spacing-4 h-spacing-4 text-text-muted" />
                       <Body size="sm">{job.location}</Body>
                     </Stack>
                     
                     {(job.salary || job.rate) && (
                       <Stack direction="horizontal" gap={2} className="items-center">
-                        <DollarSign className="w-spacing-4 h-spacing-4 text-on-light-muted" />
+                        <DollarSign className="w-spacing-4 h-spacing-4 text-text-muted" />
                         <Body size="sm">{job.salary || job.rate}</Body>
                       </Stack>
                     )}
 
                     {job.date && (
                       <Stack direction="horizontal" gap={2} className="items-center">
-                        <Clock className="w-spacing-4 h-spacing-4 text-on-light-muted" />
+                        <Clock className="w-spacing-4 h-spacing-4 text-text-muted" />
                         <Body size="sm">
                           {new Date(job.date).toLocaleDateString()}
                           {job.duration && ` • ${job.duration}`}

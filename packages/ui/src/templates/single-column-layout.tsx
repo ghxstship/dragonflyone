@@ -78,8 +78,8 @@ const widthClasses = {
 const heroColorClasses = {
   primary: "bg-primary text-white",
   secondary: "bg-secondary text-white",
-  accent: "bg-accent text-on-light-primary",
-  ink: "bg-surface-inverse text-on-dark-primary",
+  accent: "bg-accent text-text-primary",
+  ink: "bg-surface-inverse text-text-primary",
 };
 
 /**
@@ -135,7 +135,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
     const [showScrollButton, setShowScrollButton] = useState(false);
     const [activeSection, setActiveSection] = useState<string | null>(null);
 
-    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+    const bgClass = inverted ? "bg-surface-inverse text-text-primary" : "bg-surface-primary text-text-primary";
     const borderClass = inverted ? "border-border" : "border-border";
 
     // Scroll to top visibility
@@ -202,7 +202,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
           <div className="flex-1 flex items-center justify-center p-8">
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -230,10 +230,10 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
             <Stack gap={6} className="items-center text-center max-w-md">
               <AlertTriangle className="size-16 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
+                <H2 className={inverted ? "text-text-primary" : "text-text-primary"}>
                   Error Loading Content
                 </H2>
-                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -274,7 +274,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
                   inverted ? "bg-surface-elevated" : "bg-muted"
                 )} />
               </div>
-              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                 {emptyMessage}
               </Body>
               {emptyAction && (
@@ -301,7 +301,7 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
         )}>
           <Body className={clsx(
             "font-semibold mb-4 uppercase text-xs tracking-wider",
-            inverted ? "text-on-dark-muted" : "text-on-light-muted"
+            inverted ? "text-text-muted" : "text-text-muted"
           )}>
             On This Page
           </Body>
@@ -319,8 +319,8 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
                       ? "bg-primary/20 text-primary border-l-2 border-primary"
                       : "bg-primary/10 text-primary border-l-2 border-primary"
                     : inverted
-                      ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
-                      : "text-on-light-disabled hover:text-on-light-primary hover:bg-muted"
+                      ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated"
+                      : "text-text-disabled hover:text-text-primary hover:bg-muted"
                 )}
               >
                 {item.label}
@@ -425,8 +425,8 @@ export const SingleColumnLayout = forwardRef<HTMLDivElement, SingleColumnLayoutP
               "fixed bottom-6 right-6 z-tooltip p-3 rounded-full border-2 transition-all",
               "hover:-translate-y-1 hover:shadow-lg",
               inverted
-                ? "bg-surface-elevated border-border text-on-dark-primary hover:bg-surface-inverse"
-                : "bg-surface-primary border-border text-on-light-primary hover:bg-muted"
+                ? "bg-surface-elevated border-border text-text-primary hover:bg-surface-inverse"
+                : "bg-surface-primary border-border text-text-primary hover:bg-muted"
             )}
             aria-label="Scroll to top"
           >

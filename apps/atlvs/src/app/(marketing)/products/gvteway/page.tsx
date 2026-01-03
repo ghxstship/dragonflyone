@@ -44,9 +44,9 @@ export default function GVTEWAYProductPage() {
       {/* Hero Section */}
       <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
         <Stack gap={6} className="items-center text-center sm:gap-8">
-          <Label size="xs" className="text-brand-yellow">PRODUCTS</Label>
+          <Label size="xs" className="text-brand-cyan">PRODUCTS</Label>
           <Display className="text-white text-display-sm sm:text-display-md lg:text-display-lg">GVTEWAY</Display>
-          <Body size="lg" className="max-w-3xl text-on-dark-secondary">
+          <Body size="lg" className="max-w-3xl text-text-secondary">
             The modern ticketing and access control platform for live events. From ticket sales to entry management, deliver seamless experiences.
           </Body>
           <Stack direction="horizontal" gap={4} className="flex-wrap justify-center">
@@ -64,7 +64,7 @@ export default function GVTEWAYProductPage() {
       <Box className="bg-white">
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
           <Article className="border-2 border-border bg-muted p-6 sm:p-8 lg:p-12 pop-card-gvteway">
-            <Body size="lg" className="text-on-light-secondary leading-relaxed">
+            <Body size="lg" className="text-text-secondary leading-relaxed">
               Your attendees deserve a seamless experience from purchase to entry. GVTEWAY handles ticketing, 
               access control, and analytics — so you can focus on creating unforgettable events.
             </Body>
@@ -76,18 +76,18 @@ export default function GVTEWAYProductPage() {
       <Box className="bg-white">
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
           <Stack gap={4} className="text-center mb-12">
-            <Label size="xs" className="text-on-light-muted">CAPABILITIES</Label>
-            <H1 className="text-on-light-primary">KEY FEATURES</H1>
-            <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">Everything you need to sell tickets and manage access</Body>
+            <Label size="xs" className="text-text-muted">CAPABILITIES</Label>
+            <H1 className="text-text-primary">KEY FEATURES</H1>
+            <Body size="lg" className="text-text-muted max-w-2xl mx-auto">Everything you need to sell tickets and manage access</Body>
           </Stack>
           <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((feature, idx) => (
               <Article key={idx} className="border-2 border-border bg-white p-6 pop-card-gvteway">
                 <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-border bg-muted">
-                  <Box className="text-brand-yellow">{feature.icon}</Box>
+                  <Box className="text-brand-cyan">{feature.icon}</Box>
                 </Box>
-                <H3 className="font-display text-h6-md uppercase tracking-label text-on-light-primary">{feature.title}</H3>
-                <Body className="mt-2 text-on-light-muted">{feature.description}</Body>
+                <H3 className="font-display text-h6-md uppercase tracking-label text-text-primary">{feature.title}</H3>
+                <Body className="mt-2 text-text-muted">{feature.description}</Body>
               </Article>
             ))}
           </Grid>
@@ -99,14 +99,14 @@ export default function GVTEWAYProductPage() {
         <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
           <Stack gap={6}>
             <Stack gap={2}>
-              <Label size="xs" className="text-brand-yellow">WHY GVTEWAY</Label>
+              <Label size="xs" className="text-brand-cyan">WHY GVTEWAY</Label>
               <H1 className="text-white">THE TICKETING ADVANTAGE</H1>
             </Stack>
             <Stack gap={3}>
               {BENEFITS.map((benefit, idx) => (
                 <Stack key={idx} direction="horizontal" gap={3} className="items-center">
-                  <Check className="size-5 text-brand-yellow flex-shrink-0" />
-                  <Body className="text-on-dark-secondary">{benefit}</Body>
+                  <Check className="size-5 text-brand-cyan flex-shrink-0" />
+                  <Body className="text-text-secondary">{benefit}</Body>
                 </Stack>
               ))}
             </Stack>
@@ -114,7 +114,7 @@ export default function GVTEWAYProductPage() {
           <Card className="border-2 border-border bg-surface-inverse p-8 text-center">
             <Stack gap={4} className="items-center">
               <Display className="text-white text-display-sm">Ready to get started?</Display>
-              <Body className="text-on-dark-muted">See GVTEWAY in action with a personalized demo</Body>
+              <Body className="text-text-muted">See GVTEWAY in action with a personalized demo</Body>
               <Stack direction="horizontal" gap={4} className="flex-wrap justify-center">
                 <Button variant="primary" size="md" onClick={() => router.push("/demo")}>Request Demo</Button>
                 <Button variant="outline" size="md" onClick={() => router.push("/pricing")}>View Pricing</Button>
@@ -128,17 +128,17 @@ export default function GVTEWAYProductPage() {
       <Box className="bg-white">
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
           <Stack gap={4} className="text-center mb-12">
-            <Label size="xs" className="text-on-light-muted">TESTIMONIALS</Label>
-            <H1 className="text-on-light-primary">WHAT OUR CUSTOMERS SAY</H1>
-            <Body size="lg" className="text-on-light-muted max-w-2xl mx-auto">Hear from event organizers using GVTEWAY</Body>
+            <Label size="xs" className="text-text-muted">TESTIMONIALS</Label>
+            <H1 className="text-text-primary">WHAT OUR CUSTOMERS SAY</H1>
+            <Body size="lg" className="text-text-muted max-w-2xl mx-auto">Hear from event organizers using GVTEWAY</Body>
           </Stack>
           <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
             {TESTIMONIALS.map((testimonial, idx) => (
               <Article key={idx} className="border-2 border-border bg-white p-6 pop-card">
-                <Body className="text-on-light-secondary italic mb-4">&ldquo;{testimonial.quote}&rdquo;</Body>
+                <Body className="text-text-secondary italic mb-4">&ldquo;{testimonial.quote}&rdquo;</Body>
                 <Box>
-                  <Text className="font-weight-medium text-on-light-primary">{testimonial.author}</Text>
-                  <Text size="sm" className="text-on-light-muted">{testimonial.role}</Text>
+                  <Text className="font-weight-medium text-text-primary">{testimonial.author}</Text>
+                  <Text size="sm" className="text-text-muted">{testimonial.role}</Text>
                 </Box>
               </Article>
             ))}
@@ -149,7 +149,7 @@ export default function GVTEWAYProductPage() {
       {/* CTA Section */}
       <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
         <Display size="md" className="text-white">SELL MORE TICKETS</Display>
-        <Body size="lg" className="mx-auto mt-4 max-w-xl text-on-dark-muted">
+        <Body size="lg" className="mx-auto mt-4 max-w-xl text-text-muted">
           Join thousands of event organizers already using GVTEWAY to power their ticketing.
         </Body>
         <Stack direction="horizontal" gap={4} className="mt-8 flex-wrap justify-center">

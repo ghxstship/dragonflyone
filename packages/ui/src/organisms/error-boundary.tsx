@@ -68,7 +68,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 <h1 className="font-display text-h2-md text-white">
                   Something went wrong
                 </h1>
-                <p className="text-on-dark-secondary">
+                <p className="text-text-secondary">
                   An unexpected error occurred. We&apos;ve been notified and are working on a fix.
                 </p>
               </div>
@@ -83,7 +83,7 @@ export class ErrorBoundary extends Component<Props, State> {
                       {this.state.error.message}
                     </pre>
                     {this.state.error.stack && (
-                      <pre className="mt-spacing-2 font-mono text-mono-xs text-on-dark-disabled">
+                      <pre className="mt-spacing-2 font-mono text-mono-xs text-text-disabled">
                         {this.state.error.stack}
                       </pre>
                     )}

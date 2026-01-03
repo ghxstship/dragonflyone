@@ -102,7 +102,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
     },
     ref
   ) {
-    const bgClass = inverted ? "bg-surface-inverse text-on-dark-primary" : "bg-surface-primary text-on-light-primary";
+    const bgClass = inverted ? "bg-surface-inverse text-text-primary" : "bg-surface-primary text-text-primary";
     
     // Loading state
     if (loading) {
@@ -126,7 +126,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
           <div className="flex-1 flex items-center justify-center p-4">
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -159,10 +159,10 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
             <Stack gap={6} className={clsx("items-center text-center", widthClasses[width])}>
               <AlertTriangle className="size-16 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={inverted ? "text-on-dark-primary" : "text-on-light-primary"}>
+                <H2 className={inverted ? "text-text-primary" : "text-text-primary"}>
                   Something Went Wrong
                 </H2>
-                <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+                <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -208,7 +208,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
                   inverted ? "bg-surface-elevated" : "bg-muted"
                 )} />
               </div>
-              <Body className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body className={inverted ? "text-text-muted" : "text-text-muted"}>
                 {emptyMessage}
               </Body>
               {emptyAction && (

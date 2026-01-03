@@ -87,7 +87,7 @@ export default function ResetPasswordPage() {
           
           <Stack gap={3} className="items-center">
             <H2 className="text-white">Password Reset Complete</H2>
-            <Body className="text-on-dark-secondary max-w-sm">
+            <Body className="text-text-secondary max-w-sm">
               Your password has been updated successfully. Redirecting to sign in...
             </Body>
           </Stack>

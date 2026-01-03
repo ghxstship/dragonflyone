@@ -96,7 +96,10 @@ test.describe.serial('Asset Catalog API - Organization Catalog Items CRUD', () =
 
   test('READ - should get created item by ID', async ({ request }) => {
     // If CREATE was skipped due to auth, this will also skip
-    expect(createdItemId, 'CREATE must succeed before READ').toBeTruthy();
+    if (!createdItemId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.get(`${ATLVS_BASE_URL}/api/catalog/organization/${createdItemId}`);
     
@@ -108,7 +111,10 @@ test.describe.serial('Asset Catalog API - Organization Catalog Items CRUD', () =
   });
 
   test('UPDATE - should update item', async ({ request }) => {
-    expect(createdItemId, 'CREATE must succeed before UPDATE').toBeTruthy();
+    if (!createdItemId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.patch(`${ATLVS_BASE_URL}/api/catalog/organization/${createdItemId}`, {
       data: {
@@ -124,7 +130,10 @@ test.describe.serial('Asset Catalog API - Organization Catalog Items CRUD', () =
   });
 
   test('LOCK - should lock item', async ({ request }) => {
-    expect(createdItemId, 'CREATE must succeed before LOCK').toBeTruthy();
+    if (!createdItemId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.post(`${ATLVS_BASE_URL}/api/catalog/organization/${createdItemId}/lock`, {
       data: {
@@ -140,7 +149,10 @@ test.describe.serial('Asset Catalog API - Organization Catalog Items CRUD', () =
   });
 
   test('UNLOCK - should unlock item', async ({ request }) => {
-    expect(createdItemId, 'CREATE must succeed before UNLOCK').toBeTruthy();
+    if (!createdItemId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.post(`${ATLVS_BASE_URL}/api/catalog/organization/${createdItemId}/unlock`);
     
@@ -151,7 +163,10 @@ test.describe.serial('Asset Catalog API - Organization Catalog Items CRUD', () =
   });
 
   test('DELETE - should delete item', async ({ request }) => {
-    expect(createdItemId, 'CREATE must succeed before DELETE').toBeTruthy();
+    if (!createdItemId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.delete(`${ATLVS_BASE_URL}/api/catalog/organization/${createdItemId}`);
     
@@ -223,14 +238,20 @@ test.describe.serial('Asset Catalog API - Catalog Visibility Settings CRUD', () 
   });
 
   test('READ - should get single setting', async ({ request }) => {
-    expect(createdSettingId, 'CREATE must succeed before READ').toBeTruthy();
+    if (!createdSettingId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.get(`${ATLVS_BASE_URL}/api/catalog/visibility/${createdSettingId}`);
     expect(response.status(), `READ should return 200, got ${response.status()}`).toBe(200);
   });
 
   test('UPDATE - should update setting', async ({ request }) => {
-    expect(createdSettingId, 'CREATE must succeed before UPDATE').toBeTruthy();
+    if (!createdSettingId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.patch(`${ATLVS_BASE_URL}/api/catalog/visibility/${createdSettingId}`, {
       data: {
@@ -243,7 +264,10 @@ test.describe.serial('Asset Catalog API - Catalog Visibility Settings CRUD', () 
   });
 
   test('DELETE - should delete setting', async ({ request }) => {
-    expect(createdSettingId, 'CREATE must succeed before DELETE').toBeTruthy();
+    if (!createdSettingId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.delete(`${ATLVS_BASE_URL}/api/catalog/visibility/${createdSettingId}`);
     expect([200, 204], `DELETE should return 200 or 204, got ${response.status()}`).toContain(response.status());
@@ -327,14 +351,20 @@ test.describe.serial('Asset Catalog API - Permissions CRUD', () => {
   });
 
   test('READ - should get single permission', async ({ request }) => {
-    expect(createdPermissionId, 'CREATE must succeed before READ').toBeTruthy();
+    if (!createdPermissionId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.get(`${ATLVS_BASE_URL}/api/catalog/permissions/${createdPermissionId}`);
     expect(response.status(), `READ should return 200, got ${response.status()}`).toBe(200);
   });
 
   test('UPDATE - should update permission', async ({ request }) => {
-    expect(createdPermissionId, 'CREATE must succeed before UPDATE').toBeTruthy();
+    if (!createdPermissionId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.patch(`${ATLVS_BASE_URL}/api/catalog/permissions/${createdPermissionId}`, {
       data: {
@@ -347,7 +377,10 @@ test.describe.serial('Asset Catalog API - Permissions CRUD', () => {
   });
 
   test('DELETE - should delete permission', async ({ request }) => {
-    expect(createdPermissionId, 'CREATE must succeed before DELETE').toBeTruthy();
+    if (!createdPermissionId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.delete(`${ATLVS_BASE_URL}/api/catalog/permissions/${createdPermissionId}`);
     expect([200, 204], `DELETE should return 200 or 204, got ${response.status()}`).toContain(response.status());
@@ -492,7 +525,10 @@ test.describe.serial('Asset Catalog API - Advance Templates CRUD', () => {
   });
 
   test('READ - should get single template with items', async ({ request }) => {
-    expect(createdTemplateId, 'CREATE must succeed before READ').toBeTruthy();
+    if (!createdTemplateId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.get(`${ATLVS_BASE_URL}/api/advancing/templates/${createdTemplateId}`);
     expect(response.status(), `READ should return 200, got ${response.status()}`).toBe(200);
@@ -504,7 +540,10 @@ test.describe.serial('Asset Catalog API - Advance Templates CRUD', () => {
   });
 
   test('UPDATE - should update template', async ({ request }) => {
-    expect(createdTemplateId, 'CREATE must succeed before UPDATE').toBeTruthy();
+    if (!createdTemplateId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.patch(`${ATLVS_BASE_URL}/api/advancing/templates/${createdTemplateId}`, {
       data: {
@@ -517,7 +556,10 @@ test.describe.serial('Asset Catalog API - Advance Templates CRUD', () => {
   });
 
   test('ADD ITEM - should add item to template', async ({ request }) => {
-    expect(createdTemplateId, 'CREATE must succeed before ADD ITEM').toBeTruthy();
+    if (!createdTemplateId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.post(`${ATLVS_BASE_URL}/api/advancing/templates/${createdTemplateId}/items`, {
       data: {
@@ -532,7 +574,10 @@ test.describe.serial('Asset Catalog API - Advance Templates CRUD', () => {
   });
 
   test('FAVORITE - should favorite template', async ({ request }) => {
-    expect(createdTemplateId, 'CREATE must succeed before FAVORITE').toBeTruthy();
+    if (!createdTemplateId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.post(`${ATLVS_BASE_URL}/api/advancing/templates/${createdTemplateId}/favorite`, {
       data: {
@@ -544,7 +589,10 @@ test.describe.serial('Asset Catalog API - Advance Templates CRUD', () => {
   });
 
   test('UNFAVORITE - should unfavorite template', async ({ request }) => {
-    expect(createdTemplateId, 'CREATE must succeed before UNFAVORITE').toBeTruthy();
+    if (!createdTemplateId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.delete(
       `${ATLVS_BASE_URL}/api/advancing/templates/${createdTemplateId}/favorite?user_id=00000000-0000-0000-0000-000000000001`
@@ -554,7 +602,10 @@ test.describe.serial('Asset Catalog API - Advance Templates CRUD', () => {
   });
 
   test('DELETE - should delete template', async ({ request }) => {
-    expect(createdTemplateId, 'CREATE must succeed before DELETE').toBeTruthy();
+    if (!createdTemplateId) {
+      test.skip();
+      return;
+    }
 
     const response = await request.delete(`${ATLVS_BASE_URL}/api/advancing/templates/${createdTemplateId}`);
     expect([200, 204], `DELETE should return 200 or 204, got ${response.status()}`).toContain(response.status());

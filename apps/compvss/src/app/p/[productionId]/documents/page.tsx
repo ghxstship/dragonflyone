@@ -68,7 +68,7 @@ export default function ProductionDocumentsPage() {
 
           <Box className="flex gap-4 items-center mb-6">
             <Box className="relative flex-1 max-w-sm">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-dark-muted" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-muted" />
               <Input placeholder="Search documents..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
             </Box>
             <Box className="flex gap-2">
@@ -85,10 +85,10 @@ export default function ProductionDocumentsPage() {
               <Card key={doc.id} className="p-4">
                 <Box className="flex items-center justify-between">
                   <Box className="flex items-center gap-3">
-                    <FileText className="size-5 text-on-dark-muted" />
+                    <FileText className="size-5 text-text-muted" />
                     <Box>
                       <Body className="font-weight-medium">{doc.name}</Body>
-                      <Body size="sm" className="text-on-dark-muted">{doc.size} • Updated {formatDate(doc.updated)}</Body>
+                      <Body size="sm" className="text-text-muted">{doc.size} • Updated {formatDate(doc.updated)}</Body>
                     </Box>
                   </Box>
                   <Box className="flex items-center gap-2">
@@ -110,9 +110,9 @@ export default function ProductionDocumentsPage() {
         <Section>
           <SectionHeader title="Upload Documents" description="Add new documents to this production" />
           <Card className="p-8 mt-4 border-dashed text-center">
-            <Upload className="size-12 text-on-dark-disabled mx-auto mb-4" />
+            <Upload className="size-12 text-text-disabled mx-auto mb-4" />
             <Body className="font-weight-medium mb-2">Drop files here or click to upload</Body>
-            <Body className="text-on-dark-muted mb-4">PDF, XLSX, DOCX up to 50MB</Body>
+            <Body className="text-text-muted mb-4">PDF, XLSX, DOCX up to 50MB</Body>
             <Button variant="outline">Select Files</Button>
           </Card>
         </Section>

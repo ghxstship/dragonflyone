@@ -158,7 +158,7 @@ export default function SOPDetailPage() {
                       {sop.status.toUpperCase()}
                     </Badge>
                   </Stack>
-                  <Body className="text-on-dark-disabled">
+                  <Body className="text-text-disabled">
                     Version {sop.version} | {sop.category?.name || 'Uncategorized'}
                   </Body>
                 </Stack>
@@ -253,7 +253,7 @@ export default function SOPDetailPage() {
                                 )}
                               </Stack>
 
-                              <Body className="text-on-dark-disabled">{step.description}</Body>
+                              <Body className="text-text-disabled">{step.description}</Body>
 
                               {step.warning && (
                                 <Box className="flex items-start gap-2 rounded-card border-2 border-warning bg-warning/10 p-3">
@@ -263,13 +263,13 @@ export default function SOPDetailPage() {
                               )}
 
                               {step.notes && (
-                                <Body size="sm" className=" text-on-dark-disabled">
+                                <Body size="sm" className=" text-text-disabled">
                                   Note: {step.notes}
                                 </Body>
                               )}
 
                               {step.duration_minutes && (
-                                <Body size="sm" className=" text-on-dark-muted">
+                                <Body size="sm" className=" text-text-muted">
                                   Estimated time: {step.duration_minutes} minutes
                                 </Body>
                               )}
@@ -279,7 +279,7 @@ export default function SOPDetailPage() {
                       </Stack>
                     ) : (
                       <Box className="rounded-card border-2 border-dashed border-border p-8 text-center">
-                        <Body className="text-on-dark-disabled">No steps defined yet. Add the first step to get started.</Body>
+                        <Body className="text-text-disabled">No steps defined yet. Add the first step to get started.</Body>
                       </Box>
                     )}
                   </Stack>
@@ -294,19 +294,19 @@ export default function SOPDetailPage() {
                     <H3>Details</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body size="sm" className=" text-on-dark-disabled">Category</Body>
+                        <Body size="sm" className=" text-text-disabled">Category</Body>
                         <Body>{sop.category?.name || 'Uncategorized'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body size="sm" className=" text-on-dark-disabled">Version</Body>
+                        <Body size="sm" className=" text-text-disabled">Version</Body>
                         <Body>{sop.version}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body size="sm" className=" text-on-dark-disabled">Effective Date</Body>
+                        <Body size="sm" className=" text-text-disabled">Effective Date</Body>
                         <Body>{sop.effective_date ? new Date(sop.effective_date).toLocaleDateString() : 'Not set'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body size="sm" className=" text-on-dark-disabled">Owner</Body>
+                        <Body size="sm" className=" text-text-disabled">Owner</Body>
                         <Body>{sop.owner ? `${sop.owner.first_name} ${sop.owner.last_name}` : 'Not assigned'}</Body>
                       </Stack>
                     </Stack>
@@ -332,7 +332,7 @@ export default function SOPDetailPage() {
                       </Stack>
                       {sop.training_duration_minutes && (
                         <Stack gap={1}>
-                          <Body size="sm" className=" text-on-dark-disabled">Training Duration</Body>
+                          <Body size="sm" className=" text-text-disabled">Training Duration</Body>
                           <Body>{sop.training_duration_minutes} minutes</Body>
                         </Stack>
                       )}
@@ -345,7 +345,7 @@ export default function SOPDetailPage() {
                   <Card className="border-2 border-border p-6">
                     <Stack gap={2}>
                       <H3>Description</H3>
-                      <Body className="text-on-dark-disabled">{sop.description}</Body>
+                      <Body className="text-text-disabled">{sop.description}</Body>
                     </Stack>
                   </Card>
                 )}

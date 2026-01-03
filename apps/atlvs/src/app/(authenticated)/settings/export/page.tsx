@@ -72,12 +72,12 @@ export default function ExportSettingsPage() {
                 onClick={() => { setSelectedExport(option.id); setSelectedFormat(option.formats[0]); }}
               >
                 <Box className="flex items-start gap-3">
-                  <Box className={`p-2 rounded-card ${selectedExport === option.id ? "bg-primary text-white" : "bg-surface-elevated text-on-dark-muted"}`}>
+                  <Box className={`p-2 rounded-card ${selectedExport === option.id ? "bg-primary text-white" : "bg-surface-elevated text-text-muted"}`}>
                     {option.icon}
                   </Box>
                   <Box className="flex-1">
                     <Body className="font-weight-medium">{option.label}</Body>
-                    <Body size="sm" className="text-on-dark-muted">{option.description}</Body>
+                    <Body size="sm" className="text-text-muted">{option.description}</Body>
                     <Box className="flex gap-1 mt-2">
                       {option.formats.map((fmt) => (
                         <Badge key={fmt} variant="outline" className="text-body-xs uppercase">{fmt}</Badge>
@@ -93,7 +93,7 @@ export default function ExportSettingsPage() {
             <SectionHeader title="Export Options" />
             <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
               <Box>
-                <Body size="sm" className="text-on-dark-muted mb-1">Format</Body>
+                <Body size="sm" className="text-text-muted mb-1">Format</Body>
                 <Select value={selectedFormat} onChange={(e) => setSelectedFormat(e.target.value)}>
                   {currentOption?.formats.map((fmt) => (
                     <option key={fmt} value={fmt}>{fmt.toUpperCase()}</option>
@@ -101,11 +101,11 @@ export default function ExportSettingsPage() {
                 </Select>
               </Box>
               <Box>
-                <Body size="sm" className="text-on-dark-muted mb-1">From Date (Optional)</Body>
+                <Body size="sm" className="text-text-muted mb-1">From Date (Optional)</Body>
                 <Input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} />
               </Box>
               <Box>
-                <Body size="sm" className="text-on-dark-muted mb-1">To Date (Optional)</Body>
+                <Body size="sm" className="text-text-muted mb-1">To Date (Optional)</Body>
                 <Input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} />
               </Box>
             </Grid>
@@ -131,9 +131,9 @@ export default function ExportSettingsPage() {
         <Section>
           <SectionHeader title="Recent Exports" description="Your previous export requests" />
           <Card className="p-8 text-center mt-4">
-            <Download className="size-12 text-on-dark-disabled mx-auto mb-4" />
+            <Download className="size-12 text-text-disabled mx-auto mb-4" />
             <Body className="font-weight-medium text-body-lg mb-2">No Recent Exports</Body>
-            <Body className="text-on-dark-muted">Your export history will appear here</Body>
+            <Body className="text-text-muted">Your export history will appear here</Body>
           </Card>
         </Section>
       ),

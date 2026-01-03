@@ -80,10 +80,10 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
       ? background === "black"
         ? "bg-black text-white"
         : background === "ink"
-          ? "bg-surface-inverse text-on-dark-primary"
-          : "bg-surface-primary text-on-light-primary"
+          ? "bg-surface-inverse text-text-primary"
+          : "bg-surface-primary text-text-primary"
       : inverted
-        ? "bg-surface-inverse text-on-dark-primary"
+        ? "bg-surface-inverse text-text-primary"
         : "bg-white text-black";
 
     const isDark = background === "black" || background === "ink" || inverted;
@@ -106,7 +106,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
           <main id="main-content" className="flex-1 flex items-center justify-center p-8" tabIndex={-1}>
             <Stack gap={4} className="items-center text-center">
               <Spinner size="lg" />
-              <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body className={isDark ? "text-text-muted" : "text-text-muted"}>
                 {loadingMessage}
               </Body>
             </Stack>
@@ -135,10 +135,10 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <AlertTriangle className="size-16 text-error animate-shake" />
               <Stack gap={2} className="items-center">
-                <H2 className={isDark ? "text-on-dark-primary" : "text-on-light-primary"}>
+                <H2 className={isDark ? "text-text-primary" : "text-text-primary"}>
                   Something Went Wrong
                 </H2>
-                <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
+                <Body className={isDark ? "text-text-muted" : "text-text-muted"}>
                   {error.message || "An unexpected error occurred"}
                 </Body>
               </Stack>
@@ -173,10 +173,10 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <WifiOff className="size-16 text-warning" />
               <Stack gap={2} className="items-center">
-                <H2 className={isDark ? "text-on-dark-primary" : "text-on-light-primary"}>
+                <H2 className={isDark ? "text-text-primary" : "text-text-primary"}>
                   You&apos;re Offline
                 </H2>
-                <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
+                <Body className={isDark ? "text-text-muted" : "text-text-muted"}>
                   Please check your internet connection and try again.
                 </Body>
               </Stack>
@@ -209,10 +209,10 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
             <Stack gap={6} className="items-center text-center max-w-md">
               <ShieldX className="size-16 text-error" />
               <Stack gap={2} className="items-center">
-                <H2 className={isDark ? "text-on-dark-primary" : "text-on-light-primary"}>
+                <H2 className={isDark ? "text-text-primary" : "text-text-primary"}>
                   Access Denied
                 </H2>
-                <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
+                <Body className={isDark ? "text-text-muted" : "text-text-muted"}>
                   {restrictedMessage}
                 </Body>
               </Stack>
@@ -254,7 +254,7 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
                   isDark ? "bg-surface-elevated" : "bg-muted"
                 )} />
               </div>
-              <Body className={isDark ? "text-on-dark-muted" : "text-on-light-muted"}>
+              <Body className={isDark ? "text-text-muted" : "text-text-muted"}>
                 {emptyMessage}
               </Body>
               {emptyAction && (

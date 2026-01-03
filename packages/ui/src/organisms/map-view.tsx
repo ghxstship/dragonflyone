@@ -150,7 +150,7 @@ function PlaceholderMap({
       <div
         className={clsx(
           "absolute inset-0 flex items-center justify-center pointer-events-none",
-          inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+          inverted ? "text-text-disabled" : "text-text-disabled"
         )}
       >
         <div className="text-center">
@@ -207,7 +207,7 @@ function PlaceholderMap({
                 <div
                   className={clsx(
                     "absolute top-full mt-2 px-2 py-1 rounded text-xs font-medium whitespace-nowrap shadow-lg",
-                    inverted ? "bg-surface-primary text-on-light-primary" : "bg-surface-inverse text-on-dark-primary"
+                    inverted ? "bg-surface-primary text-text-primary" : "bg-surface-inverse text-text-primary"
                   )}
                 >
                   {location.title}
@@ -268,7 +268,7 @@ function LocationList<T>({
                 <h4
                   className={clsx(
                     "font-semibold text-sm truncate",
-                    inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                    inverted ? "text-text-primary" : "text-text-primary"
                   )}
                 >
                   {location.title}
@@ -277,7 +277,7 @@ function LocationList<T>({
                   <p
                     className={clsx(
                       "text-xs truncate mt-0.5",
-                      inverted ? "text-on-dark-muted" : "text-on-light-muted"
+                      inverted ? "text-text-muted" : "text-text-muted"
                     )}
                   >
                     {location.address}
@@ -287,7 +287,7 @@ function LocationList<T>({
                   <p
                     className={clsx(
                       "text-xs mt-1 line-clamp-2",
-                      inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                      inverted ? "text-text-disabled" : "text-text-disabled"
                     )}
                   >
                     {location.description}
@@ -365,7 +365,7 @@ export function MapView<T>({
       <div
         className={clsx(
           "flex items-center justify-center rounded-lg border-2 border-dashed",
-          inverted ? "border-border text-on-dark-disabled" : "border-border text-on-light-disabled",
+          inverted ? "border-border text-text-disabled" : "border-border text-text-disabled",
           className
         )}
         style={{ height }}
@@ -399,7 +399,7 @@ export function MapView<T>({
             <h3
               className={clsx(
                 "font-semibold text-sm",
-                inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                inverted ? "text-text-primary" : "text-text-primary"
               )}
             >
               Locations ({locations.length})
@@ -424,8 +424,8 @@ export function MapView<T>({
             className={clsx(
               "p-2 rounded-lg border-2 transition-colors",
               inverted
-                ? "bg-surface-elevated border-border text-on-dark-primary hover:bg-surface-inverse"
-                : "bg-surface-primary border-border text-on-light-secondary hover:bg-muted"
+                ? "bg-surface-elevated border-border text-text-primary hover:bg-surface-inverse"
+                : "bg-surface-primary border-border text-text-secondary hover:bg-muted"
             )}
           >
             <ZoomIn size={16} />
@@ -436,8 +436,8 @@ export function MapView<T>({
             className={clsx(
               "p-2 rounded-lg border-2 transition-colors",
               inverted
-                ? "bg-surface-elevated border-border text-on-dark-primary hover:bg-surface-inverse"
-                : "bg-surface-primary border-border text-on-light-secondary hover:bg-muted"
+                ? "bg-surface-elevated border-border text-text-primary hover:bg-surface-inverse"
+                : "bg-surface-primary border-border text-text-secondary hover:bg-muted"
             )}
           >
             <ZoomOut size={16} />
@@ -448,8 +448,8 @@ export function MapView<T>({
             className={clsx(
               "p-2 rounded-lg border-2 transition-colors",
               inverted
-                ? "bg-surface-elevated border-border text-on-dark-primary hover:bg-surface-inverse"
-                : "bg-surface-primary border-border text-on-light-secondary hover:bg-muted"
+                ? "bg-surface-elevated border-border text-text-primary hover:bg-surface-inverse"
+                : "bg-surface-primary border-border text-text-secondary hover:bg-muted"
             )}
           >
             {listVisible ? <Maximize2 size={16} /> : <List size={16} />}

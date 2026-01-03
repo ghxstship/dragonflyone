@@ -130,13 +130,13 @@ export default function ChangelogPage() {
                 {isLoading ? (
                   <Stack className="items-center py-12">
                     <Spinner size="lg" />
-                    <Body className="text-on-dark-muted mt-4">Loading changelog...</Body>
+                    <Body className="text-text-muted mt-4">Loading changelog...</Body>
                   </Stack>
                 ) : filteredChangelog.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
-                    <Zap className="size-16 text-on-dark-disabled mx-auto mb-4" />
+                    <Zap className="size-16 text-text-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-medium mb-2">No Updates Found</Body>
-                    <Body className="text-on-dark-muted mb-4">Check back soon for new releases</Body>
+                    <Body className="text-text-muted mb-4">Check back soon for new releases</Body>
                     <Button variant="outline" onClick={() => setSelectedFilter("All")}>View All Updates</Button>
                   </Card>
                 ) : (
@@ -156,7 +156,7 @@ export default function ChangelogPage() {
                                   </Stack>
                                 </Badge>
                               </Stack>
-                              <Stack direction="horizontal" gap={2} className="items-center text-on-dark-disabled">
+                              <Stack direction="horizontal" gap={2} className="items-center text-text-disabled">
                                 <Calendar className="size-4" />
                                 <Body size="sm">{formatDate(entry.date)}</Body>
                               </Stack>
@@ -164,14 +164,14 @@ export default function ChangelogPage() {
 
                             <Stack gap={2}>
                               <Body className="text-white font-weight-bold text-h5-md">{entry.title}</Body>
-                              <Body className="text-on-dark-muted">{entry.description}</Body>
+                              <Body className="text-text-muted">{entry.description}</Body>
                             </Stack>
 
                             <Grid cols={2} gap={3} className="grid-cols-1 md:grid-cols-2 mt-2">
                               {entry.items.map((item, idx) => (
                                 <Stack key={idx} direction="horizontal" gap={2} className="items-center">
                                   <Check className="size-4 text-success flex-shrink-0" />
-                                  <Body size="sm" className="text-on-dark-secondary">{item}</Body>
+                                  <Body size="sm" className="text-text-secondary">{item}</Body>
                                 </Stack>
                               ))}
                             </Grid>

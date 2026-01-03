@@ -64,7 +64,7 @@ export default function ProductionOverviewPage() {
               <SectionHeader title="Task Progress" />
               <Box className="mt-4">
                 <Box className="flex justify-between mb-2">
-                  <Body size="sm" className="text-on-dark-muted">{production?.tasks_completed || 0} of {production?.tasks_total || 0} tasks completed</Body>
+                  <Body size="sm" className="text-text-muted">{production?.tasks_completed || 0} of {production?.tasks_total || 0} tasks completed</Body>
                   <Body size="sm" className="font-weight-medium">{Math.round(taskProgress)}%</Body>
                 </Box>
                 <ProgressBar value={taskProgress} size="lg" />
@@ -76,7 +76,7 @@ export default function ProductionOverviewPage() {
               <SectionHeader title="Budget Status" />
               <Box className="mt-4">
                 <Box className="flex justify-between mb-2">
-                  <Body size="sm" className="text-on-dark-muted">{formatCurrency(production?.spent || 0)} of {formatCurrency(production?.budget || 0)} spent</Body>
+                  <Body size="sm" className="text-text-muted">{formatCurrency(production?.spent || 0)} of {formatCurrency(production?.budget || 0)} spent</Body>
                   <Body size="sm" className="font-weight-medium">{Math.round(budgetProgress)}%</Body>
                 </Box>
                 <ProgressBar value={budgetProgress} size="lg" variant={budgetProgress > 90 ? "error" : budgetProgress > 75 ? "warning" : "default"} />
@@ -116,9 +116,9 @@ export default function ProductionOverviewPage() {
                   <Box className="p-2 bg-surface-elevated rounded-card">{activity.icon}</Box>
                   <Box className="flex-1">
                     <Body className="font-weight-medium">{activity.action}</Body>
-                    <Body size="sm" className="text-on-dark-muted">{activity.detail}</Body>
+                    <Body size="sm" className="text-text-muted">{activity.detail}</Body>
                   </Box>
-                  <Body size="sm" className="text-on-dark-disabled">{activity.time}</Body>
+                  <Body size="sm" className="text-text-disabled">{activity.time}</Body>
                 </Box>
               </Card>
             ))}

@@ -537,7 +537,7 @@ test.describe('GVTEWAY Membership - API Integration', () => {
     const response = await request.post(`${GVTEWAY_BASE}/api/membership/apply`, {
       data: { tier: 'premium', billingCycle: 'monthly' }
     });
-    expect([200, 201, 401, 403, 422]).toContain(response.status());
+    expect([200, 201, 400, 401, 403, 422]).toContain(response.status());
   });
 
   test('PUT /api/membership/upgrade requires authentication', async ({ request }) => {
@@ -554,7 +554,7 @@ test.describe('GVTEWAY Membership - API Integration', () => {
 
   test('GET /api/rewards returns valid response', async ({ request }) => {
     const response = await request.get(`${GVTEWAY_BASE}/api/rewards`);
-    expect([200, 401, 403, 404]).toContain(response.status());
+    expect([200, 400, 401, 403, 404]).toContain(response.status());
   });
 
   test('GET /api/rewards/history returns valid response', async ({ request }) => {

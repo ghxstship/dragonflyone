@@ -168,15 +168,15 @@ export default function DiscoverPage() {
           <SectionHeader title="Curated Collections" description="Hand-picked event collections" />
           {collections.length === 0 ? (
             <Box className="text-center py-12">
-              <Music className="size-12 text-on-dark-disabled mx-auto mb-4" />
-              <Body className="text-on-dark-muted">No collections available</Body>
+              <Music className="size-12 text-text-disabled mx-auto mb-4" />
+              <Body className="text-text-muted">No collections available</Body>
             </Box>
           ) : (
             <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
               {collections.map((collection: DiscoverCollection) => (
                 <Card key={collection.id} className="p-6" role="article" aria-label={`${collection.name} collection with ${collection.events.length} events`}>
                   <Body className="font-weight-medium">{collection.name}</Body>
-                  <Body size="sm" className="mt-2 text-on-dark-muted">{collection.description}</Body>
+                  <Body size="sm" className="mt-2 text-text-muted">{collection.description}</Body>
                   <Box className="flex items-center gap-3 mt-4">
                     <Badge variant="outline">{collection.events.length} events</Badge>
                     <Button variant="ghost" size="sm" onClick={() => router.push(`/collections/${collection.id}`)}>

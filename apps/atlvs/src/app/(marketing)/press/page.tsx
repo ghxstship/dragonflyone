@@ -45,7 +45,7 @@ export default function PressPage() {
       Product: "bg-primary/20 text-primary border-primary/30",
       Partnership: "bg-secondary/20 text-secondary border-secondary/30",
     };
-    return colors[category] || "bg-surface-elevated text-on-dark-muted border-border";
+    return colors[category] || "bg-surface-elevated text-text-muted border-border";
   };
 
   return (
@@ -87,7 +87,7 @@ export default function PressPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Latest News</Body>
                   <H3 className="text-white">Press Releases</H3>
-                  <Body className="text-on-dark-muted max-w-2xl">Stay up to date with the latest news and announcements from ATLVS.</Body>
+                  <Body className="text-text-muted max-w-2xl">Stay up to date with the latest news and announcements from ATLVS.</Body>
                 </Stack>
 
                 <Stack gap={4}>
@@ -101,15 +101,15 @@ export default function PressPage() {
                         <Stack gap={3} className="flex-1">
                           <Stack direction="horizontal" gap={3} className="items-center flex-wrap">
                             <Badge className={getCategoryColor(release.category)}>{release.category}</Badge>
-                            <Stack direction="horizontal" gap={1} className="items-center text-on-dark-disabled">
+                            <Stack direction="horizontal" gap={1} className="items-center text-text-disabled">
                               <Calendar className="size-4" />
                               <Body size="sm">{formatDate(release.date)}</Body>
                             </Stack>
                           </Stack>
                           <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{release.title}</Body>
-                          <Body className="text-on-dark-muted">{release.excerpt}</Body>
+                          <Body className="text-text-muted">{release.excerpt}</Body>
                         </Stack>
-                        <ArrowRight className="size-5 text-on-dark-disabled group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                        <ArrowRight className="size-5 text-text-disabled group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                       </Stack>
                     </Card>
                   ))}
@@ -127,7 +127,7 @@ export default function PressPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Resources</Body>
                   <H3 className="text-white">Media Kit</H3>
-                  <Body className="text-on-dark-muted max-w-2xl">Download official ATLVS brand assets for press and media use.</Body>
+                  <Body className="text-text-muted max-w-2xl">Download official ATLVS brand assets for press and media use.</Body>
                 </Stack>
 
                 <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
@@ -140,10 +140,10 @@ export default function PressPage() {
                           </Box>
                           <Stack gap={1}>
                             <Body className="text-white font-weight-bold">{asset.name}</Body>
-                            <Body size="sm" className="text-on-dark-muted">{asset.description}</Body>
+                            <Body size="sm" className="text-text-muted">{asset.description}</Body>
                             <Stack direction="horizontal" gap={2} className="mt-2">
                               <Badge variant="outline">{asset.format}</Badge>
-                              <Body size="sm" className="text-on-dark-disabled">{asset.size}</Body>
+                              <Body size="sm" className="text-text-disabled">{asset.size}</Body>
                             </Stack>
                           </Stack>
                         </Stack>
@@ -171,7 +171,7 @@ export default function PressPage() {
                     </Box>
                     <Stack gap={1}>
                       <Body className="text-white font-weight-bold text-h5-md">Press Contact</Body>
-                      <Body className="text-on-dark-muted">For media inquiries, interviews, and press information</Body>
+                      <Body className="text-text-muted">For media inquiries, interviews, and press information</Body>
                       <Body className="text-primary font-weight-medium mt-2">press@atlvs.com</Body>
                     </Stack>
                   </Stack>

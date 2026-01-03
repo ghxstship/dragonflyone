@@ -133,16 +133,16 @@ export function AppSwitcher({
       >
         {currentApp && (
           <>
-            <div className={`w-8 h-8 rounded-button ${currentApp.color} text-on-dark-primary flex items-center justify-center`}>
+            <div className={`w-8 h-8 rounded-button ${currentApp.color} text-text-primary flex items-center justify-center`}>
               {currentApp.icon}
             </div>
-            <span className="font-weight-medium text-on-light-primary hidden sm:inline">
+            <span className="font-weight-medium text-text-primary hidden sm:inline">
               {currentApp.name}
             </span>
           </>
         )}
         <svg
-          className={`w-4 h-4 text-on-light-secondary transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-text-secondary transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -155,7 +155,7 @@ export function AppSwitcher({
       {isOpen && (
         <div className="absolute top-full left-0 mt-2 w-72 bg-surface-primary border-2 border-border rounded-card shadow-lg z-dropdown overflow-hidden animate-pop-in">
           <div className="p-2">
-            <div className="text-body-sm text-on-light-secondary px-3 py-2 font-weight-medium">
+            <div className="text-body-sm text-text-secondary px-3 py-2 font-weight-medium">
               Switch Application
             </div>
             
@@ -169,22 +169,22 @@ export function AppSwitcher({
                     : 'hover:bg-surface-secondary border-2 border-transparent'
                 }`}
               >
-                <div className={`w-10 h-10 rounded-button ${app.color} text-on-dark-primary flex items-center justify-center flex-shrink-0`}>
+                <div className={`w-10 h-10 rounded-button ${app.color} text-text-primary flex items-center justify-center flex-shrink-0`}>
                   {app.icon}
                 </div>
                 <div className="flex-1 text-left">
-                  <div className="font-weight-medium text-on-light-primary flex items-center gap-2">
+                  <div className="font-weight-medium text-text-primary flex items-center gap-2">
                     {app.name}
                     {app.id === currentAppId && (
                       <span className="text-body-sm text-primary">(Current)</span>
                     )}
                   </div>
-                  <div className="text-body-sm text-on-light-secondary">
+                  <div className="text-body-sm text-text-secondary">
                     {app.description}
                   </div>
                 </div>
                 {app.id !== currentAppId && (
-                  <svg className="w-5 h-5 text-on-light-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
                 )}
@@ -194,7 +194,7 @@ export function AppSwitcher({
 
           {isLegend && (
             <div className="border-t-2 border-border p-2">
-              <div className="px-3 py-2 text-body-sm text-on-light-secondary">
+              <div className="px-3 py-2 text-body-sm text-text-secondary">
                 Legend Access: All applications available
               </div>
             </div>

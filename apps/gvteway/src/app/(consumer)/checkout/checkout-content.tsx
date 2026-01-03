@@ -87,7 +87,7 @@ export default function CheckoutContent() {
           <Stack gap={2} direction="horizontal" className="justify-between">
             {['cart', 'payment', 'confirm'].map((s, idx) => (
               <Stack key={s} gap={2} direction="horizontal" className="flex-1 items-center">
-                <Card className={`flex items-center justify-center w-10 h-10 rounded-avatar border-2 ${step === s ? 'bg-black text-white border-black' : 'border-border text-on-light-secondary'}`}>
+                <Card className={`flex items-center justify-center w-10 h-10 rounded-avatar border-2 ${step === s ? 'bg-black text-white border-black' : 'border-border text-text-secondary'}`}>
                   <Body>{idx + 1}</Body>
                 </Card>
                 {idx < 2 && <Card className={`flex-1 h-0.5 ${step !== 'cart' && idx === 0 || step === 'confirm' && idx === 1 ? 'bg-black' : 'bg-muted'} mx-2`} />}
@@ -106,14 +106,14 @@ export default function CheckoutContent() {
                       <Stack key={item.id} gap={4} direction="horizontal" className="justify-between items-start py-4 border-b border-border">
                         <Stack gap={1} className="flex-1">
                           <H3>{item.event_title}</H3>
-                          <Body className="text-on-light-secondary">{item.ticket_type_name}</Body>
-                          <Body size="sm" className=" text-on-light-muted">Qty: {item.qty}</Body>
+                          <Body className="text-text-secondary">{item.ticket_type_name}</Body>
+                          <Body size="sm" className=" text-text-muted">Qty: {item.qty}</Body>
                         </Stack>
                         <Body className="font-weight-bold">${(item.price * item.qty).toFixed(2)}</Body>
                       </Stack>
                     ))
                   ) : (
-                    <Body className="text-on-light-muted">Your cart is empty</Body>
+                    <Body className="text-text-muted">Your cart is empty</Body>
                   )}
                 </Card>
               </Card>
@@ -224,7 +224,7 @@ export default function CheckoutContent() {
                     <Lock className="w-4 h-4" />
                     <Body className="font-weight-bold">SECURE CHECKOUT</Body>
                   </Stack>
-                  <Body className="text-mono-xs text-on-light-secondary">Your payment information is encrypted and secure</Body>
+                  <Body className="text-mono-xs text-text-secondary">Your payment information is encrypted and secure</Body>
                 </Card>
                 <Button 
                   className="w-full mt-4" 
@@ -245,7 +245,7 @@ export default function CheckoutContent() {
                 <Check className="w-8 h-8 text-white" />
               </Card>
               <Display size="md" className="mb-2">ORDER CONFIRMED!</Display>
-              <Body className="text-on-light-secondary mb-6">Order #{orderId || 'PROCESSING'}</Body>
+              <Body className="text-text-secondary mb-6">Order #{orderId || 'PROCESSING'}</Body>
               <Card className="p-6 bg-muted mb-6">
                 <Body className="mb-4">Tickets have been sent to:</Body>
                 <Body className="font-weight-bold">user@example.com</Body>

@@ -77,7 +77,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
             <Stack gap={4}>
               {/* Products */}
               <Stack gap={2}>
-                <Label size="sm" className="text-on-light-primary">Products</Label>
+                <Label size="sm" className="text-text-primary">Products</Label>
                 <Stack gap={1} className="pl-4">
                   {productsNavigation.products.map((product) => (
                     <Link
@@ -85,7 +85,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
                       href={product.href}
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <Body size="sm" className="text-on-light-muted hover:text-on-light-primary transition-colors py-1">{product.label}</Body>
+                      <Body size="sm" className="text-text-muted hover:text-text-primary transition-colors py-1">{product.label}</Body>
                     </Link>
                   ))}
                 </Stack>
@@ -93,18 +93,18 @@ export function PublicHeader({ className }: PublicHeaderProps) {
 
               {/* Solutions */}
               <Stack gap={2}>
-                <Label size="sm" className="text-on-light-primary">Solutions</Label>
+                <Label size="sm" className="text-text-primary">Solutions</Label>
                 <Stack gap={1} className="pl-4">
                   {solutionsNavigation.groups.slice(0, 3).map((group) => (
                     <Stack key={group.title} gap={1}>
-                      <Label size="xs" className="text-on-light-muted uppercase mt-2">{group.title}</Label>
+                      <Label size="xs" className="text-text-muted uppercase mt-2">{group.title}</Label>
                       {group.items.slice(0, 2).map((item) => (
                         <Link
                           key={item.href}
                           href={item.href}
                           onClick={() => setMobileMenuOpen(false)}
                         >
-                          <Body size="sm" className="text-on-light-muted hover:text-on-light-primary transition-colors py-1">{item.label}</Body>
+                          <Body size="sm" className="text-text-muted hover:text-text-primary transition-colors py-1">{item.label}</Body>
                         </Link>
                       ))}
                     </Stack>
@@ -120,7 +120,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
 
               {/* Resources */}
               <Stack gap={2}>
-                <Label size="sm" className="text-on-light-primary">Resources</Label>
+                <Label size="sm" className="text-text-primary">Resources</Label>
                 <Stack gap={1} className="pl-4">
                   {resourcesNavigation.groups.map((group) => (
                     <Link
@@ -128,7 +128,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
                       href={group.items[0].href}
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <Body size="sm" className="text-on-light-muted hover:text-on-light-primary transition-colors py-1">{group.title}</Body>
+                      <Body size="sm" className="text-text-muted hover:text-text-primary transition-colors py-1">{group.title}</Body>
                     </Link>
                   ))}
                 </Stack>
@@ -140,7 +140,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
                   href="/pricing"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Label size="sm" className="text-on-light-primary">Pricing</Label>
+                  <Label size="sm" className="text-text-primary">Pricing</Label>
                 </Link>
               </Stack>
 

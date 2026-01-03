@@ -37,7 +37,7 @@ export default function EventServicesPage() {
             <Card key={service.id} className="p-6">
               <Badge variant="outline" className="mb-3">{service.category}</Badge>
               <Body className="font-weight-bold">{service.name}</Body>
-              <Body size="sm" className="text-on-dark-muted mt-1">{service.description}</Body>
+              <Body size="sm" className="text-text-muted mt-1">{service.description}</Body>
               <Box className="flex items-center justify-between mt-4">
                 <Body className="font-weight-bold">{formatCurrency(service.price)}</Body>
                 <Button variant="outline" size="sm">Add</Button>

@@ -112,7 +112,7 @@ export default function TutorialsPage() {
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Popular</Body>
                   <Body className="text-white font-weight-bold text-h3-md">Featured Tutorials</Body>
-                  <Body className="text-on-dark-muted">Our most popular video guides</Body>
+                  <Body className="text-text-muted">Our most popular video guides</Body>
                 </Stack>
 
                 <Stack gap={6}>
@@ -120,7 +120,7 @@ export default function TutorialsPage() {
                     <Card key={tutorial.id} className="p-6 border-2 border-border rounded-card pop-card cursor-pointer">
                       <Box className="flex items-start gap-6 flex-wrap md:flex-nowrap">
                         <Box className="w-full md:w-48 aspect-video bg-surface-elevated rounded-card flex items-center justify-center flex-shrink-0">
-                          <Play className="size-10 text-on-dark-muted" />
+                          <Play className="size-10 text-text-muted" />
                         </Box>
                         <Box className="flex-1">
                           <Box className="flex items-center gap-2 mb-2 flex-wrap">
@@ -129,8 +129,8 @@ export default function TutorialsPage() {
                             <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
                           </Box>
                           <Body className="text-white font-weight-bold">{tutorial.title}</Body>
-                          <Body className="text-on-dark-muted mb-2">{tutorial.description}</Body>
-                          <Box className="flex items-center gap-2 text-on-dark-disabled">
+                          <Body className="text-text-muted mb-2">{tutorial.description}</Body>
+                          <Box className="flex items-center gap-2 text-text-disabled">
                             <Clock className="size-4" />
                             <Body size="sm">{tutorial.duration}</Body>
                           </Box>
@@ -158,7 +158,7 @@ export default function TutorialsPage() {
                 <Card className="p-6 border-2 border-border rounded-card">
                   <Stack gap={4}>
                     <Box className="relative">
-                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
+                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-text-muted" />
                       <Input placeholder="Search tutorials..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-12 h-14" />
                     </Box>
                     <Box className="flex gap-2 flex-wrap">
@@ -175,15 +175,15 @@ export default function TutorialsPage() {
                   {filteredTutorials.map((tutorial) => (
                     <Card key={tutorial.id} className="p-6 border-2 border-border rounded-card pop-card cursor-pointer">
                       <Box className="aspect-video bg-surface-elevated rounded-card flex items-center justify-center mb-4">
-                        <Play className="size-10 text-on-dark-muted" />
+                        <Play className="size-10 text-text-muted" />
                       </Box>
                       <Box className="flex items-center gap-2 mb-2 flex-wrap">
                         <Badge variant="outline">{tutorial.category}</Badge>
                         <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
                       </Box>
                       <Body className="text-white font-weight-bold">{tutorial.title}</Body>
-                      <Body size="sm" className="text-on-dark-muted mb-2">{tutorial.description}</Body>
-                      <Box className="flex items-center gap-2 text-on-dark-disabled">
+                      <Body size="sm" className="text-text-muted mb-2">{tutorial.description}</Body>
+                      <Box className="flex items-center gap-2 text-text-disabled">
                         <Clock className="size-4" />
                         <Body size="sm">{tutorial.duration}</Body>
                       </Box>
@@ -193,9 +193,9 @@ export default function TutorialsPage() {
 
                 {filteredTutorials.length === 0 && (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
-                    <Play className="size-16 text-on-dark-disabled mx-auto mb-4" />
+                    <Play className="size-16 text-text-disabled mx-auto mb-4" />
                     <Body className="text-white font-weight-bold mb-2">No Tutorials Found</Body>
-                    <Body className="text-on-dark-muted mb-4">Try a different search term or category</Body>
+                    <Body className="text-text-muted mb-4">Try a different search term or category</Body>
                     <Button variant="outline" onClick={() => { setSearch(""); setSelectedCategory("All"); }}>Clear Filters</Button>
                   </Card>
                 )}

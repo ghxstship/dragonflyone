@@ -154,7 +154,7 @@ export default function RolesSettingsPage() {
                       <Body className="font-weight-medium">{role.name}</Body>
                       {role.is_system && <Badge variant="outline" className="font-weight-normal">System</Badge>}
                     </Box>
-                    <Body size="sm" className="text-on-dark-muted mb-3">{role.description}</Body>
+                    <Body size="sm" className="text-text-muted mb-3">{role.description}</Body>
                     <Box className="flex flex-wrap gap-1">
                       {role.permissions.slice(0, 5).map((perm) => (
                         <Badge key={perm} variant="outline" className="font-weight-normal">{PERMISSIONS.find((p) => p.id === perm)?.label || perm}</Badge>
@@ -221,15 +221,15 @@ export default function RolesSettingsPage() {
         <ModalBody>
           <Stack gap={4}>
             <Box>
-              <Body size="sm" className="text-on-dark-muted mb-1">Role Name</Body>
+              <Body size="sm" className="text-text-muted mb-1">Role Name</Body>
               <Input placeholder="e.g., Project Lead" value={newRoleName} onChange={(e) => setNewRoleName(e.target.value)} />
             </Box>
             <Box>
-              <Body size="sm" className="text-on-dark-muted mb-1">Description</Body>
+              <Body size="sm" className="text-text-muted mb-1">Description</Body>
               <Input placeholder="What can this role do?" value={newRoleDesc} onChange={(e) => setNewRoleDesc(e.target.value)} />
             </Box>
             <Box>
-              <Body size="sm" className="text-on-dark-muted mb-2">Permissions</Body>
+              <Body size="sm" className="text-text-muted mb-2">Permissions</Body>
               <Stack gap={4} className="max-h-64 overflow-y-auto">
                 {Object.entries(permissionsByCategory).map(([category, perms]) => (
                   <Box key={category}>

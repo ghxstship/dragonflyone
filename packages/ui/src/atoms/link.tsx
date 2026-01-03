@@ -26,30 +26,30 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       if (inverted) {
         switch (variant) {
           case "default":
-            return "text-current hover:text-on-dark-secondary transition-colors";
+            return "text-current hover:text-text-secondary transition-colors";
           case "nav":
-            return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-on-dark-secondary transition-colors";
+            return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-text-secondary transition-colors";
           case "footer":
-            return "font-body text-on-dark-disabled hover:text-on-light-primary transition-colors";
+            return "font-body text-text-disabled hover:text-text-primary transition-colors";
           case "inline":
-            return "underline underline-offset-4 hover:text-on-dark-secondary transition-colors";
+            return "underline underline-offset-4 hover:text-text-secondary transition-colors";
           case "button":
-            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-surface-primary hover:text-on-dark-primary";
+            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-surface-primary hover:text-text-primary";
           default:
             return "";
         }
       } else {
         switch (variant) {
           case "default":
-            return "text-current hover:text-on-dark-muted transition-colors";
+            return "text-current hover:text-text-muted transition-colors";
           case "nav":
-            return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-on-dark-muted transition-colors";
+            return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-text-muted transition-colors";
           case "footer":
-            return "font-body text-on-dark-secondary hover:text-on-dark-primary transition-colors";
+            return "font-body text-text-secondary hover:text-text-primary transition-colors";
           case "inline":
-            return "underline underline-offset-4 hover:text-on-dark-muted transition-colors";
+            return "underline underline-offset-4 hover:text-text-muted transition-colors";
           case "button":
-            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-surface-inverse hover:text-on-light-primary";
+            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-surface-inverse hover:text-text-primary";
           default:
             return "";
         }

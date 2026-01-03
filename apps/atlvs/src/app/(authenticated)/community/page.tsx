@@ -209,7 +209,7 @@ export default function CommunityPage() {
         <Stack gap={3}>
           {TOP_CONTRIBUTORS.map((contributor, idx) => (
             <Box key={contributor.id} className="flex items-center gap-3">
-              <Body className="text-on-dark-disabled font-weight-bold w-4">
+              <Body className="text-text-disabled font-weight-bold w-4">
                 {idx + 1}
               </Body>
               <Avatar initials={contributor.initials} size="sm" />
@@ -217,7 +217,7 @@ export default function CommunityPage() {
                 <Body size="sm" className="text-white truncate">
                   {contributor.name}
                 </Body>
-                <Body size="xs" className="text-on-dark-disabled">
+                <Body size="xs" className="text-text-disabled">
                   {contributor.points} pts
                 </Body>
               </Box>
@@ -316,19 +316,19 @@ export default function CommunityPage() {
                           </Button>
                         </Box>
                       </Box>
-                      <Body size="sm" className="text-on-dark-muted mb-3 line-clamp-2">
+                      <Body size="sm" className="text-text-muted mb-3 line-clamp-2">
                         {discussion.content}
                       </Body>
                       <Box className="flex items-center justify-between flex-wrap gap-2">
                         <Box className="flex items-center gap-2">
-                          <Body size="sm" className="text-on-dark-secondary">
+                          <Body size="sm" className="text-text-secondary">
                             {discussion.author.name}
                           </Body>
                           <Badge variant={getBadgeVariant(discussion.author.badge)} size="sm">
                             {discussion.author.badge}
                           </Badge>
                         </Box>
-                        <Box className="flex items-center gap-4 text-on-dark-disabled">
+                        <Box className="flex items-center gap-4 text-text-disabled">
                           <Box className="flex items-center gap-1">
                             <MessageCircle className="size-4" />
                             <Body size="sm">{discussion.replies}</Body>
@@ -357,9 +357,9 @@ export default function CommunityPage() {
           {/* Following Tab */}
           {activeTab === "following" && (
             <Card className="p-8 border-2 border-border rounded-card text-center">
-              <Bell className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <Bell className="size-12 text-text-disabled mx-auto mb-4" />
               <Body className="text-white font-weight-bold mb-2">No followed discussions</Body>
-              <Body size="sm" className="text-on-dark-muted mb-4">
+              <Body size="sm" className="text-text-muted mb-4">
                 Follow discussions to get notified about new replies.
               </Body>
               <Button variant="outline" onClick={() => setActiveTab("discussions")}>
@@ -371,9 +371,9 @@ export default function CommunityPage() {
           {/* My Posts Tab */}
           {activeTab === "my-posts" && (
             <Card className="p-8 border-2 border-border rounded-card text-center">
-              <MessageSquare className="size-12 text-on-dark-disabled mx-auto mb-4" />
+              <MessageSquare className="size-12 text-text-disabled mx-auto mb-4" />
               <Body className="text-white font-weight-bold mb-2">No posts yet</Body>
-              <Body size="sm" className="text-on-dark-muted mb-4">
+              <Body size="sm" className="text-text-muted mb-4">
                 Start a discussion to share your knowledge with the community.
               </Body>
               <Button variant="solid" onClick={handleNewDiscussion}>

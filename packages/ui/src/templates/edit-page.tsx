@@ -326,7 +326,7 @@ export const EditPage = forwardRef<HTMLDivElement, EditPageProps>(
                           <Body
                             className={clsx(
                               "font-display font-semibold text-h4-desktop",
-                              inverted ? "text-on-dark-primary" : "text-on-light-primary"
+                              inverted ? "text-text-primary" : "text-text-primary"
                             )}
                           >
                             {section.title}
@@ -334,7 +334,7 @@ export const EditPage = forwardRef<HTMLDivElement, EditPageProps>(
                           {section.description && (
                             <Body
                               size="sm"
-                              className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}
+                              className={inverted ? "text-text-muted" : "text-text-muted"}
                             >
                               {section.description}
                             </Body>
@@ -407,7 +407,7 @@ export const EditPage = forwardRef<HTMLDivElement, EditPageProps>(
 
                 {/* Dirty state indicator */}
                 {isDirty && (
-                  <Body size="xs" className={inverted ? "text-on-dark-disabled" : "text-on-light-muted"}>
+                  <Body size="xs" className={inverted ? "text-text-disabled" : "text-text-muted"}>
                     You have unsaved changes
                   </Body>
                 )}

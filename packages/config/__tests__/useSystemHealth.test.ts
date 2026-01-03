@@ -20,7 +20,7 @@ describe('useSystemHealth utilities', () => {
 
     it('should return grey color for unknown status', () => {
       // @ts-expect-error - testing unknown status
-      expect(getHealthStatusColor('unknown')).toBe('text-on-light-muted');
+      expect(getHealthStatusColor('unknown')).toBe('text-text-muted');
     });
   });
 

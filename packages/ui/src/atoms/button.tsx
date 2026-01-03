@@ -96,7 +96,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     // Destructive variant - same on both backgrounds
     if (variant === "destructive") {
       return clsx(
-        "bg-error-500 text-on-dark-primary border-error-500",
+        "bg-error-500 text-text-primary border-error-500",
         "shadow-md",
         "hover:bg-error-600 hover:border-error-600 hover:shadow-lg",
         "active:shadow-xs",
@@ -108,8 +108,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     if (variant === "primary") {
       return clsx(
         inverted
-          ? "bg-surface-inverse text-on-light-primary border-surface-inverse"
-          : "bg-surface-primary text-on-dark-primary border-surface-primary",
+          ? "bg-surface-inverse text-text-primary border-surface-inverse"
+          : "bg-surface-primary text-text-primary border-surface-primary",
         "shadow-md",
         "hover:shadow-primary",
         "active:shadow-xs",
@@ -123,8 +123,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     if (variant === "accent") {
       return clsx(
         inverted
-          ? "bg-surface-inverse text-on-light-primary border-surface-inverse"
-          : "bg-surface-primary text-on-dark-primary border-surface-primary",
+          ? "bg-surface-inverse text-text-primary border-surface-inverse"
+          : "bg-surface-primary text-text-primary border-surface-primary",
         "shadow-md",
         "hover:shadow-accent",
         "active:shadow-xs",
@@ -141,7 +141,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       switch (variant) {
         case "solid":
           return clsx(
-            "bg-surface-inverse text-on-light-primary border-surface-inverse",
+            "bg-surface-inverse text-text-primary border-surface-inverse",
             "shadow-md",
             "hover:bg-muted hover:shadow-lg",
             "active:shadow-xs",
@@ -149,15 +149,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
           );
         case "outline":
           return clsx(
-            "border-on-dark-primary text-on-dark-primary bg-transparent",
+            "border-on-dark-primary text-text-primary bg-transparent",
             "shadow-sm",
-            "hover:bg-surface-inverse hover:text-on-light-primary hover:shadow-md",
+            "hover:bg-surface-inverse hover:text-text-primary hover:shadow-md",
             "active:bg-muted active:shadow-xs",
             "focus-visible:ring-surface-inverse focus-visible:ring-offset-surface-primary"
           );
         case "ghost":
           return clsx(
-            "border-transparent text-on-dark-primary bg-transparent shadow-none",
+            "border-transparent text-text-primary bg-transparent shadow-none",
             "hover:bg-surface-inverse/10 hover:border-surface-inverse/20",
             "active:bg-surface-inverse/20",
             "focus-visible:ring-surface-inverse focus-visible:ring-offset-surface-primary"
@@ -169,7 +169,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       switch (variant) {
         case "solid":
           return clsx(
-            "bg-surface-primary text-on-dark-primary border-surface-primary",
+            "bg-surface-primary text-text-primary border-surface-primary",
             "shadow-md",
             "hover:bg-surface-inverse hover:shadow-lg",
             "active:shadow-xs",
@@ -177,15 +177,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
           );
         case "outline":
           return clsx(
-            "border-on-light-primary text-on-light-primary bg-transparent",
+            "border-on-light-primary text-text-primary bg-transparent",
             "shadow-sm",
-            "hover:bg-surface-primary hover:text-on-dark-primary hover:shadow-md",
+            "hover:bg-surface-primary hover:text-text-primary hover:shadow-md",
             "active:bg-surface-inverse active:shadow-xs",
             "focus-visible:ring-surface-primary focus-visible:ring-offset-surface-inverse"
           );
         case "ghost":
           return clsx(
-            "border-transparent text-on-light-primary bg-transparent shadow-none",
+            "border-transparent text-text-primary bg-transparent shadow-none",
             "hover:bg-surface-primary/5 hover:border-surface-primary/10",
             "active:bg-surface-primary/10",
             "focus-visible:ring-surface-primary focus-visible:ring-offset-surface-inverse"

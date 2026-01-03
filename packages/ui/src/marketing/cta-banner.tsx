@@ -123,7 +123,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
             <H2
               className={clsx(
                 "max-w-3xl",
-                isLightBg ? "text-on-light-primary" : "text-text-primary"
+                isLightBg ? "text-text-primary" : "text-text-primary"
               )}
             >
               {title}
@@ -135,7 +135,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
                 size="lg"
                 className={clsx(
                   "max-w-2xl",
-                  isLightBg ? "text-on-light-secondary" : "text-text-secondary"
+                  isLightBg ? "text-text-secondary" : "text-text-secondary"
                 )}
               >
                 {description}
@@ -158,7 +158,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
                 icon={primaryCta.icon || <ArrowRight className="size-5" />}
                 iconPosition="right"
                 className={clsx(
-                  !isLightBg && "border-on-dark-primary text-on-dark-primary hover:bg-surface-inverse hover:text-on-light-primary"
+                  !isLightBg && "border-on-dark-primary text-text-primary hover:bg-surface-inverse hover:text-text-primary"
                 )}
               >
                 {primaryCta.label}
@@ -170,8 +170,8 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
                   onClick={secondaryCta.onClick}
                   className={clsx(
                     isLightBg
-                      ? "text-on-light-primary hover:bg-surface-primary/10"
-                      : "text-on-dark-primary hover:bg-surface-inverse/10"
+                      ? "text-text-primary hover:bg-surface-primary/10"
+                      : "text-text-primary hover:bg-surface-inverse/10"
                   )}
                 >
                   {secondaryCta.label}

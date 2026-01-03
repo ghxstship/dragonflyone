@@ -137,7 +137,7 @@ export default function CompvssDashboardPage() {
             <Stack direction="horizontal" className="items-start justify-between">
               <Stack gap={1}>
                 <Body className="text-white font-weight-medium">Summer Music Festival 2024</Body>
-                <Body size="sm" className="text-on-dark-muted">Load-in: June 12 • Event: June 15-17</Body>
+                <Body size="sm" className="text-text-muted">Load-in: June 12 • Event: June 15-17</Body>
                 <Stack direction="horizontal" gap={2} className="mt-2">
                   <StatusBadge status="success" size="sm">ON TRACK</StatusBadge>
                   <Badge variant="solid" size="sm">32 CREW</Badge>
@@ -152,7 +152,7 @@ export default function CompvssDashboardPage() {
             <Stack direction="horizontal" className="items-start justify-between">
               <Stack gap={1}>
                 <Body className="text-white font-weight-medium">Corporate Product Launch</Body>
-                <Body size="sm" className="text-on-dark-muted">Setup: June 10 • Event: June 11</Body>
+                <Body size="sm" className="text-text-muted">Setup: June 10 • Event: June 11</Body>
                 <Stack direction="horizontal" gap={2} className="mt-2">
                   <StatusBadge status="warning" size="sm">ATTENTION</StatusBadge>
                   <Badge variant="solid" size="sm">18 CREW</Badge>
@@ -167,7 +167,7 @@ export default function CompvssDashboardPage() {
             <Stack direction="horizontal" className="items-start justify-between">
               <Stack gap={1}>
                 <Body className="text-white font-weight-medium">Theater Production: Hamilton</Body>
-                <Body size="sm" className="text-on-dark-muted">Tech Week: June 8-13 • Opening: June 14</Body>
+                <Body size="sm" className="text-text-muted">Tech Week: June 8-13 • Opening: June 14</Body>
                 <Stack direction="horizontal" gap={2} className="mt-2">
                   <StatusBadge status="info" size="sm">TECH WEEK</StatusBadge>
                   <Badge variant="solid" size="sm">24 CREW</Badge>
@@ -189,19 +189,19 @@ export default function CompvssDashboardPage() {
             <Body className="text-white font-weight-medium mb-3">Crew Status Today</Body>
             <Stack gap={2}>
               <Stack direction="horizontal" className="justify-between border-b border-border pb-2">
-                <Body size="sm" className="text-on-dark-muted">Total Crew</Body>
+                <Body size="sm" className="text-text-muted">Total Crew</Body>
                 <Body size="sm" className="text-white">{stats.totalCrew}</Body>
               </Stack>
               <Stack direction="horizontal" className="justify-between border-b border-border pb-2">
-                <Body size="sm" className="text-on-dark-muted">Available</Body>
+                <Body size="sm" className="text-text-muted">Available</Body>
                 <Body size="sm" className="text-white">{stats.activeCrew}</Body>
               </Stack>
               <Stack direction="horizontal" className="justify-between border-b border-border pb-2">
-                <Body size="sm" className="text-on-dark-muted">Equipment Available</Body>
+                <Body size="sm" className="text-text-muted">Equipment Available</Body>
                 <Body size="sm" className="text-white">{stats.availableEquipment}</Body>
               </Stack>
               <Stack direction="horizontal" className="justify-between">
-                <Body size="sm" className="text-on-dark-muted">Equipment In Use</Body>
+                <Body size="sm" className="text-text-muted">Equipment In Use</Body>
                 <Body size="sm" className="text-white">{stats.inUseEquipment}</Body>
               </Stack>
             </Stack>
@@ -210,7 +210,7 @@ export default function CompvssDashboardPage() {
             <Body className="text-white font-weight-medium mb-3">Recent Activity</Body>
             <Stack gap={2}>
               {recentActivity.map((activity) => (
-                <Body key={activity.id} size="sm" className="text-on-dark-muted">
+                <Body key={activity.id} size="sm" className="text-text-muted">
                   {activity.action}: {activity.detail}
                 </Body>
               ))}

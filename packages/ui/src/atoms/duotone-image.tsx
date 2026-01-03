@@ -138,7 +138,7 @@ export const DuotoneImage = forwardRef<HTMLImageElement, DuotoneImageProps>(
                   <path strokeLinecap="square" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
-              <span className="font-code text-mono-xs uppercase tracking-wider text-on-dark-disabled">
+              <span className="font-code text-mono-xs uppercase tracking-wider text-text-disabled">
                 Image unavailable
               </span>
             </div>

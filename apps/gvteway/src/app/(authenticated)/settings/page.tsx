@@ -92,7 +92,7 @@ export default function SettingsPage() {
               <Stack direction="horizontal" className="items-center justify-between">
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Email Notifications</Body>
-                  <Body size="sm" className="text-on-dark-muted">Receive updates about your orders and events</Body>
+                  <Body size="sm" className="text-text-muted">Receive updates about your orders and events</Body>
                 </Stack>
                 <Switch
                   checked={settings.emailNotifications}
@@ -103,7 +103,7 @@ export default function SettingsPage() {
               <Stack direction="horizontal" className="items-center justify-between">
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">SMS Notifications</Body>
-                  <Body size="sm" className="text-on-dark-muted">Get text alerts for important updates</Body>
+                  <Body size="sm" className="text-text-muted">Get text alerts for important updates</Body>
                 </Stack>
                 <Switch
                   checked={settings.smsNotifications}
@@ -114,7 +114,7 @@ export default function SettingsPage() {
               <Stack direction="horizontal" className="items-center justify-between">
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Marketing Emails</Body>
-                  <Body size="sm" className="text-on-dark-muted">Receive promotions and recommendations</Body>
+                  <Body size="sm" className="text-text-muted">Receive promotions and recommendations</Body>
                 </Stack>
                 <Switch
                   checked={settings.marketingEmails}
@@ -136,7 +136,7 @@ export default function SettingsPage() {
           <Card className="p-6">
             <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
               <Stack gap={2}>
-                <Body size="sm" className="text-on-dark-muted">Language</Body>
+                <Body size="sm" className="text-text-muted">Language</Body>
                 <Select
                   value={settings.language}
                   onChange={(e) => setSettings({ ...settings, language: e.target.value })}
@@ -148,7 +148,7 @@ export default function SettingsPage() {
               </Stack>
 
               <Stack gap={2}>
-                <Body size="sm" className="text-on-dark-muted">Timezone</Body>
+                <Body size="sm" className="text-text-muted">Timezone</Body>
                 <Select
                   value={settings.timezone}
                   onChange={(e) => setSettings({ ...settings, timezone: e.target.value })}
@@ -161,7 +161,7 @@ export default function SettingsPage() {
               </Stack>
 
               <Stack gap={2}>
-                <Body size="sm" className="text-on-dark-muted">Currency</Body>
+                <Body size="sm" className="text-text-muted">Currency</Body>
                 <Select
                   value={settings.currency}
                   onChange={(e) => setSettings({ ...settings, currency: e.target.value })}
@@ -186,19 +186,19 @@ export default function SettingsPage() {
           <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
             <Card className="p-4 cursor-pointer hover:ring-2 hover:ring-primary" onClick={() => router.push("/settings/privacy")}>
               <Stack direction="horizontal" gap={3} className="items-center">
-                <Shield className="size-8 text-on-dark-muted" />
+                <Shield className="size-8 text-text-muted" />
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Privacy Settings</Body>
-                  <Body size="sm" className="text-on-dark-muted">Control your data and privacy</Body>
+                  <Body size="sm" className="text-text-muted">Control your data and privacy</Body>
                 </Stack>
               </Stack>
             </Card>
             <Card className="p-4 cursor-pointer hover:ring-2 hover:ring-primary" onClick={() => router.push("/settings/sessions")}>
               <Stack direction="horizontal" gap={3} className="items-center">
-                <Key className="size-8 text-on-dark-muted" />
+                <Key className="size-8 text-text-muted" />
                 <Stack gap={0}>
                   <Body className="font-weight-medium text-white">Active Sessions</Body>
-                  <Body size="sm" className="text-on-dark-muted">Manage your logged-in devices</Body>
+                  <Body size="sm" className="text-text-muted">Manage your logged-in devices</Body>
                 </Stack>
               </Stack>
             </Card>

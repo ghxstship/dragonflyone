@@ -177,7 +177,7 @@ export const SignInForm = forwardRef<HTMLDivElement, SignInFormProps>(
               </H2>
               <Body
                 size="sm"
-                className={inverted ? "text-on-dark-muted" : "text-muted"}
+                className={inverted ? "text-text-muted" : "text-muted"}
               >
                 {description || defaultDescription}
               </Body>
@@ -224,7 +224,7 @@ export const SignInForm = forwardRef<HTMLDivElement, SignInFormProps>(
                     />
                     <Label
                       size="xs"
-                      className={inverted ? "text-on-dark-muted" : "text-muted"}
+                      className={inverted ? "text-text-muted" : "text-muted"}
                     >
                       Remember me
                     </Label>
@@ -265,7 +265,7 @@ export const SignInForm = forwardRef<HTMLDivElement, SignInFormProps>(
                     size="xs"
                     className={clsx(
                       "whitespace-nowrap",
-                      inverted ? "text-on-dark-muted" : "text-muted"
+                      inverted ? "text-text-muted" : "text-muted"
                     )}
                   >
                     Or continue with
@@ -314,7 +314,7 @@ export const SignInForm = forwardRef<HTMLDivElement, SignInFormProps>(
               >
                 <Body
                   size="sm"
-                  className={inverted ? "text-on-dark-muted" : "text-muted"}
+                  className={inverted ? "text-text-muted" : "text-muted"}
                 >
                   {signUpPrompt}
                 </Body>

@@ -63,7 +63,7 @@ export function BulkActionBar({
   return (
     <div
       className={clsx(
-        "flex items-center justify-between gap-gap-md px-spacing-4 py-spacing-3 bg-surface-inverse text-on-dark-primary border-2 border-on-dark-primary rounded-[var(--radius-card)] shadow-md",
+        "flex items-center justify-between gap-gap-md px-spacing-4 py-spacing-3 bg-surface-inverse text-text-primary border-2 border-on-dark-primary rounded-[var(--radius-card)] shadow-md",
         positionClasses[position],
         className
       )}
@@ -79,8 +79,8 @@ export function BulkActionBar({
           onClick={onClearSelection}
           disabled={loading}
           className={clsx(
-            "px-spacing-2 py-spacing-1 font-code text-mono-sm tracking-wide uppercase bg-transparent text-on-dark-secondary border-none underline transition-colors duration-fast",
-            loading ? "cursor-not-allowed" : "cursor-pointer hover:text-on-dark-primary"
+            "px-spacing-2 py-spacing-1 font-code text-mono-sm tracking-wide uppercase bg-transparent text-text-secondary border-none underline transition-colors duration-fast",
+            loading ? "cursor-not-allowed" : "cursor-pointer hover:text-text-primary"
           )}
         >
           Clear
@@ -102,8 +102,8 @@ export function BulkActionBar({
               className={clsx(
                 "flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase border-2 rounded-[var(--radius-button)] whitespace-nowrap transition-all duration-100 ease-[var(--ease-bounce)]",
                 action.variant === "danger"
-                  ? "bg-surface-primary text-on-light-primary border-on-dark-primary shadow-sm hover:bg-muted hover:-translate-x-0.5 hover:-translate-y-0.5"
-                  : "bg-surface-elevated text-on-dark-primary border-border shadow-sm hover:bg-surface-inverse hover:-translate-x-0.5 hover:-translate-y-0.5",
+                  ? "bg-surface-primary text-text-primary border-on-dark-primary shadow-sm hover:bg-muted hover:-translate-x-0.5 hover:-translate-y-0.5"
+                  : "bg-surface-elevated text-text-primary border-border shadow-sm hover:bg-surface-inverse hover:-translate-x-0.5 hover:-translate-y-0.5",
                 isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
               )}
             >

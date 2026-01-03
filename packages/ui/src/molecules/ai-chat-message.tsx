@@ -59,7 +59,7 @@ export const AIChatMessageActions = forwardRef<HTMLDivElement, AIChatMessageActi
         ref={ref}
         className={clsx(
           "flex items-center gap-xs opacity-0 transition-opacity group-hover:opacity-100",
-          inverted ? "text-on-dark-muted" : "text-muted-foreground",
+          inverted ? "text-text-muted" : "text-muted-foreground",
           className
         )}
         {...props}
@@ -91,8 +91,8 @@ export const AIChatTypingIndicator = forwardRef<HTMLDivElement, AIChatTypingIndi
             className={clsx(
               "flex size-10 shrink-0 items-center justify-center border-2",
               inverted
-                ? "border-border bg-surface-elevated text-on-dark-primary"
-                : "border-border-primary bg-accent text-on-light-primary"
+                ? "border-border bg-surface-elevated text-text-primary"
+                : "border-border-primary bg-accent text-text-primary"
             )}
           >
             {avatar}
@@ -137,7 +137,7 @@ export const AIChatTypingIndicator = forwardRef<HTMLDivElement, AIChatTypingIndi
           <span
             className={clsx(
               "font-body text-body-sm",
-              inverted ? "text-on-dark-muted" : "text-muted-foreground"
+              inverted ? "text-text-muted" : "text-muted-foreground"
             )}
           >
             {label}
@@ -191,8 +191,8 @@ export const AIChatMessage = forwardRef<HTMLDivElement, AIChatMessageProps>(
             className={clsx(
               "px-4 py-2 font-mono text-mono-xs rounded-radius-badge",
               inverted
-                ? "bg-surface-elevated text-on-dark-muted"
-                : "bg-muted text-on-light-muted"
+                ? "bg-surface-elevated text-text-muted"
+                : "bg-muted text-text-muted"
             )}
           >
             {children}
@@ -218,11 +218,11 @@ export const AIChatMessage = forwardRef<HTMLDivElement, AIChatMessageProps>(
               "flex size-10 shrink-0 items-center justify-center border-2",
               isUser
                 ? inverted
-                  ? "border-border bg-primary text-on-dark-primary"
-                  : "border-border-primary bg-primary text-on-dark-primary"
+                  ? "border-border bg-primary text-text-primary"
+                  : "border-border-primary bg-primary text-text-primary"
                 : inverted
-                  ? "border-border bg-surface-elevated text-on-dark-primary"
-                  : "border-border-primary bg-accent text-on-light-primary"
+                  ? "border-border bg-surface-elevated text-text-primary"
+                  : "border-border-primary bg-accent text-text-primary"
             )}
           >
             {avatar}
@@ -242,11 +242,11 @@ export const AIChatMessage = forwardRef<HTMLDivElement, AIChatMessageProps>(
               "border-2 p-4 rounded-radius-card",
               isUser
                 ? inverted
-                  ? "border-primary/50 bg-primary/20 text-on-dark-primary"
-                  : "border-primary/30 bg-primary/10 text-on-light-primary"
+                  ? "border-primary/50 bg-primary/20 text-text-primary"
+                  : "border-primary/30 bg-primary/10 text-text-primary"
                 : inverted
-                  ? "border-border bg-surface-elevated text-on-dark-primary"
-                  : "border-border-primary bg-surface-primary text-on-light-primary shadow-sm",
+                  ? "border-border bg-surface-elevated text-text-primary"
+                  : "border-border-primary bg-surface-primary text-text-primary shadow-sm",
               isStreaming && "animate-pulse"
             )}
           >
@@ -265,7 +265,7 @@ export const AIChatMessage = forwardRef<HTMLDivElement, AIChatMessageProps>(
               <span
                 className={clsx(
                   "font-mono text-mono-xs",
-                  inverted ? "text-on-dark-muted" : "text-muted-foreground"
+                  inverted ? "text-text-muted" : "text-muted-foreground"
                 )}
               >
                 {formattedTime}
