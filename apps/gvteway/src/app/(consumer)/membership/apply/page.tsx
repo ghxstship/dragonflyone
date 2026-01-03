@@ -5,7 +5,7 @@
  * Multi-step form for applying to membership tiers
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Body,
@@ -73,7 +73,7 @@ const DEFAULT_TIERS = [
   { id: "platinum", name: "Platinum", price: 49.99, billingCycle: "Monthly" as const },
 ];
 
-export default function MembershipApplyPage() {
+function MembershipApplyContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { tiers: apiTiers, isLoading } = useMembershipTiersData();
@@ -526,5 +526,17 @@ export default function MembershipApplyPage() {
         </Card>
       </Box>
     </Box>
+  );
+}
+
+export default function MembershipApplyPage() {
+  return (
+    <Suspense fallback={
+      <Box className="min-h-screen bg-surface-secondary py-12 flex items-center justify-center">
+        <Loader2 className="size-8 animate-spin text-primary" />
+      </Box>
+    }>
+      <MembershipApplyContent />
+    </Suspense>
   );
 }

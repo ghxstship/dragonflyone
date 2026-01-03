@@ -9167,6 +9167,61 @@ Many tests timeout due to slow page loads during parallel test execution.
 
 ---
 
+### Category 20: Accessibility Violations (axe-core)
+
+| Violation | App | Element | Remediation |
+|-----------|-----|---------|-------------|
+| Color contrast insufficient (4.42:1, needs 4.5:1) | GVTEWAY | Footer links (`text-text-muted` on black) | Increase contrast to 4.5:1 minimum |
+| Missing accessible names | All | Interactive elements without labels | Add `aria-label` or visible text |
+| Heading hierarchy issues | All | Skipped heading levels | Use sequential heading levels (h1→h2→h3) |
+
+---
+
+### Category 21: Performance Threshold Failures
+
+| Metric | App | Threshold | Actual | Remediation |
+|--------|-----|-----------|--------|-------------|
+| First Contentful Paint | COMPVSS | 1800ms | 4586ms | Optimize bundle size, lazy loading |
+| Page Load Time | GVTEWAY | 5000ms | 6095ms | Optimize initial bundle |
+| Slow Network Load | COMPVSS | 10000ms | 11441ms | Add loading states, optimize assets |
+
+---
+
+### Test Run Summary (Partial - 4693/22704 tests)
+
+| Status | Count | Percentage |
+|--------|-------|------------|
+| Passed | 141 | ~3% |
+| Failed | 45 | ~1% |
+| Skipped | 34 | ~0.7% |
+| Interrupted | ~17,932 | ~79% |
+
+**Note:** Test run was interrupted due to webpack cache corruption and dev server instability under parallel test load. Recommend running tests against production build.
+
+---
+
+### Priority Remediation Order
+
+1. **P0 - Critical (Blocking):**
+   - Category 18: Webpack cache corruption - Clean `.next` directories before tests
+   - Category 19: Test timeouts - Run against production build or reduce parallelism
+
+2. **P1 - High (API Failures):**
+   - Category 8: API 500 errors - Apply graceful degradation to 10 endpoints
+   - Category 9: API 400 errors - Update test expectations
+   - Category 10: API 429 errors - Update test expectations
+
+3. **P2 - Medium (Test Code Bugs):**
+   - Category 11: Playwright locator syntax errors - Fix 6 test files
+   - Category 17: API 405 errors - Update test expectations
+
+4. **P3 - Low (UI/UX):**
+   - Category 20: Accessibility violations - Fix color contrast and labels
+   - Category 16: Visual regression - Update baseline screenshots
+   - Category 21: Performance thresholds - Optimize or adjust thresholds
+
+---
+
 ### Notes
 - Database schema alignment (BACK-114) is a prerequisite for fully resolving Category 1 and Category 8 issues
 - Graceful degradation pattern should be applied to ALL API GET endpoints
@@ -9175,4 +9230,5 @@ Many tests timeout due to slow page loads during parallel test execution.
 - Visual regression failures may require baseline updates after UI changes
 - Webpack cache corruption (Category 18) causes cascading test failures - clean builds recommended
 - Test timeouts (Category 19) are exacerbated by running dev servers under heavy parallel test load
+- **Recommended test command:** `rm -rf apps/*/.next && pnpm turbo build && pnpm exec playwright test --workers=2`
 

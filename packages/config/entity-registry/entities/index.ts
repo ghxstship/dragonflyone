@@ -72,6 +72,8 @@ import { weatherContingencyEntity } from './weather-contingency';
 import { searchEntity } from './search';
 import { accountOrdersEntity } from './account-orders';
 import { accountTicketsEntity } from './account-tickets';
+import { rewardsTransactionsEntity } from './rewards-transactions';
+import { rewardsCatalogEntity } from './rewards-catalog';
 
 // Export individual entities
 export { credentialsEntity } from './credentials';
@@ -139,6 +141,8 @@ export { weatherContingencyEntity } from './weather-contingency';
 export { searchEntity } from './search';
 export { accountOrdersEntity } from './account-orders';
 export { accountTicketsEntity } from './account-tickets';
+export { rewardsTransactionsEntity, REWARDS_TRANSACTION_TYPE_COLORS } from './rewards-transactions';
+export { rewardsCatalogEntity, REWARDS_AVAILABILITY_COLORS, REWARDS_TYPE_COLORS } from './rewards-catalog';
 
 // All entities array
 export const allEntities = [
@@ -207,6 +211,8 @@ export const allEntities = [
   searchEntity,
   accountOrdersEntity,
   accountTicketsEntity,
+  rewardsTransactionsEntity,
+  rewardsCatalogEntity,
 ];
 
 // Register all entities on module load
