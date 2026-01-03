@@ -88,6 +88,7 @@
   --text-secondary: #d4d4d4;
   --text-tertiary: #a3a3a3;
   --text-muted: #737373;
+  --text-disabled: #525252;
   --text-inverse: #000000;
   --text-accent: #ffffff;
   --text-link: #ffffff;
@@ -224,12 +225,14 @@
 
 /* ═══════════════════════════════════════════════════════════════════════════
    LIGHT MODE OVERRIDE
+   Applied via .light class on <html> element
    ═══════════════════════════════════════════════════════════════════════════ */
-.light,
-[data-theme="light"] {
+.light {
   color-scheme: light;
 
-  /* Semantic Surface Colors */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SEMANTIC SURFACE COLORS - Light mode
+     ═══════════════════════════════════════════════════════════════════════════ */
   --surface-primary: #ffffff;
   --surface-secondary: #f5f5f5;
   --surface-tertiary: #e5e5e5;
@@ -251,17 +254,22 @@
   --border: 0 0% 15%;
   --input: 0 0% 15%;
 
-  /* Semantic Text Colors */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SEMANTIC TEXT COLORS - Light mode
+     ═══════════════════════════════════════════════════════════════════════════ */
   --text-primary: #000000;
   --text-secondary: #404040;
   --text-tertiary: #525252;
   --text-muted: #737373;
+  --text-disabled: #a3a3a3;
   --text-inverse: #ffffff;
   --text-accent: #000000;
   --text-link: #000000;
   --text-link-hover: #404040;
 
-  /* Semantic Border Colors */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SEMANTIC BORDER COLORS - Light mode
+     ═══════════════════════════════════════════════════════════════════════════ */
   --border-primary: #000000;
   --border-secondary: #d4d4d4;
   --border-muted: #e5e5e5;
@@ -269,12 +277,16 @@
   --border-inverse: #ffffff;
   --border-accent: #000000;
 
-  /* Interactive States */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     INTERACTIVE STATES - Light mode
+     ═══════════════════════════════════════════════════════════════════════════ */
   --hover-surface: #f5f5f5;
   --active-surface: #e5e5e5;
   --focus-ring: rgba(0, 0, 0, 0.2);
 
-  /* Shadows (geometric hard shadows - LIGHT MODE) */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SHADOWS - Light mode (geometric hard shadows)
+     ═══════════════════════════════════════════════════════════════════════════ */
   --shadow-xs: 2px 2px 0 rgba(0, 0, 0, 0.1);
   --shadow-sm: 3px 3px 0 rgba(0, 0, 0, 0.15);
   --shadow-DEFAULT: 4px 4px 0 rgba(0, 0, 0, 0.15);
@@ -283,11 +295,31 @@
   --shadow-xl: 8px 8px 0 rgba(0, 0, 0, 0.25);
   --shadow-2xl: 12px 12px 0 rgba(0, 0, 0, 0.3);
   
-  /* State shadows - LIGHT MODE */
+  /* State shadows - Light mode */
   --shadow-hover: 6px 6px 0 rgba(0, 0, 0, 0.2);
   --shadow-active: 1px 1px 0 rgba(0, 0, 0, 0.15);
   --shadow-focus: 0 0 0 3px rgba(0, 0, 0, 0.2);
   --shadow-inset: inset 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME TRANSITION UTILITIES
+   Apply to body when theme is changing for smooth transitions
+   ═══════════════════════════════════════════════════════════════════════════ */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+  transition: background-color 200ms ease-out, 
+              color 200ms ease-out, 
+              border-color 200ms ease-out,
+              box-shadow 200ms ease-out !important;
+}
+
+/* Disable transitions during initial load to prevent flash */
+.theme-loading,
+.theme-loading * {
+  transition: none !important;
 }
 
 * {
@@ -297,8 +329,8 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--ink-950);
-  color: var(--ink-50);
+  background-color: var(--surface-primary);
+  color: var(--text-primary);
   font-family: var(--font-share-tech), "Share Tech", "Monaco", "Consolas", monospace;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

@@ -61,8 +61,8 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
             <span
               className={clsx(
                 "font-code text-xs uppercase tracking-widest font-bold",
-                trend === "up" && (inverted ? "text-green-400" : "text-green-600"),
-                trend === "down" && (inverted ? "text-red-400" : "text-red-600"),
+                trend === "up" && (inverted ? "text-success-400" : "text-success-600"),
+                trend === "down" && (inverted ? "text-error-400" : "text-error-600"),
                 trend === "neutral" && (inverted ? "text-on-dark-muted" : "text-on-light-muted")
               )}
             >

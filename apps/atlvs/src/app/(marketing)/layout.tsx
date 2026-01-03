@@ -9,15 +9,20 @@
  * - Company pages (about, careers, press, contact, etc.)
  * - Resource pages (blog, docs, guides, case-studies, etc.)
  * - Legal pages (privacy, terms, etc.)
+ * 
+ * Theme: Light mode is forced for marketing pages (user cannot change)
  */
 
 import { ReactNode } from "react";
 import { AtlvsAppLayout } from "../../components/app-layout";
+import { ThemeProvider } from "@ghxstship/ui";
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
-    <AtlvsAppLayout variant="public" background="black">
-      {children}
-    </AtlvsAppLayout>
+    <ThemeProvider forcedTheme="light">
+      <AtlvsAppLayout variant="public" background="white">
+        {children}
+      </AtlvsAppLayout>
+    </ThemeProvider>
   );
 }

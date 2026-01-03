@@ -5,10 +5,16 @@ import { createContext, useContext, useEffect, useState, useCallback, useMemo, R
 type Theme = "dark" | "light" | "system";
 
 interface ThemeContextValue {
+  /** Current theme setting (may be "system") */
   theme: Theme;
+  /** Resolved theme after system preference is applied */
   resolvedTheme: "dark" | "light";
+  /** Set the theme preference */
   setTheme: (theme: Theme) => void;
+  /** Toggle between dark and light */
   toggleTheme: () => void;
+  /** Whether a theme is forced by the layout */
+  forcedTheme?: "dark" | "light";
 }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
@@ -22,102 +28,130 @@ function getSystemTheme(): "dark" | "light" {
 
 interface ThemeProviderProps {
   children: ReactNode;
+  /** Default theme when no preference is stored */
   defaultTheme?: Theme;
+  /** localStorage key for theme preference */
   storageKey?: string;
+  /** Force a specific theme (user cannot change) */
+  forcedTheme?: "dark" | "light";
+  /** Enable smooth transitions when theme changes */
+  enableTransitions?: boolean;
 }
 
 export function ThemeProvider({
   children,
   defaultTheme = "dark",
   storageKey = STORAGE_KEY,
+  forcedTheme,
+  enableTransitions = true,
 }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(defaultTheme);
-  const [resolvedTheme, setResolvedTheme] = useState<"dark" | "light">("dark");
+  const [theme, setThemeState] = useState<Theme>(() => {
+    // If forced, use that
+    if (forcedTheme) return forcedTheme;
+    return defaultTheme;
+  });
+  const [resolvedTheme, setResolvedTheme] = useState<"dark" | "light">(() => {
+    if (forcedTheme) return forcedTheme;
+    return defaultTheme === "system" ? "dark" : defaultTheme;
+  });
   const [mounted, setMounted] = useState(false);
 
-  // Load theme from storage on mount
+  // Load theme from storage on mount (only if not forced)
   useEffect(() => {
+    if (forcedTheme) {
+      setMounted(true);
+      return;
+    }
+    
     const stored = localStorage.getItem(storageKey) as Theme | null;
     if (stored) {
       setThemeState(stored);
     }
     setMounted(true);
-  }, [storageKey]);
+  }, [storageKey, forcedTheme]);
 
-  // Update resolved theme and apply to document
+  // Update resolved theme and apply class to document
   useEffect(() => {
     if (!mounted) return;
 
-    const resolved = theme === "system" ? getSystemTheme() : theme;
+    // If forced, always use that
+    const effectiveTheme = forcedTheme || theme;
+    const resolved = effectiveTheme === "system" ? getSystemTheme() : effectiveTheme;
     setResolvedTheme(resolved);
 
-    // Apply theme class to document
+    // Apply theme class to document (CSS handles all variable changes)
     const root = document.documentElement;
+    
+    // Add transition class for smooth theme switching
+    if (enableTransitions && !root.classList.contains("theme-loading")) {
+      root.classList.add("theme-transitioning");
+    }
+    
     root.classList.remove("light", "dark");
     root.classList.add(resolved);
-
-    // Update CSS variables for semantic colors
-    if (resolved === "dark") {
-      root.style.setProperty("--surface-primary", "#000000");
-      root.style.setProperty("--surface-secondary", "#171717");
-      root.style.setProperty("--surface-tertiary", "#262626");
-      root.style.setProperty("--surface-elevated", "#262626");
-      root.style.setProperty("--surface-overlay", "rgba(0, 0, 0, 0.8)");
-      root.style.setProperty("--surface-inverse", "#FFFFFF");
-      root.style.setProperty("--surface-muted", "#404040");
-      root.style.setProperty("--text-primary", "#FFFFFF");
-      root.style.setProperty("--text-secondary", "#D4D4D4");
-      root.style.setProperty("--text-muted", "#A3A3A3");
-      root.style.setProperty("--text-disabled", "#737373");
-      root.style.setProperty("--border-default", "#404040");
-      root.style.setProperty("--border-muted", "#262626");
-    } else {
-      root.style.setProperty("--surface-primary", "#FFFFFF");
-      root.style.setProperty("--surface-secondary", "#F5F5F5");
-      root.style.setProperty("--surface-tertiary", "#E5E5E5");
-      root.style.setProperty("--surface-elevated", "#FFFFFF");
-      root.style.setProperty("--surface-overlay", "rgba(255, 255, 255, 0.8)");
-      root.style.setProperty("--surface-inverse", "#000000");
-      root.style.setProperty("--surface-muted", "#D4D4D4");
-      root.style.setProperty("--text-primary", "#000000");
-      root.style.setProperty("--text-secondary", "#404040");
-      root.style.setProperty("--text-muted", "#737373");
-      root.style.setProperty("--text-disabled", "#A3A3A3");
-      root.style.setProperty("--border-default", "#D4D4D4");
-      root.style.setProperty("--border-muted", "#E5E5E5");
+    root.dataset.theme = resolved;
+    
+    // Remove transition class after animation completes
+    if (enableTransitions) {
+      const timeout = setTimeout(() => {
+        root.classList.remove("theme-transitioning");
+      }, 200);
+      return () => clearTimeout(timeout);
     }
-  }, [theme, mounted]);
+  }, [theme, mounted, forcedTheme, enableTransitions]);
 
   // Listen for system theme changes
   useEffect(() => {
-    if (theme !== "system") return;
+    const effectiveTheme = forcedTheme || theme;
+    if (effectiveTheme !== "system") return;
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = () => {
-      setResolvedTheme(getSystemTheme());
+      const newResolved = getSystemTheme();
+      setResolvedTheme(newResolved);
+      
+      // Update document class
+      const root = document.documentElement;
+      if (enableTransitions) {
+        root.classList.add("theme-transitioning");
+      }
+      root.classList.remove("light", "dark");
+      root.classList.add(newResolved);
+      root.dataset.theme = newResolved;
+      
+      if (enableTransitions) {
+        setTimeout(() => root.classList.remove("theme-transitioning"), 200);
+      }
     };
 
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [theme]);
+  }, [theme, forcedTheme, enableTransitions]);
 
   const setTheme = useCallback((newTheme: Theme) => {
+    // Don't allow changing if forced
+    if (forcedTheme) return;
+    
     setThemeState(newTheme);
     localStorage.setItem(storageKey, newTheme);
-  }, [storageKey]);
+  }, [storageKey, forcedTheme]);
 
   const toggleTheme = useCallback(() => {
+    // Don't allow toggling if forced
+    if (forcedTheme) return;
+    
     const newTheme = resolvedTheme === "dark" ? "light" : "dark";
     setThemeState(newTheme);
     localStorage.setItem(storageKey, newTheme);
-  }, [resolvedTheme, storageKey]);
+  }, [resolvedTheme, storageKey, forcedTheme]);
 
   const value = useMemo<ThemeContextValue>(() => ({
-    theme,
+    theme: forcedTheme || theme,
     resolvedTheme,
     setTheme,
     toggleTheme,
-  }), [theme, resolvedTheme, setTheme, toggleTheme]);
+    forcedTheme,
+  }), [theme, resolvedTheme, setTheme, toggleTheme, forcedTheme]);
 
   // Prevent flash of wrong theme
   if (!mounted) {

@@ -8,7 +8,7 @@ import {
   Share_Tech_Mono,
 } from "next/font/google";
 import "./globals.css";
-import { ErrorBoundary, NotificationProvider, Link } from "@ghxstship/ui";
+import { ErrorBoundary, NotificationProvider, Link, ThemeScript } from "@ghxstship/ui";
 import { Providers } from "./providers";
 import { CookieConsentWrapper } from "../components/cookie-consent-wrapper";
 
@@ -42,7 +42,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeScript defaultTheme="dark" />
+      </head>
       <body className={`${anton.variable} ${bebasNeue.variable} ${shareTech.variable} ${shareTechMono.variable}`}>
         <Link
           href="#main-content"

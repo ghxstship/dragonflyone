@@ -204,7 +204,7 @@ export const AgeVerificationModal = forwardRef<HTMLDivElement, AgeVerificationMo
               </div>
 
               {error && (
-                <Body size="sm" className="text-red-600" role="alert">
+                <Body size="sm" className="text-error" role="alert">
                   {error}
                 </Body>
               )}

@@ -283,7 +283,7 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
                         <div className="flex items-center gap-3">
                           <div className="flex size-10 items-center justify-center border-2 border-primary-200 bg-primary-50 rounded-card">
                             {exportSuccess ? (
-                              <Check className="size-5 text-green-600" />
+                              <Check className="size-5 text-success-600" />
                             ) : isExporting ? (
                               <Loader2 className="size-5 text-primary-600 animate-spin" />
                             ) : (
@@ -330,16 +330,16 @@ export const PrivacyPreferenceCenter = forwardRef<HTMLDivElement, PrivacyPrefere
 
               {/* Delete Account */}
               {onDeleteAccount && (
-                <Card className="border-2 border-red-200 hover:border-red-300 transition-colors cursor-pointer sm:col-span-2">
+                <Card className="border-2 border-error-200 hover:border-error-300 transition-colors cursor-pointer sm:col-span-2">
                   <CardBody>
                     <button onClick={onDeleteAccount} className="w-full text-left">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="flex size-10 items-center justify-center border-2 border-red-200 bg-red-50 rounded-card">
-                            <Trash2 className="size-5 text-red-600" />
+                          <div className="flex size-10 items-center justify-center border-2 border-error-200 bg-error-50 rounded-card">
+                            <Trash2 className="size-5 text-error-600" />
                           </div>
                           <div>
-                            <Label size="sm" className="text-red-700">Delete My Account</Label>
+                            <Label size="sm" className="text-error-700">Delete My Account</Label>
                             <Body size="xs" className="text-on-dark-disabled">
                               Permanently delete your account and all data
                             </Body>

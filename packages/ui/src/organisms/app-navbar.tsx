@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import { Dropdown, DropdownItem } from "../molecules/dropdown.js";
 import { Tooltip } from "../atoms/tooltip.js";
+import { useThemeSafe } from "../providers/theme-provider.js";
 
 // =============================================================================
 // APP NAVBAR - Authenticated Application Shell Navigation
@@ -241,8 +242,8 @@ function GlobalSearchTrigger({ inverted = true, onClick }: GlobalSearchTriggerPr
         "flex items-center gap-2 px-4 py-2 rounded-button border-2 transition-all duration-100",
         "min-w-[200px] md:min-w-[280px] lg:min-w-[360px]",
         inverted
-          ? "bg-ink-900 border-ink-700 text-ink-400 hover:border-ink-600 hover:bg-ink-800"
-          : "bg-white border-ink-200 text-ink-500 hover:border-ink-300 hover:bg-ink-50"
+          ? "bg-ink-900 border-ink-700 text-on-dark-muted hover:border-ink-600 hover:bg-ink-800"
+          : "bg-white border-ink-200 text-on-light-muted hover:border-ink-300 hover:bg-ink-50"
       )}
       aria-label="Open search (Cmd+K)"
     >
@@ -251,8 +252,8 @@ function GlobalSearchTrigger({ inverted = true, onClick }: GlobalSearchTriggerPr
       <kbd className={clsx(
         "hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono rounded border",
         inverted 
-          ? "bg-ink-800 border-ink-700 text-ink-500" 
-          : "bg-ink-100 border-ink-200 text-ink-400"
+          ? "bg-ink-800 border-ink-700 text-on-dark-disabled" 
+          : "bg-ink-100 border-ink-200 text-on-light-disabled"
       )}>
         ⌘K
       </kbd>
@@ -301,8 +302,8 @@ function ContextualQuickActions({ actions, currentPath, inverted = true, onNavig
             className={clsx(
               "flex items-center gap-1.5 px-2.5 py-1.5 rounded-button border-2 text-xs font-medium transition-all duration-100",
               inverted
-                ? "border-ink-700 bg-ink-800 text-ink-300 hover:border-primary-500 hover:text-white hover:bg-ink-700"
-                : "border-ink-200 bg-white text-ink-600 hover:border-primary-500 hover:text-primary-600"
+                ? "border-ink-700 bg-ink-800 text-on-dark-secondary hover:border-primary-500 hover:text-white hover:bg-ink-700"
+                : "border-ink-200 bg-white text-on-light-secondary hover:border-primary-500 hover:text-primary-600"
             )}
           >
             {action.icon}
@@ -382,8 +383,8 @@ function EnhancedNotificationsPanel({
       className={clsx(
         "relative p-2 rounded-button border-2 transition-all duration-100",
         inverted
-          ? "border-transparent text-ink-400 hover:text-white hover:bg-ink-800 hover:border-ink-700"
-          : "border-transparent text-ink-500 hover:text-ink-900 hover:bg-ink-100 hover:border-ink-200"
+          ? "border-transparent text-on-dark-muted hover:text-white hover:bg-ink-800 hover:border-ink-700"
+          : "border-transparent text-on-light-muted hover:text-on-light-primary hover:bg-ink-100 hover:border-ink-200"
       )}
       aria-label="Notifications"
       aria-expanded={isOpen}
@@ -420,8 +421,8 @@ function EnhancedNotificationsPanel({
             inverted ? "bg-ink-950 border-ink-700" : "bg-ink-50 border-ink-200"
           )}>
             <div className="flex items-center gap-2">
-              <Bell size={18} className={inverted ? "text-white" : "text-ink-900"} />
-              <span className={clsx("font-display text-sm font-bold", inverted ? "text-white" : "text-ink-900")}>
+              <Bell size={18} className={inverted ? "text-on-dark-primary" : "text-on-light-primary"} />
+              <span className={clsx("font-display text-sm font-bold", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
                 Notifications
               </span>
               {unreadCount > 0 && (
@@ -438,7 +439,7 @@ function EnhancedNotificationsPanel({
                     onClick={onSettings}
                     className={clsx(
                       "p-1.5 rounded transition-colors",
-                      inverted ? "text-ink-400 hover:text-white" : "text-ink-500 hover:text-ink-900"
+                      inverted ? "text-on-dark-muted hover:text-white" : "text-on-light-muted hover:text-on-light-primary"
                     )}
                   >
                     <Settings size={14} />
@@ -450,7 +451,7 @@ function EnhancedNotificationsPanel({
                 onClick={() => setIsOpen(false)}
                 className={clsx(
                   "p-1.5 rounded transition-colors",
-                  inverted ? "text-ink-400 hover:text-white" : "text-ink-500 hover:text-ink-900"
+                  inverted ? "text-on-dark-muted hover:text-white" : "text-on-light-muted hover:text-on-light-primary"
                 )}
               >
                 <X size={14} />
@@ -473,8 +474,8 @@ function EnhancedNotificationsPanel({
                   activeCategory === cat.id
                     ? "bg-primary-500 text-white"
                     : inverted
-                      ? "text-ink-400 hover:text-white hover:bg-ink-800"
-                      : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
+                      ? "text-on-dark-muted hover:text-white hover:bg-ink-800"
+                      : "text-on-light-muted hover:text-on-light-primary hover:bg-ink-100"
                 )}
               >
                 {cat.label}
@@ -508,7 +509,7 @@ function EnhancedNotificationsPanel({
                   Mark all read
                 </button>
               )}
-              <span className={clsx("text-[10px]", inverted ? "text-ink-500" : "text-ink-400")}>
+              <span className={clsx("text-[10px]", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
                 {filteredNotifications.length} notification{filteredNotifications.length !== 1 ? "s" : ""}
               </span>
             </div>
@@ -518,11 +519,11 @@ function EnhancedNotificationsPanel({
           <div className="overflow-y-auto max-h-[400px]">
             {filteredNotifications.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
-                <Bell size={40} className={inverted ? "text-ink-600" : "text-ink-300"} />
-                <p className={clsx("mt-3 text-sm font-medium", inverted ? "text-ink-400" : "text-ink-500")}>
+                <Bell size={40} className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} />
+                <p className={clsx("mt-3 text-sm font-medium", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
                   No notifications
                 </p>
-                <p className={clsx("mt-1 text-xs", inverted ? "text-ink-500" : "text-ink-400")}>
+                <p className={clsx("mt-1 text-xs", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
                   You&apos;re all caught up!
                 </p>
               </div>
@@ -561,14 +562,14 @@ function EnhancedNotificationsPanel({
                           <p className={clsx(
                             "text-sm line-clamp-2",
                             firstNotif.read
-                              ? inverted ? "text-ink-400" : "text-ink-500"
+                              ? inverted ? "text-on-dark-muted" : "text-on-light-muted"
                               : inverted ? "text-white font-medium" : "text-ink-900 font-medium"
                           )}>
                             {firstNotif.title}
                             {isGrouped && (
                               <span className={clsx(
                                 "ml-1 text-xs",
-                                inverted ? "text-ink-500" : "text-ink-400"
+                                inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
                               )}>
                                 (+{groupNotifs.length - 1} more)
                               </span>
@@ -584,7 +585,7 @@ function EnhancedNotificationsPanel({
                                   onClick={() => onMarkRead(firstNotif.id)}
                                   className={clsx(
                                     "p-1 rounded transition-colors",
-                                    inverted ? "text-ink-500 hover:text-white" : "text-ink-400 hover:text-ink-700"
+                                    inverted ? "text-on-dark-disabled hover:text-white" : "text-on-light-disabled hover:text-on-light-secondary"
                                   )}
                                 >
                                   <Check size={12} />
@@ -598,7 +599,7 @@ function EnhancedNotificationsPanel({
                                   onClick={() => onDelete(firstNotif.id)}
                                   className={clsx(
                                     "p-1 rounded transition-colors",
-                                    inverted ? "text-ink-500 hover:text-error-400" : "text-ink-400 hover:text-error-500"
+                                    inverted ? "text-on-dark-disabled hover:text-error-400" : "text-on-light-disabled hover:text-error-500"
                                   )}
                                 >
                                   <Trash2 size={12} />
@@ -611,7 +612,7 @@ function EnhancedNotificationsPanel({
                         {firstNotif.message && (
                           <p className={clsx(
                             "mt-0.5 text-xs line-clamp-2",
-                            inverted ? "text-ink-500" : "text-ink-400"
+                            inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
                           )}>
                             {firstNotif.message}
                           </p>
@@ -717,8 +718,8 @@ function EnhancedUserMenu({
       className={clsx(
         "flex items-center gap-2 px-2 py-1.5 rounded-button border-2 transition-all cursor-pointer",
         inverted
-          ? "border-transparent hover:border-ink-700 hover:bg-ink-800 text-ink-300 hover:text-white"
-          : "border-transparent hover:border-ink-200 hover:bg-ink-50 text-ink-600 hover:text-ink-900"
+          ? "border-transparent hover:border-ink-700 hover:bg-ink-800 text-on-dark-secondary hover:text-white"
+          : "border-transparent hover:border-ink-200 hover:bg-ink-50 text-on-light-secondary hover:text-on-light-primary"
       )}
     >
       <div className="relative">
@@ -732,8 +733,8 @@ function EnhancedUserMenu({
           <div className={clsx(
             "size-7 rounded-full flex items-center justify-center text-xs font-bold border-2",
             inverted
-              ? "bg-ink-700 border-ink-600 text-white"
-              : "bg-ink-200 border-ink-300 text-ink-700"
+              ? "bg-ink-700 border-ink-600 text-on-dark-primary"
+              : "bg-ink-200 border-ink-300 text-on-light-secondary"
           )}>
             {user.name.charAt(0).toUpperCase()}
           </div>
@@ -748,7 +749,7 @@ function EnhancedUserMenu({
       <span className="hidden md:block text-sm font-medium truncate max-w-[100px]">
         {user.name}
       </span>
-      <ChevronDown size={14} className={inverted ? "text-ink-500" : "text-ink-400"} />
+      <ChevronDown size={14} className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} />
     </div>
   );
 
@@ -759,18 +760,18 @@ function EnhancedUserMenu({
         "px-4 py-3 border-b-2",
         inverted ? "border-ink-700" : "border-ink-200"
       )}>
-        <div className={clsx("text-sm font-medium", inverted ? "text-white" : "text-ink-900")}>
+        <div className={clsx("text-sm font-medium", inverted ? "text-on-dark-primary" : "text-on-light-primary")}>
           {user.name}
         </div>
         {user.email && (
-          <div className={clsx("text-xs mt-0.5", inverted ? "text-ink-400" : "text-ink-500")}>
+          <div className={clsx("text-xs mt-0.5", inverted ? "text-on-dark-muted" : "text-on-light-muted")}>
             {user.email}
           </div>
         )}
         {user.role && (
           <div className={clsx(
             "inline-block mt-2 px-2 py-0.5 text-[10px] font-medium rounded",
-            inverted ? "bg-ink-800 text-ink-300" : "bg-ink-100 text-ink-600"
+            inverted ? "bg-ink-800 text-on-dark-secondary" : "bg-ink-100 text-on-light-secondary"
           )}>
             {user.role}
           </div>
@@ -780,7 +781,7 @@ function EnhancedUserMenu({
       {/* Status Selector */}
       {onStatusChange && (
         <div className={clsx("px-2 py-2 border-b-2", inverted ? "border-ink-700" : "border-ink-200")}>
-          <div className={clsx("px-2 py-1 text-[10px] uppercase tracking-wider font-semibold", inverted ? "text-ink-500" : "text-ink-400")}>
+          <div className={clsx("px-2 py-1 text-[10px] uppercase tracking-wider font-semibold", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
             Status
           </div>
           <div className="flex flex-wrap gap-1 mt-1">
@@ -794,8 +795,8 @@ function EnhancedUserMenu({
                   currentStatus === status
                     ? "bg-primary-500 text-white"
                     : inverted
-                      ? "text-ink-300 hover:bg-ink-800"
-                      : "text-ink-600 hover:bg-ink-100"
+                      ? "text-on-dark-secondary hover:bg-ink-800"
+                      : "text-on-light-secondary hover:bg-ink-100"
                 )}
               >
                 <span className={clsx("size-2 rounded-full", statusConfig[status].color)} />
@@ -809,7 +810,7 @@ function EnhancedUserMenu({
       {/* Theme Selector */}
       {onThemeChange && (
         <div className={clsx("px-2 py-2 border-b-2", inverted ? "border-ink-700" : "border-ink-200")}>
-          <div className={clsx("px-2 py-1 text-[10px] uppercase tracking-wider font-semibold", inverted ? "text-ink-500" : "text-ink-400")}>
+          <div className={clsx("px-2 py-1 text-[10px] uppercase tracking-wider font-semibold", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
             Theme
           </div>
           <div className="flex gap-1 mt-1">
@@ -827,8 +828,8 @@ function EnhancedUserMenu({
                   theme === t.id
                     ? "bg-primary-500 text-white"
                     : inverted
-                      ? "text-ink-300 hover:bg-ink-800"
-                      : "text-ink-600 hover:bg-ink-100"
+                      ? "text-on-dark-secondary hover:bg-ink-800"
+                      : "text-on-light-secondary hover:bg-ink-100"
                 )}
               >
                 {t.icon}
@@ -861,7 +862,7 @@ function EnhancedUserMenu({
             </span>
             <kbd className={clsx(
               "text-[10px] px-1 py-0.5 rounded",
-              inverted ? "bg-ink-800 text-ink-500" : "bg-ink-100 text-ink-400"
+              inverted ? "bg-ink-800 text-on-dark-disabled" : "bg-ink-100 text-on-light-disabled"
             )}>
               ?
             </kbd>
@@ -884,7 +885,7 @@ function EnhancedUserMenu({
 
 function BreadcrumbSeparator({ inverted = true }: { inverted?: boolean }) {
   return (
-    <span className={clsx("text-lg mx-0.5", inverted ? "text-ink-600" : "text-ink-300")}>
+    <span className={clsx("text-lg mx-0.5", inverted ? "text-on-dark-disabled" : "text-on-light-disabled")}>
       /
     </span>
   );
@@ -927,12 +928,12 @@ function BreadcrumbDropdown({ item, options = [], inverted = true, onSelect, onN
     <div className={clsx(
       "flex items-center gap-1.5 px-2 py-1 rounded-button border-2 cursor-pointer transition-all text-sm",
       inverted
-        ? "border-ink-700 hover:border-ink-600 text-white hover:bg-ink-800"
-        : "border-ink-200 hover:border-ink-300 text-ink-900 hover:bg-ink-50"
+        ? "border-ink-700 hover:border-ink-600 text-on-dark-primary hover:bg-ink-800"
+        : "border-ink-200 hover:border-ink-300 text-on-light-primary hover:bg-ink-50"
     )}>
-      <span className={inverted ? "text-ink-400" : "text-ink-500"}>{getIcon()}</span>
+      <span className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}>{getIcon()}</span>
       <span className="font-medium max-w-[120px] truncate">{item.name}</span>
-      <ChevronDown size={12} className={inverted ? "text-ink-500" : "text-ink-400"} />
+      <ChevronDown size={12} className={inverted ? "text-on-dark-disabled" : "text-on-light-disabled"} />
     </div>
   );
 
@@ -942,7 +943,7 @@ function BreadcrumbDropdown({ item, options = [], inverted = true, onSelect, onN
         <>
           <div className={clsx(
             "px-4 py-2 text-xs font-semibold uppercase tracking-wide",
-            inverted ? "text-ink-400" : "text-ink-500"
+            inverted ? "text-on-dark-muted" : "text-on-light-muted"
           )}>
             {item.type === "organization" ? "Organizations" :
              item.type === "project" ? "Projects" :
@@ -1036,13 +1037,13 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
       settingsPath = "/settings",
       helpPath = "/help",
       inverted = true,
-      theme = "system",
+      theme: themeProp,
       onNavigate,
       onSearch,
       onContextSwitch,
       onSignOut,
       onStatusChange,
-      onThemeChange,
+      onThemeChange: onThemeChangeProp,
       onNotificationClick,
       onNotificationMarkRead,
       onNotificationMarkAllRead,
@@ -1055,6 +1056,11 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
     ref
   ) {
     const isInNestedContext = breadcrumbContext && breadcrumbContext.length > 1;
+    
+    // Connect to ThemeProvider if available, fallback to props
+    const themeContext = useThemeSafe();
+    const theme = themeProp ?? themeContext?.theme ?? "system";
+    const onThemeChange = onThemeChangeProp ?? themeContext?.setTheme;
 
     return (
       <header
@@ -1075,8 +1081,8 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
               className={clsx(
                 "md:hidden p-2 rounded-button border-2 transition-colors",
                 inverted
-                  ? "border-ink-700 text-ink-300 hover:bg-ink-800 hover:text-white"
-                  : "border-ink-200 text-ink-600 hover:bg-ink-100"
+                  ? "border-ink-700 text-on-dark-secondary hover:bg-ink-800 hover:text-white"
+                  : "border-ink-200 text-on-light-secondary hover:bg-ink-100"
               )}
               aria-label="Open menu"
             >
@@ -1093,8 +1099,8 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
                 className={clsx(
                   "hidden md:flex items-center gap-1 px-2 py-1 rounded-button text-xs font-medium transition-colors",
                   inverted
-                    ? "text-ink-400 hover:text-white hover:bg-ink-800"
-                    : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
+                    ? "text-on-dark-muted hover:text-white hover:bg-ink-800"
+                    : "text-on-light-muted hover:text-on-light-primary hover:bg-ink-100"
                 )}
               >
                 <ArrowLeft size={14} />

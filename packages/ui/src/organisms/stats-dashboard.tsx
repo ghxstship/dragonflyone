@@ -83,8 +83,8 @@ export function StatsDashboard({
   className = "",
 }: StatsDashboardProps) {
   const trendClasses = {
-    up: inverted ? "text-green-400" : "text-green-600",
-    down: inverted ? "text-red-400" : "text-red-600",
+    up: inverted ? "text-success-400" : "text-success-600",
+    down: inverted ? "text-error-400" : "text-error-600",
     neutral: inverted ? "text-on-dark-muted" : "text-on-light-muted",
   };
 
@@ -218,8 +218,8 @@ export function StatCard({
   className?: string;
 }) {
   const trendClasses = {
-    up: inverted ? "text-green-400" : "text-green-600",
-    down: inverted ? "text-red-400" : "text-red-600",
+    up: inverted ? "text-success-400" : "text-success-600",
+    down: inverted ? "text-error-400" : "text-error-600",
     neutral: inverted ? "text-on-dark-muted" : "text-on-light-muted",
   };
 

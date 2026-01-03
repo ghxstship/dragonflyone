@@ -449,6 +449,17 @@ export * from "./utils/screen-reader.js";
 export * from "./hooks/index.js";
 
 // =============================================================================
+// PROVIDERS - Context providers
+// =============================================================================
+export { ThemeProvider, useTheme, useThemeSafe } from "./providers/theme-provider.js";
+
+// =============================================================================
+// THEME - Theme utilities and components
+// =============================================================================
+export { ThemeScript } from "./components/theme-script.js";
+export { ThemeToggle } from "./components/theme-toggle.js";
+
+// =============================================================================
 // MARKETING - Landing page section components (2026 Best Practices)
 // =============================================================================
 export * from "./marketing/index.js";

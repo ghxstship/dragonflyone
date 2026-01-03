@@ -9,6 +9,9 @@ import { CookieConsentProvider } from './providers/CookieConsentProvider';
 /**
  * Root Providers Component
  * Combines all necessary providers for the application
+ * 
+ * Note: ThemeProvider should be added at the app level by importing from @ghxstship/ui
+ * This is because @ghxstship/config is CommonJS and @ghxstship/ui is ESM
  */
 export function AppProviders({ 
   children,
