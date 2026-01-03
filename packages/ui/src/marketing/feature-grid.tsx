@@ -38,8 +38,13 @@ export interface FeatureGridProps {
   columns?: 2 | 3 | 4;
   /** Card variant */
   variant?: "bordered" | "surface" | "ghost";
-  /** Background color */
-  background?: "black" | "ink" | "grey";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  sectionVariant?: "dark" | "light" | "inverted";
   /** Pattern overlay */
   pattern?: "none" | "halftone" | "grid";
   /** Content alignment */
@@ -58,7 +63,7 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
       features,
       columns = 3,
       variant = "bordered",
-      background = "ink",
+      sectionVariant = "dark",
       pattern = "none",
       align = "left",
       onFeatureClick,
@@ -66,10 +71,10 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
     },
     ref
   ) {
-    const bgClasses = {
-      black: "bg-black text-white",
-      ink: "bg-surface-inverse text-on-dark-primary",
-      grey: "bg-surface-elevated text-on-dark-primary",
+    const sectionVariantClasses = {
+      dark: "section-dark bg-surface-primary",
+      light: "section-light bg-surface-primary",
+      inverted: "section-inverted bg-surface-primary",
     };
 
     const colClasses = {
@@ -102,7 +107,7 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
     return (
       <section
         ref={ref}
-        className={clsx("relative py-12 sm:py-16 md:py-24 lg:py-32", bgClasses[background], className)}
+        className={clsx("relative py-12 sm:py-16 md:py-24 lg:py-32", sectionVariantClasses[sectionVariant], className)}
       >
         {/* Pattern Overlay */}
         {pattern !== "none" && (
@@ -124,10 +129,10 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
             >
               {kicker && <Kicker>{kicker}</Kicker>}
               {title && (
-                <H2 className="text-white max-w-3xl">{title}</H2>
+                <H2 className="text-text-primary max-w-3xl">{title}</H2>
               )}
               {description && (
-                <Body size="lg" className="text-on-dark-muted max-w-2xl">
+                <Body size="lg" className="text-text-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -153,12 +158,12 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
                   </div>
 
                   {/* Title */}
-                  <H3 size="sm" className="text-white">
+                  <H3 size="sm" className="text-text-primary">
                     {feature.title}
                   </H3>
 
                   {/* Description */}
-                  <Body className="text-on-dark-muted">
+                  <Body className="text-text-muted">
                     {feature.description}
                   </Body>
 
@@ -173,7 +178,7 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
                           className="items-center"
                         >
                           <div className="size-1.5 rounded-full bg-primary flex-shrink-0" />
-                          <Body size="sm" className="text-on-dark-secondary">
+                          <Body size="sm" className="text-text-secondary">
                             {highlight}
                           </Body>
                         </Stack>

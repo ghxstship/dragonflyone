@@ -1,11 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, AlertTriangle, DollarSign, Loader2 } from "lucide-react";
+import { AlertTriangle, DollarSign, Loader2 } from "lucide-react";
 import clsx from "clsx";
+import { OverlayLayout } from "../templates/overlay-layout.js";
 
 export interface RefundDialogProps {
-  isOpen: boolean;
+  /** Whether the dialog is open (standardized prop name) */
+  open: boolean;
+  /** @deprecated Use `open` instead */
+  isOpen?: boolean;
   onClose: () => void;
   onConfirm: (refundData: RefundData) => Promise<void>;
   paymentId: string;
@@ -14,7 +18,10 @@ export interface RefundDialogProps {
   currency?: string;
   customerName?: string;
   transactionDate?: string;
+  /** @deprecated Use `loading` instead */
   isProcessing?: boolean;
+  /** Loading/processing state (standardized prop name) */
+  loading?: boolean;
   error?: string | null;
   className?: string;
 }
@@ -44,7 +51,23 @@ const formatCurrency = (value: number, currency = "USD") => {
   }).format(value);
 };
 
+/**
+ * RefundDialog component - Bold Contemporary Pop Art Adventure
+ * 
+ * Built on OverlayLayout for consistent accessibility and behavior:
+ * - Focus trap
+ * - Escape key handling
+ * - Body scroll prevention
+ * - ARIA attributes
+ * 
+ * Features:
+ * - Full/partial refund toggle
+ * - Amount validation
+ * - Reason selection
+ * - Processing state with spinner
+ */
 export function RefundDialog({
+  open,
   isOpen,
   onClose,
   onConfirm,
@@ -54,7 +77,8 @@ export function RefundDialog({
   currency = "USD",
   customerName,
   transactionDate,
-  isProcessing = false,
+  isProcessing,
+  loading,
   error,
   className,
 }: RefundDialogProps) {
@@ -64,7 +88,9 @@ export function RefundDialog({
   const [notes, setNotes] = useState("");
   const [validationError, setValidationError] = useState<string | null>(null);
 
-  if (!isOpen) return null;
+  // Support both old and new prop names for backward compatibility
+  const isDialogOpen = open ?? isOpen ?? false;
+  const isLoading = loading ?? isProcessing ?? false;
 
   const refundAmount = refundType === "full" ? amountPaid : parseFloat(partialAmount) || 0;
 
@@ -97,199 +123,188 @@ export function RefundDialog({
     });
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-surface-overlay"
-        onClick={isProcessing ? undefined : onClose}
-      />
-
-      {/* Dialog */}
-      <div
-        className={clsx(
-          "relative bg-background border-2 border-border rounded-card w-full max-w-md mx-4 shadow-xl",
-          className
-        )}
+  const footerContent = (
+    <div className="flex items-center gap-3">
+      <button
+        type="button"
+        onClick={onClose}
+        disabled={isLoading}
+        className="flex-1 px-4 py-2.5 border-2 border-border rounded-button text-body-sm hover:bg-muted transition-colors disabled:opacity-50"
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border">
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-warning" />
-            <h2 className="text-body-md font-weight-semibold">Process Refund</h2>
+        Cancel
+      </button>
+      <button
+        type="submit"
+        form="refund-form"
+        disabled={isLoading || refundAmount <= 0}
+        className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-error text-white rounded-button font-semibold hover:bg-error/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {isLoading ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Processing...
+          </>
+        ) : (
+          <>Process Refund</>
+        )}
+      </button>
+    </div>
+  );
+
+  return (
+    <OverlayLayout
+      type="modal"
+      size="md"
+      open={isDialogOpen}
+      onClose={onClose}
+      title="Process Refund"
+      closeOnEscape={!isLoading}
+      closeOnBackdrop={!isLoading}
+      preventScroll
+      animation="scale"
+      inverted={false}
+      showClose={!isLoading}
+      footerContent={footerContent}
+      className={className}
+      ariaLabel="Process Refund"
+      ariaDescribedBy="refund-dialog-description"
+    >
+      <form id="refund-form" onSubmit={handleSubmit} className="space-y-4">
+        {/* Error Display */}
+        {(error || validationError) && (
+          <div className="flex items-start gap-2 p-3 bg-error/10 border-2 border-error/20 rounded-card">
+            <AlertTriangle className="h-4 w-4 text-error mt-0.5 flex-shrink-0" />
+            <p className="text-body-sm text-error">{error || validationError}</p>
           </div>
-          <button
-            onClick={onClose}
-            disabled={isProcessing}
-            className="p-1 hover:bg-muted rounded-button transition-colors disabled:opacity-50"
-          >
-            <X className="h-5 w-5" />
-          </button>
+        )}
+
+        {/* Payment Summary */}
+        <div className="p-3 bg-muted/30 rounded-card space-y-1">
+          {customerName && (
+            <p className="text-body-sm">
+              <span className="text-on-light-muted">Customer:</span> {customerName}
+            </p>
+          )}
+          <p className="text-body-sm">
+            <span className="text-on-light-muted">Original Amount:</span>{" "}
+            {formatCurrency(originalAmount, currency)}
+          </p>
+          <p className="text-body-sm">
+            <span className="text-on-light-muted">Amount Paid:</span>{" "}
+            {formatCurrency(amountPaid, currency)}
+          </p>
+          {transactionDate && (
+            <p className="text-body-sm">
+              <span className="text-on-light-muted">Date:</span> {transactionDate}
+            </p>
+          )}
         </div>
 
-        <form onSubmit={handleSubmit} className="p-4 space-y-4">
-          {/* Error Display */}
-          {(error || validationError) && (
-            <div className="flex items-start gap-2 p-3 bg-destructive/10 border-2 border-destructive/20 rounded-card">
-              <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 flex-shrink-0" />
-              <p className="text-body-sm text-destructive">{error || validationError}</p>
-            </div>
-          )}
-
-          {/* Payment Summary */}
-          <div className="p-3 bg-muted/30 rounded-card space-y-1">
-            {customerName && (
-              <p className="text-body-sm">
-                <span className="text-muted-foreground">Customer:</span> {customerName}
-              </p>
-            )}
-            <p className="text-body-sm">
-              <span className="text-muted-foreground">Original Amount:</span>{" "}
-              {formatCurrency(originalAmount, currency)}
-            </p>
-            <p className="text-body-sm">
-              <span className="text-muted-foreground">Amount Paid:</span>{" "}
-              {formatCurrency(amountPaid, currency)}
-            </p>
-            {transactionDate && (
-              <p className="text-body-sm">
-                <span className="text-muted-foreground">Date:</span> {transactionDate}
-              </p>
-            )}
-          </div>
-
-          {/* Refund Type */}
-          <div className="space-y-2">
-            <p className="text-body-xs text-muted-foreground font-weight-medium">
-              Refund Type
-            </p>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setRefundType("full")}
-                className={clsx(
-                  "flex-1 px-3 py-2 border-2 rounded-button text-body-sm transition-colors",
-                  refundType === "full"
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "border-border hover:border-primary/50"
-                )}
-              >
-                Full Refund
-              </button>
-              <button
-                type="button"
-                onClick={() => setRefundType("partial")}
-                className={clsx(
-                  "flex-1 px-3 py-2 border-2 rounded-button text-body-sm transition-colors",
-                  refundType === "partial"
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "border-border hover:border-primary/50"
-                )}
-              >
-                Partial Refund
-              </button>
-            </div>
-          </div>
-
-          {/* Partial Amount */}
-          {refundType === "partial" && (
-            <div>
-              <label className="text-body-xs text-muted-foreground font-weight-medium block mb-1">
-                Refund Amount
-              </label>
-              <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0.01"
-                  max={amountPaid}
-                  value={partialAmount}
-                  onChange={(e) => setPartialAmount(e.target.value)}
-                  placeholder="0.00"
-                  className="w-full pl-9 pr-3 py-2 border-2 border-border rounded-button text-body-sm focus:outline-none focus:border-primary"
-                  disabled={isProcessing}
-                />
-              </div>
-              <p className="text-body-xs text-muted-foreground mt-1">
-                Maximum: {formatCurrency(amountPaid, currency)}
-              </p>
-            </div>
-          )}
-
-          {/* Reason */}
-          <div>
-            <label className="text-body-xs text-muted-foreground font-weight-medium block mb-1">
-              Reason for Refund *
-            </label>
-            <select
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              className="w-full px-3 py-2 border-2 border-border rounded-button text-body-sm focus:outline-none focus:border-primary"
-              disabled={isProcessing}
-            >
-              <option value="">Select a reason</option>
-              {refundReasons.map((r) => (
-                <option key={r.value} value={r.value}>
-                  {r.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Notes */}
-          <div>
-            <label className="text-body-xs text-muted-foreground font-weight-medium block mb-1">
-              Additional Notes
-            </label>
-            <textarea
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Optional notes about this refund..."
-              rows={2}
-              className="w-full px-3 py-2 border-2 border-border rounded-button text-body-sm focus:outline-none focus:border-primary resize-none"
-              disabled={isProcessing}
-            />
-          </div>
-
-          {/* Refund Summary */}
-          <div className="p-3 bg-warning/10 border-2 border-warning/20 rounded-card">
-            <p className="text-body-sm font-weight-medium">
-              Refund Amount: {formatCurrency(refundAmount, currency)}
-            </p>
-            <p className="text-body-xs text-muted-foreground mt-1">
-              This action cannot be undone. The refund will be processed to the original payment method.
-            </p>
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center gap-3 pt-2">
+        {/* Refund Type */}
+        <div className="space-y-2">
+          <p className="text-body-xs text-on-light-muted font-semibold">
+            Refund Type
+          </p>
+          <div className="flex gap-2">
             <button
               type="button"
-              onClick={onClose}
-              disabled={isProcessing}
-              className="flex-1 px-4 py-2.5 border-2 border-border rounded-button text-body-sm hover:bg-muted transition-colors disabled:opacity-50"
+              onClick={() => setRefundType("full")}
+              className={clsx(
+                "flex-1 px-3 py-2 border-2 rounded-button text-body-sm transition-colors",
+                refundType === "full"
+                  ? "border-primary-500 bg-primary-500/10 text-primary-600"
+                  : "border-border hover:border-primary-500/50"
+              )}
             >
-              Cancel
+              Full Refund
             </button>
             <button
-              type="submit"
-              disabled={isProcessing || refundAmount <= 0}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-destructive text-destructive-foreground rounded-button font-weight-medium hover:bg-destructive/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isProcessing ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                <>Process Refund</>
+              type="button"
+              onClick={() => setRefundType("partial")}
+              className={clsx(
+                "flex-1 px-3 py-2 border-2 rounded-button text-body-sm transition-colors",
+                refundType === "partial"
+                  ? "border-primary-500 bg-primary-500/10 text-primary-600"
+                  : "border-border hover:border-primary-500/50"
               )}
+            >
+              Partial Refund
             </button>
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+
+        {/* Partial Amount */}
+        {refundType === "partial" && (
+          <div>
+            <label className="text-body-xs text-on-light-muted font-semibold block mb-1">
+              Refund Amount
+            </label>
+            <div className="relative">
+              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-on-light-muted" />
+              <input
+                type="number"
+                step="0.01"
+                min="0.01"
+                max={amountPaid}
+                value={partialAmount}
+                onChange={(e) => setPartialAmount(e.target.value)}
+                placeholder="0.00"
+                className="w-full pl-9 pr-3 py-2 border-2 border-border rounded-button text-body-sm focus:outline-none focus:border-primary-500"
+                disabled={isLoading}
+              />
+            </div>
+            <p className="text-body-xs text-on-light-muted mt-1">
+              Maximum: {formatCurrency(amountPaid, currency)}
+            </p>
+          </div>
+        )}
+
+        {/* Reason */}
+        <div>
+          <label className="text-body-xs text-on-light-muted font-semibold block mb-1">
+            Reason for Refund *
+          </label>
+          <select
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            className="w-full px-3 py-2 border-2 border-border rounded-button text-body-sm focus:outline-none focus:border-primary-500"
+            disabled={isLoading}
+          >
+            <option value="">Select a reason</option>
+            {refundReasons.map((r) => (
+              <option key={r.value} value={r.value}>
+                {r.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Notes */}
+        <div>
+          <label className="text-body-xs text-on-light-muted font-semibold block mb-1">
+            Additional Notes
+          </label>
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Optional notes about this refund..."
+            rows={2}
+            className="w-full px-3 py-2 border-2 border-border rounded-button text-body-sm focus:outline-none focus:border-primary-500 resize-none"
+            disabled={isLoading}
+          />
+        </div>
+
+        {/* Refund Summary */}
+        <div id="refund-dialog-description" className="p-3 bg-warning/10 border-2 border-warning/20 rounded-card">
+          <p className="text-body-sm font-semibold">
+            Refund Amount: {formatCurrency(refundAmount, currency)}
+          </p>
+          <p className="text-body-xs text-on-light-muted mt-1">
+            This action cannot be undone. The refund will be processed to the original payment method.
+          </p>
+        </div>
+      </form>
+    </OverlayLayout>
   );
 }
 

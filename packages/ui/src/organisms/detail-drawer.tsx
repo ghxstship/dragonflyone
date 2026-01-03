@@ -1,17 +1,26 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import clsx from "clsx";
-import { X, Pencil, Trash2, ChevronUp, ChevronDown } from "lucide-react";
+import { Pencil, Trash2, ChevronUp, ChevronDown } from "lucide-react";
+import { OverlayLayout } from "../templates/overlay-layout.js";
 
 /**
  * DetailDrawer component - Bold Contemporary Pop Art Adventure
+ * 
+ * Built on OverlayLayout for consistent accessibility and behavior:
+ * - Focus trap
+ * - Escape key handling
+ * - Body scroll prevention
+ * - ARIA attributes
  * 
  * Features:
  * - Bold 2px side border
  * - Slide-in animation
  * - Bold header with high contrast
  * - Action buttons with hover lift
+ * - Split-pane mode
+ * - Activity timeline slot
  */
 
 export interface DetailSection {
@@ -83,11 +92,12 @@ export interface DetailDrawerProps<T = unknown> {
   undoBanner?: React.ReactNode;
 }
 
-const widthClasses = {
-  sm: "max-w-xs",
-  md: "max-w-md",
-  lg: "max-w-xl",
-  xl: "max-w-3xl",
+// Map width prop to OverlayLayout size
+const widthToSize: Record<string, "sm" | "md" | "lg" | "xl"> = {
+  sm: "sm",
+  md: "md",
+  lg: "lg",
+  xl: "xl",
 };
 
 export function DetailDrawer<T = unknown>({
@@ -112,34 +122,6 @@ export function DetailDrawer<T = unknown>({
   activityTimeline,
   undoBanner,
 }: DetailDrawerProps<T>) {
-  const drawerRef = useRef<HTMLDivElement>(null);
-
-  // Handle escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && open) {
-        onClose();
-      }
-    };
-
-    if (open) {
-      document.addEventListener("keydown", handleEscape);
-      document.body.style.overflow = "hidden";
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-      document.body.style.overflow = "";
-    };
-  }, [open, onClose]);
-
-  // Focus trap
-  useEffect(() => {
-    if (open && drawerRef.current) {
-      drawerRef.current.focus();
-    }
-  }, [open]);
-
   const getTitle = (): string => {
     if (!record) return "";
     if (typeof title === "function") return title(record);
@@ -152,157 +134,69 @@ export function DetailDrawer<T = unknown>({
     return subtitle;
   };
 
-  if (!open) return null;
+  const drawerTitle = getTitle();
+  const drawerSubtitle = getSubtitle();
 
-  return (
-    <div
-      className={clsx(
-        "fixed inset-0 z-modal flex",
-        position === "right" ? "justify-end" : "justify-start",
-        className
-      )}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="drawer-title"
-    >
-      {/* Overlay */}
-      {showOverlay && (
-        <div
-          className="absolute inset-0 bg-black/50 transition-opacity duration-base"
-          onClick={onClose}
-          aria-hidden="true"
-        />
+  // Actions bar content
+  const actionsBarContent = (actions.length > 0 || onEdit || onDelete) && record ? (
+    <div className="flex items-center gap-2 px-6 py-3 border-b border-border bg-muted flex-wrap">
+      {onEdit && (
+        <button
+          type="button"
+          onClick={() => onEdit(record)}
+          className="flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase bg-surface-inverse text-on-dark-primary border-2 border-border cursor-pointer transition-colors duration-100 hover:bg-surface-elevated"
+        >
+          <Pencil className="size-4" /> Edit
+        </button>
       )}
 
-      {/* Drawer */}
-      <div
-        ref={drawerRef}
-        tabIndex={-1}
-        className={clsx(
-          "relative w-full h-full bg-surface-primary text-text-primary flex flex-col overflow-hidden",
-          widthClasses[width],
-          position === "right" ? "border-l-2 border-black" : "border-r-2 border-black"
-        )}
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between px-spacing-6 py-spacing-5 border-b-2 border-black bg-black text-white">
-          <div className="flex-1 min-w-0">
-            <h2
-              id="drawer-title"
-              className="font-heading text-h4-md tracking-wider uppercase overflow-hidden text-ellipsis whitespace-nowrap"
-            >
-              {getTitle()}
-            </h2>
-            {getSubtitle() && (
-              <p className="font-code text-mono-sm text-on-dark-muted mt-spacing-1">
-                {getSubtitle()}
-              </p>
-            )}
+      {actions.map((action) => (
+        <button
+          key={action.id}
+          type="button"
+          onClick={() => onAction?.(action.id, record)}
+          disabled={action.disabled}
+          className={clsx(
+            "flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase border-2 border-border transition-colors duration-100",
+            action.variant === "primary"
+              ? "bg-surface-inverse text-on-dark-primary hover:bg-surface-elevated"
+              : action.variant === "danger"
+              ? "bg-surface-primary text-error hover:bg-muted"
+              : "bg-surface-primary text-on-light-primary hover:bg-muted",
+            action.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+          )}
+        >
+          {action.icon && <span>{action.icon}</span>}
+          {action.label}
+        </button>
+      ))}
+
+      {onDelete && (
+        <button
+          type="button"
+          onClick={() => onDelete(record)}
+          className="flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase bg-surface-primary text-error border-2 border-border cursor-pointer transition-colors duration-100 ml-auto hover:bg-muted"
+        >
+          <Trash2 className="size-4" /> Delete
+        </button>
+      )}
+    </div>
+  ) : null;
+
+  // Render content based on split-pane mode
+  const renderContent = () => {
+    if (splitPane) {
+      return (
+        <div className="flex-1 flex overflow-hidden -mx-6 -mb-6">
+          {/* List pane */}
+          <div className="w-1/3 min-w-[200px] border-r-2 border-border overflow-auto bg-muted">
+            {listContent}
           </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="p-spacing-2 bg-transparent border-none text-white cursor-pointer text-body-lg leading-none hover:text-on-dark-secondary"
-            aria-label="Close drawer"
-          >
-            <X className="size-5" />
-          </button>
-        </div>
-
-        {/* Actions bar */}
-        {(actions.length > 0 || onEdit || onDelete) && record && (
-          <div className="flex items-center gap-gap-xs px-spacing-6 py-spacing-3 border-b border-border-secondary bg-surface-secondary flex-wrap">
-            {onEdit && (
-              <button
-                type="button"
-                onClick={() => onEdit(record)}
-                className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer transition-colors duration-fast hover:bg-surface-elevated"
-              >
-                <Pencil className="size-4" /> Edit
-              </button>
-            )}
-
-            {actions.map((action) => (
-              <button
-                key={action.id}
-                type="button"
-                onClick={() => onAction?.(action.id, record)}
-                disabled={action.disabled}
-                className={clsx(
-                  "flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase border-2 border-black transition-colors duration-fast",
-                  action.variant === "primary"
-                    ? "bg-black text-white hover:bg-surface-elevated"
-                    : action.variant === "danger"
-                    ? "bg-surface-primary text-text-secondary hover:bg-surface-secondary"
-                    : "bg-surface-primary text-text-primary hover:bg-surface-secondary",
-                  action.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
-                )}
-              >
-                {action.icon && <span>{action.icon}</span>}
-                {action.label}
-              </button>
-            ))}
-
-            {onDelete && (
-              <button
-                type="button"
-                onClick={() => onDelete(record)}
-                className="flex items-center gap-gap-xs px-spacing-3 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-surface-primary text-text-secondary border-2 border-border-secondary cursor-pointer transition-colors duration-fast ml-auto hover:bg-surface-secondary"
-              >
-                <Trash2 className="size-4" /> Delete
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* Undo Banner */}
-        {undoBanner && (
-          <div className="px-spacing-6 py-spacing-3 bg-warning-100 border-b-2 border-warning-500">
-            {undoBanner}
-          </div>
-        )}
-
-        {/* Content - Split Pane or Standard */}
-        {splitPane ? (
-          <div className="flex-1 flex overflow-hidden">
-            {/* List pane */}
-            <div className="w-1/3 min-w-container-xs border-r-2 border-border-primary overflow-auto bg-surface-secondary">
-              {listContent}
-            </div>
-            {/* Detail pane */}
-            <div className="flex-1 overflow-auto p-spacing-6">
-              {loading ? (
-                <div className="flex items-center justify-center h-spacing-48">
-                  <div className="w-spacing-8 h-spacing-8 border-2 border-border border-t-black rounded-full animate-spin" />
-                </div>
-              ) : record ? (
-                <>
-                  {sections.map((section) => (
-                    <DetailSectionComponent key={section.id} section={section} />
-                  ))}
-                  {children}
-                  {activityTimeline && (
-                    <div className="mt-spacing-6 pt-spacing-6 border-t-2 border-border-primary">
-                      <h3 className="font-code text-mono-md tracking-widest uppercase text-on-dark-disabled mb-spacing-4">
-                        Activity
-                      </h3>
-                      {activityTimeline}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className="text-center p-spacing-12 text-on-dark-disabled font-code text-mono-md">
-                  Select an item from the list
-                </div>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="flex-1 overflow-auto p-spacing-6">
+          {/* Detail pane */}
+          <div className="flex-1 overflow-auto p-6">
             {loading ? (
-              <div className="flex items-center justify-center h-spacing-48">
-                <div className="w-spacing-8 h-spacing-8 border-2 border-border border-t-black rounded-full animate-spin" />
+              <div className="flex items-center justify-center h-48">
+                <div className="w-8 h-8 border-2 border-border border-t-on-light-primary rounded-full animate-spin" />
               </div>
             ) : record ? (
               <>
@@ -311,8 +205,8 @@ export function DetailDrawer<T = unknown>({
                 ))}
                 {children}
                 {activityTimeline && (
-                  <div className="mt-spacing-6 pt-spacing-6 border-t-2 border-border-primary">
-                    <h3 className="font-code text-mono-md tracking-widest uppercase text-on-dark-disabled mb-spacing-4">
+                  <div className="mt-6 pt-6 border-t-2 border-border">
+                    <h3 className="font-mono text-base tracking-widest uppercase text-on-light-muted mb-4">
                       Activity
                     </h3>
                     {activityTimeline}
@@ -320,14 +214,77 @@ export function DetailDrawer<T = unknown>({
                 )}
               </>
             ) : (
-              <div className="text-center p-spacing-12 text-on-dark-disabled font-code text-mono-md">
-                No record selected
+              <div className="text-center p-12 text-on-light-muted font-mono text-base">
+                Select an item from the list
               </div>
             )}
           </div>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        {loading ? (
+          <div className="flex items-center justify-center h-48">
+            <div className="w-8 h-8 border-2 border-border border-t-on-light-primary rounded-full animate-spin" />
+          </div>
+        ) : record ? (
+          <>
+            {sections.map((section) => (
+              <DetailSectionComponent key={section.id} section={section} />
+            ))}
+            {children}
+            {activityTimeline && (
+              <div className="mt-6 pt-6 border-t-2 border-border">
+                <h3 className="font-mono text-base tracking-widest uppercase text-on-light-muted mb-4">
+                  Activity
+                </h3>
+                {activityTimeline}
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-center p-12 text-on-light-muted font-mono text-base">
+            No record selected
+          </div>
         )}
-      </div>
-    </div>
+      </>
+    );
+  };
+
+  return (
+    <OverlayLayout
+      type="drawer"
+      size={widthToSize[width]}
+      position={position}
+      open={open}
+      onClose={onClose}
+      title={drawerTitle}
+      subtitle={drawerSubtitle}
+      closeOnEscape
+      closeOnBackdrop={showOverlay}
+      preventScroll
+      animation="slide"
+      inverted={false}
+      showClose
+      className={className}
+      ariaLabel={drawerTitle || "Details"}
+      mobileType="sheet"
+    >
+      {/* Actions bar */}
+      {actionsBarContent}
+
+      {/* Undo Banner */}
+      {undoBanner && (
+        <div className="px-6 py-3 bg-warning/10 border-b-2 border-warning -mx-6 mb-4">
+          {undoBanner}
+        </div>
+      )}
+
+      {/* Content */}
+      {renderContent()}
+    </OverlayLayout>
   );
 }
 

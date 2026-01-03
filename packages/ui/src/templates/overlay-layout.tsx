@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, ReactNode, useEffect, useCallback, useRef } from "react";
+import { forwardRef, ReactNode, useEffect, useCallback, useRef, useState } from "react";
 import clsx from "clsx";
 import { Stack } from "../foundations/layout.js";
 import { Spinner } from "../atoms/spinner.js";
@@ -14,6 +14,23 @@ import { X, AlertTriangle, ChevronLeft } from "lucide-react";
 // Bold Contemporary Pop Art Adventure Design System
 // =============================================================================
 
+/** Hook to detect mobile breakpoint */
+function useIsMobile(breakpoint: number = 768): boolean {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < breakpoint);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
 export interface OverlayLayoutProps {
   children: ReactNode;
   /** Overlay type */
@@ -22,6 +39,15 @@ export interface OverlayLayoutProps {
   position?: "left" | "right" | "top" | "bottom";
   /** Size variant */
   size?: "sm" | "md" | "lg" | "xl" | "full";
+  /** 
+   * Responsive behavior - automatically switch overlay type on mobile
+   * - "sheet": Modal/drawer becomes bottom sheet on mobile
+   * - "fullscreen": Modal/drawer becomes fullscreen on mobile
+   * - "none": No responsive adaptation (default)
+   */
+  mobileType?: "sheet" | "fullscreen" | "none";
+  /** Mobile breakpoint in pixels (default: 768) */
+  mobileBreakpoint?: number;
   /** Whether overlay is open */
   open: boolean;
   /** Close handler */
@@ -131,6 +157,8 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
       type = "modal",
       position = "right",
       size = "md",
+      mobileType = "none",
+      mobileBreakpoint = 768,
       open,
       onClose,
       title,
@@ -160,6 +188,25 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
   ) {
     const overlayRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile(mobileBreakpoint);
+
+    // Determine effective type based on responsive settings
+    const effectiveType = (() => {
+      if (!isMobile || mobileType === "none") return type;
+      if (mobileType === "sheet") return "sheet";
+      if (mobileType === "fullscreen") return "fullscreen";
+      return type;
+    })();
+
+    // Determine effective position for sheet (always bottom on mobile)
+    const effectivePosition = effectiveType === "sheet" && isMobile ? "bottom" : position;
+
+    // Determine effective size for responsive types
+    const effectiveSize = (() => {
+      if (!isMobile || mobileType === "none") return size;
+      if (effectiveType === "sheet") return "lg"; // Larger sheet on mobile for better UX
+      return size;
+    })();
 
     const bgClass = inverted ? "bg-surface-elevated" : "bg-surface-primary";
     const borderClass = inverted ? "border-border" : "border-border";
@@ -216,11 +263,11 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
 
     if (!open) return null;
 
-    // Animation classes
+    // Animation classes - uses effectiveType and effectivePosition for responsive behavior
     const getAnimationClasses = () => {
       if (animation === "none") return "";
 
-      if (type === "modal") {
+      if (effectiveType === "modal") {
         switch (animation) {
           case "fade":
             return "animate-fade-in";
@@ -231,8 +278,8 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
         }
       }
 
-      if (type === "drawer") {
-        switch (position) {
+      if (effectiveType === "drawer") {
+        switch (effectivePosition) {
           case "left":
             return "animate-slide-in-left";
           case "right":
@@ -246,20 +293,20 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
         }
       }
 
-      if (type === "sheet") {
-        return position === "top" ? "animate-slide-in-top" : "animate-slide-in-bottom";
+      if (effectiveType === "sheet") {
+        return effectivePosition === "top" ? "animate-slide-in-top" : "animate-slide-in-bottom";
       }
 
-      if (type === "fullscreen") {
+      if (effectiveType === "fullscreen") {
         return "animate-fade-in";
       }
 
       return "";
     };
 
-    // Position classes for drawer
+    // Position classes for drawer - uses effectivePosition for responsive behavior
     const getDrawerPositionClasses = () => {
-      switch (position) {
+      switch (effectivePosition) {
         case "left":
           return "left-0 top-0 bottom-0";
         case "right":
@@ -273,9 +320,9 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
       }
     };
 
-    // Position classes for sheet
+    // Position classes for sheet - uses effectivePosition for responsive behavior
     const getSheetPositionClasses = () => {
-      return position === "top"
+      return effectivePosition === "top"
         ? "top-0 left-0 right-0"
         : "bottom-0 left-0 right-0";
     };
@@ -372,7 +419,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
     };
 
     // Modal layout
-    if (type === "modal") {
+    if (effectiveType === "modal") {
       return (
         <div
           ref={overlayRef}
@@ -392,7 +439,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
             ref={ref}
             className={clsx(
               "flex flex-col max-h-[90vh] w-full rounded-modal border-2 shadow-xl",
-              sizeClasses.modal[size],
+              sizeClasses.modal[effectiveSize],
               bgClass,
               borderClass,
               getAnimationClasses(),
@@ -417,8 +464,8 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
     }
 
     // Drawer layout
-    if (type === "drawer") {
-      const isHorizontal = position === "left" || position === "right";
+    if (effectiveType === "drawer") {
+      const isHorizontal = effectivePosition === "left" || effectivePosition === "right";
 
       return (
         <div
@@ -440,13 +487,13 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
             className={clsx(
               "fixed flex flex-col border-2 shadow-xl",
               getDrawerPositionClasses(),
-              isHorizontal ? sizeClasses.drawer[size] : "h-auto",
+              isHorizontal ? sizeClasses.drawer[effectiveSize] : "h-auto",
               !isHorizontal && "max-h-[80vh]",
               bgClass,
-              position === "left" && "border-l-0 border-t-0 border-b-0",
-              position === "right" && "border-r-0 border-t-0 border-b-0",
-              position === "top" && "border-t-0 border-l-0 border-r-0",
-              position === "bottom" && "border-b-0 border-l-0 border-r-0",
+              effectivePosition === "left" && "border-l-0 border-t-0 border-b-0",
+              effectivePosition === "right" && "border-r-0 border-t-0 border-b-0",
+              effectivePosition === "top" && "border-t-0 border-l-0 border-r-0",
+              effectivePosition === "bottom" && "border-b-0 border-l-0 border-r-0",
               borderClass,
               getAnimationClasses(),
               contentClassName
@@ -470,7 +517,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
     }
 
     // Sheet layout
-    if (type === "sheet") {
+    if (effectiveType === "sheet") {
       return (
         <div
           ref={overlayRef}
@@ -491,9 +538,9 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
             className={clsx(
               "fixed flex flex-col border-2 shadow-xl",
               getSheetPositionClasses(),
-              sizeClasses.sheet[size],
+              sizeClasses.sheet[effectiveSize],
               bgClass,
-              position === "top" ? "border-t-0 rounded-b-modal" : "border-b-0 rounded-t-modal",
+              effectivePosition === "top" ? "border-t-0 rounded-b-modal" : "border-b-0 rounded-t-modal",
               borderClass,
               getAnimationClasses(),
               contentClassName
@@ -524,7 +571,7 @@ export const OverlayLayout = forwardRef<HTMLDivElement, OverlayLayoutProps>(
     }
 
     // Fullscreen layout
-    if (type === "fullscreen") {
+    if (effectiveType === "fullscreen") {
       return (
         <div
           ref={ref}

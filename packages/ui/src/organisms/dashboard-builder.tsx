@@ -41,6 +41,7 @@ import {
   Copy,
 } from "lucide-react";
 import { Tooltip } from "../atoms/tooltip.js";
+import { OverlayLayout } from "../templates/overlay-layout.js";
 
 // =============================================================================
 // TYPES
@@ -408,159 +409,151 @@ function WidgetSettings({
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-modal flex items-center justify-center">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+  const footerContent = (
+    <div className="flex justify-end gap-2">
+      <button
+        type="button"
         onClick={onClose}
-      />
-
-      {/* Modal */}
-      <div
         className={clsx(
-          "relative w-full max-w-md rounded-xl border-2 shadow-xl p-6",
-          inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border"
+          "px-4 py-2 rounded-lg border-2 font-medium transition-colors",
+          inverted
+            ? "border-border text-on-dark-secondary hover:bg-surface-elevated"
+            : "border-border text-on-light-muted hover:bg-muted"
         )}
       >
-        <h2
-          className={clsx(
-            "font-semibold text-lg mb-4",
-            inverted ? "text-on-dark-primary" : "text-on-light-primary"
-          )}
-        >
-          Widget Settings
-        </h2>
+        Cancel
+      </button>
+      <button
+        type="button"
+        onClick={handleSave}
+        className="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 transition-colors"
+      >
+        Save
+      </button>
+    </div>
+  );
 
-        <div className="space-y-4">
-          {/* Title */}
-          <div>
-            <label
-              className={clsx(
-                "block text-sm font-medium mb-1",
-                inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
-              )}
-            >
-              Title
-            </label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className={clsx(
-                "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
-                inverted
-                  ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
-                  : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
-              )}
-            />
-          </div>
-
-          {/* Size */}
-          <div>
-            <label
-              className={clsx(
-                "block text-sm font-medium mb-1",
-                inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
-              )}
-            >
-              Size
-            </label>
-            <select
-              value={size}
-              onChange={(e) => setSize(e.target.value as WidgetSize)}
-              className={clsx(
-                "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
-                inverted
-                  ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
-                  : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
-              )}
-            >
-              <option value="small">Small (1x1)</option>
-              <option value="medium">Medium (2x1)</option>
-              <option value="large">Large (2x2)</option>
-              <option value="full">Full Width (4x1)</option>
-            </select>
-          </div>
-
-          {/* Data Source */}
-          <div>
-            <label
-              className={clsx(
-                "block text-sm font-medium mb-1",
-                inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
-              )}
-            >
-              Data Source
-            </label>
-            <select
-              value={dataSource}
-              onChange={(e) => setDataSource(e.target.value)}
-              className={clsx(
-                "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
-                inverted
-                  ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
-                  : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
-              )}
-            >
-              <option value="">Select data source...</option>
-              {dataSources.map((ds) => (
-                <option key={ds.id} value={ds.id}>
-                  {ds.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Refresh Interval */}
-          <div>
-            <label
-              className={clsx(
-                "block text-sm font-medium mb-1",
-                inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
-              )}
-            >
-              Auto-refresh (seconds, 0 = disabled)
-            </label>
-            <input
-              type="number"
-              min="0"
-              value={refreshInterval}
-              onChange={(e) => setRefreshInterval(parseInt(e.target.value) || 0)}
-              className={clsx(
-                "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
-                inverted
-                  ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
-                  : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
-              )}
-            />
-          </div>
-        </div>
-
-        {/* Actions */}
-        <div className="flex justify-end gap-2 mt-6">
-          <button
-            type="button"
-            onClick={onClose}
+  return (
+    <OverlayLayout
+      type="modal"
+      size="sm"
+      open={true}
+      onClose={onClose}
+      title="Widget Settings"
+      closeOnEscape
+      closeOnBackdrop
+      preventScroll
+      animation="scale"
+      inverted={inverted}
+      showClose
+      footerContent={footerContent}
+      ariaLabel="Widget Settings"
+    >
+      <div className="space-y-4">
+        {/* Title */}
+        <div>
+          <label
             className={clsx(
-              "px-4 py-2 rounded-lg border-2 font-medium transition-colors",
-              inverted
-                ? "border-border text-on-dark-secondary hover:bg-surface-elevated"
-                : "border-border text-on-light-muted hover:bg-muted"
+              "block text-sm font-medium mb-1",
+              inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
             )}
           >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={handleSave}
-            className="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 transition-colors"
+            Title
+          </label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className={clsx(
+              "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
+              inverted
+                ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
+                : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
+            )}
+          />
+        </div>
+
+        {/* Size */}
+        <div>
+          <label
+            className={clsx(
+              "block text-sm font-medium mb-1",
+              inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
+            )}
           >
-            Save
-          </button>
+            Size
+          </label>
+          <select
+            value={size}
+            onChange={(e) => setSize(e.target.value as WidgetSize)}
+            className={clsx(
+              "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
+              inverted
+                ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
+                : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
+            )}
+          >
+            <option value="small">Small (1x1)</option>
+            <option value="medium">Medium (2x1)</option>
+            <option value="large">Large (2x2)</option>
+            <option value="full">Full Width (4x1)</option>
+          </select>
+        </div>
+
+        {/* Data Source */}
+        <div>
+          <label
+            className={clsx(
+              "block text-sm font-medium mb-1",
+              inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
+            )}
+          >
+            Data Source
+          </label>
+          <select
+            value={dataSource}
+            onChange={(e) => setDataSource(e.target.value)}
+            className={clsx(
+              "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
+              inverted
+                ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
+                : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
+            )}
+          >
+            <option value="">Select data source...</option>
+            {dataSources.map((ds) => (
+              <option key={ds.id} value={ds.id}>
+                {ds.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Refresh Interval */}
+        <div>
+          <label
+            className={clsx(
+              "block text-sm font-medium mb-1",
+              inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
+            )}
+          >
+            Auto-refresh (seconds, 0 = disabled)
+          </label>
+          <input
+            type="number"
+            min="0"
+            value={refreshInterval}
+            onChange={(e) => setRefreshInterval(parseInt(e.target.value) || 0)}
+            className={clsx(
+              "w-full px-3 py-2 rounded-lg border-2 outline-none transition-colors",
+              inverted
+                ? "bg-surface-elevated border-border text-on-dark-primary focus:border-primary-500"
+                : "bg-surface-primary border-border text-on-light-primary focus:border-primary-500"
+            )}
+          />
         </div>
       </div>
-    </div>
+    </OverlayLayout>
   );
 }
 

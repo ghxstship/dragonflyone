@@ -35,8 +35,13 @@ export interface BentoGridProps {
   description?: string;
   /** Bento items */
   items: BentoItem[];
-  /** Background color */
-  background?: "black" | "ink" | "grey";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  sectionVariant?: "dark" | "light" | "inverted";
   className?: string;
 }
 
@@ -47,15 +52,15 @@ export const BentoGrid = forwardRef<HTMLElement, BentoGridProps>(
       title,
       description,
       items,
-      background = "ink",
+      sectionVariant = "dark",
       className,
     },
     ref
   ) {
-    const bgClasses = {
-      black: "bg-black text-white",
-      ink: "bg-surface-inverse text-on-dark-primary",
-      grey: "bg-surface-elevated text-on-dark-primary",
+    const sectionVariantClasses = {
+      dark: "section-dark bg-surface-primary",
+      light: "section-light bg-surface-primary",
+      inverted: "section-inverted bg-surface-primary",
     };
 
     const itemBgClasses = {
@@ -74,16 +79,16 @@ export const BentoGrid = forwardRef<HTMLElement, BentoGridProps>(
     return (
       <section
         ref={ref}
-        className={clsx("py-20 md:py-32", bgClasses[background], className)}
+        className={clsx("py-20 md:py-32", sectionVariantClasses[sectionVariant], className)}
       >
         <Container size="xl">
           {/* Section Header */}
           {(kicker || title || description) && (
             <Stack gap={4} className="mb-12 md:mb-16 text-center items-center">
               {kicker && <Kicker>{kicker}</Kicker>}
-              {title && <H2 className="text-white">{title}</H2>}
+              {title && <H2 className="text-text-primary">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-on-dark-muted max-w-2xl">
+                <Body size="lg" className="text-text-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -123,13 +128,13 @@ export const BentoGrid = forwardRef<HTMLElement, BentoGridProps>(
                   <Stack gap={2}>
                     <H3
                       size={item.size === "large" ? "md" : "sm"}
-                      className="text-white"
+                      className="text-text-primary"
                     >
                       {item.title}
                     </H3>
                     <Body
                       size={item.size === "large" ? "md" : "sm"}
-                      className="text-on-dark-secondary"
+                      className="text-text-secondary"
                     >
                       {item.description}
                     </Body>

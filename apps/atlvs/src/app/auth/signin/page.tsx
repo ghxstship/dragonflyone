@@ -6,6 +6,8 @@
  * Bold Contemporary Pop Art Adventure Design System
  */
 
+export const dynamic = "force-dynamic";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, Sparkles, Shield, Zap } from "lucide-react";
@@ -113,7 +115,7 @@ export default function SignInPage() {
       }}
     >
       <Form onSubmit={handleSubmit}>
-        <Stack gap={5}>
+        <Stack gap={4}>
           <AuthFormField
             label="Email"
             type="email"

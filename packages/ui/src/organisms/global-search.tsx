@@ -18,6 +18,7 @@ import {
   Briefcase,
   MapPin,
 } from "lucide-react";
+import { OverlayLayout } from "../templates/overlay-layout.js";
 
 // =============================================================================
 // TYPES
@@ -532,129 +533,143 @@ export function GlobalSearch({
     setFacets([]);
   }, []);
 
-  if (!open) return null;
+  // Handle close
+  const handleClose = useCallback(() => {
+    onOpenChange?.(false);
+  }, [onOpenChange]);
 
-  return (
-    <div className="fixed inset-0 z-modal flex items-start justify-center pt-spacing-20">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/50"
-        onClick={() => onOpenChange?.(false)}
+  // Custom header with search input
+  const headerContent = (
+    <>
+      <SearchInput
+        value={query}
+        onChange={setQuery}
+        onClear={handleClear}
+        placeholder={placeholder}
+        inputRef={inputRef as React.RefObject<HTMLInputElement>}
       />
       
-      {/* Search Modal */}
-      <div className={clsx(
-        "relative w-full max-w-container-lg bg-surface-primary border-2 border-border-primary rounded-modal shadow-xl overflow-hidden animate-slide-up-bounce",
-        className
-      )}>
-        {/* Search Input */}
-        <SearchInput
-          value={query}
-          onChange={setQuery}
-          onClear={handleClear}
-          placeholder={placeholder}
-          inputRef={inputRef as React.RefObject<HTMLInputElement>}
-        />
-        
-        {/* Active Filters */}
-        {filters.length > 0 && (
-          <div className="flex items-center gap-gap-xs px-spacing-4 py-spacing-2 bg-surface-secondary border-b border-border-secondary overflow-x-auto">
-            <Filter className="size-4 text-on-dark-muted flex-shrink-0" />
-            {filters.map((filter, index) => (
-              <span
-                key={index}
-                className="inline-flex items-center gap-gap-xs px-spacing-2 py-spacing-1 bg-primary-500 text-white rounded-badge text-body-xs font-code"
+      {/* Active Filters */}
+      {filters.length > 0 && (
+        <div className="flex items-center gap-1 px-4 py-2 bg-muted border-b border-border overflow-x-auto">
+          <Filter className="size-4 text-on-light-muted flex-shrink-0" />
+          {filters.map((filter, index) => (
+            <span
+              key={index}
+              className="inline-flex items-center gap-1 px-2 py-1 bg-primary-500 text-white rounded-badge text-xs font-mono"
+            >
+              {filter.label || `${filter.field}: ${filter.value}`}
+              <button
+                onClick={() => handleFilterToggle(filter)}
+                className="p-0 bg-transparent border-none cursor-pointer text-white/70 hover:text-white"
               >
-                {filter.label || `${filter.field}: ${filter.value}`}
-                <button
-                  onClick={() => handleFilterToggle(filter)}
-                  className="p-0 bg-transparent border-none cursor-pointer text-white/70 hover:text-white"
-                >
-                  <X className="size-3" />
-                </button>
-              </span>
-            ))}
-          </div>
+                <X className="size-3" />
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+    </>
+  );
+
+  // Footer with keyboard hints
+  const footerContent = (
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-4 text-xs text-on-light-muted">
+        <span className="flex items-center gap-1">
+          <kbd className="px-1 py-px bg-muted rounded-badge font-mono">↑↓</kbd>
+          Navigate
+        </span>
+        <span className="flex items-center gap-1">
+          <kbd className="px-1 py-px bg-muted rounded-badge font-mono">↵</kbd>
+          Select
+        </span>
+        <span className="flex items-center gap-1">
+          <kbd className="px-1 py-px bg-muted rounded-badge font-mono">esc</kbd>
+          Close
+        </span>
+      </div>
+      <div className="flex items-center gap-2">
+        {facets.length > 0 && (
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className={clsx(
+              "flex items-center gap-1 px-2 py-1 rounded-button text-xs border-none cursor-pointer transition-colors",
+              showFilters
+                ? "bg-primary-500 text-white"
+                : "bg-muted text-on-light-muted hover:bg-surface-elevated"
+            )}
+          >
+            <Filter className="size-3" />
+            Filters
+          </button>
         )}
-        
-        {/* Content */}
-        <div className="flex max-h-container-lg">
-          {/* Facet Filters (shown when there are results) */}
-          {showFilters && facets.length > 0 && (
-            <FacetFilters
-              facets={facets}
-              activeFilters={filters}
-              onFilterToggle={handleFilterToggle}
-              onClearFilters={() => setFilters([])}
-            />
-          )}
-          
-          {/* Results or Suggestions */}
-          <div className="flex-1 overflow-hidden">
-            {query ? (
-              <SearchResults
-                results={results}
-                loading={loading}
-                query={query}
-                onSelect={handleResultSelect}
-                selectedIndex={selectedIndex}
-              />
-            ) : (
-              <SearchSuggestions
-                recentSearches={recentSearches}
-                savedSearches={savedSearches}
-                onSelectRecent={setQuery}
-                onSelectSaved={handleSavedSearchSelect}
-                onClearHistory={onClearHistory || (() => {})}
-              />
-            )}
-          </div>
-        </div>
-        
-        {/* Footer */}
-        <div className="flex items-center justify-between px-spacing-4 py-spacing-2 bg-surface-secondary border-t border-border-secondary">
-          <div className="flex items-center gap-gap-md text-body-xs text-on-dark-disabled">
-            <span className="flex items-center gap-gap-xs">
-              <kbd className="px-spacing-1 py-px bg-surface-tertiary rounded-badge font-code">↑↓</kbd>
-              Navigate
-            </span>
-            <span className="flex items-center gap-gap-xs">
-              <kbd className="px-spacing-1 py-px bg-surface-tertiary rounded-badge font-code">↵</kbd>
-              Select
-            </span>
-            <span className="flex items-center gap-gap-xs">
-              <kbd className="px-spacing-1 py-px bg-surface-tertiary rounded-badge font-code">esc</kbd>
-              Close
-            </span>
-          </div>
-          <div className="flex items-center gap-gap-sm">
-            {facets.length > 0 && (
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className={clsx(
-                  "flex items-center gap-gap-xs px-spacing-2 py-spacing-1 rounded-button text-body-xs border-none cursor-pointer transition-colors",
-                  showFilters
-                    ? "bg-primary-500 text-white"
-                    : "bg-surface-tertiary text-on-dark-disabled hover:bg-muted"
-                )}
-              >
-                <Filter className="size-3" />
-                Filters
-              </button>
-            )}
-            {onSaveSearch && query && (
-              <button
-                onClick={() => onSaveSearch("New Search", query, filters)}
-                className="flex items-center gap-gap-xs px-spacing-2 py-spacing-1 bg-surface-tertiary text-on-dark-disabled hover:bg-muted rounded-button text-body-xs border-none cursor-pointer transition-colors"
-              >
-                <Star className="size-3" />
-                Save
-              </button>
-            )}
-          </div>
-        </div>
+        {onSaveSearch && query && (
+          <button
+            onClick={() => onSaveSearch("New Search", query, filters)}
+            className="flex items-center gap-1 px-2 py-1 bg-muted text-on-light-muted hover:bg-surface-elevated rounded-button text-xs border-none cursor-pointer transition-colors"
+          >
+            <Star className="size-3" />
+            Save
+          </button>
+        )}
       </div>
     </div>
+  );
+
+  return (
+    <OverlayLayout
+      type="modal"
+      size="lg"
+      open={open}
+      onClose={handleClose}
+      closeOnEscape={false}
+      closeOnBackdrop
+      preventScroll
+      animation="scale"
+      inverted={false}
+      showClose={false}
+      headerContent={headerContent}
+      footerContent={footerContent}
+      className={className}
+      ariaLabel="Global Search"
+      contentClassName="p-0"
+      mobileType="fullscreen"
+    >
+      {/* Content */}
+      <div className="flex max-h-96">
+        {/* Facet Filters (shown when there are results) */}
+        {showFilters && facets.length > 0 && (
+          <FacetFilters
+            facets={facets}
+            activeFilters={filters}
+            onFilterToggle={handleFilterToggle}
+            onClearFilters={() => setFilters([])}
+          />
+        )}
+        
+        {/* Results or Suggestions */}
+        <div className="flex-1 overflow-hidden">
+          {query ? (
+            <SearchResults
+              results={results}
+              loading={loading}
+              query={query}
+              onSelect={handleResultSelect}
+              selectedIndex={selectedIndex}
+            />
+          ) : (
+            <SearchSuggestions
+              recentSearches={recentSearches}
+              savedSearches={savedSearches}
+              onSelectRecent={setQuery}
+              onSelectSaved={handleSavedSearchSelect}
+              onClearHistory={onClearHistory || (() => {})}
+            />
+          )}
+        </div>
+      </div>
+    </OverlayLayout>
   );
 }
 

@@ -6,6 +6,8 @@
  * Bold Contemporary Pop Art Adventure Design System
  */
 
+export const dynamic = "force-dynamic";
+
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, User, Users, Calendar, ClipboardList } from "lucide-react";
@@ -140,7 +142,7 @@ export default function SignUpPage() {
       formMaxWidth="md"
     >
       <Form onSubmit={handleSubmit}>
-        <Stack gap={5}>
+        <Stack gap={3}>
           {errors.terms && <Alert variant="error">{errors.terms}</Alert>}
 
           <Stack direction="horizontal" gap={4}>
@@ -178,7 +180,7 @@ export default function SignUpPage() {
             required
           />
 
-          <Stack gap={3}>
+          <Stack gap={2}>
             <AuthPasswordInput
               label="Password"
               placeholder="Create a strong password"

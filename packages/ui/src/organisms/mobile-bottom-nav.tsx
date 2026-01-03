@@ -1,8 +1,9 @@
 "use client";
 
-import { forwardRef, ReactNode, useState, useEffect, useCallback } from "react";
+import { forwardRef, ReactNode, useState, useCallback } from "react";
 import clsx from "clsx";
 import * as LucideIcons from "lucide-react";
+import { OverlayLayout } from "../templates/overlay-layout.js";
 
 // =============================================================================
 // TYPES
@@ -70,29 +71,6 @@ interface QuickActionsSheetProps {
 }
 
 function QuickActionsSheet({ open, onClose, actions, onSelect, inverted }: QuickActionsSheetProps) {
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && open) {
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
-  }, [open, onClose]);
-
-  if (!open) return null;
-
   const colorClasses: Record<string, string> = {
     primary: inverted ? "bg-primary-500/20 text-primary-400 border-primary-500/30" : "bg-primary-50 text-primary-600 border-primary-200",
     secondary: inverted ? "bg-secondary-500/20 text-secondary-400 border-secondary-500/30" : "bg-secondary-50 text-secondary-600 border-secondary-200",
@@ -103,66 +81,47 @@ function QuickActionsSheet({ open, onClose, actions, onSelect, inverted }: Quick
   };
 
   return (
-    <>
-      <div
-        className="fixed inset-0 z-overlay bg-black/60 backdrop-blur-sm animate-fade-in"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-      <div
-        className={clsx(
-          "fixed left-0 right-0 bottom-0 z-modal pb-20 safe-area-inset-bottom",
-          "animate-slide-up-bounce",
-          inverted ? "bg-surface-inverse" : "bg-surface-primary",
-          "rounded-t-2xl border-t-2",
-          inverted ? "border-border" : "border-border"
-        )}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Quick actions"
-      >
-        <div className="flex justify-center py-3">
-          <div className={clsx(
-            "w-12 h-1 rounded-full",
-            inverted ? "bg-muted-foreground" : "bg-muted-foreground"
-          )} />
-        </div>
-        
-        <div className="px-4 pb-4">
-          <h3 className={clsx(
-            "text-sm font-semibold mb-4 px-2",
-            inverted ? "text-on-dark-secondary" : "text-on-light-secondary"
-          )}>
-            Quick Actions
-          </h3>
-          
-          <div className="grid grid-cols-4 gap-3">
-            {actions.map((action) => (
-              <button
-                key={action.id}
-                type="button"
-                onClick={() => {
-                  onSelect(action);
-                  onClose();
-                }}
-                className={clsx(
-                  "flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all",
-                  "active:scale-95",
-                  colorClasses[action.color || "primary"]
-                )}
-              >
-                <span className="w-10 h-10 flex items-center justify-center rounded-lg">
-                  {getIcon(action.icon, 24)}
-                </span>
-                <span className="text-[11px] font-medium text-center leading-tight">
-                  {action.label}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
+    <OverlayLayout
+      type="sheet"
+      size="md"
+      position="bottom"
+      open={open}
+      onClose={onClose}
+      title="Quick Actions"
+      closeOnEscape
+      closeOnBackdrop
+      preventScroll
+      animation="slide"
+      inverted={inverted}
+      showClose={false}
+      ariaLabel="Quick actions"
+      contentClassName="pb-20 safe-area-inset-bottom"
+    >
+      <div className="grid grid-cols-4 gap-3 -mt-2">
+        {actions.map((action) => (
+          <button
+            key={action.id}
+            type="button"
+            onClick={() => {
+              onSelect(action);
+              onClose();
+            }}
+            className={clsx(
+              "flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all",
+              "active:scale-95",
+              colorClasses[action.color || "primary"]
+            )}
+          >
+            <span className="w-10 h-10 flex items-center justify-center rounded-lg">
+              {getIcon(action.icon, 24)}
+            </span>
+            <span className="text-[11px] font-medium text-center leading-tight">
+              {action.label}
+            </span>
+          </button>
+        ))}
       </div>
-    </>
+    </OverlayLayout>
   );
 }
 

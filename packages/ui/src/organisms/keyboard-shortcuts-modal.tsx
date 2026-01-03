@@ -2,8 +2,9 @@
 
 import React from "react";
 import clsx from "clsx";
-import { X, Keyboard } from "lucide-react";
+import { Keyboard } from "lucide-react";
 import { formatShortcut, type ShortcutCategory, type KeyboardShortcut } from "../hooks/useKeyboardShortcuts.js";
+import { OverlayLayout } from "../templates/overlay-layout.js";
 
 // =============================================================================
 // TYPES
@@ -54,85 +55,91 @@ function ShortcutKey({ keys }: ShortcutKeyProps) {
 // KEYBOARD SHORTCUTS MODAL
 // =============================================================================
 
+/**
+ * KeyboardShortcutsModal component - Bold Contemporary Pop Art Adventure
+ * 
+ * Built on OverlayLayout for consistent accessibility and behavior:
+ * - Focus trap
+ * - Escape key handling
+ * - Body scroll prevention
+ * - ARIA attributes
+ * 
+ * Features:
+ * - Categorized shortcuts display
+ * - Formatted key combinations
+ * - Two-column responsive layout
+ */
 export function KeyboardShortcutsModal({
   open,
   onClose,
   categories,
   className,
 }: KeyboardShortcutsModalProps) {
-  if (!open) return null;
+  const headerContent = (
+    <div className="flex items-center gap-4 px-6 py-4 bg-surface-inverse text-on-dark-primary border-b-2 border-border">
+      <Keyboard className="size-6" />
+      <h2 className="font-display text-xl">Keyboard Shortcuts</h2>
+    </div>
+  );
+
+  const footerContent = (
+    <div className="text-center">
+      <p className="text-xs text-on-light-muted">
+        Press <kbd className="px-1 py-px bg-muted rounded-badge font-mono">Esc</kbd> to close
+      </p>
+    </div>
+  );
 
   return (
-    <div className="fixed inset-0 z-modal flex items-center justify-center p-spacing-4">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
-      />
-      
-      {/* Modal */}
-      <div className={clsx(
-        "relative w-full max-w-container-lg max-h-[80vh] bg-surface-primary border-2 border-border-primary rounded-modal shadow-xl overflow-hidden animate-pop-in",
-        className
-      )}>
-        {/* Header */}
-        <div className="flex items-center justify-between px-spacing-6 py-spacing-4 bg-surface-inverse text-text-inverse border-b-2 border-border-primary">
-          <div className="flex items-center gap-gap-md">
-            <Keyboard className="size-6" />
-            <h2 className="font-display text-h3-sm">Keyboard Shortcuts</h2>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-spacing-2 text-on-dark-muted hover:text-white bg-transparent border-none cursor-pointer transition-colors"
-          >
-            <X className="size-5" />
-          </button>
-        </div>
-        
-        {/* Content */}
-        <div className="p-spacing-6 overflow-y-auto max-h-[calc(80vh-80px)]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-gap-lg">
-            {categories.map((category) => (
-              <div key={category.id}>
-                <h3 className="font-code text-mono-sm text-on-dark-disabled uppercase tracking-wider mb-spacing-3">
-                  {category.label}
-                </h3>
-                <div className="flex flex-col gap-gap-sm">
-                  {category.shortcuts.map((shortcut: KeyboardShortcut) => (
-                    <div
-                      key={shortcut.id}
-                      className="flex items-center justify-between py-spacing-2 border-b border-border-secondary last:border-b-0"
-                    >
-                      <div>
-                        <p className="text-body-md text-text-primary">{shortcut.label}</p>
-                        {shortcut.description && (
-                          <p className="text-body-sm text-on-dark-disabled">{shortcut.description}</p>
-                        )}
-                      </div>
-                      <ShortcutKey keys={shortcut.keys} />
-                    </div>
-                  ))}
+    <OverlayLayout
+      type="modal"
+      size="lg"
+      open={open}
+      onClose={onClose}
+      closeOnEscape
+      closeOnBackdrop
+      preventScroll
+      animation="scale"
+      inverted={false}
+      showClose={false}
+      headerContent={headerContent}
+      footerContent={footerContent}
+      className={className}
+      ariaLabel="Keyboard Shortcuts"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {categories.map((category) => (
+          <div key={category.id}>
+            <h3 className="font-mono text-sm text-on-light-muted uppercase tracking-wider mb-3">
+              {category.label}
+            </h3>
+            <div className="flex flex-col gap-2">
+              {category.shortcuts.map((shortcut: KeyboardShortcut) => (
+                <div
+                  key={shortcut.id}
+                  className="flex items-center justify-between py-2 border-b border-border last:border-b-0"
+                >
+                  <div>
+                    <p className="text-base text-on-light-primary">{shortcut.label}</p>
+                    {shortcut.description && (
+                      <p className="text-sm text-on-light-muted">{shortcut.description}</p>
+                    )}
+                  </div>
+                  <ShortcutKey keys={shortcut.keys} />
                 </div>
-              </div>
-            ))}
-          </div>
-          
-          {categories.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-spacing-12 text-center">
-              <Keyboard className="size-12 text-on-dark-secondary mb-spacing-4" />
-              <p className="text-body-md text-on-dark-disabled">No keyboard shortcuts available</p>
+              ))}
             </div>
-          )}
-        </div>
-        
-        {/* Footer */}
-        <div className="px-spacing-6 py-spacing-3 bg-surface-secondary border-t border-border-secondary">
-          <p className="text-body-xs text-on-dark-disabled text-center">
-            Press <kbd className="px-spacing-1 py-px bg-surface-tertiary rounded-badge font-code">Esc</kbd> to close
-          </p>
-        </div>
+          </div>
+        ))}
       </div>
-    </div>
+      
+      {categories.length === 0 && (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <Keyboard className="size-12 text-on-light-muted mb-4" />
+          <p className="text-base text-on-light-muted">No keyboard shortcuts available</p>
+        </div>
+      )}
+    </OverlayLayout>
   );
 }
 

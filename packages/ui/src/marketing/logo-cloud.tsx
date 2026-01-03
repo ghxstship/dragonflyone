@@ -28,8 +28,14 @@ export interface LogoCloudProps {
   logos: LogoItem[];
   /** Number of logos per row */
   columns?: 4 | 5 | 6;
-  /** Background color */
-  background?: "transparent" | "black" | "ink";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   * - "transparent": No theme override (inherits from parent)
+   */
+  variant?: "dark" | "light" | "inverted" | "transparent";
   /** Logo size */
   size?: "sm" | "md" | "lg";
   /** Grayscale filter */
@@ -45,7 +51,7 @@ export const LogoCloud = forwardRef<HTMLElement, LogoCloudProps>(
       title,
       logos,
       columns = 5,
-      background = "transparent",
+      variant = "transparent",
       size = "md",
       grayscale = true,
       marquee = false,
@@ -53,10 +59,11 @@ export const LogoCloud = forwardRef<HTMLElement, LogoCloudProps>(
     },
     ref
   ) {
-    const bgClasses = {
+    const variantClasses = {
       transparent: "",
-      black: "bg-black",
-      ink: "bg-surface-inverse",
+      dark: "section-dark bg-surface-primary",
+      light: "section-light bg-surface-primary",
+      inverted: "section-inverted bg-surface-primary",
     };
 
     const sizeClasses = {
@@ -104,12 +111,12 @@ export const LogoCloud = forwardRef<HTMLElement, LogoCloudProps>(
     return (
       <section
         ref={ref}
-        className={clsx("py-12 md:py-16", bgClasses[background], className)}
+        className={clsx("py-12 md:py-16", variantClasses[variant], className)}
       >
         <Container size="xl">
           {title && (
             <Stack gap={8} className="items-center text-center mb-8">
-              <Kicker className="text-on-dark-disabled">{title}</Kicker>
+              <Kicker className="text-text-muted">{title}</Kicker>
             </Stack>
           )}
 

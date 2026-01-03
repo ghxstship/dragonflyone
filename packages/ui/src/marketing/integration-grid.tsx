@@ -42,8 +42,13 @@ export interface IntegrationGridProps {
   showFilters?: boolean;
   /** Number of columns */
   columns?: 3 | 4;
-  /** Background color */
-  background?: "black" | "ink" | "grey";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  sectionVariant?: "dark" | "light" | "inverted";
   /** Click handler */
   onIntegrationClick?: (integration: Integration) => void;
   className?: string;
@@ -58,16 +63,16 @@ export const IntegrationGrid = forwardRef<HTMLElement, IntegrationGridProps>(
       integrations,
       showFilters = false,
       columns = 4,
-      background = "ink",
+      sectionVariant = "dark",
       onIntegrationClick,
       className,
     },
     ref
   ) {
-    const bgClasses = {
-      black: "bg-black text-white",
-      ink: "bg-surface-inverse text-on-dark-primary",
-      grey: "bg-surface-elevated text-on-dark-primary",
+    const sectionVariantClasses = {
+      dark: "section-dark bg-surface-primary",
+      light: "section-light bg-surface-primary",
+      inverted: "section-inverted bg-surface-primary",
     };
 
     const colClasses = {
@@ -93,16 +98,16 @@ export const IntegrationGrid = forwardRef<HTMLElement, IntegrationGridProps>(
     return (
       <section
         ref={ref}
-        className={clsx("py-20 md:py-32", bgClasses[background], className)}
+        className={clsx("py-20 md:py-32", sectionVariantClasses[sectionVariant], className)}
       >
         <Container size="xl">
           {/* Section Header */}
           {(kicker || title || description) && (
             <Stack gap={4} className="mb-12 md:mb-16 text-center items-center">
               {kicker && <Kicker>{kicker}</Kicker>}
-              {title && <H2 className="text-white">{title}</H2>}
+              {title && <H2 className="text-text-primary">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-on-dark-muted max-w-2xl">
+                <Body size="lg" className="text-text-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -174,17 +179,17 @@ export const IntegrationGrid = forwardRef<HTMLElement, IntegrationGridProps>(
 
                   {/* Content */}
                   <Stack gap={1}>
-                    <Body className="text-white font-semibold group-hover:text-primary transition-colors">
+                    <Body className="text-text-primary font-semibold group-hover:text-primary transition-colors">
                       {integration.name}
                     </Body>
-                    <Body size="sm" className="text-on-dark-muted line-clamp-2">
+                    <Body size="sm" className="text-text-muted line-clamp-2">
                       {integration.description}
                     </Body>
                   </Stack>
 
                   {/* Link Indicator */}
                   {(integration.href || onIntegrationClick) && (
-                    <ArrowRight className="size-4 text-on-dark-disabled group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    <ArrowRight className="size-4 text-text-disabled group-hover:text-primary group-hover:translate-x-1 transition-all" />
                   )}
                 </Stack>
               </Card>

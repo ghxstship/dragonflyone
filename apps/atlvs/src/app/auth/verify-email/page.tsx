@@ -6,6 +6,8 @@
  * Bold Contemporary Pop Art Adventure Design System
  */
 
+export const dynamic = "force-dynamic";
+
 import { useRouter } from "next/navigation";
 import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";

@@ -10,11 +10,32 @@
 
  [37m[1m [22m[39m Creating an optimized production build ...
 <w> [1m[33m[webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)[39m[22m
- [32m[1m✓[22m[39m Compiled successfully
+ [33m[1m⚠[22m[39m Compiled with warnings
+
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+
  [37m[1m [22m[39m Skipping validation of types
  [37m[1m [22m[39m Skipping linting
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
 [?25l [37m[1m [22m[39m Generating static pages (0/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/70)  [36m[==  ][39mError in anti-scalping alerts API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/alerts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/1232.js:1:56330)
     at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:14:3013)
@@ -29,7 +50,7 @@
   description: "Route /api/admin/anti-scalping/alerts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-[2K[1G [37m[1m [22m[39m Generating static pages (2/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (2/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (2/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (4/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (4/70)  [36m[    ][39mError in protection rules API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+[2K[1G [37m[1m [22m[39m Generating static pages (2/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (2/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (2/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (4/70)  [36m[   =][39mError in protection rules API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/1232.js:1:56330)
     at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:14:3013)
     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/rules/route.js:1:883)
@@ -43,21 +64,21 @@
   description: "Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-[2K[1G [37m[1m [22m[39m Generating static pages (6/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (7/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (9/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (10/70)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (11/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (11/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (12/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (15/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (19/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (22/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (25/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (28/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (29/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (33/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (37/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (39/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (43/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (45/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (47/70)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (52/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (56/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (58/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (60/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (67/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (69/70)  [36m[==  ][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (70/70)
+[2K[1G [37m[1m [22m[39m Generating static pages (5/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (7/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (8/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (10/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (10/70)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (11/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (12/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (15/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (18/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (22/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (24/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (28/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (28/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (32/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (36/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (38/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (42/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (45/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (47/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (51/70)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (56/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (57/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (59/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (65/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (65/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (67/70)  [36m[==  ][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (70/70)
 [?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
 [2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
 
 [4mRoute (app)[24m                                   [4mSize[24m     [4mFirst Load JS[24m
-┌ ƒ /                                         3.76 kB         [37m[1m889 kB[22m[39m
+┌ ƒ /                                         3.76 kB         [37m[1m890 kB[22m[39m
 ├ ○ /_not-found                               138 B           [37m[1m647 kB[22m[39m
-├ ○ /account                                  1.66 kB         [37m[1m887 kB[22m[39m
+├ ○ /account                                  1.66 kB         [37m[1m888 kB[22m[39m
 ├ ○ /account/orders                           1.36 kB         [37m[1m887 kB[22m[39m
-├ ○ /account/profile                          1.56 kB         [37m[1m887 kB[22m[39m
+├ ○ /account/profile                          1.57 kB         [37m[1m888 kB[22m[39m
 ├ ○ /account/tickets                          2.14 kB         [37m[1m888 kB[22m[39m
 ├ ○ /admin                                    2.08 kB         [37m[1m888 kB[22m[39m
 ├ ○ /admin/events                             2.19 kB         [37m[1m888 kB[22m[39m
-├ ○ /admin/moderation                         1.83 kB         [37m[1m887 kB[22m[39m
-├ ○ /admin/pos                                1.8 kB          [37m[1m887 kB[22m[39m
+├ ○ /admin/moderation                         1.83 kB         [37m[1m888 kB[22m[39m
+├ ○ /admin/pos                                1.8 kB          [37m[1m888 kB[22m[39m
 ├ ○ /admin/ticketing                          2.16 kB         [37m[1m888 kB[22m[39m
 ├ ƒ /api/ab-testing                           0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/abandoned-cart                       0 B                [37m[1m0 B[22m[39m
@@ -378,48 +399,48 @@
 ├ ƒ /api/webhooks/stripe                      0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/will-call                            0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/wishlist                             0 B                [37m[1m0 B[22m[39m
-├ ƒ /apply                                    3.92 kB         [37m[1m889 kB[22m[39m
+├ ƒ /apply                                    3.92 kB         [37m[1m890 kB[22m[39m
 ├ ƒ /apply/confirmation                       1.33 kB         [37m[1m887 kB[22m[39m
-├ ○ /auth/forgot-password                     1.27 kB         [37m[1m887 kB[22m[39m
-├ ○ /auth/magic-link                          1.26 kB         [37m[1m887 kB[22m[39m
-├ ○ /auth/reset-password                      1.4 kB          [37m[1m887 kB[22m[39m
-├ ○ /auth/signin                              1.68 kB         [37m[1m887 kB[22m[39m
-├ ○ /auth/signup                              2.07 kB         [37m[1m888 kB[22m[39m
-├ ○ /auth/verify-email                        1.26 kB         [37m[1m887 kB[22m[39m
-├ ○ /browse                                   1.51 kB         [37m[1m887 kB[22m[39m
+├ ○ /auth/forgot-password                     1.29 kB         [37m[1m887 kB[22m[39m
+├ ○ /auth/magic-link                          1.28 kB         [37m[1m887 kB[22m[39m
+├ ○ /auth/reset-password                      1.43 kB         [37m[1m887 kB[22m[39m
+├ ○ /auth/signin                              1.7 kB          [37m[1m888 kB[22m[39m
+├ ○ /auth/signup                              2.1 kB          [37m[1m888 kB[22m[39m
+├ ○ /auth/verify-email                        1.28 kB         [37m[1m887 kB[22m[39m
+├ ○ /browse                                   1.52 kB         [37m[1m887 kB[22m[39m
 ├ ○ /calendar                                 2.03 kB         [37m[1m888 kB[22m[39m
-├ ○ /cart                                     1.61 kB         [37m[1m887 kB[22m[39m
-├ ○ /chat                                     2.33 kB         [37m[1m888 kB[22m[39m
+├ ○ /cart                                     1.6 kB          [37m[1m888 kB[22m[39m
+├ ○ /chat                                     2.34 kB         [37m[1m888 kB[22m[39m
 ├ ○ /checkout                                 3.05 kB         [37m[1m889 kB[22m[39m
-├ ○ /checkout/currency                        946 B           [37m[1m887 kB[22m[39m
+├ ○ /checkout/currency                        950 B           [37m[1m887 kB[22m[39m
 ├ ƒ /collections/[id]                         1.16 kB         [37m[1m887 kB[22m[39m
 ├ ○ /community                                1.09 kB         [37m[1m887 kB[22m[39m
-├ ○ /confirmation                             868 B           [37m[1m886 kB[22m[39m
-├ ○ /dashboard                                2.79 kB         [37m[1m888 kB[22m[39m
+├ ○ /confirmation                             868 B           [37m[1m887 kB[22m[39m
+├ ○ /dashboard                                2.79 kB         [37m[1m889 kB[22m[39m
 ├ ○ /discover                                 2.11 kB         [37m[1m888 kB[22m[39m
 ├ ƒ /e/[eventId]                              1.45 kB         [37m[1m887 kB[22m[39m
 ├ ƒ /e/[eventId]/chat                         1.17 kB         [37m[1m887 kB[22m[39m
 ├ ƒ /e/[eventId]/engage                       968 B           [37m[1m887 kB[22m[39m
-├ ƒ /e/[eventId]/map                          1.05 kB         [37m[1m887 kB[22m[39m
+├ ƒ /e/[eventId]/map                          1.06 kB         [37m[1m887 kB[22m[39m
 ├ ƒ /e/[eventId]/photos                       1.06 kB         [37m[1m887 kB[22m[39m
 ├ ƒ /e/[eventId]/services                     1.05 kB         [37m[1m887 kB[22m[39m
 ├ ƒ /e/[eventId]/tickets                      1.52 kB         [37m[1m887 kB[22m[39m
 ├ ○ /events                                   1.46 kB         [37m[1m887 kB[22m[39m
-├ ƒ /events/[id]                              1.74 kB         [37m[1m887 kB[22m[39m
-├ ○ /events/create                            889 B           [37m[1m886 kB[22m[39m
+├ ƒ /events/[id]                              1.75 kB         [37m[1m888 kB[22m[39m
+├ ○ /events/create                            889 B           [37m[1m887 kB[22m[39m
 ├ ○ /friends                                  1.17 kB         [37m[1m887 kB[22m[39m
 ├ ○ /gift-cards                               1.39 kB         [37m[1m887 kB[22m[39m
 ├ ○ /groups                                   1.14 kB         [37m[1m887 kB[22m[39m
-├ ○ /help                                     1.84 kB         [37m[1m887 kB[22m[39m
-├ ○ /help/faq                                 2.02 kB         [37m[1m888 kB[22m[39m
+├ ○ /help                                     1.84 kB         [37m[1m888 kB[22m[39m
+├ ○ /help/faq                                 2.01 kB         [37m[1m888 kB[22m[39m
 ├ ○ /merch                                    1.33 kB         [37m[1m887 kB[22m[39m
 ├ ƒ /merch/[artistId]                         1.08 kB         [37m[1m887 kB[22m[39m
 ├ ○ /merch/bundles                            1.06 kB         [37m[1m887 kB[22m[39m
 ├ ○ /messages                                 1.36 kB         [37m[1m887 kB[22m[39m
 ├ ○ /notifications                            1.51 kB         [37m[1m887 kB[22m[39m
-├ ○ /orders                                   1.8 kB          [37m[1m887 kB[22m[39m
+├ ○ /orders                                   1.8 kB          [37m[1m888 kB[22m[39m
 ├ ○ /profile                                  1.03 kB         [37m[1m887 kB[22m[39m
-├ ○ /resources                                2.4 kB          [37m[1m888 kB[22m[39m
+├ ○ /resources                                2.41 kB         [37m[1m888 kB[22m[39m
 ├ ○ /resources/templates                      1.96 kB         [37m[1m888 kB[22m[39m
 ├ ○ /reviews                                  1.35 kB         [37m[1m887 kB[22m[39m
 ├ ○ /reviews/new                              948 B           [37m[1m887 kB[22m[39m
@@ -427,23 +448,23 @@
 ├ ○ /robots.txt                               0 B                [37m[1m0 B[22m[39m
 ├ ○ /search                                   1.35 kB         [37m[1m887 kB[22m[39m
 ├ ○ /settings                                 2.03 kB         [37m[1m888 kB[22m[39m
-├ ○ /settings/api-access                      2.51 kB         [37m[1m888 kB[22m[39m
-├ ○ /settings/api-keys                        2.88 kB         [37m[1m888 kB[22m[39m
+├ ○ /settings/api-access                      2.52 kB         [37m[1m888 kB[22m[39m
+├ ○ /settings/api-keys                        2.88 kB         [37m[1m889 kB[22m[39m
 ├ ○ /settings/connected-apps                  2.15 kB         [37m[1m888 kB[22m[39m
-├ ○ /settings/language                        1.78 kB         [37m[1m887 kB[22m[39m
+├ ○ /settings/language                        1.77 kB         [37m[1m888 kB[22m[39m
 ├ ○ /settings/notifications                   2.46 kB         [37m[1m888 kB[22m[39m
 ├ ○ /settings/privacy                         3.41 kB         [37m[1m889 kB[22m[39m
-├ ○ /settings/sessions                        2.39 kB         [37m[1m888 kB[22m[39m
-├ ○ /settings/webhooks                        3.69 kB         [37m[1m889 kB[22m[39m
+├ ○ /settings/sessions                        2.38 kB         [37m[1m888 kB[22m[39m
+├ ○ /settings/webhooks                        3.69 kB         [37m[1m890 kB[22m[39m
 ├ ○ /shop/shoppable                           1.01 kB         [37m[1m887 kB[22m[39m
 ├ ○ /sitemap.xml                              0 B                [37m[1m0 B[22m[39m
-├ ○ /support/chat                             1.7 kB          [37m[1m887 kB[22m[39m
+├ ○ /support/chat                             1.7 kB          [37m[1m888 kB[22m[39m
 ├ ƒ /surveys/[id]                             1.29 kB         [37m[1m887 kB[22m[39m
-├ ○ /tickets                                  1.89 kB         [37m[1m887 kB[22m[39m
+├ ○ /tickets                                  1.89 kB         [37m[1m888 kB[22m[39m
 ├ ○ /tickets/scan                             3.23 kB         [37m[1m889 kB[22m[39m
 ├ ○ /venues                                   1.19 kB         [37m[1m887 kB[22m[39m
 ├ ƒ /venues/[id]                              2.47 kB         [37m[1m888 kB[22m[39m
-├ ○ /wallet                                   2.91 kB         [37m[1m888 kB[22m[39m
+├ ○ /wallet                                   2.91 kB         [37m[1m889 kB[22m[39m
 ├ ○ /watch-parties                            1.17 kB         [37m[1m887 kB[22m[39m
 └ ○ /wishlist                                 1.34 kB         [37m[1m887 kB[22m[39m
 + First Load JS shared by all                 [37m[1m647 kB[22m[39m

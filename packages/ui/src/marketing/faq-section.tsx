@@ -33,8 +33,13 @@ export interface FAQSectionProps {
   faqs: FAQItem[];
   /** Allow multiple items open */
   allowMultiple?: boolean;
-  /** Background color */
-  background?: "black" | "ink" | "grey";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  sectionVariant?: "dark" | "light" | "inverted";
   /** Layout variant */
   variant?: "default" | "two-column";
   className?: string;
@@ -57,12 +62,12 @@ function FAQAccordionItem({
         aria-expanded={isOpen}
         aria-controls={`faq-answer-${faq.id}`}
       >
-        <Body className="text-white font-semibold pr-4 group-hover:text-primary transition-colors">
+        <Body className="text-text-primary font-semibold pr-4 group-hover:text-primary transition-colors">
           {faq.question}
         </Body>
         <ChevronDown
           className={clsx(
-            "size-5 text-on-dark-muted flex-shrink-0 transition-transform duration-300",
+            "size-5 text-text-muted flex-shrink-0 transition-transform duration-300",
             isOpen && "rotate-180"
           )}
         />
@@ -74,7 +79,7 @@ function FAQAccordionItem({
           isOpen ? "max-h-96 pb-6" : "max-h-0"
         )}
       >
-        <Body className="text-on-dark-muted leading-relaxed">{faq.answer}</Body>
+        <Body className="text-text-muted leading-relaxed">{faq.answer}</Body>
       </div>
     </div>
   );
@@ -88,7 +93,7 @@ export const FAQSection = forwardRef<HTMLElement, FAQSectionProps>(
       description,
       faqs,
       allowMultiple = false,
-      background = "ink",
+      sectionVariant = "dark",
       variant = "default",
       className,
     },
@@ -96,10 +101,10 @@ export const FAQSection = forwardRef<HTMLElement, FAQSectionProps>(
   ) {
     const [openItems, setOpenItems] = useState<Set<string>>(new Set());
 
-    const bgClasses = {
-      black: "bg-black text-white",
-      ink: "bg-surface-inverse text-on-dark-primary",
-      grey: "bg-surface-elevated text-on-dark-primary",
+    const sectionVariantClasses = {
+      dark: "section-dark bg-surface-primary",
+      light: "section-light bg-surface-primary",
+      inverted: "section-inverted bg-surface-primary",
     };
 
     const toggleItem = (id: string) => {
@@ -125,7 +130,7 @@ export const FAQSection = forwardRef<HTMLElement, FAQSectionProps>(
     return (
       <section
         ref={ref}
-        className={clsx("py-12 sm:py-16 md:py-24 lg:py-32", bgClasses[background], className)}
+        className={clsx("py-12 sm:py-16 md:py-24 lg:py-32", sectionVariantClasses[sectionVariant], className)}
         itemScope
         itemType="https://schema.org/FAQPage"
       >
@@ -134,9 +139,9 @@ export const FAQSection = forwardRef<HTMLElement, FAQSectionProps>(
           {(kicker || title || description) && (
             <Stack gap={4} className="mb-8 sm:mb-10 md:mb-12 text-center items-center">
               {kicker && <Kicker>{kicker}</Kicker>}
-              {title && <H2 className="text-white">{title}</H2>}
+              {title && <H2 className="text-text-primary">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-on-dark-muted max-w-2xl">
+                <Body size="lg" className="text-text-muted max-w-2xl">
                   {description}
                 </Body>
               )}

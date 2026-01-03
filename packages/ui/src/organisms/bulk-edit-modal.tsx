@@ -2,7 +2,8 @@
 
 import React, { useState, useMemo, useCallback } from "react";
 import clsx from "clsx";
-import { X, Check, AlertTriangle, Loader2 } from "lucide-react";
+import { Check, AlertTriangle, Loader2 } from "lucide-react";
+import { OverlayLayout } from "../templates/overlay-layout.js";
 
 export interface BulkEditField {
   key: string;
@@ -26,6 +27,21 @@ export interface BulkEditModalProps<T> {
   className?: string;
 }
 
+/**
+ * BulkEditModal component - Bold Contemporary Pop Art Adventure
+ * 
+ * Built on OverlayLayout for consistent accessibility and behavior:
+ * - Focus trap
+ * - Escape key handling
+ * - Body scroll prevention
+ * - ARIA attributes
+ * 
+ * Features:
+ * - Field selection for bulk update
+ * - Dynamic form rendering
+ * - Loading/error states
+ * - Selected items summary
+ */
 export function BulkEditModal<T>({
   open,
   onClose,
@@ -105,195 +121,175 @@ export function BulkEditModal<T>({
     }
   }, [loading, onClose]);
 
-  if (!open) return null;
+  const footerContent = (
+    <div className="flex items-center justify-end gap-3">
+      <button
+        type="button"
+        onClick={handleClose}
+        disabled={loading}
+        className="px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-primary text-on-light-primary border-2 border-border cursor-pointer hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        onClick={handleSubmit}
+        disabled={loading || enabledFields.size === 0}
+        className="flex items-center gap-2 px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-inverse text-on-dark-primary border-2 border-border cursor-pointer hover:bg-surface-elevated disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {loading ? (
+          <>
+            <Loader2 className="size-4 animate-spin" />
+            Applying...
+          </>
+        ) : (
+          <>
+            <Check className="size-4" />
+            {submitLabel}
+          </>
+        )}
+      </button>
+    </div>
+  );
 
   return (
-    <div
-      className={clsx("fixed inset-0 z-modal flex items-center justify-center", className)}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="bulk-edit-title"
+    <OverlayLayout
+      type="modal"
+      size="md"
+      open={open}
+      onClose={handleClose}
+      title={title}
+      closeOnEscape={!loading}
+      closeOnBackdrop={!loading}
+      preventScroll
+      animation="scale"
+      inverted={false}
+      showClose={!loading}
+      footerContent={footerContent}
+      className={className}
+      ariaLabel={title}
     >
-      {/* Overlay */}
-      <div
-        className="absolute inset-0 bg-black/50"
-        onClick={handleClose}
-        aria-hidden="true"
-      />
+      {/* Description */}
+      {description && (
+        <p className="font-body text-sm text-on-light-muted mb-4">
+          {description}
+        </p>
+      )}
 
-      {/* Modal */}
-      <div className="relative w-full max-w-lg bg-surface-primary border-2 border-black shadow-[6px_6px_0_black] rounded-modal overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between px-spacing-6 py-spacing-4 border-b-2 border-black bg-black text-white">
-          <h2 id="bulk-edit-title" className="font-heading text-h4-md tracking-wider uppercase">
-            {title}
-          </h2>
-          <button
-            type="button"
-            onClick={handleClose}
-            disabled={loading}
-            className="p-spacing-1 bg-transparent border-none text-white cursor-pointer hover:text-on-dark-secondary disabled:cursor-not-allowed"
-            aria-label="Close"
-          >
-            <X className="size-5" />
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className="p-spacing-6 max-h-[60vh] overflow-auto">
-          {/* Description */}
-          {description && (
-            <p className="font-body text-body-sm text-text-secondary mb-spacing-4">
-              {description}
-            </p>
+      {/* Selected items summary */}
+      <div className="mb-6 p-4 bg-muted border-2 border-border rounded-card">
+        <p className="font-mono text-sm text-on-light-muted mb-2">
+          {selectedItems.length} item{selectedItems.length !== 1 ? "s" : ""} selected:
+        </p>
+        <div className="flex flex-wrap gap-1 max-h-24 overflow-auto">
+          {selectedItems.slice(0, 10).map((item) => (
+            <span
+              key={getItemId(item)}
+              className="px-2 py-1 bg-surface-primary border border-border rounded-badge font-mono text-xs"
+            >
+              {getItemLabel(item)}
+            </span>
+          ))}
+          {selectedItems.length > 10 && (
+            <span className="px-2 py-1 text-on-light-muted font-mono text-xs">
+              +{selectedItems.length - 10} more
+            </span>
           )}
-
-          {/* Selected items summary */}
-          <div className="mb-spacing-6 p-spacing-4 bg-surface-secondary border-2 border-border-primary rounded-card">
-            <p className="font-code text-mono-sm text-on-dark-disabled mb-spacing-2">
-              {selectedItems.length} item{selectedItems.length !== 1 ? "s" : ""} selected:
-            </p>
-            <div className="flex flex-wrap gap-gap-xs max-h-spacing-24 overflow-auto">
-              {selectedItems.slice(0, 10).map((item) => (
-                <span
-                  key={getItemId(item)}
-                  className="px-spacing-2 py-spacing-1 bg-surface-primary border border-border-secondary rounded-badge font-code text-mono-xs"
-                >
-                  {getItemLabel(item)}
-                </span>
-              ))}
-              {selectedItems.length > 10 && (
-                <span className="px-spacing-2 py-spacing-1 text-on-dark-disabled font-code text-mono-xs">
-                  +{selectedItems.length - 10} more
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Fields */}
-          <div className="space-y-spacing-4">
-            <p className="font-code text-mono-sm tracking-wide uppercase text-on-dark-disabled">
-              Select fields to update:
-            </p>
-
-            {fields.map((field) => {
-              const isEnabled = enabledFields.has(field.key);
-              return (
-                <div
-                  key={field.key}
-                  className={clsx(
-                    "p-spacing-4 border-2 rounded-card transition-colors duration-fast",
-                    isEnabled ? "border-primary-500 bg-primary-50" : "border-border-primary bg-surface-primary"
-                  )}
-                >
-                  <label className="flex items-center gap-gap-sm cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={isEnabled}
-                      onChange={() => handleFieldToggle(field.key)}
-                      className="w-5 h-5 cursor-pointer"
-                    />
-                    <span className="font-code text-mono-sm tracking-wide uppercase">
-                      {field.label}
-                    </span>
-                  </label>
-
-                  {isEnabled && (
-                    <div className="mt-spacing-3 pl-spacing-8">
-                      {field.type === "select" ? (
-                        <select
-                          value={String(values[field.key] ?? "")}
-                          onChange={(e) => handleValueChange(field.key, e.target.value)}
-                          className="w-full px-spacing-3 py-spacing-2 bg-surface-primary border-2 border-border-primary text-text-primary outline-none focus:border-primary-500"
-                        >
-                          <option value="">{field.placeholder || "Select..."}</option>
-                          {field.options?.map((opt) => (
-                            <option key={opt.value} value={opt.value}>
-                              {opt.label}
-                            </option>
-                          ))}
-                        </select>
-                      ) : field.type === "checkbox" ? (
-                        <label className="flex items-center gap-gap-sm cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={Boolean(values[field.key])}
-                            onChange={(e) => handleValueChange(field.key, e.target.checked)}
-                            className="w-5 h-5 cursor-pointer"
-                          />
-                          <span className="font-body text-body-sm">Set to checked</span>
-                        </label>
-                      ) : field.type === "number" ? (
-                        <input
-                          type="number"
-                          value={values[field.key] === undefined ? "" : String(values[field.key])}
-                          onChange={(e) => handleValueChange(field.key, e.target.valueAsNumber || null)}
-                          placeholder={field.placeholder}
-                          className="w-full px-spacing-3 py-spacing-2 bg-surface-primary border-2 border-border-primary text-text-primary outline-none focus:border-primary-500"
-                        />
-                      ) : field.type === "date" ? (
-                        <input
-                          type="date"
-                          value={String(values[field.key] ?? "")}
-                          onChange={(e) => handleValueChange(field.key, e.target.value)}
-                          className="w-full px-spacing-3 py-spacing-2 bg-surface-primary border-2 border-border-primary text-text-primary outline-none focus:border-primary-500"
-                        />
-                      ) : (
-                        <input
-                          type="text"
-                          value={String(values[field.key] ?? "")}
-                          onChange={(e) => handleValueChange(field.key, e.target.value)}
-                          placeholder={field.placeholder}
-                          className="w-full px-spacing-3 py-spacing-2 bg-surface-primary border-2 border-border-primary text-text-primary outline-none focus:border-primary-500"
-                        />
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Error */}
-          {error && (
-            <div className="mt-spacing-4 p-spacing-3 bg-error-50 border-2 border-error-500 rounded-card flex items-center gap-gap-sm">
-              <AlertTriangle className="size-5 text-error-500 flex-shrink-0" />
-              <p className="font-body text-body-sm text-error-700">{error}</p>
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="flex items-center justify-end gap-gap-sm px-spacing-6 py-spacing-4 border-t-2 border-border-primary bg-surface-secondary">
-          <button
-            type="button"
-            onClick={handleClose}
-            disabled={loading}
-            className="px-spacing-4 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-surface-primary text-text-primary border-2 border-border-primary cursor-pointer hover:bg-surface-secondary disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={loading || enabledFields.size === 0}
-            className="flex items-center gap-gap-xs px-spacing-4 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer hover:bg-surface-elevated disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="size-4 animate-spin" />
-                Applying...
-              </>
-            ) : (
-              <>
-                <Check className="size-4" />
-                {submitLabel}
-              </>
-            )}
-          </button>
         </div>
       </div>
-    </div>
+
+      {/* Fields */}
+      <div className="space-y-4">
+        <p className="font-mono text-sm tracking-wide uppercase text-on-light-muted">
+          Select fields to update:
+        </p>
+
+        {fields.map((field) => {
+          const isEnabled = enabledFields.has(field.key);
+          return (
+            <div
+              key={field.key}
+              className={clsx(
+                "p-4 border-2 rounded-card transition-colors duration-100",
+                isEnabled ? "border-primary-500 bg-primary-500/10" : "border-border bg-surface-primary"
+              )}
+            >
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isEnabled}
+                  onChange={() => handleFieldToggle(field.key)}
+                  className="w-5 h-5 cursor-pointer"
+                />
+                <span className="font-mono text-sm tracking-wide uppercase">
+                  {field.label}
+                </span>
+              </label>
+
+              {isEnabled && (
+                <div className="mt-3 pl-8">
+                  {field.type === "select" ? (
+                    <select
+                      value={String(values[field.key] ?? "")}
+                      onChange={(e) => handleValueChange(field.key, e.target.value)}
+                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-on-light-primary outline-none focus:border-primary-500"
+                    >
+                      <option value="">{field.placeholder || "Select..."}</option>
+                      {field.options?.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : field.type === "checkbox" ? (
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={Boolean(values[field.key])}
+                        onChange={(e) => handleValueChange(field.key, e.target.checked)}
+                        className="w-5 h-5 cursor-pointer"
+                      />
+                      <span className="font-body text-sm">Set to checked</span>
+                    </label>
+                  ) : field.type === "number" ? (
+                    <input
+                      type="number"
+                      value={values[field.key] === undefined ? "" : String(values[field.key])}
+                      onChange={(e) => handleValueChange(field.key, e.target.valueAsNumber || null)}
+                      placeholder={field.placeholder}
+                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-on-light-primary outline-none focus:border-primary-500"
+                    />
+                  ) : field.type === "date" ? (
+                    <input
+                      type="date"
+                      value={String(values[field.key] ?? "")}
+                      onChange={(e) => handleValueChange(field.key, e.target.value)}
+                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-on-light-primary outline-none focus:border-primary-500"
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      value={String(values[field.key] ?? "")}
+                      onChange={(e) => handleValueChange(field.key, e.target.value)}
+                      placeholder={field.placeholder}
+                      className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-on-light-primary outline-none focus:border-primary-500"
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Error */}
+      {error && (
+        <div className="mt-4 p-3 bg-error/10 border-2 border-error rounded-card flex items-center gap-3">
+          <AlertTriangle className="size-5 text-error flex-shrink-0" />
+          <p className="font-body text-sm text-error">{error}</p>
+        </div>
+      )}
+    </OverlayLayout>
   );
 }
 

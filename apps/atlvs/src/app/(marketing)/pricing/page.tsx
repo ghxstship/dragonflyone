@@ -90,8 +90,9 @@ function SingleProductsSection() {
       </Stack>
       <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
         {singleProducts.products.map((product: { id: string; color: string; subtitle: string; name: string; price: string; period: string; description: string; features: string[]; cta: { href: string; label: string } }) => (
-          <Article key={product.id} className={`border-2 border-border bg-white p-6 pop-card-${product.color === "brand-yellow" ? "yellow" : product.color === "brand-cyan" ? "cyan" : "brand"}`}>
-            <Stack gap={4}>
+          <Article key={product.id} className={`border-2 border-border bg-white p-6 h-full flex flex-col pop-card-${product.color === "brand-yellow" ? "yellow" : product.color === "brand-cyan" ? "cyan" : "brand"}`}>
+            {/* Card content - grows to fill available space */}
+            <Stack gap={4} className="flex-1">
               <Stack direction="horizontal" gap={2} className="items-center">
                 <Box className={`text-${product.color}`}>{PRODUCT_ICONS[product.id.replace("-single", "") as keyof typeof PRODUCT_ICONS]}</Box>
                 <Label size="xs" className={`text-${product.color}`}>{product.subtitle.toUpperCase()}</Label>
@@ -102,7 +103,7 @@ function SingleProductsSection() {
                 <Text size="sm" className="text-on-light-muted">{product.period}</Text>
               </Stack>
               <Body size="sm" className="text-on-light-muted">{product.description}</Body>
-              <Stack gap={2} className="flex-1">
+              <Stack gap={2}>
                 {product.features.map((feature: string, idx: number) => (
                   <Stack key={idx} direction="horizontal" gap={2} className="items-center">
                     <Check className={`size-4 text-${product.color} flex-shrink-0`} />
@@ -110,15 +111,17 @@ function SingleProductsSection() {
                   </Stack>
                 ))}
               </Stack>
-              <Button 
-                variant={product.price === "$0" ? "primary" : "outline"} 
-                size="md" 
-                fullWidth 
-                onClick={() => router.push(product.cta.href)}
-              >
-                {product.cta.label}
-              </Button>
             </Stack>
+            {/* CTA - anchored at bottom */}
+            <Button 
+              variant={product.price === "$0" ? "primary" : "outline"} 
+              size="md" 
+              fullWidth 
+              onClick={() => router.push(product.cta.href)}
+              className="mt-4"
+            >
+              {product.cta.label}
+            </Button>
           </Article>
         ))}
       </Grid>
@@ -142,12 +145,13 @@ function BundlesSection() {
         {bundles.products.map((bundle: { id: string; color: string; subtitle: string; name: string; price: string; period: string; description: string; features: string[]; cta: { href: string; label: string } }) => (
           <Article 
             key={bundle.id} 
-            className={`border-2 ${bundle.id === "experience" ? "border-brand-pink" : "border-border"} bg-white p-6 pop-card relative`}
+            className={`border-2 ${bundle.id === "experience" ? "border-brand-pink" : "border-border"} bg-white p-6 h-full flex flex-col pop-card relative`}
           >
             {bundle.id === "experience" && (
               <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-3 py-1 text-white">MOST POPULAR</Label>
             )}
-            <Stack gap={4}>
+            {/* Card content - grows to fill available space */}
+            <Stack gap={4} className="flex-1">
               <Stack direction="horizontal" gap={2} className="items-center">
                 <Box className={`size-3 rounded-full bg-${bundle.color}`} />
                 <Label size="xs" className="text-on-light-muted">{bundle.subtitle.toUpperCase()}</Label>
@@ -158,7 +162,7 @@ function BundlesSection() {
                 <Text size="sm" className="text-on-light-muted">{bundle.period}</Text>
               </Stack>
               <Body size="sm" className="text-on-light-muted">{bundle.description}</Body>
-              <Stack gap={2} className="flex-1">
+              <Stack gap={2}>
                 {bundle.features.map((feature: string, idx: number) => (
                   <Stack key={idx} direction="horizontal" gap={2} className="items-center">
                     <Check className={`size-4 text-${bundle.color} flex-shrink-0`} />
@@ -166,15 +170,17 @@ function BundlesSection() {
                   </Stack>
                 ))}
               </Stack>
-              <Button 
-                variant={bundle.id === "experience" ? "accent" : "outline"} 
-                size="md" 
-                fullWidth 
-                onClick={() => router.push(bundle.cta.href)}
-              >
-                {bundle.cta.label}
-              </Button>
             </Stack>
+            {/* CTA - anchored at bottom */}
+            <Button 
+              variant={bundle.id === "experience" ? "accent" : "outline"} 
+              size="md" 
+              fullWidth 
+              onClick={() => router.push(bundle.cta.href)}
+              className="mt-4"
+            >
+              {bundle.cta.label}
+            </Button>
           </Article>
         ))}
       </Grid>

@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import clsx from "clsx";
+import { OverlayLayout } from "../templates/overlay-layout.js";
 
 export type FieldType = 
   | "text" | "textarea" | "number" | "email" | "tel" | "url" | "password"
@@ -65,8 +66,21 @@ export interface RecordFormModalProps<T = Record<string, unknown>> {
   className?: string;
 }
 
-const sizeClasses = { sm: "max-w-sm", md: "max-w-lg", lg: "max-w-2xl", xl: "max-w-4xl" };
-
+/**
+ * RecordFormModal component - Bold Contemporary Pop Art Adventure
+ * 
+ * Built on OverlayLayout for consistent accessibility and behavior:
+ * - Focus trap
+ * - Escape key handling
+ * - Body scroll prevention
+ * - ARIA attributes
+ * 
+ * Features:
+ * - Single-step and multi-step (wizard) forms
+ * - Various field types
+ * - Client-side validation
+ * - Loading/submitting states
+ */
 export function RecordFormModal<T = Record<string, unknown>>({
   open,
   onClose,
@@ -108,21 +122,6 @@ export function RecordFormModal<T = Record<string, unknown>>({
       setCurrentStep(0);
     }
   }, [open, record, fields, steps, isMultiStep]);
-
-  // Handle escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && open && !submitting) onClose();
-    };
-    if (open) {
-      document.addEventListener("keydown", handleEscape);
-      document.body.style.overflow = "hidden";
-    }
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-      document.body.style.overflow = "";
-    };
-  }, [open, submitting, onClose]);
 
   const validateField = useCallback((field: FormFieldConfig, value: unknown): string | null => {
     if (field.required && (value === "" || value === null || value === undefined)) {
@@ -180,8 +179,8 @@ export function RecordFormModal<T = Record<string, unknown>>({
     try {
       await onSubmit(formData as T);
       onClose();
-    } catch (error) {
-      console.error("Form submission error:", error);
+    } catch (err) {
+      setErrors(prev => ({ ...prev, _form: err instanceof Error ? err.message : "Form submission failed" }));
     } finally {
       setSubmitting(false);
     }
@@ -191,15 +190,15 @@ export function RecordFormModal<T = Record<string, unknown>>({
     const value = formData[field.name];
     const error = errors[field.name];
     const baseInputClasses = clsx(
-      "w-full border-2 bg-surface-elevated px-spacing-4 py-spacing-3 font-body text-body-md text-text-primary outline-none transition-colors duration-fast",
-      error ? "border-error-500" : "border-border hover:border-border focus:border-indigo-500"
+      "w-full border-2 bg-surface-elevated px-4 py-3 font-body text-base text-on-light-primary outline-none transition-colors duration-100",
+      error ? "border-error" : "border-border hover:border-border focus:border-primary-500"
     );
 
     return (
       <div key={field.name} className={field.colSpan === 2 ? "col-span-2" : "col-span-1"}>
-        <label className="block mb-spacing-2 font-heading text-body-sm tracking-wider uppercase">
+        <label className="block mb-2 font-heading text-sm tracking-wider uppercase">
           {field.label}
-          {field.required && <span className="ml-1 text-black">*</span>}
+          {field.required && <span className="ml-1 text-error">*</span>}
         </label>
 
         {field.type === "textarea" ? (
@@ -239,15 +238,15 @@ export function RecordFormModal<T = Record<string, unknown>>({
             ))}
           </select>
         ) : field.type === "checkbox" ? (
-          <label className="flex items-center gap-gap-xs cursor-pointer">
+          <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
               checked={Boolean(value)}
               onChange={(e) => handleChange(field.name, e.target.checked)}
               disabled={field.disabled || submitting}
-              className="w-spacing-4 h-spacing-4"
+              className="w-4 h-4"
             />
-            <span className="font-body text-body-md">{field.placeholder}</span>
+            <span className="font-body text-base">{field.placeholder}</span>
           </label>
         ) : (
           <input
@@ -261,124 +260,129 @@ export function RecordFormModal<T = Record<string, unknown>>({
         )}
 
         {field.hint && !error && (
-          <span className="block mt-spacing-1 font-code text-mono-xs text-on-dark-disabled">{field.hint}</span>
+          <span className="block mt-1 font-mono text-xs text-on-light-muted">{field.hint}</span>
         )}
         {error && (
-          <span className="block mt-spacing-1 font-code text-mono-xs text-on-dark-disabled uppercase">{error}</span>
+          <span className="block mt-1 font-mono text-xs text-error uppercase">{error}</span>
         )}
       </div>
     );
   };
 
-  if (!open) return null;
+  // Step indicator header content for multi-step forms
+  const stepIndicatorContent = isMultiStep ? (
+    <div className="flex px-6 py-4 border-b-2 border-border gap-2">
+      {steps.map((step, idx) => (
+        <div key={step.id} className="flex-1 flex items-center gap-2">
+          <div
+            className={clsx(
+              "w-6 h-6 rounded-full flex items-center justify-center font-mono text-xs",
+              idx <= currentStep ? "bg-surface-inverse text-on-dark-primary" : "bg-muted text-on-light-muted"
+            )}
+          >
+            {idx + 1}
+          </div>
+          <span
+            className={clsx(
+              "font-mono text-xs uppercase",
+              idx === currentStep ? "text-on-light-primary" : "text-on-light-muted"
+            )}
+          >
+            {step.title}
+          </span>
+        </div>
+      ))}
+    </div>
+  ) : null;
 
-  return (
-    <div
-      className={clsx("fixed inset-0 z-modal flex items-center justify-center p-spacing-4", className)}
-      role="dialog"
-      aria-modal="true"
-    >
-      <div className="absolute inset-0 bg-black/50" onClick={submitting ? undefined : onClose} />
-      
-      <div className={clsx("relative bg-surface-primary text-text-primary border-2 border-border-primary shadow-hard-lg w-full max-h-[90vh] flex flex-col", sizeClasses[size])}>
-        {/* Header */}
-        <div className="flex items-center justify-between px-spacing-6 py-spacing-5 border-b-2 border-black">
-          <h2 className="font-heading text-h4-md tracking-wider uppercase">{modalTitle}</h2>
+  // Footer content with navigation and submit buttons
+  const footerContent = (
+    <div className="flex items-center justify-between">
+      <div>
+        {isMultiStep && currentStep > 0 && (
           <button
             type="button"
-            onClick={onClose}
+            onClick={handlePrev}
             disabled={submitting}
-            className={clsx("p-spacing-2 bg-transparent border-none text-h4-md", submitting ? "cursor-not-allowed" : "cursor-pointer")}
+            className="px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-primary text-on-light-primary border-2 border-border cursor-pointer hover:bg-muted disabled:opacity-50"
           >
-            ✕
+            Previous
           </button>
-        </div>
-
-        {/* Step indicator */}
-        {isMultiStep && (
-          <div className="flex px-spacing-6 py-spacing-4 border-b border-border gap-gap-xs">
-            {steps.map((step, idx) => (
-              <div key={step.id} className="flex-1 flex items-center gap-gap-xs">
-                <div
-                  className={clsx(
-                    "w-spacing-6 h-spacing-6 rounded-full flex items-center justify-center font-code text-mono-xs",
-                    idx <= currentStep ? "bg-black text-white" : "bg-muted text-on-dark-disabled"
-                  )}
-                >
-                  {idx + 1}
-                </div>
-                <span
-                  className={clsx(
-                    "font-code text-mono-xs uppercase",
-                    idx === currentStep ? "text-black" : "text-on-light-muted"
-                  )}
-                >
-                  {step.title}
-                </span>
-              </div>
-            ))}
-          </div>
         )}
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="flex-1 overflow-auto p-spacing-6 flex flex-col">
-          <div className="grid grid-cols-2 gap-gap-md flex-1">
-            {currentFields.map(renderField)}
-          </div>
-        </form>
-
-        {/* Footer */}
-        <div className="flex items-center justify-between px-spacing-6 py-spacing-4 border-t-2 border-border">
-          <div>
-            {isMultiStep && currentStep > 0 && (
-              <button
-                type="button"
-                onClick={handlePrev}
-                disabled={submitting}
-                className="px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-surface-primary text-text-primary border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
-              >
-                Previous
-              </button>
+      </div>
+      <div className="flex gap-3">
+        <button
+          type="button"
+          onClick={onClose}
+          disabled={submitting}
+          className={clsx(
+            "px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-primary text-on-light-primary border-2 border-border",
+            submitting ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-muted"
+          )}
+        >
+          {cancelLabel}
+        </button>
+        {isMultiStep && currentStep < steps.length - 1 ? (
+          <button
+            type="button"
+            onClick={handleNext}
+            className="px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-inverse text-on-dark-primary border-2 border-border cursor-pointer hover:bg-surface-elevated"
+          >
+            Next
+          </button>
+        ) : (
+          <button
+            type="submit"
+            form="record-form"
+            disabled={submitting || loading}
+            className={clsx(
+              "px-6 py-3 font-heading text-base tracking-wider uppercase leading-none bg-surface-inverse text-on-dark-primary border-2 border-border flex items-center gap-2",
+              submitting || loading ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:bg-surface-elevated"
             )}
-          </div>
-          <div className="flex gap-gap-sm">
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={submitting}
-              className={clsx(
-                "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-surface-primary text-text-primary border-2 border-border-primary",
-                submitting ? "cursor-not-allowed" : "cursor-pointer hover:bg-muted"
-              )}
-            >
-              {cancelLabel}
-            </button>
-            {isMultiStep && currentStep < steps.length - 1 ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-black text-white border-2 border-black cursor-pointer hover:bg-surface-elevated"
-              >
-                Next
-              </button>
-            ) : (
-              <button
-                type="submit"
-                onClick={handleSubmit}
-                disabled={submitting || loading}
-                className={clsx(
-                  "px-spacing-6 py-spacing-3 font-heading text-body-md tracking-wider uppercase leading-none bg-black text-white border-2 border-black flex items-center gap-gap-xs",
-                  submitting ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:bg-surface-elevated"
-                )}
-              >
-                {submitting && <span className="inline-block w-spacing-3 h-spacing-3 border-2 border-border border-t-white rounded-full animate-spin" />}
-                {submitText}
-              </button>
-            )}
-          </div>
-        </div>
+          >
+            {submitting && <span className="inline-block w-3 h-3 border-2 border-border border-t-on-dark-primary rounded-full animate-spin" />}
+            {submitText}
+          </button>
+        )}
       </div>
     </div>
+  );
+
+  return (
+    <OverlayLayout
+      type="modal"
+      size={size}
+      open={open}
+      onClose={onClose}
+      title={modalTitle}
+      closeOnEscape={!submitting}
+      closeOnBackdrop={!submitting}
+      preventScroll
+      animation="scale"
+      inverted={false}
+      showClose={!submitting}
+      footerContent={footerContent}
+      className={className}
+      ariaLabel={modalTitle}
+      mobileType="sheet"
+    >
+      {/* Form-level error */}
+      {errors._form && (
+        <div className="mb-4 p-3 bg-error/10 border-2 border-error/20 rounded-card">
+          <p className="text-sm text-error">{errors._form}</p>
+        </div>
+      )}
+
+      {/* Step indicator */}
+      {stepIndicatorContent}
+
+      {/* Form */}
+      <form id="record-form" onSubmit={handleSubmit}>
+        <div className="grid grid-cols-2 gap-4">
+          {currentFields.map(renderField)}
+        </div>
+      </form>
+    </OverlayLayout>
   );
 }
 

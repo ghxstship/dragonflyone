@@ -6,7 +6,8 @@ import { Container, Stack } from "../foundations/layout.js";
 import { Kicker } from "../atoms/kicker.js";
 import { Body, H2 } from "../atoms/typography.js";
 import { Button } from "../atoms/button.js";
-import { Play, X } from "lucide-react";
+import { Play } from "lucide-react";
+import { OverlayLayout } from "../templates/overlay-layout.js";
 
 /**
  * VideoSection - Embedded video with poster
@@ -34,8 +35,13 @@ export interface VideoSectionProps {
   mode?: "inline" | "modal";
   /** Aspect ratio */
   aspectRatio?: "16:9" | "4:3" | "1:1";
-  /** Background color */
-  background?: "black" | "ink" | "grey";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  sectionVariant?: "dark" | "light" | "inverted";
   className?: string;
 }
 
@@ -62,7 +68,7 @@ export const VideoSection = forwardRef<HTMLElement, VideoSectionProps>(
       provider = "youtube",
       mode = "inline",
       aspectRatio = "16:9",
-      background = "ink",
+      sectionVariant = "dark",
       className,
     },
     ref
@@ -70,10 +76,10 @@ export const VideoSection = forwardRef<HTMLElement, VideoSectionProps>(
     const [isPlaying, setIsPlaying] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const bgClasses = {
-      black: "bg-black text-white",
-      ink: "bg-surface-inverse text-on-dark-primary",
-      grey: "bg-surface-elevated text-on-dark-primary",
+    const sectionVariantClasses = {
+      dark: "section-dark bg-surface-primary",
+      light: "section-light bg-surface-primary",
+      inverted: "section-inverted bg-surface-primary",
     };
 
     const aspectClasses = {
@@ -96,16 +102,16 @@ export const VideoSection = forwardRef<HTMLElement, VideoSectionProps>(
       <>
         <section
           ref={ref}
-          className={clsx("py-20 md:py-32", bgClasses[background], className)}
+          className={clsx("py-20 md:py-32", sectionVariantClasses[sectionVariant], className)}
         >
           <Container size="lg">
             {/* Section Header */}
             {(kicker || title || description) && (
               <Stack gap={4} className="mb-12 text-center items-center">
                 {kicker && <Kicker>{kicker}</Kicker>}
-                {title && <H2 className="text-white">{title}</H2>}
+                {title && <H2 className="text-text-primary">{title}</H2>}
                 {description && (
-                  <Body size="lg" className="text-on-dark-muted max-w-2xl">
+                  <Body size="lg" className="text-text-muted max-w-2xl">
                     {description}
                   </Body>
                 )}
@@ -155,34 +161,31 @@ export const VideoSection = forwardRef<HTMLElement, VideoSectionProps>(
         </section>
 
         {/* Modal */}
-        {mode === "modal" && isModalOpen && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
-            onClick={() => setIsModalOpen(false)}
+        {mode === "modal" && (
+          <OverlayLayout
+            type="modal"
+            size="xl"
+            open={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            closeOnEscape
+            closeOnBackdrop
+            preventScroll
+            animation="scale"
+            inverted
+            showClose
+            ariaLabel="Video player"
+            contentClassName="p-0 bg-black"
           >
-            <div
-              className="relative w-full max-w-5xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsModalOpen(false)}
-                icon={<X className="size-6" />}
-                className="absolute -top-12 right-0 text-white"
-                aria-label="Close video"
+            <div className={clsx("rounded-card overflow-hidden", aspectClasses[aspectRatio])}>
+              <iframe
+                src={isModalOpen ? embedUrl : ""}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Video"
               />
-              <div className={clsx("rounded-card overflow-hidden", aspectClasses[aspectRatio])}>
-                <iframe
-                  src={embedUrl}
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title="Video"
-                />
-              </div>
             </div>
-          </div>
+          </OverlayLayout>
         )}
       </>
     );

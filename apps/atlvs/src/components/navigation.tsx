@@ -93,10 +93,10 @@ export function CreatorNavigationPublic() {
             ATLVS
           </Link>
 
-          {/* Desktop Navigation with Mega-Menus - Using Radix UI */}
+          {/* Desktop Navigation with Mega-Menus */}
           <MegaMenu.Root className="hidden lg:flex">
             {/* Products Dropdown */}
-            <MegaMenu.Item>
+            <MegaMenu.Item value="products">
               <MegaMenu.Trigger inverted>{productsNavigation.label}</MegaMenu.Trigger>
               <MegaMenu.Content size="lg" inverted>
                 <Grid cols={2} gap={4}>
@@ -135,7 +135,7 @@ export function CreatorNavigationPublic() {
             </MegaMenu.Item>
 
             {/* Solutions Dropdown */}
-            <MegaMenu.Item>
+            <MegaMenu.Item value="solutions">
               <MegaMenu.Trigger inverted>{solutionsNavigation.label}</MegaMenu.Trigger>
               <MegaMenu.Content size="xl" inverted>
                 <Text className="text-mono-xs font-weight-medium text-on-dark-disabled uppercase tracking-kicker mb-4">
@@ -178,7 +178,7 @@ export function CreatorNavigationPublic() {
             </MegaMenu.Item>
 
             {/* Resources Dropdown */}
-            <MegaMenu.Item>
+            <MegaMenu.Item value="resources">
               <MegaMenu.Trigger inverted>{resourcesNavigation.label}</MegaMenu.Trigger>
               <MegaMenu.Content size="lg" inverted>
                 <Grid cols={3} gap={6}>
@@ -263,7 +263,7 @@ export function CreatorNavigationPublic() {
 
       {/* Mobile Navigation Overlay */}
       {isOpen && (
-        <Stack className="fixed inset-0 z-modal-backdrop bg-surface-inverse/95 p-4 animate-in fade-in sm:p-6 md:hidden overflow-y-auto">
+        <Stack className="fixed inset-0 z-modal-backdrop bg-surface-inverse p-4 animate-in fade-in sm:p-6 md:hidden overflow-y-auto">
           <Stack className="min-h-full justify-between pt-20 pb-8">
             <Stack gap={4}>
               {/* Products */}

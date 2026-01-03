@@ -42,8 +42,13 @@ export interface TeamSectionProps {
   members: TeamMember[];
   /** Number of columns */
   columns?: 3 | 4;
-  /** Background color */
-  background?: "black" | "ink" | "grey";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  sectionVariant?: "dark" | "light" | "inverted";
   /** Show social links */
   showSocial?: boolean;
   /** Show bios */
@@ -59,17 +64,17 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
       description,
       members,
       columns = 4,
-      background = "ink",
+      sectionVariant = "dark",
       showSocial = true,
       showBios = false,
       className,
     },
     ref
   ) {
-    const bgClasses = {
-      black: "bg-black text-white",
-      ink: "bg-surface-inverse text-on-dark-primary",
-      grey: "bg-surface-elevated text-on-dark-primary",
+    const sectionVariantClasses = {
+      dark: "section-dark bg-surface-primary",
+      light: "section-light bg-surface-primary",
+      inverted: "section-inverted bg-surface-primary",
     };
 
     const colClasses = {
@@ -80,16 +85,16 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
     return (
       <section
         ref={ref}
-        className={clsx("py-20 md:py-32", bgClasses[background], className)}
+        className={clsx("py-20 md:py-32", sectionVariantClasses[sectionVariant], className)}
       >
         <Container size="xl">
           {/* Section Header */}
           {(kicker || title || description) && (
             <Stack gap={4} className="mb-12 md:mb-16 text-center items-center">
               {kicker && <Kicker>{kicker}</Kicker>}
-              {title && <H2 className="text-white">{title}</H2>}
+              {title && <H2 className="text-text-primary">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-on-dark-muted max-w-2xl">
+                <Body size="lg" className="text-text-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -117,7 +122,7 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
 
                   {/* Info */}
                   <Stack gap={1} className="items-center">
-                    <Body className="text-white font-semibold">
+                    <Body className="text-text-primary font-semibold">
                       {member.name}
                     </Body>
                     <Body size="sm" className="text-primary">
@@ -127,7 +132,7 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
 
                   {/* Bio */}
                   {showBios && member.bio && (
-                    <Body size="sm" className="text-on-dark-muted line-clamp-3">
+                    <Body size="sm" className="text-text-muted line-clamp-3">
                       {member.bio}
                     </Body>
                   )}
@@ -140,7 +145,7 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
                           href={member.social.linkedin}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-on-dark-disabled hover:text-primary transition-colors"
+                          className="text-text-disabled hover:text-primary transition-colors"
                           aria-label={`${member.name} on LinkedIn`}
                         >
                           <Linkedin className="size-5" />
@@ -151,7 +156,7 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
                           href={member.social.instagram}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-on-dark-disabled hover:text-primary transition-colors"
+                          className="text-text-disabled hover:text-primary transition-colors"
                           aria-label={`${member.name} on Instagram`}
                         >
                           <Instagram className="size-5" />
@@ -162,7 +167,7 @@ export const TeamSection = forwardRef<HTMLElement, TeamSectionProps>(
                           href={member.social.bluesky}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-on-dark-disabled hover:text-primary transition-colors"
+                          className="text-text-disabled hover:text-primary transition-colors"
                           aria-label={`${member.name} on Bluesky`}
                         >
                           <svg className="size-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

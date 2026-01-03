@@ -6,6 +6,8 @@
  * Bold Contemporary Pop Art Adventure Design System
  */
 
+export const dynamic = "force-dynamic";
+
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, User, Calendar, Users, BarChart3 } from "lucide-react";
@@ -14,6 +16,7 @@ import {
   Button,
   Form,
   Link,
+  Text,
   AuthSplitLayout,
   AuthFormField,
   AuthPasswordInput,
@@ -126,7 +129,7 @@ export default function SignUpPage() {
       formMaxWidth="md"
     >
       <Form onSubmit={handleSubmit}>
-        <Stack gap={5}>
+        <Stack gap={3}>
           <AuthFormField
             label="Full Name"
             placeholder="John Smith"
@@ -150,7 +153,7 @@ export default function SignUpPage() {
             required
           />
 
-          <Stack gap={3}>
+          <Stack gap={2}>
             <AuthPasswordInput
               label="Password"
               placeholder="Create a strong password"
@@ -180,7 +183,7 @@ export default function SignUpPage() {
 
           <AuthCheckbox
             label={
-              <span>
+              <Text size="sm">
                 I agree to the{" "}
                 <Link href="/legal/terms" className="text-primary-400 hover:text-primary-300 underline">
                   Terms of Service
@@ -189,7 +192,7 @@ export default function SignUpPage() {
                 <Link href="/legal/privacy" className="text-primary-400 hover:text-primary-300 underline">
                   Privacy Policy
                 </Link>
-              </span>
+              </Text>
             }
             checked={agreedToTerms}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAgreedToTerms(e.target.checked)}

@@ -35,8 +35,15 @@ export interface StatsSectionProps {
   stats: StatItem[];
   /** Number of columns */
   columns?: 2 | 3 | 4;
-  /** Background color */
-  background?: "black" | "ink" | "primary" | "accent";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  variant?: "dark" | "light" | "inverted";
+  /** Background style */
+  backgroundStyle?: "solid" | "primary" | "accent";
   /** Animate numbers on scroll */
   animate?: boolean;
   /** Animation duration in ms */
@@ -102,16 +109,16 @@ function AnimatedStat({
 
   return (
     <Stack gap={2} className="text-center">
-      <div className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white">
+      <div className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-text-primary">
         {stat.prefix}
         {animate ? count.toLocaleString() : stat.value.toLocaleString()}
         {stat.suffix}
       </div>
-      <Body className="text-white font-semibold uppercase tracking-wider">
+      <Body className="text-text-primary font-semibold uppercase tracking-wider">
         {stat.label}
       </Body>
       {stat.description && (
-        <Body size="sm" className="text-white/70">
+        <Body size="sm" className="text-text-muted">
           {stat.description}
         </Body>
       )}
@@ -127,7 +134,8 @@ export const StatsSection = forwardRef<HTMLElement, StatsSectionProps>(
       description,
       stats,
       columns = 4,
-      background = "primary",
+      variant = "dark",
+      backgroundStyle = "primary",
       animate = true,
       animationDuration = 2000,
       align = "center",
@@ -161,9 +169,14 @@ export const StatsSection = forwardRef<HTMLElement, StatsSectionProps>(
       };
     }, []);
 
-    const bgClasses = {
-      black: "bg-black",
-      ink: "bg-surface-inverse",
+    const variantClasses = {
+      dark: "section-dark",
+      light: "section-light",
+      inverted: "section-inverted",
+    };
+
+    const bgStyleClasses = {
+      solid: "bg-surface-primary",
       primary: "bg-primary",
       accent: "bg-accent",
     };
@@ -181,7 +194,12 @@ export const StatsSection = forwardRef<HTMLElement, StatsSectionProps>(
           if (typeof ref === "function") ref(node);
           else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = node;
         }}
-        className={clsx("py-12 sm:py-16 md:py-20 lg:py-24", bgClasses[background], className)}
+        className={clsx(
+          "py-12 sm:py-16 md:py-20 lg:py-24",
+          variantClasses[variant],
+          bgStyleClasses[backgroundStyle],
+          className
+        )}
       >
         <Container size="xl">
           {/* Section Header */}
@@ -193,10 +211,10 @@ export const StatsSection = forwardRef<HTMLElement, StatsSectionProps>(
                 align === "center" ? "text-center items-center" : "text-left"
               )}
             >
-              {kicker && <Kicker className="text-white/80">{kicker}</Kicker>}
-              {title && <H2 className="text-white">{title}</H2>}
+              {kicker && <Kicker className="text-text-secondary">{kicker}</Kicker>}
+              {title && <H2 className="text-text-primary">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-white/80 max-w-2xl">
+                <Body size="lg" className="text-text-secondary max-w-2xl">
                   {description}
                 </Body>
               )}

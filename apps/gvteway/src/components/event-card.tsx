@@ -28,11 +28,11 @@ export function EventCard({
   return (
     <Article
       variant="bordered"
-      className="group cursor-pointer pop-card"
+      className="group cursor-pointer pop-card h-full flex flex-col"
       onClick={() => router.push(`/events/${id}`)}
     >
       {image && (
-        <Figure className="relative aspect-video w-full overflow-hidden bg-muted">
+        <Figure className="relative aspect-video w-full overflow-hidden bg-muted flex-shrink-0">
           <Image
             src={image}
             alt={title}
@@ -41,19 +41,21 @@ export function EventCard({
           />
         </Figure>
       )}
-      <Stack className="p-6" gap={3}>
+      {/* Card content - grows to fill available space */}
+      <Stack className="p-6 flex-1" gap={3}>
         {category && (
           <Badge variant="outline" className="self-start">
             {category}
           </Badge>
         )}
         <H3 className="text-h6-md font-weight-bold uppercase">{title}</H3>
-        <Stack gap={2}>
+        <Stack gap={2} className="flex-1">
           <Body className="font-mono">{date}</Body>
           <Body className="text-on-light-secondary">{venue}</Body>
           <Body className="font-weight-bold">From ${price}</Body>
         </Stack>
-        <Button variant="solid" className="w-full mt-2">
+        {/* CTA - anchored at bottom */}
+        <Button variant="solid" className="w-full mt-auto">
           View Details
         </Button>
       </Stack>

@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import clsx from "clsx";
 import { Plus, Trash2, Save, X, ChevronDown, ChevronUp } from "lucide-react";
+import { OverlayLayout } from "../templates/overlay-layout.js";
 
 export type FilterOperator =
   | "equals"
@@ -370,44 +371,49 @@ export function SavedFilterBuilder({
       />
 
       {/* Save Dialog */}
-      {saveDialogOpen && (
-        <div className="fixed inset-0 z-modal flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-black/50"
-            onClick={() => setSaveDialogOpen(false)}
-          />
-          <div className="relative bg-surface-primary border-2 border-black shadow-[4px_4px_0_black] rounded-modal p-spacing-6 w-full max-w-sm">
-            <h4 className="font-heading text-h5-md tracking-wider uppercase mb-spacing-4">
-              Save Filter
-            </h4>
-            <input
-              type="text"
-              value={filterName}
-              onChange={(e) => setFilterName(e.target.value)}
-              placeholder="Filter name..."
-              className="w-full px-spacing-3 py-spacing-2 bg-surface-primary border-2 border-border-primary text-text-primary outline-none focus:border-primary-500 mb-spacing-4"
-              autoFocus
-            />
-            <div className="flex justify-end gap-gap-sm">
-              <button
-                type="button"
-                onClick={() => setSaveDialogOpen(false)}
-                className="px-spacing-4 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-surface-primary text-text-primary border-2 border-border-primary cursor-pointer hover:bg-surface-secondary"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleSaveFilter}
-                disabled={!filterName.trim() || saving}
-                className="px-spacing-4 py-spacing-2 font-code text-mono-sm tracking-wide uppercase bg-black text-white border-2 border-black cursor-pointer hover:bg-surface-elevated disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {saving ? "Saving..." : "Save"}
-              </button>
-            </div>
+      <OverlayLayout
+        type="modal"
+        size="sm"
+        open={saveDialogOpen}
+        onClose={() => setSaveDialogOpen(false)}
+        title="Save Filter"
+        closeOnEscape={!saving}
+        closeOnBackdrop={!saving}
+        preventScroll
+        animation="scale"
+        inverted={false}
+        showClose={!saving}
+        ariaLabel="Save Filter"
+        footerContent={
+          <div className="flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => setSaveDialogOpen(false)}
+              disabled={saving}
+              className="px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-primary text-on-light-primary border-2 border-border cursor-pointer hover:bg-muted disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={handleSaveFilter}
+              disabled={!filterName.trim() || saving}
+              className="px-4 py-2 font-mono text-sm tracking-wide uppercase bg-surface-inverse text-on-dark-primary border-2 border-border cursor-pointer hover:bg-surface-elevated disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {saving ? "Saving..." : "Save"}
+            </button>
           </div>
-        </div>
-      )}
+        }
+      >
+        <input
+          type="text"
+          value={filterName}
+          onChange={(e) => setFilterName(e.target.value)}
+          placeholder="Filter name..."
+          className="w-full px-3 py-2 bg-surface-primary border-2 border-border text-on-light-primary outline-none focus:border-primary-500"
+          autoFocus
+        />
+      </OverlayLayout>
     </div>
   );
 }

@@ -11,10 +11,10 @@ export {
   MegaMenuTrigger,
   MegaMenuContent,
   MegaMenuLink,
-  MegaMenuIndicator,
   MegaMenuSection,
   MegaMenuItemLink,
   MegaMenuFooter,
+  MegaMenuIndicator,
 } from './mega-menu.js';
 
 // Types

@@ -44,9 +44,16 @@ export interface HeroSectionProps {
     label: string;
     onClick: () => void;
   };
-  /** Background variant */
-  background?: "black" | "ink" | "gradient" | "image";
-  /** Background image URL (when background="image") */
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default - matches GHXSTSHIP aesthetic)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  variant?: "dark" | "light" | "inverted";
+  /** Background style */
+  backgroundStyle?: "solid" | "gradient" | "image";
+  /** Background image URL (when backgroundStyle="image") */
   backgroundImage?: string;
   /** Pattern overlay */
   pattern?: "none" | "halftone" | "grid" | "stripes";
@@ -70,7 +77,8 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
       primaryCta,
       secondaryCta,
       videoButton,
-      background = "black",
+      variant = "dark",
+      backgroundStyle = "solid",
       backgroundImage,
       pattern = "halftone",
       fullHeight = true,
@@ -81,11 +89,16 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
     },
     ref
   ) {
-    const bgClasses = {
-      black: "bg-black",
-      ink: "bg-surface-inverse",
+    const variantClasses = {
+      dark: "section-dark",
+      light: "section-light",
+      inverted: "section-inverted",
+    };
+
+    const bgStyleClasses = {
+      solid: "bg-surface-primary",
       gradient: "bg-gradient-to-br from-ink-950 via-ink-900 to-primary/20",
-      image: "bg-black",
+      image: "bg-surface-primary",
     };
 
     const alignClasses = {
@@ -115,14 +128,15 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
       <section
         ref={ref}
         className={clsx(
-          "relative overflow-hidden text-white",
+          "relative overflow-hidden text-text-primary",
           fullHeight ? "min-h-[100dvh]" : "min-h-[60vh] md:min-h-[70vh]",
-          bgClasses[background],
+          variantClasses[variant],
+          bgStyleClasses[backgroundStyle],
           className
         )}
       >
         {/* Background Image */}
-        {background === "image" && backgroundImage && (
+        {backgroundStyle === "image" && backgroundImage && (
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -167,7 +181,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
               {description && (
                 <div className="max-w-2xl animate-fade-in animation-delay-200">
                   {typeof description === "string" ? (
-                    <p className="font-body text-lg md:text-xl lg:text-2xl text-on-dark-secondary leading-relaxed">
+                    <p className="font-body text-lg md:text-xl lg:text-2xl text-text-secondary leading-relaxed">
                       {description}
                     </p>
                   ) : (

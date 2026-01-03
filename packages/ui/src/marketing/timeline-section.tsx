@@ -36,8 +36,13 @@ export interface TimelineSectionProps {
   items: TimelineItem[];
   /** Layout orientation */
   orientation?: "vertical" | "horizontal";
-  /** Background color */
-  background?: "black" | "ink" | "grey";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  sectionVariant?: "dark" | "light" | "inverted";
   className?: string;
 }
 
@@ -49,15 +54,15 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
       description,
       items,
       orientation = "vertical",
-      background = "ink",
+      sectionVariant = "dark",
       className,
     },
     ref
   ) {
-    const bgClasses = {
-      black: "bg-black text-white",
-      ink: "bg-surface-inverse text-on-dark-primary",
-      grey: "bg-surface-elevated text-on-dark-primary",
+    const sectionVariantClasses = {
+      dark: "section-dark bg-surface-primary",
+      light: "section-light bg-surface-primary",
+      inverted: "section-inverted bg-surface-primary",
     };
 
     const statusColors = {
@@ -75,16 +80,16 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
     return (
       <section
         ref={ref}
-        className={clsx("py-20 md:py-32", bgClasses[background], className)}
+        className={clsx("py-20 md:py-32", sectionVariantClasses[sectionVariant], className)}
       >
         <Container size="lg">
           {/* Section Header */}
           {(kicker || title || description) && (
             <Stack gap={4} className="mb-12 md:mb-16 text-center items-center">
               {kicker && <Kicker>{kicker}</Kicker>}
-              {title && <H2 className="text-white">{title}</H2>}
+              {title && <H2 className="text-text-primary">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-on-dark-muted max-w-2xl">
+                <Body size="lg" className="text-text-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -123,7 +128,7 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
                             idx % 2 === 0 ? "md:justify-end" : "md:justify-start"
                           )}
                         >
-                          <Body size="sm" className="text-on-dark-disabled font-mono">
+                          <Body size="sm" className="text-text-disabled font-mono">
                             {item.date}
                           </Body>
                           {item.status && (
@@ -132,10 +137,10 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
                             </Badge>
                           )}
                         </Stack>
-                        <H3 size="sm" className="text-white">
+                        <H3 size="sm" className="text-text-primary">
                           {item.title}
                         </H3>
-                        <Body className="text-on-dark-muted">
+                        <Body className="text-text-muted">
                           {item.description}
                         </Body>
                       </Stack>
@@ -178,13 +183,13 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
 
                     {/* Content */}
                     <Stack gap={2} className="text-center">
-                      <Body size="sm" className="text-on-dark-disabled font-mono">
+                      <Body size="sm" className="text-text-disabled font-mono">
                         {item.date}
                       </Body>
-                      <H3 size="sm" className="text-white">
+                      <H3 size="sm" className="text-text-primary">
                         {item.title}
                       </H3>
-                      <Body size="sm" className="text-on-dark-muted">
+                      <Body size="sm" className="text-text-muted">
                         {item.description}
                       </Body>
                       {item.status && (

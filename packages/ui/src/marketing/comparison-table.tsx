@@ -40,8 +40,13 @@ export interface ComparisonTableProps {
   columns: ComparisonColumn[];
   /** Row data */
   rows: ComparisonRow[];
-  /** Background color */
-  background?: "black" | "ink" | "grey";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  sectionVariant?: "dark" | "light" | "inverted";
   /** Show category headers */
   showCategories?: boolean;
   className?: string;
@@ -55,16 +60,16 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
       description,
       columns,
       rows,
-      background = "ink",
+      sectionVariant = "dark",
       showCategories = true,
       className,
     },
     ref
   ) {
-    const bgClasses = {
-      black: "bg-black text-white",
-      ink: "bg-surface-inverse text-on-dark-primary",
-      grey: "bg-surface-elevated text-on-dark-primary",
+    const sectionVariantClasses = {
+      dark: "section-dark bg-surface-primary",
+      light: "section-light bg-surface-primary",
+      inverted: "section-inverted bg-surface-primary",
     };
 
     // Group rows by category
@@ -82,13 +87,13 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
         return <Check className="size-5 text-success mx-auto" />;
       }
       if (value === false) {
-        return <X className="size-5 text-on-dark-disabled mx-auto" />;
+        return <X className="size-5 text-text-disabled mx-auto" />;
       }
       if (value === "partial") {
         return <Minus className="size-5 text-warning mx-auto" />;
       }
       return (
-        <Body size="sm" className="text-on-dark-secondary text-center">
+        <Body size="sm" className="text-text-secondary text-center">
           {value}
         </Body>
       );
@@ -97,16 +102,16 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
     return (
       <section
         ref={ref}
-        className={clsx("py-12 sm:py-16 md:py-24 lg:py-32", bgClasses[background], className)}
+        className={clsx("py-12 sm:py-16 md:py-24 lg:py-32", sectionVariantClasses[sectionVariant], className)}
       >
         <Container size="xl">
           {/* Section Header */}
           {(kicker || title || description) && (
             <Stack gap={4} className="mb-8 sm:mb-10 md:mb-12 text-center items-center">
               {kicker && <Kicker>{kicker}</Kicker>}
-              {title && <H2 className="text-white">{title}</H2>}
+              {title && <H2 className="text-text-primary">{title}</H2>}
               {description && (
-                <Body size="lg" className="text-on-dark-muted max-w-2xl">
+                <Body size="lg" className="text-text-muted max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -120,7 +125,7 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
               <thead className="sticky top-0 z-10">
                 <tr className="border-b-2 border-border">
                   <th className="p-4 text-left bg-surface-inverse">
-                    <Body className="text-on-dark-muted font-semibold">Feature</Body>
+                    <Body className="text-text-muted font-semibold">Feature</Body>
                   </th>
                   {columns.map((col) => (
                     <th
@@ -136,13 +141,13 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
                         <Body
                           className={clsx(
                             "font-semibold",
-                            col.highlighted ? "text-primary" : "text-white"
+                            col.highlighted ? "text-primary" : "text-text-primary"
                           )}
                         >
                           {col.name}
                         </Body>
                         {col.price && (
-                          <Body size="sm" className="text-on-dark-muted">
+                          <Body size="sm" className="text-text-muted">
                             {col.price}
                           </Body>
                         )}
@@ -163,7 +168,7 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
                           colSpan={columns.length + 1}
                           className="p-4 bg-surface-elevated/50"
                         >
-                          <Body className="text-white font-semibold uppercase tracking-wider text-sm">
+                          <Body className="text-text-primary font-semibold uppercase tracking-wider text-sm">
                             {category}
                           </Body>
                         </td>
@@ -177,7 +182,7 @@ export const ComparisonTable = forwardRef<HTMLElement, ComparisonTableProps>(
                         className="border-b border-border hover:bg-surface-elevated/30 transition-colors"
                       >
                         <td className="p-4">
-                          <Body className="text-on-dark-secondary">{row.feature}</Body>
+                          <Body className="text-text-secondary">{row.feature}</Body>
                         </td>
                         {columns.map((col) => (
                           <td

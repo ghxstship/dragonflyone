@@ -3,6 +3,7 @@
 import { forwardRef, useState, useEffect, useCallback, useMemo, ReactNode } from "react";
 import clsx from "clsx";
 import { Search, Command, ArrowRight, CornerDownLeft, ArrowUp, ArrowDown, X } from "lucide-react";
+import { OverlayLayout } from "../templates/overlay-layout.js";
 
 // =============================================================================
 // TYPES
@@ -194,9 +195,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       const handleGlobalKeyDown = (e: KeyboardEvent) => {
         if ((e.metaKey || e.ctrlKey) && e.key === "k") {
           e.preventDefault();
-          if (!open) {
-            // This would need to be handled by parent
-          } else {
+          if (open) {
             onClose();
           }
         }
@@ -206,213 +205,210 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       return () => document.removeEventListener("keydown", handleGlobalKeyDown);
     }, [open, onClose]);
 
-    if (!open) return null;
-
     let flatIndex = 0;
 
-    return (
-      <>
-        {/* Backdrop */}
-        <div
-          className="fixed inset-0 z-modal-backdrop bg-black/60 backdrop-blur-sm"
-          onClick={onClose}
-          aria-hidden="true"
+    // Custom header with search input
+    const headerContent = (
+      <div
+        className={clsx(
+          "flex items-center gap-3 px-4 py-3 border-b-2",
+          inverted ? "border-border" : "border-border"
+        )}
+      >
+        <Search
+          size={20}
+          className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}
         />
-
-        {/* Palette */}
-        <div
-          ref={ref}
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder={placeholder}
           className={clsx(
-            "fixed left-1/2 top-[20%] z-modal w-full max-w-xl -translate-x-1/2 overflow-hidden rounded-xl border-2 shadow-xl",
-            inverted
-              ? "bg-surface-inverse border-border"
-              : "bg-surface-primary border-border",
-            className
+            "flex-1 bg-transparent text-base outline-none placeholder:text-on-dark-muted",
+            inverted ? "text-on-dark-primary" : "text-on-light-primary"
           )}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Command palette"
+          autoFocus
+        />
+        <button
+          type="button"
+          onClick={onClose}
+          className={clsx(
+            "p-1 rounded transition-colors",
+            inverted
+              ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
+              : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+          )}
         >
-          {/* Search Input */}
-          <div
-            className={clsx(
-              "flex items-center gap-3 px-4 py-3 border-b-2",
-              inverted ? "border-border" : "border-border"
-            )}
-          >
-            <Search
-              size={20}
-              className={inverted ? "text-on-dark-muted" : "text-on-light-muted"}
-            />
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={placeholder}
+          <X size={16} />
+        </button>
+      </div>
+    );
+
+    // Footer with keyboard hints
+    const footerContent = (
+      <div
+        className={clsx(
+          "flex items-center justify-between px-4 py-2 text-xs",
+          inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+        )}
+      >
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-1">
+            <ShortcutKey inverted={inverted}>
+              <ArrowUp size={10} />
+            </ShortcutKey>
+            <ShortcutKey inverted={inverted}>
+              <ArrowDown size={10} />
+            </ShortcutKey>
+            <span className="ml-1">Navigate</span>
+          </span>
+          <span className="flex items-center gap-1">
+            <ShortcutKey inverted={inverted}>
+              <CornerDownLeft size={10} />
+            </ShortcutKey>
+            <span className="ml-1">Select</span>
+          </span>
+          <span className="flex items-center gap-1">
+            <ShortcutKey inverted={inverted}>Esc</ShortcutKey>
+            <span className="ml-1">Close</span>
+          </span>
+        </div>
+        <div className="flex items-center gap-1">
+          <ShortcutKey inverted={inverted}>
+            <Command size={10} />
+          </ShortcutKey>
+          <ShortcutKey inverted={inverted}>K</ShortcutKey>
+        </div>
+      </div>
+    );
+
+    return (
+      <OverlayLayout
+        ref={ref}
+        type="modal"
+        size="md"
+        open={open}
+        onClose={onClose}
+        closeOnEscape
+        closeOnBackdrop
+        preventScroll
+        animation="scale"
+        inverted={inverted}
+        showClose={false}
+        headerContent={headerContent}
+        footerContent={footerContent}
+        className={className}
+        ariaLabel="Command palette"
+        backdropBlur
+        contentClassName="p-0"
+        mobileType="fullscreen"
+      >
+        {/* Results */}
+        <div className="max-h-[400px] overflow-y-auto p-2">
+          {filteredItems.length === 0 ? (
+            <div
               className={clsx(
-                "flex-1 bg-transparent text-base outline-none placeholder:text-on-dark-muted",
-                inverted ? "text-on-dark-primary" : "text-on-light-primary"
-              )}
-              autoFocus
-            />
-            <button
-              type="button"
-              onClick={onClose}
-              className={clsx(
-                "p-1 rounded transition-colors",
-                inverted
-                  ? "text-on-dark-muted hover:text-on-dark-primary hover:bg-surface-elevated"
-                  : "text-on-light-muted hover:text-on-light-primary hover:bg-muted"
+                "px-4 py-8 text-center text-sm",
+                inverted ? "text-on-dark-muted" : "text-on-light-muted"
               )}
             >
-              <X size={16} />
-            </button>
-          </div>
+              No results found for &quot;{query}&quot;
+            </div>
+          ) : (
+            Object.entries(groupedItems).map(([category, categoryItems]) => (
+              <div key={category} className="mb-2">
+                <div
+                  className={clsx(
+                    "px-3 py-1.5 text-xs font-semibold uppercase tracking-wide",
+                    inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                  )}
+                >
+                  {category}
+                </div>
+                {categoryItems.map((item) => {
+                  const currentIndex = flatIndex++;
+                  const isSelected = currentIndex === selectedIndex;
 
-          {/* Results */}
-          <div className="max-h-[400px] overflow-y-auto p-2">
-            {filteredItems.length === 0 ? (
-              <div
-                className={clsx(
-                  "px-4 py-8 text-center text-sm",
-                  inverted ? "text-on-dark-muted" : "text-on-light-muted"
-                )}
-              >
-                No results found for &quot;{query}&quot;
-              </div>
-            ) : (
-              Object.entries(groupedItems).map(([category, categoryItems]) => (
-                <div key={category} className="mb-2">
-                  <div
-                    className={clsx(
-                      "px-3 py-1.5 text-xs font-semibold uppercase tracking-wide",
-                      inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
-                    )}
-                  >
-                    {category}
-                  </div>
-                  {categoryItems.map((item) => {
-                    const currentIndex = flatIndex++;
-                    const isSelected = currentIndex === selectedIndex;
-
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => handleSelect(item)}
-                        onMouseEnter={() => setSelectedIndex(currentIndex)}
-                        className={clsx(
-                          "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors",
-                          isSelected
-                            ? inverted
-                              ? "bg-surface-elevated text-on-dark-primary"
-                              : "bg-muted text-on-light-primary"
-                            : inverted
-                            ? "text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary"
-                            : "text-on-light-secondary hover:bg-muted hover:text-on-light-primary"
-                        )}
-                      >
-                        {item.icon && (
-                          <span
-                            className={clsx(
-                              "shrink-0",
-                              isSelected
-                                ? inverted
-                                  ? "text-primary-400"
-                                  : "text-primary-600"
-                                : inverted
-                                ? "text-on-dark-disabled"
-                                : "text-on-light-disabled"
-                            )}
-                          >
-                            {item.icon}
-                          </span>
-                        )}
-                        <div className="flex-1 min-w-0">
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => handleSelect(item)}
+                      onMouseEnter={() => setSelectedIndex(currentIndex)}
+                      className={clsx(
+                        "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors",
+                        isSelected
+                          ? inverted
+                            ? "bg-surface-elevated text-on-dark-primary"
+                            : "bg-muted text-on-light-primary"
+                          : inverted
+                          ? "text-on-dark-secondary hover:bg-surface-elevated hover:text-on-dark-primary"
+                          : "text-on-light-secondary hover:bg-muted hover:text-on-light-primary"
+                      )}
+                    >
+                      {item.icon && (
+                        <span
+                          className={clsx(
+                            "shrink-0",
+                            isSelected
+                              ? inverted
+                                ? "text-primary-400"
+                                : "text-primary-600"
+                              : inverted
+                              ? "text-on-dark-disabled"
+                              : "text-on-light-disabled"
+                          )}
+                        >
+                          {item.icon}
+                        </span>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div
+                          className={clsx(
+                            "text-sm font-medium truncate",
+                            isSelected
+                              ? inverted
+                                ? "text-white"
+                                : "text-on-light-primary"
+                              : ""
+                          )}
+                        >
+                          {item.label}
+                        </div>
+                        {item.description && (
                           <div
                             className={clsx(
-                              "text-sm font-medium truncate",
-                              isSelected
-                                ? inverted
-                                  ? "text-white"
-                                  : "text-on-light-primary"
-                                : ""
+                              "text-xs truncate",
+                              inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
                             )}
                           >
-                            {item.label}
+                            {item.description}
                           </div>
-                          {item.description && (
-                            <div
-                              className={clsx(
-                                "text-xs truncate",
-                                inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
-                              )}
-                            >
-                              {item.description}
-                            </div>
-                          )}
-                        </div>
-                        {item.shortcut && (
-                          <ShortcutKey inverted={inverted}>
-                            {item.shortcut}
-                          </ShortcutKey>
                         )}
-                        {isSelected && (
-                          <ArrowRight
-                            size={14}
-                            className={
-                              inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
-                            }
-                          />
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              ))
-            )}
-          </div>
-
-          {/* Footer with keyboard hints */}
-          <div
-            className={clsx(
-              "flex items-center justify-between px-4 py-2 border-t-2 text-xs",
-              inverted
-                ? "border-border text-on-dark-disabled"
-                : "border-border text-on-light-disabled"
-            )}
-          >
-            <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1">
-                <ShortcutKey inverted={inverted}>
-                  <ArrowUp size={10} />
-                </ShortcutKey>
-                <ShortcutKey inverted={inverted}>
-                  <ArrowDown size={10} />
-                </ShortcutKey>
-                <span className="ml-1">Navigate</span>
-              </span>
-              <span className="flex items-center gap-1">
-                <ShortcutKey inverted={inverted}>
-                  <CornerDownLeft size={10} />
-                </ShortcutKey>
-                <span className="ml-1">Select</span>
-              </span>
-              <span className="flex items-center gap-1">
-                <ShortcutKey inverted={inverted}>Esc</ShortcutKey>
-                <span className="ml-1">Close</span>
-              </span>
-            </div>
-            <div className="flex items-center gap-1">
-              <ShortcutKey inverted={inverted}>
-                <Command size={10} />
-              </ShortcutKey>
-              <ShortcutKey inverted={inverted}>K</ShortcutKey>
-            </div>
-          </div>
+                      </div>
+                      {item.shortcut && (
+                        <ShortcutKey inverted={inverted}>
+                          {item.shortcut}
+                        </ShortcutKey>
+                      )}
+                      {isSelected && (
+                        <ArrowRight
+                          size={14}
+                          className={
+                            inverted ? "text-on-dark-disabled" : "text-on-light-disabled"
+                          }
+                        />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            ))
+          )}
         </div>
-      </>
+      </OverlayLayout>
     );
   }
 );

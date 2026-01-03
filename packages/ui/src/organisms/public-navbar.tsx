@@ -241,7 +241,7 @@ export const PublicNavbar = forwardRef<HTMLElement, PublicNavbarProps>(
           <div
             className={clsx(
               "fixed inset-0 z-modal-backdrop animate-fade-in md:hidden",
-              inverted ? "bg-surface-inverse/95" : "bg-surface-primary/95"
+              inverted ? "bg-surface-inverse" : "bg-surface-primary"
             )}
           >
             <div className="flex flex-col h-full pt-20 px-6 pb-6">

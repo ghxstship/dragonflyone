@@ -58,8 +58,13 @@ export interface PricingSectionProps {
   defaultBilling?: "monthly" | "annual";
   /** Annual savings percentage */
   annualSavings?: number;
-  /** Background color */
-  background?: "black" | "ink" | "grey";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default - matches GHXSTSHIP aesthetic)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  variant?: "dark" | "light" | "inverted";
   /** Additional content below pricing */
   footer?: ReactNode;
   className?: string;
@@ -75,7 +80,7 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
       showBillingToggle = true,
       defaultBilling = "annual",
       annualSavings = 20,
-      background = "ink",
+      variant = "dark",
       footer,
       className,
     },
@@ -83,10 +88,10 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
   ) {
     const [billing, setBilling] = useState<"monthly" | "annual">(defaultBilling);
 
-    const bgClasses = {
-      black: "bg-black text-white",
-      ink: "bg-surface-inverse text-on-dark-primary",
-      grey: "bg-surface-elevated text-on-dark-primary",
+    const variantClasses = {
+      dark: "section-dark bg-surface-primary",
+      light: "section-light bg-surface-primary",
+      inverted: "section-inverted bg-surface-primary",
     };
 
     const formatPrice = (price: number, currency = "USD") => {
@@ -102,15 +107,15 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
     return (
       <section
         ref={ref}
-        className={clsx("py-12 sm:py-16 md:py-24 lg:py-32", bgClasses[background], className)}
+        className={clsx("py-12 sm:py-16 md:py-24 lg:py-32", variantClasses[variant], className)}
       >
         <Container size="xl">
           {/* Section Header */}
           <Stack gap={4} className="mb-8 sm:mb-10 md:mb-12 lg:mb-16 text-center items-center">
             {kicker && <Kicker>{kicker}</Kicker>}
-            {title && <H2 className="text-white">{title}</H2>}
+            {title && <H2 className="text-text-primary">{title}</H2>}
             {description && (
-              <Body size="lg" className="text-on-dark-muted max-w-2xl">
+              <Body size="lg" className="text-text-muted max-w-2xl">
                 {description}
               </Body>
             )}
@@ -157,7 +162,7 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
               <Card
                 key={plan.id}
                 className={clsx(
-                  "p-4 sm:p-6 md:p-8 rounded-card relative",
+                  "p-4 sm:p-6 md:p-8 rounded-card relative h-full flex flex-col",
                   plan.highlighted
                     ? "border-2 border-primary ring-2 ring-primary/20"
                     : "border-2 border-border"
@@ -173,13 +178,14 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
                   </Badge>
                 )}
 
-                <Stack gap={6}>
+                {/* Card content - grows to fill available space */}
+                <Stack gap={6} className="flex-1">
                   {/* Plan Header */}
                   <Stack gap={2}>
-                    <H3 size="sm" className="text-white">
+                    <H3 size="sm" className="text-text-primary">
                       {plan.name}
                     </H3>
-                    <Body size="sm" className="text-on-dark-muted">
+                    <Body size="sm" className="text-text-muted">
                       {plan.description}
                     </Body>
                   </Stack>
@@ -187,7 +193,7 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
                   {/* Price */}
                   <div>
                     <div className="flex items-baseline gap-1">
-                      <span className="font-display text-4xl md:text-5xl text-white">
+                      <span className="font-display text-4xl md:text-5xl text-text-primary">
                         {formatPrice(
                           billing === "monthly"
                             ? plan.price.monthly
@@ -196,24 +202,15 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
                         )}
                       </span>
                       {plan.price.monthly > 0 && (
-                        <span className="text-on-dark-disabled">/user/month</span>
+                        <span className="text-text-disabled">/month</span>
                       )}
                     </div>
                     {billing === "annual" && plan.price.monthly > 0 && (
-                      <Body size="sm" className="text-on-dark-disabled mt-1">
+                      <Body size="sm" className="text-text-disabled mt-1">
                         Billed annually
                       </Body>
                     )}
                   </div>
-
-                  {/* CTA */}
-                  <Button
-                    variant={plan.highlighted ? "solid" : "outline"}
-                    className="w-full"
-                    onClick={plan.cta.onClick}
-                  >
-                    {plan.cta.label}
-                  </Button>
 
                   {/* Features */}
                   <Stack gap={3}>
@@ -227,7 +224,7 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
                         {feature.included === true ? (
                           <Check className="size-5 text-success flex-shrink-0 mt-0.5" />
                         ) : feature.included === false ? (
-                          <X className="size-5 text-on-dark-disabled flex-shrink-0 mt-0.5" />
+                          <X className="size-5 text-text-disabled flex-shrink-0 mt-0.5" />
                         ) : (
                           <Check className="size-5 text-success flex-shrink-0 mt-0.5" />
                         )}
@@ -235,8 +232,8 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
                           size="sm"
                           className={clsx(
                             feature.included === false
-                              ? "text-on-dark-disabled"
-                              : "text-on-light-secondary"
+                              ? "text-text-disabled"
+                              : "text-text-secondary"
                           )}
                         >
                           {typeof feature.included === "string"
@@ -247,6 +244,15 @@ export const PricingSection = forwardRef<HTMLElement, PricingSectionProps>(
                     ))}
                   </Stack>
                 </Stack>
+
+                {/* CTA - anchored at bottom with mt-auto */}
+                <Button
+                  variant={plan.highlighted ? "solid" : "outline"}
+                  className="w-full mt-6"
+                  onClick={plan.cta.onClick}
+                >
+                  {plan.cta.label}
+                </Button>
               </Card>
             ))}
           </Grid>

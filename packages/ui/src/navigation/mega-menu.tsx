@@ -8,24 +8,36 @@ import clsx from 'clsx';
 /**
  * MegaMenu Component System
  * 
- * Industry best practice navigation menu built on Radix UI NavigationMenu.
- * Features:
- * - Smooth enter/exit animations (150-200ms)
- * - Hover intent delay to prevent flickering
- * - Proper keyboard navigation and accessibility
- * - Soft shadow for dropdown panels (not hard offset)
- * - Backdrop blur for elevated appearance
+ * Enterprise-grade navigation menu built on Radix UI NavigationMenu.
+ * 
+ * Industry Best Practices:
+ * - Full keyboard navigation (Arrow keys, Tab, Escape, Enter)
+ * - ARIA compliant with proper roles and states
  * - Safe triangle pattern for diagonal mouse movement
+ * - Hover intent delay to prevent flickering (100ms open, 300ms skip)
+ * - Focus trap within open menus
+ * - Smooth animations (150-200ms)
+ * 
+ * Design System Compliance:
+ * - Typography: text-body-sm, font-weight-medium, text-mono-xs
+ * - Colors: text-on-dark-*, bg-surface-inverse, bg-surface-primary
+ * - Borders: border-2, border-border (Bold Contemporary style)
+ * - Shadows: shadow-hard (Pop Art hard offset)
+ * - Spacing: p-spacing-6, gap-spacing-4
+ * - Radius: rounded-card (8px for containers)
+ * - Transitions: duration-fast (150ms), ease-snap
  */
 
 // ============================================================================
-// ROOT
+// ROOT - Navigation container with viewport
 // ============================================================================
 
 interface MegaMenuRootProps {
   children: React.ReactNode;
   className?: string;
+  /** Delay before opening menu on hover (ms) */
   delayDuration?: number;
+  /** Delay before skipping to next menu when one is already open (ms) */
   skipDelayDuration?: number;
 }
 
@@ -37,11 +49,11 @@ export function MegaMenuRoot({
 }: MegaMenuRootProps) {
   return (
     <NavigationMenuPrimitive.Root
-      className={clsx('relative z-dropdown', className)}
+      className={clsx('relative', className)}
       delayDuration={delayDuration}
       skipDelayDuration={skipDelayDuration}
     >
-      <NavigationMenuPrimitive.List className="flex items-center gap-1">
+      <NavigationMenuPrimitive.List className="flex items-center gap-spacing-1">
         {children}
       </NavigationMenuPrimitive.List>
       <MegaMenuViewport />
@@ -50,29 +62,55 @@ export function MegaMenuRoot({
 }
 
 // ============================================================================
-// ITEM (Trigger + Content wrapper)
+// VIEWPORT - Renders dropdown content outside normal flow
+// ============================================================================
+
+function MegaMenuViewport() {
+  return (
+    <div className="absolute left-0 top-full flex w-full justify-start z-popover">
+      <NavigationMenuPrimitive.Viewport
+        className={clsx(
+          'relative mt-spacing-2 origin-top-left',
+          'w-[var(--radix-navigation-menu-viewport-width)]',
+          'h-[var(--radix-navigation-menu-viewport-height)]',
+          'overflow-hidden',
+          // Animations
+          'transition-[width,height,opacity] duration-200 ease-out',
+          'data-[state=open]:animate-fade-in',
+          'data-[state=closed]:animate-fade-out'
+        )}
+      />
+    </div>
+  );
+}
+
+// ============================================================================
+// ITEM - Wrapper for trigger + content pairs
 // ============================================================================
 
 interface MegaMenuItemProps {
   children: React.ReactNode;
   className?: string;
+  /** Unique value for this menu item */
+  value?: string;
 }
 
-export function MegaMenuItem({ children, className }: MegaMenuItemProps) {
+export function MegaMenuItem({ children, className, value }: MegaMenuItemProps) {
   return (
-    <NavigationMenuPrimitive.Item className={clsx('relative', className)}>
+    <NavigationMenuPrimitive.Item value={value} className={clsx('relative', className)}>
       {children}
     </NavigationMenuPrimitive.Item>
   );
 }
 
 // ============================================================================
-// TRIGGER
+// TRIGGER - Button that opens the dropdown
 // ============================================================================
 
 interface MegaMenuTriggerProps {
   children: React.ReactNode;
   className?: string;
+  /** Use inverted colors for dark backgrounds */
   inverted?: boolean;
 }
 
@@ -84,20 +122,35 @@ export function MegaMenuTrigger({
   return (
     <NavigationMenuPrimitive.Trigger
       className={clsx(
-        'group inline-flex items-center gap-1 px-4 py-2 rounded-button',
+        // Layout
+        'group inline-flex items-center gap-spacing-1 px-spacing-4 py-spacing-2',
+        // Typography (Design System)
         'text-body-sm font-weight-medium',
-        'transition-colors duration-fast',
+        // Transitions
+        'transition-colors duration-fast ease-snap',
+        // Focus states (Accessibility)
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+        // Color variants
         inverted
-          ? 'text-on-dark-secondary hover:text-on-dark-primary hover:bg-surface-elevated/50 focus-visible:ring-on-dark-primary'
-          : 'text-foreground/80 hover:text-foreground hover:bg-muted/50 focus-visible:ring-primary',
+          ? [
+              'text-on-dark-secondary',
+              'hover:text-on-dark-primary',
+              'focus-visible:ring-white',
+              'data-[state=open]:text-on-dark-primary',
+            ]
+          : [
+              'text-on-light-secondary',
+              'hover:text-on-light-primary',
+              'focus-visible:ring-primary',
+              'data-[state=open]:text-on-light-primary',
+            ],
         className
       )}
     >
       {children}
       <ChevronDown
         className={clsx(
-          'h-4 w-4 transition-transform duration-base',
+          'size-4 transition-transform duration-fast ease-snap',
           'group-data-[state=open]:rotate-180'
         )}
         aria-hidden="true"
@@ -107,21 +160,23 @@ export function MegaMenuTrigger({
 }
 
 // ============================================================================
-// CONTENT (Dropdown Panel)
+// CONTENT - Dropdown panel with content
 // ============================================================================
 
 interface MegaMenuContentProps {
   children: React.ReactNode;
   className?: string;
+  /** Panel width preset */
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Use inverted colors for dark backgrounds */
   inverted?: boolean;
 }
 
 const contentSizeClasses = {
-  sm: 'min-w-dropdown-sm',
-  md: 'min-w-dropdown-md',
-  lg: 'min-w-dropdown-lg',
-  xl: 'w-screen max-w-4xl',
+  sm: 'min-w-[320px]',
+  md: 'min-w-[480px]',
+  lg: 'min-w-[640px]',
+  xl: 'min-w-[800px]',
 };
 
 export function MegaMenuContent({
@@ -134,8 +189,9 @@ export function MegaMenuContent({
     <NavigationMenuPrimitive.Content
       className={clsx(
         'absolute left-0 top-0 w-full',
-        'data-[motion=from-start]:animate-slide-in-bottom',
-        'data-[motion=from-end]:animate-slide-in-bottom',
+        // Entry/exit animations
+        'data-[motion=from-start]:animate-slide-in-left',
+        'data-[motion=from-end]:animate-slide-in-right',
         'data-[motion=to-start]:animate-fade-out',
         'data-[motion=to-end]:animate-fade-out',
         className
@@ -143,14 +199,15 @@ export function MegaMenuContent({
     >
       <div
         className={clsx(
-          'rounded-card p-6',
-          'border border-border/50',
-          'shadow-dropdown',
-          'backdrop-blur-md',
+          // Layout
+          'p-spacing-6',
           contentSizeClasses[size],
-          inverted
-            ? 'bg-surface-inverse/95 border-border'
-            : 'bg-background/95'
+          // Design System: Bold Contemporary Pop Art
+          'rounded-card',
+          'border-2 border-border',
+          'shadow-hard',
+          // Background
+          inverted ? 'bg-surface-inverse' : 'bg-surface-primary'
         )}
       >
         {children}
@@ -160,35 +217,16 @@ export function MegaMenuContent({
 }
 
 // ============================================================================
-// VIEWPORT (Animation container)
-// ============================================================================
-
-function MegaMenuViewport() {
-  return (
-    <div className="absolute left-0 top-full flex justify-center perspective-[2000px]">
-      <NavigationMenuPrimitive.Viewport
-        className={clsx(
-          'relative mt-2 origin-top-center overflow-hidden',
-          'h-[var(--radix-navigation-menu-viewport-height)]',
-          'w-[var(--radix-navigation-menu-viewport-width)]',
-          'transition-[width,height] duration-base ease-out',
-          'data-[state=open]:animate-zoom-in',
-          'data-[state=closed]:animate-zoom-out'
-        )}
-      />
-    </div>
-  );
-}
-
-// ============================================================================
-// LINK (For non-dropdown items)
+// LINK - Standalone navigation link (no dropdown)
 // ============================================================================
 
 interface MegaMenuLinkProps {
   href: string;
   children: React.ReactNode;
   className?: string;
+  /** Use inverted colors for dark backgrounds */
   inverted?: boolean;
+  /** Whether this link is currently active */
   active?: boolean;
 }
 
@@ -202,21 +240,29 @@ export function MegaMenuLink({
   return (
     <NavigationMenuPrimitive.Link
       href={href}
+      active={active}
       className={clsx(
-        'inline-flex items-center px-4 py-2 rounded-button',
+        // Layout
+        'inline-flex items-center px-spacing-4 py-spacing-2',
+        // Typography
         'text-body-sm font-weight-medium',
-        'transition-colors duration-fast',
+        // Transitions
+        'transition-colors duration-fast ease-snap',
+        // Focus states
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+        // Color variants
         inverted
           ? [
-              'text-on-dark-secondary hover:text-on-dark-primary hover:bg-surface-elevated/50',
-              'focus-visible:ring-on-dark-primary',
-              active && 'text-on-dark-primary bg-surface-elevated/50',
+              'text-on-dark-secondary',
+              'hover:text-on-dark-primary',
+              'focus-visible:ring-white',
+              active && 'text-on-dark-primary',
             ]
           : [
-              'text-foreground/80 hover:text-foreground hover:bg-muted/50',
+              'text-on-light-secondary',
+              'hover:text-on-light-primary',
               'focus-visible:ring-primary',
-              active && 'text-foreground bg-muted/50',
+              active && 'text-on-light-primary',
             ],
         className
       )}
@@ -227,32 +273,14 @@ export function MegaMenuLink({
 }
 
 // ============================================================================
-// INDICATOR (Visual indicator for active item)
-// ============================================================================
-
-export function MegaMenuIndicator() {
-  return (
-    <NavigationMenuPrimitive.Indicator
-      className={clsx(
-        'top-full z-[1] flex h-2 items-end justify-center overflow-hidden',
-        'data-[state=visible]:animate-fade-in',
-        'data-[state=hidden]:animate-fade-out',
-        'transition-[width,transform_250ms_ease]'
-      )}
-    >
-      <div className="relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md" />
-    </NavigationMenuPrimitive.Indicator>
-  );
-}
-
-// ============================================================================
-// SUB-COMPONENTS FOR CONTENT
+// SECTION - Groups related links within content
 // ============================================================================
 
 interface MegaMenuSectionProps {
   title?: string;
   children: React.ReactNode;
   className?: string;
+  /** Use inverted colors for dark backgrounds */
   inverted?: boolean;
 }
 
@@ -263,12 +291,14 @@ export function MegaMenuSection({
   inverted = false,
 }: MegaMenuSectionProps) {
   return (
-    <div className={clsx('flex flex-col gap-2', className)}>
+    <div className={clsx('flex flex-col gap-spacing-2', className)}>
       {title && (
         <span
           className={clsx(
+            // Typography (Design System)
             'text-mono-xs font-weight-medium uppercase tracking-kicker',
-            inverted ? 'text-on-dark-disabled' : 'text-muted-foreground'
+            // Colors
+            inverted ? 'text-on-dark-disabled' : 'text-on-light-disabled'
           )}
         >
           {title}
@@ -279,12 +309,19 @@ export function MegaMenuSection({
   );
 }
 
+// ============================================================================
+// ITEM LINK - Rich link with icon and description
+// ============================================================================
+
 interface MegaMenuItemLinkProps {
   href: string;
   children: React.ReactNode;
+  /** Optional description text */
   description?: string;
+  /** Optional icon element */
   icon?: React.ReactNode;
   className?: string;
+  /** Use inverted colors for dark backgrounds */
   inverted?: boolean;
 }
 
@@ -300,9 +337,14 @@ export function MegaMenuItemLink({
     <NavigationMenuPrimitive.Link
       href={href}
       className={clsx(
-        'group flex items-start gap-3 p-3 rounded-card',
-        'transition-colors duration-fast',
+        // Layout
+        'group flex items-start gap-spacing-3 p-spacing-3',
+        'rounded-card',
+        // Transitions
+        'transition-colors duration-fast ease-snap',
+        // Focus states
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-inset',
+        // Hover/focus colors
         inverted
           ? [
               'hover:bg-surface-elevated/50',
@@ -318,7 +360,9 @@ export function MegaMenuItemLink({
       {icon && (
         <div
           className={clsx(
-            'shrink-0 p-2 rounded-card',
+            // Layout
+            'shrink-0 p-spacing-2 rounded-card',
+            // Colors
             inverted
               ? 'bg-surface-elevated text-brand-pink'
               : 'bg-primary/10 text-primary'
@@ -327,14 +371,17 @@ export function MegaMenuItemLink({
           {icon}
         </div>
       )}
-      <div className="flex flex-col gap-0.5">
+      <div className="flex flex-col gap-spacing-1">
         <span
           className={clsx(
+            // Typography
             'text-body-sm font-weight-medium',
-            'transition-colors duration-fast',
+            // Transitions
+            'transition-colors duration-fast ease-snap',
+            // Colors with hover state
             inverted
-              ? 'text-white group-hover:text-brand-pink'
-              : 'text-foreground group-hover:text-primary'
+              ? 'text-on-dark-primary group-hover:text-brand-pink'
+              : 'text-on-light-primary group-hover:text-primary'
           )}
         >
           {children}
@@ -343,7 +390,7 @@ export function MegaMenuItemLink({
           <span
             className={clsx(
               'text-body-xs',
-              inverted ? 'text-on-dark-muted' : 'text-muted-foreground'
+              inverted ? 'text-on-dark-muted' : 'text-on-light-muted'
             )}
           >
             {description}
@@ -354,27 +401,50 @@ export function MegaMenuItemLink({
   );
 }
 
+// ============================================================================
+// FOOTER - Bottom section of dropdown panel
+// ============================================================================
+
 interface MegaMenuFooterProps {
   children: React.ReactNode;
   className?: string;
+  /** Use inverted colors for dark backgrounds */
   inverted?: boolean;
 }
 
 export function MegaMenuFooter({
   children,
   className,
-  inverted = false,
 }: MegaMenuFooterProps) {
   return (
     <div
       className={clsx(
-        'mt-6 pt-4 border-t',
-        inverted ? 'border-border' : 'border-border',
+        'mt-spacing-6 pt-spacing-4',
+        'border-t border-border',
         className
       )}
     >
       {children}
     </div>
+  );
+}
+
+// ============================================================================
+// INDICATOR - Visual indicator showing active menu
+// ============================================================================
+
+export function MegaMenuIndicator() {
+  return (
+    <NavigationMenuPrimitive.Indicator
+      className={clsx(
+        'top-full z-[1] flex h-2 items-end justify-center overflow-hidden',
+        'data-[state=visible]:animate-fade-in',
+        'data-[state=hidden]:animate-fade-out',
+        'transition-[width,transform] duration-fast ease-snap'
+      )}
+    >
+      <div className="relative top-[60%] size-2 rotate-45 rounded-tl-sm bg-border shadow-hard" />
+    </NavigationMenuPrimitive.Indicator>
   );
 }
 
@@ -388,10 +458,10 @@ export const MegaMenu = {
   Trigger: MegaMenuTrigger,
   Content: MegaMenuContent,
   Link: MegaMenuLink,
-  Indicator: MegaMenuIndicator,
   Section: MegaMenuSection,
   ItemLink: MegaMenuItemLink,
   Footer: MegaMenuFooter,
+  Indicator: MegaMenuIndicator,
 };
 
 export default MegaMenu;

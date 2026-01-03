@@ -40,8 +40,9 @@ export function TicketCard({
   };
 
   return (
-    <Card className={`p-6 border-2 ${getCardBorder(status)}`}>
-      <Stack gap={4}>
+    <Card className={`p-6 border-2 h-full flex flex-col ${getCardBorder(status)}`}>
+      {/* Card content - grows to fill available space */}
+      <Stack gap={4} className="flex-1">
         <Stack direction="horizontal" className="items-start justify-between">
           <Stack gap={1}>
             <H3>{eventTitle}</H3>
@@ -73,13 +74,14 @@ export function TicketCard({
             </Stack>
           </>
         )}
-
-        {status === 'valid' && (
-          <Button variant="solid" size="lg" className="w-full">
-            Download Ticket
-          </Button>
-        )}
       </Stack>
+
+      {/* CTA - anchored at bottom */}
+      {status === 'valid' && (
+        <Button variant="solid" size="lg" className="w-full mt-4">
+          Download Ticket
+        </Button>
+      )}
     </Card>
   );
 }

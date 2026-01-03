@@ -293,7 +293,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
     return (
       <div
         ref={ref}
-        className={clsx("flex min-h-screen", className)}
+        className={clsx("flex flex-col h-screen overflow-hidden", className)}
         {...props}
       >
         {/* Skip to main content link */}
@@ -304,38 +304,40 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
           {skipToMainLabel}
         </a>
 
-        {/* Brand Panel - Hidden on mobile, shown on lg+ */}
-        {!singleColumn && (
+        {/* Main Content Area - Split panels */}
+        <div className="flex flex-1">
+          {/* Brand Panel - Hidden on mobile, shown on lg+ */}
+          {!singleColumn && (
+            <div
+              className={clsx(
+                "hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden",
+                getBrandBackgroundClass()
+              )}
+            >
+              {/* Pattern overlay */}
+              <div className="absolute inset-0 bg-grid opacity-[0.03]" />
+              
+              {/* Content */}
+              <div className="relative z-10 w-full">
+                {brandPanel || defaultBrandContent}
+              </div>
+
+              {/* Decorative elements */}
+              <div className="absolute -bottom-20 -right-20 size-80 bg-white/5 rounded-full blur-3xl" />
+              <div className="absolute -top-10 -left-10 size-60 bg-white/5 rounded-full blur-3xl" />
+            </div>
+          )}
+
+          {/* Form Panel - Dark theme to match GHXSTSHIP aesthetic */}
           <div
             className={clsx(
-              "hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden",
-              getBrandBackgroundClass()
+              "flex flex-col w-full bg-surface-primary",
+              !singleColumn && "lg:w-1/2 xl:w-[45%]"
             )}
           >
-            {/* Pattern overlay */}
-            <div className="absolute inset-0 bg-grid opacity-[0.03]" />
-            
-            {/* Content */}
-            <div className="relative z-10 w-full">
-              {brandPanel || defaultBrandContent}
-            </div>
-
-            {/* Decorative elements */}
-            <div className="absolute -bottom-20 -right-20 size-80 bg-white/5 rounded-full blur-3xl" />
-            <div className="absolute -top-10 -left-10 size-60 bg-white/5 rounded-full blur-3xl" />
-          </div>
-        )}
-
-        {/* Form Panel */}
-        <div
-          className={clsx(
-            "flex flex-col w-full bg-surface-inverse",
-            !singleColumn && "lg:w-1/2 xl:w-[45%]"
-          )}
-        >
           {/* Mobile Header - Only shown on mobile when not single column */}
           {!singleColumn && (
-            <header className="lg:hidden sticky top-0 z-sticky-header border-b-2 border-border bg-surface-inverse/95 backdrop-blur">
+            <header className="lg:hidden sticky top-0 z-sticky-header border-b-2 border-border bg-surface-primary/95 backdrop-blur">
               <div className="flex items-center justify-between px-4 py-4">
                 {brandLogo || (
                   <span className="font-display text-lg uppercase tracking-tight text-white">
@@ -346,45 +348,46 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
             </header>
           )}
 
-          {/* Main Form Area */}
+          {/* Main Form Area - Scrollable if content overflows */}
           <main
             id={mainContentId}
             tabIndex={-1}
             role="main"
             aria-label="Authentication content"
-            className="flex-1 flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8 xl:px-12"
+            className="flex-1 flex items-center justify-center px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8 xl:px-12 overflow-y-auto"
           >
             <Container className={clsx("w-full", formMaxWidthClasses[formMaxWidth])}>
               {mainContent}
             </Container>
           </main>
-
-          {/* Footer */}
-          <footer className="border-t-2 border-border bg-surface-inverse py-6">
-            <Container className="px-4 text-center sm:px-6">
-              <Stack gap={4}>
-                {footerLinks.length > 0 && (
-                  <nav aria-label="Footer navigation">
-                    <Stack direction="horizontal" gap={4} className="flex-wrap justify-center">
-                      {footerLinks.map((link) => (
-                        <a
-                          key={link.href}
-                          href={link.href}
-                          className="text-xs uppercase tracking-wide text-on-dark-muted hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface-inverse rounded px-1"
-                        >
-                          {link.label}
-                        </a>
-                      ))}
-                    </Stack>
-                  </nav>
-                )}
-                <Label size="xxs" className="text-on-dark-disabled">
-                  {copyright}
-                </Label>
-              </Stack>
-            </Container>
-          </footer>
+          </div>
         </div>
+
+        {/* Footer - Full width spanning both panels, compact */}
+        <footer className="flex-shrink-0 border-t-2 border-border bg-surface-secondary py-2">
+          <Container className="px-4 text-center sm:px-6">
+            <Stack gap={2}>
+              {footerLinks.length > 0 && (
+                <nav aria-label="Footer navigation">
+                  <Stack direction="horizontal" gap={4} className="flex-wrap justify-center">
+                    {footerLinks.map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        className="text-xs uppercase tracking-wide text-on-dark-muted hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface-secondary rounded px-1"
+                      >
+                        {link.label}
+                      </a>
+                    ))}
+                  </Stack>
+                </nav>
+              )}
+              <Label size="xxs" className="text-on-dark-disabled">
+                {copyright}
+              </Label>
+            </Stack>
+          </Container>
+        </footer>
       </div>
     );
   }

@@ -35,8 +35,15 @@ export interface CTABannerProps {
     href?: string;
     onClick?: () => void;
   };
-  /** Background variant */
-  background?: "primary" | "accent" | "gradient" | "ink";
+  /** 
+   * Section theme variant
+   * - "dark": Force dark theme (default)
+   * - "light": Force light theme
+   * - "inverted": Invert relative to page theme
+   */
+  variant?: "dark" | "light" | "inverted";
+  /** Background style */
+  backgroundStyle?: "primary" | "accent" | "gradient" | "solid";
   /** Pattern overlay */
   pattern?: "none" | "halftone" | "stripes";
   /** Content alignment */
@@ -51,19 +58,28 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
       description,
       primaryCta,
       secondaryCta,
-      background = "primary",
+      variant = "dark",
+      backgroundStyle = "primary",
       pattern = "halftone",
       align = "center",
       className,
     },
     ref
   ) {
-    const bgClasses = {
-      primary: "bg-primary text-white",
-      accent: "bg-accent text-black",
-      gradient: "bg-gradient-to-r from-primary to-secondary text-white",
-      ink: "bg-surface-inverse text-on-dark-primary",
+    const variantClasses = {
+      dark: "section-dark",
+      light: "section-light",
+      inverted: "section-inverted",
     };
+
+    const bgStyleClasses = {
+      primary: "bg-primary",
+      accent: "bg-accent",
+      gradient: "bg-gradient-to-r from-primary to-secondary",
+      solid: "bg-surface-primary",
+    };
+
+    const isLightBg = backgroundStyle === "accent";
 
     const patternStyles = {
       none: {},
@@ -84,7 +100,12 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
     return (
       <section
         ref={ref}
-        className={clsx("relative py-12 sm:py-16 md:py-20 lg:py-24", bgClasses[background], className)}
+        className={clsx(
+          "relative py-12 sm:py-16 md:py-20 lg:py-24",
+          variantClasses[variant],
+          bgStyleClasses[backgroundStyle],
+          className
+        )}
       >
         {/* Pattern Overlay */}
         {pattern !== "none" && (
@@ -100,7 +121,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
             <H2
               className={clsx(
                 "max-w-3xl",
-                background === "accent" ? "text-black" : "text-white"
+                isLightBg ? "text-black" : "text-text-primary"
               )}
             >
               {title}
@@ -112,7 +133,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
                 size="lg"
                 className={clsx(
                   "max-w-2xl",
-                  background === "accent" ? "text-black/80" : "text-white/80"
+                  isLightBg ? "text-black/80" : "text-text-secondary"
                 )}
               >
                 {description}
@@ -129,13 +150,13 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
               )}
             >
               <Button
-                variant={background === "accent" ? "solid" : "outline"}
+                variant={isLightBg ? "solid" : "outline"}
                 size="lg"
                 onClick={primaryCta.onClick}
                 icon={primaryCta.icon || <ArrowRight className="size-5" />}
                 iconPosition="right"
                 className={clsx(
-                  background !== "accent" && "border-white text-white hover:bg-white hover:text-black"
+                  !isLightBg && "border-white text-white hover:bg-white hover:text-black"
                 )}
               >
                 {primaryCta.label}
@@ -146,7 +167,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
                   size="lg"
                   onClick={secondaryCta.onClick}
                   className={clsx(
-                    background === "accent"
+                    isLightBg
                       ? "text-black hover:bg-black/10"
                       : "text-white hover:bg-white/10"
                   )}
