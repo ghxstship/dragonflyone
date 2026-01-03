@@ -30,11 +30,11 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
           case "nav":
             return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-on-dark-secondary transition-colors";
           case "footer":
-            return "font-body text-on-dark-disabled hover:text-black transition-colors";
+            return "font-body text-on-dark-disabled hover:text-on-light-primary transition-colors";
           case "inline":
             return "underline underline-offset-4 hover:text-on-dark-secondary transition-colors";
           case "button":
-            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-black hover:text-white";
+            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-surface-primary hover:text-on-dark-primary";
           default:
             return "";
         }
@@ -45,11 +45,11 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
           case "nav":
             return "font-heading text-mono-sm uppercase tracking-widest leading-none hover:text-on-dark-muted transition-colors";
           case "footer":
-            return "font-body text-on-dark-secondary hover:text-white transition-colors";
+            return "font-body text-on-dark-secondary hover:text-on-dark-primary transition-colors";
           case "inline":
             return "underline underline-offset-4 hover:text-on-dark-muted transition-colors";
           case "button":
-            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-white hover:text-black";
+            return "border-2 border-current px-spacing-6 py-spacing-3 text-mono-sm uppercase tracking-widest leading-none transition hover:-translate-y-0.5 hover:bg-surface-inverse hover:text-on-light-primary";
           default:
             return "";
         }

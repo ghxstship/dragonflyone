@@ -24,8 +24,8 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
     };
 
     const variantClasses = {
-      black: "border-black border-t-transparent",
-      white: "border-white border-t-transparent",
+      black: "border-on-light-primary border-t-transparent",
+      white: "border-on-dark-primary border-t-transparent",
       grey: "border-border border-t-transparent",
     };
 
@@ -46,7 +46,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
     const spinner = (
       <div
         className={clsx(
-          "inline-block rounded-full animate-spin",
+          "inline-block rounded-[var(--radius-circle)] animate-spin",
           sizeClasses[size],
           variantClasses[effectiveVariant]
         )}

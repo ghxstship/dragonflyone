@@ -48,27 +48,27 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             ? inverted
               ? clsx(
                   "border-error-500 bg-surface-inverse text-on-dark-primary",
-                  "shadow-[2px_2px_0_rgba(239,68,68,0.3)]",
-                  "focus:border-error-400 focus:shadow-[3px_3px_0_rgba(239,68,68,0.4)]"
+                  "shadow-xs",
+                  "focus:border-error-400 focus:shadow-sm"
                 )
               : clsx(
-                  "border-error-500 bg-white text-black",
-                  "shadow-[2px_2px_0_rgba(239,68,68,0.2)]",
-                  "focus:border-error-600 focus:shadow-[3px_3px_0_rgba(239,68,68,0.3)]"
+                  "border-error-500 bg-surface-inverse text-on-light-primary",
+                  "shadow-xs",
+                  "focus:border-error-600 focus:shadow-sm"
                 )
             // Normal state
             : inverted
               ? clsx(
                   "border-border bg-surface-inverse text-on-dark-primary",
-                  "shadow-[2px_2px_0_rgba(255,255,255,0.1)]",
+                  "shadow-xs",
                   "hover:border-border-primary",
-                  "focus:border-[var(--color-primary-400)] focus:-translate-x-px focus:-translate-y-px focus:shadow-[3px_3px_0_var(--color-primary-300)]"
+                  "focus:border-primary-400 focus:-translate-x-px focus:-translate-y-px focus:shadow-sm"
                 )
               : clsx(
                   "border-border bg-surface-primary text-on-light-primary",
-                  "shadow-[2px_2px_0_rgba(0,0,0,0.08)]",
+                  "shadow-xs",
                   "hover:border-border-primary",
-                  "focus:border-[var(--color-primary-500)] focus:-translate-x-px focus:-translate-y-px focus:shadow-[3px_3px_0_var(--color-primary-200)]"
+                  "focus:border-primary-500 focus:-translate-x-px focus:-translate-y-px focus:shadow-sm"
                 ),
           fullWidth ? "w-full" : "w-auto",
           className

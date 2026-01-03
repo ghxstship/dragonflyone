@@ -149,7 +149,7 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
                     {/* Timeline Dot */}
                     <div
                       className={clsx(
-                        "absolute left-4 md:left-1/2 -translate-x-1/2 size-4 rounded-full border-4 border-surface-inverse",
+                        "absolute left-4 md:left-1/2 -translate-x-1/2 size-4 rounded-[var(--radius-circle)] border-4 border-surface-inverse",
                         statusColors[item.status || "upcoming"]
                       )}
                     />
@@ -176,7 +176,7 @@ export const TimelineSection = forwardRef<HTMLElement, TimelineSectionProps>(
                     {/* Timeline Dot */}
                     <div
                       className={clsx(
-                        "relative z-10 size-6 rounded-full border-4 border-surface-inverse mb-4",
+                        "relative z-10 size-6 rounded-[var(--radius-circle)] border-4 border-surface-inverse mb-4",
                         statusColors[item.status || "upcoming"]
                       )}
                     />

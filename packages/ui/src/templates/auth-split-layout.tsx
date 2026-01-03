@@ -124,7 +124,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
       
       switch (brandBackground) {
         case "gradient":
-          return "bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-800";
+          return "bg-primary-600";
         case "pattern":
           return "bg-surface-inverse bg-halftone";
         case "solid":
@@ -132,7 +132,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
         case "image":
           return "bg-surface-inverse";
         default:
-          return "bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-800";
+          return "bg-primary-600";
       }
     };
 
@@ -146,7 +146,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
       <Stack gap={6} className="items-center text-center">
         {icon}
         <Stack gap={2} className="items-center">
-          <H1 className="text-white text-2xl">{stateTitle}</H1>
+          <H1 className="text-on-dark-primary text-2xl">{stateTitle}</H1>
           <Body className="text-on-dark-muted">{message}</Body>
         </Stack>
         {action}
@@ -189,7 +189,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
           {(title || subtitle) && (
             <Stack gap={3}>
               {title && (
-                <H1 className="text-white text-3xl md:text-4xl font-display uppercase tracking-tight">
+                <H1 className="text-on-dark-primary text-3xl md:text-4xl font-display uppercase tracking-tight">
                   {title}
                 </H1>
               )}
@@ -235,7 +235,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
         {/* Main Brand Content */}
         <Stack gap={8} className="flex-1 justify-center">
           {brandTagline && (
-            <H1 className="text-white text-3xl lg:text-4xl xl:text-5xl font-display uppercase tracking-tight leading-tight">
+            <H1 className="text-on-dark-primary text-3xl lg:text-4xl xl:text-5xl font-display uppercase tracking-tight leading-tight">
               {brandTagline}
             </H1>
           )}
@@ -245,14 +245,14 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
               {brandFeatures.map((feature, index) => (
                 <div key={index} className="flex items-start gap-4">
                   {feature.icon && (
-                    <div className="flex-shrink-0 p-2 bg-white/10 rounded-lg border-2 border-white/20">
+                    <div className="flex-shrink-0 p-2 bg-surface-inverse/10 rounded-card border-2 border-surface-inverse/20">
                       {feature.icon}
                     </div>
                   )}
                   <Stack gap={1}>
-                    <Body className="text-white font-semibold">{feature.title}</Body>
+                    <Body className="text-on-dark-primary font-semibold">{feature.title}</Body>
                     {feature.description && (
-                      <Body size="sm" className="text-white/70">{feature.description}</Body>
+                      <Body size="sm" className="text-on-dark-secondary">{feature.description}</Body>
                     )}
                   </Stack>
                 </div>
@@ -263,24 +263,24 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
 
         {/* Testimonial */}
         {testimonial && (
-          <div className="flex-shrink-0 p-6 bg-white/10 rounded-xl border-2 border-white/20 backdrop-blur-sm">
+          <div className="flex-shrink-0 p-6 bg-surface-inverse/10 rounded-card border-2 border-surface-inverse/20 backdrop-blur-sm">
             <Stack gap={4}>
-              <Body className="text-white italic leading-relaxed">
+              <Body className="text-on-dark-primary italic leading-relaxed">
                 &ldquo;{testimonial.quote}&rdquo;
               </Body>
               <div className="flex items-center gap-3">
                 {testimonial.avatar && (
                   <div 
-                    className="size-10 rounded-full border-2 border-white/30 bg-cover bg-center"
+                    className="size-10 rounded-[var(--radius-circle)] border-2 border-surface-inverse/30 bg-cover bg-center"
                     style={{ backgroundImage: `url(${testimonial.avatar})` }}
                     role="img"
                     aria-label={testimonial.author}
                   />
                 )}
                 <Stack gap={0}>
-                  <Body size="sm" className="text-white font-semibold">{testimonial.author}</Body>
+                  <Body size="sm" className="text-on-dark-primary font-semibold">{testimonial.author}</Body>
                   {testimonial.role && (
-                    <Body size="xs" className="text-white/60">{testimonial.role}</Body>
+                    <Body size="xs" className="text-on-dark-muted">{testimonial.role}</Body>
                   )}
                 </Stack>
               </div>
@@ -323,8 +323,8 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
               </div>
 
               {/* Decorative elements */}
-              <div className="absolute -bottom-20 -right-20 size-80 bg-white/5 rounded-full blur-3xl" />
-              <div className="absolute -top-10 -left-10 size-60 bg-white/5 rounded-full blur-3xl" />
+              <div className="absolute -bottom-20 -right-20 size-80 bg-surface-inverse/5 rounded-[var(--radius-circle)]" />
+              <div className="absolute -top-10 -left-10 size-60 bg-surface-inverse/5 rounded-[var(--radius-circle)]" />
             </div>
           )}
 

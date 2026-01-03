@@ -87,7 +87,7 @@ function TestimonialCard({
   showRatings?: boolean;
 }) {
   return (
-    <Card className="p-4 sm:p-6 md:p-8 border-2 border-border rounded-card h-full">
+    <Card className="p-6 sm:p-8 border-2 border-border rounded-card h-full">
       <Stack gap={6} className="h-full">
         {/* Quote Icon */}
         <Quote className="size-10 text-primary/50" />
@@ -233,7 +233,7 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
                       key={idx}
                       onClick={() => setCurrentIndex(idx)}
                       className={clsx(
-                        "size-2 rounded-full transition-colors",
+                        "size-2 rounded-[var(--radius-circle)] transition-colors",
                         idx === currentIndex ? "bg-primary" : "bg-muted"
                       )}
                       aria-label={`Go to testimonial ${idx + 1}`}
@@ -254,7 +254,7 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
           {/* Featured Variant */}
           {variant === "featured" && featuredTestimonial && (
             <div className="max-w-4xl mx-auto">
-              <Card className="p-6 sm:p-8 md:p-10 lg:p-12 border-2 border-primary/30 rounded-card bg-gradient-to-br from-primary/10 to-transparent">
+              <Card className="p-6 sm:p-8 md:p-10 lg:p-12 border-2 border-primary/30 rounded-card bg-primary/10">
                 <Stack gap={8} className="text-center items-center">
                   <Quote className="size-16 text-primary/50" />
                   

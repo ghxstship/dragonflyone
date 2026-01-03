@@ -74,26 +74,22 @@ export function Avatar({
         "relative inline-flex items-center justify-center overflow-hidden shrink-0",
         "transition-all duration-100 ease-[var(--ease-bounce)]",
         config.container,
-        shape === "circle" ? "rounded-full" : "rounded-[var(--radius-badge)]",
+        shape === "circle" ? "rounded-[var(--radius-circle)]" : "rounded-[var(--radius-badge)]",
         showFallback && (inverted ? "bg-muted" : "bg-surface-elevated"),
         // Bold border with shadow
         bordered && clsx(
           "border-2",
           inverted 
-            ? "border-white shadow-[2px_2px_0_rgba(255,255,255,0.2)]" 
-            : "border-black shadow-[2px_2px_0_rgba(0,0,0,0.15)]"
+            ? "border-on-dark-primary shadow-xs" 
+            : "border-on-light-primary shadow-xs"
         ),
         // Interactive states
         onClick && clsx(
           "cursor-pointer",
           "hover:-translate-x-0.5 hover:-translate-y-0.5",
-          bordered && (inverted 
-            ? "hover:shadow-[3px_3px_0_rgba(255,255,255,0.25)]" 
-            : "hover:shadow-[3px_3px_0_rgba(0,0,0,0.2)]"),
+          bordered && "hover:shadow-sm",
           "active:translate-x-0 active:translate-y-0",
-          bordered && (inverted 
-            ? "active:shadow-[1px_1px_0_rgba(255,255,255,0.2)]" 
-            : "active:shadow-[1px_1px_0_rgba(0,0,0,0.1)]")
+          bordered && "active:shadow-none"
         ),
         className
       )}
@@ -105,7 +101,7 @@ export function Avatar({
         <span
           className={clsx(
             "font-code font-bold uppercase select-none",
-            inverted ? "text-black" : "text-white",
+            inverted ? "text-on-light-primary" : "text-on-dark-primary",
             config.text
           )}
         >
@@ -124,8 +120,8 @@ export function Avatar({
       {status && (
         <span
           className={clsx(
-            "absolute rounded-full border-2",
-            inverted ? "border-black" : "border-white",
+            "absolute rounded-[var(--radius-circle)] border-2",
+            inverted ? "border-on-light-primary" : "border-on-dark-primary",
             config.status,
             statusColorClasses[status],
             shape === "circle" ? "bottom-0 right-0" : "-bottom-0.5 -right-0.5"
@@ -194,7 +190,7 @@ export function AvatarGroup({
       {remainingCount > 0 && (
         <div
           className={clsx(
-            "flex items-center justify-center rounded-full font-code",
+            "flex items-center justify-center rounded-[var(--radius-circle)] font-code",
             inverted ? "bg-muted border-2 border-on-light-primary text-on-light-primary" : "bg-surface-elevated border-2 border-on-dark-primary text-on-dark-primary",
             config.container,
             config.text,

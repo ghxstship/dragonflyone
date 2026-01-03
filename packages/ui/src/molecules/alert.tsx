@@ -28,26 +28,26 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
       if (inverted) {
         switch (variant) {
           case "info":
-            return clsx(baseClasses, "bg-info-900 border-info-400 text-info-100 shadow-[4px_4px_0_rgba(59,130,246,0.3)]");
+            return clsx(baseClasses, "bg-info-900 border-info-400 text-info-100 shadow-md");
           case "success":
-            return clsx(baseClasses, "bg-success-900 border-success-400 text-success-100 shadow-[4px_4px_0_rgba(34,197,94,0.3)]");
+            return clsx(baseClasses, "bg-success-900 border-success-400 text-success-100 shadow-md");
           case "warning":
-            return clsx(baseClasses, "bg-warning-900 border-warning-400 text-warning-100 shadow-[4px_4px_0_rgba(245,158,11,0.3)]");
+            return clsx(baseClasses, "bg-warning-900 border-warning-400 text-warning-100 shadow-md");
           case "error":
-            return clsx(baseClasses, "bg-error-900 border-error-400 text-error-100 shadow-[4px_4px_0_rgba(239,68,68,0.3)]");
+            return clsx(baseClasses, "bg-error-900 border-error-400 text-error-100 shadow-md");
           default:
             return baseClasses;
         }
       } else {
         switch (variant) {
           case "info":
-            return clsx(baseClasses, "bg-info-50 border-info-500 text-info-900 shadow-[4px_4px_0_rgba(59,130,246,0.2)]");
+            return clsx(baseClasses, "bg-info-50 border-info-500 text-info-900 shadow-md");
           case "success":
-            return clsx(baseClasses, "bg-success-50 border-success-500 text-success-900 shadow-[4px_4px_0_rgba(34,197,94,0.2)]");
+            return clsx(baseClasses, "bg-success-50 border-success-500 text-success-900 shadow-md");
           case "warning":
-            return clsx(baseClasses, "bg-warning-50 border-warning-500 text-warning-900 shadow-[4px_4px_0_rgba(245,158,11,0.2)]");
+            return clsx(baseClasses, "bg-warning-50 border-warning-500 text-warning-900 shadow-md");
           case "error":
-            return clsx(baseClasses, "bg-error-50 border-error-500 text-error-900 shadow-[4px_4px_0_rgba(239,68,68,0.2)]");
+            return clsx(baseClasses, "bg-error-50 border-error-500 text-error-900 shadow-md");
           default:
             return baseClasses;
         }

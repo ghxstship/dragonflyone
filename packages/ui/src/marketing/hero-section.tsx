@@ -97,7 +97,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
 
     const bgStyleClasses = {
       solid: "bg-surface-primary",
-      gradient: "bg-gradient-to-br from-ink-950 via-ink-900 to-primary/20",
+      gradient: "bg-surface-primary",
       image: "bg-surface-primary",
     };
 
@@ -141,7 +141,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${backgroundImage})` }}
           >
-            <div className="absolute inset-0 bg-black/70" />
+            <div className="absolute inset-0 bg-surface-primary/70" />
           </div>
         )}
 

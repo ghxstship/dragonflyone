@@ -1,0 +1,135 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e6]:
+      - generic [ref=e7]:
+        - link "GVTEWAY" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=e9]:
+          - generic [ref=e10]:
+            - link "Events" [ref=e11] [cursor=pointer]:
+              - /url: /events
+            - link "Artists" [ref=e12] [cursor=pointer]:
+              - /url: /artists
+            - link "Venues" [ref=e13] [cursor=pointer]:
+              - /url: /venues
+            - link "Community" [ref=e14] [cursor=pointer]:
+              - /url: /community
+        - generic [ref=e15]:
+          - link "Create" [ref=e16] [cursor=pointer]:
+            - /url: /creators
+            - button "Create" [ref=e17]:
+              - generic [ref=e18]: Create
+          - link "Sign In" [ref=e19] [cursor=pointer]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e20]:
+              - generic [ref=e21]: Sign In
+    - main [ref=e22]:
+      - generic [ref=e27]:
+        - link "Skip to main content" [ref=e28] [cursor=pointer]:
+          - /url: "#main-content"
+        - generic [ref=e31]:
+          - link "GVTEWAY" [ref=e34] [cursor=pointer]:
+            - /url: /experiences
+          - generic [ref=e35]:
+            - navigation [ref=e36]:
+              - link "Events" [ref=e37] [cursor=pointer]:
+                - /url: /events
+                - generic [ref=e38]: Events
+              - link "My Tickets" [ref=e39] [cursor=pointer]:
+                - /url: /tickets
+                - generic [ref=e40]: My Tickets
+              - link "Account" [ref=e41] [cursor=pointer]:
+                - /url: /account
+                - generic [ref=e42]: Account
+            - link "Browse Experiences" [ref=e43] [cursor=pointer]:
+              - /url: /experiences
+        - main [ref=e44]:
+          - generic [ref=e49]:
+            - link "Skip to main content" [ref=e50] [cursor=pointer]:
+              - /url: "#main-content"
+            - main [ref=e51]:
+              - generic [ref=e54]:
+                - status "Loading" [ref=e56]:
+                  - generic [ref=e57]: Loading...
+                - generic [ref=e58]:
+                  - heading "Loading" [level=2] [ref=e59]
+                  - paragraph [ref=e60]: Loading details...
+        - generic [ref=e62]:
+          - heading "GVTEWAY" [level=1] [ref=e64]
+          - generic [ref=e65]:
+            - generic [ref=e66]:
+              - heading "Discover" [level=3] [ref=e67]
+              - link "Browse Events" [ref=e68] [cursor=pointer]:
+                - /url: /events
+              - link "Find Venues" [ref=e69] [cursor=pointer]:
+                - /url: /venues
+              - link "Artists" [ref=e70] [cursor=pointer]:
+                - /url: /artists
+            - generic [ref=e71]:
+              - heading "Membership" [level=3] [ref=e72]
+              - link "Join" [ref=e73] [cursor=pointer]:
+                - /url: /membership
+              - link "Experiences" [ref=e74] [cursor=pointer]:
+                - /url: /experiences
+              - link "Community" [ref=e75] [cursor=pointer]:
+                - /url: /community
+            - generic [ref=e76]:
+              - heading "Support" [level=3] [ref=e77]
+              - link "Help Center" [ref=e78] [cursor=pointer]:
+                - /url: /help
+              - link "Contact" [ref=e79] [cursor=pointer]:
+                - /url: /help#contact
+              - link "FAQ" [ref=e80] [cursor=pointer]:
+                - /url: /help#faq
+            - generic [ref=e81]:
+              - heading "Legal" [level=3] [ref=e82]
+              - link "Privacy" [ref=e83] [cursor=pointer]:
+                - /url: /legal/privacy
+              - link "Terms" [ref=e84] [cursor=pointer]:
+                - /url: /legal/terms
+              - link "Accessibility" [ref=e85] [cursor=pointer]:
+                - /url: /accessibility
+          - paragraph [ref=e87]: © 2026 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+    - contentinfo [ref=e88]:
+      - generic [ref=e89]:
+        - heading "GVTEWAY" [level=1] [ref=e91]
+        - generic [ref=e92]:
+          - generic [ref=e93]:
+            - heading "Discover" [level=3] [ref=e94]
+            - link "Browse Events" [ref=e95] [cursor=pointer]:
+              - /url: /events
+            - link "Find Venues" [ref=e96] [cursor=pointer]:
+              - /url: /venues
+            - link "Artists" [ref=e97] [cursor=pointer]:
+              - /url: /artists
+          - generic [ref=e98]:
+            - heading "Shop" [level=3] [ref=e99]
+            - link "Merchandise" [ref=e100] [cursor=pointer]:
+              - /url: /merch
+            - link "Gift Cards" [ref=e101] [cursor=pointer]:
+              - /url: /gift-cards
+            - link "Cart" [ref=e102] [cursor=pointer]:
+              - /url: /cart
+          - generic [ref=e103]:
+            - heading "Support" [level=3] [ref=e104]
+            - link "Help Center" [ref=e105] [cursor=pointer]:
+              - /url: /help
+            - link "Contact" [ref=e106] [cursor=pointer]:
+              - /url: /help#contact
+          - generic [ref=e107]:
+            - heading "Legal" [level=3] [ref=e108]
+            - link "Privacy" [ref=e109] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e110] [cursor=pointer]:
+              - /url: /legal/terms
+        - paragraph [ref=e112]: © 2026 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+```

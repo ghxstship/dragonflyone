@@ -32,36 +32,36 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           />
           {/* Track */}
           <div className={clsx(
-            "w-11 h-6 border-2 rounded-full",
+            "w-11 h-6 border-2 rounded-[var(--radius-circle)]",
             "transition-all duration-100 ease-[var(--ease-bounce)]",
             "peer-focus:ring-2 peer-focus:ring-offset-2",
             "peer-disabled:opacity-50 peer-disabled:cursor-not-allowed",
             // Unchecked state
             inverted
-              ? "border-border bg-transparent shadow-[2px_2px_0_rgba(255,255,255,0.1)]"
-              : "border-black bg-transparent shadow-[2px_2px_0_rgba(0,0,0,0.1)]",
+              ? "border-border bg-transparent shadow-xs"
+              : "border-on-light-primary bg-transparent shadow-xs",
             // Checked state
             inverted
-              ? "peer-checked:bg-white peer-checked:border-white peer-checked:shadow-[3px_3px_0_hsl(var(--primary))]"
-              : "peer-checked:bg-black peer-checked:border-black peer-checked:shadow-[3px_3px_0_hsl(var(--primary))]",
+              ? "peer-checked:bg-surface-inverse peer-checked:border-surface-inverse peer-checked:shadow-primary"
+              : "peer-checked:bg-surface-primary peer-checked:border-surface-primary peer-checked:shadow-primary",
             // Focus state
             inverted
-              ? "peer-focus:ring-white peer-focus:ring-offset-ink-950"
-              : "peer-focus:ring-black peer-focus:ring-offset-white"
+              ? "peer-focus:ring-surface-inverse peer-focus:ring-offset-surface-primary"
+              : "peer-focus:ring-surface-primary peer-focus:ring-offset-surface-inverse"
           )} />
           {/* Thumb */}
           <div className={clsx(
-            "absolute left-0.5 top-0.5 w-4 h-4 rounded-full",
+            "absolute left-0.5 top-0.5 w-4 h-4 rounded-[var(--radius-circle)]",
             "transition-all duration-100 ease-[var(--ease-bounce)]",
             "peer-checked:translate-x-5",
             // Unchecked state
             inverted
               ? "bg-muted border-2 border-border"
-              : "bg-black border-2 border-black",
+              : "bg-surface-primary border-2 border-surface-primary",
             // Checked state
             inverted
-              ? "peer-checked:bg-black peer-checked:border-black"
-              : "peer-checked:bg-white peer-checked:border-white",
+              ? "peer-checked:bg-surface-primary peer-checked:border-surface-primary"
+              : "peer-checked:bg-surface-inverse peer-checked:border-surface-inverse",
             // Scale on hover
             "group-hover:scale-110",
             "group-active:scale-95"

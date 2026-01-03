@@ -75,7 +75,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
     const bgStyleClasses = {
       primary: "bg-primary",
       accent: "bg-accent",
-      gradient: "bg-gradient-to-r from-primary to-secondary",
+      gradient: "bg-primary",
       solid: "bg-surface-primary",
     };
 
@@ -121,7 +121,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
             <H2
               className={clsx(
                 "max-w-3xl",
-                isLightBg ? "text-black" : "text-text-primary"
+                isLightBg ? "text-on-light-primary" : "text-text-primary"
               )}
             >
               {title}
@@ -133,7 +133,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
                 size="lg"
                 className={clsx(
                   "max-w-2xl",
-                  isLightBg ? "text-black/80" : "text-text-secondary"
+                  isLightBg ? "text-on-light-secondary" : "text-text-secondary"
                 )}
               >
                 {description}
@@ -156,7 +156,7 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
                 icon={primaryCta.icon || <ArrowRight className="size-5" />}
                 iconPosition="right"
                 className={clsx(
-                  !isLightBg && "border-white text-white hover:bg-white hover:text-black"
+                  !isLightBg && "border-on-dark-primary text-on-dark-primary hover:bg-surface-inverse hover:text-on-light-primary"
                 )}
               >
                 {primaryCta.label}
@@ -168,8 +168,8 @@ export const CTABanner = forwardRef<HTMLElement, CTABannerProps>(
                   onClick={secondaryCta.onClick}
                   className={clsx(
                     isLightBg
-                      ? "text-black hover:bg-black/10"
-                      : "text-white hover:bg-white/10"
+                      ? "text-on-light-primary hover:bg-surface-primary/10"
+                      : "text-on-dark-primary hover:bg-surface-inverse/10"
                   )}
                 >
                   {secondaryCta.label}

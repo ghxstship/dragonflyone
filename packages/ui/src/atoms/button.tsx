@@ -96,10 +96,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     // Destructive variant - same on both backgrounds
     if (variant === "destructive") {
       return clsx(
-        "bg-error-500 text-white border-error-500",
-        "shadow-[4px_4px_0_rgba(0,0,0,0.25)]",
-        "hover:bg-error-600 hover:border-error-600 hover:shadow-[6px_6px_0_rgba(185,28,28,0.5)]",
-        "active:shadow-[2px_2px_0_rgba(185,28,28,0.4)]",
+        "bg-error-500 text-on-dark-primary border-error-500",
+        "shadow-md",
+        "hover:bg-error-600 hover:border-error-600 hover:shadow-lg",
+        "active:shadow-xs",
         "focus-visible:ring-error-500"
       );
     }
@@ -108,14 +108,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     if (variant === "primary") {
       return clsx(
         inverted
-          ? "bg-white text-black border-white"
-          : "bg-black text-white border-black",
-        "shadow-[4px_4px_0_rgba(0,0,0,0.2)]",
-        "hover:shadow-[6px_6px_0_hsl(var(--primary))]",
-        "active:shadow-[2px_2px_0_hsl(var(--primary)/0.7)]",
+          ? "bg-surface-inverse text-on-light-primary border-surface-inverse"
+          : "bg-surface-primary text-on-dark-primary border-surface-primary",
+        "shadow-md",
+        "hover:shadow-primary",
+        "active:shadow-xs",
         inverted
-          ? "focus-visible:ring-white focus-visible:ring-offset-ink-950"
-          : "focus-visible:ring-black focus-visible:ring-offset-white"
+          ? "focus-visible:ring-surface-inverse focus-visible:ring-offset-surface-primary"
+          : "focus-visible:ring-surface-primary focus-visible:ring-offset-surface-inverse"
       );
     }
 
@@ -123,14 +123,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     if (variant === "accent") {
       return clsx(
         inverted
-          ? "bg-white text-black border-white"
-          : "bg-black text-white border-black",
-        "shadow-[4px_4px_0_rgba(0,0,0,0.2)]",
-        "hover:shadow-[6px_6px_0_hsl(var(--brand-pink))]",
-        "active:shadow-[2px_2px_0_hsl(var(--brand-pink)/0.7)]",
+          ? "bg-surface-inverse text-on-light-primary border-surface-inverse"
+          : "bg-surface-primary text-on-dark-primary border-surface-primary",
+        "shadow-md",
+        "hover:shadow-accent",
+        "active:shadow-xs",
         inverted
-          ? "focus-visible:ring-white focus-visible:ring-offset-ink-950"
-          : "focus-visible:ring-black focus-visible:ring-offset-white"
+          ? "focus-visible:ring-surface-inverse focus-visible:ring-offset-surface-primary"
+          : "focus-visible:ring-surface-primary focus-visible:ring-offset-surface-inverse"
       );
     }
 
@@ -141,26 +141,26 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       switch (variant) {
         case "solid":
           return clsx(
-            "bg-white text-black border-white",
-            "shadow-[4px_4px_0_rgba(0,0,0,0.25)]",
-            "hover:bg-muted hover:shadow-[6px_6px_0_rgba(0,0,0,0.3)]",
-            "active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
-            "focus-visible:ring-white focus-visible:ring-offset-surface-inverse"
+            "bg-surface-inverse text-on-light-primary border-surface-inverse",
+            "shadow-md",
+            "hover:bg-muted hover:shadow-lg",
+            "active:shadow-xs",
+            "focus-visible:ring-surface-inverse focus-visible:ring-offset-surface-primary"
           );
         case "outline":
           return clsx(
-            "border-white text-white bg-transparent",
-            "shadow-[3px_3px_0_rgba(0,0,0,0.2)]",
-            "hover:bg-white hover:text-black hover:shadow-[5px_5px_0_rgba(0,0,0,0.25)]",
-            "active:bg-muted active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
-            "focus-visible:ring-white focus-visible:ring-offset-surface-inverse"
+            "border-on-dark-primary text-on-dark-primary bg-transparent",
+            "shadow-sm",
+            "hover:bg-surface-inverse hover:text-on-light-primary hover:shadow-md",
+            "active:bg-muted active:shadow-xs",
+            "focus-visible:ring-surface-inverse focus-visible:ring-offset-surface-primary"
           );
         case "ghost":
           return clsx(
-            "border-transparent text-white bg-transparent shadow-none",
-            "hover:bg-white/10 hover:border-white/20",
-            "active:bg-white/20",
-            "focus-visible:ring-white focus-visible:ring-offset-ink-950"
+            "border-transparent text-on-dark-primary bg-transparent shadow-none",
+            "hover:bg-surface-inverse/10 hover:border-surface-inverse/20",
+            "active:bg-surface-inverse/20",
+            "focus-visible:ring-surface-inverse focus-visible:ring-offset-surface-primary"
           );
         default:
           return "";
@@ -169,26 +169,26 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       switch (variant) {
         case "solid":
           return clsx(
-            "bg-black text-white border-black",
-            "shadow-[4px_4px_0_rgba(0,0,0,0.25)]",
-            "hover:bg-surface-inverse hover:shadow-[6px_6px_0_rgba(0,0,0,0.3)]",
-            "active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
-            "focus-visible:ring-black focus-visible:ring-offset-white"
+            "bg-surface-primary text-on-dark-primary border-surface-primary",
+            "shadow-md",
+            "hover:bg-surface-inverse hover:shadow-lg",
+            "active:shadow-xs",
+            "focus-visible:ring-surface-primary focus-visible:ring-offset-surface-inverse"
           );
         case "outline":
           return clsx(
-            "border-black text-black bg-transparent",
-            "shadow-[3px_3px_0_rgba(0,0,0,0.15)]",
-            "hover:bg-black hover:text-white hover:shadow-[5px_5px_0_rgba(0,0,0,0.25)]",
-            "active:bg-surface-inverse active:shadow-[2px_2px_0_rgba(0,0,0,0.2)]",
-            "focus-visible:ring-black focus-visible:ring-offset-white"
+            "border-on-light-primary text-on-light-primary bg-transparent",
+            "shadow-sm",
+            "hover:bg-surface-primary hover:text-on-dark-primary hover:shadow-md",
+            "active:bg-surface-inverse active:shadow-xs",
+            "focus-visible:ring-surface-primary focus-visible:ring-offset-surface-inverse"
           );
         case "ghost":
           return clsx(
-            "border-transparent text-black bg-transparent shadow-none",
-            "hover:bg-black/5 hover:border-black/10",
-            "active:bg-black/10",
-            "focus-visible:ring-black focus-visible:ring-offset-white"
+            "border-transparent text-on-light-primary bg-transparent shadow-none",
+            "hover:bg-surface-primary/5 hover:border-surface-primary/10",
+            "active:bg-surface-primary/10",
+            "focus-visible:ring-surface-primary focus-visible:ring-offset-surface-inverse"
           );
         default:
           return "";

@@ -9,12 +9,34 @@
 
  [37m[1m [22m[39m Creating an optimized production build ...
  [37m[1m [22m[39m Using tsconfig file: tsconfig.build.json
- [32m[1m✓[22m[39m Compiled successfully
+<w> [1m[33m[webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)[39m[22m
+ [33m[1m⚠[22m[39m Compiled with warnings
+
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+
  [37m[1m [22m[39m Skipping validation of types
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
-[?25l [37m[1m [22m[39m Generating static pages (0/163)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/163)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/163)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (6/163)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (14/163)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (17/163)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (17/163)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (27/163)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (41/163)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (48/163)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (64/163)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (79/163)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (98/163)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (107/163)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (107/163)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (115/163)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (118/163)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (123/163)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (137/163)  [36m[=== ][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (163/163)
-[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
+[?25l [37m[1m [22m[39m Generating static pages (0/163)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/163)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/163)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (9/163)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (17/163)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (19/163)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (29/163)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (37/163)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (47/163)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (61/163)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (73/163)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (86/163)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (98/163)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (101/163)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (106/163)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (108/163)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (110/163)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (118/163)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (125/163)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (137/163)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (161/163)  [36m[  ==][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (163/163)
+[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
 [2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
 
 [4mRoute (app)[24m                                       [4mSize[24m     [4mFirst Load JS[24m
@@ -25,7 +47,7 @@
 ├ ○ /admin/users                                  3.39 kB         [37m[1m666 kB[22m[39m
 ├ ○ /advancing                                    1.96 kB         [37m[1m665 kB[22m[39m
 ├ ○ /advancing/review                             955 B           [37m[1m664 kB[22m[39m
-├ ○ /analytics                                    2.6 kB          [37m[1m666 kB[22m[39m
+├ ○ /analytics                                    2.6 kB          [37m[1m665 kB[22m[39m
 ├ ○ /analytics/dashboard-builder                  1.92 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /api/account-health                           0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/accounts-payable                         0 B                [37m[1m0 B[22m[39m
@@ -544,12 +566,12 @@
 ├ ƒ /api/zapier/search                            0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/zapier/triggers                          0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/zapier/webhooks                          0 B                [37m[1m0 B[22m[39m
-├ ○ /assets                                       2.62 kB         [37m[1m666 kB[22m[39m
+├ ○ /assets                                       2.62 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /assets/[id]                                  2.13 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /assets/[id]/edit                             2.39 kB         [37m[1m665 kB[22m[39m
 ├ ○ /assets/maintenance                           2.39 kB         [37m[1m665 kB[22m[39m
 ├ ○ /assets/new                                   1.99 kB         [37m[1m665 kB[22m[39m
-├ ○ /assets/scan                                  2.67 kB         [37m[1m666 kB[22m[39m
+├ ○ /assets/scan                                  2.67 kB         [37m[1m665 kB[22m[39m
 ├ ○ /auth/forgot-password                         1.37 kB         [37m[1m664 kB[22m[39m
 ├ ○ /auth/magic-link                              1.33 kB         [37m[1m664 kB[22m[39m
 ├ ○ /auth/reset-password                          1.38 kB         [37m[1m664 kB[22m[39m
@@ -559,22 +581,22 @@
 ├ ○ /bills                                        2.23 kB         [37m[1m665 kB[22m[39m
 ├ ○ /blog                                         2.96 kB         [37m[1m666 kB[22m[39m
 ├ ○ /budgets                                      2.01 kB         [37m[1m665 kB[22m[39m
-├ ○ /careers                                      2.72 kB         [37m[1m666 kB[22m[39m
+├ ○ /careers                                      2.72 kB         [37m[1m665 kB[22m[39m
 ├ ○ /case-studies                                 2.81 kB         [37m[1m666 kB[22m[39m
-├ ○ /changelog                                    2.58 kB         [37m[1m666 kB[22m[39m
+├ ○ /changelog                                    2.58 kB         [37m[1m665 kB[22m[39m
 ├ ○ /community                                    3.04 kB         [37m[1m666 kB[22m[39m
 ├ ○ /contact                                      3.17 kB         [37m[1m666 kB[22m[39m
-├ ○ /dashboard                                    7.76 kB         [37m[1m671 kB[22m[39m
+├ ○ /dashboard                                    7.76 kB         [37m[1m670 kB[22m[39m
 ├ ○ /deals                                        2.01 kB         [37m[1m665 kB[22m[39m
 ├ ○ /deals/new                                    2.03 kB         [37m[1m665 kB[22m[39m
 ├ ○ /demo                                         1.94 kB         [37m[1m665 kB[22m[39m
 ├ ○ /demo/request                                 1.81 kB         [37m[1m665 kB[22m[39m
 ├ ○ /docs                                         2.24 kB         [37m[1m665 kB[22m[39m
 ├ ○ /docs/api                                     1.98 kB         [37m[1m665 kB[22m[39m
-├ ○ /events                                       1.65 kB         [37m[1m665 kB[22m[39m
+├ ○ /events                                       1.65 kB         [37m[1m664 kB[22m[39m
 ├ ƒ /events/[id]                                  2.23 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /events/[id]/edit                             2.94 kB         [37m[1m666 kB[22m[39m
-├ ○ /events/new                                   2.46 kB         [37m[1m666 kB[22m[39m
+├ ○ /events/new                                   2.46 kB         [37m[1m665 kB[22m[39m
 ├ ○ /features                                     1.98 kB         [37m[1m665 kB[22m[39m
 ├ ○ /finance                                      2.11 kB         [37m[1m665 kB[22m[39m
 ├ ○ /finance/bills                                995 B           [37m[1m664 kB[22m[39m
@@ -585,38 +607,38 @@
 ├ ƒ /finance/proposals/[id]                       2.16 kB         [37m[1m665 kB[22m[39m
 ├ ○ /finance/purchase-orders                      1.25 kB         [37m[1m664 kB[22m[39m
 ├ ƒ /generator                                    8.1 kB          [37m[1m671 kB[22m[39m
-├ ○ /guides                                       2.46 kB         [37m[1m666 kB[22m[39m
+├ ○ /guides                                       2.46 kB         [37m[1m665 kB[22m[39m
 ├ ○ /guides/getting-started                       1.78 kB         [37m[1m665 kB[22m[39m
-├ ○ /help                                         2.64 kB         [37m[1m666 kB[22m[39m
+├ ○ /help                                         2.64 kB         [37m[1m665 kB[22m[39m
 ├ ○ /help/community                               1.96 kB         [37m[1m665 kB[22m[39m
-├ ○ /help/docs                                    1.66 kB         [37m[1m665 kB[22m[39m
+├ ○ /help/docs                                    1.66 kB         [37m[1m664 kB[22m[39m
 ├ ○ /help/faq                                     2.08 kB         [37m[1m665 kB[22m[39m
 ├ ○ /help/getting-started                         1.91 kB         [37m[1m665 kB[22m[39m
 ├ ○ /help/releases                                2 kB            [37m[1m665 kB[22m[39m
 ├ ○ /help/training                                2.34 kB         [37m[1m665 kB[22m[39m
 ├ ○ /help/tutorials                               2.2 kB          [37m[1m665 kB[22m[39m
-├ ○ /help/webinars                                2.49 kB         [37m[1m666 kB[22m[39m
+├ ○ /help/webinars                                2.49 kB         [37m[1m665 kB[22m[39m
 ├ ○ /integrations                                 4.98 kB         [37m[1m668 kB[22m[39m
-├ ○ /invoices                                     2.47 kB         [37m[1m666 kB[22m[39m
-├ ƒ /invoices/[id]                                2.58 kB         [37m[1m666 kB[22m[39m
+├ ○ /invoices                                     2.47 kB         [37m[1m665 kB[22m[39m
+├ ƒ /invoices/[id]                                2.58 kB         [37m[1m665 kB[22m[39m
 ├ ○ /invoices/new                                 1.78 kB         [37m[1m665 kB[22m[39m
-├ ○ /legal                                        1.5 kB          [37m[1m665 kB[22m[39m
-├ ○ /legal/accessibility                          1.69 kB         [37m[1m665 kB[22m[39m
+├ ○ /legal                                        1.5 kB          [37m[1m664 kB[22m[39m
+├ ○ /legal/accessibility                          1.69 kB         [37m[1m664 kB[22m[39m
 ├ ○ /legal/cookies                                1.86 kB         [37m[1m665 kB[22m[39m
 ├ ○ /legal/privacy                                1.81 kB         [37m[1m665 kB[22m[39m
-├ ○ /legal/sub-processors                         1.59 kB         [37m[1m665 kB[22m[39m
-├ ○ /legal/terms                                  1.74 kB         [37m[1m665 kB[22m[39m
+├ ○ /legal/sub-processors                         1.59 kB         [37m[1m664 kB[22m[39m
+├ ○ /legal/terms                                  1.74 kB         [37m[1m664 kB[22m[39m
 ├ ○ /orders                                       2.38 kB         [37m[1m665 kB[22m[39m
 ├ ○ /organizations                                1.24 kB         [37m[1m664 kB[22m[39m
 ├ ƒ /organizations/[id]                           1.94 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /organizations/[id]/edit                      2.81 kB         [37m[1m666 kB[22m[39m
-├ ○ /organizations/new                            2.58 kB         [37m[1m666 kB[22m[39m
+├ ○ /organizations/new                            2.58 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /p/[productionId]/advancing                   1.89 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /p/[productionId]/documents                   1.98 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /p/[productionId]/overview                    1.92 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /p/[productionId]/schedule                    1.81 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /p/[productionId]/settings                    1.92 kB         [37m[1m665 kB[22m[39m
-├ ƒ /p/[productionId]/shows                       1.62 kB         [37m[1m665 kB[22m[39m
+├ ƒ /p/[productionId]/shows                       1.62 kB         [37m[1m664 kB[22m[39m
 ├ ƒ /p/[productionId]/team                        1.83 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /p/[productionId]/vendors                     1.9 kB          [37m[1m665 kB[22m[39m
 ├ ƒ /p/[productionId]/wrap                        1.96 kB         [37m[1m665 kB[22m[39m
@@ -630,14 +652,14 @@
 ├ ƒ /places/[id]                                  1.97 kB         [37m[1m665 kB[22m[39m
 ├ ƒ /places/[id]/edit                             2.78 kB         [37m[1m666 kB[22m[39m
 ├ ○ /places/new                                   2.39 kB         [37m[1m665 kB[22m[39m
-├ ○ /portal/artist                                1.53 kB         [37m[1m665 kB[22m[39m
-├ ○ /portal/investor                              1.59 kB         [37m[1m665 kB[22m[39m
+├ ○ /portal/artist                                1.53 kB         [37m[1m664 kB[22m[39m
+├ ○ /portal/investor                              1.59 kB         [37m[1m664 kB[22m[39m
 ├ ○ /portal/sponsor                               1.42 kB         [37m[1m664 kB[22m[39m
-├ ○ /portal/vendor                                1.53 kB         [37m[1m665 kB[22m[39m
+├ ○ /portal/vendor                                1.53 kB         [37m[1m664 kB[22m[39m
 ├ ○ /portals/investor                             1.88 kB         [37m[1m665 kB[22m[39m
 ├ ○ /portals/sponsor                              1.8 kB          [37m[1m665 kB[22m[39m
 ├ ○ /portals/vendor                               1.79 kB         [37m[1m665 kB[22m[39m
-├ ○ /press                                        2.49 kB         [37m[1m666 kB[22m[39m
+├ ○ /press                                        2.49 kB         [37m[1m665 kB[22m[39m
 ├ ○ /pricing                                      2.92 kB         [37m[1m666 kB[22m[39m
 ├ ○ /productions                                  1.35 kB         [37m[1m664 kB[22m[39m
 ├ ○ /productions/new                              2.77 kB         [37m[1m666 kB[22m[39m
@@ -658,42 +680,42 @@
 ├ ○ /search                                       2.12 kB         [37m[1m665 kB[22m[39m
 ├ ○ /security                                     2.3 kB          [37m[1m665 kB[22m[39m
 ├ ○ /settings                                     929 B           [37m[1m664 kB[22m[39m
-├ ○ /settings/billing                             2.76 kB         [37m[1m666 kB[22m[39m
+├ ○ /settings/billing                             2.76 kB         [37m[1m665 kB[22m[39m
 ├ ○ /settings/consent-history                     1.78 kB         [37m[1m665 kB[22m[39m
-├ ○ /settings/export                              1.72 kB         [37m[1m665 kB[22m[39m
+├ ○ /settings/export                              1.72 kB         [37m[1m664 kB[22m[39m
 ├ ○ /settings/import                              1.99 kB         [37m[1m665 kB[22m[39m
 ├ ○ /settings/integrations                        2.84 kB         [37m[1m666 kB[22m[39m
 ├ ○ /settings/notifications                       1.78 kB         [37m[1m665 kB[22m[39m
-├ ○ /settings/organization                        2.71 kB         [37m[1m666 kB[22m[39m
+├ ○ /settings/organization                        2.71 kB         [37m[1m665 kB[22m[39m
 ├ ○ /settings/privacy                             2.4 kB          [37m[1m665 kB[22m[39m
-├ ○ /settings/roles                               2.5 kB          [37m[1m666 kB[22m[39m
+├ ○ /settings/roles                               2.5 kB          [37m[1m665 kB[22m[39m
 ├ ○ /settings/security                            2.94 kB         [37m[1m666 kB[22m[39m
-├ ○ /settings/team                                2.58 kB         [37m[1m666 kB[22m[39m
+├ ○ /settings/team                                2.58 kB         [37m[1m665 kB[22m[39m
 ├ ○ /sitemap.xml                                  0 B                [37m[1m0 B[22m[39m
 ├ ○ /solutions                                    2.15 kB         [37m[1m665 kB[22m[39m
-├ ƒ /solutions/[slug]                             2.72 kB         [37m[1m666 kB[22m[39m
-├ ○ /solutions/artists                            1.71 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/brand-ambassadors                  1.65 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/contractors                        1.66 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/destinations                       1.68 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/event-staff                        1.65 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/independent-contractors            1.67 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/investors                          1.64 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/producers                          1.68 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/production-crews                   1.67 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/project-managers                   1.66 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/promoters                          1.66 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/public-safety                      1.67 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/sponsors                           1.64 kB         [37m[1m665 kB[22m[39m
-├ ○ /solutions/subcontractors                     1.64 kB         [37m[1m665 kB[22m[39m
+├ ƒ /solutions/[slug]                             2.72 kB         [37m[1m665 kB[22m[39m
+├ ○ /solutions/artists                            1.71 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/brand-ambassadors                  1.65 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/contractors                        1.66 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/destinations                       1.68 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/event-staff                        1.65 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/independent-contractors            1.67 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/investors                          1.64 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/producers                          1.68 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/production-crews                   1.67 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/project-managers                   1.66 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/promoters                          1.66 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/public-safety                      1.67 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/sponsors                           1.64 kB         [37m[1m664 kB[22m[39m
+├ ○ /solutions/subcontractors                     1.64 kB         [37m[1m664 kB[22m[39m
 ├ ○ /status                                       2.39 kB         [37m[1m665 kB[22m[39m
 ├ ○ /team                                         2.11 kB         [37m[1m665 kB[22m[39m
 ├ ○ /templates                                    1.94 kB         [37m[1m665 kB[22m[39m
-├ ○ /training                                     3.19 kB         [37m[1m666 kB[22m[39m
-├ ○ /verticals/activations                        1.47 kB         [37m[1m665 kB[22m[39m
+├ ○ /training                                     3.25 kB         [37m[1m666 kB[22m[39m
+├ ○ /verticals/activations                        1.47 kB         [37m[1m664 kB[22m[39m
 ├ ○ /verticals/destinations                       1.44 kB         [37m[1m664 kB[22m[39m
-├ ○ /verticals/installations                      1.47 kB         [37m[1m665 kB[22m[39m
-├ ○ /verticals/productions                        1.48 kB         [37m[1m665 kB[22m[39m
+├ ○ /verticals/installations                      1.47 kB         [37m[1m664 kB[22m[39m
+├ ○ /verticals/productions                        1.48 kB         [37m[1m664 kB[22m[39m
 ├ ○ /webinars                                     3.33 kB         [37m[1m666 kB[22m[39m
 └ ○ /workflows                                    2.05 kB         [37m[1m665 kB[22m[39m
 + First Load JS shared by all                     [37m[1m407 kB[22m[39m

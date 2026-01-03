@@ -154,7 +154,7 @@ export default function TrainingPage() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [activeTab, setActiveTab] = useState<"courses" | "my-learning" | "certificates">("courses");
 
-  const _canManage = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
+  const canManageTraining = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const filteredCourses = DEMO_COURSES.filter(c => {
     if (activeCategory === "all") return true;
@@ -177,7 +177,7 @@ export default function TrainingPage() {
     <Stack gap={6}>
       {/* Categories */}
       <Card className="p-5 border-2 border-border rounded-card">
-        <Body className="text-white font-weight-bold mb-4">Categories</Body>
+        <Body className="text-on-dark-primary font-weight-bold mb-4">Categories</Body>
         <Stack gap={2}>
           {CATEGORIES.map((category) => (
             <Button
@@ -199,15 +199,15 @@ export default function TrainingPage() {
       <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Star className="size-5 text-warning" />
-          <Body className="text-white font-weight-bold">Recommended Path</Body>
+          <Body className="text-on-dark-primary font-weight-bold">Recommended Path</Body>
         </Box>
         <Stack gap={3}>
           {["ATLVS Fundamentals", "Financial Management", "Team Collaboration", "Advanced Analytics"].map((course, idx) => (
             <Box key={idx} className="flex items-center gap-3">
-              <Box className={`size-6 rounded-full flex items-center justify-center text-xs font-bold ${idx === 0 ? 'bg-success text-white' : idx === 1 ? 'bg-primary text-white' : 'bg-border text-on-dark-disabled'}`}>
+              <Box className={`size-6 rounded-[var(--radius-circle)] flex items-center justify-center text-xs font-bold ${idx === 0 ? 'bg-success text-on-dark-primary' : idx === 1 ? 'bg-primary text-on-dark-primary' : 'bg-border text-on-dark-disabled'}`}>
                 {idx + 1}
               </Box>
-              <Body size="sm" className={idx < 2 ? "text-white" : "text-on-dark-disabled"}>
+              <Body size="sm" className={idx < 2 ? "text-on-dark-primary" : "text-on-dark-disabled"}>
                 {course}
               </Body>
               {idx === 0 && <CheckCircle className="size-4 text-success ml-auto" />}
@@ -220,15 +220,15 @@ export default function TrainingPage() {
       <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Video className="size-5 text-primary" />
-          <Body className="text-white font-weight-bold">Live Sessions</Body>
+          <Body className="text-on-dark-primary font-weight-bold">Live Sessions</Body>
         </Box>
         <Stack gap={3}>
           <Box className="p-3 bg-surface-elevated rounded-card">
-            <Body size="sm" className="text-white font-weight-medium">Production Planning Workshop</Body>
+            <Body size="sm" className="text-on-dark-primary font-weight-medium">Production Planning Workshop</Body>
             <Body size="xs" className="text-on-dark-muted">Jan 15, 2026 at 2:00 PM EST</Body>
           </Box>
           <Box className="p-3 bg-surface-elevated rounded-card">
-            <Body size="sm" className="text-white font-weight-medium">Q&A: Financial Best Practices</Body>
+            <Body size="sm" className="text-on-dark-primary font-weight-medium">Q&A: Financial Best Practices</Body>
             <Body size="xs" className="text-on-dark-muted">Jan 22, 2026 at 11:00 AM EST</Body>
           </Box>
         </Stack>
@@ -247,9 +247,16 @@ export default function TrainingPage() {
         description: "Master ATLVS with comprehensive courses and earn industry-recognized certifications.",
       }}
       actions={
-        <Button variant="outline" icon={<Trophy className="size-4" />} onClick={() => setActiveTab("certificates")}>
-          View Certificates
-        </Button>
+        <Stack direction="horizontal" gap={2}>
+          {canManageTraining && (
+            <Button variant="outline" icon={<GraduationCap className="size-4" />} onClick={() => router.push("/training/manage")}>
+              Manage Courses
+            </Button>
+          )}
+          <Button variant="outline" icon={<Trophy className="size-4" />} onClick={() => setActiveTab("certificates")}>
+            View Certificates
+          </Button>
+        </Stack>
       }
       stats={[
         { label: "Courses Available", value: "50+" },
@@ -301,7 +308,7 @@ export default function TrainingPage() {
                               <Badge variant="outline" size="sm">Locked</Badge>
                             )}
                           </Box>
-                          <Body className={`font-weight-bold ${course.locked ? 'text-on-dark-disabled' : 'text-white'}`}>
+                          <Body className={`font-weight-bold ${course.locked ? 'text-on-dark-disabled' : 'text-on-dark-primary'}`}>
                             {course.title}
                           </Body>
                         </Box>
@@ -353,7 +360,7 @@ export default function TrainingPage() {
               {/* In Progress */}
               {inProgressCourses.length > 0 && (
                 <Box>
-                  <Body className="text-white font-weight-bold mb-4">In Progress</Body>
+                  <Body className="text-on-dark-primary font-weight-bold mb-4">In Progress</Body>
                   <Stack gap={4}>
                     {inProgressCourses.map((course) => (
                       <Card 
@@ -366,7 +373,7 @@ export default function TrainingPage() {
                             <Play className="size-6 text-primary" />
                           </Box>
                           <Box className="flex-1">
-                            <Body className="text-white font-weight-medium">{course.title}</Body>
+                            <Body className="text-on-dark-primary font-weight-medium">{course.title}</Body>
                             <Box className="flex items-center gap-2 mt-2">
                               <ProgressBar 
                                 value={(course.completedModules / course.modules) * 100} 
@@ -390,7 +397,7 @@ export default function TrainingPage() {
               {/* Completed */}
               {completedCourses.length > 0 && (
                 <Box>
-                  <Body className="text-white font-weight-bold mb-4">Completed</Body>
+                  <Body className="text-on-dark-primary font-weight-bold mb-4">Completed</Body>
                   <Stack gap={4}>
                     {completedCourses.map((course) => (
                       <Card 
@@ -402,7 +409,7 @@ export default function TrainingPage() {
                             <CheckCircle className="size-6 text-success" />
                           </Box>
                           <Box className="flex-1">
-                            <Body className="text-white font-weight-medium">{course.title}</Body>
+                            <Body className="text-on-dark-primary font-weight-medium">{course.title}</Body>
                             <Body size="sm" className="text-on-dark-muted">Completed</Body>
                           </Box>
                           <Button variant="outline" size="sm">
@@ -418,7 +425,7 @@ export default function TrainingPage() {
               {enrolledCourses.length === 0 && (
                 <Card className="p-8 border-2 border-border rounded-card text-center">
                   <BookOpen className="size-12 text-on-dark-disabled mx-auto mb-4" />
-                  <Body className="text-white font-weight-bold mb-2">No courses enrolled</Body>
+                  <Body className="text-on-dark-primary font-weight-bold mb-2">No courses enrolled</Body>
                   <Body size="sm" className="text-on-dark-muted mb-4">
                     Start your learning journey by enrolling in a course.
                   </Body>
@@ -441,7 +448,7 @@ export default function TrainingPage() {
                         <Award className="size-10 text-warning" />
                       </Box>
                       <Box className="flex-1">
-                        <Body className="text-white font-weight-bold">{cert.title}</Body>
+                        <Body className="text-on-dark-primary font-weight-bold">{cert.title}</Body>
                         <Body size="sm" className="text-on-dark-muted">
                           Issued: {formatDate(cert.issuedDate)}
                         </Body>
@@ -463,7 +470,7 @@ export default function TrainingPage() {
               ) : (
                 <Card className="p-8 border-2 border-border rounded-card text-center">
                   <Award className="size-12 text-on-dark-disabled mx-auto mb-4" />
-                  <Body className="text-white font-weight-bold mb-2">No certificates yet</Body>
+                  <Body className="text-on-dark-primary font-weight-bold mb-2">No certificates yet</Body>
                   <Body size="sm" className="text-on-dark-muted mb-4">
                     Complete courses to earn certificates.
                   </Body>

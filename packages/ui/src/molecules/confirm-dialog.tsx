@@ -122,7 +122,7 @@ export function ConfirmDialog({
       >
         {loading && (
           <span className={clsx(
-            "inline-block w-3 h-3 border-2 rounded-full animate-spin",
+            "inline-block w-3 h-3 border-2 rounded-[var(--radius-circle)] animate-spin",
             inverted ? "border-border border-t-on-light-primary" : "border-border border-t-on-dark-primary"
           )} />
         )}

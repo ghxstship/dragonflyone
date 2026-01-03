@@ -167,6 +167,7 @@
   --radius-badge: 0px;
   --radius-avatar: 9999px; /* Avatars stay circular */
   --radius-tooltip: 0px;
+  --radius-circle: 9999px; /* For circular elements like dots, indicators */
 
   /* ═══════════════════════════════════════════════════════════════════════════
      SHADOW SYSTEM (REBUILT - Hard Offset Comic Panel Style)

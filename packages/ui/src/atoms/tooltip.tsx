@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import clsx from "clsx";
 
 export interface TooltipProps {
@@ -35,7 +35,7 @@ export function Tooltip({
   const tooltipRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const calculatePosition = () => {
+  const calculatePosition = useCallback(() => {
     if (!triggerRef.current || !tooltipRef.current) return;
 
     const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -70,7 +70,7 @@ export function Tooltip({
     top = Math.max(padding, Math.min(top, window.innerHeight - tooltipRect.height - padding));
 
     setCoords({ top, left });
-  };
+  }, [position]);
 
   const showTooltip = () => {
     if (disabled) return;
@@ -90,8 +90,7 @@ export function Tooltip({
     if (isVisible) {
       calculatePosition();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isVisible, position]);
+  }, [isVisible, calculatePosition]);
 
   useEffect(() => {
     return () => {
@@ -125,8 +124,8 @@ export function Tooltip({
             "transition-all duration-100",
             // Speech bubble style with accent shadow
             inverted 
-              ? "bg-white text-black border-black shadow-[3px_3px_0_hsl(var(--primary))]" 
-              : "bg-black text-white border-white shadow-[3px_3px_0_hsl(var(--primary))]",
+              ? "bg-surface-inverse text-on-light-primary border-on-light-primary shadow-primary" 
+              : "bg-surface-primary text-on-dark-primary border-on-dark-primary shadow-primary",
             isVisible ? "opacity-100 animate-zoom-in" : "opacity-0",
             className
           )}

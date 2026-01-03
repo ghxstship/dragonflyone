@@ -71,13 +71,13 @@ export function NotificationToast({
   const getColorClasses = () => {
     switch (type) {
       case 'success':
-        return 'border-success-500 bg-success-900 shadow-[4px_4px_0_rgba(34,197,94,0.3)]';
+        return 'border-success-500 bg-success-900 shadow-md';
       case 'error':
-        return 'border-error-500 bg-error-900 shadow-[4px_4px_0_rgba(239,68,68,0.3)]';
+        return 'border-error-500 bg-error-900 shadow-md';
       case 'info':
-        return 'border-info-500 bg-info-900 shadow-[4px_4px_0_rgba(59,130,246,0.3)]';
+        return 'border-info-500 bg-info-900 shadow-md';
       case 'warning':
-        return 'border-warning-500 bg-warning-900 shadow-[4px_4px_0_rgba(245,158,11,0.3)]';
+        return 'border-warning-500 bg-warning-900 shadow-md';
       default:
         return '';
     }
@@ -96,7 +96,7 @@ export function NotificationToast({
       case 'error': return 'bg-error-400';
       case 'info': return 'bg-info-400';
       case 'warning': return 'bg-warning-400';
-      default: return 'bg-white';
+      default: return 'bg-surface-inverse';
     }
   };
 
@@ -116,18 +116,18 @@ export function NotificationToast({
         <div className="flex items-start gap-3">
           <span className="text-xl font-bold">{icons[type]}</span>
           <div className="flex-1 min-w-0">
-            <p className="font-heading text-sm uppercase tracking-wider font-bold text-white">{title}</p>
+            <p className="font-heading text-sm uppercase tracking-wider font-bold text-on-dark-primary">{title}</p>
             {message && (
-              <p className="mt-1 text-sm text-white/80">{message}</p>
+              <p className="mt-1 text-sm text-on-dark-secondary">{message}</p>
             )}
             {undoAction && (
               <button
                 onClick={handleUndo}
                 className={clsx(
                   "mt-2 inline-flex items-center gap-1 text-xs font-medium",
-                  "px-2 py-1 rounded border border-white/30",
-                  "hover:bg-white/10 hover:border-white/50 transition-colors",
-                  "text-white/80 hover:text-white"
+                  "px-2 py-1 rounded border border-on-dark-disabled",
+                  "hover:bg-surface-inverse/10 hover:border-on-dark-secondary transition-colors",
+                  "text-on-dark-secondary hover:text-on-dark-primary"
                 )}
               >
                 <Undo2 className="size-3" />
@@ -138,11 +138,11 @@ export function NotificationToast({
           <button
             onClick={() => onDismiss(id)}
             className={clsx(
-              "p-1 border-2 border-white/30 rounded",
+              "p-1 border-2 border-on-dark-disabled rounded",
               "transition-all duration-100",
-              "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-white hover:shadow-[2px_2px_0_rgba(255,255,255,0.2)]",
+              "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-on-dark-primary hover:shadow-xs",
               "active:translate-x-0 active:translate-y-0",
-              "text-white/60 hover:text-white"
+              "text-on-dark-muted hover:text-on-dark-primary"
             )}
             aria-label="Dismiss notification"
           >

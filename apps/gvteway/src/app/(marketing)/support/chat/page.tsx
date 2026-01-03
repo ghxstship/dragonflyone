@@ -60,7 +60,7 @@ export default function SupportChatPage() {
                 label: "Help Center",
                 onClick: () => router.push("/help"),
               }}
-              background="gradient"
+              backgroundStyle="gradient"
               pattern="none"
               fullHeight={false}
               align="center"
@@ -75,16 +75,16 @@ export default function SupportChatPage() {
               <Card className="border-2 border-border rounded-card overflow-hidden">
                 <Box className="p-4 border-b border-border bg-surface-elevated">
                   <Stack direction="horizontal" gap={3} className="items-center">
-                    <Box className="size-3 rounded-full bg-success animate-pulse" />
-                    <Body className="text-white font-weight-bold">Support Agent Online</Body>
+                    <Box className="size-3 rounded-[var(--radius-circle)] bg-success animate-pulse" />
+                    <Body className="text-on-dark-primary font-weight-bold">Support Agent Online</Body>
                   </Stack>
                 </Box>
                 <Box className="p-4 h-96 overflow-y-auto">
                   <Stack gap={4}>
                     {messages.map((msg) => (
                       <Box key={msg.id} className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}>
-                        <Box className={`max-w-xs p-4 rounded-card ${msg.isUser ? "bg-primary text-white" : "bg-surface-elevated"}`}>
-                          <Body size="sm" className={msg.isUser ? "text-white" : "text-on-dark-secondary"}>{msg.text}</Body>
+                        <Box className={`max-w-xs p-4 rounded-card ${msg.isUser ? "bg-primary text-on-dark-primary" : "bg-surface-elevated"}`}>
+                          <Body size="sm" className={msg.isUser ? "text-on-dark-primary" : "text-on-dark-secondary"}>{msg.text}</Body>
                         </Box>
                       </Box>
                     ))}
@@ -149,7 +149,7 @@ export default function SupportChatPage() {
                 label: "Help Center",
                 onClick: () => router.push("/help"),
               }}
-              background="primary"
+              backgroundStyle="primary"
             />
           ),
         },

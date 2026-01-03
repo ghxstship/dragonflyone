@@ -177,7 +177,7 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
                           gap={2}
                           className="items-center"
                         >
-                          <div className="size-1.5 rounded-full bg-primary flex-shrink-0" />
+                          <div className="size-1.5 rounded-[var(--radius-circle)] bg-primary flex-shrink-0" />
                           <Body size="sm" className="text-text-secondary">
                             {highlight}
                           </Body>

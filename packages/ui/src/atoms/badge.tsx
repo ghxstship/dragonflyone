@@ -28,28 +28,28 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     const getVariantClasses = () => {
       // Semantic status variants with bold borders
       if (variant === "success") {
-        return "bg-success-500 text-white border-2 border-success-500";
+        return "bg-success-500 text-on-dark-primary border-2 border-success-500";
       }
       if (variant === "warning") {
-        return "bg-warning-500 text-white border-2 border-warning-500";
+        return "bg-warning-500 text-on-dark-primary border-2 border-warning-500";
       }
       if (variant === "error") {
-        return "bg-error-500 text-white border-2 border-error-500";
+        return "bg-error-500 text-on-dark-primary border-2 border-error-500";
       }
       if (variant === "info") {
-        return "bg-info-500 text-white border-2 border-info-500";
+        return "bg-info-500 text-on-dark-primary border-2 border-info-500";
       }
       if (variant === "pop") {
         return inverted
-          ? "bg-surface-inverse text-on-dark-primary border-2 border-on-dark-primary shadow-[2px_2px_0_hsl(var(--primary))]"
-          : "bg-white text-black border-2 border-black shadow-[2px_2px_0_hsl(var(--primary))]";
+          ? "bg-surface-inverse text-on-light-primary border-2 border-on-light-primary shadow-primary"
+          : "bg-surface-inverse text-on-light-primary border-2 border-on-light-primary shadow-primary";
       }
 
       // Theme-aware base variants
       if (inverted) {
         switch (variant) {
           case "solid":
-            return "bg-white text-black border-2 border-white";
+            return "bg-surface-inverse text-on-light-primary border-2 border-surface-inverse";
           case "outline":
             return "border-2 border-border text-on-dark-secondary bg-transparent";
           case "ghost":
@@ -60,9 +60,9 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       } else {
         switch (variant) {
           case "solid":
-            return "bg-black text-white border-2 border-black";
+            return "bg-surface-primary text-on-dark-primary border-2 border-surface-primary";
           case "outline":
-            return "border-2 border-black text-black bg-white";
+            return "border-2 border-on-light-primary text-on-light-primary bg-surface-inverse";
           case "ghost":
             return "text-on-light-primary bg-muted border-2 border-transparent";
           default:
