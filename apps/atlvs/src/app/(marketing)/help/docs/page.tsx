@@ -70,7 +70,7 @@ export default function HelpDocsPage() {
           id: "search",
           background: "ink",
           content: (
-            <Container size="lg" className="py-12">
+            <Container size="2xl" className="py-12">
               <Card className="p-6 border-2 border-grey-800 rounded-card">
                 <Box className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
@@ -84,7 +84,7 @@ export default function HelpDocsPage() {
           id: "categories",
           background: "black",
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Browse</Body>
@@ -123,7 +123,7 @@ export default function HelpDocsPage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Popular</Body>

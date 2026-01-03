@@ -49,7 +49,7 @@ export default function TermsPage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Card className="p-6 border-2 border-grey-800 rounded-card">
                   <Box className="flex items-center justify-between flex-wrap gap-4">

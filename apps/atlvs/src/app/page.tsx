@@ -2,7 +2,8 @@
 
 import { AtlvsAppLayout } from "../components/app-layout";
 import {
-  Stack, Grid, Card, Body, H1, H3, Label, Container, Display, Article, Box, Text, Button, MarketingPage, type MarketingSection} from '@ghxstship/ui';
+  Stack, Grid, Card, Body, H1, H3, Label, Container, Display, Article, Box, Text, Button, MarketingPage, HeroSection, CTABanner, type MarketingSection} from '@ghxstship/ui';
+import { useRouter } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
 import NextLink from "next/link";
 import {
@@ -25,41 +26,24 @@ export const runtime = "edge";
 // Uses MarketingPage template from @ghxstship/ui
 // =============================================================================
 
-// Section content components
-function HeroSection() {
+// Hero section social proof element
+function HeroSocialProof() {
   return (
-    <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-      <Stack gap={6} className="items-center text-center sm:gap-8">
-        <Label size="xs" className="text-brand-pink">THE INDUSTRY STANDARD</Label>
-        <Display size="xs" className="text-white text-display-xs sm:text-display-sm md:text-display-md lg:text-display-lg">THE PLATFORM FOR LIVE ENTERTAINMENT</Display>
-        <Body size="md" className="max-w-3xl text-on-dark-secondary sm:text-body-lg">
-          Modular. Compatible. Scalable. Built for productions, activations, installations, and destinations of any size.
-        </Body>
-        <Stack direction="horizontal" gap={3} className="flex-wrap justify-center sm:gap-4">
-          <NextLink href="/products">
-            <Button variant="primary" size="md" className="sm:size-lg">EXPLORE PRODUCTS</Button>
-          </NextLink>
-          <NextLink href="/pricing">
-            <Button variant="outline" size="md" className="sm:size-lg">SEE PRICING</Button>
-          </NextLink>
-        </Stack>
-        <Stack direction="horizontal" gap={2} className="mt-2 flex-wrap justify-center sm:gap-6 sm:mt-4">
-          <Text size="xs" className="text-on-dark-muted sm:text-body-sm">PRODUCTIONS</Text>
-          <Text size="xs" className="text-on-dark-disabled sm:text-body-sm">·</Text>
-          <Text size="xs" className="text-on-dark-muted sm:text-body-sm">ACTIVATIONS</Text>
-          <Text size="xs" className="text-on-dark-disabled sm:text-body-sm">·</Text>
-          <Text size="xs" className="text-on-dark-muted sm:text-body-sm">INSTALLATIONS</Text>
-          <Text size="xs" className="text-on-dark-disabled sm:text-body-sm">·</Text>
-          <Text size="xs" className="text-on-dark-muted sm:text-body-sm">DESTINATIONS</Text>
-        </Stack>
-      </Stack>
-    </Container>
+    <Stack direction="horizontal" gap={6} className="flex-wrap justify-center">
+      <Text size="sm" className="text-on-dark-disabled">PRODUCTIONS</Text>
+      <Text size="sm" className="text-on-dark-disabled">·</Text>
+      <Text size="sm" className="text-on-dark-disabled">ACTIVATIONS</Text>
+      <Text size="sm" className="text-on-dark-disabled">·</Text>
+      <Text size="sm" className="text-on-dark-disabled">INSTALLATIONS</Text>
+      <Text size="sm" className="text-on-dark-disabled">·</Text>
+      <Text size="sm" className="text-on-dark-disabled">DESTINATIONS</Text>
+    </Stack>
   );
 }
 
 function VerticalsSection() {
   return (
-    <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
       <Stack gap={4} className="text-center">
         <H1 className="text-ink-950">NATIVE TO YOUR WORLD.</H1>
         <Body className="text-on-light-muted">Four verticals. One platform. Infinite possibilities.</Body>
@@ -92,7 +76,7 @@ function VerticalsSection() {
 
 function ProblemSection() {
   return (
-    <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
       <H1 className="text-center text-white">
         {atlvsProblemSection.headline}
       </H1>
@@ -118,7 +102,7 @@ function ProblemSection() {
 
 function SolutionsSection() {
   return (
-    <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
       <H1 className="text-center text-ink-950">FOUR PILLARS. ONE PLATFORM.</H1>
       <Stack gap={8} className="mt-8 sm:mt-12 sm:gap-16">
         {atlvsPillarsSolution.map((pillar, index) => (
@@ -183,7 +167,7 @@ function FeatureGridSection() {
   };
 
   return (
-    <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
       <H1 className="text-center text-ink-950">THE TOOLKIT WITHOUT MISSING TOOLS</H1>
       <Grid cols={3} gap={4} className="mt-8 md:mt-12 md:gap-6">
         {atlvsFeatureGrid.map((feature) => {
@@ -205,7 +189,7 @@ function FeatureGridSection() {
 
 function CompvssSection() {
   return (
-    <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
       <Box className="border-2 border-ink-950 bg-ink-950 p-4 sm:p-8 lg:p-12">
         <Label className="font-mono text-mono-xs uppercase tracking-label text-brand-cyan">{atlvsCompvssSection.kicker}</Label>
         <Display className="mt-4 font-display text-display-sm uppercase text-white md:text-display-md">{atlvsCompvssSection.title}</Display>
@@ -253,7 +237,7 @@ function CompvssSection() {
 
 function SocialProofSection() {
   return (
-    <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+    <Container size="2xl" className="py-12 sm:py-16 lg:py-24">
       <H1 className="text-center text-ink-950">{atlvsSocialProof.headline}</H1>
       <Article className="border-2 mx-auto mt-8 max-w-4xl border-ink-950 bg-white p-4 shadow-lg sm:mt-12 sm:p-8 lg:p-12">
         <Body className="text-center text-body-md text-on-light-secondary italic sm:text-body-lg">&ldquo;{atlvsSocialProof.testimonial.quote}&rdquo;</Body>
@@ -338,42 +322,70 @@ function PricingSection() {
   );
 }
 
-function CtaSection() {
-  return (
-    <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-      <Display size="md" className="text-white">NOT SURE WHERE TO START?</Display>
-      <Body size="lg" className="mx-auto mt-4 max-w-xl text-on-dark-muted">Modular by design. Find the tier that fits your stack.</Body>
-      <Stack direction="horizontal" gap={4} className="mt-8 flex-wrap justify-center">
-        <NextLink href="/products"><Button variant="primary" size="lg">EXPLORE PRODUCTS</Button></NextLink>
-        <NextLink href="/pricing"><Button variant="outline" size="lg">SEE PRICING</Button></NextLink>
-      </Stack>
-      <Stack direction="horizontal" gap={6} className="mt-8 flex-wrap justify-center">
-        <Text size="sm" className="text-on-dark-disabled">PRODUCTIONS</Text>
-        <Text size="sm" className="text-on-dark-disabled">·</Text>
-        <Text size="sm" className="text-on-dark-disabled">ACTIVATIONS</Text>
-        <Text size="sm" className="text-on-dark-disabled">·</Text>
-        <Text size="sm" className="text-on-dark-disabled">INSTALLATIONS</Text>
-        <Text size="sm" className="text-on-dark-disabled">·</Text>
-        <Text size="sm" className="text-on-dark-disabled">DESTINATIONS</Text>
-      </Stack>
-    </Container>
-  );
+
+// Marketing sections factory - needs router for navigation
+function createMarketingSections(router: ReturnType<typeof useRouter>): MarketingSection[] {
+  return [
+    {
+      id: "hero",
+      background: "gradient",
+      pattern: "halftone",
+      patternOpacity: 0.05,
+      content: (
+        <HeroSection
+          kicker="The Industry Standard"
+          title="The Platform for Live Entertainment"
+          description="Modular. Compatible. Scalable. Built for productions, activations, installations, and destinations of any size."
+          primaryCta={{
+            label: "Explore Products",
+            onClick: () => router.push("/products"),
+          }}
+          secondaryCta={{
+            label: "See Pricing",
+            onClick: () => router.push("/pricing"),
+          }}
+          background="gradient"
+          pattern="none"
+          fullHeight={false}
+          align="center"
+          socialProof={<HeroSocialProof />}
+        />
+      ),
+    },
+    { id: "features", background: "white", content: <VerticalsSection /> },
+    { id: "problem", background: "ink", content: <ProblemSection /> },
+    { id: "solutions", background: "white", content: <SolutionsSection /> },
+    { id: "feature-grid", background: "white", pattern: "grid", patternOpacity: 0.03, content: <FeatureGridSection /> },
+    { id: "compvss", background: "white", content: <CompvssSection /> },
+    { id: "about", background: "white", content: <SocialProofSection /> },
+    { id: "pricing", background: "white", pattern: "grid", patternOpacity: 0.03, content: <PricingSection /> },
+    {
+      id: "cta",
+      background: "ink",
+      pattern: "stripes",
+      content: (
+        <CTABanner
+          title="Not Sure Where to Start?"
+          description="Modular by design. Find the tier that fits your stack."
+          primaryCta={{
+            label: "Explore Products",
+            onClick: () => router.push("/products"),
+          }}
+          secondaryCta={{
+            label: "See Pricing",
+            onClick: () => router.push("/pricing"),
+          }}
+          background="ink"
+        />
+      ),
+    },
+  ];
 }
 
-// Define marketing sections using the template pattern
-const marketingSections: MarketingSection[] = [
-  { id: "hero", background: "ink", pattern: "grid", patternOpacity: 0.03, content: <HeroSection /> },
-  { id: "features", background: "white", content: <VerticalsSection /> },
-  { id: "problem", background: "ink", content: <ProblemSection /> },
-  { id: "solutions", background: "white", content: <SolutionsSection /> },
-  { id: "feature-grid", background: "white", pattern: "grid", patternOpacity: 0.03, content: <FeatureGridSection /> },
-  { id: "compvss", background: "white", content: <CompvssSection /> },
-  { id: "about", background: "white", content: <SocialProofSection /> },
-  { id: "pricing", background: "white", pattern: "grid", patternOpacity: 0.03, content: <PricingSection /> },
-  { id: "cta", background: "ink", pattern: "grid", patternOpacity: 0.05, content: <CtaSection /> },
-];
-
 export default function Home() {
+  const router = useRouter();
+  const marketingSections = createMarketingSections(router);
+
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       <MarketingPage

@@ -111,7 +111,7 @@ export default function DemoPage() {
           id: "benefits",
           background: "black",
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Grid cols={2} gap={12} className="grid-cols-1 lg:grid-cols-2 items-center">
                 <Stack gap={8}>
                   <Stack gap={4}>

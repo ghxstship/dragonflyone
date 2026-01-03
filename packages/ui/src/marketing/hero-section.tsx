@@ -140,7 +140,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
         )}
 
         {/* Content */}
-        <Container size="xl" className="relative z-10 h-full">
+        <Container size="2xl" className="relative z-10 h-full">
           <div
             className={clsx(
               "flex flex-col justify-center h-full py-12 sm:py-16 md:py-24 lg:py-32",

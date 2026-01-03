@@ -191,7 +191,7 @@ export default function ContactPage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="xl" className="py-16 md:py-24">
+            <Container size="2xl" className="py-16 md:py-24">
               <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-5">
                 {/* Contact Form - Takes 3 columns */}
                 <Card variant="elevated" className="lg:col-span-3">
@@ -372,7 +372,7 @@ export default function ContactPage() {
           id: "quick-links",
           background: "black",
           content: (
-            <Container size="xl" className="py-16 md:py-24">
+            <Container size="2xl" className="py-16 md:py-24">
               <Stack gap={12}>
                 <Stack gap={4} className="text-center items-center">
                   <Kicker>Resources</Kicker>

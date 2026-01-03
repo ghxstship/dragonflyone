@@ -24,6 +24,9 @@ import type { ContextLevel } from "@ghxstship/ui";
 import clsx from "clsx";
 import { ChevronRight, Briefcase, Users, Ticket, Menu, X } from "lucide-react";
 
+// Shared mobile navigation typography - single source of truth
+const mobileNavTypography = "font-heading text-h4-md uppercase tracking-kicker";
+
 // =============================================================================
 // CREATOR NAVIGATION (ATLVS is B2B - all users are "creators"/business users)
 // =============================================================================
@@ -270,7 +273,7 @@ export function CreatorNavigationPublic() {
                   inverted
                   fullWidth
                   onClick={() => setMobileSubmenu(mobileSubmenu === "products" ? null : "products")}
-                  className="justify-between text-h4-md uppercase tracking-kicker"
+                  className={clsx("justify-between", mobileNavTypography)}
                 >
                   Products
                   <ChevronRight className={clsx("h-5 w-5 chevron-toggle-90", mobileSubmenu === "products" && "open")} />
@@ -299,7 +302,7 @@ export function CreatorNavigationPublic() {
                   inverted
                   fullWidth
                   onClick={() => setMobileSubmenu(mobileSubmenu === "solutions" ? null : "solutions")}
-                  className="justify-between text-h4-md uppercase tracking-kicker"
+                  className={clsx("justify-between", mobileNavTypography)}
                 >
                   Solutions
                   <ChevronRight className={clsx("h-5 w-5 chevron-toggle-90", mobileSubmenu === "solutions" && "open")} />
@@ -334,7 +337,7 @@ export function CreatorNavigationPublic() {
                   inverted
                   fullWidth
                   onClick={() => setMobileSubmenu(mobileSubmenu === "resources" ? null : "resources")}
-                  className="justify-between text-h4-md uppercase tracking-kicker"
+                  className={clsx("justify-between", mobileNavTypography)}
                 >
                   Resources
                   <ChevronRight className={clsx("h-5 w-5 chevron-toggle-90", mobileSubmenu === "resources" && "open")} />
@@ -366,7 +369,7 @@ export function CreatorNavigationPublic() {
               <Link
                 href="/pricing"
                 onClick={handleClose}
-                className="block border-b border-ink-800 pb-4 text-h4-md uppercase tracking-kicker text-white"
+                className={clsx("block border-b border-ink-800 pb-4 text-white", mobileNavTypography)}
               >
                 Pricing
               </Link>

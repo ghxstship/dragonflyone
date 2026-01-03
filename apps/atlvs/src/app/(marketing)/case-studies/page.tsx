@@ -113,7 +113,7 @@ export default function CaseStudiesPage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Featured</Body>
@@ -166,7 +166,7 @@ export default function CaseStudiesPage() {
           id: "all-studies",
           background: "black",
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">All Stories</Body>

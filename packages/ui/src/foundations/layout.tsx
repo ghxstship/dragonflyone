@@ -9,20 +9,24 @@ import type { HTMLAttributes, ReactNode } from "react";
  * - Proper max-widths for content containment
  * - Generous horizontal padding
  */
-export const Container = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement> & { size?: "sm" | "md" | "lg" | "xl" | "full" }>(
-  function Container({ size = "lg", className, children, ...props }, ref) {
+export const Container = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement> & { size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "wide" | "ultrawide" | "full" }>(
+  function Container({ size = "xl", className, children, ...props }, ref) {
     const sizeClasses = {
       sm: "max-w-screen-sm",
       md: "max-w-screen-md",
       lg: "max-w-screen-lg",
       xl: "max-w-screen-xl",
+      "2xl": "max-w-screen-2xl",
+      "3xl": "max-w-[1920px]",
+      wide: "max-w-wide",
+      ultrawide: "max-w-ultrawide",
       full: "max-w-full",
     };
 
     return (
       <div
         ref={ref}
-        className={clsx("mx-auto px-4 sm:px-6 lg:px-8", sizeClasses[size], className)}
+        className={clsx("mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 3xl:px-16", sizeClasses[size], className)}
         {...props}
       >
         {children}

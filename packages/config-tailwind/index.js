@@ -447,6 +447,8 @@ const breakpointTokens = {
   lg: '1024px',
   xl: '1280px',
   '2xl': '1536px',
+  '3xl': '1920px',
+  '4xl': '2560px',
 };
 
 /**
@@ -784,8 +786,13 @@ const baseTailwindConfig = {
         'container-5xl': '64rem',
         'container-6xl': '72rem',
         'container-7xl': '80rem',
+        'container-8xl': '90rem',
+        'container-9xl': '100rem',
+        'container-10xl': '120rem',
         'prose': '65ch',
         'content': '80rem',
+        'wide': '90rem',
+        'ultrawide': '120rem',
       },
       // Semantic min-height tokens
       minHeight: {

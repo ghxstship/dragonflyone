@@ -97,7 +97,7 @@ export default function FAQPage() {
           id: "search",
           background: "ink",
           content: (
-            <Container size="xl" className="py-12">
+            <Container size="2xl" className="py-12">
               <Card className="p-6 border-2 border-grey-800 rounded-card">
                 <Stack gap={4}>
                   <Box className="relative">
@@ -120,7 +120,7 @@ export default function FAQPage() {
           id: "faqs",
           background: "black",
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Questions</Body>
@@ -166,7 +166,7 @@ export default function FAQPage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Support</Body>

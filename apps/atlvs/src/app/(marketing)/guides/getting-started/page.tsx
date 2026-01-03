@@ -67,7 +67,7 @@ export default function GettingStartedPage() {
           id: "progress",
           background: "ink",
           content: (
-            <Container size="lg" className="py-16">
+            <Container size="2xl" className="py-16">
               <Card className="p-8 border-2 border-grey-800 rounded-card">
                 <Stack gap={6}>
                   <Stack direction="horizontal" className="justify-between items-center">
@@ -87,7 +87,7 @@ export default function GettingStartedPage() {
           id: "steps",
           background: "black",
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Setup</Body>

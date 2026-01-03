@@ -42,7 +42,7 @@ export default function COMPVSSProductPage() {
   return (
     <>
       {/* Hero Section */}
-      <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+      <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
         <Stack gap={6} className="items-center text-center sm:gap-8">
           <Label size="xs" className="text-brand-cyan">PRODUCTS</Label>
           <Display className="text-white text-display-sm sm:text-display-md lg:text-display-lg">COMPVSS</Display>
@@ -62,7 +62,7 @@ export default function COMPVSSProductPage() {
 
       {/* Overview Section */}
       <Box className="bg-white">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
           <Article className="border-2 border-ink-950 bg-grey-100 p-6 sm:p-8 lg:p-12 pop-card-compvss">
             <Body size="lg" className="text-on-light-secondary leading-relaxed">
               Your crew is the backbone of every production. COMPVSS gives you the tools to find, schedule, 
@@ -74,7 +74,7 @@ export default function COMPVSSProductPage() {
 
       {/* Features Section */}
       <Box className="bg-white">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
           <Stack gap={4} className="text-center mb-12">
             <Label size="xs" className="text-on-light-muted">CAPABILITIES</Label>
             <H1 className="text-ink-950">KEY FEATURES</H1>
@@ -95,7 +95,7 @@ export default function COMPVSSProductPage() {
       </Box>
 
       {/* Benefits Section */}
-      <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+      <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
         <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
           <Stack gap={6}>
             <Stack gap={2}>
@@ -126,7 +126,7 @@ export default function COMPVSSProductPage() {
 
       {/* Testimonials Section */}
       <Box className="bg-white">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
           <Stack gap={4} className="text-center mb-12">
             <Label size="xs" className="text-on-light-muted">TESTIMONIALS</Label>
             <H1 className="text-ink-950">WHAT OUR CUSTOMERS SAY</H1>

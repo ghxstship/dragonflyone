@@ -100,7 +100,7 @@ export default function ProductsPage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={12}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Our Products</Body>
@@ -170,7 +170,7 @@ export default function ProductsPage() {
           id: "bundle",
           background: "ink",
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Card className="p-12 border-2 border-primary/30 rounded-card bg-gradient-to-br from-primary/10 to-secondary/10">
                 <Stack gap={6} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Best Value</Body>

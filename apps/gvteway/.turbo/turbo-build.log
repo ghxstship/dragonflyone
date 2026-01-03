@@ -15,9 +15,9 @@
  [37m[1m [22m[39m Skipping linting
 [?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
 [?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
-[?25l [37m[1m [22m[39m Generating static pages (0/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/70)  [36m[ ===][39mError in anti-scalping alerts API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/alerts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+[?25l [37m[1m [22m[39m Generating static pages (0/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (2/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (2/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (2/70)  [36m[  ==][39mError in anti-scalping alerts API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/alerts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/1232.js:1:56330)
-    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:14:3013)
+    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/blocked/route.js:1:4844)
     at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:1:1047)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/trace/tracer.js:140:36
@@ -29,9 +29,9 @@
   description: "Route /api/admin/anti-scalping/alerts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-[2K[1G [37m[1m [22m[39m Generating static pages (2/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (2/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (4/70)  [36m[    ][39mError in protection rules API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+[2K[1G [37m[1m [22m[39m Generating static pages (4/70)  [36m[   =][39mError in protection rules API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/1232.js:1:56330)
-    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:14:3013)
+    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/blocked/route.js:1:4844)
     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/rules/route.js:1:883)
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/server/lib/trace/tracer.js:140:36
@@ -43,7 +43,7 @@
   description: "Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-[2K[1G [37m[1m [22m[39m Generating static pages (6/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (8/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (9/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (10/70)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (10/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (11/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (11/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (12/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (13/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (16/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (18/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (22/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (23/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (26/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (28/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (29/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (31/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (35/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (39/70)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (41/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (44/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (47/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (47/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (50/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (55/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (57/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (59/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (60/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (67/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (69/70)  [36m[    ][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (70/70)
+[2K[1G [37m[1m [22m[39m Generating static pages (6/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (8/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (9/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (10/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (11/70)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (12/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (14/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (17/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (20/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (22/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (24/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (27/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (27/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (29/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (33/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (37/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (39/70)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (42/70)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (46/70)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (50/70)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (55/70)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (56/70)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (58/70)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (65/70)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (66/70)  [36m[=   ][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (70/70)
 [?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
 [2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
 
@@ -55,7 +55,7 @@
 ├ ○ /account/profile                          1.57 kB         [37m[1m886 kB[22m[39m
 ├ ○ /account/tickets                          2.14 kB         [37m[1m886 kB[22m[39m
 ├ ○ /admin                                    2.08 kB         [37m[1m886 kB[22m[39m
-├ ○ /admin/events                             2.19 kB         [37m[1m886 kB[22m[39m
+├ ○ /admin/events                             2.19 kB         [37m[1m887 kB[22m[39m
 ├ ○ /admin/moderation                         1.83 kB         [37m[1m886 kB[22m[39m
 ├ ○ /admin/pos                                1.8 kB          [37m[1m886 kB[22m[39m
 ├ ○ /admin/ticketing                          2.16 kB         [37m[1m886 kB[22m[39m
@@ -398,7 +398,7 @@
 ├ ○ /dashboard                                2.79 kB         [37m[1m887 kB[22m[39m
 ├ ○ /discover                                 2.11 kB         [37m[1m886 kB[22m[39m
 ├ ƒ /e/[eventId]                              1.45 kB         [37m[1m886 kB[22m[39m
-├ ƒ /e/[eventId]/chat                         1.16 kB         [37m[1m885 kB[22m[39m
+├ ƒ /e/[eventId]/chat                         1.16 kB         [37m[1m886 kB[22m[39m
 ├ ƒ /e/[eventId]/engage                       968 B           [37m[1m885 kB[22m[39m
 ├ ƒ /e/[eventId]/map                          1.05 kB         [37m[1m885 kB[22m[39m
 ├ ƒ /e/[eventId]/photos                       1.06 kB         [37m[1m885 kB[22m[39m
@@ -407,10 +407,10 @@
 ├ ○ /events                                   1.46 kB         [37m[1m886 kB[22m[39m
 ├ ƒ /events/[id]                              1.74 kB         [37m[1m886 kB[22m[39m
 ├ ○ /events/create                            888 B           [37m[1m885 kB[22m[39m
-├ ○ /friends                                  1.17 kB         [37m[1m885 kB[22m[39m
+├ ○ /friends                                  1.17 kB         [37m[1m886 kB[22m[39m
 ├ ○ /gift-cards                               1.39 kB         [37m[1m886 kB[22m[39m
 ├ ○ /groups                                   1.14 kB         [37m[1m885 kB[22m[39m
-├ ○ /help                                     1.85 kB         [37m[1m886 kB[22m[39m
+├ ○ /help                                     1.84 kB         [37m[1m886 kB[22m[39m
 ├ ○ /help/faq                                 2.02 kB         [37m[1m886 kB[22m[39m
 ├ ○ /merch                                    1.33 kB         [37m[1m886 kB[22m[39m
 ├ ƒ /merch/[artistId]                         1.08 kB         [37m[1m885 kB[22m[39m
@@ -441,10 +441,10 @@
 ├ ƒ /surveys/[id]                             1.29 kB         [37m[1m886 kB[22m[39m
 ├ ○ /tickets                                  1.89 kB         [37m[1m886 kB[22m[39m
 ├ ○ /tickets/scan                             3.23 kB         [37m[1m888 kB[22m[39m
-├ ○ /venues                                   1.19 kB         [37m[1m885 kB[22m[39m
+├ ○ /venues                                   1.19 kB         [37m[1m886 kB[22m[39m
 ├ ƒ /venues/[id]                              2.47 kB         [37m[1m887 kB[22m[39m
 ├ ○ /wallet                                   2.91 kB         [37m[1m887 kB[22m[39m
-├ ○ /watch-parties                            1.17 kB         [37m[1m885 kB[22m[39m
+├ ○ /watch-parties                            1.17 kB         [37m[1m886 kB[22m[39m
 └ ○ /wishlist                                 1.34 kB         [37m[1m886 kB[22m[39m
 + First Load JS shared by all                 [37m[1m647 kB[22m[39m
   ├ chunks/lib-724fe067efd4ad55.js            645 kB

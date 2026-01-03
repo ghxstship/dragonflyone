@@ -100,7 +100,7 @@ export default function PartnersPage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={12}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Partnership Types</Body>

@@ -69,7 +69,7 @@ export default function SecurityPage() {
           id: "trust-stats",
           background: "primary",
           content: (
-            <Container size="xl" className="py-12">
+            <Container size="2xl" className="py-12">
               <Grid cols={4} gap={8} className="grid-cols-2 md:grid-cols-4">
                 {TRUST_STATS.map((stat, idx) => (
                   <Stack key={idx} gap={1} className="text-center">
@@ -103,7 +103,7 @@ export default function SecurityPage() {
           id: "certifications",
           background: "black",
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Compliance</Body>
@@ -137,7 +137,7 @@ export default function SecurityPage() {
           id: "whitepaper",
           background: "ink",
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Card className="p-12 border-2 border-primary/30 rounded-card bg-gradient-to-br from-primary/10 to-secondary/10">
                 <Stack direction="horizontal" className="justify-between items-center flex-wrap gap-8">
                   <Stack direction="horizontal" gap={6} className="items-center">

@@ -82,7 +82,7 @@ export default function PressPage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Latest News</Body>
@@ -122,7 +122,7 @@ export default function PressPage() {
           id: "media-kit",
           background: "black",
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Resources</Body>
@@ -162,7 +162,7 @@ export default function PressPage() {
           id: "contact",
           background: "ink",
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Card className="p-12 border-2 border-grey-800 rounded-card">
                 <Stack direction="horizontal" className="justify-between items-center flex-wrap gap-8">
                   <Stack direction="horizontal" gap={6} className="items-center">

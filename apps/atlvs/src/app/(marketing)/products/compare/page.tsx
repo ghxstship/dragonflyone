@@ -82,7 +82,7 @@ export default function ProductComparePage() {
           id: "products",
           background: "ink",
           content: (
-            <Container size="xl" className="py-16">
+            <Container size="2xl" className="py-16">
               <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
                 {PRODUCTS.map((product) => (
                   <Card key={product.id} className="p-6 border-2 border-grey-800 rounded-card pop-card text-center cursor-pointer" onClick={() => router.push(`/products/${product.id}`)}>
@@ -101,7 +101,7 @@ export default function ProductComparePage() {
           id: "comparison",
           background: "black",
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Features</Body>
@@ -155,7 +155,7 @@ export default function ProductComparePage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Card className="p-12 border-2 border-primary rounded-card text-center">
                 <Body className="text-primary uppercase tracking-kicker font-weight-semibold mb-4">Best Value</Body>
                 <Body className="text-white font-weight-bold text-h3-md mb-4">Complete Suite Bundle</Body>

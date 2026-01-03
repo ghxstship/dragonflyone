@@ -71,7 +71,7 @@ export default function SupportChatPage() {
           id: "chat",
           background: "ink",
           content: (
-            <Container size="lg" className="py-16">
+            <Container size="2xl" className="py-16">
               <Card className="border-2 border-grey-800 rounded-card overflow-hidden">
                 <Box className="p-4 border-b border-grey-800 bg-grey-900">
                   <Stack direction="horizontal" gap={3} className="items-center">
@@ -110,7 +110,7 @@ export default function SupportChatPage() {
           id: "options",
           background: "black",
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Support Options</Body>

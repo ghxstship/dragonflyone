@@ -74,7 +74,7 @@ export default function HelpPage() {
           id: "stats",
           background: "primary",
           content: (
-            <Container size="xl" className="py-12">
+            <Container size="2xl" className="py-12">
               <Grid cols={4} gap={8} className="grid-cols-2 md:grid-cols-4">
                 {STATS.map((stat, idx) => (
                   <Stack key={idx} gap={1} className="text-center">
@@ -92,7 +92,7 @@ export default function HelpPage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Support</Body>
@@ -144,7 +144,7 @@ export default function HelpPage() {
           id: "contact",
           background: "ink",
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Card className="p-8 border-2 border-grey-800 rounded-card">
                 <Box className="flex items-center justify-between flex-wrap gap-6">
                   <Box className="flex items-center gap-4">

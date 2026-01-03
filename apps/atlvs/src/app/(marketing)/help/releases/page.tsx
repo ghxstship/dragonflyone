@@ -81,7 +81,7 @@ export default function ReleasesPage() {
           id: "stats",
           background: "primary",
           content: (
-            <Container size="xl" className="py-12">
+            <Container size="2xl" className="py-12">
               <Grid cols={4} gap={8} className="grid-cols-2 md:grid-cols-4">
                 {STATS.map((stat, idx) => (
                   <Stack key={idx} gap={1} className="text-center">
@@ -97,7 +97,7 @@ export default function ReleasesPage() {
           id: "releases",
           background: "ink",
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Updates</Body>
@@ -140,7 +140,7 @@ export default function ReleasesPage() {
           id: "major",
           background: "black",
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Highlights</Body>
@@ -178,7 +178,7 @@ export default function ReleasesPage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Card className="p-12 border-2 border-grey-800 rounded-card text-center">
                 <Bell className="size-16 text-primary mx-auto mb-6" />
                 <Body className="text-white font-weight-bold text-h3-md mb-4">Stay Updated</Body>

@@ -81,7 +81,7 @@ export default function TemplatesPage() {
           id: "filters",
           background: "ink",
           content: (
-            <Container size="xl" className="py-8">
+            <Container size="2xl" className="py-8">
               <Stack direction="horizontal" gap={4} className="flex-wrap items-center justify-between">
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   <Button
@@ -123,7 +123,7 @@ export default function TemplatesPage() {
           id: "templates",
           background: "black",
           content: (
-            <Container size="xl" className="py-12">
+            <Container size="2xl" className="py-12">
               <Stack gap={8}>
                 {filteredTemplates.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-grey-800">
@@ -203,7 +203,7 @@ export default function TemplatesPage() {
           id: "import-info",
           background: "ink",
           content: (
-            <Container size="xl" className="py-16">
+            <Container size="2xl" className="py-16">
               <Card className="p-8 border-2 border-primary/30 bg-primary/5">
                 <Stack gap={6}>
                   <Stack gap={2} className="text-center">

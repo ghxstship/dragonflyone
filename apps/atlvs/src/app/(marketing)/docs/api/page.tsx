@@ -114,7 +114,7 @@ export default function ApiDocsPage() {
           id: "quickstart",
           background: "black",
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Quick Start</Body>
@@ -154,7 +154,7 @@ export default function ApiDocsPage() {
           id: "endpoints",
           background: "ink",
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Reference</Body>

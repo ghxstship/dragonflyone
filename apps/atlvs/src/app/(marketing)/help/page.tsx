@@ -72,7 +72,7 @@ export default function HelpPage() {
           id: "search",
           background: "ink",
           content: (
-            <Container size="lg" className="py-12">
+            <Container size="2xl" className="py-12">
               <Card className="p-6 border-2 border-grey-800 rounded-card">
                 <Box className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-on-dark-muted" />
@@ -109,7 +109,7 @@ export default function HelpPage() {
           id: "popular",
           background: "black",
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Quick Answers</Body>
@@ -156,7 +156,7 @@ export default function HelpPage() {
           id: "support",
           background: "ink",
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Contact Us</Body>

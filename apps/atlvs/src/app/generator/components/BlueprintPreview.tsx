@@ -60,7 +60,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
 
   return (
     <FullBleedSection background="grey" className="py-16 lg:py-24">
-      <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <Container className="mx-auto max-w-screen-2xl px-6 lg:px-8">
         {/* Blueprint Header */}
         <Stack gap={4} className="mb-12 text-center">
           <Text className="font-mono text-mono-sm uppercase tracking-kicker text-grey-500">

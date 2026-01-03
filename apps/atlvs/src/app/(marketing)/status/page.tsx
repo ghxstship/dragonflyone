@@ -95,7 +95,7 @@ export default function StatusPage() {
           id: "overall-status",
           background: allOperational ? "primary" : "accent",
           content: (
-            <Container size="xl" className="py-8">
+            <Container size="2xl" className="py-8">
               <Stack direction="horizontal" className="justify-center items-center gap-4">
                 {allOperational ? (
                   <CheckCircle className="size-8 text-white" />
@@ -115,7 +115,7 @@ export default function StatusPage() {
           pattern: "grid",
           patternOpacity: 0.03,
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Services</Body>
@@ -165,7 +165,7 @@ export default function StatusPage() {
           id: "history",
           background: "black",
           content: (
-            <Container size="xl" className="py-20">
+            <Container size="2xl" className="py-20">
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Uptime</Body>
@@ -213,7 +213,7 @@ export default function StatusPage() {
           id: "subscribe",
           background: "ink",
           content: (
-            <Container size="lg" className="py-20">
+            <Container size="2xl" className="py-20">
               <Card className="p-12 border-2 border-primary/30 rounded-card bg-gradient-to-br from-primary/10 to-secondary/10 text-center">
                 <Stack gap={6} className="items-center">
                   <Box className="p-4 bg-primary/20 rounded-card">
