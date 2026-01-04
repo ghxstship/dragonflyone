@@ -2,6 +2,7 @@
 
 import { forwardRef, ReactNode } from "react";
 import clsx from "clsx";
+import * as LucideIcons from "lucide-react";
 import { Container, Stack, Grid } from "../foundations/layout.js";
 import { Card } from "../molecules/card.js";
 import { Kicker } from "../atoms/kicker.js";
@@ -18,11 +19,24 @@ import { Body, H2, H3 } from "../atoms/typography.js";
 
 export interface FeatureItem {
   id: string;
-  icon: ReactNode;
+  /** Icon as ReactNode (for client components) */
+  icon?: ReactNode;
+  /** Icon name from lucide-react (for serializable data) */
+  iconName?: string;
   title: string;
   description: string;
   highlights?: string[];
   href?: string;
+}
+
+/** Helper to render icon from name or ReactNode */
+function renderIcon(icon?: ReactNode, iconName?: string): ReactNode {
+  if (icon) return icon;
+  if (iconName && iconName in LucideIcons) {
+    const IconComponent = LucideIcons[iconName as keyof typeof LucideIcons] as React.ComponentType<{ className?: string }>;
+    return <IconComponent className="size-8" />;
+  }
+  return null;
 }
 
 export interface FeatureGridProps {
@@ -154,7 +168,7 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
                 <Stack gap={4}>
                   {/* Icon */}
                   <div className="p-3 bg-primary/20 rounded-card text-primary w-fit">
-                    {feature.icon}
+                    {renderIcon(feature.icon, feature.iconName)}
                   </div>
 
                   {/* Title */}

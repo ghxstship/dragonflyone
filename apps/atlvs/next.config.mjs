@@ -84,40 +84,8 @@ const nextConfig = {
     tsconfigPath: 'tsconfig.build.json',
   },
   
-  webpack: (config, { isServer }) => {
-    // Optimize bundle size
-    if (!isServer) {
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            default: false,
-            vendors: false,
-            framework: {
-              name: 'framework',
-              chunks: 'all',
-              test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
-              priority: 40,
-              enforce: true,
-            },
-            lib: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'lib',
-              priority: 30,
-              minChunks: 1,
-              reuseExistingChunk: true,
-            },
-            commons: {
-              name: 'commons',
-              minChunks: 2,
-              priority: 20,
-            },
-          },
-        },
-      };
-    }
-    
+  webpack: (config) => {
+    // Let Next.js handle optimization - custom splitChunks causes MODULE_NOT_FOUND errors
     return config;
   },
 };

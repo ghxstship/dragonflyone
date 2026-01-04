@@ -7,7 +7,6 @@
  */
 
 import { useRouter } from "next/navigation";
-import { Heart, Target, Users, Globe } from "lucide-react";
 import {
   MarketingPage, HeroSection, StatsSection, TeamSection, FeatureGrid, CTABanner,
   type StatItem, type TeamMember, type FeatureItem,
@@ -66,28 +65,28 @@ const TEAM_MEMBERS: TeamMember[] = [
 const VALUES: FeatureItem[] = [
   {
     id: "customer-first",
-    icon: <Heart className="size-8" />,
+    iconName: "Heart",
     title: "Customer First",
     description: "We put our customers at the center of everything we do. Their success is our success.",
     highlights: ["24/7 support", "Customer advisory board", "Regular feedback loops", "Success-driven roadmap"],
   },
   {
     id: "excellence",
-    icon: <Target className="size-8" />,
+    iconName: "Target",
     title: "Excellence",
     description: "We strive for excellence in every aspect of our work, from code quality to customer service.",
     highlights: ["99.99% uptime", "SOC 2 certified", "Continuous improvement", "Best-in-class UX"],
   },
   {
     id: "collaboration",
-    icon: <Users className="size-8" />,
+    iconName: "Users",
     title: "Collaboration",
     description: "We believe in the power of teamwork and partnership, both internally and with our customers.",
     highlights: ["Cross-functional teams", "Open communication", "Partner ecosystem", "Community events"],
   },
   {
     id: "innovation",
-    icon: <Globe className="size-8" />,
+    iconName: "Globe",
     title: "Innovation",
     description: "We continuously push boundaries to create better solutions for the production industry.",
     highlights: ["R&D investment", "AI-powered features", "Industry-first tools", "Patent portfolio"],
