@@ -4,6 +4,49 @@ All notable completed work for the GHXSTSHIP platform.
 
 ## [Unreleased]
 
+### 2026-01-03
+
+#### E2E Test Failure Remediation
+
+**Missing API Routes Created (Category 2 - 16 routes):**
+
+ATLVS:
+- `apps/atlvs/src/app/api/admin/settings/route.ts` - Admin settings management
+- `apps/atlvs/src/app/api/admin/users/route.ts` - Admin user management
+- `apps/atlvs/src/app/api/admin/audit-logs/route.ts` - Audit log retrieval
+- `apps/atlvs/src/app/api/invoices/[id]/route.ts` - Individual invoice CRUD
+- `apps/atlvs/src/app/api/settings/integrations/route.ts` - Integration settings
+- `apps/atlvs/src/app/api/settings/notifications/route.ts` - Notification preferences
+- `apps/atlvs/src/app/api/settings/billing/route.ts` - Billing settings
+- `apps/atlvs/src/app/api/reports/profit-loss/route.ts` - P&L report generation
+- `apps/atlvs/src/app/api/reports/cash-flow/route.ts` - Cash flow report generation
+
+COMPVSS:
+- `apps/compvss/src/app/api/credentials/[id]/route.ts` - Individual credential CRUD
+- `apps/compvss/src/app/api/credentials/scan/history/route.ts` - Scan history retrieval
+- `apps/compvss/src/app/api/offline/status/route.ts` - Offline sync status
+- `apps/compvss/src/app/api/offline/queue/route.ts` - Offline queue management
+- `apps/compvss/src/app/api/safety/route.ts` - Safety records management
+- `apps/compvss/src/app/api/notifications/preferences/route.ts` - Notification preferences
+
+GVTEWAY:
+- `apps/gvteway/src/app/api/events/mine/route.ts` - User's events retrieval
+
+**Accessibility Fixes (Category 20):**
+- Fixed heading hierarchy in `AuthSplitLayout` template - changed `brandTagline` from H1 to H2
+- Fixed heading hierarchy in 15 auth pages across all apps - changed `brandLogo` from H1 to Text
+- Fixed duplicate Text imports in signup pages
+
+**Component Fixes:**
+- Fixed `DataTable` import error in `gvteway/rewards/history/page.tsx` - replaced with design system Table components
+
+**Build Verification:**
+- All apps (ATLVS, COMPVSS, GVTEWAY) build successfully
+- No TypeScript errors
+- No lint errors blocking build
+
+---
+
 ### 2025-01-01
 
 #### useEntityConfig Migration Complete

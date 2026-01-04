@@ -26,7 +26,6 @@ import {
   SocialAuthButtonGroup,
   useToast,
   Stack,
-  H1,
 } from "@ghxstship/ui";
 
 export default function SignUpPage() {
@@ -120,7 +119,7 @@ export default function SignUpPage() {
       title="Create Your Account"
       subtitle="Join COMPVSS to manage your crew and resources"
       footer={{ text: "Already have an account?", linkText: "Sign in", linkHref: "/auth/signin" }}
-      brandLogo={<H1 className="text-white text-h2-md">COMPVSS</H1>}
+      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">COMPVSS</Text>}
       brandTagline="Everything You Need to Manage Your Crew"
       brandFeatures={[
         {

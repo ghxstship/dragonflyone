@@ -16,10 +16,14 @@ import {
   SectionHeader,
   StatCard,
   Box,
-  DataTable,
   Input,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
 } from "@ghxstship/ui";
-import { getEntityColumns } from "@ghxstship/config";
 import { Award, TrendingUp, TrendingDown, Calendar, Filter } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -51,6 +55,35 @@ async function fetchRewardsHistory(): Promise<{
   return response.json();
 }
 
+function TransactionList({ transactions, testId }: { transactions: PointsTransaction[]; testId: string }) {
+  return (
+    <Card className="overflow-hidden" data-testid={testId}>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Date</TableHead>
+            <TableHead>Description</TableHead>
+            <TableHead>Source</TableHead>
+            <TableHead className="text-right">Points</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {transactions.map((t) => (
+            <TableRow key={t.id}>
+              <TableCell>{new Date(t.date).toLocaleDateString()}</TableCell>
+              <TableCell>{t.description}</TableCell>
+              <TableCell className="text-text-muted">{t.source}</TableCell>
+              <TableCell className={`text-right font-weight-medium ${t.type === "earned" ? "text-status-success" : "text-status-error"}`}>
+                {t.type === "earned" ? "+" : "-"}{t.amount.toLocaleString()}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </Card>
+  );
+}
+
 export default function RewardsHistoryPage() {
   const [dateFilter, setDateFilter] = useState("");
 
@@ -67,8 +100,6 @@ export default function RewardsHistoryPage() {
   const filteredTransactions = dateFilter
     ? transactions.filter((t) => t.date.startsWith(dateFilter))
     : transactions;
-
-  const entityColumns = getEntityColumns<PointsTransaction>("rewards-transactions");
 
   const tabs = [
     {
@@ -119,11 +150,7 @@ export default function RewardsHistoryPage() {
               <Body className="text-text-muted">No transactions found</Body>
             </Card>
           ) : (
-            <DataTable
-              columns={entityColumns}
-              data={filteredTransactions}
-              data-testid="points-history"
-            />
+            <TransactionList transactions={filteredTransactions} testId="points-history" />
           )}
         </Section>
       ),
@@ -144,10 +171,9 @@ export default function RewardsHistoryPage() {
               <Body className="text-text-muted" data-testid="points-earned">No earned points yet</Body>
             </Card>
           ) : (
-            <DataTable
-              columns={entityColumns}
-              data={filteredTransactions.filter((t) => t.type === "earned")}
-              data-testid="points-earned"
+            <TransactionList 
+              transactions={filteredTransactions.filter((t) => t.type === "earned")} 
+              testId="points-earned" 
             />
           )}
         </Section>
@@ -169,10 +195,9 @@ export default function RewardsHistoryPage() {
               <Body className="text-text-muted" data-testid="points-redeemed">No redeemed points yet</Body>
             </Card>
           ) : (
-            <DataTable
-              columns={entityColumns}
-              data={filteredTransactions.filter((t) => t.type === "redeemed")}
-              data-testid="points-redeemed"
+            <TransactionList 
+              transactions={filteredTransactions.filter((t) => t.type === "redeemed")} 
+              testId="points-redeemed" 
             />
           )}
         </Section>

@@ -4,7 +4,7 @@ import { forwardRef, ReactNode } from "react";
 import clsx from "clsx";
 import type { HTMLAttributes } from "react";
 import { Container, Stack } from "../foundations/layout.js";
-import { Label, Body, H1 } from "../atoms/typography.js";
+import { Label, Body, H1, H2 } from "../atoms/typography.js";
 import { Spinner } from "../atoms/spinner.js";
 import { Button } from "../atoms/button.js";
 import { AlertTriangle, WifiOff } from "lucide-react";
@@ -146,7 +146,7 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
       <Stack gap={6} className="items-center text-center">
         {icon}
         <Stack gap={2} className="items-center">
-          <H1 className="text-text-primary text-2xl">{stateTitle}</H1>
+          <H2 className="text-text-primary text-2xl">{stateTitle}</H2>
           <Body className="text-text-muted">{message}</Body>
         </Stack>
         {action}
@@ -235,9 +235,9 @@ export const AuthSplitLayout = forwardRef<HTMLDivElement, AuthSplitLayoutProps>(
         {/* Main Brand Content */}
         <Stack gap={8} className="flex-1 justify-center">
           {brandTagline && (
-            <H1 className="text-text-primary text-3xl lg:text-4xl xl:text-5xl font-display uppercase tracking-tight leading-tight">
+            <H2 className="text-text-primary text-3xl lg:text-4xl xl:text-5xl font-display uppercase tracking-tight leading-tight">
               {brandTagline}
-            </H1>
+            </H2>
           )}
 
           {brandFeatures && brandFeatures.length > 0 && (

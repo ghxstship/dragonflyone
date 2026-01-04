@@ -26,7 +26,6 @@ import {
   SocialAuthButtonGroup,
   useToast,
   Stack,
-  H1,
 } from "@ghxstship/ui";
 import { useAuthData } from "@/hooks/useAuth";
 
@@ -110,7 +109,7 @@ export default function SignUpPage() {
       title="Create Your Account"
       subtitle="Join GVTEWAY to discover unforgettable live experiences"
       footer={{ text: "Already have an account?", linkText: "Sign in", linkHref: "/auth/signin" }}
-      brandLogo={<H1 className="text-white text-h2-md">GVTEWAY</H1>}
+      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">GVTEWAY</Text>}
       brandTagline="Your Gateway to Unforgettable Experiences"
       brandFeatures={[
         {

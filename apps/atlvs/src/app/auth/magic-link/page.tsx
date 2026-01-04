@@ -20,7 +20,7 @@ import {
   AuthSplitLayout,
   AuthFormField,
   Stack,
-  H1,
+  Text,
   H2,
   Label,
 } from "@ghxstship/ui";
@@ -57,7 +57,7 @@ export default function MagicLinkPage() {
     return (
       <AuthSplitLayout
         singleColumn
-        brandLogo={<H1 className="text-white text-h2-md">ATLVS</H1>}
+        brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">ATLVS</Text>}
       >
         <Stack gap={8} className="text-center items-center">
           <Box className="p-6 bg-primary-500/20 rounded-avatar border-2 border-primary-500/30">
@@ -94,7 +94,7 @@ export default function MagicLinkPage() {
       subtitle="Sign in without a password. We'll email you a secure link."
       footer={{ text: "Don't have an account?", linkText: "Sign up", linkHref: "/auth/signup" }}
       singleColumn
-      brandLogo={<H1 className="text-white text-h2-md">ATLVS</H1>}
+      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">ATLVS</Text>}
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={5}>

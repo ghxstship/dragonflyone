@@ -22,7 +22,7 @@ import {
   SocialAuthButtonGroup,
   useToast,
   Stack,
-  H1,
+  Text,
 } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
 import { useAuthData } from "@/hooks/useAuth";
@@ -85,7 +85,7 @@ export default function SignInPage() {
       title="Member Sign In"
       subtitle="Access your exclusive experiences and member benefits"
       footer={{ text: "Not a member yet?", linkText: "Apply for Membership", linkHref: "/apply" }}
-      brandLogo={<H1 className="text-white text-h2-md">GVTEWAY</H1>}
+      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">GVTEWAY</Text>}
       brandTagline="Your Gateway to Unforgettable Experiences"
       brandFeatures={[
         {

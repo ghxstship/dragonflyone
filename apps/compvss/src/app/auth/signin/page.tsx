@@ -22,7 +22,7 @@ import {
   SocialAuthButtonGroup,
   useToast,
   Stack,
-  H1,
+  Text,
 } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
 
@@ -84,7 +84,7 @@ export default function SignInPage() {
       title="Welcome Back"
       subtitle="Sign in to manage your crew and resources"
       footer={{ text: "Don't have an account?", linkText: "Get started", linkHref: "/auth/signup" }}
-      brandLogo={<H1 className="text-white text-h2-md">COMPVSS</H1>}
+      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">COMPVSS</Text>}
       brandTagline="Crew & Resource Management, Simplified"
       brandFeatures={[
         {

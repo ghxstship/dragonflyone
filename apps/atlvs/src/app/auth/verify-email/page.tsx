@@ -18,7 +18,7 @@ import {
   AuthSplitLayout,
   useToast,
   Stack,
-  H1,
+  Text,
   H2,
 } from "@ghxstship/ui";
 import { supabase } from "@/lib/supabase";
@@ -45,7 +45,7 @@ export default function VerifyEmailPage() {
   return (
     <AuthSplitLayout
       singleColumn
-      brandLogo={<H1 className="text-white text-h2-md">ATLVS</H1>}
+      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">ATLVS</Text>}
     >
       <Stack gap={8} className="text-center items-center">
         <Box className="p-6 bg-primary-500/20 rounded-avatar border-2 border-primary-500/30">

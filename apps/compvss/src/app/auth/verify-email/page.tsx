@@ -19,7 +19,7 @@ import {
   Alert,
   useToast,
   Stack,
-  H1,
+  Text,
   H2,
   Spinner,
 } from "@ghxstship/ui";
@@ -69,7 +69,7 @@ function VerifyEmailContent() {
   return (
     <AuthSplitLayout
       singleColumn
-      brandLogo={<H1 className="text-white text-h2-md">COMPVSS</H1>}
+      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">COMPVSS</Text>}
     >
       <Stack gap={8} className="text-center items-center">
         <Box className="p-6 bg-primary-500/20 rounded-avatar border-2 border-primary-500/30">
@@ -123,7 +123,7 @@ export default function VerifyEmailPage() {
     <Suspense fallback={
       <AuthSplitLayout
         singleColumn
-        brandLogo={<H1 className="text-white text-h2-md">COMPVSS</H1>}
+        brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">COMPVSS</Text>}
       >
         <Stack gap={8} className="text-center items-center">
           <Box className="p-6 bg-primary-500/20 rounded-avatar border-2 border-primary-500/30">

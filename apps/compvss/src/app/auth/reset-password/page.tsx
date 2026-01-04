@@ -20,7 +20,7 @@ import {
   AuthPasswordInput,
   PasswordRequirements,
   Stack,
-  H1,
+  Text,
   H2,
 } from "@ghxstship/ui";
 
@@ -78,7 +78,7 @@ export default function ResetPasswordPage() {
     return (
       <AuthSplitLayout
         singleColumn
-        brandLogo={<H1 className="text-white text-h2-md">COMPVSS</H1>}
+        brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">COMPVSS</Text>}
       >
         <Stack gap={8} className="text-center items-center">
           <Box className="p-6 bg-success-500/20 rounded-avatar border-2 border-success-500/30">
@@ -111,7 +111,7 @@ export default function ResetPasswordPage() {
       title="Reset Your Password"
       subtitle="Create a new secure password for your account"
       singleColumn
-      brandLogo={<H1 className="text-white text-h2-md">COMPVSS</H1>}
+      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">COMPVSS</Text>}
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={5}>
