@@ -9657,3 +9657,543 @@ Many tests timeout due to slow page loads during parallel test execution.
 
 **Final Documentation: 40 failure categories identified across 1,786 failed test directories.**
 
+---
+
+## E2E Test Run - January 4, 2026 (Comprehensive Analysis)
+
+### Test Run Summary
+
+| Metric | Value |
+|--------|-------|
+| **Total Tests** | 22,704 |
+| **Progress at Documentation** | ~3,330/22,704 (~15%) |
+| **Browsers** | Chromium, Firefox |
+| **Workers** | 2 |
+| **Test Types** | API, UI, Full-Stack, Accessibility, Performance, Responsive |
+
+---
+
+## Failure Categories with Root Causes and Remediation Actions
+
+### Category 1: Playwright Locator Syntax Errors
+
+**Failure Count:** ~50+ tests across all apps
+
+**Root Cause:** Invalid CSS selector syntax combining `[data-testid="..."]` with `text=/regex/i` using comma separator. Playwright's CSS selector parser doesn't support this mixed syntax.
+
+**Example Error:**
+```
+locator.count: Unexpected token "=" while parsing css selector 
+"[data-testid="member-since"], text=/member since|joined/i"
+```
+
+**Affected Files:**
+- `e2e/gvteway/membership.spec.ts` (lines 210, 220, 267, 508, 518)
+- `e2e/shared/data-integrity.spec.ts` (lines 236, 256, 446)
+- `e2e/shared/multi-user.spec.ts` (lines 149, 199, 403)
+- `e2e/shared/error-states.spec.ts` (line 107)
+
+**Remediation Action:**
+```typescript
+// BEFORE (Invalid):
+const element = page.locator('[data-testid="member-since"], text=/member since|joined/i');
+
+// AFTER (Valid - use .or() method):
+const element = page.locator('[data-testid="member-since"]')
+  .or(page.getByText(/member since|joined/i));
+```
+
+**Priority:** P1 - High (Blocks test execution)
+
+---
+
+### Category 2: API Endpoint Status Code Mismatches
+
+**Failure Count:** ~100+ tests
+
+**Root Cause:** Test assertions expect only [200, 201, 204, 401, 403] but endpoints return:
+- **400** - Missing required request body/parameters
+- **405** - Method not allowed (GET on POST-only endpoints)
+- **500** - Server errors (database connection, missing env vars)
+
+**Example Errors:**
+```
+Error: Endpoint /api/auth/signin returned 400. Expected 200/201/204 (success) or 401/403 (auth required).
+Error: Endpoint /api/auth/refresh returned 405. Expected 200/201/204 (success) or 401/403 (auth required).
+Error: Endpoint /api/tickets/deliveries returned 500.
+```
+
+**Affected Endpoints:**
+| App | Endpoint | Status | Issue |
+|-----|----------|--------|-------|
+| COMPVSS | `/api/auth/signin` | 400 | Missing email/password |
+| COMPVSS | `/api/auth/signup` | 400 | Missing required fields |
+| COMPVSS | `/api/auth/magic-link` | 400 | Missing email |
+| ALL | `/api/auth/refresh` | 405 | GET not allowed |
+| GVTEWAY | `/api/tickets/deliveries` | 500 | Server error |
+| GVTEWAY | `/api/split-payment` | 400 | Missing payment data |
+| GVTEWAY | `/api/rewards` | 400 | Missing user context |
+
+**Remediation Actions:**
+
+1. **Update test assertions to include 400 for validation errors:**
+```typescript
+const VALID_ENDPOINT_STATUSES = [200, 201, 204, 400, 401, 403, 405];
+```
+
+2. **Fix API routes to return proper status codes:**
+```typescript
+// In route.ts files, ensure proper error handling:
+if (!body.email) {
+  return NextResponse.json({ error: 'Email required' }, { status: 400 });
+}
+```
+
+3. **Add proper request bodies in tests for POST endpoints:**
+```typescript
+const response = await request.post('/api/auth/signin', {
+  data: { email: 'test@example.com', password: 'test123' }
+});
+```
+
+**Priority:** P1 - High (Core functionality validation)
+
+---
+
+### Category 3: Page Navigation Timeouts
+
+**Failure Count:** ~500+ tests
+
+**Root Cause:** Dev server compilation and page rendering exceeds test timeouts (10-30s). Heavy page loads during parallel test execution cause resource contention.
+
+**Example Errors:**
+```
+TimeoutError: page.goto: Timeout 10000ms exceeded.
+Call log: navigating to "http://localhost:3000/browse", waiting until "domcontentloaded"
+
+TimeoutError: page.goto: Test timeout of 30000ms exceeded.
+Call log: navigating to "http://localhost:3001/analytics/kpi", waiting until "domcontentloaded"
+```
+
+**Most Affected Pages:**
+- GVTEWAY: `/browse`, `/checkout`, `/new-events`, `/events/create`
+- ATLVS: `/analytics/kpi`, `/crm/calendar`, `/workforce/handbook`, `/budgets`
+- COMPVSS: `/schedule`, `/crew`, `/equipment`
+
+**Remediation Actions:**
+
+1. **Increase test timeouts for heavy pages:**
+```typescript
+test.setTimeout(60000); // 60 seconds for complex pages
+```
+
+2. **Use `domcontentloaded` instead of `load` for faster assertions:**
+```typescript
+await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+```
+
+3. **Add retry logic for flaky navigation:**
+```typescript
+async function navigateWithRetry(page: Page, url: string, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+      return;
+    } catch (e) {
+      if (i === retries - 1) throw e;
+      await page.waitForTimeout(1000);
+    }
+  }
+}
+```
+
+4. **Reduce parallel workers during heavy test runs:**
+```typescript
+// playwright.config.ts
+workers: process.env.CI ? 1 : 2,
+```
+
+**Priority:** P0 - Critical (Blocks majority of tests)
+
+---
+
+### Category 4: Accessibility Violations
+
+**Failure Count:** ~30+ tests
+
+**Root Cause:** WCAG 2.1 AA compliance issues in UI components.
+
+**Specific Violations:**
+
+#### 4.1 Color Contrast (WCAG 1.4.3)
+```
+Element has insufficient color contrast of 4.42 
+(foreground: #737373, background: #000000)
+Expected contrast ratio of 4.5:1
+```
+
+**Affected Elements:**
+- Footer links with `text-text-muted` class
+- Secondary navigation items
+- Placeholder text in inputs
+
+**Remediation:**
+```css
+/* In globals.css, update muted text color */
+--color-text-muted: #8a8a8a; /* Increases contrast to 4.5:1 */
+```
+
+#### 4.2 Multiple H1 Elements
+```
+Expected: <= 1 H1
+Received: 3
+```
+
+**Affected Pages:** `/projects`, `/dashboard`, `/events`
+
+**Remediation:**
+- Audit all pages for H1 usage
+- Convert secondary H1s to H2
+- Ensure single H1 per page for screen readers
+
+#### 4.3 Skip Link Positioning
+```
+element is outside of the viewport
+```
+
+**Remediation:**
+```css
+.skip-link:focus {
+  position: fixed; /* Change from absolute */
+  top: 1rem;
+  left: 1rem;
+  z-index: 9999;
+}
+```
+
+#### 4.4 Touch Target Size
+```
+Expected: >= 44px
+Received: 1px
+```
+
+**Remediation:**
+```css
+/* Ensure minimum touch target size */
+button, a, [role="button"] {
+  min-width: 44px;
+  min-height: 44px;
+}
+```
+
+**Priority:** P2 - Medium (Accessibility compliance)
+
+---
+
+### Category 5: Performance Budget Violations
+
+**Failure Count:** ~15 tests
+
+**Root Cause:** Page load times exceed performance budgets during dev mode testing.
+
+**Violations:**
+| App | Metric | Budget | Actual |
+|-----|--------|--------|--------|
+| GVTEWAY | Homepage Load | < 3000ms | 3522ms |
+| COMPVSS | Homepage Load | < 3000ms | 3018ms |
+| ATLVS | Dashboard Load | < 3000ms | Variable |
+
+**Remediation Actions:**
+
+1. **Adjust budgets for dev mode:**
+```typescript
+const PERF_BUDGET = process.env.CI ? 3000 : 5000; // Higher threshold for dev
+```
+
+2. **Optimize page bundles:**
+- Implement code splitting for heavy components
+- Lazy load below-fold content
+- Optimize image loading with next/image
+
+3. **Run performance tests against production build:**
+```bash
+pnpm build && pnpm start
+# Then run perf tests against production server
+```
+
+**Priority:** P3 - Low (Dev mode specific)
+
+---
+
+### Category 6: Visual Regression Failures
+
+**Failure Count:** ~20 tests
+
+**Root Cause:** Screenshot baselines don't match current UI due to:
+- Viewport size mismatches
+- Dynamic content (timestamps, avatars)
+- Font loading timing
+
+**Example Error:**
+```
+Expected an image 1280px by 1198px, received 1280px by 800px.
+905112 pixels (ratio 0.60) are different.
+```
+
+**Remediation Actions:**
+
+1. **Update baseline screenshots:**
+```bash
+pnpm exec playwright test --update-snapshots
+```
+
+2. **Mask dynamic content:**
+```typescript
+await expect(page).toHaveScreenshot('page.png', {
+  mask: [
+    page.locator('[data-testid="timestamp"]'),
+    page.locator('[data-testid="avatar"]'),
+  ],
+});
+```
+
+3. **Ensure consistent viewport:**
+```typescript
+test.use({ viewport: { width: 1280, height: 800 } });
+```
+
+**Priority:** P4 - Low (Baseline maintenance)
+
+---
+
+### Category 7: Console Error Detection
+
+**Failure Count:** ~10 tests
+
+**Root Cause:** JavaScript errors logged to console during navigation.
+
+**Example:**
+```
+Expected: 0 critical errors
+Received: 6 critical errors
+```
+
+**Common Console Errors:**
+- `TypeError: Cannot read properties of undefined`
+- `Failed to fetch` (network errors)
+- `Hydration mismatch` (SSR issues)
+
+**Remediation Actions:**
+
+1. **Add error boundaries to catch React errors:**
+```tsx
+<ErrorBoundary fallback={<ErrorFallback />}>
+  <Component />
+</ErrorBoundary>
+```
+
+2. **Fix hydration mismatches:**
+- Ensure server/client render same content
+- Use `useEffect` for client-only code
+- Add `suppressHydrationWarning` where appropriate
+
+3. **Handle network errors gracefully:**
+```typescript
+try {
+  const data = await fetch(url);
+} catch (error) {
+  // Don't log to console, show user-friendly error
+  setError('Unable to load data');
+}
+```
+
+**Priority:** P1 - High (User-facing errors)
+
+---
+
+### Category 8: Full-Stack Validation Failures
+
+**Failure Count:** ~150+ tests
+
+**Root Cause:** Combined frontend/API/database validation tests failing due to:
+- Frontend page timeouts
+- API returning unexpected status codes
+- Missing database connections in test environment
+
+**Affected Workflows:**
+| Workflow | App | Failure Type |
+|----------|-----|--------------|
+| WF-ATLVS-017 | ATLVS | Frontend timeout |
+| WF-ATLVS-018 | ATLVS | CRM pages timeout |
+| WF-ATLVS-019 | ATLVS | Analytics timeout |
+| WF-COMPVSS-005 | COMPVSS | Schedule timeout |
+| WF-COMPVSS-034 | COMPVSS | Auth API 400 |
+| WF-GVTEWAY-001 | GVTEWAY | Event discovery timeout |
+| WF-GVTEWAY-003 | GVTEWAY | Ticket purchase API 400 |
+| WF-GVTEWAY-015 | GVTEWAY | Membership API 400 |
+| WF-GVTEWAY-030 | GVTEWAY | Auth API 400 |
+
+**Remediation Actions:**
+
+1. **Separate frontend and API tests:**
+```typescript
+test.describe('Frontend Layer', () => {
+  test.setTimeout(60000);
+  // Frontend-only tests
+});
+
+test.describe('API Layer', () => {
+  // API-only tests with proper request bodies
+});
+```
+
+2. **Mock database for isolated testing:**
+```typescript
+test.beforeAll(async () => {
+  await setupTestDatabase();
+});
+```
+
+3. **Add proper test fixtures:**
+```typescript
+const testUser = await createTestUser();
+const authToken = await getAuthToken(testUser);
+```
+
+**Priority:** P1 - High (Core workflow validation)
+
+---
+
+### Category 9: Body Visibility Failures
+
+**Failure Count:** ~20 tests
+
+**Root Cause:** Page body element has `visibility: hidden` during auth redirects or loading states.
+
+**Example Error:**
+```
+Error: expect(locator).toBeVisible() failed
+Locator: locator('body')
+Expected: visible
+Received: hidden
+```
+
+**Remediation Actions:**
+
+1. **Wait for page to be fully interactive:**
+```typescript
+await page.waitForLoadState('networkidle');
+await expect(page.locator('body')).toBeVisible({ timeout: 10000 });
+```
+
+2. **Check for loading overlays:**
+```typescript
+await page.waitForSelector('[data-loading="false"]', { state: 'attached' });
+```
+
+3. **Handle auth redirects properly:**
+```typescript
+if (page.url().includes('/auth/')) {
+  // Auth redirect is valid for protected pages
+  return true;
+}
+```
+
+**Priority:** P2 - Medium (Test reliability)
+
+---
+
+### Category 10: Module Not Found Errors
+
+**Failure Count:** ~5 tests
+
+**Root Cause:** Webpack cache corruption causing missing module errors during dev server hot reload.
+
+**Example Error:**
+```
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module 
+'/apps/atlvs/.next/server/vendor-chunks/next@14.2.35...'
+```
+
+**Remediation Actions:**
+
+1. **Clear Next.js cache before test runs:**
+```bash
+rm -rf apps/*/.next
+pnpm build
+```
+
+2. **Add cache cleanup to test setup:**
+```typescript
+// playwright.config.ts
+globalSetup: async () => {
+  execSync('rm -rf apps/*/.next/.cache');
+};
+```
+
+3. **Use production build for E2E tests:**
+```bash
+pnpm build
+pnpm exec playwright test
+```
+
+**Priority:** P0 - Critical (Blocks test execution)
+
+---
+
+## Remediation Priority Matrix
+
+| Priority | Category | Est. Effort | Impact |
+|----------|----------|-------------|--------|
+| **P0** | Page Navigation Timeouts | 2 days | Unblocks 500+ tests |
+| **P0** | Module Not Found Errors | 1 day | Unblocks all tests |
+| **P1** | Locator Syntax Errors | 1 day | Unblocks 50+ tests |
+| **P1** | API Status Code Mismatches | 2 days | Unblocks 100+ tests |
+| **P1** | Console Error Detection | 2 days | Improves UX |
+| **P1** | Full-Stack Validation | 3 days | Validates workflows |
+| **P2** | Accessibility Violations | 3 days | WCAG compliance |
+| **P2** | Body Visibility Failures | 1 day | Test reliability |
+| **P3** | Performance Budget | 1 day | Dev mode only |
+| **P4** | Visual Regression | 0.5 days | Baseline update |
+
+---
+
+## Recommended Immediate Actions
+
+### 1. Fix Test Infrastructure (Week 1)
+```bash
+# Clear all caches
+rm -rf apps/*/.next node_modules/.cache
+
+# Rebuild all apps
+pnpm build
+
+# Run tests with increased timeout
+pnpm exec playwright test --timeout=60000 --workers=1
+```
+
+### 2. Fix Locator Syntax (Week 1)
+Search and replace all invalid locator patterns:
+```bash
+grep -r "text=/" e2e/ --include="*.ts" | grep "data-testid"
+```
+
+### 3. Update API Test Assertions (Week 1)
+Add 400 and 405 to valid status codes for endpoints that require request bodies.
+
+### 4. Fix Accessibility Issues (Week 2)
+- Update `text-text-muted` color to meet 4.5:1 contrast
+- Audit and fix H1 usage across all pages
+- Fix skip link positioning
+
+### 5. Optimize Page Performance (Week 2)
+- Implement code splitting
+- Add loading states
+- Optimize bundle sizes
+
+---
+
+**Documentation Updated: January 4, 2026**
+**Test Progress: ~3,330/22,704 tests analyzed**
+**Failure Categories: 10 major categories identified**
+
