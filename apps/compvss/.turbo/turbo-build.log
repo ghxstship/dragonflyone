@@ -9,22 +9,44 @@
     · missingSuspenseWithCSRBailout
 
  [37m[1m [22m[39m Creating an optimized production build ...
- [32m[1m✓[22m[39m Compiled successfully
+<w> [1m[33m[webpack.cache.PackFileCacheStrategy] Serializing big strings (130kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)[39m[22m
+ [33m[1m⚠[22m[39m Compiled with warnings
+
+../../node_modules/.pnpm/@supabase+realtime-js@2.89.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+realtime-js@2.89.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+../../node_modules/.pnpm/@supabase+realtime-js@2.89.0/node_modules/@supabase/realtime-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+supabase-js@2.89.0/node_modules/@supabase/supabase-js/dist/index.mjs
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/index.js
+
+../../node_modules/.pnpm/@supabase+supabase-js@2.89.0/node_modules/@supabase/supabase-js/dist/index.mjs
+A Node.js API is used (process.version at line: 395) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+supabase-js@2.89.0/node_modules/@supabase/supabase-js/dist/index.mjs
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/index.js
+
  [37m[1m [22m[39m Skipping validation of types
  [37m[1m [22m[39m Skipping linting
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
 [?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
-[?25l [37m[1m [22m[39m Generating static pages (0/69)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/69)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (17/69)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (47/69)  [36m[=== ][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (69/69)
-[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
-[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
+[?25l [37m[1m [22m[39m Generating static pages (0/69)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (1/69)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (17/69)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (47/69)  [36m[=== ][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (69/69)
+[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
+[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
 
 [4mRoute (app)[24m                              [4mSize[24m     [4mFirst Load JS[24m
-┌ ƒ /                                    147 B          [37m[1m87.6 kB[22m[39m
-├ ○ /_not-found                          147 B          [37m[1m87.6 kB[22m[39m
-├ ○ /advancing                           3.12 kB         [37m[1m591 kB[22m[39m
-├ ƒ /advancing/[id]                      3.5 kB          [37m[1m591 kB[22m[39m
-├ ○ /advancing/catalog                   3.73 kB         [37m[1m591 kB[22m[39m
-├ ○ /advancing/new                       3.36 kB         [37m[1m591 kB[22m[39m
+┌ ƒ /                                    148 B          [37m[1m87.6 kB[22m[39m
+├ ○ /_not-found                          148 B          [37m[1m87.6 kB[22m[39m
+├ ○ /advancing                           3.12 kB         [37m[1m589 kB[22m[39m
+├ ƒ /advancing/[id]                      3.5 kB          [37m[1m590 kB[22m[39m
+├ ○ /advancing/catalog                   3.74 kB         [37m[1m590 kB[22m[39m
+├ ○ /advancing/new                       3.36 kB         [37m[1m590 kB[22m[39m
 ├ ƒ /api/advancing                       0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/advancing/[id]                  0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/advancing/[id]/fulfill          0 B                [37m[1m0 B[22m[39m
@@ -256,88 +278,88 @@
 ├ ƒ /api/weather                         0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/weather-contingency             0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/win-loss-tracking               0 B                [37m[1m0 B[22m[39m
-├ ○ /auth/forgot-password                2.33 kB         [37m[1m445 kB[22m[39m
+├ ○ /auth/forgot-password                2.34 kB         [37m[1m445 kB[22m[39m
 ├ ○ /auth/magic-link                     2.57 kB         [37m[1m445 kB[22m[39m
 ├ ○ /auth/reset-password                 2.36 kB         [37m[1m445 kB[22m[39m
-├ ○ /auth/signin                         2.9 kB          [37m[1m590 kB[22m[39m
+├ ○ /auth/signin                         2.9 kB          [37m[1m589 kB[22m[39m
 ├ ○ /auth/signup                         3.44 kB         [37m[1m446 kB[22m[39m
 ├ ○ /auth/verify-email                   2.31 kB         [37m[1m445 kB[22m[39m
-├ ○ /availability                        3.76 kB         [37m[1m591 kB[22m[39m
-├ ○ /background-checks                   3.77 kB         [37m[1m591 kB[22m[39m
-├ ○ /beos                                853 B           [37m[1m588 kB[22m[39m
-├ ƒ /beos/[id]                           4.42 kB         [37m[1m592 kB[22m[39m
+├ ○ /availability                        3.76 kB         [37m[1m590 kB[22m[39m
+├ ○ /background-checks                   3.77 kB         [37m[1m590 kB[22m[39m
+├ ○ /beos                                853 B           [37m[1m587 kB[22m[39m
+├ ƒ /beos/[id]                           4.42 kB         [37m[1m591 kB[22m[39m
 ├ ƒ /beos/[id]/versions                  2.45 kB         [37m[1m453 kB[22m[39m
-├ ○ /beos/new                            3.18 kB         [37m[1m449 kB[22m[39m
-├ ○ /build-strike                        2.27 kB         [37m[1m590 kB[22m[39m
-├ ○ /certifications                      4.27 kB         [37m[1m592 kB[22m[39m
-├ ○ /credentials                         2.79 kB         [37m[1m592 kB[22m[39m
-├ ○ /credentials/scan                    3.6 kB          [37m[1m593 kB[22m[39m
-├ ○ /crew                                4.09 kB         [37m[1m592 kB[22m[39m
-├ ƒ /crew/[id]                           3.66 kB         [37m[1m591 kB[22m[39m
-├ ○ /dashboard                           2.3 kB          [37m[1m594 kB[22m[39m
-├ ○ /deliveries                          4.45 kB         [37m[1m592 kB[22m[39m
-├ ○ /drawings                            3.97 kB         [37m[1m591 kB[22m[39m
-├ ○ /emergency                           3.02 kB         [37m[1m590 kB[22m[39m
-├ ○ /equipment                           3.81 kB         [37m[1m591 kB[22m[39m
-├ ○ /expenses                            3.79 kB         [37m[1m591 kB[22m[39m
-├ ○ /incidents                           3.12 kB         [37m[1m591 kB[22m[39m
-├ ○ /integrations                        986 B           [37m[1m588 kB[22m[39m
-├ ○ /issues                              3.69 kB         [37m[1m591 kB[22m[39m
-├ ○ /maintenance                         3.2 kB          [37m[1m591 kB[22m[39m
-├ ○ /notifications                       4.39 kB         [37m[1m455 kB[22m[39m
+├ ○ /beos/new                            3.21 kB         [37m[1m449 kB[22m[39m
+├ ○ /build-strike                        2.27 kB         [37m[1m588 kB[22m[39m
+├ ○ /certifications                      4.27 kB         [37m[1m590 kB[22m[39m
+├ ○ /credentials                         2.79 kB         [37m[1m591 kB[22m[39m
+├ ○ /credentials/scan                    3.6 kB          [37m[1m592 kB[22m[39m
+├ ○ /crew                                4.09 kB         [37m[1m590 kB[22m[39m
+├ ƒ /crew/[id]                           3.66 kB         [37m[1m590 kB[22m[39m
+├ ○ /dashboard                           2.31 kB         [37m[1m593 kB[22m[39m
+├ ○ /deliveries                          4.45 kB         [37m[1m591 kB[22m[39m
+├ ○ /drawings                            3.98 kB         [37m[1m590 kB[22m[39m
+├ ○ /emergency                           3.02 kB         [37m[1m589 kB[22m[39m
+├ ○ /equipment                           3.81 kB         [37m[1m590 kB[22m[39m
+├ ○ /expenses                            3.8 kB          [37m[1m590 kB[22m[39m
+├ ○ /incidents                           3.12 kB         [37m[1m589 kB[22m[39m
+├ ○ /integrations                        986 B           [37m[1m587 kB[22m[39m
+├ ○ /issues                              3.68 kB         [37m[1m590 kB[22m[39m
+├ ○ /maintenance                         3.2 kB          [37m[1m589 kB[22m[39m
+├ ○ /notifications                       4.41 kB         [37m[1m455 kB[22m[39m
 ├ ƒ /p/[productionId]/advancing          2.88 kB         [37m[1m454 kB[22m[39m
 ├ ƒ /p/[productionId]/crew               3.08 kB         [37m[1m454 kB[22m[39m
-├ ƒ /p/[productionId]/documents          2.93 kB         [37m[1m454 kB[22m[39m
-├ ƒ /p/[productionId]/overview           4.29 kB         [37m[1m592 kB[22m[39m
+├ ƒ /p/[productionId]/documents          2.92 kB         [37m[1m454 kB[22m[39m
+├ ƒ /p/[productionId]/overview           4.29 kB         [37m[1m590 kB[22m[39m
 ├ ƒ /p/[productionId]/safety             3.17 kB         [37m[1m454 kB[22m[39m
-├ ƒ /p/[productionId]/schedule           2.68 kB         [37m[1m453 kB[22m[39m
-├ ƒ /p/[productionId]/settings           4.49 kB         [37m[1m455 kB[22m[39m
+├ ƒ /p/[productionId]/schedule           2.68 kB         [37m[1m454 kB[22m[39m
+├ ƒ /p/[productionId]/settings           4.51 kB         [37m[1m455 kB[22m[39m
 ├ ƒ /p/[productionId]/settlement         3.16 kB         [37m[1m454 kB[22m[39m
 ├ ƒ /p/[productionId]/vendors            3.11 kB         [37m[1m454 kB[22m[39m
 ├ ƒ /p/[productionId]/wrap               2.86 kB         [37m[1m454 kB[22m[39m
-├ ○ /permits                             2.27 kB         [37m[1m590 kB[22m[39m
-├ ○ /photo-documentation                 3.03 kB         [37m[1m590 kB[22m[39m
-├ ○ /profile                             5.01 kB         [37m[1m456 kB[22m[39m
-├ ○ /projects                            3.2 kB          [37m[1m591 kB[22m[39m
-├ ○ /projects/new                        2.44 kB         [37m[1m590 kB[22m[39m
-├ ○ /punch-list                          2.85 kB         [37m[1m590 kB[22m[39m
-├ ○ /qa-checkpoints                      2.68 kB         [37m[1m590 kB[22m[39m
+├ ○ /permits                             2.27 kB         [37m[1m588 kB[22m[39m
+├ ○ /photo-documentation                 3.03 kB         [37m[1m589 kB[22m[39m
+├ ○ /profile                             5.04 kB         [37m[1m456 kB[22m[39m
+├ ○ /projects                            3.2 kB          [37m[1m589 kB[22m[39m
+├ ○ /projects/new                        2.44 kB         [37m[1m589 kB[22m[39m
+├ ○ /punch-list                          2.85 kB         [37m[1m589 kB[22m[39m
+├ ○ /qa-checkpoints                      2.68 kB         [37m[1m589 kB[22m[39m
 ├ ○ /resources                           3.08 kB         [37m[1m462 kB[22m[39m
 ├ ○ /resources/templates                 2.2 kB          [37m[1m461 kB[22m[39m
-├ ○ /risk-register                       3.01 kB         [37m[1m590 kB[22m[39m
+├ ○ /risk-register                       3.01 kB         [37m[1m589 kB[22m[39m
 ├ ○ /robots.txt                          0 B                [37m[1m0 B[22m[39m
-├ ○ /run-of-show                         2.64 kB         [37m[1m590 kB[22m[39m
-├ ○ /schedule                            2.26 kB         [37m[1m590 kB[22m[39m
-├ ○ /search                              2 kB            [37m[1m589 kB[22m[39m
-├ ○ /set-times                           2.71 kB         [37m[1m590 kB[22m[39m
+├ ○ /run-of-show                         2.63 kB         [37m[1m589 kB[22m[39m
+├ ○ /schedule                            2.26 kB         [37m[1m588 kB[22m[39m
+├ ○ /search                              2 kB            [37m[1m588 kB[22m[39m
+├ ○ /set-times                           2.71 kB         [37m[1m589 kB[22m[39m
 ├ ○ /settings                            1.33 kB         [37m[1m444 kB[22m[39m
-├ ○ /settlement                          3.29 kB         [37m[1m591 kB[22m[39m
-├ ○ /show-call                           2.15 kB         [37m[1m590 kB[22m[39m
-├ ○ /site-access                         2.65 kB         [37m[1m590 kB[22m[39m
-├ ○ /site-surveys                        1.97 kB         [37m[1m589 kB[22m[39m
+├ ○ /settlement                          3.29 kB         [37m[1m589 kB[22m[39m
+├ ○ /show-call                           2.15 kB         [37m[1m588 kB[22m[39m
+├ ○ /site-access                         2.65 kB         [37m[1m589 kB[22m[39m
+├ ○ /site-surveys                        1.97 kB         [37m[1m588 kB[22m[39m
 ├ ○ /sitemap.xml                         0 B                [37m[1m0 B[22m[39m
-├ ○ /skills                              1.39 kB         [37m[1m589 kB[22m[39m
-├ ○ /sops                                3.98 kB         [37m[1m591 kB[22m[39m
-├ ƒ /sops/[id]                           4.43 kB         [37m[1m592 kB[22m[39m
-├ ○ /soundcheck                          3.16 kB         [37m[1m591 kB[22m[39m
-├ ○ /spec-sheets                         2.47 kB         [37m[1m590 kB[22m[39m
-├ ○ /stage-management                    2.19 kB         [37m[1m590 kB[22m[39m
-├ ○ /subcontractors                      2.05 kB         [37m[1m590 kB[22m[39m
-├ ○ /tech-rehearsal                      3.5 kB          [37m[1m591 kB[22m[39m
-├ ○ /templates                           2.91 kB         [37m[1m590 kB[22m[39m
-├ ○ /timekeeping                         2.18 kB         [37m[1m590 kB[22m[39m
-├ ○ /travel                              3.08 kB         [37m[1m591 kB[22m[39m
-├ ○ /troubleshooting                     2.33 kB         [37m[1m590 kB[22m[39m
-├ ○ /venues                              1.79 kB         [37m[1m589 kB[22m[39m
-├ ○ /vip-management                      2.49 kB         [37m[1m590 kB[22m[39m
-└ ○ /weather-contingency                 2.93 kB         [37m[1m590 kB[22m[39m
+├ ○ /skills                              1.39 kB         [37m[1m588 kB[22m[39m
+├ ○ /sops                                3.97 kB         [37m[1m590 kB[22m[39m
+├ ƒ /sops/[id]                           4.43 kB         [37m[1m591 kB[22m[39m
+├ ○ /soundcheck                          3.15 kB         [37m[1m589 kB[22m[39m
+├ ○ /spec-sheets                         2.47 kB         [37m[1m589 kB[22m[39m
+├ ○ /stage-management                    2.19 kB         [37m[1m588 kB[22m[39m
+├ ○ /subcontractors                      2.05 kB         [37m[1m588 kB[22m[39m
+├ ○ /tech-rehearsal                      3.5 kB          [37m[1m590 kB[22m[39m
+├ ○ /templates                           2.91 kB         [37m[1m589 kB[22m[39m
+├ ○ /timekeeping                         2.18 kB         [37m[1m588 kB[22m[39m
+├ ○ /travel                              3.08 kB         [37m[1m589 kB[22m[39m
+├ ○ /troubleshooting                     2.33 kB         [37m[1m589 kB[22m[39m
+├ ○ /venues                              1.79 kB         [37m[1m588 kB[22m[39m
+├ ○ /vip-management                      2.49 kB         [37m[1m589 kB[22m[39m
+└ ○ /weather-contingency                 2.93 kB         [37m[1m589 kB[22m[39m
 + First Load JS shared by all            [37m[1m87.4 kB[22m[39m
-  ├ chunks/9444-e4077735a97eba17.js      31.8 kB
-  ├ chunks/cbc8f5df-f835b331ab6459dd.js  53.6 kB
-  └ other shared chunks (total)          2 kB
+  ├ chunks/7345-eabfe05a34ac88d4.js      31.8 kB
+  ├ chunks/efbb96e7-7086ff78cedf4bc0.js  53.6 kB
+  └ other shared chunks (total)          1.99 kB
 
 
-ƒ Middleware                             [37m[1m74.2 kB[22m[39m
+ƒ Middleware                             [37m[1m72.8 kB[22m[39m
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
