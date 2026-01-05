@@ -1,0 +1,103 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e6]:
+      - generic [ref=e7]:
+        - link "GVTEWAY" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=e9]:
+          - generic [ref=e10]:
+            - link "Events" [ref=e11] [cursor=pointer]:
+              - /url: /events
+            - link "Artists" [ref=e12] [cursor=pointer]:
+              - /url: /artists
+            - link "Venues" [ref=e13] [cursor=pointer]:
+              - /url: /venues
+            - link "Community" [ref=e14] [cursor=pointer]:
+              - /url: /community
+        - generic [ref=e15]:
+          - link "Create" [ref=e16] [cursor=pointer]:
+            - /url: /creators
+            - button "Create" [ref=e17]:
+              - generic [ref=e18]: Create
+          - link "Sign In" [ref=e19] [cursor=pointer]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e20]:
+              - generic [ref=e21]: Sign In
+    - main [ref=e22]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - generic [ref=e30]:
+            - img [ref=e33]
+            - img [ref=e38]
+            - img [ref=e44]
+            - img [ref=e49]
+          - generic [ref=e51]:
+            - paragraph [ref=e52]: Select Tier
+            - paragraph [ref=e53]: Your Info
+            - paragraph [ref=e54]: Payment
+            - paragraph [ref=e55]: Confirm
+        - generic [ref=e56]:
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - heading "Select Your Tier" [level=2] [ref=e59]
+              - paragraph [ref=e60]: Choose the membership level that best fits your needs
+            - img [ref=e62]
+            - generic [ref=e64]:
+              - paragraph [ref=e65]: Billing Cycle
+              - generic [ref=e66]:
+                - button "Monthly" [ref=e67] [cursor=pointer]:
+                  - generic [ref=e68]: Monthly
+                - button "Annual (Save 20%)" [ref=e69] [cursor=pointer]:
+                  - generic [ref=e70]: Annual (Save 20%)
+          - generic [ref=e71]:
+            - button "Back" [disabled]:
+              - generic:
+                - img
+                - text: Back
+            - button "Continue" [ref=e72] [cursor=pointer]:
+              - generic [ref=e73]:
+                - text: Continue
+                - img [ref=e74]
+    - contentinfo [ref=e76]:
+      - generic [ref=e77]:
+        - heading "GVTEWAY" [level=1] [ref=e79]
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - heading "Discover" [level=3] [ref=e82]
+            - link "Browse Events" [ref=e83] [cursor=pointer]:
+              - /url: /events
+            - link "Find Venues" [ref=e84] [cursor=pointer]:
+              - /url: /venues
+            - link "Artists" [ref=e85] [cursor=pointer]:
+              - /url: /artists
+          - generic [ref=e86]:
+            - heading "Shop" [level=3] [ref=e87]
+            - link "Merchandise" [ref=e88] [cursor=pointer]:
+              - /url: /merch
+            - link "Gift Cards" [ref=e89] [cursor=pointer]:
+              - /url: /gift-cards
+            - link "Cart" [ref=e90] [cursor=pointer]:
+              - /url: /cart
+          - generic [ref=e91]:
+            - heading "Support" [level=3] [ref=e92]
+            - link "Help Center" [ref=e93] [cursor=pointer]:
+              - /url: /help
+            - link "Contact" [ref=e94] [cursor=pointer]:
+              - /url: /help#contact
+          - generic [ref=e95]:
+            - heading "Legal" [level=3] [ref=e96]
+            - link "Privacy" [ref=e97] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e98] [cursor=pointer]:
+              - /url: /legal/terms
+        - paragraph [ref=e100]: © 2026 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+```

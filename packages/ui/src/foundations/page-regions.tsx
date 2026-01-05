@@ -4,7 +4,7 @@ import { forwardRef, ReactNode } from "react";
 import clsx from "clsx";
 import type { HTMLAttributes } from "react";
 import { Container } from "./layout.js";
-import { Display, H1, Body, Label } from "../atoms/typography.js";
+import { Display, H1, Body, Label } from "../atoms/Typography/index.js";
 import { Stack } from "./layout.js";
 
 // =============================================================================

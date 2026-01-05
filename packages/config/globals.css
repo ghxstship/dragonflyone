@@ -13,6 +13,39 @@
 
 :root {
   color-scheme: dark;
+  /* Whitelabel token bridge (prefers generated CSS vars; falls back to legacy values) */
+  --surface-primary: var(--color-surface-background, #0a0a0a);
+  --surface-secondary: var(--color-surface-card, #171717);
+  --surface-tertiary: var(--color-surface-elevated, #262626);
+  --surface-elevated: var(--color-surface-elevated, #262626);
+  --surface-overlay: var(--color-surface-overlay, rgba(0, 0, 0, 0.8));
+  --surface-inverse: var(--color-text-inverse, #ffffff);
+  --surface-muted: var(--color-border-subtle, #404040);
+  --surface-accent: var(--color-brand-primary-subtle, #171717);
+
+  --text-primary: var(--color-text-primary, #ffffff);
+  --text-secondary: var(--color-text-secondary, #d4d4d4);
+  --text-tertiary: var(--color-text-tertiary, #a3a3a3);
+  --text-muted: var(--color-text-tertiary, #737373);
+  --text-disabled: var(--color-text-disabled, #525252);
+  --text-inverse: var(--color-text-inverse, #000000);
+  --text-accent: var(--color-brand-primary, #ffffff);
+  --text-link: var(--color-text-link, #ffffff);
+  --text-link-hover: var(--color-text-link, #d4d4d4);
+
+  --border-primary: var(--color-border-strong, #404040);
+  --border-secondary: var(--color-border-subtle, #262626);
+  --border-muted: var(--color-border-default, #171717);
+  --border-focus: var(--color-border-focus, #737373);
+  --border-inverse: var(--color-text-inverse, #000000);
+  --border-accent: var(--color-brand-primary, #525252);
+
+  --primary: 239 84% 67%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 258 90% 66%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 38 92% 50%;
+  --accent-foreground: 0 0% 100%;
   
   /* ═══════════════════════════════════════════════════════════════════════════
      INK PALETTE (PRESERVED)

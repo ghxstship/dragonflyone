@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback } from "react";
-import { useNotifications } from "../organisms/notification-provider.js";
-import type { Toast } from "../molecules/notification-toast.js";
+import { useNotifications } from "../organisms/NotificationProvider/index.js";
+import type { Toast } from "../molecules/NotificationToast/NotificationToast.types.js";
 
 /**
  * Toast options for convenience methods

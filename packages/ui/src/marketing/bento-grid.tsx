@@ -3,9 +3,9 @@
 import { forwardRef, ReactNode } from "react";
 import clsx from "clsx";
 import { Container, Stack } from "../foundations/layout.js";
-import { Card } from "../molecules/card.js";
-import { Kicker } from "../atoms/kicker.js";
-import { Body, H2, H3 } from "../atoms/typography.js";
+import { Card } from "../molecules/Card/index.js";
+import { Kicker } from "../atoms/Kicker/index.js";
+import { Body, H2, H3 } from "../atoms/Typography/index.js";
 
 /**
  * BentoGrid - Modern asymmetric feature layout

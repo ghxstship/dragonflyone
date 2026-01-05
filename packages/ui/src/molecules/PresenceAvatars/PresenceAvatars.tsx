@@ -1,0 +1,293 @@
+"use client";
+
+import React from "react";
+import clsx from "clsx";
+import { presenceAvatarsVariants } from "./PresenceAvatars.variants.js";
+import type { PresenceAvatarsProps, PresenceUser } from "./PresenceAvatars.types.js";
+
+// =============================================================================
+// SIZE MAPPINGS
+// =============================================================================
+
+const sizeClasses = {
+  sm: "w-6 h-6 text-[10px]",
+  md: "w-8 h-8 text-xs",
+  lg: "w-10 h-10 text-sm",
+};
+
+const statusSizeClasses = {
+  sm: "w-2 h-2",
+  md: "w-2.5 h-2.5",
+  lg: "w-3 h-3",
+};
+
+const overlapClasses = {
+  sm: "-ml-2",
+  md: "-ml-3",
+  lg: "-ml-4",
+};
+
+// =============================================================================
+// HELPER FUNCTIONS
+// =============================================================================
+
+function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+}
+
+function getStatusColor(status?: PresenceUser["status"]): string {
+  switch (status) {
+    case "online":
+      return "bg-success-500";
+    case "away":
+      return "bg-warning-500";
+    case "offline":
+      return "bg-muted-foreground";
+    default:
+      return "bg-success-500";
+  }
+}
+
+// =============================================================================
+// AVATAR COMPONENT
+// =============================================================================
+
+function PresenceAvatar({
+  user,
+  size = "md",
+  showStatus = true,
+  showTooltip = true,
+  inverted = false,
+  onClick,
+}: {
+  user: PresenceUser;
+  size?: PresenceAvatarsProps["size"];
+  showStatus?: boolean;
+  showTooltip?: boolean;
+  inverted?: boolean;
+  onClick?: () => void;
+}) {
+  const [showTooltipState, setShowTooltipState] = React.useState(false);
+
+  return (
+    <div
+      className="relative group"
+      onMouseEnter={() => setShowTooltipState(true)}
+      onMouseLeave={() => setShowTooltipState(false)}
+    >
+      <button
+        type="button"
+        onClick={onClick}
+        className={clsx(
+          "relative flex items-center justify-center rounded-full border-2 font-semibold transition-transform hover:scale-110 hover:z-content-overlay",
+          sizeClasses[size],
+          inverted ? "border-surface-inverse" : "border-surface-primary",
+          onClick ? "cursor-pointer" : "cursor-default"
+        )}
+        style={{
+          backgroundColor: user.color || "#6366f1",
+          color: "white",
+        }}
+        aria-label={`${user.name}${user.status ? ` - ${user.status}` : ""}`}
+      >
+        {user.avatar ? (
+          <img
+            src={user.avatar}
+            alt={user.name}
+            className="w-full h-full rounded-full object-cover"
+          />
+        ) : (
+          <span>{getInitials(user.name)}</span>
+        )}
+      </button>
+
+      {/* Status indicator */}
+      {showStatus && (
+        <span
+          className={clsx(
+            "absolute bottom-0 right-0 rounded-full border-2",
+            statusSizeClasses[size],
+            getStatusColor(user.status),
+            inverted ? "border-surface-inverse" : "border-surface-primary"
+          )}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Tooltip */}
+      {showTooltip && showTooltipState && (
+        <div
+          className={clsx(
+            "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded text-xs whitespace-nowrap z-tooltip pointer-events-none",
+            inverted ? "bg-surface-primary text-text-primary" : "bg-surface-inverse text-text-primary"
+          )}
+        >
+          <div className="font-semibold">{user.name}</div>
+          {user.status && (
+            <div className={clsx("text-[10px]", inverted ? "text-text-muted" : "text-text-muted")}>
+              {user.status === "online" ? "Online" : user.status === "away" ? "Away" : "Offline"}
+            </div>
+          )}
+          {/* Arrow */}
+          <div
+            className={clsx(
+              "absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent",
+              inverted ? "border-t-surface-primary" : "border-t-surface-inverse"
+            )}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// =============================================================================
+// OVERFLOW INDICATOR
+// =============================================================================
+
+function OverflowIndicator({
+  count,
+  size = "md",
+  inverted = false,
+  users,
+}: {
+  count: number;
+  size?: PresenceAvatarsProps["size"];
+  inverted?: boolean;
+  users: PresenceUser[];
+}) {
+  const [showTooltip, setShowTooltip] = React.useState(false);
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
+    >
+      <div
+        className={clsx(
+          "flex items-center justify-center rounded-full border-2 font-semibold",
+          sizeClasses[size],
+          inverted
+            ? "bg-surface-elevated border-surface-inverse text-text-secondary"
+            : "bg-muted border-surface-primary text-text-muted"
+        )}
+      >
+        +{count}
+      </div>
+
+      {/* Tooltip with all hidden users */}
+      {showTooltip && (
+        <div
+          className={clsx(
+            "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded text-xs z-tooltip pointer-events-none min-w-max",
+            inverted ? "bg-surface-primary text-text-primary" : "bg-surface-inverse text-text-primary"
+          )}
+        >
+          <div className="font-semibold mb-1">{count} more viewing</div>
+          <div className="space-y-0.5">
+            {users.map((user) => (
+              <div key={user.id} className="flex items-center gap-2">
+                <span
+                  className={clsx("w-2 h-2 rounded-full", getStatusColor(user.status))}
+                />
+                <span>{user.name}</span>
+              </div>
+            ))}
+          </div>
+          {/* Arrow */}
+          <div
+            className={clsx(
+              "absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent",
+              inverted ? "border-t-surface-primary" : "border-t-surface-inverse"
+            )}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// =============================================================================
+// MAIN COMPONENT
+// =============================================================================
+
+export const PresenceAvatars = React.forwardRef<HTMLDivElement, PresenceAvatarsProps>(
+  function PresenceAvatars(
+    {
+      users,
+      maxVisible = 5,
+      size = "md",
+      showStatus = true,
+      showTooltip = true,
+      inverted = false,
+      className,
+      onUserClick,
+      ...restProps
+    },
+    ref
+  ) {
+    if (users.length === 0) return null;
+
+    const visibleUsers = users.slice(0, maxVisible);
+    const hiddenUsers = users.slice(maxVisible);
+    const hasOverflow = hiddenUsers.length > 0;
+
+    return (
+      <div
+        ref={ref}
+        className={clsx(presenceAvatarsVariants({ size, inverted }), className)}
+        {...restProps}
+      >
+        {/* Avatars */}
+        <div className="flex items-center">
+          {visibleUsers.map((user, index) => (
+            <div
+              key={user.id}
+              className={clsx(index > 0 && overlapClasses[size])}
+              style={{ zIndex: visibleUsers.length - index }}
+            >
+              <PresenceAvatar
+                user={user}
+                size={size}
+                showStatus={showStatus}
+                showTooltip={showTooltip}
+                inverted={inverted}
+                onClick={onUserClick ? () => onUserClick(user) : undefined}
+              />
+            </div>
+          ))}
+
+          {/* Overflow indicator */}
+          {hasOverflow && (
+            <div className={overlapClasses[size]} style={{ zIndex: 0 }}>
+              <OverflowIndicator
+                count={hiddenUsers.length}
+                size={size}
+                inverted={inverted}
+                users={hiddenUsers}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Viewing count */}
+        <span
+          className={clsx(
+            "ml-3 text-sm font-medium",
+            inverted ? "text-text-muted" : "text-text-muted"
+          )}
+        >
+          {users.length} viewing
+        </span>
+      </div>
+    );
+  }
+);
+
+PresenceAvatars.displayName = "PresenceAvatars";

@@ -1,0 +1,54 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - alert [ref=e4]
+  - generic [ref=e7]:
+    - link "Skip to main content" [ref=e8] [cursor=pointer]:
+      - /url: "#main-content"
+    - generic [ref=e10]:
+      - link "GVTEWAY" [ref=e11] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e12]:
+        - generic [ref=e13]:
+          - link "Events" [ref=e14] [cursor=pointer]:
+            - /url: /events
+          - link "Artists" [ref=e15] [cursor=pointer]:
+            - /url: /artists
+          - link "Venues" [ref=e16] [cursor=pointer]:
+            - /url: /venues
+          - link "Community" [ref=e17] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=e18]:
+        - link "Create" [ref=e19] [cursor=pointer]:
+          - /url: /creators
+          - button "Create" [ref=e20]:
+            - generic [ref=e21]: Create
+        - link "Sign In" [ref=e22] [cursor=pointer]:
+          - /url: /auth/signin
+          - button "Sign In" [ref=e23]:
+            - generic [ref=e24]: Sign In
+    - main "Page not found" [ref=e25]:
+      - generic [ref=e27]:
+        - generic [ref=e28]: "404"
+        - generic [ref=e29]:
+          - heading "Page Not Found" [level=1] [ref=e30]
+          - paragraph [ref=e31]: The page you are looking for does not exist or has been moved. Try browsing our events or use search to find what you need.
+        - generic [ref=e32]:
+          - button "Go Home" [ref=e33] [cursor=pointer]:
+            - generic [ref=e34]:
+              - img [ref=e35]
+              - text: Go Home
+          - button "Go Back" [ref=e38] [cursor=pointer]:
+            - generic [ref=e39]:
+              - img [ref=e40]
+              - text: Go Back
+          - button "Search" [ref=e42] [cursor=pointer]:
+            - generic [ref=e43]:
+              - img [ref=e44]
+              - text: Search
+```

@@ -4,9 +4,9 @@ import { forwardRef, ReactNode } from "react";
 import clsx from "clsx";
 import * as LucideIcons from "lucide-react";
 import { Container, Stack, Grid } from "../foundations/layout.js";
-import { Card } from "../molecules/card.js";
-import { Kicker } from "../atoms/kicker.js";
-import { Body, H2, H3 } from "../atoms/typography.js";
+import { Card } from "../molecules/Card/index.js";
+import { Kicker } from "../atoms/Kicker/index.js";
+import { Body, H2, H3 } from "../atoms/Typography/index.js";
 
 /**
  * FeatureGrid - Showcase product features in a grid layout

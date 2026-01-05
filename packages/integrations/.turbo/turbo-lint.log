@@ -1,5 +1,0 @@
-
-> @ghxstship/integrations@1.0.0 lint /Users/julianclarkson/Documents/Dragonflyone/packages/integrations
-> eslint . --ext .ts
-
-Pages directory cannot be found at /Users/julianclarkson/Documents/Dragonflyone/packages/integrations/pages or /Users/julianclarkson/Documents/Dragonflyone/packages/integrations/src/pages. If using a custom path, please configure with the `no-html-link-for-pages` rule in your eslint config file.

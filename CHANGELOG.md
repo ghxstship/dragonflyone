@@ -4,6 +4,40 @@ All notable completed work for the GHXSTSHIP platform.
 
 ## [Unreleased]
 
+### 2026-01-04
+
+#### Legacy Component Deprecation Complete
+
+**AuthenticatedShell Cleanup:**
+- Removed legacy header components from `packages/ui/src/templates/authenticated-shell.tsx`:
+  - `UserMenu` - superseded by AppNavbar user menu
+  - `WorkspaceSelector` - superseded by breadcrumb context
+  - `BreadcrumbSeparator` - superseded by AppNavbar breadcrumbs
+  - `BreadcrumbDropdown` - superseded by AppNavbar context switcher
+  - `HeaderBreadcrumb` - superseded by AppNavbar breadcrumbs
+  - `NotificationsPanel` - superseded by AppNavbar notifications
+- Removed deprecated props from `AuthenticatedShellProps`:
+  - `useEnhancedHeader` - always uses enhanced header now
+  - `workspaceName` - replaced by `breadcrumbContext`
+  - `headerActions` - handled internally by AppNavbar
+  - `legacyNotifications` - replaced by `notifications`
+  - `workspaces` - replaced by `contextOptions.organizations`
+  - `onWorkspaceSwitch` - replaced by `onContextSwitch`
+- Removed legacy header rendering block (conditional `useEnhancedHeader` check)
+- Updated all app layouts to remove deprecated props:
+  - `apps/atlvs/src/components/app-layout.tsx`
+  - `apps/compvss/src/components/app-layout.tsx`
+  - `apps/gvteway/src/components/app-layout.tsx`
+- Removed `userMenu` prop from app layout interfaces (now handled by AppNavbar)
+
+**Impact:**
+- Reduced `authenticated-shell.tsx` from ~970 lines to ~370 lines
+- Simplified component API surface
+- All apps now use the enhanced AppNavbar exclusively
+- No breaking changes for external consumers (all usages already on enhanced header)
+
+---
+
 ### 2026-01-03
 
 #### E2E Test Failure Remediation

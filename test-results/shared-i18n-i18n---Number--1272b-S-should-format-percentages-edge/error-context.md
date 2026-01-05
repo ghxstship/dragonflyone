@@ -1,0 +1,92 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - banner [ref=e5]:
+      - generic [ref=e6]: ERROR
+      - button "HOME" [ref=e7] [cursor=pointer]:
+        - generic [ref=e8]: HOME
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - heading "Something went wrong" [level=1] [ref=e12]
+        - paragraph [ref=e13]: An unexpected error occurred. We've been notified and are working on a fix.
+      - generic [ref=e14]:
+        - paragraph [ref=e15]: Error Details
+        - generic [ref=e16]:
+          - generic [ref=e17]: "Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports. Check the render method of `Providers`."
+          - generic [ref=e18]: "Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports. Check the render method of `Providers`. at createFiberFromTypeAndProps (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27944:17) at createFiberFromElement (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27970:15) at reconcileSingleElement (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:10439:23) at reconcileChildFibersImpl (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:10503:35) at reconcileChildFibers (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:10573:27) at reconcileChildren (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:15802:28) at updateFunctionComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16310:3) at mountLazyComponent (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16765:17) at beginWork$1 (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18464:16) at beginWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14) at performUnitOfWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12) at workLoopSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5) at renderRootSync (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7) at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20) at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26) at workLoop (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34) at flushWork (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14) at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/../../node_modules/.pnpm/next@14.2.35_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_ihplf26ra6cicpe4rgzw6qocbi/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)"
+      - generic [ref=e19]:
+        - button "Try Again" [ref=e20] [cursor=pointer]:
+          - generic [ref=e21]: Try Again
+        - button "Go Home" [ref=e22] [cursor=pointer]:
+          - generic [ref=e23]: Go Home
+  - alert [ref=e24]
+  - dialog [ref=e27]:
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - heading "Build Error" [level=1] [ref=e30]
+        - paragraph [ref=e31]: Failed to compile
+        - generic [ref=e32]:
+          - text: Next.js (14.2.35) is outdated
+          - link "(learn more)" [ref=e34] [cursor=pointer]:
+            - /url: https://nextjs.org/docs/messages/version-staleness
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - link "../../packages/ui/src/whitelabel/theme-provider.tsx:5:1" [ref=e37] [cursor=pointer]:
+            - text: ../../packages/ui/src/whitelabel/theme-provider.tsx:5:1
+            - img [ref=e38]
+          - generic [ref=e42]:
+            - generic [ref=e43]: Module not found
+            - generic [ref=e44]: ": Can't resolve '"
+            - text: ../design-system/tokens/index.js
+            - generic [ref=e45]: "'"
+            - generic [ref=e46]: 3 |
+            - text: import React,
+            - generic [ref=e47]: "{ createContext"
+            - text: ","
+            - generic [ref=e48]: useContext
+            - text: ","
+            - generic [ref=e49]: useEffect
+            - text: ","
+            - generic [ref=e50]: useMemo
+            - text: ","
+            - generic [ref=e51]: "useState }"
+            - text: from "react";
+            - generic [ref=e52]: 4 |
+            - text: import
+            - generic [ref=e53]: "type {"
+            - text: BrandConfig, DesignTokens
+            - generic [ref=e54]: "}"
+            - text: from "../design-system/tokens/types.js"; >
+            - generic [ref=e55]: 5 |
+            - text: import
+            - generic [ref=e56]: "{ createDesignTokens }"
+            - text: from "../design-system/tokens/index.js";
+            - generic [ref=e57]: "|"
+            - text: ^
+            - generic [ref=e58]: 6 |
+            - text: import
+            - generic [ref=e59]: "{ generateCSSVariables }"
+            - text: from "../design-system/tokens/css-generator.js";
+            - generic [ref=e60]: 7 |
+            - text: import
+            - generic [ref=e61]: "{ loadBrandConfig"
+            - text: ","
+            - generic [ref=e62]: "defaultBrandConfig }"
+            - text: from "./brand-config.js";
+            - generic [ref=e63]: 8 |
+            - generic [ref=e64]:
+              - link "https://nextjs.org/docs/messages/module-not-found" [ref=e65] [cursor=pointer]:
+                - /url: https://nextjs.org/docs/messages/module-not-found
+              - text: "Import trace for requested module:"
+            - link "./src/app/providers.tsx" [ref=e66] [cursor=pointer]:
+              - text: ./src/app/providers.tsx
+              - img [ref=e67]
+        - contentinfo [ref=e71]:
+          - paragraph [ref=e72]: This error occurred during the build process and can only be dismissed by fixing the error.
+```

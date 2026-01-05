@@ -3,8 +3,8 @@
 import { forwardRef } from "react";
 import clsx from "clsx";
 import { Container, Stack } from "../foundations/layout.js";
-import { Kicker } from "../atoms/kicker.js";
-import { Body, H2 } from "../atoms/typography.js";
+import { Kicker } from "../atoms/Kicker/index.js";
+import { Body, H2 } from "../atoms/Typography/index.js";
 import { Check, X, Minus } from "lucide-react";
 
 /**

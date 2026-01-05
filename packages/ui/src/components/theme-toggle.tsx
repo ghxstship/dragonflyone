@@ -2,7 +2,7 @@
 
 import { Sun, Moon, Monitor } from "lucide-react";
 import { useThemeSafe } from "../providers/theme-provider.js";
-import { Button } from "../atoms/button.js";
+import { Button } from "../atoms/Button/index.js";
 const cn = (...classes: (string | undefined | false)[]) => classes.filter(Boolean).join(" ");
 
 interface ThemeToggleProps {

@@ -1,0 +1,249 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - link "Skip to main content" [ref=e2]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5]:
+      - /url: "#main-content"
+    - banner [ref=e6]:
+      - generic [ref=e7]:
+        - link "ATLVS" [ref=e8]:
+          - /url: /
+        - button "Open navigation" [ref=e9]:
+          - img [ref=e11]
+      - generic [ref=e12]:
+        - link "ATLVS" [ref=e13]:
+          - /url: /
+        - navigation "Main" [ref=e14]:
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - button "Products" [ref=e18]:
+                - text: Products
+                - img [ref=e19]
+            - listitem [ref=e21]:
+              - button "Solutions" [ref=e22]:
+                - text: Solutions
+                - img [ref=e23]
+            - listitem [ref=e25]:
+              - button "Resources" [ref=e26]:
+                - text: Resources
+                - img [ref=e27]
+            - link "Pricing" [ref=e29]:
+              - /url: /pricing
+        - navigation [ref=e30]:
+          - generic [ref=e31]:
+            - link "Features" [ref=e32]:
+              - /url: "#features"
+            - link "Solutions" [ref=e33]:
+              - /url: "#solutions"
+            - link "Pricing" [ref=e34]:
+              - /url: "#pricing"
+            - link "About" [ref=e35]:
+              - /url: "#about"
+        - generic [ref=e36]:
+          - link "Get Started" [ref=e37]:
+            - /url: /auth/signup
+            - button "Get Started" [ref=e38]
+          - link "Sign In" [ref=e39]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e40]
+    - main [ref=e41]:
+      - generic [ref=e46]:
+        - link "Skip to main content" [ref=e47]:
+          - /url: "#main-content"
+        - main "Page content" [active] [ref=e48]:
+          - generic [ref=e54]:
+            - text: Get in Touch
+            - heading "Let's Start a Conversation" [level=1] [ref=e55]
+            - paragraph [ref=e57]: Questions, feedback, or partnership inquiries - we're here to help you succeed.
+          - generic [ref=e61]:
+            - generic [ref=e62]:
+              - generic [ref=e64]:
+                - heading "Send us a message" [level=2] [ref=e65]
+                - paragraph [ref=e66]: Fill out the form below and we will get back to you within 24 hours
+              - generic [ref=e68]:
+                - generic [ref=e69]:
+                  - generic [ref=e70]:
+                    - generic [ref=e71]: Name*
+                    - textbox "Name" [ref=e72]:
+                      - /placeholder: Your full name
+                  - generic [ref=e73]:
+                    - generic [ref=e74]: Email*
+                    - textbox "Email" [ref=e75]:
+                      - /placeholder: you@company.com
+                - generic [ref=e76]:
+                  - generic [ref=e77]:
+                    - text: Company
+                    - textbox "Company" [ref=e78]:
+                      - /placeholder: Your company (optional)
+                  - generic [ref=e79]:
+                    - text: Reason for Contact
+                    - combobox "Reason for Contact" [ref=e80]:
+                      - option "General Inquiry" [selected]
+                      - option "Sales"
+                      - option "Support"
+                      - option "Partnership"
+                      - option "Press"
+                      - option "Other"
+                - generic [ref=e81]:
+                  - generic [ref=e82]: Message*
+                  - textbox "Message" [ref=e83]:
+                    - /placeholder: Tell us how we can help you...
+                  - paragraph [ref=e84]: Be as detailed as possible so we can assist you better
+                - button "Send Message" [ref=e85]:
+                  - img [ref=e87]
+                  - text: Send Message
+            - generic [ref=e90]:
+              - generic [ref=e92]:
+                - heading "Contact Information" [level=3] [ref=e93]
+                - generic [ref=e94]:
+                  - link "Email hello@atlvs.com" [ref=e95]:
+                    - /url: mailto:hello@atlvs.com
+                    - img [ref=e97]
+                    - generic [ref=e100]:
+                      - paragraph [ref=e101]: Email
+                      - paragraph [ref=e102]: hello@atlvs.com
+                  - link "Phone +1 (800) 555-ATLVS" [ref=e103]:
+                    - /url: tel:+18005552858
+                    - img [ref=e105]
+                    - generic [ref=e107]:
+                      - paragraph [ref=e108]: Phone
+                      - paragraph [ref=e109]: +1 (800) 555-ATLVS
+                  - generic [ref=e110]:
+                    - img [ref=e112]
+                    - generic [ref=e115]:
+                      - paragraph [ref=e116]: Business Hours
+                      - paragraph [ref=e117]: Mon-Fri, 9am-6pm EST
+                  - generic [ref=e118]:
+                    - img [ref=e120]
+                    - generic [ref=e123]:
+                      - paragraph [ref=e124]: Headquarters
+                      - paragraph [ref=e125]: Tampa, FL
+              - generic [ref=e127]:
+                - text: Average Response Time
+                - heading "Under 24 Hours" [level=3] [ref=e128]
+                - paragraph [ref=e129]: During business days
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - text: Resources
+              - heading "Quick Links" [level=2] [ref=e135]
+              - paragraph [ref=e136]: Find what you need faster with these helpful resources
+            - generic [ref=e137]:
+              - button "Help Center Browse our knowledge base and tutorials" [ref=e138]:
+                - generic [ref=e139]:
+                  - img [ref=e141]
+                  - generic [ref=e144]:
+                    - generic [ref=e145]:
+                      - paragraph [ref=e146]: Help Center
+                      - img [ref=e147]
+                    - paragraph [ref=e149]: Browse our knowledge base and tutorials
+              - button "Request a Demo See ATLVS in action with a personalized walkthrough" [ref=e150]:
+                - generic [ref=e151]:
+                  - img [ref=e153]
+                  - generic [ref=e155]:
+                    - generic [ref=e156]:
+                      - paragraph [ref=e157]: Request a Demo
+                      - img [ref=e158]
+                    - paragraph [ref=e160]: See ATLVS in action with a personalized walkthrough
+              - button "Careers Join our team and shape the future of events" [ref=e161]:
+                - generic [ref=e162]:
+                  - img [ref=e164]
+                  - generic [ref=e167]:
+                    - generic [ref=e168]:
+                      - paragraph [ref=e169]: Careers
+                      - img [ref=e170]
+                    - paragraph [ref=e172]: Join our team and shape the future of events
+              - button "System Status Check our platform uptime and performance" [ref=e173]:
+                - generic [ref=e174]:
+                  - img [ref=e176]
+                  - generic [ref=e178]:
+                    - generic [ref=e179]:
+                      - paragraph [ref=e180]: System Status
+                      - img [ref=e181]
+                    - paragraph [ref=e183]: Check our platform uptime and performance
+          - generic [ref=e187]:
+            - generic [ref=e188]:
+              - text: FAQ
+              - heading "Common Questions" [level=2] [ref=e189]
+              - paragraph [ref=e190]: Quick answers to frequently asked questions
+            - generic [ref=e191]:
+              - generic [ref=e193]:
+                - button "How quickly will I get a response?" [ref=e194]:
+                  - paragraph [ref=e195]: How quickly will I get a response?
+                  - img [ref=e196]
+                - paragraph [ref=e199]: We typically respond to all inquiries within 24 hours during business days. For urgent matters, please call our support line.
+              - generic [ref=e201]:
+                - button "Can I schedule a demo?" [ref=e202]:
+                  - paragraph [ref=e203]: Can I schedule a demo?
+                  - img [ref=e204]
+                - paragraph [ref=e207]: Absolutely! You can schedule a personalized demo directly from our demo page, or mention it in your message and we'll set one up for you.
+              - generic [ref=e209]:
+                - button "How do I get technical support?" [ref=e210]:
+                  - paragraph [ref=e211]: How do I get technical support?
+                  - img [ref=e212]
+                - paragraph [ref=e215]: Existing customers can access support through the Help Center in their dashboard. For general support inquiries, use this contact form.
+              - generic [ref=e217]:
+                - button "How can I become a partner?" [ref=e218]:
+                  - paragraph [ref=e219]: How can I become a partner?
+                  - img [ref=e220]
+                - paragraph [ref=e223]: We're always looking for great partners! Select 'Partnership' as your reason for contact and tell us about your organization.
+    - contentinfo [ref=e224]:
+      - generic [ref=e225]:
+        - heading "ATLVS" [level=1] [ref=e227]
+        - generic [ref=e228]:
+          - generic [ref=e229]:
+            - heading "Product" [level=3] [ref=e230]
+            - link "Features" [ref=e231]:
+              - /url: /features
+            - link "Pricing" [ref=e232]:
+              - /url: /pricing
+            - link "Integrations" [ref=e233]:
+              - /url: /integrations
+            - link "Security" [ref=e234]:
+              - /url: /security
+            - link "What's New" [ref=e235]:
+              - /url: /changelog
+          - generic [ref=e236]:
+            - heading "Resources" [level=3] [ref=e237]
+            - link "Help Center" [ref=e238]:
+              - /url: /help
+            - link "API Docs" [ref=e239]:
+              - /url: /docs/api
+            - link "Blog" [ref=e240]:
+              - /url: /blog
+            - link "Guides" [ref=e241]:
+              - /url: /guides
+            - link "Case Studies" [ref=e242]:
+              - /url: /case-studies
+            - link "Templates" [ref=e243]:
+              - /url: /templates
+          - generic [ref=e244]:
+            - heading "Company" [level=3] [ref=e245]
+            - link "About" [ref=e246]:
+              - /url: /about
+            - link "Careers" [ref=e247]:
+              - /url: /careers
+            - link "Press" [ref=e248]:
+              - /url: /press
+            - link "Partners" [ref=e249]:
+              - /url: /partners
+            - link "Contact" [ref=e250]:
+              - /url: /contact
+          - generic [ref=e251]:
+            - heading "Legal" [level=3] [ref=e252]
+            - link "Privacy" [ref=e253]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e254]:
+              - /url: /legal/terms
+            - link "Cookies" [ref=e255]:
+              - /url: /legal/cookies
+            - link "Accessibility" [ref=e256]:
+              - /url: /legal/accessibility
+            - link "Status" [ref=e257]:
+              - /url: /status
+        - paragraph [ref=e259]: © 2026 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+```

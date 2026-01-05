@@ -11,146 +11,124 @@
 // Application wrapper layouts with navigation, sidebars, and content areas
 // =============================================================================
 
-export { AuthenticatedShell } from "./authenticated-shell.js";
-export type { AuthenticatedShellProps } from "./authenticated-shell.js";
+export { AuthenticatedShell } from "./AuthenticatedShell/index.js";
+export type { AuthenticatedShellProps } from "./AuthenticatedShell/AuthenticatedShell.types.js";
 
-export { ClientPortalShell } from "./client-portal-shell.js";
-export type { ClientPortalShellProps, ClientPortalNavItem } from "./client-portal-shell.js";
+export { ClientPortalShell } from "./ClientPortalShell/index.js";
+export type { ClientPortalShellProps, ClientPortalNavItem } from "./ClientPortalShell/ClientPortalShell.types.js";
 
-export { DashboardPage } from "./dashboard-page.js";
-export type { DashboardPageProps } from "./dashboard-page.js";
+export { DashboardPage } from "./DashboardPage/index.js";
+export type { DashboardPageProps } from "./DashboardPage/DashboardPage.types.js";
 
 // =============================================================================
 // CENTERED LAYOUTS
 // Single focal point, horizontally and vertically centered
 // =============================================================================
 
-export { CenteredLayout } from "./centered-layout.js";
-export type { CenteredLayoutProps } from "./centered-layout.js";
+export { CenteredLayout } from "./CenteredLayout/index.js";
+export type { CenteredLayoutProps } from "./CenteredLayout/CenteredLayout.types.js";
 
-// Legacy AuthPage removed - use AuthSplitLayout instead
-// export { AuthPage } from "./auth-page.js";
-// export type { AuthPageProps } from "./auth-page.js";
+export { AuthSplitLayout } from "./AuthSplitLayout/index.js";
+export type { AuthSplitLayoutProps } from "./AuthSplitLayout/AuthSplitLayout.types.js";
 
-export { AuthSplitLayout } from "./auth-split-layout.js";
-export type { AuthSplitLayoutProps } from "./auth-split-layout.js";
-
-export { ErrorContent, ErrorPage } from "./error-page.js";
-export type { ErrorContentProps, ErrorPageProps } from "./error-page.js";
-
-export { NotFoundContent, NotFoundPage } from "./not-found-page.js";
-export type { NotFoundContentProps, NotFoundPageProps } from "./not-found-page.js";
+export { AuthPage } from "./AuthPage/index.js";
+export type { AuthPageProps } from "./AuthPage/AuthPage.types.js";
 
 // =============================================================================
-// SINGLE COLUMN LAYOUTS
-// Linear scrolling content, single column
-// =============================================================================
-
-export { SingleColumnLayout } from "./single-column-layout.js";
-export type { SingleColumnLayoutProps, TableOfContentsItem } from "./single-column-layout.js";
-
-export { PageLayout } from "./page-layout.js";
-export type { PageLayoutProps } from "./page-layout.js";
-
-// =============================================================================
-// SPLIT/CONTENT LAYOUTS
+// CONTENT LAYOUTS
 // Two-panel layouts and content organization
 // =============================================================================
 
 export {
   MainContent,
-  SplitLayout,
+  SplitLayout as ContentSplitLayout,
   PanelLayout,
   Toolbar,
   ContentSection,
   KanbanLayout,
   KanbanCard,
-} from "./content-layout.js";
+} from "./ContentLayout/index.js";
 export type {
+  ContentLayoutProps,
   MainContentProps,
-  SplitLayoutProps,
+  SplitLayoutProps as ContentSplitLayoutProps,
   PanelLayoutProps,
   ToolbarProps,
   ContentSectionProps,
   KanbanLayoutProps,
   KanbanCardProps,
-} from "./content-layout.js";
-
-// =============================================================================
-// GRID LAYOUTS
-// Multi-item layouts in rows and columns
-// =============================================================================
-
-export { GridLayout } from "./grid-layout.js";
-export type { GridLayoutProps, GridLayoutFilter } from "./grid-layout.js";
-
-export { SettingsHubPage, SettingsPageLayout } from "./settings-hub-page.js";
-export type {
-  SettingsHubPageProps,
-  SettingsPageLayoutProps,
-  SettingsCategory,
-  SettingsSection,
-} from "./settings-hub-page.js";
+} from "./ContentLayout/ContentLayout.types.js";
 
 // =============================================================================
 // LIST/TABLE LAYOUTS
 // Data display layouts with sorting, filtering, pagination
 // =============================================================================
 
-export { ListPage } from "./list-page.js";
-export type { ListPageProps } from "./list-page.js";
-
-export { TableLayout } from "./table-layout.js";
-export type { TableLayoutProps, TableColumn, TableFilter } from "./table-layout.js";
+export { ListPage } from "./ListPage/index.js";
+export type { ListPageProps, ListPageColumn, ListPageAction, ViewConfig, ViewIconType } from "./ListPage/ListPage.types.js";
 
 // =============================================================================
 // DETAIL LAYOUTS
 // Single record/entity display
 // =============================================================================
 
-export { DetailPage } from "./detail-page.js";
-export type { DetailPageProps, DetailPageTab } from "./detail-page.js";
-
-export { HubPage } from "./hub-page.js";
-export type { HubPageProps, HubPageTab, HubPageStat } from "./hub-page.js";
+export { DetailPage } from "./DetailPage/index.js";
+export type { DetailPageProps, DetailPageTab } from "./DetailPage/DetailPage.types.js";
 
 // =============================================================================
 // FORM LAYOUTS
 // Data entry and editing layouts
 // =============================================================================
 
-export { CreatePage } from "./create-page.js";
-export type { CreatePageProps, FormSection } from "./create-page.js";
+export { CreatePage } from "./CreatePage/index.js";
+export { EditPage } from "./EditPage/index.js";
+export type { CreatePageProps, FormSection } from "./CreatePage/CreatePage.types.js";
+export type { EditPageProps } from "./EditPage/EditPage.types.js";
 
-export { EditPage } from "./edit-page.js";
-export type { EditPageProps } from "./edit-page.js";
+export { HubPage } from "./HubPage/index.js";
+export type { HubPageProps, HubItem } from "./HubPage/HubPage.types.js";
 
-export { WizardPage } from "./wizard-page.js";
-export type { WizardPageProps, WizardStep, WizardBanner, BreadcrumbItem } from "./wizard-page.js";
+export { WizardPage } from "./WizardPage/index.js";
+export type { WizardPageProps, WizardStep } from "./WizardPage/WizardPage.types.js";
 
-export { SignInForm } from "./sign-in-form.js";
-export type { SignInFormProps } from "./sign-in-form.js";
+export { SettingsPageLayout } from "./SettingsPageLayout/index.js";
+export type { SettingsPageLayoutProps, SettingsSection } from "./SettingsPageLayout/SettingsPageLayout.types.js";
+
+export { SettingsHubPage } from "./SettingsHubPage/index.js";
+export type { SettingsHubPageProps } from "./SettingsHubPage/SettingsHubPage.types.js";
+
+export { MarketingPage } from "./MarketingPage/index.js";
+export type { MarketingPageProps } from "./MarketingPage/MarketingPage.types.js";
+
+export { PageLayout } from "./PageLayout/index.js";
+export type { PageLayoutProps } from "./PageLayout/PageLayout.types.js";
 
 // =============================================================================
 // CANVAS LAYOUTS
 // Free-form workspace/builder layouts
 // =============================================================================
 
-export { CanvasLayout } from "./canvas-layout.js";
-export type { CanvasLayoutProps } from "./canvas-layout.js";
+export { CanvasLayout } from "./CanvasLayout/index.js";
+export type { CanvasLayoutProps } from "./CanvasLayout/CanvasLayout.types.js";
 
 // =============================================================================
-// OVERLAY LAYOUTS
-// Modal, drawer, sheet, and dialog layouts
+// AI CHAT LAYOUTS
+// Chat interface layouts
 // =============================================================================
 
-export { OverlayLayout } from "./overlay-layout.js";
-export type { OverlayLayoutProps } from "./overlay-layout.js";
-
-// =============================================================================
-// MARKETING LAYOUTS
-// Full-width marketing and landing page layouts
-// =============================================================================
-
-export { MarketingPage } from "./marketing-page.js";
-export type { MarketingPageProps, MarketingSection } from "./marketing-page.js";
+export { 
+  AIChatLayout, 
+  AIChatHeader, 
+  AIChatSidebar, 
+  AIChatMain, 
+  AIChatArtifact,
+  AIChatLayoutProvider,
+  useAIChatLayout 
+} from "./AIChatLayout/index.js";
+export type { 
+  AIChatLayoutProps, 
+  AIChatHeaderProps, 
+  AIChatSidebarProps, 
+  AIChatMainProps, 
+  AIChatArtifactProps 
+} from "./AIChatLayout/AIChatLayout.types.js";

@@ -3,11 +3,11 @@
 import { forwardRef, useState, ReactNode } from "react";
 import clsx from "clsx";
 import { Container, Stack, Grid } from "../foundations/layout.js";
-import { Card } from "../molecules/card.js";
-import { Kicker } from "../atoms/kicker.js";
-import { Body, H2, H3 } from "../atoms/typography.js";
-import { Button } from "../atoms/button.js";
-import { Badge } from "../atoms/badge.js";
+import { Card } from "../molecules/Card/index.js";
+import { Kicker } from "../atoms/Kicker/index.js";
+import { Body, H2, H3 } from "../atoms/Typography/index.js";
+import { Button } from "../atoms/Button/index.js";
+import { Badge } from "../atoms/Badge/index.js";
 import { Check, X } from "lucide-react";
 
 /**

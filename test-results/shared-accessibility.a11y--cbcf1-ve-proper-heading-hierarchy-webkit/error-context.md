@@ -1,0 +1,133 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5]:
+      - /url: "#main-content"
+    - banner [ref=e6]:
+      - generic [ref=e7]:
+        - link "GVTEWAY" [ref=e8]:
+          - /url: /
+        - navigation [ref=e9]:
+          - generic [ref=e10]:
+            - link "Events" [ref=e11]:
+              - /url: /events
+            - link "Artists" [ref=e12]:
+              - /url: /artists
+            - link "Venues" [ref=e13]:
+              - /url: /venues
+            - link "Community" [ref=e14]:
+              - /url: /community
+        - generic [ref=e15]:
+          - link "Create" [ref=e16]:
+            - /url: /creators
+            - button "Create" [ref=e17]
+          - link "Sign In" [ref=e18]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e19]
+          - button "Open navigation" [ref=e20]:
+            - paragraph [ref=e22]: Open navigation
+    - main [ref=e23]:
+      - generic [ref=e28]:
+        - link "Skip to main content" [ref=e29]:
+          - /url: "#main-content"
+        - generic [ref=e32]:
+          - link "GVTEWAY" [ref=e35]:
+            - /url: /experiences
+          - generic [ref=e36]:
+            - navigation [ref=e37]:
+              - link "Events" [ref=e38]:
+                - /url: /events
+              - link "My Tickets" [ref=e39]:
+                - /url: /tickets
+              - link "Account" [ref=e40]:
+                - /url: /account
+            - link "Browse Experiences" [ref=e41]:
+              - /url: /experiences
+            - button "Open menu" [ref=e42]:
+              - img
+        - main [ref=e44]:
+          - generic [ref=e49]:
+            - link "Skip to main content" [ref=e50]:
+              - /url: "#main-content"
+            - main [ref=e51]:
+              - generic [ref=e54]:
+                - status "Loading" [ref=e56]: Loading...
+                - generic [ref=e57]:
+                  - heading "Loading" [level=2] [ref=e58]
+                  - paragraph [ref=e59]: Loading details...
+        - generic [ref=e61]:
+          - heading "GVTEWAY" [level=1] [ref=e63]
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - heading "Discover" [level=3] [ref=e66]
+              - link "Browse Events" [ref=e67]:
+                - /url: /events
+              - link "Find Venues" [ref=e68]:
+                - /url: /venues
+              - link "Artists" [ref=e69]:
+                - /url: /artists
+            - generic [ref=e70]:
+              - heading "Membership" [level=3] [ref=e71]
+              - link "Join" [ref=e72]:
+                - /url: /membership
+              - link "Experiences" [ref=e73]:
+                - /url: /experiences
+              - link "Community" [ref=e74]:
+                - /url: /community
+            - generic [ref=e75]:
+              - heading "Support" [level=3] [ref=e76]
+              - link "Help Center" [ref=e77]:
+                - /url: /help
+              - link "Contact" [ref=e78]:
+                - /url: /help#contact
+              - link "FAQ" [ref=e79]:
+                - /url: /help#faq
+            - generic [ref=e80]:
+              - heading "Legal" [level=3] [ref=e81]
+              - link "Privacy" [ref=e82]:
+                - /url: /legal/privacy
+              - link "Terms" [ref=e83]:
+                - /url: /legal/terms
+              - link "Accessibility" [ref=e84]:
+                - /url: /accessibility
+          - paragraph [ref=e86]: © 2026 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+    - contentinfo [ref=e87]:
+      - generic [ref=e88]:
+        - heading "GVTEWAY" [level=1] [ref=e90]
+        - generic [ref=e91]:
+          - generic [ref=e92]:
+            - heading "Discover" [level=3] [ref=e93]
+            - link "Browse Events" [ref=e94]:
+              - /url: /events
+            - link "Find Venues" [ref=e95]:
+              - /url: /venues
+            - link "Artists" [ref=e96]:
+              - /url: /artists
+          - generic [ref=e97]:
+            - heading "Shop" [level=3] [ref=e98]
+            - link "Merchandise" [ref=e99]:
+              - /url: /merch
+            - link "Gift Cards" [ref=e100]:
+              - /url: /gift-cards
+            - link "Cart" [ref=e101]:
+              - /url: /cart
+          - generic [ref=e102]:
+            - heading "Support" [level=3] [ref=e103]
+            - link "Help Center" [ref=e104]:
+              - /url: /help
+            - link "Contact" [ref=e105]:
+              - /url: /help#contact
+          - generic [ref=e106]:
+            - heading "Legal" [level=3] [ref=e107]
+            - link "Privacy" [ref=e108]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e109]:
+              - /url: /legal/terms
+        - paragraph [ref=e111]: © 2026 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+```

@@ -1,0 +1,101 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5]:
+      - /url: "#main-content"
+    - banner [ref=e6]:
+      - generic [ref=e7]:
+        - link "GVTEWAY" [ref=e8]:
+          - /url: /
+        - navigation [ref=e9]:
+          - generic [ref=e10]:
+            - link "Events" [ref=e11]:
+              - /url: /events
+            - link "Artists" [ref=e12]:
+              - /url: /artists
+            - link "Venues" [ref=e13]:
+              - /url: /venues
+            - link "Community" [ref=e14]:
+              - /url: /community
+        - generic [ref=e15]:
+          - link "Create" [ref=e16]:
+            - /url: /creators
+            - button "Create" [ref=e17]
+          - link "Sign In" [ref=e18]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e19]
+          - button "Open navigation" [ref=e20]:
+            - paragraph [ref=e22]: Open navigation
+    - main [ref=e23]:
+      - generic [ref=e29]:
+        - generic [ref=e30]:
+          - generic [ref=e31]:
+            - img [ref=e34]
+            - img [ref=e38]
+            - img [ref=e43]
+            - img [ref=e47]
+          - generic [ref=e49]:
+            - paragraph [ref=e50]: Select Tier
+            - paragraph [ref=e51]: Your Info
+            - paragraph [ref=e52]: Payment
+            - paragraph [ref=e53]: Confirm
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - heading "Select Your Tier" [level=2] [ref=e57]
+              - paragraph [ref=e58]: Choose the membership level that best fits your needs
+            - img [ref=e60]
+            - generic [ref=e62]:
+              - paragraph [ref=e63]: Billing Cycle
+              - generic [ref=e64]:
+                - button "Monthly" [ref=e65]
+                - button "Annual (Save 20%)" [ref=e66]
+          - generic [ref=e67]:
+            - button "Back" [disabled] [ref=e68]:
+              - generic [ref=e69]:
+                - img [ref=e70]
+                - text: Back
+            - button "Continue" [ref=e72]:
+              - generic [ref=e73]:
+                - text: Continue
+                - img [ref=e74]
+    - contentinfo [ref=e76]:
+      - generic [ref=e77]:
+        - heading "GVTEWAY" [level=1] [ref=e79]
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - heading "Discover" [level=3] [ref=e82]
+            - link "Browse Events" [ref=e83]:
+              - /url: /events
+            - link "Find Venues" [ref=e84]:
+              - /url: /venues
+            - link "Artists" [ref=e85]:
+              - /url: /artists
+          - generic [ref=e86]:
+            - heading "Shop" [level=3] [ref=e87]
+            - link "Merchandise" [ref=e88]:
+              - /url: /merch
+            - link "Gift Cards" [ref=e89]:
+              - /url: /gift-cards
+            - link "Cart" [ref=e90]:
+              - /url: /cart
+          - generic [ref=e91]:
+            - heading "Support" [level=3] [ref=e92]
+            - link "Help Center" [ref=e93]:
+              - /url: /help
+            - link "Contact" [ref=e94]:
+              - /url: /help#contact
+          - generic [ref=e95]:
+            - heading "Legal" [level=3] [ref=e96]
+            - link "Privacy" [ref=e97]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e98]:
+              - /url: /legal/terms
+        - paragraph [ref=e100]: © 2026 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+```

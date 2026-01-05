@@ -90,7 +90,7 @@ export default function NewBEOPage() {
             <Input placeholder="Client name" value={client} onChange={(e) => handleChange("client", e.target.value)} error={!!errors.client} />
             {errors.client && <Body size="sm" className="text-error mt-1">{errors.client}</Body>}
           </Box>
-          <Grid cols={2} gap={4}>
+          <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2">
             <Box>
               <Body size="sm" className="mb-1">Event Date *</Body>
               <Input type="date" value={date} onChange={(e) => handleChange("date", e.target.value)} error={!!errors.date} />

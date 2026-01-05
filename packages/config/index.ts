@@ -400,6 +400,9 @@ export * from './hooks/useChronicle';
 // Dataset Capability Detection System
 export * from './dataset-capabilities';
 
+// Session management hooks
+export * from './hooks/useSessions';
+
 // Entity Registry System - explicit exports to avoid conflicts
 export {
   // Types

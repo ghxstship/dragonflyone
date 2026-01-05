@@ -3,8 +3,8 @@
 import { forwardRef, ReactNode } from "react";
 import clsx from "clsx";
 import { Container, Stack } from "../foundations/layout.js";
-import { Body, H2 } from "../atoms/typography.js";
-import { Button } from "../atoms/button.js";
+import { Body, H2 } from "../atoms/Typography/index.js";
+import { Button } from "../atoms/Button/index.js";
 import { ArrowRight } from "lucide-react";
 
 /**

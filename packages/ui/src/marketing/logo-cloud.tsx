@@ -3,7 +3,7 @@
 import { forwardRef } from "react";
 import clsx from "clsx";
 import { Container, Stack } from "../foundations/layout.js";
-import { Kicker } from "../atoms/kicker.js";
+import { Kicker } from "../atoms/Kicker/index.js";
 
 /**
  * LogoCloud - Display client/partner logos for social proof

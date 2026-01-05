@@ -1,0 +1,95 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - link "Skip to main content" [ref=e2]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5]:
+      - /url: "#main-content"
+    - generic [ref=e6]:
+      - generic [ref=e9]:
+        - generic [ref=e10]: GVTEWAY
+        - generic [ref=e11]:
+          - heading "Your Gateway to Unforgettable Experiences" [level=2] [ref=e12]
+          - generic [ref=e13]:
+            - generic [ref=e14]:
+              - img [ref=e16]
+              - generic [ref=e18]:
+                - paragraph [ref=e19]: Exclusive Access
+                - paragraph [ref=e20]: Priority tickets to sold-out events
+            - generic [ref=e21]:
+              - img [ref=e23]
+              - generic [ref=e25]:
+                - paragraph [ref=e26]: VIP Experiences
+                - paragraph [ref=e27]: Behind-the-scenes and meet & greets
+            - generic [ref=e28]:
+              - img [ref=e30]
+              - generic [ref=e32]:
+                - paragraph [ref=e33]: Member Benefits
+                - paragraph [ref=e34]: Special discounts and early access
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: “GVTEWAY gave me access to experiences I never thought possible.”
+          - generic [ref=e39]:
+            - paragraph [ref=e40]: Sarah Chen
+            - paragraph [ref=e41]: Premium Member
+      - generic [ref=e42]:
+        - banner [ref=e43]:
+          - generic [ref=e44]: GVTEWAY
+        - main "Authentication content" [active] [ref=e45]:
+          - generic [ref=e47]:
+            - generic [ref=e48]:
+              - heading "Member Sign In" [level=1] [ref=e49]
+              - paragraph [ref=e50]: Access your exclusive experiences and member benefits
+            - generic [ref=e53]:
+              - generic [ref=e54]:
+                - generic [ref=e55]: Email*
+                - generic [ref=e56]:
+                  - img [ref=e58]
+                  - textbox "Email*" [ref=e61]:
+                    - /placeholder: you@example.com
+                    - text: invalid@test.com
+              - generic [ref=e63]:
+                - generic [ref=e64]: Password*
+                - generic [ref=e65]:
+                  - img [ref=e67]
+                  - textbox "Password*" [ref=e70]:
+                    - /placeholder: Enter your password
+                    - text: wrongpassword
+                  - button "Show password" [ref=e72]:
+                    - img [ref=e73]
+              - generic [ref=e76]:
+                - generic [ref=e77]:
+                  - generic [ref=e78]:
+                    - checkbox "Remember me" [ref=e79]
+                    - img [ref=e80]
+                  - paragraph [ref=e82]: Remember me
+                - button "Forgot password?" [ref=e83]
+              - button "Sign In" [ref=e84]
+              - paragraph [ref=e86]: Or continue with
+              - generic [ref=e87]:
+                - button "Continue with Google" [ref=e88]:
+                  - img [ref=e89]
+                  - text: Continue with Google
+                - button "Continue with Apple" [ref=e94]:
+                  - img [ref=e95]
+                  - text: Continue with Apple
+              - button "Sign in with magic link instead" [ref=e97]
+            - paragraph [ref=e99]:
+              - text: Not a member yet?
+              - link "Apply for Membership" [ref=e100]:
+                - /url: /apply
+    - contentinfo [ref=e101]:
+      - generic [ref=e103]:
+        - navigation "Footer navigation" [ref=e104]:
+          - generic [ref=e105]:
+            - link "Privacy" [ref=e106]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e107]:
+              - /url: /legal/terms
+            - link "Help" [ref=e108]:
+              - /url: /help
+        - text: © 2026 GHXSTSHIP INDUSTRIES
+```

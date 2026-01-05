@@ -1,7 +1,12 @@
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
-  transpilePackages: ["@ghxstship/config"],
+  transpilePackages: ["@ghxstship/config", "@ghxstship/ui"],
   
   // Security headers
   async headers() {
@@ -85,7 +90,11 @@ const nextConfig = {
   },
   
   webpack: (config) => {
-    // Let Next.js handle optimization - custom splitChunks causes MODULE_NOT_FOUND errors
+    // Add alias for @ghxstship/ui to point to dist directory
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@ghxstship/ui': path.resolve(__dirname, '../../packages/ui/dist'),
+    };
     return config;
   },
 };

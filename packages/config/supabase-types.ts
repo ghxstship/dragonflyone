@@ -28184,61 +28184,90 @@ export type Database = {
       }
       user_sessions: {
         Row: {
-          device_type: string | null
-          ended_at: string | null
           id: string
-          ip_address: unknown
-          is_active: boolean | null
-          last_activity_at: string
-          metadata: Json | null
-          organization_id: string
-          platform_user_id: string
+          user_id: string
+          organization_id: string | null
           session_token: string
-          started_at: string
+          refresh_token: string | null
+          device_type: string
+          device_name: string | null
+          browser: string | null
+          os: string | null
+          ip_address: string
+          city: string | null
+          region: string | null
+          country: string | null
+          country_code: string | null
           user_agent: string | null
+          is_current: boolean
+          status: Database["public"]["Enums"]["session_status"]
+          created_at: string
+          updated_at: string
+          last_active_at: string
+          expires_at: string
+          revoked_at: string | null
+          revoked_by: string | null
+          revoke_reason: string | null
         }
         Insert: {
-          device_type?: string | null
-          ended_at?: string | null
           id?: string
-          ip_address?: unknown
-          is_active?: boolean | null
-          last_activity_at?: string
-          metadata?: Json | null
-          organization_id: string
-          platform_user_id: string
+          user_id: string
+          organization_id?: string | null
           session_token: string
-          started_at?: string
+          refresh_token?: string | null
+          device_type?: string
+          device_name?: string | null
+          browser?: string | null
+          os?: string | null
+          ip_address: string
+          city?: string | null
+          region?: string | null
+          country?: string | null
+          country_code?: string | null
           user_agent?: string | null
+          is_current?: boolean
+          status?: Database["public"]["Enums"]["session_status"]
+          created_at?: string
+          updated_at?: string
+          last_active_at?: string
+          expires_at: string
+          revoked_at?: string | null
+          revoked_by?: string | null
+          revoke_reason?: string | null
         }
         Update: {
-          device_type?: string | null
-          ended_at?: string | null
           id?: string
-          ip_address?: unknown
-          is_active?: boolean | null
-          last_activity_at?: string
-          metadata?: Json | null
-          organization_id?: string
-          platform_user_id?: string
+          user_id?: string
+          organization_id?: string | null
           session_token?: string
-          started_at?: string
+          refresh_token?: string | null
+          device_type?: string
+          device_name?: string | null
+          browser?: string | null
+          os?: string | null
+          ip_address?: string
+          city?: string | null
+          region?: string | null
+          country?: string | null
+          country_code?: string | null
           user_agent?: string | null
+          is_current?: boolean
+          status?: Database["public"]["Enums"]["session_status"]
+          created_at?: string
+          updated_at?: string
+          last_active_at?: string
+          expires_at?: string
+          revoked_at?: string | null
+          revoked_by?: string | null
+          revoke_reason?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "user_sessions_organization_id_fkey"
-            columns: ["organization_id"]
+            foreignKeyName: "user_sessions_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "mv_executive_dashboard"
-            referencedColumns: ["organization_id"]
-          },
-          {
-            foreignKeyName: "user_sessions_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "mv_revenue_by_month"
-            referencedColumns: ["organization_id"]
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "user_sessions_organization_id_fkey"
@@ -28248,8 +28277,8 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "user_sessions_platform_user_id_fkey"
-            columns: ["platform_user_id"]
+            foreignKeyName: "user_sessions_revoked_by_fkey"
+            columns: ["revoked_by"]
             isOneToOne: false
             referencedRelation: "platform_users"
             referencedColumns: ["id"]
@@ -31860,6 +31889,19 @@ export type Database = {
         | "audit"
         | "automation"
         | "communication"
+      session_status: "active" | "expired" | "revoked"
+      webhook_status: "active" | "paused" | "failed" | "deleted"
+      integration_provider: "zapier" | "n8n" | "make" | "custom"
+      webhook_event_type:
+        | "deal.created" | "deal.updated" | "deal.won" | "deal.lost"
+        | "contact.created" | "contact.updated"
+        | "project.created" | "project.updated" | "project.completed"
+        | "invoice.created" | "invoice.paid" | "invoice.overdue"
+        | "event.created" | "event.updated" | "event.cancelled"
+        | "ticket.sold" | "ticket.transferred" | "ticket.refunded"
+        | "order.created" | "order.completed" | "order.cancelled"
+        | "crew.assigned" | "crew.checked_in" | "crew.checked_out"
+        | "asset.checked_out" | "asset.returned" | "asset.maintenance_due"
       connection_status: "pending" | "accepted" | "declined" | "removed"
       connection_type: "friend" | "follower" | "blocked" | "muted"
       content_status:

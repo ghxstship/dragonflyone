@@ -3,11 +3,10 @@
 import { forwardRef, useState } from "react";
 import clsx from "clsx";
 import { Container, Stack } from "../foundations/layout.js";
-import { Kicker } from "../atoms/kicker.js";
-import { Body, H2 } from "../atoms/typography.js";
-import { Button } from "../atoms/button.js";
+import { Kicker } from "../atoms/Kicker/index.js";
+import { Body, H2 } from "../atoms/Typography/index.js";
+import { Button } from "../atoms/Button/index.js";
 import { Play } from "lucide-react";
-import { OverlayLayout } from "../templates/overlay-layout.js";
 
 /**
  * VideoSection - Embedded video with poster
@@ -162,30 +161,46 @@ export const VideoSection = forwardRef<HTMLElement, VideoSectionProps>(
 
         {/* Modal */}
         {mode === "modal" && (
-          <OverlayLayout
-            type="modal"
-            size="xl"
-            open={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            closeOnEscape
-            closeOnBackdrop
-            preventScroll
-            animation="scale"
-            inverted
-            showClose
-            ariaLabel="Video player"
-            contentClassName="p-0 bg-black"
+          <div
+            className={clsx(
+              "fixed inset-0 z-50 flex items-center justify-center",
+              "bg-black/50 backdrop-blur-sm",
+              isModalOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+              "transition-opacity duration-200"
+            )}
+            onClick={() => setIsModalOpen(false)}
           >
-            <div className={clsx("rounded-card overflow-hidden", aspectClasses[aspectRatio])}>
-              <iframe
-                src={isModalOpen ? embedUrl : ""}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title="Video"
-              />
+            <div
+              className={clsx(
+                "relative bg-black border-2 border-border rounded-[var(--radius-modal)]",
+                "shadow-xl max-w-6xl w-full mx-4 max-h-[90vh] overflow-hidden",
+                "transform transition-transform duration-200",
+                isModalOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"
+              )}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 z-10 p-2 rounded-badge bg-black/50 hover:bg-black/70 text-white border border-white/20 hover:border-white/40 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* Video content */}
+              <div className={clsx("rounded-card overflow-hidden", aspectClasses[aspectRatio])}>
+                <iframe
+                  src={isModalOpen ? embedUrl : ""}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title="Video"
+                />
+              </div>
             </div>
-          </OverlayLayout>
+          </div>
         )}
       </>
     );

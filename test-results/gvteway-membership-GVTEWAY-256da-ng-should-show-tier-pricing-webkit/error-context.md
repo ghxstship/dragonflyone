@@ -1,0 +1,224 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2]:
+    - /url: "#main-content"
+  - link "Skip to navigation" [ref=e3]:
+    - /url: "#main-navigation"
+  - generic [ref=e4]:
+    - link "Skip to main content" [ref=e5]:
+      - /url: "#main-content"
+    - banner [ref=e6]:
+      - generic [ref=e7]:
+        - link "GVTEWAY" [ref=e8]:
+          - /url: /
+        - navigation [ref=e9]:
+          - generic [ref=e10]:
+            - link "Events" [ref=e11]:
+              - /url: /events
+            - link "Artists" [ref=e12]:
+              - /url: /artists
+            - link "Venues" [ref=e13]:
+              - /url: /venues
+            - link "Community" [ref=e14]:
+              - /url: /community
+        - generic [ref=e15]:
+          - link "Create" [ref=e16]:
+            - /url: /creators
+            - button "Create" [ref=e17]
+          - link "Sign In" [ref=e18]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e19]
+          - button "Open navigation" [ref=e20]:
+            - paragraph [ref=e22]: Open navigation
+    - main [ref=e23]:
+      - generic [ref=e28]:
+        - generic [ref=e30]:
+          - generic [ref=e31]:
+            - img [ref=e32]
+            - text: Membership Program
+          - heading "Unlock Exclusive Benefits" [level=1] [ref=e35]
+          - paragraph [ref=e36]: Join our membership program and get priority access, exclusive discounts, VIP experiences, and more. Choose the tier that fits your lifestyle.
+          - button "View Membership Tiers" [ref=e37]:
+            - generic [ref=e38]:
+              - text: View Membership Tiers
+              - img [ref=e39]
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - heading "Why Join?" [level=2] [ref=e43]
+            - paragraph [ref=e44]: Members enjoy exclusive perks that make every event unforgettable
+          - generic [ref=e45]:
+            - generic [ref=e46]:
+              - img [ref=e48]
+              - heading "Priority Access" [level=3] [ref=e50]
+              - paragraph [ref=e51]: Get tickets before they go on sale to the public
+            - generic [ref=e52]:
+              - img [ref=e54]
+              - heading "Exclusive Discounts" [level=3] [ref=e58]
+              - paragraph [ref=e59]: Save up to 15% on every ticket purchase
+            - generic [ref=e60]:
+              - img [ref=e62]
+              - heading "Member Rewards" [level=3] [ref=e66]
+              - paragraph [ref=e67]: Earn points on every purchase and redeem for perks
+            - generic [ref=e68]:
+              - img [ref=e70]
+              - heading "Ticket Protection" [level=3] [ref=e72]
+              - paragraph [ref=e73]: Free cancellation and transfer on all tickets
+            - generic [ref=e74]:
+              - img [ref=e76]
+              - heading "VIP Experiences" [level=3] [ref=e81]
+              - paragraph [ref=e82]: Access exclusive lounges and meet & greets
+            - generic [ref=e83]:
+              - img [ref=e85]
+              - heading "Early Announcements" [level=3] [ref=e87]
+              - paragraph [ref=e88]: Be the first to know about new events
+        - generic [ref=e91]:
+          - heading "Choose Your Tier" [level=2] [ref=e92]
+          - paragraph [ref=e93]: Select the membership level that matches your event lifestyle
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - heading "Compare All Features" [level=2] [ref=e96]
+            - paragraph [ref=e97]: See exactly what you get with each membership tier
+          - table [ref=e100]:
+            - rowgroup [ref=e101]:
+              - row "Feature Free Silver Gold Platinum" [ref=e102]:
+                - cell "Feature" [ref=e103]
+                - cell "Free" [ref=e104]:
+                  - generic [ref=e105]: Free
+                - cell "Silver" [ref=e106]:
+                  - generic [ref=e107]: Silver
+                - cell "Gold" [ref=e108]:
+                  - generic [ref=e109]: Gold
+                - cell "Platinum" [ref=e110]:
+                  - generic [ref=e111]: Platinum
+            - rowgroup [ref=e112]:
+              - row "Browse all events" [ref=e113]:
+                - cell "Browse all events" [ref=e114]:
+                  - paragraph [ref=e115]: Browse all events
+                - cell [ref=e116]:
+                  - img [ref=e117]
+                - cell [ref=e119]:
+                  - img [ref=e120]
+                - cell [ref=e122]:
+                  - img [ref=e123]
+                - cell [ref=e125]:
+                  - img [ref=e126]
+              - row "Basic event notifications" [ref=e128]:
+                - cell "Basic event notifications" [ref=e129]:
+                  - paragraph [ref=e130]: Basic event notifications
+                - cell [ref=e131]:
+                  - img [ref=e132]
+                - cell [ref=e134]:
+                  - img [ref=e135]
+                - cell [ref=e137]:
+                  - img [ref=e138]
+                - cell [ref=e140]:
+                  - img [ref=e141]
+              - row "Standard ticket purchasing" [ref=e143]:
+                - cell "Standard ticket purchasing" [ref=e144]:
+                  - paragraph [ref=e145]: Standard ticket purchasing
+                - cell [ref=e146]:
+                  - img [ref=e147]
+                - cell [ref=e149]:
+                  - img [ref=e150]
+                - cell [ref=e152]:
+                  - img [ref=e153]
+                - cell [ref=e155]:
+                  - img [ref=e156]
+              - row "Priority access —" [ref=e158]:
+                - cell "Priority access" [ref=e159]:
+                  - paragraph [ref=e160]: Priority access
+                - cell "—" [ref=e161]:
+                  - generic [ref=e162]: —
+                - cell [ref=e163]:
+                  - img [ref=e164]
+                - cell [ref=e166]:
+                  - img [ref=e167]
+                - cell [ref=e169]:
+                  - img [ref=e170]
+              - row "Exclusive discounts —" [ref=e172]:
+                - cell "Exclusive discounts" [ref=e173]:
+                  - paragraph [ref=e174]: Exclusive discounts
+                - cell "—" [ref=e175]:
+                  - generic [ref=e176]: —
+                - cell [ref=e177]:
+                  - img [ref=e178]
+                - cell [ref=e180]:
+                  - img [ref=e181]
+                - cell [ref=e183]:
+                  - img [ref=e184]
+              - row "VIP experiences — —" [ref=e186]:
+                - cell "VIP experiences" [ref=e187]:
+                  - paragraph [ref=e188]: VIP experiences
+                - cell "—" [ref=e189]:
+                  - generic [ref=e190]: —
+                - cell "—" [ref=e191]:
+                  - generic [ref=e192]: —
+                - cell [ref=e193]:
+                  - img [ref=e194]
+                - cell [ref=e196]:
+                  - img [ref=e197]
+              - row "Concierge support — — —" [ref=e199]:
+                - cell "Concierge support" [ref=e200]:
+                  - paragraph [ref=e201]: Concierge support
+                - cell "—" [ref=e202]:
+                  - generic [ref=e203]: —
+                - cell "—" [ref=e204]:
+                  - generic [ref=e205]: —
+                - cell "—" [ref=e206]:
+                  - generic [ref=e207]: —
+                - cell [ref=e208]:
+                  - img [ref=e209]
+              - row "Monthly Price Free $9.99 $24.99 $49.99" [ref=e211]:
+                - cell "Monthly Price" [ref=e212]:
+                  - paragraph [ref=e213]: Monthly Price
+                - cell "Free" [ref=e214]:
+                  - paragraph [ref=e215]: Free
+                - cell "$9.99" [ref=e216]:
+                  - paragraph [ref=e217]: $9.99
+                - cell "$24.99" [ref=e218]:
+                  - paragraph [ref=e219]: $24.99
+                - cell "$49.99" [ref=e220]:
+                  - paragraph [ref=e221]: $49.99
+        - generic [ref=e223]:
+          - heading "Ready to Upgrade Your Experience?" [level=2] [ref=e224]
+          - paragraph [ref=e225]: Join thousands of members enjoying exclusive benefits at every event.
+          - button "Start Your Membership" [ref=e226]:
+            - generic [ref=e227]:
+              - text: Start Your Membership
+              - img [ref=e228]
+    - contentinfo [ref=e230]:
+      - generic [ref=e231]:
+        - heading "GVTEWAY" [level=1] [ref=e233]
+        - generic [ref=e234]:
+          - generic [ref=e235]:
+            - heading "Discover" [level=3] [ref=e236]
+            - link "Browse Events" [ref=e237]:
+              - /url: /events
+            - link "Find Venues" [ref=e238]:
+              - /url: /venues
+            - link "Artists" [ref=e239]:
+              - /url: /artists
+          - generic [ref=e240]:
+            - heading "Shop" [level=3] [ref=e241]
+            - link "Merchandise" [ref=e242]:
+              - /url: /merch
+            - link "Gift Cards" [ref=e243]:
+              - /url: /gift-cards
+            - link "Cart" [ref=e244]:
+              - /url: /cart
+          - generic [ref=e245]:
+            - heading "Support" [level=3] [ref=e246]
+            - link "Help Center" [ref=e247]:
+              - /url: /help
+            - link "Contact" [ref=e248]:
+              - /url: /help#contact
+          - generic [ref=e249]:
+            - heading "Legal" [level=3] [ref=e250]
+            - link "Privacy" [ref=e251]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e252]:
+              - /url: /legal/terms
+        - paragraph [ref=e254]: © 2026 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+```
