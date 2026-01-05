@@ -479,6 +479,9 @@ export { ThemeProvider, useTheme, useThemeSafe } from "./providers/theme-provide
 export { ThemeScript } from "./components/theme-script.js";
 export { ThemeToggle } from "./components/theme-toggle.js";
 
+export { ErrorPage, ErrorContent, NotFoundPage } from "./templates/ErrorTemplate/index.js";
+export type { NotFoundPageProps, ErrorPageProps, ErrorContentProps } from "./templates/ErrorTemplate/index.js";
+
 // =============================================================================
 // MARKETING - Landing page section components (2026 Best Practices)
 // =============================================================================
