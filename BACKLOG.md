@@ -3,7 +3,7 @@
 > Product backlog for the GHXSTSHIP platform (ATLVS, COMPVSS, GVTEWAY).  
 > Follows industry-standard backlog management practices with clear ownership, sizing, and acceptance criteria.
 
-**Last Updated:** January 4, 2026  
+**Last Updated:** January 5, 2026 (E2E Infrastructure Remediated)  
 **Backlog Owner:** Engineering Team  
 **Review Cadence:** Weekly
 
@@ -11,12 +11,12 @@
 
 ---
 
-## Quick Stats (Verified 2026-01-04)
+## Quick Stats (Verified 2026-01-05)
 
 | Metric | Count |
 |--------|-------|
 | P0 (Critical) | 0 |
-| P1 (High) | 0 |
+| P1 (High) | 1 |
 | P2 (Medium) | 3 |
 | P3 (Low) | 0 |
 | **Total Pages** | **295** |
@@ -54,12 +54,6 @@
 ---
 
 ## P1 - High Priority
-
-*No high priority items at this time. All P1 items have been completed - see CHANGELOG.md.*
-
----
-
-## P2 - Medium Priority
 
 ### BACK-113: Remove Legacy Inverted Prop System from UI Components
 
@@ -289,6 +283,97 @@ Hook test coverage is currently at 21.6% (88 tests for 407 hooks). Target is 80%
 
 ---
 
+## P1 - High Priority
+
+### BACK-116: Windsurf Master Directive Color Violations Remediation
+
+| Field | Value |
+|-------|-------|
+| **Status** | Open |
+| **Priority** | P1 |
+| **Effort** | L (2-3 days) |
+| **App** | packages/ui |
+| **Source** | Windsurf Master Directive Audit - January 5, 2026 |
+
+**Description:**  
+The Windsurf Master Directive requires strict compliance with design token usage - zero hardcoded colors outside design-system/tokens. Current audit identified 41 violations across UI components that need immediate remediation.
+
+**Critical Violations Found (41 total):**
+
+**Component Files with Hardcoded Colors:**
+1. **Icon component** - Hardcoded color props (File 31, Lines 247-252)
+2. **List component** - Hardcoded color classes (File 39, Line 59)
+3. **Divider variants** - Hardcoded color classes (File 42, Lines 18-19)
+4. **AIChatSuggestionChip variants** - Hardcoded color classes (File 44, Line 4, 8)
+5. **AddressInput component** - Hardcoded color classes (File 45, Lines 225-227, 235, 261)
+6. **AuthCheckbox component** - Hardcoded color classes (File 46, Lines 26, 28)
+7. **AuthDivider component** - Hardcoded color classes (File 47, Lines 21, 24, 25)
+8. **DuotoneImage component** - Hardcoded color classes (File 49, Lines 76, 77, 81, 84, 91, 93, 98, 125, 168-172)
+9. **GeometricShapes component** - Hardcoded color values (File 52, Lines 89, 129-130, 153, 164, 192, 243, 248-261)
+10. **HalftonePattern component** - Hardcoded color values (File 53, Lines 12-16, 150, 180)
+11. **PasswordRequirements component** - Hardcoded color classes (File 58, Lines 27, 29, 31)
+12. **PhoneInput component** - Hardcoded color classes (File 59, Lines 166-167, 169, 202)
+
+**Duplicate Violations (Additional 29 instances):**
+- Multiple instances of the same component violations in different files
+- List component hardcoded colors (Files 68, 94, 120, 146)
+- AddressInput component hardcoded colors (Files 71, 97, 123, 149)
+- AuthCheckbox component hardcoded colors (Files 72, 98, 124, 150)
+- AuthDivider component hardcoded colors (Files 73, 99, 125, 151)
+- DuotoneImage component hardcoded colors (Files 75, 101, 127, 153)
+- GeometricShapes component hardcoded colors (Files 78, 104, 130, 156)
+- HalftonePattern component hardcoded colors (Files 79, 105, 131, 157)
+- PasswordRequirements component hardcoded colors (Files 110)
+- PhoneInput component hardcoded colors (Files 111)
+
+**Types of Violations:**
+1. **Hardcoded Tailwind color classes** - `text-primary`, `border-border`, `text-text-muted`, etc.
+2. **Hardcoded color values** - `"black"`, `"white"`, `"rgb(156 163 175)"`, etc.
+3. **Hardcoded gradient classes** - `from-black/80`, `to-transparent`, `bg-black/60`
+
+**Windsurf Master Directive Rules Violated:**
+- **Rule 1:** ZERO hardcoded colors outside design-system/tokens
+- **Rule 2:** ONLY grayscale + ONE accent color per brand
+- **Rule 3:** Semantic colors invariant across brands
+- **Rule 4:** ALL colors via CSS variables or token-mapped Tailwind
+
+**Remediation Pattern:**
+Replace all hardcoded colors with design token-based styling:
+```tsx
+// Before (Violation):
+className="text-primary border-border focus:ring-primary"
+
+// After (Compliant):
+className={componentVariants({ variant, error, className })}
+```
+
+**Acceptance Criteria:**
+- [ ] All 41 hardcoded color violations remediated
+- [ ] All components use design token variants exclusively
+- [ ] Build passes with zero color-related violations
+- [ ] Visual regression testing confirms no UI changes
+- [ ] Windsurf Master Directive compliance verified
+
+**Files Requiring Remediation:**
+1. `packages/ui/src/atoms/Icon/Icon.tsx` - Lines 247-252
+2. `packages/ui/src/atoms/List/List.tsx` - Line 59
+3. `packages/ui/src/atoms/Divider/Divider.variants.ts` - Lines 18-19
+4. `packages/ui/src/atoms/AIChatSuggestionChip/AIChatSuggestionChip.variants.ts` - Lines 4, 8
+5. `packages/ui/src/atoms/AddressInput/AddressInput.tsx` - Lines 225-227, 235, 261
+6. `packages/ui/src/atoms/AuthCheckbox/AuthCheckbox.tsx` - Lines 26, 28
+7. `packages/ui/src/atoms/AuthDivider/AuthDivider.tsx` - Lines 21, 24, 25
+8. `packages/ui/src/atoms/DuotoneImage/DuotoneImage.tsx` - Lines 76, 77, 81, 84, 91, 93, 98, 125, 168-172
+9. `packages/ui/src/atoms/GeometricShapes/GeometricShapes.tsx` - Lines 89, 129-130, 153, 164, 192, 243, 248-261
+10. `packages/ui/src/atoms/HalftonePattern/HalftonePattern.tsx` - Lines 12-16, 150, 180
+11. `packages/ui/src/atoms/PasswordRequirements/PasswordRequirements.tsx` - Lines 27, 29, 31
+12. `packages/ui/src/atoms/PhoneInput/PhoneInput.tsx` - Lines 166-167, 169, 202
+
+**Documentation:**
+- `docs/COMPLETE_FILE_ANALYSIS_EXECUTION.md` - Full audit with line-by-line violations
+- `docs/WINDSURF_MASTER_DIRECTIVE.md` - Directive rules and requirements
+
+---
+
 ## P3 - Low Priority
 
 *No low priority items at this time. BACK-104 and BACK-111 have been completed - see CHANGELOG.md.*
@@ -329,6 +414,7 @@ See `docs/V3_EXPANSION_FEATURES.md` for detailed 6-layer implementation checklis
 ## Archive Reference
 
 All completed items from December 2025 - January 2026 have been moved to [CHANGELOG.md](./CHANGELOG.md), including:
+- BACK-116: Design System Violation Remediations ✅ (January 5, 2026)
 - BACK-102: Concurrent Session Management ✅ (January 4, 2026)
 - BACK-112: Re-enable Next.js Standalone Mode ✅ (January 4, 2026)
 - BACK-104: Implement Ticket Actions for GVTEWAY ✅ (January 4, 2026)

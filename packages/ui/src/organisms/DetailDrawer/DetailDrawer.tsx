@@ -73,12 +73,12 @@ export function DetailDrawer<T = unknown>({
 
   // Actions bar content
   const actionsBarContent = (actions.length > 0 || onEdit || onDelete) && record ? (
-    <div className="flex items-center gap-2 px-6 py-3 border-b border-border bg-muted flex-wrap">
+    <div className="flex items-center gap-2 px-6 py-3 border-b border-[var(--color-border-default)] bg-[var(--color-surface-muted)] flex-wrap">
       {onEdit && (
         <button
           type="button"
           onClick={() => onEdit(record)}
-          className="flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase bg-surface-inverse text-text-primary border-2 border-border cursor-pointer transition-colors duration-100 hover:bg-surface-elevated"
+          className="flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase bg-[var(--color-surface-inverse)] text-[var(--color-text-primary)] border-2 border-[var(--color-border-default)] cursor-pointer transition-colors duration-100 hover:bg-[var(--color-surface-elevated)]"
         >
           <Pencil className="size-4" /> Edit
         </button>
@@ -91,12 +91,12 @@ export function DetailDrawer<T = unknown>({
           onClick={() => onAction?.(action.id, record)}
           disabled={action.disabled}
           className={clsx(
-            "flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase border-2 border-border transition-colors duration-100",
+            "flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase border-2 border-[var(--color-border-default)] transition-colors duration-100",
             action.variant === "primary"
-              ? "bg-surface-inverse text-text-primary hover:bg-surface-elevated"
+              ? "bg-[var(--color-surface-inverse)] text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)]"
               : action.variant === "danger"
-              ? "bg-surface-primary text-error hover:bg-muted"
-              : "bg-surface-primary text-text-primary hover:bg-muted",
+              ? "bg-[var(--color-surface-primary)] text-[var(--color-error-500)] hover:bg-[var(--color-surface-muted)]"
+              : "bg-[var(--color-surface-primary)] text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]",
             action.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
           )}
         >
@@ -109,7 +109,7 @@ export function DetailDrawer<T = unknown>({
         <button
           type="button"
           onClick={() => onDelete(record)}
-          className="flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase bg-surface-primary text-error border-2 border-border cursor-pointer transition-colors duration-100 ml-auto hover:bg-muted"
+          className="flex items-center gap-2 px-3 py-2 font-mono text-sm tracking-wide uppercase bg-[var(--color-surface-primary)] text-[var(--color-error-500)] border-2 border-[var(--color-border-default)] cursor-pointer transition-colors duration-100 ml-auto hover:bg-[var(--color-surface-muted)]"
         >
           <Trash2 className="size-4" /> Delete
         </button>
@@ -123,14 +123,14 @@ export function DetailDrawer<T = unknown>({
       return (
         <div className="flex-1 flex overflow-hidden -mx-6 -mb-6">
           {/* List pane */}
-          <div className="w-1/3 min-w-[200px] border-r-2 border-border overflow-auto bg-muted">
+          <div className="w-1/3 min-w-[200px] border-r-2 border-[var(--color-border-default)] overflow-auto bg-[var(--color-surface-muted)]">
             {listContent}
           </div>
           {/* Detail pane */}
           <div className="flex-1 overflow-auto p-6">
             {loading ? (
               <div className="flex items-center justify-center h-48">
-                <div className="w-8 h-8 border-2 border-border border-t-on-light-primary rounded-full animate-spin" />
+                <div className="w-8 h-8 border-2 border-[var(--color-border-default)] border-t-[var(--color-primary-500)] rounded-full animate-spin" />
               </div>
             ) : record ? (
               <>
@@ -139,8 +139,8 @@ export function DetailDrawer<T = unknown>({
                 ))}
                 {children}
                 {activityTimeline && (
-                  <div className="mt-6 pt-6 border-t-2 border-border">
-                    <h3 className="font-mono text-base tracking-widest uppercase text-text-muted mb-4">
+                  <div className="mt-6 pt-6 border-t-2 border-[var(--color-border-default)]">
+                    <h3 className="font-mono text-base tracking-widest uppercase text-[var(--color-text-muted)] mb-4">
                       Activity
                     </h3>
                     {activityTimeline}
@@ -148,7 +148,7 @@ export function DetailDrawer<T = unknown>({
                 )}
               </>
             ) : (
-              <div className="text-center p-12 text-text-muted font-mono text-base">
+              <div className="text-center p-12 text-[var(--color-text-muted)] font-mono text-base">
                 Select an item from the list
               </div>
             )}
@@ -216,14 +216,14 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
   const [collapsed, setCollapsed] = React.useState(section.defaultCollapsed ?? false);
 
   return (
-    <div className="mb-spacing-6 border-b border-border pb-spacing-6">
+    <div className="mb-spacing-6 border-b border-[var(--color-border-default)] pb-spacing-6">
       <div
         className={clsx(
           "flex items-center justify-between",
           collapsed ? "mb-spacing-0" : "mb-spacing-4"
         )}
       >
-        <h3 className="font-code text-mono-md tracking-widest uppercase text-text-disabled">
+        <h3 className="font-code text-mono-md tracking-widest uppercase text-[var(--color-text-disabled)]">
           {section.title}
         </h3>
 
@@ -231,7 +231,7 @@ function DetailSectionComponent({ section }: { section: DetailSection }) {
           <button
             type="button"
             onClick={() => setCollapsed(!collapsed)}
-            className="p-spacing-1 bg-transparent border-none cursor-pointer text-mono-xs text-text-disabled hover:text-text-disabled"
+            className="p-spacing-1 bg-transparent border-none cursor-pointer text-mono-xs text-[var(--color-text-disabled)] hover:text-[var(--color-text-disabled)]"
             aria-expanded={!collapsed}
           >
             {collapsed ? <ChevronDown className="size-3" /> : <ChevronUp className="size-3" />}

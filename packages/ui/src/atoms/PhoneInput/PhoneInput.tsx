@@ -163,16 +163,16 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                     className={clsx(
                       "w-full px-3 py-2 flex items-center gap-3 text-left transition-colors",
                       inverted
-                        ? "hover:bg-surface-elevated text-text-primary"
-                        : "hover:bg-muted text-text-primary",
+                        ? "hover:bg-[var(--color-surface-elevated)] text-[var(--color-text-primary)]"
+                        : "hover:bg-[var(--color-surface-muted)] text-[var(--color-text-primary)]",
                       selectedCountryCode === country.code && country.country === selectedCountry.country &&
-                        (inverted ? "bg-surface-elevated" : "bg-muted")
+                        (inverted ? "bg-[var(--color-surface-elevated)]" : "bg-[var(--color-surface-muted)]")
                     )}
                     onClick={() => handleCountryChange(country.code)}
                   >
                     <span className="text-base">{country.flag}</span>
                     <span className="text-mono-sm font-medium">{country.code}</span>
-                    <span className="text-mono-xs text-text-disabled truncate">{country.name}</span>
+                    <span className="text-mono-xs text-[var(--color-text-disabled)] truncate">{country.name}</span>
                   </button>
                 ))}
               </div>
@@ -199,7 +199,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
         {error && errorMessage && (
           <p className={clsx(
             "mt-1 text-mono-xs",
-            inverted ? "text-error-400" : "text-error-500"
+            inverted ? "text-[var(--color-error-400)]" : "text-[var(--color-error-500)]"
           )}>
             {errorMessage}
           </p>

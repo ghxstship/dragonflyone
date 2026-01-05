@@ -88,39 +88,69 @@ CREATE TABLE IF NOT EXISTS webhook_subscriptions (
 -- WEBHOOK DELIVERIES TABLE (Audit Log)
 -- ============================================================================
 
-CREATE TABLE IF NOT EXISTS webhook_deliveries (
-  -- Primary Key
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  
-  -- Foreign Keys
-  subscription_id UUID NOT NULL REFERENCES webhook_subscriptions(id) ON DELETE CASCADE,
-  
-  -- Delivery Details
-  event_type webhook_event_type NOT NULL,
-  event_id TEXT NOT NULL, -- ID of the record that triggered the webhook
-  
-  -- Request Details
-  request_url TEXT NOT NULL,
-  request_headers JSONB,
-  request_body JSONB NOT NULL,
-  
-  -- Response Details
-  response_status INTEGER,
-  response_headers JSONB,
-  response_body TEXT,
-  
-  -- Timing
-  duration_ms INTEGER,
-  
-  -- Status
-  success BOOLEAN NOT NULL DEFAULT false,
-  error_message TEXT,
-  retry_count INTEGER NOT NULL DEFAULT 0,
-  
-  -- Timestamps
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  delivered_at TIMESTAMPTZ
-);
+-- Check if table exists with old schema, if so update it
+DO $$
+BEGIN
+  -- Check if webhook_deliveries table exists with webhook_id
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'webhook_deliveries' 
+    AND column_name = 'webhook_id'
+  ) THEN
+    -- Add missing columns to existing table
+    ALTER TABLE webhook_deliveries ADD COLUMN IF NOT EXISTS subscription_id UUID REFERENCES webhook_subscriptions(id) ON DELETE CASCADE;
+    ALTER TABLE webhook_deliveries ADD COLUMN IF NOT EXISTS event_id TEXT;
+    ALTER TABLE webhook_deliveries ADD COLUMN IF NOT EXISTS request_url TEXT;
+    ALTER TABLE webhook_deliveries ADD COLUMN IF NOT EXISTS request_headers JSONB;
+    ALTER TABLE webhook_deliveries ADD COLUMN IF NOT EXISTS request_body JSONB;
+    ALTER TABLE webhook_deliveries ADD COLUMN IF NOT EXISTS duration_ms INTEGER;
+    ALTER TABLE webhook_deliveries ADD COLUMN IF NOT EXISTS success BOOLEAN NOT NULL DEFAULT false;
+    ALTER TABLE webhook_deliveries ADD COLUMN IF NOT EXISTS retry_count INTEGER NOT NULL DEFAULT 0;
+    
+    -- Update existing records
+    UPDATE webhook_deliveries SET 
+      request_body = payload,
+      success = CASE WHEN response_status BETWEEN 200 AND 299 THEN true ELSE false END,
+      retry_count = attempt_count
+    WHERE request_body IS NULL;
+    
+  ELSE
+    -- Create new table if it doesn't exist
+    CREATE TABLE webhook_deliveries (
+      -- Primary Key
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      
+      -- Foreign Keys
+      subscription_id UUID NOT NULL REFERENCES webhook_subscriptions(id) ON DELETE CASCADE,
+      
+      -- Delivery Details
+      event_type webhook_event_type NOT NULL,
+      event_id TEXT NOT NULL, -- ID of the record that triggered the webhook
+      
+      -- Request Details
+      request_url TEXT NOT NULL,
+      request_headers JSONB,
+      request_body JSONB NOT NULL,
+      
+      -- Response Details
+      response_status INTEGER,
+      response_headers JSONB,
+      response_body TEXT,
+      
+      -- Timing
+      duration_ms INTEGER,
+      
+      -- Status
+      success BOOLEAN NOT NULL DEFAULT false,
+      error_message TEXT,
+      retry_count INTEGER NOT NULL DEFAULT 0,
+      
+      -- Timestamps
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      delivered_at TIMESTAMPTZ
+    );
+  END IF;
+END $$;
 
 -- ============================================================================
 -- INTEGRATION METRICS TABLE

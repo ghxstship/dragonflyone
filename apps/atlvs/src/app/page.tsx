@@ -676,7 +676,7 @@ function PricingSection() {
             </Stack>
           </Card>
 
-          <Card inverted className="p-6 border-2 border-white rounded-card text-center h-full flex flex-col">
+          <Card className="p-6 border-2 border-white rounded-card text-center h-full flex flex-col">
             <Stack gap={4} className="items-center flex-1">
               <Kicker className="text-text-muted">FULL STACK</Kicker>
               <H3 className="text-text-primary">Replace Everything</H3>
@@ -848,7 +848,7 @@ export default function Home() {
   const marketingSections = createMarketingSections(router);
 
   return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
+    <AtlvsAppLayout variant="public" background="white">
       <MarketingPage sections={marketingSections} inverted={false} />
     </AtlvsAppLayout>
   );

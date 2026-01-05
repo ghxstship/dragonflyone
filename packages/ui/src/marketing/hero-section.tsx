@@ -130,7 +130,7 @@ export const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
       <section
         ref={ref}
         className={clsx(
-          "relative overflow-hidden text-text-primary",
+          "relative overflow-hidden text-[var(--color-text-primary)]",
           fullHeight ? "min-h-[100dvh]" : "min-h-[60vh] md:min-h-[70vh]",
           variantClasses[variant],
           bgStyleClasses[backgroundStyle],

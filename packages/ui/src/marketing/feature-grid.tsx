@@ -6,7 +6,7 @@ import * as LucideIcons from "lucide-react";
 import { Container, Stack, Grid } from "../foundations/layout.js";
 import { Card } from "../molecules/Card/index.js";
 import { Kicker } from "../atoms/Kicker/index.js";
-import { Body, H2, H3 } from "../atoms/Typography/index.js";
+import { Body, Display, H3 } from "../atoms/Typography/index.js";
 
 /**
  * FeatureGrid - Showcase product features in a grid layout
@@ -143,7 +143,7 @@ export const FeatureGrid = forwardRef<HTMLElement, FeatureGridProps>(
             >
               {kicker && <Kicker>{kicker}</Kicker>}
               {title && (
-                <H2 className="text-text-primary max-w-3xl">{title}</H2>
+                <Display size="md" className="text-text-primary max-w-3xl">{title}</Display>
               )}
               {description && (
                 <Body size="lg" className="text-text-muted max-w-2xl">

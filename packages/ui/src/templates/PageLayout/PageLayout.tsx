@@ -14,14 +14,26 @@ import type { PageLayoutProps } from "./PageLayout.types.js";
 export function PageLayout({
   children,
   className,
+  header,
+  footer,
 }: PageLayoutProps) {
   return (
     <div className={pageLayoutVariants({ className })}>
+      {header && (
+        <header>
+          {header}
+        </header>
+      )}
       <Container>
         <Stack direction="vertical" gap={32} className="py-8">
           {children}
         </Stack>
       </Container>
+      {footer && (
+        <footer>
+          {footer}
+        </footer>
+      )}
     </div>
   );
 }

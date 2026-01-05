@@ -46,7 +46,7 @@ interface SearchInputProps {
 function SearchInput({ value, onChange, onClear, placeholder, inputRef }: SearchInputProps) {
   return (
     <div className="relative">
-      <Search className="absolute left-spacing-4 top-1/2 -translate-y-1/2 size-5 text-text-muted" />
+      <Search className="absolute left-spacing-4 top-1/2 -translate-y-1/2 size-5 text-[var(--color-text-muted)]" />
       <input
         ref={inputRef}
         type="text"
@@ -55,8 +55,8 @@ function SearchInput({ value, onChange, onClear, placeholder, inputRef }: Search
         placeholder={placeholder}
         className={clsx(
           "w-full pl-spacing-12 pr-spacing-10 py-spacing-4",
-          "bg-surface-primary border-b-2 border-border-primary",
-          "text-body-lg text-text-primary placeholder:text-text-muted",
+          "bg-[var(--color-surface-primary)] border-b-2 border-[var(--color-border-primary)]",
+          "text-body-lg text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)]",
           "outline-none focus:border-primary-500 transition-colors"
         )}
         autoFocus
@@ -64,7 +64,7 @@ function SearchInput({ value, onChange, onClear, placeholder, inputRef }: Search
       {value && (
         <button
           onClick={onClear}
-          className="absolute right-spacing-4 top-1/2 -translate-y-1/2 p-spacing-1 text-text-muted hover:text-text-disabled bg-transparent border-none cursor-pointer"
+          className="absolute right-spacing-4 top-1/2 -translate-y-1/2 p-spacing-1 text-[var(--color-text-muted)] hover:text-[var(--color-text-disabled)] bg-transparent border-none cursor-pointer"
         >
           <X className="size-4" />
         </button>
@@ -84,14 +84,14 @@ function RecentSearches({ searches, onSelect, onClear }: RecentSearchesProps) {
   if (searches.length === 0) return null;
 
   return (
-    <div className="px-spacing-4 py-spacing-3 border-b border-border-secondary">
+    <div className="px-spacing-4 py-spacing-3 border-b border-[var(--color-border-secondary)]">
       <div className="flex items-center justify-between mb-spacing-2">
-        <span className="font-code text-mono-xs text-text-disabled uppercase tracking-wider">
+        <span className="font-code text-mono-xs text-[var(--color-text-disabled)] uppercase tracking-wider">
           RECENT SEARCHES
         </span>
         <button
           onClick={onClear}
-          className="text-xs text-text-muted hover:text-text-primary transition-colors"
+          className="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors"
         >
           Clear
         </button>
@@ -103,8 +103,8 @@ function RecentSearches({ searches, onSelect, onClear }: RecentSearchesProps) {
             onClick={() => onSelect(search)}
             className="flex items-center gap-gap-sm px-spacing-2 py-spacing-1 text-left w-full border-none rounded-button bg-surface-secondary hover:bg-surface-tertiary transition-colors"
           >
-            <Clock className="size-3 text-text-muted" />
-            <span className="text-body-sm text-text-primary">{search}</span>
+            <Clock className="size-3 text-[var(--color-text-muted)]" />
+            <span className="text-body-sm text-[var(--color-text-primary)]">{search}</span>
           </button>
         ))}
       </div>
@@ -122,7 +122,7 @@ function SavedSearches({ searches, onSelect }: SavedSearchesProps) {
   if (searches.length === 0) return null;
 
   return (
-    <div className="px-spacing-4 py-spacing-3 border-b border-border-secondary">
+    <div className="px-spacing-4 py-spacing-3 border-b border-[var(--color-border-secondary)]">
       <span className="font-code text-mono-xs text-text-disabled uppercase tracking-wider block mb-spacing-2">
         SAVED SEARCHES
       </span>
@@ -133,9 +133,9 @@ function SavedSearches({ searches, onSelect }: SavedSearchesProps) {
             onClick={() => onSelect(search)}
             className="flex items-center gap-gap-sm px-spacing-2 py-spacing-1 text-left w-full border-none rounded-button bg-surface-secondary hover:bg-surface-tertiary transition-colors"
           >
-            <Star className="size-3 text-text-muted" />
-            <span className="text-body-sm text-text-primary">{search.name}</span>
-            <span className="text-body-xs text-text-muted">{search.query}</span>
+            <Star className="size-3 text-[var(--color-text-muted)]" />
+            <span className="text-body-sm text-[var(--color-text-primary)]">{search.name}</span>
+            <span className="text-body-xs text-[var(--color-text-muted)]">{search.query}</span>
           </button>
         ))}
       </div>
@@ -160,7 +160,7 @@ function FilterToggle({
         "flex items-center gap-gap-xs px-spacing-3 py-spacing-2 border-2 rounded-button transition-all duration-100",
         isActive
           ? "border-primary-500 bg-primary-500 text-white hover:border-primary-600"
-          : "border-border bg-surface-secondary text-text-primary hover:border-primary-500 hover:bg-surface-tertiary"
+          : "border-[var(--color-border-default)] bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] hover:border-[var(--color-primary-500)] hover:bg-[var(--color-surface-tertiary)]"
       )}
     >
       <Filter className="size-4" />
@@ -187,7 +187,7 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
   if (loading) {
     return (
       <div className="flex items-center justify-center py-spacing-12">
-        <div className="inline-block w-spacing-6 h-spacing-6 border-2 border-border border-t-primary-500 rounded-avatar animate-spin" />
+        <div className="inline-block w-spacing-6 h-spacing-6 border-2 border-[var(--color-border-default)] border-t-[var(--color-primary-500)] rounded-avatar animate-spin" />
       </div>
     );
   }
@@ -196,8 +196,8 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
     return (
       <div className="flex flex-col items-center justify-center py-spacing-12 text-center">
         <Search className="size-12 text-text-secondary mb-spacing-4" />
-        <p className="text-body-md text-text-disabled">No results found for &quot;{query}&quot;</p>
-        <p className="text-body-sm text-text-muted mt-spacing-2">Try different keywords or filters</p>
+        <p className="text-body-md text-[var(--color-text-disabled)]">No results found for &quot;{query}&quot;</p>
+        <p className="text-body-sm text-[var(--color-text-muted)] mt-spacing-2">Try different keywords or filters</p>
       </div>
     );
   }
@@ -221,11 +221,11 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
     <div className="overflow-y-auto max-h-container-lg">
       {Object.entries(groupedResults).map(([entityType, items]) => (
         <div key={entityType}>
-          <div className="px-spacing-4 py-spacing-2 bg-surface-secondary border-b border-border-secondary">
-            <span className="font-code text-mono-xs text-text-disabled uppercase tracking-wider flex items-center gap-gap-xs">
+          <div className="px-spacing-4 py-spacing-2 bg-surface-secondary border-b border-[var(--color-border-secondary)]">
+            <span className="font-code text-mono-xs text-[var(--color-text-disabled)] uppercase tracking-wider flex items-center gap-gap-xs">
               {entityIcons[entityType] || <FileText className="size-3" />}
               {entityType}
-              <span className="text-text-muted">({items.length})</span>
+              <span className="text-[var(--color-text-muted)]">({items.length})</span>
             </span>
           </div>
           {items.map((result) => {
@@ -239,7 +239,7 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
                   "w-full flex items-center gap-gap-md px-spacing-4 py-spacing-3 text-left border-none cursor-pointer transition-colors",
                   isSelected
                     ? "bg-primary-500 text-white"
-                    : "bg-surface-primary text-text-primary hover:bg-surface-secondary"
+                    : "bg-surface-primary text-[var(--color-text-primary)] hover:bg-surface-secondary"
                 )}
               >
                 <div className={clsx(
@@ -251,14 +251,14 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
                 <div className="flex-1 min-w-0">
                   <p className={clsx(
                     "text-body-md font-medium truncate",
-                    isSelected ? "text-white" : "text-text-primary"
+                    isSelected ? "text-white" : "text-[var(--color-text-primary)]"
                   )}>
                     {result.title}
                   </p>
                   {result.description && (
                     <p className={clsx(
                       "text-body-sm truncate",
-                      isSelected ? "text-white/70" : "text-text-muted"
+                      isSelected ? "text-white/70" : "text-[var(--color-text-muted)]"
                     )}>
                       {result.description}
                     </p>
@@ -266,7 +266,7 @@ function SearchResults({ results, loading, query, onSelect, selectedIndex }: Sea
                 </div>
                 <ChevronRight className={clsx(
                   "size-4",
-                  isSelected ? "text-white" : "text-text-muted"
+                  isSelected ? "text-white" : "text-[var(--color-text-muted)]"
                 )} />
               </button>
             );
@@ -430,18 +430,18 @@ export const GlobalSearch = React.forwardRef<HTMLDivElement, GlobalSearchProps>(
       >
         <button
           onClick={() => setIsOpen?.(true)}
-          className="flex items-center gap-gap-sm px-spacing-4 py-spacing-2 border-2 border-border rounded-button hover:border-primary-500 hover:bg-surface-secondary transition-colors"
+          className="flex items-center gap-gap-sm px-spacing-4 py-spacing-2 border-2 border-[var(--color-border-default)] rounded-button hover:border-[var(--color-primary-500)] hover:bg-[var(--color-surface-secondary)] transition-colors"
         >
-          <Search className="size-4 text-text-muted" />
-          <span className="text-body-md text-text-primary">{placeholder}</span>
-          <kbd className="px-spacing-2 py-spacing-1 text-mono-xs text-text-disabled border border-border rounded-badge">
+          <Search className="size-4 text-[var(--color-text-muted)]" />
+          <span className="text-body-md text-[var(--color-text-primary)]">{placeholder}</span>
+          <kbd className="px-spacing-2 py-spacing-1 text-mono-xs text-[var(--color-text-disabled)] border border-[var(--color-border-default)] rounded-badge">
             ⌘K
           </kbd>
         </button>
 
         {isOpen && (
           <Modal open={isOpen} onClose={() => setIsOpen?.(false)}>
-            <div className="w-full max-w-4xl mx-auto bg-surface-primary border-2 border-border rounded-modal shadow-hard">
+            <div className="w-full max-w-4xl mx-auto bg-[var(--color-surface-primary)] border-2 border-[var(--color-border-default)] rounded-modal shadow-hard">
               {/* Search Input */}
               <SearchInput
                 value={query}
@@ -452,7 +452,7 @@ export const GlobalSearch = React.forwardRef<HTMLDivElement, GlobalSearchProps>(
               />
 
               {/* Filter Toggle */}
-              <div className="px-spacing-4 py-spacing-2 border-b border-border-secondary">
+              <div className="px-spacing-4 py-spacing-2 border-b border-[var(--color-border-secondary)]">
                 <FilterToggle
                   isActive={showFilters}
                   count={filters.length}
@@ -462,8 +462,8 @@ export const GlobalSearch = React.forwardRef<HTMLDivElement, GlobalSearchProps>(
 
               {/* Entity Type Filters */}
               {showFilters && entityTypes && entityTypes.length > 0 && (
-                <div className="px-spacing-4 py-spacing-3 border-b border-border-secondary">
-                  <span className="font-code text-mono-xs text-text-disabled uppercase tracking-wider block mb-spacing-2">
+                <div className="px-spacing-4 py-spacing-3 border-b border-[var(--color-border-secondary)]">
+                  <span className="font-code text-mono-xs text-[var(--color-text-disabled)] uppercase tracking-wider block mb-spacing-2">
                     ENTITY TYPES
                   </span>
                   <div className="flex flex-wrap gap-gap-sm">
@@ -481,7 +481,7 @@ export const GlobalSearch = React.forwardRef<HTMLDivElement, GlobalSearchProps>(
                           "flex items-center gap-gap-xs px-spacing-2 py-spacing-1 border-2 rounded-button transition-all duration-100",
                           filters.some(f => f.field === 'entityType' && f.value === entityType.id)
                             ? "border-primary-500 bg-primary-500 text-white"
-                            : "border-border bg-surface-secondary text-text-primary hover:border-primary-500"
+                            : "border-[var(--color-border-default)] bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] hover:border-[var(--color-primary-500)]"
                         )}
                       >
                         {entityType.icon}
@@ -527,10 +527,10 @@ export const GlobalSearch = React.forwardRef<HTMLDivElement, GlobalSearchProps>(
 
               {/* Actions */}
               {query && (
-                <div className="px-spacing-4 py-spacing-3 border-t border-border-secondary flex items-center justify-between">
+                <div className="px-spacing-4 py-spacing-3 border-t border-[var(--color-border-secondary)] flex items-center justify-between">
                   <button
                     onClick={handleSaveSearch}
-                    className="text-xs text-text-muted hover:text-text-primary transition-colors"
+                    className="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors"
                   >
                     Save Search
                   </button>

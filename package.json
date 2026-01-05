@@ -14,6 +14,8 @@
     "test": "turbo run test",
     "format": "turbo run format",
     "clean": "rimraf node_modules pnpm-lock.yaml .turbo",
+    "audit:color-a11y": "tsx scripts/audit-color-accessibility.ts",
+    "audit:color-violations": "bash scripts/audit-color-violations.sh",
     "supabase:start": "cd supabase && supabase start",
     "supabase:stop": "cd supabase && supabase stop",
     "supabase:reset": "cd supabase && supabase db reset",

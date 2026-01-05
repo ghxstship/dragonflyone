@@ -10,9 +10,9 @@ import type {
 } from "./HalftonePattern.types.js";
 
 const colorMap: Record<string, string> = {
-  black: "black",
-  white: "white",
-  grey: "rgb(156 163 175)",
+  black: "var(--color-text-primary)",
+  white: "var(--color-text-inverse)",
+  grey: "var(--color-text-tertiary)",
 };
 
 function getColorValue(color: string): string {
@@ -147,7 +147,7 @@ export function HeroHalftone({
       pattern="dots"
       size={3}
       spacing={12}
-      color={variant === "light" ? "white" : "black"}
+      color={variant === "light" ? "var(--color-text-inverse)" : "var(--color-text-primary)"}
       opacity={variant === "light" ? 0.15 : 0.1}
       overlay
       className={className}
@@ -177,7 +177,7 @@ export function GridPattern({
       pattern="grid"
       size={variant === "bold" ? 2 : 1}
       spacing={variant === "bold" ? 24 : 48}
-      color="grey"
+      color="var(--color-text-tertiary)"
       opacity={variant === "bold" ? 0.5 : 0.3}
       overlay
       className={className}

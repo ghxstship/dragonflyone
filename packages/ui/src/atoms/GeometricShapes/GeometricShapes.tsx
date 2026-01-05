@@ -86,7 +86,7 @@ export const GeometricShape = forwardRef<HTMLDivElement, GeometricShapeProps>(
               height: 0,
               borderLeft: `${pixelSize / 2}px solid transparent`,
               borderRight: `${pixelSize / 2}px solid transparent`,
-              borderBottom: `${pixelSize}px solid ${fill === "black" ? "black" : fill === "white" ? "white" : fill === "grey" ? "rgb(156 163 175)" : "transparent"}`,
+              borderBottom: `${pixelSize}px solid ${fill === "black" ? "var(--color-text-primary)" : fill === "white" ? "var(--color-text-inverse)" : fill === "grey" ? "var(--color-text-tertiary)" : "transparent"}`,
               transform: rotate ? `rotate(${rotate}deg)` : undefined,
               ...style,
             }}
@@ -126,8 +126,8 @@ export const GeometricShape = forwardRef<HTMLDivElement, GeometricShapeProps>(
             >
               <polygon
                 points="50,0 100,25 100,75 50,100 0,75 0,25"
-                fill={stroke ? "none" : fill === "black" ? "black" : fill === "white" ? "white" : fill === "grey" ? "rgb(156 163 175)" : "transparent"}
-                stroke={stroke ? (fill === "black" ? "black" : fill === "white" ? "white" : fill === "grey" ? "rgb(156 163 175)" : "transparent") : "none"}
+                fill={stroke ? "none" : fill === "black" ? "var(--color-text-primary)" : fill === "white" ? "var(--color-text-inverse)" : fill === "grey" ? "var(--color-text-tertiary)" : "transparent"}
+                stroke={stroke ? (fill === "black" ? "var(--color-text-primary)" : fill === "white" ? "var(--color-text-inverse)" : fill === "grey" ? "var(--color-text-tertiary)" : "transparent") : "none"}
                 strokeWidth={stroke ? strokeWidth * 2 : 0}
               />
             </svg>
@@ -150,7 +150,7 @@ export const GeometricShape = forwardRef<HTMLDivElement, GeometricShapeProps>(
             <div
               className={clsx(
                 "absolute top-1/2 left-0 -translate-y-1/2",
-                stroke ? (fill === "black" ? "border-black" : fill === "white" ? "border-white" : "border-border") : (fill === "black" ? "bg-black" : fill === "white" ? "bg-white" : "bg-muted")
+                stroke ? (fill === "black" ? "border-[var(--color-text-primary)]" : fill === "white" ? "border-[var(--color-text-inverse)]" : "border-[var(--color-border-default)]") : (fill === "black" ? "bg-[var(--color-text-primary)]" : fill === "white" ? "bg-[var(--color-text-inverse)]" : "bg-[var(--color-surface-muted)]")
               )}
               style={{
                 width: pixelSize,
@@ -161,7 +161,7 @@ export const GeometricShape = forwardRef<HTMLDivElement, GeometricShapeProps>(
             <div
               className={clsx(
                 "absolute top-0 left-1/2 -translate-x-1/2",
-                stroke ? (fill === "black" ? "border-black" : fill === "white" ? "border-white" : "border-border") : (fill === "black" ? "bg-black" : fill === "white" ? "bg-white" : "bg-muted")
+                stroke ? (fill === "black" ? "border-[var(--color-text-primary)]" : fill === "white" ? "border-[var(--color-text-inverse)]" : "border-[var(--color-border-default)]") : (fill === "black" ? "bg-[var(--color-text-primary)]" : fill === "white" ? "bg-[var(--color-text-inverse)]" : "bg-[var(--color-surface-muted)]")
               )}
               style={{
                 width: pixelSize / 3,
@@ -189,7 +189,7 @@ export const GeometricShape = forwardRef<HTMLDivElement, GeometricShapeProps>(
               <path
                 d="M5 12h14M12 5l7 7-7 7"
                 fill="none"
-                stroke={fill === "black" ? "black" : fill === "white" ? "white" : fill === "grey" ? "rgb(156 163 175)" : "transparent"}
+                stroke={fill === "black" ? "var(--color-text-primary)" : fill === "white" ? "var(--color-text-inverse)" : fill === "grey" ? "var(--color-text-tertiary)" : "transparent"}
                 strokeWidth={strokeWidth}
                 strokeLinecap="square"
               />
@@ -240,7 +240,7 @@ export const GeometricPattern = forwardRef<HTMLDivElement, GeometricPatternProps
     ref
   ) {
     const patternSize = patternSizes[size];
-    const colorValue = color === "black" ? "black" : color === "white" ? "white" : "rgb(156 163 175)";
+    const colorValue = color === "black" ? "var(--color-text-primary)" : color === "white" ? "var(--color-text-inverse)" : "var(--color-text-tertiary)";
 
     const getPatternSvg = () => {
       switch (pattern) {

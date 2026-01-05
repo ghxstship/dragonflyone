@@ -15,8 +15,8 @@ export const dividerVariants = cva(
         thick: "",
       },
       inverted: {
-        true: "border-border",
-        false: "border-border",
+        true: "border-[var(--color-border-default)]",
+        false: "border-[var(--color-border-default)]",
       },
     },
     compoundVariants: [

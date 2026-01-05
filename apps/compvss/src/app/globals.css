@@ -8,17 +8,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* COMPVSS Brand Colors - Electric Blue */
+/* COMPVSS Brand Colors - Electric Yellow */
 :root {
-  --primary: 217 91% 60%; /* #3b82f6 - Blue 500 */
-  --primary-foreground: 0 0% 100%;
+  /* Brand Configuration */
+  --brand-id: 'compvss';
+  --brand-accent-color: #FFD100; /* Electric Yellow */
   
-  /* Blue color scale for focus states and accents */
-  --color-primary-200: rgba(191, 219, 254, 0.3); /* blue-200 with opacity */
-  --color-primary-300: rgba(147, 197, 253, 0.4); /* blue-300 with opacity */
-  --color-primary-400: #60a5fa; /* blue-400 */
-  --color-primary-500: #3b82f6; /* blue-500 */
-  --color-primary-600: #2563eb; /* blue-600 */
+  --primary: 48 100% 50%; /* #FFD100 - Electric Yellow */
+  --primary-foreground: 0 0% 0%;
+  
+  /* Yellow color scale for focus states and accents */
+  --color-primary-200: rgba(255, 209, 0, 0.3); /* Electric Yellow with opacity */
+  --color-primary-300: rgba(255, 209, 0, 0.4); /* Electric Yellow with opacity */
+  --color-primary-400: #FFD100; /* Electric Yellow */
+  --color-primary-500: #E6BC00; /* Electric Yellow -10% lightness */
+  --color-primary-600: #CCA700; /* Electric Yellow -20% lightness */
   
   /* Update shadow for pop art effect */
   --shadow-primary: 4px 4px 0 hsl(var(--primary));

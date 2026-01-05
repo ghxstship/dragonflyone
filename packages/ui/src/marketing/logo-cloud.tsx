@@ -116,7 +116,7 @@ export const LogoCloud = forwardRef<HTMLElement, LogoCloudProps>(
         <Container size="xl">
           {title && (
             <Stack gap={8} className="items-center text-center mb-8">
-              <Kicker className="text-text-muted">{title}</Kicker>
+              <Kicker className="text-[var(--color-text-muted)]">{title}</Kicker>
             </Stack>
           )}
 

@@ -98,7 +98,7 @@ export { SettingsHubPage } from "./SettingsHubPage/index.js";
 export type { SettingsHubPageProps } from "./SettingsHubPage/SettingsHubPage.types.js";
 
 export { MarketingPage } from "./MarketingPage/index.js";
-export type { MarketingPageProps } from "./MarketingPage/MarketingPage.types.js";
+export type { MarketingPageProps, MarketingSection } from "./MarketingPage/MarketingPage.types.js";
 
 export { PageLayout } from "./PageLayout/index.js";
 export type { PageLayoutProps } from "./PageLayout/PageLayout.types.js";

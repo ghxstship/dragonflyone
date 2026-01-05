@@ -338,6 +338,8 @@ export type { AppNavigationProps, NavItem as AppNavItem } from "./organisms/AppN
 // Public Navbar - for public/marketing pages
 export { PublicNavbar } from "./organisms/PublicNavbar/index.js";
 export type { PublicNavbarProps, PublicNavItem } from "./organisms/PublicNavbar/PublicNavbar.types.js";
+// MegaMenu - for dropdown navigation menus
+export { MegaMenu } from "./navigation/mega-menu.js";
 export { WorkflowTimeline } from "./organisms/WorkflowTimeline/index.js";
 export type { WorkflowTimelineProps, WorkflowStage } from "./organisms/WorkflowTimeline/WorkflowTimeline.types.js";
 export { ProtectedRoute } from "./organisms/ProtectedRoute/index.js";
@@ -405,7 +407,7 @@ export type { DashboardPageProps } from "./templates/DashboardPage/DashboardPage
 export { DetailPage } from "./templates/DetailPage/index.js";
 export type { DetailPageProps, DetailPageTab } from "./templates/DetailPage/DetailPage.types.js";
 export { CreatePage, EditPage, HubPage, WizardPage, SettingsPageLayout, SettingsHubPage, MarketingPage, PageLayout } from "./templates/index.js";
-export type { CreatePageProps, EditPageProps, HubPageProps, HubItem, WizardPageProps, WizardStep, SettingsPageLayoutProps, SettingsSection, SettingsHubPageProps, MarketingPageProps, PageLayoutProps, FormSection } from "./templates/index.js";
+export type { CreatePageProps, EditPageProps, HubPageProps, HubItem, WizardPageProps, WizardStep, SettingsPageLayoutProps, SettingsSection, SettingsHubPageProps, MarketingPageProps, MarketingSection, PageLayoutProps, FormSection } from "./templates/index.js";
 export { AuthPage } from "./templates/AuthPage/index.js";
 export type { AuthPageProps } from "./templates/AuthPage/AuthPage.types.js";
 export { AuthSplitLayout } from "./templates/AuthSplitLayout/index.js";
@@ -480,7 +482,7 @@ export { ThemeScript } from "./components/theme-script.js";
 export { ThemeToggle } from "./components/theme-toggle.js";
 
 export { ErrorPage, ErrorContent, NotFoundPage } from "./templates/ErrorTemplate/index.js";
-export type { NotFoundPageProps, ErrorPageProps, ErrorContentProps } from "./templates/ErrorTemplate/index.js";
+export type { NotFoundPageProps, ErrorPageProps, ErrorContentProps, ErrorNavbarProps } from "./templates/ErrorTemplate/index.js";
 
 // =============================================================================
 // MARKETING - Landing page section components (2026 Best Practices)

@@ -2,7 +2,6 @@
 
 import { ErrorPage, ErrorContent, NotFoundPage } from "@ghxstship/ui";
 import { errorConfig } from "@/config/error-config";
-import { CreatorNavigationAuthenticated } from "./navigation";
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -18,8 +17,14 @@ export function AppErrorPage({ error, reset }: ErrorProps) {
     <ErrorPage
       error={error}
       reset={reset}
-      navigation={<CreatorNavigationAuthenticated />}
-      appName={errorConfig.appName}
+      errorNavProps={{
+        appName: errorConfig.appName,
+        homePath: errorConfig.homePath,
+        showDashboard: errorConfig.showDashboard,
+        dashboardPath: errorConfig.dashboardPath,
+        showSearch: errorConfig.showSearch,
+        searchPath: errorConfig.searchPath,
+      }}
       background={errorConfig.background}
       showDashboard={errorConfig.showDashboard}
       dashboardPath={errorConfig.dashboardPath}
@@ -38,7 +43,6 @@ export function AppErrorContent({ error, reset }: ErrorProps) {
     <ErrorContent
       error={error}
       reset={reset}
-      appName={errorConfig.appName}
       showDashboard={errorConfig.showDashboard}
       dashboardPath={errorConfig.dashboardPath}
       homePath={errorConfig.homePath}
@@ -54,7 +58,14 @@ export function AppErrorContent({ error, reset }: ErrorProps) {
 export function AppNotFoundPage() {
   return (
     <NotFoundPage
-      navigation={<CreatorNavigationAuthenticated />}
+      errorNavProps={{
+        appName: errorConfig.appName,
+        homePath: errorConfig.homePath,
+        showDashboard: errorConfig.showDashboard,
+        dashboardPath: errorConfig.dashboardPath,
+        showSearch: errorConfig.showSearch,
+        searchPath: errorConfig.searchPath,
+      }}
       background={errorConfig.background}
       showDashboard={errorConfig.showDashboard}
       dashboardPath={errorConfig.dashboardPath}

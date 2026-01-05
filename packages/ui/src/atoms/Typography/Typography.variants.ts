@@ -3,28 +3,26 @@ import { cva } from "class-variance-authority";
 /**
  * Typography variants using CVA (Class Variance Authority)
  * 
- * Uses CSS custom properties from the design token system for consistent
- * styling across themes and whitelabel configurations.
+ * Updated to use CSS custom properties for fluid responsive typography
+ * and industry best practices compliance.
  */
 
-// Display variants - for hero headlines
+// Display variants - for hero headlines with fluid scaling
 export const displayVariants = cva(
   [
     "font-display",
     "uppercase",
     "tracking-tighter",
-    "text-[var(--font-size-display)]",
-    "leading-[var(--line-height-display)]",
-    "text-[var(--color-text-primary)]",
+    "text-text-primary",
   ],
   {
     variants: {
       size: {
-        xl: "text-[var(--font-size-display-xl)]",
-        lg: "text-[var(--font-size-display-lg)]",
-        md: "text-[var(--font-size-display-md)]",
-        sm: "text-[var(--font-size-display-sm)]",
-        xs: "text-[var(--font-size-display-xs)]",
+        xl: "text-[var(--font-size-display-xl)] leading-[var(--line-height-display-xl)]",
+        lg: "text-[var(--font-size-display-lg)] leading-[var(--line-height-display-lg)]",
+        md: "text-[var(--font-size-display-md)] leading-[var(--line-height-display-md)]",
+        sm: "text-[var(--font-size-display-sm)] leading-[var(--line-height-display-sm)]",
+        xs: "text-[var(--font-size-display-xs)] leading-[var(--line-height-display-xs)]",
       },
     },
     defaultVariants: {
@@ -33,47 +31,48 @@ export const displayVariants = cva(
   }
 );
 
-// Heading variants (H1-H6)
+// Heading variants (H1-H6) with fluid scaling and proper line heights
 export const headingVariants = cva(
   [
     "font-heading",
     "uppercase",
     "tracking-wider",
-    "text-[var(--color-text-primary)]",
+    "text-text-primary",
   ],
   {
     variants: {
       level: {
         h1: [
           "tracking-tight",
-          "text-[var(--font-size-h1)]",
-          "leading-[var(--line-height-h1)]",
+          "text-[var(--font-size-h1-md)]",
+          "leading-[var(--line-height-h1-md)]",
         ],
         h2: [
-          "leading-[var(--line-height-h2)]",
-          "text-[var(--font-size-h2)]",
+          "text-[var(--font-size-h2-md)]",
+          "leading-[var(--line-height-h2-md)]",
         ],
         h3: [
-          "leading-[var(--line-height-h3)]",
-          "text-[var(--font-size-h3)]",
+          "text-[var(--font-size-h3-md)]",
+          "leading-[var(--line-height-h3-md)]",
         ],
         h4: [
-          "leading-[var(--line-height-h4)]",
-          "text-[var(--font-size-h4)]",
+          "text-[var(--font-size-h4-md)]",
+          "leading-[var(--line-height-h4-md)]",
         ],
         h5: [
-          "leading-[var(--line-height-h5)]",
-          "text-[var(--font-size-h5)]",
+          "text-[var(--font-size-h5-md)]",
+          "leading-[var(--line-height-h5-md)]",
         ],
         h6: [
-          "leading-[var(--line-height-h6)]",
-          "text-[var(--font-size-h6)]",
+          "text-[var(--font-size-h6-md)]",
+          "leading-[var(--line-height-h6-md)]",
         ],
       },
       size: {
-        lg: "text-[length:--font-size-{level}-lg]",
-        md: "text-[length:--font-size-{level}-md]",
-        sm: "text-[length:--font-size-{level}-sm]",
+        xl: "text-[length:--font-size-{level}-xl] leading-[length:--line-height-{level}-xl]",
+        lg: "text-[length:--font-size-{level}-lg] leading-[length:--line-height-{level}-lg]",
+        md: "text-[length:--font-size-{level}-md] leading-[length:--line-height-{level}-md]",
+        sm: "text-[length:--font-size-{level}-sm] leading-[length:--line-height-{level}-sm]",
       },
     },
     defaultVariants: {
@@ -83,26 +82,26 @@ export const headingVariants = cva(
   }
 );
 
-// Body text variants
+// Body text variants with accessible minimum font sizes
 export const bodyVariants = cva(
   [
     "font-body",
-    "leading-[var(--line-height-body)]",
-    "text-[var(--color-text-primary)]",
+    "leading-[var(--line-height-body-md)]",
+    "text-text-primary",
   ],
   {
     variants: {
       size: {
-        lg: "text-[var(--font-size-body-lg)]",
-        md: "text-[var(--font-size-body-md)]",
-        sm: "text-[var(--font-size-body-sm)]",
-        xs: "text-[var(--font-size-body-xs)]",
+        lg: "text-[var(--font-size-body-lg)] leading-[var(--line-height-body-lg)]",
+        md: "text-[var(--font-size-body-md)] leading-[var(--line-height-body-md)]",
+        sm: "text-[var(--font-size-body-sm)] leading-[var(--line-height-body-sm)]",
+        xs: "text-[var(--font-size-body-xs)] leading-[var(--line-height-body-xs)]",
       },
       variant: {
-        default: "text-[var(--color-text-primary)]",
-        muted: "text-[var(--color-text-secondary)]",
-        subtle: "text-[var(--color-text-secondary)]",
-        inverted: "text-[var(--color-text-inverted)]",
+        default: "text-text-primary",
+        muted: "text-text-secondary",
+        subtle: "text-text-secondary",
+        inverted: "text-text-inverse",
       },
     },
     defaultVariants: {
@@ -112,22 +111,22 @@ export const bodyVariants = cva(
   }
 );
 
-// Label/Mono variants
+// Label/Mono variants with proper accessibility support
 export const labelVariants = cva(
   [
-    "font-code",
+    "font-mono",
     "tracking-widest",
-    "leading-[var(--line-height-label)]",
-    "text-[var(--color-text-primary)]",
+    "leading-[var(--line-height-label-md)]",
+    "text-text-primary",
   ],
   {
     variants: {
       size: {
-        lg: "text-[var(--font-size-label-lg)]",
-        md: "text-[var(--font-size-label-md)]",
-        sm: "text-[var(--font-size-label-sm)]",
-        xs: "text-[var(--font-size-label-xs)]",
-        xxs: "text-[var(--font-size-label-xxs)]",
+        lg: "text-[var(--font-size-label-lg)] leading-[var(--line-height-label-lg)]",
+        md: "text-[var(--font-size-label-md)] leading-[var(--line-height-label-md)]",
+        sm: "text-[var(--font-size-label-sm)] leading-[var(--line-height-label-sm)]",
+        xs: "text-[var(--font-size-label-xs)] leading-[var(--line-height-label-xs)]",
+        xxs: "text-[var(--font-size-label-xxs)] leading-[var(--line-height-label-xxs)]",
       },
       uppercase: {
         true: "uppercase",
@@ -141,7 +140,46 @@ export const labelVariants = cva(
   }
 );
 
+// Additional responsive variants for mobile-first design
+export const responsiveVariants = cva(
+  [],
+  {
+    variants: {
+      responsive: {
+        true: "text-[clamp(1rem, 2.5vw, 1.125rem)]",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      responsive: false,
+    },
+  }
+);
+
+// Accessibility variants for reduced motion and high contrast
+export const accessibilityVariants = cva(
+  [],
+  {
+    variants: {
+      reducedMotion: {
+        true: "motion-reduce:transition-none motion-reduce:animate-none",
+        false: "",
+      },
+      highContrast: {
+        true: "contrast-more:border-current contrast-more:text-current",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      reducedMotion: false,
+      highContrast: false,
+    },
+  }
+);
+
 export type DisplayVariantProps = Parameters<typeof displayVariants>[0];
 export type HeadingVariantProps = Parameters<typeof headingVariants>[0];
 export type BodyVariantProps = Parameters<typeof bodyVariants>[0];
 export type LabelVariantProps = Parameters<typeof labelVariants>[0];
+export type ResponsiveVariantProps = Parameters<typeof responsiveVariants>[0];
+export type AccessibilityVariantProps = Parameters<typeof accessibilityVariants>[0];

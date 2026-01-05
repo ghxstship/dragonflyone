@@ -24,11 +24,11 @@ export function PasswordRequirements({
             className="flex items-center gap-2 text-sm"
           >
             {requirement.met ? (
-              <Check className="w-4 h-4 text-green-500" />
+              <Check className="w-4 h-4 text-[var(--color-success-500)]" />
             ) : (
-              <X className="w-4 h-4 text-red-500" />
+              <X className="w-4 h-4 text-[var(--color-error-500)]" />
             )}
-            <Body className={requirement.met ? "text-green-500" : "text-red-500"}>
+            <Body className={requirement.met ? "text-[var(--color-success-500)]" : "text-[var(--color-error-500)]"}>
               {requirement.text}
             </Body>
           </div>

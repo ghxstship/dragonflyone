@@ -73,29 +73,29 @@ export const DuotoneImage = forwardRef<HTMLImageElement, DuotoneImageProps>(
         {showPlaceholder && isLoading && !hasError && (
           <div className="absolute inset-0 flex items-center justify-center">
             {placeholderType === "geometric" && (
-              <div className="w-full h-full bg-muted flex items-center justify-center">
-                <div className="w-spacing-16 h-spacing-16 border-4 border-black" />
+              <div className="w-full h-full bg-[var(--color-surface-muted)] flex items-center justify-center">
+                <div className="w-spacing-16 h-spacing-16 border-4 border-[var(--color-text-primary)]" />
               </div>
             )}
             {placeholderType === "halftone" && (
-              <div className="w-full h-full bg-halftone bg-halftone" />
+              <div className="w-full h-full bg-[var(--color-pattern-halftone)] bg-[var(--color-pattern-halftone)]" />
             )}
             {placeholderType === "solid" && (
-              <div className="w-full h-full bg-muted" />
+              <div className="w-full h-full bg-[var(--color-surface-muted)]" />
             )}
           </div>
         )}
 
         {/* Error state */}
         {hasError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-muted">
+          <div className="absolute inset-0 flex items-center justify-center bg-[var(--color-surface-muted)]">
             <div className="text-center">
-              <div className="w-spacing-12 h-spacing-12 mx-auto mb-spacing-2 border-2 border-black flex items-center justify-center">
+              <div className="w-spacing-12 h-spacing-12 mx-auto mb-spacing-2 border-2 border-[var(--color-text-primary)] flex items-center justify-center">
                 <svg className="w-spacing-6 h-spacing-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="square" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
-              <span className="font-code text-mono-xs uppercase tracking-wider text-text-disabled">
+              <span className="font-code text-mono-xs uppercase tracking-wider text-[var(--color-text-disabled)]">
                 Image unavailable
               </span>
             </div>
@@ -122,7 +122,7 @@ export const DuotoneImage = forwardRef<HTMLImageElement, DuotoneImageProps>(
         {/* Halftone overlay on hover */}
         {halftoneHover && !hasError && (
           <div 
-            className="absolute inset-0 opacity-0 hover:opacity-30 transition-opacity duration-300 pointer-events-none bg-halftone bg-halftone"
+            className="absolute inset-0 opacity-0 hover:opacity-30 transition-opacity duration-300 pointer-events-none bg-[var(--color-pattern-halftone)] bg-[var(--color-pattern-halftone)]"
           />
         )}
       </div>
@@ -165,11 +165,11 @@ export const ImageWithOverlay = forwardRef<HTMLDivElement, ImageWithOverlayProps
 
     const overlayBackgroundClasses = {
       gradient: overlayPosition === "top" 
-        ? "bg-gradient-to-b from-black/80 to-transparent"
+        ? "bg-gradient-to-b from-[var(--color-surface-inverse)]/80 to-transparent"
         : overlayPosition === "bottom"
-        ? "bg-gradient-to-t from-black/80 to-transparent"
-        : "bg-black/60",
-      solid: "bg-black/70",
+        ? "bg-gradient-to-t from-[var(--color-surface-inverse)]/80 to-transparent"
+        : "bg-[var(--color-surface-inverse)]/60",
+      solid: "bg-[var(--color-surface-inverse)]/70",
       none: "",
     };
 

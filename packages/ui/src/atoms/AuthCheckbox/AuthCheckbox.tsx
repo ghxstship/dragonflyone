@@ -23,9 +23,9 @@ export function AuthCheckbox({
           type="checkbox"
           checked={checked}
           onChange={onChange}
-          className="mt-1 w-4 h-4 text-primary border-2 border-border rounded-badge focus:ring-2 focus:ring-primary focus:ring-offset-2"
+          className="mt-1 w-4 h-4 text-[var(--color-primary-500)] border-2 border-[var(--color-border-default)] rounded-badge focus:ring-2 focus:ring-[var(--color-primary-500)] focus:ring-offset-2"
         />
-        <Body className="text-text-muted text-sm leading-relaxed">
+        <Body className="text-[var(--color-text-muted)] text-sm leading-relaxed">
           {children}
         </Body>
       </div>

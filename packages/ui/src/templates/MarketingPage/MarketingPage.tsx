@@ -2,17 +2,19 @@
 
 import React from "react";
 import { Container } from "../../foundations/layout.js";
+import { FullBleedSection } from "../../foundations/page-regions.js";
 import { Stack } from "../../foundations/layout.js";
 import { Display, Body } from "../../atoms/Typography/index.js";
 import { marketingPageVariants } from "./MarketingPage.variants.js";
-import type { MarketingPageProps } from "./MarketingPage.types.js";
+import type { MarketingPageProps, MarketingSection } from "./MarketingPage.types.js";
 
 /**
  * MarketingPage component - Bold Contemporary Pop Art Adventure
  * 
  * A marketing page layout with:
- * - Hero section
- * - Content sections
+ * - Hero section (legacy API)
+ * - Content sections (legacy API)
+ * - Section-based layout (new API)
  * - Responsive design
  * - Marketing-focused styling
  */
@@ -20,8 +22,30 @@ export function MarketingPage({
   title,
   subtitle,
   children,
+  sections,
+  inverted = false,
   className,
 }: MarketingPageProps) {
+  // If sections are provided, use the new section-based API
+  if (sections && sections.length > 0) {
+    return (
+      <div className={marketingPageVariants({ className })}>
+        {sections.map((section: MarketingSection) => (
+          <FullBleedSection
+            key={section.id}
+            background={section.background}
+            pattern={section.pattern || "none"}
+            patternOpacity={section.patternOpacity || 0.05}
+            className={inverted ? "section-inverted" : ""}
+          >
+            {section.content}
+          </FullBleedSection>
+        ))}
+      </div>
+    );
+  }
+
+  // Legacy API for backwards compatibility
   return (
     <div className={marketingPageVariants({ className })}>
       {/* Hero Section */}

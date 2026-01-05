@@ -1,13 +1,14 @@
 "use client";
 
-import type { ReactNode } from "react";
 import { Button } from "../../atoms/Button/index.js";
 import { Container } from "../../foundations/layout.js";
+import { ErrorNavbar } from "./ErrorNavbar.js";
 
 export type { NotFoundPageProps, ErrorPageProps, ErrorContentProps };
+export type { ErrorNavbarProps } from "./ErrorNavbar.js";
 
 interface NotFoundPageProps {
-  navigation?: ReactNode;
+  errorNavProps?: import("./ErrorNavbar.js").ErrorNavbarProps;
   background?: string;
   showDashboard?: boolean;
   dashboardPath?: string;
@@ -18,7 +19,7 @@ interface NotFoundPageProps {
 }
 
 export function NotFoundPage({
-  navigation,
+  errorNavProps,
   background = "gradient",
   showDashboard = true,
   dashboardPath = "/dashboard",
@@ -29,7 +30,7 @@ export function NotFoundPage({
 }: NotFoundPageProps) {
   return (
     <div className={`min-h-screen flex flex-col ${background === "gradient" ? "bg-gradient-to-br from-surface-primary to-surface-secondary" : "bg-surface-primary"}`}>
-      {navigation}
+      {errorNavProps && <ErrorNavbar {...errorNavProps} />}
       
       <Container className="flex-1 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto">
@@ -67,8 +68,7 @@ export function NotFoundPage({
 interface ErrorPageProps {
   error?: Error & { digest?: string };
   reset?: () => void;
-  navigation?: ReactNode;
-  appName?: string;
+  errorNavProps?: import("./ErrorNavbar.js").ErrorNavbarProps;
   background?: string;
   showDashboard?: boolean;
   dashboardPath?: string;
@@ -79,7 +79,7 @@ interface ErrorPageProps {
 export function ErrorPage({
   error,
   reset,
-  navigation,
+  errorNavProps,
   background = "gradient",
   showDashboard = true,
   dashboardPath = "/dashboard",
@@ -88,7 +88,7 @@ export function ErrorPage({
 }: ErrorPageProps) {
   return (
     <div className={`min-h-screen flex flex-col ${background === "gradient" ? "bg-gradient-to-br from-surface-primary to-surface-secondary" : "bg-surface-primary"}`}>
-      {navigation}
+      {errorNavProps && <ErrorNavbar {...errorNavProps} />}
       
       <Container className="flex-1 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto">

@@ -217,14 +217,14 @@ export function GanttChart<T>({
       <div
         className={clsx(
           "flex items-center justify-center h-64 rounded-lg border-2",
-          inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border",
+          inverted ? "bg-[var(--color-surface-inverse)] border-[var(--color-border-default)]" : "bg-[var(--color-surface-primary)] border-[var(--color-border-default)]",
           className
         )}
       >
         <div
           className={clsx(
             "w-8 h-8 border-3 rounded-full animate-spin",
-            inverted ? "border-border border-t-on-dark-primary" : "border-border border-t-on-light-primary"
+            inverted ? "border-[var(--color-border-default)] border-t-[var(--color-primary-500)]" : "border-[var(--color-border-default)] border-t-[var(--color-primary-500)]"
           )}
         />
       </div>
@@ -236,7 +236,7 @@ export function GanttChart<T>({
       <div
         className={clsx(
           "flex items-center justify-center h-64 rounded-lg border-2 border-dashed",
-          inverted ? "bg-surface-inverse border-border text-text-disabled" : "bg-surface-primary border-border text-text-disabled",
+          inverted ? "bg-[var(--color-surface-inverse)] border-[var(--color-border-default)] text-[var(--color-text-disabled)]" : "bg-[var(--color-surface-primary)] border-[var(--color-border-default)] text-[var(--color-text-disabled)]",
           className
         )}
       >
@@ -251,7 +251,7 @@ export function GanttChart<T>({
       <div
         className={clsx(
           "flex items-center justify-between px-4 py-2 border-b-2",
-          inverted ? "border-border" : "border-border"
+          inverted ? "border-[var(--color-border-default)]" : "border-[var(--color-border-default)]"
         )}
       >
         <div className="flex items-center gap-2">
@@ -260,7 +260,7 @@ export function GanttChart<T>({
             onClick={handlePrevious}
             className={clsx(
               "p-1.5 rounded transition-colors",
-              inverted ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" : "text-text-muted hover:text-text-primary hover:bg-muted"
+              inverted ? "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)]" : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
             )}
           >
             <ChevronLeft size={18} />
@@ -270,7 +270,7 @@ export function GanttChart<T>({
             onClick={handleNext}
             className={clsx(
               "p-1.5 rounded transition-colors",
-              inverted ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" : "text-text-muted hover:text-text-primary hover:bg-muted"
+              inverted ? "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)]" : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
             )}
           >
             <ChevronRight size={18} />
@@ -278,7 +278,7 @@ export function GanttChart<T>({
         </div>
 
         <div className="flex items-center gap-2">
-          <span className={clsx("text-sm font-medium", inverted ? "text-text-muted" : "text-text-muted")}>
+          <span className={clsx("text-sm font-medium", inverted ? "text-[var(--color-text-muted)]" : "text-[var(--color-text-muted)]")}>
             {currentViewMode.charAt(0).toUpperCase() + currentViewMode.slice(1)} View
           </span>
           <button
@@ -287,7 +287,7 @@ export function GanttChart<T>({
             disabled={currentViewMode === "quarter"}
             className={clsx(
               "p-1.5 rounded transition-colors disabled:opacity-50",
-              inverted ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" : "text-text-muted hover:text-text-primary hover:bg-muted"
+              inverted ? "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)]" : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
             )}
           >
             <ZoomOut size={18} />
@@ -298,7 +298,7 @@ export function GanttChart<T>({
             disabled={currentViewMode === "day"}
             className={clsx(
               "p-1.5 rounded transition-colors disabled:opacity-50",
-              inverted ? "text-text-muted hover:text-text-primary hover:bg-surface-elevated" : "text-text-muted hover:text-text-primary hover:bg-muted"
+              inverted ? "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)]" : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
             )}
           >
             <ZoomIn size={18} />
@@ -313,7 +313,7 @@ export function GanttChart<T>({
           <div
             className={clsx(
               "flex border-b-2 sticky top-0 z-sticky-row",
-              inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border"
+              inverted ? "bg-[var(--color-surface-inverse)] border-[var(--color-border-default)]" : "bg-[var(--color-surface-primary)] border-[var(--color-border-default)]"
             )}
             style={{ transform: `translateX(-${scrollOffset}px)` }}
           >
@@ -331,18 +331,13 @@ export function GanttChart<T>({
             {columns.map((col, idx) => (
               <div
                 key={idx}
-                style={{ width: columnWidth }}
                 className={clsx(
-                  "flex-shrink-0 px-2 py-2 text-center text-xs font-medium border-r",
-                  col.isToday && "bg-primary-500/10",
-                  col.isWeekend && !col.isToday && (inverted ? "bg-surface-elevated/50" : "bg-muted"),
-                  inverted ? "border-border text-text-muted" : "border-border text-text-muted"
+                  "flex border-b",
+                  inverted ? "border-[var(--color-border-default)]" : "border-[var(--color-border-default)]"
                 )}
+                style={{ height: rowHeight }}
               >
-                {col.label}
-              </div>
-            ))}
-          </div>
+                {/* Task name */}
 
           {/* Tasks */}
           <div style={{ transform: `translateX(-${scrollOffset}px)` }}>
@@ -355,7 +350,7 @@ export function GanttChart<T>({
                   key={task.id}
                   className={clsx(
                     "flex border-b",
-                    inverted ? "border-border" : "border-border"
+                    inverted ? "border-[var(--color-border-default)]" : "border-[var(--color-border-default)]"
                   )}
                   style={{ height: rowHeight }}
                 >
@@ -363,7 +358,7 @@ export function GanttChart<T>({
                   <div
                     className={clsx(
                       "flex-shrink-0 w-48 px-3 flex items-center border-r-2 sticky left-0 z-sticky-column",
-                      inverted ? "bg-surface-inverse border-border" : "bg-surface-primary border-border"
+                      inverted ? "bg-[var(--color-surface-inverse)] border-[var(--color-border-default)]" : "bg-[var(--color-surface-primary)] border-[var(--color-border-default)]"
                     )}
                   >
                     <span
@@ -387,8 +382,8 @@ export function GanttChart<T>({
                           className={clsx(
                             "flex-shrink-0 border-r",
                             col.isToday && "bg-primary-500/10",
-                            col.isWeekend && !col.isToday && (inverted ? "bg-surface-elevated/30" : "bg-muted"),
-                            inverted ? "border-border" : "border-border"
+                            col.isWeekend && !col.isToday && (inverted ? "bg-[var(--color-surface-elevated)]/30" : "bg-[var(--color-surface-muted)]"),
+                            inverted ? "border-[var(--color-border-default)]" : "border-[var(--color-border-default)]"
                           )}
                         />
                       ))}

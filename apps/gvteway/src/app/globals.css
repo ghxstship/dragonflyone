@@ -8,17 +8,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* GVTEWAY Brand Colors - Electric Yellow/Amber */
+/* GVTEWAY Brand Colors - Electric Cyan */
 :root {
-  --primary: 45 96% 53%; /* #facc15 - Yellow 400 (brighter for fan-facing energy) */
+  /* Brand Configuration */
+  --brand-id: 'gvteway';
+  --brand-accent-color: #00F0FF; /* Electric Cyan */
+  
+  --primary: 180 100% 50%; /* #00F0FF - Electric Cyan */
   --primary-foreground: 0 0% 0%;
   
-  /* Yellow color scale for focus states and accents */
-  --color-primary-200: rgba(254, 249, 195, 0.3); /* yellow-100 with opacity */
-  --color-primary-300: rgba(253, 224, 71, 0.4); /* yellow-300 with opacity */
-  --color-primary-400: #facc15; /* yellow-400 */
-  --color-primary-500: #eab308; /* yellow-500 */
-  --color-primary-600: #ca8a04; /* yellow-600 */
+  /* Cyan color scale for focus states and accents */
+  --color-primary-200: rgba(0, 240, 255, 0.3); /* Electric Cyan with opacity */
+  --color-primary-300: rgba(0, 240, 255, 0.4); /* Electric Cyan with opacity */
+  --color-primary-400: #00F0FF; /* Electric Cyan */
+  --color-primary-500: #00D8E6; /* Electric Cyan -10% lightness */
+  --color-primary-600: #00C0CC; /* Electric Cyan -20% lightness */
   
   /* Update shadow for pop art effect */
   --shadow-primary: 4px 4px 0 hsl(var(--primary));

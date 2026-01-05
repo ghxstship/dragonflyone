@@ -1,0 +1,64 @@
+name: Color System Audit
+
+on:
+  push:
+    paths:
+      - "src/**/*.tsx"
+      - "src/**/*.ts" 
+      - "src/**/*.css"
+      - "packages/config/design-system/tokens/colors.ts"
+      - "apps/atlvs/src/app/globals.css"
+      - "apps/compvss/src/app/globals.css"
+      - "apps/gvteway/src/app/globals.css"
+  pull_request:
+    paths:
+      - "src/**/*.tsx"
+      - "src/**/*.ts"
+      - "src/**/*.css"
+      - "packages/config/design-system/tokens/colors.ts"
+      - "apps/atlvs/src/app/globals.css"
+      - "apps/compvss/src/app/globals.css"
+      - "apps/gvteway/src/app/globals.css"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run color violation scan
+        run: |
+          echo "🔍 Scanning for hardcoded colors..."
+          VIOLATIONS=$(grep -rn "#[0-9A-Fa-f]\{6\}" packages apps --include="*.tsx" --include="*.ts" --include="*.css" | grep -v "design-system/tokens" | wc -l)
+          if [ "$VIOLATIONS" -gt 0 ]; then
+            echo "❌ Found $VIOLATIONS hardcoded color values:"
+            grep -rn "#[0-9A-Fa-f]\{6\}" packages apps --include="*.tsx" --include="*.ts" --include="*.css" | grep -v "design-system/tokens" | head -20
+            exit 1
+          fi
+          echo "✅ No hardcoded colors found"
+      
+      - name: Check for non-grayscale Tailwind classes
+        run: |
+          echo "🔍 Scanning for non-grayscale Tailwind classes..."
+          VIOLATIONS=$(grep -rn -E "(bg|text|border|ring)-(red|blue|green|orange|purple|pink|yellow|cyan|teal|indigo|violet|amber|lime|emerald|rose|fuchsia|sky)-" packages apps --include="*.tsx" --include="*.ts" | wc -l)
+          if [ "$VIOLATIONS" -gt 0 ]; then
+            echo "❌ Found $VIOLATIONS non-grayscale Tailwind classes:"
+            grep -rn -E "(bg|text|border|ring)-(red|blue|green|orange|purple|pink|yellow|cyan|teal|indigo|violet|amber|lime|emerald|rose|fuchsia|sky)-" packages apps --include="*.tsx" --include="*.ts" | head -20
+            exit 1
+          fi
+          echo "✅ No non-grayscale Tailwind classes found"
+      
+      - name: Run accessibility audit
+        run: npm run audit:color-a11y
+      
+      - name: Run color unit tests
+        run: npm run test -- packages/config/design-system/__tests__/colors.test.ts

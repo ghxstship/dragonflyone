@@ -4,7 +4,7 @@ import { forwardRef, useEffect, useState, useRef } from "react";
 import clsx from "clsx";
 import { Container, Stack, Grid } from "../foundations/layout.js";
 import { Kicker } from "../atoms/Kicker/index.js";
-import { Body, H2 } from "../atoms/Typography/index.js";
+import { Body, Display, H2 } from "../atoms/Typography/index.js";
 
 /**
  * StatsSection - Animated statistics display
@@ -212,7 +212,7 @@ export const StatsSection = forwardRef<HTMLElement, StatsSectionProps>(
               )}
             >
               {kicker && <Kicker className="text-text-secondary">{kicker}</Kicker>}
-              {title && <H2 className="text-text-primary">{title}</H2>}
+              {title && <Display size="md" className="text-text-primary">{title}</Display>}
               {description && (
                 <Body size="lg" className="text-text-secondary max-w-2xl">
                   {description}

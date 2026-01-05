@@ -15,54 +15,74 @@ EXCEPTION
 END $$;
 
 -- ============================================================================
--- USER SESSIONS TABLE (3NF Compliant)
+-- USER SESSIONS TABLE UPDATES (3NF Compliant)
 -- ============================================================================
 
-CREATE TABLE IF NOT EXISTS user_sessions (
-  -- Primary Key
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+-- Add missing columns to existing table
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS refresh_token TEXT UNIQUE;
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS device_name TEXT;
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS browser TEXT;
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS os TEXT;
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS city TEXT;
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS region TEXT;
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS country TEXT;
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS country_code CHAR(2);
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS status session_status NOT NULL DEFAULT 'active';
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS expires_at TIMESTAMPTZ NOT NULL DEFAULT NOW() + INTERVAL '7 days';
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS revoked_by UUID REFERENCES platform_users(id) ON DELETE SET NULL;
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS revoke_reason TEXT;
+
+-- Rename columns to match new schema (only if they exist with old names)
+DO $$
+BEGIN
+  -- Check if platform_user_id still exists before renaming
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'user_sessions' AND column_name = 'platform_user_id') THEN
+    ALTER TABLE user_sessions RENAME COLUMN platform_user_id TO user_id;
+  END IF;
   
-  -- Foreign Keys (SSOT - references existing tables)
-  user_id UUID NOT NULL REFERENCES platform_users(id) ON DELETE CASCADE,
-  organization_id UUID REFERENCES organizations(id) ON DELETE SET NULL,
+  -- Check if started_at still exists before renaming
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'user_sessions' AND column_name = 'started_at') THEN
+    ALTER TABLE user_sessions RENAME COLUMN started_at TO created_at;
+  END IF;
   
-  -- Session Identification
-  session_token TEXT NOT NULL UNIQUE,
-  refresh_token TEXT UNIQUE,
+  -- Check if last_activity_at still exists before renaming
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'user_sessions' AND column_name = 'last_activity_at') THEN
+    ALTER TABLE user_sessions RENAME COLUMN last_activity_at TO last_active_at;
+  END IF;
   
-  -- Device Information (normalized - no redundant data)
-  device_type TEXT NOT NULL DEFAULT 'unknown', -- desktop, mobile, tablet, unknown
-  device_name TEXT, -- e.g., "Chrome on MacOS", "Safari on iPhone"
-  browser TEXT, -- e.g., "Chrome 120", "Safari 17"
-  os TEXT, -- e.g., "MacOS 14.2", "iOS 17.2"
+  -- Check if ended_at still exists before renaming
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'user_sessions' AND column_name = 'ended_at') THEN
+    ALTER TABLE user_sessions RENAME COLUMN ended_at TO revoked_at;
+  END IF;
   
-  -- Location Information
-  ip_address INET NOT NULL,
-  city TEXT,
-  region TEXT,
-  country TEXT,
-  country_code CHAR(2),
+  -- Check if is_active still exists before renaming
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'user_sessions' AND column_name = 'is_active') THEN
+    ALTER TABLE user_sessions RENAME COLUMN is_active TO is_current;
+  END IF;
+END $$;
+
+-- Add new constraints
+DO $$
+BEGIN
+  -- Add valid_expiry constraint if it doesn't exist
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'valid_expiry' AND conrelid = 'user_sessions'::regclass) THEN
+    ALTER TABLE user_sessions ADD CONSTRAINT valid_expiry CHECK (expires_at > created_at);
+  END IF;
   
-  -- Session Metadata
-  user_agent TEXT,
-  is_current BOOLEAN NOT NULL DEFAULT false,
-  
-  -- Status and Timestamps
-  status session_status NOT NULL DEFAULT 'active',
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  last_active_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  expires_at TIMESTAMPTZ NOT NULL,
-  revoked_at TIMESTAMPTZ,
-  revoked_by UUID REFERENCES platform_users(id) ON DELETE SET NULL,
-  revoke_reason TEXT,
-  
-  -- Constraints
-  CONSTRAINT valid_expiry CHECK (expires_at > created_at),
-  CONSTRAINT valid_revocation CHECK (
-    (status != 'revoked') OR (revoked_at IS NOT NULL)
-  )
-);
+  -- Add valid_revocation constraint if it doesn't exist
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'valid_revocation' AND conrelid = 'user_sessions'::regclass) THEN
+    ALTER TABLE user_sessions ADD CONSTRAINT valid_revocation CHECK (
+      (status != 'revoked') OR (revoked_at IS NOT NULL)
+    );
+  END IF;
+END $$;
+
+-- Update existing records
+UPDATE user_sessions SET 
+  status = CASE WHEN is_current THEN 'active'::session_status ELSE 'expired'::session_status END,
+  expires_at = created_at + INTERVAL '7 days'
+WHERE status IS NULL;
 
 -- ============================================================================
 -- INDEXES
@@ -141,7 +161,7 @@ CREATE POLICY "Admins can view org sessions"
       SELECT 1 FROM platform_users pu
       WHERE pu.id = auth.uid()
       AND pu.organization_id = user_sessions.organization_id
-      AND pu.platform_role IN ('admin', 'owner')
+      AND 'admin' = ANY (pu.platform_roles)
     )
   );
 

@@ -130,20 +130,10 @@ const statusPalette = {
  * Accent Colors - for categories, tags, and decorative elements
  * Used for visual distinction, not semantic meaning
  */
+// Accent colors for categories, tags, and decorative elements
+// Used for visual distinction, not semantic meaning
 const accentPalette = {
-  purple: {
-    DEFAULT: '#A855F7',
-    50: '#FAF5FF',
-    100: '#F3E8FF',
-    200: '#E9D5FF',
-    300: '#D8B4FE',
-    400: '#C084FC',
-    500: '#A855F7',
-    600: '#9333EA',
-    700: '#7E22CE',
-    800: '#6B21A8',
-    900: '#581C87',
-  },
+  // Brand colors used by apps - keep these for whitelabel flexibility
   pink: {
     DEFAULT: '#EC4899',
     50: '#FDF2F8',
@@ -170,52 +160,21 @@ const accentPalette = {
     800: '#155E75',
     900: '#164E63',
   },
-  teal: {
-    DEFAULT: '#14B8A6',
-    50: '#F0FDFA',
-    100: '#CCFBF1',
-    200: '#99F6E4',
-    300: '#5EEAD4',
-    400: '#2DD4BF',
-    500: '#14B8A6',
-    600: '#0D9488',
-    700: '#0F766E',
-    800: '#115E59',
-    900: '#134E4A',
+  yellow: {
+    DEFAULT: '#F59E0B',
+    50: '#FFFBEB',
+    100: '#FEF3C7',
+    200: '#FDE68A',
+    300: '#FCD34D',
+    400: '#FBBF24',
+    500: '#F59E0B',
+    600: '#D97706',
+    700: '#B45309',
+    800: '#92400E',
+    900: '#78350F',
   },
-  violet: {
-    DEFAULT: '#8B5CF6',
-    50: '#F5F3FF',
-    100: '#EDE9FE',
-    200: '#DDD6FE',
-    300: '#C4B5FD',
-    400: '#A78BFA',
-    500: '#8B5CF6',
-    600: '#7C3AED',
-    700: '#6D28D9',
-    800: '#5B21B6',
-    900: '#4C1D95',
-  },
-  indigo: {
-    DEFAULT: '#6366F1',
-    50: '#EEF2FF',
-    100: '#E0E7FF',
-    200: '#C7D2FE',
-    300: '#A5B4FC',
-    400: '#818CF8',
-    500: '#6366F1',
-    600: '#4F46E5',
-    700: '#4338CA',
-    800: '#3730A3',
-    900: '#312E81',
-  },
-  // Brand accent colors
-  brand: {
-    DEFAULT: '#FF006E',
-    pink: '#FF006E',
-    cyan: '#00BFFF',
-    yellow: '#F59E0B',
-  },
+  // Remove purple, violet, indigo - these were causing the purple background issue
+  // Apps should use brand colors (pink, cyan, yellow) instead
 };
 
 const fontFamilies = {
@@ -345,43 +304,79 @@ const semanticShadowTokens = {
 };
 
 /**
- * Typography Scale - based on design tokens
+ * Typography Scale - Industry Best Practices with Modular Scale (1.25 ratio)
+ * Fluid responsive typography using clamp() for accessibility
  */
 const fontSizeScale = {
-  'display-xl': ['7.5rem', { lineHeight: '0.9', letterSpacing: '-0.02em' }],
-  'display-lg': ['5.625rem', { lineHeight: '0.95', letterSpacing: '-0.02em' }],
-  'display-md': ['4.5rem', { lineHeight: '1.0', letterSpacing: '-0.02em' }],
-  'display-sm': ['3rem', { lineHeight: '1.0', letterSpacing: '-0.01em' }],
-  'display-xs': ['2.25rem', { lineHeight: '1.05', letterSpacing: '-0.01em' }],
-  'h1-lg': ['5rem', { lineHeight: '1.0', letterSpacing: '-0.01em' }],
-  'h1-md': ['3.5rem', { lineHeight: '1.0', letterSpacing: '-0.01em' }],
-  'h1-sm': ['2.25rem', { lineHeight: '1.1', letterSpacing: '-0.01em' }],
-  'h2-lg': ['3.5rem', { lineHeight: '1.1', letterSpacing: '0.04em' }],
-  'h2-md': ['2.5rem', { lineHeight: '1.1', letterSpacing: '0.04em' }],
-  'h2-sm': ['1.75rem', { lineHeight: '1.1', letterSpacing: '0.04em' }],
-  'h3-lg': ['2.5rem', { lineHeight: '1.1', letterSpacing: '0.04em' }],
-  'h3-md': ['2rem', { lineHeight: '1.1', letterSpacing: '0.04em' }],
-  'h3-sm': ['1.5rem', { lineHeight: '1.2', letterSpacing: '0.04em' }],
-  'h4-lg': ['2rem', { lineHeight: '1.2', letterSpacing: '0.04em' }],
-  'h4-md': ['1.5rem', { lineHeight: '1.2', letterSpacing: '0.04em' }],
-  'h4-sm': ['1.25rem', { lineHeight: '1.2', letterSpacing: '0.04em' }],
-  'h5-lg': ['1.5rem', { lineHeight: '1.2', letterSpacing: '0.04em' }],
-  'h5-md': ['1.25rem', { lineHeight: '1.3', letterSpacing: '0.04em' }],
-  'h5-sm': ['1.125rem', { lineHeight: '1.3', letterSpacing: '0.04em' }],
-  'h6-lg': ['1.25rem', { lineHeight: '1.3', letterSpacing: '0.04em' }],
-  'h6-md': ['1.125rem', { lineHeight: '1.3', letterSpacing: '0.04em' }],
-  'h6-sm': ['1rem', { lineHeight: '1.4', letterSpacing: '0.04em' }],
-  'body-lg': ['1.25rem', { lineHeight: '1.6' }],
-  'body-md': ['1.125rem', { lineHeight: '1.6' }],
-  'body-sm': ['1rem', { lineHeight: '1.6' }],
-  'body-xs': ['0.9375rem', { lineHeight: '1.6' }],
-  'mono-lg': ['1rem', { lineHeight: '1.4', letterSpacing: '0.05em' }],
-  'mono-md': ['0.875rem', { lineHeight: '1.4', letterSpacing: '0.05em' }],
-  'mono-sm': ['0.8125rem', { lineHeight: '1.4', letterSpacing: '0.05em' }],
-  'mono-xs': ['0.75rem', { lineHeight: '1.4', letterSpacing: '0.05em' }],
-  'mono-xxs': ['0.6875rem', { lineHeight: '1.4', letterSpacing: '0.05em' }],
-  'micro': ['0.625rem', { lineHeight: '1.4', letterSpacing: '0.1em' }],
-  'micro-xs': ['0.5625rem', { lineHeight: '1.4', letterSpacing: '0.15em' }]
+  // Display Typography - Hero headlines with accessible ranges
+  'display-xl': ['clamp(3.5rem, 8vw, 6rem)', { lineHeight: '0.85', letterSpacing: '-0.02em' }],
+  'display-lg': ['clamp(2.75rem, 6vw, 4.5rem)', { lineHeight: '0.9', letterSpacing: '-0.02em' }],
+  'display-md': ['clamp(2.25rem, 5vw, 3.5rem)', { lineHeight: '0.95', letterSpacing: '-0.02em' }],
+  'display-sm': ['clamp(1.75rem, 4vw, 2.5rem)', { lineHeight: '1.0', letterSpacing: '-0.01em' }],
+  'display-xs': ['clamp(1.5rem, 3.5vw, 2rem)', { lineHeight: '1.05', letterSpacing: '-0.01em' }],
+  
+  // H1 Typography - Consistent modular scale
+  'h1-xl': ['clamp(2.5rem, 6vw, 4rem)', { lineHeight: '0.85', letterSpacing: '-0.01em' }],
+  'h1-lg': ['clamp(2rem, 5vw, 3.5rem)', { lineHeight: '0.9', letterSpacing: '-0.01em' }],
+  'h1-md': ['clamp(1.75rem, 4vw, 2.25rem)', { lineHeight: '0.95', letterSpacing: '-0.01em' }],
+  'h1-sm': ['clamp(1.5rem, 3.5vw, 1.875rem)', { lineHeight: '1.1', letterSpacing: '-0.01em' }],
+  
+  // H2 Typography - 1.25x ratio from H1
+  'h2-xl': ['clamp(2rem, 5vw, 3.5rem)', { lineHeight: '0.95', letterSpacing: '0.04em' }],
+  'h2-lg': ['clamp(1.75rem, 4vw, 2.5rem)', { lineHeight: '1.0', letterSpacing: '0.04em' }],
+  'h2-md': ['clamp(1.5rem, 3.5vw, 2rem)', { lineHeight: '1.1', letterSpacing: '0.04em' }],
+  'h2-sm': ['clamp(1.25rem, 3vw, 1.5rem)', { lineHeight: '1.15', letterSpacing: '0.04em' }],
+  
+  // H3 Typography - 1.25x ratio from H2
+  'h3-xl': ['clamp(1.75rem, 4vw, 2.5rem)', { lineHeight: '1.05', letterSpacing: '0.04em' }],
+  'h3-lg': ['clamp(1.5rem, 3.5vw, 2rem)', { lineHeight: '1.1', letterSpacing: '0.04em' }],
+  'h3-md': ['clamp(1.25rem, 3vw, 1.5rem)', { lineHeight: '1.15', letterSpacing: '0.04em' }],
+  'h3-sm': ['clamp(1.125rem, 2.5vw, 1.25rem)', { lineHeight: '1.2', letterSpacing: '0.04em' }],
+  
+  // H4 Typography - 1.25x ratio from H3
+  'h4-xl': ['clamp(1.5rem, 3.5vw, 2rem)', { lineHeight: '1.15', letterSpacing: '0.04em' }],
+  'h4-lg': ['clamp(1.25rem, 3vw, 1.5rem)', { lineHeight: '1.2', letterSpacing: '0.04em' }],
+  'h4-md': ['clamp(1.125rem, 2.5vw, 1.25rem)', { lineHeight: '1.25', letterSpacing: '0.04em' }],
+  'h4-sm': ['clamp(1rem, 2vw, 1.125rem)', { lineHeight: '1.3', letterSpacing: '0.04em' }],
+  
+  // H5 Typography - 1.25x ratio from H4
+  'h5-xl': ['clamp(1.25rem, 3vw, 1.5rem)', { lineHeight: '1.25', letterSpacing: '0.04em' }],
+  'h5-lg': ['clamp(1.125rem, 2.5vw, 1.25rem)', { lineHeight: '1.3', letterSpacing: '0.04em' }],
+  'h5-md': ['clamp(1rem, 2vw, 1.125rem)', { lineHeight: '1.35', letterSpacing: '0.04em' }],
+  'h5-sm': ['clamp(0.9375rem, 1.5vw, 1rem)', { lineHeight: '1.4', letterSpacing: '0.04em' }],
+  
+  // H6 Typography - 1.25x ratio from H5
+  'h6-xl': ['clamp(1.125rem, 2.5vw, 1.25rem)', { lineHeight: '1.35', letterSpacing: '0.04em' }],
+  'h6-lg': ['clamp(1rem, 2vw, 1.125rem)', { lineHeight: '1.4', letterSpacing: '0.04em' }],
+  'h6-md': ['clamp(0.9375rem, 1.5vw, 1rem)', { lineHeight: '1.45', letterSpacing: '0.04em' }],
+  'h6-sm': ['clamp(0.875rem, 1.5vw, 0.9375rem)', { lineHeight: '1.5', letterSpacing: '0.04em' }],
+  
+  // Body Typography - Minimum 16px for accessibility
+  'body-xl': ['clamp(1.25rem, 2.5vw, 1.5rem)', { lineHeight: '1.5' }],
+  'body-lg': ['clamp(1.125rem, 2vw, 1.25rem)', { lineHeight: '1.55' }],
+  'body-md': ['clamp(1rem, 1.5vw, 1.125rem)', { lineHeight: '1.6' }],
+  'body-sm': ['clamp(0.9375rem, 1.5vw, 1rem)', { lineHeight: '1.65' }],
+  'body-xs': ['clamp(0.875rem, 1.5vw, 0.9375rem)', { lineHeight: '1.7' }],
+  
+  // Label/Mono Typography - UI elements and code
+  'mono-xl': ['clamp(1rem, 2vw, 1.125rem)', { lineHeight: '1.3', letterSpacing: '0.05em' }],
+  'mono-lg': ['clamp(0.9375rem, 1.5vw, 1rem)', { lineHeight: '1.35', letterSpacing: '0.05em' }],
+  'mono-md': ['clamp(0.875rem, 1.5vw, 0.9375rem)', { lineHeight: '1.4', letterSpacing: '0.05em' }],
+  'mono-sm': ['clamp(0.8125rem, 1.5vw, 0.875rem)', { lineHeight: '1.45', letterSpacing: '0.05em' }],
+  'mono-xs': ['clamp(0.75rem, 1.5vw, 0.8125rem)', { lineHeight: '1.5', letterSpacing: '0.05em' }],
+  'mono-xxs': ['clamp(0.6875rem, 1.5vw, 0.75rem)', { lineHeight: '1.55', letterSpacing: '0.05em' }],
+  
+  // Label Typography - Consistent with mono
+  'label-xl': ['clamp(1rem, 2vw, 1.125rem)', { lineHeight: '1.3', letterSpacing: '0.2em' }],
+  'label-lg': ['clamp(0.9375rem, 1.5vw, 1rem)', { lineHeight: '1.35', letterSpacing: '0.2em' }],
+  'label-md': ['clamp(0.875rem, 1.5vw, 0.9375rem)', { lineHeight: '1.4', letterSpacing: '0.2em' }],
+  'label-sm': ['clamp(0.8125rem, 1.5vw, 0.875rem)', { lineHeight: '1.45', letterSpacing: '0.2em' }],
+  'label-xs': ['clamp(0.75rem, 1.5vw, 0.8125rem)', { lineHeight: '1.5', letterSpacing: '0.2em' }],
+  'label-xxs': ['clamp(0.6875rem, 1.5vw, 0.75rem)', { lineHeight: '1.55', letterSpacing: '0.2em' }],
+  
+  // Micro Typography - Small UI elements
+  'micro': ['clamp(0.625rem, 1.5vw, 0.6875rem)', { lineHeight: '1.4', letterSpacing: '0.1em' }],
+  'micro-xs': ['clamp(0.5625rem, 1.5vw, 0.625rem)', { lineHeight: '1.4', letterSpacing: '0.15em' }],
 };
 
 /**
@@ -592,14 +587,12 @@ const baseTailwindConfig = {
         warning: statusPalette.warning,
         error: statusPalette.error,
         info: statusPalette.info,
-        // Accent colors for categories, tags, decorative elements
-        purple: accentPalette.purple,
+        // Brand colors for categories, tags, and decorative elements
+        accent: accentPalette,
         pink: accentPalette.pink,
         cyan: accentPalette.cyan,
-        teal: accentPalette.teal,
-        violet: accentPalette.violet,
-        indigo: accentPalette.indigo,
-        brand: accentPalette.brand,
+        yellow: accentPalette.yellow,
+        // Remove purple, violet, indigo - these were causing the purple background issue
         // Semantic surface colors (CSS variable-based for theming)
         ...semanticSurfaceColors,
         // Semantic interactive state colors (CSS variable-based for theming)

@@ -48,7 +48,7 @@ export const List = forwardRef<HTMLElement, ListProps>(
  * ```
  */
 export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
-  function ListItem({ icon, inverted = false, className, children, ...props }, ref) {
+  function ListItem({ icon, className, children, ...props }, ref) {
     if (icon) {
       return (
         <li
@@ -56,7 +56,7 @@ export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
           className={listItemVariants({ hasIcon: true, className })}
           {...props}
         >
-          <span className={`flex-shrink-0 ${inverted ? "text-text-muted" : "text-text-muted"}`}>{icon}</span>
+          <span className={`flex-shrink-0 text-[var(--color-text-muted)]`}>{icon}</span>
           <span>{children}</span>
         </li>
       );

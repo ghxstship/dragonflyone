@@ -36,7 +36,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     // Custom color styles override variant classes
     const customColorStyle = color ? {
       backgroundColor: color,
-      color: textColor || '#ffffff',
+      color: textColor || 'var(--color-text-inverse)',
       borderColor: color,
       ...style,
     } : style;

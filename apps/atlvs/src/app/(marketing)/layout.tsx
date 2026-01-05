@@ -15,14 +15,11 @@
 
 import { ReactNode } from "react";
 import { AtlvsAppLayout } from "../../components/app-layout";
-import { ThemeProvider } from "@ghxstship/ui";
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider forcedTheme="light">
-      <AtlvsAppLayout variant="public" background="white">
-        {children}
-      </AtlvsAppLayout>
-    </ThemeProvider>
+    <AtlvsAppLayout variant="public" background="white">
+      {children}
+    </AtlvsAppLayout>
   );
 }

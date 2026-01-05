@@ -244,10 +244,10 @@ export const IconBox = forwardRef<HTMLDivElement, IconBoxProps>(
           className
         )}
         style={{
-          backgroundColor: color,
+          backgroundColor: color || 'var(--color-surface-elevated)',
         }}
       >
-        <div style={{ color: iconColor }}>
+        <div style={{ color: iconColor || 'var(--color-text-primary)' }}>
           {children}
         </div>
       </div>

@@ -222,9 +222,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
           {!isLoaded && !loadError && (
             <div className="absolute right-3 top-1/2 -translate-y-1/2">
               <div
-                className={`size-4 animate-spin rounded-full border-2 border-t-transparent ${
-                  inverted ? "border-border" : "border-border"
-                }`}
+                className={`size-4 animate-spin rounded-full border-2 border-t-transparent border-[var(--color-border-default)]`}
               />
             </div>
           )}
@@ -232,7 +230,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
           {isLoaded && (
             <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
               <svg
-                className={`size-4 ${inverted ? "text-text-disabled" : "text-text-muted"}`}
+                className={`size-4 text-[var(--color-text-muted)]`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -257,9 +255,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
         {/* Error Message */}
         {(error && errorMessage) || loadError ? (
           <p
-            className={`mt-1 text-mono-xs ${
-              inverted ? "text-error-400" : "text-error-500"
-            }`}
+            className={`mt-1 text-mono-xs text-[var(--color-error-500)]`}
           >
             {errorMessage || loadError}
           </p>

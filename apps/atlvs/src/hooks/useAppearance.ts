@@ -1,6 +1,7 @@
 /**
  * useAppearance Hook
  * Manages user appearance preferences with persistence and CSS variable updates
+ * Uses GHXSTSHIP color token system
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -9,12 +10,12 @@ import { log } from '@ghxstship/config';
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type Density = 'compact' | 'default' | 'comfortable';
 export type BorderRadius = 'sharp' | 'default' | 'rounded';
-export type AccentColor = 'indigo' | 'violet' | 'amber' | 'emerald' | 'rose' | 'cyan';
+// Note: Accent color customization is now handled by the theme provider
+// Users can customize via setAccentColor() in the theme provider
 
 export interface AppearanceSettings {
   theme: ThemeMode;
   density: Density;
-  accentColor: AccentColor;
   borderRadius: BorderRadius;
   fontScale: number;
   animationsEnabled: boolean;
@@ -26,7 +27,6 @@ export interface AppearanceSettings {
 const DEFAULT_SETTINGS: AppearanceSettings = {
   theme: 'dark',
   density: 'default',
-  accentColor: 'indigo',
   borderRadius: 'default',
   fontScale: 1.0,
   animationsEnabled: true,
@@ -36,16 +36,6 @@ const DEFAULT_SETTINGS: AppearanceSettings = {
 };
 
 const STORAGE_KEY = 'ghxstship-appearance';
-
-// Accent color CSS variable mappings
-const ACCENT_COLORS: Record<AccentColor, { primary: string; primaryHover: string }> = {
-  indigo: { primary: '#6366f1', primaryHover: '#4f46e5' },
-  violet: { primary: '#8b5cf6', primaryHover: '#7c3aed' },
-  amber: { primary: '#f59e0b', primaryHover: '#d97706' },
-  emerald: { primary: '#10b981', primaryHover: '#059669' },
-  rose: { primary: '#f43f5e', primaryHover: '#e11d48' },
-  cyan: { primary: '#06b6d4', primaryHover: '#0891b2' },
-};
 
 // Density CSS variable mappings
 const DENSITY_SCALES: Record<Density, { spacing: number; padding: number }> = {
@@ -63,6 +53,7 @@ const BORDER_RADIUS: Record<BorderRadius, { button: string; card: string; modal:
 
 /**
  * Apply appearance settings to CSS custom properties
+ * Note: Accent colors are now handled by the ThemeProvider
  */
 function applySettingsToDOM(settings: AppearanceSettings): void {
   const root = document.documentElement;
@@ -75,10 +66,8 @@ function applySettingsToDOM(settings: AppearanceSettings): void {
     root.setAttribute('data-theme', settings.theme);
   }
 
-  // Accent color
-  const accent = ACCENT_COLORS[settings.accentColor];
-  root.style.setProperty('--color-accent', accent.primary);
-  root.style.setProperty('--color-accent-hover', accent.primaryHover);
+  // Accent color is now handled by ThemeProvider
+  // We no longer set accent colors here
 
   // Density
   const density = DENSITY_SCALES[settings.density];
@@ -243,7 +232,7 @@ export function useAppearance(): UseAppearanceReturn {
       },
       highContrast: {
         highContrast: true,
-        accentColor: 'amber',
+        // Note: Accent color customization moved to ThemeProvider
       },
       comfortable: {
         density: 'comfortable',

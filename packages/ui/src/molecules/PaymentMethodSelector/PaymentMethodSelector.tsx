@@ -57,12 +57,12 @@ export function PaymentMethodSelector({
     wallet: <Wallet className="w-5 h-5" />,
   };
 
-  // Card brand colors
+  // Card brand colors - using grayscale for neutral appearance
   const cardBrandColors: Record<string, string> = {
-    visa: "bg-blue-500",
-    mastercard: "bg-orange-500",
-    amex: "bg-indigo-500",
-    discover: "bg-amber-500",
+    visa: "bg-gray-600",
+    mastercard: "bg-gray-700",
+    amex: "bg-gray-500",
+    discover: "bg-gray-600",
   };
 
   // Handle method selection

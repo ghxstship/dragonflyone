@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { Container, Stack } from "../foundations/layout.js";
 import { Card } from "../molecules/Card/index.js";
 import { Kicker } from "../atoms/Kicker/index.js";
-import { Body, H2, H3 } from "../atoms/Typography/index.js";
+import { Body, Display, H2, H3 } from "../atoms/Typography/index.js";
 
 /**
  * BentoGrid - Modern asymmetric feature layout
@@ -86,7 +86,7 @@ export const BentoGrid = forwardRef<HTMLElement, BentoGridProps>(
           {(kicker || title || description) && (
             <Stack gap={4} className="mb-12 md:mb-16 text-center items-center">
               {kicker && <Kicker>{kicker}</Kicker>}
-              {title && <H2 className="text-text-primary">{title}</H2>}
+              {title && <Display size="md" className="text-text-primary">{title}</Display>}
               {description && (
                 <Body size="lg" className="text-text-muted max-w-2xl">
                   {description}

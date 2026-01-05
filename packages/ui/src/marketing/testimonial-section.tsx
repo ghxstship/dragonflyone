@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { Container, Stack, Grid } from "../foundations/layout.js";
 import { Card } from "../molecules/Card/index.js";
 import { Kicker } from "../atoms/Kicker/index.js";
-import { Body, H2 } from "../atoms/Typography/index.js";
+import { Body, Display, H2 } from "../atoms/Typography/index.js";
 import { Avatar } from "../atoms/Avatar/index.js";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { Button } from "../atoms/Button/index.js";
@@ -68,7 +68,7 @@ function StarRating({ rating }: { rating: number }) {
           key={star}
           className={clsx(
             "size-5",
-            star <= rating ? "text-accent fill-accent" : "text-text-muted"
+            star <= rating ? "text-[var(--color-accent-500)] fill-[var(--color-accent-500)]" : "text-[var(--color-text-muted)]"
           )}
           viewBox="0 0 20 20"
         >
@@ -87,10 +87,10 @@ function TestimonialCard({
   showRatings?: boolean;
 }) {
   return (
-    <Card className="p-6 sm:p-8 border-2 border-border rounded-card h-full">
+    <Card className="p-6 sm:p-8 border-2 border-[var(--color-border-default)] rounded-card h-full">
       <Stack gap={6} className="h-full">
         {/* Quote Icon */}
-        <Quote className="size-10 text-primary/50" />
+        <Quote className="size-10 text-[var(--color-primary-500)]/50" />
 
         {/* Rating */}
         {showRatings && testimonial.rating && (
@@ -98,7 +98,7 @@ function TestimonialCard({
         )}
 
         {/* Quote */}
-        <Body className="text-text-secondary italic flex-1 text-lg leading-relaxed">
+        <Body className="text-[var(--color-text-secondary)] italic flex-1 text-lg leading-relaxed">
           &ldquo;{testimonial.quote}&rdquo;
         </Body>
 
@@ -111,10 +111,10 @@ function TestimonialCard({
             size="md"
           />
           <Stack gap={0}>
-            <Body className="text-text-primary font-semibold">
+            <Body className="text-[var(--color-text-primary)] font-semibold">
               {testimonial.author.name}
             </Body>
-            <Body size="sm" className="text-text-muted">
+            <Body size="sm" className="text-[var(--color-text-muted)]">
               {testimonial.author.role}, {testimonial.author.company}
             </Body>
           </Stack>
@@ -172,9 +172,9 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
           {(kicker || title || description) && (
             <Stack gap={4} className="mb-8 sm:mb-10 md:mb-12 lg:mb-16 text-center items-center">
               {kicker && <Kicker>{kicker}</Kicker>}
-              {title && <H2 className="text-text-primary">{title}</H2>}
+              {title && <Display size="md" className="text-[var(--color-text-primary)]">{title}</Display>}
               {description && (
-                <Body size="lg" className="text-text-muted max-w-2xl">
+                <Body size="lg" className="text-[var(--color-text-muted)] max-w-2xl">
                   {description}
                 </Body>
               )}
@@ -234,7 +234,7 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
                       onClick={() => setCurrentIndex(idx)}
                       className={clsx(
                         "size-2 rounded-[var(--radius-circle)] transition-colors",
-                        idx === currentIndex ? "bg-primary" : "bg-muted"
+                        idx === currentIndex ? "bg-[var(--color-primary-500)]" : "bg-[var(--color-surface-muted)]"
                       )}
                       aria-label={`Go to testimonial ${idx + 1}`}
                     />
@@ -254,15 +254,15 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
           {/* Featured Variant */}
           {variant === "featured" && featuredTestimonial && (
             <div className="max-w-4xl mx-auto">
-              <Card className="p-6 sm:p-8 md:p-10 lg:p-12 border-2 border-primary/30 rounded-card bg-primary/10">
+              <Card className="p-6 sm:p-8 md:p-10 lg:p-12 border-2 border-[var(--color-primary-500)]/30 rounded-card bg-[var(--color-primary-500)]/10">
                 <Stack gap={8} className="text-center items-center">
-                  <Quote className="size-16 text-primary/50" />
+                  <Quote className="size-16 text-[var(--color-primary-500)]/50" />
                   
                   {showRatings && featuredTestimonial.rating && (
                     <StarRating rating={featuredTestimonial.rating} />
                   )}
 
-                  <Body className="text-text-secondary italic text-xl md:text-2xl leading-relaxed max-w-3xl">
+                  <Body className="text-[var(--color-text-secondary)] italic text-xl md:text-2xl leading-relaxed max-w-3xl">
                     &ldquo;{featuredTestimonial.quote}&rdquo;
                   </Body>
 
@@ -274,10 +274,10 @@ export const TestimonialSection = forwardRef<HTMLElement, TestimonialSectionProp
                       size="lg"
                     />
                     <Stack gap={0} className="text-center">
-                      <Body className="text-text-primary font-semibold text-lg">
+                      <Body className="text-[var(--color-text-primary)] font-semibold text-lg">
                         {featuredTestimonial.author.name}
                       </Body>
-                      <Body className="text-text-muted">
+                      <Body className="text-[var(--color-text-muted)]">
                         {featuredTestimonial.author.role}, {featuredTestimonial.author.company}
                       </Body>
                     </Stack>

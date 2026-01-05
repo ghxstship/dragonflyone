@@ -48,16 +48,16 @@ export const activityIconVariants = cva(
   {
     variants: {
       type: {
-        created: "bg-success-100 text-success-600",
-        updated: "bg-blue-100 text-blue-600",
-        deleted: "bg-error-100 text-error-600",
-        commented: "bg-purple-100 text-purple-600",
-        mentioned: "bg-indigo-100 text-indigo-600",
-        status_changed: "bg-orange-100 text-orange-600",
-        assigned: "bg-teal-100 text-teal-600",
-        completed: "bg-green-100 text-green-600",
-        automation: "bg-gray-100 text-gray-600",
-        system: "bg-gray-100 text-gray-600",
+        created: "bg-success-subtle text-success",
+        updated: "bg-info-subtle text-info",
+        deleted: "bg-error-subtle text-error",
+        commented: "bg-surface-accent text-text-primary",
+        mentioned: "bg-surface-accent text-text-primary",
+        status_changed: "bg-warning-subtle text-warning",
+        assigned: "bg-success-subtle text-success",
+        completed: "bg-success-subtle text-success",
+        automation: "bg-surface-muted text-text-muted",
+        system: "bg-surface-muted text-text-muted",
       },
       inverted: {
         true: "",
