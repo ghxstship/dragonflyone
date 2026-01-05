@@ -9,29 +9,7 @@
     · cpus
 
  [37m[1m [22m[39m Creating an optimized production build ...
-<w> [1m[33m[webpack.cache.PackFileCacheStrategy] Serializing big strings (130kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)[39m[22m
- [33m[1m⚠[22m[39m Compiled with warnings
-
-../../node_modules/.pnpm/@supabase+realtime-js@2.89.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
-A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
-Learn more: https://nextjs.org/docs/api-reference/edge-runtime
-
-Import trace for requested module:
-../../node_modules/.pnpm/@supabase+realtime-js@2.89.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
-../../node_modules/.pnpm/@supabase+realtime-js@2.89.0/node_modules/@supabase/realtime-js/dist/module/index.js
-../../node_modules/.pnpm/@supabase+supabase-js@2.89.0/node_modules/@supabase/supabase-js/dist/index.mjs
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/index.js
-
-../../node_modules/.pnpm/@supabase+supabase-js@2.89.0/node_modules/@supabase/supabase-js/dist/index.mjs
-A Node.js API is used (process.version at line: 395) which is not supported in the Edge Runtime.
-Learn more: https://nextjs.org/docs/api-reference/edge-runtime
-
-Import trace for requested module:
-../../node_modules/.pnpm/@supabase+supabase-js@2.89.0/node_modules/@supabase/supabase-js/dist/index.mjs
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/index.js
-
+ [32m[1m✓[22m[39m Compiled successfully
  [37m[1m [22m[39m Skipping validation of types
  [37m[1m [22m[39m Skipping linting
 [?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
@@ -50,7 +28,7 @@ Import trace for requested module:
   description: "Route /api/admin/anti-scalping/alerts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-[2K[1G [37m[1m [22m[39m Generating static pages (1/81)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (3/81)  [36m[==  ][39mError in protection rules API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+[2K[1G [37m[1m [22m[39m Generating static pages (2/81)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (3/81)  [36m[==  ][39mError in protection rules API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
     at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/6985.js:1:56330)
     at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:14:3014)
     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/rules/route.js:1:885)
@@ -64,8 +42,8 @@ Import trace for requested module:
   description: "Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
-[2K[1G [37m[1m [22m[39m Generating static pages (6/81)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (7/81)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (7/81)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (9/81)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (12/81)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (17/81)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (21/81)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (26/81)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (28/81)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (30/81)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (31/81)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (33/81)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (41/81)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (49/81)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (58/81)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (65/81)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (72/81)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (75/81)  [36m[  ==][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (81/81)
-[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
+[2K[1G [37m[1m [22m[39m Generating static pages (6/81)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (6/81)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (8/81)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (10/81)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (16/81)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (21/81)  [36m[   =][39m[2K[1G [37m[1m [22m[39m Generating static pages (26/81)  [36m[  ==][39m[2K[1G [37m[1m [22m[39m Generating static pages (29/81)  [36m[ ===][39m[2K[1G [37m[1m [22m[39m Generating static pages (32/81)  [36m[====][39m[2K[1G [37m[1m [22m[39m Generating static pages (44/81)  [36m[=== ][39m[2K[1G [37m[1m [22m[39m Generating static pages (51/81)  [36m[==  ][39m[2K[1G [37m[1m [22m[39m Generating static pages (58/81)  [36m[=   ][39m[2K[1G [37m[1m [22m[39m Generating static pages (60/81)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (73/81)  [36m[=   ][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (81/81)
+[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
 [2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
 
 [4mRoute (app)[24m                                      [4mSize[24m     [4mFirst Load JS[24m
