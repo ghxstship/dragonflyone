@@ -430,7 +430,7 @@ importers:
         version: 1.0.1
     devDependencies:
       '@types/node':
-        specifier: ^20.0.0
+        specifier: ^20.12.7
         version: 20.12.7
       typescript:
         specifier: 5.4.5
