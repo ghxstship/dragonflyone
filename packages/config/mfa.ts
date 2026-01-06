@@ -1,5 +1,5 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Factor } from '@supabase/supabase-js';
+import { supabase } from './supabase-client';
 
 /**
  * MFA (Multi-Factor Authentication) utilities for Supabase Auth
@@ -34,8 +34,6 @@ export interface MFAStatus {
  * Get the current MFA status for the authenticated user
  */
 export async function getMFAStatus(): Promise<MFAStatus> {
-  const supabase = createClientComponentClient();
-  
   const { data, error } = await supabase.auth.mfa.listFactors();
   
   if (error || !data) {
@@ -47,8 +45,8 @@ export async function getMFAStatus(): Promise<MFAStatus> {
     };
   }
   
-  const verifiedFactors = data.totp.filter((f) => f.status === 'verified');
-  const unverifiedFactors = data.totp.filter((f) => (f.status as string) !== 'verified');
+  const verifiedFactors = data.totp.filter((f: MFAFactor) => f.status === 'verified');
+  const unverifiedFactors = data.totp.filter((f: MFAFactor) => (f.status as string) !== 'verified');
   
   return {
     enabled: verifiedFactors.length > 0,
@@ -63,8 +61,6 @@ export async function getMFAStatus(): Promise<MFAStatus> {
  * User must verify with a code from their authenticator app to complete enrollment
  */
 export async function enrollMFA(friendlyName?: string): Promise<MFAEnrollmentResult> {
-  const supabase = createClientComponentClient();
-  
   const { data, error } = await supabase.auth.mfa.enroll({
     factorType: 'totp',
     friendlyName: friendlyName || 'Authenticator App',
@@ -93,8 +89,6 @@ export async function verifyMFAEnrollment(
   factorId: string,
   code: string
 ): Promise<MFAVerifyResult> {
-  const supabase = createClientComponentClient();
-  
   const { data: challengeData, error: challengeError } = await supabase.auth.mfa.challenge({
     factorId,
   });
@@ -129,8 +123,6 @@ export async function verifyMFALogin(
   factorId: string,
   code: string
 ): Promise<MFAVerifyResult> {
-  const supabase = createClientComponentClient();
-  
   const { data: challengeData, error: challengeError } = await supabase.auth.mfa.challenge({
     factorId,
   });
@@ -162,8 +154,6 @@ export async function verifyMFALogin(
  * Unenroll (disable) MFA for a specific factor
  */
 export async function unenrollMFA(factorId: string): Promise<MFAVerifyResult> {
-  const supabase = createClientComponentClient();
-  
   const { error } = await supabase.auth.mfa.unenroll({
     factorId,
   });
@@ -183,8 +173,6 @@ export async function unenrollMFA(factorId: string): Promise<MFAVerifyResult> {
  * Returns the factor ID that needs verification, or null if MFA is not required
  */
 export async function checkMFARequired(): Promise<string | null> {
-  const supabase = createClientComponentClient();
-  
   const { data: { session } } = await supabase.auth.getSession();
   
   if (!session) {
@@ -204,7 +192,7 @@ export async function checkMFARequired(): Promise<string | null> {
     const { data: factorsData } = await supabase.auth.mfa.listFactors();
     
     if (factorsData && factorsData.totp.length > 0) {
-      const verifiedFactor = factorsData.totp.find((f) => f.status === 'verified');
+      const verifiedFactor = factorsData.totp.find((f: MFAFactor) => f.status === 'verified');
       return verifiedFactor?.id || null;
     }
   }
@@ -218,8 +206,6 @@ export async function checkMFARequired(): Promise<string | null> {
  * - aal2: Password + MFA verified
  */
 export async function getAAL(): Promise<'aal1' | 'aal2' | null> {
-  const supabase = createClientComponentClient();
-  
   const { data, error } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
   
   if (error || !data) {
