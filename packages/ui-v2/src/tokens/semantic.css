@@ -1,0 +1,195 @@
+/**
+ * UI v2 Semantic Tokens
+ * Semantic color tokens that reference foundation tokens
+ * These provide meaning and context to the design system
+ */
+
+@layer semantic {
+  /* ==========================================================================
+   * Light Mode Semantic Tokens
+   * ========================================================================== */
+
+  :root,
+  [data-theme='light'] {
+    /* Text Colors */
+    --text-primary: var(--brand-text-primary, var(--color-neutral-900));
+    --text-secondary: var(--brand-text-secondary, var(--color-neutral-600));
+    --text-tertiary: var(--brand-text-tertiary, var(--color-neutral-500));
+    --text-disabled: var(--brand-text-disabled, var(--color-neutral-400));
+    --text-inverse: var(--brand-text-inverse, var(--color-neutral-50));
+    --text-link: var(--brand-text-link, var(--color-brand-600));
+    --text-link-hover: var(--brand-text-link-hover, var(--color-brand-700));
+    --text-on-brand: var(--brand-text-on-brand, #ffffff);
+    --text-success: var(--color-success-700);
+    --text-warning: var(--color-warning-700);
+    --text-error: var(--color-error-700);
+    --text-info: var(--color-info-700);
+
+    /* Surface Colors */
+    --surface-primary: var(--brand-surface-primary, #ffffff);
+    --surface-secondary: var(--brand-surface-secondary, var(--color-neutral-50));
+    --surface-tertiary: var(--brand-surface-tertiary, var(--color-neutral-100));
+    --surface-elevated: var(--brand-surface-elevated, #ffffff);
+    --surface-overlay: var(--brand-surface-overlay, rgba(0, 0, 0, 0.5));
+    --surface-inverse: var(--brand-surface-inverse, var(--color-neutral-900));
+    --surface-brand: var(--brand-surface-brand, var(--color-brand-500));
+    --surface-brand-subtle: var(--brand-surface-brand-subtle, var(--color-brand-50));
+    --surface-success: var(--color-success-500);
+    --surface-success-subtle: var(--color-success-50);
+    --surface-warning: var(--color-warning-500);
+    --surface-warning-subtle: var(--color-warning-50);
+    --surface-error: var(--color-error-500);
+    --surface-error-subtle: var(--color-error-50);
+    --surface-info: var(--color-info-500);
+    --surface-info-subtle: var(--color-info-50);
+
+    /* Border Colors */
+    --border-primary: var(--brand-border-primary, var(--color-neutral-200));
+    --border-secondary: var(--brand-border-secondary, var(--color-neutral-300));
+    --border-tertiary: var(--brand-border-tertiary, var(--color-neutral-400));
+    --border-focus: var(--brand-border-focus, var(--color-brand-500));
+    --border-inverse: var(--brand-border-inverse, var(--color-neutral-800));
+    --border-brand: var(--brand-border-brand, var(--color-brand-500));
+    --border-success: var(--color-success-500);
+    --border-warning: var(--color-warning-500);
+    --border-error: var(--color-error-500);
+    --border-info: var(--color-info-500);
+
+    /* Interactive States */
+    --interactive-primary: var(--brand-interactive-primary, var(--color-brand-500));
+    --interactive-primary-hover: var(--brand-interactive-primary-hover, var(--color-brand-600));
+    --interactive-primary-active: var(--brand-interactive-primary-active, var(--color-brand-700));
+    --interactive-primary-disabled: var(--brand-interactive-primary-disabled, var(--color-neutral-300));
+
+    --interactive-secondary: var(--brand-interactive-secondary, var(--color-neutral-100));
+    --interactive-secondary-hover: var(--brand-interactive-secondary-hover, var(--color-neutral-200));
+    --interactive-secondary-active: var(--brand-interactive-secondary-active, var(--color-neutral-300));
+
+    --interactive-tertiary: transparent;
+    --interactive-tertiary-hover: var(--brand-interactive-tertiary-hover, var(--color-neutral-100));
+
+    --interactive-danger: var(--color-error-500);
+    --interactive-danger-hover: var(--color-error-600);
+  }
+
+  /* ==========================================================================
+   * Dark Mode Semantic Tokens
+   * ========================================================================== */
+
+  [data-theme='dark'] {
+    /* Text Colors */
+    --text-primary: var(--brand-text-primary, var(--color-neutral-50));
+    --text-secondary: var(--brand-text-secondary, var(--color-neutral-400));
+    --text-tertiary: var(--brand-text-tertiary, var(--color-neutral-500));
+    --text-disabled: var(--brand-text-disabled, var(--color-neutral-600));
+    --text-inverse: var(--brand-text-inverse, var(--color-neutral-900));
+    --text-link: var(--brand-text-link, var(--color-brand-400));
+    --text-link-hover: var(--brand-text-link-hover, var(--color-brand-300));
+    --text-on-brand: var(--brand-text-on-brand, #ffffff);
+    --text-success: var(--color-success-400);
+    --text-warning: var(--color-warning-400);
+    --text-error: var(--color-error-400);
+    --text-info: var(--color-info-400);
+
+    /* Surface Colors */
+    --surface-primary: var(--brand-surface-primary, var(--color-neutral-950));
+    --surface-secondary: var(--brand-surface-secondary, var(--color-neutral-900));
+    --surface-tertiary: var(--brand-surface-tertiary, var(--color-neutral-800));
+    --surface-elevated: var(--brand-surface-elevated, var(--color-neutral-900));
+    --surface-overlay: var(--brand-surface-overlay, rgba(0, 0, 0, 0.8));
+    --surface-inverse: var(--brand-surface-inverse, var(--color-neutral-50));
+    --surface-brand: var(--brand-surface-brand, var(--color-brand-500));
+    --surface-brand-subtle: var(--brand-surface-brand-subtle, var(--color-brand-950));
+    --surface-success: var(--color-success-600);
+    --surface-success-subtle: var(--color-success-950);
+    --surface-warning: var(--color-warning-600);
+    --surface-warning-subtle: var(--color-warning-950);
+    --surface-error: var(--color-error-600);
+    --surface-error-subtle: var(--color-error-950);
+    --surface-info: var(--color-info-600);
+    --surface-info-subtle: var(--color-info-950);
+
+    /* Border Colors */
+    --border-primary: var(--brand-border-primary, var(--color-neutral-800));
+    --border-secondary: var(--brand-border-secondary, var(--color-neutral-700));
+    --border-tertiary: var(--brand-border-tertiary, var(--color-neutral-600));
+    --border-focus: var(--brand-border-focus, var(--color-brand-500));
+    --border-inverse: var(--brand-border-inverse, var(--color-neutral-200));
+    --border-brand: var(--brand-border-brand, var(--color-brand-500));
+    --border-success: var(--color-success-500);
+    --border-warning: var(--color-warning-500);
+    --border-error: var(--color-error-500);
+    --border-info: var(--color-info-500);
+
+    /* Interactive States */
+    --interactive-primary: var(--brand-interactive-primary, var(--color-brand-500));
+    --interactive-primary-hover: var(--brand-interactive-primary-hover, var(--color-brand-400));
+    --interactive-primary-active: var(--brand-interactive-primary-active, var(--color-brand-300));
+    --interactive-primary-disabled: var(--brand-interactive-primary-disabled, var(--color-neutral-700));
+
+    --interactive-secondary: var(--brand-interactive-secondary, var(--color-neutral-800));
+    --interactive-secondary-hover: var(--brand-interactive-secondary-hover, var(--color-neutral-700));
+    --interactive-secondary-active: var(--brand-interactive-secondary-active, var(--color-neutral-600));
+
+    --interactive-tertiary: transparent;
+    --interactive-tertiary-hover: var(--brand-interactive-tertiary-hover, var(--color-neutral-800));
+
+    --interactive-danger: var(--color-error-500);
+    --interactive-danger-hover: var(--color-error-400);
+  }
+
+  /* ==========================================================================
+   * Component-Level Semantic Tokens
+   * ========================================================================== */
+
+  :root {
+    /* Button */
+    --button-bg-primary: var(--interactive-primary);
+    --button-bg-primary-hover: var(--interactive-primary-hover);
+    --button-bg-primary-active: var(--interactive-primary-active);
+    --button-text-primary: var(--text-on-brand);
+
+    --button-bg-secondary: var(--interactive-secondary);
+    --button-bg-secondary-hover: var(--interactive-secondary-hover);
+    --button-bg-secondary-active: var(--interactive-secondary-active);
+    --button-text-secondary: var(--text-primary);
+
+    --button-bg-tertiary: var(--interactive-tertiary);
+    --button-bg-tertiary-hover: var(--interactive-tertiary-hover);
+    --button-text-tertiary: var(--text-primary);
+
+    --button-bg-danger: var(--interactive-danger);
+    --button-bg-danger-hover: var(--interactive-danger-hover);
+    --button-text-danger: var(--text-on-brand);
+
+    /* Input */
+    --input-bg: var(--surface-primary);
+    --input-bg-disabled: var(--surface-secondary);
+    --input-border: var(--border-primary);
+    --input-border-hover: var(--border-secondary);
+    --input-border-focus: var(--border-focus);
+    --input-text: var(--text-primary);
+    --input-placeholder: var(--text-tertiary);
+
+    /* Card */
+    --card-bg: var(--surface-elevated);
+    --card-border: var(--border-primary);
+    --card-shadow: var(--shadow-sm);
+
+    /* Modal/Dialog */
+    --modal-bg: var(--surface-elevated);
+    --modal-overlay: var(--surface-overlay);
+    --modal-shadow: var(--shadow-xl);
+
+    /* Tooltip */
+    --tooltip-bg: var(--surface-inverse);
+    --tooltip-text: var(--text-inverse);
+    --tooltip-shadow: var(--shadow-lg);
+
+    /* Dropdown */
+    --dropdown-bg: var(--surface-elevated);
+    --dropdown-border: var(--border-primary);
+    --dropdown-item-hover: var(--interactive-secondary-hover);
+    --dropdown-shadow: var(--shadow-lg);
+  }
+}
