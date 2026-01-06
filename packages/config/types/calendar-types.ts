@@ -144,15 +144,15 @@ export const SOURCE_TYPE_LABELS: Record<CalendarSourceType, string> = {
   other: 'Other',
 };
 
-// Source type colors for UI
+// Source type colors for UI - using semantic tokens only
 export const SOURCE_TYPE_COLORS: Record<CalendarSourceType, string> = {
-  crm_meeting: 'bg-blue-500',
-  crm_call: 'bg-green-500',
-  crm_task: 'bg-yellow-500',
-  crm_reminder: 'bg-orange-500',
-  crm_deadline: 'bg-red-500',
-  venue_booking: 'bg-purple-500',
-  venue_hold: 'bg-purple-300',
+  crm_meeting: 'bg-info',
+  crm_call: 'bg-success',
+  crm_task: 'bg-warning',
+  crm_reminder: 'bg-warning/80',
+  crm_deadline: 'bg-error',
+  venue_booking: 'bg-secondary',
+  venue_hold: 'bg-secondary/60',
   venue_block: 'bg-muted',
   venue_maintenance: 'bg-muted',
   production_event: 'bg-primary',
@@ -169,15 +169,15 @@ export const SOURCE_TYPE_COLORS: Record<CalendarSourceType, string> = {
   project_deadline: 'bg-error',
   contract_deadline: 'bg-error/80',
   advancing_deadline: 'bg-warning',
-  crew_shift: 'bg-teal-500',
-  crew_assignment: 'bg-teal-400',
-  crew_availability: 'bg-teal-300',
-  external_google: 'bg-blue-600',
-  external_outlook: 'bg-blue-700',
+  crew_shift: 'bg-success',
+  crew_assignment: 'bg-success/80',
+  crew_availability: 'bg-success/60',
+  external_google: 'bg-info',
+  external_outlook: 'bg-info/80',
   external_apple: 'bg-muted',
   external_ical: 'bg-muted',
-  personal: 'bg-pink-500',
-  holiday: 'bg-red-400',
+  personal: 'bg-accent',
+  holiday: 'bg-error/80',
   other: 'bg-muted',
 };
 
@@ -193,12 +193,12 @@ export const STATUS_LABELS: Record<CalendarEventStatus, string> = {
   no_show: 'No Show',
 };
 
-// Status colors
+// Status colors - using semantic tokens only
 export const STATUS_COLORS: Record<CalendarEventStatus, string> = {
   draft: 'bg-muted',
-  tentative: 'bg-yellow-400',
-  scheduled: 'bg-blue-400',
-  confirmed: 'bg-green-500',
+  tentative: 'bg-warning',
+  scheduled: 'bg-info',
+  confirmed: 'bg-success',
   in_progress: 'bg-primary',
   completed: 'bg-success',
   cancelled: 'bg-error',

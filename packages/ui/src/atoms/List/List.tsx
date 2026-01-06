@@ -27,7 +27,7 @@ export const List = forwardRef<HTMLElement, ListProps>(
     return (
       <Component
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Polymorphic ref requires type assertion
-        ref={ref as any}
+        ref={ref as unknown as React.Ref<HTMLElement>}
         className={`${listVariants({ variant, spacing, className })} ${variantClasses[variant]}`}
         {...props}
       >

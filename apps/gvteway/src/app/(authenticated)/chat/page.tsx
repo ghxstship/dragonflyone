@@ -153,7 +153,7 @@ export default function ChatPage() {
                     >
                       <Stack gap={2}>
                         <Box className="flex items-center justify-between">
-                          <Body className="font-weight-medium text-white">{room.name}</Body>
+                          <Body className="font-weight-medium text-text-primary">{room.name}</Body>
                           {room.unreadCount > 0 && (
                             <Badge variant="solid">{room.unreadCount}</Badge>
                           )}
@@ -176,7 +176,7 @@ export default function ChatPage() {
                 <Box className="flex flex-col min-h-96">
                   <Box className="flex items-center justify-between border-b border-border pb-4 mb-4">
                     <Box>
-                      <Body className="font-weight-medium text-white">{selectedRoom.name}</Body>
+                      <Body className="font-weight-medium text-text-primary">{selectedRoom.name}</Body>
                       <Body size="sm" className="text-text-muted">{selectedRoom.memberCount} members</Body>
                     </Box>
                     {getTypeBadge(selectedRoom.type)}
@@ -200,7 +200,7 @@ export default function ChatPage() {
                               {!message.isOwn && (
                                 <Body size="sm" className="font-weight-medium text-text-muted">{message.sender}</Body>
                               )}
-                              <Body className="text-white">{message.content}</Body>
+                              <Body className="text-text-primary">{message.content}</Body>
                               <Body size="sm" className="text-text-disabled">{message.timestamp}</Body>
                             </Stack>
                           </Card>
@@ -223,7 +223,7 @@ export default function ChatPage() {
               ) : (
                 <Box className="flex flex-col items-center justify-center min-h-96 text-center">
                   <MessageSquare className="size-12 text-text-disabled mb-4" />
-                  <Body className="font-weight-medium text-white mb-2">Select a Chat Room</Body>
+                  <Body className="font-weight-medium text-text-primary mb-2">Select a Chat Room</Body>
                   <Body className="text-text-muted">Choose a room from the list to start chatting</Body>
                 </Box>
               )}
@@ -243,7 +243,7 @@ export default function ChatPage() {
             {rooms.map((room) => (
               <Card key={room.id} className="p-4 cursor-pointer hover:ring-2 hover:ring-primary" onClick={() => setSelectedRoom(room)}>
                 <Box className="flex items-start justify-between mb-2">
-                  <Body className="font-weight-medium text-white">{room.name}</Body>
+                  <Body className="font-weight-medium text-text-primary">{room.name}</Body>
                   {getTypeBadge(room.type)}
                 </Box>
                 <Body size="sm" className="text-text-muted mb-2">{room.memberCount} members</Body>

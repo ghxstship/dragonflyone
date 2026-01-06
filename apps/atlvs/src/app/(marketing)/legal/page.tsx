@@ -54,7 +54,7 @@ export default function LegalPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Documents</Body>
-                  <H3 className="text-white">Legal Documents</H3>
+                  <H3 className="text-text-primary">Legal Documents</H3>
                   <Body className="text-text-muted max-w-2xl">Important legal information about using ATLVS</Body>
                 </Stack>
 
@@ -70,7 +70,7 @@ export default function LegalPage() {
                           {doc.icon}
                         </Box>
                         <Stack gap={2}>
-                          <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{doc.title}</Body>
+                          <Body className="text-text-primary font-weight-bold group-hover:text-primary transition-colors">{doc.title}</Body>
                           <Body size="sm" className="text-text-muted">{doc.description}</Body>
                           <Body size="sm" className="text-text-disabled">Last updated: {formatDate(doc.updated)}</Body>
                         </Stack>

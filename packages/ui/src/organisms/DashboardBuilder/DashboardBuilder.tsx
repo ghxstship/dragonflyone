@@ -93,7 +93,7 @@ interface SortableWidgetProps {
 function SortableWidget({
   widget,
   editMode,
-  inverted,
+  
   onEdit,
   onDelete,
   renderContent,
@@ -119,7 +119,7 @@ function SortableWidget({
       className={clsx(
         widgetVariants({ 
           size: widget.size, 
-          inverted, 
+          
           editMode, 
           dragging: isDragging 
         })
@@ -129,7 +129,7 @@ function SortableWidget({
       <div
         className={clsx(
           "flex items-center justify-between px-4 py-2 border-b-2",
-          inverted ? "border-border" : "border-border"
+          "border-[var(--color-border-default)]"
         )}
       >
         <div className="flex items-center gap-2">
@@ -140,9 +140,7 @@ function SortableWidget({
               {...listeners}
               className={clsx(
                 "p-1 cursor-grab active:cursor-grabbing rounded",
-                inverted
-                  ? "text-text-muted hover:text-text-primary hover:bg-surface-inverse"
-                  : "text-text-muted hover:text-text-primary hover:bg-muted"
+                "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)]"
               )}
             >
               <Move size={14} />
@@ -151,7 +149,7 @@ function SortableWidget({
           <h3
             className={clsx(
               "font-semibold text-sm",
-              inverted ? "text-text-primary" : "text-text-primary"
+              "text-text-primary"
             )}
           >
             {widget.title}
@@ -196,7 +194,7 @@ function SortableWidget({
           <div
             className={clsx(
               "flex items-center justify-center h-full text-sm",
-              inverted ? "text-text-disabled" : "text-text-disabled"
+              "text-text-disabled"
             )}
           >
             {widget.type.replace("_", " ")}
@@ -218,17 +216,17 @@ interface WidgetPaletteProps {
   onClose: () => void;
 }
 
-function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPaletteProps) {
+function WidgetPalette({ onAddWidget, isOpen, onClose }: WidgetPaletteProps) {
   if (!isOpen) return null;
 
   return (
-    <div className={clsx(widgetPaletteVariants({ inverted }))}>
+    <div className={clsx(widgetPaletteVariants({}))}>
       <div className="p-4">
         <div className="flex items-center justify-between mb-4">
           <h2
             className={clsx(
               "font-semibold text-lg",
-              inverted ? "text-text-primary" : "text-text-primary"
+              "text-text-primary"
             )}
           >
             Add Widget
@@ -266,7 +264,7 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
               <span
                 className={clsx(
                   "p-2 rounded-lg",
-                  inverted ? "bg-surface-inverse text-primary-400" : "bg-muted text-primary-600"
+                  "bg-muted text-primary-600"
                 )}
               >
                 {item.icon}
@@ -275,7 +273,7 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
                 <div
                   className={clsx(
                     "font-medium text-sm",
-                    inverted ? "text-text-primary" : "text-text-primary"
+                    "text-text-primary"
                   )}
                 >
                   {item.label}
@@ -283,7 +281,7 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
                 <div
                   className={clsx(
                     "text-xs",
-                    inverted ? "text-text-disabled" : "text-text-disabled"
+                    "text-text-disabled"
                   )}
                 >
                   {item.description}
@@ -314,7 +312,7 @@ function WidgetSettings({
   dataSources,
   onSave,
   onClose,
-  inverted,
+  
 }: WidgetSettingsProps) {
   const [title, setTitle] = useState(widget?.title || "");
   const [size, setSize] = useState<WidgetSize>(widget?.size || "medium");
@@ -371,7 +369,7 @@ function WidgetSettings({
           <label
             className={clsx(
               "block text-sm font-medium mb-1",
-              inverted ? "text-text-secondary" : "text-text-secondary"
+              "text-text-secondary"
             )}
           >
             Title
@@ -394,7 +392,7 @@ function WidgetSettings({
           <label
             className={clsx(
               "block text-sm font-medium mb-1",
-              inverted ? "text-text-secondary" : "text-text-secondary"
+              "text-text-secondary"
             )}
           >
             Size
@@ -421,7 +419,7 @@ function WidgetSettings({
           <label
             className={clsx(
               "block text-sm font-medium mb-1",
-              inverted ? "text-text-secondary" : "text-text-secondary"
+              "text-text-secondary"
             )}
           >
             Data Source
@@ -450,7 +448,7 @@ function WidgetSettings({
           <label
             className={clsx(
               "block text-sm font-medium mb-1",
-              inverted ? "text-text-secondary" : "text-text-secondary"
+              "text-text-secondary"
             )}
           >
             Auto-refresh (seconds, 0 = disabled)
@@ -503,7 +501,6 @@ export function DashboardBuilder({
   renderWidget,
   dataSources = [],
   editMode = true,
-  inverted = true,
   loading = false,
   className,
 }: DashboardBuilderProps) {
@@ -612,14 +609,14 @@ export function DashboardBuilder({
       <div
         className={clsx(
           "flex items-center justify-center min-h-[400px]",
-          inverted ? "bg-surface-inverse" : "bg-surface-primary",
+          "bg-surface-primary",
           className
         )}
       >
         <div
           className={clsx(
             "w-8 h-8 border-3 rounded-full animate-spin",
-            inverted ? "border-border border-t-on-dark-primary" : "border-border border-t-on-light-primary"
+            "border-border border-t-on-light-primary"
           )}
         />
       </div>
@@ -627,13 +624,13 @@ export function DashboardBuilder({
   }
 
   return (
-    <div className={clsx(dashboardBuilderVariants({ editMode, inverted }), className)}>
+    <div className={clsx(dashboardBuilderVariants({ editMode }), className)}>
       {/* Toolbar */}
       {editMode && (
         <div
           className={clsx(
             "flex items-center justify-between p-4 border-b-2 mb-4",
-            inverted ? "border-border" : "border-border"
+            "border-border"
           )}
         >
           <div className="flex items-center gap-2">
@@ -732,14 +729,14 @@ export function DashboardBuilder({
           <div
             className={clsx(
               "grid grid-cols-4 gap-4 p-4",
-              inverted ? "bg-surface-inverse" : "bg-muted"
+              "bg-muted"
             )}
           >
             {dashboard.widgets.length === 0 ? (
               <div
                 className={clsx(
                   "col-span-4 flex flex-col items-center justify-center py-16 rounded-lg border-2 border-dashed",
-                  inverted ? "border-border text-text-disabled" : "border-border text-text-disabled"
+                  "border-border text-text-disabled"
                 )}
               >
                 <p className="text-lg font-medium mb-2">No widgets yet</p>

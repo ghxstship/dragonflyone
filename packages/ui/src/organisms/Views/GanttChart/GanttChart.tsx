@@ -177,8 +177,8 @@ export function GanttChart<T extends { id: string }>({
       const progress = progressField ? Number(entity[progressField]) : 0;
       const dependencies = dependenciesField ? (entity[dependenciesField] as string[]) : [];
       const assignee = assigneeField ? String(entity[assigneeField]) : undefined;
-      const priority = priorityField ? String(entity[priorityField]) as any : undefined;
-      const status = statusField ? String(entity[statusField]) as any : undefined;
+      const priority = priorityField ? String(entity[priorityField]) : undefined;
+      const status = statusField ? String(entity[statusField]) : undefined;
       const color = colorField ? String(entity[colorField]) : undefined;
       const parent = parentField ? String(entity[parentField]) : undefined;
       const level = levelField ? Number(entity[levelField]) : 0;
@@ -186,7 +186,7 @@ export function GanttChart<T extends { id: string }>({
       const task: GanttTask<T> = {
         data: entity,
         id: entity.id,
-        name: String((entity as any).name || (entity as any).title || 'Untitled'),
+        name: String((entity as Record<string, unknown>).name || (entity as Record<string, unknown>).title || 'Untitled'),
         start: startDate,
         end: endDate,
         progress,
@@ -415,18 +415,18 @@ export function GanttChart<T extends { id: string }>({
     
     if (draggedTask.type === 'move') {
       const duration = task.end.getTime() - task.start.getTime();
-      (updates as any)[startDateField] = newDate.toISOString();
-      (updates as any)[endDateField] = new Date(newDate.getTime() + duration).toISOString();
+      (updates as Record<string, unknown>)[startDateField] = newDate.toISOString();
+      (updates as Record<string, unknown>)[endDateField] = new Date(newDate.getTime() + duration).toISOString();
     } else if (draggedTask.type === 'resize') {
       if (edge === 'start') {
-        (updates as any)[startDateField] = newDate.toISOString();
+        (updates as Record<string, unknown>)[startDateField] = newDate.toISOString();
         if (newDate > task.end) {
-          (updates as any)[endDateField] = newDate.toISOString();
+          (updates as Record<string, unknown>)[endDateField] = newDate.toISOString();
         }
       } else {
-        (updates as any)[endDateField] = newDate.toISOString();
+        (updates as Record<string, unknown>)[endDateField] = newDate.toISOString();
         if (newDate < task.start) {
-          (updates as any)[startDateField] = newDate.toISOString();
+          (updates as Record<string, unknown>)[startDateField] = newDate.toISOString();
         }
       }
     }
@@ -435,11 +435,11 @@ export function GanttChart<T extends { id: string }>({
   }, [draggedTask, ganttTasks, onEntityUpdate, startDateField, endDateField]);
 
   // Task selection handlers
-  const handleTaskClick = useCallback((taskId: string, event: React.MouseEvent) => {
+  const handleTaskClick = useCallback((taskId: string, event?: React.MouseEvent) => {
     const task = ganttTasks.find(t => t.id === taskId);
     if (!task) return;
     
-    if (event.metaKey || event.ctrlKey) {
+    if (event?.metaKey || event?.ctrlKey) {
       // Multi-select
       setSelectedTasks(prev => {
         const next = new Set(prev);
@@ -678,7 +678,7 @@ export function GanttChart<T extends { id: string }>({
                 "hover:bg-[var(--color-surface-elevated)]"
               )}
               style={{ height: `${ganttConfig.rowHeight}px`, paddingLeft: `${(row.level || 0) * 20 + 8}px` }}
-              onClick={() => handleTaskClick(row.task.id, {} as any)}
+              onClick={() => handleTaskClick(row.task.id)}
             >
               {row.task.children && row.task.children.length > 0 && (
                 <button
@@ -797,7 +797,7 @@ function calculatePosition(date: Date, start: Date, end: Date): number {
   return (offset / duration) * 100;
 }
 
-function getCellGenerator(viewMode: GanttViewMode, start: Date, end: Date, config: any) {
+function getCellGenerator(viewMode: GanttViewMode, start: Date, end: Date, config: Record<string, unknown>) {
   const cells: GanttTimelineCell[] = [];
   const gridLines: GanttGridLine[] = [];
   

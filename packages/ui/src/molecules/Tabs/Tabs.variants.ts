@@ -19,21 +19,7 @@ export const tabsVariants = cva(
     "transition-all",
     "duration-[var(--duration-fast)]",
     "ease-[var(--easing-easeOut)]",
-  ],
-  {
-    variants: {
-      /**
-       * Theme inversion
-       */
-      inverted: {
-        true: "",
-        false: "",
-      },
-    },
-    defaultVariants: {
-      inverted: false,
-    },
-  }
+  ]
 );
 
 /**
@@ -53,57 +39,14 @@ export const tabsListVariants = cva(
        * Tabs variant
        */
       variant: {
-        line: "border-b-2",
-        enclosed: "border-2 rounded-[var(--radius-card)] p-1",
-        pop: "border-2 rounded-[var(--radius-card)] p-1",
-      },
-      
-      /**
-       * Theme inversion
-       */
-      inverted: {
-        true: "",
-        false: "",
+        line: "border-b-2 border-[var(--color-border-default)]",
+        enclosed: "border-2 rounded-[var(--radius-card)] p-1 bg-[var(--color-surface-primary)] border-[var(--color-border-default)]",
+        pop: "border-2 rounded-[var(--radius-card)] p-1 bg-[var(--color-surface-primary)] border-[var(--color-border-default)]",
       },
     },
     defaultVariants: {
       variant: "line",
-      inverted: false,
     },
-    
-    compoundVariants: [
-      // Variant with inversion combinations
-      {
-        variant: "line",
-        inverted: true,
-        class: "border-border-inverse",
-      },
-      {
-        variant: "enclosed",
-        inverted: true,
-        class: "bg-surface-primary-inverse border-border-inverse",
-      },
-      {
-        variant: "pop",
-        inverted: true,
-        class: "bg-surface-primary-inverse border-border-inverse",
-      },
-      {
-        variant: "line",
-        inverted: false,
-        class: "border-border",
-      },
-      {
-        variant: "enclosed",
-        inverted: false,
-        class: "bg-surface-primary border-border",
-      },
-      {
-        variant: "pop",
-        inverted: false,
-        class: "bg-surface-primary border-border",
-      },
-    ],
   }
 );
 
@@ -276,21 +219,7 @@ export const tabsContentVariants = cva(
     "transition-all",
     "duration-[var(--duration-fast)]",
     "ease-[var(--easing-easeOut)]",
-  ],
-  {
-    variants: {
-      /**
-       * Theme inversion
-       */
-      inverted: {
-        true: "",
-        false: "",
-      },
-    },
-    defaultVariants: {
-      inverted: false,
-    },
-  }
+  ]
 );
 
 /**
@@ -302,19 +231,5 @@ export const tabsPanelVariants = cva(
     "transition-all",
     "duration-[var(--duration-fast)]",
     "ease-[var(--easing-easeOut)]",
-  ],
-  {
-    variants: {
-      /**
-       * Theme inversion
-       */
-      inverted: {
-        true: "",
-        false: "",
-      },
-    },
-    defaultVariants: {
-      inverted: false,
-    },
-  }
+  ]
 );

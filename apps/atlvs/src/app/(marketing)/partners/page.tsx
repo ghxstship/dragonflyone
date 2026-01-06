@@ -104,7 +104,7 @@ export default function PartnersPage() {
               <Stack gap={12}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Partnership Types</Body>
-                  <H3 className="text-white">Choose Your Program</H3>
+                  <H3 className="text-text-primary">Choose Your Program</H3>
                   <Body className="text-text-muted max-w-2xl">Select the partnership model that best fits your business and start earning today.</Body>
                 </Stack>
 
@@ -120,7 +120,7 @@ export default function PartnersPage() {
                         </Box>
 
                         <Stack gap={2}>
-                          <Body className="text-white font-weight-bold text-h5-md">{type.title}</Body>
+                          <Body className="text-text-primary font-weight-bold text-h5-md">{type.title}</Body>
                           <Body className="text-text-muted">{type.description}</Body>
                         </Stack>
 
@@ -135,7 +135,7 @@ export default function PartnersPage() {
 
                         <Button
                           variant="outline"
-                          className="w-full group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors"
+                          className="w-full group-hover:bg-primary group-hover:text-text-primary group-hover:border-primary transition-colors"
                           onClick={() => router.push(`/partners/apply?type=${type.id}`)}
                         >
                           Apply Now

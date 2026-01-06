@@ -98,11 +98,11 @@ export default function StatusPage() {
             <Container size="2xl" className="py-8">
               <Stack direction="horizontal" className="justify-center items-center gap-4">
                 {allOperational ? (
-                  <CheckCircle className="size-8 text-white" />
+                  <CheckCircle className="size-8 text-text-primary" />
                 ) : (
-                  <AlertTriangle className="size-8 text-white" />
+                  <AlertTriangle className="size-8 text-text-primary" />
                 )}
-                <Body className="text-white font-weight-bold text-h4-md">
+                <Body className="text-text-primary font-weight-bold text-h4-md">
                   {allOperational ? "All Systems Operational" : "Partial System Outage"}
                 </Body>
               </Stack>
@@ -119,7 +119,7 @@ export default function StatusPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Services</Body>
-                  <H3 className="text-white">Service Status</H3>
+                  <H3 className="text-text-primary">Service Status</H3>
                   <Body className="text-text-muted max-w-2xl">Real-time status of all ATLVS services and infrastructure components.</Body>
                 </Stack>
 
@@ -138,7 +138,7 @@ export default function StatusPage() {
                             <Stack direction="horizontal" gap={4} className="items-center">
                               {config.icon}
                               <Stack gap={0}>
-                                <Body className="text-white font-weight-bold">{service.name}</Body>
+                                <Body className="text-text-primary font-weight-bold">{service.name}</Body>
                                 {service.description && (
                                   <Body size="sm" className="text-text-disabled">{service.description}</Body>
                                 )}
@@ -169,7 +169,7 @@ export default function StatusPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Uptime</Body>
-                  <H3 className="text-white">7-Day Uptime History</H3>
+                  <H3 className="text-text-primary">7-Day Uptime History</H3>
                 </Stack>
 
                 <Grid cols={6} gap={2} className="grid-cols-7">
@@ -220,7 +220,7 @@ export default function StatusPage() {
                     <Bell className="size-10 text-primary" />
                   </Box>
                   <Stack gap={2} className="items-center">
-                    <Body className="text-white font-weight-bold text-h4-md">Subscribe to Status Updates</Body>
+                    <Body className="text-text-primary font-weight-bold text-h4-md">Subscribe to Status Updates</Body>
                     <Body className="text-text-muted max-w-lg">Get notified via email or SMS when system status changes. Stay informed about maintenance windows and incidents.</Body>
                   </Stack>
                   <Stack direction="horizontal" gap={4}>

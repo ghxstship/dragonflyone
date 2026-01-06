@@ -56,28 +56,28 @@ export const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
   ) {
     return (
       <div 
-        className={sectionHeaderVariants({ align, inverted, className })}
+        className={sectionHeaderVariants({ align, className })}
         ref={ref}
         {...props}
       >
-        <div className={sectionHeaderContainerVariants({ gap, inverted })}>
+        <div className={sectionHeaderContainerVariants({ gap })}>
           {/* Kicker */}
           {kicker && (
-            <div className={sectionHeaderKickerVariants({ colorScheme, inverted })}>
+            <div className={sectionHeaderKickerVariants({ colorScheme })}>
               {kicker}
             </div>
           )}
           
           {/* Title */}
           {title && (
-            <h2 className={sectionHeaderTitleVariants({ titleSize, colorScheme, inverted })}>
+            <h2 className={sectionHeaderTitleVariants({ titleSize, colorScheme })}>
               {title}
             </h2>
           )}
           
           {/* Description */}
           {description && (
-            <p className={sectionHeaderDescriptionVariants({ colorScheme, inverted })}>
+            <p className={sectionHeaderDescriptionVariants({ colorScheme })}>
               {description}
             </p>
           )}

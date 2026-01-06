@@ -6,7 +6,12 @@ import { useAuth } from "../auth-context";
 import { useFavorites, useKeyboardShortcuts } from "../hooks/useFavorites";
 import { useRecentPages } from "../hooks/useRecentPages";
 import { useCommandPalette, buildNavigationCommands, buildActionCommands } from "../hooks/useCommandPalette";
-import type { SidebarNavSection, ContextLevel, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
+import type {
+  SidebarNavSection,
+  ContextLevel,
+  BreadcrumbContextItem,
+  ContextOptions,
+} from "../types/layout-shared";
 
 // =============================================================================
 // TYPES

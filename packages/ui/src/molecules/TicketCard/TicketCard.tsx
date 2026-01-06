@@ -80,67 +80,67 @@ export function TicketCard({
 
   return (
     <div
-      className={ticketCardVariants({ inverted, className })}
+      className={ticketCardVariants({ className })}
       onClick={onClick}
     >
       {/* Header */}
-      <div className={ticketCardHeaderVariants({ inverted })}>
+      <div className={ticketCardHeaderVariants({})}>
         <div className="flex items-center justify-between">
-          <div className={ticketCardTitleVariants({ inverted })}>
+          <div className={ticketCardTitleVariants({})}>
             {eventTitle}
           </div>
-          <div className={ticketCardStatusVariants({ status, inverted })}>
+          <div className={ticketCardStatusVariants({ status })}>
             {getStatusLabel(status)}
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className={ticketCardContentVariants({ inverted })}>
+      <div className={ticketCardContentVariants({})}>
         {/* Ticket Type */}
-        <div className={ticketCardInfoVariants({ inverted })}>
+        <div className={ticketCardInfoVariants({})}>
           {ticketType}
         </div>
 
         {/* Date and Time */}
-        <div className={ticketCardInfoVariants({ inverted })}>
+        <div className={ticketCardInfoVariants({})}>
           {formatDate(date)}
           {time && ` • ${time}`}
         </div>
 
         {/* Venue */}
-        <div className={ticketCardInfoVariants({ inverted })}>
+        <div className={ticketCardInfoVariants({})}>
           {venue}
         </div>
 
         {/* Seat Info */}
         {seatInfo && (
-          <div className={ticketCardInfoVariants({ inverted })}>
+          <div className={ticketCardInfoVariants({})}>
             {seatInfo}
           </div>
         )}
 
         {/* Order Number */}
         {orderNumber && (
-          <div className={ticketCardInfoVariants({ inverted })}>
+          <div className={ticketCardInfoVariants({})}>
             Order: {orderNumber}
           </div>
         )}
 
         {/* Attendee Name */}
         {attendeeName && (
-          <div className={ticketCardInfoVariants({ inverted })}>
+          <div className={ticketCardInfoVariants({})}>
             {attendeeName}
           </div>
         )}
 
         {/* QR Code */}
         {showQR && qrCode && (
-          <div className={ticketCardQRContainerVariants({ inverted })}>
+          <div className={ticketCardQRContainerVariants({})}>
             <img
               src={qrCode}
               alt="QR Code"
-              className={ticketCardQRVariants({ inverted })}
+              className={ticketCardQRVariants({})}
             />
           </div>
         )}

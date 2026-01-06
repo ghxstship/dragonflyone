@@ -113,7 +113,7 @@ export const PublicNavbar = forwardRef<HTMLElement, PublicNavbarProps>(
         <header
           ref={ref}
           className={clsx(
-            publicNavbarVariants({ inverted }),
+            publicNavbarVariants({}),
             className
           )}
           onKeyDown={handleKeyDown}

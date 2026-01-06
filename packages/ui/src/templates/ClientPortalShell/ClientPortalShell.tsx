@@ -162,7 +162,7 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
     }
 
     return (
-      <div ref={ref} className={clsx(clientPortalShellVariants({ inverted }), className)}>
+      <div ref={ref} className={clsx(clientPortalShellVariants({}), className)}>
         {/* Skip to main content link */}
         <a
           href={`#${mainContentId}`}
@@ -193,7 +193,7 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
                   </div>
                 )}
                 <div>
-                  <p className={clsx("text-sm font-semibold", inverted ? "text-text-primary" : "text-text-primary")}>
+                  <p className={clsx("text-sm font-semibold" ? "text-text-primary" : "text-text-primary")}>
                     {organizationName}
                   </p>
                   <p className={clsx("text-xs", mutedTextClass)}>Client Portal</p>
@@ -203,7 +203,7 @@ export const ClientPortalShell = forwardRef<HTMLDivElement, ClientPortalShellPro
               {/* User Menu */}
               <div className="flex items-center gap-4">
                 <div className="text-right hidden sm:block">
-                  <p className={clsx("text-sm font-medium", inverted ? "text-text-primary" : "text-text-primary")}>
+                  <p className={clsx("text-sm font-medium" ? "text-text-primary" : "text-text-primary")}>
                     {clientName}
                   </p>
                   {clientEmail && (

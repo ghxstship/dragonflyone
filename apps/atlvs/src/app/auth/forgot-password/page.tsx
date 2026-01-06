@@ -24,11 +24,13 @@ import {
   Text,
   H2,
 } from "@ghxstship/ui";
+import { useBrand } from "@ghxstship/config";
 import { supabase } from "@/lib/supabase";
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const toast = useToast();
+  const { name: brandName, poweredByText } = useBrand();
 
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -68,7 +70,7 @@ export default function ForgotPasswordPage() {
     return (
       <AuthSplitLayout
         singleColumn
-        brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">ATLVS</Text>}
+        brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">{brandName}</Text>}
       >
         <Stack gap={8} className="text-center items-center">
           <Box className="p-6 bg-success-500/20 rounded-avatar border-2 border-success-500/30">
@@ -76,9 +78,9 @@ export default function ForgotPasswordPage() {
           </Box>
           
           <Stack gap={3} className="items-center">
-            <H2 className="text-white">Check Your Email</H2>
+            <H2 className="text-text-primary">Check Your Email</H2>
             <Body className="text-text-secondary max-w-sm">
-              If an account exists for <strong className="text-white">{email}</strong>, you will receive an email with instructions to reset your password.
+              If an account exists for <strong className="text-text-primary">{email}</strong>, you will receive an email with instructions to reset your password.
             </Body>
           </Stack>
 
@@ -109,10 +111,10 @@ export default function ForgotPasswordPage() {
   return (
     <AuthSplitLayout
       title="Forgot Password?"
-      subtitle="No worries, we'll send you reset instructions"
+      subtitle={`No worries, ${poweredByText} will send you reset instructions`}
       footer={{ text: "Remember your password?", linkText: "Sign in", linkHref: "/auth/signin" }}
       singleColumn
-      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">ATLVS</Text>}
+      brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">{brandName}</Text>}
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={5}>

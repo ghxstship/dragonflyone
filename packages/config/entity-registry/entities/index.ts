@@ -75,6 +75,25 @@ import { accountTicketsEntity } from './account-tickets';
 import { rewardsTransactionsEntity } from './rewards-transactions';
 import { rewardsCatalogEntity } from './rewards-catalog';
 
+// Import new missing entities
+import { savedFiltersEntity } from './saved-filters';
+import { userPreferencesEntity } from './user-preferences';
+import { userSettingsEntity } from './user-settings';
+import { userNotificationPreferencesEntity } from './user-notification-preferences';
+import { workspacesEntity } from './workspaces';
+import { apiKeysEntity } from './api-keys';
+import { webhooksEntity } from './webhooks';
+import { featureFlagsEntity } from './feature-flags';
+import { notificationsEntity } from './notifications';
+import { automationRulesEntity } from './automation-rules';
+import { integrationPosEntity } from './integration-pos';
+import { integrationAtsEntity } from './integration-ats';
+import { searchHistoryEntity } from './search-history';
+import { importJobsEntity } from './import-jobs';
+import { exportJobsEntity } from './export-jobs';
+import { ssoProvidersEntity } from './sso-providers';
+import { userSessionsEntity } from './user-sessions';
+
 // Export individual entities
 export { credentialsEntity } from './credentials';
 export { billsEntity } from './bills';
@@ -143,6 +162,25 @@ export { accountOrdersEntity } from './account-orders';
 export { accountTicketsEntity } from './account-tickets';
 export { rewardsTransactionsEntity, REWARDS_TRANSACTION_TYPE_COLORS } from './rewards-transactions';
 export { rewardsCatalogEntity, REWARDS_AVAILABILITY_COLORS, REWARDS_TYPE_COLORS } from './rewards-catalog';
+
+// Export new missing entities
+export { savedFiltersEntity } from './saved-filters';
+export { userPreferencesEntity } from './user-preferences';
+export { userSettingsEntity } from './user-settings';
+export { userNotificationPreferencesEntity } from './user-notification-preferences';
+export { workspacesEntity } from './workspaces';
+export { apiKeysEntity } from './api-keys';
+export { webhooksEntity } from './webhooks';
+export { featureFlagsEntity } from './feature-flags';
+export { notificationsEntity } from './notifications';
+export { automationRulesEntity } from './automation-rules';
+export { integrationPosEntity } from './integration-pos';
+export { integrationAtsEntity } from './integration-ats';
+export { searchHistoryEntity } from './search-history';
+export { importJobsEntity } from './import-jobs';
+export { exportJobsEntity } from './export-jobs';
+export { ssoProvidersEntity } from './sso-providers';
+export { userSessionsEntity } from './user-sessions';
 
 // All entities array
 export const allEntities = [
@@ -213,6 +251,25 @@ export const allEntities = [
   accountTicketsEntity,
   rewardsTransactionsEntity,
   rewardsCatalogEntity,
+  
+  // New missing entities
+  savedFiltersEntity,
+  userPreferencesEntity,
+  userSettingsEntity,
+  userNotificationPreferencesEntity,
+  workspacesEntity,
+  apiKeysEntity,
+  webhooksEntity,
+  featureFlagsEntity,
+  notificationsEntity,
+  automationRulesEntity,
+  integrationPosEntity,
+  integrationAtsEntity,
+  searchHistoryEntity,
+  importJobsEntity,
+  exportJobsEntity,
+  ssoProvidersEntity,
+  userSessionsEntity,
 ];
 
 // Register all entities on module load
@@ -246,6 +303,26 @@ export const ENTITY_NAMES = {
   DEALS: 'deals',
   QUOTES: 'quotes',
   ADVANCING: 'advancing',
+  SCHEDULE: 'schedule',
+  
+  // New missing entities
+  SAVED_FILTERS: 'saved-filters',
+  USER_PREFERENCES: 'user-preferences',
+  USER_SETTINGS: 'user-settings',
+  USER_NOTIFICATION_PREFERENCES: 'user-notification-preferences',
+  WORKSPACES: 'workspaces',
+  API_KEYS: 'api-keys',
+  WEBHOOKS: 'webhooks',
+  FEATURE_FLAGS: 'feature-flags',
+  NOTIFICATIONS: 'notifications',
+  AUTOMATION_RULES: 'automation-rules',
+  INTEGRATION_POS: 'integration-pos',
+  INTEGRATION_ATS: 'integration-ats',
+  SEARCH_HISTORY: 'search-history',
+  IMPORT_JOBS: 'import-jobs',
+  EXPORT_JOBS: 'export-jobs',
+  SSO_PROVIDERS: 'sso-providers',
+  USER_SESSIONS: 'user-sessions',
 } as const;
 
 export type EntityNameType = typeof ENTITY_NAMES[keyof typeof ENTITY_NAMES];

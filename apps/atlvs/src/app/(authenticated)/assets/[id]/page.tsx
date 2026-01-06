@@ -10,7 +10,7 @@ import { useRouter, useParams } from "next/navigation";
 import { Pencil, Wrench, Upload, History, Trash2 } from "lucide-react";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useToast,
+  Badge, Body, Card, DetailPage, Grid, StatCard, Section, SectionHeader, ConfirmDialog, useToast,
   type DetailPageTab} from "@ghxstship/ui";
 import { useAssets, useDeleteAsset } from "@/hooks/useAssets";
 import { useState } from "react";
@@ -120,44 +120,43 @@ export default function AssetDetailPage() {
           <Section border className="mb-6">
             <SectionHeader title="Asset Information" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Asset Tag</Body>
-                <Body className="text-white font-mono">{asset.tag}</Body>
+                <Body className="text-text-primary font-mono">{asset.tag}</Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Name / Description</Body>
-                <Body className="text-white">{asset.name || "Not provided"}</Body>
+                <Body className="text-text-primary">{asset.tag || "Not provided"}</Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Location</Body>
-                <Body className="text-white">{asset.location || "Not specified"}</Body>
+                <Body className="text-text-primary">{asset.location || "Not specified"}</Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Category</Body>
-                <Body className="text-white">{CATEGORY_LABELS[asset.category] || asset.category}</Body>
+                <Body className="text-text-primary">{CATEGORY_LABELS[asset.category] || asset.category}</Body>
               </Card>
             </Grid>
           </Section>
 
           {/* Financial Details */}
           <Section border className="mb-6">
-            <SectionHeader title="Financial Details" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Purchase Price</Body>
-                <Body className="text-white font-mono">{formatCurrency(asset.purchase_price)}</Body>
+                <Body className="text-text-primary font-mono">{formatCurrency(asset.purchase_price)}</Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Purchase Date</Body>
-                <Body className="text-white">{formatDate(asset.purchase_date || asset.acquired_at)}</Body>
+                <Body className="text-text-primary">{formatDate(asset.purchase_date || asset.acquired_at)}</Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Current Value</Body>
-                <Body className="text-white font-mono">{formatCurrency(currentValue)}</Body>
+                <Body className="text-text-primary font-mono">{formatCurrency(currentValue)}</Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Depreciation Rate</Body>
-                <Body className="text-white">{asset.depreciation_rate ? `${asset.depreciation_rate}%` : "Not set"}</Body>
+                <Body className="text-text-primary">{asset.depreciation_rate ? `${asset.depreciation_rate}%` : "Not set"}</Body>
               </Card>
             </Grid>
           </Section>
@@ -166,21 +165,21 @@ export default function AssetDetailPage() {
           <Section border>
             <SectionHeader title="Assignment" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Assigned To</Body>
-                <Body className="text-white">{asset.assigned_to || "Unassigned"}</Body>
+                <Body className="text-text-primary">{asset.assigned_to || "Unassigned"}</Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Project</Body>
-                <Body className="text-white">{asset.project_id || "No project"}</Body>
+                <Body className="text-text-primary">{asset.project_id || "No project"}</Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Created</Body>
-                <Body className="text-white">{formatDate(asset.created_at)}</Body>
+                <Body className="text-text-primary">{formatDate(asset.created_at)}</Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Last Updated</Body>
-                <Body className="text-white">{formatDate(asset.updated_at)}</Body>
+                <Body className="text-text-primary">{formatDate(asset.updated_at)}</Body>
               </Card>
             </Grid>
           </Section>
@@ -194,7 +193,7 @@ export default function AssetDetailPage() {
       content: (
         <Section border>
           <SectionHeader title="Asset History" />
-          <Card inverted className="p-6">
+          <Card className="p-6">
             <Body className="text-text-muted">No history records available for this asset.</Body>
           </Card>
         </Section>
@@ -207,7 +206,7 @@ export default function AssetDetailPage() {
       content: (
         <Section border>
           <SectionHeader title="Maintenance Records" />
-          <Card inverted className="p-6">
+          <Card className="p-6">
             <Body className="text-text-muted">No maintenance records available for this asset.</Body>
           </Card>
         </Section>
@@ -218,10 +217,13 @@ export default function AssetDetailPage() {
   return (
     <>
       <DetailPage
+        entityType="assets"
+        entityId={assetId}
+        entitySelector={() => asset || null}
         header={{
           kicker: asset?.category ? CATEGORY_LABELS[asset.category] : "Asset",
           title: asset?.tag || "Asset Details",
-          description: asset?.name || undefined,
+          description: asset?.tag || undefined,
           badge: asset?.state ? (
             <Badge variant={STATE_COLORS[asset.state] || "outline"}>
               {STATE_LABELS[asset.state] || asset.state}
@@ -229,53 +231,40 @@ export default function AssetDetailPage() {
           ) : undefined,
         }}
         backButton={{ label: "Back to Assets", href: "/assets" }}
-        loading={isLoading}
+        isLoading={isLoading}
         error={error instanceof Error ? error : null}
         onRetry={refetch}
         notFound={!isLoading && !error && !asset}
         notFoundMessage="The asset you're looking for doesn't exist or has been removed."
         tabs={tabs}
         actions={
-          canEdit ? (
-            <>
-              <Button
-                variant="outline"
-                inverted
-                onClick={() => router.push(`/assets/${assetId}/checkout`)}
-                icon={<Upload className="size-4" />}
-                iconPosition="left"
-              >
-                Check Out
-              </Button>
-              <Button
-                variant="outline"
-                inverted
-                onClick={() => router.push(`/assets/${assetId}/maintenance`)}
-                icon={<Wrench className="size-4" />}
-                iconPosition="left"
-              >
-                Maintenance
-              </Button>
-              <Button
-                variant="solid"
-                onClick={() => router.push(`/assets/${assetId}/edit`)}
-                icon={<Pencil className="size-4" />}
-                iconPosition="left"
-              >
-                Edit
-              </Button>
-              <Button
-                variant="outline"
-                inverted
-                onClick={() => setDeleteConfirmOpen(true)}
-                icon={<Trash2 className="size-4" />}
-                iconPosition="left"
-                className="border-error text-error hover:bg-error hover:text-white"
-              >
-                Delete
-              </Button>
-            </>
-          ) : undefined
+          canEdit ? [
+            {
+              id: 'checkout',
+              label: 'Check Out',
+              icon: <Upload className="size-4" />,
+              onClick: () => router.push(`/assets/${assetId}/checkout`),
+            },
+            {
+              id: 'maintenance',
+              label: 'Maintenance',
+              icon: <Wrench className="size-4" />,
+              onClick: () => router.push(`/assets/${assetId}/maintenance`),
+            },
+            {
+              id: 'edit',
+              label: 'Edit',
+              icon: <Pencil className="size-4" />,
+              onClick: () => router.push(`/assets/${assetId}/edit`),
+            },
+            {
+              id: 'delete',
+              label: 'Delete',
+              icon: <Trash2 className="size-4" />,
+              onClick: () => setDeleteConfirmOpen(true),
+              variant: 'danger' as const,
+            },
+          ] : undefined
         }
       />
 

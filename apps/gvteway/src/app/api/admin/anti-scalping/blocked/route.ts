@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
+import { log } from '@ghxstship/config';
 
 const createBlockSchema = z.object({
   type: z.enum(['ip', 'email', 'device', 'payment_method']),
@@ -26,7 +27,7 @@ export async function GET() {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching blocked entities:', error);
+      log.error('Error fetching blocked entities', error, { endpoint: '/api/admin/anti-scalping/blocked', method: 'GET' });
       return NextResponse.json({ error: 'Failed to fetch blocked list' }, { status: 500 });
     }
 
@@ -41,7 +42,7 @@ export async function GET() {
 
     return NextResponse.json({ blocked: transformedBlocked });
   } catch (error) {
-    console.error('Error in blocked entities API:', error);
+    log.error('Error in blocked entities API', error, { endpoint: '/api/admin/anti-scalping/blocked', method: 'GET' });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -71,7 +72,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating blocked entity:', error);
+      log.error('Error creating blocked entity', error, { endpoint: '/api/admin/anti-scalping/blocked', method: 'POST' });
       return NextResponse.json({ error: 'Failed to block entity' }, { status: 500 });
     }
 
@@ -88,7 +89,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid request data', details: error.errors }, { status: 400 });
     }
-    console.error('Error in blocked entities POST API:', error);
+    log.error('Error in blocked entities POST API', error, { endpoint: '/api/admin/anti-scalping/blocked', method: 'POST' });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -89,7 +89,7 @@ export default function ProductComparePage() {
                     <Box className="p-4 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                       {product.icon}
                     </Box>
-                    <Body className="text-white font-weight-bold text-h4-md mb-2">{product.name}</Body>
+                    <Body className="text-text-primary font-weight-bold text-h4-md mb-2">{product.name}</Body>
                     <Body className="text-text-muted">{product.description}</Body>
                   </Card>
                 ))}
@@ -105,7 +105,7 @@ export default function ProductComparePage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Features</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Feature Comparison</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Feature Comparison</Body>
                   <Body className="text-text-muted">See which features are included in each product</Body>
                 </Stack>
 
@@ -118,7 +118,7 @@ export default function ProductComparePage() {
                           <TableHead key={product.id} className="text-center">
                             <Box className="flex items-center justify-center gap-2">
                               {product.icon}
-                              <Body className="text-white font-weight-bold">{product.name}</Body>
+                              <Body className="text-text-primary font-weight-bold">{product.name}</Body>
                             </Box>
                           </TableHead>
                         ))}
@@ -129,7 +129,7 @@ export default function ProductComparePage() {
                         <>
                           <TableRow key={category.category}>
                             <TableCell colSpan={4} className="bg-surface-elevated">
-                              <Body className="text-white font-weight-bold">{category.category}</Body>
+                              <Body className="text-text-primary font-weight-bold">{category.category}</Body>
                             </TableCell>
                           </TableRow>
                           {category.features.map((feature) => (
@@ -158,7 +158,7 @@ export default function ProductComparePage() {
             <Container size="2xl" className="py-20">
               <Card className="p-12 border-2 border-primary rounded-card text-center">
                 <Body className="text-primary uppercase tracking-kicker font-weight-semibold mb-4">Best Value</Body>
-                <Body className="text-white font-weight-bold text-h3-md mb-4">Complete Suite Bundle</Body>
+                <Body className="text-text-primary font-weight-bold text-h3-md mb-4">Complete Suite Bundle</Body>
                 <Body className="text-text-muted mb-8 max-w-xl mx-auto">Get all three products bundled together for the best value. Perfect for organizations that need end-to-end event management.</Body>
                 <Stack direction="horizontal" gap={4} className="justify-center flex-wrap">
                   <Button variant="solid" onClick={() => router.push("/demo")}>Request Demo</Button>

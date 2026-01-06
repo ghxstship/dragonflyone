@@ -68,28 +68,28 @@ export function PipelineStage({
 
   return (
     <div 
-      className={pipelineStageVariants({ isDropTarget, inverted, className })}
+      className={pipelineStageVariants({ isDropTarget, className })}
       data-stage-id={id}
     >
       {/* Header */}
-      <div className={pipelineStageHeaderVariants({ inverted })}>
-        <div className={pipelineStageTitleAreaVariants({ inverted })}>
+      <div className={pipelineStageHeaderVariants({})}>
+        <div className={pipelineStageTitleAreaVariants({})}>
           {/* Stage Name */}
           <div className="flex items-center gap-2">
             <div 
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: color }}
             />
-            <h3 className={pipelineStageTitleVariants({ inverted })}>
+            <h3 className={pipelineStageTitleVariants({})}>
               {name}
             </h3>
           </div>
 
           {/* Actions */}
-          <div className={pipelineStageActionsVariants({ inverted })}>
+          <div className={pipelineStageActionsVariants({})}>
             {onAddDeal && (
               <button
-                className={pipelineStageActionButtonVariants({ inverted })}
+                className={pipelineStageActionButtonVariants({})}
                 onClick={onAddDeal}
                 title={`Add deal to ${name}`}
                 aria-label={`Add deal to ${name}`}
@@ -100,7 +100,7 @@ export function PipelineStage({
             
             {onSettings && (
               <button
-                className={pipelineStageActionButtonVariants({ inverted })}
+                className={pipelineStageActionButtonVariants({})}
                 onClick={onSettings}
                 title={`Configure ${name} stage`}
                 aria-label={`Configure ${name} stage`}
@@ -112,7 +112,7 @@ export function PipelineStage({
         </div>
 
         {/* Probability Badge */}
-        <div className={`inline-flex items-center gap-1 ${pipelineStageProbabilityVariants({ inverted })}`}
+        <div className={`inline-flex items-center gap-1 ${pipelineStageProbabilityVariants({})}`}
              style={{ backgroundColor: color, color: 'white' }}>
           <TrendingUp className="w-3 h-3" />
           {probability}%
@@ -120,37 +120,37 @@ export function PipelineStage({
       </div>
 
       {/* Metrics */}
-      <div className={pipelineStageMetricsVariants({ inverted })}>
-        <div className={pipelineStageMetricVariants({ inverted })}>
-          <span className={pipelineStageMetricLabelVariants({ inverted })}>
+      <div className={pipelineStageMetricsVariants({})}>
+        <div className={pipelineStageMetricVariants({})}>
+          <span className={pipelineStageMetricLabelVariants({})}>
             DEALS
           </span>
-          <span className={pipelineStageMetricValueVariants({ inverted })}>
+          <span className={pipelineStageMetricValueVariants({})}>
             {dealCount}
           </span>
         </div>
 
-        <div className={pipelineStageMetricVariants({ inverted })}>
-          <span className={pipelineStageMetricLabelVariants({ inverted })}>
+        <div className={pipelineStageMetricVariants({})}>
+          <span className={pipelineStageMetricLabelVariants({})}>
             TOTAL
           </span>
-          <span className={pipelineStageMetricValueVariants({ inverted })}>
+          <span className={pipelineStageMetricValueVariants({})}>
             {formatCurrency(totalValue)}
           </span>
         </div>
 
-        <div className={pipelineStageMetricVariants({ inverted })}>
-          <span className={pipelineStageMetricLabelVariants({ inverted })}>
+        <div className={pipelineStageMetricVariants({})}>
+          <span className={pipelineStageMetricLabelVariants({})}>
             WEIGHTED
           </span>
-          <span className={pipelineStageMetricValueVariants({ inverted })}>
+          <span className={pipelineStageMetricValueVariants({})}>
             {formatCurrency(weightedValue)}
           </span>
         </div>
       </div>
 
       {/* Content */}
-      <div className={pipelineStageContentVariants({ inverted })}>
+      <div className={pipelineStageContentVariants({})}>
         {children}
       </div>
     </div>

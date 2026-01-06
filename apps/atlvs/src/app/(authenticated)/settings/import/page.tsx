@@ -6,7 +6,7 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Upload, FileText, Database, Users, Calendar, List, Settings } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -65,6 +65,29 @@ export default function ImportSettingsPage() {
 
   const currentOption = IMPORT_OPTIONS.find((o) => o.id === selectedImport);
 
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleStartImport = useCallback(() => {
+    if (selectedFile) {
+      importMutation.mutate({ type: selectedImport, file: selectedFile });
+    }
+  }, [selectedFile, importMutation, selectedImport]);
+
+  const handleImportOptionChange = useCallback((optionId: string) => {
+    setSelectedImport(optionId);
+  }, []);
+
+  const handleFilesSelect = useCallback((files: File[]) => {
+    if (files.length > 0) {
+      setSelectedFile(files[0]);
+    }
+  }, []);
+
+  const handleDownloadTemplate = useCallback(() => {
+    if (currentOption) {
+      window.open(currentOption.template, "_blank");
+    }
+  }, [currentOption]);
+
   const tabs = [
     {
       id: "import",
@@ -78,10 +101,10 @@ export default function ImportSettingsPage() {
               <Card
                 key={option.id}
                 className={`p-4 cursor-pointer transition-colors ${selectedImport === option.id ? "border-primary" : ""}`}
-                onClick={() => setSelectedImport(option.id)}
+                onClick={() => handleImportOptionChange(option.id)}
               >
                 <Box className="flex items-start gap-3">
-                  <Box className={`p-2 rounded-card ${selectedImport === option.id ? "bg-primary text-white" : "bg-surface-elevated text-text-muted"}`}>
+                  <Box className={`p-2 rounded-card ${selectedImport === option.id ? "bg-primary text-text-primary" : "bg-surface-elevated text-text-muted"}`}>
                     {option.icon}
                   </Box>
                   <Box className="flex-1">
@@ -102,11 +125,7 @@ export default function ImportSettingsPage() {
             <SectionHeader title="Upload File" />
             <FileUpload
               accept={currentOption?.formats.map((f) => `.${f}`).join(",")}
-              onFilesSelect={(files: File[]) => {
-                if (files.length > 0) {
-                  setSelectedFile(files[0]);
-                }
-              }}
+              onFilesSelect={handleFilesSelect}
               maxFiles={1}
               maxSize={10 * 1024 * 1024}
               className="mt-4"
@@ -114,14 +133,14 @@ export default function ImportSettingsPage() {
             {currentOption && (
               <Box className="mt-4 flex items-center justify-between">
                 <Body size="sm" className="text-text-muted">Need a template? Download our sample file.</Body>
-                <Button variant="ghost" size="sm" onClick={() => window.open(currentOption.template, "_blank")}>Download Template</Button>
+                <Button variant="ghost" size="sm" onClick={handleDownloadTemplate}>Download Template</Button>
               </Box>
             )}
           </Card>
 
           <Button
             variant="solid"
-            onClick={() => selectedFile && importMutation.mutate({ type: selectedImport, file: selectedFile })}
+            onClick={handleStartImport}
             disabled={!selectedFile || importMutation.isPending}
             icon={<Upload className="size-4" />}
             iconPosition="left"
@@ -150,6 +169,9 @@ export default function ImportSettingsPage() {
 
   return (
     <DetailPage
+      entityType="user-settings"
+      entityId="import"
+      entitySelector={() => ({ id: "import" })}
       header={{ kicker: "Settings", title: "Import Data", description: "Import data from files or other sources" }}
       backButton={{ label: "Settings", href: "/settings" }}
       tabs={tabs}

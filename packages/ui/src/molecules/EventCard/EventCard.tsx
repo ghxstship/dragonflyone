@@ -65,7 +65,7 @@ export function EventCard({
 
   return (
     <article
-      className={eventCardVariants({ variant, inverted, className })}
+      className={eventCardVariants({ variant, className })}
       onClick={() => onClick?.()}
       role="button"
       tabIndex={0}
@@ -95,7 +95,7 @@ export function EventCard({
           />
           {/* Date overlay on image */}
           <div className="absolute top-2 left-2">
-            <div className={eventCardDateVariants({ inverted })}>
+            <div className={eventCardDateVariants({})}>
               <div className="text-lg">{formattedDate.day}</div>
               <div className="text-xs">{formattedDate.month}</div>
             </div>
@@ -104,7 +104,7 @@ export function EventCard({
       ) : (
         // Date display when no image
         <div className="flex justify-center p-6">
-          <div className={eventCardDateVariants({ inverted })}>
+          <div className={eventCardDateVariants({})}>
             <div className="text-2xl">{formattedDate.day}</div>
             <div className="text-sm">{formattedDate.month}</div>
             <div className="text-xs">{formattedDate.weekday}</div>

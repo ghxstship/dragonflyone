@@ -127,73 +127,73 @@ export function RefundDialog({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className={refundDialogVariants({ inverted, className })}>
+      <div className={refundDialogVariants({ className })}>
         {/* Header */}
-        <div className={refundDialogHeaderVariants({ inverted })}>
-          <h3 className={refundDialogTitleVariants({ inverted })}>
+        <div className={refundDialogHeaderVariants({})}>
+          <h3 className={refundDialogTitleVariants({})}>
             Process Refund
           </h3>
         </div>
 
         {/* Warning */}
-        <div className={refundDialogWarningVariants({ inverted })}>
+        <div className={refundDialogWarningVariants({})}>
           <AlertTriangle className="w-4 h-4" />
           <span>This action cannot be undone. The refund will be processed immediately.</span>
         </div>
 
         {/* Content */}
-        <div className={refundDialogContentVariants({ inverted })}>
+        <div className={refundDialogContentVariants({})}>
           {/* Error */}
           {error && (
-            <div className={refundDialogErrorVariants({ inverted })}>
+            <div className={refundDialogErrorVariants({})}>
               <AlertTriangle className="w-4 h-4" />
               <span>{error}</span>
             </div>
           )}
 
           {/* Payment Information */}
-          <div className={refundDialogSectionVariants({ inverted })}>
-            <h4 className={refundDialogSectionTitleVariants({ inverted })}>
+          <div className={refundDialogSectionVariants({})}>
+            <h4 className={refundDialogSectionTitleVariants({})}>
               PAYMENT INFORMATION
             </h4>
             
-            <div className={refundDialogPaymentInfoVariants({ inverted })}>
+            <div className={refundDialogPaymentInfoVariants({})}>
               {customerName && (
-                <div className={refundDialogPaymentRowVariants({ inverted })}>
-                  <span className={refundDialogPaymentLabelVariants({ inverted })}>
+                <div className={refundDialogPaymentRowVariants({})}>
+                  <span className={refundDialogPaymentLabelVariants({})}>
                     Customer
                   </span>
-                  <span className={refundDialogPaymentValueVariants({ inverted })}>
+                  <span className={refundDialogPaymentValueVariants({})}>
                     {customerName}
                   </span>
                 </div>
               )}
               
               {transactionDate && (
-                <div className={refundDialogPaymentRowVariants({ inverted })}>
-                  <span className={refundDialogPaymentLabelVariants({ inverted })}>
+                <div className={refundDialogPaymentRowVariants({})}>
+                  <span className={refundDialogPaymentLabelVariants({})}>
                     Transaction Date
                   </span>
-                  <span className={refundDialogPaymentValueVariants({ inverted })}>
+                  <span className={refundDialogPaymentValueVariants({})}>
                     {new Date(transactionDate).toLocaleDateString()}
                   </span>
                 </div>
               )}
               
-              <div className={refundDialogPaymentRowVariants({ inverted })}>
-                <span className={refundDialogPaymentLabelVariants({ inverted })}>
+              <div className={refundDialogPaymentRowVariants({})}>
+                <span className={refundDialogPaymentLabelVariants({})}>
                   Original Amount
                 </span>
-                <span className={refundDialogPaymentValueVariants({ inverted })}>
+                <span className={refundDialogPaymentValueVariants({})}>
                   {formatCurrency(originalAmount)}
                 </span>
               </div>
               
-              <div className={refundDialogPaymentRowVariants({ inverted })}>
-                <span className={refundDialogPaymentLabelVariants({ inverted })}>
+              <div className={refundDialogPaymentRowVariants({})}>
+                <span className={refundDialogPaymentLabelVariants({})}>
                   Amount Paid
                 </span>
-                <span className={refundDialogPaymentValueVariants({ inverted })}>
+                <span className={refundDialogPaymentValueVariants({})}>
                   {formatCurrency(amountPaid)}
                 </span>
               </div>
@@ -203,12 +203,12 @@ export function RefundDialog({
           {/* Refund Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Refund Amount */}
-            <div className={refundDialogSectionVariants({ inverted })}>
-              <h4 className={refundDialogSectionTitleVariants({ inverted })}>
+            <div className={refundDialogSectionVariants({})}>
+              <h4 className={refundDialogSectionTitleVariants({})}>
                 REFUND AMOUNT
               </h4>
               
-              <div className={refundDialogInputGroupVariants({ inverted })}>
+              <div className={refundDialogInputGroupVariants({})}>
                 <div className="relative">
                   <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <input
@@ -216,7 +216,7 @@ export function RefundDialog({
                     placeholder="0.00"
                     value={refundAmount}
                     onChange={(e) => handleAmountChange(e.target.value)}
-                    className={`pl-10 ${refundDialogInputVariants({ inverted })}`}
+                    className={`pl-10 ${refundDialogInputVariants({})}`}
                     disabled={isLoading}
                   />
                 </div>
@@ -230,16 +230,16 @@ export function RefundDialog({
             </div>
 
             {/* Refund Reason */}
-            <div className={refundDialogSectionVariants({ inverted })}>
-              <h4 className={refundDialogSectionTitleVariants({ inverted })}>
+            <div className={refundDialogSectionVariants({})}>
+              <h4 className={refundDialogSectionTitleVariants({})}>
                 REFUND REASON
               </h4>
               
-              <div className={refundDialogInputGroupVariants({ inverted })}>
+              <div className={refundDialogInputGroupVariants({})}>
                 <select
                   value={refundReason}
                   onChange={(e) => setRefundReason(e.target.value)}
-                  className={refundDialogInputVariants({ inverted })}
+                  className={refundDialogInputVariants({})}
                   disabled={isLoading}
                   required
                 >
@@ -254,17 +254,17 @@ export function RefundDialog({
             </div>
 
             {/* Refund Notes */}
-            <div className={refundDialogSectionVariants({ inverted })}>
-              <h4 className={refundDialogSectionTitleVariants({ inverted })}>
+            <div className={refundDialogSectionVariants({})}>
+              <h4 className={refundDialogSectionTitleVariants({})}>
                 NOTES (OPTIONAL)
               </h4>
               
-              <div className={refundDialogInputGroupVariants({ inverted })}>
+              <div className={refundDialogInputGroupVariants({})}>
                 <textarea
                   placeholder="Add any additional notes about this refund..."
                   value={refundNotes}
                   onChange={(e) => setRefundNotes(e.target.value)}
-                  className={refundDialogTextareaVariants({ inverted })}
+                  className={refundDialogTextareaVariants({})}
                   rows={3}
                   disabled={isLoading}
                 />
@@ -274,7 +274,7 @@ export function RefundDialog({
         </div>
 
         {/* Footer */}
-        <div className={refundDialogFooterVariants({ inverted })}>
+        <div className={refundDialogFooterVariants({})}>
           <button
             type="button"
             onClick={onClose}

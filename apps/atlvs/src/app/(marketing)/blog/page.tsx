@@ -114,7 +114,7 @@ export default function BlogPage() {
                     </Box>
                     <Stack gap={4}>
                       <Badge className={getCategoryColor(featuredPost.category)}>{featuredPost.category}</Badge>
-                      <Body className="text-white font-weight-bold text-h4-md group-hover:text-primary transition-colors">{featuredPost.title}</Body>
+                      <Body className="text-text-primary font-weight-bold text-h4-md group-hover:text-primary transition-colors">{featuredPost.title}</Body>
                       <Body className="text-text-muted">{featuredPost.excerpt}</Body>
                       <Stack direction="horizontal" gap={4} className="items-center text-text-disabled">
                         <Stack direction="horizontal" gap={2} className="items-center">
@@ -130,7 +130,7 @@ export default function BlogPage() {
                           <Body size="sm">{featuredPost.readTime} read</Body>
                         </Stack>
                       </Stack>
-                      <Button variant="outline" className="w-fit group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors" icon={<ArrowRight className="size-4" />} iconPosition="right">
+                      <Button variant="outline" className="w-fit group-hover:bg-primary group-hover:text-text-primary group-hover:border-primary transition-colors" icon={<ArrowRight className="size-4" />} iconPosition="right">
                         Read Article
                       </Button>
                     </Stack>
@@ -148,7 +148,7 @@ export default function BlogPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">All Articles</Body>
-                  <H3 className="text-white">Latest from the Blog</H3>
+                  <H3 className="text-text-primary">Latest from the Blog</H3>
                 </Stack>
 
                 {/* Search and Filters */}
@@ -187,7 +187,7 @@ export default function BlogPage() {
                 ) : filteredPosts.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
                     <FileText className="size-16 text-text-disabled mx-auto mb-4" />
-                    <Body className="text-white font-weight-medium mb-2">No Articles Found</Body>
+                    <Body className="text-text-primary font-weight-medium mb-2">No Articles Found</Body>
                     <Body className="text-text-muted mb-4">{search ? "Try a different search term" : "Check back soon for new content"}</Body>
                     {search && <Button variant="outline" onClick={() => setSearch("")}>Clear Search</Button>}
                   </Card>
@@ -206,7 +206,7 @@ export default function BlogPage() {
                             </Box>
                           </Box>
                           <Badge className={getCategoryColor(post.category)}>{post.category}</Badge>
-                          <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{post.title}</Body>
+                          <Body className="text-text-primary font-weight-bold group-hover:text-primary transition-colors">{post.title}</Body>
                           <Body size="sm" className="text-text-muted line-clamp-2">{post.excerpt}</Body>
                           <Stack direction="horizontal" gap={4} className="items-center text-text-disabled mt-auto">
                             <Stack direction="horizontal" gap={1} className="items-center">

@@ -27,7 +27,7 @@ import type { DropdownProps } from "./Dropdown.types.js";
  * ```
  */
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
-  function Dropdown({ trigger, align = "left", inverted = true, label, className, children, ...props }, ref) {
+  function Dropdown({ trigger, align = "left", label, className, children, ...props }, ref) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -66,7 +66,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     return (
       <div
         ref={ref}
-        className={dropdownVariants({ align, inverted, className })}
+        className={dropdownVariants({ align, className })}
         {...props}
       >
         {/* Trigger */}

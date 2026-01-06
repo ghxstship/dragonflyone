@@ -193,30 +193,30 @@ export default function WebhooksPage() {
                     <TableRow key={webhook.id}>
                       <TableCell>
                         <Stack gap={0}>
-                          <Body className="font-weight-medium text-white">{webhook.name}</Body>
+                          <Body className="font-weight-medium text-text-primary">{webhook.name}</Body>
                           {webhook.description && (
                             <Body size="sm" className="text-text-muted">{webhook.description}</Body>
                           )}
                         </Stack>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="font-mono text-white truncate max-w-[200px]">
+                        <Body size="sm" className="font-mono text-text-primary truncate max-w-[200px]">
                           {webhook.url}
                         </Body>
                       </TableCell>
                       <TableCell>{getStatusBadge(webhook.status)}</TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-white">{webhook.events.length} events</Body>
+                        <Body size="sm" className="text-text-primary">{webhook.events.length} events</Body>
                       </TableCell>
                       <TableCell>
                         <Stack direction="horizontal" gap={3} className="items-center">
                           <Stack direction="horizontal" gap={1} className="items-center">
                             <CheckCircle className="size-3 text-success" />
-                            <Body size="sm" className="font-mono text-white">{webhook.success_count}</Body>
+                            <Body size="sm" className="font-mono text-text-primary">{webhook.success_count}</Body>
                           </Stack>
                           <Stack direction="horizontal" gap={1} className="items-center">
                             <XCircle className="size-3 text-error" />
-                            <Body size="sm" className="font-mono text-white">{webhook.failure_count}</Body>
+                            <Body size="sm" className="font-mono text-text-primary">{webhook.failure_count}</Body>
                           </Stack>
                         </Stack>
                       </TableCell>
@@ -264,7 +264,7 @@ export default function WebhooksPage() {
                   {webhookDetails.deliveries.map((delivery) => (
                     <TableRow key={delivery.id}>
                       <TableCell>
-                        <Body size="sm" className="text-white">{getEventLabel(delivery.event_type)}</Body>
+                        <Body size="sm" className="text-text-primary">{getEventLabel(delivery.event_type)}</Body>
                       </TableCell>
                       <TableCell>
                         {delivery.success ? (
@@ -274,10 +274,10 @@ export default function WebhooksPage() {
                         )}
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="font-mono text-white">{delivery.response_status || "-"}</Body>
+                        <Body size="sm" className="font-mono text-text-primary">{delivery.response_status || "-"}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="font-mono text-white">
+                        <Body size="sm" className="font-mono text-text-primary">
                           {delivery.response_time_ms ? `${delivery.response_time_ms}ms` : "-"}
                         </Body>
                       </TableCell>
@@ -386,11 +386,11 @@ export default function WebhooksPage() {
           <Stack gap={4}>
             <Stack gap={1}>
               <Body size="sm" className="text-text-muted">Name</Body>
-              <Body className="font-weight-medium text-white">{selectedWebhook.name}</Body>
+              <Body className="font-weight-medium text-text-primary">{selectedWebhook.name}</Body>
             </Stack>
             <Stack gap={1}>
               <Body size="sm" className="text-text-muted">URL</Body>
-              <Body size="sm" className="font-mono text-white break-all">{selectedWebhook.url}</Body>
+              <Body size="sm" className="font-mono text-text-primary break-all">{selectedWebhook.url}</Body>
             </Stack>
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <Stack gap={1}>
@@ -399,7 +399,7 @@ export default function WebhooksPage() {
               </Stack>
               <Stack gap={1}>
                 <Body size="sm" className="text-text-muted">Retry Count</Body>
-                <Body className="text-white">{selectedWebhook.retry_count}</Body>
+                <Body className="text-text-primary">{selectedWebhook.retry_count}</Body>
               </Stack>
             </Grid>
             <Stack gap={1}>
@@ -413,17 +413,17 @@ export default function WebhooksPage() {
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <Stack gap={1}>
                 <Body size="sm" className="text-text-muted">Successful Deliveries</Body>
-                <Body className="font-mono text-white">{selectedWebhook.success_count}</Body>
+                <Body className="font-mono text-text-primary">{selectedWebhook.success_count}</Body>
               </Stack>
               <Stack gap={1}>
                 <Body size="sm" className="text-text-muted">Failed Deliveries</Body>
-                <Body className="font-mono text-white">{selectedWebhook.failure_count}</Body>
+                <Body className="font-mono text-text-primary">{selectedWebhook.failure_count}</Body>
               </Stack>
             </Grid>
             {selectedWebhook.last_triggered_at && (
               <Stack gap={1}>
                 <Body size="sm" className="text-text-muted">Last Triggered</Body>
-                <Body className="text-white">{new Date(selectedWebhook.last_triggered_at).toLocaleString()}</Body>
+                <Body className="text-text-primary">{new Date(selectedWebhook.last_triggered_at).toLocaleString()}</Body>
               </Stack>
             )}
             <Stack direction="horizontal" gap={4}>

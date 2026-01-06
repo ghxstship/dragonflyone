@@ -74,7 +74,7 @@ export function ConsumerNavigationAuthenticated({
   return (
     <PublicNavbar
       logo={
-        <Link href="/experiences" className="font-display text-h5-md uppercase text-white">
+        <Link href="/experiences" className="font-display text-h5-md uppercase text-text-primary">
           GVTEWAY
         </Link>
       }
@@ -134,7 +134,7 @@ export function CreatorNavigationAuthenticated({
   return (
     <PublicNavbar
       logo={
-        <Link href="/dashboard" className="font-display text-h5-md uppercase text-white">
+        <Link href="/dashboard" className="font-display text-h5-md uppercase text-text-primary">
           GVTEWAY
         </Link>
       }

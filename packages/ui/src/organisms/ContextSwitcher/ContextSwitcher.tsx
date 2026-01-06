@@ -256,7 +256,7 @@ export const ContextSwitcher = forwardRef<HTMLDivElement, ContextSwitcherProps>(
       <div ref={ref}>
         <Dropdown trigger={trigger} align="left" inverted={inverted}>
           {/* Search */}
-          <div className={clsx("p-2 border-b", inverted ? "border-border" : "border-border")}>
+          <div className={clsx("p-2 border-b" ? "border-border" : "border-border")}>
             <div
               className={clsx(
                 "flex items-center gap-2 px-3 py-2 rounded border-2",

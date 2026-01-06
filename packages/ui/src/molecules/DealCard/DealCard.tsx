@@ -88,7 +88,7 @@ export function DealCard({
 
   return (
     <div
-      className={dealCardVariants({ variant: cardVariant, inverted, className })}
+      className={dealCardVariants({ variant: cardVariant, className })}
       onClick={onClick}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -101,13 +101,13 @@ export function DealCard({
       aria-label={`Deal: ${name}, Value: ${formatCurrency(value)}, Probability: ${probability}%`}
     >
       {/* Header */}
-      <div className={dealCardHeaderVariants({ variant: cardVariant, inverted })}>
+      <div className={dealCardHeaderVariants({ variant: cardVariant })}>
         {/* Deal Info */}
-        <div className={dealCardDealInfoVariants({ variant: cardVariant, inverted })}>
-          <div className={dealCardDealNumberVariants({ inverted })}>
+        <div className={dealCardDealInfoVariants({ variant: cardVariant })}>
+          <div className={dealCardDealNumberVariants({})}>
             {dealNumber}
           </div>
-          <h3 className={dealCardDealNameVariants({ variant: cardVariant, inverted })}>
+          <h3 className={dealCardDealNameVariants({ variant: cardVariant })}>
             {name}
           </h3>
         </div>
@@ -115,7 +115,7 @@ export function DealCard({
         {/* Stage Badge */}
         {stageName && (
           <div 
-            className={dealCardStageVariants({ inverted })}
+            className={dealCardStageVariants({})}
             style={{ 
               backgroundColor: stageColor || 'var(--color-brand-primary)',
               color: 'white'
@@ -127,25 +127,25 @@ export function DealCard({
       </div>
 
       {/* Metrics */}
-      <div className={dealCardMetricsVariants({ variant: cardVariant, inverted })}>
+      <div className={dealCardMetricsVariants({ variant: cardVariant })}>
         {/* Value */}
-        <div className={dealCardMetricVariants({ inverted })}>
+        <div className={dealCardMetricVariants({})}>
           <DollarSign className="w-4 h-4" />
           <div>
-            <div className={dealCardMetricLabelVariants({ inverted })}>
+            <div className={dealCardMetricLabelVariants({})}>
               VALUE
             </div>
-            <div className={dealCardMetricValueVariants({ type: "value", inverted })}>
+            <div className={dealCardMetricValueVariants({ type: "value" })}>
               {formatCurrency(value)}
             </div>
           </div>
         </div>
 
         {/* Probability */}
-        <div className={dealCardMetricVariants({ inverted })}>
+        <div className={dealCardMetricVariants({})}>
           <Percent className="w-4 h-4" />
           <div>
-            <div className={dealCardMetricLabelVariants({ inverted })}>
+            <div className={dealCardMetricLabelVariants({})}>
               PROBABILITY
             </div>
             <div className={`font-bold ${getProbabilityColor(probability)}`}>
@@ -174,10 +174,10 @@ export function DealCard({
       </div>
 
       {/* Details (hidden in compact variant) */}
-      <div className={dealCardDetailsVariants({ variant: cardVariant, inverted })}>
+      <div className={dealCardDetailsVariants({ variant: cardVariant })}>
         {/* Contact */}
         {contactName && (
-          <div className={dealCardDetailItemVariants({ inverted })}>
+          <div className={dealCardDetailItemVariants({})}>
             <User className="w-4 h-4" />
             <span>{contactName}</span>
           </div>
@@ -185,7 +185,7 @@ export function DealCard({
 
         {/* Expected Close Date */}
         {expectedCloseDate && (
-          <div className={dealCardDetailItemVariants({ inverted })}>
+          <div className={dealCardDetailItemVariants({})}>
             <Calendar className="w-4 h-4" />
             <span>Expected: {formatDate(expectedCloseDate)}</span>
           </div>
@@ -193,7 +193,7 @@ export function DealCard({
 
         {/* Assignee */}
         {assigneeName && (
-          <div className={dealCardDetailItemVariants({ inverted })}>
+          <div className={dealCardDetailItemVariants({})}>
             <User className="w-4 h-4" />
             <span>Assigned to: {assigneeName}</span>
           </div>

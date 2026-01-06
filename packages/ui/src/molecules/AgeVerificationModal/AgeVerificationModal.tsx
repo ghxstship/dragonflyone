@@ -107,26 +107,26 @@ export const AgeVerificationModal = forwardRef<HTMLDivElement, AgeVerificationMo
     return (
       <div 
         ref={ref} 
-        className={ageVerificationModalVariants({ inverted, className })} 
+        className={ageVerificationModalVariants({ className })} 
         {...props}
       >
         {/* Modal Background */}
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           {/* Modal Content */}
           <div className="bg-surface-primary border-2 border-border rounded-[var(--radius-modal)] shadow-hard max-w-md w-full">
-            <div className={ageVerificationModalContentVariants({ inverted })}>
+            <div className={ageVerificationModalContentVariants({})}>
               {/* Warning Icon */}
-              <div className={ageVerificationModalIconVariants({ inverted })}>
+              <div className={ageVerificationModalIconVariants({})}>
                 <AlertTriangle className="w-16 h-16" />
               </div>
 
               {/* Title */}
-              <h2 className={ageVerificationModalTitleVariants({ inverted })}>
+              <h2 className={ageVerificationModalTitleVariants({})}>
                 {title || "Age Verification Required"}
               </h2>
 
               {/* Description */}
-              <p className={ageVerificationModalDescriptionVariants({ inverted })}>
+              <p className={ageVerificationModalDescriptionVariants({})}>
                 {description || (
                   <>
                     {eventName && (
@@ -143,7 +143,7 @@ export const AgeVerificationModal = forwardRef<HTMLDivElement, AgeVerificationMo
               </p>
 
               {/* Form */}
-              <div className={ageVerificationModalFormVariants({ inverted })}>
+              <div className={ageVerificationModalFormVariants({})}>
                 {requireDateOfBirth && (
                   <div>
                     <label className="block text-sm font-medium text-text-primary mb-2">
@@ -175,7 +175,7 @@ export const AgeVerificationModal = forwardRef<HTMLDivElement, AgeVerificationMo
               </div>
 
               {/* Action Buttons */}
-              <div className={ageVerificationModalButtonGroupVariants({ inverted })}>
+              <div className={ageVerificationModalButtonGroupVariants({})}>
                 <button
                   onClick={handleDeny}
                   className="flex-1 px-4 py-2 border-2 rounded-button font-medium transition-all duration-[var(--duration-fast)] ease-[var(--easing-easeOut)] bg-surface-elevated border-border text-text-primary hover:bg-surface-hover"

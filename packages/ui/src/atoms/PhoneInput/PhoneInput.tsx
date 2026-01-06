@@ -132,7 +132,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
               type="button"
               className={phoneInputSelectorVariants({
                 error,
-                inverted,
+                
               })}
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               aria-label="Select country code"
@@ -155,7 +155,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
 
             {/* Dropdown */}
             {isDropdownOpen && (
-              <div className={phoneInputDropdownVariants({ inverted })}>
+              <div className={phoneInputDropdownVariants({})}>
                 {COUNTRY_CODES.map((country) => (
                   <button
                     key={`${country.country}-${country.code}`}
@@ -188,7 +188,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
             placeholder={placeholder}
             className={phoneInputVariants({
               error,
-              inverted,
+              
               className,
             })}
             {...props}

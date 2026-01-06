@@ -73,8 +73,8 @@ export default function SecurityPage() {
               <Grid cols={4} gap={8} className="grid-cols-2 md:grid-cols-4">
                 {TRUST_STATS.map((stat, idx) => (
                   <Stack key={idx} gap={1} className="text-center">
-                    <Body className="text-white font-weight-bold text-h3-md">{stat.value}</Body>
-                    <Body className="text-white/80">{stat.label}</Body>
+                    <Body className="text-text-primary font-weight-bold text-h3-md">{stat.value}</Body>
+                    <Body className="text-text-primary/80">{stat.label}</Body>
                   </Stack>
                 ))}
               </Grid>
@@ -107,7 +107,7 @@ export default function SecurityPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Compliance</Body>
-                  <H3 className="text-white">Certifications & Standards</H3>
+                  <H3 className="text-text-primary">Certifications & Standards</H3>
                   <Body className="text-text-muted max-w-2xl">We maintain rigorous compliance with industry standards and undergo regular third-party audits.</Body>
                 </Stack>
 
@@ -120,7 +120,7 @@ export default function SecurityPage() {
                         </Box>
                         <Stack gap={2} className="flex-1">
                           <Stack direction="horizontal" gap={2} className="items-center">
-                            <Body className="text-white font-weight-bold">{cert.name}</Body>
+                            <Body className="text-text-primary font-weight-bold">{cert.name}</Body>
                             <Badge className="bg-success/20 text-success border-success/30">Certified</Badge>
                           </Stack>
                           <Body className="text-text-muted">{cert.description}</Body>
@@ -145,7 +145,7 @@ export default function SecurityPage() {
                       <FileText className="size-10 text-primary" />
                     </Box>
                     <Stack gap={2}>
-                      <Body className="text-white font-weight-bold text-h5-md">Security Whitepaper</Body>
+                      <Body className="text-text-primary font-weight-bold text-h5-md">Security Whitepaper</Body>
                       <Body className="text-text-muted">Download our comprehensive security documentation detailing our practices, architecture, and compliance measures.</Body>
                     </Stack>
                   </Stack>

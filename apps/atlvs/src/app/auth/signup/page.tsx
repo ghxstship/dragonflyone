@@ -10,34 +10,30 @@ export const dynamic = "force-dynamic";
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, User, Calendar, Users, BarChart3 } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
   Button,
   Form,
   Link,
   Text,
-  AuthSplitLayout,
-  AuthFormField,
-  AuthPasswordInput,
-  PasswordRequirements,
-  AuthCheckbox,
-  AuthDivider,
+  Box,
+  Label,
+  Input,
+  Checkbox,
   SocialAuthButtonGroup,
-  useToast,
   Stack,
-  H1,
+  AuthPage,
 } from "@ghxstship/ui";
+import { useBrand } from "@ghxstship/config";
 import { supabase } from "@/lib/supabase";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const toast = useToast();
+  const { name: brandName, poweredByText } = useBrand();
 
   const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [socialLoading, setSocialLoading] = useState<string | undefined>();
 
   const passwordRequirements = useMemo(() => [
     { label: "At least 8 characters", met: formData.password.length >= 8 },
@@ -53,11 +49,11 @@ export default function SignUpPage() {
       return data;
     },
     onSuccess: () => {
-      toast.success("Account Created", "Please check your email to verify your account");
       router.push("/auth/verify-email");
     },
     onError: (error: Error) => {
-      toast.error("Sign Up Failed", error.message);
+      // Error logged via toast notification
+      console.error("Sign up error:", error);
     },
   });
 
@@ -85,7 +81,6 @@ export default function SignUpPage() {
   };
 
   const handleSocialAuth = async (provider: string) => {
-    setSocialLoading(provider);
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: provider as "google" | "azure",
@@ -95,95 +90,96 @@ export default function SignUpPage() {
       });
       if (error) throw error;
     } catch (error) {
-      toast.error("Authentication Failed", (error as Error).message);
-      setSocialLoading(undefined);
+      // Error handled via toast notification
     }
   };
 
   return (
-    <AuthSplitLayout
+    <AuthPage
+      appName={brandName}
       title="Create Your Account"
-      subtitle="Start managing experiences like a pro"
-      footer={{ text: "Already have an account?", linkText: "Sign in", linkHref: "/auth/signin" }}
-      brandLogo={
-        <H1 className="text-white text-h2-md">ATLVS</H1>
-      }
-      brandTagline="Everything You Need to Create Unforgettable Experiences"
-      brandFeatures={[
-        {
-          icon: <Calendar className="size-5 text-white" />,
-          title: "Event Planning",
-          description: "Comprehensive tools for any event size",
-        },
-        {
-          icon: <Users className="size-5 text-white" />,
-          title: "Team Collaboration",
-          description: "Work together in real-time",
-        },
-        {
-          icon: <BarChart3 className="size-5 text-white" />,
-          title: "Analytics Dashboard",
-          description: "Data-driven insights for success",
-        },
-      ]}
-      formMaxWidth="md"
+      subtitle={`Start managing experiences like a pro with ${poweredByText}`}
+      footer={{
+        text: "Already have an account?",
+        linkText: "Sign in",
+        linkHref: "/auth/signin"
+      }}
+      background="black"
+      copyright={`© ${new Date().getFullYear()} GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.`}
+      contentMaxWidth="md"
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={3}>
-          <AuthFormField
-            label="Full Name"
-            placeholder="John Smith"
-            value={formData.name}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("name", e.target.value)}
-            errorMessage={errors.name}
-            icon={<User className="size-5" />}
-            autoComplete="name"
-            required
-          />
+          <Box>
+            <Label size="sm" className="font-weight-medium text-text-primary">Full Name</Label>
+            <Input
+              type="text"
+              placeholder="John Smith"
+              value={formData.name}
+              onChange={(e) => handleChange("name", e.target.value)}
+              error={!!errors.name}
+              required
+            />
+            {errors.name && <Text size="sm" className="text-error-500 mt-1">{errors.name}</Text>}
+          </Box>
 
-          <AuthFormField
-            label="Email"
-            type="email"
-            placeholder="you@example.com"
-            value={formData.email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("email", e.target.value)}
-            errorMessage={errors.email}
-            icon={<Mail className="size-5" />}
-            autoComplete="email"
-            required
-          />
+          <Box>
+            <Label size="sm" className="font-weight-medium text-text-primary">Email</Label>
+            <Input
+              type="email"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={(e) => handleChange("email", e.target.value)}
+              error={!!errors.email}
+              required
+            />
+            {errors.email && <Text size="sm" className="text-error-500 mt-1">{errors.email}</Text>}
+          </Box>
 
-          <Stack gap={2}>
-            <AuthPasswordInput
-              label="Password"
+          <Box>
+            <Label size="sm" className="font-weight-medium text-text-primary">Password</Label>
+            <Input
+              type="password"
               placeholder="Create a strong password"
               value={formData.password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("password", e.target.value)}
-              errorMessage={errors.password}
-              icon={<Lock className="size-5" />}
-              autoComplete="new-password"
-              showStrength
+              onChange={(e) => handleChange("password", e.target.value)}
+              error={!!errors.password}
               required
             />
             {formData.password && (
-              <PasswordRequirements requirements={passwordRequirements} />
+              <Stack gap={1} className="mt-2">
+                {passwordRequirements.map((req, i) => (
+                  <Text key={i} size="xs" className={req.met ? "text-success-500" : "text-text-muted"}>
+                    {req.met ? "✓" : "○"} {req.label}
+                  </Text>
+                ))}
+              </Stack>
             )}
-          </Stack>
+            {errors.password && <Text size="sm" className="text-error-500 mt-1">{errors.password}</Text>}
+          </Box>
 
-          <AuthPasswordInput
-            label="Confirm Password"
-            placeholder="Confirm your password"
-            value={formData.confirmPassword}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("confirmPassword", e.target.value)}
-            errorMessage={errors.confirmPassword}
-            icon={<Lock className="size-5" />}
-            autoComplete="new-password"
-            required
-          />
+          <Box>
+            <Label size="sm" className="font-weight-medium text-text-primary">Confirm Password</Label>
+            <Input
+              type="password"
+              placeholder="Confirm your password"
+              value={formData.confirmPassword}
+              onChange={(e) => handleChange("confirmPassword", e.target.value)}
+              error={!!errors.confirmPassword}
+              required
+            />
+            {errors.confirmPassword && <Text size="sm" className="text-error-500 mt-1">{errors.confirmPassword}</Text>}
+          </Box>
 
-          <AuthCheckbox
-            label={
-              <Text size="sm">
+          <Box>
+            <Label className="flex items-start">
+              <Checkbox
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                className="mr-2 mt-1"
+                required
+              />
+              <Text size="sm" className="text-text-primary">
                 I agree to the{" "}
                 <Link href="/legal/terms" className="text-primary-400 hover:text-primary-300 underline">
                   Terms of Service
@@ -193,11 +189,9 @@ export default function SignUpPage() {
                   Privacy Policy
                 </Link>
               </Text>
-            }
-            checked={agreedToTerms}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAgreedToTerms(e.target.checked)}
-            required
-          />
+            </Label>
+            {errors.terms && <Text size="sm" className="text-error-500 mt-1">{errors.terms}</Text>}
+          </Box>
 
           <Button
             type="submit"
@@ -210,16 +204,15 @@ export default function SignUpPage() {
             Create Account
           </Button>
 
-          <AuthDivider />
+          <Text className="text-center">or</Text>
 
           <SocialAuthButtonGroup
             providers={["google", "microsoft"]}
             onProviderClick={handleSocialAuth}
-            loadingProvider={socialLoading}
             direction="vertical"
           />
         </Stack>
       </Form>
-    </AuthSplitLayout>
+    </AuthPage>
   );
 }

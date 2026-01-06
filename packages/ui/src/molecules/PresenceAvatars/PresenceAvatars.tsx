@@ -129,7 +129,7 @@ function PresenceAvatar({
         >
           <div className="font-semibold">{user.name}</div>
           {user.status && (
-            <div className={clsx("text-[10px]", inverted ? "text-text-muted" : "text-text-muted")}>
+            <div className={clsx("text-[10px]" ? "text-text-muted" : "text-text-muted")}>
               {user.status === "online" ? "Online" : user.status === "away" ? "Away" : "Offline"}
             </div>
           )}
@@ -241,7 +241,7 @@ export const PresenceAvatars = React.forwardRef<HTMLDivElement, PresenceAvatarsP
     return (
       <div
         ref={ref}
-        className={clsx(presenceAvatarsVariants({ size, inverted }), className)}
+        className={clsx(presenceAvatarsVariants({ size }), className)}
         {...restProps}
       >
         {/* Avatars */}

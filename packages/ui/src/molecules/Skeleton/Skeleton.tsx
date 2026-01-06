@@ -38,7 +38,7 @@ export function Skeleton({
 }: SkeletonProps) {
   return (
     <div
-      className={skeletonVariants({ inverted, className })}
+      className={skeletonVariants({ className })}
       style={{ width, height }}
     />
   );
@@ -52,7 +52,7 @@ export function SkeletonCard({
   className 
 }: SkeletonCardProps) {
   return (
-    <div className={skeletonCardVariants({ inverted, className })}>
+    <div className={skeletonCardVariants({ className })}>
       <Skeleton height="1.5rem" width="60%" inverted={inverted} className="mb-4" />
       <Skeleton height="0.875rem" width="40%" inverted={inverted} className="mb-6" />
       <Skeleton height="0.875rem" width="100%" inverted={inverted} className="mb-2" />
@@ -71,10 +71,10 @@ export function SkeletonTable({
   className 
 }: SkeletonTableProps) {
   return (
-    <div className={skeletonTableVariants({ inverted, className })}>
+    <div className={skeletonTableVariants({ className })}>
       {/* Header */}
-      <div className={skeletonTableHeaderVariants({ inverted })}>
-        <div className={skeletonTableRowContentVariants({ inverted })}>
+      <div className={skeletonTableHeaderVariants({})}>
+        <div className={skeletonTableRowContentVariants({})}>
           <Skeleton height="1rem" width="20%" inverted={inverted} />
           <Skeleton height="1rem" width="30%" inverted={inverted} />
           <Skeleton height="1rem" width="25%" inverted={inverted} />
@@ -84,8 +84,8 @@ export function SkeletonTable({
       
       {/* Rows */}
       {Array.from({ length: rows }).map((_, i) => (
-        <div key={i} className={skeletonTableRowVariants({ inverted })}>
-          <div className={skeletonTableRowContentVariants({ inverted })}>
+        <div key={i} className={skeletonTableRowVariants({})}>
+          <div className={skeletonTableRowContentVariants({})}>
             <Skeleton height="1rem" width="20%" inverted={inverted} />
             <Skeleton height="1rem" width="30%" inverted={inverted} />
             <Skeleton height="1rem" width="25%" inverted={inverted} />

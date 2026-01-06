@@ -6,12 +6,13 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Plug, Check, X, List, Key } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
   Badge, Body, Button, Card, Grid, Modal, ModalBody, ModalFooter, ModalHeader, Input, StatCard, DetailPage, Section, SectionHeader, useToast, Box} from "@ghxstship/ui";
+import { IntegrationErrorBoundary } from "../../../../components/error-boundaries";
 
 interface Integration {
   id: string;
@@ -126,6 +127,30 @@ export default function IntegrationsSettingsPage() {
 
   const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleCloseConnectModal = useCallback(() => {
+    setShowConnect(null);
+    setApiKey("");
+  }, []);
+
+  const handleCategoryChange = useCallback((categoryId: string) => {
+    setSelectedCategory(categoryId);
+  }, []);
+
+  const handleConnectIntegration = useCallback((integration: Integration) => {
+    setShowConnect(integration);
+  }, []);
+
+  const handleDisconnectIntegration = useCallback((integrationId: string) => {
+    disconnectMutation.mutate(integrationId);
+  }, [disconnectMutation]);
+
+  const handleConnectSubmit = useCallback(() => {
+    if (showConnect) {
+      connectMutation.mutate({ integrationId: showConnect.id, apiKey });
+    }
+  }, [showConnect, apiKey, connectMutation]);
+
   const tabs = [
     {
       id: "integrations",
@@ -141,45 +166,47 @@ export default function IntegrationsSettingsPage() {
 
           <Box className="flex gap-2 mb-6 flex-wrap">
             {CATEGORIES.map((cat) => (
-              <Button key={cat.id} variant={selectedCategory === cat.id ? "solid" : "outline"} size="sm" onClick={() => setSelectedCategory(cat.id)}>
+              <Button key={cat.id} variant={selectedCategory === cat.id ? "solid" : "outline"} size="sm" onClick={() => handleCategoryChange(cat.id)}>
                 {cat.label}
               </Button>
             ))}
           </Box>
 
           <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
-            {filteredIntegrations.map((integration: Integration) => (
-              <Card key={integration.id} className="p-4">
-                <Box className="flex items-start justify-between">
-                  <Box className="flex items-start gap-3">
-                    <Box className="font-weight-bold">{integration.icon}</Box>
-                    <Box>
-                      <Body className="font-weight-medium">{integration.name}</Body>
-                      <Body size="sm" className="text-text-muted">{integration.description}</Body>
-                      {integration.connected && integration.connected_at && (
-                        <Body size="sm" className="text-text-disabled mt-1">Connected {formatDate(integration.connected_at)}</Body>
+            <IntegrationErrorBoundary>
+              {filteredIntegrations.map((integration: Integration) => (
+                <Card key={integration.id} className="p-4">
+                  <Box className="flex items-start justify-between">
+                    <Box className="flex items-start gap-3">
+                      <Box className="font-weight-bold">{integration.icon}</Box>
+                      <Box>
+                        <Body className="font-weight-medium">{integration.name}</Body>
+                        <Body size="sm" className="text-text-muted">{integration.description}</Body>
+                        {integration.connected && integration.connected_at && (
+                          <Body size="sm" className="text-text-disabled mt-1">Connected {formatDate(integration.connected_at)}</Body>
+                        )}
+                      </Box>
+                    </Box>
+                    <Box className="flex items-center gap-2">
+                      {integration.connected ? (
+                        <>
+                          <Badge variant="success">Connected</Badge>
+                          {canManageIntegrations && (
+                            <Button variant="ghost" size="sm" onClick={() => handleDisconnectIntegration(integration.id)} disabled={disconnectMutation.isPending}>
+                              <X className="size-4" />
+                            </Button>
+                          )}
+                        </>
+                      ) : (
+                        canManageIntegrations && (
+                          <Button variant="outline" size="sm" onClick={() => handleConnectIntegration(integration)}>Connect</Button>
+                        )
                       )}
                     </Box>
                   </Box>
-                  <Box className="flex items-center gap-2">
-                    {integration.connected ? (
-                      <>
-                        <Badge variant="success">Connected</Badge>
-                        {canManageIntegrations && (
-                          <Button variant="ghost" size="sm" onClick={() => disconnectMutation.mutate(integration.id)} disabled={disconnectMutation.isPending}>
-                            <X className="size-4" />
-                          </Button>
-                        )}
-                      </>
-                    ) : (
-                      canManageIntegrations && (
-                        <Button variant="outline" size="sm" onClick={() => setShowConnect(integration)}>Connect</Button>
-                      )
-                    )}
-                  </Box>
-                </Box>
-              </Card>
-            ))}
+                </Card>
+              ))}
+            </IntegrationErrorBoundary>
           </Grid>
         </Section>
       ),
@@ -213,7 +240,7 @@ export default function IntegrationsSettingsPage() {
         tabs={tabs}
       />
 
-      <Modal open={!!showConnect} onClose={() => { setShowConnect(null); setApiKey(""); }}>
+      <Modal open={!!showConnect} onClose={handleCloseConnectModal}>
         <ModalHeader><Body className="font-weight-bold font-weight-medium">Connect {showConnect?.name}</Body></ModalHeader>
         <ModalBody>
           <Box className="flex items-center gap-3 mb-4">
@@ -230,7 +257,7 @@ export default function IntegrationsSettingsPage() {
           </Box>
         </ModalBody>
         <ModalFooter>
-          <Button variant="outline" onClick={() => { setShowConnect(null); setApiKey(""); }}>Cancel</Button>
+          <Button variant="outline" onClick={handleCloseConnectModal}>Cancel</Button>
           <Button variant="solid" onClick={() => showConnect && connectMutation.mutate({ integrationId: showConnect.id, apiKey })} disabled={!apiKey || connectMutation.isPending}>
             {connectMutation.isPending ? "Connecting..." : "Connect"}
           </Button>

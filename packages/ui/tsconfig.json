@@ -5,6 +5,8 @@
     "outDir": "dist",
     "rootDir": "src",
     "declaration": true,
+    "noEmit": false,
+    "noEmitOnError": false,
     "types": ["node", "react", "google.maps"]
   },
   "include": ["src"],

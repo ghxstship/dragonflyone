@@ -72,9 +72,9 @@ export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProp
           setTimeout(() => printWindow.print(), 500);
         }
       }
-    } catch (error) {
-      // Silent fail - user can retry
-      void error;
+    } catch {
+      // PDF generation failed - user can retry via the button
+      // Error is silently handled as the UI already shows loading state
     } finally {
       setPdfLoading(false);
     }
@@ -96,9 +96,8 @@ export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProp
         setShareStatus("copied");
         setTimeout(() => setShareStatus("idle"), 3000);
       }
-    } catch (error) {
-      // Fallback to simple URL
-      void error;
+    } catch {
+      // Fallback to simple URL when API fails
       const shareUrl = `${window.location.origin}/generator/share/${blueprint.id}`;
       await navigator.clipboard.writeText(shareUrl);
       setShareStatus("copied");
@@ -112,7 +111,7 @@ export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProp
         <Grid cols={2} gap={12} className="items-center">
           {/* Left: CTA Content */}
           <Stack gap={6}>
-            <H2 className="font-display text-display-sm uppercase tracking-display text-white">
+            <H2 className="font-display text-display-sm uppercase tracking-display text-text-primary">
               Ready to bring{" "}
               <Text as="span" className="text-accent">{blueprint.concept.name}</Text>{" "}
               to life?
@@ -125,7 +124,7 @@ export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProp
             {/* Primary CTA */}
             <Button
               onClick={handleExport}
-              className="flex w-full items-center justify-center gap-3 border-2 border-white bg-primary px-8 py-5 font-display text-body-md uppercase tracking-label text-white shadow-xl duration-150 hover:-translate-y-1"
+              className="flex w-full items-center justify-center gap-3 border-2 border-white bg-primary px-8 py-5 font-display text-body-md uppercase tracking-label text-text-primary shadow-xl duration-150 hover:-translate-y-1"
             >
               {isAuthenticated ? "Launch in ATLVS" : "Sign Up & Launch in ATLVS"}
               <ArrowRight className="size-5" />
@@ -136,7 +135,7 @@ export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProp
               <Button
                 onClick={handleDownloadPDF}
                 disabled={pdfLoading}
-                className="flex flex-1 items-center justify-center gap-2 border-2 border-border bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-text-disabled transition-colors hover:border-white hover:text-white disabled:opacity-50"
+                className="flex flex-1 items-center justify-center gap-2 border-2 border-border bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-text-disabled transition-colors hover:border-white hover:text-text-primary disabled:opacity-50"
               >
                 {pdfLoading ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
                 {pdfLoading ? "Generating..." : "Download PDF"}
@@ -144,14 +143,14 @@ export function ExportCTA({ blueprint, onReset, isAuthenticated }: ExportCTAProp
               <Button
                 onClick={handleShare}
                 disabled={shareStatus === "loading"}
-                className="flex flex-1 items-center justify-center gap-2 border-2 border-border bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-text-disabled transition-colors hover:border-white hover:text-white disabled:opacity-50"
+                className="flex flex-1 items-center justify-center gap-2 border-2 border-border bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-text-disabled transition-colors hover:border-white hover:text-text-primary disabled:opacity-50"
               >
                 {shareStatus === "loading" ? <Loader2 className="size-4 animate-spin" /> : shareStatus === "copied" ? <Check className="size-4" /> : <Share2 className="size-4" />}
                 {shareStatus === "copied" ? "Link Copied!" : shareStatus === "loading" ? "Sharing..." : "Share Blueprint"}
               </Button>
               <Button
                 onClick={onReset}
-                className="flex flex-1 items-center justify-center gap-2 border-2 border-border bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-text-disabled transition-colors hover:border-white hover:text-white"
+                className="flex flex-1 items-center justify-center gap-2 border-2 border-border bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-text-disabled transition-colors hover:border-white hover:text-text-primary"
               >
                 <RotateCcw className="size-4" />
                 Start Over

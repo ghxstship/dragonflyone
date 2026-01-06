@@ -56,32 +56,32 @@ export const AIChatEmptyState = forwardRef<HTMLDivElement, AIChatEmptyStateProps
     return (
       <div
         ref={ref}
-        className={aiChatEmptyStateVariants({ inverted, className })}
+        className={aiChatEmptyStateVariants({ className })}
         {...props}
       >
-        <div className={aiChatEmptyStateContainerVariants({ inverted })}>
+        <div className={aiChatEmptyStateContainerVariants({})}>
           {/* Icon */}
           {icon && (
-            <div className={aiChatEmptyStateIconVariants({ inverted })}>
+            <div className={aiChatEmptyStateIconVariants({})}>
               {icon}
             </div>
           )}
 
           {/* Title */}
-          <h2 className={aiChatEmptyStateTitleVariants({ inverted })}>
+          <h2 className={aiChatEmptyStateTitleVariants({})}>
             {title}
           </h2>
 
           {/* Description */}
           {description && (
-            <p className={aiChatEmptyStateDescriptionVariants({ inverted })}>
+            <p className={aiChatEmptyStateDescriptionVariants({})}>
               {description}
             </p>
           )}
 
           {/* Suggestions */}
           {suggestions && (
-            <div className={aiChatEmptyStateSuggestionsVariants({ inverted })}>
+            <div className={aiChatEmptyStateSuggestionsVariants({})}>
               {suggestions}
             </div>
           )}

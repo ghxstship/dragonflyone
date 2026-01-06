@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext, PlatformRole } from '@ghxstship/config';
 import { 
@@ -12,6 +12,7 @@ import { useActivityFeed } from "@ghxstship/config/hooks";
 import { QuickLinkFormSheet, useQuickLinkForm } from "@ghxstship/config/components";
 import { ArrowRight, Link as LinkIcon, Zap, CalendarClock, Users, Trash2 } from "lucide-react";
 import type { ActionItem } from "../../../hooks/useActionItems";
+import { WidgetErrorBoundary, DataTableErrorBoundary } from "../../../components/error-boundaries";
 
 // Eisenhower Matrix classification
 type EisenhowerQuadrant = 'do-first' | 'schedule' | 'delegate' | 'eliminate';
@@ -107,6 +108,46 @@ export default function DashboardPage() {
   const { hasRole, user } = useAuthContext();
   const [timeRange, setTimeRange] = useState("month");
   
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleTimeRangeChange = useCallback((range: string) => {
+    setTimeRange(range);
+  }, []);
+
+  const handleQuickLinkClick = useCallback((href: string) => {
+    if (!openForm(href)) {
+      router.push(href);
+    }
+  }, [openForm, router]);
+
+  const handleViewAllLinks = useCallback(() => {
+    router.push('/quick-links');
+  }, [router]);
+
+  const handleViewAllActionItems = useCallback(() => {
+    router.push('/action-items');
+  }, [router]);
+
+  const handleActionItemClick = useCallback((quadrant: EisenhowerQuadrant, itemId: string) => {
+    if (quadrant === 'do-first') {
+      router.push(`/action-items?id=${itemId}`);
+    } else if (quadrant === 'schedule') {
+      router.push(`/schedule?task=${itemId}`);
+    } else if (quadrant === 'delegate') {
+      router.push(`/action-items?delegate=${itemId}`);
+    } else {
+      router.push(`/action-items?archive=${itemId}`);
+    }
+  }, [router]);
+
+  const handleWeekClick = useCallback(() => handleTimeRangeChange("week"), [handleTimeRangeChange]);
+  const handleMonthClick = useCallback(() => handleTimeRangeChange("month"), [handleTimeRangeChange]);
+  const handleQuarterClick = useCallback(() => handleTimeRangeChange("quarter"), [handleTimeRangeChange]);
+
+  const handleCreateProjectClick = useCallback(() => handleQuickLinkClick('/projects/new'), [handleQuickLinkClick]);
+  const handleSubmitExpenseClick = useCallback(() => handleQuickLinkClick('/expenses/new'), [handleQuickLinkClick]);
+  const handleCheckAssetClick = useCallback(() => handleQuickLinkClick('/assets/availability'), [handleQuickLinkClick]);
+  const handleGenerateReportClick = useCallback(() => handleQuickLinkClick('/reports/financial/new'), [handleQuickLinkClick]);
+  
   // RBAC: Check if user can view dashboard
   const canViewDashboard = VIEW_ROLES.some(role => hasRole(role));
   
@@ -122,13 +163,6 @@ export default function DashboardPage() {
 
   // Use live activity data or fallback
   const recentActivity = activityData || fallbackActivity;
-  
-  // Handle quick link click - open form if available, otherwise navigate
-  const handleQuickLinkClick = (href: string) => {
-    if (!openForm(href)) {
-      router.push(href);
-    }
-  };
 
   // Use live projects or fall back to mock data
   const displayProjects: DisplayProject[] = (projects as unknown as DisplayProject[]) || DEMO_DISPLAY_PROJECTS;
@@ -158,7 +192,7 @@ export default function DashboardPage() {
         <Stack gap={6} className="items-center justify-center py-20">
           <Card inverted className="max-w-md p-8 text-center">
             <Stack gap={4}>
-              <H3 className="text-white">Access Denied</H3>
+              <H3 className="text-text-primary">Access Denied</H3>
               <Body className="text-text-secondary">
                 You do not have permission to view the executive dashboard.
                 This requires ATLVS Team Member or higher role.
@@ -188,21 +222,21 @@ export default function DashboardPage() {
       actions={
         <Stack direction="horizontal" gap={2}>
           <Button
-            onClick={() => setTimeRange("week")}
+            onClick={handleWeekClick}
             variant={timeRange === "week" ? "solid" : "outline"}
             size="sm"
           >
             Week
           </Button>
           <Button
-            onClick={() => setTimeRange("month")}
+            onClick={handleMonthClick}
             variant={timeRange === "month" ? "solid" : "outline"}
             size="sm"
           >
             Month
           </Button>
           <Button
-            onClick={() => setTimeRange("quarter")}
+            onClick={handleQuarterClick}
             variant={timeRange === "quarter" ? "solid" : "outline"}
             size="sm"
           >
@@ -214,14 +248,15 @@ export default function DashboardPage() {
       <Stack gap={8}>
         <Grid cols={4} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {kpis.map((kpi) => (
-            <StatCard
-              key={kpi.label}
-              label={kpi.label}
-              value={kpi.value}
-              trend={kpi.up ? "up" : "down"}
-              trendValue={kpi.trend}
-              aria-label={`${kpi.label}: ${kpi.value}, ${kpi.up ? 'up' : 'down'} ${kpi.trend}`}
-            />
+            <WidgetErrorBoundary key={kpi.label}>
+              <StatCard
+                label={kpi.label}
+                value={kpi.value}
+                trend={kpi.up ? "up" : "down"}
+                trendValue={kpi.trend}
+                aria-label={`${kpi.label}: ${kpi.value}, ${kpi.up ? 'up' : 'down'} ${kpi.trend}`}
+              />
+            </WidgetErrorBoundary>
           ))}
         </Grid>
 
@@ -231,54 +266,56 @@ export default function DashboardPage() {
             title="Active Projects"
             description="Real-time status of all projects across GHXSTSHIP verticals"
           />
-          <Table variant="dark">
-            <TableHeader>
-              <TableRow>
-                <TableHead>Project</TableHead>
-                <TableHead>Client</TableHead>
-                <TableHead>PM</TableHead>
-                <TableHead>Budget</TableHead>
-                <TableHead>Actual</TableHead>
-                <TableHead>Variance</TableHead>
-                <TableHead>Progress</TableHead>
-                <TableHead>Health</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {displayProjects.map((project) => (
-                <TableRow key={project.id}>
-                  <TableCell>
-                    <H3 className="text-white">{project.name}</H3>
-                    <Body size="xs" className="font-mono text-text-disabled">{project.id.substring(0, 12).toUpperCase()}</Body>
-                  </TableCell>
-                  <TableCell>{project.client_id || 'N/A'}</TableCell>
-                  <TableCell>{project.manager_id || 'N/A'}</TableCell>
-                  <TableCell className="font-mono text-white">
-                    ${((project.budget || 0) / 1000).toFixed(0)}K
-                  </TableCell>
-                  <TableCell className="font-mono">
-                    ${((project.actual_cost || 0) / 1000).toFixed(0)}K
-                  </TableCell>
-                  <TableCell>
-                    <Body className={`font-mono ${(project.actual_cost || 0) > (project.budget || 0) ? "text-error" : "text-success"}`}>
-                      {((((project.budget || 0) - (project.actual_cost || 0)) / (project.budget || 1)) * 100).toFixed(1)}%
-                    </Body>
-                  </TableCell>
-                  <TableCell>
-                    <Stack gap={1}>
-                      <ProgressBar value={project.progress || 0} variant="inverse" size="sm" className="w-24" />
-                      <Body size="xs" className="font-mono text-text-secondary">{project.progress}%</Body>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="solid">
-                      {project.health}
-                    </Badge>
-                  </TableCell>
+          <DataTableErrorBoundary>
+            <Table variant="dark">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Project</TableHead>
+                  <TableHead>Client</TableHead>
+                  <TableHead>PM</TableHead>
+                  <TableHead>Budget</TableHead>
+                  <TableHead>Actual</TableHead>
+                  <TableHead>Variance</TableHead>
+                  <TableHead>Progress</TableHead>
+                  <TableHead>Health</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {displayProjects.map((project) => (
+                  <TableRow key={project.id}>
+                    <TableCell>
+                      <H3 className="text-text-primary">{project.name}</H3>
+                      <Body size="xs" className="font-mono text-text-disabled">{project.id.substring(0, 12).toUpperCase()}</Body>
+                    </TableCell>
+                    <TableCell>{project.client_id || 'N/A'}</TableCell>
+                    <TableCell>{project.manager_id || 'N/A'}</TableCell>
+                    <TableCell className="font-mono text-text-primary">
+                      ${((project.budget || 0) / 1000).toFixed(0)}K
+                    </TableCell>
+                    <TableCell className="font-mono">
+                      ${((project.actual_cost || 0) / 1000).toFixed(0)}K
+                    </TableCell>
+                    <TableCell>
+                      <Body className={`font-mono ${(project.actual_cost || 0) > (project.budget || 0) ? "text-error" : "text-success"}`}>
+                        {((((project.budget || 0) - (project.actual_cost || 0)) / (project.budget || 1)) * 100).toFixed(1)}%
+                      </Body>
+                    </TableCell>
+                    <TableCell>
+                      <Stack gap={1}>
+                        <ProgressBar value={project.progress || 0} variant="inverse" size="sm" className="w-24" />
+                        <Body size="xs" className="font-mono text-text-secondary">{project.progress}%</Body>
+                      </Stack>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="solid">
+                        {project.health}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </DataTableErrorBoundary>
         </Section>
 
         <Section border>
@@ -291,7 +328,7 @@ export default function DashboardPage() {
             {recentActivity.map((activity) => (
               <Card key={activity.id} inverted className="border-2 border-border p-5 transition-colors hover:border-border" role="article" aria-label={`${activity.action}: ${activity.detail}`}>
                 <Stack gap={1}>
-                  <H3 className="text-white">{activity.action}</H3>
+                  <H3 className="text-text-primary">{activity.action}</H3>
                   <Body size="sm" className="text-text-secondary">{activity.detail}</Body>
                   <Body size="xs" className="mt-2 font-mono uppercase tracking-kicker text-text-disabled">
                     {activity.user} • {activity.time}
@@ -337,7 +374,7 @@ export default function DashboardPage() {
                     variant="outline" 
                     fullWidth
                     className="justify-start text-left"
-                    onClick={() => handleQuickLinkClick('/projects/new')}
+                    onClick={handleCreateProjectClick}
                     icon={<Zap className="size-4" />}
                     iconPosition="left"
                   >
@@ -347,7 +384,7 @@ export default function DashboardPage() {
                     variant="outline" 
                     fullWidth
                     className="justify-start text-left"
-                    onClick={() => handleQuickLinkClick('/expenses/new')}
+                    onClick={handleSubmitExpenseClick}
                     icon={<Zap className="size-4" />}
                     iconPosition="left"
                   >
@@ -357,7 +394,7 @@ export default function DashboardPage() {
                     variant="outline" 
                     fullWidth
                     className="justify-start text-left"
-                    onClick={() => handleQuickLinkClick('/assets/availability')}
+                    onClick={handleCheckAssetClick}
                     icon={<LinkIcon className="size-4" />}
                     iconPosition="left"
                   >
@@ -367,7 +404,7 @@ export default function DashboardPage() {
                     variant="outline" 
                     fullWidth
                     className="justify-start text-left"
-                    onClick={() => handleQuickLinkClick('/reports/financial/new')}
+                    onClick={handleGenerateReportClick}
                     icon={<LinkIcon className="size-4" />}
                     iconPosition="left"
                   >
@@ -380,7 +417,7 @@ export default function DashboardPage() {
               <Button
                 variant="outline"
                 fullWidth
-                onClick={() => router.push('/quick-links')}
+                onClick={handleViewAllLinks}
                 icon={<ArrowRight className="size-4" />}
                 iconPosition="right"
               >
@@ -421,7 +458,7 @@ export default function DashboardPage() {
                               {item.priority === 'critical' ? 'Critical' : item.priority === 'high' ? 'High' : 'Medium'}
                             </StatusBadge>
                           </Stack>
-                          <Body size="sm" className=" text-white">{item.title}</Body>
+                          <Body size="sm" className=" text-text-primary">{item.title}</Body>
                           {item.due_date && (
                             <Body size="xs" className="font-mono text-text-disabled">
                               Due: {new Date(item.due_date).toLocaleDateString()}
@@ -432,18 +469,7 @@ export default function DashboardPage() {
                           variant="ghost"
                           size="sm"
                           className={config.actionColor}
-                          onClick={() => {
-                            // Route based on quadrant action
-                            if (quadrant === 'do-first') {
-                              router.push(`/action-items?id=${item.id}`);
-                            } else if (quadrant === 'schedule') {
-                              router.push(`/schedule?task=${item.id}`);
-                            } else if (quadrant === 'delegate') {
-                              router.push(`/action-items?delegate=${item.id}`);
-                            } else {
-                              router.push(`/action-items?archive=${item.id}`);
-                            }
-                          }}
+                          onClick={() => handleActionItemClick(quadrant, item.id)}
                           icon={<IconComponent className="size-4" />}
                           iconPosition="left"
                         >
@@ -463,7 +489,7 @@ export default function DashboardPage() {
               <Button
                 variant="outline"
                 fullWidth
-                onClick={() => router.push('/action-items')}
+                onClick={handleViewAllActionItems}
                 icon={<ArrowRight className="size-4" />}
                 iconPosition="right"
               >

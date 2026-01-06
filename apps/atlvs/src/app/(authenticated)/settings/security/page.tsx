@@ -5,7 +5,7 @@
  * Uses normalized SettingsPageLayout template from @ghxstship/ui
  */
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Key, Smartphone, Monitor, Clock, AlertTriangle, Check, LogOut, Eye, EyeOff } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
@@ -60,6 +60,17 @@ export default function SecuritySettingsPage() {
   const [show2FAModal, setShow2FAModal] = useState(false);
   const [passwordForm, setPasswordForm] = useState({ current: '', new_password: '', confirm: '' });
   const [showPasswords, setShowPasswords] = useState({ current: false, new_password: false, confirm: false });
+
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleShowPasswordModal = useCallback(() => setShowPasswordModal(true), []);
+  const handleShow2FAModal = useCallback(() => setShow2FAModal(true), []);
+  const handleHidePasswordModal = useCallback(() => setShowPasswordModal(false), []);
+  const handleHide2FAModal = useCallback(() => setShow2FAModal(false), []);
+  const handleToggle2FA = useCallback(() => toggle2FA.mutate(!settings.two_factor_enabled), [toggle2FA, settings.two_factor_enabled]);
+  const handleRevokeSession = useCallback((sessionId: string) => revokeSession.mutate(sessionId), [revokeSession]);
+  const handleTogglePasswordVisibility = useCallback((field: keyof typeof showPasswords) => {
+    setShowPasswords(prev => ({ ...prev, [field]: !prev[field] }));
+  }, []);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['security-settings'],
@@ -186,7 +197,7 @@ export default function SecuritySettingsPage() {
                     Password
                   </H2>
                   {canManageSecurity && (
-                    <Button variant="ghost" onClick={() => setShowPasswordModal(true)}>
+                    <Button variant="ghost" onClick={handleShowPasswordModal}>
                       Change Password
                     </Button>
                   )}
@@ -220,7 +231,7 @@ export default function SecuritySettingsPage() {
                   {canManageSecurity && (
                     <Button
                       variant={settings.two_factor_enabled ? 'destructive' : 'ghost'}
-                      onClick={() => setShow2FAModal(true)}
+                      onClick={handleShow2FAModal}
                     >
                       {settings.two_factor_enabled ? 'Disable' : 'Enable'}
                     </Button>
@@ -291,7 +302,7 @@ export default function SecuritySettingsPage() {
                       {!session.is_current && (
                         <Button
                           variant="ghost"
-                          onClick={() => revokeSession.mutate(session.id)}
+                          onClick={() => handleRevokeSession(session.id)}
                         >
                           <LogOut className="h-4 w-4 text-destructive" />
                         </Button>
@@ -360,7 +371,7 @@ export default function SecuritySettingsPage() {
                       <Button
                         type="button"
                         variant="ghost"
-                        onClick={() => setShowPasswords({ ...showPasswords, current: !showPasswords.current })}
+                        onClick={() => handleTogglePasswordVisibility('current')}
                         className="absolute right-2 top-1/2 -translate-y-1/2"
                       >
                         {showPasswords.current ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -380,7 +391,7 @@ export default function SecuritySettingsPage() {
                       <Button
                         type="button"
                         variant="ghost"
-                        onClick={() => setShowPasswords({ ...showPasswords, new_password: !showPasswords.new_password })}
+                        onClick={() => handleTogglePasswordVisibility('new_password')}
                         className="absolute right-2 top-1/2 -translate-y-1/2"
                       >
                         {showPasswords.new_password ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -400,7 +411,7 @@ export default function SecuritySettingsPage() {
                       <Button
                         type="button"
                         variant="ghost"
-                        onClick={() => setShowPasswords({ ...showPasswords, confirm: !showPasswords.confirm })}
+                        onClick={() => handleTogglePasswordVisibility('confirm')}
                         className="absolute right-2 top-1/2 -translate-y-1/2"
                       >
                         {showPasswords.confirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -408,7 +419,7 @@ export default function SecuritySettingsPage() {
                     </Box>
                   </Stack>
                   <Stack direction="horizontal" gap={3} className="justify-end pt-4">
-                    <Button type="button" variant="outline" onClick={() => setShowPasswordModal(false)}>
+                    <Button type="button" variant="outline" onClick={handleHidePasswordModal}>
                       Cancel
                     </Button>
                     <Button type="submit" disabled={updatePassword.isPending}>
@@ -430,12 +441,12 @@ export default function SecuritySettingsPage() {
                   : 'Enable two-factor authentication to add an extra layer of security to your account.'}
               </Body>
               <Stack direction="horizontal" gap={3} className="justify-end">
-                <Button variant="outline" onClick={() => setShow2FAModal(false)}>
+                <Button variant="outline" onClick={handleHide2FAModal}>
                   Cancel
                 </Button>
                 <Button
                   variant={settings.two_factor_enabled ? 'destructive' : 'solid'}
-                  onClick={() => toggle2FA.mutate(!settings.two_factor_enabled)}
+                  onClick={handleToggle2FA}
                   disabled={toggle2FA.isPending}
                 >
                   {toggle2FA.isPending

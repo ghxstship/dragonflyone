@@ -93,8 +93,8 @@ export default function TutorialsPage() {
               <Grid cols={4} gap={8} className="grid-cols-2 md:grid-cols-4">
                 {STATS.map((stat, idx) => (
                   <Stack key={idx} gap={1} className="text-center">
-                    <Body className="text-white font-weight-bold text-h3-md">{stat.value}</Body>
-                    <Body className="text-white/80">{stat.label}</Body>
+                    <Body className="text-text-primary font-weight-bold text-h3-md">{stat.value}</Body>
+                    <Body className="text-text-primary/80">{stat.label}</Body>
                   </Stack>
                 ))}
               </Grid>
@@ -111,7 +111,7 @@ export default function TutorialsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Popular</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Featured Tutorials</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Featured Tutorials</Body>
                   <Body className="text-text-muted">Our most popular video guides</Body>
                 </Stack>
 
@@ -128,7 +128,7 @@ export default function TutorialsPage() {
                             <Badge variant="outline">{tutorial.category}</Badge>
                             <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
                           </Box>
-                          <Body className="text-white font-weight-bold">{tutorial.title}</Body>
+                          <Body className="text-text-primary font-weight-bold">{tutorial.title}</Body>
                           <Body className="text-text-muted mb-2">{tutorial.description}</Body>
                           <Box className="flex items-center gap-2 text-text-disabled">
                             <Clock className="size-4" />
@@ -152,7 +152,7 @@ export default function TutorialsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Browse</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">All Tutorials</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">All Tutorials</Body>
                 </Stack>
 
                 <Card className="p-6 border-2 border-border rounded-card">
@@ -181,7 +181,7 @@ export default function TutorialsPage() {
                         <Badge variant="outline">{tutorial.category}</Badge>
                         <Badge variant={DIFFICULTY_COLORS[tutorial.difficulty]}>{tutorial.difficulty}</Badge>
                       </Box>
-                      <Body className="text-white font-weight-bold">{tutorial.title}</Body>
+                      <Body className="text-text-primary font-weight-bold">{tutorial.title}</Body>
                       <Body size="sm" className="text-text-muted mb-2">{tutorial.description}</Body>
                       <Box className="flex items-center gap-2 text-text-disabled">
                         <Clock className="size-4" />
@@ -194,7 +194,7 @@ export default function TutorialsPage() {
                 {filteredTutorials.length === 0 && (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
                     <Play className="size-16 text-text-disabled mx-auto mb-4" />
-                    <Body className="text-white font-weight-bold mb-2">No Tutorials Found</Body>
+                    <Body className="text-text-primary font-weight-bold mb-2">No Tutorials Found</Body>
                     <Body className="text-text-muted mb-4">Try a different search term or category</Body>
                     <Button variant="outline" onClick={() => { setSearch(""); setSelectedCategory("All"); }}>Clear Filters</Button>
                   </Card>

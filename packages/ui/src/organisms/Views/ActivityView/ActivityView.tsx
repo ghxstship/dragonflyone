@@ -172,13 +172,13 @@ export function ActivityView<T extends { id: string }>({
     return filteredEntities.map(entity => {
       const timestamp = new Date(entity[timestampField] as string);
       const type = String(entity[typeField]);
-      const actorData = entity[actorField] as any;
+      const actorData = entity[actorField] as Record<string, unknown>;
       const action = String(entity[actionField]);
-      const targetData = targetField ? (entity[targetField] as any) : undefined;
+      const targetData = targetField ? (entity[targetField] as Record<string, unknown>) : undefined;
       const description = descriptionField ? String(entity[descriptionField]) : undefined;
-      const metadata = metadataField ? (entity[metadataField] as Record<string, any>) : {};
-      const attachments = attachmentsField ? (entity[attachmentsField] as any[]) : [];
-      const comments = commentsField ? (entity[commentsField] as any[]) : [];
+      const metadata = metadataField ? (entity[metadataField] as Record<string, unknown>) : {};
+      const attachments = attachmentsField ? (entity[attachmentsField] as Record<string, unknown>[]) : [];
+      const comments = commentsField ? (entity[commentsField] as Record<string, unknown>[]) : [];
 
       const actor: ActivityActor<T> = {
         data: actorData,
@@ -214,9 +214,9 @@ export function ActivityView<T extends { id: string }>({
         icon: getActivityIcon(type),
         color: getActivityColor(type),
         selected: selectedActivities.has(entity.id),
-        isRead: Boolean((entity as any).isRead),
-        isImportant: Boolean((entity as any).isImportant),
-        status: (entity as any).status || 'completed',
+        isRead: Boolean((entity as Record<string, unknown>).isRead),
+        isImportant: Boolean((entity as Record<string, unknown>).isImportant),
+        status: (entity as Record<string, unknown>).status || 'completed',
       };
     }).sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
   }, [filteredEntities, timestampField, typeField, actorField, actionField, targetField, descriptionField, metadataField, attachmentsField, commentsField, selectedActivities]);

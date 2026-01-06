@@ -53,35 +53,35 @@ export const ContentCard = forwardRef<HTMLElement, ContentCardProps>(
     return (
       <article
         ref={ref}
-        className={contentCardVariants({ variant, padding, inverted, className })}
+        className={contentCardVariants({ variant, padding, className })}
         {...props}
       >
         {/* Kicker */}
         {kicker && (
-          <div className={contentCardKickerVariants({ inverted })}>
+          <div className={contentCardKickerVariants({})}>
             {kicker}
           </div>
         )}
 
         {/* Title */}
-        <h3 className={contentCardTitleVariants({ inverted })}>
+        <h3 className={contentCardTitleVariants({})}>
           {title}
         </h3>
 
         {/* Description */}
         {description && (
-          <p className={contentCardDescriptionVariants({ inverted })}>
+          <p className={contentCardDescriptionVariants({})}>
             {description}
           </p>
         )}
 
         {/* Bullets */}
         {bullets && bullets.length > 0 && (
-          <ul className={contentCardBulletsVariants({ inverted })}>
+          <ul className={contentCardBulletsVariants({})}>
             {bullets.map((bullet, index) => (
               <li 
                 key={index}
-                className={contentCardBulletItemVariants({ inverted })}
+                className={contentCardBulletItemVariants({})}
               >
                 <span className="flex-shrink-0 mt-0.5">
                   {bulletPrefix}

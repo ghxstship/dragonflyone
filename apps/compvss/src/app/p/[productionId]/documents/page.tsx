@@ -93,7 +93,7 @@ export default function ProductionDocumentsPage() {
                   </Box>
                   <Box className="flex items-center gap-2">
                     <Badge variant="outline">{doc.folder}</Badge>
-                    <Button variant="ghost" size="sm"><Download className="size-4" /></Button>
+                    <Button variant="ghost" size="sm" aria-label={`Download ${doc.name}`}><Download className="size-4" /></Button>
                   </Box>
                 </Box>
               </Card>

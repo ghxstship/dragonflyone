@@ -210,14 +210,131 @@ export const ENTITY_CAPABILITY_OVERRIDES: Record<string, EntityCapabilityOverrid
 
   audit_logs: {
     enable: [
-      'view:timeline',
-    ],
-    disable: [
-      'bulk:edit',
-      'bulk:delete',
+      'export:csv',
+      'export:json',
       'import:csv',
       'import:json',
       'import:excel',
+    ],
+  },
+
+  'saved-filters': {
+    enable: [
+      'export:json',
+      'import:json',
+    ],
+  },
+
+  'user-preferences': {
+    enable: [
+      'export:json',
+    ],
+  },
+
+  'user-settings': {
+    enable: [
+      'export:json',
+    ],
+  },
+
+  'user-notification-preferences': {
+    enable: [
+      'export:json',
+    ],
+  },
+
+  workspaces: {
+    enable: [
+      'view:kanban',
+      'bulk:assign',
+    ],
+  },
+
+  'api-keys': {
+    enable: [
+      'bulk:delete',
+      'export:csv',
+    ],
+    disable: [
+      'view:gallery',
+      'view:map',
+    ],
+  },
+
+  webhooks: {
+    enable: [
+      'export:json',
+      'bulk:delete',
+    ],
+  },
+
+  'feature-flags': {
+    enable: [
+      'export:json',
+      'bulk:edit',
+    ],
+  },
+
+  notifications: {
+    enable: [
+      'export:json',
+      'bulk:delete',
+    ],
+  },
+
+  'automation-rules': {
+    enable: [
+      'view:timeline',
+      'export:json',
+      'bulk:edit',
+    ],
+  },
+
+  'integration-pos': {
+    enable: [
+      'view:map',
+      'export:json',
+    ],
+  },
+
+  'integration-ats': {
+    enable: [
+      'view:timeline',
+      'export:json',
+    ],
+  },
+
+  'search-history': {
+    enable: [
+      'export:json',
+    ],
+  },
+
+  'import-jobs': {
+    enable: [
+      'view:timeline',
+      'export:json',
+    ],
+  },
+
+  'export-jobs': {
+    enable: [
+      'view:timeline',
+      'export:json',
+    ],
+  },
+
+  'sso-providers': {
+    enable: [
+      'export:json',
+    ],
+  },
+
+  'user-sessions': {
+    enable: [
+      'view:timeline',
+      'export:json',
+      'bulk:delete',
     ],
   },
 };

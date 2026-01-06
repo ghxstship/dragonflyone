@@ -146,8 +146,8 @@ export default function WebinarsPage() {
               <Grid cols={4} gap={8} className="grid-cols-2 md:grid-cols-4">
                 {WEBINAR_STATS.map((stat, idx) => (
                   <Stack key={idx} gap={1} className="text-center">
-                    <Body className="text-white font-weight-bold text-h3-md">{stat.value}</Body>
-                    <Body className="text-white/80">{stat.label}</Body>
+                    <Body className="text-text-primary font-weight-bold text-h3-md">{stat.value}</Body>
+                    <Body className="text-text-primary/80">{stat.label}</Body>
                   </Stack>
                 ))}
               </Grid>
@@ -164,7 +164,7 @@ export default function WebinarsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Why Attend</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Webinar Benefits</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Webinar Benefits</Body>
                 </Stack>
                 <Grid cols={4} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                   {WEBINAR_FEATURES.map((feature) => (
@@ -172,7 +172,7 @@ export default function WebinarsPage() {
                       <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                         {feature.icon}
                       </Box>
-                      <Body className="text-white font-weight-bold mb-2">{feature.title}</Body>
+                      <Body className="text-text-primary font-weight-bold mb-2">{feature.title}</Body>
                       <Body size="sm" className="text-text-muted">{feature.description}</Body>
                     </Card>
                   ))}
@@ -189,7 +189,7 @@ export default function WebinarsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Live Sessions</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Upcoming Webinars</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Upcoming Webinars</Body>
                   <Body className="text-text-muted">Register now to secure your spot</Body>
                 </Stack>
 
@@ -205,7 +205,7 @@ export default function WebinarsPage() {
                             <Box className="flex items-center gap-2 mb-1">
                               <Badge variant="outline">{webinar.category}</Badge>
                             </Box>
-                            <Body className="text-white font-weight-bold mb-1">{webinar.title}</Body>
+                            <Body className="text-text-primary font-weight-bold mb-1">{webinar.title}</Body>
                             <Body size="sm" className="text-text-muted">{webinar.speaker}, {webinar.role}</Body>
                           </Box>
                         </Box>
@@ -247,7 +247,7 @@ export default function WebinarsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">On-Demand</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Featured Recordings</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Featured Recordings</Body>
                   <Body className="text-text-muted">Watch our most popular sessions anytime</Body>
                 </Stack>
 
@@ -262,7 +262,7 @@ export default function WebinarsPage() {
                         </Box>
                         <Box>
                           <Badge variant="outline" className="mb-2">{recording.category}</Badge>
-                          <Body className="text-white font-weight-medium">{recording.title}</Body>
+                          <Body className="text-text-primary font-weight-medium">{recording.title}</Body>
                           <Box className="flex items-center gap-3 mt-2 text-text-disabled">
                             <Body size="sm">{recording.duration}</Body>
                             <Body size="sm">{recording.views.toLocaleString()} views</Body>
@@ -290,14 +290,14 @@ export default function WebinarsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Coverage</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Topics We Cover</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Topics We Cover</Body>
                 </Stack>
 
                 <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4">
                   {WEBINAR_TOPICS.map((topic, idx) => (
                     <Box key={idx} className="flex items-center gap-2 p-3 border-2 border-border rounded-card">
                       <CheckCircle className="size-5 text-success shrink-0" />
-                      <Body size="sm" className="text-white">{topic}</Body>
+                      <Body size="sm" className="text-text-primary">{topic}</Body>
                     </Box>
                   ))}
                 </Grid>

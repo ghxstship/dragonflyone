@@ -1,4 +1,3 @@
-import { env } from "./env";
 import { createServerClient, PlatformRole } from "@ghxstship/config";
 
 const GVTEWAY_ADMIN_ROLES = [
@@ -20,15 +19,6 @@ export async function authorizeAdminRequest(request: Request): Promise<{
 
   const token = authHeader.slice("Bearer ".length);
   
-  // Support legacy static token for backwards compatibility (deprecated)
-  if (env.ADMIN_API_TOKEN && token === env.ADMIN_API_TOKEN) {
-    console.warn("DEPRECATED: Using static ADMIN_API_TOKEN. Migrate to role-based auth.");
-    return { 
-      authorized: true,
-      user: { id: "legacy-admin", platformRoles: [PlatformRole.GVTEWAY_ADMIN] }
-    };
-  }
-
   // Primary auth: Role-based using Supabase JWT
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -69,14 +59,4 @@ export async function authorizeAdminRequest(request: Request): Promise<{
       platformRoles,
     },
   };
-}
-
-// Synchronous check for simple cases (backwards compatible)
-export function authorizeAdminRequestSync(request: Request): boolean {
-  const authHeader = request.headers.get("authorization");
-  if (!authHeader?.startsWith("Bearer ")) {
-    return false;
-  }
-  const token = authHeader.slice("Bearer ".length);
-  return token === env.ADMIN_API_TOKEN;
 }

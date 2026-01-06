@@ -102,6 +102,7 @@ import {
   atlvsTestimonials,
   atlvsCtaSection,
 } from "../data/atlvs";
+import { useBrand } from "@ghxstship/config/hooks";
 
 export const runtime = "edge";
 
@@ -190,13 +191,13 @@ function HeroSocialProof() {
   return (
     <Stack gap={4} className="items-center">
       <Stack direction="horizontal" gap={6} className="flex-wrap justify-center">
-        <Text size="sm" className="text-text-disabled">PRODUCTIONS</Text>
-        <Text size="sm" className="text-text-disabled">·</Text>
-        <Text size="sm" className="text-text-disabled">ACTIVATIONS</Text>
-        <Text size="sm" className="text-text-disabled">·</Text>
-        <Text size="sm" className="text-text-disabled">INSTALLATIONS</Text>
-        <Text size="sm" className="text-text-disabled">·</Text>
-        <Text size="sm" className="text-text-disabled">DESTINATIONS</Text>
+        <Text size="sm" className="text-text-primary">PRODUCTIONS</Text>
+        <Text size="sm" className="text-text-primary">·</Text>
+        <Text size="sm" className="text-text-primary">ACTIVATIONS</Text>
+        <Text size="sm" className="text-text-primary">·</Text>
+        <Text size="sm" className="text-text-primary">INSTALLATIONS</Text>
+        <Text size="sm" className="text-text-primary">·</Text>
+        <Text size="sm" className="text-text-primary">DESTINATIONS</Text>
       </Stack>
       <Text size="sm" className="text-text-muted max-w-xl text-center">
         {atlvsHeroSection.trustedBy}
@@ -490,7 +491,7 @@ function GvtewaySection() {
             {atlvsGvtewaySection.features.map((feature) => (
               <Card
                 key={feature.title}
-                className="p-4 border-2 border-border bg-white rounded-card hover:border-brand-cyan/50 transition-colors"
+                className="p-4 border-2 border-border bg-surface-inverse rounded-card hover:border-brand-cyan/50 transition-colors"
               >
                 <Stack gap={3}>
                   <Box className="p-2 bg-brand-cyan/10 border-2 border-brand-cyan/20 w-fit rounded-card">
@@ -621,7 +622,7 @@ function PricingSection() {
                 <Stack direction="horizontal" gap={2} className="items-center">
                   <Check className="h-4 w-4 text-brand-pink" />
                   <Text size="sm" className="text-text-secondary">
-                    ATLVS — Business
+                    {brandName} — Business
                   </Text>
                 </Stack>
               </Stack>
@@ -635,7 +636,7 @@ function PricingSection() {
 
           <Card className="p-6 border-2 border-primary rounded-card text-center relative h-full flex flex-col ring-2 ring-primary/20">
             <Box className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary px-3 py-1 rounded-card">
-              <Text size="xs" className="text-white font-weight-semibold uppercase tracking-label">
+              <Text size="xs" className="text-text-primary font-weight-semibold uppercase tracking-label">
                 Most Popular
               </Text>
             </Box>
@@ -676,7 +677,7 @@ function PricingSection() {
             </Stack>
           </Card>
 
-          <Card className="p-6 border-2 border-white rounded-card text-center h-full flex flex-col">
+          <Card className="p-6 border-2 border-border rounded-card text-center h-full flex flex-col">
             <Stack gap={4} className="items-center flex-1">
               <Kicker className="text-text-muted">FULL STACK</Kicker>
               <H3 className="text-text-primary">Replace Everything</H3>
@@ -690,7 +691,7 @@ function PricingSection() {
                 <Stack direction="horizontal" gap={2} className="items-center">
                   <Check className="h-4 w-4 text-primary" />
                   <Text size="sm" className="text-text-secondary">
-                    ATLVS + COMPVSS + GVTEWAY
+                    {brandName} + COMPVSS + GVTEWAY
                   </Text>
                 </Stack>
                 <Stack direction="horizontal" gap={2} className="items-center">
@@ -733,7 +734,7 @@ function PricingSection() {
 // =============================================================================
 // MARKETING SECTIONS FACTORY
 // =============================================================================
-function createMarketingSections(router: ReturnType<typeof useRouter>): MarketingSection[] {
+function createMarketingSections(router: ReturnType<typeof useRouter>, brandName: string): MarketingSection[] {
   return [
     {
       id: "hero",
@@ -845,10 +846,11 @@ function createMarketingSections(router: ReturnType<typeof useRouter>): Marketin
 // =============================================================================
 export default function Home() {
   const router = useRouter();
-  const marketingSections = createMarketingSections(router);
+  const { name } = useBrand();
+  const marketingSections = createMarketingSections(router, name);
 
   return (
-    <AtlvsAppLayout variant="public" background="white">
+    <AtlvsAppLayout variant="public" background="surface">
       <MarketingPage sections={marketingSections} inverted={false} />
     </AtlvsAppLayout>
   );

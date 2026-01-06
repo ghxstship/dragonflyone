@@ -129,7 +129,7 @@ export function Calendar({
 
   return (
     <div className={clsx(
-      calendarVariants({ inverted, showWeekNumbers, weekStartsOnMonday }),
+      calendarVariants({ showWeekNumbers, weekStartsOnMonday }),
       className
     )}>
       {/* Header */}
@@ -171,7 +171,7 @@ export function Calendar({
 
       {/* Days of Week Header */}
       <div
-        className={clsx("grid border-b-2", inverted ? "border-border" : "border-border")}
+        className={clsx("grid border-b-2" ? "border-border" : "border-border")}
         style={{ gridTemplateColumns: showWeekNumbers ? "40px repeat(7, 1fr)" : "repeat(7, 1fr)" }}
       >
         {showWeekNumbers && (

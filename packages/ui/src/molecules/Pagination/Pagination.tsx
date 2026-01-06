@@ -79,7 +79,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationProps>(
     return (
       <nav
         ref={ref}
-        className={paginationVariants({ inverted, className })}
+        className={paginationVariants({ className })}
         aria-label="Pagination navigation"
         {...props}
       >

@@ -19,12 +19,12 @@ import type { BreadcrumbProps } from "./Breadcrumb.types.js";
  * ```
  */
 export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
-  function Breadcrumb({ separator = "/", inverted = true, className, children, ...props }, ref) {
+  function Breadcrumb({ separator = "/", className, children, ...props }, ref) {
     return (
       <nav
         ref={ref}
         aria-label="Breadcrumb"
-        className={breadcrumbVariants({ inverted, className })}
+        className={breadcrumbVariants({ className })}
         {...props}
       >
         <ol className="flex items-center gap-gap-xs">

@@ -359,8 +359,37 @@ export class DataImportEngine {
       return { valid: false, error: 'Invalid row data' };
     }
 
-    // Silence unused entityType warning - used for entity-specific validation
-    void entityType;
+    // Entity-specific validation rules
+    const entityValidationRules: Record<string, { requiredFields: string[]; maxLength?: Record<string, number> }> = {
+      organizations: { requiredFields: ['name'], maxLength: { name: 255 } },
+      projects: { requiredFields: ['name', 'organization_id'], maxLength: { name: 255 } },
+      events: { requiredFields: ['name', 'start_date'], maxLength: { name: 255 } },
+      platform_users: { requiredFields: ['email'], maxLength: { email: 255 } },
+      crew_members: { requiredFields: ['first_name', 'last_name'] },
+      equipment: { requiredFields: ['name'], maxLength: { name: 255 } },
+      venues: { requiredFields: ['name'], maxLength: { name: 255 } },
+    };
+
+    const rules = entityValidationRules[entityType];
+    if (rules) {
+      // Check required fields for this entity type
+      for (const field of rules.requiredFields) {
+        const mappedField = mapping ? Object.entries(mapping).find(([, dbField]) => dbField === field)?.[0] : field;
+        if (mappedField && (row[mappedField] === undefined || row[mappedField] === null || row[mappedField] === '')) {
+          return { valid: false, error: `Missing required field for ${entityType}: ${field}` };
+        }
+      }
+
+      // Check max length constraints
+      if (rules.maxLength) {
+        for (const [field, maxLen] of Object.entries(rules.maxLength)) {
+          const mappedField = mapping ? Object.entries(mapping).find(([, dbField]) => dbField === field)?.[0] : field;
+          if (mappedField && typeof row[mappedField] === 'string' && (row[mappedField] as string).length > maxLen) {
+            return { valid: false, error: `Field ${field} exceeds maximum length of ${maxLen}` };
+          }
+        }
+      }
+    }
 
     // Check required fields based on mapping
     if (mapping) {

@@ -1,4 +1,5 @@
 import { Badge, H3, Body, Label, ProgressBar, Stack, Link, Article } from "@ghxstship/ui";
+import { memo } from "react";
 
 interface ProjectCardProps {
   project: {
@@ -11,13 +12,13 @@ interface ProjectCardProps {
   };
 }
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link href={`/projects/${project.id}`} className="group block">
       <Article variant="bordered" className="p-spacing-6 transition-colors hover:border-white">
         <Stack direction="horizontal" className="items-start justify-between">
           <Stack>
-            <H3 className="text-white">{project.name}</H3>
+            <H3 className="text-text-primary">{project.name}</H3>
             <Body className="mt-spacing-1 text-text-disabled">{project.client}</Body>
           </Stack>
           <Badge
@@ -33,4 +34,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </Article>
     </Link>
   );
-}
+});
+
+export default ProjectCard;

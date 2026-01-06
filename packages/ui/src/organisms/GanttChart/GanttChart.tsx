@@ -96,7 +96,6 @@ export function GanttChart<T>({
   onTaskClick,
   onTaskUpdate: _onTaskUpdate,
   showToday = true,
-  inverted = true,
   rowHeight = 40,
   renderTask,
   className,
@@ -217,14 +216,14 @@ export function GanttChart<T>({
       <div
         className={clsx(
           "flex items-center justify-center h-64 rounded-lg border-2",
-          inverted ? "bg-[var(--color-surface-inverse)] border-[var(--color-border-default)]" : "bg-[var(--color-surface-primary)] border-[var(--color-border-default)]",
+          "bg-[var(--color-surface-primary)] border-[var(--color-border-default)]",
           className
         )}
       >
         <div
           className={clsx(
             "w-8 h-8 border-3 rounded-full animate-spin",
-            inverted ? "border-[var(--color-border-default)] border-t-[var(--color-primary-500)]" : "border-[var(--color-border-default)] border-t-[var(--color-primary-500)]"
+            "border-[var(--color-border-default)] border-t-[var(--color-primary-500)]"
           )}
         />
       </div>
@@ -236,7 +235,7 @@ export function GanttChart<T>({
       <div
         className={clsx(
           "flex items-center justify-center h-64 rounded-lg border-2 border-dashed",
-          inverted ? "bg-[var(--color-surface-inverse)] border-[var(--color-border-default)] text-[var(--color-text-disabled)]" : "bg-[var(--color-surface-primary)] border-[var(--color-border-default)] text-[var(--color-text-disabled)]",
+          "bg-[var(--color-surface-primary)] border-[var(--color-border-default)] text-[var(--color-text-disabled)]",
           className
         )}
       >
@@ -246,12 +245,12 @@ export function GanttChart<T>({
   }
 
   return (
-    <div className={clsx(ganttChartVariants({ inverted }), className)}>
+    <div className={clsx(ganttChartVariants({}), className)}>
       {/* Toolbar */}
       <div
         className={clsx(
           "flex items-center justify-between px-4 py-2 border-b-2",
-          inverted ? "border-[var(--color-border-default)]" : "border-[var(--color-border-default)]"
+          "border-[var(--color-border-default)]"
         )}
       >
         <div className="flex items-center gap-2">
@@ -260,7 +259,7 @@ export function GanttChart<T>({
             onClick={handlePrevious}
             className={clsx(
               "p-1.5 rounded transition-colors",
-              inverted ? "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)]" : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
+              "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
             )}
           >
             <ChevronLeft size={18} />
@@ -270,7 +269,7 @@ export function GanttChart<T>({
             onClick={handleNext}
             className={clsx(
               "p-1.5 rounded transition-colors",
-              inverted ? "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)]" : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
+              "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
             )}
           >
             <ChevronRight size={18} />
@@ -278,7 +277,7 @@ export function GanttChart<T>({
         </div>
 
         <div className="flex items-center gap-2">
-          <span className={clsx("text-sm font-medium", inverted ? "text-[var(--color-text-muted)]" : "text-[var(--color-text-muted)]")}>
+          <span className={clsx("text-sm font-medium text-[var(--color-text-muted)]")}>
             {currentViewMode.charAt(0).toUpperCase() + currentViewMode.slice(1)} View
           </span>
           <button
@@ -287,7 +286,7 @@ export function GanttChart<T>({
             disabled={currentViewMode === "quarter"}
             className={clsx(
               "p-1.5 rounded transition-colors disabled:opacity-50",
-              inverted ? "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)]" : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
+              "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
             )}
           >
             <ZoomOut size={18} />
@@ -298,7 +297,7 @@ export function GanttChart<T>({
             disabled={currentViewMode === "day"}
             className={clsx(
               "p-1.5 rounded transition-colors disabled:opacity-50",
-              inverted ? "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)]" : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
+              "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]"
             )}
           >
             <ZoomIn size={18} />
@@ -313,7 +312,7 @@ export function GanttChart<T>({
           <div
             className={clsx(
               "flex border-b-2 sticky top-0 z-sticky-row",
-              inverted ? "bg-[var(--color-surface-inverse)] border-[var(--color-border-default)]" : "bg-[var(--color-surface-primary)] border-[var(--color-border-default)]"
+              "bg-[var(--color-surface-primary)] border-[var(--color-border-default)]"
             )}
             style={{ transform: `translateX(-${scrollOffset}px)` }}
           >
@@ -321,7 +320,7 @@ export function GanttChart<T>({
             <div
               className={clsx(
                 "flex-shrink-0 w-48 px-3 py-2 border-r-2 font-semibold text-sm sticky left-0 z-sticky-header",
-                inverted ? "bg-surface-inverse border-border text-text-primary" : "bg-surface-primary border-border text-text-primary"
+                "bg-[var(--color-surface-primary)] border-[var(--color-border-default)] text-[var(--color-text-primary)]"
               )}
             >
               Task
@@ -332,12 +331,16 @@ export function GanttChart<T>({
               <div
                 key={idx}
                 className={clsx(
-                  "flex border-b",
-                  inverted ? "border-[var(--color-border-default)]" : "border-[var(--color-border-default)]"
+                  "flex border-b border-[var(--color-border-default)]"
                 )}
                 style={{ height: rowHeight }}
               >
-                {/* Task name */}
+                <div className="flex-1 px-2 py-1 text-xs text-center">
+                  {col.label}
+                </div>
+              </div>
+            ))}
+          </div>
 
           {/* Tasks */}
           <div style={{ transform: `translateX(-${scrollOffset}px)` }}>
@@ -350,7 +353,7 @@ export function GanttChart<T>({
                   key={task.id}
                   className={clsx(
                     "flex border-b",
-                    inverted ? "border-[var(--color-border-default)]" : "border-[var(--color-border-default)]"
+                    "border-[var(--color-border-default)]"
                   )}
                   style={{ height: rowHeight }}
                 >
@@ -358,13 +361,13 @@ export function GanttChart<T>({
                   <div
                     className={clsx(
                       "flex-shrink-0 w-48 px-3 flex items-center border-r-2 sticky left-0 z-sticky-column",
-                      inverted ? "bg-[var(--color-surface-inverse)] border-[var(--color-border-default)]" : "bg-[var(--color-surface-primary)] border-[var(--color-border-default)]"
+                      "bg-[var(--color-surface-primary)] border-[var(--color-border-default)]"
                     )}
                   >
                     <span
                       className={clsx(
                         "text-sm truncate",
-                        inverted ? "text-text-primary" : "text-text-primary"
+                        "text-[var(--color-text-primary)]"
                       )}
                     >
                       {task.title}
@@ -382,8 +385,8 @@ export function GanttChart<T>({
                           className={clsx(
                             "flex-shrink-0 border-r",
                             col.isToday && "bg-primary-500/10",
-                            col.isWeekend && !col.isToday && (inverted ? "bg-[var(--color-surface-elevated)]/30" : "bg-[var(--color-surface-muted)]"),
-                            inverted ? "border-[var(--color-border-default)]" : "border-[var(--color-border-default)]"
+                            col.isWeekend && !col.isToday && "bg-[var(--color-surface-muted)]/30",
+                            "border-[var(--color-border-default)]"
                           )}
                         />
                       ))}
@@ -449,7 +452,7 @@ export function GanttChart<T>({
                     className="w-4 h-4 rotate-45 border-2"
                     style={{
                       backgroundColor: milestone.color || "#f59e0b",
-                      borderColor: inverted ? "#1f2937" : "#ffffff",
+                      borderColor: "#ffffff",
                     }}
                     aria-label={milestone.title}
                   />

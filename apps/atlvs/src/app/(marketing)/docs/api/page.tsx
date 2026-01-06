@@ -118,13 +118,13 @@ export default function ApiDocsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Quick Start</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Get Started in Minutes</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Get Started in Minutes</Body>
                 </Stack>
 
                 <Card className="p-6 border-2 border-border rounded-card">
                   <Stack gap={4}>
                     <Stack direction="horizontal" className="justify-between items-center">
-                      <Body className="text-white font-weight-bold">Example Request</Body>
+                      <Body className="text-text-primary font-weight-bold">Example Request</Body>
                       <Button variant="ghost" size="sm" onClick={() => copyToClipboard(exampleCode, "example")}>
                         {copiedCode === "example" ? <Check className="size-4" /> : <Copy className="size-4" />}
                       </Button>
@@ -138,7 +138,7 @@ export default function ApiDocsPage() {
                 <Card className="p-6 border-2 border-border rounded-card">
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
-                      <Body className="text-white font-weight-bold">Base URL</Body>
+                      <Body className="text-text-primary font-weight-bold">Base URL</Body>
                       <code className="text-primary">https://api.atlvs.com/v1</code>
                     </Stack>
                     <Button variant="ghost" size="sm" onClick={() => copyToClipboard("https://api.atlvs.com/v1", "baseurl")}>
@@ -158,7 +158,7 @@ export default function ApiDocsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Reference</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">API Endpoints</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">API Endpoints</Body>
                   <Body className="text-text-muted max-w-2xl">Available REST API endpoints for managing your production data</Body>
                 </Stack>
 

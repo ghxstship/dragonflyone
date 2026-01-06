@@ -49,7 +49,7 @@ function ExperienceGeneratorSection() {
               </Stack>
               <H2 className="text-text-primary">{experienceGenerator.name}</H2>
             </Stack>
-            <Display className="text-primary text-display-md">{experienceGenerator.price}</Display>
+            <Display className="text-text-primary text-display-md">{experienceGenerator.price}</Display>
             <Body className="text-text-secondary">{experienceGenerator.description}</Body>
             <Stack gap={3}>
               {experienceGenerator.features.map((feature: string, idx: number) => (
@@ -61,7 +61,7 @@ function ExperienceGeneratorSection() {
             </Stack>
           </Stack>
           <Stack gap={6} className="items-center text-center">
-            <Box className="p-6 border-2 border-primary bg-white shadow-md">
+            <Box className="p-6 border-2 border-primary bg-surface-inverse shadow-md">
               <Sparkles className="size-16 text-primary mx-auto mb-4" />
               <H3 className="text-text-primary mb-2">Start Creating Now</H3>
               <Body size="sm" className="text-text-muted mb-4">No account needed. Just enter an idea.</Body>
@@ -90,7 +90,7 @@ function SingleProductsSection() {
       </Stack>
       <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
         {singleProducts.products.map((product: { id: string; color: string; subtitle: string; name: string; price: string; period: string; description: string; features: string[]; cta: { href: string; label: string } }) => (
-          <Article key={product.id} className={`border-2 border-border bg-white p-6 h-full flex flex-col pop-card-${product.color === "brand-yellow" ? "yellow" : product.color === "brand-cyan" ? "cyan" : "brand"}`}>
+          <Article key={product.id} className={`border-2 border-border bg-surface-inverse p-6 h-full flex flex-col pop-card-${product.color === "brand-yellow" ? "yellow" : product.color === "brand-cyan" ? "cyan" : "brand"}`}>
             {/* Card content - grows to fill available space */}
             <Stack gap={4} className="flex-1">
               <Stack direction="horizontal" gap={2} className="items-center">
@@ -145,10 +145,10 @@ function BundlesSection() {
         {bundles.products.map((bundle: { id: string; color: string; subtitle: string; name: string; price: string; period: string; description: string; features: string[]; cta: { href: string; label: string } }) => (
           <Article 
             key={bundle.id} 
-            className={`border-2 ${bundle.id === "experience" ? "border-brand-pink" : "border-border"} bg-white p-6 h-full flex flex-col pop-card relative`}
+            className={`border-2 ${bundle.id === "experience" ? "border-brand-pink" : "border-border"} bg-surface-inverse p-6 h-full flex flex-col pop-card relative`}
           >
             {bundle.id === "experience" && (
-              <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-3 py-1 text-white">MOST POPULAR</Label>
+              <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-3 py-1 text-text-primary">MOST POPULAR</Label>
             )}
             {/* Card content - grows to fill available space */}
             <Stack gap={4} className="flex-1">
@@ -195,15 +195,15 @@ function FullStackSection() {
   
   return (
     <Container size="2xl" className="py-16 md:py-24">
-      <Card inverted className="border-2 border-white p-8 sm:p-12">
+      <Card inverted className="border-2 border-text-primary p-8 sm:p-12">
         <Grid cols={2} gap={8} className="grid-cols-1 lg:grid-cols-2 items-center">
           <Stack gap={6}>
             <Stack gap={2}>
               <Label size="xs" className="text-text-muted">{fullStack.category}</Label>
-              <H2 className="text-white">{fullStack.tagline}</H2>
+              <H2 className="text-text-primary">{fullStack.tagline}</H2>
             </Stack>
             <Stack direction="horizontal" gap={2} className="items-baseline">
-              <Display className="text-white">{fullStack.price}</Display>
+              <Display className="text-text-primary">{fullStack.price}</Display>
               <Text className="text-text-muted">{fullStack.period}</Text>
             </Stack>
             <Body className="text-text-secondary">{fullStack.description}</Body>
@@ -222,15 +222,15 @@ function FullStackSection() {
               <Stack direction="horizontal" gap={4} className="justify-center lg:justify-end">
                 <Stack direction="horizontal" gap={2} className="items-center">
                   <Box className="text-brand-pink">{PRODUCT_ICONS.atlvs}</Box>
-                  <Text className="text-white">ATLVS</Text>
+                  <Text className="text-text-primary">ATLVS</Text>
                 </Stack>
                 <Stack direction="horizontal" gap={2} className="items-center">
                   <Box className="text-brand-yellow">{PRODUCT_ICONS.compvss}</Box>
-                  <Text className="text-white">COMPVSS</Text>
+                  <Text className="text-text-primary">COMPVSS</Text>
                 </Stack>
                 <Stack direction="horizontal" gap={2} className="items-center">
                   <Box className="text-brand-cyan">{PRODUCT_ICONS.gvteway}</Box>
-                  <Text className="text-white">GVTEWAY</Text>
+                  <Text className="text-text-primary">GVTEWAY</Text>
                 </Stack>
               </Stack>
             </Stack>
@@ -255,7 +255,7 @@ function FAQSection() {
       </Stack>
       <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
         {FAQS.map((faq) => (
-          <Article key={faq.id} className="border-2 border-border bg-white p-6 pop-card">
+          <Article key={faq.id} className="border-2 border-border bg-surface-inverse p-6 pop-card">
             <H3 className="font-display text-h6-md uppercase tracking-label text-text-primary mb-3">{faq.question}</H3>
             <Body className="text-text-muted">{faq.answer}</Body>
           </Article>

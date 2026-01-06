@@ -141,7 +141,7 @@ export default function AccountSettingsPage() {
                   Current Password
                 </Body>
                 <Box className="relative">
-                  <Key className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-muted" />
+                  <Key className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-primary" />
                   <Input
                     name="currentPassword"
                     type="password"
@@ -159,7 +159,7 @@ export default function AccountSettingsPage() {
                     New Password
                   </Body>
                   <Box className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-muted" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-primary" />
                     <Input
                       name="newPassword"
                       type="password"
@@ -176,7 +176,7 @@ export default function AccountSettingsPage() {
                     Confirm New Password
                   </Body>
                   <Box className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-muted" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-primary" />
                     <Input
                       name="confirmPassword"
                       type="password"
@@ -211,11 +211,11 @@ export default function AccountSettingsPage() {
           <Box className="flex items-center justify-between mt-4">
             <Box className="flex items-center gap-4">
               <Box className={`p-3 rounded-card ${twoFactorEnabled ? "bg-success/10" : "bg-surface-secondary"}`}>
-                <Smartphone className={`size-6 ${twoFactorEnabled ? "text-success" : "text-text-muted"}`} />
+                <Smartphone className={`size-6 ${twoFactorEnabled ? "text-success" : "text-text-primary"}`} />
               </Box>
               <Box>
                 <Body className="font-weight-medium">Authenticator App</Body>
-                <Body size="sm" className="text-text-muted">
+                <Body size="sm" className="text-text-primary">
                   Use an authenticator app to generate verification codes
                 </Body>
               </Box>
@@ -242,12 +242,12 @@ export default function AccountSettingsPage() {
           <Stack gap={4} className="mt-4">
             <Box className="flex items-center justify-between p-4 bg-surface-secondary rounded-card">
               <Box className="flex items-center gap-3">
-                <Box className="p-2 bg-white rounded-card">
-                  <Shield className="size-5 text-primary" />
+                <Box className="p-2 bg-text-primary rounded-card">
+                  <Shield className="size-5 text-text-primary" />
                 </Box>
                 <Box>
                   <Body className="font-weight-medium">Google</Body>
-                  <Body size="sm" className="text-text-muted">Not connected</Body>
+                  <Body size="sm" className="text-text-primary">Not connected</Body>
                 </Box>
               </Box>
               <Button variant="outline" data-testid="connect-google">
@@ -257,12 +257,12 @@ export default function AccountSettingsPage() {
 
             <Box className="flex items-center justify-between p-4 bg-surface-secondary rounded-card">
               <Box className="flex items-center gap-3">
-                <Box className="p-2 bg-white rounded-card">
-                  <Shield className="size-5 text-primary" />
+                <Box className="p-2 bg-text-primary rounded-card">
+                  <Shield className="size-5 text-text-primary" />
                 </Box>
                 <Box>
                   <Body className="font-weight-medium">Microsoft</Body>
-                  <Body size="sm" className="text-text-muted">Not connected</Body>
+                  <Body size="sm" className="text-text-primary">Not connected</Body>
                 </Box>
               </Box>
               <Button variant="outline">
@@ -279,7 +279,7 @@ export default function AccountSettingsPage() {
           />
           <Box className="flex items-center justify-between mt-4">
             <Box>
-              <Body className="text-text-muted">
+              <Body className="text-text-primary">
                 This action cannot be undone. All your data will be permanently removed.
               </Body>
             </Box>

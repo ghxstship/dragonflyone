@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole, log } from '@ghxstship/config';
 
 const ATLVS_ROLES = [
   PlatformRole.ATLVS_SUPER_ADMIN,
@@ -177,7 +177,7 @@ export async function GET(request: NextRequest) {
       byHour,
       topErrors });
   } catch (error) {
-    console.error('Integration metrics error:', error);
+    log.error('Integration metrics error', error, { endpoint: '/api/integrations/metrics', method: 'GET' });
     return NextResponse.json(
       { error: 'Failed to fetch integration metrics' },
       { status: 500 }

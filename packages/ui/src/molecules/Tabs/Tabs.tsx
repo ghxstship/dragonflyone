@@ -28,12 +28,10 @@ const TabsContext = createContext<{
   activeTab: string;
   setActiveTab: (value: string) => void;
   variant: TabsVariant;
-  inverted: boolean;
 }>({
   activeTab: "",
   setActiveTab: () => {},
   variant: "line",
-  inverted: false,
 });
 
 /**
@@ -73,7 +71,6 @@ export const useTabsContext = () => {
 export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
   function Tabs({ 
     variant = "line" as TabsVariant, 
-    inverted = true, 
     className, 
     children, 
     ...props 
@@ -81,10 +78,10 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
     const [activeTab, setActiveTab] = useState<string>("");
     
     return (
-      <TabsContext.Provider value={{ activeTab, setActiveTab, variant, inverted }}>
+      <TabsContext.Provider value={{ activeTab, setActiveTab, variant }}>
         <div 
           ref={ref} 
-          className={tabsVariants({ inverted, className })} 
+          className={tabsVariants({ className })} 
           {...props}
         >
           {children}
@@ -102,7 +99,6 @@ Tabs.displayName = "Tabs";
 export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
   function TabsList({ 
     variant, 
-    inverted, 
     onTabChange, 
     enableSwipe = false,
     className, 
@@ -215,7 +211,7 @@ export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
     return (
       <div
         ref={swipeRef}
-        className={tabsListVariants({ variant: currentVariant, inverted, className })}
+        className={tabsListVariants({ variant: currentVariant, className })}
         onKeyDown={handleKeyDown}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -237,7 +233,6 @@ export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
   function TabsTrigger({ 
     value, 
     disabled = false, 
-    inverted, 
     className, 
     children, 
     ...props 
@@ -258,7 +253,6 @@ export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
           variant, 
           active: isActive, 
           disabled, 
-          inverted, 
           className 
         })}
         onClick={handleClick}
@@ -282,7 +276,6 @@ TabsTrigger.displayName = "TabsTrigger";
  */
 export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
   function TabsContent({ 
-    inverted, 
     className, 
     children, 
     ...props 
@@ -290,7 +283,7 @@ export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
     return (
       <div 
         ref={ref}
-        className={tabsContentVariants({ inverted, className })}
+        className={tabsContentVariants({ className })}
         {...props}
       >
         {children}
@@ -307,7 +300,6 @@ TabsContent.displayName = "TabsContent";
 export const TabsPanel = forwardRef<HTMLDivElement, TabsPanelProps>(
   function TabsPanel({ 
     value, 
-    inverted, 
     className, 
     children, 
     ...props 
@@ -320,7 +312,7 @@ export const TabsPanel = forwardRef<HTMLDivElement, TabsPanelProps>(
     return (
       <div
         ref={ref}
-        className={tabsPanelVariants({ inverted, className })}
+        className={tabsPanelVariants({ className })}
         role="tabpanel"
         id={`panel-${value}`}
         aria-labelledby={`tab-${value}`}

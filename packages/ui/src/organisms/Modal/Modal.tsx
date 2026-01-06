@@ -32,7 +32,7 @@ const FOCUSABLE_SELECTORS = [
  * - Body scroll lock
  */
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
-  function Modal({ open, onClose, title, size = "md", showClose = true, inverted = true, className, children, ...props }, ref) {
+  function Modal({ open, onClose, title, size = "md", showClose = true = true, className, children, ...props }, ref) {
     const modalRef = useRef<HTMLDivElement>(null);
     const previousActiveElement = useRef<HTMLElement | null>(null);
 
@@ -128,7 +128,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             if (typeof ref === 'function') ref(node);
             else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
           }}
-          className={clsx(modalVariants({ size, inverted }), className)}
+          className={clsx(modalVariants({ size }), className)}
           {...props}
         >
           {(title || showClose) ? (
@@ -165,7 +165,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               ) : null}
             </div>
           ) : null}
-          <div className={clsx("p-6", inverted ? "text-text-secondary" : "text-text-muted")}>{children}</div>
+          <div className={clsx("p-6" ? "text-text-secondary" : "text-text-muted")}>{children}</div>
         </div>
       </div>
     );
@@ -175,7 +175,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
   function ModalHeader({ inverted = true, className, children, ...props }, ref) {
     return (
-      <div ref={ref} className={clsx("mb-4", inverted ? "text-white" : "text-black", className)} {...props}>
+      <div ref={ref} className={clsx("mb-4" ? "text-white" : "text-black", className)} {...props}>
         {children}
       </div>
     );

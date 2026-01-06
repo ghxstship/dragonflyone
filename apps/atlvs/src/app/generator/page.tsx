@@ -154,9 +154,9 @@ export default function GeneratorPage() {
   // Error state
   if (error && !blueprint) {
     return (
-      <AtlvsAppLayout variant="public" background="white" rawContent>
-        <FullBleedSection background="white" className="min-h-screen py-24">
-          <Container className="mx-auto max-w-container-4xl px-6 text-center">
+      <AtlvsAppLayout variant="public" background="text-text-primary" rawContent>
+        <FullBleedSection background="text-text-primary" className="min-h-screen py-24">
+          <Container className="mx-auto max-w-container-4xl px-6 text-text-primary">
             <Stack gap={6} className="items-center">
               <Box className="flex size-16 items-center justify-center border-2 border-error bg-error/10">
                 <Text className="text-h3-md text-error">!</Text>
@@ -165,7 +165,7 @@ export default function GeneratorPage() {
               <Body className="text-text-secondary">{error}</Body>
               <Button
                 onClick={reset}
-                className="border-2 border-border bg-white px-8 py-4 font-display uppercase tracking-label shadow-sm"
+                className="border-2 border-border bg-text-text-primary px-8 py-4 font-display uppercase tracking-label shadow-sm"
               >
                 Try Again
               </Button>
@@ -189,7 +189,7 @@ export default function GeneratorPage() {
               <Stack direction="horizontal" gap={3} className="items-center">
                 <Button
                   onClick={toggleSidebar}
-                  className="flex size-9 items-center justify-center border-2 border-border bg-white p-0 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
+                  className="flex size-9 items-center justify-center border-2 border-border bg-text-text-primary p-0 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
                   aria-label={sidebarCollapsed ? "Show history" : "Hide history"}
                 >
                   {sidebarCollapsed ? (
@@ -200,7 +200,7 @@ export default function GeneratorPage() {
                 </Button>
                 <Stack direction="horizontal" gap={2} className="items-center">
                   <Box className="flex size-8 items-center justify-center border-2 border-border bg-primary">
-                    <Sparkles className="size-4 text-white" />
+                    <Sparkles className="size-4 text-text-primary" />
                   </Box>
                   <Text className="font-display text-h6-md uppercase tracking-label text-text-primary">
                     Experience Generator
@@ -215,14 +215,14 @@ export default function GeneratorPage() {
               <Stack direction="horizontal" gap={2} className="items-center">
                 <Button
                   onClick={reset}
-                  className="flex items-center gap-sm border-2 border-border bg-white px-3 py-2 font-display text-mono-xs uppercase tracking-label text-text-primary transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
+                  className="flex items-center gap-sm border-2 border-border bg-text-text-primary px-3 py-2 font-display text-mono-xs uppercase tracking-label text-text-primary transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
                 >
                   <Plus className="size-4" />
                   <Text className="hidden sm:inline">New</Text>
                 </Button>
                 <Button
                   onClick={toggleArtifact}
-                  className="flex size-9 items-center justify-center border-2 border-border bg-white p-0 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
+                  className="flex size-9 items-center justify-center border-2 border-border bg-text-text-primary p-0 transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm"
                   aria-label={artifactCollapsed ? "Show blueprint" : "Hide blueprint"}
                 >
                   {artifactCollapsed ? (
@@ -317,7 +317,7 @@ export default function GeneratorPage() {
                     <Button
                       type="submit"
                       disabled={!inputValue.trim() || isGenerating}
-                      className="flex size-9 items-center justify-center border-2 border-border bg-primary p-0 text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm disabled:opacity-50"
+                      className="flex size-9 items-center justify-center border-2 border-border bg-primary p-0 text-text-primary transition-all duration-100 hover:-translate-y-0.5 hover:shadow-sm disabled:opacity-50"
                       aria-label="Send message"
                     >
                       {isGenerating ? (

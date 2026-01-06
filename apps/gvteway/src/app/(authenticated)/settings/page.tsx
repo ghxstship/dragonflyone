@@ -91,7 +91,7 @@ export default function SettingsPage() {
             <Stack gap={6}>
               <Stack direction="horizontal" className="items-center justify-between">
                 <Stack gap={0}>
-                  <Body className="font-weight-medium text-white">Email Notifications</Body>
+                  <Body className="font-weight-medium text-text-primary">Email Notifications</Body>
                   <Body size="sm" className="text-text-muted">Receive updates about your orders and events</Body>
                 </Stack>
                 <Switch
@@ -102,7 +102,7 @@ export default function SettingsPage() {
 
               <Stack direction="horizontal" className="items-center justify-between">
                 <Stack gap={0}>
-                  <Body className="font-weight-medium text-white">SMS Notifications</Body>
+                  <Body className="font-weight-medium text-text-primary">SMS Notifications</Body>
                   <Body size="sm" className="text-text-muted">Get text alerts for important updates</Body>
                 </Stack>
                 <Switch
@@ -113,7 +113,7 @@ export default function SettingsPage() {
 
               <Stack direction="horizontal" className="items-center justify-between">
                 <Stack gap={0}>
-                  <Body className="font-weight-medium text-white">Marketing Emails</Body>
+                  <Body className="font-weight-medium text-text-primary">Marketing Emails</Body>
                   <Body size="sm" className="text-text-muted">Receive promotions and recommendations</Body>
                 </Stack>
                 <Switch
@@ -188,7 +188,7 @@ export default function SettingsPage() {
               <Stack direction="horizontal" gap={3} className="items-center">
                 <Shield className="size-8 text-text-muted" />
                 <Stack gap={0}>
-                  <Body className="font-weight-medium text-white">Privacy Settings</Body>
+                  <Body className="font-weight-medium text-text-primary">Privacy Settings</Body>
                   <Body size="sm" className="text-text-muted">Control your data and privacy</Body>
                 </Stack>
               </Stack>
@@ -197,7 +197,7 @@ export default function SettingsPage() {
               <Stack direction="horizontal" gap={3} className="items-center">
                 <Key className="size-8 text-text-muted" />
                 <Stack gap={0}>
-                  <Body className="font-weight-medium text-white">Active Sessions</Body>
+                  <Body className="font-weight-medium text-text-primary">Active Sessions</Body>
                   <Body size="sm" className="text-text-muted">Manage your logged-in devices</Body>
                 </Stack>
               </Stack>

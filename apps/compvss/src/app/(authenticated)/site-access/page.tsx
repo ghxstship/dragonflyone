@@ -82,19 +82,37 @@ export default function SiteAccessPage() {
         <ModalHeader><H3>Issue Vehicle Pass</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Select>
-              <option value="">Vehicle type...</option>
-              <option value="Truck">Truck</option>
-              <option value="Van">Van</option>
-              <option value="Car">Car</option>
-              <option value="Bus">Bus</option>
-            </Select>
-            <Input placeholder="License Plate" />
-            <Input placeholder="Company" />
-            <Input placeholder="Driver Name" />
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Vehicle Type</Body>
+              <Select aria-label="Vehicle Type">
+                <option value="">Vehicle type...</option>
+                <option value="Truck">Truck</option>
+                <option value="Van">Van</option>
+                <option value="Car">Car</option>
+                <option value="Bus">Bus</option>
+              </Select>
+            </Stack>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">License Plate</Body>
+              <Input placeholder="License Plate" aria-label="License Plate Number" />
+            </Stack>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Company</Body>
+              <Input placeholder="Company" aria-label="Company Name" />
+            </Stack>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Driver Name</Body>
+              <Input placeholder="Driver Name" aria-label="Driver Name" />
+            </Stack>
             <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-              <Input type="datetime-local" />
-              <Input type="datetime-local" />
+              <Stack gap={2}>
+                <Body size="sm" className="font-weight-medium">Valid From</Body>
+                <Input type="datetime-local" aria-label="Valid From Date and Time" />
+              </Stack>
+              <Stack gap={2}>
+                <Body size="sm" className="font-weight-medium">Valid Until</Body>
+                <Input type="datetime-local" aria-label="Valid Until Date and Time" />
+              </Stack>
             </Grid>
           </Stack>
         </ModalBody>

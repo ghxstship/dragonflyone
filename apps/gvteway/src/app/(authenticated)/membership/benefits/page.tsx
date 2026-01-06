@@ -123,14 +123,19 @@ export default function MembershipBenefitsPage() {
 
   const handleRedeem = async (benefitId: string) => {
     try {
-      await fetch("/api/membership/benefits/redeem", {
+      const response = await fetch("/api/membership/benefits/redeem", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ benefit_id: benefitId }),
       });
+      if (!response.ok) {
+        const data = await response.json();
+        alert(data.error || "Failed to redeem benefit. Please try again.");
+        return;
+      }
       refetch();
-    } catch (err) {
-      console.error("Failed to redeem benefit:", err);
+    } catch {
+      alert("Failed to redeem benefit. Please check your connection and try again.");
     }
   };
 

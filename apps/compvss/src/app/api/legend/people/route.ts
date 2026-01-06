@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole, log } from '@ghxstship/config';
 
 const createPersonSchema = z.object({
   first_name: z.string().min(1, 'First name is required'),
@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
     const { data: people, error, count } = await query;
 
     if (error) {
-      console.error('Error fetching legend people', error);
+      log.error('Error fetching legend people', error, { endpoint: '/api/legend/people', method: 'GET' });
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
@@ -164,7 +164,7 @@ export async function GET(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid query parameters', details: error.errors }, { status: 400 });
     }
-    console.error('Error in GET /api/legend/people', error);
+    log.error('Error in GET /api/legend/people', error, { endpoint: '/api/legend/people', method: 'GET' });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -215,7 +215,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (personError) {
-      console.error('Error creating legend person', personError);
+      log.error('Error creating legend person', personError, { endpoint: '/api/legend/people', method: 'POST' });
       return NextResponse.json({ error: personError.message }, { status: 500 });
     }
 
@@ -230,7 +230,7 @@ export async function POST(request: NextRequest) {
 
       if (profileError) {
         await supabase.from('legend_people').delete().eq('id', person.id);
-        console.error('Error creating profile', profileError);
+        log.error('Error creating profile', profileError, { endpoint: '/api/legend/people', method: 'POST', personId: person.id });
         return NextResponse.json({ error: profileError.message }, { status: 500 });
       }
     }
@@ -240,7 +240,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation error', details: error.errors }, { status: 400 });
     }
-    console.error('Error in POST /api/legend/people', error);
+    log.error('Error in POST /api/legend/people', error, { endpoint: '/api/legend/people', method: 'POST' });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -297,7 +297,7 @@ export async function PUT(request: NextRequest) {
       .single();
 
     if (personError) {
-      console.error('Error updating legend person', personError);
+      log.error('Error updating legend person', personError, { endpoint: '/api/legend/people', method: 'PUT', personId: id });
       return NextResponse.json({ error: personError.message }, { status: 500 });
     }
 
@@ -315,7 +315,7 @@ export async function PUT(request: NextRequest) {
         }, { onConflict: 'person_id' });
 
       if (profileError) {
-        console.error('Error updating profile', profileError);
+        log.error('Error updating profile', profileError, { endpoint: '/api/legend/people', method: 'PUT', personId: id, profileType: profile_type });
       }
     }
 
@@ -324,7 +324,7 @@ export async function PUT(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation error', details: error.errors }, { status: 400 });
     }
-    console.error('Error in PUT /api/legend/people', error);
+    log.error('Error in PUT /api/legend/people', error, { endpoint: '/api/legend/people', method: 'PUT' });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -374,13 +374,13 @@ export async function DELETE(request: NextRequest) {
       .eq('organization_id', userOrg.organization_id);
 
     if (error) {
-      console.error('Error deleting legend person', error);
+      log.error('Error deleting legend person', error, { endpoint: '/api/legend/people', method: 'DELETE', personId: id });
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    console.error('Error in DELETE /api/legend/people', error);
+    log.error('Error in DELETE /api/legend/people', error, { endpoint: '/api/legend/people', method: 'DELETE' });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

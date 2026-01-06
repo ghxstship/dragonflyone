@@ -98,27 +98,27 @@ export default function EventDetailPage() {
           <Section border className="mb-6">
             <SectionHeader title="Event Details" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Date & Time</Body>
-                <Body className="text-white">
+                <Body className="text-text-primary">
                   {formatDate(event.start_date)}
                   {event.start_time && ` at ${event.start_time}`}
                 </Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">End</Body>
-                <Body className="text-white">
+                <Body className="text-text-primary">
                   {event.end_date ? formatDate(event.end_date) : formatDate(event.start_date)}
                   {event.end_time && ` at ${event.end_time}`}
                 </Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Category</Body>
-                <Body className="text-white">{event.category || "Not specified"}</Body>
+                <Body className="text-text-primary">{event.category || "Not specified"}</Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Price Range</Body>
-                <Body className="text-white">
+                <Body className="text-text-primary">
                   {event.min_price !== undefined && event.max_price !== undefined
                     ? `${formatCurrency(event.min_price)} - ${formatCurrency(event.max_price)}`
                     : event.min_price !== undefined
@@ -133,22 +133,22 @@ export default function EventDetailPage() {
           <Section border className="mb-6">
             <SectionHeader title="Venue Information" />
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Venue</Body>
-                <Body className="text-white">{event.venue_name || "TBD"}</Body>
+                <Body className="text-text-primary">{event.venue_name || "TBD"}</Body>
               </Card>
-              <Card inverted className="p-4">
+              <Card className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Location</Body>
-                <Body className="text-white">
+                <Body className="text-text-primary">
                   {[event.venue_city, event.venue_state, event.venue_country]
                     .filter(Boolean)
                     .join(", ") || "Not specified"}
                 </Body>
               </Card>
               {event.venue_address && (
-                <Card inverted className="p-4 md:col-span-2">
+                <Card className="p-4 md:col-span-2">
                   <Body size="xs" className="text-text-muted mb-1">Address</Body>
-                  <Body className="text-white">{event.venue_address}</Body>
+                  <Body className="text-text-primary">{event.venue_address}</Body>
                 </Card>
               )}
             </Grid>
@@ -158,8 +158,8 @@ export default function EventDetailPage() {
           {event.description && (
             <Section border className="mb-6">
               <SectionHeader title="Description" />
-              <Card inverted className="p-4">
-                <Body className="text-white whitespace-pre-wrap">{event.description}</Body>
+              <Card className="p-4">
+                <Body className="text-text-primary whitespace-pre-wrap">{event.description}</Body>
               </Card>
             </Section>
           )}
@@ -179,7 +179,7 @@ export default function EventDetailPage() {
           {/* Production Link */}
           <Section border>
             <SectionHeader title="Production" />
-            <Card inverted className="p-4">
+            <Card className="p-4">
               <Body className="text-text-muted mb-4">
                 Access the full production context including schedules, crew assignments, and run-of-show.
               </Body>
@@ -204,7 +204,7 @@ export default function EventDetailPage() {
       content: (
         <Section border>
           <SectionHeader title="Event Schedule" />
-          <Card inverted className="p-6">
+          <Card className="p-6">
             <Body className="text-text-muted">Schedule details will be displayed here.</Body>
           </Card>
         </Section>
@@ -217,7 +217,7 @@ export default function EventDetailPage() {
       content: (
         <Section border>
           <SectionHeader title="Event Team" />
-          <Card inverted className="p-6">
+          <Card className="p-6">
             <Body className="text-text-muted">Team assignments will be displayed here.</Body>
           </Card>
         </Section>
@@ -230,7 +230,7 @@ export default function EventDetailPage() {
       content: (
         <Section border>
           <SectionHeader title="Event Documents" />
-          <Card inverted className="p-6">
+          <Card className="p-6">
             <Body className="text-text-muted">Documents will be displayed here.</Body>
           </Card>
         </Section>
@@ -284,7 +284,7 @@ export default function EventDetailPage() {
                 onClick={() => setDeleteConfirmOpen(true)}
                 icon={<Trash2 className="size-4" />}
                 iconPosition="left"
-                className="border-error text-error hover:bg-error hover:text-white"
+                className="border-error text-error hover:bg-error hover:text-text-primary"
               >
                 Delete
               </Button>

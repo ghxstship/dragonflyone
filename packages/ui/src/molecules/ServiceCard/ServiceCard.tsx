@@ -46,23 +46,23 @@ export const ServiceCard = forwardRef<HTMLDivElement, ServiceCardProps>(
     return (
       <div
         ref={ref}
-        className={serviceCardVariants({ background, inverted, className })}
+        className={serviceCardVariants({ background, className })}
         {...props}
       >
         {/* Icon */}
-        <div className={serviceCardIconContainerVariants({ background, inverted })}>
-          <div className={serviceCardIconVariants({ background, inverted })}>
+        <div className={serviceCardIconContainerVariants({ background })}>
+          <div className={serviceCardIconVariants({ background })}>
             {icon}
           </div>
         </div>
         
         {/* Title */}
-        <h3 className={serviceCardTitleVariants({ inverted })}>
+        <h3 className={serviceCardTitleVariants({})}>
           {title}
         </h3>
         
         {/* Description */}
-        <p className={serviceCardDescriptionVariants({ inverted })}>
+        <p className={serviceCardDescriptionVariants({})}>
           {description}
         </p>
       </div>

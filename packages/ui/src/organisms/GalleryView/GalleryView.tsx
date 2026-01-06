@@ -47,7 +47,7 @@ function Lightbox<T>({
   onNext,
   hasPrevious,
   hasNext,
-  inverted: _inverted,
+  inverted: _
 }: LightboxProps<T>) {
   // Handle keyboard navigation
   React.useEffect(() => {
@@ -158,7 +158,7 @@ function GalleryItemComponent<T>({
   size,
   showTitle,
   showMetadata,
-  inverted,
+  
   onClick,
   renderItem,
 }: GalleryItemComponentProps<T>) {

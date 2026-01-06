@@ -70,7 +70,7 @@ export function BulkActionBar({
   }
 
   return (
-    <div className={bulkActionBarVariants({ position, inverted, className })}>
+    <div className={bulkActionBarVariants({ position, className })}>
       {/* Selection Info */}
       <div className="flex items-center gap-2">
         <span className="font-medium">

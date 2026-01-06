@@ -54,7 +54,7 @@ export default function TermsPage() {
                 <Card className="p-6 border-2 border-border rounded-card">
                   <Box className="flex items-center justify-between flex-wrap gap-4">
                     <Stack gap={1}>
-                      <Body className="text-white font-weight-bold">Terms of Service</Body>
+                      <Body className="text-text-primary font-weight-bold">Terms of Service</Body>
                       <Body size="sm" className="text-text-muted">Last updated: December 1, 2024</Body>
                     </Stack>
                     <Stack direction="horizontal" gap={3}>
@@ -83,7 +83,7 @@ export default function TermsPage() {
                   {SECTIONS.map((section) => (
                     <Card key={section.id} className="p-6 border-2 border-border rounded-card">
                       <Stack gap={4}>
-                        <H3 className="text-white text-h5-md">{section.title}</H3>
+                        <H3 className="text-text-primary text-h5-md">{section.title}</H3>
                         <Body className="text-text-secondary leading-relaxed">{section.content}</Body>
                       </Stack>
                     </Card>

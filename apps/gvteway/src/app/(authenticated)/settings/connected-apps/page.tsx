@@ -81,7 +81,7 @@ export default function ConnectedAppsPage() {
                         </Box>
                         <Box>
                           <Box className="flex items-center gap-2 mb-1">
-                            <Body className="font-weight-medium text-white">{app.app_name}</Body>
+                            <Body className="font-weight-medium text-text-primary">{app.app_name}</Body>
                             <Badge variant="outline">{providerInfo.name}</Badge>
                           </Box>
                           <Body size="sm" className="text-text-muted mb-2">{providerInfo.description}</Body>
@@ -136,7 +136,7 @@ export default function ConnectedAppsPage() {
             <Card className="p-6">
               <Box className="flex items-start gap-3 mb-4">
                 <Shield className="size-6 text-primary flex-shrink-0" />
-                <Body className="font-weight-medium text-white">Security</Body>
+                <Body className="font-weight-medium text-text-primary">Security</Body>
               </Box>
               <Stack gap={3}>
                 <Body size="sm" className="text-text-muted">
@@ -150,7 +150,7 @@ export default function ConnectedAppsPage() {
             <Card className="p-6">
               <Box className="flex items-start gap-3 mb-4">
                 <Info className="size-6 text-primary flex-shrink-0" />
-                <Body className="font-weight-medium text-white">Best Practices</Body>
+                <Body className="font-weight-medium text-text-primary">Best Practices</Body>
               </Box>
               <Stack gap={3}>
                 <Body size="sm" className="text-text-muted">

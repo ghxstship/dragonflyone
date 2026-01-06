@@ -13,7 +13,6 @@ import { Sparkles, ArrowRight, RefreshCw, Mail, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   Alert,
-  Body,
   Box,
   Button,
   Form,
@@ -21,12 +20,16 @@ import {
   AuthFormField,
   Stack,
   Text,
-  H2,
+  useToast,
   Label,
+  Body,
 } from "@ghxstship/ui";
+import { useBrand } from "@ghxstship/config";
 
 export default function MagicLinkPage() {
   const router = useRouter();
+  const toast = useToast();
+  const { name: brandName, poweredByText } = useBrand();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -57,7 +60,7 @@ export default function MagicLinkPage() {
     return (
       <AuthSplitLayout
         singleColumn
-        brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">ATLVS</Text>}
+        brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">{brandName}</Text>}
       >
         <Stack gap={8} className="text-center items-center">
           <Box className="p-6 bg-primary-500/20 rounded-avatar border-2 border-primary-500/30">
@@ -65,9 +68,9 @@ export default function MagicLinkPage() {
           </Box>
           
           <Stack gap={3} className="items-center">
-            <H2 className="text-white">Check Your Email</H2>
+            <H2 className="text-text-primary">Check Your Email</H2>
             <Body className="text-text-secondary max-w-sm">
-              We&apos;ve sent a magic link to <strong className="text-white">{email}</strong>. Click the link in the email to sign in.
+              We&apos;ve sent a magic link to <strong className="text-text-primary">{email}</strong>. Click the link in the email to sign in.
             </Body>
             <Label size="xs" className="text-text-disabled">Link expires in 1 hour</Label>
           </Stack>
@@ -91,10 +94,10 @@ export default function MagicLinkPage() {
   return (
     <AuthSplitLayout
       title="Magic Link"
-      subtitle="Sign in without a password. We'll email you a secure link."
+      subtitle={`Sign in without a password. ${poweredByText} will email you a secure link.`}
       footer={{ text: "Don't have an account?", linkText: "Sign up", linkHref: "/auth/signup" }}
       singleColumn
-      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">ATLVS</Text>}
+      brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">{brandName}</Text>}
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={5}>

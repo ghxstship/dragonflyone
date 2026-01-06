@@ -42,12 +42,23 @@ export interface BatchOperation {
   completed_at?: string;
 }
 
+// Type for dynamic table access - all table names in the database
+type TableName = keyof Database['public']['Tables'];
+
 /**
  * Batch Operations Engine
  * Handles bulk operations with progress tracking and error handling
  */
 export class BatchOperationsEngine {
   constructor(private supabase: SupabaseClient<Database>) {}
+
+  /**
+   * Helper for dynamic table access with proper typing
+   * Used when table name is determined at runtime
+   */
+  private dynamicFrom(tableName: string) {
+    return this.supabase.from(tableName as TableName);
+  }
 
   /**
    * Create and execute a batch operation
@@ -61,15 +72,14 @@ export class BatchOperationsEngine {
   ): Promise<{ success: boolean; jobId?: string; error?: string }> {
     try {
       // Create batch operation record
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { data, error } = await (this.supabase as any)
+      const { data, error } = await this.supabase
         .from('batch_operations')
         .insert({
           user_id: userId,
           operation_type: operationType,
           entity_type: entityType,
           entity_ids: entityIds,
-          parameters: parameters as unknown,
+          parameters: parameters,
           status: 'pending',
           total_count: entityIds.length,
           processed_count: 0,
@@ -238,9 +248,7 @@ export class BatchOperationsEngine {
       throw new Error('Update parameters required');
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (this.supabase as any)
-      .from(entityType)
+    const { error } = await this.dynamicFrom(entityType)
       .update(updates)
       .eq('id', entityId);
 
@@ -253,9 +261,7 @@ export class BatchOperationsEngine {
    * Delete entity
    */
   private async deleteEntity(entityType: string, entityId: string): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (this.supabase as any)
-      .from(entityType)
+    const { error } = await this.dynamicFrom(entityType)
       .delete()
       .eq('id', entityId);
 
@@ -268,9 +274,7 @@ export class BatchOperationsEngine {
    * Archive entity
    */
   private async archiveEntity(entityType: string, entityId: string): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (this.supabase as any)
-      .from(entityType)
+    const { error } = await this.dynamicFrom(entityType)
       .update({ archived: true, archived_at: new Date().toISOString() })
       .eq('id', entityId);
 
@@ -291,9 +295,7 @@ export class BatchOperationsEngine {
       throw new Error('Assignee ID required');
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (this.supabase as any)
-      .from(entityType)
+    const { error } = await this.dynamicFrom(entityType)
       .update({ assigned_to: params.assignee_id })
       .eq('id', entityId);
 
@@ -314,9 +316,7 @@ export class BatchOperationsEngine {
       throw new Error('Tags required');
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (this.supabase as any)
-      .from(entityType)
+    const { error } = await this.dynamicFrom(entityType)
       .update({ tags: params.tags })
       .eq('id', entityId);
 
@@ -329,9 +329,7 @@ export class BatchOperationsEngine {
    * Approve entity
    */
   private async approveEntity(entityType: string, entityId: string): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (this.supabase as any)
-      .from(entityType)
+    const { error } = await this.dynamicFrom(entityType)
       .update({
         status: 'approved',
         approved_at: new Date().toISOString(),
@@ -351,9 +349,7 @@ export class BatchOperationsEngine {
     entityId: string,
     params?: Record<string, unknown>
   ): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (this.supabase as any)
-      .from(entityType)
+    const { error } = await this.dynamicFrom(entityType)
       .update({
         status: 'rejected',
         rejected_at: new Date().toISOString(),
@@ -371,9 +367,7 @@ export class BatchOperationsEngine {
    */
   private async duplicateEntity(entityType: string, entityId: string): Promise<void> {
     // Get original entity
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: original, error: fetchError } = await (this.supabase as any)
-      .from(entityType)
+    const { data: original, error: fetchError } = await this.dynamicFrom(entityType)
       .select('*')
       .eq('id', entityId)
       .single();
@@ -383,19 +377,14 @@ export class BatchOperationsEngine {
     }
 
     // Create duplicate without id and timestamps - use rest operator to exclude system fields
-    const { id: entityIdToExclude, created_at: createdAtToExclude, updated_at: updatedAtToExclude, ...duplicateData } = original;
-    // Silence unused variable warnings by using void operator
-    void entityIdToExclude;
-    void createdAtToExclude;
-    void updatedAtToExclude;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id: _excludedId, created_at: _excludedCreatedAt, updated_at: _excludedUpdatedAt, ...duplicateData } = original;
     const duplicate = {
       ...duplicateData,
       name: `${duplicateData.name} (Copy)`,
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error: createError } = await (this.supabase as any)
-      .from(entityType)
+    const { error: createError } = await this.dynamicFrom(entityType)
       .insert(duplicate);
 
     if (createError) {

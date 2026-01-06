@@ -17,14 +17,14 @@ import type {
  * - Bold mobile menu button with hover lift
  */
 export const Navigation = forwardRef<HTMLElement, NavigationProps>(
-  function Navigation({ logo, children, cta, fixed, inverted, className, ...props }, ref) {
+  function Navigation({ logo, children, cta, fixed, className, ...props }, ref) {
     const [mobileOpen, setMobileOpen] = useState(false);
 
     return (
       <>
         <nav
           ref={ref}
-          className={clsx(navigationVariants({ fixed, inverted }), className)}
+          className={clsx(navigationVariants({ fixed }), className)}
           {...props}
         >
           <div className="container mx-auto px-4 md:px-8">
@@ -101,13 +101,13 @@ export const Navigation = forwardRef<HTMLElement, NavigationProps>(
  * - Hover lift effect
  */
 export const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
-  function NavLink({ href, active, inverted, className, children, ...props }, ref) {
+  function NavLink({ href, active, className, children, ...props }, ref) {
     return (
       <a
         ref={ref}
         href={href}
         className={clsx(
-          navLinkVariants({ active, inverted }),
+          navLinkVariants({ active }),
           active && (inverted ? "border-white" : "border-black"),
           className
         )}

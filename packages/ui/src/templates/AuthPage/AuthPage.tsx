@@ -153,7 +153,7 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
     return (
       <div
         ref={ref}
-        className={clsx(authPageVariants({ background, inverted }), bgClass, className)}
+        className={clsx(authPageVariants({ background }), bgClass, className)}
         {...props}
       >
         {/* Skip to main content link */}

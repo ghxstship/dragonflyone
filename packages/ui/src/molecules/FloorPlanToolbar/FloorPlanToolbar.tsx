@@ -84,9 +84,9 @@ export function FloorPlanToolbar({
   };
 
   return (
-    <div className={floorPlanToolbarVariants({ inverted, className })}>
+    <div className={floorPlanToolbarVariants({ className })}>
       {/* Drawing Tools */}
-      <div className={floorPlanToolbarToolGroupVariants({ inverted })}>
+      <div className={floorPlanToolbarToolGroupVariants({})}>
         {tools.map((tool) => (
           <button
             key={tool.id}
@@ -106,10 +106,10 @@ export function FloorPlanToolbar({
       </div>
 
       {/* Separator */}
-      <div className={floorPlanToolbarSeparatorVariants({ inverted })} />
+      <div className={floorPlanToolbarSeparatorVariants({})} />
 
       {/* Selection Actions */}
-      <div className={floorPlanToolbarToolGroupVariants({ inverted })}>
+      <div className={floorPlanToolbarToolGroupVariants({})}>
         <button
           className={floorPlanToolbarActionButtonVariants({ 
             disabled: !hasSelection, 
@@ -168,10 +168,10 @@ export function FloorPlanToolbar({
       </div>
 
       {/* Separator */}
-      <div className={floorPlanToolbarSeparatorVariants({ inverted })} />
+      <div className={floorPlanToolbarSeparatorVariants({})} />
 
       {/* Global Actions */}
-      <div className={floorPlanToolbarToolGroupVariants({ inverted })}>
+      <div className={floorPlanToolbarToolGroupVariants({})}>
         <button
           className={floorPlanToolbarActionButtonVariants({ 
             disabled: !canUndo, 

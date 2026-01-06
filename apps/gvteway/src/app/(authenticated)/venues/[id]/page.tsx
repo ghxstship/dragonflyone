@@ -89,7 +89,7 @@ export default function VenuePage() {
             <Section border className="mb-6">
               <SectionHeader title="About" />
               <Card inverted className="p-4">
-                <Body className="text-white">{venue.description}</Body>
+                <Body className="text-text-primary">{venue.description}</Body>
               </Card>
             </Section>
           )}
@@ -98,7 +98,7 @@ export default function VenuePage() {
           <Section border>
             <SectionHeader title="Location" />
             <Card inverted className="p-4">
-              <Body className="text-white">
+              <Body className="text-text-primary">
                 {venue.address}, {venue.city}, {venue.state}
               </Body>
               <Button
@@ -153,7 +153,7 @@ export default function VenuePage() {
           <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
             {venue.amenities.map((amenity: string, index: number) => (
               <Card key={index} inverted className="p-4">
-                <Body className="text-white">{amenity}</Body>
+                <Body className="text-text-primary">{amenity}</Body>
               </Card>
             ))}
           </Grid>
@@ -178,7 +178,7 @@ export default function VenuePage() {
             <Section border className="mb-6">
               <SectionHeader title="Accessibility" />
               <Card inverted className="p-4">
-                <Body className="text-white">{venue.accessibility_info}</Body>
+                <Body className="text-text-primary">{venue.accessibility_info}</Body>
               </Card>
             </Section>
           )}
@@ -188,7 +188,7 @@ export default function VenuePage() {
             <Section border className="mb-6">
               <SectionHeader title="Parking" />
               <Card inverted className="p-4">
-                <Body className="text-white">{venue.parking_info}</Body>
+                <Body className="text-text-primary">{venue.parking_info}</Body>
               </Card>
             </Section>
           )}
@@ -198,7 +198,7 @@ export default function VenuePage() {
             <Section border className="mb-6">
               <SectionHeader title="Public Transit" />
               <Card inverted className="p-4">
-                <Body className="text-white">{venue.public_transit}</Body>
+                <Body className="text-text-primary">{venue.public_transit}</Body>
               </Card>
             </Section>
           )}

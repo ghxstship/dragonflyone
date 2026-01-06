@@ -87,21 +87,21 @@ export default function PersonDetailPage() {
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Email</Body>
-                <Body className="text-white">{person.email || "Not provided"}</Body>
+                <Body className="text-text-primary">{person.email || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Phone</Body>
-                <Body className="text-white">{person.phone || "Not provided"}</Body>
+                <Body className="text-text-primary">{person.phone || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Location</Body>
-                <Body className="text-white">
+                <Body className="text-text-primary">
                   {person.artist_profile?.hometown || person.crew_profile?.department || "Not provided"}
                 </Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Organization</Body>
-                <Body className="text-white">
+                <Body className="text-text-primary">
                   {person.contact_profile?.company || person.artist_profile?.management_company || "Not provided"}
                 </Body>
               </Card>
@@ -114,13 +114,13 @@ export default function PersonDetailPage() {
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Title</Body>
-                <Body className="text-white">
+                <Body className="text-text-primary">
                   {person.title || person.contact_profile?.job_title || "Not provided"}
                 </Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Department</Body>
-                <Body className="text-white">
+                <Body className="text-text-primary">
                   {person.contact_profile?.department || person.crew_profile?.department || "Not provided"}
                 </Body>
               </Card>
@@ -132,7 +132,7 @@ export default function PersonDetailPage() {
             <Section border>
               <SectionHeader title="Notes" />
               <Card inverted className="p-4">
-                <Body className="text-white whitespace-pre-wrap">{person.notes}</Body>
+                <Body className="text-text-primary whitespace-pre-wrap">{person.notes}</Body>
               </Card>
             </Section>
           )}
@@ -217,7 +217,7 @@ export default function PersonDetailPage() {
                 onClick={() => setDeleteConfirmOpen(true)}
                 icon={<Trash2 className="size-4" />}
                 iconPosition="left"
-                className="border-error text-error hover:bg-error hover:text-white"
+                className="border-error text-error hover:bg-error hover:text-text-primary"
               >
                 Delete
               </Button>

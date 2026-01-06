@@ -34,7 +34,7 @@ export const PriceDisplay = forwardRef<HTMLDivElement, PriceDisplayProps>(
     },
     ref
   ) {
-    const variantClasses = priceDisplayVariants({ size, inverted });
+    const variantClasses = priceDisplayVariants({ size });
     const hasDiscount = originalPrice && originalPrice > price;
     const calculatedDiscount = hasDiscount
       ? Math.round(((originalPrice - price) / originalPrice) * 100)
@@ -156,7 +156,7 @@ export const PriceRange = forwardRef<HTMLDivElement, PriceRangeProps>(
     },
     ref
   ) {
-    const variantClasses = priceRangeVariants({ size, inverted });
+    const variantClasses = priceRangeVariants({ size });
 
     // Size-specific classes
     const sizeClasses = {

@@ -8,10 +8,11 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { 
-  Edit2, Send, Mail, DollarSign, Calendar, FileText, Clock, CheckCircle, Download, Printer, CreditCard} from 'lucide-react';
+  Edit2, Send, Mail, DollarSign, Calendar, FileText, Clock, CheckCircle, Printer, CreditCard} from 'lucide-react';
 import {
-  DetailPage, Stack, Grid, Card, Section, SectionHeader, StatCard, Badge, Button, Body, H3, Label, Input, Select, useToast, Box} from '@ghxstship/ui';
-import { useInvoice, useSendInvoice, useRecordPayment } from '@/hooks/useInvoices';
+  DetailPage, Stack, Grid, Card, Section, SectionHeader, StatCard, Badge, Button, Body, H3, Label, Input, Select, useToast, Box, type DetailPageProps} from '@ghxstship/ui';
+import { useInvoice, useSendInvoice, useRecordPayment, type Invoice } from '@/hooks/useInvoices';
+import type { EntityNameType } from '@ghxstship/config';
 
 const formatDate = (dateStr: string) => {
   return new Date(dateStr).toLocaleDateString('en-US', {
@@ -109,7 +110,7 @@ export default function InvoiceDetailPage() {
           <Section border>
             <SectionHeader title="Bill To" />
             <Stack gap={3}>
-              <Body className="text-white">{invoice.client_name}</Body>
+              <Body className="text-text-primary">{invoice.client_name}</Body>
               {invoice.project_name && (
                 <Body size="sm" className="text-text-secondary">Project: {invoice.project_name}</Body>
               )}
@@ -121,15 +122,15 @@ export default function InvoiceDetailPage() {
             <Stack gap={3}>
               <Stack direction="horizontal" className="justify-between">
                 <Body size="sm" className="text-text-muted">Issue Date</Body>
-                <Body size="sm" className="text-white">{formatDate(invoice.issue_date)}</Body>
+                <Body size="sm" className="text-text-primary">{formatDate(invoice.issue_date)}</Body>
               </Stack>
               <Stack direction="horizontal" className="justify-between">
                 <Body size="sm" className="text-text-muted">Due Date</Body>
-                <Body size="sm" className="text-white">{formatDate(invoice.due_date)}</Body>
+                <Body size="sm" className="text-text-primary">{formatDate(invoice.due_date)}</Body>
               </Stack>
               <Stack direction="horizontal" className="justify-between">
                 <Body size="sm" className="text-text-muted">Payment Terms</Body>
-                <Body size="sm" className="text-white">Net 30</Body>
+                <Body size="sm" className="text-text-primary">Net 30</Body>
               </Stack>
             </Stack>
           </Section>
@@ -157,10 +158,10 @@ export default function InvoiceDetailPage() {
           />
           {invoice.amount_paid > 0 ? (
             <Stack gap={3}>
-              <Card inverted className="border-2 border-border p-4">
+              <Card className="border-2 border-border p-4">
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack gap={1}>
-                    <Body className="text-white">Payment Received</Body>
+                    <Body className="text-text-primary">Payment Received</Body>
                     <Body size="xs" className="text-text-disabled">Credit Card</Body>
                   </Stack>
                   <Body className="font-mono text-success">{formatCurrency(invoice.amount_paid)}</Body>
@@ -168,7 +169,7 @@ export default function InvoiceDetailPage() {
               </Card>
             </Stack>
           ) : (
-            <Card inverted className="border-2 border-border p-8 text-center">
+            <Card className="border-2 border-border p-8 text-center">
               <Stack gap={3} className="items-center">
                 <CreditCard className="size-8 text-text-disabled" />
                 <Body className="text-text-muted">No payments recorded yet</Body>
@@ -200,32 +201,32 @@ export default function InvoiceDetailPage() {
             description="Timeline of all invoice activity"
           />
           <Stack gap={3}>
-            <Card inverted className="border-2 border-border p-4">
+            <Card className="border-2 border-border p-4">
               <Stack direction="horizontal" className="items-start gap-4">
                 <FileText className="mt-1 size-4 text-primary" />
                 <Stack gap={1} className="flex-1">
-                  <Body size="sm" className="text-white">Invoice Created</Body>
+                  <Body size="sm" className="text-text-primary">Invoice Created</Body>
                   <Body size="xs" className="text-text-disabled">{formatDate(invoice.issue_date)}</Body>
                 </Stack>
               </Stack>
             </Card>
             {invoice.status !== 'draft' && (
-              <Card inverted className="border-2 border-border p-4">
+              <Card className="border-2 border-border p-4">
                 <Stack direction="horizontal" className="items-start gap-4">
                   <Send className="mt-1 size-4 text-info" />
                   <Stack gap={1} className="flex-1">
-                    <Body size="sm" className="text-white">Invoice Sent</Body>
+                    <Body size="sm" className="text-text-primary">Invoice Sent</Body>
                     <Body size="xs" className="text-text-disabled">Sent to {invoice.client_name}</Body>
                   </Stack>
                 </Stack>
               </Card>
             )}
             {invoice.amount_paid > 0 && (
-              <Card inverted className="border-2 border-border p-4">
+              <Card className="border-2 border-border p-4">
                 <Stack direction="horizontal" className="items-start gap-4">
                   <CheckCircle className="mt-1 size-4 text-success" />
                   <Stack gap={1} className="flex-1">
-                    <Body size="sm" className="text-white">Payment Received</Body>
+                    <Body size="sm" className="text-text-primary">Payment Received</Body>
                     <Body size="xs" className="text-text-disabled">{formatCurrency(invoice.amount_paid)}</Body>
                   </Stack>
                 </Stack>
@@ -243,9 +244,66 @@ export default function InvoiceDetailPage() {
     { id: 'activity', label: 'Activity', content: renderActivityContent() },
   ];
 
+  const actions: DetailPageProps<Invoice>["actions"] = invoice
+    ? [
+        {
+          id: 'print',
+          label: 'Print',
+          icon: <Printer className="size-4" />,
+          variant: 'ghost' as const,
+          onClick: () => window.print(),
+        },
+        ...(invoice.status === 'draft'
+          ? [
+              {
+                id: 'edit',
+                label: 'Edit',
+                icon: <Edit2 className="size-4" />,
+                variant: 'default' as const,
+                onClick: () => router.push(`/invoices/${invoiceId}/edit`),
+              },
+              {
+                id: 'send',
+                label: sendMutation.isPending ? 'Sending...' : 'Send Invoice',
+                icon: <Send className="size-4" />,
+                variant: 'primary' as const,
+                onClick: () => {
+                  void handleSend();
+                },
+                disabled: sendMutation.isPending,
+              },
+            ]
+          : []),
+        ...(invoice.status !== 'draft'
+          ? [
+              {
+                id: 'remind',
+                label: 'Send Reminder',
+                icon: <Mail className="size-4" />,
+                variant: 'primary' as const,
+                onClick: () => {
+                  void handleSend();
+                },
+                disabled: sendMutation.isPending,
+              },
+              {
+                id: 'record-payment',
+                label: 'Record Payment',
+                icon: <DollarSign className="size-4" />,
+                variant: 'primary' as const,
+                onClick: () => setShowPaymentModal(true),
+              },
+            ]
+          : []),
+      ]
+    : undefined;
+
   return (
     <>
       <DetailPage
+        entityType={"invoices" as EntityNameType}
+        entityId={invoiceId}
+        entitySelector={(id) => (invoice && invoice.id === id ? invoice : null)}
         header={{
           kicker: 'Invoice',
           title: invoice?.invoice_number || 'Loading...',
@@ -257,87 +315,19 @@ export default function InvoiceDetailPage() {
           ) : undefined,
         }}
         backButton={{ label: 'Back to Invoices', href: '/invoices' }}
-        loading={isLoading}
+        isLoading={isLoading}
         error={error instanceof Error ? error : null}
         onRetry={() => refetch()}
         tabs={tabs}
-        actions={
-          invoice && (
-            <Stack direction="horizontal" gap={2}>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => window.print()}
-                icon={<Printer className="size-4" />}
-                iconPosition="left"
-              >
-                Print
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                icon={<Download className="size-4" />}
-                iconPosition="left"
-              >
-                Download
-              </Button>
-              {invoice.status === 'draft' && (
-                <>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => router.push(`/invoices/${invoiceId}/edit`)}
-                    icon={<Edit2 className="size-4" />}
-                    iconPosition="left"
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="solid"
-                    size="sm"
-                    onClick={handleSend}
-                    disabled={sendMutation.isPending}
-                    icon={<Send className="size-4" />}
-                    iconPosition="left"
-                  >
-                    {sendMutation.isPending ? 'Sending...' : 'Send Invoice'}
-                  </Button>
-                </>
-              )}
-              {['sent', 'viewed', 'partial', 'overdue'].includes(invoice.status) && (
-                <>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleSend}
-                    disabled={sendMutation.isPending}
-                    icon={<Mail className="size-4" />}
-                    iconPosition="left"
-                  >
-                    Send Reminder
-                  </Button>
-                  <Button
-                    variant="solid"
-                    size="sm"
-                    onClick={() => setShowPaymentModal(true)}
-                    icon={<DollarSign className="size-4" />}
-                    iconPosition="left"
-                  >
-                    Record Payment
-                  </Button>
-                </>
-              )}
-            </Stack>
-          )
-        }
+        actions={actions}
       />
       
 
       {showPaymentModal && invoice && (
-        <Box className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <Card inverted className="w-full max-w-md border-2 border-border p-6">
+        <Box className="fixed inset-0 z-50 flex items-center justify-center bg-surface-inverse/80">
+          <Card className="w-full max-w-md border-2 border-border p-6">
             <Stack gap={6}>
-              <H3 className="text-white">Record Payment</H3>
+              <H3 className="text-text-primary">Record Payment</H3>
               
               <Stack gap={4}>
                 <Stack gap={2}>

@@ -28,7 +28,7 @@ export const Divider = forwardRef<HTMLHRElement, DividerProps>(
     return (
       <hr
         ref={ref}
-        className={dividerVariants({ orientation, weight, inverted, className })}
+        className={dividerVariants({ orientation, weight, className })}
         {...props}
       />
     );

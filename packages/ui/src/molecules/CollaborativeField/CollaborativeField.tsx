@@ -119,7 +119,7 @@ export function CollaborativeField({
       className={collaborativeFieldVariants({ 
         isLocked, 
         isEditing: isEditing || isEditingByOther, 
-        inverted, 
+        
         className 
       })}
     >
@@ -142,7 +142,7 @@ export function CollaborativeField({
         {/* Editing Cursor */}
         {isEditingByOther && editingBy && (
           <div 
-            className={collaborativeFieldCursorVariants({ inverted })}
+            className={collaborativeFieldCursorVariants({})}
             style={{ 
               backgroundColor: getUserColor(editingBy),
               right: '8px',
@@ -160,7 +160,7 @@ export function CollaborativeField({
             <Lock className="w-4 h-4" />
             <span>Locked by {lockedBy.name}</span>
             <div 
-              className={collaborativeFieldUserVariants({ inverted })}
+              className={collaborativeFieldUserVariants({})}
               style={{ backgroundColor: getUserColor(lockedBy) }}
             >
               {getUserInitials(lockedBy)}
@@ -173,7 +173,7 @@ export function CollaborativeField({
             <User className="w-4 h-4" />
             <span>{editingBy.name} is editing...</span>
             <div 
-              className={collaborativeFieldUserVariants({ inverted })}
+              className={collaborativeFieldUserVariants({})}
               style={{ backgroundColor: getUserColor(editingBy) }}
             >
               {getUserInitials(editingBy)}
@@ -186,7 +186,7 @@ export function CollaborativeField({
       {isEditing && currentUser && (
         <div className="absolute -top-2 -right-2">
           <div 
-            className={collaborativeFieldUserVariants({ inverted })}
+            className={collaborativeFieldUserVariants({})}
             style={{ backgroundColor: getUserColor(currentUser) }}
           >
             {getUserInitials(currentUser)}

@@ -122,9 +122,9 @@ export default function ProductionCrewPage() {
           <SectionHeader title="Invite Crew Member" description="Add new members to this production" />
           <Card className="p-6 mt-4">
             <Stack gap={4}>
-              <Box><Body size="sm" className="mb-1">Email</Body><Input placeholder="crew@example.com" /></Box>
-              <Box><Body size="sm" className="mb-1">Role</Body><Input placeholder="Stage Manager" /></Box>
-              <Box><Body size="sm" className="mb-1">Department</Body><Input placeholder="Production" /></Box>
+              <Box><Body size="sm" className="mb-1">Email</Body><Input placeholder="crew@example.com" aria-label="Crew member email address" /></Box>
+              <Box><Body size="sm" className="mb-1">Role</Body><Input placeholder="Stage Manager" aria-label="Crew member role" /></Box>
+              <Box><Body size="sm" className="mb-1">Department</Body><Input placeholder="Production" aria-label="Crew member department" /></Box>
               <Button variant="solid" icon={<UserPlus className="size-4" />} iconPosition="left">Send Invitation</Button>
             </Stack>
           </Card>

@@ -19,12 +19,12 @@ import type { DropdownItemProps } from "./Dropdown.types.js";
  * ```
  */
 export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
-  function DropdownItem({ disabled = false, inverted = true, className, children, ...props }, ref) {
+  function DropdownItem({ disabled = false, className, children, ...props }, ref) {
     return (
       <div
         ref={ref}
         role="menuitem"
-        className={dropdownItemVariants({ disabled, inverted, className })}
+        className={dropdownItemVariants({ disabled, className })}
         {...props}
       >
         {children}

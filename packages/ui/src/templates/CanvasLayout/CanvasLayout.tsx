@@ -163,7 +163,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
     // Loading state
     if (loading) {
       return (
-        <div ref={ref} className={clsx(canvasLayoutVariants({ inverted }), className)}>
+        <div ref={ref} className={clsx(canvasLayoutVariants({}), className)}>
           {header}
           <div className="flex-1 flex items-center justify-center">
             <Stack gap={4} className="items-center text-center">
@@ -180,7 +180,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
     // Error state
     if (error) {
       return (
-        <div ref={ref} className={clsx(canvasLayoutVariants({ inverted }), className)}>
+        <div ref={ref} className={clsx(canvasLayoutVariants({}), className)}>
           {header}
           <div className="flex-1 flex items-center justify-center">
             <Stack gap={6} className="items-center text-center max-w-md">
@@ -241,7 +241,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
             "flex items-center justify-between px-4 py-3 border-b-2",
             borderClass
           )}>
-            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-text-muted" : "text-text-muted")}>
+            <Body className={clsx("font-semibold text-sm uppercase tracking-wider" ? "text-text-muted" : "text-text-muted")}>
               {leftPanelTitle}
             </Body>
             {isCollapsible && (
@@ -299,7 +299,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
             "flex items-center justify-between px-4 py-3 border-b-2",
             borderClass
           )}>
-            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-text-muted" : "text-text-muted")}>
+            <Body className={clsx("font-semibold text-sm uppercase tracking-wider" ? "text-text-muted" : "text-text-muted")}>
               {rightPanelTitle}
             </Body>
             {isCollapsible && (
@@ -357,7 +357,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
             "flex items-center justify-between px-4 py-2 border-b-2",
             borderClass
           )}>
-            <Body className={clsx("font-semibold text-sm uppercase tracking-wider", inverted ? "text-text-muted" : "text-text-muted")}>
+            <Body className={clsx("font-semibold text-sm uppercase tracking-wider" ? "text-text-muted" : "text-text-muted")}>
               {bottomPanelTitle}
             </Body>
             {isCollapsible && (
@@ -380,7 +380,7 @@ export const CanvasLayout = forwardRef<HTMLDivElement, CanvasLayoutProps>(
     };
 
     return (
-      <div ref={ref} className={clsx(canvasLayoutVariants({ inverted }), className)}>
+      <div ref={ref} className={clsx(canvasLayoutVariants({}), className)}>
         {header}
 
         {/* Top Toolbar */}

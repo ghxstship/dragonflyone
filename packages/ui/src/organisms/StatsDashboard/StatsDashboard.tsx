@@ -69,7 +69,7 @@ export function StatsDashboard({
           className={clsx(
             statCardVariants({ 
               compact, 
-              inverted, 
+              
               clickable: !!onStatClick 
             }),
             onStatClick && inverted
@@ -188,7 +188,7 @@ export function StatCard({
       className={clsx(
         statCardVariants({ 
           compact: false, 
-          inverted, 
+          
           clickable: !!onClick 
         }),
         onClick && inverted

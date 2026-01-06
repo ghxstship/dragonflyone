@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Eye, ClipboardList, Pencil, Trash2, Download } from "lucide-react";
-// Layout provided by route group
-import { useCrew } from "@/hooks/useCrew";
+import { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { Eye, Pencil, ClipboardList, Trash2, Download } from 'lucide-react';
 import {
-  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
-  type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, useEntityConfig } from "@ghxstship/config";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, Stack,
+  type ListPageAction, type ListPageBulkAction, type DetailSection,
+} from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, useEntityConfig } from '@ghxstship/config';
+import { useCrew, type CrewMember } from '@/hooks/useCrew';
+import { VirtualizedCrewList } from '../../../components/VirtualizedCrewList';
 
 // Roles that can manage crew (COMPVSS has no SUPER_ADMIN, only ADMIN)
 const ADMIN_ROLES = [
@@ -17,22 +18,6 @@ const ADMIN_ROLES = [
   PlatformRole.LEGEND_ADMIN,
   PlatformRole.LEGEND_DEVELOPER,
 ];
-
-interface CrewMember {
-  id: string;
-  name: string;
-  role: string;
-  department: string;
-  availability: string;
-  rate: number;
-  rating: number;
-  projectsCompleted: number;
-  location: string;
-  phone: string;
-  email: string;
-  specialties?: string[];
-  certifications?: string[];
-}
 
 // SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
@@ -53,23 +38,8 @@ export default function CrewPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [memberToDelete, setMemberToDelete] = useState<CrewMember | null>(null);
 
-  // Map API data to local interface - preserve schema values for filtering
-  const crewList: CrewMember[] = (crewData || []).map(c => ({
-    id: c.id,
-    name: c.full_name,
-    role: c.role,
-    department: c.department,
-    // Keep schema values: 'available' | 'busy' | 'on-leave'
-    availability: c.availability,
-    rate: c.rate,
-    rating: c.rating || 0,
-    projectsCompleted: c.projects_completed || 0,
-    location: '',
-    phone: c.phone || '',
-    email: c.email,
-    specialties: c.skills,
-    certifications: c.certifications,
-  }));
+  // Use crew data directly - matches database schema
+  const crewList = useMemo(() => crewData || [], [crewData]);
 
   const rowActions: ListPageAction<CrewMember>[] = [
     { id: 'view', label: 'View Profile', icon: <Eye className="size-4" />, onClick: (row: CrewMember) => { setSelectedMember(row); setDrawerOpen(true); } },
@@ -94,8 +64,8 @@ export default function CrewPage() {
     if (actionId === 'export') {
       const selectedCrew = crewList.filter(c => selectedIds.includes(c.id));
       const csv = [
-        ['ID', 'Name', 'Role', 'Department', 'Availability', 'Rate', 'Rating', 'Location'].join(','),
-        ...selectedCrew.map(c => [c.id, c.name, c.role, c.department, c.availability, c.rate, c.rating, c.location].join(','))
+        ['ID', 'Name', 'Email', 'Phone', 'Title', 'Status'].join(','),
+        ...selectedCrew.map(c => [c.id, c.display_name, c.email || '', c.phone || '', c.title || '', c.status].join(','))
       ].join('\n');
       const blob = new Blob([csv], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
@@ -113,13 +83,13 @@ export default function CrewPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...data,
-          // Map frontend field names to API schema
-          first_name: (data.name as string)?.split(' ')[0] || '',
-          last_name: (data.name as string)?.split(' ').slice(1).join(' ') || '',
-          skills: [],
-          certifications: [],
-          metadata: {},
+          first_name: data.first_name as string,
+          last_name: data.last_name as string,
+          email: data.email as string | undefined,
+          phone: data.phone as string | undefined,
+          title: data.title as string | undefined,
+          bio: data.bio as string | undefined,
+          tags: data.tags as string[] | undefined,
         }),
       });
       if (!response.ok) {
@@ -242,91 +212,143 @@ export default function CrewPage() {
     },
   ] : [];
 
+  const shouldVirtualize = crewList.length >= 100;
+
   return (
-    <>
-      <ListPage<CrewMember>
-        title="Crew Directory"
-        subtitle="Vetted production professionals and technical specialists"
-        data={crewList}
-        columns={columns}
-        rowKey="id"
-        loading={isLoading}
-        error={error}
-        onRetry={refetch}
-        searchPlaceholder="Search by name, role, or specialty..."
-        filters={filters}
-        rowActions={rowActions}
-        bulkActions={bulkActions}
-        onBulkAction={handleBulkAction}
-        onRowClick={(row) => { setSelectedMember(row); setDrawerOpen(true); }}
-        createLabel={canManageCrew ? "Add Crew" : undefined}
-        onCreate={canManageCrew ? () => setCreateModalOpen(true) : undefined}
-        entityType="crew"
-        onImport={handleImport}
-        importTemplates={importTemplates}
-        importSampleFields={['name', 'role', 'department', 'rate', 'email']}
-        templateDownloadUrl="/templates/crew-management/crew-roster-template.csv"
-        onExport={createExportHandler({
-          filename: "crew",
-          getData: () => crewList.map(c => ({
-            id: c.id,
-            name: c.name,
-            role: c.role,
-            department: c.department,
-            availability: c.availability,
-            rate: c.rate,
-            rating: c.rating,
-            location: c.location,
-            phone: c.phone,
-            email: c.email,
-          })),
-        })}
-        stats={stats}
-        emptyMessage="No crew members found"
-        emptyAction={canManageCrew ? { label: 'Add Crew Member', onClick: () => setCreateModalOpen(true) } : undefined}
-        enableCapabilityDetection
-        onScanAction={(capability, route) => router.push(route)}
-        capabilityBasePath=""
-        showFavorite
-        showSettings
-      />
+    <ErrorBoundary
+      fallback={({ error, resetError }) => (
+        <div className="min-h-screen bg-muted py-8">
+          <div className="max-w-screen-2xl mx-auto px-6 lg:px-8">
+            <div className="border-2 border-error bg-error-900 p-8 rounded-card text-center">
+              <div className="size-12 mx-auto mb-4 text-error">⚠️</div>
+              <Body className="font-weight-bold text-error-100 mb-2">Crew Directory Error</Body>
+              <Body className="text-error-200 text-sm mb-4">
+                Failed to load crew directory. This might be a temporary issue.
+              </Body>
+              <button
+                onClick={resetError}
+                className="px-4 py-2 bg-error-600 text-error-100 rounded-button hover:bg-error-700 transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    >
+      <>
+        {shouldVirtualize ? (
+          <div className="min-h-screen bg-muted py-8">
+            <div className="max-w-screen-2xl mx-auto px-6 lg:px-8">
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-2">
+                  <H3>Crew Directory</H3>
+                  <Body className="text-text-muted">Vetted production professionals and technical specialists</Body>
+                </div>
 
-      <RecordFormModal
-        open={createModalOpen}
-        onClose={() => setCreateModalOpen(false)}
-        mode="create"
-        title="Add Crew Member"
-        fields={formFields}
-        onSubmit={handleCreate}
-        size="lg"
-      />
+                <VirtualizedCrewList
+                  crew={crewList}
+                  onView={(member) => { setSelectedMember(member); setDrawerOpen(true); }}
+                  onEdit={(member) => router.push(`/crew/${member.id}/edit`)}
+                  onAssign={(member) => router.push(`/crew/assign?member=${member.id}`)}
+                  onDelete={(member) => { setMemberToDelete(member); setDeleteConfirmOpen(true); }}
+                  canManage={canManageCrew}
+                />
 
-      <DetailDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        record={selectedMember}
-        title={(m) => m.name}
-        subtitle={(m) => `${m.role} • ${m.department}`}
-        sections={detailSections}
-        onEdit={(m) => router.push(`/crew/${m.id}/edit`)}
-        onDelete={(m) => { setMemberToDelete(m); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
-        actions={[
-          { id: 'assign', label: 'Assign', icon: <ClipboardList className="size-4" />, variant: 'primary' },
-        ]}
-        onAction={(actionId, member) => {
-          if (actionId === 'assign') router.push(`/crew/assign?member=${member.id}`);
-        }}
-      />
+                {canManageCrew && (
+                  <Button onClick={() => setCreateModalOpen(true)}>
+                    Add Crew Member
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <ListPage<CrewMember>
+            title="Crew Directory"
+            subtitle="Vetted production professionals and technical specialists"
+            data={crewList}
+            columns={columns}
+            rowKey="id"
+            loading={isLoading}
+            error={error}
+            onRetry={refetch}
+            searchPlaceholder="Search by name, role, or specialty..."
+            filters={filters}
+            rowActions={rowActions}
+            bulkActions={bulkActions}
+            onBulkAction={handleBulkAction}
+            onRowClick={(row) => { setSelectedMember(row); setDrawerOpen(true); }}
+            createLabel={canManageCrew ? "Add Crew" : undefined}
+            onCreate={canManageCrew ? () => setCreateModalOpen(true) : undefined}
+            entityType="crew"
+            onImport={handleImport}
+            importTemplates={importTemplates}
+            importSampleFields={['name', 'role', 'department', 'rate', 'email']}
+            templateDownloadUrl="/templates/crew-management/crew-roster-template.csv"
+            onExport={createExportHandler({
+              filename: "crew",
+              getData: () => crewList.map(c => ({
+                id: c.id,
+                name: c.name,
+                role: c.role,
+                department: c.department,
+                availability: c.availability,
+                rate: c.rate,
+                rating: c.rating,
+                location: c.location,
+                phone: c.phone,
+                email: c.email,
+              })),
+            })}
+            stats={stats}
+            emptyMessage="No crew members found"
+            emptyAction={canManageCrew ? { label: 'Add Crew Member', onClick: () => setCreateModalOpen(true) } : undefined}
+            enableCapabilityDetection
+            onScanAction={(capability, route) => router.push(route)}
+            capabilityBasePath=""
+            showFavorite
+            showSettings
+          />
+        )}
 
-      <ConfirmDialog
-        open={deleteConfirmOpen}
-        title="Remove Crew Member"
-        message={`Are you sure you want to remove "${memberToDelete?.name}" from the directory?`}
-        variant="danger"
-        confirmLabel="Remove"
-        onConfirm={handleDelete}
-        onCancel={() => { setDeleteConfirmOpen(false); setMemberToDelete(null); }}
-      />
-    </>
+        <RecordFormModal
+          open={createModalOpen}
+          onClose={() => setCreateModalOpen(false)}
+          mode="create"
+          title="Add Crew Member"
+          fields={formFields}
+          onSubmit={handleCreate}
+          size="lg"
+        />
+
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedMember}
+          title={(m) => m.name}
+          subtitle={(m) => `${m.role} • ${m.department}`}
+          sections={detailSections}
+          onEdit={(m) => router.push(`/crew/${m.id}/edit`)}
+          onDelete={(m) => { setMemberToDelete(m); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
+          actions={[
+            { id: 'assign', label: 'Assign', icon: <ClipboardList className="size-4" />, variant: 'primary' },
+          ]}
+          onAction={(actionId, member) => {
+            if (actionId === 'assign') router.push(`/crew/assign?member=${member.id}`);
+          }}
+        />
+
+        <ConfirmDialog
+          open={deleteConfirmOpen}
+          title="Remove Crew Member"
+          message={`Are you sure you want to remove "${memberToDelete?.name}" from the directory?`}
+          variant="danger"
+          confirmLabel="Remove"
+          onConfirm={handleDelete}
+          onCancel={() => { setDeleteConfirmOpen(false); setMemberToDelete(null); }}
+        />
+      </>
+    </ErrorBoundary>
   );
 }

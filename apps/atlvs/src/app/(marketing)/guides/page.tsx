@@ -90,7 +90,7 @@ export default function GuidesPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Featured</Body>
-                  <H3 className="text-white">Popular Guides</H3>
+                  <H3 className="text-text-primary">Popular Guides</H3>
                   <Body className="text-text-muted max-w-2xl">Our most popular tutorials to get you started quickly.</Body>
                 </Stack>
 
@@ -103,8 +103,8 @@ export default function GuidesPage() {
                     >
                       <Stack direction="horizontal" className="justify-between items-center gap-6 flex-wrap">
                         <Stack direction="horizontal" gap={6} className="items-center">
-                          <Box className="p-4 bg-primary/20 rounded-card group-hover:bg-primary group-hover:text-white transition-all">
-                            <Star className="size-8 text-primary group-hover:text-white transition-colors" />
+                          <Box className="p-4 bg-primary/20 rounded-card group-hover:bg-primary group-hover:text-text-primary transition-all">
+                            <Star className="size-8 text-primary group-hover:text-text-primary transition-colors" />
                           </Box>
                           <Stack gap={2}>
                             <Stack direction="horizontal" gap={2} className="items-center">
@@ -115,7 +115,7 @@ export default function GuidesPage() {
                                 <Body size="sm">{guide.duration}</Body>
                               </Stack>
                             </Stack>
-                            <Body className="text-white font-weight-bold text-h5-md group-hover:text-primary transition-colors">{guide.title}</Body>
+                            <Body className="text-text-primary font-weight-bold text-h5-md group-hover:text-primary transition-colors">{guide.title}</Body>
                             <Body className="text-text-muted">{guide.description}</Body>
                           </Stack>
                         </Stack>
@@ -138,7 +138,7 @@ export default function GuidesPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">All Guides</Body>
-                  <H3 className="text-white">Browse Tutorials</H3>
+                  <H3 className="text-text-primary">Browse Tutorials</H3>
                 </Stack>
 
                 {/* Search and Filters */}
@@ -172,7 +172,7 @@ export default function GuidesPage() {
                 {filteredGuides.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
                     <Book className="size-16 text-text-disabled mx-auto mb-4" />
-                    <Body className="text-white font-weight-medium mb-2">No Guides Found</Body>
+                    <Body className="text-text-primary font-weight-medium mb-2">No Guides Found</Body>
                     <Body className="text-text-muted mb-4">Try a different search term or category</Body>
                     <Button variant="outline" onClick={() => { setSearch(""); setSelectedCategory("All"); }}>Clear Filters</Button>
                   </Card>
@@ -190,7 +190,7 @@ export default function GuidesPage() {
                             <Badge className={DIFFICULTY_CONFIG[guide.difficulty].color}>{DIFFICULTY_CONFIG[guide.difficulty].label}</Badge>
                           </Stack>
                           <Stack gap={2}>
-                            <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{guide.title}</Body>
+                            <Body className="text-text-primary font-weight-bold group-hover:text-primary transition-colors">{guide.title}</Body>
                             <Body className="text-text-muted">{guide.description}</Body>
                           </Stack>
                           <Stack direction="horizontal" className="justify-between items-center">

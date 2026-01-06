@@ -5,11 +5,11 @@
  * Uses normalized SettingsPageLayout template from @ghxstship/ui
  */
 
-import { useState } from 'react';
-import { Bell, Mail, MessageSquare, Calendar, DollarSign, Users, Save } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Bell, Mail, MessageSquare, Calendar, DollarSign, Users } from 'lucide-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  Body, Box, Button, Card, H2, Input, Label, SettingsPageLayout, Skeleton, Stack, Text} from '@ghxstship/ui';
+  Body, Box, Button, Card, H1, H2, Input, Label, Skeleton, Stack, Text} from '@ghxstship/ui';
 import { useAuthContext, ATLVS_ADMIN_ROLES } from '@ghxstship/config';
 
 interface NotificationSettings {
@@ -29,9 +29,6 @@ interface NotificationSettings {
 export default function NotificationSettingsPage() {
   const queryClient = useQueryClient();
   const { hasRole } = useAuthContext();
-  
-  // RBAC: Check if user has admin access
-  const canManageNotifications = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const { data, isLoading } = useQuery({
     queryKey: ['notification-settings'],
@@ -75,58 +72,50 @@ export default function NotificationSettingsPage() {
 
   const currentSettings = settings || data;
 
-  const handleToggle = (key: keyof NotificationSettings) => {
+  const handleToggle = useCallback((key: keyof NotificationSettings) => {
     if (!currentSettings) return;
     const newSettings = {
       ...currentSettings,
       [key]: !currentSettings[key],
     };
     setSettings(newSettings);
-  };
+  }, [currentSettings]);
 
-  const handleDigestChange = (value: 'none' | 'daily' | 'weekly') => {
+  const handleDigestChange = useCallback((value: 'none' | 'daily' | 'weekly') => {
     if (!currentSettings) return;
     setSettings({
       ...currentSettings,
       email_digest: value,
     });
-  };
+  }, [currentSettings]);
 
-  const handleSave = () => {
+  const _handleSave = useCallback(() => {
     if (currentSettings) {
       updateSettings.mutate(currentSettings);
     }
-  };
+  }, [currentSettings, updateSettings]);
 
   if (isLoading) {
     return (
-      <SettingsPageLayout
-        title="Notifications"
-        description="Loading..."
-        maxWidth="md"
-      >
+      <Box className="max-w-4xl mx-auto p-6">
+        <Box className="mb-6">
+          <H1 className="text-h4-md font-weight-bold text-text-primary mb-2">Notifications</H1>
+          <Body className="text-text-muted">Loading...</Body>
+        </Box>
         <Stack gap={6}>
           <Skeleton className="h-64" />
           <Skeleton className="h-48" />
         </Stack>
-      </SettingsPageLayout>
+      </Box>
     );
   }
 
   return (
-    <SettingsPageLayout
-      title="Notifications"
-      description="Configure how you receive updates"
-      maxWidth="md"
-      headerActions={
-        canManageNotifications ? (
-          <Button onClick={handleSave} disabled={updateSettings.isPending}>
-            <Save className="h-4 w-4 mr-2" />
-            {updateSettings.isPending ? 'Saving...' : 'Save Changes'}
-          </Button>
-        ) : undefined
-      }
-    >
+    <Box className="max-w-4xl mx-auto p-6">
+      <Box className="mb-6">
+        <H1 className="text-h4-md font-weight-bold text-text-primary mb-2">Notifications</H1>
+        <Body className="text-text-muted">Configure how you receive updates</Body>
+      </Box>
       <Stack gap={6}>
         <Card className="p-6">
           <Stack direction="horizontal" gap={2} className="items-center mb-4">
@@ -143,10 +132,10 @@ export default function NotificationSettingsPage() {
             ].map(({ key, label, description, icon: IconComponent }) => (
               <Box key={key} className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
                 <Stack direction="horizontal" gap={3} className="items-center">
-                  <IconComponent className="h-5 w-5 text-muted-foreground" />
+                  <IconComponent className="h-5 w-5 text-text-primary" />
                   <Stack gap={0}>
                     <Body size="sm" className="font-weight-medium">{label}</Body>
-                    <Body size="xs" className="text-muted-foreground">{description}</Body>
+                    <Body size="xs" className="text-text-primary">{description}</Body>
                   </Stack>
                 </Stack>
                 <Button
@@ -157,7 +146,7 @@ export default function NotificationSettingsPage() {
                   }`}
                 >
                   <Text
-                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-avatar transition-transform ${
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-text-primary rounded-avatar transition-transform ${
                       currentSettings?.[key] ? 'translate-x-5' : 'translate-x-0'
                     }`}
                   />
@@ -199,7 +188,7 @@ export default function NotificationSettingsPage() {
             ].map(({ key, label, icon: IconComponent }) => (
               <Box key={key} className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
                 <Stack direction="horizontal" gap={3} className="items-center">
-                  <IconComponent className="h-5 w-5 text-muted-foreground" />
+                  <IconComponent className="h-5 w-5 text-text-primary" />
                   <Body size="sm" className="font-weight-medium">{label}</Body>
                 </Stack>
                 <Button
@@ -210,7 +199,7 @@ export default function NotificationSettingsPage() {
                   }`}
                 >
                   <Text
-                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-avatar transition-transform ${
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-text-primary rounded-avatar transition-transform ${
                       currentSettings?.[key] ? 'translate-x-5' : 'translate-x-0'
                     }`}
                   />
@@ -220,6 +209,6 @@ export default function NotificationSettingsPage() {
           </Stack>
         </Card>
       </Stack>
-    </SettingsPageLayout>
+    </Box>
   );
 }

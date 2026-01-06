@@ -10,11 +10,10 @@ export const dynamic = "force-dynamic";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, Users, Calendar, ClipboardList } from "lucide-react";
+import { Mail, Lock } from "lucide-react";
 import {
   Button,
   Form,
-  AuthSplitLayout,
   AuthFormField,
   AuthPasswordInput,
   AuthCheckbox,
@@ -22,7 +21,7 @@ import {
   SocialAuthButtonGroup,
   useToast,
   Stack,
-  Text,
+  AuthPage,
 } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
 
@@ -50,7 +49,7 @@ export default function SignInPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
-    
+
     setLoading(true);
     try {
       await login(email, password);
@@ -80,34 +79,17 @@ export default function SignInPage() {
   };
 
   return (
-    <AuthSplitLayout
+    <AuthPage
+      appName="COMPVSS"
       title="Welcome Back"
       subtitle="Sign in to manage your crew and resources"
-      footer={{ text: "Don't have an account?", linkText: "Get started", linkHref: "/auth/signup" }}
-      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">COMPVSS</Text>}
-      brandTagline="Crew & Resource Management, Simplified"
-      brandFeatures={[
-        {
-          icon: <Users className="size-5 text-white" />,
-          title: "Crew Management",
-          description: "Organize and schedule your team effortlessly",
-        },
-        {
-          icon: <Calendar className="size-5 text-white" />,
-          title: "Smart Scheduling",
-          description: "AI-powered shift optimization",
-        },
-        {
-          icon: <ClipboardList className="size-5 text-white" />,
-          title: "Resource Tracking",
-          description: "Real-time inventory and equipment status",
-        },
-      ]}
-      testimonial={{
-        quote: "COMPVSS streamlined our crew scheduling and cut admin time in half.",
-        author: "Marcus Johnson",
-        role: "Operations Manager, StageWorks",
+      footer={{
+        text: "Don't have an account?",
+        linkText: "Get started",
+        linkHref: "/auth/signup"
       }}
+      background="black"
+      copyright={`© ${new Date().getFullYear()} GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.`}
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={4}>
@@ -116,13 +98,11 @@ export default function SignInPage() {
             type="email"
             placeholder="you@example.com"
             value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(e) => {
               setEmail(e.target.value);
               if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
             }}
             errorMessage={errors.email}
-            icon={<Mail className="size-5" />}
-            autoComplete="email"
             required
           />
 
@@ -130,21 +110,19 @@ export default function SignInPage() {
             label="Password"
             placeholder="Enter your password"
             value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(e) => {
               setPassword(e.target.value);
               if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
             }}
             errorMessage={errors.password}
-            icon={<Lock className="size-5" />}
-            autoComplete="current-password"
             required
           />
 
-          <Stack direction="horizontal" className="items-center justify-between">
+          <div className="flex items-center justify-between">
             <AuthCheckbox
               label="Remember me"
               checked={rememberMe}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRememberMe(e.target.checked)}
+              onChange={(e) => setRememberMe(e.target.checked)}
             />
             <Button
               variant="ghost"
@@ -155,7 +133,7 @@ export default function SignInPage() {
             >
               Forgot password?
             </Button>
-          </Stack>
+          </div>
 
           <Button
             type="submit"
@@ -188,6 +166,6 @@ export default function SignInPage() {
           </Button>
         </Stack>
       </Form>
-    </AuthSplitLayout>
+    </AuthPage>
   );
 }

@@ -9,13 +9,35 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
-  Edit2, CheckCircle, Send, FileText, Clock, Users, MapPin, Utensils, ListChecks,
+  Edit2,
+  CheckCircle,
+  Send,
+  FileText,
+  Clock,
+  Users,
+  MapPin,
+  Utensils,
+  ListChecks,
+  Trash2,
 } from "lucide-react";
 import {
-  Badge, Body, Button, Card, DetailPage, Grid, StatCard, Section, SectionHeader, Modal, useToast, Box, Stack,
+  Badge,
+  Body,
+  Button,
+  Card,
+  ConfirmDialog,
+  DetailPage,
+  Grid,
+  StatCard,
+  Section,
+  SectionHeader,
+  Modal,
+  useToast,
+  Box,
+  Stack,
   type DetailPageTab,
 } from "@ghxstship/ui";
-import { useBEO, useApproveBEO, useDistributeBEO } from "@/hooks/useBEOs";
+import { useBEO, useApproveBEO, useDeleteBEO, useDistributeBEO } from "@/hooks/useBEOs";
 import { useAuthContext, PlatformRole, DOCUMENT_STATUS_COLORS } from "@ghxstship/config";
 
 const ADMIN_ROLES = [
@@ -55,9 +77,11 @@ export default function BEODetailPage() {
   const beo = data?.beo;
   const approveMutation = useApproveBEO();
   const distributeMutation = useDistributeBEO();
+  const deleteMutation = useDeleteBEO();
 
   const [showDistributeModal, setShowDistributeModal] = useState(false);
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleDateString("en-US", {
@@ -81,6 +105,18 @@ export default function BEODetailPage() {
       toast.success("BEO Approved", "The BEO has been approved successfully.");
     } catch (err) {
       toast.error("Approval Failed", err instanceof Error ? err.message : "An error occurred");
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteMutation.mutateAsync(beoId);
+      toast.success("BEO Deleted", "The BEO has been deleted successfully.");
+      router.push("/beos");
+    } catch (err) {
+      toast.error("Delete Failed", err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setDeleteConfirmOpen(false);
     }
   };
 
@@ -262,6 +298,24 @@ export default function BEODetailPage() {
       );
     }
 
+    if (["draft", "archived"].includes(beo.status)) {
+      actions.push(
+        <Button
+          key="delete"
+          variant="outline"
+          inverted
+          onClick={() => setDeleteConfirmOpen(true)}
+          icon={<Trash2 className="size-4" />}
+          iconPosition="left"
+          className="border-error text-error hover:bg-error hover:text-white"
+          data-testid="delete-beo"
+          disabled={deleteMutation.isPending}
+        >
+          {deleteMutation.isPending ? "Deleting..." : "Delete"}
+        </Button>
+      );
+    }
+
     return actions.length > 0 ? <>{actions}</> : undefined;
   };
 
@@ -329,6 +383,16 @@ export default function BEODetailPage() {
           </Button>
         </Box>
       </Modal>
+
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        title="Delete BEO"
+        message={`Are you sure you want to delete "${beo?.name || beo?.beo_number}"? This action cannot be undone.`}
+        variant="danger"
+        confirmLabel="Delete"
+        onConfirm={handleDelete}
+        onCancel={() => setDeleteConfirmOpen(false)}
+      />
     </>
   );
 }

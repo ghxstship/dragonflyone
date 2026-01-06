@@ -82,7 +82,6 @@ export default function DemoPage() {
                 label: "Start Free Trial",
                 onClick: () => router.push("/auth/signup"),
               }}
-              background="gradient"
               pattern="none"
               fullHeight={false}
               align="center"
@@ -103,7 +102,7 @@ export default function DemoPage() {
               posterUrl="/images/demo-poster.jpg"
               provider="youtube"
               mode="modal"
-              background="ink"
+              sectionVariant="dark"
             />
           ),
         },
@@ -116,7 +115,7 @@ export default function DemoPage() {
                 <Stack gap={8}>
                   <Stack gap={4}>
                     <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Why Schedule a Demo</Body>
-                    <H3 className="text-white">Get a Personalized Walkthrough</H3>
+                    <H3 className="text-text-primary">Get a Personalized Walkthrough</H3>
                     <Body className="text-text-muted">
                       Our team will walk you through the platform and answer all your questions. 
                       See exactly how ATLVS can solve your specific production challenges.
@@ -151,15 +150,15 @@ export default function DemoPage() {
                   <Stack gap={6} className="text-center">
                     <Stack gap={2}>
                       <Body className="text-primary font-weight-semibold">Average Demo Duration</Body>
-                      <H3 className="text-white">30 Minutes</H3>
+                      <H3 className="text-text-primary">30 Minutes</H3>
                     </Stack>
                     <Stack gap={2}>
                       <Body className="text-primary font-weight-semibold">Response Time</Body>
-                      <H3 className="text-white">Within 24 Hours</H3>
+                      <H3 className="text-text-primary">Within 24 Hours</H3>
                     </Stack>
                     <Stack gap={2}>
                       <Body className="text-primary font-weight-semibold">Commitment</Body>
-                      <H3 className="text-white">None Required</H3>
+                      <H3 className="text-text-primary">None Required</H3>
                     </Stack>
                   </Stack>
                 </Card>
@@ -178,14 +177,14 @@ export default function DemoPage() {
               features={DEMO_FEATURES}
               columns={3}
               variant="bordered"
-              background="ink"
+              sectionVariant="dark"
               align="center"
             />
           ),
         },
         {
           id: "cta",
-          background: "primary",
+          background: "gradient",
           pattern: "halftone",
           content: (
             <CTABanner
@@ -199,15 +198,11 @@ export default function DemoPage() {
                 label: "Start Free Trial",
                 onClick: () => router.push("/auth/signup"),
               }}
-              background="primary"
+              backgroundStyle="gradient"
             />
           ),
         },
       ]}
-      stickyCta={{
-        label: "Schedule a Demo",
-        onClick: () => router.push("/demo/request"),
-      }}
     />
   );
 }

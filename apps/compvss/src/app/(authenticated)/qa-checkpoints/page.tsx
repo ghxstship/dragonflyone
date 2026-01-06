@@ -130,11 +130,11 @@ export default function QACheckpointsPage() {
               <Alert variant="info">By signing off, you confirm all items have been verified</Alert>
               <Stack gap={2}>
                 <Body className="font-display">Your Name</Body>
-                <Input placeholder="Enter your name" />
+                <Input placeholder="Enter your name" aria-label="Your full name for sign-off" />
               </Stack>
               <Stack gap={2}>
                 <Body className="font-display">Notes (optional)</Body>
-                <Input placeholder="Any additional notes" />
+                <Input placeholder="Any additional notes" aria-label="Additional notes for checkpoint sign-off" />
               </Stack>
             </Stack>
           )}

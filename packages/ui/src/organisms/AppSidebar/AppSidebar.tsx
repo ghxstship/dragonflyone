@@ -61,7 +61,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
               active: item.active || item.id === activeItem,
               disabled: item.disabled,
               collapsed,
-              inverted,
+              
             }),
             item.children && "font-semibold"
           )}
@@ -104,7 +104,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
     return (
       <aside
         ref={ref}
-        className={clsx(appSidebarVariants({ collapsed, inverted, sticky, className }))}
+        className={clsx(appSidebarVariants({ collapsed, sticky, className }))}
         style={{
           width: collapsed ? "64px" : "256px",
         }}
@@ -120,7 +120,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto py-4">
           {sections.map((section) => (
-            <div key={section.id} className={sidebarSectionVariants({ collapsed, inverted })}>
+            <div key={section.id} className={sidebarSectionVariants({ collapsed })}>
               {/* Section Title */}
               {!collapsed && section.title && (
                 <h3 className="text-xs font-semibold text-text-disabled uppercase tracking-wider mb-2">

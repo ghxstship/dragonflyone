@@ -8,7 +8,7 @@
  * RBAC: Requires ATLVS_ADMIN or LEGEND role
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
 import {
   Badge, Body, Button, Card, Grid, Modal, ProgressBar, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, DetailPage, Section, SectionHeader, StatCard, Stack, Box} from "@ghxstship/ui";
@@ -50,6 +50,23 @@ export default function BatchOperationsPage() {
 
   const error = queryError?.message || cancelMutation.error?.message || retryMutation.error?.message || null;
 
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleRefresh = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
+  const handleCloseModal = useCallback(() => {
+    setSelectedOperation(null);
+  }, []);
+
+  const handleFilterChange = useCallback((status: string) => {
+    setFilter(status);
+  }, []);
+
+  const handleViewOperation = useCallback((operation: BatchOperation) => {
+    setSelectedOperation(operation);
+  }, []);
+
   const cancelOperation = (id: string) => {
     cancelMutation.mutate(id);
   };
@@ -70,7 +87,7 @@ export default function BatchOperationsPage() {
   const failedCount = operations.filter((op) => op.status === "failed").length;
 
   const headerActions = (
-    <Button variant="solid" onClick={() => refetch()} icon={<RefreshCw className="size-4" />} iconPosition="left">
+    <Button variant="solid" onClick={handleRefresh} icon={<RefreshCw className="size-4" />} iconPosition="left">
       Refresh
     </Button>
   );
@@ -112,7 +129,7 @@ export default function BatchOperationsPage() {
                 key={status}
                 variant={filter === status ? "solid" : "outline"}
                 size="sm"
-                onClick={() => setFilter(status)}
+                onClick={() => handleFilterChange(status)}
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)}
               </Button>
@@ -165,7 +182,7 @@ export default function BatchOperationsPage() {
                         </TableCell>
                         <TableCell>
                           <Stack direction="horizontal" gap={2} className="items-center">
-                            <Button variant="ghost" size="sm" onClick={() => setSelectedOperation(op)}>Details</Button>
+                            <Button variant="ghost" size="sm" onClick={() => handleViewOperation(op)}>Details</Button>
                             {op.status === "pending" && (
                               <Button variant="outline" size="sm" onClick={() => cancelOperation(op.id)}>Cancel</Button>
                             )}
@@ -268,7 +285,7 @@ export default function BatchOperationsPage() {
                 </Box>
               )}
 
-              <Button variant="outline" onClick={() => setSelectedOperation(null)}>Close</Button>
+              <Button variant="outline" onClick={handleCloseModal}>Close</Button>
             </Stack>
           );
         })()}

@@ -82,19 +82,19 @@ export default function PlaceDetailPage() {
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Code</Body>
-                <Body className="text-white">{place.code || "Not assigned"}</Body>
+                <Body className="text-text-primary">{place.code || "Not assigned"}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Status</Body>
-                <Body className="text-white">{place.status}</Body>
+                <Body className="text-text-primary">{place.status}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Capacity</Body>
-                <Body className="text-white">{place.capacity?.toString() || "Not specified"}</Body>
+                <Body className="text-text-primary">{place.capacity?.toString() || "Not specified"}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Square Footage</Body>
-                <Body className="text-white">{place.square_footage ? `${place.square_footage.toLocaleString()} sq ft` : "Not specified"}</Body>
+                <Body className="text-text-primary">{place.square_footage ? `${place.square_footage.toLocaleString()} sq ft` : "Not specified"}</Body>
               </Card>
             </Grid>
           </Section>
@@ -106,11 +106,11 @@ export default function PlaceDetailPage() {
               <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
                 <Card inverted className="p-4">
                   <Body size="xs" className="text-text-muted mb-1">Latitude</Body>
-                  <Body className="text-white">{place.latitude?.toString() || "Not set"}</Body>
+                  <Body className="text-text-primary">{place.latitude?.toString() || "Not set"}</Body>
                 </Card>
                 <Card inverted className="p-4">
                   <Body size="xs" className="text-text-muted mb-1">Longitude</Body>
-                  <Body className="text-white">{place.longitude?.toString() || "Not set"}</Body>
+                  <Body className="text-text-primary">{place.longitude?.toString() || "Not set"}</Body>
                 </Card>
               </Grid>
             </Section>
@@ -122,7 +122,7 @@ export default function PlaceDetailPage() {
               <SectionHeader title="Parent Location" />
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Parent Place</Body>
-                <Body className="text-white">{place.parent_place.name}</Body>
+                <Body className="text-text-primary">{place.parent_place.name}</Body>
               </Card>
             </Section>
           )}
@@ -144,7 +144,7 @@ export default function PlaceDetailPage() {
             <Section border className="mb-6">
               <SectionHeader title="Description" />
               <Card inverted className="p-4">
-                <Body className="text-white whitespace-pre-wrap">{place.description}</Body>
+                <Body className="text-text-primary whitespace-pre-wrap">{place.description}</Body>
               </Card>
             </Section>
           )}
@@ -154,7 +154,7 @@ export default function PlaceDetailPage() {
             <Section border>
               <SectionHeader title="Notes" />
               <Card inverted className="p-4">
-                <Body className="text-white whitespace-pre-wrap">{place.notes}</Body>
+                <Body className="text-text-primary whitespace-pre-wrap">{place.notes}</Body>
               </Card>
             </Section>
           )}
@@ -239,7 +239,7 @@ export default function PlaceDetailPage() {
                 onClick={() => setDeleteConfirmOpen(true)}
                 icon={<Trash2 className="size-4" />}
                 iconPosition="left"
-                className="border-error text-error hover:bg-error hover:text-white"
+                className="border-error text-error hover:bg-error hover:text-text-primary"
               >
                 Delete
               </Button>

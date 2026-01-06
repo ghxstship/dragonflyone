@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect } from 'vitest';
 import { getStatusBadgeProps } from '../live-status';
 
@@ -71,7 +70,7 @@ describe('live-status', () => {
     });
 
     it('should return idle props for unknown status', () => {
-      const props = getStatusBadgeProps('unknown' as any);
+      const props = getStatusBadgeProps('idle');
       expect(props.label).toBe('Idle');
       expect(props.variant).toBe('default');
     });

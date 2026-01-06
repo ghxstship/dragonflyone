@@ -7,8 +7,6 @@ export interface CountdownProps {
   variant?: "default" | "compact" | "large";
   /** Show labels (days, hours, etc.) */
   showLabels?: boolean;
-  /** Invert colors (white on black) */
-  inverted?: boolean;
   /** Custom className */
   className?: string;
 }
@@ -25,8 +23,6 @@ export interface CountdownVariants {
   variant?: "default" | "compact" | "large";
   /** Show labels */
   showLabels?: boolean;
-  /** Inverted theme */
-  inverted?: boolean;
   /** Additional CSS classes */
   className?: string;
 }
@@ -36,5 +32,4 @@ export interface TimeUnitProps {
   label: string;
   variant: "default" | "compact" | "large";
   showLabels: boolean;
-  inverted: boolean;
 }

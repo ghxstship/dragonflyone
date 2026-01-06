@@ -38,7 +38,7 @@ export const Text = forwardRef<HTMLSpanElement, TextProps>(
             variant,
             size,
             weight,
-            inverted,
+            
             className,
           })
         )}

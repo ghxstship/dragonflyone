@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { log } from "@ghxstship/config";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -97,7 +98,7 @@ export async function POST(request: NextRequest) {
       });
 
     if (redemptionError && redemptionError.code !== "42P01") {
-      console.error("Failed to record redemption:", redemptionError);
+      log.warn('Failed to record redemption', { error: redemptionError.message, userId: user.id, rewardId: reward.id });
     }
 
     return NextResponse.json({

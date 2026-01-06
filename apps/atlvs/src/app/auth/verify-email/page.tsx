@@ -45,7 +45,7 @@ export default function VerifyEmailPage() {
   return (
     <AuthSplitLayout
       singleColumn
-      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">ATLVS</Text>}
+      brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">ATLVS</Text>}
     >
       <Stack gap={8} className="text-center items-center">
         <Box className="p-6 bg-primary-500/20 rounded-avatar border-2 border-primary-500/30">
@@ -53,7 +53,7 @@ export default function VerifyEmailPage() {
         </Box>
         
         <Stack gap={3} className="items-center">
-          <H2 className="text-white">Verify Your Email</H2>
+          <H2 className="text-text-primary">Verify Your Email</H2>
           <Body className="text-text-secondary max-w-sm">
             We&apos;ve sent a verification link to your email address. Please check your inbox and click the link to activate your account.
           </Body>

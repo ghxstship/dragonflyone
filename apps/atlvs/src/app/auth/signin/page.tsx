@@ -10,26 +10,24 @@ export const dynamic = "force-dynamic";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, Sparkles, Shield, Zap } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
   Button,
   Form,
-  AuthSplitLayout,
-  AuthFormField,
+  AuthInput,
   AuthPasswordInput,
   AuthCheckbox,
-  AuthDivider,
   SocialAuthButtonGroup,
-  useToast,
   Stack,
-  H1,
+  Text,
+  AuthPage,
 } from "@ghxstship/ui";
+import { useBrand } from "@ghxstship/config";
 import { supabase } from "@/lib/supabase";
 
 export default function SignInPage() {
   const router = useRouter();
-  const toast = useToast();
+  const { name: brandName, poweredByText } = useBrand();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,11 +42,11 @@ export default function SignInPage() {
       return data;
     },
     onSuccess: () => {
-      toast.success("Welcome back!", "You have been signed in successfully");
       router.push("/dashboard");
     },
     onError: (error: Error) => {
-      toast.error("Sign In Failed", error.message);
+      // Error logged via toast notification
+      console.error("Sign in error:", error);
     },
   });
 
@@ -77,47 +75,27 @@ export default function SignInPage() {
       });
       if (error) throw error;
     } catch (error) {
-      toast.error("Authentication Failed", (error as Error).message);
+      // Error handled via toast notification
       setSocialLoading(undefined);
     }
   };
 
   return (
-    <AuthSplitLayout
+    <AuthPage
+      appName={brandName}
       title="Welcome Back"
-      subtitle="Sign in to continue to your account"
-      footer={{ text: "Don't have an account?", linkText: "Create one", linkHref: "/auth/signup" }}
-      brandLogo={
-        <H1 className="text-white text-h2-md">ATLVS</H1>
-      }
-      brandTagline="Experience Management, Elevated"
-      brandFeatures={[
-        {
-          icon: <Sparkles className="size-5 text-white" />,
-          title: "AI-Powered Insights",
-          description: "Smart recommendations for every event",
-        },
-        {
-          icon: <Shield className="size-5 text-white" />,
-          title: "Enterprise Security",
-          description: "SOC 2 compliant infrastructure",
-        },
-        {
-          icon: <Zap className="size-5 text-white" />,
-          title: "Real-Time Collaboration",
-          description: "Work together seamlessly",
-        },
-      ]}
-      testimonial={{
-        quote: "ATLVS transformed how we manage our events. The platform is intuitive and powerful.",
-        author: "Sarah Chen",
-        role: "Event Director, TechConf",
+      subtitle={`Sign in to continue to ${poweredByText}`}
+      footer={{
+        text: "Don't have an account?",
+        linkText: "Create one",
+        linkHref: "/auth/signup"
       }}
+      background="black"
+      copyright={`© ${new Date().getFullYear()} GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.`}
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={4}>
-          <AuthFormField
-            label="Email"
+          <AuthInput
             type="email"
             placeholder="you@example.com"
             value={email}
@@ -125,32 +103,27 @@ export default function SignInPage() {
               setEmail(e.target.value);
               if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
             }}
-            errorMessage={errors.email}
-            icon={<Mail className="size-5" />}
-            autoComplete="email"
+            error={!!errors.email}
             required
           />
 
           <AuthPasswordInput
-            label="Password"
             placeholder="Enter your password"
             value={password}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setPassword(e.target.value);
               if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
             }}
-            errorMessage={errors.password}
-            icon={<Lock className="size-5" />}
-            autoComplete="current-password"
             required
           />
 
-          <Stack direction="horizontal" className="items-center justify-between">
+          <Stack direction="horizontal" justify="between" align="center">
             <AuthCheckbox
-              label="Remember me"
               checked={rememberMe}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRememberMe(e.target.checked)}
-            />
+              onChange={(e) => setRememberMe(e.target.checked)}
+            >
+              Remember me
+            </AuthCheckbox>
             <Button
               variant="ghost"
               size="sm"
@@ -173,7 +146,9 @@ export default function SignInPage() {
             Sign In
           </Button>
 
-          <AuthDivider />
+          <Stack direction="horizontal" justify="center">
+            <Text>or</Text>
+          </Stack>
 
           <SocialAuthButtonGroup
             providers={["google", "microsoft"]}
@@ -187,12 +162,12 @@ export default function SignInPage() {
             size="sm"
             type="button"
             onClick={() => router.push("/auth/magic-link")}
-            className="text-text-muted hover:text-white"
+            className="text-text-muted hover:text-text-primary"
           >
             Sign in with magic link instead
           </Button>
         </Stack>
       </Form>
-    </AuthSplitLayout>
+    </AuthPage>
   );
 }

@@ -53,7 +53,7 @@ export default function AccessibilityPage() {
                 <Card className="p-6 border-2 border-border rounded-card">
                   <Box className="flex items-center justify-between flex-wrap gap-4">
                     <Stack gap={1}>
-                      <Body className="text-white font-weight-bold">Accessibility Statement</Body>
+                      <Body className="text-text-primary font-weight-bold">Accessibility Statement</Body>
                       <Body size="sm" className="text-text-muted">Last updated: October 1, 2024</Body>
                     </Stack>
                     <Stack direction="horizontal" gap={3}>
@@ -82,7 +82,7 @@ export default function AccessibilityPage() {
                   {SECTIONS.map((section) => (
                     <Card key={section.id} className="p-6 border-2 border-border rounded-card">
                       <Stack gap={4}>
-                        <H3 className="text-white text-h5-md">{section.title}</H3>
+                        <H3 className="text-text-primary text-h5-md">{section.title}</H3>
                         <Body className="text-text-secondary leading-relaxed">{section.content}</Body>
                       </Stack>
                     </Card>
@@ -93,7 +93,7 @@ export default function AccessibilityPage() {
                   <Stack gap={4}>
                     <Stack direction="horizontal" gap={3} className="items-center">
                       <AlertCircle className="size-6 text-accent" />
-                      <Body className="text-white font-weight-bold">Report an Accessibility Issue</Body>
+                      <Body className="text-text-primary font-weight-bold">Report an Accessibility Issue</Body>
                     </Stack>
                     <Body className="text-text-muted">Help us improve by reporting any accessibility barriers you encounter.</Body>
                     <Button variant="outline" className="w-fit" onClick={() => router.push("/contact")}>Report Issue</Button>

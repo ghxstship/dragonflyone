@@ -1,6 +1,6 @@
 export interface AnalyticsEvent {
   name: string;
-  properties?: Record<string, any>;
+  properties?: Record<string, unknown>;
   userId?: string;
 }
 
@@ -29,20 +29,20 @@ export class Analytics {
     // Send to analytics providers
     try {
       // Google Analytics 4
-      if ((window as any).gtag) {
-        (window as any).gtag('event', event.name, event.properties);
+      if ((window as unknown as Record<string, unknown>).gtag) {
+        (window as unknown as Record<string, unknown>).gtag('event', event.name, event.properties);
       }
 
       // Segment
-      if ((window as any).analytics) {
-        (window as any).analytics.track(event.name, event.properties);
+      if ((window as unknown as Record<string, unknown>).analytics) {
+        (window as unknown as Record<string, unknown>).analytics.track(event.name, event.properties);
       }
     } catch (error) {
       console.error('Analytics tracking error:', error);
     }
   }
 
-  static page(pageName: string, properties?: Record<string, any>) {
+  static page(pageName: string, properties?: Record<string, unknown>) {
     this.track({
       name: 'Page View',
       properties: {
@@ -52,12 +52,12 @@ export class Analytics {
     });
   }
 
-  static identify(userId: string, traits?: Record<string, any>) {
+  static identify(userId: string, traits?: Record<string, unknown>) {
     if (typeof window === 'undefined' || this.isDevelopment) return;
 
     try {
-      if ((window as any).analytics) {
-        (window as any).analytics.identify(userId, traits);
+      if ((window as unknown as Record<string, unknown>).analytics) {
+        (window as unknown as Record<string, unknown>).analytics.identify(userId, traits);
       }
     } catch (error) {
       console.error('Analytics identify error:', error);

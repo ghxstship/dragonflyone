@@ -240,19 +240,28 @@ export function useBEOBuilder(initial?: Partial<BEOBuilderState>) {
       contact_id: state.contact_id,
       booking_id: state.booking_id,
       sections: {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        timeline: state.timeline.map(({ id, ...item }) => item),
+        timeline: state.timeline.map((item) => {
+          const { id: timelineId, ...rest } = item;
+          void timelineId;
+          return rest;
+        }),
         room_setup: {
           layout: state.setup_type,
           notes: state.room_setup_notes,
         },
         catering: {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          menu_items: state.menu_items.map(({ id, ...item }) => item),
+          menu_items: state.menu_items.map((item) => {
+            const { id: menuId, ...rest } = item;
+            void menuId;
+            return rest;
+          }),
           dietary_requirements: state.dietary_requirements,
         },
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        av_requirements: state.av_requirements.map(({ id, ...item }) => item),
+        av_requirements: state.av_requirements.map((item) => {
+          const { id: avId, ...rest } = item;
+          void avId;
+          return rest;
+        }),
         notes: state.general_notes,
       },
       internal_notes: state.internal_notes,

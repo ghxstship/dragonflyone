@@ -62,7 +62,7 @@ export default function ModerationPage() {
   const detailSections: DetailSection[] = selectedContent ? [
     { id: 'content', title: 'Flagged Content', content: (
       <Card inverted className="mb-4 p-4">
-        <Body className="text-white">{selectedContent.content}</Body>
+        <Body className="text-text-primary">{selectedContent.content}</Body>
       </Card>
     )},
     { id: 'details', title: 'Details', content: (

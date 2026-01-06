@@ -113,7 +113,7 @@ export default function HelpPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Quick Answers</Body>
-                  <H3 className="text-white">Popular Articles</H3>
+                  <H3 className="text-text-primary">Popular Articles</H3>
                   <Body className="text-text-muted max-w-2xl">The most frequently viewed help articles by our users.</Body>
                 </Stack>
 
@@ -130,7 +130,7 @@ export default function HelpPage() {
                             <FileText className="size-5 text-text-muted group-hover:text-primary transition-colors" />
                           </Box>
                           <Stack gap={0}>
-                            <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{article.title}</Body>
+                            <Body className="text-text-primary font-weight-bold group-hover:text-primary transition-colors">{article.title}</Body>
                             <Body size="sm" className="text-text-disabled">{article.category}</Body>
                           </Stack>
                         </Stack>
@@ -143,7 +143,7 @@ export default function HelpPage() {
                 {search && filteredArticles.length === 0 && (
                   <Card className="p-8 text-center border-2 border-border rounded-card">
                     <HelpCircle className="size-12 text-text-disabled mx-auto mb-4" />
-                    <Body className="text-white font-weight-medium mb-2">No Articles Found</Body>
+                    <Body className="text-text-primary font-weight-medium mb-2">No Articles Found</Body>
                     <Body className="text-text-muted mb-4">Try a different search term or browse by category</Body>
                     <Button variant="outline" onClick={() => setSearch("")}>Clear Search</Button>
                   </Card>
@@ -160,7 +160,7 @@ export default function HelpPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Contact Us</Body>
-                  <H3 className="text-white">Need More Help?</H3>
+                  <H3 className="text-text-primary">Need More Help?</H3>
                   <Body className="text-text-muted max-w-2xl">Our support team is here to assist you with any questions or issues.</Body>
                 </Stack>
 
@@ -172,7 +172,7 @@ export default function HelpPage() {
                           {option.icon}
                         </Box>
                         <Stack gap={2} className="items-center">
-                          <Body className="text-white font-weight-bold">{option.title}</Body>
+                          <Body className="text-text-primary font-weight-bold">{option.title}</Body>
                           <Body size="sm" className="text-text-muted">{option.description}</Body>
                         </Stack>
                         <Button

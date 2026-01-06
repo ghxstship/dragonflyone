@@ -75,16 +75,16 @@ export function Stepper({
   };
 
   return (
-    <div className={stepperVariants({ orientation, inverted, className })}>
+    <div className={stepperVariants({ orientation, className })}>
       {steps.map((step, index) => {
         const state = getStepState(index);
         const isClickable = isStepClickable(index);
         const isLast = index === steps.length - 1;
 
         return (
-          <div key={step.id} className={stepperStepContainerVariants({ orientation, size, inverted })}>
+          <div key={step.id} className={stepperStepContainerVariants({ orientation, size })}>
             {/* Step */}
-            <div className={stepperStepVariants({ orientation, size, inverted })}>
+            <div className={stepperStepVariants({ orientation, size })}>
               {/* Indicator */}
               <button
                 onClick={() => handleStepClick(index)}
@@ -105,12 +105,12 @@ export function Stepper({
               </button>
 
               {/* Content */}
-              <div className={stepperContentVariants({ orientation, size, inverted })}>
-                <div className={stepperLabelVariants({ size, state, inverted })}>
+              <div className={stepperContentVariants({ orientation, size })}>
+                <div className={stepperLabelVariants({ size, state })}>
                   {step.label}
                 </div>
                 {step.description && (
-                  <div className={stepperDescriptionVariants({ size, state, inverted })}>
+                  <div className={stepperDescriptionVariants({ size, state })}>
                     {step.description}
                   </div>
                 )}

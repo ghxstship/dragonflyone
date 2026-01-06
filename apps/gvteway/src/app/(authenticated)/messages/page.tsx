@@ -29,8 +29,9 @@ export default function MessagesPage() {
         <Grid cols={3} gap={6} className="grid-cols-1 lg:grid-cols-3">
           <Box className="lg:col-span-1">
             <Box className="relative mb-4">
+              <label htmlFor="message-search" className="sr-only">Search conversations</label>
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-muted" />
-              <Input placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+              <Input id="message-search" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
             </Box>
             <Stack gap={2}>
               {filtered.map((conv: Conversation) => (
@@ -47,7 +48,11 @@ export default function MessagesPage() {
             {selected ? (
               <>
                 <Box className="flex-1 flex items-center justify-center"><Body className="text-text-muted">Message history will appear here</Body></Box>
-                <Box className="flex gap-2 pt-4 border-t border-border"><Input placeholder="Type a message..." className="flex-1" /><Button variant="solid" icon={<Send className="size-4" />}>Send</Button></Box>
+                <Box className="flex gap-2 pt-4 border-t border-border">
+                  <label htmlFor="message-input" className="sr-only">Type your message</label>
+                  <Input id="message-input" placeholder="Type a message..." className="flex-1" />
+                  <Button variant="solid" icon={<Send className="size-4" />}>Send</Button>
+                </Box>
               </>
             ) : (
               <Box className="h-full flex items-center justify-center"><Box className="text-center"><MessageSquare className="size-12 text-text-disabled mx-auto mb-4" /><Body className="text-text-muted">Select a conversation</Body></Box></Box>

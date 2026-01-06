@@ -8,11 +8,6 @@ export type WorkforceCertification = Tables<'workforce_certifications'>;
 export type WorkforceCertificationInsert = TablesInsert<'workforce_certifications'>;
 export type WorkforceCertificationUpdate = TablesUpdate<'workforce_certifications'>;
 
-// Legacy aliases for backwards compatibility
-export type CrewCertification = WorkforceCertification;
-export type CrewCertificationInsert = WorkforceCertificationInsert;
-export type CrewCertificationUpdate = WorkforceCertificationUpdate;
-
 export const useCertifications = (crewMemberId?: string) => {
   return useQuery({
     queryKey: ['crew_certifications', crewMemberId],

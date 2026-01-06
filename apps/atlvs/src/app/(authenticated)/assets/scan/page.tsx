@@ -6,7 +6,7 @@
  * Uses shared ScannerLayout for consistent UI across apps
  */
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   Smartphone,
@@ -57,6 +57,36 @@ export default function AssetScanPage() {
   const [transferLocation, setTransferLocation] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleNavigateToAssets = useCallback(() => {
+    router.push("/assets");
+  }, [router]);
+
+  const handleScanModeChange = useCallback((mode: "check_in" | "check_out" | "inventory" | "transfer") => {
+    setScanMode(mode);
+  }, []);
+
+  const handleScan = useCallback(async (barcode: string) => {
+    if (!barcode.trim()) return;
+    setLookupBarcode(barcode);
+  }, []);
+
+  const handleViewScanHistory = useCallback(() => {
+    router.push("/assets/scan/history");
+  }, [router]);
+
+  const handleCloseActionModal = useCallback(() => {
+    setShowActionModal(false);
+  }, []);
+
+  const handleCheckInClick = useCallback(() => handleScanModeChange("check_in"), [handleScanModeChange]);
+  const handleCheckOutClick = useCallback(() => handleScanModeChange("check_out"), [handleScanModeChange]);
+  const handleInventoryClick = useCallback(() => handleScanModeChange("inventory"), [handleScanModeChange]);
+  const handleTransferClick = useCallback(() => handleScanModeChange("transfer"), [handleScanModeChange]);
+
+  const handleProcessScan = useCallback(() => handleScan(manualBarcode), [handleScan, manualBarcode]);
+  const handleModalClose = useCallback(() => setShowActionModal(false), []);
+
   const canScanAssets = ATLVS_ADMIN_ROLES.some((role) => hasRole(role));
 
   const {
@@ -69,7 +99,7 @@ export default function AssetScanPage() {
   } = useAssetScan();
   const { data: lookedUpAsset, isLoading: isLookingUp, error: lookupError } = useAssetLookup(lookupBarcode);
 
-  const scanHistory: ScanHistory[] = apiScanHistory.length > 0 ? apiScanHistory : (DEMO_SCAN_HISTORY as ScanHistory[]);
+  const scanHistory: ScanHistory[] = apiScanHistory.length > 0 ? apiScanHistory : (DEMO_SCAN_HISTORY as unknown as ScanHistory[]);
 
   useEffect(() => {
     if (inputRef.current) inputRef.current.focus();
@@ -141,7 +171,7 @@ export default function AssetScanPage() {
   const todayScans = scanHistory.filter((s) => new Date(s.timestamp).toDateString() === new Date().toDateString()).length;
 
   const headerActions = (
-    <Button variant="outline" onClick={() => router.push("/assets")} icon={<ClipboardList className="size-4" />} iconPosition="left">
+    <Button variant="outline" onClick={handleNavigateToAssets} icon={<ClipboardList className="size-4" />} iconPosition="left">
       Asset List
     </Button>
   );
@@ -164,16 +194,16 @@ export default function AssetScanPage() {
             <Card className="p-6">
               <SectionHeader title="Scan Mode" />
               <Grid cols={2} gap={3} className="grid-cols-2 mb-6">
-                <Button variant={scanMode === "check_in" ? "solid" : "outline"} onClick={() => setScanMode("check_in")} className="py-4" icon={<ArrowDownToLine className="size-5" />} iconPosition="left">
+                <Button variant={scanMode === "check_in" ? "solid" : "outline"} onClick={handleCheckInClick} className="py-4" icon={<ArrowDownToLine className="size-5" />} iconPosition="left">
                   Check In
                 </Button>
-                <Button variant={scanMode === "check_out" ? "solid" : "outline"} onClick={() => setScanMode("check_out")} className="py-4" icon={<ArrowUpFromLine className="size-5" />} iconPosition="left">
+                <Button variant={scanMode === "check_out" ? "solid" : "outline"} onClick={handleCheckOutClick} className="py-4" icon={<ArrowUpFromLine className="size-5" />} iconPosition="left">
                   Check Out
                 </Button>
-                <Button variant={scanMode === "inventory" ? "solid" : "outline"} onClick={() => setScanMode("inventory")} className="py-4" icon={<ClipboardList className="size-5" />} iconPosition="left">
+                <Button variant={scanMode === "inventory" ? "solid" : "outline"} onClick={handleInventoryClick} className="py-4" icon={<ClipboardList className="size-5" />} iconPosition="left">
                   Inventory
                 </Button>
-                <Button variant={scanMode === "transfer" ? "solid" : "outline"} onClick={() => setScanMode("transfer")} className="py-4" icon={<ArrowRightLeft className="size-5" />} iconPosition="left">
+                <Button variant={scanMode === "transfer" ? "solid" : "outline"} onClick={handleTransferClick} className="py-4" icon={<ArrowRightLeft className="size-5" />} iconPosition="left">
                   Transfer
                 </Button>
               </Grid>
@@ -191,7 +221,7 @@ export default function AssetScanPage() {
                 />
                 <Button
                   variant="solid"
-                  onClick={() => handleScan(manualBarcode)}
+                  onClick={handleProcessScan}
                   disabled={!manualBarcode.trim() || isScanning || !canScanAssets}
                   className="w-full"
                 >
@@ -243,7 +273,7 @@ export default function AssetScanPage() {
                       <Body className="text-text-muted">No scans yet today</Body>
                     </Card>
                   )}
-                  <Button variant="outline" onClick={() => router.push("/assets/scan/history")} className="w-full">
+                  <Button variant="outline" onClick={handleViewScanHistory} className="w-full">
                     View Full History
                   </Button>
                 </Stack>
@@ -294,7 +324,7 @@ export default function AssetScanPage() {
         backButton={{ label: "Assets", href: "/assets" }}
       />
 
-      <Modal open={showActionModal} onClose={() => setShowActionModal(false)} title="Confirm Action">
+      <Modal open={showActionModal} onClose={handleModalClose} title="Confirm Action">
         {scannedAsset && (
           <Stack gap={6}>
             <Card className="p-4 bg-surface-elevated">
@@ -360,7 +390,7 @@ export default function AssetScanPage() {
                   `Confirm ${scanMode.replace("_", " ")}`
                 )}
               </Button>
-              <Button variant="outline" onClick={() => setShowActionModal(false)} disabled={isRecording}>
+              <Button variant="outline" onClick={handleCloseActionModal} disabled={isRecording}>
                 Cancel
               </Button>
             </Stack>

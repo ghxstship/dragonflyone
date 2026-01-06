@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole, log } from '@ghxstship/config';
 import { z } from 'zod';
 
 const supabase = createClient(
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 400 });
     }
-    console.error('Error in POST /api/events:', error instanceof Error ? error.message : String(error));
+    log.error('Error in POST /api/events', error, { endpoint: '/api/events', method: 'POST' });
     return NextResponse.json({ error: 'Failed to create event' }, { status: 500 });
   }
 }

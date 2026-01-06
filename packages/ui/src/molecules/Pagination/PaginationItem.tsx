@@ -43,7 +43,7 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
         ref={ref}
         disabled={disabled}
         onClick={onClick}
-        className={paginationItemVariants({ active, disabled, inverted, className })}
+        className={paginationItemVariants({ active, disabled, className })}
         aria-current={active ? "page" : undefined}
         aria-label={`Go to page ${page}`}
         {...props}

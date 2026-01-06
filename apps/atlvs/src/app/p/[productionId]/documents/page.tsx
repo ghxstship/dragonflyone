@@ -6,14 +6,29 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { FileText, Plus, Download, Trash2, Search, Folder, Upload, List } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Badge, Body, Button, Card, Grid, Input, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
+  Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  Input,
+  StatCard,
+  DetailPage,
+  Section,
+  SectionHeader,
+  Box,
+  Stack,
+  type DetailPageProps,
+} from "@ghxstship/ui";
 
-interface Document {
+type ProductionEntity = { id: string };
+
+interface ProductionDocument {
   id: string;
   name: string;
   type: string;
@@ -23,7 +38,7 @@ interface Document {
   folder: string;
 }
 
-const DEMO_DOCUMENTS: Document[] = [
+const DEMO_DOCUMENTS: ProductionDocument[] = [
   { id: "1", name: "Production Schedule.pdf", type: "pdf", size: "2.4 MB", uploaded_by: "John Smith", uploaded_at: "2024-12-10", folder: "Schedules" },
   { id: "2", name: "Vendor Contract - Lighting.pdf", type: "pdf", size: "1.2 MB", uploaded_by: "Sarah Williams", uploaded_at: "2024-12-08", folder: "Contracts" },
   { id: "3", name: "Stage Design.dwg", type: "dwg", size: "5.8 MB", uploaded_by: "Mike Johnson", uploaded_at: "2024-12-05", folder: "Designs" },
@@ -40,7 +55,7 @@ export default function ProductionDocumentsPage() {
   const [search, setSearch] = useState("");
   const [selectedFolder, setSelectedFolder] = useState("All");
 
-  const { data: documents = [], isLoading, error, refetch } = useQuery({
+  const { data: documents = [], isLoading, error, refetch } = useQuery<ProductionDocument[]>({
     queryKey: ["production-documents", productionId],
     queryFn: async () => {
       const response = await fetch(`/api/productions/${productionId}/documents`);
@@ -50,7 +65,7 @@ export default function ProductionDocumentsPage() {
     },
   });
 
-  const filteredDocuments = documents.filter((doc: Document) => {
+  const filteredDocuments = documents.filter((doc) => {
     const matchesSearch = !search || doc.name.toLowerCase().includes(search.toLowerCase());
     const matchesFolder = selectedFolder === "All" || doc.folder === selectedFolder;
     return matchesSearch && matchesFolder;
@@ -63,6 +78,8 @@ export default function ProductionDocumentsPage() {
     return <FileText className={`size-5 ${colors[type] || "text-text-muted"}`} />;
   };
 
+  const uploadSectionId = `production-document-upload-${productionId}`;
+
   const tabs = [
     {
       id: "documents",
@@ -73,7 +90,7 @@ export default function ProductionDocumentsPage() {
           <Grid cols={4} gap={4} className="grid-cols-2 md:grid-cols-4 mb-6">
             <StatCard label="Total Documents" value={documents.length.toString()} icon={<FileText className="size-5" />} />
             <StatCard label="Folders" value={FOLDERS.length.toString()} icon={<Folder className="size-5" />} />
-            <StatCard label="This Week" value={documents.filter((d: Document) => new Date(d.uploaded_at) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length.toString()} icon={<Upload className="size-5" />} />
+            <StatCard label="This Week" value={documents.filter((doc) => new Date(doc.uploaded_at) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length.toString()} icon={<Upload className="size-5" />} />
             <StatCard label="Total Size" value="13.1 MB" icon={<FileText className="size-5" />} />
           </Grid>
 
@@ -94,7 +111,7 @@ export default function ProductionDocumentsPage() {
           </Card>
 
           <Stack gap={2}>
-            {filteredDocuments.map((doc: Document) => (
+            {filteredDocuments.map((doc) => (
               <Card key={doc.id} className="p-4">
                 <Box className="flex items-center justify-between">
                   <Box className="flex items-center gap-4">
@@ -106,8 +123,8 @@ export default function ProductionDocumentsPage() {
                   </Box>
                   <Box className="flex items-center gap-2">
                     <Badge variant="outline">{doc.folder}</Badge>
-                    <Button variant="ghost" size="sm" icon={<Download className="size-4" />} />
-                    <Button variant="ghost" size="sm" icon={<Trash2 className="size-4" />} />
+                    <Button variant="ghost" size="sm" icon={<Download className="size-4" />} aria-label={`Download ${doc.name}`} />
+                    <Button variant="ghost" size="sm" icon={<Trash2 className="size-4" />} aria-label={`Delete ${doc.name}`} />
                   </Box>
                 </Box>
               </Card>
@@ -121,7 +138,7 @@ export default function ProductionDocumentsPage() {
       label: "Upload",
       icon: <Upload className="size-4" />,
       content: (
-        <Section>
+        <Section id={uploadSectionId}>
           <SectionHeader title="Upload Documents" description="Add new documents to this production" />
           <Card className="p-8 mt-4 text-center border-2 border-dashed">
             <Upload className="size-12 text-text-disabled mx-auto mb-4" />
@@ -134,19 +151,40 @@ export default function ProductionDocumentsPage() {
     },
   ];
 
+  const entitySelector = useMemo(() => {
+    const entity: ProductionEntity = { id: productionId };
+    return (id: string) => (id === productionId ? entity : null);
+  }, [productionId]);
+
+  const actions = useMemo<DetailPageProps<ProductionEntity>["actions"]>(() => [
+    {
+      id: "upload-document",
+      label: "Upload",
+      icon: <Plus className="size-4" />,
+      onClick: (entity) => {
+        const uploadSection = document?.getElementById(`production-document-upload-${entity.id}`);
+        uploadSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+      },
+      variant: "primary",
+    },
+  ], []);
+
   return (
     <DetailPage
+      entityType="productions"
+      entityId={productionId}
+      entitySelector={entitySelector}
       header={{
         kicker: "Production",
         title: "Documents",
         description: "Manage production documents and files",
       }}
       backButton={{ label: "Overview", href: `/p/${productionId}/overview` }}
-      loading={isLoading}
+      isLoading={isLoading}
       error={error instanceof Error ? error : null}
       onRetry={refetch}
       tabs={tabs}
-      actions={<Button variant="solid" icon={<Plus className="size-4" />} iconPosition="left">Upload</Button>}
+      actions={actions}
     />
   );
 }

@@ -197,7 +197,7 @@ export default function ContactPage() {
                 <Card variant="elevated" className="lg:col-span-3">
                   <CardHeader>
                     <Stack gap={2}>
-                      <H2 className="text-white">Send us a message</H2>
+                      <H2 className="text-text-primary">Send us a message</H2>
                       <Body className="text-text-muted">
                         Fill out the form below and we will get back to you within 24 hours
                       </Body>
@@ -286,7 +286,7 @@ export default function ContactPage() {
                   {/* Contact Information Card */}
                   <Card variant="primary" interactive>
                     <Stack gap={6}>
-                      <H3 className="text-white">Contact Information</H3>
+                      <H3 className="text-text-primary">Contact Information</H3>
                       <Stack gap={5}>
                         {/* Email */}
                         <Link
@@ -300,7 +300,7 @@ export default function ContactPage() {
                             <Body size="sm" className="text-text-disabled">
                               Email
                             </Body>
-                            <Body className="text-white font-weight-semibold group-hover:text-primary transition-colors">
+                            <Body className="text-text-primary font-weight-semibold group-hover:text-primary transition-colors">
                               hello@atlvs.com
                             </Body>
                           </Stack>
@@ -318,7 +318,7 @@ export default function ContactPage() {
                             <Body size="sm" className="text-text-disabled">
                               Phone
                             </Body>
-                            <Body className="text-white font-weight-semibold group-hover:text-primary transition-colors">
+                            <Body className="text-text-primary font-weight-semibold group-hover:text-primary transition-colors">
                               +1 (800) 555-ATLVS
                             </Body>
                           </Stack>
@@ -333,7 +333,7 @@ export default function ContactPage() {
                             <Body size="sm" className="text-text-disabled">
                               Business Hours
                             </Body>
-                            <Body className="text-white font-weight-semibold">Mon-Fri, 9am-6pm EST</Body>
+                            <Body className="text-text-primary font-weight-semibold">Mon-Fri, 9am-6pm EST</Body>
                           </Stack>
                         </Stack>
 
@@ -346,7 +346,7 @@ export default function ContactPage() {
                             <Body size="sm" className="text-text-disabled">
                               Headquarters
                             </Body>
-                            <Body className="text-white font-weight-semibold">Tampa, FL</Body>
+                            <Body className="text-text-primary font-weight-semibold">Tampa, FL</Body>
                           </Stack>
                         </Stack>
                       </Stack>
@@ -357,7 +357,7 @@ export default function ContactPage() {
                   <Card variant="accent" className="text-center">
                     <Stack gap={2} className="items-center">
                       <Kicker className="text-accent">Average Response Time</Kicker>
-                      <H3 className="text-white">Under 24 Hours</H3>
+                      <H3 className="text-text-primary">Under 24 Hours</H3>
                       <Body size="sm" className="text-text-muted">
                         During business days
                       </Body>
@@ -376,7 +376,7 @@ export default function ContactPage() {
               <Stack gap={12}>
                 <Stack gap={4} className="text-center items-center">
                   <Kicker>Resources</Kicker>
-                  <H2 className="text-white">Quick Links</H2>
+                  <H2 className="text-text-primary">Quick Links</H2>
                   <Body className="text-text-muted max-w-2xl">
                     Find what you need faster with these helpful resources
                   </Body>
@@ -403,7 +403,7 @@ export default function ContactPage() {
                               gap={2}
                               className="items-center justify-between"
                             >
-                              <Body className="text-white font-weight-semibold">{link.title}</Body>
+                              <Body className="text-text-primary font-weight-semibold">{link.title}</Body>
                               <ArrowRight className="size-4 text-text-disabled group-hover:text-primary group-hover:translate-x-1 transition-all" />
                             </Stack>
                             <Body size="sm" className="text-text-muted">

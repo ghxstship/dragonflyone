@@ -72,7 +72,7 @@ export default function GettingStartedPage() {
                 <Stack gap={6}>
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
-                      <Body className="text-white font-weight-bold text-h4-md">Your Progress</Body>
+                      <Body className="text-text-primary font-weight-bold text-h4-md">Your Progress</Body>
                       <Body className="text-text-muted">{completedSteps} of {STEPS.length} steps completed</Body>
                     </Stack>
                     <Body className="text-primary font-weight-bold text-h3-md">{Math.round(progress)}%</Body>
@@ -91,18 +91,18 @@ export default function GettingStartedPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Setup</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Complete These Steps</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Complete These Steps</Body>
                 </Stack>
 
                 <Stack gap={4}>
                   {STEPS.map((step, idx) => (
                     <Card key={step.id} className={`p-6 border-2 rounded-card ${step.completed ? "border-success" : "border-border"}`}>
                       <Box className="flex items-start gap-4">
-                        <Box className={`size-12 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-surface-elevated text-text-muted"}`}>
+                        <Box className={`size-12 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-text-primary" : "bg-surface-elevated text-text-muted"}`}>
                           {step.completed ? <Check className="size-6" /> : <Body className="font-weight-bold text-h5-md">{step.id}</Body>}
                         </Box>
                         <Box className="flex-1">
-                          <Body className="text-white font-weight-bold">{step.title}</Body>
+                          <Body className="text-text-primary font-weight-bold">{step.title}</Body>
                           <Body className="text-text-muted">{step.description}</Body>
                         </Box>
                         {!step.completed && (

@@ -6,7 +6,7 @@
  * Bold Contemporary Pop Art Adventure Design System
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { 
   Video, Calendar, Clock, Users, Play, 
@@ -185,11 +185,37 @@ export default function WebinarsPage() {
     router.push(`/webinars/${id}/watch`);
   };
 
+  const handleTabChange = useCallback((tabId: string) => {
+    setActiveTab(tabId as "upcoming" | "registered" | "recordings");
+  }, []);
+
+  const handleBrowseWebinars = useCallback(() => {
+    setActiveTab("upcoming");
+  }, []);
+
+  const handleCategoryChange = useCallback((categoryId: string) => {
+    setActiveCategory(categoryId);
+  }, []);
+
+  const handleWebinarView = useCallback((webinarId: string) => {
+    router.push(`/webinars/${webinarId}`);
+  }, [router]);
+
+  const handleWebinarRegister = useCallback((webinarId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    router.push(`/webinars/${webinarId}/register`);
+  }, [router]);
+
+  const handleWebinarWatch = useCallback((webinarId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    router.push(`/webinars/${webinarId}/watch`);
+  }, [router]);
+
   const webinarsSidebar = (
     <Stack gap={6}>
       {/* Categories */}
       <Card className="p-5 border-2 border-border rounded-card">
-        <Body className="text-white font-weight-bold mb-4">Categories</Body>
+        <Body className="text-text-primary font-weight-bold mb-4">Categories</Body>
         <Stack gap={2}>
           {CATEGORIES.map((category) => (
             <Button
@@ -198,7 +224,7 @@ export default function WebinarsPage() {
               size="sm"
               fullWidth
               className="justify-between"
-              onClick={() => setActiveCategory(category.id)}
+              onClick={() => handleCategoryChange(category.id)}
             >
               <Text>{category.label}</Text>
               <Badge variant="outline" size="sm">{category.count}</Badge>
@@ -211,14 +237,14 @@ export default function WebinarsPage() {
       <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Users className="size-5 text-primary" />
-          <Body className="text-white font-weight-bold">Featured Hosts</Body>
+          <Body className="text-text-primary font-weight-bold">Featured Hosts</Body>
         </Box>
         <Stack gap={3}>
           {FEATURED_HOSTS.map((host) => (
             <Box key={host.id} className="flex items-center gap-3">
               <Avatar initials={host.initials} size="sm" />
               <Box className="flex-1 min-w-0">
-                <Body size="sm" className="text-white truncate">
+                <Body size="sm" className="text-text-primary truncate">
                   {host.name}
                 </Body>
                 <Body size="xs" className="text-text-disabled">
@@ -234,12 +260,12 @@ export default function WebinarsPage() {
       <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Calendar className="size-5 text-warning" />
-          <Body className="text-white font-weight-bold">This Week</Body>
+          <Body className="text-text-primary font-weight-bold">This Week</Body>
         </Box>
         <Stack gap={3}>
           {DEMO_WEBINARS.filter(w => !w.isRecorded).slice(0, 3).map((webinar) => (
-            <Box key={webinar.id} className="p-3 bg-surface-elevated rounded-card cursor-pointer hover:bg-surface-elevated" onClick={() => handleViewWebinar(webinar.id)}>
-              <Body size="sm" className="text-white font-weight-medium line-clamp-1">{webinar.title}</Body>
+            <Box key={webinar.id} className="p-3 bg-surface-elevated rounded-card cursor-pointer hover:bg-surface-elevated" onClick={() => handleWebinarView(webinar.id)}>
+              <Body size="sm" className="text-text-primary font-weight-medium line-clamp-1">{webinar.title}</Body>
               <Body size="xs" className="text-text-muted">{formatDate(webinar.date)} at {webinar.time}</Body>
             </Box>
           ))}
@@ -252,7 +278,7 @@ export default function WebinarsPage() {
       {/* Host a Webinar CTA */}
       {canManage && (
         <Card className="p-5 border-2 border-primary rounded-card bg-primary/10">
-          <Body className="text-white font-weight-bold mb-2">Host a Webinar</Body>
+          <Body className="text-text-primary font-weight-bold mb-2">Host a Webinar</Body>
           <Body size="sm" className="text-text-muted mb-4">
             Share your expertise with the community.
           </Body>
@@ -288,7 +314,7 @@ export default function WebinarsPage() {
         { id: "recordings", label: "Recordings", count: recordedWebinars.length },
       ]}
       activeTab={activeTab}
-      onTabChange={(tabId: string) => setActiveTab(tabId as "upcoming" | "registered" | "recordings")}
+      onTabChange={handleTabChange}
       sidebar={webinarsSidebar}
       sidebarPosition="right"
       sidebarWidth={4}
@@ -320,7 +346,7 @@ export default function WebinarsPage() {
                             <Badge variant={status.variant} size="sm">{status.label}</Badge>
                             <Badge variant="outline" size="sm">{webinar.category}</Badge>
                           </Box>
-                          <Body className="text-white font-weight-bold">
+                          <Body className="text-text-primary font-weight-bold">
                             {webinar.title}
                           </Body>
                         </Box>
@@ -356,7 +382,7 @@ export default function WebinarsPage() {
                       </Box>
                       <Box className="flex gap-2 mt-4">
                         {webinar.isLive ? (
-                          <Button variant="solid" size="sm" icon={<Play className="size-4" />} onClick={(e) => handleWatch(webinar.id, e)}>
+                          <Button variant="solid" size="sm" icon={<Play className="size-4" />} onClick={(e) => handleWebinarWatch(webinar.id, e)}>
                             Join Now
                           </Button>
                         ) : webinar.isRegistered ? (
@@ -364,7 +390,7 @@ export default function WebinarsPage() {
                             Add to Calendar
                           </Button>
                         ) : (
-                          <Button variant="solid" size="sm" onClick={(e) => handleRegister(webinar.id, e)}>
+                          <Button variant="solid" size="sm" onClick={(e) => handleWebinarRegister(webinar.id, e)}>
                             Register
                           </Button>
                         )}
@@ -377,7 +403,7 @@ export default function WebinarsPage() {
           ) : (
             <Card className="p-8 border-2 border-border rounded-card text-center">
               <Calendar className="size-12 text-text-disabled mx-auto mb-4" />
-              <Body className="text-white font-weight-bold mb-2">No upcoming webinars</Body>
+              <Body className="text-text-primary font-weight-bold mb-2">No upcoming webinars</Body>
               <Body size="sm" className="text-text-muted mb-4">
                 Check back soon for new sessions.
               </Body>
@@ -410,7 +436,7 @@ export default function WebinarsPage() {
                       <Box className="flex items-center gap-2 mb-1">
                         <Badge variant={status.variant} size="sm">{status.label}</Badge>
                       </Box>
-                      <Body className="text-white font-weight-medium">{webinar.title}</Body>
+                      <Body className="text-text-primary font-weight-medium">{webinar.title}</Body>
                       <Body size="sm" className="text-text-muted">
                         {formatDate(webinar.date)} at {webinar.time}
                       </Body>
@@ -431,11 +457,11 @@ export default function WebinarsPage() {
           ) : (
             <Card className="p-8 border-2 border-border rounded-card text-center">
               <Bell className="size-12 text-text-disabled mx-auto mb-4" />
-              <Body className="text-white font-weight-bold mb-2">No registrations yet</Body>
+              <Body className="text-text-primary font-weight-bold mb-2">No registrations yet</Body>
               <Body size="sm" className="text-text-muted mb-4">
                 Register for upcoming webinars to see them here.
               </Body>
-              <Button variant="solid" onClick={() => setActiveTab("upcoming")}>
+              <Button variant="solid" onClick={handleBrowseWebinars}>
                 Browse Webinars
               </Button>
             </Card>
@@ -464,7 +490,7 @@ export default function WebinarsPage() {
                           <Badge variant="success" size="sm">Recording</Badge>
                           <Badge variant="outline" size="sm">{webinar.category}</Badge>
                         </Box>
-                        <Body className="text-white font-weight-bold">
+                        <Body className="text-text-primary font-weight-bold">
                           {webinar.title}
                         </Body>
                       </Box>
@@ -489,7 +515,7 @@ export default function WebinarsPage() {
                       </Box>
                     </Box>
                     <Box className="flex gap-2 mt-4">
-                      <Button variant="solid" size="sm" icon={<Play className="size-4" />} onClick={(e) => handleWatch(webinar.id, e)}>
+                      <Button variant="solid" size="sm" icon={<Play className="size-4" />} onClick={(e) => handleWebinarWatch(webinar.id, e)}>
                         Watch Recording
                       </Button>
                       <Button variant="outline" size="sm" icon={<ExternalLink className="size-4" />}>
@@ -503,7 +529,7 @@ export default function WebinarsPage() {
           ) : (
             <Card className="p-8 border-2 border-border rounded-card text-center">
               <Video className="size-12 text-text-disabled mx-auto mb-4" />
-              <Body className="text-white font-weight-bold mb-2">No recordings available</Body>
+              <Body className="text-text-primary font-weight-bold mb-2">No recordings available</Body>
               <Body size="sm" className="text-text-muted mb-4">
                 Recordings will appear here after webinars are completed.
               </Body>

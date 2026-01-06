@@ -47,10 +47,10 @@ export const AIChatConversationGroup = forwardRef<HTMLDivElement, AIChatConversa
     return (
       <div 
         ref={ref} 
-        className={aiChatConversationGroupVariants({ inverted, className })} 
+        className={aiChatConversationGroupVariants({ className })} 
         {...props}
       >
-        <div className={aiChatConversationGroupLabelVariants({ inverted })}>
+        <div className={aiChatConversationGroupLabelVariants({})}>
           {label}
         </div>
         {children}
@@ -118,7 +118,7 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
     return (
       <button
         ref={ref}
-        className={aiChatConversationItemVariants({ isActive, inverted, className })}
+        className={aiChatConversationItemVariants({ isActive, className })}
         onClick={onSelect}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -139,15 +139,15 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
         )}
 
         {/* Content */}
-        <div className={aiChatConversationItemContentVariants({ inverted })}>
+        <div className={aiChatConversationItemContentVariants({})}>
           {/* Title */}
-          <div className={aiChatConversationItemTitleVariants({ inverted })}>
+          <div className={aiChatConversationItemTitleVariants({})}>
             {title}
           </div>
 
           {/* Preview */}
           {preview && (
-            <div className={aiChatConversationItemPreviewVariants({ inverted })}>
+            <div className={aiChatConversationItemPreviewVariants({})}>
               {preview}
             </div>
           )}
@@ -155,14 +155,14 @@ export const AIChatConversationItem = forwardRef<HTMLButtonElement, AIChatConver
 
         {/* Timestamp */}
         {timestamp && (
-          <div className={aiChatConversationItemTimestampVariants({ inverted })}>
+          <div className={aiChatConversationItemTimestampVariants({})}>
             {formatTimestamp(timestamp)}
           </div>
         )}
 
         {/* Actions (shown on hover) */}
         {actions && (
-          <div className={aiChatConversationItemActionsVariants({ inverted })}>
+          <div className={aiChatConversationItemActionsVariants({})}>
             {actions}
           </div>
         )}

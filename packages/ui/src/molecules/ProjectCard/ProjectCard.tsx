@@ -69,37 +69,37 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
     const Content = (
       <>
         {/* Image Container */}
-        <div className={projectCardImageContainerVariants({ inverted })}>
+        <div className={projectCardImageContainerVariants({})}>
           <img
             src={image}
             alt={imageAlt || title}
             loading="lazy"
-            className={projectCardImageVariants({ inverted })}
+            className={projectCardImageVariants({})}
           />
-          <div className={projectCardImageOverlayVariants({ inverted })} />
+          <div className={projectCardImageOverlayVariants({})} />
         </div>
 
         {/* Content */}
-        <div className={projectCardContentVariants({ inverted })}>
+        <div className={projectCardContentVariants({})}>
           {/* Title */}
-          <h3 className={projectCardTitleVariants({ inverted })}>
+          <h3 className={projectCardTitleVariants({})}>
             {title}
           </h3>
 
           {/* Metadata */}
           {metadata && (
-            <p className={projectCardMetadataVariants({ inverted })}>
+            <p className={projectCardMetadataVariants({})}>
               {metadata}
             </p>
           )}
 
           {/* Tags */}
           {tags && tags.length > 0 && (
-            <div className={projectCardTagsContainerVariants({ inverted })}>
+            <div className={projectCardTagsContainerVariants({})}>
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className={projectCardTagVariants({ inverted })}
+                  className={projectCardTagVariants({})}
                 >
                   {tag}
                 </span>
@@ -115,7 +115,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
       return (
         <a
           href={href}
-          className={projectCardVariants({ interactive: true, inverted, className })}
+          className={projectCardVariants({ interactive: true, className })}
           ref={ref as React.Ref<HTMLAnchorElement>}
         >
           {Content}
@@ -126,7 +126,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
     // Render as div with click handler
     return (
       <div
-        className={projectCardVariants({ interactive: isInteractive, inverted, className })}
+        className={projectCardVariants({ interactive: isInteractive, className })}
         onClick={isInteractive ? handleClick : undefined}
         onKeyDown={isInteractive ? handleKeyDown : undefined}
         role={isInteractive ? "button" : undefined}

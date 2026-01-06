@@ -166,33 +166,51 @@ export default function SoundcheckPage() {
         <ModalHeader><H3>Add Soundcheck</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Artist Name" />
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Artist Name</Body>
+              <Input placeholder="Artist Name" aria-label="Artist Name" />
+            </Stack>
             <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-              <Select>
-                <option value="">Stage...</option>
-                <option value="Main Stage">Main Stage</option>
-                <option value="Side Stage">Side Stage</option>
-              </Select>
-              <Input type="number" placeholder="Duration (min)" />
+              <Stack gap={2}>
+                <Body size="sm" className="font-weight-medium">Stage</Body>
+                <Select aria-label="Stage Selection">
+                  <option value="">Stage...</option>
+                  <option value="Main Stage">Main Stage</option>
+                  <option value="Side Stage">Side Stage</option>
+                </Select>
+              </Stack>
+              <Stack gap={2}>
+                <Body size="sm" className="font-weight-medium">Duration (minutes)</Body>
+                <Input type="number" placeholder="Duration (min)" aria-label="Soundcheck Duration in Minutes" />
+              </Stack>
             </Grid>
             <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={2}>
                 <Body className="font-display">Start Time</Body>
-                <Input type="time" />
+                <Input type="time" aria-label="Soundcheck Start Time" />
               </Stack>
               <Stack gap={2}>
                 <Body className="font-display">End Time</Body>
-                <Input type="time" />
+                <Input type="time" aria-label="Soundcheck End Time" />
               </Stack>
             </Grid>
-            <Select>
-              <option value="">Assign Engineer...</option>
-              <option value="john">John Martinez</option>
-              <option value="sarah">Sarah Chen</option>
-              <option value="mike">Mike Thompson</option>
-            </Select>
-            <Textarea placeholder="Requirements (one per line)..." rows={3} />
-            <Textarea placeholder="Notes..." rows={2} />
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Engineer</Body>
+              <Select aria-label="Assigned Engineer">
+                <option value="">Assign Engineer...</option>
+                <option value="john">John Martinez</option>
+                <option value="sarah">Sarah Chen</option>
+                <option value="mike">Mike Thompson</option>
+              </Select>
+            </Stack>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Requirements</Body>
+              <Textarea placeholder="Requirements (one per line)..." rows={3} aria-label="Soundcheck Requirements" />
+            </Stack>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Notes</Body>
+              <Textarea placeholder="Notes..." rows={2} aria-label="Soundcheck Notes" />
+            </Stack>
           </Stack>
         </ModalBody>
         <ModalFooter>

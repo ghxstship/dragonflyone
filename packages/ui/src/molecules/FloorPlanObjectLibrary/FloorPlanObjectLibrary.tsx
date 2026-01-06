@@ -102,27 +102,27 @@ export function FloorPlanObjectLibrary({
   };
 
   return (
-    <div className={floorPlanObjectLibraryVariants({ inverted, className })}>
+    <div className={floorPlanObjectLibraryVariants({ className })}>
       {/* Header */}
-      <div className={floorPlanObjectLibraryHeaderVariants({ inverted })}>
-        <h3 className={floorPlanObjectLibraryTitleVariants({ inverted })}>
+      <div className={floorPlanObjectLibraryHeaderVariants({})}>
+        <h3 className={floorPlanObjectLibraryTitleVariants({})}>
           OBJECT LIBRARY
         </h3>
       </div>
 
       {/* Content */}
-      <div className={floorPlanObjectLibraryContentVariants({ inverted })}>
+      <div className={floorPlanObjectLibraryContentVariants({})}>
         {Object.entries(groupedObjects).map(([category, objects]) => (
-          <div key={category} className={floorPlanObjectLibraryCategoryVariants({ inverted })}>
-            <h4 className={floorPlanObjectLibraryCategoryTitleVariants({ inverted })}>
+          <div key={category} className={floorPlanObjectLibraryCategoryVariants({})}>
+            <h4 className={floorPlanObjectLibraryCategoryTitleVariants({})}>
               {category}
             </h4>
             
-            <div className={floorPlanObjectLibraryGridVariants({ inverted })}>
+            <div className={floorPlanObjectLibraryGridVariants({})}>
               {objects.map((template) => (
                 <div
                   key={template.id}
-                  className={floorPlanObjectLibraryItemVariants({ inverted })}
+                  className={floorPlanObjectLibraryItemVariants({})}
                   onClick={() => handleObjectClick(template)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -136,7 +136,7 @@ export function FloorPlanObjectLibrary({
                 >
                   {/* Icon */}
                   <div 
-                    className={floorPlanObjectLibraryIconVariants({ inverted })}
+                    className={floorPlanObjectLibraryIconVariants({})}
                     style={{ backgroundColor: template.color }}
                   >
                     <div className="text-white">
@@ -145,7 +145,7 @@ export function FloorPlanObjectLibrary({
                   </div>
                   
                   {/* Name */}
-                  <div className={floorPlanObjectLibraryNameVariants({ inverted })}>
+                  <div className={floorPlanObjectLibraryNameVariants({})}>
                     {template.name}
                   </div>
                 </div>

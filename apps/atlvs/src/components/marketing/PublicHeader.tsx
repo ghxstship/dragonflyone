@@ -11,7 +11,7 @@ import {
   Header,
 } from '@ghxstship/ui';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import clsx from 'clsx';
@@ -29,6 +29,10 @@ interface PublicHeaderProps {
 export function PublicHeader({ className }: PublicHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleToggleMobileMenu = useCallback(() => setMobileMenuOpen(prev => !prev), []);
+  const handleCloseMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
+
   return (
     <Header variant="page" className={clsx('sticky top-0 z-header bg-surface-primary/95 backdrop-blur supports-[backdrop-filter]:bg-surface-primary/60 border-b-2 border-border', className)}>
       <Container size="xl" className="px-container-sm">
@@ -37,7 +41,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
           <Link href="/">
             <Stack direction="horizontal" gap={2} className="items-center">
               <Box className="w-8 h-8 bg-surface-inverse rounded-card flex items-center justify-center">
-                <Text className="text-white font-heading text-body-sm">A</Text>
+                <Text className="text-text-primary font-heading text-body-sm">A</Text>
               </Box>
               <Text className="font-heading text-h4-md tracking-label">ATLVS</Text>
             </Stack>
@@ -60,12 +64,12 @@ export function PublicHeader({ className }: PublicHeaderProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden text-text-primary"
+            onClick={handleToggleMobileMenu}
             aria-label="Toggle menu"
             inverted
           >
-            {mobileMenuOpen ? <X className="h-6 w-6 text-white" /> : <Menu className="h-6 w-6 text-white" />}
+            {mobileMenuOpen ? <X className="h-6 w-6 text-text-primary" /> : <Menu className="h-6 w-6 text-text-primary" />}
           </Button>
         </Stack>
       </Container>
@@ -83,7 +87,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
                     <Link
                       key={product.href}
                       href={product.href}
-                      onClick={() => setMobileMenuOpen(false)}
+                      onClick={handleCloseMobileMenu}
                     >
                       <Body size="sm" className="text-text-muted hover:text-text-primary transition-colors py-1">{product.label}</Body>
                     </Link>
@@ -102,7 +106,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
                         <Link
                           key={item.href}
                           href={item.href}
-                          onClick={() => setMobileMenuOpen(false)}
+                          onClick={handleCloseMobileMenu}
                         >
                           <Body size="sm" className="text-text-muted hover:text-text-primary transition-colors py-1">{item.label}</Body>
                         </Link>
@@ -111,7 +115,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
                   ))}
                   <Link
                     href="/solutions"
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={handleCloseMobileMenu}
                   >
                     <Body size="sm" className="text-brand-pink font-heading py-1">View All Solutions</Body>
                   </Link>
@@ -126,7 +130,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
                     <Link
                       key={group.items[0].href}
                       href={group.items[0].href}
-                      onClick={() => setMobileMenuOpen(false)}
+                      onClick={handleCloseMobileMenu}
                     >
                       <Body size="sm" className="text-text-muted hover:text-text-primary transition-colors py-1">{group.title}</Body>
                     </Link>
@@ -138,7 +142,7 @@ export function PublicHeader({ className }: PublicHeaderProps) {
               <Stack gap={2}>
                 <Link
                   href="/pricing"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={handleCloseMobileMenu}
                 >
                   <Label size="sm" className="text-text-primary">Pricing</Label>
                 </Link>
@@ -146,10 +150,10 @@ export function PublicHeader({ className }: PublicHeaderProps) {
 
               {/* CTAs */}
               <Stack gap={2} className="pt-4 border-t-2 border-border">
-                <Link href="/auth/signup" onClick={() => setMobileMenuOpen(false)}>
+                <Link href="/auth/signup" onClick={handleCloseMobileMenu}>
                   <Button variant="primary" size="md" fullWidth inverted={false}>Get Started</Button>
                 </Link>
-                <Link href="/auth/signin" onClick={() => setMobileMenuOpen(false)}>
+                <Link href="/auth/signin" onClick={handleCloseMobileMenu}>
                   <Button variant="ghost" size="md" fullWidth inverted={false}>Sign In</Button>
                 </Link>
               </Stack>

@@ -35,7 +35,7 @@ function ConfirmationContent() {
   return (
     <Stack className="py-16 sm:py-24">
       <ScrollReveal animation="slide-up" duration={600}>
-        <Card inverted className="mx-auto max-w-2xl border-2 border-white/20 bg-black p-8 text-center shadow-md sm:p-12">
+        <Card inverted className="mx-auto max-w-2xl border-2 border-surface-primary/20 bg-surface-elevated p-8 text-center shadow-md sm:p-12">
           <Stack gap={8} className="items-center">
             {/* Success Icon */}
             <IconBox size="xl" variant="success" inverted>
@@ -44,7 +44,7 @@ function ConfirmationContent() {
 
             {/* Header */}
             <Stack gap={4}>
-              <H1 size="md" className="text-white">APPLICATION RECEIVED</H1>
+              <H1 size="md" className="text-text-primary">APPLICATION RECEIVED</H1>
               <Body size="lg" className="text-text-secondary">
                 Welcome to the waitlist. We are excited to review your application.
               </Body>
@@ -53,7 +53,7 @@ function ConfirmationContent() {
             {/* What Happens Next */}
             <Card inverted className="w-full border-2 border-border bg-surface-inverse p-6 text-left">
               <Stack gap={6}>
-                <H2 size="sm" className="text-white">WHAT HAPPENS NEXT</H2>
+                <H2 size="sm" className="text-text-primary">WHAT HAPPENS NEXT</H2>
                 
                 <Stack gap={4}>
                   <Stack direction="horizontal" gap={4} className="items-start">
@@ -61,7 +61,7 @@ function ConfirmationContent() {
                       <Mail className="size-4 text-accent" />
                     </IconBox>
                     <Stack gap={1}>
-                      <Label size="sm" className="text-white">Check Your Email</Label>
+                      <Label size="sm" className="text-text-primary">Check Your Email</Label>
                       <Body size="sm" className="text-text-muted">
                         We have sent a confirmation to your email address with your application details.
                       </Body>
@@ -73,7 +73,7 @@ function ConfirmationContent() {
                       <Clock className="size-4 text-accent" />
                     </IconBox>
                     <Stack gap={1}>
-                      <Label size="sm" className="text-white">Review Period</Label>
+                      <Label size="sm" className="text-text-primary">Review Period</Label>
                       <Body size="sm" className="text-text-muted">
                         Our team reviews applications within 24-48 hours. We will notify you of our decision.
                       </Body>
@@ -85,7 +85,7 @@ function ConfirmationContent() {
                       <Calendar className="size-4 text-accent" />
                     </IconBox>
                     <Stack gap={1}>
-                      <Label size="sm" className="text-white">Get Started</Label>
+                      <Label size="sm" className="text-text-primary">Get Started</Label>
                       <Body size="sm" className="text-text-muted">
                         Once approved, you will receive instructions to complete your membership setup and start exploring.
                       </Body>
@@ -136,7 +136,7 @@ function ConfirmationContent() {
             {/* Support Note */}
             <Body size="sm" className="text-text-disabled">
               Questions? Contact us at{" "}
-              <NextLink href="mailto:membership@gvteway.com" className="text-white underline">
+              <NextLink href="mailto:membership@gvteway.com" className="text-text-primary underline">
                 membership@gvteway.com
               </NextLink>
             </Body>

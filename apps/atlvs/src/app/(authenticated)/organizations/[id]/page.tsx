@@ -89,19 +89,19 @@ export default function OrganizationDetailPage() {
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Email</Body>
-                <Body className="text-white">{organization.email || "Not provided"}</Body>
+                <Body className="text-text-primary">{organization.email || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Phone</Body>
-                <Body className="text-white">{organization.phone || "Not provided"}</Body>
+                <Body className="text-text-primary">{organization.phone || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Website</Body>
-                <Body className="text-white">{organization.website || "Not provided"}</Body>
+                <Body className="text-text-primary">{organization.website || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Industry</Body>
-                <Body className="text-white">{organization.industry || "Not specified"}</Body>
+                <Body className="text-text-primary">{organization.industry || "Not specified"}</Body>
               </Card>
             </Grid>
           </Section>
@@ -112,19 +112,19 @@ export default function OrganizationDetailPage() {
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Legal Name</Body>
-                <Body className="text-white">{organization.legal_name || organization.name}</Body>
+                <Body className="text-text-primary">{organization.legal_name || organization.name}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Tax ID</Body>
-                <Body className="text-white">{organization.tax_id || "Not provided"}</Body>
+                <Body className="text-text-primary">{organization.tax_id || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">DUNS Number</Body>
-                <Body className="text-white">{organization.duns_number || "Not provided"}</Body>
+                <Body className="text-text-primary">{organization.duns_number || "Not provided"}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Company Size</Body>
-                <Body className="text-white">{organization.company_size || "Not specified"}</Body>
+                <Body className="text-text-primary">{organization.company_size || "Not specified"}</Body>
               </Card>
             </Grid>
           </Section>
@@ -134,7 +134,7 @@ export default function OrganizationDetailPage() {
             <Section border className="mb-6">
               <SectionHeader title="Description" />
               <Card inverted className="p-4">
-                <Body className="text-white whitespace-pre-wrap">{organization.description}</Body>
+                <Body className="text-text-primary whitespace-pre-wrap">{organization.description}</Body>
               </Card>
             </Section>
           )}
@@ -144,7 +144,7 @@ export default function OrganizationDetailPage() {
             <Section border className="mb-6">
               <SectionHeader title="Notes" />
               <Card inverted className="p-4">
-                <Body className="text-white whitespace-pre-wrap">{organization.notes}</Body>
+                <Body className="text-text-primary whitespace-pre-wrap">{organization.notes}</Body>
               </Card>
             </Section>
           )}
@@ -156,15 +156,15 @@ export default function OrganizationDetailPage() {
               <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
                 <Card inverted className="p-4">
                   <Body size="xs" className="text-text-muted mb-1">Name</Body>
-                  <Body className="text-white">{organization.primary_contact.display_name}</Body>
+                  <Body className="text-text-primary">{organization.primary_contact.display_name}</Body>
                 </Card>
                 <Card inverted className="p-4">
                   <Body size="xs" className="text-text-muted mb-1">Email</Body>
-                  <Body className="text-white">{organization.primary_contact.email || "Not provided"}</Body>
+                  <Body className="text-text-primary">{organization.primary_contact.email || "Not provided"}</Body>
                 </Card>
                 <Card inverted className="p-4">
                   <Body size="xs" className="text-text-muted mb-1">Phone</Body>
-                  <Body className="text-white">{organization.primary_contact.phone || "Not provided"}</Body>
+                  <Body className="text-text-primary">{organization.primary_contact.phone || "Not provided"}</Body>
                 </Card>
               </Grid>
             </Section>
@@ -250,7 +250,7 @@ export default function OrganizationDetailPage() {
                 onClick={() => setDeleteConfirmOpen(true)}
                 icon={<Trash2 className="size-4" />}
                 iconPosition="left"
-                className="border-error text-error hover:bg-error hover:text-white"
+                className="border-error text-error hover:bg-error hover:text-text-primary"
               >
                 Delete
               </Button>

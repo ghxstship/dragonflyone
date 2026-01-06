@@ -44,22 +44,22 @@ export function EmptyState({
   className 
 }: EmptyStateProps) {
   return (
-    <div className={emptyStateVariants({ inverted, className })}>
+    <div className={emptyStateVariants({ className })}>
       {/* Icon */}
       {icon && (
-        <div className={emptyStateIconVariants({ inverted })}>
+        <div className={emptyStateIconVariants({})}>
           {icon}
         </div>
       )}
 
       {/* Title */}
-      <H3 className={emptyStateTitleVariants({ inverted })}>
+      <H3 className={emptyStateTitleVariants({})}>
         {title}
       </H3>
 
       {/* Description */}
       {description && (
-        <Body className={emptyStateDescriptionVariants({ inverted })}>
+        <Body className={emptyStateDescriptionVariants({})}>
           {description}
         </Body>
       )}
@@ -91,7 +91,7 @@ export function EmptyState({
 
       {/* Suggestions */}
       {suggestions && suggestions.length > 0 && (
-        <div className={emptyStateSuggestionsVariants({ inverted })}>
+        <div className={emptyStateSuggestionsVariants({})}>
           <div className="font-medium mb-2">Suggestions:</div>
           <ul className="space-y-1">
             {suggestions.map((suggestion, index) => (

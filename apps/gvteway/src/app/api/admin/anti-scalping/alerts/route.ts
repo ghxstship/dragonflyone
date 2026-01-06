@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
+import { log } from '@ghxstship/config';
 
 const alertFilterSchema = z.object({
   severity: z.enum(['low', 'medium', 'high', 'critical']).optional(),
@@ -52,7 +53,7 @@ export async function GET(request: NextRequest) {
     const { data: alerts, error } = await query.limit(100);
 
     if (error) {
-      console.error('Error fetching scalping alerts:', error);
+      log.error('Error fetching scalping alerts', error, { endpoint: '/api/admin/anti-scalping/alerts', method: 'GET' });
       return NextResponse.json({ error: 'Failed to fetch alerts' }, { status: 500 });
     }
 
@@ -73,7 +74,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ alerts: transformedAlerts });
   } catch (error) {
-    console.error('Error in anti-scalping alerts API:', error);
+    log.error('Error in anti-scalping alerts API', error, { endpoint: '/api/admin/anti-scalping/alerts', method: 'GET' });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

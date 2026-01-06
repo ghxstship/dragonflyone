@@ -400,6 +400,9 @@ export * from './hooks/useChronicle';
 // Dataset Capability Detection System
 export * from './dataset-capabilities';
 
+// PDF color constants for PDF generation (inline CSS requires hex values)
+export * from './pdf-colors';
+
 // Session management hooks
 export * from './hooks/useSessions';
 
@@ -724,10 +727,16 @@ export {
   ENTITY_NAMES,
   type EntityNameType,
   
-  // Hook
+  // Hooks
   useEntityConfig,
   type UseEntityConfigOptions,
   type UseEntityConfigResult,
+  useEntityData,
+  type UseEntityDataOptions,
+  type UseEntityDataResult,
+  useEntityDetail,
+  type UseEntityDetailOptions,
+  type UseEntityDetailResult,
   
   // Capability Bridge (integration with dataset-capabilities)
   mapToDatasetCapability,
@@ -766,3 +775,44 @@ export {
   type SupabaseQueryConfig,
   type CompositeQueryResult,
 } from './entity-registry';
+
+// Whitelabel System - Brand configuration and theming
+export {
+  // Theme Provider
+  ThemeProvider,
+  useTheme,
+  useAccentColor,
+  useColorMode,
+  useBrandId,
+  useBrandClasses,
+  getServerSideThemeConfig,
+  
+  // Brand Configuration
+  BrandConfigSchema,
+  brandConfigs,
+  getBrandConfig,
+  getBrandFromEnv,
+  validateBrandConfig,
+  getCopyrightText,
+  getPoweredByText,
+  type BrandConfig,
+  
+  // Brand Hooks
+  useBrand,
+  useBrandName,
+  useBrandTagline,
+  useBrandMeta,
+  useBrandLegal,
+  useBrandSocial,
+  useBrandSupport,
+  type UseBrandResult,
+  
+  // Color Configuration
+  ColorConfigSchema,
+  brandColorConfigs,
+  resolveColorConfig,
+  getBrandFromHostname,
+  validateCustomAccentColor,
+  getBrandInfo,
+  type ColorConfig,
+} from './lib/whitelabel';

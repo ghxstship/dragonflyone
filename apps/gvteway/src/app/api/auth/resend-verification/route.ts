@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
+import { log } from '@ghxstship/config';
 
 function getSupabaseClient() {
   return createClient(
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
           { status: 429 }
         );
       }
-      console.error('Resend verification error:', error);
+      log.warn('Resend verification error', { error: error.message, endpoint: '/api/auth/resend-verification' });
     }
 
     // Always return success to prevent email enumeration
@@ -62,7 +63,7 @@ export async function POST(request: NextRequest) {
         message: 'If an account exists with this email, a verification link has been sent.' 
       });
     }
-    console.error('Resend verification error:', error);
+    log.error('Resend verification error', error, { endpoint: '/api/auth/resend-verification' });
     return NextResponse.json(
       { error: 'Failed to resend verification email' },
       { status: 500 }

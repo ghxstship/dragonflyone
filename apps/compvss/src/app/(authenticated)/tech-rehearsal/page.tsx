@@ -92,22 +92,43 @@ export default function TechRehearsalPage() {
         <ModalHeader><H3>Schedule Rehearsal</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Session Name" />
-            <Select>
-              <option value="">Rehearsal Type...</option>
-              <option value="Full Tech">Full Tech</option>
-              <option value="Cue-to-Cue">Cue-to-Cue</option>
-              <option value="Dress Rehearsal">Dress Rehearsal</option>
-              <option value="Sound Check">Sound Check</option>
-              <option value="Focus Call">Focus Call</option>
-            </Select>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Session Name</Body>
+              <Input placeholder="Session Name" aria-label="Rehearsal Session Name" />
+            </Stack>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Rehearsal Type</Body>
+              <Select aria-label="Rehearsal Type">
+                <option value="">Rehearsal Type...</option>
+                <option value="Full Tech">Full Tech</option>
+                <option value="Cue-to-Cue">Cue-to-Cue</option>
+                <option value="Dress Rehearsal">Dress Rehearsal</option>
+                <option value="Sound Check">Sound Check</option>
+                <option value="Focus Call">Focus Call</option>
+              </Select>
+            </Stack>
             <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-              <Input type="date" />
-              <Input type="time" placeholder="Start" />
-              <Input type="time" placeholder="End" />
+              <Stack gap={2}>
+                <Body size="sm" className="font-weight-medium">Date</Body>
+                <Input type="date" aria-label="Rehearsal Date" />
+              </Stack>
+              <Stack gap={2}>
+                <Body size="sm" className="font-weight-medium">Start Time</Body>
+                <Input type="time" placeholder="Start" aria-label="Rehearsal Start Time" />
+              </Stack>
+              <Stack gap={2}>
+                <Body size="sm" className="font-weight-medium">End Time</Body>
+                <Input type="time" placeholder="End" aria-label="Rehearsal End Time" />
+              </Stack>
             </Grid>
-            <Input placeholder="Location" />
-            <Textarea placeholder="Notes..." rows={2} />
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Location</Body>
+              <Input placeholder="Location" aria-label="Rehearsal Location" />
+            </Stack>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Notes</Body>
+              <Textarea placeholder="Notes..." rows={2} aria-label="Rehearsal Notes" />
+            </Stack>
           </Stack>
         </ModalBody>
         <ModalFooter>

@@ -38,8 +38,8 @@ export function TaskBoard({ tasks, onUpdateTask }: TaskBoardProps) {
     <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
       {Object.entries(columns).map(([status, columnTasks]) => (
         <Card key={status}>
-          <CardHeader className="bg-black">
-            <H4 className="text-white uppercase">
+          <CardHeader className="bg-surface-elevated">
+            <H4 className="text-text-primary uppercase">
               {status.replace('-', ' ')} ({columnTasks.length})
             </H4>
           </CardHeader>
@@ -48,7 +48,7 @@ export function TaskBoard({ tasks, onUpdateTask }: TaskBoardProps) {
               {columnTasks.map(task => (
                 <Stack
                   key={task.id}
-                  className={`cursor-pointer border-2 p-spacing-4 hover:border-black transition-colors ${getPriorityBorder(task.priority)} ${selectedTask?.id === task.id ? 'border-black bg-muted' : 'border-border'}`}
+                  className={`cursor-pointer border-2 p-spacing-4 hover:border-border transition-colors ${getPriorityBorder(task.priority)} ${selectedTask?.id === task.id ? 'border-border bg-muted' : 'border-border'}`}
                   onClick={() => setSelectedTask(selectedTask?.id === task.id ? null : task)}
                   gap={2}
                 >

@@ -95,20 +95,6 @@ export const DEMO_CONTACT_PROFILES: DemoContactProfile[] = [
   { id: 'cp-005', person_id: 'person-005', contact_type: 'client', company: 'Acme Corp', job_title: 'Procurement Director', source: 'referral', lead_status: 'customer', lead_score: 80, do_not_contact: false, subscribed_to_newsletter: true, subscribed_to_marketing: true, lifetime_value: 200000, metadata: {}, created_at: '2024-01-15T00:00:00Z', updated_at: '2024-11-20T00:00:00Z' },
 ];
 
-// Legacy-compatible view (for backward compatibility during migration)
-export const DEMO_CONTACTS: DemoContact[] = DEMO_LEGEND_PEOPLE.map((person, index) => ({
-  id: person.id,
-  first_name: person.first_name,
-  last_name: person.last_name,
-  display_name: person.display_name,
-  title: person.title,
-  email: person.email,
-  phone: person.phone,
-  status: person.status,
-  tags: person.tags,
-  contact_profile: DEMO_CONTACT_PROFILES[index],
-}));
-
 // 3NF Compliant - legend_relationships schema (uses IDs, not embedded objects)
 export interface DemoRelationship {
   id: string;

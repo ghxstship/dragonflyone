@@ -199,8 +199,8 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
     const inputStyles = addressInputVariants({
       size,
       error,
-      errorInverted: error && inverted,
-      inverted,
+      errorInverted: error && 
+      
       fullWidth,
       className,
     });

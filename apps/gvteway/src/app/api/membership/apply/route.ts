@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { log } from "@ghxstship/config";
 
 export const runtime = "edge";
 
@@ -53,7 +54,7 @@ export async function POST(request: NextRequest) {
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseServiceKey) {
-      console.error("Missing Supabase configuration");
+      log.error('Missing Supabase configuration', undefined, { endpoint: '/api/membership/apply', method: 'POST' });
       return NextResponse.json(
         { error: "Server configuration error" },
         { status: 500 }
@@ -103,7 +104,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (insertError) {
-      console.error("Failed to insert application:", insertError);
+      log.error('Failed to insert application', insertError, { endpoint: '/api/membership/apply', method: 'POST', email: application.email });
       return NextResponse.json(
         { error: "Failed to submit application" },
         { status: 500 }
@@ -120,7 +121,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("Membership application error:", error);
+    log.error('Membership application error', error, { endpoint: '/api/membership/apply', method: 'POST' });
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 }
@@ -175,7 +176,7 @@ export async function GET(request: NextRequest) {
       submittedAt: application.submitted_at,
     });
   } catch (error) {
-    console.error("Application status check error:", error);
+    log.error('Application status check error', error, { endpoint: '/api/membership/apply', method: 'GET' });
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 }

@@ -172,20 +172,20 @@ export function SearchFilter({
   };
 
   return (
-    <div className={searchFilterVariants({ compact, inverted, className })}>
+    <div className={searchFilterVariants({ compact, className })}>
       {/* Search Input */}
-      <div className={searchFilterSearchContainerVariants({ compact, inverted })}>
+      <div className={searchFilterSearchContainerVariants({ compact })}>
         <div className="relative">
           <input
             type="text"
             placeholder={placeholder}
             value={searchInputValue}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className={searchFilterSearchInputVariants({ compact, inverted })}
+            className={searchFilterSearchInputVariants({ compact })}
           />
           
           {/* Search Icon */}
-          <div className={searchFilterSearchIconVariants({ inverted })}>
+          <div className={searchFilterSearchIconVariants({})}>
             <Search className="w-4 h-4" />
           </div>
           
@@ -193,7 +193,7 @@ export function SearchFilter({
           {searchInputValue && (
             <button
               onClick={handleSearchClear}
-              className={searchFilterClearButtonVariants({ inverted })}
+              className={searchFilterClearButtonVariants({})}
               aria-label="Clear search"
             >
               <X className="w-3 h-3" />
@@ -204,29 +204,29 @@ export function SearchFilter({
 
       {/* Filters */}
       {filters.length > 0 && (
-        <div className={searchFilterFiltersContainerVariants({ compact, inverted })}>
+        <div className={searchFilterFiltersContainerVariants({ compact })}>
           {filters.map((group) => (
             <div
               key={group.key}
               ref={(el) => {
                 if (el) dropdownRefs.current[group.key] = el;
               }}
-              className={searchFilterFilterGroupVariants({ inverted })}
+              className={searchFilterFilterGroupVariants({})}
             >
               {/* Filter Trigger */}
               <button
                 onClick={() => handleDropdownToggle(group.key)}
-                className={searchFilterFilterTriggerVariants({ inverted })}
+                className={searchFilterFilterTriggerVariants({})}
                 aria-expanded={openDropdowns[group.key]}
                 aria-haspopup="listbox"
               >
-                <span className={searchFilterFilterLabelVariants({ inverted })}>
+                <span className={searchFilterFilterLabelVariants({})}>
                   {group.label}
                 </span>
                 
                 {/* Active Count */}
                 {showCounts && getActiveFilterCount(group.key, group) > 0 && (
-                  <span className={searchFilterFilterCountVariants({ inverted })}>
+                  <span className={searchFilterFilterCountVariants({})}>
                     {getActiveFilterCount(group.key, group)}
                   </span>
                 )}
@@ -254,11 +254,11 @@ export function SearchFilter({
                       <button
                         key={option.value}
                         onClick={() => handleFilterOptionClick(group.key, option.value, group.multiple || false)}
-                        className={searchFilterFilterOptionVariants({ inverted })}
+                        className={searchFilterFilterOptionVariants({})}
                         role="option"
                         aria-selected={isSelected}
                       >
-                        <span className={searchFilterFilterOptionLabelVariants({ inverted })}>
+                        <span className={searchFilterFilterOptionLabelVariants({})}>
                           {option.label}
                         </span>
                         
@@ -269,7 +269,7 @@ export function SearchFilter({
                         
                         {/* Count Badge */}
                         {showCounts && option.count && (
-                          <span className={searchFilterFilterOptionCountVariants({ inverted })}>
+                          <span className={searchFilterFilterOptionCountVariants({})}>
                             {option.count}
                           </span>
                         )}
@@ -285,7 +285,7 @@ export function SearchFilter({
 
       {/* Actions */}
       {(presets.length > 0 || Object.keys(activeFilters).length > 0) && (
-        <div className={searchFilterActionsContainerVariants({ inverted })}>
+        <div className={searchFilterActionsContainerVariants({})}>
           {/* Presets */}
           {presets.length > 0 && (
             <select
@@ -293,7 +293,7 @@ export function SearchFilter({
                 const preset = presets.find(p => p.id === e.target.value);
                 if (preset) handlePresetSelect(preset);
               }}
-              className={searchFilterActionButtonVariants({ inverted })}
+              className={searchFilterActionButtonVariants({})}
             >
               <option value="">Load Preset</option>
               {presets.map((preset) => (
@@ -308,7 +308,7 @@ export function SearchFilter({
           {Object.keys(activeFilters).length > 0 && (
             <button
               onClick={handleClearAll}
-              className={searchFilterActionButtonVariants({ inverted })}
+              className={searchFilterActionButtonVariants({})}
             >
               Clear All
             </button>

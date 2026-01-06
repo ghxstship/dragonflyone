@@ -62,6 +62,9 @@ export default function BillingSettingsPage() {
   if (!canManageBilling) {
     return (
       <DetailPage
+        entityType="user-settings"
+        entityId="billing"
+        entitySelector={() => ({ id: "billing" })}
         header={{ kicker: "Settings", title: "Access Denied", description: "You do not have permission to manage billing settings." }}
         backButton={{ label: "Settings", href: "/settings" }}
         tabs={[{
@@ -175,7 +178,7 @@ export default function BillingSettingsPage() {
                     <Box className="flex items-center gap-4">
                       <Badge variant={invoice.status === "paid" ? "success" : invoice.status === "pending" ? "warning" : "error"}>{invoice.status}</Badge>
                       <Body className="font-weight-medium">{formatCurrency(invoice.amount)}</Body>
-                      <Button variant="ghost" size="sm" icon={<Download className="size-4" />} />
+                      <Button variant="ghost" size="sm" icon={<Download className="size-4" />} aria-label={`Download invoice ${invoice.id}`} />
                     </Box>
                   </Box>
                 </Card>
@@ -190,9 +193,12 @@ export default function BillingSettingsPage() {
   return (
     <>
       <DetailPage
+        entityType="user-settings"
+        entityId="billing"
+        entitySelector={() => ({ id: "billing" })}
         header={{ kicker: "Settings", title: "Billing & Plans", description: "Manage your subscription and payment methods" }}
         backButton={{ label: "Settings", href: "/settings" }}
-        loading={isLoading}
+        isLoading={isLoading}
         error={error instanceof Error ? error : null}
         onRetry={refetch}
         tabs={tabs}

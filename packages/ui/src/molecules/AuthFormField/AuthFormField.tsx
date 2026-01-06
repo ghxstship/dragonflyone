@@ -50,7 +50,7 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
     const rightPadding = rightElement ? "pr-11" : "";
 
     return (
-      <div className={authFormFieldInputContainerVariants({ inverted })}>
+      <div className={authFormFieldInputContainerVariants({})}>
         {icon && (
           <div className={authFormFieldIconVariants({ 
             position: "left", 
@@ -117,7 +117,7 @@ export const AuthPasswordInput = forwardRef<HTMLInputElement, AuthPasswordInputP
     const iconPadding = icon ? "pl-11" : "";
 
     return (
-      <div className={authFormFieldInputContainerVariants({ inverted })}>
+      <div className={authFormFieldInputContainerVariants({})}>
         {icon && (
           <div className={authFormFieldIconVariants({ 
             position: "left", 
@@ -198,11 +198,11 @@ export function AuthFormField({
   const fieldId = useId();
 
   return (
-    <div className={authFormFieldVariants({ inverted })}>
+    <div className={authFormFieldVariants({})}>
       {/* Label */}
       <label 
         htmlFor={fieldId}
-        className={authFormFieldLabelVariants({ error: !!error, inverted })}
+        className={authFormFieldLabelVariants({ error: !!error })}
       >
         {label}
         {required && (

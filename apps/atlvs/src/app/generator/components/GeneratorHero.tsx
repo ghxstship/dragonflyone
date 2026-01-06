@@ -49,13 +49,13 @@ export function GeneratorHero({
 
   return (
     <FullBleedSection
-      background="white"
+      background="ink"
       pattern="grid"
       patternOpacity={0.03}
       className="relative min-h-screen"
     >
       <Container className="relative mx-auto flex min-h-screen max-w-container-4xl flex-col items-center justify-center px-6 py-16 lg:px-8 lg:py-24">
-        <Stack gap={8} className="w-full max-w-2xl text-center">
+        <Stack gap={8} className="w-full max-w-2xl text-text-primary">
           {/* Kicker */}
           <Label className="font-mono text-mono-sm uppercase tracking-kicker text-text-muted">
             AI-Powered Experience Design
@@ -81,14 +81,14 @@ export function GeneratorHero({
                   value={creativeSeed}
                   onChange={(e) => onCreativeSeedChange(e.target.value)}
                   placeholder="Enter your creative concept..."
-                  className="w-full border-2 border-border bg-white px-6 py-5 text-center font-display text-h4-md uppercase tracking-label shadow-md placeholder:text-text-disabled focus:shadow-lg focus:outline-none"
+                  className="w-full border-2 border-border bg-text-text-primary px-6 py-5 text-text-primary font-display text-h4-md uppercase tracking-label shadow-md placeholder:text-text-disabled focus:shadow-lg focus:outline-none"
                   disabled={isGenerating}
                 />
               </Box>
               <Button
                 type="submit"
                 disabled={isGenerating || !creativeSeed.trim()}
-                className="flex w-full items-center justify-center gap-3 border-2 border-border bg-accent px-8 py-5 font-display text-body-md uppercase tracking-label text-white shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex w-full items-center justify-center gap-3 border-2 border-border bg-accent px-8 py-5 font-display text-body-md uppercase tracking-label text-text-primary shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Sparkles className="size-5" />
                 Generate Blueprint
@@ -107,7 +107,7 @@ export function GeneratorHero({
                   key={seed}
                   type="button"
                   onClick={() => onCreativeSeedChange(seed)}
-                  className="border-2 border-border bg-white px-4 py-2 font-mono text-mono-xs uppercase tracking-label text-text-secondary transition-colors hover:border-border hover:text-text-primary"
+                  className="border-2 border-border bg-surface-inverse px-4 py-2 font-mono text-mono-xs uppercase tracking-label text-text-secondary transition-colors hover:border-border hover:text-text-primary"
                 >
                   {seed}
                 </Button>

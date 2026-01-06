@@ -82,8 +82,8 @@ export default function CommunityPage() {
               <Grid cols={4} gap={8} className="grid-cols-2 md:grid-cols-4">
                 {COMMUNITY_STATS.map((stat, idx) => (
                   <Stack key={idx} gap={1} className="text-center">
-                    <Body className="text-white font-weight-bold text-h3-md">{stat.value}</Body>
-                    <Body className="text-white/80">{stat.label}</Body>
+                    <Body className="text-text-primary font-weight-bold text-h3-md">{stat.value}</Body>
+                    <Body className="text-text-primary/80">{stat.label}</Body>
                   </Stack>
                 ))}
               </Grid>
@@ -100,7 +100,7 @@ export default function CommunityPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Features</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Community Benefits</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Community Benefits</Body>
                 </Stack>
                 <Grid cols={4} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                   {COMMUNITY_FEATURES.map((feature) => (
@@ -108,7 +108,7 @@ export default function CommunityPage() {
                       <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                         {feature.icon}
                       </Box>
-                      <Body className="text-white font-weight-bold mb-2">{feature.title}</Body>
+                      <Body className="text-text-primary font-weight-bold mb-2">{feature.title}</Body>
                       <Body size="sm" className="text-text-muted">{feature.description}</Body>
                     </Card>
                   ))}
@@ -125,7 +125,7 @@ export default function CommunityPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Trending</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Featured Discussions</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Featured Discussions</Body>
                 </Stack>
 
                 <Stack gap={4}>
@@ -133,7 +133,7 @@ export default function CommunityPage() {
                     <Card key={discussion.id} className="p-6 border-2 border-border rounded-card pop-card cursor-pointer">
                       <Box className="flex items-center justify-between">
                         <Box>
-                          <Body className="text-white font-weight-medium">{discussion.title}</Body>
+                          <Body className="text-text-primary font-weight-medium">{discussion.title}</Body>
                           <Body size="sm" className="text-text-muted">by {discussion.author}</Body>
                         </Box>
                         <Box className="flex items-center gap-6 text-text-disabled">
@@ -162,7 +162,7 @@ export default function CommunityPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Recognition</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Top Contributors</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Top Contributors</Body>
                   <Body className="text-text-muted">Our most helpful community members</Body>
                 </Stack>
 
@@ -170,16 +170,16 @@ export default function CommunityPage() {
                   {TOP_CONTRIBUTORS.map((contributor, idx) => (
                     <Card key={idx} className="p-5 border-2 border-border rounded-card">
                       <Box className="flex items-center gap-4">
-                        <Box className="size-12 rounded-avatar bg-primary flex items-center justify-center text-white font-weight-bold text-h5-md">
+                        <Box className="size-12 rounded-avatar bg-primary flex items-center justify-center text-text-primary font-weight-bold text-h5-md">
                           #{idx + 1}
                         </Box>
                         <Box className="flex-1">
-                          <Body className="text-white font-weight-medium">{contributor.name}</Body>
+                          <Body className="text-text-primary font-weight-medium">{contributor.name}</Body>
                           <Badge variant="outline">{contributor.badge}</Badge>
                         </Box>
                         <Box className="flex items-center gap-2">
                           <Trophy className="size-5 text-warning" />
-                          <Body className="text-white font-weight-bold">{contributor.points} pts</Body>
+                          <Body className="text-text-primary font-weight-bold">{contributor.points} pts</Body>
                         </Box>
                       </Box>
                     </Card>

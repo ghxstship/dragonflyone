@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Sign Up Page - GVTEWAY Member Registration
+ * Sign Up Page - GVTEWAY Registration
  * Modern split-screen layout with brand showcase
  * Bold Contemporary Pop Art Adventure Design System
  */
@@ -10,40 +10,24 @@ export const dynamic = "force-dynamic";
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, User, Ticket, Star, Shield } from "lucide-react";
 import {
-  Alert,
   Button,
   Form,
   Link,
   Text,
-  AuthSplitLayout,
-  AuthFormField,
-  AuthPasswordInput,
-  PasswordRequirements,
-  AuthCheckbox,
-  AuthDivider,
   SocialAuthButtonGroup,
-  useToast,
   Stack,
+  AuthPage,
 } from "@ghxstship/ui";
-import { useAuthData } from "@/hooks/useAuth";
+import { useAuthContext } from "@ghxstship/config";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const toast = useToast();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const { signup } = useAuthContext();
+
+  const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [socialLoading, setSocialLoading] = useState<string | undefined>();
-
-  const { signUp, isSigningUp: loading, oauthSignIn } = useAuthData();
 
   const passwordRequirements = useMemo(() => [
     { label: "At least 8 characters", met: formData.password.length >= 8 },
@@ -59,8 +43,7 @@ export default function SignUpPage() {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
-    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
+    if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.email.trim()) newErrors.email = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email format";
     if (!formData.password) newErrors.password = "Password is required";
@@ -76,128 +59,114 @@ export default function SignUpPage() {
     if (!validateForm()) return;
 
     try {
-      await signUp({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        password: formData.password,
-      });
-      router.push("/auth/verify-email?email=" + encodeURIComponent(formData.email));
-    } catch (err) {
-      toast.error("Registration Failed", err instanceof Error ? err.message : "Please try again");
+      await signup(formData.name, formData.email, formData.password);
+      router.push("/auth/verify-email");
+    } catch (error) {
+      console.error("Signup error:", error);
     }
   };
 
   const handleSocialAuth = async (provider: string) => {
-    setSocialLoading(provider);
     try {
-      const data = await oauthSignIn(provider as "google" | "apple");
+      const response = await fetch(`/api/auth/oauth/${provider}`, { method: "POST" });
+      const data = await response.json();
       if (data.url) {
         window.location.href = data.url;
       } else {
-        toast.info("Coming Soon", `${provider} sign-up will be available once OAuth is configured`);
-        setSocialLoading(undefined);
+        console.info("Coming Soon", `${provider} signup will be available once OAuth is configured`);
       }
     } catch {
-      toast.error("Authentication Failed", "OAuth sign-up failed");
-      setSocialLoading(undefined);
+      console.error("Social auth failed");
     }
   };
 
   return (
-    <AuthSplitLayout
+    <AuthPage
+      appName="GVTEWAY"
       title="Create Your Account"
-      subtitle="Join GVTEWAY to discover unforgettable live experiences"
-      footer={{ text: "Already have an account?", linkText: "Sign in", linkHref: "/auth/signin" }}
-      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">GVTEWAY</Text>}
-      brandTagline="Your Gateway to Unforgettable Experiences"
-      brandFeatures={[
-        {
-          icon: <Ticket className="size-5 text-white" />,
-          title: "Exclusive Access",
-          description: "Priority tickets to sold-out events",
-        },
-        {
-          icon: <Star className="size-5 text-white" />,
-          title: "VIP Experiences",
-          description: "Behind-the-scenes and meet & greets",
-        },
-        {
-          icon: <Shield className="size-5 text-white" />,
-          title: "Member Benefits",
-          description: "Special discounts and early access",
-        },
-      ]}
-      formMaxWidth="md"
+      subtitle="Join GVTEWAY and unlock exclusive experiences"
+      footer={{
+        text: "Already have an account?",
+        linkText: "Sign in",
+        linkHref: "/auth/signin"
+      }}
+      background="black"
+      copyright={`© ${new Date().getFullYear()} GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.`}
+      contentMaxWidth="md"
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={3}>
-          {errors.terms && <Alert variant="error">{errors.terms}</Alert>}
-
-          <Stack direction="horizontal" gap={4}>
-            <AuthFormField
-              label="First Name"
-              placeholder="John"
-              value={formData.firstName}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("firstName", e.target.value)}
-              errorMessage={errors.firstName}
-              icon={<User className="size-5" />}
-              autoComplete="given-name"
+          <div>
+            <label className="block text-sm font-medium text-text-primary mb-2">Full Name</label>
+            <input
+              type="text"
+              placeholder="John Smith"
+              value={formData.name}
+              onChange={(e) => handleChange("name", e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               required
             />
-            <AuthFormField
-              label="Last Name"
-              placeholder="Doe"
-              value={formData.lastName}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("lastName", e.target.value)}
-              errorMessage={errors.lastName}
-              icon={<User className="size-5" />}
-              autoComplete="family-name"
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-text-primary mb-2">Email</label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={(e) => handleChange("email", e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               required
             />
-          </Stack>
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+          </div>
 
-          <AuthFormField
-            label="Email"
-            type="email"
-            placeholder="you@example.com"
-            value={formData.email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("email", e.target.value)}
-            errorMessage={errors.email}
-            icon={<Mail className="size-5" />}
-            autoComplete="email"
-            required
-          />
-
-          <Stack gap={2}>
-            <AuthPasswordInput
-              label="Password"
+          <div>
+            <label className="block text-sm font-medium text-text-primary mb-2">Password</label>
+            <input
+              type="password"
               placeholder="Create a strong password"
               value={formData.password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("password", e.target.value)}
-              errorMessage={errors.password}
-              icon={<Lock className="size-5" />}
-              autoComplete="new-password"
-              showStrength
+              onChange={(e) => handleChange("password", e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               required
             />
-            {formData.password && <PasswordRequirements requirements={passwordRequirements} />}
-          </Stack>
+            {formData.password && (
+              <div className="mt-2 space-y-1">
+                {passwordRequirements.map((req, i) => (
+                  <div key={i} className={`text-xs ${req.met ? 'text-green-500' : 'text-gray-400'}`}>
+                    {req.met ? '✓' : '○'} {req.label}
+                  </div>
+                ))}
+              </div>
+            )}
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+          </div>
 
-          <AuthPasswordInput
-            label="Confirm Password"
-            placeholder="Confirm your password"
-            value={formData.confirmPassword}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("confirmPassword", e.target.value)}
-            errorMessage={errors.confirmPassword}
-            icon={<Lock className="size-5" />}
-            autoComplete="new-password"
-            required
-          />
+          <div>
+            <label className="block text-sm font-medium text-text-primary mb-2">Confirm Password</label>
+            <input
+              type="password"
+              placeholder="Confirm your password"
+              value={formData.confirmPassword}
+              onChange={(e) => handleChange("confirmPassword", e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+            />
+            {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
+          </div>
 
-          <AuthCheckbox
-            label={
-              <Text size="sm" className="text-text-secondary">
+          <div>
+            <label className="flex items-start">
+              <input
+                type="checkbox"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                className="mr-2 mt-1"
+                required
+              />
+              <Text size="sm" className="text-text-primary">
                 I agree to the{" "}
                 <Link href="/legal/terms" className="text-primary-400 hover:text-primary-300 underline">
                   Terms of Service
@@ -207,33 +176,31 @@ export default function SignUpPage() {
                   Privacy Policy
                 </Link>
               </Text>
-            }
-            checked={agreedToTerms}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAgreedToTerms(e.target.checked)}
-            required
-          />
+            </label>
+            {errors.terms && <p className="text-red-500 text-sm mt-1">{errors.terms}</p>}
+          </div>
 
           <Button
             type="submit"
             variant="primary"
             size="lg"
             fullWidth
-            isLoading={loading}
             loadingText="Creating account..."
           >
             Create Account
           </Button>
 
-          <AuthDivider />
+          <div className="text-center">
+            <span className="text-text-primary">or</span>
+          </div>
 
           <SocialAuthButtonGroup
             providers={["google", "apple"]}
             onProviderClick={handleSocialAuth}
-            loadingProvider={socialLoading}
             direction="vertical"
           />
         </Stack>
       </Form>
-    </AuthSplitLayout>
+    </AuthPage>
   );
 }

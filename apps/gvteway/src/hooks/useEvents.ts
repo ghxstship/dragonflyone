@@ -7,20 +7,16 @@ import { supabase } from '@/lib/supabase';
 interface Event {
   id: string;
   name: string;
-  title?: string; // Alias for name
   description: string;
   venue: string;
-  venue_name?: string; // Alias for venue
   address: string;
   start_date: string;
-  date?: string; // Alias for start_date
   end_date?: string;
   category: string;
   // Schema: status enum matches database - draft, published, sold_out, cancelled, completed
   status: 'draft' | 'published' | 'sold_out' | 'cancelled' | 'completed';
   capacity: number;
   image_url?: string;
-  image?: string; // Alias for image_url
   price?: number;
   min_price?: number;
   tickets_sold?: number;

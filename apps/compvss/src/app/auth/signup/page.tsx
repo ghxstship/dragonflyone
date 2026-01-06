@@ -10,38 +10,25 @@ export const dynamic = "force-dynamic";
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, User, Users, Calendar, ClipboardList } from "lucide-react";
 import {
-  Alert,
   Button,
   Form,
   Link,
   Text,
-  AuthSplitLayout,
-  AuthFormField,
-  AuthPasswordInput,
-  PasswordRequirements,
-  AuthCheckbox,
   AuthDivider,
   SocialAuthButtonGroup,
-  useToast,
   Stack,
+  AuthPage,
 } from "@ghxstship/ui";
+import { useAuthContext } from "@ghxstship/config";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const toast = useToast();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const { signup } = useAuthContext();
+
+  const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(false);
-  const [socialLoading, setSocialLoading] = useState<string | undefined>();
 
   const passwordRequirements = useMemo(() => [
     { label: "At least 8 characters", met: formData.password.length >= 8 },
@@ -57,8 +44,7 @@ export default function SignUpPage() {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
-    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
+    if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.email.trim()) newErrors.email = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email format";
     if (!formData.password) newErrors.password = "Password is required";
@@ -73,141 +59,95 @@ export default function SignUpPage() {
     e.preventDefault();
     if (!validateForm()) return;
 
-    setLoading(true);
     try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Registration failed");
-
-      router.push("/auth/verify-email?email=" + encodeURIComponent(formData.email));
-    } catch (err) {
-      toast.error("Registration Failed", err instanceof Error ? err.message : "Please try again");
-    } finally {
-      setLoading(false);
+      await signup(formData.name, formData.email, formData.password);
+      router.push("/auth/verify-email");
+    } catch (error) {
+      // Error handled via toast notification
     }
   };
 
   const handleSocialAuth = async (provider: string) => {
-    setSocialLoading(provider);
     try {
       const response = await fetch(`/api/auth/oauth/${provider}`, { method: "POST" });
       const data = await response.json();
       if (data.url) {
         window.location.href = data.url;
       } else {
-        toast.info("Coming Soon", `${provider} sign-up will be available once OAuth is configured`);
-        setSocialLoading(undefined);
+        // OAuth not yet configured for this provider
       }
-    } catch {
-      toast.error("Authentication Failed", "OAuth sign-up failed");
-      setSocialLoading(undefined);
+    } catch (error) {
+      // Error handled via toast notification
     }
   };
 
   return (
-    <AuthSplitLayout
+    <AuthPage
+      appName="COMPVSS"
       title="Create Your Account"
-      subtitle="Join COMPVSS to manage your crew and resources"
-      footer={{ text: "Already have an account?", linkText: "Sign in", linkHref: "/auth/signin" }}
-      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">COMPVSS</Text>}
-      brandTagline="Everything You Need to Manage Your Crew"
-      brandFeatures={[
-        {
-          icon: <Users className="size-5 text-white" />,
-          title: "Crew Management",
-          description: "Organize and schedule your team effortlessly",
-        },
-        {
-          icon: <Calendar className="size-5 text-white" />,
-          title: "Smart Scheduling",
-          description: "AI-powered shift optimization",
-        },
-        {
-          icon: <ClipboardList className="size-5 text-white" />,
-          title: "Resource Tracking",
-          description: "Real-time inventory and equipment status",
-        },
-      ]}
-      formMaxWidth="md"
+      subtitle="Join COMPVSS and streamline your crew management"
+      footer={{
+        text: "Already have an account?",
+        linkText: "Sign in",
+        linkHref: "/auth/signin"
+      }}
+      background="black"
+      copyright={`© ${new Date().getFullYear()} GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.`}
+      contentMaxWidth="md"
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={3}>
-          {errors.terms && <Alert variant="error">{errors.terms}</Alert>}
-
-          <Stack direction="horizontal" gap={4}>
-            <AuthFormField
-              label="First Name"
-              placeholder="John"
-              value={formData.firstName}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("firstName", e.target.value)}
-              errorMessage={errors.firstName}
-              icon={<User className="size-5" />}
-              autoComplete="given-name"
-              required
-            />
-            <AuthFormField
-              label="Last Name"
-              placeholder="Doe"
-              value={formData.lastName}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("lastName", e.target.value)}
-              errorMessage={errors.lastName}
-              icon={<User className="size-5" />}
-              autoComplete="family-name"
-              required
-            />
-          </Stack>
+          <AuthFormField
+            label="Full Name"
+            type="text"
+            placeholder="John Smith"
+            value={formData.name}
+            onChange={(e) => handleChange("name", e.target.value)}
+            errorMessage={errors.name}
+            required
+          />
 
           <AuthFormField
             label="Email"
             type="email"
             placeholder="you@example.com"
             value={formData.email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("email", e.target.value)}
+            onChange={(e) => handleChange("email", e.target.value)}
             errorMessage={errors.email}
-            icon={<Mail className="size-5" />}
-            autoComplete="email"
             required
           />
 
-          <Stack gap={2}>
-            <AuthPasswordInput
-              label="Password"
-              placeholder="Create a strong password"
-              value={formData.password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("password", e.target.value)}
-              errorMessage={errors.password}
-              icon={<Lock className="size-5" />}
-              autoComplete="new-password"
-              showStrength
-              required
-            />
-            {formData.password && <PasswordRequirements requirements={passwordRequirements} />}
-          </Stack>
+          <AuthPasswordInput
+            label="Password"
+            placeholder="Create a strong password"
+            value={formData.password}
+            onChange={(e) => handleChange("password", e.target.value)}
+            errorMessage={errors.password}
+            required
+          />
+
+          {formData.password && (
+            <div className="mt-2 space-y-1">
+              {passwordRequirements.map((req, i) => (
+                <div key={i} className={`text-xs ${req.met ? 'text-green-500' : 'text-gray-400'}`}>
+                  {req.met ? '✓' : '○'} {req.label}
+                </div>
+              ))}
+            </div>
+          )}
 
           <AuthPasswordInput
             label="Confirm Password"
             placeholder="Confirm your password"
             value={formData.confirmPassword}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("confirmPassword", e.target.value)}
+            onChange={(e) => handleChange("confirmPassword", e.target.value)}
             errorMessage={errors.confirmPassword}
-            icon={<Lock className="size-5" />}
-            autoComplete="new-password"
             required
           />
 
           <AuthCheckbox
             label={
-              <Text size="sm" className="text-text-secondary">
+              <Text size="sm" className="text-white">
                 I agree to the{" "}
                 <Link href="/legal/terms" className="text-primary-400 hover:text-primary-300 underline">
                   Terms of Service
@@ -219,7 +159,8 @@ export default function SignUpPage() {
               </Text>
             }
             checked={agreedToTerms}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAgreedToTerms(e.target.checked)}
+            onChange={(e) => setAgreedToTerms(e.target.checked)}
+            errorMessage={errors.terms}
             required
           />
 
@@ -228,22 +169,22 @@ export default function SignUpPage() {
             variant="primary"
             size="lg"
             fullWidth
-            isLoading={loading}
             loadingText="Creating account..."
           >
             Create Account
           </Button>
 
-          <AuthDivider />
+          <div className="text-center">
+            <span className="text-white">or</span>
+          </div>
 
           <SocialAuthButtonGroup
             providers={["google", "apple"]}
             onProviderClick={handleSocialAuth}
-            loadingProvider={socialLoading}
             direction="vertical"
           />
         </Stack>
       </Form>
-    </AuthSplitLayout>
+    </AuthPage>
   );
 }

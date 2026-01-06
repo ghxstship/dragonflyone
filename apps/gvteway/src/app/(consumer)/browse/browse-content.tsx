@@ -132,16 +132,16 @@ export default function BrowseContent() {
 
   if (isLoading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
+      <Section className="min-h-screen bg-surface-primary flex items-center justify-center">
         <Spinner variant="grey" size="lg" />
       </Section>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white">
+    <Section className="min-h-screen bg-surface-primary">
       <Container>
-        <Section className="border-b-2 border-black py-8 mb-8">
+        <Section className="border-b-2 border-border py-8 mb-8">
           <Stack direction="horizontal" className="justify-between items-center">
             <Stack>
               <Display>BROWSE EVENTS</Display>

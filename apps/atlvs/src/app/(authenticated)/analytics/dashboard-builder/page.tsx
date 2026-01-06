@@ -99,7 +99,7 @@ export default function DashboardBuilderPage() {
         <Card inverted className="border-2 border-border p-4 col-span-1">
           <Stack gap={4}>
             <Stack direction="horizontal" className="justify-between items-center">
-              <H3 className="text-white">Dashboards</H3>
+              <H3 className="text-text-primary">Dashboards</H3>
               {canManageDashboards && (
                 <Button variant="ghost" size="sm" onClick={handleCreateDashboard}>
                   <Plus className="size-4" />
@@ -117,7 +117,7 @@ export default function DashboardBuilderPage() {
                       : "bg-surface-inverse/50 border-2 border-transparent hover:border-border"
                   }`}
                 >
-                  <Body size="sm" className="text-white">{dashboard.name}</Body>
+                  <Body size="sm" className="text-text-primary">{dashboard.name}</Body>
                   <Body size="sm" className="text-text-muted">{dashboard.widgets.length} widgets</Body>
                   {dashboard.isDefault && <Badge variant="ghost" className="mt-1">Default</Badge>}
                 </Button>
@@ -132,7 +132,7 @@ export default function DashboardBuilderPage() {
               <Card inverted className="border-2 border-border p-4">
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Box>
-                    <H3 className="text-white">{selectedDashboard.name}</H3>
+                    <H3 className="text-text-primary">{selectedDashboard.name}</H3>
                     <Body size="sm" className="text-text-muted">Last updated: {formatDate(selectedDashboard.lastModified)}</Body>
                   </Box>
                   {canManageDashboards && (

@@ -18,15 +18,15 @@ import type { FooterSectionProps } from "./Footer.types.js";
  * ```
  */
 export const FooterSection = forwardRef<HTMLDivElement, FooterSectionProps>(
-  function FooterSection({ title, children, inverted = false, className, ...props }, ref) {
+  function FooterSection({ title, children = false, className, ...props }, ref) {
     return (
       <div
         ref={ref}
-        className={footerSectionVariants({ inverted, className })}
+        className={footerSectionVariants({ className })}
         {...props}
       >
         {title && (
-          <h3 className={footerSectionTitleVariants({ inverted })}>
+          <h3 className={footerSectionTitleVariants({})}>
             {title}
           </h3>
         )}

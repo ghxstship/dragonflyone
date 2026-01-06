@@ -37,7 +37,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
     return (
       <div
         ref={ref}
-        className={alertVariants({ variant, inverted, className })}
+        className={alertVariants({ variant, className })}
         {...props}
       >
         {/* Header with title and close button */}

@@ -106,7 +106,7 @@ export const Sparkline = forwardRef<SVGSVGElement, SparklineProps>(
           viewBox={`0 0 ${width} ${height}`}
           className={clsx(sparklineVariants({
             variant,
-            inverted,
+            
             className,
           }))}
           aria-label="Sparkline chart (insufficient data)"
@@ -139,7 +139,7 @@ export const Sparkline = forwardRef<SVGSVGElement, SparklineProps>(
         viewBox={`0 0 ${width} ${height}`}
         className={clsx(sparklineVariants({
           variant,
-          inverted,
+          
           className,
         }))}
         aria-label={`Sparkline chart showing ${trend} trend from ${min} to ${max}`}

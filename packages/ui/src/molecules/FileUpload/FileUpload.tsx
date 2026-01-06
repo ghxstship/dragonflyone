@@ -158,7 +158,7 @@ export function FileUpload({
     <div className="space-y-4">
       {/* Upload Area */}
       <div
-        className={fileUploadVariants({ compact, disabled, inverted, className })}
+        className={fileUploadVariants({ compact, disabled, className })}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
@@ -183,15 +183,15 @@ export function FileUpload({
         </div>
 
         {/* Content */}
-        <div className={fileUploadContentVariants({ inverted })}>
-          <div className={fileUploadIconVariants({ inverted })}>
+        <div className={fileUploadContentVariants({})}>
+          <div className={fileUploadIconVariants({})}>
             <Upload />
           </div>
           
-          <div className={fileUploadTextVariants({ inverted })}>
+          <div className={fileUploadTextVariants({})}>
             <p className="font-medium">{label}</p>
             {helperText && (
-              <p className={fileUploadHelperVariants({ inverted })}>
+              <p className={fileUploadHelperVariants({})}>
                 {helperText}
               </p>
             )}

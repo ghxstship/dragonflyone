@@ -75,7 +75,7 @@ export default function LanguageSettingsPage() {
             <Box className="flex items-center justify-between">
               <Box>
                 <Body size="sm" className="text-text-muted mb-1">Current Language</Body>
-                <Body className="font-weight-medium text-white">{currentLanguage?.nativeName} ({currentLanguage?.name})</Body>
+                <Body className="font-weight-medium text-text-primary">{currentLanguage?.nativeName} ({currentLanguage?.name})</Body>
               </Box>
               <Badge variant="success">Active</Badge>
             </Box>
@@ -92,7 +92,7 @@ export default function LanguageSettingsPage() {
               >
                 <Box className="flex items-start justify-between mb-3">
                   <Box>
-                    <Body className="font-weight-medium text-white">{lang.nativeName}</Body>
+                    <Body className="font-weight-medium text-text-primary">{lang.nativeName}</Body>
                     <Body size="sm" className="text-text-muted">{lang.name}</Body>
                   </Box>
                   <Box className="flex items-center gap-2">
@@ -120,23 +120,23 @@ export default function LanguageSettingsPage() {
           <SectionHeader title="Translation Information" description="What gets translated and what stays in original language" />
           <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
             <Card className="p-6">
-              <Body className="font-weight-medium text-white mb-4">What gets translated:</Body>
+              <Body className="font-weight-medium text-text-primary mb-4">What gets translated:</Body>
               <Stack gap={2}>
                 {["Navigation and menus", "Buttons and labels", "System messages", "Help content", "Email notifications"].map((item) => (
                   <Box key={item} className="flex items-center gap-2">
                     <Check className="size-4 text-success" />
-                    <Body size="sm" className="text-white">{item}</Body>
+                    <Body size="sm" className="text-text-primary">{item}</Body>
                   </Box>
                 ))}
               </Stack>
             </Card>
             <Card className="p-6">
-              <Body className="font-weight-medium text-white mb-4">What stays in original language:</Body>
+              <Body className="font-weight-medium text-text-primary mb-4">What stays in original language:</Body>
               <Stack gap={2}>
                 {["Event names and descriptions", "Artist names", "Venue information", "User reviews", "Chat messages"].map((item) => (
                   <Box key={item} className="flex items-center gap-2">
                     <Box className="size-1 rounded-avatar bg-muted0" />
-                    <Body size="sm" className="text-white">{item}</Body>
+                    <Body size="sm" className="text-text-primary">{item}</Body>
                   </Box>
                 ))}
               </Stack>
@@ -175,12 +175,12 @@ export default function LanguageSettingsPage() {
               <Box className="flex items-center justify-between">
                 <Box>
                   <Body size="sm" className="text-text-muted">From</Body>
-                  <Body className="text-white">{currentLanguage?.nativeName}</Body>
+                  <Body className="text-text-primary">{currentLanguage?.nativeName}</Body>
                 </Box>
                 <Body className="text-text-muted">→</Body>
                 <Box>
                   <Body size="sm" className="text-text-muted">To</Body>
-                  <Body className="font-weight-medium text-white">{pendingLanguage.nativeName}</Body>
+                  <Body className="font-weight-medium text-text-primary">{pendingLanguage.nativeName}</Body>
                 </Box>
               </Box>
             </Card>

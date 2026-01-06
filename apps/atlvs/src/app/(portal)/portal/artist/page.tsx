@@ -97,7 +97,7 @@ export default function ArtistPortalPage() {
           <Card className="p-6 mt-4">
             <Box className="flex items-center gap-6 mb-6">
               <Box className="size-24 bg-primary rounded-avatar flex items-center justify-center">
-                <Music className="size-12 text-white" />
+                <Music className="size-12 text-text-primary" />
               </Box>
               <Box>
                 <Body className="font-weight-bold font-weight-bold">Artist Name</Body>

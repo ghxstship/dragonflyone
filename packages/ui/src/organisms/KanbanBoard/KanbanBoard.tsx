@@ -148,7 +148,7 @@ function KanbanColumnComponent<T>({
             className="w-3 h-3 rounded-full"
             style={{ backgroundColor: column.color || "#6366f1" }}
           />
-          <span className={clsx("font-semibold text-sm", inverted ? "text-text-primary" : "text-text-primary")}>
+          <span className={clsx("font-semibold text-sm" ? "text-text-primary" : "text-text-primary")}>
             {column.title}
           </span>
           <span
@@ -356,7 +356,7 @@ export function KanbanBoard<T>({
 
   if (loading) {
     return (
-      <div className={clsx(kanbanBoardVariants({ inverted }), className)}>
+      <div className={clsx(kanbanBoardVariants({}), className)}>
         {columns.map((column) => (
           <div
             key={column.id}
@@ -379,7 +379,7 @@ export function KanbanBoard<T>({
       onDragEnd={handleDragEnd}
     >
       {/* Mobile: vertical stack, Desktop: horizontal scroll */}
-      <div className={clsx(kanbanBoardVariants({ inverted }), className)}>
+      <div className={clsx(kanbanBoardVariants({}), className)}>
         {columns.map((column) => (
           <KanbanColumnComponent
             key={column.id}

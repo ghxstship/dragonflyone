@@ -10,7 +10,6 @@ export type TabsVariant = "line" | "enclosed" | "pop";
  */
 export interface TabsProps extends HTMLAttributes<HTMLDivElement> {
   variant?: TabsVariant;
-  inverted?: boolean;
   /** Default tab index to show (0-indexed) */
   defaultTab?: number;
 }
@@ -20,7 +19,6 @@ export interface TabsProps extends HTMLAttributes<HTMLDivElement> {
  */
 export interface TabsListProps extends HTMLAttributes<HTMLDivElement> {
   variant?: TabsVariant;
-  inverted?: boolean;
   /** Callback when tab changes via keyboard or swipe navigation */
   onTabChange?: (index: number) => void;
   /** Enable touch swipe gestures for mobile tab switching */
@@ -33,7 +31,6 @@ export interface TabsListProps extends HTMLAttributes<HTMLDivElement> {
 export interface TabsTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   value: string;
   disabled?: boolean;
-  inverted?: boolean;
 }
 
 /**
@@ -41,7 +38,6 @@ export interface TabsTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement
  */
 export interface TabsContentProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
-  inverted?: boolean;
 }
 
 /**
@@ -49,5 +45,4 @@ export interface TabsContentProps extends HTMLAttributes<HTMLDivElement> {
  */
 export interface TabsPanelProps extends HTMLAttributes<HTMLDivElement> {
   value: string;
-  inverted?: boolean;
 }

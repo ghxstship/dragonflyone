@@ -132,9 +132,9 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
             <Stack gap={6} className="lg:col-span-2">
               <Stack>
                 <Stack className="mb-4">
-                  <Link href="/events" className="text-text-disabled hover:text-white">← Back to Events</Link>
+                  <Link href="/events" className="text-text-disabled hover:text-text-primary">← Back to Events</Link>
                 </Stack>
-                <H2 className="text-white">{displayEvent.title}</H2>
+                <H2 className="text-text-primary">{displayEvent.title}</H2>
                 <Stack direction="horizontal" gap={4} className="mt-4 items-center text-text-disabled">
                   <Body>{displayEvent.venue}</Body>
                   <Body>•</Body>
@@ -145,16 +145,16 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
               </Stack>
 
               <Card className="border-2 border-border p-6">
-                <H3 className="mb-4 text-white">About</H3>
+                <H3 className="mb-4 text-text-primary">About</H3>
                 <Body className="text-text-secondary">{displayEvent.description}</Body>
               </Card>
 
               <Card className="border-2 border-border p-6">
-                <H3 className="mb-4 text-white">Event Info</H3>
+                <H3 className="mb-4 text-text-primary">Event Info</H3>
                 <Stack gap={3}>
                   <Stack>
                     <Label className="text-text-muted">Capacity</Label>
-                    <Body className="text-white">{displayEvent.capacity} attendees</Body>
+                    <Body className="text-text-primary">{displayEvent.capacity} attendees</Body>
                   </Stack>
                   <Stack>
                     <Label className="text-text-muted">Genre</Label>
@@ -166,26 +166,26 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
 
             <Stack gap={6}>
               <Card className="border-2 border-border p-6">
-                <H3 className="mb-4 text-white">Event Details</H3>
+                <H3 className="mb-4 text-text-primary">Event Details</H3>
                 <Stack gap={3} className="">
                   <Stack>
                     <Label className="text-text-muted">Date</Label>
-                    <Body className="mt-1 text-white">{new Date(displayEvent.event_date).toLocaleDateString()}</Body>
+                    <Body className="mt-1 text-text-primary">{new Date(displayEvent.event_date).toLocaleDateString()}</Body>
                   </Stack>
                   <Stack>
                     <Label className="text-text-muted">Time</Label>
-                    <Body className="mt-1 text-white">{displayEvent.event_time || 'TBA'}</Body>
+                    <Body className="mt-1 text-text-primary">{displayEvent.event_time || 'TBA'}</Body>
                   </Stack>
                   <Stack>
                     <Label className="text-text-muted">Venue</Label>
-                    <Body className="mt-1 text-white">{displayEvent.venue}</Body>
+                    <Body className="mt-1 text-text-primary">{displayEvent.venue}</Body>
                     <Body className="mt-1 text-text-disabled">{displayEvent.city}, {displayEvent.state}</Body>
                   </Stack>
                 </Stack>
               </Card>
 
               <Card className="border-2 border-border p-6">
-                <H3 className="mb-4 text-white">Tickets</H3>
+                <H3 className="mb-4 text-text-primary">Tickets</H3>
                 <Stack gap={4}>
                   {event.ticket_types && event.ticket_types.length > 0 ? (
                     event.ticket_types.filter(t => t.is_active !== false).map((tier) => {
@@ -194,8 +194,8 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                         <Card key={tier.id} className={`border-2 p-4 ${selectedTicket === tier.id ? 'border-primary ring-2 ring-primary' : 'border-border'}`}>
                           <Stack direction="horizontal" className="items-start justify-between">
                             <Stack>
-                              <Label className="text-white">{tier.name}</Label>
-                              <Body className="mt-1 font-mono text-h5-md text-white">${tier.price}</Body>
+                              <Label className="text-text-primary">{tier.name}</Label>
+                              <Body className="mt-1 font-mono text-h5-md text-text-primary">${tier.price}</Body>
                               <Body className="mt-1 text-mono-xs text-text-disabled">{availableQty} remaining</Body>
                             </Stack>
                             {availableQty > 0 ? (

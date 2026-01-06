@@ -6,7 +6,7 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Shield, Eye, EyeOff, Download, Trash2, List, FileText } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -99,6 +99,17 @@ export default function PrivacySettingsPage() {
     }
   };
 
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleShowExportConfirm = useCallback(() => setShowExportConfirm(true), []);
+  const handleShowDeleteConfirm = useCallback(() => setShowDeleteConfirm(true), []);
+  const handleHideExportConfirm = useCallback(() => setShowExportConfirm(false), []);
+  const handleHideDeleteConfirm = useCallback(() => setShowDeleteConfirm(false), []);
+  const handleExportData = useCallback(() => exportMutation.mutate(), [exportMutation]);
+  const handleDeleteAccount = useCallback(() => deleteMutation.mutate(), [deleteMutation]);
+  const handleProfileVisibilityChange = useCallback((visibility: PrivacySettings['profile_visibility']) => 
+    updateMutation.mutate({ profile_visibility: visibility }), [updateMutation]);
+  const handleToggleSetting = useCallback((key: keyof PrivacySettings) => toggleSetting(key), [toggleSetting]);
+
   const tabs = [
     {
       id: "privacy",
@@ -113,7 +124,7 @@ export default function PrivacySettingsPage() {
                 <Button
                   key={visibility}
                   variant={settings.profile_visibility === visibility ? "solid" : "outline"}
-                  onClick={() => updateMutation.mutate({ profile_visibility: visibility })}
+                  onClick={() => handleProfileVisibilityChange(visibility)}
                   disabled={updateMutation.isPending}
                   className="capitalize"
                 >
@@ -141,11 +152,11 @@ export default function PrivacySettingsPage() {
                   </Box>
                   <Button
                     variant="ghost"
-                    onClick={() => toggleSetting(key)}
+                    onClick={() => handleToggleSetting(key)}
                     disabled={updateMutation.isPending}
                     className={`relative w-12 h-6 rounded-avatar transition-colors ${settings[key] ? "bg-primary" : "bg-muted"}`}
                   >
-                    <Box className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-avatar transition-transform ${settings[key] ? "translate-x-6" : "translate-x-0"}`} />
+                    <Box className={`absolute top-1 left-1 w-4 h-4 bg-text-primary rounded-avatar transition-transform ${settings[key] ? "translate-x-6" : "translate-x-0"}`} />
                   </Button>
                 </Box>
               ))}
@@ -172,7 +183,7 @@ export default function PrivacySettingsPage() {
             <SectionHeader title="Export Your Data" description="Download a copy of all your data" />
             <Box className="mt-4">
               <Body className="text-text-muted mb-4">Request a complete export of your data including projects, contacts, and activity history. You will receive an email with a download link when ready.</Body>
-              <Button variant="outline" onClick={() => setShowExportConfirm(true)} icon={<Download className="size-4" />} iconPosition="left">
+              <Button variant="outline" onClick={handleShowExportConfirm} icon={<Download className="size-4" />} iconPosition="left">
                 Request Data Export
               </Button>
             </Box>
@@ -182,7 +193,7 @@ export default function PrivacySettingsPage() {
             <SectionHeader title="Delete Account" description="Permanently delete your account and all data" />
             <Box className="mt-4">
               <Body className="text-text-muted mb-4">This action cannot be undone. All your data will be permanently deleted after a 30-day grace period.</Body>
-              <Button variant="outline" className="border-error text-error" onClick={() => setShowDeleteConfirm(true)} icon={<Trash2 className="size-4" />} iconPosition="left">
+              <Button variant="outline" className="border-error text-error" onClick={handleShowDeleteConfirm} icon={<Trash2 className="size-4" />} iconPosition="left">
                 Delete Account
               </Button>
             </Box>
@@ -197,7 +208,7 @@ export default function PrivacySettingsPage() {
       <DetailPage
         header={{ kicker: "Settings", title: "Privacy & Data", description: "Manage your privacy settings and data" }}
         backButton={{ label: "Settings", href: "/settings" }}
-        loading={isLoading}
+        isLoading={isLoading}
         error={error instanceof Error ? error : null}
         onRetry={refetch}
         tabs={tabs}
@@ -209,8 +220,8 @@ export default function PrivacySettingsPage() {
           <Body className="text-text-muted">We will prepare a complete export of your data. This may take a few hours. You will receive an email with a download link when ready.</Body>
         </ModalBody>
         <ModalFooter>
-          <Button variant="outline" onClick={() => setShowExportConfirm(false)}>Cancel</Button>
-          <Button variant="solid" onClick={() => exportMutation.mutate()} disabled={exportMutation.isPending}>
+          <Button variant="outline" onClick={handleHideExportConfirm}>Cancel</Button>
+          <Button variant="solid" onClick={handleExportData} disabled={exportMutation.isPending}>
             {exportMutation.isPending ? "Starting..." : "Start Export"}
           </Button>
         </ModalFooter>
@@ -225,8 +236,8 @@ export default function PrivacySettingsPage() {
           </Card>
         </ModalBody>
         <ModalFooter>
-          <Button variant="outline" onClick={() => setShowDeleteConfirm(false)}>Cancel</Button>
-          <Button variant="solid" className="bg-error" onClick={() => deleteMutation.mutate()} disabled={deleteMutation.isPending}>
+          <Button variant="outline" onClick={handleHideDeleteConfirm}>Cancel</Button>
+          <Button variant="solid" className="bg-error" onClick={handleDeleteAccount} disabled={deleteMutation.isPending}>
             {deleteMutation.isPending ? "Processing..." : "Delete My Account"}
           </Button>
         </ModalFooter>

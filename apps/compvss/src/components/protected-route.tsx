@@ -1,20 +1,9 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { ProtectedRoute as SharedProtectedRoute } from '@ghxstship/ui';
-import { useAuth } from '@ghxstship/config/hooks/useAuth';
+import { ProtectedRoute as SharedProtectedRoute } from "@ghxstship/ui";
 
-export function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  
-  return (
-    <SharedProtectedRoute 
-      useAuth={useAuth}
-      redirectPath="/auth/signin"
-      loadingText="Loading..."
-      onUnauthenticated={(path) => router.push(path)}
-    >
-      {children}
-    </SharedProtectedRoute>
-  );
-}
+/**
+ * ProtectedRoute - Shared component using existing ProtectedRoute from UI package
+ * Eliminates duplication by using centralized protected route component
+ */
+export const ProtectedRoute = SharedProtectedRoute;

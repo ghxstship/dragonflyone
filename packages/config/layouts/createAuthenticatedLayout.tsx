@@ -24,6 +24,8 @@ export interface AuthenticatedLayoutConfig<V extends string = string> {
   layoutVariant: V;
   /** Optional loading component - if not provided, uses a simple div-based spinner */
   LoadingComponent?: ComponentType<{ text: string; backgroundClass: string }>;
+  /** Optional route loading component for page transitions */
+  RouteLoadingComponent?: ComponentType;
 }
 
 /**
@@ -43,6 +45,38 @@ function DefaultLoadingState({ text, backgroundClass }: { text: string; backgrou
       <div className="flex flex-col items-center gap-4">
         <div className="animate-spin rounded-avatar h-8 w-8 border-b-2 border-border" />
         <span className="text-text-disabled">{text}</span>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Default route loading component for page transitions.
+ * Provides a skeleton loading state while routes are loading.
+ */
+function DefaultRouteLoadingState() {
+  return (
+    <div className="min-h-screen bg-muted py-8">
+      <div className="max-w-screen-2xl mx-auto px-6 lg:px-8">
+        <div className="flex flex-col gap-6">
+          {/* Header skeleton */}
+          <div className="flex flex-col gap-2">
+            <div className="h-8 w-64 animate-pulse rounded-card bg-muted" />
+            <div className="h-4 w-96 animate-pulse rounded-card bg-muted" />
+          </div>
+
+          {/* Content skeleton */}
+          <div className="border-2 border-border bg-surface-inverse p-6 rounded-card">
+            <div className="flex flex-col gap-4">
+              <div className="h-6 w-48 animate-pulse rounded-card bg-muted" />
+              <div className="flex flex-col gap-3">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-16 w-full animate-pulse rounded-card bg-muted" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -82,6 +116,7 @@ export function createAuthenticatedLayout<V extends string>(
     LayoutComponent,
     layoutVariant,
     LoadingComponent = DefaultLoadingState,
+    RouteLoadingComponent = DefaultRouteLoadingState,
   } = config;
 
   return function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {

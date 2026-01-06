@@ -193,16 +193,16 @@ export default function ApiKeysPage() {
                   {apiKeys.map((apiKey) => (
                     <TableRow key={apiKey.id}>
                       <TableCell>
-                        <Body className="font-weight-medium text-white">{apiKey.name}</Body>
+                        <Body className="font-weight-medium text-text-primary">{apiKey.name}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="font-mono text-white">{apiKey.key_prefix}...</Body>
+                        <Body size="sm" className="font-mono text-text-primary">{apiKey.key_prefix}...</Body>
                       </TableCell>
                       <TableCell>
                         {apiKey.is_active ? <Badge variant="success">Active</Badge> : <Badge variant="outline">Inactive</Badge>}
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-white">{apiKey.scopes.length} scopes</Body>
+                        <Body size="sm" className="text-text-primary">{apiKey.scopes.length} scopes</Body>
                       </TableCell>
                       <TableCell>
                         <Body size="sm" className="text-text-muted">
@@ -249,7 +249,7 @@ export default function ApiKeysPage() {
           <SectionHeader title="API Security Best Practices" description="Guidelines for secure API key management" />
           <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
             <Card className="p-6">
-              <Body className="font-weight-medium text-white mb-4">Do:</Body>
+              <Body className="font-weight-medium text-text-primary mb-4">Do:</Body>
               <Stack gap={2}>
                 <Body size="sm" className="text-text-muted">Store API keys securely in environment variables</Body>
                 <Body size="sm" className="text-text-muted">Use the minimum required scopes</Body>
@@ -258,7 +258,7 @@ export default function ApiKeysPage() {
               </Stack>
             </Card>
             <Card className="p-6">
-              <Body className="font-weight-medium text-white mb-4">Do Not:</Body>
+              <Body className="font-weight-medium text-text-primary mb-4">Do Not:</Body>
               <Stack gap={2}>
                 <Body size="sm" className="text-text-muted">Commit API keys to version control</Body>
                 <Body size="sm" className="text-text-muted">Share keys across applications</Body>

@@ -121,7 +121,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
       {/* Avatar */}
       <Box
         className={`flex size-10 shrink-0 items-center justify-center border-2 border-border ${
-          isUser ? "bg-primary text-white" : "bg-accent text-text-primary"
+          isUser ? "bg-primary text-text-primary" : "bg-accent text-text-primary"
         }`}
       >
         {isUser ? <User className="size-5" /> : <Bot className="size-5" />}
@@ -132,7 +132,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
         className={`max-w-[80%] border-2 border-border p-4 shadow-sm ${
           isUser
             ? "bg-primary/10 text-text-primary"
-            : "bg-white text-text-primary"
+            : "bg-text-primary text-text-primary"
         }`}
       >
         {isStreaming && message.content === "..." ? (
@@ -161,7 +161,7 @@ function TypingIndicator() {
       <Box className="flex size-10 shrink-0 items-center justify-center border-2 border-border bg-accent text-text-primary">
         <Bot className="size-5" />
       </Box>
-      <Card className="border-2 border-border bg-white p-4 shadow-sm">
+      <Card className="border-2 border-border bg-text-primary p-4 shadow-sm">
         <Stack direction="horizontal" gap={2} className="items-center">
           <Stack direction="horizontal" gap={1}>
             <Box className="size-2 animate-bounce rounded-avatar bg-muted" />
@@ -248,12 +248,12 @@ export function ChatInterface({
               onKeyDown={handleKeyDown}
               placeholder={placeholder}
               disabled={disabled || messages.length === 0}
-              className="flex-1 border-2 border-border bg-white px-4 py-3 text-body-md shadow-sm placeholder:text-text-disabled focus:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex-1 border-2 border-border bg-text-primary px-4 py-3 text-body-md shadow-sm placeholder:text-text-disabled focus:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
             />
             <Button
               type="submit"
               disabled={disabled || !inputValue.trim() || messages.length === 0}
-              className="flex items-center justify-center gap-2 border-2 border-border bg-primary px-6 py-3 text-white shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+              className="flex items-center justify-center gap-2 border-2 border-border bg-primary px-6 py-3 text-text-primary shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
             >
               {disabled ? (
                 <Loader2 className="size-5 animate-spin" />

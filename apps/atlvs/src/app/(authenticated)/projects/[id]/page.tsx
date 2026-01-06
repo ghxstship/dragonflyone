@@ -102,19 +102,19 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Venue</Body>
-                <Body className="text-white">{project.venue || "Not specified"}</Body>
+                <Body className="text-text-primary">{project.venue || "Not specified"}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Expected Attendees</Body>
-                <Body className="text-white">{(project.expected_attendees || 0).toLocaleString()}</Body>
+                <Body className="text-text-primary">{(project.expected_attendees || 0).toLocaleString()}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">Start Date</Body>
-                <Body className="text-white">{project.start_date || "TBD"}</Body>
+                <Body className="text-text-primary">{project.start_date || "TBD"}</Body>
               </Card>
               <Card inverted className="p-4">
                 <Body size="xs" className="text-text-muted mb-1">End Date</Body>
-                <Body className="text-white">{project.end_date || "TBD"}</Body>
+                <Body className="text-text-primary">{project.end_date || "TBD"}</Body>
               </Card>
             </Grid>
           </Section>
@@ -124,7 +124,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             <Section border className="mb-6">
               <SectionHeader title="Description" />
               <Card inverted className="p-4">
-                <Body className="text-white whitespace-pre-wrap">{project.description}</Body>
+                <Body className="text-text-primary whitespace-pre-wrap">{project.description}</Body>
               </Card>
             </Section>
           )}
@@ -134,8 +134,8 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             <SectionHeader title="Overall Progress" />
             <Card inverted className="p-4">
               <Box className="flex items-center justify-between mb-2">
-                <Body className="text-white">Completion</Body>
-                <Body className="text-white font-weight-bold">{progress}%</Body>
+                <Body className="text-text-primary">Completion</Body>
+                <Body className="text-text-primary font-weight-bold">{progress}%</Body>
               </Box>
               <ProgressBar value={progress} variant="inverse" />
             </Card>
@@ -155,7 +155,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
               <Card key={milestone.id} inverted className="p-4">
                 <Box className="flex items-center justify-between mb-2">
                   <Box>
-                    <Body className="text-white font-weight-medium">{milestone.name}</Body>
+                    <Body className="text-text-primary font-weight-medium">{milestone.name}</Body>
                     <Body size="xs" className="text-text-muted">{milestone.date}</Body>
                   </Box>
                   <Badge variant={milestone.status === "Completed" ? "success" : milestone.status === "In Progress" ? "warning" : "outline"}>
@@ -179,7 +179,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
           <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
             {team.map((member) => (
               <Card key={member.name} inverted className="p-4">
-                <Body className="text-white font-weight-medium">{member.name}</Body>
+                <Body className="text-text-primary font-weight-medium">{member.name}</Body>
                 <Body size="sm" className="text-text-secondary">{member.role}</Body>
                 <Body size="xs" className="text-text-muted uppercase tracking-label">{member.department}</Body>
               </Card>
@@ -198,11 +198,11 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
           <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mb-6">
             <Card inverted className="p-4">
               <Body size="xs" className="text-text-muted mb-1">Total Budget</Body>
-              <Body className="text-white text-h4-md font-weight-bold">${(budget / 1000).toFixed(0)}K</Body>
+              <Body className="text-text-primary text-h4-md font-weight-bold">${(budget / 1000).toFixed(0)}K</Body>
             </Card>
             <Card inverted className="p-4">
               <Body size="xs" className="text-text-muted mb-1">Spent</Body>
-              <Body className="text-white text-h4-md font-weight-bold">${(actual / 1000).toFixed(0)}K</Body>
+              <Body className="text-text-primary text-h4-md font-weight-bold">${(actual / 1000).toFixed(0)}K</Body>
             </Card>
             <Card inverted className="p-4">
               <Body size="xs" className="text-text-muted mb-1">Remaining</Body>

@@ -46,12 +46,6 @@ export function getUntypedAdminClient(): UntypedSupabaseClient {
 }
 
 export { getServerSupabase, fromUntyped };
-
-/**
- * Create an admin Supabase client for server-side operations.
- * This is an alias for getServerSupabase for backward compatibility.
- */
-export const createAdminClient = getServerSupabase;
 export type { TypedSupabaseClient, UntypedSupabaseClient };
 export * from '@ghxstship/config/auth-helpers';
 export * from '@ghxstship/config/rpc-client';

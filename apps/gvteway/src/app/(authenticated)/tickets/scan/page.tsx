@@ -215,18 +215,22 @@ export default function TicketScanPage() {
                   <option value="demo-event-3">Comedy Night</option>
                 </Select>
 
-                <Input
-                  ref={inputRef}
-                  value={manualCode}
-                  onChange={(e) => setManualCode(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") handleScan(manualCode);
-                  }}
-                  placeholder="Scan QR code or enter ticket code..."
-                  className="text-center font-mono"
-                  autoFocus
-                  disabled={!selectedEventId}
-                />
+                <Stack gap={2}>
+                  <label htmlFor="ticket-scan-input" className="sr-only">Scan QR code or enter ticket code</label>
+                  <Input
+                    id="ticket-scan-input"
+                    ref={inputRef}
+                    value={manualCode}
+                    onChange={(e) => setManualCode(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") handleScan(manualCode);
+                    }}
+                    placeholder="Scan QR code or enter ticket code..."
+                    className="text-center font-mono"
+                    autoFocus
+                    disabled={!selectedEventId}
+                  />
+                </Stack>
 
                 <Button
                   variant="solid"

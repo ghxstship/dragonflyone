@@ -51,28 +51,28 @@ export const SettingsRow = forwardRef<HTMLDivElement, SettingsRowProps>(
     return (
       <div
         ref={ref}
-        className={settingsRowVariants({ bordered, disabled, inverted, className })}
+        className={settingsRowVariants({ bordered, disabled, className })}
         {...props}
       >
         {/* Content Container */}
-        <div className={settingsRowContentContainerVariants({ inverted })}>
+        <div className={settingsRowContentContainerVariants({})}>
           {/* Icon */}
           {icon && (
-            <div className={settingsRowIconVariants({ inverted })}>
+            <div className={settingsRowIconVariants({})}>
               {icon}
             </div>
           )}
           
           {/* Text Container */}
-          <div className={settingsRowTextContainerVariants({ inverted })}>
+          <div className={settingsRowTextContainerVariants({})}>
             {/* Label */}
-            <div className={settingsRowLabelVariants({ inverted })}>
+            <div className={settingsRowLabelVariants({})}>
               {label}
             </div>
             
             {/* Description */}
             {description && (
-              <div className={settingsRowDescriptionVariants({ inverted })}>
+              <div className={settingsRowDescriptionVariants({})}>
                 {description}
               </div>
             )}
@@ -80,7 +80,7 @@ export const SettingsRow = forwardRef<HTMLDivElement, SettingsRowProps>(
         </div>
         
         {/* Control Container */}
-        <div className={settingsRowControlContainerVariants({ inverted })}>
+        <div className={settingsRowControlContainerVariants({})}>
           {control}
         </div>
       </div>

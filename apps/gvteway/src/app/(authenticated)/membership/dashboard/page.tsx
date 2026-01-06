@@ -85,7 +85,7 @@ export default function MembershipDashboardPage() {
     if (!confirm("Are you sure you want to cancel your membership?")) return;
     
     try {
-      await fetch("/api/membership", {
+      const response = await fetch("/api/membership", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -93,9 +93,14 @@ export default function MembershipDashboardPage() {
           action: "cancel",
         }),
       });
+      if (!response.ok) {
+        const data = await response.json();
+        alert(data.error || "Failed to cancel membership. Please try again.");
+        return;
+      }
       refetch();
-    } catch (err) {
-      console.error("Failed to cancel membership:", err);
+    } catch {
+      alert("Failed to cancel membership. Please check your connection and try again.");
     }
   };
 
@@ -127,11 +132,11 @@ export default function MembershipDashboardPage() {
           </Grid>
 
           <SectionHeader title="Membership Card" description="Your digital membership card" />
-          <Card className="p-6 mb-6 bg-gradient-to-br from-primary to-secondary text-white" data-testid="membership-card">
+          <Card className="p-6 mb-6 bg-gradient-to-br from-primary to-secondary text-text-primary" data-testid="membership-card">
             <Stack gap={4}>
               <Box className="flex items-center justify-between">
                 <Crown className="size-8" />
-                <Badge variant="outline" className="border-white text-white">
+                <Badge variant="outline" className="border-white text-text-primary">
                   {membership?.tier || "Free"} Member
                 </Badge>
               </Box>

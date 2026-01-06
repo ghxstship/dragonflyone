@@ -453,7 +453,7 @@ function MembershipApplyContent() {
                 <Box
                   className={`flex items-center justify-center size-10 rounded-avatar border-2 ${
                     currentStep >= step.id
-                      ? "bg-primary border-primary text-white"
+                      ? "bg-primary border-primary text-text-primary"
                       : "bg-surface-primary border-border-primary text-text-muted"
                   }`}
                 >

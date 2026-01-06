@@ -78,7 +78,7 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
   }
 
   return (
-    <Card className="border-2 border-black p-4">
+    <Card className="border-2 border-border p-4">
       <Stack gap={4}>
         <Stack direction="horizontal" className="justify-between items-center">
           <Label className="font-weight-bold">Live Activity</Label>
@@ -151,7 +151,7 @@ export function RecentPurchaseToast() {
   if (!visible) return null;
 
   return (
-    <Card className="fixed bottom-4 left-4 p-4 bg-white border-2 border-black shadow-lg animate-slide-up z-50">
+    <Card className="fixed bottom-4 left-4 p-4 bg-surface-primary border-2 border-border shadow-lg animate-slide-up z-50">
       <Stack direction="horizontal" gap={3}>
         <Card className="w-10 h-10 bg-success-100 flex items-center justify-center rounded-avatar">
           <Ticket className="h-5 w-5 text-success-600" />
@@ -173,7 +173,7 @@ export function AttendeeAvatars({ count = 5 }: { count?: number }) {
   return (
     <Stack direction="horizontal" gap={0}>
       {Array.from({ length: avatarCount }).map((_, idx) => (
-        <Card key={idx} className="w-8 h-8 bg-muted border-2 border-white rounded-avatar flex items-center justify-center -ml-2 first:ml-0">
+        <Card key={idx} className="w-8 h-8 bg-muted border-2 border-surface-primary rounded-avatar flex items-center justify-center -ml-2 first:ml-0">
           <User className="h-4 w-4 text-text-muted" />
         </Card>
       ))}

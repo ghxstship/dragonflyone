@@ -67,7 +67,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
       return (
         <div
           ref={ref}
-          className={clsx(centeredLayoutVariants({ inverted }), className)}
+          className={clsx(centeredLayoutVariants({}), className)}
         >
           {header && (
             <header className={clsx(
@@ -95,7 +95,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
       return (
         <div
           ref={ref}
-          className={clsx(centeredLayoutVariants({ inverted }), className)}
+          className={clsx(centeredLayoutVariants({}), className)}
         >
           {header && (
             <header className={clsx(
@@ -133,7 +133,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
       return (
         <div
           ref={ref}
-          className={clsx(centeredLayoutVariants({ inverted }), className)}
+          className={clsx(centeredLayoutVariants({}), className)}
         >
           {header && (
             <header className={clsx(
@@ -183,7 +183,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
       return (
         <div
           ref={ref}
-          className={clsx(centeredLayoutVariants({ align, background, width, pattern, inverted }), className)}
+          className={clsx(centeredLayoutVariants({ align, background, width, pattern }), className)}
         >
           {header && (
             <header className={clsx(
@@ -216,7 +216,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
       return (
         <div
           ref={ref}
-          className={clsx(centeredLayoutVariants({ background, align, width, inverted }), className)}
+          className={clsx(centeredLayoutVariants({ background, align, width }), className)}
         >
           {/* Left panel - branding */}
           <div className={clsx(
@@ -253,7 +253,7 @@ export const CenteredLayout = forwardRef<HTMLDivElement, CenteredLayoutProps>(
     return (
       <div
         ref={ref}
-        className={clsx(centeredLayoutVariants({ align, background, width, inverted }), className)}
+        className={clsx(centeredLayoutVariants({ align, background, width }), className)}
       >
         {header && (
           <header className={clsx(

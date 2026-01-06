@@ -74,7 +74,7 @@ export default function AccountPage() {
                     <Card key={event.id} className="p-4">
                       <Box className="flex items-center justify-between">
                         <Box>
-                          <Body className="font-weight-medium text-white">{event.name}</Body>
+                          <Body className="font-weight-medium text-text-primary">{event.name}</Body>
                           <Body size="sm" className="text-text-muted">{event.date} - {event.venue}</Body>
                         </Box>
                         <Box className="flex items-center gap-2">
@@ -116,15 +116,15 @@ export default function AccountPage() {
                 <SectionHeader title="Recent Activity" />
                 <Stack gap={2}>
                   <Box className="flex items-center justify-between">
-                    <Body className="text-white">Purchased 2 tickets</Body>
+                    <Body className="text-text-primary">Purchased 2 tickets</Body>
                     <Body size="sm" className="text-text-muted">2 days ago</Body>
                   </Box>
                   <Box className="flex items-center justify-between">
-                    <Body className="text-white">Saved New Years Eve Concert</Body>
+                    <Body className="text-text-primary">Saved New Years Eve Concert</Body>
                     <Body size="sm" className="text-text-muted">5 days ago</Body>
                   </Box>
                   <Box className="flex items-center justify-between">
-                    <Body className="text-white">Updated payment method</Body>
+                    <Body className="text-text-primary">Updated payment method</Body>
                     <Body size="sm" className="text-text-muted">1 week ago</Body>
                   </Box>
                 </Stack>

@@ -121,7 +121,7 @@ export default function ResourcesPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Learning Paths</Body>
-                  <H3 className="text-white">Structured Learning</H3>
+                  <H3 className="text-text-primary">Structured Learning</H3>
                   <Body className="text-text-muted max-w-2xl">Follow our curated learning paths to master GVTEWAY at your own pace.</Body>
                 </Stack>
 
@@ -133,18 +133,18 @@ export default function ResourcesPage() {
                       onClick={() => router.push(`/guides/${path.id}`)}
                     >
                       <Stack gap={4}>
-                        <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit group-hover:bg-primary group-hover:text-white transition-all">
+                        <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit group-hover:bg-primary group-hover:text-text-primary transition-all">
                           {path.icon}
                         </Box>
                         <Stack gap={2}>
-                          <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{path.title}</Body>
+                          <Body className="text-text-primary font-weight-bold group-hover:text-primary transition-colors">{path.title}</Body>
                           <Body className="text-text-muted">{path.description}</Body>
                         </Stack>
                         <Stack direction="horizontal" gap={4} className="text-text-disabled">
                           <Body size="sm">{path.articles} articles</Body>
                           <Body size="sm">{path.duration}</Body>
                         </Stack>
-                        <Button variant="outline" size="sm" className="w-fit group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors" icon={<ArrowRight className="size-4" />} iconPosition="right">
+                        <Button variant="outline" size="sm" className="w-fit group-hover:bg-primary group-hover:text-text-primary group-hover:border-primary transition-colors" icon={<ArrowRight className="size-4" />} iconPosition="right">
                           Start Learning
                         </Button>
                       </Stack>
@@ -163,7 +163,7 @@ export default function ResourcesPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Downloads</Body>
-                  <H3 className="text-white">Featured Resources</H3>
+                  <H3 className="text-text-primary">Featured Resources</H3>
                   <Body className="text-text-muted max-w-2xl">Popular templates and guides downloaded by thousands of event professionals.</Body>
                 </Stack>
 
@@ -176,7 +176,7 @@ export default function ResourcesPage() {
                             <FileText className="size-5 text-text-muted" />
                           </Box>
                           <Stack gap={1}>
-                            <Body className="text-white font-weight-bold">{resource.title}</Body>
+                            <Body className="text-text-primary font-weight-bold">{resource.title}</Body>
                             <Body size="sm" className="text-text-muted">{resource.description}</Body>
                             <Stack direction="horizontal" gap={2} className="mt-2">
                               <Badge variant="outline">{resource.type}</Badge>

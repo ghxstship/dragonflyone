@@ -62,7 +62,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
     <FullBleedSection background="grey" className="py-16 lg:py-24">
       <Container className="mx-auto max-w-screen-2xl px-6 lg:px-8">
         {/* Blueprint Header */}
-        <Stack gap={4} className="mb-12 text-center">
+        <Stack gap={4} className="mb-12 text-text-primary">
           <Text className="font-mono text-mono-sm uppercase tracking-kicker text-text-muted">
             Generated Blueprint
           </Text>
@@ -91,8 +91,8 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                 onClick={() => setActiveTab(index)}
                 className={`border-2 px-4 py-2 font-mono text-mono-sm uppercase tracking-label transition-colors ${
                   activeTab === index
-                    ? "border-border bg-surface-inverse text-white"
-                    : "border-border bg-white text-text-secondary hover:border-border"
+                    ? "border-border bg-surface-inverse text-text-primary"
+                    : "border-border bg-surface text-text-secondary hover:border-border"
                 }`}
               >
                 {tab.label}
@@ -242,7 +242,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                       z: "Time/Duration",
                     };
                     return (
-                      <Box key={axis} className="text-center">
+                      <Box key={axis} className="text-text-primary">
                         <Text className="mb-2 font-mono text-mono-xs uppercase text-text-disabled">
                           {axis.toUpperCase()}-Axis: {labels[axis as keyof typeof labels]}
                         </Text>
@@ -277,7 +277,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                   {blueprint.spatialTemporal.zones.map((zone, i) => (
                     <Box
                       key={i}
-                      className="border-2 border-border bg-white p-4"
+                      className="border-2 border-border bg-surface p-4"
                     >
                       <Text className="font-display text-h6-md uppercase text-text-primary">
                         {zone.name}

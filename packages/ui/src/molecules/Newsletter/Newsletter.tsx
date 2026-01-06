@@ -62,10 +62,10 @@ export const Newsletter = forwardRef<HTMLDivElement, NewsletterProps>(
     return (
       <div 
         ref={ref} 
-        className={newsletterVariants({ inverted, className })} 
+        className={newsletterVariants({ className })} 
         {...props}
       >
-        <form onSubmit={handleSubmit} className={newsletterFormVariants({ inverted })}>
+        <form onSubmit={handleSubmit} className={newsletterFormVariants({})}>
           <input
             type="email"
             value={email}
@@ -73,7 +73,7 @@ export const Newsletter = forwardRef<HTMLDivElement, NewsletterProps>(
             placeholder={placeholder}
             required
             disabled={loading}
-            className={newsletterInputVariants({ inverted })}
+            className={newsletterInputVariants({})}
             aria-label="Email address"
           />
           
@@ -102,7 +102,7 @@ export const Newsletter = forwardRef<HTMLDivElement, NewsletterProps>(
         </form>
 
         {success && (
-          <div className={newsletterSuccessVariants({ inverted })}>
+          <div className={newsletterSuccessVariants({})}>
             Thank you for subscribing! Check your email for confirmation.
           </div>
         )}

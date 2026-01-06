@@ -105,7 +105,7 @@ function VirtualizedListInner<T>(
         className={clsx(
           "flex items-center justify-center",
           inverted ? "text-text-muted" : "text-text-muted",
-          virtualizedListVariants({ inverted }),
+          virtualizedListVariants({}),
           className
         )}
         style={{ height: containerHeight }}
@@ -122,7 +122,7 @@ function VirtualizedListInner<T>(
       className={clsx(
         "overflow-auto",
         inverted ? "bg-surface-inverse" : "bg-surface-primary",
-        virtualizedListVariants({ inverted }),
+        virtualizedListVariants({}),
         className
       )}
       style={{ height: containerHeight }}

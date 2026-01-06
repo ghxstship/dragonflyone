@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { log } from '@ghxstship/config';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -44,7 +45,7 @@ export async function GET(request: NextRequest) {
 
     if (error && error.code !== 'PGRST116') {
       // PGRST116 = no rows found, which is fine
-      console.error('Error fetching cookie consent:', error);
+      log.error('Error fetching cookie consent', error, { endpoint: '/api/privacy/cookies', method: 'GET', sessionId });
       return NextResponse.json(
         { error: 'Failed to fetch consent' },
         { status: 500 }
@@ -75,7 +76,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Cookie consent GET error:', error);
+    log.error('Cookie consent GET error', error, { endpoint: '/api/privacy/cookies', method: 'GET' });
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -125,7 +126,7 @@ export async function POST(request: NextRequest) {
       .upsert(consentData, { onConflict: 'session_id' });
 
     if (error) {
-      console.error('Error saving cookie consent:', error);
+      log.warn('Error saving cookie consent', { error: error.message, endpoint: '/api/privacy/cookies', method: 'POST' });
       // Don't fail the request - local storage will still work
       return NextResponse.json({
         success: true,
@@ -138,7 +139,7 @@ export async function POST(request: NextRequest) {
       message: 'Consent saved successfully',
     });
   } catch (error) {
-    console.error('Cookie consent POST error:', error);
+    log.error('Cookie consent POST error', error, { endpoint: '/api/privacy/cookies', method: 'POST' });
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

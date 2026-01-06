@@ -117,7 +117,7 @@ export default function CaseStudiesPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Featured</Body>
-                  <H3 className="text-white">Top Success Stories</H3>
+                  <H3 className="text-text-primary">Top Success Stories</H3>
                   <Body className="text-text-muted max-w-2xl">Our most impactful customer transformations</Body>
                 </Stack>
 
@@ -139,7 +139,7 @@ export default function CaseStudiesPage() {
                             <Badge className="bg-accent/20 text-accent border-accent/30">Featured</Badge>
                             <Badge className={getIndustryColor(cs.industry)}>{cs.industry}</Badge>
                           </Stack>
-                          <Body className="text-white font-weight-bold text-h4-md group-hover:text-primary transition-colors">{cs.title}</Body>
+                          <Body className="text-text-primary font-weight-bold text-h4-md group-hover:text-primary transition-colors">{cs.title}</Body>
                           <Body className="text-text-disabled">{cs.company}</Body>
                           <Body className="text-text-muted">{cs.summary}</Body>
                           <Grid cols={3} gap={4} className="grid-cols-3 mt-2">
@@ -150,7 +150,7 @@ export default function CaseStudiesPage() {
                               </Stack>
                             ))}
                           </Grid>
-                          <Button variant="outline" className="w-fit group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors" icon={<ArrowRight className="size-4" />} iconPosition="right">
+                          <Button variant="outline" className="w-fit group-hover:bg-primary group-hover:text-text-primary group-hover:border-primary transition-colors" icon={<ArrowRight className="size-4" />} iconPosition="right">
                             Read Case Study
                           </Button>
                         </Stack>
@@ -170,7 +170,7 @@ export default function CaseStudiesPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">All Stories</Body>
-                  <H3 className="text-white">Browse by Industry</H3>
+                  <H3 className="text-text-primary">Browse by Industry</H3>
                 </Stack>
 
                 {/* Industry Filters */}
@@ -196,7 +196,7 @@ export default function CaseStudiesPage() {
                 ) : filteredStudies.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
                     <FileText className="size-16 text-text-disabled mx-auto mb-4" />
-                    <Body className="text-white font-weight-medium mb-2">No Case Studies Found</Body>
+                    <Body className="text-text-primary font-weight-medium mb-2">No Case Studies Found</Body>
                     <Body className="text-text-muted mb-4">Check back soon for more success stories in this industry</Body>
                     <Button variant="outline" onClick={() => setSelectedIndustry("All")}>View All Industries</Button>
                   </Card>
@@ -213,7 +213,7 @@ export default function CaseStudiesPage() {
                             {cs.featured && <Badge className="bg-accent/20 text-accent border-accent/30">Featured</Badge>}
                             <Badge className={getIndustryColor(cs.industry)}>{cs.industry}</Badge>
                           </Stack>
-                          <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{cs.title}</Body>
+                          <Body className="text-text-primary font-weight-bold group-hover:text-primary transition-colors">{cs.title}</Body>
                           <Body size="sm" className="text-text-disabled">{cs.company}</Body>
                           <Body className="text-text-muted">{cs.summary}</Body>
                           <Stack direction="horizontal" gap={4} className="mt-2">

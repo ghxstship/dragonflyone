@@ -107,7 +107,7 @@ export function CrewCard({
 
   return (
     <div
-      className={crewCardVariants({ variant, inverted, className })}
+      className={crewCardVariants({ variant, className })}
       onClick={onClick}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -120,27 +120,27 @@ export function CrewCard({
       aria-label={`Crew member: ${name}, ${role}`}
     >
       {/* Header */}
-      <div className={crewCardHeaderVariants({ variant, inverted })}>
+      <div className={crewCardHeaderVariants({ variant })}>
         {/* Avatar */}
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={`${name} - ${role}`}
-            className={crewCardAvatarVariants({ variant, inverted })}
+            className={crewCardAvatarVariants({ variant })}
           />
         ) : (
-          <div className={crewCardAvatarPlaceholderVariants({ variant, inverted })}>
+          <div className={crewCardAvatarPlaceholderVariants({ variant })}>
             {getInitials(name)}
           </div>
         )}
 
         {/* Content */}
-        <div className={crewCardContentVariants({ variant, inverted })}>
+        <div className={crewCardContentVariants({ variant })}>
           <div>
-            <h3 className={crewCardNameVariants({ variant, inverted })}>
+            <h3 className={crewCardNameVariants({ variant })}>
               {name}
             </h3>
-            <p className={crewCardRoleVariants({ variant, inverted })}>
+            <p className={crewCardRoleVariants({ variant })}>
               {role}
             </p>
             {department && (
@@ -158,10 +158,10 @@ export function CrewCard({
       </div>
 
       {/* Details (hidden in compact variant) */}
-      <div className={crewCardDetailsVariants({ variant, inverted })}>
+      <div className={crewCardDetailsVariants({ variant })}>
         {/* Current Assignment */}
         {currentAssignment && (
-          <div className={crewCardDetailItemVariants({ inverted })}>
+          <div className={crewCardDetailItemVariants({})}>
             <div className="flex items-center gap-2">
               <Briefcase className="w-4 h-4" />
               <span>{currentAssignment}</span>
@@ -173,7 +173,7 @@ export function CrewCard({
         {(email || phone) && (
           <div className="space-y-1">
             {email && (
-              <div className={crewCardDetailItemVariants({ inverted })}>
+              <div className={crewCardDetailItemVariants({})}>
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4" />
                   <span>{email}</span>
@@ -181,7 +181,7 @@ export function CrewCard({
               </div>
             )}
             {phone && (
-              <div className={crewCardDetailItemVariants({ inverted })}>
+              <div className={crewCardDetailItemVariants({})}>
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4" />
                   <span>{phone}</span>
@@ -193,7 +193,7 @@ export function CrewCard({
 
         {/* Skills */}
         {skills && skills.length > 0 && (
-          <div className={crewCardDetailItemVariants({ inverted })}>
+          <div className={crewCardDetailItemVariants({})}>
             <div className="flex flex-wrap gap-1">
               {skills.slice(0, 3).map((skill, index) => (
                 <span

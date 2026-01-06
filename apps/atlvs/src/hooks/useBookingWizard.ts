@@ -211,8 +211,11 @@ export function useBookingWizard(initial?: Partial<BookingWizardState>) {
       space_id: state.space_id,
       contact_id: state.contact_id,
       package_id: state.package_id,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      add_ons: state.add_ons.map(({ id, ...rest }) => rest),
+      add_ons: state.add_ons.map((addOn) => {
+        const { id: addOnId, ...rest } = addOn;
+        void addOnId;
+        return rest;
+      }),
       notes: state.notes,
       special_requests: state.special_requests,
       pricing: state.pricing,

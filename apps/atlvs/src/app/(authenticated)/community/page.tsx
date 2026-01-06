@@ -6,17 +6,18 @@
  * Bold Contemporary Pop Art Adventure Design System
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { 
   MessageSquare, Trophy, ThumbsUp, 
   MessageCircle, Eye, Clock, Plus,
-  TrendingUp, Bookmark, Bell
+  TrendingUp, Bookmark, Bell, Pin, CheckCircle, Trash2
 } from "lucide-react";
 import {
   HubPage, Card, Stack, Box, Body, Button, Badge, Avatar, Text
 } from "@ghxstship/ui";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Discussion {
   id: string;
@@ -163,7 +164,7 @@ export default function CommunityPage() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [activeTab, setActiveTab] = useState<"discussions" | "following" | "my-posts">("discussions");
 
-  const _canModerate = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
+  const canModerate = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   const filteredDiscussions = DEMO_DISCUSSIONS.filter(d => {
     if (activeCategory === "all") return true;
@@ -178,11 +179,100 @@ export default function CommunityPage() {
     router.push(`/community/${id}`);
   };
 
+  const queryClient = useQueryClient();
+
+  const pinMutation = useMutation({
+    mutationFn: async ({ id, isPinned }: { id: string; isPinned: boolean }) => {
+      const response = await fetch(`/api/community/discussions/${id}/pin`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isPinned: !isPinned }),
+      });
+      if (!response.ok) throw new Error('Failed to update pin status');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['discussions'] });
+    },
+  });
+
+  const solveMutation = useMutation({
+    mutationFn: async ({ id, isSolved }: { id: string; isSolved: boolean }) => {
+      const response = await fetch(`/api/community/discussions/${id}/solve`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isSolved: !isSolved }),
+      });
+      if (!response.ok) throw new Error('Failed to update solved status');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['discussions'] });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetch(`/api/community/discussions/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Failed to delete discussion');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['discussions'] });
+    },
+  });
+
+  const handlePinDiscussion = (id: string, isPinned: boolean) => {
+    pinMutation.mutate({ id, isPinned });
+  };
+
+  const handleMarkSolved = (id: string, isSolved: boolean) => {
+    solveMutation.mutate({ id, isSolved });
+  };
+
+  const handleDeleteDiscussion = (id: string) => {
+    if (window.confirm('Are you sure you want to delete this discussion?')) {
+      deleteMutation.mutate(id);
+    }
+  };
+
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleBrowseDiscussions = useCallback(() => {
+    setActiveTab("discussions");
+  }, []);
+
+  const handleBookmarkDiscussion = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    // TODO: Implement bookmark logic
+  }, []);
+
+  const handleFollowDiscussion = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    // TODO: Implement follow logic
+  }, []);
+
+  const handlePinDiscussionClick = useCallback((id: string, isPinned: boolean) => (e: React.MouseEvent) => {
+    e.stopPropagation();
+    handlePinDiscussion(id, isPinned);
+  }, [handlePinDiscussion]);
+
+  const handleMarkSolvedClick = useCallback((id: string, isSolved: boolean) => (e: React.MouseEvent) => {
+    e.stopPropagation();
+    handleMarkSolved(id, isSolved);
+  }, [handleMarkSolved]);
+
+  const handleDeleteDiscussionClick = useCallback((id: string) => (e: React.MouseEvent) => {
+    e.stopPropagation();
+    handleDeleteDiscussion(id);
+  }, []);
+
   const communitySidebar = (
     <Stack gap={6}>
       {/* Categories */}
       <Card className="p-5 border-2 border-border rounded-card">
-        <Body className="text-white font-weight-bold mb-4">Categories</Body>
+        <Body className="text-text-primary font-weight-bold mb-4">Categories</Body>
         <Stack gap={2}>
           {CATEGORIES.map((category) => (
             <Button
@@ -204,7 +294,7 @@ export default function CommunityPage() {
       <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <Trophy className="size-5 text-warning" />
-          <Body className="text-white font-weight-bold">Top Contributors</Body>
+          <Body className="text-text-primary font-weight-bold">Top Contributors</Body>
         </Box>
         <Stack gap={3}>
           {TOP_CONTRIBUTORS.map((contributor, idx) => (
@@ -214,7 +304,7 @@ export default function CommunityPage() {
               </Body>
               <Avatar initials={contributor.initials} size="sm" />
               <Box className="flex-1 min-w-0">
-                <Body size="sm" className="text-white truncate">
+                <Body size="sm" className="text-text-primary truncate">
                   {contributor.name}
                 </Body>
                 <Body size="xs" className="text-text-disabled">
@@ -233,7 +323,7 @@ export default function CommunityPage() {
       <Card className="p-5 border-2 border-border rounded-card">
         <Box className="flex items-center gap-2 mb-4">
           <TrendingUp className="size-5 text-primary" />
-          <Body className="text-white font-weight-bold">Trending Tags</Body>
+          <Body className="text-text-primary font-weight-bold">Trending Tags</Body>
         </Box>
         <Box className="flex flex-wrap gap-2">
           {["festivals", "budgets", "automation", "vendors", "scheduling", "integrations", "crew", "workflows"].map((tag) => (
@@ -303,17 +393,45 @@ export default function CommunityPage() {
                             )}
                             <Badge variant="outline" size="sm">{discussion.category}</Badge>
                           </Box>
-                          <Body className="text-white font-weight-bold hover:text-primary transition-colors">
+                          <Body className="text-text-primary font-weight-bold hover:text-primary transition-colors">
                             {discussion.title}
                           </Body>
                         </Box>
                         <Box className="flex gap-2 shrink-0">
-                          <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); }}>
+                          <Button variant="ghost" size="sm" aria-label="Bookmark discussion" onClick={handleBookmarkDiscussion}>
                             <Bookmark className="size-4" />
                           </Button>
-                          <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); }}>
+                          <Button variant="ghost" size="sm" aria-label="Follow discussion" onClick={handleFollowDiscussion}>
                             <Bell className="size-4" />
                           </Button>
+                          {canModerate && (
+                            <>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                aria-label={discussion.isPinned ? "Unpin discussion" : "Pin discussion"}
+                                onClick={handlePinDiscussionClick(discussion.id, discussion.isPinned)}
+                              >
+                                <Pin className={`size-4 ${discussion.isPinned ? 'text-warning' : ''}`} />
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                aria-label={discussion.isSolved ? "Mark as unsolved" : "Mark as solved"}
+                                onClick={handleMarkSolvedClick(discussion.id, discussion.isSolved)}
+                              >
+                                <CheckCircle className={`size-4 ${discussion.isSolved ? 'text-success' : ''}`} />
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                aria-label="Delete discussion"
+                                onClick={handleDeleteDiscussionClick(discussion.id)}
+                              >
+                                <Trash2 className="size-4 text-error" />
+                              </Button>
+                            </>
+                          )}
                         </Box>
                       </Box>
                       <Body size="sm" className="text-text-muted mb-3 line-clamp-2">
@@ -358,11 +476,11 @@ export default function CommunityPage() {
           {activeTab === "following" && (
             <Card className="p-8 border-2 border-border rounded-card text-center">
               <Bell className="size-12 text-text-disabled mx-auto mb-4" />
-              <Body className="text-white font-weight-bold mb-2">No followed discussions</Body>
+              <Body className="text-text-primary font-weight-bold mb-2">No followed discussions</Body>
               <Body size="sm" className="text-text-muted mb-4">
                 Follow discussions to get notified about new replies.
               </Body>
-              <Button variant="outline" onClick={() => setActiveTab("discussions")}>
+              <Button variant="outline" onClick={handleBrowseDiscussions}>
                 Browse Discussions
               </Button>
             </Card>
@@ -372,7 +490,7 @@ export default function CommunityPage() {
           {activeTab === "my-posts" && (
             <Card className="p-8 border-2 border-border rounded-card text-center">
               <MessageSquare className="size-12 text-text-disabled mx-auto mb-4" />
-              <Body className="text-white font-weight-bold mb-2">No posts yet</Body>
+              <Body className="text-text-primary font-weight-bold mb-2">No posts yet</Body>
               <Body size="sm" className="text-text-muted mb-4">
                 Start a discussion to share your knowledge with the community.
               </Body>

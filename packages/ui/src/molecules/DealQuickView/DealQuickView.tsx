@@ -106,20 +106,20 @@ export function DealQuickView({
 
   return (
     <div 
-      className={dealQuickViewVariants({ inverted, className })}
+      className={dealQuickViewVariants({ className })}
       onKeyDown={handleKeyDown}
     >
       {/* Modal */}
-      <div className={dealQuickViewModalVariants({ inverted })}>
+      <div className={dealQuickViewModalVariants({})}>
         {/* Header */}
-        <div className={dealQuickViewHeaderVariants({ inverted })}>
-          <h2 className={dealQuickViewTitleVariants({ inverted })}>
+        <div className={dealQuickViewHeaderVariants({})}>
+          <h2 className={dealQuickViewTitleVariants({})}>
             {deal.deal_number}
           </h2>
           
           <button
             onClick={onClose}
-            className={dealQuickViewCloseVariants({ inverted })}
+            className={dealQuickViewCloseVariants({})}
             aria-label="Close quick view"
           >
             <X className="w-4 h-4" />
@@ -127,9 +127,9 @@ export function DealQuickView({
         </div>
 
         {/* Content */}
-        <div className={dealQuickViewContentVariants({ inverted })}>
+        <div className={dealQuickViewContentVariants({})}>
           {/* Deal Title */}
-          <div className={dealQuickViewSectionVariants({ inverted })}>
+          <div className={dealQuickViewSectionVariants({})}>
             <h3 className={`text-2xl font-bold ${inverted ? 'text-text-inverse' : 'text-text-primary'}`}>
               {deal.name}
             </h3>
@@ -141,20 +141,20 @@ export function DealQuickView({
           </div>
 
           {/* Metrics */}
-          <div className={dealQuickViewMetricsVariants({ inverted })}>
+          <div className={dealQuickViewMetricsVariants({})}>
             {/* Value */}
-            <div className={dealQuickViewMetricVariants({ inverted })}>
-              <div className={dealQuickViewMetricLabelVariants({ inverted })}>
+            <div className={dealQuickViewMetricVariants({})}>
+              <div className={dealQuickViewMetricLabelVariants({})}>
                 VALUE
               </div>
-              <div className={dealQuickViewMetricValueVariants({ inverted })}>
+              <div className={dealQuickViewMetricValueVariants({})}>
                 {formatCurrency(deal.value)}
               </div>
             </div>
 
             {/* Probability */}
-            <div className={dealQuickViewMetricVariants({ inverted })}>
-              <div className={dealQuickViewMetricLabelVariants({ inverted })}>
+            <div className={dealQuickViewMetricVariants({})}>
+              <div className={dealQuickViewMetricLabelVariants({})}>
                 PROBABILITY
               </div>
               <div className={`font-bold text-lg ${
@@ -169,27 +169,27 @@ export function DealQuickView({
 
           {/* Contact Information */}
           {(deal.contact_name || deal.contact_email || deal.contact_phone) && (
-            <div className={dealQuickViewSectionVariants({ inverted })}>
-              <h4 className={dealQuickViewSectionTitleVariants({ inverted })}>
+            <div className={dealQuickViewSectionVariants({})}>
+              <h4 className={dealQuickViewSectionTitleVariants({})}>
                 CONTACT INFORMATION
               </h4>
               
               {deal.contact_name && (
-                <div className={dealQuickViewInfoItemVariants({ inverted })}>
+                <div className={dealQuickViewInfoItemVariants({})}>
                   <User className="w-4 h-4" />
                   <span>{deal.contact_name}</span>
                 </div>
               )}
               
               {deal.contact_email && (
-                <div className={dealQuickViewInfoItemVariants({ inverted })}>
+                <div className={dealQuickViewInfoItemVariants({})}>
                   <Mail className="w-4 h-4" />
                   <span>{deal.contact_email}</span>
                 </div>
               )}
               
               {deal.contact_phone && (
-                <div className={dealQuickViewInfoItemVariants({ inverted })}>
+                <div className={dealQuickViewInfoItemVariants({})}>
                   <Phone className="w-4 h-4" />
                   <span>{deal.contact_phone}</span>
                 </div>
@@ -199,27 +199,27 @@ export function DealQuickView({
 
           {/* Timeline */}
           {(deal.expected_close_date || deal.stage || deal.assignee) && (
-            <div className={dealQuickViewSectionVariants({ inverted })}>
-              <h4 className={dealQuickViewSectionTitleVariants({ inverted })}>
+            <div className={dealQuickViewSectionVariants({})}>
+              <h4 className={dealQuickViewSectionTitleVariants({})}>
                 TIMELINE
               </h4>
               
               {deal.expected_close_date && (
-                <div className={dealQuickViewInfoItemVariants({ inverted })}>
+                <div className={dealQuickViewInfoItemVariants({})}>
                   <Calendar className="w-4 h-4" />
                   <span>Expected Close: {formatDate(deal.expected_close_date)}</span>
                 </div>
               )}
               
               {deal.stage && (
-                <div className={dealQuickViewInfoItemVariants({ inverted })}>
+                <div className={dealQuickViewInfoItemVariants({})}>
                   <Building className="w-4 h-4" />
                   <span>Stage: {deal.stage.name}</span>
                 </div>
               )}
               
               {deal.assignee && (
-                <div className={dealQuickViewInfoItemVariants({ inverted })}>
+                <div className={dealQuickViewInfoItemVariants({})}>
                   <User className="w-4 h-4" />
                   <span>Assigned to: {deal.assignee.full_name}</span>
                 </div>
@@ -229,13 +229,13 @@ export function DealQuickView({
 
           {/* Additional Information */}
           {(deal.source || deal.notes || deal.created_at) && (
-            <div className={dealQuickViewSectionVariants({ inverted })}>
-              <h4 className={dealQuickViewSectionTitleVariants({ inverted })}>
+            <div className={dealQuickViewSectionVariants({})}>
+              <h4 className={dealQuickViewSectionTitleVariants({})}>
                 ADDITIONAL INFORMATION
               </h4>
               
               {deal.source && (
-                <div className={dealQuickViewInfoItemVariants({ inverted })}>
+                <div className={dealQuickViewInfoItemVariants({})}>
                   <ArrowRight className="w-4 h-4" />
                   <span>Source: {deal.source}</span>
                 </div>
@@ -252,7 +252,7 @@ export function DealQuickView({
               )}
               
               {deal.created_at && (
-                <div className={dealQuickViewInfoItemVariants({ inverted })}>
+                <div className={dealQuickViewInfoItemVariants({})}>
                   <Calendar className="w-4 h-4" />
                   <span>Created: {formatDateTime(deal.created_at)}</span>
                 </div>
@@ -262,12 +262,12 @@ export function DealQuickView({
         </div>
 
         {/* Footer */}
-        <div className={dealQuickViewFooterVariants({ inverted })}>
+        <div className={dealQuickViewFooterVariants({})}>
           <div className="flex items-center gap-2">
             {onEdit && (
               <button
                 onClick={onEdit}
-                className={dealQuickViewActionVariants({ variant: "default", inverted })}
+                className={dealQuickViewActionVariants({ variant: "default" })}
               >
                 <Edit className="w-4 h-4" />
                 Edit
@@ -277,7 +277,7 @@ export function DealQuickView({
             {onMoveStage && (
               <button
                 onClick={onMoveStage}
-                className={dealQuickViewActionVariants({ variant: "primary", inverted })}
+                className={dealQuickViewActionVariants({ variant: "primary" })}
               >
                 <ArrowRight className="w-4 h-4" />
                 Move Stage
@@ -287,7 +287,7 @@ export function DealQuickView({
             {onDelete && (
               <button
                 onClick={onDelete}
-                className={dealQuickViewActionVariants({ variant: "danger", inverted })}
+                className={dealQuickViewActionVariants({ variant: "danger" })}
               >
                 <Trash2 className="w-4 h-4" />
                 Delete

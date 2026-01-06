@@ -58,20 +58,20 @@ export function ErrorState({
   const displayIcon = icon || defaultIcon;
 
   return (
-    <div className={errorStateVariants({ severity, fullPage, inverted, className })}>
+    <div className={errorStateVariants({ severity, fullPage, className })}>
       {/* Icon */}
-      <div className={errorStateIconVariants({ severity, inverted })}>
+      <div className={errorStateIconVariants({ severity })}>
         {displayIcon}
       </div>
 
       {/* Title */}
-      <h2 className={errorStateTitleVariants({ inverted })}>
+      <h2 className={errorStateTitleVariants({})}>
         {title}
       </h2>
 
       {/* Description */}
       {description && (
-        <p className={errorStateDescriptionVariants({ inverted })}>
+        <p className={errorStateDescriptionVariants({})}>
           {description}
         </p>
       )}
@@ -89,7 +89,7 @@ export function ErrorState({
             Error Details (Development Only)
           </summary>
           {detailsExpanded && (
-            <div className={errorStateDetailsVariants({ inverted })}>
+            <div className={errorStateDetailsVariants({})}>
               <div className="font-bold mb-2">Error Message:</div>
               <div className="mb-4">{error.message}</div>
               

@@ -102,7 +102,7 @@ export default function DashboardPage() {
 
             <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
               <Card inverted className="p-4">
-                <Body className="text-white font-weight-medium mb-3">Platform Access</Body>
+                <Body className="text-text-primary font-weight-medium mb-3">Platform Access</Body>
                 <Stack gap={2}>
                   <Button variant="solid" className="w-full" onClick={() => router.push("/admin/atlvs")}>
                     ATLVS Admin
@@ -117,11 +117,11 @@ export default function DashboardPage() {
               </Card>
 
               <Card inverted className="p-4">
-                <Body className="text-white font-weight-medium mb-3">System Health</Body>
+                <Body className="text-text-primary font-weight-medium mb-3">System Health</Body>
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-text-muted">API Response</Body>
-                    <Body size="sm" className="text-white">{healthData?.apiResponseTime || 45}ms</Body>
+                    <Body size="sm" className="text-text-primary">{healthData?.apiResponseTime || 45}ms</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-text-muted">Database</Body>
@@ -129,13 +129,13 @@ export default function DashboardPage() {
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-text-muted">Cache Hit</Body>
-                    <Body size="sm" className="text-white">{healthData?.cacheHitRate || 94}%</Body>
+                    <Body size="sm" className="text-text-primary">{healthData?.cacheHitRate || 94}%</Body>
                   </Stack>
                 </Stack>
               </Card>
 
               <Card inverted className="p-4">
-                <Body className="text-white font-weight-medium mb-3">Recent Activity</Body>
+                <Body className="text-text-primary font-weight-medium mb-3">Recent Activity</Body>
                 <Stack gap={2}>
                   {(activityData || fallbackActivity).map((activity) => (
                     <Body key={activity.id} size="sm" className="text-text-muted">
@@ -165,7 +165,7 @@ export default function DashboardPage() {
 
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <Card inverted className="p-4">
-                <Body className="text-white font-weight-medium mb-3">Quick Actions</Body>
+                <Body className="text-text-primary font-weight-medium mb-3">Quick Actions</Body>
                 <Stack gap={2}>
                   <Button variant="solid" className="w-full" icon={<Calendar className="size-4" />} iconPosition="left" onClick={() => router.push("/events/new")}>
                     Create New Event
@@ -180,14 +180,14 @@ export default function DashboardPage() {
               </Card>
 
               <Card inverted className="p-4">
-                <Body className="text-white font-weight-medium mb-3">Upcoming Events</Body>
+                <Body className="text-text-primary font-weight-medium mb-3">Upcoming Events</Body>
                 <Stack gap={3}>
                   <Box className="border-l-4 border-primary pl-4">
-                    <Body className="text-white">Summer Music Festival</Body>
+                    <Body className="text-text-primary">Summer Music Festival</Body>
                     <Label size="xs" className="text-text-muted">June 15, 2024 • 342 tickets sold</Label>
                   </Box>
                   <Box className="border-l-4 border-border pl-4">
-                    <Body className="text-white">Rock Concert Series</Body>
+                    <Body className="text-text-primary">Rock Concert Series</Body>
                     <Label size="xs" className="text-text-muted">July 20, 2024 • 156 tickets sold</Label>
                   </Box>
                 </Stack>
@@ -212,11 +212,11 @@ export default function DashboardPage() {
             </Grid>
 
             <Card inverted className="p-4">
-              <Body className="text-white font-weight-medium mb-3">Your Venues</Body>
+              <Body className="text-text-primary font-weight-medium mb-3">Your Venues</Body>
               <Card inverted className="p-4 cursor-pointer hover:bg-surface-elevated" onClick={() => router.push("/venues/main-stage")}>
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack gap={0}>
-                    <Body className="text-white">Main Stage Theater</Body>
+                    <Body className="text-text-primary">Main Stage Theater</Body>
                     <Label size="xs" className="text-text-muted">Capacity: 2,000 • Next Event: 3 days</Label>
                   </Stack>
                   <Button variant="outline" inverted size="sm" icon={<Building2 className="size-4" />} iconPosition="left">
@@ -245,7 +245,7 @@ export default function DashboardPage() {
 
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <Card inverted className="p-4">
-                <Body className="text-white font-weight-medium mb-3">Profile & Content</Body>
+                <Body className="text-text-primary font-weight-medium mb-3">Profile & Content</Body>
                 <Stack gap={2}>
                   <Button variant="solid" className="w-full" icon={<User className="size-4" />} iconPosition="left" onClick={() => router.push("/artist/profile")}>
                     Edit Profile
@@ -260,19 +260,19 @@ export default function DashboardPage() {
               </Card>
 
               <Card inverted className="p-4">
-                <Body className="text-white font-weight-medium mb-3">Fan Engagement</Body>
+                <Body className="text-text-primary font-weight-medium mb-3">Fan Engagement</Body>
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-text-muted">New Followers (7d)</Body>
-                    <Body size="sm" className="text-white">+342</Body>
+                    <Body size="sm" className="text-text-primary">+342</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-text-muted">Avg. Engagement</Body>
-                    <Body size="sm" className="text-white">8.4%</Body>
+                    <Body size="sm" className="text-text-primary">8.4%</Body>
                   </Stack>
                   <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="text-text-muted">Messages</Body>
-                    <Body size="sm" className="text-white">23 unread</Body>
+                    <Body size="sm" className="text-text-primary">23 unread</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -296,7 +296,7 @@ export default function DashboardPage() {
 
             <Grid cols={2} gap={4} className="grid-cols-1 lg:grid-cols-2">
               <Card inverted className="p-4">
-                <Body className="text-white font-weight-medium mb-3">Quick Access</Body>
+                <Body className="text-text-primary font-weight-medium mb-3">Quick Access</Body>
                 <Stack gap={2}>
                   <Button variant="solid" className="w-full" icon={<Calendar className="size-4" />} iconPosition="left" onClick={() => router.push("/events")}>
                     Browse Events
@@ -311,14 +311,14 @@ export default function DashboardPage() {
               </Card>
 
               <Card inverted className="p-4">
-                <Body className="text-white font-weight-medium mb-3">Recommendations</Body>
+                <Body className="text-text-primary font-weight-medium mb-3">Recommendations</Body>
                 <Stack gap={3}>
                   <Box className="border-l-4 border-primary pl-4">
-                    <Body className="text-white">Electronic Night</Body>
+                    <Body className="text-text-primary">Electronic Night</Body>
                     <Label size="xs" className="text-text-muted">Based on your preferences</Label>
                   </Box>
                   <Box className="border-l-4 border-border pl-4">
-                    <Body className="text-white">Jazz in the Park</Body>
+                    <Body className="text-text-primary">Jazz in the Park</Body>
                     <Label size="xs" className="text-text-muted">Nearby • This Weekend</Label>
                   </Box>
                 </Stack>

@@ -69,7 +69,7 @@ function VerifyEmailContent() {
   return (
     <AuthSplitLayout
       singleColumn
-      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">GVTEWAY</Text>}
+      brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">GVTEWAY</Text>}
     >
       <Stack gap={8} className="text-center items-center">
         <Box className="p-6 bg-primary-500/20 rounded-avatar border-2 border-primary-500/30">
@@ -77,10 +77,10 @@ function VerifyEmailContent() {
         </Box>
         
         <Stack gap={3} className="items-center">
-          <H2 className="text-white">Verify Your Email</H2>
+          <H2 className="text-text-primary">Verify Your Email</H2>
           <Body className="text-text-secondary max-w-sm">
             We&apos;ve sent a verification link to{" "}
-            {email ? <strong className="text-white">{email}</strong> : "your email address"}.
+            {email ? <strong className="text-text-primary">{email}</strong> : "your email address"}.
             Please check your inbox and click the link to activate your account.
           </Body>
           <Body size="sm" className="text-text-disabled max-w-sm">
@@ -123,14 +123,14 @@ export default function VerifyEmailPage() {
     <Suspense fallback={
       <AuthSplitLayout
         singleColumn
-        brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">GVTEWAY</Text>}
+        brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">GVTEWAY</Text>}
       >
         <Stack gap={8} className="text-center items-center">
           <Box className="p-6 bg-primary-500/20 rounded-avatar border-2 border-primary-500/30">
             <Mail className="size-12 text-primary-400" />
           </Box>
           <Stack gap={3} className="items-center">
-            <H2 className="text-white">Verify Your Email</H2>
+            <H2 className="text-text-primary">Verify Your Email</H2>
             <Spinner size="md" />
           </Stack>
         </Stack>

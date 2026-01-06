@@ -6,7 +6,7 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Shield, Plus, Edit, Trash2, Check, X, List, Settings } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
@@ -108,9 +108,39 @@ export default function RolesSettingsPage() {
     setEditingRole(null);
   };
 
-  const togglePermission = (permId: string) => {
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleShowCreate = useCallback(() => setShowCreate(true), []);
+  const handleCloseCreateModal = useCallback(() => {
+    setShowCreate(false);
+    resetForm();
+  }, []);
+  const handleCreateRole = useCallback(() => {
+    createMutation.mutate({ name: newRoleName, description: newRoleDesc, permissions: selectedPermissions });
+  }, [createMutation, newRoleName, newRoleDesc, selectedPermissions]);
+
+  const handleEditRole = useCallback((role: Role) => {
+    setEditingRole(role);
+    setNewRoleName(role.name);
+    setNewRoleDesc(role.description);
+    setSelectedPermissions(role.permissions);
+    setShowCreate(true);
+  }, []);
+
+  const handleDeleteRole = useCallback((roleId: string) => {
+    deleteMutation.mutate(roleId);
+  }, [deleteMutation]);
+
+  const handleTogglePermission = useCallback((permId: string) => {
     setSelectedPermissions((prev) => prev.includes(permId) ? prev.filter((p) => p !== permId) : [...prev, permId]);
-  };
+  }, []);
+
+  const handleRoleNameChange = useCallback((value: string) => {
+    setNewRoleName(value);
+  }, []);
+
+  const handleRoleDescChange = useCallback((value: string) => {
+    setNewRoleDesc(value);
+  }, []);
 
   const stats = {
     total: roles.length,
@@ -139,7 +169,7 @@ export default function RolesSettingsPage() {
 
           {canManageRoles && (
             <Box className="mb-6">
-              <Button variant="solid" onClick={() => setShowCreate(true)} icon={<Plus className="size-4" />} iconPosition="left">
+              <Button variant="solid" onClick={handleShowCreate} icon={<Plus className="size-4" />} iconPosition="left">
                 Create Role
               </Button>
             </Box>
@@ -166,8 +196,8 @@ export default function RolesSettingsPage() {
                     <Badge variant="info">{role.member_count} members</Badge>
                     {canManageRoles && !role.is_system && (
                       <Box className="flex items-center gap-1">
-                        <Button variant="ghost" size="sm" onClick={() => { setEditingRole(role); setNewRoleName(role.name); setNewRoleDesc(role.description); setSelectedPermissions(role.permissions); setShowCreate(true); }} icon={<Edit className="size-4" />} />
-                        <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(role.id)} disabled={deleteMutation.isPending} icon={<Trash2 className="size-4 text-error" />} />
+                        <Button variant="ghost" size="sm" onClick={() => handleEditRole(role)} icon={<Edit className="size-4" />} aria-label={`Edit ${role.name} role`} />
+                        <Button variant="ghost" size="sm" onClick={() => handleDeleteRole(role.id)} disabled={deleteMutation.isPending} icon={<Trash2 className="size-4 text-error" />} aria-label={`Delete ${role.name} role`} />
                       </Box>
                     )}
                   </Box>
@@ -210,23 +240,23 @@ export default function RolesSettingsPage() {
       <DetailPage
         header={{ kicker: "Settings", title: "Roles & Permissions", description: "Manage roles and what they can access" }}
         backButton={{ label: "Settings", href: "/settings" }}
-        loading={isLoading}
+        isLoading={isLoading}
         error={error instanceof Error ? error : null}
         onRetry={refetch}
         tabs={tabs}
       />
 
-      <Modal open={showCreate} onClose={() => { setShowCreate(false); resetForm(); }} size="lg">
+      <Modal open={showCreate} onClose={handleCloseCreateModal} size="lg">
         <ModalHeader><Body className="font-weight-bold font-weight-medium">{editingRole ? "Edit Role" : "Create Role"}</Body></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
             <Box>
               <Body size="sm" className="text-text-muted mb-1">Role Name</Body>
-              <Input placeholder="e.g., Project Lead" value={newRoleName} onChange={(e) => setNewRoleName(e.target.value)} />
+              <Input placeholder="e.g., Project Lead" value={newRoleName} onChange={(e) => handleRoleNameChange(e.target.value)} />
             </Box>
             <Box>
               <Body size="sm" className="text-text-muted mb-1">Description</Body>
-              <Input placeholder="What can this role do?" value={newRoleDesc} onChange={(e) => setNewRoleDesc(e.target.value)} />
+              <Input placeholder="What can this role do?" value={newRoleDesc} onChange={(e) => handleRoleDescChange(e.target.value)} />
             </Box>
             <Box>
               <Body size="sm" className="text-text-muted mb-2">Permissions</Body>
@@ -236,7 +266,7 @@ export default function RolesSettingsPage() {
                     <Body size="sm" className="font-weight-medium mb-2">{category}</Body>
                     <Grid cols={2} gap={2}>
                       {perms.map((perm) => (
-                        <Button key={perm.id} variant={selectedPermissions.includes(perm.id) ? "solid" : "outline"} size="sm" onClick={() => togglePermission(perm.id)} className="justify-start">
+                        <Button key={perm.id} variant={selectedPermissions.includes(perm.id) ? "solid" : "outline"} size="sm" onClick={() => handleTogglePermission(perm.id)} className="justify-start">
                           {selectedPermissions.includes(perm.id) ? <Check className="size-3 mr-2" /> : <X className="size-3 mr-2 opacity-50" />}
                           {perm.label}
                         </Button>
@@ -249,8 +279,8 @@ export default function RolesSettingsPage() {
           </Stack>
         </ModalBody>
         <ModalFooter>
-          <Button variant="outline" onClick={() => { setShowCreate(false); resetForm(); }}>Cancel</Button>
-          <Button variant="solid" onClick={() => createMutation.mutate({ name: newRoleName, description: newRoleDesc, permissions: selectedPermissions })} disabled={!newRoleName || createMutation.isPending}>
+          <Button variant="outline" onClick={handleCloseCreateModal}>Cancel</Button>
+          <Button variant="solid" onClick={handleCreateRole} disabled={!newRoleName || createMutation.isPending}>
             {createMutation.isPending ? "Saving..." : editingRole ? "Save Changes" : "Create Role"}
           </Button>
         </ModalFooter>

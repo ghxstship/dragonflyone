@@ -43,7 +43,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           className={clsx(
             passwordInputVariants({
               error,
-              inverted,
+              
               className,
             })
           )}
@@ -54,7 +54,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           onClick={() => setShowPassword(!showPassword)}
           className={clsx(
             passwordInputButtonVariants({
-              inverted,
+              
             })
           )}
           aria-label={showPassword ? "Hide password" : "Show password"}

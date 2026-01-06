@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 export interface CanvasObject {
   id: string;
@@ -51,10 +51,33 @@ export function useFloorPlanCanvas(initialObjects?: CanvasObject[]) {
     future: [],
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
   const state = history.present;
+
+  // Auto-save functionality - debounced save on state changes
+  useEffect(() => {
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current);
+    }
+    
+    autoSaveTimerRef.current = setTimeout(() => {
+      // Save to localStorage as a backup
+      try {
+        localStorage.setItem('floorplan_autosave', JSON.stringify(state));
+        setLastSaved(new Date());
+      } catch {
+        // Storage quota exceeded or unavailable - silently fail
+      }
+    }, 2000); // 2 second debounce
+
+    return () => {
+      if (autoSaveTimerRef.current) {
+        clearTimeout(autoSaveTimerRef.current);
+      }
+    };
+  }, [state]);
 
   const pushState = useCallback((newState: CanvasState) => {
     setHistory((prev) => ({
@@ -238,6 +261,7 @@ export function useFloorPlanCanvas(initialObjects?: CanvasObject[]) {
     state,
     canUndo,
     canRedo,
+    lastSaved,
     undo,
     redo,
     addObject,

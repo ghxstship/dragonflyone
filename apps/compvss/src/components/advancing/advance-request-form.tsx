@@ -230,6 +230,7 @@ export function AdvanceRequestForm({
                             handleUpdateItem(index, { item_name: e.target.value })
                           }
                           placeholder="Item name"
+                          aria-label={`Item name for row ${index + 1}`}
                         />
                       )}
                     </TableCell>
@@ -244,6 +245,7 @@ export function AdvanceRequestForm({
                         }
                         min="0"
                         step="0.1"
+                        aria-label={`Quantity for ${item.item_name || 'item'} row ${index + 1}`}
                       />
                     </TableCell>
                     <TableCell>
@@ -251,6 +253,7 @@ export function AdvanceRequestForm({
                         type="text"
                         value={item.unit}
                         onChange={(e) => handleUpdateItem(index, { unit: e.target.value })}
+                        aria-label={`Unit for ${item.item_name || 'item'} row ${index + 1}`}
                       />
                     </TableCell>
                     <TableCell>
@@ -265,6 +268,7 @@ export function AdvanceRequestForm({
                         placeholder="Cost"
                         min="0"
                         step="0.01"
+                        aria-label={`Unit cost for ${item.item_name || 'item'} row ${index + 1}`}
                       />
                     </TableCell>
                     <TableCell>

@@ -9,6 +9,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { Calendar, Users, FileText, DollarSign, Clock, CheckCircle, List, Activity} from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useState, useCallback } from "react";
 import {
   Badge, Body, Button, Card, Grid, ProgressBar, StatCard, DetailPage, Section, SectionHeader, Box, Stack } from "@ghxstship/ui";
 
@@ -45,6 +46,31 @@ export default function ProductionOverviewPage() {
   const taskProgress = production ? (production.tasks_completed / production.tasks_total) * 100 : 0;
   const budgetProgress = production ? (production.spent / production.budget) * 100 : 0;
 
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleViewBudget = useCallback(() => {
+    router.push(`/finance/budgets`);
+  }, [router]);
+
+  const handleViewSettings = useCallback(() => {
+    router.push(`/p/${productionId}/settings`);
+  }, [router, productionId]);
+
+  const handleViewSchedule = useCallback(() => {
+    router.push(`/p/${productionId}/schedule`);
+  }, [router, productionId]);
+
+  const handleViewTeam = useCallback(() => {
+    router.push(`/p/${productionId}/team`);
+  }, [router, productionId]);
+
+  const handleViewDocuments = useCallback(() => {
+    router.push(`/p/${productionId}/documents`);
+  }, [router, productionId]);
+
+  const handleViewVendors = useCallback(() => {
+    router.push(`/p/${productionId}/vendors`);
+  }, [router, productionId]);
+
   const tabs = [
     {
       id: "overview",
@@ -69,7 +95,7 @@ export default function ProductionOverviewPage() {
                 </Box>
                 <ProgressBar value={taskProgress} size="lg" />
               </Box>
-              <Button variant="outline" className="mt-4" onClick={() => router.push(`/p/${productionId}/schedule`)}>View Schedule</Button>
+              <Button variant="outline" className="mt-4" onClick={handleViewSchedule}>View Schedule</Button>
             </Card>
 
             <Card className="p-6">
@@ -81,7 +107,7 @@ export default function ProductionOverviewPage() {
                 </Box>
                 <ProgressBar value={budgetProgress} size="lg" variant={budgetProgress > 90 ? "error" : budgetProgress > 75 ? "warning" : "default"} />
               </Box>
-              <Button variant="outline" className="mt-4" onClick={() => router.push(`/finance/budgets`)}>View Budget</Button>
+              <Button variant="outline" className="mt-4" onClick={handleViewBudget}>View Budget</Button>
             </Card>
           </Grid>
 
@@ -143,7 +169,7 @@ export default function ProductionOverviewPage() {
       actions={
         <Box className="flex gap-2">
           <Badge variant={production?.status === "active" ? "success" : "warning"}>{production?.status || "Loading"}</Badge>
-          <Button variant="outline" onClick={() => router.push(`/p/${productionId}/settings`)}>Settings</Button>
+          <Button variant="outline" onClick={handleViewSettings}>Settings</Button>
         </Box>
       }
     />

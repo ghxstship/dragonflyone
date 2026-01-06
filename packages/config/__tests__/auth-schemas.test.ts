@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect } from 'vitest';
 import {
   signUpSchema,
@@ -343,7 +342,7 @@ describe('auth-schemas', () => {
     });
 
     it('should return fallback for unknown code', () => {
-      expect(getAuthErrorMessage('unknown_code' as any)).toBe('An unexpected error occurred');
+      expect(getAuthErrorMessage('server_error')).toBe('An unexpected error occurred. Please try again.');
     });
   });
 });

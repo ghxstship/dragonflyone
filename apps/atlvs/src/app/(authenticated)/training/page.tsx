@@ -6,7 +6,7 @@
  * Bold Contemporary Pop Art Adventure Design System
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { 
   GraduationCap, Award, BookOpen, Video, Clock, CheckCircle, 
@@ -173,6 +173,27 @@ export default function TrainingPage() {
     router.push(`/training/${id}/enroll`);
   };
 
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleManageCourses = useCallback(() => {
+    router.push("/training/manage");
+  }, [router]);
+
+  const handleViewCertificates = useCallback(() => {
+    setActiveTab("certificates");
+  }, []);
+
+  const handleTabChange = useCallback((tabId: string) => {
+    setActiveTab(tabId as "courses" | "my-learning" | "certificates");
+  }, []);
+
+  const handleBrowseCourses = useCallback(() => {
+    setActiveTab("courses");
+  }, []);
+
+  const handleCategoryChange = useCallback((categoryId: string) => {
+    setActiveCategory(categoryId);
+  }, []);
+
   const trainingSidebar = (
     <Stack gap={6}>
       {/* Categories */}
@@ -186,7 +207,7 @@ export default function TrainingPage() {
               size="sm"
               fullWidth
               className="justify-between"
-              onClick={() => setActiveCategory(category.id)}
+              onClick={() => handleCategoryChange(category.id)}
             >
               <Text>{category.label}</Text>
               <Badge variant="outline" size="sm">{category.count}</Badge>
@@ -249,11 +270,11 @@ export default function TrainingPage() {
       actions={
         <Stack direction="horizontal" gap={2}>
           {canManageTraining && (
-            <Button variant="outline" icon={<GraduationCap className="size-4" />} onClick={() => router.push("/training/manage")}>
+            <Button variant="outline" icon={<GraduationCap className="size-4" />} onClick={handleManageCourses}>
               Manage Courses
             </Button>
           )}
-          <Button variant="outline" icon={<Trophy className="size-4" />} onClick={() => setActiveTab("certificates")}>
+          <Button variant="outline" icon={<Trophy className="size-4" />} onClick={handleViewCertificates}>
             View Certificates
           </Button>
         </Stack>
@@ -270,7 +291,7 @@ export default function TrainingPage() {
         { id: "certificates", label: "Certificates", count: DEMO_CERTIFICATES.length },
       ]}
       activeTab={activeTab}
-      onTabChange={(tabId: string) => setActiveTab(tabId as "courses" | "my-learning" | "certificates")}
+      onTabChange={handleTabChange}
       sidebar={trainingSidebar}
       sidebarPosition="right"
       sidebarWidth={4}
@@ -429,7 +450,7 @@ export default function TrainingPage() {
                   <Body size="sm" className="text-text-muted mb-4">
                     Start your learning journey by enrolling in a course.
                   </Body>
-                  <Button variant="solid" onClick={() => setActiveTab("courses")}>
+                  <Button variant="solid" onClick={handleBrowseCourses}>
                     Browse Courses
                   </Button>
                 </Card>
@@ -474,7 +495,7 @@ export default function TrainingPage() {
                   <Body size="sm" className="text-text-muted mb-4">
                     Complete courses to earn certificates.
                   </Body>
-                  <Button variant="solid" onClick={() => setActiveTab("courses")}>
+                  <Button variant="solid" onClick={handleBrowseCourses}>
                     Start Learning
                   </Button>
                 </Card>

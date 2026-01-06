@@ -33,7 +33,7 @@ export default function CurrencyPage() {
             </Card>
           ))}
         </Grid>
-        <Link href="/checkout" className="w-full mt-6 inline-flex items-center justify-center bg-primary text-white px-4 py-2 rounded-button font-weight-medium">Continue to Checkout</Link>
+        <Link href="/checkout" className="w-full mt-6 inline-flex items-center justify-center bg-primary text-text-primary px-4 py-2 rounded-button font-weight-medium">Continue to Checkout</Link>
       </Section>
     ),
   }];

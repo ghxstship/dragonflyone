@@ -49,7 +49,7 @@ const priorityColors = {
 // =============================================================================
 
 export const MainContent = forwardRef<HTMLDivElement, MainContentProps>(
-  function MainContent({ children, padding = "md", inverted = true, className }, ref) {
+  function MainContent({ children, padding = "md" = true, className }, ref) {
     return (
       <div
         ref={ref}
@@ -158,7 +158,7 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
         className={clsx("flex h-full overflow-hidden", className)}
       >
         {sidePosition === "left" && (collapsed ? collapsedToggle : sidePanel)}
-        <div className={clsx("flex-1 overflow-auto", inverted ? "bg-surface-inverse" : "bg-surface-secondary")}>
+        <div className={clsx("flex-1 overflow-auto" ? "bg-surface-inverse" : "bg-surface-secondary")}>
           {main}
         </div>
         {sidePosition === "right" && (collapsed ? collapsedToggle : sidePanel)}
@@ -173,7 +173,7 @@ export const SplitLayout = forwardRef<HTMLDivElement, SplitLayoutProps>(
 
 export const PanelLayout = forwardRef<HTMLDivElement, PanelLayoutProps>(
   function PanelLayout(
-    { sections, direction = "vertical", gap = "md", inverted = true, className },
+    { sections, direction = "vertical", gap = "md" = true, className },
     ref
   ) {
     return (
@@ -218,7 +218,7 @@ export const PanelLayout = forwardRef<HTMLDivElement, PanelLayoutProps>(
 
 export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
   function Toolbar(
-    { children, position = "top", sticky = true, inverted = true, className },
+    { children, position = "top", sticky = true = true, className },
     ref
   ) {
     return (
@@ -244,7 +244,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
 
 export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
   function ContentSection(
-    { children, title, subtitle, actions, collapsible: _collapsible = false, inverted = true, className },
+    { children, title, subtitle, actions, collapsible: _collapsible = false = true, className },
     ref
   ) {
     return (
@@ -299,7 +299,7 @@ export const ContentSection = forwardRef<HTMLDivElement, ContentSectionProps>(
 // =============================================================================
 
 export const KanbanLayout = forwardRef<HTMLDivElement, KanbanLayoutProps>(
-  function KanbanLayout({ columns, inverted = true, className }, ref) {
+  function KanbanLayout({ columns = true, className }, ref) {
     return (
       <div
         ref={ref}

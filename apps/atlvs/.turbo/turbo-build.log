@@ -1,28 +1,26 @@
 
-
 > atlvs@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
 > NODE_OPTIONS='--max-old-space-size=8192' next build --no-lint
 
- [33m[1m⚠[22m[39m Linting is disabled.
-  [1m[38;2;173;127;168m▲ Next.js 14.2.28[39m[22m
+ ⚠ Linting is disabled.
+  ▲ Next.js 14.2.28
   - Environments: .env.local
 
- [37m[1m [22m[39m Creating an optimized production build ...
- [37m[1m [22m[39m Using tsconfig file: tsconfig.build.json
-<w> [1m[33m[webpack.cache.PackFileCacheStrategy] Serializing big strings (130kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)[39m[22m
+   Creating an optimized production build ...
+   Using tsconfig file: tsconfig.build.json
 
-[1m[33mwarn[39m[22m - Unnecessary typehint `length` in `leading-[length:--line-height-{level}-lg]`.
-[1m[33mwarn[39m[22m - You can safely update it to `leading-[--line-height-{level}-lg]`.
+warn - Unnecessary typehint `length` in `leading-[length:--line-height-{level}-lg]`.
+warn - You can safely update it to `leading-[--line-height-{level}-lg]`.
 
-[1m[33mwarn[39m[22m - Unnecessary typehint `length` in `leading-[length:--line-height-{level}-md]`.
-[1m[33mwarn[39m[22m - You can safely update it to `leading-[--line-height-{level}-md]`.
+warn - Unnecessary typehint `length` in `leading-[length:--line-height-{level}-md]`.
+warn - You can safely update it to `leading-[--line-height-{level}-md]`.
 
-[1m[33mwarn[39m[22m - Unnecessary typehint `length` in `leading-[length:--line-height-{level}-sm]`.
-[1m[33mwarn[39m[22m - You can safely update it to `leading-[--line-height-{level}-sm]`.
+warn - Unnecessary typehint `length` in `leading-[length:--line-height-{level}-sm]`.
+warn - You can safely update it to `leading-[--line-height-{level}-sm]`.
 
-[1m[33mwarn[39m[22m - Unnecessary typehint `length` in `leading-[length:--line-height-{level}-xl]`.
-[1m[33mwarn[39m[22m - You can safely update it to `leading-[--line-height-{level}-xl]`.
- [33m[1m⚠[22m[39m Compiled with warnings
+warn - Unnecessary typehint `length` in `leading-[length:--line-height-{level}-xl]`.
+warn - You can safely update it to `leading-[--line-height-{level}-xl]`.
+ ⚠ Compiled with warnings
 
 ./src/app/api/auth/sessions/route.ts
 Attempted import error: 'ua-parser-js' does not contain a default export (imported as 'UAParser').
@@ -30,52 +28,728 @@ Attempted import error: 'ua-parser-js' does not contain a default export (import
 Import trace for requested module:
 ./src/app/api/auth/sessions/route.ts
 
-../../node_modules/.pnpm/@supabase+realtime-js@2.89.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
-A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
-Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+   Skipping validation of types
+   Collecting page data ...
+ ⚠ Using edge runtime on a page currently disables static generation for that page
+   Generating static pages (0/170) ...
+   Generating static pages (42/170) 
+   Generating static pages (84/170) 
+   Generating static pages (127/170) 
+ ✓ Generating static pages (170/170)
+   Finalizing page optimization ...
+   Collecting build traces ...
 
-Import trace for requested module:
-../../node_modules/.pnpm/@supabase+realtime-js@2.89.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
-../../node_modules/.pnpm/@supabase+realtime-js@2.89.0/node_modules/@supabase/realtime-js/dist/module/index.js
-../../node_modules/.pnpm/@supabase+supabase-js@2.89.0/node_modules/@supabase/supabase-js/dist/index.mjs
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/index.js
+Route (app)                                       Size     First Load JS
+┌ ƒ /                                             16.8 kB         604 kB
+├ ○ /_not-found                                   143 B          87.5 kB
+├ ○ /about                                        2.03 kB         497 kB
+├ ○ /admin/batch-operations                       4.09 kB         612 kB
+├ ○ /admin/users                                  4.51 kB         613 kB
+├ ○ /advancing                                    2.86 kB         611 kB
+├ ○ /advancing/review                             1.84 kB         610 kB
+├ ○ /analytics                                    4.23 kB         612 kB
+├ ○ /analytics/dashboard-builder                  3.1 kB          611 kB
+├ ƒ /api/account-health                           0 B                0 B
+├ ƒ /api/accounts-payable                         0 B                0 B
+├ ƒ /api/accounts-receivable                      0 B                0 B
+├ ƒ /api/action-items                             0 B                0 B
+├ ƒ /api/activity                                 0 B                0 B
+├ ƒ /api/activity/[id]                            0 B                0 B
+├ ƒ /api/admin/audit-logs                         0 B                0 B
+├ ƒ /api/admin/notification-routing               0 B                0 B
+├ ƒ /api/admin/settings                           0 B                0 B
+├ ƒ /api/admin/users                              0 B                0 B
+├ ƒ /api/advances                                 0 B                0 B
+├ ƒ /api/advances/[id]                            0 B                0 B
+├ ƒ /api/advances/[id]/approve                    0 B                0 B
+├ ƒ /api/advances/[id]/reject                     0 B                0 B
+├ ƒ /api/advancing/analytics                      0 B                0 B
+├ ƒ /api/advancing/batch                          0 B                0 B
+├ ƒ /api/advancing/catalog                        0 B                0 B
+├ ƒ /api/advancing/catalog/[id]                   0 B                0 B
+├ ƒ /api/advancing/catalog/categories             0 B                0 B
+├ ƒ /api/advancing/from-template                  0 B                0 B
+├ ƒ /api/advancing/requests                       0 B                0 B
+├ ƒ /api/advancing/requests/[id]                  0 B                0 B
+├ ƒ /api/advancing/requests/[id]/approve          0 B                0 B
+├ ƒ /api/advancing/requests/[id]/fulfill          0 B                0 B
+├ ƒ /api/advancing/requests/[id]/reject           0 B                0 B
+├ ƒ /api/advancing/templates                      0 B                0 B
+├ ƒ /api/advancing/templates/[id]                 0 B                0 B
+├ ƒ /api/advancing/templates/[id]/favorite        0 B                0 B
+├ ƒ /api/advancing/templates/[id]/items           0 B                0 B
+├ ƒ /api/advancing/templates/[id]/items/[itemId]  0 B                0 B
+├ ƒ /api/advancing/templates/from-advance         0 B                0 B
+├ ƒ /api/ai/asset-maintenance                     0 B                0 B
+├ ƒ /api/ai/competitive-intelligence              0 B                0 B
+├ ƒ /api/ai/demand-forecasting                    0 B                0 B
+├ ƒ /api/ai/financial-forecasting                 0 B                0 B
+├ ƒ /api/ai/portfolio-planning                    0 B                0 B
+├ ƒ /api/ai/predictive-analytics                  0 B                0 B
+├ ƒ /api/ai/resource-optimization                 0 B                0 B
+├ ƒ /api/alignment                                0 B                0 B
+├ ƒ /api/alignment/metrics                        0 B                0 B
+├ ƒ /api/analytics                                0 B                0 B
+├ ƒ /api/analytics/advanced-dashboard             0 B                0 B
+├ ƒ /api/analytics/client-retention               0 B                0 B
+├ ƒ /api/analytics/client-retention/bulk          0 B                0 B
+├ ƒ /api/analytics/cross-platform                 0 B                0 B
+├ ƒ /api/analytics/dashboard                      0 B                0 B
+├ ƒ /api/analytics/dashboards                     0 B                0 B
+├ ƒ /api/analytics/dashboards/[id]                0 B                0 B
+├ ƒ /api/analytics/dashboards/[id]/duplicate      0 B                0 B
+├ ƒ /api/analytics/dashboards/[id]/star           0 B                0 B
+├ ƒ /api/analytics/pipeline                       0 B                0 B
+├ ƒ /api/analytics/predictions                    0 B                0 B
+├ ƒ /api/analytics/predictive                     0 B                0 B
+├ ƒ /api/analytics/reports                        0 B                0 B
+├ ƒ /api/analytics/reports/[id]                   0 B                0 B
+├ ƒ /api/analytics/reports/[id]/run               0 B                0 B
+├ ƒ /api/analytics/revenue                        0 B                0 B
+├ ƒ /api/anomaly-detection                        0 B                0 B
+├ ƒ /api/app-store                                0 B                0 B
+├ ƒ /api/artists                                  0 B                0 B
+├ ƒ /api/artists/[id]                             0 B                0 B
+├ ƒ /api/asset-analytics                          0 B                0 B
+├ ƒ /api/asset-checkout                           0 B                0 B
+├ ƒ /api/asset-damage                             0 B                0 B
+├ ƒ /api/asset-insurance                          0 B                0 B
+├ ƒ /api/asset-lifecycle                          0 B                0 B
+├ ƒ /api/asset-location                           0 B                0 B
+├ ƒ /api/asset-specs                              0 B                0 B
+├ ƒ /api/asset-tracking                           0 B                0 B
+├ ƒ /api/asset-utilization                        0 B                0 B
+├ ƒ /api/assets                                   0 B                0 B
+├ ƒ /api/assets/[id]                              0 B                0 B
+├ ƒ /api/assets/depreciation                      0 B                0 B
+├ ƒ /api/assets/optimization                      0 B                0 B
+├ ƒ /api/assets/scan                              0 B                0 B
+├ ƒ /api/assets/scan/history                      0 B                0 B
+├ ƒ /api/assets/tracking                          0 B                0 B
+├ ƒ /api/attachments                              0 B                0 B
+├ ƒ /api/attachments/[id]                         0 B                0 B
+├ ƒ /api/audit-findings                           0 B                0 B
+├ ƒ /api/audit-logs                               0 B                0 B
+├ ƒ /api/audit-logs/[id]                          0 B                0 B
+├ ƒ /api/auth/callback                            0 B                0 B
+├ ƒ /api/auth/invite                              0 B                0 B
+├ ƒ /api/auth/magic-link                          0 B                0 B
+├ ƒ /api/auth/me                                  0 B                0 B
+├ ƒ /api/auth/mfa                                 0 B                0 B
+├ ƒ /api/auth/oauth/[provider]                    0 B                0 B
+├ ƒ /api/auth/password/reset                      0 B                0 B
+├ ƒ /api/auth/password/update                     0 B                0 B
+├ ƒ /api/auth/refresh                             0 B                0 B
+├ ƒ /api/auth/resend-verification                 0 B                0 B
+├ ƒ /api/auth/sessions                            0 B                0 B
+├ ƒ /api/auth/sessions/[id]                       0 B                0 B
+├ ƒ /api/auth/signin                              0 B                0 B
+├ ƒ /api/auth/signout                             0 B                0 B
+├ ƒ /api/auth/signup                              0 B                0 B
+├ ƒ /api/auth/verify-email                        0 B                0 B
+├ ƒ /api/automated-insights                       0 B                0 B
+├ ƒ /api/background-checks                        0 B                0 B
+├ ƒ /api/bad-debt                                 0 B                0 B
+├ ƒ /api/bank-reconciliation                      0 B                0 B
+├ ƒ /api/batch                                    0 B                0 B
+├ ƒ /api/batch/operations                         0 B                0 B
+├ ƒ /api/benchmarking                             0 B                0 B
+├ ƒ /api/benefits                                 0 B                0 B
+├ ƒ /api/beo-templates                            0 B                0 B
+├ ƒ /api/beo-templates/[id]                       0 B                0 B
+├ ƒ /api/beos/[id]                                0 B                0 B
+├ ƒ /api/bi-integration                           0 B                0 B
+├ ƒ /api/bid-comparison                           0 B                0 B
+├ ƒ /api/bills                                    0 B                0 B
+├ ƒ /api/bills/[id]                               0 B                0 B
+├ ƒ /api/blanket-po                               0 B                0 B
+├ ƒ /api/booking-add-ons                          0 B                0 B
+├ ƒ /api/booking-packages                         0 B                0 B
+├ ƒ /api/booking-packages/[id]                    0 B                0 B
+├ ƒ /api/booking-templates                        0 B                0 B
+├ ƒ /api/booking-templates/[id]                   0 B                0 B
+├ ƒ /api/budget-variance                          0 B                0 B
+├ ƒ /api/budgets                                  0 B                0 B
+├ ƒ /api/budgets/[id]                             0 B                0 B
+├ ƒ /api/budgets/categories                       0 B                0 B
+├ ƒ /api/business-continuity                      0 B                0 B
+├ ƒ /api/calendar-integration                     0 B                0 B
+├ ƒ /api/calibration-schedules                    0 B                0 B
+├ ƒ /api/calibration-schedules/[id]               0 B                0 B
+├ ƒ /api/calibration-schedules/[id]/record        0 B                0 B
+├ ƒ /api/capacity-planning                        0 B                0 B
+├ ƒ /api/cash-flow                                0 B                0 B
+├ ƒ /api/catalog                                  0 B                0 B
+├ ƒ /api/catalog/[id]                             0 B                0 B
+├ ƒ /api/catalog/categories                       0 B                0 B
+├ ƒ /api/catalog/effective                        0 B                0 B
+├ ƒ /api/catalog/organization                     0 B                0 B
+├ ƒ /api/catalog/organization/[id]                0 B                0 B
+├ ƒ /api/catalog/organization/[id]/lock           0 B                0 B
+├ ƒ /api/catalog/organization/[id]/unlock         0 B                0 B
+├ ƒ /api/catalog/organization/duplicate           0 B                0 B
+├ ƒ /api/catalog/permissions                      0 B                0 B
+├ ƒ /api/catalog/permissions/[id]                 0 B                0 B
+├ ƒ /api/catalog/permissions/check                0 B                0 B
+├ ƒ /api/catalog/search                           0 B                0 B
+├ ƒ /api/catalog/visibility                       0 B                0 B
+├ ƒ /api/catalog/visibility/[id]                  0 B                0 B
+├ ƒ /api/chronicle/activity-feed                  0 B                0 B
+├ ƒ /api/chronicle/counts                         0 B                0 B
+├ ƒ /api/chronicle/entries                        0 B                0 B
+├ ƒ /api/churn-analysis                           0 B                0 B
+├ ƒ /api/client-onboarding                        0 B                0 B
+├ ƒ /api/client-portal/access                     0 B                0 B
+├ ƒ /api/client-portal/auth                       0 B                0 B
+├ ƒ /api/client-portal/documents                  0 B                0 B
+├ ƒ /api/client-portal/events                     0 B                0 B
+├ ƒ /api/client-portal/invite                     0 B                0 B
+├ ƒ /api/client-portal/invoices                   0 B                0 B
+├ ƒ /api/clients                                  0 B                0 B
+├ ƒ /api/clients/[id]                             0 B                0 B
+├ ƒ /api/cohort-analysis                          0 B                0 B
+├ ƒ /api/comments                                 0 B                0 B
+├ ƒ /api/comments/[id]                            0 B                0 B
+├ ƒ /api/commissions                              0 B                0 B
+├ ƒ /api/communication-history                    0 B                0 B
+├ ƒ /api/compensation-planning                    0 B                0 B
+├ ƒ /api/compliance                               0 B                0 B
+├ ƒ /api/compliance-training                      0 B                0 B
+├ ƒ /api/compliance/[id]                          0 B                0 B
+├ ƒ /api/compliance/regional                      0 B                0 B
+├ ƒ /api/contacts                                 0 B                0 B
+├ ƒ /api/contacts/[id]                            0 B                0 B
+├ ƒ /api/contacts/[id]/interactions               0 B                0 B
+├ ƒ /api/contacts/[id]/timeline                   0 B                0 B
+├ ƒ /api/contacts/duplicates                      0 B                0 B
+├ ƒ /api/contacts/merge                           0 B                0 B
+├ ƒ /api/contract-clauses                         0 B                0 B
+├ ƒ /api/contract-negotiation                     0 B                0 B
+├ ƒ /api/contract-templates                       0 B                0 B
+├ ƒ /api/contract-templates/[id]                  0 B                0 B
+├ ƒ /api/contracts                                0 B                0 B
+├ ƒ /api/cost-allocation                          0 B                0 B
+├ ƒ /api/credential-alerts                        0 B                0 B
+├ ƒ /api/credentials                              0 B                0 B
+├ ƒ /api/credit-card-reconciliation               0 B                0 B
+├ ƒ /api/crm                                      0 B                0 B
+├ ƒ /api/crm/pipeline-forecasting                 0 B                0 B
+├ ƒ /api/cron/cleanup-sessions                    0 B                0 B
+├ ƒ /api/cron/sync-ledger                         0 B                0 B
+├ ƒ /api/cross-platform/compvss-sync              0 B                0 B
+├ ƒ /api/cross-platform/gvteway-sync              0 B                0 B
+├ ƒ /api/currencies                               0 B                0 B
+├ ƒ /api/damage-reports                           0 B                0 B
+├ ƒ /api/dashboard-builder                        0 B                0 B
+├ ƒ /api/dashboards                               0 B                0 B
+├ ƒ /api/dashboards/[id]/duplicate                0 B                0 B
+├ ƒ /api/dashboards/bulk                          0 B                0 B
+├ ƒ /api/data-export                              0 B                0 B
+├ ƒ /api/data-sources                             0 B                0 B
+├ ƒ /api/data-sources/[id]/sync                   0 B                0 B
+├ ƒ /api/data-sources/bulk                        0 B                0 B
+├ ƒ /api/data-sources/bulk-sync                   0 B                0 B
+├ ƒ /api/data-warehouse/bi-keys                   0 B                0 B
+├ ƒ /api/data-warehouse/connections               0 B                0 B
+├ ƒ /api/data-warehouse/exports                   0 B                0 B
+├ ƒ /api/data-warehouse/pipelines                 0 B                0 B
+├ ƒ /api/deals                                    0 B                0 B
+├ ƒ /api/deals/[id]                               0 B                0 B
+├ ƒ /api/deals/handoff                            0 B                0 B
+├ ƒ /api/deferred-revenue                         0 B                0 B
+├ ƒ /api/departments                              0 B                0 B
+├ ƒ /api/departments/[id]                         0 B                0 B
+├ ƒ /api/documents/e-signature                    0 B                0 B
+├ ƒ /api/email-integration                        0 B                0 B
+├ ƒ /api/emergency-contacts                       0 B                0 B
+├ ƒ /api/employees                                0 B                0 B
+├ ƒ /api/employees/[id]                           0 B                0 B
+├ ƒ /api/enterprise/data-residency                0 B                0 B
+├ ƒ /api/enterprise/white-label                   0 B                0 B
+├ ƒ /api/equipment-certifications                 0 B                0 B
+├ ƒ /api/equipment-certifications/[id]            0 B                0 B
+├ ƒ /api/equipment-certifications/[id]/renew      0 B                0 B
+├ ƒ /api/event-types                              0 B                0 B
+├ ƒ /api/event-types/[id]                         0 B                0 B
+├ ƒ /api/events                                   0 B                0 B
+├ ƒ /api/events/[id]                              0 B                0 B
+├ ƒ /api/expenses                                 0 B                0 B
+├ ƒ /api/finance/enhanced                         0 B                0 B
+├ ƒ /api/fixed-assets                             0 B                0 B
+├ ƒ /api/floor-plan-objects                       0 B                0 B
+├ ƒ /api/floor-plans                              0 B                0 B
+├ ƒ /api/floor-plans/[id]                         0 B                0 B
+├ ƒ /api/freelancers                              0 B                0 B
+├ ƒ /api/generator/analytics                      0 B                0 B
+├ ƒ /api/generator/capture-lead                   0 B                0 B
+├ ƒ /api/generator/export                         0 B                0 B
+├ ƒ /api/generator/generate                       0 B                0 B
+├ ƒ /api/generator/pdf                            0 B                0 B
+├ ƒ /api/generator/share                          0 B                0 B
+├ ƒ /api/governance                               0 B                0 B
+├ ƒ /api/grants                                   0 B                0 B
+├ ƒ /api/handbook                                 0 B                0 B
+├ ƒ /api/handbook/[id]                            0 B                0 B
+├ ƒ /api/handbook/[id]/acknowledge                0 B                0 B
+├ ƒ /api/health                                   0 B                0 B
+├ ƒ /api/incident-reports                         0 B                0 B
+├ ƒ /api/insurance                                0 B                0 B
+├ ƒ /api/insurance-coi                            0 B                0 B
+├ ƒ /api/insurance/[id]                           0 B                0 B
+├ ƒ /api/integrations                             0 B                0 B
+├ ƒ /api/integrations/[id]                        0 B                0 B
+├ ƒ /api/integrations/[id]/sync                   0 B                0 B
+├ ƒ /api/integrations/analytics                   0 B                0 B
+├ ƒ /api/integrations/crm-sync                    0 B                0 B
+├ ƒ /api/integrations/deal-to-project             0 B                0 B
+├ ƒ /api/integrations/erp-sync                    0 B                0 B
+├ ƒ /api/integrations/health                      0 B                0 B
+├ ƒ /api/integrations/hr-systems                  0 B                0 B
+├ ƒ /api/integrations/metrics                     0 B                0 B
+├ ƒ /api/integrations/payroll                     0 B                0 B
+├ ƒ /api/integrations/slack-teams                 0 B                0 B
+├ ƒ /api/integrations/stripe-reconciliation       0 B                0 B
+├ ƒ /api/intercompany                             0 B                0 B
+├ ƒ /api/inventory                                0 B                0 B
+├ ƒ /api/inventory/[id]                           0 B                0 B
+├ ƒ /api/inventory/[id]/check-in                  0 B                0 B
+├ ƒ /api/inventory/[id]/check-out                 0 B                0 B
+├ ƒ /api/inventory/availability                   0 B                0 B
+├ ƒ /api/inventory/scan                           0 B                0 B
+├ ƒ /api/investors                                0 B                0 B
+├ ƒ /api/investors/[id]                           0 B                0 B
+├ ƒ /api/invoices                                 0 B                0 B
+├ ƒ /api/invoices/[id]                            0 B                0 B
+├ ƒ /api/ip-tracking                              0 B                0 B
+├ ƒ /api/job-costing                              0 B                0 B
+├ ƒ /api/kpi                                      0 B                0 B
+├ ƒ /api/kpi/[code]                               0 B                0 B
+├ ƒ /api/kpi/dashboard                            0 B                0 B
+├ ƒ /api/kpi/data                                 0 B                0 B
+├ ƒ /api/kpi/reports                              0 B                0 B
+├ ƒ /api/kpi/reports/[id]                         0 B                0 B
+├ ƒ /api/kpi/reports/[id]/duplicate               0 B                0 B
+├ ƒ /api/kpi/reports/[id]/favorite                0 B                0 B
+├ ƒ /api/kpi/reports/favorites                    0 B                0 B
+├ ƒ /api/kpi/trend/[code]                         0 B                0 B
+├ ƒ /api/labor-compliance                         0 B                0 B
+├ ƒ /api/lead-forms                               0 B                0 B
+├ ƒ /api/lead-forms/[id]                          0 B                0 B
+├ ƒ /api/lead-forms/[id]/analytics                0 B                0 B
+├ ƒ /api/lead-forms/[id]/submissions              0 B                0 B
+├ ƒ /api/lead-forms/[id]/submit                   0 B                0 B
+├ ƒ /api/lead-scoring                             0 B                0 B
+├ ƒ /api/ledger-accounts                          0 B                0 B
+├ ƒ /api/ledger-entries                           0 B                0 B
+├ ƒ /api/legend/counts                            0 B                0 B
+├ ƒ /api/legend/departments                       0 B                0 B
+├ ƒ /api/legend/people                            0 B                0 B
+├ ƒ /api/legend/places                            0 B                0 B
+├ ƒ /api/legend/positions                         0 B                0 B
+├ ƒ /api/legend/relationships                     0 B                0 B
+├ ƒ /api/legend/teams                             0 B                0 B
+├ ƒ /api/locations                                0 B                0 B
+├ ƒ /api/locations/[id]                           0 B                0 B
+├ ƒ /api/make/modules                             0 B                0 B
+├ ƒ /api/marketing-attribution                    0 B                0 B
+├ ƒ /api/marketing/campaigns                      0 B                0 B
+├ ƒ /api/mass-email                               0 B                0 B
+├ ƒ /api/meeting-notes                            0 B                0 B
+├ ƒ /api/meetings                                 0 B                0 B
+├ ƒ /api/metrics                                  0 B                0 B
+├ ƒ /api/multi-entity                             0 B                0 B
+├ ƒ /api/n8n/nodes                                0 B                0 B
+├ ƒ /api/nda                                      0 B                0 B
+├ ƒ /api/nl-query                                 0 B                0 B
+├ ƒ /api/notifications                            0 B                0 B
+├ ƒ /api/notifications/[id]                       0 B                0 B
+├ ƒ /api/notifications/mark-all-read              0 B                0 B
+├ ƒ /api/notifications/unified                    0 B                0 B
+├ ƒ /api/nps                                      0 B                0 B
+├ ƒ /api/nps-surveys                              0 B                0 B
+├ ƒ /api/onboarding                               0 B                0 B
+├ ƒ /api/onboarding/complete                      0 B                0 B
+├ ƒ /api/onboarding/organization                  0 B                0 B
+├ ƒ /api/onboarding/preferences                   0 B                0 B
+├ ƒ /api/onboarding/profile                       0 B                0 B
+├ ƒ /api/onboarding/role                          0 B                0 B
+├ ƒ /api/opportunities                            0 B                0 B
+├ ƒ /api/opportunity-tracking                     0 B                0 B
+├ ƒ /api/orders                                   0 B                0 B
+├ ƒ /api/orders/[id]                              0 B                0 B
+├ ƒ /api/organizations                            0 B                0 B
+├ ƒ /api/organizations/[id]                       0 B                0 B
+├ ƒ /api/payment-processing                       0 B                0 B
+├ ƒ /api/payment-schedules                        0 B                0 B
+├ ƒ /api/payment-schedules/[id]                   0 B                0 B
+├ ƒ /api/payment-schedules/[id]/reminder          0 B                0 B
+├ ƒ /api/payment-schedules/upcoming               0 B                0 B
+├ ƒ /api/payroll                                  0 B                0 B
+├ ƒ /api/payroll/[id]                             0 B                0 B
+├ ƒ /api/payroll/entries                          0 B                0 B
+├ ƒ /api/payroll/periods                          0 B                0 B
+├ ƒ /api/payroll/providers                        0 B                0 B
+├ ƒ /api/pcard                                    0 B                0 B
+├ ƒ /api/performance                              0 B                0 B
+├ ƒ /api/permits                                  0 B                0 B
+├ ƒ /api/permits/[id]                             0 B                0 B
+├ ƒ /api/pipeline-stages                          0 B                0 B
+├ ƒ /api/pipeline/analytics                       0 B                0 B
+├ ƒ /api/pipeline/deals                           0 B                0 B
+├ ƒ /api/pipeline/deals/[id]                      0 B                0 B
+├ ƒ /api/pipeline/deals/[id]/move                 0 B                0 B
+├ ƒ /api/platform-users                           0 B                0 B
+├ ƒ /api/po-receiving                             0 B                0 B
+├ ƒ /api/policies                                 0 B                0 B
+├ ƒ /api/policies/[id]                            0 B                0 B
+├ ƒ /api/policies/[id]/acknowledge                0 B                0 B
+├ ƒ /api/predictive-analytics                     0 B                0 B
+├ ƒ /api/preferred-vendors                        0 B                0 B
+├ ƒ /api/preferred-vendors/[id]/add               0 B                0 B
+├ ƒ /api/preferred-vendors/[id]/remove            0 B                0 B
+├ ƒ /api/pricing-rules                            0 B                0 B
+├ ƒ /api/pricing-rules/[id]                       0 B                0 B
+├ ƒ /api/privacy/consent                          0 B                0 B
+├ ƒ /api/privacy/consent-history                  0 B                0 B
+├ ƒ /api/privacy/cookies                          0 B                0 B
+├ ƒ /api/privacy/delete                           0 B                0 B
+├ ƒ /api/privacy/dsr                              0 B                0 B
+├ ƒ /api/privacy/export                           0 B                0 B
+├ ƒ /api/procurement                              0 B                0 B
+├ ƒ /api/procurement/automation                   0 B                0 B
+├ ƒ /api/productions                              0 B                0 B
+├ ƒ /api/productions/[id]                         0 B                0 B
+├ ƒ /api/productions/[id]/close                   0 B                0 B
+├ ƒ /api/productions/[id]/wrap-report             0 B                0 B
+├ ƒ /api/productions/from-blueprint               0 B                0 B
+├ ƒ /api/profit-sharing                           0 B                0 B
+├ ƒ /api/project-costs/[bookingId]                0 B                0 B
+├ ƒ /api/project-dependencies                     0 B                0 B
+├ ƒ /api/projects                                 0 B                0 B
+├ ƒ /api/projects/[id]                            0 B                0 B
+├ ƒ /api/projects/enhanced                        0 B                0 B
+├ ƒ /api/proposal-templates                       0 B                0 B
+├ ƒ /api/proposals                                0 B                0 B
+├ ƒ /api/proposals/[id]                           0 B                0 B
+├ ƒ /api/proposals/[id]/accept                    0 B                0 B
+├ ƒ /api/proposals/[id]/analytics                 0 B                0 B
+├ ƒ /api/proposals/[id]/decline                   0 B                0 B
+├ ƒ /api/proposals/[id]/send                      0 B                0 B
+├ ƒ /api/proposals/[id]/view                      0 B                0 B
+├ ƒ /api/pto-balances                             0 B                0 B
+├ ƒ /api/public/templates                         0 B                0 B
+├ ƒ /api/public/templates/[id]                    0 B                0 B
+├ ƒ /api/purchase-orders                          0 B                0 B
+├ ƒ /api/purchase-orders/[id]                     0 B                0 B
+├ ƒ /api/purchase-orders/[id]/approve             0 B                0 B
+├ ƒ /api/purchase-orders/[id]/issue               0 B                0 B
+├ ƒ /api/purchase-orders/[id]/receive             0 B                0 B
+├ ƒ /api/quick-links                              0 B                0 B
+├ ƒ /api/quotes                                   0 B                0 B
+├ ƒ /api/quotes/[id]                              0 B                0 B
+├ ƒ /api/quotes/[id]/convert                      0 B                0 B
+├ ƒ /api/ratings                                  0 B                0 B
+├ ƒ /api/referral-program                         0 B                0 B
+├ ƒ /api/referral-tracking                        0 B                0 B
+├ ƒ /api/rental-equipment                         0 B                0 B
+├ ƒ /api/reports                                  0 B                0 B
+├ ƒ /api/reports/cash-flow                        0 B                0 B
+├ ƒ /api/reports/generate                         0 B                0 B
+├ ƒ /api/reports/profit-loss                      0 B                0 B
+├ ƒ /api/resource-optimization                    0 B                0 B
+├ ƒ /api/resource-utilization                     0 B                0 B
+├ ƒ /api/retainers                                0 B                0 B
+├ ƒ /api/retrospectives                           0 B                0 B
+├ ƒ /api/revenue-recognition                      0 B                0 B
+├ ƒ /api/rfp                                      0 B                0 B
+├ ƒ /api/rfp/[id]                                 0 B                0 B
+├ ƒ /api/rfps                                     0 B                0 B
+├ ƒ /api/rfps/[id]                                0 B                0 B
+├ ƒ /api/rfps/[id]/award                          0 B                0 B
+├ ƒ /api/rfps/[id]/compare                        0 B                0 B
+├ ƒ /api/rfps/[id]/quotes                         0 B                0 B
+├ ƒ /api/rfps/[id]/send                           0 B                0 B
+├ ƒ /api/risks                                    0 B                0 B
+├ ƒ /api/roles                                    0 B                0 B
+├ ƒ /api/roles/[id]                               0 B                0 B
+├ ƒ /api/saga/counts                              0 B                0 B
+├ ƒ /api/saga/instances                           0 B                0 B
+├ ƒ /api/saga/instances/[id]                      0 B                0 B
+├ ƒ /api/saga/instances/[id]/attachments          0 B                0 B
+├ ƒ /api/saga/instances/[id]/comments             0 B                0 B
+├ ƒ /api/saga/instances/[id]/participants         0 B                0 B
+├ ƒ /api/saga/instances/[id]/steps                0 B                0 B
+├ ƒ /api/saga/instances/[id]/transition           0 B                0 B
+├ ƒ /api/saga/instances/[id]/transitions          0 B                0 B
+├ ƒ /api/saga/my-pending-actions                  0 B                0 B
+├ ƒ /api/saga/templates                           0 B                0 B
+├ ƒ /api/sales-forecast                           0 B                0 B
+├ ƒ /api/scenarios                                0 B                0 B
+├ ƒ /api/scheduled-reports                        0 B                0 B
+├ ƒ /api/schedules                                0 B                0 B
+├ ƒ /api/schedules/[id]                           0 B                0 B
+├ ƒ /api/search                                   0 B                0 B
+├ ƒ /api/serialized-components                    0 B                0 B
+├ ƒ /api/serialized-components/[id]               0 B                0 B
+├ ƒ /api/serialized-components/[id]/service       0 B                0 B
+├ ƒ /api/serialized-components/[id]/transfer      0 B                0 B
+├ ƒ /api/settings                                 0 B                0 B
+├ ƒ /api/settings/appearance                      0 B                0 B
+├ ƒ /api/settings/billing                         0 B                0 B
+├ ƒ /api/settings/integrations                    0 B                0 B
+├ ƒ /api/settings/notifications                   0 B                0 B
+├ ƒ /api/settings/organization                    0 B                0 B
+├ ƒ /api/settings/password                        0 B                0 B
+├ ƒ /api/settings/profile                         0 B                0 B
+├ ƒ /api/shift-scheduling                         0 B                0 B
+├ ƒ /api/shipments                                0 B                0 B
+├ ƒ /api/shipments/[id]                           0 B                0 B
+├ ƒ /api/shows/cues                               0 B                0 B
+├ ƒ /api/shows/run-of-show                        0 B                0 B
+├ ƒ /api/shows/set-times                          0 B                0 B
+├ ƒ /api/skills-matrix                            0 B                0 B
+├ ƒ /api/spend-analytics                          0 B                0 B
+├ ƒ /api/sponsors                                 0 B                0 B
+├ ƒ /api/sponsors/[id]                            0 B                0 B
+├ ƒ /api/sponsors/deliverables                    0 B                0 B
+├ ƒ /api/sso/domains                              0 B                0 B
+├ ƒ /api/sso/oidc/login                           0 B                0 B
+├ ƒ /api/sso/providers                            0 B                0 B
+├ ƒ /api/sso/saml/login                           0 B                0 B
+├ ƒ /api/stakeholder-hub                          0 B                0 B
+├ ƒ /api/stakeholders                             0 B                0 B
+├ ƒ /api/stakeholders/communications              0 B                0 B
+├ ƒ /api/status                                   0 B                0 B
+├ ƒ /api/strategic-alignment                      0 B                0 B
+├ ƒ /api/strategic-goals                          0 B                0 B
+├ ƒ /api/succession-planning                      0 B                0 B
+├ ƒ /api/succession-planning/candidates           0 B                0 B
+├ ƒ /api/succession-planning/positions            0 B                0 B
+├ ƒ /api/succession-planning/positions/[id]       0 B                0 B
+├ ƒ /api/succession-planning/talent-pools         0 B                0 B
+├ ƒ /api/tags                                     0 B                0 B
+├ ƒ /api/tags/[id]                                0 B                0 B
+├ ƒ /api/talent-acquisition                       0 B                0 B
+├ ƒ /api/task-management                          0 B                0 B
+├ ƒ /api/tasks                                    0 B                0 B
+├ ƒ /api/tasks/[id]                               0 B                0 B
+├ ƒ /api/tax/compliance                           0 B                0 B
+├ ƒ /api/team/assignments                         0 B                0 B
+├ ƒ /api/templates                                0 B                0 B
+├ ƒ /api/templates/[id]                           0 B                0 B
+├ ƒ /api/territory-management                     0 B                0 B
+├ ƒ /api/time-off                                 0 B                0 B
+├ ƒ /api/timesheets                               0 B                0 B
+├ ƒ /api/training                                 0 B                0 B
+├ ƒ /api/trend-analysis                           0 B                0 B
+├ ƒ /api/vendor-categories                        0 B                0 B
+├ ƒ /api/vendor-compliance                        0 B                0 B
+├ ƒ /api/vendor-onboarding                        0 B                0 B
+├ ƒ /api/vendor-orders                            0 B                0 B
+├ ƒ /api/vendor-orders/[id]                       0 B                0 B
+├ ƒ /api/vendor-orders/[id]/approve               0 B                0 B
+├ ƒ /api/vendor-orders/[id]/send                  0 B                0 B
+├ ƒ /api/vendor-payment-terms                     0 B                0 B
+├ ƒ /api/vendor-portal                            0 B                0 B
+├ ƒ /api/vendor-profiles                          0 B                0 B
+├ ƒ /api/vendor-profiles/[id]                     0 B                0 B
+├ ƒ /api/vendor-profiles/[id]/issues              0 B                0 B
+├ ƒ /api/vendor-profiles/[id]/metrics             0 B                0 B
+├ ƒ /api/vendor-profiles/[id]/reviews             0 B                0 B
+├ ƒ /api/vendor-scorecards                        0 B                0 B
+├ ƒ /api/vendor-scoring                           0 B                0 B
+├ ƒ /api/vendor-selection                         0 B                0 B
+├ ƒ /api/vendors                                  0 B                0 B
+├ ƒ /api/vendors/[id]                             0 B                0 B
+├ ƒ /api/vendors/[id]/performance                 0 B                0 B
+├ ƒ /api/vendors/[id]/scorecard                   0 B                0 B
+├ ƒ /api/vendors/contracts                        0 B                0 B
+├ ƒ /api/vendors/contracts/[id]                   0 B                0 B
+├ ƒ /api/vendors/rate-cards                       0 B                0 B
+├ ƒ /api/venue-booking                            0 B                0 B
+├ ƒ /api/venue-spaces                             0 B                0 B
+├ ƒ /api/venue-spaces/[id]                        0 B                0 B
+├ ƒ /api/venues                                   0 B                0 B
+├ ƒ /api/venues/[id]                              0 B                0 B
+├ ƒ /api/webhooks                                 0 B                0 B
+├ ƒ /api/webhooks/[id]                            0 B                0 B
+├ ƒ /api/workers-comp                             0 B                0 B
+├ ƒ /api/workflow-automation                      0 B                0 B
+├ ƒ /api/workforce-productivity                   0 B                0 B
+├ ƒ /api/zapier/actions                           0 B                0 B
+├ ƒ /api/zapier/analytics                         0 B                0 B
+├ ƒ /api/zapier/oauth/authorize                   0 B                0 B
+├ ƒ /api/zapier/oauth/token                       0 B                0 B
+├ ƒ /api/zapier/search                            0 B                0 B
+├ ƒ /api/zapier/triggers                          0 B                0 B
+├ ƒ /api/zapier/webhooks                          0 B                0 B
+├ ○ /assets                                       3.53 kB         614 kB
+├ ƒ /assets/[id]                                  3.79 kB         612 kB
+├ ƒ /assets/[id]/edit                             3.91 kB         612 kB
+├ ○ /assets/maintenance                           2.74 kB         614 kB
+├ ○ /assets/new                                   3.52 kB         612 kB
+├ ○ /assets/scan                                  3.43 kB         614 kB
+├ ○ /auth/forgot-password                         2.42 kB         610 kB
+├ ○ /auth/magic-link                              2.58 kB         498 kB
+├ ○ /auth/reset-password                          2.36 kB         610 kB
+├ ○ /auth/signin                                  3.13 kB         611 kB
+├ ○ /auth/signup                                  3.27 kB         611 kB
+├ ○ /auth/verify-email                            2.13 kB         610 kB
+├ ○ /bills                                        4.36 kB         612 kB
+├ ƒ /bills/[id]/edit                              4.42 kB         612 kB
+├ ○ /blog                                         4.13 kB         507 kB
+├ ○ /budgets                                      2.79 kB         614 kB
+├ ƒ /budgets/[id]/edit                            3.91 kB         612 kB
+├ ○ /careers                                      4.24 kB         507 kB
+├ ○ /case-studies                                 3.93 kB         507 kB
+├ ○ /changelog                                    3.96 kB         507 kB
+├ ○ /community                                    5.42 kB         613 kB
+├ ○ /contact                                      6.65 kB         505 kB
+├ ○ /dashboard                                    8.78 kB         624 kB
+├ ○ /deals                                        3.67 kB         612 kB
+├ ƒ /deals/[id]/edit                              3.93 kB         612 kB
+├ ○ /deals/new                                    3.55 kB         612 kB
+├ ○ /demo                                         3.31 kB         498 kB
+├ ○ /demo/request                                 4.57 kB         503 kB
+├ ○ /docs                                         3.7 kB          499 kB
+├ ○ /docs/api                                     3.24 kB         498 kB
+├ ○ /events                                       3.27 kB         611 kB
+├ ƒ /events/[id]                                  4.1 kB          612 kB
+├ ƒ /events/[id]/edit                             4.73 kB         613 kB
+├ ○ /events/new                                   4.15 kB         612 kB
+├ ○ /features                                     3.53 kB         498 kB
+├ ○ /finance                                      3 kB            611 kB
+├ ○ /finance/bills                                2.98 kB         611 kB
+├ ○ /finance/budgets                              2.48 kB         611 kB
+├ ○ /finance/expenses                             2.47 kB         611 kB
+├ ○ /finance/invoices                             2.78 kB         611 kB
+├ ○ /finance/proposals                            2.52 kB         611 kB
+├ ƒ /finance/proposals/[id]                       4.26 kB         612 kB
+├ ○ /finance/purchase-orders                      2.35 kB         610 kB
+├ ƒ /generator                                    11.5 kB         640 kB
+├ ○ /guides                                       3.64 kB         499 kB
+├ ○ /guides/getting-started                       2.97 kB         498 kB
+├ ○ /help                                         4.18 kB         499 kB
+├ ○ /help/community                               3.35 kB         498 kB
+├ ○ /help/docs                                    2.91 kB         498 kB
+├ ○ /help/faq                                     2.71 kB         522 kB
+├ ○ /help/getting-started                         3.1 kB          498 kB
+├ ○ /help/releases                                3.44 kB         498 kB
+├ ○ /help/training                                3.71 kB         499 kB
+├ ○ /help/tutorials                               3.33 kB         498 kB
+├ ○ /help/webinars                                3.78 kB         499 kB
+├ ○ /integrations                                 5.89 kB         503 kB
+├ ○ /invoices                                     4.66 kB         613 kB
+├ ƒ /invoices/[id]                                4.98 kB         613 kB
+├ ○ /invoices/new                                 4.38 kB         503 kB
+├ ○ /legal                                        2.85 kB         498 kB
+├ ○ /legal/accessibility                          2.69 kB         498 kB
+├ ○ /legal/cookies                                2.91 kB         498 kB
+├ ○ /legal/privacy                                2.72 kB         498 kB
+├ ○ /legal/sub-processors                         2.63 kB         498 kB
+├ ○ /legal/terms                                  2.65 kB         498 kB
+├ ○ /orders                                       3.54 kB         612 kB
+├ ○ /organizations                                3.25 kB         611 kB
+├ ƒ /organizations/[id]                           4.15 kB         612 kB
+├ ƒ /organizations/[id]/edit                      4.86 kB         613 kB
+├ ○ /organizations/new                            4.75 kB         613 kB
+├ ƒ /p/[productionId]/advancing                   3.18 kB         506 kB
+├ ƒ /p/[productionId]/documents                   3.31 kB         507 kB
+├ ƒ /p/[productionId]/overview                    3.36 kB         507 kB
+├ ƒ /p/[productionId]/schedule                    3.03 kB         506 kB
+├ ƒ /p/[productionId]/settings                    5.15 kB         508 kB
+├ ƒ /p/[productionId]/shows                       2.9 kB          506 kB
+├ ƒ /p/[productionId]/team                        3.11 kB         506 kB
+├ ƒ /p/[productionId]/vendors                     3.33 kB         507 kB
+├ ƒ /p/[productionId]/wrap                        3.3 kB          507 kB
+├ ○ /partners                                     3.08 kB         498 kB
+├ ƒ /pay/[token]                                  4.59 kB         508 kB
+├ ○ /people                                       3.68 kB         612 kB
+├ ƒ /people/[id]                                  4.53 kB         613 kB
+├ ƒ /people/[id]/edit                             4.56 kB         613 kB
+├ ○ /people/new                                   4.71 kB         613 kB
+├ ○ /places                                       3.24 kB         611 kB
+├ ƒ /places/[id]                                  4.17 kB         612 kB
+├ ƒ /places/[id]/edit                             4.71 kB         613 kB
+├ ○ /places/new                                   4.46 kB         613 kB
+├ ○ /portal/artist                                2.83 kB         506 kB
+├ ○ /portal/investor                              2.85 kB         506 kB
+├ ○ /portal/sponsor                               2.51 kB         506 kB
+├ ○ /portal/vendor                                2.84 kB         506 kB
+├ ○ /portals/investor                             3.16 kB         506 kB
+├ ○ /portals/sponsor                              3.21 kB         611 kB
+├ ○ /portals/vendor                               3.29 kB         611 kB
+├ ○ /press                                        3.98 kB         499 kB
+├ ○ /pricing                                      4.18 kB         512 kB
+├ ○ /productions                                  2.44 kB         623 kB
+├ ○ /productions/new                              4.05 kB         612 kB
+├ ○ /products                                     3.51 kB         498 kB
+├ ○ /products/atlvs                               3.86 kB         499 kB
+├ ○ /products/compare                             3.09 kB         498 kB
+├ ○ /products/compvss                             3.84 kB         499 kB
+├ ○ /products/gvteway                             3.87 kB         499 kB
+├ ○ /projects                                     4.14 kB         612 kB
+├ ƒ /projects/[id]                                4.09 kB         612 kB
+├ ƒ /projects/[id]/edit                           4.04 kB         612 kB
+├ ○ /projects/new                                 3.3 kB          611 kB
+├ ƒ /proposal/[token]                             5.03 kB         508 kB
+├ ○ /quotes                                       3.38 kB         611 kB
+├ ○ /resources                                    3.2 kB          522 kB
+├ ○ /resources/templates                          2.35 kB         522 kB
+├ ○ /roadmap                                      2.94 kB         498 kB
+├ ○ /robots.txt                                   0 B                0 B
+├ ○ /search                                       3.74 kB         612 kB
+├ ○ /security                                     3.94 kB         499 kB
+├ ○ /settings                                     2.55 kB         611 kB
+├ ○ /settings/account                             5.2 kB          503 kB
+├ ○ /settings/appearance                          5.17 kB         508 kB
+├ ○ /settings/billing                             4.19 kB         612 kB
+├ ○ /settings/consent-history                     2.96 kB         506 kB
+├ ○ /settings/export                              5 kB            503 kB
+├ ○ /settings/import                              5.25 kB         503 kB
+├ ○ /settings/integrations                        3.89 kB         612 kB
+├ ○ /settings/notifications                       3.1 kB          611 kB
+├ ○ /settings/organization                        4.17 kB         612 kB
+├ ○ /settings/privacy                             5.71 kB         509 kB
+├ ○ /settings/profile                             10 kB           513 kB
+├ ○ /settings/roles                               3.85 kB         612 kB
+├ ○ /settings/security                            4.36 kB         612 kB
+├ ○ /settings/team                                3.97 kB         612 kB
+├ ○ /sitemap.xml                                  0 B                0 B
+├ ○ /solutions                                    4.18 kB         499 kB
+├ ƒ /solutions/[slug]                             3.86 kB         499 kB
+├ ○ /solutions/artists                            3.17 kB         498 kB
+├ ○ /solutions/brand-ambassadors                  3.02 kB         498 kB
+├ ○ /solutions/contractors                        2.98 kB         498 kB
+├ ○ /solutions/destinations                       3.13 kB         498 kB
+├ ○ /solutions/event-staff                        2.96 kB         498 kB
+├ ○ /solutions/independent-contractors            2.99 kB         498 kB
+├ ○ /solutions/investors                          2.96 kB         498 kB
+├ ○ /solutions/producers                          3.04 kB         498 kB
+├ ○ /solutions/production-crews                   3.05 kB         498 kB
+├ ○ /solutions/project-managers                   2.99 kB         498 kB
+├ ○ /solutions/promoters                          3.03 kB         498 kB
+├ ○ /solutions/public-safety                      3.14 kB         498 kB
+├ ○ /solutions/sponsors                           2.93 kB         498 kB
+├ ○ /solutions/subcontractors                     3.04 kB         498 kB
+├ ○ /status                                       3.6 kB          507 kB
+├ ○ /team                                         3.24 kB         611 kB
+├ ○ /templates                                    2.35 kB         522 kB
+├ ○ /training                                     5.08 kB         613 kB
+├ ○ /verticals/activations                        2.6 kB          498 kB
+├ ○ /verticals/destinations                       2.67 kB         498 kB
+├ ○ /verticals/installations                      2.8 kB          498 kB
+├ ○ /verticals/productions                        2.65 kB         498 kB
+├ ○ /webinars                                     4.86 kB         613 kB
+└ ○ /workflows                                    3.21 kB         611 kB
++ First Load JS shared by all                     87.4 kB
+  ├ chunks/7345-eabfe05a34ac88d4.js               31.8 kB
+  ├ chunks/efbb96e7-7086ff78cedf4bc0.js           53.6 kB
+  └ other shared chunks (total)                   1.99 kB
 
-../../node_modules/.pnpm/@supabase+supabase-js@2.89.0/node_modules/@supabase/supabase-js/dist/index.mjs
-A Node.js API is used (process.version at line: 395) which is not supported in the Edge Runtime.
-Learn more: https://nextjs.org/docs/api-reference/edge-runtime
 
-Import trace for requested module:
-../../node_modules/.pnpm/@supabase+supabase-js@2.89.0/node_modules/@supabase/supabase-js/dist/index.mjs
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.89.0/node_modules/@supabase/ssr/dist/module/index.js
+ƒ Middleware                                      73 kB
 
- [37m[1m [22m[39m Skipping validation of types
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25hunhandledRejection Error: Cannot find module '/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/pages/_document.js'
-Require stack:
-- /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/next/dist/server/require.js
-- /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/next/dist/server/load-components.js
-- /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/next/dist/build/utils.js
-- /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/next/dist/build/worker.js
-- /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/next/dist/compiled/jest-worker/processChild.js
-[90m    at Function.<anonymous> (node:internal/modules/cjs/loader:1225:15)[39m
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/[4m.pnpm[24m/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/[4mnext[24m/dist/server/require-hook.js:55:36
-[90m    at Function._load (node:internal/modules/cjs/loader:1055:27)[39m
-[90m    at TracingChannel.traceSync (node:diagnostics_channel:322:14)[39m
-[90m    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)[39m
-[90m    at Module.<anonymous> (node:internal/modules/cjs/loader:1311:12)[39m
-    at mod.require (/Users/julianclarkson/Documents/Dragonflyone/node_modules/[4m.pnpm[24m/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/[4mnext[24m/dist/server/require-hook.js:65:28)
-[90m    at require (node:internal/modules/helpers:136:16)[39m
-    at requirePage (/Users/julianclarkson/Documents/Dragonflyone/node_modules/[4m.pnpm[24m/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/[4mnext[24m/dist/server/require.js:109:84)
-    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/[4m.pnpm[24m/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/[4mnext[24m/dist/server/load-components.js:72:65 {
-  type: [32m'Error'[39m,
-  code: [32m'MODULE_NOT_FOUND'[39m,
-  requireStack: [
-    [32m'/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/next/dist/server/require.js'[39m,
-    [32m'/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/next/dist/server/load-components.js'[39m,
-    [32m'/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/next/dist/build/utils.js'[39m,
-    [32m'/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/next/dist/build/worker.js'[39m,
-    [32m'/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.28_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.57.0_react-dom@18_3opvhfzyn3dkgiqrdyhnwzqu5u/node_modules/next/dist/compiled/jest-worker/processChild.js'[39m
-  ]
-}
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[?25h[41m[30m ELIFECYCLE [39m[49m [31mCommand failed with exit code 1.[39m
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

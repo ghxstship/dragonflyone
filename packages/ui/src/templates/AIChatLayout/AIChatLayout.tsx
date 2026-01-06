@@ -24,11 +24,11 @@ import type {
 // =============================================================================
 
 export const AIChatHeader = forwardRef<HTMLDivElement, AIChatHeaderProps>(
-  function AIChatHeader({ left, center, right, inverted = false, className, ...props }, ref) {
+  function AIChatHeader({ left, center, right = false, className, ...props }, ref) {
     return (
       <header
         ref={ref}
-        className={clsx(aiChatHeaderVariants({ inverted }), className)}
+        className={clsx(aiChatHeaderVariants({}), className)}
         {...props}
       >
         {/* Left Section */}
@@ -49,11 +49,11 @@ export const AIChatHeader = forwardRef<HTMLDivElement, AIChatHeaderProps>(
 // =============================================================================
 
 export const AIChatSidebar = forwardRef<HTMLElement, AIChatSidebarProps>(
-  function AIChatSidebar({ header, children, footer, inverted = false, className, ...props }, ref) {
+  function AIChatSidebar({ header, children, footer = false, className, ...props }, ref) {
     return (
       <aside
         ref={ref}
-        className={clsx(aiChatSidebarVariants({ inverted }), className)}
+        className={clsx(aiChatSidebarVariants({}), className)}
         {...props}
       >
         {/* Sidebar Header */}
@@ -93,13 +93,13 @@ export const AIChatSidebar = forwardRef<HTMLElement, AIChatSidebarProps>(
 
 export const AIChatMain = forwardRef<HTMLDivElement, AIChatMainProps>(
   function AIChatMain(
-    { messages, input, emptyState, showEmptyState = false, inverted = false, className, ...props },
+    { messages, input, emptyState, showEmptyState = false = false, className, ...props },
     ref
   ) {
     return (
       <div
         ref={ref}
-        className={clsx(aiChatMainVariants({ inverted }), className)}
+        className={clsx(aiChatMainVariants({}), className)}
         {...props}
       >
         {/* Messages Area - Scrollable */}
@@ -126,11 +126,11 @@ export const AIChatMain = forwardRef<HTMLDivElement, AIChatMainProps>(
 // =============================================================================
 
 export const AIChatArtifact = forwardRef<HTMLElement, AIChatArtifactProps>(
-  function AIChatArtifact({ header, children, footer, inverted = false, className, ...props }, ref) {
+  function AIChatArtifact({ header, children, footer = false, className, ...props }, ref) {
     return (
       <aside
         ref={ref}
-        className={clsx(aiChatArtifactVariants({ inverted }), className)}
+        className={clsx(aiChatArtifactVariants({}), className)}
         {...props}
       >
         {/* Artifact Header */}
@@ -186,7 +186,7 @@ export const AIChatLayout = forwardRef<HTMLDivElement, AIChatLayoutProps>(
     return (
       <div
         ref={ref}
-        className={clsx(aiChatLayoutVariants({ inverted }), className)}
+        className={clsx(aiChatLayoutVariants({}), className)}
       >
         {/* Header */}
         {header}

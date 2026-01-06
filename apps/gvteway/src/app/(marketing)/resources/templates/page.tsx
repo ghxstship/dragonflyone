@@ -156,7 +156,7 @@ export default function TemplatesPage() {
                               </Stack>
                             </Stack>
                             <Stack gap={2}>
-                              <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">
+                              <Body className="text-text-primary font-weight-bold group-hover:text-primary transition-colors">
                                 {template.title}
                               </Body>
                               <Body size="sm" className="text-text-muted line-clamp-2">
@@ -185,7 +185,7 @@ export default function TemplatesPage() {
                               icon={<Download className="size-4" />}
                               onClick={() => handleDownload(template)}
                               disabled={!template.downloadUrl}
-                              className="w-full group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors"
+                              className="w-full group-hover:bg-primary group-hover:text-text-primary group-hover:border-primary transition-colors"
                             >
                               Download Template
                             </Button>
@@ -207,7 +207,7 @@ export default function TemplatesPage() {
               <Card className="p-8 border-2 border-primary/30 bg-primary/5">
                 <Stack gap={6}>
                   <Stack gap={2} className="text-center">
-                    <H3 className="text-white">Import-Ready Templates</H3>
+                    <H3 className="text-text-primary">Import-Ready Templates</H3>
                     <Body className="text-text-muted max-w-2xl mx-auto">
                       All templates are dual-purpose: use them as human-readable documents or import directly into GVTEWAY. 
                       Each template includes database-compatible headers and import instructions.

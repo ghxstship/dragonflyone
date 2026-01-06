@@ -43,9 +43,9 @@ export default function COMPVSSProductPage() {
     <>
       {/* Hero Section */}
       <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-        <Stack gap={6} className="items-center text-center sm:gap-8">
+        <Stack gap={6} className="items-center text-text-primary sm:gap-8">
           <Label size="xs" className="text-brand-yellow">PRODUCTS</Label>
-          <Display className="text-white text-display-sm sm:text-display-md lg:text-display-lg">COMPVSS</Display>
+          <Display className="text-text-primary text-display-sm sm:text-display-md lg:text-display-lg">COMPVSS</Display>
           <Body size="lg" className="max-w-3xl text-text-secondary">
             The complete crew management solution for live events. From scheduling to payroll, manage your entire crew workflow in one platform.
           </Body>
@@ -61,7 +61,7 @@ export default function COMPVSSProductPage() {
       </Container>
 
       {/* Overview Section */}
-      <Box className="bg-white">
+      <Box className="bg-text-primary">
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
           <Article className="border-2 border-border bg-muted p-6 sm:p-8 lg:p-12 pop-card-compvss">
             <Body size="lg" className="text-text-secondary leading-relaxed">
@@ -73,16 +73,16 @@ export default function COMPVSSProductPage() {
       </Box>
 
       {/* Features Section */}
-      <Box className="bg-white">
+      <Box className="bg-text-primary">
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-          <Stack gap={4} className="text-center mb-12">
+          <Stack gap={4} className="text-text-primary mb-12">
             <Label size="xs" className="text-text-muted">CAPABILITIES</Label>
             <H1 className="text-text-primary">KEY FEATURES</H1>
             <Body size="lg" className="text-text-muted max-w-2xl mx-auto">Everything you need to manage crews at scale</Body>
           </Stack>
           <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((feature, idx) => (
-              <Article key={idx} className="border-2 border-border bg-white p-6 pop-card-compvss">
+              <Article key={idx} className="border-2 border-border bg-text-primary p-6 pop-card-compvss">
                 <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-border bg-muted">
                   <Box className="text-brand-yellow">{feature.icon}</Box>
                 </Box>
@@ -100,7 +100,7 @@ export default function COMPVSSProductPage() {
           <Stack gap={6}>
             <Stack gap={2}>
               <Label size="xs" className="text-brand-yellow">WHY COMPVSS</Label>
-              <H1 className="text-white">THE CREW ADVANTAGE</H1>
+              <H1 className="text-text-primary">THE CREW ADVANTAGE</H1>
             </Stack>
             <Stack gap={3}>
               {BENEFITS.map((benefit, idx) => (
@@ -111,9 +111,9 @@ export default function COMPVSSProductPage() {
               ))}
             </Stack>
           </Stack>
-          <Card className="border-2 border-border bg-surface-inverse p-8 text-center">
+          <Card className="border-2 border-border bg-surface-inverse p-8 text-text-primary">
             <Stack gap={4} className="items-center">
-              <Display className="text-white text-display-sm">Ready to get started?</Display>
+              <Display className="text-text-primary text-display-sm">Ready to get started?</Display>
               <Body className="text-text-muted">See COMPVSS in action with a personalized demo</Body>
               <Stack direction="horizontal" gap={4} className="flex-wrap justify-center">
                 <Button variant="primary" size="md" onClick={() => router.push("/demo")}>Request Demo</Button>
@@ -125,16 +125,16 @@ export default function COMPVSSProductPage() {
       </Container>
 
       {/* Testimonials Section */}
-      <Box className="bg-white">
+      <Box className="bg-text-primary">
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-          <Stack gap={4} className="text-center mb-12">
+          <Stack gap={4} className="text-text-primary mb-12">
             <Label size="xs" className="text-text-muted">TESTIMONIALS</Label>
             <H1 className="text-text-primary">WHAT OUR CUSTOMERS SAY</H1>
             <Body size="lg" className="text-text-muted max-w-2xl mx-auto">Hear from production teams using COMPVSS</Body>
           </Stack>
           <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
             {TESTIMONIALS.map((testimonial, idx) => (
-              <Article key={idx} className="border-2 border-border bg-white p-6 pop-card">
+              <Article key={idx} className="border-2 border-border bg-text-primary p-6 pop-card">
                 <Body className="text-text-secondary italic mb-4">&ldquo;{testimonial.quote}&rdquo;</Body>
                 <Box>
                   <Text className="font-weight-medium text-text-primary">{testimonial.author}</Text>
@@ -147,8 +147,8 @@ export default function COMPVSSProductPage() {
       </Box>
 
       {/* CTA Section */}
-      <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-        <Display size="md" className="text-white">BUILD YOUR DREAM CREW</Display>
+      <Container className="mx-auto max-w-container-4xl px-4 text-text-primary sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+        <Display size="md" className="text-text-primary">BUILD YOUR DREAM CREW</Display>
         <Body size="lg" className="mx-auto mt-4 max-w-xl text-text-muted">
           Join thousands of production teams already using COMPVSS to manage their crews.
         </Body>

@@ -117,13 +117,12 @@ function ActivityItemCard({ activity, onClick, compact }: ActivityItemCardProps)
       className={clsx(
         activityItemVariants({
           compact,
-          inverted: false,
         }),
         "w-full text-left bg-transparent border-none cursor-pointer transition-all duration-200 hover:bg-surface-secondary"
       )}
     >
       {/* Icon */}
-      <div className={activityIconVariants({ type: activity.type, inverted: false })}>
+      <div className={activityIconVariants({ type: activity.type })}>
         {activityIcons[activity.type]}
       </div>
       
@@ -216,7 +215,7 @@ function FilterDropdown({ selectedTypes, onSelect }: FilterDropdownProps) {
                     : "bg-transparent text-text-primary hover:bg-surface-secondary"
                 )}
               >
-                <div className={activityIconVariants({ type, inverted: false })}>
+                <div className={activityIconVariants({ type: type })}>
                   {activityIcons[type]}
                 </div>
                 <span className="text-sm">{activityLabels[type]}</span>
@@ -251,7 +250,6 @@ export function ActivityFeed({
   maxItems,
   showLoadMore = false,
   compact = false,
-  inverted = false,
   onLoadMore,
   onActivityClick,
   className,
@@ -269,7 +267,7 @@ export function ActivityFeed({
   }, []);
 
   return (
-    <div className={clsx(activityFeedVariants({ compact, inverted, className }))} {...props}>
+    <div className={clsx(activityFeedVariants({ compact, className }))} {...props}>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold text-lg text-text-primary">Activity</h3>

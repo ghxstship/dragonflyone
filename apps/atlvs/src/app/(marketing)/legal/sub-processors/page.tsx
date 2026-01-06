@@ -63,7 +63,7 @@ export default function SubProcessorsPage() {
                 <Card className="p-6 border-2 border-border rounded-card">
                   <Box className="flex items-center justify-between flex-wrap gap-4">
                     <Stack gap={1}>
-                      <Body className="text-white font-weight-bold">Sub-processor List</Body>
+                      <Body className="text-text-primary font-weight-bold">Sub-processor List</Body>
                       <Body size="sm" className="text-text-muted">Last updated: November 1, 2024</Body>
                     </Stack>
                     <Stack direction="horizontal" gap={3}>
@@ -90,7 +90,7 @@ export default function SubProcessorsPage() {
 
                 <Card className="p-6 border-2 border-border rounded-card">
                   <Stack gap={4}>
-                    <H3 className="text-white text-h5-md">About Sub-processors</H3>
+                    <H3 className="text-text-primary text-h5-md">About Sub-processors</H3>
                     <Body className="text-text-secondary leading-relaxed">
                       ATLVS uses third-party service providers (sub-processors) to help deliver our services. 
                       These sub-processors may process personal data on our behalf. We carefully vet all sub-processors 
@@ -112,7 +112,7 @@ export default function SubProcessorsPage() {
                     <TableBody>
                       {SUB_PROCESSORS.map((processor, idx) => (
                         <TableRow key={idx}>
-                          <TableCell><Body className="font-weight-medium text-white">{processor.name}</Body></TableCell>
+                          <TableCell><Body className="font-weight-medium text-text-primary">{processor.name}</Body></TableCell>
                           <TableCell><Body size="sm" className="text-text-muted">{processor.purpose}</Body></TableCell>
                           <TableCell><Body size="sm" className="text-text-secondary">{processor.location}</Body></TableCell>
                           <TableCell><Badge variant="outline">{processor.category}</Badge></TableCell>
@@ -126,7 +126,7 @@ export default function SubProcessorsPage() {
                   <Stack gap={4}>
                     <Stack direction="horizontal" gap={3} className="items-center">
                       <Bell className="size-6 text-primary" />
-                      <Body className="text-white font-weight-bold">Subscribe to Updates</Body>
+                      <Body className="text-text-primary font-weight-bold">Subscribe to Updates</Body>
                     </Stack>
                     <Body className="text-text-muted">Get notified when we add or change sub-processors.</Body>
                     <Button variant="outline" className="w-fit">Subscribe</Button>

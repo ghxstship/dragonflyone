@@ -114,7 +114,7 @@ export default function SupportChatPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Support Options</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Other Ways to Reach Us</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Other Ways to Reach Us</Body>
                   <Body className="text-text-muted">Choose the support channel that works best for you</Body>
                 </Stack>
 
@@ -124,7 +124,7 @@ export default function SupportChatPage() {
                       <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                         {feature.icon}
                       </Box>
-                      <Body className="text-white font-weight-bold mb-2">{feature.title}</Body>
+                      <Body className="text-text-primary font-weight-bold mb-2">{feature.title}</Body>
                       <Body size="sm" className="text-text-muted">{feature.description}</Body>
                     </Card>
                   ))}

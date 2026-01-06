@@ -87,7 +87,7 @@ export default function ProfilePage() {
             <Box className="flex items-start gap-6 mb-6">
               <Box className="size-24 bg-primary rounded-avatar flex items-center justify-center relative">
                 <User className="size-12 text-white" />
-                <Button variant="ghost" size="sm" className="absolute -bottom-1 -right-1 bg-surface-elevated rounded-avatar p-2">
+                <Button variant="ghost" size="sm" className="absolute -bottom-1 -right-1 bg-surface-elevated rounded-avatar p-2" aria-label="Change profile photo">
                   <Camera className="size-4" />
                 </Button>
               </Box>

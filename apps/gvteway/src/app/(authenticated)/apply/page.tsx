@@ -92,10 +92,10 @@ function PersonalInfoStep({ formData, setFormData, error }: StepProps) {
   return (
     <Stack gap={6}>
       <Stack gap={3} className="text-center">
-        <IconBox size="lg" variant="warning" inverted className="mx-auto">
+        <IconBox size="lg" className="mx-auto">
           <Crown className="size-6 text-warning sm:size-8" />
         </IconBox>
-        <H2 className="text-white">TELL US ABOUT YOURSELF</H2>
+        <H2 className="text-text-primary">TELL US ABOUT YOURSELF</H2>
         <Body size="sm" className="text-text-muted">
           We keep this short. Promise.
         </Body>
@@ -104,14 +104,13 @@ function PersonalInfoStep({ formData, setFormData, error }: StepProps) {
       {error && <Alert variant="error">{error}</Alert>}
 
       <Grid cols={1} gap={4} className="sm:grid-cols-2">
-        <Field label="First Name" inverted required>
+        <Field label="First Name" required>
           <Input
             type="text"
             value={formData.firstName}
             onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
             placeholder="John"
             required
-            inverted
           />
         </Field>
         <Field label="Last Name" inverted required>
@@ -121,7 +120,6 @@ function PersonalInfoStep({ formData, setFormData, error }: StepProps) {
             onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
             placeholder="Doe"
             required
-            inverted
           />
         </Field>
       </Grid>
@@ -155,14 +153,12 @@ function PersonalInfoStep({ formData, setFormData, error }: StepProps) {
             onChange={(e) => setFormData({ ...formData, city: e.target.value })}
             placeholder="New York"
             required
-            inverted
           />
         </Field>
         <Field label="Country" inverted required>
           <Select
             value={formData.country}
             onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-            inverted
           >
             {countryOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -188,10 +184,10 @@ function InterestsStep({ formData, setFormData, error }: StepProps) {
   return (
     <Stack gap={6}>
       <Stack gap={3} className="text-center">
-        <IconBox size="lg" variant="warning" inverted className="mx-auto">
+        <IconBox size="lg" className="mx-auto">
           <Sparkles className="size-6 text-warning sm:size-8" />
         </IconBox>
-        <H2 className="text-white">WHAT GETS YOU EXCITED?</H2>
+        <H2 className="text-text-primary">WHAT GETS YOU EXCITED?</H2>
         <Body size="sm" className="text-text-muted">
           Select all that apply. This helps us curate your experience.
         </Body>
@@ -206,7 +202,6 @@ function InterestsStep({ formData, setFormData, error }: StepProps) {
           return (
             <Card
               key={interest.id}
-              inverted
               className={`cursor-pointer border-2 p-4 text-center transition-all ${
                 isSelected
                   ? "border-accent bg-accent/10"
@@ -218,7 +213,7 @@ function InterestsStep({ formData, setFormData, error }: StepProps) {
                 <IconBox size="md" inverted className={isSelected ? "bg-accent/20" : ""}>
                   <Icon className={`size-5 ${isSelected ? "text-accent" : "text-text-muted"}`} />
                 </IconBox>
-                <Label size="xs" className={isSelected ? "text-white" : "text-text-muted"}>
+                <Label size="xs" className={isSelected ? "text-text-primary" : "text-text-muted"}>
                   {interest.label}
                 </Label>
                 {isSelected && <Check className="size-4 text-accent" />}
@@ -239,10 +234,10 @@ function TierSelectionStep({ formData, setFormData, error }: StepProps) {
   return (
     <Stack gap={6}>
       <Stack gap={3} className="text-center">
-        <IconBox size="lg" variant="warning" inverted className="mx-auto">
+        <IconBox size="lg" className="mx-auto">
           <Crown className="size-6 text-warning sm:size-8" />
         </IconBox>
-        <H2 className="text-white">CHOOSE YOUR TIER</H2>
+        <H2 className="text-text-primary">CHOOSE YOUR TIER</H2>
         <Body size="sm" className="text-text-muted">
           You can always upgrade later. No pressure.
         </Body>
@@ -277,9 +272,9 @@ function TierSelectionStep({ formData, setFormData, error }: StepProps) {
 
               <Stack gap={4}>
                 <Stack gap={2}>
-                  <H2 size="sm" className="text-white">{tier.name}</H2>
+                  <H2 size="sm" className="text-text-primary">{tier.name}</H2>
                   <Stack direction="horizontal" gap={1} className="items-baseline">
-                    <H1 size="sm" className="text-white">{tier.price}</H1>
+                    <H1 size="sm" className="text-text-primary">{tier.price}</H1>
                     <Label size="sm" className="text-text-muted">{tier.period}</Label>
                   </Stack>
                 </Stack>
@@ -319,10 +314,10 @@ function FinalStep({ formData, setFormData, error, agreeToTerms, setAgreeToTerms
   return (
     <Stack gap={6}>
       <Stack gap={3} className="text-center">
-        <IconBox size="lg" variant="success" inverted className="mx-auto">
+        <IconBox size="lg" className="mx-auto">
           <Check className="size-6 text-success sm:size-8" />
         </IconBox>
-        <H2 className="text-white">ALMOST THERE</H2>
+        <H2 className="text-text-primary">ALMOST THERE</H2>
         <Body size="sm" className="text-text-muted">
           Just a few final details and you are in the queue.
         </Body>
@@ -330,42 +325,40 @@ function FinalStep({ formData, setFormData, error, agreeToTerms, setAgreeToTerms
 
       {error && <Alert variant="error">{error}</Alert>}
 
-      <Field label="Referral Code" hint="Optional - if someone referred you" inverted>
+      <Field label="Referral Code" hint="Optional - if someone referred you">
         <Input
           type="text"
           value={formData.referralCode}
           onChange={(e) => setFormData({ ...formData, referralCode: e.target.value })}
           placeholder="GVTEWAY-XXXX"
-          inverted
         />
       </Field>
 
-      <Field label="Anything else we should know?" hint="Optional" inverted>
+      <Field label="Anything else we should know?" hint="Optional">
         <Textarea
           value=""
           onChange={() => {}}
           placeholder="Tell us about yourself, your experience expectations, or any questions..."
           rows={4}
-          inverted
         />
       </Field>
 
       {/* Application Summary */}
-      <Card inverted className="border-2 border-border bg-surface-inverse p-6">
+      <Card className="border-2 border-border bg-surface-inverse p-6">
         <Stack gap={4}>
           <Label size="sm" className="text-text-muted">APPLICATION SUMMARY</Label>
           <Grid cols={2} gap={4}>
             <Stack gap={1}>
               <Label size="xs" className="text-text-disabled">NAME</Label>
-              <Body size="sm" className="text-white">{formData.firstName} {formData.lastName}</Body>
+              <Body size="sm" className="text-text-primary">{formData.firstName} {formData.lastName}</Body>
             </Stack>
             <Stack gap={1}>
               <Label size="xs" className="text-text-disabled">EMAIL</Label>
-              <Body size="sm" className="text-white">{formData.email}</Body>
+              <Body size="sm" className="text-text-primary">{formData.email}</Body>
             </Stack>
             <Stack gap={1}>
               <Label size="xs" className="text-text-disabled">LOCATION</Label>
-              <Body size="sm" className="text-white">{formData.city}, {formData.country}</Body>
+              <Body size="sm" className="text-text-primary">{formData.city}, {formData.country}</Body>
             </Stack>
             <Stack gap={1}>
               <Label size="xs" className="text-text-disabled">SELECTED TIER</Label>
@@ -374,7 +367,7 @@ function FinalStep({ formData, setFormData, error, agreeToTerms, setAgreeToTerms
           </Grid>
           <Stack gap={1}>
             <Label size="xs" className="text-text-disabled">INTERESTS</Label>
-            <Body size="sm" className="text-white">
+            <Body size="sm" className="text-text-primary">
               {formData.interests.length > 0
                 ? formData.interests
                     .map((id) => interestCategories.find((c) => c.id === id)?.label)
@@ -390,15 +383,14 @@ function FinalStep({ formData, setFormData, error, agreeToTerms, setAgreeToTerms
           id="terms"
           checked={agreeToTerms}
           onChange={(e) => setAgreeToTerms(e.target.checked)}
-          inverted
         />
         <Label size="xs" className="text-text-muted">
           I agree to the{" "}
-          <NextLink href="/legal/terms" className="text-white underline">
+          <NextLink href="/legal/terms" className="text-text-primary underline">
             Terms of Service
           </NextLink>{" "}
           and{" "}
-          <NextLink href="/legal/privacy" className="text-white underline">
+          <NextLink href="/legal/privacy" className="text-text-primary underline">
             Privacy Policy
           </NextLink>
           . I understand that membership is subject to approval.
@@ -522,7 +514,7 @@ function ApplicationForm() {
   return (
     <Stack className="py-16 sm:py-24">
       <ScrollReveal animation="slide-up" duration={600}>
-        <Card inverted className="mx-auto max-w-2xl border-2 border-white/20 bg-black p-6 shadow-md sm:p-8">
+        <Card className="mx-auto max-w-2xl border-2 border-surface-primary/20 bg-surface-elevated p-6 shadow-md sm:p-8">
           {/* Progress Indicator */}
           <Stack gap={6} className="mb-8">
             <Stack direction="horizontal" gap={2} className="justify-center">
@@ -569,7 +561,6 @@ function ApplicationForm() {
                   variant="ghost"
                   size="lg"
                   onClick={handleBack}
-                  inverted
                   icon={<ArrowLeft className="size-4" />}
                 >
                   Back
@@ -580,7 +571,6 @@ function ApplicationForm() {
                     type="button"
                     variant="ghost"
                     size="lg"
-                    inverted
                     icon={<ArrowLeft className="size-4" />}
                   >
                     Cancel
@@ -615,12 +605,12 @@ function ApplicationForm() {
           </Form>
 
           {/* Sign In Link */}
-          <Stack gap={2} className="mt-8 border-t border-white/10 pt-6 text-center">
+          <Stack gap={2} className="mt-8 border-t border-surface-primary/10 pt-6 text-center">
             <Body size="sm" className="text-text-muted">
               Already a member?
             </Body>
             <NextLink href="/auth/signin">
-              <Button variant="ghost" size="sm" inverted>
+              <Button variant="ghost" size="sm">
                 Sign In
               </Button>
             </NextLink>

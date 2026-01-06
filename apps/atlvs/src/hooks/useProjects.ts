@@ -3,7 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
-interface Project {
+export interface Project extends Record<string, unknown> {
   id: string;
   code: string;
   name: string;

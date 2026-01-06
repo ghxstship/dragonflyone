@@ -60,8 +60,6 @@ export function CreatorNavigationAuthenticated({
   contextLevels?: ContextLevel[];
   userMenu?: React.ReactNode;
 }) {
-  // TODO: Implement contextLevels functionality in future iteration
-  void contextLevels;
   const pathname = usePathname();
 
   const navItems = [
@@ -78,6 +76,7 @@ export function CreatorNavigationAuthenticated({
           ATLVS
         </Link>
       }
+      contextLevels={contextLevels}
       navItems={navItems}
       pathname={pathname}
       primaryCta={{ label: "New Deal", href: "/deals/new" }}

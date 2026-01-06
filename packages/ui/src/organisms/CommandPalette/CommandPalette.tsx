@@ -12,14 +12,12 @@ import type {
 // KEYBOARD SHORTCUT DISPLAY
 // =============================================================================
 
-function ShortcutKey({ children, inverted = true }: { children: React.ReactNode; inverted?: boolean }) {
+function ShortcutKey({ children }: { children: React.ReactNode }) {
   return (
     <kbd
       className={clsx(
         "inline-flex items-center justify-center px-2 py-1 text-xs font-mono border-2 rounded-badge",
-        inverted 
-          ? "bg-surface-primary border-border text-text-secondary" 
-          : "bg-surface-elevated border-border text-text-primary"
+        "bg-[var(--color-surface-elevated)] border-[var(--color-border-default)] text-[var(--color-text-primary)]"
       )}
     >
       {children}
@@ -42,7 +40,6 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       onNavigate,
       recentItems = [],
       placeholder = "Type a command or search...",
-      inverted = false,
       className,
       ...props
     },
@@ -156,7 +153,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       <div className="flex items-center gap-3 flex-1">
         <Command className={clsx(
           "w-5 h-5",
-          inverted ? "text-text-muted" : "text-text-secondary"
+          "text-[var(--color-text-secondary)]"
         )} />
         <input
           type="text"
@@ -165,7 +162,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
           placeholder={placeholder}
           className={clsx(
             "flex-1 bg-transparent border-none outline-none text-sm placeholder-text-text-muted",
-            inverted ? "text-text-primary placeholder-text-text-muted" : "text-text-primary placeholder-text-text-secondary"
+            "text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)]"
           )}
           autoFocus
         />
@@ -174,7 +171,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
             onClick={() => setQuery("")}
             className={clsx(
               "p-1 rounded-badge hover:bg-surface-elevated transition-colors",
-              inverted ? "text-text-muted hover:text-text-primary" : "text-text-secondary hover:text-text-primary"
+              "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
             )}
           >
             <X className="w-3 h-3" />
@@ -187,24 +184,24 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
     const footerContent = (
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <ShortcutKey inverted={inverted}>
+          <ShortcutKey>
             <ArrowUp size={10} />
           </ShortcutKey>
-          <ShortcutKey inverted={inverted}>
+          <ShortcutKey>
             <ArrowDown size={10} />
           </ShortcutKey>
           <span className={clsx(
             "text-xs",
-            inverted ? "text-text-muted" : "text-text-secondary"
+            "text-[var(--color-text-secondary)]"
           )}>
             to navigate
           </span>
         </div>
         <div className="flex items-center gap-1">
-          <ShortcutKey inverted={inverted}>
+          <ShortcutKey>
             <Command size={10} />
           </ShortcutKey>
-          <ShortcutKey inverted={inverted}>K</ShortcutKey>
+          <ShortcutKey>K</ShortcutKey>
         </div>
       </div>
     );
@@ -244,7 +241,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                 <div
                   className={clsx(
                     "px-4 py-8 text-center text-sm",
-                    inverted ? "text-text-muted" : "text-text-muted"
+                    "text-[var(--color-text-muted)]"
                   )}
                 >
                   No results found for &quot;{query}&quot;
@@ -256,7 +253,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                       <div
                         className={clsx(
                           "px-3 py-2 text-xs font-mono uppercase tracking-wider border-b border-border",
-                          inverted ? "text-text-muted" : "text-text-secondary"
+                          "text-[var(--color-text-secondary)]"
                         )}
                       >
                         {category}
@@ -283,7 +280,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                             {item.icon && (
                               <div className={clsx(
                                 "w-4 h-4 flex-shrink-0",
-                                inverted ? "text-text-muted" : "text-text-secondary"
+                                "text-[var(--color-text-secondary)]"
                               )}>
                                 {item.icon}
                               </div>
@@ -291,21 +288,21 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
                             <div className="flex-1 min-w-0">
                               <div className={clsx(
                                 "text-sm font-medium truncate",
-                                inverted ? "text-text-primary" : "text-text-primary"
+                                "text-[var(--color-text-primary)]"
                               )}>
                                 {item.label}
                               </div>
                               {item.description && (
                                 <div className={clsx(
                                   "text-xs truncate",
-                                  inverted ? "text-text-muted" : "text-text-secondary"
+                                  "text-[var(--color-text-secondary)]"
                                 )}>
                                   {item.description}
                                 </div>
                               )}
                             </div>
                             {item.shortcut && (
-                              <ShortcutKey inverted={inverted}>
+                              <ShortcutKey>
                                 {item.shortcut}
                               </ShortcutKey>
                             )}

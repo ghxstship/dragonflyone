@@ -88,7 +88,7 @@ export default function HelpDocsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Browse</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Documentation Categories</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Documentation Categories</Body>
                 </Stack>
 
                 <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-3">
@@ -99,7 +99,7 @@ export default function HelpDocsPage() {
                           <Box className="p-3 bg-primary/20 rounded-card text-primary">
                             {category.icon}
                           </Box>
-                          <Body className="text-white font-weight-bold">{category.title}</Body>
+                          <Body className="text-text-primary font-weight-bold">{category.title}</Body>
                         </Stack>
                         <Stack gap={2}>
                           {category.articles.map((article, idx) => (
@@ -127,7 +127,7 @@ export default function HelpDocsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Popular</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Most Viewed Articles</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Most Viewed Articles</Body>
                 </Stack>
 
                 <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2">
@@ -136,7 +136,7 @@ export default function HelpDocsPage() {
                       <Box className="flex items-center justify-between">
                         <Box className="flex items-center gap-3">
                           <Bookmark className="size-5 text-primary" />
-                          <Body className="text-white">{article}</Body>
+                          <Body className="text-text-primary">{article}</Body>
                         </Box>
                         <ExternalLink className="size-4 text-text-disabled" />
                       </Box>

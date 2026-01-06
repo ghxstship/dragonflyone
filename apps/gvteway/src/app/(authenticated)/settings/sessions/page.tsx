@@ -128,7 +128,7 @@ export default function SessionsPage() {
                       {getDeviceIcon(currentSession.device_type)}
                     </Box>
                     <Stack gap={0}>
-                      <Body className="font-weight-medium text-white">{currentSession.device_name || "Unknown Device"}</Body>
+                      <Body className="font-weight-medium text-text-primary">{currentSession.device_name || "Unknown Device"}</Body>
                       <Body size="sm" className="text-text-muted">
                         {currentSession.browser || "Unknown Browser"} on {currentSession.os || "Unknown OS"}
                       </Body>
@@ -172,7 +172,7 @@ export default function SessionsPage() {
                             {getDeviceIcon(session.device_type)}
                           </Box>
                           <Stack gap={0}>
-                            <Body className="font-weight-medium text-white">{session.device_name || "Unknown Device"}</Body>
+                            <Body className="font-weight-medium text-text-primary">{session.device_name || "Unknown Device"}</Body>
                             <Body size="sm" className="text-text-muted">
                               {session.browser || "Unknown"} on {session.os || "Unknown"}
                             </Body>
@@ -180,7 +180,7 @@ export default function SessionsPage() {
                         </Stack>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-white">{session.location || session.ip_address || "Unknown"}</Body>
+                        <Body size="sm" className="text-text-primary">{session.location || session.ip_address || "Unknown"}</Body>
                       </TableCell>
                       <TableCell>
                         <Body size="sm" className="text-text-muted">{formatTimeAgo(session.last_active_at)}</Body>
@@ -214,28 +214,28 @@ export default function SessionsPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" gap={3} className="items-start">
                 <Box className="w-6 h-6 rounded-avatar bg-primary flex items-center justify-center flex-shrink-0">
-                  <Body size="sm" className="text-white font-weight-medium">1</Body>
+                  <Body size="sm" className="text-text-primary font-weight-medium">1</Body>
                 </Box>
                 <Stack gap={0}>
-                  <Body className="font-weight-medium text-white">Review unrecognized sessions</Body>
+                  <Body className="font-weight-medium text-text-primary">Review unrecognized sessions</Body>
                   <Body size="sm" className="text-text-muted">If you see a session you do not recognize, revoke it immediately</Body>
                 </Stack>
               </Stack>
               <Stack direction="horizontal" gap={3} className="items-start">
                 <Box className="w-6 h-6 rounded-avatar bg-primary flex items-center justify-center flex-shrink-0">
-                  <Body size="sm" className="text-white font-weight-medium">2</Body>
+                  <Body size="sm" className="text-text-primary font-weight-medium">2</Body>
                 </Box>
                 <Stack gap={0}>
-                  <Body className="font-weight-medium text-white">Sign out from shared devices</Body>
+                  <Body className="font-weight-medium text-text-primary">Sign out from shared devices</Body>
                   <Body size="sm" className="text-text-muted">Always sign out from public or shared devices when done</Body>
                 </Stack>
               </Stack>
               <Stack direction="horizontal" gap={3} className="items-start">
                 <Box className="w-6 h-6 rounded-avatar bg-primary flex items-center justify-center flex-shrink-0">
-                  <Body size="sm" className="text-white font-weight-medium">3</Body>
+                  <Body size="sm" className="text-text-primary font-weight-medium">3</Body>
                 </Box>
                 <Stack gap={0}>
-                  <Body className="font-weight-medium text-white">Enable two-factor authentication</Body>
+                  <Body className="font-weight-medium text-text-primary">Enable two-factor authentication</Body>
                   <Body size="sm" className="text-text-muted">Add an extra layer of security to your account</Body>
                 </Stack>
               </Stack>

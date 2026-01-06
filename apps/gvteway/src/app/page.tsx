@@ -104,8 +104,8 @@ function HeroSection() {
       <Stack className="relative z-10 flex min-h-screen flex-col items-center justify-center py-32 text-center">
         <ScrollReveal animation="slide-up" duration={800}>
           <Stack gap={8} className="max-w-4xl">
-            <H1 size="lg" className="text-white">EXPERIENCE</H1>
-            <H1 size="lg" className="-mt-4 text-white">BEYOND EVENTS</H1>
+            <H1 size="lg" className="text-text-primary">EXPERIENCE</H1>
+            <H1 size="lg" className="-mt-4 text-text-primary">BEYOND EVENTS</H1>
             <Body size="lg" className="mx-auto mt-4 max-w-2xl text-text-secondary">
               Look, you could keep fighting for tickets like everyone else.
               <br />
@@ -134,7 +134,7 @@ function WelcomeSection() {
     <Stack className="py-24">
       <ScrollReveal animation="fade">
         <Stack gap={6} className="mx-auto max-w-3xl text-center">
-          <H1 size="md" className="text-white">WELCOME ABOARD</H1>
+          <H1 size="md" className="text-text-primary">WELCOME ABOARD</H1>
           <Body size="lg" className="text-text-secondary">
             Here&apos;s the deal. We&apos;ve spent years building relationships with the people who make 
             extraordinary experiences happen. Venues, artists, organizers—the whole crew. 
@@ -155,7 +155,7 @@ function ExperienceOverviewSection() {
     <Stack className="py-24">
       <ScrollReveal animation="fade">
         <Stack gap={4} className="mb-16 text-center">
-          <H1 size="md" className="text-white">THE GVTEWAY EXPERIENCE</H1>
+          <H1 size="md" className="text-text-primary">THE GVTEWAY EXPERIENCE</H1>
           <Body className="mx-auto max-w-2xl text-text-muted">
             Not to brag, but... actually, yes, we&apos;re going to brag a little. 
             This is what membership gets you.
@@ -167,8 +167,8 @@ function ExperienceOverviewSection() {
         <Grid cols={3} gap={6} className="mx-auto max-w-5xl">
           <Card inverted className="border-2 border-border bg-surface-inverse p-8 text-center">
             <Stack gap={4} className="items-center">
-              <Display size="md" className="text-white">52+</Display>
-              <H3 size="sm" className="text-white">COUNTRIES</H3>
+              <Display size="md" className="text-text-primary">52+</Display>
+              <H3 size="sm" className="text-text-primary">COUNTRIES</H3>
               <Body size="sm" className="text-text-muted">
                 From Tokyo to Tulum. Your passport is about to get interesting.
               </Body>
@@ -176,8 +176,8 @@ function ExperienceOverviewSection() {
           </Card>
           <Card inverted className="border-2 border-border bg-surface-inverse p-8 text-center">
             <Stack gap={4} className="items-center">
-              <Display size="md" className="text-white">200+</Display>
-              <H3 size="sm" className="text-white">EXPERIENCES</H3>
+              <Display size="md" className="text-text-primary">200+</Display>
+              <H3 size="sm" className="text-text-primary">EXPERIENCES</H3>
               <Body size="sm" className="text-text-muted">
                 Festivals, retreats, exclusive gatherings. The good stuff.
               </Body>
@@ -185,8 +185,8 @@ function ExperienceOverviewSection() {
           </Card>
           <Card inverted className="border-2 border-border bg-surface-inverse p-8 text-center">
             <Stack gap={4} className="items-center">
-              <Display size="md" className="text-white">48HR</Display>
-              <H3 size="sm" className="text-white">HEAD START</H3>
+              <Display size="md" className="text-text-primary">48HR</Display>
+              <H3 size="sm" className="text-text-primary">HEAD START</H3>
               <Body size="sm" className="text-text-muted">
                 Early access on everything. By the time it&apos;s public, you&apos;re already in.
               </Body>
@@ -203,7 +203,7 @@ function CategoriesSection() {
     <Stack className="py-24">
       <ScrollReveal animation="fade">
         <Stack gap={4} className="mb-16 text-center">
-          <H1 size="md" className="text-white">PICK YOUR POISON</H1>
+          <H1 size="md" className="text-text-primary">PICK YOUR POISON</H1>
           <Body className="mx-auto max-w-xl text-text-muted">
             Adventure comes in many flavors. We&apos;ve got the whole menu.
           </Body>
@@ -217,7 +217,7 @@ function CategoriesSection() {
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Search className="size-5 text-accent" />
-              <Label size="xs" className="tracking-label text-white">DISCOVERY</Label>
+              <Label size="xs" className="tracking-label text-text-primary">DISCOVERY</Label>
             </Stack>
           </Card>
           
@@ -226,7 +226,7 @@ function CategoriesSection() {
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Users className="size-5 text-accent" />
-              <Label size="xs" className="tracking-label text-white">COMMUNITY</Label>
+              <Label size="xs" className="tracking-label text-text-primary">COMMUNITY</Label>
             </Stack>
           </Card>
           
@@ -235,7 +235,7 @@ function CategoriesSection() {
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Zap className="size-5 text-accent" />
-              <Label size="xs" className="tracking-label text-white">EXPERIENCES</Label>
+              <Label size="xs" className="tracking-label text-text-primary">EXPERIENCES</Label>
             </Stack>
           </Card>
 
@@ -244,7 +244,7 @@ function CategoriesSection() {
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Compass className="size-5 text-accent" />
-              <Label size="xs" className="tracking-label text-white">ADVENTURES</Label>
+              <Label size="xs" className="tracking-label text-text-primary">ADVENTURES</Label>
             </Stack>
           </Card>
           
@@ -253,7 +253,7 @@ function CategoriesSection() {
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Palette className="size-5 text-accent" />
-              <Label size="xs" className="tracking-label text-white">CULTURE</Label>
+              <Label size="xs" className="tracking-label text-text-primary">CULTURE</Label>
             </Stack>
           </Card>
 
@@ -262,7 +262,7 @@ function CategoriesSection() {
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Target className="size-5 text-accent" />
-              <Label size="xs" className="tracking-label text-white">DISCIPLINE</Label>
+              <Label size="xs" className="tracking-label text-text-primary">DISCIPLINE</Label>
             </Stack>
           </Card>
           
@@ -271,7 +271,7 @@ function CategoriesSection() {
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Handshake className="size-5 text-accent" />
-              <Label size="xs" className="tracking-label text-white">COLLABORATION</Label>
+              <Label size="xs" className="tracking-label text-text-primary">COLLABORATION</Label>
             </Stack>
           </Card>
           
@@ -280,7 +280,7 @@ function CategoriesSection() {
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Lightbulb className="size-5 text-accent" />
-              <Label size="xs" className="tracking-label text-white">INSPIRATION</Label>
+              <Label size="xs" className="tracking-label text-text-primary">INSPIRATION</Label>
             </Stack>
           </Card>
           
@@ -289,7 +289,7 @@ function CategoriesSection() {
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <TrendingUp className="size-5 text-accent" />
-              <Label size="xs" className="tracking-label text-white">INVESTMENT</Label>
+              <Label size="xs" className="tracking-label text-text-primary">INVESTMENT</Label>
             </Stack>
           </Card>
 
@@ -298,7 +298,7 @@ function CategoriesSection() {
             <Box className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             <Stack gap={1} className="relative z-10">
               <Heart className="size-5 text-accent" />
-              <Label size="xs" className="tracking-label text-white">IMPACT</Label>
+              <Label size="xs" className="tracking-label text-text-primary">IMPACT</Label>
             </Stack>
           </Card>
         </Grid>
@@ -312,7 +312,7 @@ function BenefitsSection() {
     <Stack className="py-24">
       <ScrollReveal animation="fade">
         <Stack gap={4} className="mb-16 text-center">
-          <H1 size="md" className="text-white">WHAT YOU GET</H1>
+          <H1 size="md" className="text-text-primary">WHAT YOU GET</H1>
           <Body className="mx-auto max-w-xl text-text-muted">
             Spoiler alert: it&apos;s a lot. But we&apos;ll try to keep it brief.
           </Body>
@@ -327,7 +327,7 @@ function BenefitsSection() {
                 <IconBox size="md" inverted>
                   <benefit.icon className="size-6 text-accent" />
                 </IconBox>
-                <H3 size="sm" className="text-white">{benefit.title}</H3>
+                <H3 size="sm" className="text-text-primary">{benefit.title}</H3>
                 <Body size="sm" className="text-text-muted">{benefit.description}</Body>
               </Stack>
             </Card>
@@ -343,7 +343,7 @@ function HowItWorksSection() {
     <Stack className="py-24">
       <ScrollReveal animation="fade">
         <Stack gap={4} className="mb-16 text-center">
-          <H1 size="md" className="text-white">HOW IT WORKS</H1>
+          <H1 size="md" className="text-text-primary">HOW IT WORKS</H1>
           <Body className="mx-auto max-w-xl text-text-muted">
             Four steps. That&apos;s it. We&apos;ve made it embarrassingly simple.
           </Body>
@@ -359,11 +359,11 @@ function HowItWorksSection() {
                   <IconBox size="lg" inverted>
                     <item.icon className="size-8 text-accent" />
                   </IconBox>
-                  <Label size="xs" className="absolute -right-2 -top-2 flex size-6 items-center justify-center bg-accent text-black">
+                  <Label size="xs" className="absolute -right-2 -top-2 flex size-6 items-center justify-center bg-accent text-text-primary">
                     {item.step}
                   </Label>
                 </Box>
-                <H3 size="sm" className="text-white">{item.title}</H3>
+                <H3 size="sm" className="text-text-primary">{item.title}</H3>
                 <Body size="sm" className="text-text-muted">{item.description}</Body>
               </Stack>
             </Card>
@@ -379,7 +379,7 @@ function PricingSection() {
     <Stack className="py-24">
       <ScrollReveal animation="fade">
         <Stack gap={4} className="mb-16 text-center">
-          <H1 size="md" className="text-white">CHOOSE YOUR ADVENTURE</H1>
+          <H1 size="md" className="text-text-primary">CHOOSE YOUR ADVENTURE</H1>
           <Body className="mx-auto max-w-xl text-text-muted">
             Three tiers. Zero hidden fees. Pick what works for you.
           </Body>
@@ -397,16 +397,16 @@ function PricingSection() {
               }`}
             >
               {tier.popular && (
-                <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-white bg-surface-inverse px-4 py-1 text-white">
+                <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-white bg-surface-inverse px-4 py-1 text-text-primary">
                   MOST POPULAR
                 </Label>
               )}
               
               <Stack gap={6} className="flex-1">
-                <H3 className="text-white">{tier.name}</H3>
+                <H3 className="text-text-primary">{tier.name}</H3>
                 
                 <Stack direction="horizontal" gap={1} className="items-baseline">
-                  <Display size="md" className="text-white">{tier.price}</Display>
+                  <Display size="md" className="text-text-primary">{tier.price}</Display>
                   <Label size="sm" className="text-text-muted">{tier.period}</Label>
                 </Stack>
                 
@@ -444,7 +444,7 @@ function TestimonialsSection() {
     <Stack className="py-24">
       <ScrollReveal animation="fade">
         <Stack gap={4} className="mb-16 text-center">
-          <H1 size="md" className="text-white">DON&apos;T TAKE OUR WORD FOR IT</H1>
+          <H1 size="md" className="text-text-primary">DON&apos;T TAKE OUR WORD FOR IT</H1>
           <Body className="mx-auto max-w-xl text-text-muted">
             We could talk all day about how great this is. But these folks said it better.
           </Body>
@@ -461,7 +461,7 @@ function TestimonialsSection() {
                   &ldquo;{testimonial.quote}&rdquo;
                 </Body>
                 <Stack gap={1}>
-                  <Label size="sm" className="text-white">— {testimonial.author}</Label>
+                  <Label size="sm" className="text-text-primary">— {testimonial.author}</Label>
                   <Label size="xxs" className="tracking-label text-text-disabled">{testimonial.tier}</Label>
                 </Stack>
               </Stack>
@@ -486,7 +486,7 @@ function CtaSection() {
 
       <ScrollReveal animation="scale" duration={600}>
         <Stack gap={8} className="mx-auto max-w-2xl items-center text-center">
-          <H1 size="md" className="text-white">READY TO STOP MISSING OUT?</H1>
+          <H1 size="md" className="text-text-primary">READY TO STOP MISSING OUT?</H1>
           
           <Body size="lg" className="text-text-secondary">
             Applications take about 2 minutes. Approval takes 24-48 hours. 

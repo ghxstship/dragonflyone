@@ -200,7 +200,7 @@ export default function WalletPage() {
             {paymentMethods.length === 0 ? (
               <Box className="text-center py-12">
                 <CreditCard className="size-12 text-text-disabled mx-auto mb-4" />
-                <Body className="font-weight-medium text-white mb-2">No Payment Methods</Body>
+                <Body className="font-weight-medium text-text-primary mb-2">No Payment Methods</Body>
                 <Body className="text-text-muted mb-4">Add a payment method to make purchases</Body>
                 <Button variant="solid" onClick={() => setShowAddCard(true)}>
                   Add Card
@@ -215,7 +215,7 @@ export default function WalletPage() {
                         <CreditCard className="size-8 text-text-muted" />
                         <Box>
                           <Box className="flex items-center gap-2">
-                            <Body className="font-weight-medium text-white capitalize">{method.type}</Body>
+                            <Body className="font-weight-medium text-text-primary capitalize">{method.type}</Body>
                             {method.isDefault && (
                               <Badge variant="success">
                                 <Star className="size-3 mr-1" />
@@ -266,7 +266,7 @@ export default function WalletPage() {
           {transactions.length === 0 ? (
             <Box className="text-center py-12">
               <DollarSign className="size-12 text-text-disabled mx-auto mb-4" />
-              <Body className="font-weight-medium text-white mb-2">No Transactions</Body>
+              <Body className="font-weight-medium text-text-primary mb-2">No Transactions</Body>
               <Body className="text-text-muted">Your transaction history will appear here</Body>
             </Box>
           ) : (

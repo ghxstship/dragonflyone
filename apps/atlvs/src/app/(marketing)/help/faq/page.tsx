@@ -124,7 +124,7 @@ export default function FAQPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Questions</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">
+                  <Body className="text-text-primary font-weight-bold text-h3-md">
                     {filteredFAQs.length} {filteredFAQs.length === 1 ? "Result" : "Results"}
                   </Body>
                 </Stack>
@@ -132,7 +132,7 @@ export default function FAQPage() {
                 {filteredFAQs.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
                     <HelpCircle className="size-16 text-text-disabled mx-auto mb-4" />
-                    <Body className="text-white font-weight-bold mb-2">No Questions Found</Body>
+                    <Body className="text-text-primary font-weight-bold mb-2">No Questions Found</Body>
                     <Body className="text-text-muted mb-4">Try a different search term or category</Body>
                     <Button variant="outline" onClick={() => { setSearch(""); setSelectedCategory("All"); }}>Clear Filters</Button>
                   </Card>
@@ -143,7 +143,7 @@ export default function FAQPage() {
                         <Button variant="ghost" className="w-full p-6 text-left flex items-center justify-between" onClick={() => setExpandedId(expandedId === faq.id ? null : faq.id)}>
                           <Box className="flex items-center gap-3">
                             <HelpCircle className="size-5 text-primary flex-shrink-0" />
-                            <Body className="text-white font-weight-medium">{faq.question}</Body>
+                            <Body className="text-text-primary font-weight-medium">{faq.question}</Body>
                           </Box>
                           {expandedId === faq.id ? <ChevronUp className="size-5 text-text-muted flex-shrink-0" /> : <ChevronDown className="size-5 text-text-muted flex-shrink-0" />}
                         </Button>
@@ -170,7 +170,7 @@ export default function FAQPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Support</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Still Need Help?</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Still Need Help?</Body>
                   <Body className="text-text-muted">Our support team is here to assist you</Body>
                 </Stack>
 
@@ -180,7 +180,7 @@ export default function FAQPage() {
                       <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                         {option.icon}
                       </Box>
-                      <Body className="text-white font-weight-bold mb-2">{option.title}</Body>
+                      <Body className="text-text-primary font-weight-bold mb-2">{option.title}</Body>
                       <Body size="sm" className="text-text-muted">{option.description}</Body>
                     </Card>
                   ))}

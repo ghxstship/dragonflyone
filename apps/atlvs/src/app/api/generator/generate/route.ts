@@ -1,4 +1,4 @@
-import { logger, withAuth, PlatformRole } from '@ghxstship/config';
+import { logger, withAuth, PlatformRole, DEFAULT_COLOR_PALETTE, PDF_COLORS } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import type { GeneratedBlueprint } from "../../../generator/types";
@@ -103,7 +103,7 @@ function generateMockBlueprint(creativeSeed: string): GeneratedBlueprint {
       narrative: `${seed} is an immersive experience that transforms the ordinary into the extraordinary. Guests enter a world where the boundaries between observer and participant dissolve, creating a deeply personal journey of discovery and transformation. Through carefully orchestrated sensory activations and interactive moments, each visitor becomes an integral part of the unfolding narrative, emerging with a new perspective on ${seed.toLowerCase()} and their own potential for change.`,
       targetTransformation: `Guests arrive as observers and leave as participants in their own ${seed.toLowerCase()}, carrying the experience as a permanent shift in perspective. They will have confronted their assumptions, embraced uncertainty, and discovered new dimensions of themselves through the lens of ${seed.toLowerCase()}.`,
       visualIdentity: {
-        colorPalette: ["#1A1A2E", "#FF006E", "#00F5D4", "#FEE440", "#9B5DE5"],
+        colorPalette: DEFAULT_COLOR_PALETTE,
         typography: "Bold geometric sans-serif with hand-drawn accent elements",
         moodKeywords: ["Transformative", "Immersive", "Bold", "Mysterious", "Empowering"],
       },
@@ -281,16 +281,16 @@ function generateMockBlueprint(creativeSeed: string): GeneratedBlueprint {
         { name: "Strike", code: "STR", duration: "1 week", description: "Load-out and wrap" },
       ],
       credentialTypes: [
-        { name: "All Access", code: "AA", accessLevel: 10, color: "#FF006E" },
-        { name: "Production", code: "PROD", accessLevel: 8, color: "#9B5DE5" },
-        { name: "Technical", code: "TECH", accessLevel: 7, color: "#00F5D4" },
-        { name: "Performer", code: "PERF", accessLevel: 6, color: "#FEE440" },
-        { name: "Operations", code: "OPS", accessLevel: 5, color: "#00BBF9" },
-        { name: "Guest Services", code: "GS", accessLevel: 3, color: "#F15BB5" },
-        { name: "Vendor", code: "VND", accessLevel: 2, color: "#9B9B9B" },
-        { name: "VIP Guest", code: "VIP", accessLevel: 2, color: "#FFD700" },
-        { name: "Media", code: "MED", accessLevel: 2, color: "#FF6B6B" },
-        { name: "General", code: "GEN", accessLevel: 1, color: "#FFFFFF" },
+        { name: "All Access", code: "AA", accessLevel: 10, color: PDF_COLORS.credentialAllAccess },
+        { name: "Production", code: "PROD", accessLevel: 8, color: PDF_COLORS.credentialProduction },
+        { name: "Technical", code: "TECH", accessLevel: 7, color: PDF_COLORS.credentialTechnical },
+        { name: "Performer", code: "PERF", accessLevel: 6, color: PDF_COLORS.credentialPerformer },
+        { name: "Operations", code: "OPS", accessLevel: 5, color: PDF_COLORS.credentialOperations },
+        { name: "Guest Services", code: "GS", accessLevel: 3, color: PDF_COLORS.credentialGuestServices },
+        { name: "Vendor", code: "VND", accessLevel: 2, color: PDF_COLORS.credentialVendor },
+        { name: "VIP Guest", code: "VIP", accessLevel: 2, color: PDF_COLORS.credentialVIP },
+        { name: "Media", code: "MED", accessLevel: 2, color: PDF_COLORS.credentialMedia },
+        { name: "General", code: "GEN", accessLevel: 1, color: PDF_COLORS.credentialGeneral },
       ],
       complianceChecklist: [
         { category: "Permits", item: "Event permit from city", required: true },

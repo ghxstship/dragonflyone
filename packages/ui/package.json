@@ -17,7 +17,7 @@
     "src"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
     "build:analyze": "vite build && vite-bundle-analyzer dist/index.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -30,6 +30,7 @@
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
+    "@ghxstship/config": "workspace:*",
     "@radix-ui/react-navigation-menu": "^1.2.14",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.0",

@@ -91,7 +91,7 @@ export const SuccessAnimation = forwardRef<HTMLDivElement, SuccessAnimationProps
         className={clsx(
           successAnimationVariants({
             size,
-            inverted,
+            
             className,
           }),
           sizeClasses[size]

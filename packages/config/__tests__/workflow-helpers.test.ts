@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect } from 'vitest';
 import {
   canAccessWorkflow,
@@ -13,7 +12,7 @@ import {
   WorkflowStep,
   WorkflowContext,
 } from '../workflow-helpers';
-import { PlatformRole } from '../roles';
+import { PlatformRole, EventRole } from '../roles';
 
 describe('workflow-helpers', () => {
   const mockContext: WorkflowContext = {
@@ -97,14 +96,14 @@ describe('workflow-helpers', () => {
         ...mockContext,
         eventId: 'event-1',
         eventRoles: {
-          'event-1': ['EVENT_MANAGER' as any],
+          'event-1': [EventRole.EXECUTIVE],
         },
       };
       const step: WorkflowStep = {
         id: 'step-1',
         name: 'Step 1',
         status: 'pending',
-        requiredRole: 'EVENT_MANAGER' as any,
+        requiredRole: EventRole.EXECUTIVE,
       };
       expect(canCompleteStep(step, contextWithEventRoles)).toBe(true);
     });

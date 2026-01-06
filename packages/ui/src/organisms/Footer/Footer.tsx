@@ -47,13 +47,13 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(
       
       return (
         <div 
-          className={footerCopyrightVariants({ inverted })}
+          className={footerCopyrightVariants({})}
           role="contentinfo"
         >
           <p className="text-sm">{copyright}</p>
         </div>
       );
-    }, [copyright, inverted]);
+    }, [copyright]);
 
     // Memoize logo section for performance
     const logoSection = useMemo(() => {
@@ -117,7 +117,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(
         
         <footer
           ref={ref}
-          className={footerVariants({ variant, inverted, className })}
+          className={footerVariants({ variant, className })}
           role="contentinfo"
           aria-label="Site footer"
           {...props}

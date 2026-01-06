@@ -40,7 +40,7 @@ function PlaceholderMap({
   locations,
   center,
   zoom,
-  inverted,
+  
   onLocationClick,
   selectedId,
 }: PlaceholderMapProps) {
@@ -193,7 +193,7 @@ function LocationList<T>({
   locations,
   selectedId,
   onSelect,
-  inverted,
+  
 }: LocationListProps<T>) {
   return (
     <div className="space-y-2 overflow-y-auto max-h-full">
@@ -337,7 +337,7 @@ export function MapView<T>({
 
   return (
     <div
-      className={clsx(mapViewVariants({ inverted, loading }), className)}
+      className={clsx(mapViewVariants({ loading }), className)}
       style={{ height }}
     >
       {/* Location list sidebar */}

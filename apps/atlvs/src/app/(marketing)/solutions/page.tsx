@@ -89,7 +89,7 @@ export default function SolutionsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">By Role</Body>
-                  <H3 className="text-white">Role-Based Solutions</H3>
+                  <H3 className="text-text-primary">Role-Based Solutions</H3>
                   <Body className="text-text-muted max-w-2xl">Tools designed for your specific role in the production ecosystem.</Body>
                 </Stack>
 
@@ -102,11 +102,11 @@ export default function SolutionsPage() {
                     >
                       <Stack direction="horizontal" className="justify-between items-start gap-4">
                         <Stack direction="horizontal" gap={4} className="items-start">
-                          <Box className="p-2 bg-primary/20 rounded-card text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                          <Box className="p-2 bg-primary/20 rounded-card text-primary group-hover:bg-primary group-hover:text-text-primary transition-all">
                             {role.icon}
                           </Box>
                           <Stack gap={1}>
-                            <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{role.title}</Body>
+                            <Body className="text-text-primary font-weight-bold group-hover:text-primary transition-colors">{role.title}</Body>
                             <Body size="sm" className="text-text-muted">{role.description}</Body>
                           </Stack>
                         </Stack>

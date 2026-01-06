@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
+import { log } from '@ghxstship/config';
 
 export async function GET() {
   try {
@@ -18,7 +19,7 @@ export async function GET() {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching protection rules:', error);
+      log.error('Error fetching protection rules', error, { endpoint: '/api/admin/anti-scalping/rules', method: 'GET' });
       return NextResponse.json({ error: 'Failed to fetch rules' }, { status: 500 });
     }
 
@@ -35,7 +36,7 @@ export async function GET() {
 
     return NextResponse.json({ rules: transformedRules });
   } catch (error) {
-    console.error('Error in protection rules API:', error);
+    log.error('Error in protection rules API', error, { endpoint: '/api/admin/anti-scalping/rules', method: 'GET' });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

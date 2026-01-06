@@ -170,7 +170,7 @@ export default function PrivacySettingsPage() {
 
               <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-border">
                 <Stack gap={0}>
-                  <Body className="font-weight-medium text-white">Show Activity</Body>
+                  <Body className="font-weight-medium text-text-primary">Show Activity</Body>
                   <Body size="sm" className="text-text-muted">Let others see your recent activity</Body>
                 </Stack>
                 <Switch
@@ -181,7 +181,7 @@ export default function PrivacySettingsPage() {
 
               <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-border">
                 <Stack gap={0}>
-                  <Body className="font-weight-medium text-white">Show Events Attended</Body>
+                  <Body className="font-weight-medium text-text-primary">Show Events Attended</Body>
                   <Body size="sm" className="text-text-muted">Display events on your profile</Body>
                 </Stack>
                 <Switch
@@ -192,7 +192,7 @@ export default function PrivacySettingsPage() {
 
               <Stack direction="horizontal" className="items-center justify-between py-3 border-t border-border">
                 <Stack gap={0}>
-                  <Body className="font-weight-medium text-white">Show Reviews</Body>
+                  <Body className="font-weight-medium text-text-primary">Show Reviews</Body>
                   <Body size="sm" className="text-text-muted">Display your reviews publicly</Body>
                 </Stack>
                 <Switch
@@ -233,11 +233,11 @@ export default function PrivacySettingsPage() {
                             className="w-full h-full rounded-avatar object-cover"
                           />
                         ) : (
-                          <Body className="text-white">{blocked.user_name.charAt(0)}</Body>
+                          <Body className="text-text-primary">{blocked.user_name.charAt(0)}</Body>
                         )}
                       </Box>
                       <Stack gap={0}>
-                        <Body className="font-weight-medium text-white">{blocked.user_name}</Body>
+                        <Body className="font-weight-medium text-text-primary">{blocked.user_name}</Body>
                         <Body size="sm" className="text-text-muted">
                           Blocked {new Date(blocked.blocked_at).toLocaleDateString()}
                         </Body>
@@ -281,7 +281,7 @@ export default function PrivacySettingsPage() {
               {reports.map((report) => (
                 <Card key={report.id} className="p-4">
                   <Stack direction="horizontal" className="items-start justify-between mb-2">
-                    <Body className="font-weight-medium text-white">{report.reported_user_name}</Body>
+                    <Body className="font-weight-medium text-text-primary">{report.reported_user_name}</Body>
                     {getStatusBadge(report.status)}
                   </Stack>
                   <Body size="sm" className="text-text-muted">{report.reason}</Body>
@@ -302,7 +302,7 @@ export default function PrivacySettingsPage() {
             <Stack direction="horizontal" gap={3} className="items-start">
               <HelpCircle className="size-6 text-text-muted flex-shrink-0" />
               <Stack gap={2}>
-                <Body className="font-weight-medium text-white mb-2">Need Help?</Body>
+                <Body className="font-weight-medium text-text-primary mb-2">Need Help?</Body>
                 <Body size="sm" className="text-text-muted mb-4">
                   If you are experiencing harassment or safety concerns, please contact our support team.
                 </Body>

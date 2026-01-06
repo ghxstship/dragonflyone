@@ -17,7 +17,7 @@ import type {
 
 function getIcon(iconName: string, size: number = 20): React.ReactNode {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const icons = LucideIcons as any;
+  const icons = LucideIcons as Record<string, unknown>;
   const Icon = icons[iconName];
   if (Icon && typeof Icon === 'function') {
     return <Icon size={size} />;
@@ -37,7 +37,7 @@ interface QuickActionsSheetProps {
   inverted: boolean;
 }
 
-function QuickActionsSheet({ open, onClose, actions, onSelect, inverted }: QuickActionsSheetProps) {
+function QuickActionsSheet({ open, onClose, actions, onSelect }: QuickActionsSheetProps) {
   const colorClasses: Record<string, string> = {
     primary: inverted ? "bg-primary-500/20 text-primary-400 border-primary-500/30" : "bg-primary-50 text-primary-600 border-primary-200",
     secondary: inverted ? "bg-secondary-500/20 text-secondary-400 border-secondary-500/30" : "bg-secondary-50 text-secondary-600 border-secondary-200",
@@ -94,7 +94,7 @@ interface NavItemButtonProps {
   compact?: boolean;
 }
 
-function NavItemButton({ item, isActive, inverted, onNavigate, compact }: NavItemButtonProps) {
+function NavItemButton({ item, isActive, onNavigate, compact }: NavItemButtonProps) {
   return (
     <button
       type="button"
@@ -161,7 +161,7 @@ interface CenterFabProps {
   inverted: boolean;
 }
 
-function CenterFab({ isOpen, onClick, inverted }: CenterFabProps) {
+function CenterFab({ isOpen, onClick }: CenterFabProps) {
   return (
     <div className="relative flex items-center justify-center w-16">
       <button
@@ -224,7 +224,7 @@ export const MobileBottomNav = forwardRef<HTMLElement, MobileBottomNavProps>(
         <nav
           ref={ref}
           className={clsx(
-            mobileBottomNavVariants({ inverted }),
+            mobileBottomNavVariants({}),
             "border-t-2 safe-area-inset-bottom",
             className
           )}

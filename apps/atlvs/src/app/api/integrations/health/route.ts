@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { withAuth, PlatformRole } from '@ghxstship/config';
+import { withAuth, PlatformRole, log } from '@ghxstship/config';
 
 const ATLVS_ROLES = [
   PlatformRole.ATLVS_SUPER_ADMIN,
@@ -159,7 +159,7 @@ export async function GET(request: NextRequest) {
         unhealthy: unhealthyCount },
       integrations: allIntegrations });
   } catch (error) {
-    console.error('Integration health check error:', error);
+    log.error('Integration health check error', error, { endpoint: '/api/integrations/health', method: 'GET' });
     return NextResponse.json(
       { error: 'Failed to check integration health' },
       { status: 500 }

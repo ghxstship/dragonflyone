@@ -12,8 +12,8 @@ export default function GlobalError({
 }) {
   return (
     <html lang="en">
-      <body className="bg-black text-white antialiased">
-        <Section className="relative min-h-screen overflow-hidden bg-black" noPadding>
+      <body className="bg-surface-primary text-text-primary antialiased">
+        <Section className="relative min-h-screen overflow-hidden bg-surface-primary" noPadding>
           <Box className="pointer-events-none absolute inset-0 bg-grid opacity-10" />
           <Container className="py-16">
             <AppErrorContent error={error} reset={reset} />

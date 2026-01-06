@@ -167,7 +167,7 @@ export const DashboardPage = forwardRef<HTMLDivElement, DashboardPageProps>(
     }
 
     return (
-      <div ref={ref} className={clsx(dashboardPageVariants({ inverted }), className)}>
+      <div ref={ref} className={clsx(dashboardPageVariants({}), className)}>
         {/* Skip to main content link */}
         <a
           href={`#${mainContentId}`}

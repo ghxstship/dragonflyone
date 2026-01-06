@@ -52,11 +52,11 @@ export const CreatePage = forwardRef<HTMLDivElement, CreatePageProps>(
     return (
       <div
         ref={ref}
-        className={clsx(createPageVariants({ inverted, className }))}
+        className={clsx(createPageVariants({ className }))}
         {...props}
       >
         {/* Header */}
-        <header className={createPageHeaderVariants({ inverted })}>
+        <header className={createPageHeaderVariants({})}>
           <div className="px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -107,7 +107,7 @@ export const CreatePage = forwardRef<HTMLDivElement, CreatePageProps>(
         </header>
 
         {/* Content */}
-        <main className={createPageContentVariants({ inverted })}>
+        <main className={createPageContentVariants({})}>
           <div className="max-w-4xl mx-auto px-6">
             <form onSubmit={onSubmit} className="space-y-6">
               {/* Form Sections */}

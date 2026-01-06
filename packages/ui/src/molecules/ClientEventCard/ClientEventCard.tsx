@@ -109,7 +109,7 @@ export function ClientEventCard({
 
   return (
     <div
-      className={clientEventCardVariants({ status, inverted, className })}
+      className={clientEventCardVariants({ status, className })}
       onClick={onClick}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -121,11 +121,11 @@ export function ClientEventCard({
       tabIndex={0}
       aria-label={`Event: ${name}`}
     >
-      <div className={clientEventCardContentVariants({ inverted })}>
+      <div className={clientEventCardContentVariants({})}>
         {/* Header */}
-        <div className={clientEventCardHeaderVariants({ inverted })}>
+        <div className={clientEventCardHeaderVariants({})}>
           <div className="flex-1">
-            <h3 className={clientEventCardTitleVariants({ inverted })}>
+            <h3 className={clientEventCardTitleVariants({})}>
               {name}
             </h3>
             <p className={`text-sm ${inverted ? 'text-text-secondary-inverse' : 'text-text-secondary'}`}>
@@ -143,16 +143,16 @@ export function ClientEventCard({
         </div>
 
         {/* Details */}
-        <div className={clientEventCardDetailsVariants({ inverted })}>
+        <div className={clientEventCardDetailsVariants({})}>
           {/* Date */}
-          <div className={clientEventCardDetailItemVariants({ inverted })}>
+          <div className={clientEventCardDetailItemVariants({})}>
             <Calendar className="w-4 h-4" />
             <span>{formatDate(date)}</span>
           </div>
 
           {/* Time */}
           {startTime && (
-            <div className={clientEventCardDetailItemVariants({ inverted })}>
+            <div className={clientEventCardDetailItemVariants({})}>
               <Clock className="w-4 h-4" />
               <span>
                 {formatTime(startTime)}
@@ -163,7 +163,7 @@ export function ClientEventCard({
 
           {/* Venue */}
           {venue && (
-            <div className={clientEventCardDetailItemVariants({ inverted })}>
+            <div className={clientEventCardDetailItemVariants({})}>
               <MapPin className="w-4 h-4" />
               <span>
                 {venue.name}
@@ -174,7 +174,7 @@ export function ClientEventCard({
 
           {/* Guest Count */}
           {guestCount && (
-            <div className={clientEventCardDetailItemVariants({ inverted })}>
+            <div className={clientEventCardDetailItemVariants({})}>
               <Users className="w-4 h-4" />
               <span>{guestCount} guest{guestCount !== 1 ? 's' : ''}</span>
             </div>
@@ -183,7 +183,7 @@ export function ClientEventCard({
 
         {/* Footer */}
         {(documentsCount || invoicesCount || balanceDue !== undefined) && (
-          <div className={clientEventCardFooterVariants({ inverted })}>
+          <div className={clientEventCardFooterVariants({})}>
             <div className="flex items-center gap-4">
               {/* Documents */}
               {documentsCount !== undefined && documentsCount > 0 && (
@@ -192,7 +192,7 @@ export function ClientEventCard({
                     e.stopPropagation();
                     onViewDocuments?.();
                   }}
-                  className={clientEventCardActionVariants({ inverted })}
+                  className={clientEventCardActionVariants({})}
                 >
                   <FileText className="w-4 h-4" />
                   <span>{documentsCount} document{documentsCount !== 1 ? 's' : ''}</span>
@@ -207,7 +207,7 @@ export function ClientEventCard({
                     e.stopPropagation();
                     onViewInvoices?.();
                   }}
-                  className={clientEventCardActionVariants({ inverted })}
+                  className={clientEventCardActionVariants({})}
                 >
                   <CreditCard className="w-4 h-4" />
                   <span>{invoicesCount} invoice{invoicesCount !== 1 ? 's' : ''}</span>

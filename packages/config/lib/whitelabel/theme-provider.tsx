@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { resolveColorConfig } from './color-config';
 import { generateColorCSS } from '../../design-system/tokens/css-colors';

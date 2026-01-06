@@ -122,7 +122,7 @@ export default function CareersPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Open Positions</Body>
-                  <H3 className="text-white">Find Your Next Role</H3>
+                  <H3 className="text-text-primary">Find Your Next Role</H3>
                   <Body className="text-text-muted max-w-2xl">We are always looking for talented people to join our team. Check out our current openings below.</Body>
                 </Stack>
 
@@ -149,7 +149,7 @@ export default function CareersPage() {
                 ) : filteredJobs.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
                     <Briefcase className="size-16 text-text-disabled mx-auto mb-4" />
-                    <Body className="text-white font-weight-medium mb-2">No Open Positions</Body>
+                    <Body className="text-text-primary font-weight-medium mb-2">No Open Positions</Body>
                     <Body className="text-text-muted mb-4">Check back soon for new opportunities in this department</Body>
                     <Button variant="outline" onClick={() => setSelectedDepartment("All")}>View All Positions</Button>
                   </Card>
@@ -163,7 +163,7 @@ export default function CareersPage() {
                       >
                         <Stack direction="horizontal" className="justify-between items-start flex-wrap gap-4">
                           <Stack gap={2}>
-                            <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{job.title}</Body>
+                            <Body className="text-text-primary font-weight-bold group-hover:text-primary transition-colors">{job.title}</Body>
                             <Stack direction="horizontal" gap={4} className="flex-wrap">
                               <Stack direction="horizontal" gap={1} className="items-center text-text-muted">
                                 <Building2 className="size-4" />

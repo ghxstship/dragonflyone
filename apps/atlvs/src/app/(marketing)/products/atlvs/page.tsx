@@ -10,6 +10,7 @@ import { Zap, Calendar, Users, FileText, BarChart3, Shield, Check, ArrowRight } 
 import {
   Body, Button, Card, Grid, Stack, Container, Display, H1, H3, Label, Text, Article, Box
 } from "@ghxstship/ui";
+import { useCallback } from 'react';
 
 const FEATURES = [
   { icon: <Calendar className="size-6" />, title: "Production Planning", description: "Plan and manage every aspect of your productions from start to finish" },
@@ -39,21 +40,33 @@ const TESTIMONIALS = [
 export default function ATLVSProductPage() {
   const router = useRouter();
 
+  const handleRequestDemo = useCallback(() => {
+    router.push("/demo");
+  }, [router]);
+
+  const handleViewPricing = useCallback(() => {
+    router.push("/pricing");
+  }, [router]);
+
+  const handleContactSales = useCallback(() => {
+    router.push("/contact");
+  }, [router]);
+
   return (
     <>
       {/* Hero Section */}
       <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-        <Stack gap={6} className="items-center text-center sm:gap-8">
+        <Stack gap={6} className="items-center text-text-primary sm:gap-8">
           <Label size="xs" className="text-brand-pink">PRODUCTS</Label>
-          <Display className="text-white text-display-sm sm:text-display-md lg:text-display-lg">ATLVS</Display>
+          <Display className="text-text-primary text-display-sm sm:text-display-md lg:text-display-lg">ATLVS</Display>
           <Body size="lg" className="max-w-3xl text-text-secondary">
             The complete production management platform for live events, entertainment, and experiential marketing.
           </Body>
           <Stack direction="horizontal" gap={4} className="flex-wrap justify-center">
-            <Button variant="primary" size="lg" onClick={() => router.push("/demo")} icon={<ArrowRight />} iconPosition="right">
+            <Button variant="primary" size="lg" onClick={handleRequestDemo} icon={<ArrowRight />} iconPosition="right">
               Request Demo
             </Button>
-            <Button variant="outline" size="lg" onClick={() => router.push("/pricing")}>
+            <Button variant="outline" size="lg" onClick={handleViewPricing}>
               View Pricing
             </Button>
           </Stack>
@@ -61,7 +74,7 @@ export default function ATLVSProductPage() {
       </Container>
 
       {/* Overview Section */}
-      <Box className="bg-white">
+      <Box className="bg-text-text-primary">
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
           <Article className="border-2 border-border bg-muted p-6 sm:p-8 lg:p-12 pop-card-atlvs">
             <Body size="lg" className="text-text-secondary leading-relaxed">
@@ -73,16 +86,16 @@ export default function ATLVSProductPage() {
       </Box>
 
       {/* Features Section */}
-      <Box className="bg-white">
+      <Box className="bg-text-text-primary">
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-          <Stack gap={4} className="text-center mb-12">
+          <Stack gap={4} className="text-text-primary mb-12">
             <Label size="xs" className="text-text-muted">CAPABILITIES</Label>
             <H1 className="text-text-primary">KEY FEATURES</H1>
             <Body size="lg" className="text-text-muted max-w-2xl mx-auto">Everything you need to manage productions at scale</Body>
           </Stack>
           <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((feature, idx) => (
-              <Article key={idx} className="border-2 border-border bg-white p-6 pop-card-atlvs">
+              <Article key={idx} className="border-2 border-border bg-text-text-primary p-6 pop-card-atlvs">
                 <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-border bg-muted">
                   <Box className="text-brand-pink">{feature.icon}</Box>
                 </Box>
@@ -100,7 +113,7 @@ export default function ATLVSProductPage() {
           <Stack gap={6}>
             <Stack gap={2}>
               <Label size="xs" className="text-brand-pink">WHY ATLVS</Label>
-              <H1 className="text-white">THE PRODUCTION ADVANTAGE</H1>
+              <H1 className="text-text-primary">THE PRODUCTION ADVANTAGE</H1>
             </Stack>
             <Stack gap={3}>
               {BENEFITS.map((benefit, idx) => (
@@ -111,9 +124,9 @@ export default function ATLVSProductPage() {
               ))}
             </Stack>
           </Stack>
-          <Card className="border-2 border-border bg-surface-inverse p-8 text-center">
+          <Card className="border-2 border-border bg-surface-inverse p-8 text-text-primary">
             <Stack gap={4} className="items-center">
-              <Display className="text-white text-display-sm">Ready to get started?</Display>
+              <Display className="text-text-primary text-display-sm">Ready to get started?</Display>
               <Body className="text-text-muted">See ATLVS in action with a personalized demo</Body>
               <Stack direction="horizontal" gap={4} className="flex-wrap justify-center">
                 <Button variant="primary" size="md" onClick={() => router.push("/demo")}>Request Demo</Button>
@@ -125,16 +138,16 @@ export default function ATLVSProductPage() {
       </Container>
 
       {/* Testimonials Section */}
-      <Box className="bg-white">
+      <Box className="bg-text-text-primary">
         <Container className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-          <Stack gap={4} className="text-center mb-12">
+          <Stack gap={4} className="text-text-primary mb-12">
             <Label size="xs" className="text-text-muted">TESTIMONIALS</Label>
             <H1 className="text-text-primary">WHAT OUR CUSTOMERS SAY</H1>
             <Body size="lg" className="text-text-muted max-w-2xl mx-auto">Hear from production teams using ATLVS</Body>
           </Stack>
           <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
             {TESTIMONIALS.map((testimonial, idx) => (
-              <Article key={idx} className="border-2 border-border bg-white p-6 pop-card">
+              <Article key={idx} className="border-2 border-border bg-text-text-primary p-6 pop-card">
                 <Body className="text-text-secondary italic mb-4">&ldquo;{testimonial.quote}&rdquo;</Body>
                 <Box>
                   <Text className="font-weight-medium text-text-primary">{testimonial.author}</Text>
@@ -147,8 +160,8 @@ export default function ATLVSProductPage() {
       </Box>
 
       {/* CTA Section */}
-      <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-        <Display size="md" className="text-white">START YOUR PRODUCTION JOURNEY</Display>
+      <Container className="mx-auto max-w-container-4xl px-4 text-text-primary sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+        <Display size="md" className="text-text-primary">START YOUR PRODUCTION JOURNEY</Display>
         <Body size="lg" className="mx-auto mt-4 max-w-xl text-text-muted">
           Join thousands of production teams already using ATLVS to deliver exceptional events.
         </Body>

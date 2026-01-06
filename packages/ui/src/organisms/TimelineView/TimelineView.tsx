@@ -84,7 +84,7 @@ function TimelineItemComponent<T>({
   index,
   isLast,
   showConnector,
-  inverted,
+  
   onClick,
   renderItem,
 }: TimelineItemComponentProps<T>) {
@@ -277,7 +277,7 @@ export function TimelineView<T>({
   }
 
   return (
-    <div className={clsx(timelineViewVariants({ inverted }), className)}>
+    <div className={clsx(timelineViewVariants({}), className)}>
       {groupedItems.map((group, groupIndex) => (
         <div key={groupIndex}>
           {/* Group header */}

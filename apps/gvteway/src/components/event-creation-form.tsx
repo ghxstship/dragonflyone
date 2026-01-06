@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, memo } from "react";
 import { Button, Field, Input, Select, Stack, Grid, Body, Form } from "@ghxstship/ui";
 
 const statusOptions = [
@@ -39,7 +39,7 @@ const defaultState: FormState = {
   tags: "",
 };
 
-export function EventCreationForm() {
+export const EventCreationForm = memo(function EventCreationForm() {
   const [form, setForm] = useState<FormState>(defaultState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);

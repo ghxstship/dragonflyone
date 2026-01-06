@@ -21,7 +21,7 @@ export default function ProfilePage() {
       <Section>
         <Card className="p-6 mb-6">
           <Box className="flex items-center gap-6">
-            <Box className="size-20 bg-primary rounded-avatar flex items-center justify-center"><User className="size-10 text-white" /></Box>
+            <Box className="size-20 bg-primary rounded-avatar flex items-center justify-center"><User className="size-10 text-text-primary" /></Box>
             <Box><Body className="font-weight-bold">{profile.name}</Body><Body className="text-text-muted">{profile.email}</Body></Box>
           </Box>
         </Card>

@@ -15,6 +15,7 @@ import {
 } from '@ghxstship/ui';
 import { EVENT_STATUS_COLORS } from '@ghxstship/config';
 import { useQuery } from '@tanstack/react-query';
+import { useCallback } from 'react';
 
 interface SponsorStats {
   activeActivations: number;
@@ -97,6 +98,23 @@ export default function SponsorPortalPage() {
 
   const { stats, activations, reports } = data || { stats: DEMO_STATS, activations: DEMO_ACTIVATIONS, reports: DEMO_REPORTS };
 
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleViewActivations = useCallback(() => {
+    router.push('/portals/sponsor/activations');
+  }, [router]);
+
+  const handleViewAnalytics = useCallback(() => {
+    router.push('/portals/sponsor/analytics');
+  }, [router]);
+
+  const handleViewEvents = useCallback(() => {
+    router.push('/portals/sponsor/events');
+  }, [router]);
+
+  const handleViewReports = useCallback(() => {
+    router.push('/portals/sponsor/reports');
+  }, [router]);
+
   return (
     <DetailPage
       header={{
@@ -142,7 +160,7 @@ export default function SponsorPortalPage() {
               <Button 
                 variant="outline" 
                 className="justify-start"
-                onClick={() => router.push('/portals/sponsor/activations')}
+                onClick={handleViewActivations}
               >
                 <Megaphone className="h-4 w-4 mr-2" />
                 View Activations
@@ -150,7 +168,7 @@ export default function SponsorPortalPage() {
               <Button 
                 variant="outline" 
                 className="justify-start"
-                onClick={() => router.push('/portals/sponsor/analytics')}
+                onClick={handleViewAnalytics}
               >
                 <BarChart3 className="h-4 w-4 mr-2" />
                 Analytics
@@ -158,7 +176,7 @@ export default function SponsorPortalPage() {
               <Button 
                 variant="outline" 
                 className="justify-start"
-                onClick={() => router.push('/portals/sponsor/events')}
+                onClick={handleViewEvents}
               >
                 <Calendar className="h-4 w-4 mr-2" />
                 Upcoming Events
@@ -166,7 +184,7 @@ export default function SponsorPortalPage() {
               <Button 
                 variant="outline" 
                 className="justify-start"
-                onClick={() => router.push('/portals/sponsor/reports')}
+                onClick={handleViewReports}
               >
                 <TrendingUp className="h-4 w-4 mr-2" />
                 View Reports
@@ -181,7 +199,7 @@ export default function SponsorPortalPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" className="items-center justify-between">
                 <Text className="text-h4-desktop font-weight-semibold">Your Activations</Text>
-                <Button variant="ghost" size="sm" onClick={() => router.push('/portals/sponsor/activations')}>
+                <Button variant="ghost" size="sm" onClick={handleViewActivations}>
                   View All
                   <ChevronRight className="h-4 w-4 ml-1" />
                 </Button>
@@ -222,7 +240,7 @@ export default function SponsorPortalPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" className="items-center justify-between">
                 <Text className="text-h4-desktop font-weight-semibold">Performance Reports</Text>
-                <Button variant="ghost" size="sm" onClick={() => router.push('/portals/sponsor/reports')}>
+                <Button variant="ghost" size="sm" onClick={handleViewReports}>
                   View All
                   <ChevronRight className="h-4 w-4 ml-1" />
                 </Button>

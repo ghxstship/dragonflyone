@@ -79,7 +79,7 @@ export default function HelpGettingStartedPage() {
                 <Stack gap={6}>
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
-                      <Body className="text-white font-weight-bold text-h4-md">Your Progress</Body>
+                      <Body className="text-text-primary font-weight-bold text-h4-md">Your Progress</Body>
                       <Body className="text-text-muted">{completedSteps} of {QUICK_START_STEPS.length} steps completed</Body>
                     </Stack>
                     <Body className="text-primary font-weight-bold text-h3-md">{Math.round(progress)}%</Body>
@@ -98,18 +98,18 @@ export default function HelpGettingStartedPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Setup</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Quick Start Steps</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Quick Start Steps</Body>
                 </Stack>
 
                 <Stack gap={4}>
                   {QUICK_START_STEPS.map((step, idx) => (
                     <Card key={step.id} className={`p-6 border-2 rounded-card ${step.completed ? "border-success" : "border-border"}`}>
                       <Box className="flex items-start gap-4">
-                        <Box className={`size-12 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-white" : "bg-surface-elevated text-text-muted"}`}>
+                        <Box className={`size-12 rounded-avatar flex items-center justify-center ${step.completed ? "bg-success text-text-primary" : "bg-surface-elevated text-text-muted"}`}>
                           {step.completed ? <Check className="size-6" /> : <Body className="font-weight-bold text-h5-md">{step.id}</Body>}
                         </Box>
                         <Box className="flex-1">
-                          <Body className="text-white font-weight-bold">{step.title}</Body>
+                          <Body className="text-text-primary font-weight-bold">{step.title}</Body>
                           <Body className="text-text-muted">{step.description}</Body>
                         </Box>
                         {!step.completed && idx === completedSteps && (
@@ -133,7 +133,7 @@ export default function HelpGettingStartedPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Learn</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Video Tutorials</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Video Tutorials</Body>
                   <Body className="text-text-muted">Watch step-by-step guides to master ATLVS</Body>
                 </Stack>
 
@@ -143,7 +143,7 @@ export default function HelpGettingStartedPage() {
                       <Box className="aspect-video bg-surface-elevated rounded-card flex items-center justify-center mb-4">
                         <Play className="size-10 text-text-muted" />
                       </Box>
-                      <Body className="text-white font-weight-medium">{video.title}</Body>
+                      <Body className="text-text-primary font-weight-medium">{video.title}</Body>
                       <Body size="sm" className="text-text-muted">{video.duration}</Body>
                     </Card>
                   ))}

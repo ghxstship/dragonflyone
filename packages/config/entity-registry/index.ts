@@ -320,6 +320,8 @@ export {
 
 // Hooks
 export { useEntityConfig, type UseEntityConfigOptions, type UseEntityConfigResult } from './hooks';
+export { useEntityData, type UseEntityDataOptions, type UseEntityDataResult } from './hooks';
+export { useEntityDetail, type UseEntityDetailOptions, type UseEntityDetailResult } from './hooks';
 
 // Capability Bridge (integration with dataset-capabilities system)
 export {

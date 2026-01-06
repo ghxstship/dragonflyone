@@ -86,7 +86,7 @@ export default function PressPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Latest News</Body>
-                  <H3 className="text-white">Press Releases</H3>
+                  <H3 className="text-text-primary">Press Releases</H3>
                   <Body className="text-text-muted max-w-2xl">Stay up to date with the latest news and announcements from ATLVS.</Body>
                 </Stack>
 
@@ -106,7 +106,7 @@ export default function PressPage() {
                               <Body size="sm">{formatDate(release.date)}</Body>
                             </Stack>
                           </Stack>
-                          <Body className="text-white font-weight-bold group-hover:text-primary transition-colors">{release.title}</Body>
+                          <Body className="text-text-primary font-weight-bold group-hover:text-primary transition-colors">{release.title}</Body>
                           <Body className="text-text-muted">{release.excerpt}</Body>
                         </Stack>
                         <ArrowRight className="size-5 text-text-disabled group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
@@ -126,7 +126,7 @@ export default function PressPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Resources</Body>
-                  <H3 className="text-white">Media Kit</H3>
+                  <H3 className="text-text-primary">Media Kit</H3>
                   <Body className="text-text-muted max-w-2xl">Download official ATLVS brand assets for press and media use.</Body>
                 </Stack>
 
@@ -139,7 +139,7 @@ export default function PressPage() {
                             {asset.icon}
                           </Box>
                           <Stack gap={1}>
-                            <Body className="text-white font-weight-bold">{asset.name}</Body>
+                            <Body className="text-text-primary font-weight-bold">{asset.name}</Body>
                             <Body size="sm" className="text-text-muted">{asset.description}</Body>
                             <Stack direction="horizontal" gap={2} className="mt-2">
                               <Badge variant="outline">{asset.format}</Badge>
@@ -170,7 +170,7 @@ export default function PressPage() {
                       <Mail className="size-8 text-primary" />
                     </Box>
                     <Stack gap={1}>
-                      <Body className="text-white font-weight-bold text-h5-md">Press Contact</Body>
+                      <Body className="text-text-primary font-weight-bold text-h5-md">Press Contact</Body>
                       <Body className="text-text-muted">For media inquiries, interviews, and press information</Body>
                       <Body className="text-primary font-weight-medium mt-2">press@atlvs.com</Body>
                     </Stack>

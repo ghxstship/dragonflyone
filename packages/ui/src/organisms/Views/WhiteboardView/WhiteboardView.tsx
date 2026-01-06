@@ -136,10 +136,10 @@ export function WhiteboardView<T extends { id: string }>({
       const title = String(entity[titleField]);
       const content = contentField ? String(entity[contentField]) : undefined;
       const type = typeField ? String(entity[typeField]) : 'element';
-      const position = positionField ? (entity[positionField] as any) : { x: 0, y: 0 };
-      const size = sizeField ? (entity[sizeField] as any) : { width: 100, height: 100 };
+      const position = positionField ? (entity[positionField] as Record<string, unknown>) : { x: 0, y: 0 };
+      const size = sizeField ? (entity[sizeField] as Record<string, unknown>) : { width: 100, height: 100 };
       const elementColor = colorField ? String(entity[colorField]) : color;
-      const style = styleField ? (entity[styleField] as any) : {};
+      const style = styleField ? (entity[styleField] as Record<string, unknown>) : {};
       const zIndex = zIndexField ? Number(entity[zIndexField]) : 0;
 
       return {

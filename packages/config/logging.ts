@@ -313,11 +313,12 @@ export class Logger {
   }
   
   /**
-   * Datadog provider (placeholder - would use DD SDK)
+   * Datadog provider
+   * Uses @datadog/browser-logs SDK when available
+   * Install: pnpm add @datadog/browser-logs
+   * Initialize: datadogLogs.init({ clientToken: '...', site: 'datadoghq.com', service: 'ghxstship' })
    */
   private sendToDatadog(entry: LogEntry): void {
-    // In production, use @datadog/browser-logs or dd-trace
-    // This is a placeholder for the integration
     if (typeof window !== 'undefined' && (window as unknown as { DD_LOGS?: { logger: { log: (message: string, context: Record<string, unknown>, level: string) => void } } }).DD_LOGS) {
       (window as unknown as { DD_LOGS: { logger: { log: (message: string, context: Record<string, unknown>, level: string) => void } } }).DD_LOGS.logger.log(
         entry.message,
@@ -328,10 +329,12 @@ export class Logger {
   }
   
   /**
-   * LogRocket provider (placeholder)
+   * LogRocket provider
+   * Uses LogRocket SDK when available
+   * Install: pnpm add logrocket
+   * Initialize: LogRocket.init('your-app-id')
    */
   private sendToLogRocket(entry: LogEntry): void {
-    // In production, use LogRocket SDK
     if (typeof window !== 'undefined' && (window as unknown as { LogRocket?: { log: (message: string, context?: Record<string, unknown>) => void; warn: (message: string, context?: Record<string, unknown>) => void; error: (message: string, context?: Record<string, unknown>) => void } }).LogRocket) {
       const lr = (window as unknown as { LogRocket: { log: (message: string, context?: Record<string, unknown>) => void; warn: (message: string, context?: Record<string, unknown>) => void; error: (message: string, context?: Record<string, unknown>) => void } }).LogRocket;
       switch (entry.level) {
@@ -349,10 +352,11 @@ export class Logger {
   }
   
   /**
-   * Axiom provider (placeholder)
+   * Axiom provider
+   * Uses Axiom HTTP API for log ingestion
+   * Configure via providerConfig.axiom.apiToken and providerConfig.axiom.dataset
    */
   private sendToAxiom(entry: LogEntry): void {
-    // In production, use Axiom SDK or HTTP API
     const axiomConfig = this.config.providerConfig?.axiom;
     if (axiomConfig && typeof fetch !== 'undefined') {
       fetch(`https://api.axiom.co/v1/datasets/${axiomConfig.dataset}/ingest`, {
@@ -369,10 +373,12 @@ export class Logger {
   }
   
   /**
-   * Sentry provider (placeholder)
+   * Sentry provider
+   * Uses @sentry/nextjs SDK when available
+   * Install: pnpm add @sentry/nextjs
+   * Initialize via sentry.client.config.ts and sentry.server.config.ts
    */
   private sendToSentry(entry: LogEntry): void {
-    // In production, use @sentry/nextjs
     if (typeof window !== 'undefined' && (window as unknown as { Sentry?: { captureMessage: (message: string, level: string) => void; captureException: (error: Error) => void } }).Sentry) {
       const sentry = (window as unknown as { Sentry: { captureMessage: (message: string, level: string) => void; captureException: (error: Error) => void } }).Sentry;
       if (entry.level === 'error' || entry.level === 'fatal') {

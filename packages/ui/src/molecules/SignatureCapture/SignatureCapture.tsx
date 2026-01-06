@@ -196,21 +196,21 @@ export function SignatureCapture({
   const canSave = hasSignature && agreedToTerms;
 
   return (
-    <div className={signatureCaptureVariants({ inverted, className })}>
+    <div className={signatureCaptureVariants({ className })}>
       {/* Header */}
-      <div className={signatureCaptureHeaderVariants({ inverted })}>
-        <h3 className={signatureCaptureTitleVariants({ inverted })}>
+      <div className={signatureCaptureHeaderVariants({})}>
+        <h3 className={signatureCaptureTitleVariants({})}>
           Digital Signature
         </h3>
         
         {documentTitle && (
-          <p className={signatureCaptureDocumentInfoVariants({ inverted })}>
+          <p className={signatureCaptureDocumentInfoVariants({})}>
             Document: {documentTitle}
           </p>
         )}
         
         {(signerName || signerTitle) && (
-          <div className={signatureCaptureSignerInfoVariants({ inverted })}>
+          <div className={signatureCaptureSignerInfoVariants({})}>
             {signerName && <span>{signerName}</span>}
             {signerTitle && <span> • {signerTitle}</span>}
           </div>
@@ -218,10 +218,10 @@ export function SignatureCapture({
       </div>
 
       {/* Canvas */}
-      <div className={signatureCaptureCanvasContainerVariants({ inverted })}>
+      <div className={signatureCaptureCanvasContainerVariants({})}>
         <canvas
           ref={canvasRef}
-          className={signatureCaptureCanvasVariants({ inverted })}
+          className={signatureCaptureCanvasVariants({})}
           onMouseDown={startDrawing}
           onMouseMove={draw}
           onMouseUp={stopDrawing}
@@ -234,8 +234,8 @@ export function SignatureCapture({
       </div>
 
       {/* Controls */}
-      <div className={signatureCaptureControlsContainerVariants({ inverted })}>
-        <div className={signatureCaptureActionsContainerVariants({ inverted })}>
+      <div className={signatureCaptureControlsContainerVariants({})}>
+        <div className={signatureCaptureActionsContainerVariants({})}>
           {/* Clear Button */}
           <button
             onClick={clearSignature}
@@ -281,7 +281,7 @@ export function SignatureCapture({
         </div>
 
         {/* Terms Agreement */}
-        <div className={signatureCaptureCheckboxContainerVariants({ inverted })}>
+        <div className={signatureCaptureCheckboxContainerVariants({})}>
           <input
             type="checkbox"
             id="signature-terms"
@@ -291,7 +291,7 @@ export function SignatureCapture({
           />
           <label 
             htmlFor="signature-terms" 
-            className={signatureCaptureCheckboxLabelVariants({ inverted })}
+            className={signatureCaptureCheckboxLabelVariants({})}
           >
             I agree that this signature is legally binding and equivalent to a handwritten signature.
           </label>

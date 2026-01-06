@@ -205,13 +205,13 @@ export function KanbanBoard<T extends { id: string }>({
     if (fromColumn !== toColumn || fromSwimlane !== toSwimlane) {
       // Update the entity
       const updates: Partial<T> = {
-        [statusField]: toColumn,
+        [statusField as string]: toColumn,
       } as Partial<T>;
       
       if (swimlaneField && toSwimlane) {
         const swimlane = swimlanes.find(s => s.id === toSwimlane);
         if (swimlane) {
-          (updates as any)[swimlaneField] = swimlane.value;
+          (updates as Record<string, unknown>)[swimlaneField] = swimlane.value;
         }
       }
       
@@ -255,13 +255,13 @@ export function KanbanBoard<T extends { id: string }>({
       return cardRenderer(item, column);
     }
 
-    const title = String((item as any).title || (item as any).name || 'Untitled');
-    const description = String((item as any).description || '');
-    const assignee = (item as any).assigneeId || (item as any).assignee;
-    const dueDate = (item as any).dueDate;
-    const priority = (item as any).priority;
-    const tags = (item as any).tags || [];
-    const progress = (item as any).progress || 0;
+    const title = String((item as Record<string, unknown>).title || (item as Record<string, unknown>).name || 'Untitled');
+    const description = String((item as Record<string, unknown>).description || '');
+    const assignee = (item as Record<string, unknown>).assigneeId || (item as Record<string, unknown>).assignee;
+    const dueDate = (item as Record<string, unknown>).dueDate;
+    const priority = (item as Record<string, unknown>).priority;
+    const tags = (item as Record<string, unknown>).tags || [];
+    const progress = (item as Record<string, unknown>).progress || 0;
 
     return (
       <div

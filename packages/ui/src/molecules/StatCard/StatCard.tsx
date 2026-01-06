@@ -61,36 +61,36 @@ export const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
     return (
       <div
         ref={ref}
-        className={statCardVariants({ inverted, className })}
+        className={statCardVariants({ className })}
         {...props}
       >
         {/* Icon */}
         {icon && (
-          <div className={statCardIconContainerVariants({ inverted })}>
+          <div className={statCardIconContainerVariants({})}>
             {icon}
           </div>
         )}
         
         {/* Value */}
-        <div className={statCardValueVariants({ inverted })}>
+        <div className={statCardValueVariants({})}>
           {value}
         </div>
         
         {/* Label */}
-        <div className={statCardLabelVariants({ inverted })}>
+        <div className={statCardLabelVariants({})}>
           {label}
         </div>
         
         {/* Trend */}
         {(trend || trendValue) && (
-          <div className={statCardTrendContainerVariants({ inverted })}>
+          <div className={statCardTrendContainerVariants({})}>
             {trend && (
-              <div className={statCardTrendVariants({ trend, inverted })}>
+              <div className={statCardTrendVariants({ trend })}>
                 {getTrendIcon()}
               </div>
             )}
             {trendValue && (
-              <div className={statCardTrendVariants({ trend, inverted })}>
+              <div className={statCardTrendVariants({ trend })}>
                 {trendValue}
               </div>
             )}

@@ -81,32 +81,50 @@ export default function PunchListPage() {
         <ModalHeader><H3>Add Punch Item</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Item title" />
-            <Textarea placeholder="Description..." rows={2} />
-            <Input placeholder="Location" />
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Item Title</Body>
+              <Input placeholder="Item title" aria-label="Punch list item title" />
+            </Stack>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Description</Body>
+              <Textarea placeholder="Description..." rows={2} aria-label="Punch list item description" />
+            </Stack>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Location</Body>
+              <Input placeholder="Location" aria-label="Punch list item location" />
+            </Stack>
             <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-              <Select>
-                <option value="">Department...</option>
-                <option value="Audio">Audio</option>
-                <option value="Lighting">Lighting</option>
-                <option value="Video">Video</option>
-                <option value="Staging">Staging</option>
-                <option value="Rigging">Rigging</option>
-              </Select>
-              <Select>
-                <option value="">Priority...</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-                <option value="Critical">Critical</option>
-              </Select>
+              <Stack gap={2}>
+                <Body size="sm" className="font-weight-medium">Department</Body>
+                <Select aria-label="Department selection">
+                  <option value="">Department...</option>
+                  <option value="Audio">Audio</option>
+                  <option value="Lighting">Lighting</option>
+                  <option value="Video">Video</option>
+                  <option value="Staging">Staging</option>
+                  <option value="Rigging">Rigging</option>
+                </Select>
+              </Stack>
+              <Stack gap={2}>
+                <Body size="sm" className="font-weight-medium">Priority</Body>
+                <Select aria-label="Priority level">
+                  <option value="">Priority...</option>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                  <option value="Critical">Critical</option>
+                </Select>
+              </Stack>
             </Grid>
-            <Select>
-              <option value="">Assign to...</option>
-              <option value="john">John Martinez</option>
-              <option value="sarah">Sarah Chen</option>
-              <option value="mike">Mike Thompson</option>
-            </Select>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Assign To</Body>
+              <Select aria-label="Assign to team member">
+                <option value="">Assign to...</option>
+                <option value="john">John Martinez</option>
+                <option value="sarah">Sarah Chen</option>
+                <option value="mike">Mike Thompson</option>
+              </Select>
+            </Stack>
           </Stack>
         </ModalBody>
         <ModalFooter>

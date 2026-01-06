@@ -42,7 +42,7 @@ export default function EventChatPage() {
             <Stack gap={4}>
               {messages.map((msg: Message) => (
                 <Box key={msg.id} className="flex gap-3">
-                  <Box className="size-8 bg-primary rounded-avatar flex items-center justify-center text-white text-body-sm">{msg.user[0]}</Box>
+                  <Box className="size-8 bg-primary rounded-avatar flex items-center justify-center text-text-primary text-body-sm">{msg.user[0]}</Box>
                   <Box>
                     <Box className="flex items-center gap-2"><Body className="font-weight-medium">{msg.user}</Body><Body size="sm" className="text-text-disabled">{msg.time}</Body></Box>
                     <Body className="text-text-secondary">{msg.text}</Body>

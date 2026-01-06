@@ -98,10 +98,10 @@ export function OfflineIndicator({
   const hasPendingItems = pendingSyncCount > 0;
 
   return (
-    <div className={offlineIndicatorVariants({ variant, isOffline, inverted, className })}>
+    <div className={offlineIndicatorVariants({ variant, isOffline, className })}>
       {/* Status Icon and Message */}
       <div className="flex items-center gap-3">
-        <div className={offlineIndicatorIconVariants({ isOffline, inverted })}>
+        <div className={offlineIndicatorIconVariants({ isOffline })}>
           {isOffline ? (
             <WifiOff />
           ) : showSyncSuccess ? (
@@ -113,7 +113,7 @@ export function OfflineIndicator({
           )}
         </div>
         
-        <div className={offlineIndicatorTextVariants({ isOffline, inverted })}>
+        <div className={offlineIndicatorTextVariants({ isOffline })}>
           {isOffline ? (
             <div>
               <div className="font-medium">You&apos;re offline</div>
@@ -143,7 +143,7 @@ export function OfflineIndicator({
         <button
           onClick={handleSync}
           disabled={isSyncing}
-          className={offlineIndicatorButtonVariants({ isOffline, inverted })}
+          className={offlineIndicatorButtonVariants({ isOffline })}
         >
           <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
           {isSyncing ? 'Syncing...' : isOffline ? 'Retry' : 'Sync Now'}

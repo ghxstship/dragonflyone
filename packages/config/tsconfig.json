@@ -69,13 +69,18 @@
     "catalog-categories.ts",
     "navigation-types.ts",
     "calendar-utils.ts",
+    "pdf-colors.ts",
     "types/**/*.ts",
     "providers/**/*.ts",
     "providers/**/*.tsx",
     "dataset-capabilities/**/*.ts",
     "dataset-capabilities/**/*.tsx",
     "entity-registry/**/*.ts",
-    "entity-registry/**/*.tsx"
+    "entity-registry/**/*.tsx",
+    "lib/**/*.ts",
+    "lib/**/*.tsx",
+    "design-system/**/*.ts",
+    "design-system/**/*.tsx"
   ],
   "exclude": [
     "node_modules",

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Button, Input, Label, Alert, Card, Stack, H3, Body, Select, Field } from '@ghxstship/ui';
+import { memo } from 'react';
 
 interface BulkTicketGeneratorProps {
   eventId: string;
@@ -9,7 +10,7 @@ interface BulkTicketGeneratorProps {
   onSuccess?: () => void;
 }
 
-export default function BulkTicketGenerator({ 
+export default memo(function BulkTicketGenerator({ 
   eventId, 
   ticketTypes, 
   onSuccess 

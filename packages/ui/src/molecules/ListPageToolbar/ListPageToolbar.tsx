@@ -100,20 +100,20 @@ export function ListPageToolbar({
   };
 
   return (
-    <div className={listPageToolbarVariants({ inverted, className })}>
+    <div className={listPageToolbarVariants({ className })}>
       {/* Header */}
-      <div className={listPageToolbarHeaderVariants({ inverted })}>
+      <div className={listPageToolbarHeaderVariants({})}>
         {/* Title */}
-        <h1 className={listPageToolbarTitleVariants({ inverted })}>
+        <h1 className={listPageToolbarTitleVariants({})}>
           {title}
         </h1>
 
         {/* Actions */}
-        <div className={listPageToolbarActionsVariants({ inverted })}>
+        <div className={listPageToolbarActionsVariants({})}>
           {onCreate && (
             <button
               onClick={onCreate}
-              className={listPageToolbarButtonVariants({ variant: "primary", inverted })}
+              className={listPageToolbarButtonVariants({ variant: "primary" })}
             >
               {createLabel}
             </button>
@@ -122,9 +122,9 @@ export function ListPageToolbar({
       </div>
 
       {/* Controls */}
-      <div className={listPageToolbarControlsVariants({ inverted })}>
+      <div className={listPageToolbarControlsVariants({})}>
         {/* Search */}
-        <div className={listPageToolbarSearchVariants({ inverted })}>
+        <div className={listPageToolbarSearchVariants({})}>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
             <input
@@ -140,13 +140,13 @@ export function ListPageToolbar({
         </div>
 
         {/* Left Controls */}
-        <div className={listPageToolbarActionsVariants({ inverted })}>
+        <div className={listPageToolbarActionsVariants({})}>
           {/* Filters */}
           {filters && filters.length > 0 && (
             <div className="relative">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={listPageToolbarButtonVariants({ variant: "default", inverted })}
+                className={listPageToolbarButtonVariants({ variant: "default" })}
               >
                 <Filter className="w-4 h-4" />
                 Filters
@@ -188,7 +188,7 @@ export function ListPageToolbar({
             <div className="relative">
               <button
                 onClick={() => setShowDensity(!showDensity)}
-                className={listPageToolbarButtonVariants({ variant: "ghost", inverted })}
+                className={listPageToolbarButtonVariants({ variant: "ghost" })}
               >
                 <MoreHorizontal className="w-4 h-4" />
                 Density
@@ -202,7 +202,7 @@ export function ListPageToolbar({
             <button
               onClick={onRefresh}
               disabled={isRefreshing}
-              className={listPageToolbarButtonVariants({ variant: "ghost", inverted })}
+              className={listPageToolbarButtonVariants({ variant: "ghost" })}
             >
               <RefreshCw className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} />
               Refresh
@@ -215,7 +215,7 @@ export function ListPageToolbar({
               {onImport && (
                 <button
                   onClick={onImport}
-                  className={listPageToolbarButtonVariants({ variant: "ghost", inverted })}
+                  className={listPageToolbarButtonVariants({ variant: "ghost" })}
                 >
                   <Upload className="w-4 h-4" />
                   Import
@@ -224,7 +224,7 @@ export function ListPageToolbar({
               {onExport && (
                 <button
                   onClick={onExport}
-                  className={listPageToolbarButtonVariants({ variant: "ghost", inverted })}
+                  className={listPageToolbarButtonVariants({ variant: "ghost" })}
                 >
                   <Download className="w-4 h-4" />
                   Export
@@ -240,7 +240,7 @@ export function ListPageToolbar({
                 <button
                   key={action.id}
                   onClick={action.onClick}
-                  className={listPageToolbarButtonVariants({ variant: "ghost", inverted })}
+                  className={listPageToolbarButtonVariants({ variant: "ghost" })}
                 >
                   {action.icon && <span>{action.icon}</span>}
                   {action.label}

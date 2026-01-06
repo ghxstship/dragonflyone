@@ -193,22 +193,34 @@ export default function SettlementPage() {
         <ModalHeader><H3>Add Adjustment</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Description" />
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Description</Body>
+              <Input placeholder="Description" aria-label="Adjustment description" />
+            </Stack>
             <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-              <Input type="number" placeholder="Amount" />
-              <Select>
-                <option value="Credit">Credit (+)</option>
-                <option value="Debit">Debit (-)</option>
-              </Select>
+              <Stack gap={2}>
+                <Body size="sm" className="font-weight-medium">Amount</Body>
+                <Input type="number" placeholder="Amount" aria-label="Adjustment amount in dollars" />
+              </Stack>
+              <Stack gap={2}>
+                <Body size="sm" className="font-weight-medium">Type</Body>
+                <Select aria-label="Adjustment type">
+                  <option value="Credit">Credit (+)</option>
+                  <option value="Debit">Debit (-)</option>
+                </Select>
+              </Stack>
             </Grid>
-            <Select>
-              <option value="">Category...</option>
-              <option value="Revenue">Revenue</option>
-              <option value="Labor">Labor</option>
-              <option value="Production">Production</option>
-              <option value="Venue">Venue</option>
-              <option value="Other">Other</option>
-            </Select>
+            <Stack gap={2}>
+              <Body size="sm" className="font-weight-medium">Category</Body>
+              <Select aria-label="Adjustment category">
+                <option value="">Category...</option>
+                <option value="Revenue">Revenue</option>
+                <option value="Labor">Labor</option>
+                <option value="Production">Production</option>
+                <option value="Venue">Venue</option>
+                <option value="Other">Other</option>
+              </Select>
+            </Stack>
           </Stack>
         </ModalBody>
         <ModalFooter>

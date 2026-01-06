@@ -130,8 +130,8 @@ export default function SolutionDetailPage() {
               <Grid cols={4} gap={8} className="grid-cols-2 md:grid-cols-4">
                 {solution.stats.map((stat, idx) => (
                   <Stack key={idx} gap={1} className="text-center">
-                    <Body className="text-white font-weight-bold text-h3-md">{stat.value}</Body>
-                    <Body className="text-white/80">{stat.label}</Body>
+                    <Body className="text-text-primary font-weight-bold text-h3-md">{stat.value}</Body>
+                    <Body className="text-text-primary/80">{stat.label}</Body>
                   </Stack>
                 ))}
               </Grid>
@@ -164,7 +164,7 @@ export default function SolutionDetailPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Benefits</Body>
-                  <H3 className="text-white">Why Choose ATLVS</H3>
+                  <H3 className="text-text-primary">Why Choose ATLVS</H3>
                 </Stack>
 
                 <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3">
@@ -172,7 +172,7 @@ export default function SolutionDetailPage() {
                     <Card key={idx} className="p-5 border-2 border-border rounded-card">
                       <Stack direction="horizontal" gap={3} className="items-center">
                         <Check className="size-5 text-success flex-shrink-0" />
-                        <Body className="text-white">{benefit}</Body>
+                        <Body className="text-text-primary">{benefit}</Body>
                       </Stack>
                     </Card>
                   ))}

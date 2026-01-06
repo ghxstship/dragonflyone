@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { logger } from './logger';
 import { PlatformRole, EventRole, Permission, hasPermission as checkRolePermission } from './roles';
-import { supabase } from './supabase-client';
+import { supabase, isSupabaseConfigured } from './supabase-client';
 
 /**
  * User Authentication & Role Context
@@ -18,6 +18,7 @@ export interface User {
   eventRolesByEvent: Record<string, EventRole[]>;
   impersonationPermissions?: string[];
   avatar?: string;
+  organization_id?: string;
 }
 
 interface AuthContextType {
@@ -44,6 +45,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Check for existing Supabase session
     const loadUser = async () => {
+      // Skip auth check if Supabase is not configured (e.g., during E2E tests)
+      if (!isSupabaseConfigured()) {
+        logger.warn('Supabase not configured, skipping auth initialization');
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const { data: { session } } = await supabase.auth.getSession();
         
@@ -57,6 +65,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
           let platformRoles: PlatformRole[] = [PlatformRole.GVTEWAY_MEMBER];
 
+          let organizationId: string | undefined;
+
           if (platformUser) {
             const { data: userRoles } = await supabase
               .from('user_roles')
@@ -65,6 +75,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
             if (userRoles && userRoles.length > 0) {
               platformRoles = userRoles.map(r => r.role_code as PlatformRole);
+            }
+
+            // Fetch organization membership
+            const { data: orgMembership } = await supabase
+              .from('organization_members')
+              .select('organization_id')
+              .eq('platform_user_id', platformUser.id)
+              .eq('status', 'active')
+              .limit(1)
+              .single();
+
+            if (orgMembership) {
+              organizationId = orgMembership.organization_id;
             }
           }
 
@@ -75,6 +98,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             platformRoles,
             eventRolesByEvent: {},
             avatar: session.user.user_metadata?.avatar_url,
+            organization_id: organizationId,
           };
           
           setUser(authenticatedUser);
@@ -95,7 +119,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     loadUser();
 
-    // Listen for auth state changes
+    // Listen for auth state changes (only if Supabase is configured)
+    if (!isSupabaseConfigured()) {
+      return;
+    }
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, _session) => {
       if (event === 'SIGNED_OUT') {
         setUser(null);
@@ -109,6 +137,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = useCallback(async (email: string, password: string) => {
     setIsLoading(true);
     setError(null);
+
+    // Check if Supabase is configured
+    if (!isSupabaseConfigured()) {
+      setError('Authentication service is not configured');
+      setIsLoading(false);
+      throw new Error('Authentication service is not configured. Please check environment variables.');
+    }
+
     try {
       const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email,

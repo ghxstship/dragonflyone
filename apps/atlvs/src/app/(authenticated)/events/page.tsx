@@ -9,25 +9,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2 } from 'lucide-react';
-import { useEvents, useEventStats, useCreateEvent, useDeleteEvent } from '../../../hooks/useEvents';
-import { useAuthContext, ATLVS_ADMIN_ROLES, useEntityConfig } from '@ghxstship/config';
+import { useEvents, useEventStats, useCreateEvent, useDeleteEvent, type Event as EventsHookEvent } from '../../../hooks/useEvents';
+import { useAuthContext, ATLVS_ADMIN_ROLES, useEntityConfig, useEntityData } from '@ghxstship/config';
 import {
   ListPage, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
-  type ListPageAction, type DetailSection,
+  type ListPageRowAction, type DetailSection,
 } from '@ghxstship/ui';
 
-interface Event {
-  id: string;
-  name: string;
-  event_type: string;
-  venue_name?: string;
-  venue_city?: string;
-  start_date: string;
-  end_date?: string;
-  status: string;
-  capacity?: number;
-  tickets_sold?: number;
-}
+type Event = EventsHookEvent & Record<string, unknown>;
 
 export default function EventsPage() {
   const router = useRouter();
@@ -43,21 +32,39 @@ export default function EventsPage() {
   const events = eventsData?.events || [];
 
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
-  const [eventToDelete, setEventToDelete] = useState<Event | null>(null);
+  const [eventToDeleteId, setEventToDeleteId] = useState<string | null>(null);
+
+  const {
+    entityIds,
+    entityType,
+    entitySelector,
+    isLoading: entityLoading,
+    error: entityError,
+    refetch: entityRefetch,
+  } = useEntityData<Event>({
+    entityType: 'events',
+    data: events,
+    isLoading,
+    error: error ?? null,
+    refetch,
+  });
+
+  const selectedEvent = selectedEventId ? entitySelector(selectedEventId) : null;
+  const eventToDelete = eventToDeleteId ? entitySelector(eventToDeleteId) : null;
 
   // RBAC: Check if user has admin access for create/edit/delete operations
   const canManageEvents = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
-  const rowActions: ListPageAction<Event>[] = [
+  const rowActions: ListPageRowAction<Event>[] = [
     {
       id: 'view',
       label: 'View Details',
       icon: <Eye className="size-4" />,
-      onClick: (row) => {
-        setSelectedEvent(row);
+      onClick: (id) => {
+        setSelectedEventId(id);
         setDrawerOpen(true);
       },
     },
@@ -66,15 +73,15 @@ export default function EventsPage() {
         id: 'edit',
         label: 'Edit',
         icon: <Pencil className="size-4" />,
-        onClick: (row: Event) => router.push(`/events/${row.id}/edit`),
+        onClick: (_id: string, row: Event) => router.push(`/events/${row.id}/edit`),
       },
       {
         id: 'delete',
         label: 'Delete',
         icon: <Trash2 className="size-4" />,
         variant: 'danger' as const,
-        onClick: (row: Event) => {
-          setEventToDelete(row);
+        onClick: (id: string) => {
+          setEventToDeleteId(id);
           setDeleteConfirmOpen(true);
         },
       },
@@ -85,7 +92,7 @@ export default function EventsPage() {
     await createMutation.mutateAsync({
       organization_id: 'default-org',
       name: String(data.name),
-      event_type: data.event_type as string,
+      event_type: data.event_type as Event['event_type'],
       venue_name: data.venue_name ? String(data.venue_name) : undefined,
       venue_city: data.venue_city ? String(data.venue_city) : undefined,
       venue_state: data.venue_state ? String(data.venue_state) : undefined,
@@ -97,13 +104,15 @@ export default function EventsPage() {
       visibility: 'public',
     });
     setCreateModalOpen(false);
+    entityRefetch();
   };
 
   const handleDelete = async () => {
-    if (eventToDelete) {
-      await deleteMutation.mutateAsync(eventToDelete.id);
+    if (eventToDeleteId) {
+      await deleteMutation.mutateAsync(eventToDeleteId);
       setDeleteConfirmOpen(false);
-      setEventToDelete(null);
+      setEventToDeleteId(null);
+      entityRefetch();
     }
   };
 
@@ -138,24 +147,25 @@ export default function EventsPage() {
       <ListPage<Event>
         title={names.plural}
         subtitle={`Manage all ${names.plural.toLowerCase()}`}
-        data={events}
-        columns={columns}
-        rowKey="id"
-        loading={isLoading}
-        error={error}
-        onRetry={refetch}
+        entityType={entityType}
+        entityIds={entityIds}
+        entitySelector={entitySelector}
+        isLoading={entityLoading}
+        error={entityError}
+        onRetry={entityRefetch}
         searchPlaceholder={`Search ${names.plural.toLowerCase()}...`}
         filters={filters}
         rowActions={rowActions}
-        onRowClick={(row) => {
-          setSelectedEvent(row);
-          setDrawerOpen(true);
-        }}
         createLabel={`Create ${names.singular}`}
         onCreate={canManageEvents ? () => setCreateModalOpen(true) : undefined}
         stats={pageStats}
         emptyMessage={`No ${names.plural.toLowerCase()} found`}
         emptyAction={canManageEvents ? { label: `Create ${names.singular}`, onClick: () => setCreateModalOpen(true) } : undefined}
+        tableConfig={{ columns: columns as unknown[] }}
+        onEntityClick={(id) => {
+          setSelectedEventId(id);
+          setDrawerOpen(true);
+        }}
       />
 
       <RecordFormModal
@@ -178,11 +188,11 @@ export default function EventsPage() {
 
       <ConfirmDialog
         open={deleteConfirmOpen}
-        onOpenChange={setDeleteConfirmOpen}
         title={`Delete ${names.singular}`}
-        message={`Are you sure you want to delete this ${names.singular.toLowerCase()}? This action cannot be undone.`}
+        message={eventToDelete ? `Delete ${eventToDelete.name}? This action cannot be undone.` : `Are you sure you want to delete this ${names.singular.toLowerCase()}? This action cannot be undone.`}
         confirmLabel="Delete"
         onConfirm={handleDelete}
+        onCancel={() => setDeleteConfirmOpen(false)}
         variant="danger"
       />
     </>

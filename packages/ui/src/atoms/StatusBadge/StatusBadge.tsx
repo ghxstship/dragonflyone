@@ -43,7 +43,7 @@ export const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(
             status,
             size,
             filled,
-            inverted,
+            
             className,
           })
         )}

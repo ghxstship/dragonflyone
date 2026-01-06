@@ -138,7 +138,7 @@ export const ScrollReveal = forwardRef<HTMLDivElement, ScrollRevealProps>(
         className={scrollRevealVariants({ 
           animation, 
           state: getAnimationState(), 
-          inverted, 
+          
           className 
         })}
         style={customStyles}

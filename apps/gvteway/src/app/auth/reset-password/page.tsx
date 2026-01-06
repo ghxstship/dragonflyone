@@ -70,7 +70,7 @@ function ResetPasswordContent() {
     return (
       <AuthSplitLayout
         singleColumn
-        brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">GVTEWAY</Text>}
+        brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">GVTEWAY</Text>}
       >
         <Stack gap={8} className="text-center items-center">
           <Box className="p-6 bg-success-500/20 rounded-avatar border-2 border-success-500/30">
@@ -78,7 +78,7 @@ function ResetPasswordContent() {
           </Box>
           
           <Stack gap={3} className="items-center">
-            <H2 className="text-white">Password Reset Complete</H2>
+            <H2 className="text-text-primary">Password Reset Complete</H2>
             <Body className="text-text-secondary max-w-sm">
               Your password has been updated successfully. Redirecting to sign in...
             </Body>
@@ -103,7 +103,7 @@ function ResetPasswordContent() {
       title="Reset Your Password"
       subtitle="Create a new secure password for your account"
       singleColumn
-      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">GVTEWAY</Text>}
+      brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">GVTEWAY</Text>}
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={5}>
@@ -160,7 +160,7 @@ export default function ResetPasswordPage() {
     <Suspense fallback={
       <AuthSplitLayout
         singleColumn
-        brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">GVTEWAY</Text>}
+        brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">GVTEWAY</Text>}
       >
         <Stack gap={8} className="text-center items-center">
           <Spinner size="lg" />

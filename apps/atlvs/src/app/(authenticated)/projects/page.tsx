@@ -1,30 +1,26 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, ClipboardList, Trash2, Archive, Download } from 'lucide-react';
 // Layout provided by route group
 import { 
   ListPage, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body,
-  type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, ATLVS_ADMIN_ROLES, useEntityConfig } from '@ghxstship/config';
-import { useProjects, useCreateProject, useDeleteProject } from '@/hooks/useProjects';
+  type ListPageRowAction, type ListPageBulkAction, type DetailSection } from '@ghxstship/ui';
+import { 
+  createExportHandler, 
+  createImportHandler, 
+  getImportTemplates, 
+  useAuthContext, 
+  ATLVS_ADMIN_ROLES, 
+  useEntityConfig,
+  useEntityData,
+} from '@ghxstship/config';
+import { useProjects, useCreateProject, useDeleteProject, type Project as ProjectsHookProject } from '@/hooks/useProjects';
 
-// Roles that can create/edit/delete projects
-
-interface Project {
-  id: string;
-  name: string;
-  code?: string;
-  status: string;
+type Project = ProjectsHookProject & {
   phase?: string;
-  budget?: number;
-  client_id?: string;
-  manager_id?: string;
-  start_date?: string;
-  end_date?: string;
-  created_at?: string;
-}
+};
 
 // SSOT: Columns, filters, and formFields are provided by useEntityConfig
 
@@ -39,43 +35,72 @@ export default function ProjectsPage() {
   const { columns, filters, formFields } = useEntityConfig<Project>({ entityName: 'projects' });
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
-  const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
+  const [projectToDeleteId, setProjectToDeleteId] = useState<string | null>(null);
+
+  const {
+    entityIds,
+    entityType,
+    entitySelector,
+    isLoading: entityLoading,
+    error: entityError,
+    refetch: entityRefetch,
+    getEntities,
+  } = useEntityData<Project>({
+    entityType: 'projects',
+    data: projects,
+    isLoading,
+    error: error ?? null,
+    refetch,
+  });
+
+  const projectList = useMemo(() => getEntities(entityIds), [getEntities, entityIds]);
+
+  const selectedProject = selectedProjectId ? entitySelector(selectedProjectId) : null;
+  const projectToDelete = projectToDeleteId ? entitySelector(projectToDeleteId) : null;
 
   // RBAC: Check if user has admin access for create/edit/delete operations
   const canManageProjects = ATLVS_ADMIN_ROLES.some(role => hasRole(role));
 
   // Build row actions based on user permissions
-  const rowActions: ListPageAction<Project>[] = [
-    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row: Project) => { setSelectedProject(row); setDrawerOpen(true); } },
+  const rowActions: ListPageRowAction<Project>[] = [
+    { 
+      id: 'view', 
+      label: 'View Details', 
+      icon: <Eye className="size-4" />, 
+      onClick: (id) => { 
+        setSelectedProjectId(id); 
+        setDrawerOpen(true); 
+      } 
+    },
     // Only show edit/duplicate/delete for users with admin roles
     ...(canManageProjects ? [
-      { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (row: Project) => router.push(`/projects/${row.id}/edit`) },
-      { id: 'duplicate', label: 'Duplicate', icon: <ClipboardList className="size-4" />, onClick: async (row: Project) => {
+      { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (_id, row) => router.push(`/projects/${row.id}/edit`) },
+      { id: 'duplicate', label: 'Duplicate', icon: <ClipboardList className="size-4" />, onClick: async (_id, row) => {
         await fetch('/api/projects', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...row, id: undefined, name: `${row.name} (Copy)`, code: `${row.code}-COPY` }),
         });
-        refetch();
+        entityRefetch();
       }},
-      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (row: Project) => { setProjectToDelete(row); setDeleteConfirmOpen(true); } },
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (id) => { setProjectToDeleteId(id); setDeleteConfirmOpen(true); } },
     ] : []),
   ];
 
   // Build bulk actions based on user permissions
-  const bulkActions: ListPageBulkAction[] = [
-    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+  const bulkActions: ListPageBulkAction<Project>[] = [
+    { id: 'export', label: 'Export', icon: <Download className="size-4" />, onClick: (selectedIds, selectedEntities) => handleBulkAction('export', selectedIds, selectedEntities) },
     // Only show archive/delete for users with admin roles
     ...(canManageProjects ? [
-      { id: 'archive', label: 'Archive', icon: <Archive className="size-4" /> },
-      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const },
+      { id: 'archive', label: 'Archive', icon: <Archive className="size-4" />, onClick: (selectedIds, selectedEntities) => handleBulkAction('archive', selectedIds, selectedEntities) },
+      { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' as const, onClick: (selectedIds) => handleBulkAction('delete', selectedIds, []) },
     ] : []),
   ];
 
-  const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
+  const handleBulkAction = async (actionId: string, selectedIds: string[], selectedEntities: Project[]) => {
     if (actionId === 'archive') {
       await Promise.all(selectedIds.map(id =>
         fetch(`/api/projects/${id}`, {
@@ -84,9 +109,11 @@ export default function ProjectsPage() {
           body: JSON.stringify({ status: 'archived' }),
         })
       ));
-      refetch();
+      entityRefetch();
     } else if (actionId === 'export') {
-      const selected = (projects || []).filter(p => selectedIds.includes(p.id));
+      const selected = selectedEntities.length > 0
+        ? selectedEntities
+        : projectList.filter(p => selectedIds.includes(p.id));
       const csv = [
         ['ID', 'Name', 'Status', 'Budget', 'Start', 'End'].join(','),
         ...selected.map(p => [p.id, p.name, p.status, p.budget || '', p.start_date || '', p.end_date || ''].join(','))
@@ -98,9 +125,10 @@ export default function ProjectsPage() {
       a.download = 'projects-export.csv';
       a.click();
       URL.revokeObjectURL(url);
+      entityRefetch();
     } else if (actionId === 'delete') {
       await Promise.all(selectedIds.map(id => fetch(`/api/projects/${id}`, { method: 'DELETE' })));
-      refetch();
+      entityRefetch();
     }
   };
 
@@ -123,15 +151,15 @@ export default function ProjectsPage() {
       description: data.description ? String(data.description) : undefined,
     });
     setCreateModalOpen(false);
-    refetch();
+    entityRefetch();
   };
 
   const handleDelete = async () => {
-    if (projectToDelete) {
-      await deleteProjectMutation.mutateAsync(projectToDelete.id);
+    if (projectToDeleteId) {
+      await deleteProjectMutation.mutateAsync(projectToDeleteId);
       setDeleteConfirmOpen(false);
-      setProjectToDelete(null);
-      refetch();
+      setProjectToDeleteId(null);
+      entityRefetch();
     }
   };
 
@@ -147,7 +175,7 @@ export default function ProjectsPage() {
           body: JSON.stringify(record),
         });
       }
-      refetch();
+      entityRefetch();
     },
   });
 
@@ -156,10 +184,10 @@ export default function ProjectsPage() {
     : [{ id: 'default', name: 'Project Import', mapping: { name: 'name', code: 'code', status: 'status', budget: 'budget', start_date: 'start_date', end_date: 'end_date' } }];
 
   const stats = [
-    { label: 'Total Projects', value: projects?.length || 0 },
-    { label: 'Active', value: projects?.filter(p => p.status === 'active').length || 0 },
-    { label: 'Planning', value: projects?.filter(p => p.status === 'planning').length || 0 },
-    { label: 'Completed', value: projects?.filter(p => p.status === 'completed').length || 0 },
+    { label: 'Total Projects', value: projectList.length },
+    { label: 'Active', value: projectList.filter(p => p.status === 'active').length },
+    { label: 'Planning', value: projectList.filter(p => p.status === 'planning').length },
+    { label: 'Completed', value: projectList.filter(p => p.status === 'completed').length },
   ];
 
   const detailSections: DetailSection[] = selectedProject ? [
@@ -192,28 +220,25 @@ export default function ProjectsPage() {
       <ListPage<Project>
         title="Projects"
         subtitle="Manage production projects and track progress"
-        data={projects || []}
-        columns={columns}
-        rowKey="id"
-        loading={isLoading}
-        error={error}
-        onRetry={refetch}
+        entityType={entityType}
+        entityIds={entityIds}
+        entitySelector={entitySelector}
+        isLoading={entityLoading}
+        error={entityError}
+        onRetry={entityRefetch}
         searchPlaceholder="Search projects..."
         filters={filters}
         rowActions={rowActions}
         bulkActions={bulkActions}
-        onBulkAction={handleBulkAction}
-        onRowClick={(row) => { setSelectedProject(row); setDrawerOpen(true); }}
         createLabel="New Project"
         onCreate={canManageProjects ? () => setCreateModalOpen(true) : undefined}
-        entityType="projects"
         onImport={canManageProjects ? handleImport : undefined}
         importTemplates={importTemplates}
         importSampleFields={['name', 'code', 'status', 'budget', 'start_date', 'end_date']}
         templateDownloadUrl="/templates/production-planning/event-timeline-template.csv"
         onExport={createExportHandler({
           filename: "projects",
-          getData: () => (projects || []).map(p => ({
+          getData: () => projectList.map(p => ({
             id: p.id,
             name: p.name,
             status: p.status,
@@ -225,6 +250,11 @@ export default function ProjectsPage() {
         stats={stats}
         emptyMessage="No projects yet"
         emptyAction={canManageProjects ? { label: 'Create Project', onClick: () => setCreateModalOpen(true) } : undefined}
+        tableConfig={{ columns: columns as unknown[] }}
+        onEntityClick={(id) => {
+          setSelectedProjectId(id);
+          setDrawerOpen(true);
+        }}
 enableCapabilityDetection
         onScanAction={(capability, route) => router.push(route)}
         capabilityBasePath=""

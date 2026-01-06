@@ -78,7 +78,7 @@ export function LanguageSelector({
   if (variant === "minimal") {
     return (
       <button
-        className={languageSelectorVariants({ variant, inverted, className })}
+        className={languageSelectorVariants({ variant, className })}
         onClick={() => setIsOpen(!isOpen)}
         onKeyDown={handleKeyDown}
         aria-label={`Current language: ${currentLang.name}. Click to change language`}
@@ -95,7 +95,7 @@ export function LanguageSelector({
     <div ref={dropdownRef} className="relative">
       {/* Trigger Button */}
       <button
-        className={languageSelectorVariants({ variant, inverted, className })}
+        className={languageSelectorVariants({ variant, className })}
         onClick={() => setIsOpen(!isOpen)}
         onKeyDown={handleKeyDown}
         aria-label={`Current language: ${currentLang.name}. Click to change language`}
@@ -123,7 +123,7 @@ export function LanguageSelector({
       </button>
 
       {/* Dropdown */}
-      <div className={languageSelectorDropdownVariants({ isOpen, inverted })}>
+      <div className={languageSelectorDropdownVariants({ isOpen })}>
         <div role="listbox" aria-label="Select language">
           {languages.map((language) => (
             <button

@@ -6,7 +6,7 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Users, Mail, Shield, Trash2, Edit, Search, List, UserPlus } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext, ATLVS_ADMIN_ROLES } from "@ghxstship/config";
@@ -104,6 +104,21 @@ export default function TeamSettingsPage() {
 
   const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleShowInvite = useCallback(() => setShowInvite(true), []);
+  const handleCloseInvite = useCallback(() => setShowInvite(false), []);
+  const handleSendInvite = useCallback(() => {
+    inviteMutation.mutate({ email: inviteEmail, role: inviteRole });
+  }, [inviteMutation, inviteEmail, inviteRole]);
+
+  const handleSearchChange = useCallback((value: string) => {
+    setSearch(value);
+  }, []);
+
+  const handleRemoveMember = useCallback((memberId: string) => {
+    removeMutation.mutate(memberId);
+  }, [removeMutation]);
+
   const tabs = [
     {
       id: "members",
@@ -121,10 +136,10 @@ export default function TeamSettingsPage() {
             <Box className="flex items-center gap-4">
               <Box className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-text-muted" />
-                <Input placeholder="Search members..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+                <Input placeholder="Search members..." value={search} onChange={(e) => handleSearchChange(e.target.value)} className="pl-10" />
               </Box>
               {canManageTeam && (
-                <Button variant="solid" onClick={() => setShowInvite(true)} icon={<UserPlus className="size-4" />} iconPosition="left">
+                <Button variant="solid" onClick={handleShowInvite} icon={<UserPlus className="size-4" />} iconPosition="left">
                   Invite Member
                 </Button>
               )}
@@ -137,7 +152,7 @@ export default function TeamSettingsPage() {
               <Body className="font-weight-medium font-weight-medium mb-2">No Team Members</Body>
               <Body className="text-text-muted mb-4">{search ? "No members match your search" : "Invite your first team member"}</Body>
               {canManageTeam && (
-                <Button variant="solid" onClick={() => setShowInvite(true)} icon={<UserPlus className="size-4" />} iconPosition="left">
+                <Button variant="solid" onClick={handleShowInvite} icon={<UserPlus className="size-4" />} iconPosition="left">
                   Invite Member
                 </Button>
               )}
@@ -159,7 +174,7 @@ export default function TeamSettingsPage() {
                     <TableRow key={member.id}>
                       <TableCell>
                         <Box className="flex items-center gap-3">
-                          <Box className="size-10 rounded-avatar bg-primary flex items-center justify-center text-white font-weight-medium">
+                          <Box className="size-10 rounded-avatar bg-primary flex items-center justify-center text-text-primary font-weight-medium">
                             {member.name.split(" ").map((n) => n[0]).join("")}
                           </Box>
                           <Box>
@@ -174,8 +189,8 @@ export default function TeamSettingsPage() {
                       {canManageTeam && (
                         <TableCell>
                           <Box className="flex items-center gap-1">
-                            <Button variant="ghost" size="sm" icon={<Edit className="size-4" />} />
-                            <Button variant="ghost" size="sm" onClick={() => removeMutation.mutate(member.id)} disabled={removeMutation.isPending} icon={<Trash2 className="size-4 text-error" />} />
+                            <Button variant="ghost" size="sm" icon={<Edit className="size-4" />} aria-label={`Edit ${member.name}`} />
+                            <Button variant="ghost" size="sm" onClick={() => handleRemoveMember(member.id)} disabled={removeMutation.isPending} icon={<Trash2 className="size-4 text-error" />} aria-label={`Remove ${member.name}`} />
                           </Box>
                         </TableCell>
                       )}
@@ -221,15 +236,18 @@ export default function TeamSettingsPage() {
   return (
     <>
       <DetailPage
+        entityType="user-settings"
+        entityId="team"
+        entitySelector={() => ({ id: "team" })}
         header={{ kicker: "Settings", title: "Team Members", description: "Invite and manage team members and roles" }}
         backButton={{ label: "Settings", href: "/settings" }}
-        loading={isLoading}
+        isLoading={isLoading}
         error={error instanceof Error ? error : null}
         onRetry={refetch}
         tabs={tabs}
       />
 
-      <Modal open={showInvite} onClose={() => setShowInvite(false)}>
+      <Modal open={showInvite} onClose={handleCloseInvite}>
         <ModalHeader><Body className="font-weight-bold font-weight-medium">Invite Team Member</Body></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
@@ -246,8 +264,8 @@ export default function TeamSettingsPage() {
           </Stack>
         </ModalBody>
         <ModalFooter>
-          <Button variant="outline" onClick={() => setShowInvite(false)}>Cancel</Button>
-          <Button variant="solid" onClick={() => inviteMutation.mutate({ email: inviteEmail, role: inviteRole })} disabled={!inviteEmail || inviteMutation.isPending}>
+          <Button variant="outline" onClick={handleCloseInvite}>Cancel</Button>
+          <Button variant="solid" onClick={handleSendInvite} disabled={!inviteEmail || inviteMutation.isPending}>
             {inviteMutation.isPending ? "Sending..." : "Send Invite"}
           </Button>
         </ModalFooter>

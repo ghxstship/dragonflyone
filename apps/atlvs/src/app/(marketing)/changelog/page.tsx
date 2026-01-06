@@ -109,7 +109,7 @@ export default function ChangelogPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">All Releases</Body>
-                  <H3 className="text-white">Release Notes</H3>
+                  <H3 className="text-text-primary">Release Notes</H3>
                 </Stack>
 
                 {/* Filters */}
@@ -135,7 +135,7 @@ export default function ChangelogPage() {
                 ) : filteredChangelog.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
                     <Zap className="size-16 text-text-disabled mx-auto mb-4" />
-                    <Body className="text-white font-weight-medium mb-2">No Updates Found</Body>
+                    <Body className="text-text-primary font-weight-medium mb-2">No Updates Found</Body>
                     <Body className="text-text-muted mb-4">Check back soon for new releases</Body>
                     <Button variant="outline" onClick={() => setSelectedFilter("All")}>View All Updates</Button>
                   </Card>
@@ -163,7 +163,7 @@ export default function ChangelogPage() {
                             </Stack>
 
                             <Stack gap={2}>
-                              <Body className="text-white font-weight-bold text-h5-md">{entry.title}</Body>
+                              <Body className="text-text-primary font-weight-bold text-h5-md">{entry.title}</Body>
                               <Body className="text-text-muted">{entry.description}</Body>
                             </Stack>
 

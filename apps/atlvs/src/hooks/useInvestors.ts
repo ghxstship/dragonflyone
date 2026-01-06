@@ -125,26 +125,7 @@ export function useInvestors(filters?: InvestorFilters) {
 
       const { data, error } = await query;
       if (error) throw error;
-      
-      // Transform to legacy Investor interface
-      return (data || []).map(org => {
-        const meta = org.metadata as Record<string, unknown> || {};
-        return {
-          id: org.id,
-          production_id: meta.production_id as string,
-          investor_type: meta.investor_type as string || 'entity',
-          name: org.name,
-          contact_name: org.primary_contact_id,
-          contact_email: org.email,
-          contact_phone: org.phone,
-          investment_amount: meta.investment_amount as number || 0,
-          ownership_percentage: meta.ownership_percentage as number,
-          status: org.status || 'prospect',
-          notes: org.notes,
-          created_at: org.created_at,
-          updated_at: org.updated_at,
-        };
-      }) as unknown as Investor[];
+      return data;
     },
   });
 }
@@ -154,30 +135,14 @@ export function useInvestor(id: string) {
   return useQuery({
     queryKey: ['investors', id],
     queryFn: async () => {
-      const { data: org, error } = await supabase
+      const { data, error } = await supabase
         .from('legend_organizations')
         .select('*')
         .eq('id', id)
         .single();
 
       if (error) throw error;
-      
-      const meta = org.metadata as Record<string, unknown> || {};
-      return {
-        id: org.id,
-        production_id: meta.production_id as string,
-        investor_type: meta.investor_type as string || 'entity',
-        name: org.name,
-        contact_name: org.primary_contact_id,
-        contact_email: org.email,
-        contact_phone: org.phone,
-        investment_amount: meta.investment_amount as number || 0,
-        ownership_percentage: meta.ownership_percentage as number,
-        status: org.status || 'prospect',
-        notes: org.notes,
-        created_at: org.created_at,
-        updated_at: org.updated_at,
-      } as unknown as Investor;
+      return data;
     },
     enabled: !!id,
   });

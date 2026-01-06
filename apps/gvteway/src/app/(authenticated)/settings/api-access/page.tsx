@@ -169,10 +169,10 @@ export default function ApiAccessPage() {
                   {apiKeys.map((key) => (
                     <TableRow key={key.id}>
                       <TableCell>
-                        <Body className="font-weight-medium text-white">{key.name}</Body>
+                        <Body className="font-weight-medium text-text-primary">{key.name}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="font-mono text-white">{key.key_prefix}...</Body>
+                        <Body size="sm" className="font-mono text-text-primary">{key.key_prefix}...</Body>
                       </TableCell>
                       <TableCell>
                         <Badge variant={key.is_active ? "success" : "outline"}>
@@ -180,7 +180,7 @@ export default function ApiAccessPage() {
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="text-white">{key.scopes.length} scopes</Body>
+                        <Body size="sm" className="text-text-primary">{key.scopes.length} scopes</Body>
                       </TableCell>
                       <TableCell>
                         <Body size="sm" className="text-text-muted">
@@ -217,28 +217,28 @@ export default function ApiAccessPage() {
             <Card className="p-6">
               <Box className="flex items-start gap-3 mb-4">
                 <Code className="size-6 text-primary flex-shrink-0" />
-                <Body className="font-weight-medium text-white">Authentication</Body>
+                <Body className="font-weight-medium text-text-primary">Authentication</Body>
               </Box>
               <Stack gap={3}>
                 <Body size="sm" className="text-text-muted">
                   Include your API key in the Authorization header:
                 </Body>
                 <Card className="p-3 bg-surface-elevated">
-                  <Body size="sm" className="font-mono text-white">Authorization: Bearer YOUR_API_KEY</Body>
+                  <Body size="sm" className="font-mono text-text-primary">Authorization: Bearer YOUR_API_KEY</Body>
                 </Card>
               </Stack>
             </Card>
             <Card className="p-6">
               <Box className="flex items-start gap-3 mb-4">
                 <FileText className="size-6 text-primary flex-shrink-0" />
-                <Body className="font-weight-medium text-white">Base URL</Body>
+                <Body className="font-weight-medium text-text-primary">Base URL</Body>
               </Box>
               <Stack gap={3}>
                 <Body size="sm" className="text-text-muted">
                   All API requests should be made to:
                 </Body>
                 <Card className="p-3 bg-surface-elevated">
-                  <Body size="sm" className="font-mono text-white">https://api.gvteway.com/v1</Body>
+                  <Body size="sm" className="font-mono text-text-primary">https://api.gvteway.com/v1</Body>
                 </Card>
               </Stack>
             </Card>

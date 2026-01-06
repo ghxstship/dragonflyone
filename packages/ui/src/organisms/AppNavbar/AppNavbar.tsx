@@ -77,7 +77,7 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
     return (
       <header
         ref={ref}
-        className={clsx(appNavbarVariants({ sticky, inverted, compact, className }))}
+        className={clsx(appNavbarVariants({ sticky, compact, className }))}
         {...props}
       >
         {/* Left Section */}
@@ -110,7 +110,7 @@ export const AppNavbar = forwardRef<HTMLElement, AppNavbarProps>(
                   className={clsx(navItemVariants({
                     active: item.active,
                     disabled: item.disabled,
-                    inverted,
+                    
                   }))}
                 >
                   {item.icon}

@@ -84,8 +84,17 @@ export async function GET(request: NextRequest) {
 interface UserProfile { genres: string[]; venues: string[]; artists: string[] }
 interface FollowEntry { artist_id?: string; venue_id?: string }
 interface UserPreferences { favorite_genres?: string[] }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function buildUserProfile(history: any[], preferences: UserPreferences | null, following: FollowEntry[]): UserProfile {
+interface EventData {
+  id?: string;
+  genre?: string;
+  artist_ids?: string[];
+  venue_id?: string;
+  category?: string;
+}
+interface PurchaseHistoryEntry {
+  event?: EventData | EventData[];
+}
+function buildUserProfile(history: PurchaseHistoryEntry[], preferences: UserPreferences | null, following: FollowEntry[]): UserProfile {
   const genres: Record<string, number> = {};
   const venues: Record<string, number> = {};
   const artists: Record<string, number> = {};

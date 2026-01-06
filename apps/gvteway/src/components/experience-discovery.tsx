@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Input, Switch, Button, Stack, Grid, Label, Badge, Article, H3, Body, Display, Radio } from "@ghxstship/ui";
 import type { GvtewayEvent } from "../data/gvteway";
+import { memo } from 'react';
 
 type PriceFilter = "all" | "$" | "$$" | "$$$";
 
@@ -232,7 +233,7 @@ export function ExperienceDiscovery() {
                 <Body>{event.city}</Body>
                 <Body>{new Date(event.startDate).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</Body>
               </Stack>
-              <H3 className="mt-3 text-h5-md uppercase text-white">{event.title}</H3>
+              <H3 className="mt-3 text-h5-md uppercase text-text-primary">{event.title}</H3>
               <Body size="sm" className="text-text-disabled">{event.headliner}</Body>
               <Stack direction="horizontal" gap={2} className="mt-4 flex-wrap text-[0.6rem] uppercase tracking-label text-text-disabled">
                 {event.genres.map((genre: string) => (
@@ -270,7 +271,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   return (
     <Stack>
       <Label className="text-mono-xs uppercase tracking-label text-text-muted">{label}</Label>
-      <Display className="font-display text-h4-md text-white">{value}</Display>
+      <Display className="font-display text-h4-md text-text-primary">{value}</Display>
     </Stack>
   );
 }

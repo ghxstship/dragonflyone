@@ -12,7 +12,7 @@ export default function GlobalError({
 }) {
   return (
     <html lang="en">
-      <body className="bg-surface-inverse text-white antialiased">
+      <body className="bg-surface-inverse text-text-primary antialiased">
         <Section className="relative min-h-screen overflow-hidden bg-surface-inverse" noPadding>
           <Box className="pointer-events-none absolute inset-0 bg-grid opacity-10" />
           <Container className="py-16">

@@ -86,7 +86,7 @@ export function PaymentMethodSelector({
   };
 
   return (
-    <div className={paymentMethodSelectorVariants({ inverted, className })}>
+    <div className={paymentMethodSelectorVariants({ className })}>
       {/* Payment Methods */}
       {methods.map((method) => (
         <div
@@ -108,9 +108,9 @@ export function PaymentMethodSelector({
           aria-pressed={selectedMethodId === method.id}
         >
           {/* Method Info */}
-          <div className={paymentMethodSelectorMethodInfoVariants({ inverted })}>
+          <div className={paymentMethodSelectorMethodInfoVariants({})}>
             {/* Icon */}
-            <div className={paymentMethodSelectorMethodIconVariants({ inverted })}>
+            <div className={paymentMethodSelectorMethodIconVariants({})}>
               <div 
                 className={`flex items-center justify-center w-full h-full rounded text-white ${
                   method.type === 'card' && method.brand 
@@ -123,8 +123,8 @@ export function PaymentMethodSelector({
             </div>
 
             {/* Details */}
-            <div className={paymentMethodSelectorMethodDetailsVariants({ inverted })}>
-              <div className={paymentMethodSelectorMethodNameVariants({ inverted })}>
+            <div className={paymentMethodSelectorMethodDetailsVariants({})}>
+              <div className={paymentMethodSelectorMethodNameVariants({})}>
                 {method.type === 'card' && method.brand 
                   ? `${method.brand} •••• ${method.last4}`
                   : method.type === 'bank' && method.bankName
@@ -133,7 +133,7 @@ export function PaymentMethodSelector({
                 }
               </div>
               
-              <div className={paymentMethodSelectorMethodMetaVariants({ inverted })}>
+              <div className={paymentMethodSelectorMethodMetaVariants({})}>
                 {method.type === 'card' && method.expiryMonth && method.expiryYear && (
                   <span>Expires {method.expiryMonth}/{method.expiryYear}</span>
                 )}
@@ -146,10 +146,10 @@ export function PaymentMethodSelector({
 
           {/* Actions */}
           {showActions && (
-            <div className={paymentMethodSelectorMethodActionsVariants({ inverted })}>
+            <div className={paymentMethodSelectorMethodActionsVariants({})}>
               {!method.isDefault && onSetDefault && (
                 <button
-                  className={paymentMethodSelectorActionButtonVariants({ variant: "default", inverted })}
+                  className={paymentMethodSelectorActionButtonVariants({ variant: "default" })}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleSetDefault(method.id);
@@ -163,7 +163,7 @@ export function PaymentMethodSelector({
               
               {onDelete && (
                 <button
-                  className={paymentMethodSelectorActionButtonVariants({ variant: "danger", inverted })}
+                  className={paymentMethodSelectorActionButtonVariants({ variant: "danger" })}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDelete(method.id);
@@ -179,7 +179,7 @@ export function PaymentMethodSelector({
 
           {/* Default Badge */}
           {method.isDefault && (
-            <div className={paymentMethodSelectorDefaultBadgeVariants({ inverted })}>
+            <div className={paymentMethodSelectorDefaultBadgeVariants({})}>
               DEFAULT
             </div>
           )}
@@ -189,7 +189,7 @@ export function PaymentMethodSelector({
       {/* Add New Button */}
       {allowAddNew && onAddNew && (
         <button
-          className={paymentMethodSelectorAddButtonVariants({ inverted })}
+          className={paymentMethodSelectorAddButtonVariants({})}
           onClick={handleAddNew}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {

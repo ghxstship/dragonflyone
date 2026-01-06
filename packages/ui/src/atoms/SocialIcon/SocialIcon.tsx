@@ -70,7 +70,7 @@ export const SocialIcon = forwardRef<HTMLAnchorElement, SocialIconProps>(
         className={clsx(
           socialIconVariants({
             size,
-            inverted,
+            
             className,
           })
         )}

@@ -179,7 +179,7 @@ export function RowActions<T = unknown>({
   };
 
   return (
-    <div className={rowActionsVariants({ inverted, className })}>
+    <div className={rowActionsVariants({ className })}>
       {/* Trigger Button */}
       <button
         ref={triggerRef}
@@ -211,7 +211,7 @@ export function RowActions<T = unknown>({
         })}
         role="menu"
       >
-        <div className={rowActionsDropdownContentVariants({ inverted })}>
+        <div className={rowActionsDropdownContentVariants({})}>
           {visibleActions.map((action, index) => {
             const disabled = isActionDisabled(action);
             
@@ -219,7 +219,7 @@ export function RowActions<T = unknown>({
               <React.Fragment key={action.id}>
                 {/* Divider */}
                 {action.divider && index > 0 && (
-                  <div className={rowActionsDividerVariants({ inverted })} />
+                  <div className={rowActionsDividerVariants({})} />
                 )}
                 
                 {/* Action */}
@@ -238,19 +238,19 @@ export function RowActions<T = unknown>({
                 >
                   {/* Icon */}
                   {action.icon && (
-                    <div className={rowActionsActionIconVariants({ inverted })}>
+                    <div className={rowActionsActionIconVariants({})}>
                       {action.icon}
                     </div>
                   )}
                   
                   {/* Label */}
-                  <span className={rowActionsActionLabelVariants({ inverted })}>
+                  <span className={rowActionsActionLabelVariants({})}>
                     {action.label}
                   </span>
                   
                   {/* Shortcut */}
                   {action.shortcut && (
-                    <span className={rowActionsShortcutVariants({ inverted })}>
+                    <span className={rowActionsShortcutVariants({})}>
                       {action.shortcut}
                     </span>
                   )}

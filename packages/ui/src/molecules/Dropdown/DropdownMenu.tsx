@@ -20,7 +20,7 @@ export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
     return (
       <div
         ref={ref}
-        className={dropdownMenuVariants({ inverted, className })}
+        className={dropdownMenuVariants({ className })}
         {...props}
       >
         {children}

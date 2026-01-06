@@ -8,50 +8,77 @@ import { supabase } from '@/lib/supabase';
 // Manage crew certifications and credentials
 // =============================================================================
 
-export interface Credential {
+export interface MyCredentialItem {
   id: string;
   name: string;
   type: string;
+  zone: string;
+  valid_from: string;
+  valid_until: string;
   issuer: string;
-  issueDate: string;
-  expiryDate: string;
-  status: 'active' | 'expiring' | 'expired' | 'pending';
+  status: 'active' | 'expiring_soon' | 'expired' | 'pending';
   documentUrl?: string;
+  [key: string]: unknown;
 }
 
-// Fetch my credentials
+export interface MyCredentialsSummary {
+  total: number;
+  active: number;
+  expiring_soon: number;
+  expired: number;
+}
+
+// Fetch my credentials with summary
 export function useMyCredentials() {
-  return useQuery({
+  const query = useQuery({
     queryKey: ['my-credentials'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('workforce_certifications')
         .select('*')
-        .order('expires_at', { ascending: true });
+        .order('expiration_date', { ascending: true });
 
       if (error) throw error;
       
-      return (data || []).map(c => {
-        const expiryDate = new Date(c.expires_at || '');
+      const items = (data || []).map(c => {
+        const expiryDate = new Date(c.expiration_date || '');
         const today = new Date();
         const daysUntilExpiry = Math.ceil((expiryDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
         
-        let status: Credential['status'] = 'active';
+        let status: MyCredentialItem['status'] = 'active';
         if (daysUntilExpiry < 0) status = 'expired';
-        else if (daysUntilExpiry < 30) status = 'expiring';
-        else if (c.status === 'pending') status = 'pending';
+        else if (daysUntilExpiry < 30) status = 'expiring_soon';
+        else if (!c.is_verified) status = 'pending';
         
         return {
           id: c.id,
-          name: c.name || '',
+          name: c.certification_name || '',
           type: c.certification_type || 'Certification',
+          zone: 'General',
+          valid_from: c.issue_date || '',
+          valid_until: c.expiration_date || '',
           issuer: c.issuing_authority || '',
-          issueDate: c.issued_at || '',
-          expiryDate: c.expires_at || '',
           status,
           documentUrl: c.document_url,
-        };
-      }) as Credential[];
+        } as MyCredentialItem;
+      });
+
+      const summary: MyCredentialsSummary = {
+        total: items.length,
+        active: items.filter(i => i.status === 'active').length,
+        expiring_soon: items.filter(i => i.status === 'expiring_soon').length,
+        expired: items.filter(i => i.status === 'expired').length,
+      };
+
+      return { items, summary };
     },
   });
+
+  return {
+    items: query.data?.items || [],
+    summary: query.data?.summary,
+    isLoading: query.isLoading,
+    error: query.error,
+    refetch: query.refetch,
+  };
 }

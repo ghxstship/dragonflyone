@@ -117,7 +117,7 @@ export default function RoadmapPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Feature Details</Body>
-                  <H3 className="text-white">What We Are Building</H3>
+                  <H3 className="text-text-primary">What We Are Building</H3>
                 </Stack>
 
                 <Grid cols={2} gap={6} className="grid-cols-1 md:grid-cols-2">
@@ -136,7 +136,7 @@ export default function RoadmapPage() {
                             </Stack>
                           </Stack>
                           <Stack gap={2}>
-                            <Body className="text-white font-weight-bold">{item.title}</Body>
+                            <Body className="text-text-primary font-weight-bold">{item.title}</Body>
                             <Body className="text-text-muted">{item.description}</Body>
                           </Stack>
                           <Badge variant="outline" className="w-fit">{item.category}</Badge>

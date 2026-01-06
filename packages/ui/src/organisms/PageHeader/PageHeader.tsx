@@ -93,7 +93,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
     return (
       <div
         ref={ref}
-        className={clsx(pageHeaderVariants({ sticky, inverted }), className)}
+        className={clsx(pageHeaderVariants({ sticky }), className)}
       >
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (

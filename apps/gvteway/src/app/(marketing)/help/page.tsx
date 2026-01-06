@@ -56,14 +56,13 @@ export default function HelpPage() {
               title="Help Center"
               description="Get the help you need. Find answers, chat with support, or browse our documentation."
               primaryCta={{
-                label: "Contact Support",
+                label: "Live Chat",
                 onClick: () => router.push("/support/chat"),
               }}
               secondaryCta={{
                 label: "Browse FAQ",
                 onClick: () => router.push("/help/faq"),
               }}
-              background="gradient"
               pattern="none"
               fullHeight={false}
               align="center"
@@ -72,14 +71,14 @@ export default function HelpPage() {
         },
         {
           id: "stats",
-          background: "primary",
+          background: "gradient",
           content: (
             <Container size="2xl" className="py-12">
               <Grid cols={4} gap={8} className="grid-cols-2 md:grid-cols-4">
                 {STATS.map((stat, idx) => (
                   <Stack key={idx} gap={1} className="text-center">
-                    <Body className="text-white font-weight-bold text-h3-md">{stat.value}</Body>
-                    <Body className="text-white/80">{stat.label}</Body>
+                    <Body className="text-text-primary font-weight-bold text-h3-md">{stat.value}</Body>
+                    <Body className="text-text-primary/80">{stat.label}</Body>
                   </Stack>
                 ))}
               </Grid>
@@ -96,7 +95,7 @@ export default function HelpPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Support</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">How Can We Help?</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">How Can We Help?</Body>
                   <Body className="text-text-muted">Choose the support option that works best for you</Body>
                 </Stack>
 
@@ -115,7 +114,7 @@ export default function HelpPage() {
                       <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                         {option.icon}
                       </Box>
-                      <Body className="text-white font-weight-bold mb-2">{option.title}</Body>
+                      <Body className="text-text-primary font-weight-bold mb-2">{option.title}</Body>
                       <Body size="sm" className="text-text-muted">{option.description}</Body>
                     </Card>
                   ))}
@@ -152,7 +151,7 @@ export default function HelpPage() {
                       <Phone className="size-8 text-primary" />
                     </Box>
                     <Box>
-                      <Body className="text-white font-weight-bold text-h4-md">Need Immediate Help?</Body>
+                      <Body className="text-text-primary font-weight-bold text-h4-md">Need Immediate Help?</Body>
                       <Body className="text-text-muted">Call us at 1-800-GVTEWAY</Body>
                     </Box>
                   </Box>

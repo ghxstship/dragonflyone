@@ -71,22 +71,22 @@ export function Timeline({
   };
 
   return (
-    <div className={timelineVariants({ orientation, inverted, className })}>
+    <div className={timelineVariants({ orientation, className })}>
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
         
         return (
-          <div key={item.id} className={timelineItemContainerVariants({ orientation, compact, inverted })}>
+          <div key={item.id} className={timelineItemContainerVariants({ orientation, compact })}>
             {/* Indicator */}
-            <div className={timelineIndicatorVariants({ status: item.status, inverted })}>
+            <div className={timelineIndicatorVariants({ status: item.status })}>
               {item.icon || getStatusIcon(item.status)}
             </div>
 
             {/* Content */}
-            <div className={timelineContentVariants({ inverted })}>
+            <div className={timelineContentVariants({})}>
               {/* Title */}
               <div 
-                className={timelineTitleVariants({ inverted })}
+                className={timelineTitleVariants({})}
                 onClick={() => onItemClick?.(item)}
                 style={{ cursor: onItemClick ? 'pointer' : 'default' }}
               >
@@ -95,26 +95,26 @@ export function Timeline({
 
               {/* Description */}
               {item.description && (
-                <div className={timelineDescriptionVariants({ inverted })}>
+                <div className={timelineDescriptionVariants({})}>
                   {item.description}
                 </div>
               )}
 
               {/* Timestamp */}
-              <div className={timelineTimestampVariants({ inverted })}>
+              <div className={timelineTimestampVariants({})}>
                 {formatTimestamp(item.timestamp)}
               </div>
 
               {/* User */}
               {item.user && (
-                <div className={timelineDescriptionVariants({ inverted })}>
+                <div className={timelineDescriptionVariants({})}>
                   by {item.user.name}
                 </div>
               )}
 
               {/* Metadata */}
               {item.metadata && Object.entries(item.metadata).map(([key, value]) => (
-                <div key={key} className={timelineDescriptionVariants({ inverted })}>
+                <div key={key} className={timelineDescriptionVariants({})}>
                   {key}: {value}
                 </div>
               ))}

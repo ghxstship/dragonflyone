@@ -5,7 +5,7 @@
  * Theme, font size, and display preferences
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   Body,
@@ -84,21 +84,26 @@ export default function AppearanceSettingsPage() {
 
   const displayData = { ...settings, ...formData };
 
-  const handleThemeChange = (theme: AppearanceSettings["theme"]) => {
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleCancel = useCallback(() => {
+    router.push("/settings");
+  }, [router]);
+
+  const handleThemeChange = useCallback((theme: AppearanceSettings["theme"]) => {
     setFormData((prev) => ({ ...prev, theme }));
-  };
+  }, []);
 
-  const handleFontSizeChange = (fontSize: AppearanceSettings["fontSize"]) => {
+  const handleFontSizeChange = useCallback((fontSize: AppearanceSettings["fontSize"]) => {
     setFormData((prev) => ({ ...prev, fontSize }));
-  };
+  }, []);
 
-  const handleToggle = (field: "compactMode" | "reducedMotion") => {
+  const handleToggle = useCallback((field: "compactMode" | "reducedMotion") => {
     setFormData((prev) => ({ ...prev, [field]: !displayData[field] }));
-  };
+  }, [displayData]);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     mutation.mutate({ ...settings, ...formData });
-  };
+  }, [mutation, settings, formData]);
 
   const themeOptions = [
     { id: "light", label: "Light", icon: <Sun className="size-5" /> },
@@ -179,7 +184,7 @@ export default function AppearanceSettingsPage() {
                 <Box className="flex items-center justify-between">
                   <Box className="flex items-center gap-3">
                     <Box className={`p-2 rounded-card ${
-                      displayData.theme === option.id ? "bg-primary text-white" : "bg-surface-secondary"
+                      displayData.theme === option.id ? "bg-primary text-text-primary" : "bg-surface-secondary"
                     }`}>
                       {option.icon}
                     </Box>
@@ -287,7 +292,7 @@ export default function AppearanceSettingsPage() {
         <Box className="flex justify-end gap-3">
           <Button
             variant="ghost"
-            onClick={() => router.push("/settings")}
+            onClick={handleCancel}
           >
             Cancel
           </Button>

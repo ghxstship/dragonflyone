@@ -118,13 +118,13 @@ export default function DocsPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Browse</Body>
-                  <H3 className="text-white">Documentation Sections</H3>
+                  <H3 className="text-text-primary">Documentation Sections</H3>
                 </Stack>
 
                 {filteredSections.length === 0 ? (
                   <Card className="p-12 text-center border-2 border-border rounded-card">
                     <Book className="size-16 text-text-disabled mx-auto mb-4" />
-                    <Body className="text-white font-weight-medium mb-2">No Results Found</Body>
+                    <Body className="text-text-primary font-weight-medium mb-2">No Results Found</Body>
                     <Body className="text-text-muted mb-4">Try a different search term</Body>
                     <Button variant="outline" onClick={() => setSearch("")}>Clear Search</Button>
                   </Card>
@@ -138,7 +138,7 @@ export default function DocsPage() {
                               {section.icon}
                             </Box>
                             <Stack gap={1}>
-                              <Body className="text-white font-weight-bold">{section.title}</Body>
+                              <Body className="text-text-primary font-weight-bold">{section.title}</Body>
                               <Body size="sm" className="text-text-muted">{section.description}</Body>
                             </Stack>
                           </Stack>
@@ -152,7 +152,7 @@ export default function DocsPage() {
                                 <Stack direction="horizontal" className="justify-between items-center">
                                   <Stack direction="horizontal" gap={2} className="items-center">
                                     <FileText className="size-4 text-text-disabled group-hover:text-primary transition-colors" />
-                                    <Body size="sm" className="text-text-secondary group-hover:text-white transition-colors">{article.title}</Body>
+                                    <Body size="sm" className="text-text-secondary group-hover:text-text-primary transition-colors">{article.title}</Body>
                                   </Stack>
                                   <ArrowRight className="size-4 text-text-disabled group-hover:text-primary transition-colors" />
                                 </Stack>

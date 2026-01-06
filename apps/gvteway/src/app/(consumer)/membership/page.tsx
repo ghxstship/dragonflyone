@@ -396,7 +396,7 @@ export default function MembershipPage() {
       </Box>
 
       {/* CTA Section */}
-      <Box className="bg-primary text-white">
+      <Box className="bg-primary text-text-primary">
         <Box className="container mx-auto px-4 py-16 text-center">
           <H2 className="text-h2-desktop font-weight-bold mb-4">
             Ready to Upgrade Your Experience?
@@ -407,7 +407,7 @@ export default function MembershipPage() {
           <Button
             variant="outline"
             size="lg"
-            className="border-white text-white hover:bg-white hover:text-primary"
+            className="border-surface-primary hover:bg-surface-primary hover:text-primary"
             onClick={() => handleJoinClick("gold")}
           >
             Start Your Membership

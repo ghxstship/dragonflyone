@@ -75,7 +75,7 @@ export default function ResetPasswordPage() {
     return (
       <AuthSplitLayout
         singleColumn
-        brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">ATLVS</Text>}
+        brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">ATLVS</Text>}
       >
         <Stack gap={8} className="text-center items-center">
           <Box className="p-6 bg-success-500/20 rounded-avatar border-2 border-success-500/30">
@@ -83,7 +83,7 @@ export default function ResetPasswordPage() {
           </Box>
           
           <Stack gap={3} className="items-center">
-            <H2 className="text-white">Password Reset Complete</H2>
+            <H2 className="text-text-primary">Password Reset Complete</H2>
             <Body className="text-text-secondary max-w-sm">
               Your password has been updated successfully. You can now sign in with your new password.
             </Body>
@@ -108,7 +108,7 @@ export default function ResetPasswordPage() {
       title="Reset Your Password"
       subtitle="Create a new secure password for your account"
       singleColumn
-      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">ATLVS</Text>}
+      brandLogo={<Text className="font-display text-text-primary text-h2-md uppercase tracking-display">ATLVS</Text>}
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={5}>

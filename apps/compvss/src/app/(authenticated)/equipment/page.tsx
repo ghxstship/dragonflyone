@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, ClipboardList, Wrench, Trash2, Download } from 'lucide-react';
 // Layout provided by route group
 import {
-  ListPage, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Stack, Body,
-  type ListPageAction, type ListPageBulkAction, type DetailSection} from "@ghxstship/ui";
+  ListPage, Badge, RecordFormModal, DetailDrawer, ConfirmDialog, Grid, Body, useToast,
+  type ListPageAction, type ListPageBulkAction, type ListPageColumn, type DetailSection,
+} from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, useAuthContext, PlatformRole, useEntityConfig } from '@ghxstship/config';
+import { ErrorBoundary } from '../../../components/error-boundaries';
 
 // Roles that can manage equipment (COMPVSS has no SUPER_ADMIN, only ADMIN)
 const ADMIN_ROLES = [
@@ -23,20 +25,15 @@ interface Equipment {
   name?: string;
   tag: string;
   type?: string;
-  category: string;
+  category?: string;
   status?: string;
-  // Schema: status enum from API: ['available', 'checked_out', 'maintenance', 'repair', 'retired', 'lost']
-  state: 'available' | 'checked_out' | 'maintenance' | 'repair' | 'retired' | 'lost';
+  state?: string;
   location?: string;
   serial_number?: string;
-  metadata: {
-    location?: string;
-    serial_number?: string;
-    last_maintenance?: string;
-  };
+  last_maintenance?: string;
+  assigned_to?: string;
   project_id?: string;
   projects?: { name: string };
-  assigned_to?: string;
 }
 
 // SSOT: Columns, filters, and formFields are provided by useEntityConfig
@@ -153,8 +150,8 @@ export default function EquipmentPage() {
         <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}><Body className="font-display">Tag</Body><Body>{selectedEquipment.tag}</Body></Stack>
           <Stack gap={1}><Body className="font-display">Category</Body><Body>{selectedEquipment.type || selectedEquipment.category}</Body></Stack>
-          <Stack gap={1}><Body className="font-display">Serial</Body><Body>{selectedEquipment.serial_number || selectedEquipment.metadata?.serial_number || '—'}</Body></Stack>
-          <Stack gap={1}><Body className="font-display">Location</Body><Body>{selectedEquipment.location || selectedEquipment.metadata?.location || '—'}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Serial</Body><Body>{selectedEquipment.serial_number || '—'}</Body></Stack>
+          <Stack gap={1}><Body className="font-display">Location</Body><Body>{selectedEquipment.location || '—'}</Body></Stack>
           <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedEquipment.status || selectedEquipment.state}</Body></Stack>
           <Stack gap={1}><Body className="font-display">Assigned</Body><Body>{selectedEquipment.assigned_to || selectedEquipment.projects?.name || '—'}</Body></Stack>
         </Grid>
@@ -166,7 +163,7 @@ export default function EquipmentPage() {
       content: (
         <Stack gap={1}>
           <Body className="font-display">Last Maintenance</Body>
-          <Body>{selectedEquipment.metadata?.last_maintenance || 'No records'}</Body>
+          <Body>{selectedEquipment.last_maintenance || 'No records'}</Body>
         </Stack>
       ),
     },

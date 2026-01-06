@@ -26,19 +26,19 @@ export function ErrorFallback({
   inverted = false 
 }: ErrorFallbackProps) {
   return (
-    <div className={errorBoundaryVariants({ inverted })}>
+    <div className={errorBoundaryVariants({})}>
       {/* Error Icon */}
       <div className="text-6xl mb-4 animate-shake">
         ⚠️
       </div>
 
       {/* Error Title */}
-      <h2 className={errorBoundaryTitleVariants({ inverted })}>
+      <h2 className={errorBoundaryTitleVariants({})}>
         Oops! Something went wrong
       </h2>
 
       {/* Error Description */}
-      <p className={errorBoundaryDescriptionVariants({ inverted })}>
+      <p className={errorBoundaryDescriptionVariants({})}>
         We encountered an unexpected error. This has been logged and our team will investigate.
       </p>
 
@@ -48,7 +48,7 @@ export function ErrorFallback({
           <summary className="cursor-pointer text-sm font-medium mb-2 hover:opacity-80 transition-opacity">
             Error Details (Development Only)
           </summary>
-          <div className={errorBoundaryDetailsVariants({ inverted })}>
+          <div className={errorBoundaryDetailsVariants({})}>
             <div className="font-bold mb-2">Error Message:</div>
             <div className="mb-4">{error.message}</div>
             

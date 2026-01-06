@@ -77,25 +77,25 @@ export function ConfirmDialog({
       />
       
       {/* Dialog */}
-      <div className={confirmDialogVariants({ variant, inverted, className })}>
+      <div className={confirmDialogVariants({ variant, className })}>
         {/* Icon */}
-        <div className={confirmDialogIconVariants({ variant, inverted })}>
+        <div className={confirmDialogIconVariants({ variant })}>
           {variantIcons[variant]}
         </div>
 
         {/* Title */}
-        <h3 className={confirmDialogTitleVariants({ inverted })}>
+        <h3 className={confirmDialogTitleVariants({})}>
           {title}
         </h3>
 
         {/* Message */}
-        <p className={confirmDialogMessageVariants({ inverted })}>
+        <p className={confirmDialogMessageVariants({})}>
           {message}
         </p>
 
         {/* Details */}
         {details && (
-          <div className={confirmDialogDetailsVariants({ inverted })}>
+          <div className={confirmDialogDetailsVariants({})}>
             {details}
           </div>
         )}

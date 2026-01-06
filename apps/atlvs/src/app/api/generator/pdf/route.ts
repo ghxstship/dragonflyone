@@ -4,6 +4,7 @@ import { logger, withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import type { GeneratedBlueprint } from "../../../generator/types";
 import { z } from 'zod';
+import { PDF_COLORS } from '@ghxstship/config/pdf-colors';
 
 const generatePdfSchema = z.object({
   blueprint: z.object({
@@ -100,50 +101,50 @@ function generatePDFContent(blueprint: GeneratedBlueprint, isAuthenticated: bool
       font-family: 'Helvetica Neue', Arial, sans-serif; 
       font-size: 10pt; 
       line-height: 1.4;
-      color: #1a1a1a;
+      color: ${PDF_COLORS.textPrimary};
     }
     .page { page-break-after: always; }
     .page:last-child { page-break-after: auto; }
     
     h1 { font-size: 28pt; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
-    h2 { font-size: 16pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 24px 0 12px; border-bottom: 3px solid #1a1a1a; padding-bottom: 8px; }
+    h2 { font-size: 16pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 24px 0 12px; border-bottom: 3px solid ${PDF_COLORS.textPrimary}; padding-bottom: 8px; }
     h3 { font-size: 12pt; font-weight: 700; text-transform: uppercase; margin: 16px 0 8px; }
     
     .header { text-align: center; margin-bottom: 32px; }
-    .tagline { font-size: 14pt; font-style: italic; color: #666; margin-bottom: 16px; }
-    .meta { font-size: 9pt; color: #999; }
+    .tagline { font-size: 14pt; font-style: italic; color: ${PDF_COLORS.textSecondary}; margin-bottom: 16px; }
+    .meta { font-size: 9pt; color: ${PDF_COLORS.textMuted}; }
     
     .color-palette { display: flex; gap: 8px; justify-content: center; margin: 16px 0; }
-    .color-swatch { width: 40px; height: 40px; border: 2px solid #1a1a1a; }
+    .color-swatch { width: 40px; height: 40px; border: 2px solid ${PDF_COLORS.textPrimary}; }
     
     .grid { display: grid; gap: 16px; }
     .grid-2 { grid-template-columns: 1fr 1fr; }
     .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
     
-    .card { border: 2px solid #1a1a1a; padding: 16px; }
+    .card { border: 2px solid ${PDF_COLORS.textPrimary}; padding: 16px; }
     .card-header { font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
     
-    .sense-icon { width: 32px; height: 32px; border: 2px solid #1a1a1a; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+    .sense-icon { width: 32px; height: 32px; border: 2px solid ${PDF_COLORS.textPrimary}; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
     
     .xyz-bar { display: flex; gap: 4px; margin: 8px 0; }
-    .xyz-level { width: 24px; height: 24px; border: 2px solid #1a1a1a; }
-    .xyz-level.active { background: #1a1a1a; }
+    .xyz-level { width: 24px; height: 24px; border: 2px solid ${PDF_COLORS.textPrimary}; }
+    .xyz-level.active { background: ${PDF_COLORS.textPrimary}; }
     
-    .zone-tag { display: inline-block; border: 1px solid #ccc; padding: 4px 8px; margin: 2px; font-size: 9pt; }
+    .zone-tag { display: inline-block; border: 1px solid ${PDF_COLORS.borderInput}; padding: 4px 8px; margin: 2px; font-size: 9pt; }
     
-    .phase { display: flex; gap: 16px; margin: 12px 0; padding: 12px; border-left: 4px solid #1a1a1a; }
-    .phase-number { font-size: 24pt; font-weight: 900; color: #ccc; }
+    .phase { display: flex; gap: 16px; margin: 12px 0; padding: 12px; border-left: 4px solid ${PDF_COLORS.textPrimary}; }
+    .phase-number { font-size: 24pt; font-weight: 900; color: ${PDF_COLORS.textMuted}; }
     
-    .tier { border: 2px solid #1a1a1a; padding: 16px; margin: 8px 0; }
-    .tier-budget { font-size: 18pt; font-weight: 900; color: #FF006E; }
+    .tier { border: 2px solid ${PDF_COLORS.textPrimary}; padding: 16px; margin: 8px 0; }
+    .tier-budget { font-size: 18pt; font-weight: 900; color: ${PDF_COLORS.brandPink}; }
     
     .checklist-item { display: flex; gap: 8px; margin: 4px 0; }
-    .checkbox { width: 12px; height: 12px; border: 2px solid #1a1a1a; }
+    .checkbox { width: 12px; height: 12px; border: 2px solid ${PDF_COLORS.textPrimary}; }
     
-    .footer { text-align: center; font-size: 8pt; color: #999; margin-top: 32px; padding-top: 16px; border-top: 1px solid #eee; }
+    .footer { text-align: center; font-size: 8pt; color: ${PDF_COLORS.textMuted}; margin-top: 32px; padding-top: 16px; border-top: 1px solid ${PDF_COLORS.borderDefault}; }
     
-    .cta-box { background: #FF006E; color: white; padding: 24px; text-align: center; margin: 32px 0; }
-    .cta-box h3 { color: white; margin-bottom: 8px; }
+    .cta-box { background: ${PDF_COLORS.brandPink}; color: ${PDF_COLORS.surfacePrimary}; padding: 24px; text-align: center; margin: 32px 0; }
+    .cta-box h3 { color: ${PDF_COLORS.surfacePrimary}; margin-bottom: 8px; }
   </style>
 </head>
 <body>
@@ -248,16 +249,16 @@ function generatePDFContent(blueprint: GeneratedBlueprint, isAuthenticated: bool
     
     <h2>Schedule Phases</h2>
     <table style="width: 100%; border-collapse: collapse;">
-      <tr style="background: #f5f5f5;">
-        <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Phase</th>
-        <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Duration</th>
-        <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Description</th>
+      <tr style="background: ${PDF_COLORS.surfaceElevated};">
+        <th style="text-align: left; padding: 8px; border: 1px solid ${PDF_COLORS.borderDefault};">Phase</th>
+        <th style="text-align: left; padding: 8px; border: 1px solid ${PDF_COLORS.borderDefault};">Duration</th>
+        <th style="text-align: left; padding: 8px; border: 1px solid ${PDF_COLORS.borderDefault};">Description</th>
       </tr>
       ${blueprint.documents.schedulePhases.map(p => `
         <tr>
-          <td style="padding: 8px; border: 1px solid #ddd;">${p.code}: ${p.name}</td>
-          <td style="padding: 8px; border: 1px solid #ddd;">${p.duration}</td>
-          <td style="padding: 8px; border: 1px solid #ddd;">${p.description}</td>
+          <td style="padding: 8px; border: 1px solid ${PDF_COLORS.borderDefault};">${p.code}: ${p.name}</td>
+          <td style="padding: 8px; border: 1px solid ${PDF_COLORS.borderDefault};">${p.duration}</td>
+          <td style="padding: 8px; border: 1px solid ${PDF_COLORS.borderDefault};">${p.description}</td>
         </tr>
       `).join("")}
     </table>
@@ -266,7 +267,7 @@ function generatePDFContent(blueprint: GeneratedBlueprint, isAuthenticated: bool
     <div class="grid grid-3">
       ${blueprint.documents.credentialTypes.map(c => `
         <div style="display: flex; align-items: center; gap: 8px; margin: 4px 0;">
-          <div style="width: 16px; height: 16px; background: ${c.color}; border: 1px solid #000;"></div>
+          <div style="width: 16px; height: 16px; background: ${c.color}; border: 1px solid ${PDF_COLORS.textPrimary};"></div>
           <span>${c.code}: ${c.name} (L${c.accessLevel})</span>
         </div>
       `).join("")}

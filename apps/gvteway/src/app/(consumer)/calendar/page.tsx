@@ -143,10 +143,10 @@ export default function CalendarPage() {
                   {calendarDays.map((day, index) => (
                     <Card
                       key={index}
-                      className={`min-h-[80px] cursor-pointer p-2 transition-colors ${!day.isCurrentMonth ? "opacity-50" : ""} ${day.isToday ? "ring-2 ring-primary" : ""} ${selectedDate?.toDateString() === day.date.toDateString() ? "bg-primary text-white" : ""}`}
+                      className={`min-h-[80px] cursor-pointer p-2 transition-colors ${!day.isCurrentMonth ? "opacity-50" : ""} ${day.isToday ? "ring-2 ring-primary" : ""} ${selectedDate?.toDateString() === day.date.toDateString() ? "bg-primary text-text-primary" : ""}`}
                       onClick={() => handleDayClick(day)}
                     >
-                      <Body className={selectedDate?.toDateString() === day.date.toDateString() ? "text-white" : ""}>{day.date.getDate()}</Body>
+                      <Body className={selectedDate?.toDateString() === day.date.toDateString() ? "text-text-primary" : ""}>{day.date.getDate()}</Body>
                       {day.events.length > 0 && (
                         <Stack gap={1} className="mt-1">
                           {day.events.slice(0, 2).map((event) => (

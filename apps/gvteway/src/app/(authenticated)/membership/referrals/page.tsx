@@ -67,8 +67,16 @@ export default function MembershipReferralsPage() {
       await navigator.clipboard.writeText(stats.referralCode);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy:", err);
+    } catch {
+      // Clipboard API not available - fallback to selection
+      const textArea = document.createElement('textarea');
+      textArea.value = stats.referralCode;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
 
@@ -77,8 +85,16 @@ export default function MembershipReferralsPage() {
       await navigator.clipboard.writeText(stats.referralLink);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy:", err);
+    } catch {
+      // Clipboard API not available - fallback to selection
+      const textArea = document.createElement('textarea');
+      textArea.value = stats.referralLink;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
 
@@ -166,6 +182,7 @@ export default function MembershipReferralsPage() {
                     value={stats.referralLink}
                     readOnly
                     className="flex-1 font-mono text-body-sm"
+                    aria-label="Your referral link"
                   />
                   <Button variant="outline" onClick={handleCopyLink}>
                     <Copy className="size-4" />

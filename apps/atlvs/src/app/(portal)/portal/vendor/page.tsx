@@ -94,7 +94,7 @@ export default function VendorPortalPage() {
           <Card className="p-6 mt-4">
             <Box className="flex items-center gap-6 mb-6">
               <Box className="size-24 bg-primary rounded-avatar flex items-center justify-center">
-                <Building2 className="size-12 text-white" />
+                <Building2 className="size-12 text-text-primary" />
               </Box>
               <Box>
                 <Body className="font-weight-bold font-weight-bold">Vendor Company</Body>

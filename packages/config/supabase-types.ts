@@ -1606,6 +1606,54 @@ export type Database = {
         }
         Relationships: []
       }
+      organization_members: {
+        Row: {
+          id: string
+          organization_id: string
+          platform_user_id: string | null
+          user_id: string | null
+          role: string | null
+          status: Database["public"]["Enums"]["membership_status"] | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          platform_user_id?: string | null
+          user_id?: string | null
+          role?: string | null
+          status?: Database["public"]["Enums"]["membership_status"] | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          platform_user_id?: string | null
+          user_id?: string | null
+          role?: string | null
+          status?: Database["public"]["Enums"]["membership_status"] | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_members_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_members_platform_user_id_fkey"
+            columns: ["platform_user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       automation_rules: {
         Row: {
           action_config: Json | null

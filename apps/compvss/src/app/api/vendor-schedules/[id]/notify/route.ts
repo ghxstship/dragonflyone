@@ -1,6 +1,6 @@
 import { withAuth, PlatformRole } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase';
+import { getServerSupabase } from '@/lib/supabase';
 import { z } from 'zod';
 
 const notifySchema = z.object({
@@ -24,12 +24,13 @@ export async function POST(
     const authResult = await withAuth(request);
     if (authResult instanceof NextResponse) return authResult;
 
-    const userRoles = authResult.user?.platformRoles || [];
+    const user = (authResult as { user: { platformRoles: PlatformRole[] } }).user;
+    const userRoles = user.platformRoles || [];
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const supabase = createAdminClient();
+    const supabase = getServerSupabase();
     const scheduleId = params.id;
 
     const body = await request.json();

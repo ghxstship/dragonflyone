@@ -14,13 +14,13 @@ import type { BreadcrumbItemProps } from "./Breadcrumb.types.js";
  * ```
  */
 export const BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
-  function BreadcrumbItem({ href, active, inverted = true, className, children, ...props }, ref) {
+  function BreadcrumbItem({ href, active = true, className, children, ...props }, ref) {
     const Component = href ? "a" : "span";
     
     return (
       <li
         ref={ref}
-        className={breadcrumbItemVariants({ active, inverted, className })}
+        className={breadcrumbItemVariants({ active, className })}
         {...props}
       >
         <Component

@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Article, Stack, Badge, H3, Body, Button, Figure } from '@ghxstship/ui';
 import Image from 'next/image';
+import { memo } from 'react';
 
 interface EventCardProps {
   id: string;
@@ -14,7 +15,7 @@ interface EventCardProps {
   category?: string;
 }
 
-export function EventCard({
+export const EventCard = memo(function EventCard({
   id,
   title,
   date,

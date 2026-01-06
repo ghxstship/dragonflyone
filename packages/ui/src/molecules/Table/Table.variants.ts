@@ -34,45 +34,10 @@ export const tableVariants = cva(
         dark: "",
         "dark-striped": "",
       },
-      
-      /**
-       * Theme inversion
-       */
-      inverted: {
-        true: "",
-        false: "",
-      },
     },
     defaultVariants: {
       variant: "default",
-      inverted: false,
     },
-    
-    compoundVariants: [
-      // Striped variants
-      {
-        variant: "striped",
-        inverted: true,
-        class: "[&_tbody_tr:nth-child(even)]:bg-surface-elevated-inverse",
-      },
-      {
-        variant: "striped",
-        inverted: false,
-        class: "[&_tbody_tr:nth-child(even)]:bg-surface-elevated",
-      },
-      
-      // Dark striped variants
-      {
-        variant: "dark-striped",
-        inverted: true,
-        class: "[&_tbody_tr:nth-child(even)]:bg-surface-elevated-inverse",
-      },
-      {
-        variant: "dark-striped",
-        inverted: false,
-        class: "[&_tbody_tr:nth-child(even)]:bg-surface-elevated",
-      },
-    ],
   }
 );
 
@@ -87,6 +52,8 @@ export const tableContainerVariants = cva(
     "border-2",
     "rounded-[var(--radius-card)]",
     "shadow-hard",
+    "bg-[var(--color-surface-primary)]",
+    "border-[var(--color-border-default)]",
     "transition-all",
     "duration-[var(--duration-fast)]",
     "ease-[var(--easing-easeOut)]",
@@ -103,18 +70,9 @@ export const tableContainerVariants = cva(
         dark: "",
         "dark-striped": "",
       },
-      
-      /**
-       * Theme inversion
-       */
-      inverted: {
-        true: "bg-surface-primary-inverse border-border-inverse",
-        false: "bg-surface-primary border-border",
-      },
     },
     defaultVariants: {
       variant: "default",
-      inverted: false,
     },
   }
 );
@@ -135,54 +93,16 @@ export const tableHeaderVariants = cva(
        * Table variant
        */
       variant: {
-        default: "bg-surface-elevated border-b-2",
-        bordered: "bg-surface-elevated border-b-2",
-        striped: "bg-surface-elevated border-b-2",
-        dark: "bg-surface-elevated-inverse border-b-2",
-        "dark-striped": "bg-surface-elevated-inverse border-b-2",
-      },
-      
-      /**
-       * Theme inversion
-       */
-      inverted: {
-        true: "",
-        false: "",
+        default: "bg-[var(--color-surface-elevated)] border-b-2 border-[var(--color-border-default)]",
+        bordered: "bg-[var(--color-surface-elevated)] border-b-2 border-[var(--color-border-default)]",
+        striped: "bg-[var(--color-surface-elevated)] border-b-2 border-[var(--color-border-default)]",
+        dark: "bg-[var(--color-surface-elevated)] border-b-2 border-[var(--color-border-default)]",
+        "dark-striped": "bg-[var(--color-surface-elevated)] border-b-2 border-[var(--color-border-default)]",
       },
     },
     defaultVariants: {
       variant: "default",
-      inverted: false,
     },
-    
-    compoundVariants: [
-      // Variant with inversion combinations
-      {
-        variant: "default",
-        inverted: true,
-        class: "bg-surface-elevated-inverse border-border-inverse",
-      },
-      {
-        variant: "bordered",
-        inverted: true,
-        class: "bg-surface-elevated-inverse border-border-inverse",
-      },
-      {
-        variant: "striped",
-        inverted: true,
-        class: "bg-surface-elevated-inverse border-border-inverse",
-      },
-      {
-        variant: "dark",
-        inverted: true,
-        class: "bg-surface-elevated-inverse border-border-inverse",
-      },
-      {
-        variant: "dark-striped",
-        inverted: true,
-        class: "bg-surface-elevated-inverse border-border-inverse",
-      },
-    ],
   }
 );
 
@@ -192,24 +112,11 @@ export const tableHeaderVariants = cva(
 export const tableBodyVariants = cva(
   [
     // Base styles
+    "bg-[var(--color-surface-primary)]",
     "transition-all",
     "duration-[var(--duration-fast)]",
     "ease-[var(--easing-easeOut)]",
-  ],
-  {
-    variants: {
-      /**
-       * Theme inversion
-       */
-      inverted: {
-        true: "bg-surface-primary-inverse",
-        false: "bg-surface-primary",
-      },
-    },
-    defaultVariants: {
-      inverted: false,
-    },
-  }
+  ]
 );
 
 /**
@@ -228,70 +135,25 @@ export const tableRowVariants = cva(
        * Table variant
        */
       variant: {
-        default: "border-b-2",
-        bordered: "border-b-2",
-        striped: "border-b-2",
-        dark: "border-b-2",
-        "dark-striped": "border-b-2",
+        default: "border-b-2 border-[var(--color-border-default)]",
+        bordered: "border-b-2 border-[var(--color-border-default)]",
+        striped: "border-b-2 border-[var(--color-border-default)]",
+        dark: "border-b-2 border-[var(--color-border-default)]",
+        "dark-striped": "border-b-2 border-[var(--color-border-default)]",
       },
       
       /**
        * Hover state
        */
       hover: {
-        true: "hover:bg-surface-hover",
-        false: "",
-      },
-      
-      /**
-       * Theme inversion
-       */
-      inverted: {
-        true: "",
+        true: "hover:bg-[var(--color-surface-hover)]",
         false: "",
       },
     },
     defaultVariants: {
       variant: "default",
       hover: true,
-      inverted: false,
     },
-    
-    compoundVariants: [
-      // Variant with inversion combinations
-      {
-        variant: "default",
-        inverted: true,
-        class: "border-border-inverse",
-      },
-      {
-        variant: "bordered",
-        inverted: true,
-        class: "border-border-inverse",
-      },
-      {
-        variant: "striped",
-        inverted: true,
-        class: "border-border-inverse",
-      },
-      {
-        variant: "dark",
-        inverted: true,
-        class: "border-border-inverse",
-      },
-      {
-        variant: "dark-striped",
-        inverted: true,
-        class: "border-border-inverse",
-      },
-      
-      // Hover with inversion combinations
-      {
-        hover: true,
-        inverted: true,
-        class: "hover:bg-surface-hover-inverse",
-      },
-    ],
   }
 );
 
@@ -308,24 +170,11 @@ export const tableHeadVariants = cva(
     "text-xs",
     "uppercase",
     "tracking-wider",
+    "text-[var(--color-text-primary)]",
     "transition-colors",
     "duration-[var(--duration-fast)]",
     "ease-[var(--easing-easeOut)]",
-  ],
-  {
-    variants: {
-      /**
-       * Theme inversion
-       */
-      inverted: {
-        true: "text-text-primary-inverse",
-        false: "text-text-primary",
-      },
-    },
-    defaultVariants: {
-      inverted: false,
-    },
-  }
+  ]
 );
 
 /**
@@ -337,22 +186,9 @@ export const tableCellVariants = cva(
     "px-4",
     "py-3",
     "text-left",
+    "text-[var(--color-text-primary)]",
     "transition-colors",
     "duration-[var(--duration-fast)]",
     "ease-[var(--easing-easeOut)]",
-  ],
-  {
-    variants: {
-      /**
-       * Theme inversion
-       */
-      inverted: {
-        true: "text-text-inverse",
-        false: "text-text-primary",
-      },
-    },
-    defaultVariants: {
-      inverted: false,
-    },
-  }
+  ]
 );

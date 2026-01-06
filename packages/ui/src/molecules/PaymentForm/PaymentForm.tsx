@@ -115,22 +115,22 @@ export function PaymentForm({
   };
 
   return (
-    <div className={paymentFormVariants({ inverted, className })}>
+    <div className={paymentFormVariants({ className })}>
       {/* Header */}
-      <div className={paymentFormHeaderVariants({ inverted })}>
-        <h3 className={paymentFormTitleVariants({ inverted })}>
+      <div className={paymentFormHeaderVariants({})}>
+        <h3 className={paymentFormTitleVariants({})}>
           Payment Information
         </h3>
-        <div className={paymentFormAmountVariants({ inverted })}>
+        <div className={paymentFormAmountVariants({})}>
           {formatCurrency(amount)}
         </div>
       </div>
 
       {/* Content */}
-      <div className={paymentFormContentVariants({ inverted })}>
+      <div className={paymentFormContentVariants({})}>
         {/* Error */}
         {error && (
-          <div className={paymentFormErrorVariants({ inverted })}>
+          <div className={paymentFormErrorVariants({})}>
             <AlertCircle className="w-4 h-4" />
             <span>{error}</span>
           </div>
@@ -138,12 +138,12 @@ export function PaymentForm({
 
         {/* Saved Payment Methods */}
         {savedMethods.length > 0 && (
-          <div className={paymentFormSectionVariants({ inverted })}>
-            <h4 className={paymentFormSectionTitleVariants({ inverted })}>
+          <div className={paymentFormSectionVariants({})}>
+            <h4 className={paymentFormSectionTitleVariants({})}>
               SAVED PAYMENT METHODS
             </h4>
             
-            <div className={paymentFormSavedMethodsVariants({ inverted })}>
+            <div className={paymentFormSavedMethodsVariants({})}>
               {savedMethods.map((method) => (
                 <div
                   key={method.id}
@@ -163,11 +163,11 @@ export function PaymentForm({
                   aria-label={`Select ${method.brand} ending in ${method.last4}`}
                   aria-pressed={selectedMethodId === method.id}
                 >
-                  <div className={paymentFormSavedMethodInfoVariants({ inverted })}>
-                    <div className={paymentFormSavedMethodBrandVariants({ inverted })}>
+                  <div className={paymentFormSavedMethodInfoVariants({})}>
+                    <div className={paymentFormSavedMethodBrandVariants({})}>
                       {cardBrandLogos[method.brand.toLowerCase()] || "💳"}
                     </div>
-                    <div className={paymentFormSavedMethodDetailsVariants({ inverted })}>
+                    <div className={paymentFormSavedMethodDetailsVariants({})}>
                       <div className="font-medium">{method.brand}</div>
                       <div>•••• {method.last4}</div>
                       <div>Expires {method.expiryMonth}/{method.expiryYear}</div>
@@ -194,11 +194,11 @@ export function PaymentForm({
                 aria-label="Add new card"
                 aria-pressed={selectedMethodId === undefined}
               >
-                <div className={paymentFormSavedMethodInfoVariants({ inverted })}>
-                  <div className={paymentFormSavedMethodBrandVariants({ inverted })}>
+                <div className={paymentFormSavedMethodInfoVariants({})}>
+                  <div className={paymentFormSavedMethodBrandVariants({})}>
                     <CreditCard className="w-5 h-5" />
                   </div>
-                  <div className={paymentFormSavedMethodDetailsVariants({ inverted })}>
+                  <div className={paymentFormSavedMethodDetailsVariants({})}>
                     <div className="font-medium">Add New Card</div>
                   </div>
                 </div>
@@ -209,73 +209,73 @@ export function PaymentForm({
 
         {/* New Card Form */}
         {selectedMethodId === undefined && (
-          <div className={paymentFormSectionVariants({ inverted })}>
-            <h4 className={paymentFormSectionTitleVariants({ inverted })}>
+          <div className={paymentFormSectionVariants({})}>
+            <h4 className={paymentFormSectionTitleVariants({})}>
               CARD INFORMATION
             </h4>
             
-            <div className={paymentFormInputGroupVariants({ inverted })}>
+            <div className={paymentFormInputGroupVariants({})}>
               <input
                 type="text"
                 placeholder="Card Number"
                 value={formData.cardNumber}
                 onChange={(e) => handleInputChange("cardNumber", e.target.value)}
-                className={paymentFormInputVariants({ inverted })}
+                className={paymentFormInputVariants({})}
                 disabled={isProcessing}
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className={paymentFormInputGroupVariants({ inverted })}>
+              <div className={paymentFormInputGroupVariants({})}>
                 <input
                   type="text"
                   placeholder="MM"
                   value={formData.expiryMonth}
                   onChange={(e) => handleInputChange("expiryMonth", e.target.value)}
-                  className={paymentFormInputVariants({ inverted })}
+                  className={paymentFormInputVariants({})}
                   disabled={isProcessing}
                   maxLength={2}
                 />
               </div>
               
-              <div className={paymentFormInputGroupVariants({ inverted })}>
+              <div className={paymentFormInputGroupVariants({})}>
                 <input
                   type="text"
                   placeholder="YY"
                   value={formData.expiryYear}
                   onChange={(e) => handleInputChange("expiryYear", e.target.value)}
-                  className={paymentFormInputVariants({ inverted })}
+                  className={paymentFormInputVariants({})}
                   disabled={isProcessing}
                   maxLength={2}
                 />
               </div>
             </div>
 
-            <div className={paymentFormInputGroupVariants({ inverted })}>
+            <div className={paymentFormInputGroupVariants({})}>
               <input
                 type="text"
                 placeholder="CVV"
                 value={formData.cvv}
                 onChange={(e) => handleInputChange("cvv", e.target.value)}
-                className={paymentFormInputVariants({ inverted })}
+                className={paymentFormInputVariants({})}
                 disabled={isProcessing}
                 maxLength={4}
               />
             </div>
 
-            <div className={paymentFormInputGroupVariants({ inverted })}>
+            <div className={paymentFormInputGroupVariants({})}>
               <input
                 type="text"
                 placeholder="Cardholder Name"
                 value={formData.cardholderName}
                 onChange={(e) => handleInputChange("cardholderName", e.target.value)}
-                className={paymentFormInputVariants({ inverted })}
+                className={paymentFormInputVariants({})}
                 disabled={isProcessing}
               />
             </div>
 
             {allowSaveCard && (
-              <div className={paymentFormCheckboxVariants({ inverted })}>
+              <div className={paymentFormCheckboxVariants({})}>
                 <input
                   type="checkbox"
                   id="saveCard"
@@ -291,8 +291,8 @@ export function PaymentForm({
       </div>
 
       {/* Footer */}
-      <div className={paymentFormFooterVariants({ inverted })}>
-        <div className={paymentFormSecurityNoteVariants({ inverted })}>
+      <div className={paymentFormFooterVariants({})}>
+        <div className={paymentFormSecurityNoteVariants({})}>
           <Lock className="w-3 h-3" />
           <span>Your payment information is secure and encrypted</span>
         </div>

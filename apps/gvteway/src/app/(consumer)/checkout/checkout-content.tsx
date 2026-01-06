@@ -65,14 +65,14 @@ export default function CheckoutContent() {
 
   if (loading) {
     return (
-      <Section className="min-h-screen bg-white flex items-center justify-center">
+      <Section className="min-h-screen bg-surface-primary flex items-center justify-center">
         <Spinner variant="grey" size="lg" text="Loading checkout..." />
       </Section>
     );
   }
 
   return (
-    <Section className="min-h-screen bg-white py-12">
+    <Section className="min-h-screen bg-surface-primary py-12">
       <Container>
         <Stack gap={8} className="max-w-4xl mx-auto">
           <Display>CHECKOUT</Display>
@@ -87,10 +87,10 @@ export default function CheckoutContent() {
           <Stack gap={2} direction="horizontal" className="justify-between">
             {['cart', 'payment', 'confirm'].map((s, idx) => (
               <Stack key={s} gap={2} direction="horizontal" className="flex-1 items-center">
-                <Card className={`flex items-center justify-center w-10 h-10 rounded-avatar border-2 ${step === s ? 'bg-black text-white border-black' : 'border-border text-text-secondary'}`}>
+                <Card className={`flex items-center justify-center w-10 h-10 rounded-avatar border-2 ${step === s ? 'bg-surface-elevated text-text-primary border-border' : 'border-border text-text-secondary'}`}>
                   <Body>{idx + 1}</Body>
                 </Card>
-                {idx < 2 && <Card className={`flex-1 h-0.5 ${step !== 'cart' && idx === 0 || step === 'confirm' && idx === 1 ? 'bg-black' : 'bg-muted'} mx-2`} />}
+                {idx < 2 && <Card className={`flex-1 h-0.5 ${step !== 'cart' && idx === 0 || step === 'confirm' && idx === 1 ? 'bg-surface-elevated' : 'bg-muted'} mx-2`} />}
               </Stack>
             ))}
           </Stack>
@@ -130,7 +130,7 @@ export default function CheckoutContent() {
                       <Body>Service Fees</Body>
                       <Body>${fees.toFixed(2)}</Body>
                     </Stack>
-                    <Stack gap={2} direction="horizontal" className="justify-between border-t-2 border-black pt-2">
+                    <Stack gap={2} direction="horizontal" className="justify-between border-t-2 border-border pt-2">
                       <Body className="font-weight-bold">Total</Body>
                       <Body className="font-weight-bold">${total.toFixed(2)}</Body>
                     </Stack>
@@ -155,6 +155,7 @@ export default function CheckoutContent() {
                         className="w-full" 
                         value={formData.cardName}
                         onChange={(e) => setFormData({...formData, cardName: e.target.value})}
+                        aria-label="Cardholder Name"
                       />
                   </Stack>
                   <Stack gap={2}>
@@ -163,6 +164,7 @@ export default function CheckoutContent() {
                       className="w-full" 
                       value={formData.cardNumber}
                       onChange={(e) => setFormData({...formData, cardNumber: e.target.value})}
+                      aria-label="Card Number"
                     />
                   </Stack>
                   <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
@@ -170,11 +172,13 @@ export default function CheckoutContent() {
                         placeholder="MM/YY" 
                         value={formData.expiry}
                         onChange={(e) => setFormData({...formData, expiry: e.target.value})}
+                        aria-label="Card Expiry Date"
                       />
                       <Input 
                         placeholder="CVV" 
                         value={formData.cvv}
                         onChange={(e) => setFormData({...formData, cvv: e.target.value})}
+                        aria-label="Card Security Code"
                       />
                   </Grid>
                   <Stack gap={4} className="pt-4 border-t border-border">
@@ -185,17 +189,20 @@ export default function CheckoutContent() {
                           className="w-full" 
                           value={formData.street}
                           onChange={(e) => setFormData({...formData, street: e.target.value})}
+                          aria-label="Street Address"
                         />
                       <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                           <Input 
                             placeholder="City" 
                             value={formData.city}
                             onChange={(e) => setFormData({...formData, city: e.target.value})}
+                            aria-label="City"
                           />
                           <Input 
                             placeholder="State" 
                             value={formData.state}
                             onChange={(e) => setFormData({...formData, state: e.target.value})}
+                            aria-label="State"
                           />
                       </Grid>
                       <Input 
@@ -203,6 +210,7 @@ export default function CheckoutContent() {
                         className="w-full" 
                         value={formData.zip}
                         onChange={(e) => setFormData({...formData, zip: e.target.value})}
+                        aria-label="ZIP Code"
                       />
                     </Stack>
                   </Stack>
@@ -213,7 +221,7 @@ export default function CheckoutContent() {
                 <Card className="p-6">
                   <H2 className="mb-4">TOTAL</H2>
                   <Stack gap={2}>
-                    <Stack gap={2} direction="horizontal" className="justify-between border-t-2 border-black pt-2">
+                    <Stack gap={2} direction="horizontal" className="justify-between border-t-2 border-border pt-2">
                       <Body className="font-weight-bold">Total</Body>
                       <Body className="font-weight-bold">${total.toFixed(2)}</Body>
                     </Stack>
@@ -241,8 +249,8 @@ export default function CheckoutContent() {
           {/* Confirmation Step */}
           {step === 'confirm' && (
             <Card className="p-12 text-center">
-              <Card className="w-16 h-16 mx-auto mb-4 rounded-avatar bg-black flex items-center justify-center">
-                <Check className="w-8 h-8 text-white" />
+              <Card className="w-16 h-16 mx-auto mb-4 rounded-avatar bg-surface-elevated flex items-center justify-center">
+                <Check className="w-8 h-8 text-text-primary" />
               </Card>
               <Display size="md" className="mb-2">ORDER CONFIRMED!</Display>
               <Body className="text-text-secondary mb-6">Order #{orderId || 'PROCESSING'}</Body>

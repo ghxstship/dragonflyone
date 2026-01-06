@@ -19,25 +19,24 @@ function calculateTimeLeft(targetDate: Date): TimeLeft {
   };
 }
 
-const TimeUnit: React.FC<TimeUnitProps> = ({ value, label, variant, showLabels, inverted }) => (
+const TimeUnit: React.FC<TimeUnitProps> = ({ value, label, variant, showLabels }) => (
   <div className="flex flex-col items-center gap-gap-xs">
-    <div className={timeUnitVariants({ variant, inverted })}>
+    <div className={timeUnitVariants({ variant })}>
       {String(value).padStart(2, "0")}
     </div>
     {showLabels && (
-      <span className={timeLabelVariants({ variant, inverted })}>
+      <span className={timeLabelVariants({ variant })}>
         {label}
       </span>
     )}
   </div>
 );
 
-const Separator: React.FC<{ variant: "default" | "compact" | "large"; showLabels: boolean; inverted: boolean }> = ({
+const Separator: React.FC<{ variant: "default" | "compact" | "large"; showLabels: boolean }> = ({
   variant,
   showLabels,
-  inverted,
 }) => (
-  <span className={separatorVariants({ variant, showLabels, inverted })}>
+  <span className={separatorVariants({ variant, showLabels })}>
     :
   </span>
 );
@@ -61,7 +60,6 @@ export const Countdown: React.FC<CountdownProps> = ({
   onComplete,
   variant = "default",
   showLabels = true,
-  inverted = false,
   className = "",
 }) => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft(targetDate));
@@ -90,7 +88,7 @@ export const Countdown: React.FC<CountdownProps> = ({
   if (isComplete) {
     return (
       <div
-        className={expiredVariants({ variant, inverted, className })}
+        className={expiredVariants({ variant, className })}
         role="status"
         aria-live="polite"
         aria-atomic="true"
@@ -110,15 +108,15 @@ export const Countdown: React.FC<CountdownProps> = ({
     >
       {timeLeft.days > 0 && (
         <>
-          <TimeUnit value={timeLeft.days} label="Days" variant={variant} showLabels={showLabels} inverted={inverted} />
-          <Separator variant={variant} showLabels={showLabels} inverted={inverted} />
+          <TimeUnit value={timeLeft.days} label="Days" variant={variant} showLabels={showLabels} />
+          <Separator variant={variant} showLabels={showLabels} />
         </>
       )}
-      <TimeUnit value={timeLeft.hours} label="Hours" variant={variant} showLabels={showLabels} inverted={inverted} />
-      <Separator variant={variant} showLabels={showLabels} inverted={inverted} />
-      <TimeUnit value={timeLeft.minutes} label="Mins" variant={variant} showLabels={showLabels} inverted={inverted} />
-      <Separator variant={variant} showLabels={showLabels} inverted={inverted} />
-      <TimeUnit value={timeLeft.seconds} label="Secs" variant={variant} showLabels={showLabels} inverted={inverted} />
+      <TimeUnit value={timeLeft.hours} label="Hours" variant={variant} showLabels={showLabels} />
+      <Separator variant={variant} showLabels={showLabels} />
+      <TimeUnit value={timeLeft.minutes} label="Mins" variant={variant} showLabels={showLabels} />
+      <Separator variant={variant} showLabels={showLabels} />
+      <TimeUnit value={timeLeft.seconds} label="Secs" variant={variant} showLabels={showLabels} />
     </div>
   );
 };

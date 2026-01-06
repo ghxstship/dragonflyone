@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { type ReactNode } from 'react';
+import React, { type ReactNode, type ComponentType } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useProjects, useProject, useCreateProject, useUpdateProject, useDeleteProject } from '../useProjects';
 import { supabase } from '@/lib/supabase';
 
-// Mock Supabase client - uses any for test mock flexibility
+// Mock Supabase client
 vi.mock('@/lib/supabase', () => ({
   supabase: {
     from: vi.fn(() => ({
@@ -37,7 +36,7 @@ vi.mock('@/lib/supabase', () => ({
   },
 }));
 
-const createWrapper = () => {
+const createWrapper = (): ComponentType<{ children: ReactNode }> => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -73,7 +72,7 @@ describe('useProjects', () => {
     });
 
     const { result } = renderHook(() => useProjects(), {
-      wrapper: createWrapper() as any,
+      wrapper: createWrapper(),
     });
 
     await waitFor(() => {
@@ -95,7 +94,7 @@ describe('useProjects', () => {
     });
 
     const { result } = renderHook(() => useProjects({ status: 'active' }), {
-      wrapper: createWrapper() as any,
+      wrapper: createWrapper(),
     });
 
     await waitFor(() => {
@@ -113,7 +112,7 @@ describe('useProjects', () => {
     });
 
     const { result } = renderHook(() => useProjects(), {
-      wrapper: createWrapper() as any,
+      wrapper: createWrapper(),
     });
 
     await waitFor(() => {
@@ -135,7 +134,7 @@ describe('useProject', () => {
     });
 
     const { result } = renderHook(() => useProject('1'), {
-      wrapper: createWrapper() as any,
+      wrapper: createWrapper(),
     });
 
     await waitFor(() => {
@@ -147,7 +146,7 @@ describe('useProject', () => {
 
   it('should not fetch when id is empty', () => {
     const { result } = renderHook(() => useProject(''), {
-      wrapper: createWrapper() as any,
+      wrapper: createWrapper(),
     });
 
     expect(result.current.fetchStatus).toBe('idle');
@@ -168,7 +167,7 @@ describe('useCreateProject', () => {
     });
 
     const { result } = renderHook(() => useCreateProject(), {
-      wrapper: createWrapper() as any,
+      wrapper: createWrapper(),
     });
 
     result.current.mutate(newProject);
@@ -197,7 +196,7 @@ describe('useUpdateProject', () => {
     });
 
     const { result } = renderHook(() => useUpdateProject(), {
-      wrapper: createWrapper() as any,
+      wrapper: createWrapper(),
     });
 
     result.current.mutate(updates);
@@ -219,7 +218,7 @@ describe('useDeleteProject', () => {
     });
 
     const { result } = renderHook(() => useDeleteProject(), {
-      wrapper: createWrapper() as any,
+      wrapper: createWrapper(),
     });
 
     result.current.mutate('1');

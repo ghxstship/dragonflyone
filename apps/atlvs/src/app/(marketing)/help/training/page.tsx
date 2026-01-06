@@ -104,8 +104,8 @@ export default function TrainingPage() {
               <Grid cols={4} gap={8} className="grid-cols-2 md:grid-cols-4">
                 {TRAINING_STATS.map((stat, idx) => (
                   <Stack key={idx} gap={1} className="text-center">
-                    <Body className="text-white font-weight-bold text-h3-md">{stat.value}</Body>
-                    <Body className="text-white/80">{stat.label}</Body>
+                    <Body className="text-text-primary font-weight-bold text-h3-md">{stat.value}</Body>
+                    <Body className="text-text-primary/80">{stat.label}</Body>
                   </Stack>
                 ))}
               </Grid>
@@ -122,7 +122,7 @@ export default function TrainingPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Why Train With Us</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Learning Benefits</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Learning Benefits</Body>
                 </Stack>
                 <Grid cols={4} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                   {TRAINING_FEATURES.map((feature) => (
@@ -130,7 +130,7 @@ export default function TrainingPage() {
                       <Box className="p-3 bg-primary/20 rounded-card text-primary w-fit mx-auto mb-4">
                         {feature.icon}
                       </Box>
-                      <Body className="text-white font-weight-bold mb-2">{feature.title}</Body>
+                      <Body className="text-text-primary font-weight-bold mb-2">{feature.title}</Body>
                       <Body size="sm" className="text-text-muted">{feature.description}</Body>
                     </Card>
                   ))}
@@ -147,7 +147,7 @@ export default function TrainingPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Certification Paths</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Choose Your Track</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Choose Your Track</Body>
                   <Body className="text-text-muted max-w-2xl">Progress through our structured certification program to become an ATLVS expert.</Body>
                 </Stack>
 
@@ -162,7 +162,7 @@ export default function TrainingPage() {
                           </Badge>
                         </Box>
                         <Stack gap={2}>
-                          <Body className="text-white font-weight-bold text-h5-md">{track.title}</Body>
+                          <Body className="text-text-primary font-weight-bold text-h5-md">{track.title}</Body>
                           <Body size="sm" className="text-text-muted">{track.description}</Body>
                         </Stack>
                         <Box className="flex items-center gap-4 text-text-disabled">
@@ -203,7 +203,7 @@ export default function TrainingPage() {
               <Stack gap={8}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Live Learning</Body>
-                  <Body className="text-white font-weight-bold text-h3-md">Upcoming Workshops</Body>
+                  <Body className="text-text-primary font-weight-bold text-h3-md">Upcoming Workshops</Body>
                   <Body className="text-text-muted">Join live sessions with industry experts</Body>
                 </Stack>
 
@@ -216,7 +216,7 @@ export default function TrainingPage() {
                             <Video className="size-6 text-primary" />
                           </Box>
                           <Box>
-                            <Body className="text-white font-weight-medium">{workshop.title}</Body>
+                            <Body className="text-text-primary font-weight-medium">{workshop.title}</Body>
                             <Body size="sm" className="text-text-muted">{workshop.date} at {workshop.time}</Body>
                           </Box>
                         </Box>

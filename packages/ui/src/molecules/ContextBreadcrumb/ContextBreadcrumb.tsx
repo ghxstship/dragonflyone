@@ -112,7 +112,7 @@ export const ContextBreadcrumb = forwardRef<HTMLElement, ContextBreadcrumbProps>
     return (
       <nav
         ref={ref}
-        className={contextBreadcrumbVariants({ inverted, className })}
+        className={contextBreadcrumbVariants({ className })}
         onKeyDown={handleKeyDown}
         aria-label="Breadcrumb navigation"
         {...props}
@@ -127,7 +127,7 @@ export const ContextBreadcrumb = forwardRef<HTMLElement, ContextBreadcrumbProps>
         {/* Breadcrumb Levels */}
         <div className="flex items-center gap-2">
           {levels.map((level, index) => (
-            <div key={index} className={contextBreadcrumbLevelVariants({ inverted })}>
+            <div key={index} className={contextBreadcrumbLevelVariants({})}>
               {/* Dropdown */}
               <div 
                 ref={el => {
@@ -194,7 +194,7 @@ export const ContextBreadcrumb = forwardRef<HTMLElement, ContextBreadcrumbProps>
                           level.onSelect(item);
                           setOpenDropdowns({});
                         }}
-                        className={contextBreadcrumbMenuItemVariants({ inverted })}
+                        className={contextBreadcrumbMenuItemVariants({})}
                       >
                         {item.icon && (
                           <span className="w-4 h-4">{item.icon}</span>
@@ -231,7 +231,7 @@ export const ContextBreadcrumb = forwardRef<HTMLElement, ContextBreadcrumbProps>
 
               {/* Separator */}
               {index < levels.length - 1 && (
-                <div className={contextBreadcrumbSeparatorVariants({ inverted })}>
+                <div className={contextBreadcrumbSeparatorVariants({})}>
                   {separator || <ChevronDown className="w-4 h-4 rotate-270" />}
                 </div>
               )}

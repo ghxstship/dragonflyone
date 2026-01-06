@@ -10,11 +10,10 @@ export const dynamic = "force-dynamic";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, Ticket, Star, Shield } from "lucide-react";
+import { Mail, Lock } from "lucide-react";
 import {
   Button,
   Form,
-  AuthSplitLayout,
   AuthFormField,
   AuthPasswordInput,
   AuthCheckbox,
@@ -22,7 +21,7 @@ import {
   SocialAuthButtonGroup,
   useToast,
   Stack,
-  Text,
+  AuthPage,
 } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
 import { useAuthData } from "@/hooks/useAuth";
@@ -30,8 +29,8 @@ import { useAuthData } from "@/hooks/useAuth";
 export default function SignInPage() {
   const router = useRouter();
   const { login } = useAuthContext();
-  const toast = useToast();
   const { oauthSignIn } = useAuthData();
+  const toast = useToast();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -52,7 +51,7 @@ export default function SignInPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
-    
+
     setLoading(true);
     try {
       await login(email, password);
@@ -81,72 +80,60 @@ export default function SignInPage() {
   };
 
   return (
-    <AuthSplitLayout
+    <AuthPage
+      appName="GVTEWAY"
       title="Member Sign In"
       subtitle="Access your exclusive experiences and member benefits"
-      footer={{ text: "Not a member yet?", linkText: "Apply for Membership", linkHref: "/apply" }}
-      brandLogo={<Text className="font-display text-white text-h2-md uppercase tracking-display">GVTEWAY</Text>}
-      brandTagline="Your Gateway to Unforgettable Experiences"
-      brandFeatures={[
-        {
-          icon: <Ticket className="size-5 text-white" />,
-          title: "Exclusive Access",
-          description: "Priority tickets to sold-out events",
-        },
-        {
-          icon: <Star className="size-5 text-white" />,
-          title: "VIP Experiences",
-          description: "Behind-the-scenes and meet & greets",
-        },
-        {
-          icon: <Shield className="size-5 text-white" />,
-          title: "Member Benefits",
-          description: "Special discounts and early access",
-        },
-      ]}
-      testimonial={{
-        quote: "GVTEWAY gave me access to experiences I never thought possible.",
-        author: "Sarah Chen",
-        role: "Premium Member",
+      footer={{
+        text: "Not a member yet?",
+        linkText: "Apply for Membership",
+        linkHref: "/apply"
       }}
+      background="black"
+      copyright={`© ${new Date().getFullYear()} GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.`}
     >
       <Form onSubmit={handleSubmit}>
         <Stack gap={4}>
-          <AuthFormField
-            label="Email"
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setEmail(e.target.value);
-              if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
-            }}
-            errorMessage={errors.email}
-            icon={<Mail className="size-5" />}
-            autoComplete="email"
-            required
-          />
-
-          <AuthPasswordInput
-            label="Password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setPassword(e.target.value);
-              if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
-            }}
-            errorMessage={errors.password}
-            icon={<Lock className="size-5" />}
-            autoComplete="current-password"
-            required
-          />
-
-          <Stack direction="horizontal" className="items-center justify-between">
-            <AuthCheckbox
-              label="Remember me"
-              checked={rememberMe}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRememberMe(e.target.checked)}
+          <div>
+            <label className="block text-sm font-medium text-text-primary mb-2">Email</label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
+              }}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              required
             />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-text-primary mb-2">Password</label>
+            <AuthPasswordInput
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
+              }}
+              errorMessage={errors.password}
+              required
+            />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="mr-2"
+              />
+              <span className="text-sm text-text-primary">Remember me</span>
+            </label>
             <Button
               variant="ghost"
               size="sm"
@@ -156,7 +143,7 @@ export default function SignInPage() {
             >
               Forgot password?
             </Button>
-          </Stack>
+          </div>
 
           <Button
             type="submit"
@@ -169,7 +156,9 @@ export default function SignInPage() {
             Sign In
           </Button>
 
-          <AuthDivider />
+          <div className="text-center">
+            <span className="text-text-primary">or</span>
+          </div>
 
           <SocialAuthButtonGroup
             providers={["google", "apple"]}
@@ -183,12 +172,12 @@ export default function SignInPage() {
             size="sm"
             type="button"
             onClick={() => router.push("/auth/magic-link")}
-            className="text-text-muted hover:text-white"
+            className="text-text-muted hover:text-text-primary"
           >
             Sign in with magic link instead
           </Button>
         </Stack>
       </Form>
-    </AuthSplitLayout>
+    </AuthPage>
   );
 }

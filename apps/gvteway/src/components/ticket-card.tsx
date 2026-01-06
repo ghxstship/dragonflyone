@@ -1,6 +1,7 @@
 'use client';
 
 import { Card, H3, Body, Button, StatusBadge, Divider, Stack, Label } from '@ghxstship/ui';
+import { memo } from 'react';
 
 interface TicketCardProps {
   id: string;
@@ -13,7 +14,7 @@ interface TicketCardProps {
   status: 'valid' | 'used' | 'cancelled';
 }
 
-export function TicketCard({
+export const TicketCard = memo(function TicketCard({
   id,
   eventTitle,
   eventDate,
@@ -33,7 +34,7 @@ export function TicketCard({
 
   const getCardBorder = (status: 'valid' | 'used' | 'cancelled'): string => {
     switch (status) {
-      case 'valid': return 'border-black';
+      case 'valid': return 'border-border';
       case 'used': return 'border-border';
       case 'cancelled': return 'border-border';
     }
@@ -69,7 +70,7 @@ export function TicketCard({
         {qrCode && status === 'valid' && (
           <>
             <Divider />
-            <Stack className="flex h-32 w-32 items-center justify-center border-2 border-black bg-white">
+            <Stack className="flex h-32 w-32 items-center justify-center border-2 border-border bg-surface-primary">
               <Body className="text-mono-xs">QR Code</Body>
             </Stack>
           </>

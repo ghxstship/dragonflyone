@@ -6,7 +6,7 @@
  * Uses DetailPage template for consistent layout
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Download, FileText, Database, Calendar, Users, Clock, List, Settings } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -56,6 +56,33 @@ export default function ExportSettingsPage() {
 
   const currentOption = EXPORT_OPTIONS.find((o) => o.id === selectedExport);
 
+  // Extract inline functions to useCallback for better performance with memoized children
+  const handleSelectExportOption = useCallback((optionId: string, formats: string[]) => {
+    setSelectedExport(optionId);
+    setSelectedFormat(formats[0]);
+  }, []);
+
+  const handleStartExport = useCallback(() => {
+    exportMutation.mutate({
+      type: selectedExport,
+      format: selectedFormat,
+      dateFrom: dateFrom || undefined,
+      dateTo: dateTo || undefined
+    });
+  }, [exportMutation, selectedExport, selectedFormat, dateFrom, dateTo]);
+
+  const handleFormatChange = useCallback((value: string) => {
+    setSelectedFormat(value);
+  }, []);
+
+  const handleDateFromChange = useCallback((value: string) => {
+    setDateFrom(value);
+  }, []);
+
+  const handleDateToChange = useCallback((value: string) => {
+    setDateTo(value);
+  }, []);
+
   const tabs = [
     {
       id: "export",
@@ -69,10 +96,10 @@ export default function ExportSettingsPage() {
               <Card
                 key={option.id}
                 className={`p-4 cursor-pointer transition-colors ${selectedExport === option.id ? "border-primary" : ""}`}
-                onClick={() => { setSelectedExport(option.id); setSelectedFormat(option.formats[0]); }}
+                onClick={() => handleSelectExportOption(option.id, option.formats)}
               >
                 <Box className="flex items-start gap-3">
-                  <Box className={`p-2 rounded-card ${selectedExport === option.id ? "bg-primary text-white" : "bg-surface-elevated text-text-muted"}`}>
+                  <Box className={`p-2 rounded-card ${selectedExport === option.id ? "bg-primary text-text-primary" : "bg-surface-elevated text-text-muted"}`}>
                     {option.icon}
                   </Box>
                   <Box className="flex-1">
@@ -94,7 +121,7 @@ export default function ExportSettingsPage() {
             <Grid cols={3} gap={4} className="grid-cols-1 md:grid-cols-3 mt-4">
               <Box>
                 <Body size="sm" className="text-text-muted mb-1">Format</Body>
-                <Select value={selectedFormat} onChange={(e) => setSelectedFormat(e.target.value)}>
+                <Select value={selectedFormat} onChange={(e) => handleFormatChange(e.target.value)}>
                   {currentOption?.formats.map((fmt) => (
                     <option key={fmt} value={fmt}>{fmt.toUpperCase()}</option>
                   ))}
@@ -102,18 +129,18 @@ export default function ExportSettingsPage() {
               </Box>
               <Box>
                 <Body size="sm" className="text-text-muted mb-1">From Date (Optional)</Body>
-                <Input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} />
+                <Input type="date" value={dateFrom} onChange={(e) => handleDateFromChange(e.target.value)} />
               </Box>
               <Box>
                 <Body size="sm" className="text-text-muted mb-1">To Date (Optional)</Body>
-                <Input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} />
+                <Input type="date" value={dateTo} onChange={(e) => handleDateToChange(e.target.value)} />
               </Box>
             </Grid>
           </Card>
 
           <Button
             variant="solid"
-            onClick={() => exportMutation.mutate({ type: selectedExport, format: selectedFormat, dateFrom: dateFrom || undefined, dateTo: dateTo || undefined })}
+            onClick={handleStartExport}
             disabled={exportMutation.isPending}
             icon={<Download className="size-4" />}
             iconPosition="left"
@@ -142,6 +169,9 @@ export default function ExportSettingsPage() {
 
   return (
     <DetailPage
+      entityType="user-settings"
+      entityId="export"
+      entitySelector={() => ({ id: "export" })}
       header={{ kicker: "Settings", title: "Export Data", description: "Export your data in various formats" }}
       backButton={{ label: "Settings", href: "/settings" }}
       tabs={tabs}

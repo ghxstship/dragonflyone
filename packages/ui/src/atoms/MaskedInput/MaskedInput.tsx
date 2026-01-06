@@ -161,7 +161,7 @@ export const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
         placeholder={defaultPlaceholder}
         className={clsx(
           maskedInputVariants({
-            inverted,
+            
             error,
             className,
           })

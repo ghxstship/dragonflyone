@@ -44,15 +44,15 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(
     return (
       <div 
         ref={ref} 
-        className={fieldVariants({ inverted, className })} 
+        className={fieldVariants({ className })} 
         {...props}
       >
         {/* Label */}
         {label && (
-          <label className={fieldLabelVariants({ inverted })}>
+          <label className={fieldLabelVariants({})}>
             {label}
             {required && (
-              <span className={fieldRequiredVariants({ inverted })}>
+              <span className={fieldRequiredVariants({})}>
                 *
               </span>
             )}
@@ -64,13 +64,13 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(
 
         {/* Hint or Error Message */}
         {hint && !error && (
-          <span className={fieldHintVariants({ inverted })}>
+          <span className={fieldHintVariants({})}>
             {hint}
           </span>
         )}
 
         {error && (
-          <span className={fieldErrorVariants({ inverted })}>
+          <span className={fieldErrorVariants({})}>
             {error}
           </span>
         )}

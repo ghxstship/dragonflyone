@@ -103,7 +103,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
     // Loading state
     if (loading) {
       return (
-        <div ref={ref} className={clsx(detailPageVariants({ inverted, loading: true }), className)}>
+        <div ref={ref} className={clsx(detailPageVariants({ loading: true }), className)}>
           <a
             href={`#${mainContentId}`}
             className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-skip-link focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-badge focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
@@ -142,7 +142,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
     // Error state
     if (error) {
       return (
-        <div ref={ref} className={clsx(detailPageVariants({ inverted, error: true }), className)}>
+        <div ref={ref} className={clsx(detailPageVariants({ error: true }), className)}>
           <a
             href={`#${mainContentId}`}
             className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-skip-link focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-badge focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
@@ -186,7 +186,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
     // Not found state
     if (notFound) {
       return (
-        <div ref={ref} className={clsx(detailPageVariants({ inverted, notFound }), className)}>
+        <div ref={ref} className={clsx(detailPageVariants({ notFound }), className)}>
           <a
             href={`#${mainContentId}`}
             className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-skip-link focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-badge focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
@@ -230,7 +230,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
     // Offline state
     if (offline) {
       return (
-        <div ref={ref} className={clsx(detailPageVariants({ inverted, offline }), className)}>
+        <div ref={ref} className={clsx(detailPageVariants({ offline }), className)}>
           <a
             href={`#${mainContentId}`}
             className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-skip-link focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-badge focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
@@ -272,7 +272,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
     // Restricted state
     if (restricted) {
       return (
-        <div ref={ref} className={clsx(detailPageVariants({ inverted, restricted }), className)}>
+        <div ref={ref} className={clsx(detailPageVariants({ restricted }), className)}>
           <a
             href={`#${mainContentId}`}
             className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-skip-link focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-badge focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
@@ -347,7 +347,6 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
           <TabsPanel
             key={tab.id}
             value={tab.id}
-            inverted={inverted}
             role="tabpanel"
             aria-labelledby={`tab-${tab.id}`}
           >
@@ -368,7 +367,7 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
     );
 
     return (
-      <div ref={ref} className={clsx(detailPageVariants({ inverted }), className)}>
+      <div ref={ref} className={clsx(detailPageVariants({}), className)}>
         {/* Skip to main content link */}
         <a
           href={`#${mainContentId}`}
@@ -394,7 +393,6 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
                     <Button
                       variant="ghost"
                       size="sm"
-                      inverted={inverted}
                       onClick={backButton.onClick}
                       className="group"
                     >
@@ -412,7 +410,6 @@ export const DetailPage = forwardRef<HTMLDivElement, DetailPageProps>(
                     kicker={header.kicker}
                     title={header.title}
                     description={header.description}
-                    inverted={inverted}
                     size="md"
                   />
                   {header.badge && <div className="mt-2">{header.badge}</div>}

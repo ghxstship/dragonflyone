@@ -75,15 +75,15 @@ export function QuickAddFab({
 
   return (
     <div 
-      className={quickAddFabVariants({ position, inverted, className })}
+      className={quickAddFabVariants({ position, className })}
       onKeyDown={handleKeyDown}
     >
       {/* Actions */}
-      <div className={quickAddFabActionsContainerVariants({ expanded, inverted })}>
+      <div className={quickAddFabActionsContainerVariants({ expanded })}>
         {actions.map((action, index) => (
           <button
             key={action.id}
-            className={quickAddFabActionVariants({ inverted })}
+            className={quickAddFabActionVariants({})}
             onClick={() => handleActionClick(action)}
             style={{
               animationDelay: expanded ? `${index * 50}ms` : '0ms',
@@ -101,7 +101,7 @@ export function QuickAddFab({
             </div>
             
             {/* Action Label */}
-            <span className={quickAddFabActionLabelVariants({ inverted })}>
+            <span className={quickAddFabActionLabelVariants({})}>
               {action.label}
             </span>
           </button>
@@ -110,14 +110,14 @@ export function QuickAddFab({
 
       {/* Main FAB Button */}
       <button
-        className={quickAddFabMainButtonVariants({ expanded, inverted })}
+        className={quickAddFabMainButtonVariants({ expanded })}
         onClick={handleToggle}
         title={expanded ? "Close quick add" : "Open quick add"}
         aria-label={expanded ? "Close quick add" : "Open quick add"}
         aria-expanded={expanded}
         aria-haspopup="true"
       >
-        <div className={quickAddFabIconVariants({ inverted })}>
+        <div className={quickAddFabIconVariants({})}>
           {expanded ? <X className="w-6 h-6" /> : <Plus className="w-6 h-6" />}
         </div>
       </button>

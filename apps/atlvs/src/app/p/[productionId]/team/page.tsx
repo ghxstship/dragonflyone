@@ -94,7 +94,7 @@ export default function ProductionTeamPage() {
             {filteredTeam.map((member: TeamMember) => (
               <Card key={member.id} className="p-6">
                 <Box className="flex items-start gap-4">
-                  <Box className="size-12 bg-primary rounded-avatar flex items-center justify-center text-white font-weight-bold">
+                  <Box className="size-12 bg-primary rounded-avatar flex items-center justify-center text-text-primary font-weight-bold">
                     {member.avatar}
                   </Box>
                   <Box className="flex-1">

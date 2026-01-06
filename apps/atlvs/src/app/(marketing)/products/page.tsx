@@ -104,7 +104,7 @@ export default function ProductsPage() {
               <Stack gap={12}>
                 <Stack gap={4} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Our Products</Body>
-                  <H3 className="text-white">Choose Your Solution</H3>
+                  <H3 className="text-text-primary">Choose Your Solution</H3>
                   <Body className="text-text-muted max-w-2xl">Each product is powerful on its own, but together they create an unmatched production management ecosystem.</Body>
                 </Stack>
 
@@ -121,7 +121,7 @@ export default function ProductsPage() {
                         </Box>
 
                         <Stack gap={2}>
-                          <Body className="text-white font-weight-bold text-h5-md">{product.name}</Body>
+                          <Body className="text-text-primary font-weight-bold text-h5-md">{product.name}</Body>
                           <Body className="text-primary font-weight-medium">{product.tagline}</Body>
                           <Body className="text-text-muted">{product.description}</Body>
                         </Stack>
@@ -137,7 +137,7 @@ export default function ProductsPage() {
 
                         <Button
                           variant="outline"
-                          className="w-full group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors"
+                          className="w-full group-hover:bg-primary group-hover:text-text-primary group-hover:border-primary transition-colors"
                           icon={<ArrowRight className="size-4" />}
                           iconPosition="right"
                         >
@@ -174,7 +174,7 @@ export default function ProductsPage() {
               <Card className="p-12 border-2 border-primary/30 rounded-card bg-gradient-to-br from-primary/10 to-secondary/10">
                 <Stack gap={6} className="text-center items-center">
                   <Body className="text-primary uppercase tracking-kicker font-weight-semibold">Best Value</Body>
-                  <H3 className="text-white">Get the Complete GHXSTSHIP Suite</H3>
+                  <H3 className="text-text-primary">Get the Complete GHXSTSHIP Suite</H3>
                   <Body className="text-text-secondary max-w-2xl">
                     Bundle all three products and save 30%. Perfect for organizations that need end-to-end event management.
                   </Body>

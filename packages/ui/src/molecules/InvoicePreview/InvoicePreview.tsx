@@ -72,26 +72,26 @@ export function InvoicePreview({
   };
 
   return (
-    <div className={invoicePreviewVariants({ inverted, className })}>
+    <div className={invoicePreviewVariants({ className })}>
       {/* Header */}
-      <div className={invoicePreviewHeaderVariants({ inverted })}>
-        <div className={invoicePreviewCompanyInfoVariants({ inverted })}>
+      <div className={invoicePreviewHeaderVariants({})}>
+        <div className={invoicePreviewCompanyInfoVariants({})}>
           {/* Logo */}
           {organization.logo_url && (
             <img
               src={organization.logo_url}
               alt={`${organization.name} logo`}
-              className={invoicePreviewLogoVariants({ inverted })}
+              className={invoicePreviewLogoVariants({})}
             />
           )}
           
           {/* Company Details */}
-          <div className={invoicePreviewCompanyDetailsVariants({ inverted })}>
-            <div className={invoicePreviewCompanyNameVariants({ inverted })}>
+          <div className={invoicePreviewCompanyDetailsVariants({})}>
+            <div className={invoicePreviewCompanyNameVariants({})}>
               {organization.name}
             </div>
             {organization.address && (
-              <div className={invoicePreviewCompanyAddressVariants({ inverted })}>
+              <div className={invoicePreviewCompanyAddressVariants({})}>
                 {organization.address}
                 {organization.city && organization.city && (
                   <>, {organization.city}</>
@@ -105,7 +105,7 @@ export function InvoicePreview({
               </div>
             )}
             {(organization.phone || organization.email) && (
-              <div className={invoicePreviewCompanyAddressVariants({ inverted })}>
+              <div className={invoicePreviewCompanyAddressVariants({})}>
                 {organization.phone && (
                   <div>{organization.phone}</div>
                 )}
@@ -119,10 +119,10 @@ export function InvoicePreview({
       </div>
 
       {/* Content */}
-      <div className={invoicePreviewContentVariants({ inverted })}>
+      <div className={invoicePreviewContentVariants({})}>
         {/* Invoice Info */}
-        <div className={invoicePreviewSectionVariants({ inverted })}>
-          <h3 className={invoicePreviewSectionTitleVariants({ inverted })}>
+        <div className={invoicePreviewSectionVariants({})}>
+          <h3 className={invoicePreviewSectionTitleVariants({})}>
             INVOICE #{invoice.invoice_number}
           </h3>
           <div className={`text-sm ${inverted ? 'text-text-secondary-inverse' : 'text-text-secondary'}`}>
@@ -137,8 +137,8 @@ export function InvoicePreview({
         </div>
 
         {/* Bill To */}
-        <div className={invoicePreviewSectionVariants({ inverted })}>
-          <h3 className={invoicePreviewSectionTitleVariants({ inverted })}>
+        <div className={invoicePreviewSectionVariants({})}>
+          <h3 className={invoicePreviewSectionTitleVariants({})}>
             BILL TO
           </h3>
           <div className={`text-lg font-bold ${inverted ? 'text-text-inverse' : 'text-text-primary'}`}>
@@ -176,24 +176,24 @@ export function InvoicePreview({
         </div>
 
         {/* Line Items Table */}
-        <div className={invoicePreviewSectionVariants({ inverted })}>
-          <h3 className={invoicePreviewSectionTitleVariants({ inverted })}>
+        <div className={invoicePreviewSectionVariants({})}>
+          <h3 className={invoicePreviewSectionTitleVariants({})}>
             LINE ITEMS
           </h3>
-          <div className={invoicePreviewTableVariants({ inverted })}>
+          <div className={invoicePreviewTableVariants({})}>
             <table className="w-full">
               <thead>
-                <tr className={invoicePreviewTableHeaderVariants({ inverted })}>
-                  <th className={invoicePreviewTableCellVariants({ inverted })}>
+                <tr className={invoicePreviewTableHeaderVariants({})}>
+                  <th className={invoicePreviewTableCellVariants({})}>
                     DESCRIPTION
                   </th>
-                  <th className={`text-right ${invoicePreviewTableCellVariants({ inverted })}`}>
+                  <th className={`text-right ${invoicePreviewTableCellVariants({})}`}>
                     QUANTITY
                   </th>
-                  <th className={`text-right ${invoicePreviewTableCellVariants({ inverted })}`}>
+                  <th className={`text-right ${invoicePreviewTableCellVariants({})}`}>
                     UNIT PRICE
                   </th>
-                  <th className={`text-right ${invoicePreviewTableCellVariants({ inverted })}`}>
+                  <th className={`text-right ${invoicePreviewTableCellVariants({})}`}>
                     TOTAL
                   </th>
                 </tr>
@@ -201,16 +201,16 @@ export function InvoicePreview({
               <tbody>
                 {invoice.line_items.map((item) => (
                   <tr key={item.id}>
-                    <td className={invoicePreviewTableCellVariants({ inverted })}>
+                    <td className={invoicePreviewTableCellVariants({})}>
                       {item.description}
                     </td>
-                    <td className={`text-right ${invoicePreviewTableCellVariants({ inverted })}`}>
+                    <td className={`text-right ${invoicePreviewTableCellVariants({})}`}>
                       {item.quantity}
                     </td>
-                    <td className={`text-right ${invoicePreviewTableCellVariants({ inverted })}`}>
+                    <td className={`text-right ${invoicePreviewTableCellVariants({})}`}>
                       {formatCurrency(item.unit_price)}
                     </td>
-                    <td className={`text-right font-bold ${invoicePreviewTableCellVariants({ inverted })}`}>
+                    <td className={`text-right font-bold ${invoicePreviewTableCellVariants({})}`}>
                       {formatCurrency(item.total)}
                     </td>
                   </tr>
@@ -221,79 +221,79 @@ export function InvoicePreview({
         </div>
 
         {/* Totals */}
-        <div className={invoicePreviewTotalsVariants({ inverted })}>
-          <div className={invoicePreviewTotalRowVariants({ inverted })}>
-            <span className={invoicePreviewTotalLabelVariants({ inverted })}>
+        <div className={invoicePreviewTotalsVariants({})}>
+          <div className={invoicePreviewTotalRowVariants({})}>
+            <span className={invoicePreviewTotalLabelVariants({})}>
               Subtotal
             </span>
-            <span className={invoicePreviewTotalValueVariants({ inverted })}>
+            <span className={invoicePreviewTotalValueVariants({})}>
               {formatCurrency(invoice.subtotal)}
             </span>
           </div>
 
           {invoice.tax_amount > 0 && (
-            <div className={invoicePreviewTotalRowVariants({ inverted })}>
-              <span className={invoicePreviewTotalLabelVariants({ inverted })}>
+            <div className={invoicePreviewTotalRowVariants({})}>
+              <span className={invoicePreviewTotalLabelVariants({})}>
                 Tax ({(invoice.tax_rate * 100).toFixed(1)}%)
               </span>
-              <span className={invoicePreviewTotalValueVariants({ inverted })}>
+              <span className={invoicePreviewTotalValueVariants({})}>
                 {formatCurrency(invoice.tax_amount)}
               </span>
             </div>
           )}
 
           {invoice.service_charge_amount && invoice.service_charge_amount > 0 && (
-            <div className={invoicePreviewTotalRowVariants({ inverted })}>
-              <span className={invoicePreviewTotalLabelVariants ({ inverted })}>
+            <div className={invoicePreviewTotalRowVariants({})}>
+              <span className={invoicePreviewTotalLabelVariants ({})}>
                 Service Charge ({(invoice.service_charge_rate! * 100).toFixed(1)}%)
               </span>
-              <span className={invoicePreviewTotalValueVariants ({ inverted })}>
+              <span className={invoicePreviewTotalValueVariants ({})}>
                 {formatCurrency(invoice.service_charge_amount)}
               </span>
             </div>
           )}
 
           {invoice.discount_amount && invoice.discount_amount > 0 && (
-            <div className={invoicePreviewTotalRowVariants ({ inverted })}>
-              <span className={invoicePreviewTotalLabelVariants ({ inverted })}>
+            <div className={invoicePreviewTotalRowVariants ({})}>
+              <span className={invoicePreviewTotalLabelVariants ({})}>
                 Discount
               </span>
-              <span className={invoicePreviewTotalValueVariants ({ inverted })}>
+              <span className={invoicePreviewTotalValueVariants ({})}>
                 -{formatCurrency(invoice.discount_amount)}
               </span>
             </div>
           )}
 
-          <div className={invoicePreviewTotalRowVariants ({ inverted })}>
-            <span className={`text-lg font-bold ${invoicePreviewTotalLabelVariants ({ inverted })}`}>
+          <div className={invoicePreviewTotalRowVariants ({})}>
+            <span className={`text-lg font-bold ${invoicePreviewTotalLabelVariants ({})}`}>
               TOTAL
             </span>
-            <span className={`text-xl font-bold ${invoicePreviewTotalValueVariants ({ inverted })}`}>
+            <span className={`text-xl font-bold ${invoicePreviewTotalValueVariants ({})}`}>
               {formatCurrency(invoice.total_amount)}
             </span>
           </div>
 
           {invoice.amount_paid && invoice.amount_paid > 0 && (
-            <div className={invoicePreviewTotalRowVariants ({ inverted })}>
-              <span className={invoicePreviewTotalLabelVariants ({ inverted })}>
+            <div className={invoicePreviewTotalRowVariants ({})}>
+              <span className={invoicePreviewTotalLabelVariants ({})}>
                 Amount Paid
               </span>
-              <span className={invoicePreviewTotalValueVariants ({ inverted })}>
+              <span className={invoicePreviewTotalValueVariants ({})}>
                 {formatCurrency(invoice.amount_paid)}
               </span>
             </div>
           )}
 
           {invoice.balance_due && invoice.balance_due > 0 && (
-            <div className={invoicePreviewTotalRowVariants ({ inverted })}>
-              <span className={`text-lg font-bold ${invoicePreviewTotalLabelVariants ({ inverted })}`}>
+            <div className={invoicePreviewTotalRowVariants ({})}>
+              <span className={`text-lg font-bold ${invoicePreviewTotalLabelVariants ({})}`}>
                 Balance Due
               </span>
               <span className={`text-xl font-bold ${
                 invoice.balance_due > 0 
                   ? "text-error-600" 
                   : "text-success-600"
-              } ${invoicePreviewTotalValueVariants ({ inverted })}`}>
+              } ${invoicePreviewTotalValueVariants ({})}`}>
                 {formatCurrency(invoice.balance_due)}
               </span>
             </div>
@@ -303,13 +303,13 @@ export function InvoicePreview({
 
       {/* Footer */}
       {(invoice.notes || invoice.terms) && (
-        <div className={invoicePreviewFooterVariants ({ inverted })}>
+        <div className={invoicePreviewFooterVariants ({})}>
           {invoice.notes && (
             <div>
-              <h4 className={invoicePreviewSectionTitleVariants ({ inverted })}>
+              <h4 className={invoicePreviewSectionTitleVariants ({})}>
                 NOTES
               </h4>
-              <p className={invoicePreviewNotesVariants ({ inverted })}>
+              <p className={invoicePreviewNotesVariants ({})}>
                 {invoice.notes}
               </p>
             </div>
@@ -317,10 +317,10 @@ export function InvoicePreview({
           
           {invoice.terms && (
             <div>
-              <h4 className={invoicePreviewSectionTitleVariants ({ inverted })}>
+              <h4 className={invoicePreviewSectionTitleVariants ({})}>
                 TERMS
               </h4>
-              <p className={invoicePreviewTermsVariants ({ inverted })}>
+              <p className={invoicePreviewTermsVariants ({})}>
                 {invoice.terms}
               </p>
             </div>

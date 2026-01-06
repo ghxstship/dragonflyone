@@ -155,7 +155,7 @@ export const AIChatInput = forwardRef<HTMLFormElement, AIChatInputProps>(
     const isAtLimit = maxLength && charCount >= maxLength;
 
     return (
-      <div className={aiChatInputVariants({ inverted, className })}>
+      <div className={aiChatInputVariants({ className })}>
         <form
           ref={ref}
           className={aiChatInputFormVariants({ 
@@ -168,7 +168,7 @@ export const AIChatInput = forwardRef<HTMLFormElement, AIChatInputProps>(
         >
           {/* Left Actions */}
           {leftActions && (
-            <div className={aiChatInputActionsVariants({ inverted })}>
+            <div className={aiChatInputActionsVariants({})}>
               {leftActions}
             </div>
           )}
@@ -184,14 +184,14 @@ export const AIChatInput = forwardRef<HTMLFormElement, AIChatInputProps>(
             placeholder={placeholder}
             disabled={disabled || isLoading}
             maxLength={maxLength}
-            className={aiChatInputTextareaVariants({ inverted })}
+            className={aiChatInputTextareaVariants({})}
             rows={1}
             aria-label="Message input"
           />
 
           {/* Right Actions */}
           {rightActions && (
-            <div className={aiChatInputActionsVariants({ inverted })}>
+            <div className={aiChatInputActionsVariants({})}>
               {rightActions}
             </div>
           )}
@@ -210,7 +210,7 @@ export const AIChatInput = forwardRef<HTMLFormElement, AIChatInputProps>(
 
         {/* Suggestions */}
         {suggestions && (
-          <div className={aiChatInputSuggestionsVariants({ inverted })}>
+          <div className={aiChatInputSuggestionsVariants({})}>
             {suggestions}
           </div>
         )}
