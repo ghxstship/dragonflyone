@@ -2,10 +2,10 @@
  * UI v2 Components - Styled Brand-Aware Components
  *
  * Components include:
- * - Data: Card, Badge, (List, Table, Chip - coming soon)
- * - Feedback: Alert, EmptyState, (Toast, Banner, ErrorBoundary - coming soon)
+ * - Data: Card, Badge, List, (Table, Chip - coming soon)
+ * - Feedback: Alert, EmptyState, Banner, (Toast, ErrorBoundary - coming soon)
  * - Form: Field, ButtonGroup, (FormGroup, Fieldset, Menu - coming soon)
- * - Navigation: (Nav, Sidebar, Breadcrumb, Tabs, Pagination - coming soon)
+ * - Navigation: Breadcrumb, Tabs, Pagination, (Nav, Sidebar - coming soon)
  * - Overlay: (Dialog, Popover, Tooltip, Dropdown, Sheet - coming soon)
  */
 
@@ -26,6 +26,9 @@ export type {
 export { Badge } from './badge';
 export type { BadgeProps } from './badge';
 
+export { List, ListItem } from './list';
+export type { ListProps, ListItemProps } from './list';
+
 // =============================================================================
 // Feedback Components
 // =============================================================================
@@ -35,6 +38,22 @@ export type { AlertProps } from './alert';
 
 export { EmptyState } from './empty-state';
 export type { EmptyStateProps } from './empty-state';
+
+export { Banner } from './banner';
+export type { BannerProps } from './banner';
+
+// =============================================================================
+// Navigation Components
+// =============================================================================
+
+export { Breadcrumb } from './breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem } from './breadcrumb';
+
+export { Tabs } from './tabs';
+export type { TabsProps, Tab } from './tabs';
+
+export { Pagination } from './pagination';
+export type { PaginationProps } from './pagination';
 
 // =============================================================================
 // Form Components
