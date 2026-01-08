@@ -1,13 +1,41 @@
 /**
- * UI v2 Patterns - Page-Level Layouts
+ * UI v2 Patterns - Opinionated Complete Components
  *
- * Patterns will include:
- * - Shell: AppShell, PageHeader, PageContent, PageFooter
+ * Phase 4 In Progress - Pattern Components:
+ * - App Shell: AppShell, PageHeader, PageContent, PageFooter
  * - Auth: SignInForm, SignUpForm, ResetPasswordForm, MFAForm
- * - Lists: ListPage, GridPage, BoardPage
- * - Details: DetailPage, EditPage, CreatePage
- * - Dashboard: DashboardGrid, WidgetContainer, StatCard
+ * - Pages: (coming soon)
+ * - Dashboard: (coming soon)
  */
 
-// TODO: Implement patterns in Phase 4
-export {};
+// =============================================================================
+// App Shell Patterns
+// =============================================================================
+
+export { AppShell } from './app-shell';
+export type { AppShellProps } from './app-shell';
+
+export { PageHeader } from './page-header';
+export type { PageHeaderProps } from './page-header';
+
+export { PageContent } from './page-content';
+export type { PageContentProps } from './page-content';
+
+export { PageFooter } from './page-footer';
+export type { PageFooterProps, FooterLink } from './page-footer';
+
+// =============================================================================
+// Auth Patterns
+// =============================================================================
+
+export { SignInForm } from './sign-in-form';
+export type { SignInFormProps } from './sign-in-form';
+
+export { SignUpForm } from './sign-up-form';
+export type { SignUpFormProps, SignUpFormData } from './sign-up-form';
+
+export { ResetPasswordForm } from './reset-password-form';
+export type { ResetPasswordFormProps } from './reset-password-form';
+
+export { MFAForm } from './mfa-form';
+export type { MFAFormProps } from './mfa-form';
