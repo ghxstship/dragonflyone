@@ -6,7 +6,7 @@
  * - Feedback: Alert, EmptyState, Banner, (Toast, ErrorBoundary - coming soon)
  * - Form: Field, ButtonGroup, (FormGroup, Fieldset, Menu - coming soon)
  * - Navigation: Breadcrumb, Tabs, Pagination, (Nav, Sidebar - coming soon)
- * - Overlay: (Dialog, Popover, Tooltip, Dropdown, Sheet - coming soon)
+ * - Overlay: Dialog, Tooltip, Dropdown, (Popover, Sheet - coming soon)
  */
 
 // =============================================================================
@@ -64,3 +64,16 @@ export type { FieldProps } from './field';
 
 export { ButtonGroup } from './button-group';
 export type { ButtonGroupProps } from './button-group';
+
+// =============================================================================
+// Overlay Components
+// =============================================================================
+
+export { Dialog } from './dialog';
+export type { DialogProps } from './dialog';
+
+export { Tooltip } from './tooltip';
+export type { TooltipProps } from './tooltip';
+
+export { Dropdown } from './dropdown';
+export type { DropdownProps, DropdownItem } from './dropdown';
