@@ -1,0 +1,360 @@
+{
+  "$schema": "./component-mapping-schema.json",
+  "version": "2.0.0",
+  "mappings": {
+    "primitives": {
+      "Button": {
+        "v2Component": "Button",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "size": {
+            "large": "lg",
+            "small": "sm",
+            "medium": "md"
+          },
+          "isLoading": "loading",
+          "isDisabled": "disabled"
+        },
+        "notes": "Size prop values changed. Boolean props simplified."
+      },
+      "Input": {
+        "v2Component": "Input",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "size": {
+            "large": "lg",
+            "small": "sm",
+            "medium": "md"
+          },
+          "isInvalid": "error",
+          "isDisabled": "disabled",
+          "isReadOnly": "readOnly"
+        },
+        "notes": "Error prop now accepts string instead of boolean."
+      },
+      "Textarea": {
+        "v2Component": "Textarea",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "size": {
+            "large": "lg",
+            "small": "sm",
+            "medium": "md"
+          },
+          "isInvalid": "error",
+          "isDisabled": "disabled",
+          "isReadOnly": "readOnly"
+        }
+      },
+      "Checkbox": {
+        "v2Component": "Checkbox",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "isChecked": "checked",
+          "isDisabled": "disabled",
+          "isIndeterminate": "indeterminate"
+        }
+      },
+      "Radio": {
+        "v2Component": "Radio",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "isChecked": "checked",
+          "isDisabled": "disabled"
+        }
+      },
+      "Switch": {
+        "v2Component": "Switch",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "isChecked": "checked",
+          "isDisabled": "disabled"
+        }
+      },
+      "Select": {
+        "v2Component": "Select",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "size": {
+            "large": "lg",
+            "small": "sm",
+            "medium": "md"
+          },
+          "isInvalid": "error",
+          "isDisabled": "disabled"
+        }
+      },
+      "Text": {
+        "v2Component": "Text",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "fontSize": "size",
+          "fontWeight": "weight"
+        },
+        "notes": "Now supports polymorphic 'as' prop."
+      },
+      "Heading": {
+        "v2Component": "Heading",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "as": "level",
+          "fontSize": "size"
+        },
+        "notes": "Use 'level' prop for semantic HTML (1-6)."
+      },
+      "Box": {
+        "v2Component": "Box",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "notes": "Enhanced with polymorphic 'as' prop."
+      },
+      "VStack": {
+        "v2Component": "Stack",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "spacing": "gap"
+        },
+        "additionalProps": {
+          "direction": "vertical"
+        },
+        "notes": "Consolidated into Stack component with direction='vertical'."
+      },
+      "HStack": {
+        "v2Component": "Stack",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "spacing": "gap"
+        },
+        "additionalProps": {
+          "direction": "horizontal"
+        },
+        "notes": "Consolidated into Stack component with direction='horizontal'."
+      },
+      "Grid": {
+        "v2Component": "Grid",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "templateColumns": "columns",
+          "gap": "gap"
+        }
+      },
+      "Flex": {
+        "v2Component": "Flex",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "notes": "Enhanced API with gap, align, justify props."
+      },
+      "Container": {
+        "v2Component": "Container",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "maxW": "maxWidth"
+        }
+      },
+      "Divider": {
+        "v2Component": "Separator",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "notes": "Renamed to Separator for clarity."
+      },
+      "Spinner": {
+        "v2Component": "Spinner",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "size": {
+            "xs": "sm",
+            "xl": "lg"
+          }
+        }
+      },
+      "Progress": {
+        "v2Component": "Progress",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "size": {
+            "xs": "sm",
+            "xl": "lg"
+          }
+        }
+      },
+      "Avatar": {
+        "v2Component": "Avatar",
+        "v2ImportPath": "@ghxstship/ui-v2/primitives",
+        "propChanges": {
+          "size": {
+            "xs": "sm",
+            "2xl": "xl"
+          }
+        }
+      }
+    },
+    "compositions": {
+      "Card": {
+        "v2Component": "Card",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "compoundComponents": {
+          "title": "Card.Title",
+          "subtitle": "Card.Description",
+          "header": "Card.Header",
+          "body": "Card.Content",
+          "footer": "Card.Footer"
+        },
+        "notes": "Now uses compound component pattern. Convert prop-based API to compound components."
+      },
+      "Badge": {
+        "v2Component": "Badge",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "propChanges": {
+          "colorScheme": "variant",
+          "size": {
+            "xs": "sm",
+            "xl": "lg"
+          }
+        }
+      },
+      "Alert": {
+        "v2Component": "Alert",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "propChanges": {
+          "status": "variant"
+        },
+        "notes": "Added 'title' prop for better structure."
+      },
+      "Modal": {
+        "v2Component": "Dialog",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "propChanges": {
+          "isOpen": "open"
+        },
+        "removedComponents": ["ModalOverlay", "ModalContent", "ModalHeader", "ModalBody", "ModalFooter"],
+        "notes": "Renamed to Dialog. Simplified API without separate overlay/content components."
+      },
+      "Tooltip": {
+        "v2Component": "Tooltip",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "propChanges": {
+          "placement": "placement",
+          "hasArrow": "arrow"
+        }
+      },
+      "Menu": {
+        "v2Component": "Menu",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "propChanges": {
+          "isOpen": "open"
+        },
+        "notes": "Simplified menu API. MenuItem structure changed."
+      },
+      "Tabs": {
+        "v2Component": "Tabs",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "propChanges": {
+          "variant": "variant",
+          "colorScheme": null
+        },
+        "notes": "Added variants: line, enclosed, pills."
+      },
+      "Table": {
+        "v2Component": "Table",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "notes": "Complete rewrite. Now uses TypeScript generics and column definition objects."
+      },
+      "Breadcrumb": {
+        "v2Component": "Breadcrumb",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "notes": "API simplified with items array instead of BreadcrumbItem children."
+      },
+      "FormControl": {
+        "v2Component": "Field",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "propChanges": {
+          "isInvalid": "error",
+          "isRequired": "required"
+        },
+        "removedComponents": ["FormLabel", "FormHelperText", "FormErrorMessage"],
+        "notes": "Consolidated into Field component with label, hint, and error props."
+      },
+      "FormLabel": {
+        "v2Component": "Field",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "propPart": "label",
+        "notes": "Use Field component with label prop."
+      },
+      "FormHelperText": {
+        "v2Component": "Field",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "propPart": "hint",
+        "notes": "Use Field component with hint prop."
+      },
+      "FormErrorMessage": {
+        "v2Component": "Field",
+        "v2ImportPath": "@ghxstship/ui-v2/components",
+        "propPart": "error",
+        "notes": "Use Field component with error prop."
+      }
+    },
+    "removed": {
+      "PrimaryButton": {
+        "replacement": "Button",
+        "replacementImport": "@ghxstship/ui-v2/primitives",
+        "replacementProps": {
+          "variant": "primary"
+        },
+        "notes": "Use Button with variant='primary' instead."
+      },
+      "SecondaryButton": {
+        "replacement": "Button",
+        "replacementImport": "@ghxstship/ui-v2/primitives",
+        "replacementProps": {
+          "variant": "secondary"
+        },
+        "notes": "Use Button with variant='secondary' instead."
+      },
+      "OutlineButton": {
+        "replacement": "Button",
+        "replacementImport": "@ghxstship/ui-v2/primitives",
+        "replacementProps": {
+          "variant": "outline"
+        },
+        "notes": "Use Button with variant='outline' instead."
+      }
+    },
+    "new": {
+      "primitives": [
+        "Label",
+        "Code",
+        "Skeleton"
+      ],
+      "compositions": [
+        "Chip",
+        "EmptyState",
+        "Banner",
+        "Toast",
+        "ErrorBoundary",
+        "Nav",
+        "Sidebar",
+        "Popover",
+        "Sheet",
+        "Fieldset",
+        "FormGroup",
+        "Pagination"
+      ],
+      "patterns": [
+        "AppShell",
+        "PageHeader",
+        "PageContent",
+        "PageFooter",
+        "SignInForm",
+        "SignUpForm",
+        "ResetPasswordForm",
+        "MFAForm",
+        "ListPage",
+        "GridPage",
+        "BoardPage",
+        "DetailPage",
+        "EditPage",
+        "CreatePage",
+        "DashboardGrid",
+        "WidgetContainer",
+        "StatCard"
+      ]
+    }
+  }
+}
