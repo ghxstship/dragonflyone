@@ -1,11 +1,11 @@
 /**
  * UI v2 Components - Styled Brand-Aware Components
  *
- * Components include:
- * - Data: Card, Badge, List, Chip, (Table - coming soon)
- * - Feedback: Alert, EmptyState, Banner, Toast, (ErrorBoundary - coming soon)
- * - Form: Field, ButtonGroup, FormGroup, (Fieldset, Menu - coming soon)
- * - Navigation: Breadcrumb, Tabs, Pagination, (Nav, Sidebar - coming soon)
+ * Phase 3 Complete - 25 Composition Components:
+ * - Data: Card, Badge, List, Chip, Table
+ * - Feedback: Alert, EmptyState, Banner, Toast, ErrorBoundary
+ * - Form: Field, ButtonGroup, FormGroup, Fieldset, Menu
+ * - Navigation: Breadcrumb, Tabs, Pagination, Nav, Sidebar
  * - Overlay: Dialog, Tooltip, Dropdown, Popover, Sheet
  */
 
@@ -32,6 +32,9 @@ export type { ListProps, ListItemProps } from './list';
 export { Chip } from './chip';
 export type { ChipProps } from './chip';
 
+export { Table } from './table';
+export type { TableProps, TableColumn } from './table';
+
 // =============================================================================
 // Feedback Components
 // =============================================================================
@@ -48,6 +51,9 @@ export type { BannerProps } from './banner';
 export { Toast, ToastContainer } from './toast';
 export type { ToastProps, ToastContainerProps } from './toast';
 
+export { ErrorBoundary } from './error-boundary';
+export type { ErrorBoundaryProps } from './error-boundary';
+
 // =============================================================================
 // Navigation Components
 // =============================================================================
@@ -61,6 +67,12 @@ export type { TabsProps, Tab } from './tabs';
 export { Pagination } from './pagination';
 export type { PaginationProps } from './pagination';
 
+export { Nav } from './nav';
+export type { NavProps, NavItem } from './nav';
+
+export { Sidebar } from './sidebar';
+export type { SidebarProps, SidebarItem } from './sidebar';
+
 // =============================================================================
 // Form Components
 // =============================================================================
@@ -73,6 +85,12 @@ export type { ButtonGroupProps } from './button-group';
 
 export { FormGroup } from './form-group';
 export type { FormGroupProps } from './form-group';
+
+export { Fieldset } from './fieldset';
+export type { FieldsetProps } from './fieldset';
+
+export { Menu } from './menu';
+export type { MenuProps, MenuItem } from './menu';
 
 // =============================================================================
 // Overlay Components
