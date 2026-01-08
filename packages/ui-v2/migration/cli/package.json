@@ -1,0 +1,22 @@
+{
+  "name": "@ghxstship/ui-v2-migrate",
+  "version": "0.1.0",
+  "description": "Migration tools for upgrading from @ghxstship/ui v1 to v2",
+  "main": "index.js",
+  "bin": {
+    "ui-v2-migrate": "./index.js"
+  },
+  "scripts": {
+    "analyze": "node analyze.js"
+  },
+  "keywords": [
+    "migration",
+    "codemod",
+    "ui",
+    "design-system"
+  ],
+  "author": "GHXSTSHIP Industries LLC",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
