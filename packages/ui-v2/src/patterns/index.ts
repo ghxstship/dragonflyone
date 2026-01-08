@@ -1,11 +1,11 @@
 /**
  * UI v2 Patterns - Opinionated Complete Components
  *
- * Phase 4 In Progress - Pattern Components:
- * - App Shell: AppShell, PageHeader, PageContent, PageFooter
- * - Auth: SignInForm, SignUpForm, ResetPasswordForm, MFAForm
- * - Pages: (coming soon)
- * - Dashboard: (coming soon)
+ * Phase 4 Complete - 15 Pattern Components:
+ * - App Shell: AppShell, PageHeader, PageContent, PageFooter (4)
+ * - Auth: SignInForm, SignUpForm, ResetPasswordForm, MFAForm (4)
+ * - Dashboard: DashboardGrid, WidgetContainer, StatCard (3)
+ * - Pages: ListPage, GridPage, BoardPage, DetailPage, EditPage, CreatePage (6)
  */
 
 // =============================================================================
@@ -39,3 +39,38 @@ export type { ResetPasswordFormProps } from './reset-password-form';
 
 export { MFAForm } from './mfa-form';
 export type { MFAFormProps } from './mfa-form';
+
+// =============================================================================
+// Dashboard Patterns
+// =============================================================================
+
+export { DashboardGrid } from './dashboard-grid';
+export type { DashboardGridProps } from './dashboard-grid';
+
+export { WidgetContainer } from './widget-container';
+export type { WidgetContainerProps } from './widget-container';
+
+export { StatCard } from './stat-card';
+export type { StatCardProps } from './stat-card';
+
+// =============================================================================
+// Page Patterns
+// =============================================================================
+
+export { ListPage } from './list-page';
+export type { ListPageProps } from './list-page';
+
+export { GridPage } from './grid-page';
+export type { GridPageProps } from './grid-page';
+
+export { BoardPage } from './board-page';
+export type { BoardPageProps } from './board-page';
+
+export { DetailPage } from './detail-page';
+export type { DetailPageProps } from './detail-page';
+
+export { EditPage } from './edit-page';
+export type { EditPageProps } from './edit-page';
+
+export { CreatePage } from './create-page';
+export type { CreatePageProps } from './create-page';
