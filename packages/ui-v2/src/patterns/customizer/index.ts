@@ -6,3 +6,5 @@
 export * from './types';
 export * from './color-picker';
 export * from './font-selector';
+export * from './logo-uploader';
+export * from './theme-preview';
