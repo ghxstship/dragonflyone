@@ -1,0 +1,291 @@
+/**
+ * Experience Hero Styles
+ */
+
+.experience-hero {
+  position: relative;
+  width: 100%;
+  height: clamp(400px, 60vh, 700px);
+  background: var(--color-surface, #f9fafb);
+  overflow: hidden;
+}
+
+.experience-hero--no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface, #f9fafb);
+}
+
+.experience-hero__placeholder {
+  text-align: center;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+/* Main Image */
+.experience-hero__main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.experience-hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform var(--animation-normal, 300ms) var(--easing-standard, ease);
+}
+
+.experience-hero__image:hover {
+  transform: scale(1.02);
+}
+
+/* Navigation Arrows */
+.experience-hero__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: var(--radius-full, 9999px);
+  cursor: pointer;
+  transition: all var(--animation-fast, 150ms) var(--easing-standard, ease);
+  z-index: 10;
+  color: var(--color-text, #111827);
+}
+
+.experience-hero__nav:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.experience-hero__nav:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.experience-hero__nav--prev {
+  left: 16px;
+}
+
+.experience-hero__nav--next {
+  right: 16px;
+}
+
+/* Image Counter */
+.experience-hero__counter {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  border-radius: var(--radius-lg, 12px);
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 500;
+  z-index: 10;
+}
+
+/* Badges */
+.experience-hero__badges {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10;
+}
+
+.experience-hero__badge {
+  padding: 8px 16px;
+  border-radius: var(--radius-md, 8px);
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(10px);
+}
+
+.experience-hero__badge--urgent {
+  background: rgba(239, 68, 68, 0.9);
+  color: #ffffff;
+}
+
+.experience-hero__badge--new {
+  background: rgba(59, 130, 246, 0.9);
+  color: #ffffff;
+}
+
+.experience-hero__badge--popular {
+  background: rgba(245, 158, 11, 0.9);
+  color: #ffffff;
+}
+
+.experience-hero__badge--verified {
+  background: rgba(16, 185, 129, 0.9);
+  color: #ffffff;
+}
+
+.experience-hero__badge--bestseller {
+  background: rgba(139, 92, 246, 0.9);
+  color: #ffffff;
+}
+
+/* Thumbnails */
+.experience-hero__thumbnails {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 90%;
+  z-index: 10;
+}
+
+.experience-hero__thumbnails-wrapper {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg, 12px);
+}
+
+.experience-hero__thumbnail {
+  width: 64px;
+  height: 64px;
+  border: 2px solid transparent;
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all var(--animation-fast, 150ms) var(--easing-standard, ease);
+  flex-shrink: 0;
+  background: none;
+  padding: 0;
+}
+
+.experience-hero__thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.experience-hero__thumbnail:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
+.experience-hero__thumbnail--active {
+  border-color: #ffffff;
+}
+
+.experience-hero__thumbnail--more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: var(--text-base, 1rem);
+}
+
+/* Breadcrumb */
+.experience-hero__breadcrumb {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg, 12px);
+  font-size: var(--text-sm, 0.875rem);
+  z-index: 10;
+}
+
+.experience-hero__breadcrumb-link {
+  color: var(--color-text-secondary, #6b7280);
+  text-decoration: none;
+  transition: color var(--animation-fast, 150ms);
+}
+
+.experience-hero__breadcrumb-link:hover {
+  color: var(--color-primary, #7b68ee);
+  text-decoration: underline;
+}
+
+.experience-hero__breadcrumb-separator {
+  color: var(--color-text-tertiary, #9ca3af);
+}
+
+.experience-hero__breadcrumb-current {
+  color: var(--color-text, #111827);
+  font-weight: 500;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .experience-hero {
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height */
+  }
+
+  .experience-hero__nav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .experience-hero__nav--prev {
+    left: 8px;
+  }
+
+  .experience-hero__nav--next {
+    right: 8px;
+  }
+
+  .experience-hero__thumbnails {
+    display: none; /* Hide thumbnails on mobile, use swipe instead */
+  }
+
+  .experience-hero__badges {
+    top: 16px;
+    right: 16px;
+  }
+
+  .experience-hero__breadcrumb {
+    top: 8px;
+    left: 8px;
+    padding: 6px 12px;
+    font-size: var(--text-xs, 0.75rem);
+  }
+
+  .experience-hero__breadcrumb-current {
+    max-width: 120px;
+  }
+
+  .experience-hero__counter {
+    bottom: 8px;
+    left: 8px;
+    padding: 6px 12px;
+    font-size: var(--text-xs, 0.75rem);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .experience-hero__thumbnail {
+    width: 56px;
+    height: 56px;
+  }
+}
