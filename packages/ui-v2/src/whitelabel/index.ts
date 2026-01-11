@@ -4,3 +4,5 @@
 
 export * from './brand-provider';
 export * from './default-brand-config';
+export * from './experience-theme';
+export * from './experience-theme-provider';

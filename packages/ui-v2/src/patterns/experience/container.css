@@ -1,0 +1,43 @@
+/**
+ * Container Styles
+ */
+
+.experience-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding-mobile, 16px);
+  padding-right: var(--container-padding-mobile, 16px);
+}
+
+.experience-container--default {
+  max-width: var(--container-max-width, 1280px);
+}
+
+.experience-container--narrow {
+  max-width: 960px;
+}
+
+.experience-container--wide {
+  max-width: 1440px;
+}
+
+.experience-container--full {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (min-width: 768px) {
+  .experience-container {
+    padding-left: var(--container-padding-tablet, 24px);
+    padding-right: var(--container-padding-tablet, 24px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .experience-container {
+    padding-left: var(--container-padding-desktop, 48px);
+    padding-right: var(--container-padding-desktop, 48px);
+  }
+}
