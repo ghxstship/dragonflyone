@@ -19,8 +19,8 @@ import {
   HostProfileSection,
   ReviewsSection,
   FAQSection,
-  BookingWidget,
 } from '@/ui-v2/patterns/experience';
+import { BookingWidgetWrapper } from '@/components/booking-widget-wrapper';
 
 // This would come from your API/database
 async function getExperienceData(slug: string) {
@@ -292,11 +292,6 @@ export default async function ExperiencePage({
 
   const { experience, whitelabel } = data;
 
-  const handleBooking = (bookingDetails: any) => {
-    console.log('Booking:', bookingDetails);
-    // Handle booking logic
-  };
-
   return (
     <>
       {/* Inject theme CSS at server-render time */}
@@ -333,12 +328,8 @@ export default async function ExperiencePage({
             <FAQSection faq={experience.faq} />
           </div>
 
-          {/* Sticky booking widget */}
-          <BookingWidget
-            experience={experience}
-            sticky
-            onBook={handleBooking}
-          />
+          {/* Sticky booking widget with modal integration */}
+          <BookingWidgetWrapper experience={experience} />
         </ContentGrid>
 
         {/* Footer would go here */}
