@@ -26,7 +26,7 @@
   "devDependencies": {
     "@ghxstship/config-postcss": "workspace:*",
     "@ghxstship/config-tailwind": "workspace:*",
-    "@types/node": "20.12.7",
+    "@types/node": "25.2.3",
     "@types/react": "18.2.79",
     "@types/react-dom": "18.2.25",
     "autoprefixer": "10.4.18",
